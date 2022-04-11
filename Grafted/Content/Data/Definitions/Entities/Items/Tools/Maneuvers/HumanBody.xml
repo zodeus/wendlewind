@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ToolManeuverDef>
+        <Moniker>Punch</Moniker>
+        <Label>Punch</Label>
+        <Tools>
+            <ListItem>Hand</ListItem>
+        </Tools>
+        <DamageMultiplier>1~3</DamageMultiplier>
+        <VisualWaitTime>0</VisualWaitTime>
+    </ToolManeuverDef>
+    <ToolManeuverDef>
+        <Moniker>Kick</Moniker>
+        <Label>Kick</Label>
+        <Tools>
+            <ListItem>Foot</ListItem>
+        </Tools>
+        <DamageMultiplier>1~5</DamageMultiplier>
+        <VisualWaitTime>0</VisualWaitTime>
+    </ToolManeuverDef>
+</Definitions>

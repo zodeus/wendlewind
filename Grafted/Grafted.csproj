@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <AssemblyName>Grafted</AssemblyName>
+        <RootNamespace>Grafted</RootNamespace>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <PublishReadyToRun>false</PublishReadyToRun>
+        <TieredCompilation>false</TieredCompilation>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    
+    <PropertyGroup>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <ApplicationIcon>Icon.ico</ApplicationIcon>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <EmbeddedResource Include="Icon.ico" />
+        <EmbeddedResource Include="Icon.bmp" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Remove="Icon.ico" />
+        <None Remove="Icon.bmp" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <Content Include="Content\Data\**">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Content\Audio\**">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Content\Fonts\**">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Content\UI\**">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Content\Textures\**">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+    
+    <ItemGroup>
+        <Reference Include="SpriteFontPlus">
+            <HintPath>$(RepositoryRootDirectory)\deps\SpriteFontPlus\SpriteFontPlus.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
+        <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.0.1641" />
+        <PackageReference Include="Myra" Version="1.3.2" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Content\Data\Definitions\Entities\Pawns\Bodies" />
+    </ItemGroup>
+</Project>

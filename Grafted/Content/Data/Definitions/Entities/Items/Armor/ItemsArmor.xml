@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Definitions>
+    <ItemDef Name="ArmorBase" ParentName="ItemBase" Abstract="true">
+        <ItemType>Equipment</ItemType>
+        <StackLimit>1</StackLimit>
+        <UiClass>ArmorPanel</UiClass>
+        <EquipmentProperties>
+            <EquipmentType>Armor</EquipmentType>
+        </EquipmentProperties>
+        <MaterialType>Artificial</MaterialType>
+    </ItemDef>
+    <ItemDef ParentName="ArmorBase">
+        <Moniker>LeatherGlove</Moniker>
+        <Label>Leather Glove</Label>
+        <ItemType>Equipment</ItemType>
+        <MaterialType>Artificial</MaterialType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Leather/Glove</TexturePath>
+        <BaseStats>
+            <PhysicalResistance>5</PhysicalResistance>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="ArmorBase">
+        <Moniker>BucketHelmet</Moniker>
+        <Label>Bucket Helmet</Label>
+        <ItemType>Equipment</ItemType>
+        <MaterialType>Artificial</MaterialType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Tin/BucketHelmet</TexturePath>
+        <BaseStats>
+            <PhysicalResistance>20</PhysicalResistance>
+        </BaseStats>
+    </ItemDef>
+</Definitions>

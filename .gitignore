@@ -1,0 +1,12 @@
+.vs/
+bin/
+obj/
+app.manifest/
+packages/
+.idea/
+TestResults/
+sol-standard-web/
+RELEASE/
+.DS_Store
+MonoSound*
+Myra*

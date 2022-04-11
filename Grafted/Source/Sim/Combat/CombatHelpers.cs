@@ -1,0 +1,143 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using Grafted.Definitions;
+using Grafted.Maths;
+using Grafted.Sim.Entities;
+using Grafted.Sim.Entities.Items;
+using Grafted.Sim.Entities.Pawns;
+
+namespace Grafted.Sim.Combat;
+
+public static class CombatHelpers {
+    public static List<CombatSequence> GetPotentialCombatSequencesFor(this Pawn pawn, IEnumerable<Item> tools, int availableSequencePoints, Pawn target) {
+        List<CombatSequence> combatSequences = new();
+        foreach (Item tool in tools) {
+            foreach (CombatSequence sequence in GetSequencesForTool(pawn, tool, availableSequencePoints, target)) {
+                combatSequences.Add(sequence);
+            }
+        }
+
+        return combatSequences;
+    }
+
+    private static IEnumerable<CombatSequence> GetSequencesForTool(Pawn pawn, Item tool, int availableSequencePoints, Pawn target) {
+        foreach (ToolSequenceDef toolSequence in tool.ItemDef.ToolSequences) {
+            if (toolSequence.TotalSequencePoints > availableSequencePoints) {
+                continue;
+            }
+
+            yield return GetToolSequence(pawn, tool, target, toolSequence);
+        }
+    }
+
+    public static CombatSequence GetToolSequence(Pawn pawn, Item tool, Pawn target, ToolSequenceDef toolSequence) {
+        return new CombatSequence {
+            Source = pawn,
+            TotalSequencePoints = toolSequence.TotalSequencePoints,
+            Target = target,
+            FlavorText = toolSequence.Label,
+            Steps = GetSteps(pawn, tool, toolSequence)
+        };
+    }
+
+    private static List<CombatSequenceStep> GetSteps(Pawn pawn, Item tool, ToolSequenceDef toolSequence) {
+        List<CombatSequenceStep> steps = new();
+        foreach (ToolManeuverDef maneuver in toolSequence.Maneuvers) {
+            steps.Add(new CombatSequenceStep {
+                Name = maneuver.Label,
+                Tool = tool.Label,
+                Damages = CalculateDamages(pawn, tool, toolSequence, maneuver),
+                VisualWaitTime = maneuver.VisualWaitTime
+            });
+        }
+
+        return steps;
+    }
+
+    private static DamageRequest CalculateDamages(Pawn pawn, Item tool, ToolSequenceDef sequence, ToolManeuverDef maneuver) {
+        float pawnStrength = pawn.GetStatValue(Defs.Stats.MeleeStrength);
+        float toolPower = tool.GetStatValue(Defs.Stats.MeleePower);
+        float rawDamage = Mathf.RoundToInt(maneuver.DamageMultiplier.RandomValue * sequence.DamageMultiplier.RandomValue * toolPower * pawnStrength);
+        //rawDamage *= tool.GetStatValue(Defs.Stats.WeaponDamageMultiplier);
+        if (rawDamage < 1) {
+            rawDamage = 1;
+        }
+
+        DamageRequest request = new();
+        request.RawDamages.Add(new Damage(tool.ItemDef.DamageType, rawDamage));
+        //todo
+        /*
+        if (tool.ItemDef.InflictableHealthConditions != null) {
+            request.HealthConditions = new List<HealthConditionDef>();
+            foreach (InflictableHealthConditionRecord condition in tool.ItemDef.InflictableHealthConditions) {
+                if (Core.Random.Chance(condition.ChanceToInflict.RandomValue)) {
+                    request.HealthConditions.Add(condition.Condition);
+                }
+        }
+        }*/
+
+        return request;
+    }
+}
+
+public class Damage {
+    public readonly DamageType Type;
+    public readonly float Amount;
+    public float UnblockedAmount;
+
+    public Damage(DamageType type, float amount) {
+        Type = type;
+        Amount = amount;
+        UnblockedAmount = amount;
+    }
+}
+
+public class DamageRequest {
+    public List<Damage> RawDamages = new(1);
+    //public List<HealthConditionDef>? HealthConditions;
+
+    public float TotalRawDamage => RawDamages.Sum(damage => damage.Amount);
+    //public bool InflictsConditions => HealthConditions?.Any() ?? false;
+}
+
+public class DamageResponse {
+    public List<DamageRecord> Damages = new();
+    //public List<HealthConditionDef>? HealthConditions;
+    public bool Killed;
+
+    public DamageResponse() { }
+}
+
+public class DamageRecord {
+    public readonly DamageType DamageType;
+    public readonly BodyPart BodyPart;
+    public readonly IReadOnlyList<DamagedPartRecord> BodyParts;
+    public readonly float RawAmount;
+    public readonly float ActualAmount;
+
+    public DamageRecord(DamageType damageType, BodyPart bodyPart, IReadOnlyList<DamagedPartRecord> bodyParts, float rawAmount, float actualAmount) {
+        DamageType = damageType;
+        BodyPart = bodyPart;
+        BodyParts = bodyParts;
+        RawAmount = rawAmount;
+        ActualAmount = actualAmount;
+    }
+
+    public float AmountBlocked => RawAmount - ActualAmount;
+}
+
+public class DamagedPartRecord {
+    public readonly BodyPartType PartType;
+    public readonly bool IsVital;
+    public readonly string Label;
+    public readonly float Amount;
+    public bool WasDestroyed;
+    public bool WasSevered;
+
+    public DamagedPartRecord(BodyPart part, float amount) {
+        PartType = part.Type;
+        IsVital = part.IsVital;
+        Label = part.Label;
+        Amount = amount;
+    }
+}

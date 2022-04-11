@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef Name="WeaponFlesh" ParentName="WeaponBase" Abstract="true">
+        <DamageType>Flesh</DamageType>
+    </ItemDef>
+    <ItemDef ParentName="EquipmentTool">
+        <Moniker>FleshyHand</Moniker>
+        <Label>Fleshy Hand</Label>
+        <Description>A fleshy hand</Description>
+        <ToolType>Hand</ToolType>
+        <DamageType>Flesh</DamageType>
+        <ToolCategories>
+            <ListItem>Combat</ListItem>
+        </ToolCategories>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/HumanHand</TexturePath>
+        <BaseStats>
+            <MeleePower>1</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="EquipmentTool">
+        <Moniker>FleshyFoot</Moniker>
+        <Label>Fleshy Foot</Label>
+        <Description>A fleshy foot</Description>
+        <ToolType>Foot</ToolType>
+        <DamageType>Flesh</DamageType>
+        <ToolCategories>
+            <ListItem>Combat</ListItem>
+        </ToolCategories>
+        <EquipmentProperties>
+            <SlotUsedToEquip>FootWeapon</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/HumanFoot</TexturePath>
+        <BaseStats>
+            <MeleePower>2</MeleePower>
+        </BaseStats>
+    </ItemDef>
+</Definitions>

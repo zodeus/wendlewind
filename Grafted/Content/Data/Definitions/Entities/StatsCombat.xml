@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <StatDef>
+        <Moniker>SequencePoints</Moniker>
+        <Label>Sequence Points</Label>
+        <BaseValue>0</BaseValue>
+        <MinValue>0</MinValue>
+        <MaxValue>100</MaxValue>
+    </StatDef>
+    <StatDef>
+        <Moniker>AttackSpeed</Moniker>
+        <Label>Attack Speed</Label>
+        <BaseValue>1</BaseValue>
+        <MinValue>0.1</MinValue>
+        <MaxValue>999</MaxValue>
+    </StatDef>
+    <StatDef>
+        <Moniker>MeleeStrength</Moniker>
+        <Label>Melee Strength</Label>
+        <BaseValue>1</BaseValue>
+        <MinValue>0</MinValue>
+        <MaxValue>100</MaxValue>
+    </StatDef>
+    <StatDef>
+        <Moniker>Xp</Moniker>
+        <Label>Xp</Label>
+        <BaseValue>0</BaseValue>
+        <MinValue>0</MinValue>
+    </StatDef>
+    <StatDef>
+        <Moniker>MeleeChanceToHit</Moniker>
+        <Label>Melee Chance To Hit</Label>
+        <BaseValue>1</BaseValue>
+        <MinValue>0</MinValue>
+        <MaxValue>1</MaxValue>
+    </StatDef>
+    <StatDef>
+        <Moniker>MeleePower</Moniker>
+        <Label>Melee Power</Label>
+        <BaseValue>1</BaseValue>
+        <MinValue>0.1</MinValue>
+        <MaxValue>1000</MaxValue>
+    </StatDef>
+    <StatDef>
+        <Moniker>PhysicalResistance</Moniker>
+        <Label>Physical Resistance</Label>
+        <BaseValue>0</BaseValue>
+        <MinValue>0</MinValue>
+    </StatDef>
+</Definitions>

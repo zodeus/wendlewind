@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef Name="WeaponBase" ParentName="EquipmentTool" Abstract="true">
+
+    </ItemDef>
+    <ItemDef Name="WeaponBlunt" ParentName="WeaponBase" Abstract="true">
+        <DamageType>Blunt</DamageType>
+    </ItemDef>
+    <ItemDef Name="WeaponSharp" ParentName="WeaponBase" Abstract="true">
+        <DamageType>Sharp</DamageType>
+    </ItemDef>
+    <ItemDef ParentName="WeaponSharp">
+        <Moniker>WoodenStick</Moniker>
+        <Label>Wooden Stick</Label>
+        <Description>It's a beating stick...</Description>
+        <ToolType>Staff</ToolType>
+        <DamageType>Blunt</DamageType>
+        <ToolCategories>
+            <ListItem>Combat</ListItem>
+        </ToolCategories>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Blunt/WoodenStick</TexturePath>
+        <BaseStats>
+            <MeleePower>4</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponSharp">
+        <Moniker>Knife</Moniker>
+        <Label>Knife</Label>
+        <Description>It's a simple knife</Description>
+        <ToolType>Knife</ToolType>
+        <DamageType>Sharp</DamageType>
+        <ToolCategories>
+            <ListItem>Combat</ListItem>
+        </ToolCategories>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Sharp/BasicKnife</TexturePath>
+        <BaseStats>
+            <MeleePower>20</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponSharp">
+        <Moniker>Mace</Moniker>
+        <Label>Mace</Label>
+        <Description>Bash! bash! BASH!</Description>
+        <ToolType>Mace</ToolType>
+        <DamageType>Blunt</DamageType>
+        <ToolCategories>
+            <ListItem>Combat</ListItem>
+        </ToolCategories>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Blunt/Mace</TexturePath>
+        <BaseStats>
+            <MeleePower>30</MeleePower>
+        </BaseStats>
+    </ItemDef>
+</Definitions>

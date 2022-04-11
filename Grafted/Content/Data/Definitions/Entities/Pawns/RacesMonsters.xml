@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <RaceDef Name="BaseMonsterRace" Abstract="true">
+        <!--<NameGeneratorClass>NameGeneratorMonsters</NameGeneratorClass>-->
+    </RaceDef>
+    <RaceDef ParentName="BaseMonsterRace">
+        <Moniker>OlJankySkeleton</Moniker>
+        <Label>Ol' Janky Skeleton</Label>
+        <Species>Skeleton</Species>
+        <TexturePath>Entities/Pawn/Creature/Human/Human2</TexturePath>
+        <!--<Equipment>
+            <ListItem>ShortSword</ListItem>
+        </Equipment>-->
+        <!--<ItemDrops>
+            <ListItem>
+                <Def>Bones</Def>
+                <Amount>5~8</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
+        </ItemDrops>-->
+        <!--<BodyParts>
+            <ListItem>Teeth</ListItem>
+        </BodyParts>-->
+    </RaceDef>
+</Definitions>

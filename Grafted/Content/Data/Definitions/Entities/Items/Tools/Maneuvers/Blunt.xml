@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ToolManeuverDef>
+        <Moniker>Whack</Moniker>
+        <Label>Whack</Label>
+        <Tools>
+            <ListItem>Maul</ListItem>
+            <ListItem>Mace</ListItem>
+            <ListItem>Staff</ListItem>
+        </Tools>
+        <DamageMultiplier>.65~1.25</DamageMultiplier>
+        <VisualWaitTime>.5</VisualWaitTime>
+    </ToolManeuverDef>
+    <ToolManeuverDef>
+        <Moniker>Jab</Moniker>
+        <Label>Jab</Label>
+        <Tools>
+            <ListItem>Staff</ListItem>
+        </Tools>
+        <DamageMultiplier>.85~1.05</DamageMultiplier>
+        <VisualWaitTime>.5</VisualWaitTime>
+    </ToolManeuverDef>
+    <ToolManeuverDef>
+        <Moniker>Crush</Moniker>
+        <Label>Crush</Label>
+        <Tools>
+            <ListItem>Maul</ListItem>
+            <ListItem>Mace</ListItem>
+        </Tools>
+        <DamageMultiplier>.8~1.5</DamageMultiplier>
+        <VisualWaitTime>.5</VisualWaitTime>
+    </ToolManeuverDef>
+</Definitions>

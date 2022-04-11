@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef Name="Tool" ParentName="ItemBase" Abstract="true">
+        <UiClass>ToolPanel</UiClass>
+        <MaterialType>Artificial</MaterialType>
+    </ItemDef>
+</Definitions>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Definitions>
+    <ItemDef Name="EquipmentTool" ParentName="Tool" Abstract="true">
+        <ItemType>Equipment</ItemType>
+        <StackLimit>1</StackLimit>
+        <EquipmentProperties>
+            <EquipmentType>Tool</EquipmentType>
+        </EquipmentProperties>
+    </ItemDef>
+</Definitions>

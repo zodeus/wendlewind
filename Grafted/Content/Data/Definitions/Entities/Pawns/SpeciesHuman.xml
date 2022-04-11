@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <PawnDef Name="Human" ParentName="BasePawn">
+        <Moniker>Human</Moniker>
+        <Label>Human</Label>
+        <PawnType>Player</PawnType>
+        <BaseStats>
+            <SequencePoints>3</SequencePoints>
+            <AttackSpeed>2</AttackSpeed>
+            <MeleeStrength>1</MeleeStrength>
+        </BaseStats>
+    </PawnDef>
+</Definitions>

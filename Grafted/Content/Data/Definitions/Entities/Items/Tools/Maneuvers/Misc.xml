@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ToolManeuverDef>
+        <Moniker>Bite</Moniker>
+        <Label>Bite</Label>
+        <Tools>
+            <ListItem>Teeth</ListItem>
+        </Tools>
+        <DamageMultiplier>.8~1.2</DamageMultiplier>
+        <VisualWaitTime>.15</VisualWaitTime>
+    </ToolManeuverDef>
+    <ToolManeuverDef>
+        <Moniker>TailWhip</Moniker>
+        <Label>Tail Whip</Label>
+        <Tools>
+            <ListItem>Tail</ListItem>
+        </Tools>
+        <DamageMultiplier>.9~1.2</DamageMultiplier>
+        <VisualWaitTime>.15</VisualWaitTime>
+    </ToolManeuverDef>
+    <ToolManeuverDef>
+        <Moniker>Lick</Moniker>
+        <Label>Lick</Label>
+        <Tools>
+            <ListItem>Tongue</ListItem>
+        </Tools>
+        <DamageMultiplier>.9~1.2</DamageMultiplier>
+        <VisualWaitTime>.15</VisualWaitTime>
+    </ToolManeuverDef>
+    <ToolManeuverDef>
+        <Moniker>ProboscisPoke</Moniker>
+        <Label>Proboscis Poke</Label>
+        <Tools>
+            <ListItem>Proboscis</ListItem>
+        </Tools>
+        <DamageMultiplier>.9~1.2</DamageMultiplier>
+        <VisualWaitTime>.15</VisualWaitTime>
+    </ToolManeuverDef>
+    <ToolManeuverDef>
+        <Moniker>PincerPinch</Moniker>
+        <Label>Pincer Pinch</Label>
+        <Tools>
+            <ListItem>Pincer</ListItem>
+        </Tools>
+        <DamageMultiplier>.5~1.6</DamageMultiplier>
+        <VisualWaitTime>.15</VisualWaitTime>
+    </ToolManeuverDef>
+    <ToolManeuverDef>
+        <Moniker>PincerScratch</Moniker>
+        <Label>Pincer Scratch</Label>
+        <Tools>
+            <ListItem>Pincer</ListItem>
+        </Tools>
+        <DamageMultiplier>.9~1.1</DamageMultiplier>
+        <VisualWaitTime>.15</VisualWaitTime>
+    </ToolManeuverDef>
+    <ToolManeuverDef>
+        <Moniker>HoofStomp</Moniker>
+        <Label>HoofStomp</Label>
+        <Tools>
+            <ListItem>Hoof</ListItem>
+        </Tools>
+        <DamageMultiplier>.5~1.3</DamageMultiplier>
+        <VisualWaitTime>.15</VisualWaitTime>
+    </ToolManeuverDef>
+    <ToolManeuverDef>
+        <Moniker>ClawGouge</Moniker>
+        <Label>Gouge</Label>
+        <Tools>
+            <ListItem>Claw</ListItem>
+        </Tools>
+        <DamageMultiplier>.4~1.4</DamageMultiplier>
+        <VisualWaitTime>.15</VisualWaitTime>
+    </ToolManeuverDef>
+    <ToolManeuverDef>
+        <Moniker>ClawScrape</Moniker>
+        <Label>Scrape</Label>
+        <Tools>
+            <ListItem>Claw</ListItem>
+        </Tools>
+        <DamageMultiplier>.9~1.1</DamageMultiplier>
+        <VisualWaitTime>.15</VisualWaitTime>
+    </ToolManeuverDef>
+</Definitions>

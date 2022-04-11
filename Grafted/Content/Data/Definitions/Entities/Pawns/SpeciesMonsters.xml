@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <PawnDef Name="BaseMonster" ParentName="BasePawn" Abstract="true">
+        <PawnType>Enemy</PawnType>
+    </PawnDef>
+    <PawnDef ParentName="BaseMonster">
+        <Moniker>Skeleton</Moniker>
+        <Label>Skeleton</Label>
+        <BaseStats>
+            <Xp>200</Xp>
+            <SequencePoints>3</SequencePoints>
+            <AttackSpeed>6</AttackSpeed>
+            <MeleeStrength>1</MeleeStrength>
+        </BaseStats>
+    </PawnDef>
+</Definitions>

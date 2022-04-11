@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas Image="milgreth_ui_skin.png">
+  <TextureRegion Id="bad-texture" Left="0" Top="0" Width="64" Height="64" />
+  <NinePatchRegion Id="bar-frame-small" Left="64" Top="0" Width="15" Height="15" NinePatchLeft="3" NinePatchTop="3" NinePatchRight="3" NinePatchBottom="3" />
+  <TextureRegion Id="bar-health" Left="79" Top="0" Width="196" Height="24" />
+  <TextureRegion Id="bar-xp" Left="275" Top="0" Width="196" Height="24" />
+  <NinePatchRegion Id="button-large-default" Left="471" Top="0" Width="128" Height="64" NinePatchLeft="12" NinePatchTop="11" NinePatchRight="12" NinePatchBottom="12" />
+  <NinePatchRegion Id="button-large-over" Left="599" Top="0" Width="128" Height="64" NinePatchLeft="12" NinePatchTop="11" NinePatchRight="12" NinePatchBottom="12" />
+  <NinePatchRegion Id="button-large-pressed" Left="727" Top="0" Width="128" Height="64" NinePatchLeft="12" NinePatchTop="11" NinePatchRight="12" NinePatchBottom="12" />
+  <NinePatchRegion Id="button-normal-default" Left="855" Top="0" Width="48" Height="48" NinePatchLeft="8" NinePatchTop="8" NinePatchRight="8" NinePatchBottom="9" />
+  <NinePatchRegion Id="button-normal-over" Left="903" Top="0" Width="48" Height="48" NinePatchLeft="8" NinePatchTop="8" NinePatchRight="8" NinePatchBottom="9" />
+  <NinePatchRegion Id="button-normal-pressed" Left="951" Top="0" Width="48" Height="48" NinePatchLeft="8" NinePatchTop="8" NinePatchRight="8" NinePatchBottom="9" />
+  <NinePatchRegion Id="button-small-default" Left="999" Top="0" Width="24" Height="24" NinePatchLeft="3" NinePatchTop="4" NinePatchRight="3" NinePatchBottom="3" />
+  <NinePatchRegion Id="button-small-over" Left="1023" Top="0" Width="24" Height="24" NinePatchLeft="3" NinePatchTop="4" NinePatchRight="3" NinePatchBottom="3" />
+  <NinePatchRegion Id="button-small-pressed" Left="1047" Top="0" Width="24" Height="24" NinePatchLeft="3" NinePatchTop="4" NinePatchRight="3" NinePatchBottom="3" />
+  <TextureRegion Id="checkbox-default" Left="1071" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="checkbox-over" Left="1095" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="checkbox-selected" Left="1119" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-arrow-negative" Left="1143" Top="0" Width="16" Height="16" />
+  <TextureRegion Id="icon-arrow-neutral" Left="1159" Top="0" Width="50" Height="50" />
+  <TextureRegion Id="icon-arrow-positive" Left="1209" Top="0" Width="50" Height="50" />
+  <TextureRegion Id="icon-boak" Left="1259" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-brain" Left="1323" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-build" Left="1387" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-citizen" Left="1451" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-close" Left="1515" Top="0" Width="14" Height="14" />
+  <TextureRegion Id="icon-combat" Left="1529" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-graph" Left="1593" Top="0" Width="50" Height="50" />
+  <TextureRegion Id="icon-heart" Left="1643" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-minus-24-default" Left="1707" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-minus-24-over" Left="1731" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-minus-24-pressed" Left="1755" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-minus-32" Left="1779" Top="0" Width="32" Height="32" />
+  <TextureRegion Id="icon-pause" Left="1811" Top="0" Width="32" Height="32" />
+  <TextureRegion Id="icon-play" Left="1843" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-plus-24-default" Left="1867" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-plus-24-over" Left="1891" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-plus-24-pressed" Left="1915" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-plus-32" Left="1939" Top="0" Width="32" Height="32" />
+  <TextureRegion Id="icon-priorities" Left="1971" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-retreat" Left="2035" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-skull" Left="2099" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-speed-025x" Left="2163" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-speed-2x" Left="2187" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-speed-4x" Left="2211" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-speed-6x" Left="2235" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="input-cursor" Left="2259" Top="0" Width="1" Height="1" />
+  <TextureRegion Id="Milgreth" Left="2260" Top="0" Width="900" Height="900" />
+  <TextureRegion Id="MilgrethTitle" Left="3160" Top="0" Width="550" Height="161" />
+  <TextureRegion Id="panel-bar-fancy-dark" Left="0" Top="64" Width="800" Height="100" />
+  <NinePatchRegion Id="panel-bar-fancy" Left="800" Top="64" Width="800" Height="100" NinePatchLeft="36" NinePatchTop="50" NinePatchRight="267" NinePatchBottom="49" />
+  <NinePatchRegion Id="panel-deep-gold" Left="3710" Top="0" Width="300" Height="300" NinePatchLeft="8" NinePatchTop="7" NinePatchRight="8" NinePatchBottom="7" />
+  <NinePatchRegion Id="panel-frame-medium" Left="1843" Top="24" Width="88" Height="88" NinePatchLeft="8" NinePatchTop="8" NinePatchRight="8" NinePatchBottom="8" />
+  <NinePatchRegion Id="panel-frame-small" Left="4010" Top="0" Width="42" Height="42" NinePatchLeft="4" NinePatchTop="4" NinePatchRight="4" NinePatchBottom="4" />
+  <NinePatchRegion Id="panel-icon-frame" Left="4052" Top="0" Width="15" Height="15" NinePatchLeft="3" NinePatchTop="3" NinePatchRight="3" NinePatchBottom="3" />
+  <NinePatchRegion Id="panel-red" Left="1931" Top="64" Width="300" Height="300" NinePatchLeft="8" NinePatchTop="7" NinePatchRight="8" NinePatchBottom="7" />
+  <TextureRegion Id="panel-round-dark-32" Left="4052" Top="15" Width="32" Height="32" />
+  <TextureRegion Id="panel-round-dark-64" Left="1707" Top="24" Width="64" Height="64" />
+  <TextureRegion Id="Play" Left="3160" Top="161" Width="512" Height="256" />
+  <TextureRegion Id="PlayOver" Left="0" Top="164" Width="512" Height="256" />
+  <TextureRegion Id="Quit" Left="512" Top="164" Width="512" Height="256" />
+  <NinePatchRegion Id="scroll-frame" Left="2231" Top="24" Width="15" Height="15" NinePatchLeft="3" NinePatchTop="3" NinePatchRight="3" NinePatchBottom="3" />
+  <NinePatchRegion Id="scroll-handle-horizontal" Left="1600" Top="88" Width="119" Height="20" NinePatchLeft="10" NinePatchTop="0" NinePatchRight="12" NinePatchBottom="0" />
+  <NinePatchRegion Id="scroll-handle-vertical" Left="1771" Top="32" Width="20" Height="119" NinePatchLeft="7" NinePatchTop="12" NinePatchRight="4" NinePatchBottom="10" />
+  <TextureRegion Id="selection" Left="4084" Top="0" Width="1" Height="1" />
+  <NinePatchRegion Id="separator-menu" Left="4085" Top="0" Width="10" Height="7" NinePatchLeft="2" NinePatchTop="2" NinePatchRight="2" NinePatchBottom="2" />
+  <NinePatchRegion Id="separator-vertical" Left="4084" Top="7" Width="7" Height="10" NinePatchLeft="2" NinePatchTop="2" NinePatchRight="2" NinePatchBottom="2" />
+  <NinePatchRegion Id="textfield" Left="1791" Top="32" Width="15" Height="15" NinePatchLeft="3" NinePatchTop="3" NinePatchRight="3" NinePatchBottom="3" />
+</TextureAtlas>

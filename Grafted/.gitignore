@@ -1,0 +1,9 @@
+bin/
+.vs/
+obj/
+app.manifest/
+packages/
+libSDL2-2.dylib
+deploy.sh
+save.xml
+imgui.ini

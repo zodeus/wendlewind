@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <StatDef>
+        <Moniker>MaxHitPoints</Moniker>
+        <Label>Max Hit Points</Label>
+        <BaseValue>100</BaseValue>
+        <MinValue>1</MinValue>
+        <MaxValue>500000</MaxValue>
+    </StatDef>
+    <StatDef>
+        <Moniker>Mass</Moniker>
+        <Label>Mass</Label>
+        <Description>In grams</Description>
+        <BaseValue>100</BaseValue>
+        <MinValue>0.1</MinValue>
+    </StatDef>
+    <StatDef>
+        <Moniker>CarryWeight</Moniker>
+        <Label>Carry Weight</Label>
+        <BaseValue>100000</BaseValue>
+        <MinValue>1</MinValue>
+    </StatDef>
+    <StatDef>
+        <Moniker>MoveSpeed</Moniker>
+        <Label>Move Speed</Label>
+        <BaseValue>1</BaseValue>
+        <MinValue>0.1</MinValue>
+        <MaxValue>100</MaxValue>
+    </StatDef>
+    <StatDef>
+        <Moniker>Tier</Moniker>
+        <Label>Tier</Label>
+        <BaseValue>1</BaseValue>
+        <MinValue>1</MinValue>
+    </StatDef>
+    <StatDef>
+        <Moniker>Durability</Moniker>
+        <Label>Durability</Label>
+        <BaseValue>1</BaseValue>
+        <MinValue>1</MinValue>
+    </StatDef>
+    <StatDef>
+        <Moniker>HealingValue</Moniker>
+        <Label>Healing Amount</Label>
+        <BaseValue>0</BaseValue>
+        <MinValue>0</MinValue>
+        <MaxValue>9999</MaxValue>
+       <!-- <StatSkillFactors>
+            <ListItem Class="StatSkillModifierFixedRate">
+                <Skill>Alchemy</Skill>
+                <BaseValue>0</BaseValue>
+                <FactorPerLevel>0.15</FactorPerLevel>
+            </ListItem>
+        </StatSkillFactors>-->
+    </StatDef>
+    <StatDef>
+        <Moniker>NutritionalValue</Moniker>
+        <Label>Nutritional Value</Label>
+        <Description>In kilojoules</Description>
+        <BaseValue>0</BaseValue>
+        <MinValue>0</MinValue>
+    </StatDef>
+</Definitions>

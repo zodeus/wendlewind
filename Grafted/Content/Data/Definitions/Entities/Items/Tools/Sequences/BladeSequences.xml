@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ToolSequenceDef>
+        <Moniker>Slash</Moniker>
+        <Label>Slash</Label>
+        <SequencePoints>1</SequencePoints>
+        <Cooldown>1</Cooldown>
+        <Maneuvers>
+            <ListItem>Slash</ListItem>
+        </Maneuvers>
+    </ToolSequenceDef>
+    <ToolSequenceDef>
+        <Moniker>Stab</Moniker>
+        <Label>Stab</Label>
+        <SequencePoints>1</SequencePoints>
+        <Maneuvers>
+            <ListItem>Stab</ListItem>
+        </Maneuvers>
+    </ToolSequenceDef>
+    <!--<ToolSequenceDef>
+        <Moniker>NeckChop</Moniker>
+        <Label>Neck Chop</Label>
+        <DamageMultiplier>.6~1.3</DamageMultiplier>
+        <SequencePoints>3</SequencePoints>
+        <Maneuvers>
+            <ListItem>Stab</ListItem>
+            <ListItem>Stab</ListItem>
+        </Maneuvers>
+    </ToolSequenceDef>-->
+    <ToolSequenceDef>
+        <Moniker>BladeFlurry</Moniker>
+        <Label>Blade Flurry</Label>
+        <DamageMultiplier>1~1.2</DamageMultiplier>
+        <SequencePoints>2</SequencePoints>
+        <Maneuvers>
+            <ListItem>Slash</ListItem>
+            <ListItem>Slash</ListItem>
+            <ListItem>Stab</ListItem>
+        </Maneuvers>
+    </ToolSequenceDef>
+    <ToolSequenceDef>
+        <Moniker>Bite</Moniker>
+        <Label>Bite</Label>
+        <SequencePoints>1</SequencePoints>
+        <Maneuvers>
+            <ListItem>Bite</ListItem>
+        </Maneuvers>
+    </ToolSequenceDef>
+    <ToolSequenceDef>
+        <Moniker>EnragedChomp</Moniker>
+        <Label>Enraged Chomp</Label>
+        <DamageMultiplier>.5~1.5</DamageMultiplier>
+        <SequencePoints>2</SequencePoints>
+        <VisualWaitTimeMultiplier>1.25</VisualWaitTimeMultiplier>
+        <Maneuvers>
+            <ListItem>Bite</ListItem>
+            <ListItem>Bite</ListItem>
+        </Maneuvers>
+    </ToolSequenceDef>
+    <ToolSequenceDef>
+        <Moniker>TailWhip</Moniker>
+        <Label>Tail Whip</Label>
+        <SequencePoints>1</SequencePoints>
+        <Maneuvers>
+            <ListItem>TailWhip</ListItem>
+        </Maneuvers>
+    </ToolSequenceDef>
+    <ToolSequenceDef>
+        <Moniker>StrongLashing</Moniker>
+        <Label>Strong Lashing</Label>
+        <DamageMultiplier>.75~1.5</DamageMultiplier>
+        <SequencePoints>3</SequencePoints>
+        <Maneuvers>
+            <ListItem>TailWhip</ListItem>
+            <ListItem>TailWhip</ListItem>
+            <ListItem>TailWhip</ListItem>
+        </Maneuvers>
+    </ToolSequenceDef>
+    <ToolSequenceDef>
+        <Moniker>Lick</Moniker>
+        <Label>Lick</Label>
+        <SequencePoints>1</SequencePoints>
+        <DamageMultiplier>.8~1.3</DamageMultiplier>
+        <Maneuvers>
+            <ListItem>Lick</ListItem>
+        </Maneuvers>
+    </ToolSequenceDef>
+    <ToolSequenceDef>
+        <Moniker>TongueLashing</Moniker>
+        <Label>Tongue Lashing</Label>
+        <SequencePoints>4</SequencePoints>
+        <DamageMultiplier>.7~1.1</DamageMultiplier>
+        <Maneuvers>
+            <ListItem>Lick</ListItem>
+            <ListItem>Lick</ListItem>
+        </Maneuvers>
+    </ToolSequenceDef>
+    <ToolSequenceDef>
+        <Moniker>ProboscisPoke</Moniker>
+        <Label>Proboscis Poke</Label>
+        <SequencePoints>1</SequencePoints>
+        <DamageMultiplier>.6~1.4</DamageMultiplier>
+        <Maneuvers>
+            <ListItem>ProboscisPoke</ListItem>
+        </Maneuvers>
+    </ToolSequenceDef>
+    <ToolSequenceDef>
+        <Moniker>PokePokePoke</Moniker>
+        <Label>Poke! Poke! Poke!</Label>
+        <SequencePoints>2</SequencePoints>
+        <DamageMultiplier>.6~1.4</DamageMultiplier>
+        <Maneuvers>
+            <ListItem>ProboscisPoke</ListItem>
+            <ListItem>ProboscisPoke</ListItem>
+            <ListItem>ProboscisPoke</ListItem>
+        </Maneuvers>
+    </ToolSequenceDef>
+    <ToolSequenceDef>
+        <Moniker>PincerPinch</Moniker>
+        <Label>Pincer Pinch</Label>
+        <SequencePoints>1</SequencePoints>
+        <Maneuvers>
+            <ListItem>PincerPinch</ListItem>
+        </Maneuvers>
+    </ToolSequenceDef>
+    <ToolSequenceDef>
+        <Moniker>PincerScratch</Moniker>
+        <Label>Pincer Scratch</Label>
+        <SequencePoints>1</SequencePoints>
+        <Maneuvers>
+            <ListItem>PincerScratch</ListItem>
+        </Maneuvers>
+    </ToolSequenceDef>
+    <ToolSequenceDef>
+        <Moniker>HoofStomp</Moniker>
+        <Label>Hoof Stomp</Label>
+        <SequencePoints>2</SequencePoints>
+        <Maneuvers>
+            <ListItem>HoofStomp</ListItem>
+        </Maneuvers>
+    </ToolSequenceDef>
+    <ToolSequenceDef>
+        <Moniker>ClawGouge</Moniker>
+        <Label>Gouge</Label>
+        <SequencePoints>1</SequencePoints>
+        <Maneuvers>
+            <ListItem>ClawGouge</ListItem>
+        </Maneuvers>
+    </ToolSequenceDef>
+    <ToolSequenceDef>
+        <Moniker>ClawScrape</Moniker>
+        <Label>Scrape</Label>
+        <SequencePoints>1</SequencePoints>
+        <Maneuvers>
+            <ListItem>ClawScrape</ListItem>
+        </Maneuvers>
+    </ToolSequenceDef>
+    <ToolSequenceDef>
+        <Moniker>PaperCutsFromClaws</Moniker>
+        <Label>Paper Cuts from Claws</Label>
+        <SequencePoints>3</SequencePoints>
+        <DamageMultiplier>.6~1.4</DamageMultiplier>
+        <Maneuvers>
+            <ListItem>ClawGouge</ListItem>
+            <ListItem>ClawScrape</ListItem>
+            <ListItem>ClawScrape</ListItem>
+            <ListItem>ClawGouge</ListItem>
+        </Maneuvers>
+    </ToolSequenceDef>
+</Definitions>
