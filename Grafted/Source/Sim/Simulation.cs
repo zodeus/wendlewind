@@ -50,35 +50,4 @@ public class Simulation {
     public void Load(string filePath) {
         Log.Info("Loading from " + filePath);
     }
-
-    public void GenerateNewWorld() {
-        World = new World();
-        World.Initialize();
-        Pawn pawn = PawnGenerator.CreatePawn(new PawnRequest { Race = DefRepository<RaceDef>.GetByMoniker("Caucasian")! });
-        var knife = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker(new List<string> { "Knife" }.RandomElement())!);
-        var hand1 = pawn.Body.AllParts.Where(p => p.SlotFor(knife) != null).ToList()[0];
-        var hand2 = pawn.Body.AllParts.Where(p => p.SlotFor(knife) != null).ToList()[1];
-        pawn.Equipment.TryEquip(hand1, knife);
-        pawn.Equipment.TryEquip(hand2, EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyHand")!));
-
-        var footWeapon1 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyFoot")!);
-        var foot1 = pawn.Body.AllParts.Where(p => p.SlotFor(footWeapon1) != null).ToList()[0];
-        pawn.Equipment.TryEquip(foot1, footWeapon1);
-
-        var footWeapon2 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyFoot")!);
-        var foot2 = pawn.Body.AllParts.Where(p => p.SlotFor(footWeapon2) != null).ToList()[1];
-        pawn.Equipment.TryEquip(foot2, footWeapon2);
-
-        var medkit = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("MedKit")!);
-        medkit.StackSize = 3;
-        pawn.Inventory.Items.TryAdd(medkit);
-        var cauterize = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("Cauterize")!);
-        cauterize.StackSize = 5;
-        pawn.Inventory.Items.TryAdd(cauterize);
-        var sutures = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("ArterialThreads")!);
-        sutures.StackSize = 10;
-        pawn.Inventory.Items.TryAdd(sutures);
-
-        World.AddPlayerPawn(pawn);
-    }
 }

@@ -10,14 +10,14 @@ namespace Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 public class PawnInventoryPanel : Grid {
     private readonly EntityListPanel _entitiesPanel;
 
-    public PawnInventoryPanel(PawnInventory inventory, Action<Entity>? rightClientAction = null) {
+    public PawnInventoryPanel(PawnInventory inventory, Action<Entity>? leftClickAction = null) {
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
         Padding = new Thickness(30);
         RowSpacing = 10;
         DefaultColumnProportion = Proportion.Auto;
         DefaultRowProportion = Proportion.Auto;
 
-        _entitiesPanel = new EntityListPanel(inventory.Items, rightClickAction: rightClientAction) {
+        _entitiesPanel = new EntityListPanel(inventory.Items, leftClickAction: leftClickAction) {
             GridRow = 1, GridColumn = 0, VerticalAlignment = VerticalAlignment.Top
         };
         AddChild(new Label(BaseContent.Styles.Label.Medium) { GridRow = 0, Text = "Inventory" });

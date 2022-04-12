@@ -32,6 +32,7 @@ public static partial class Defs {
         public static ItemDef MedKit = null!;
         public static ItemDef Cauterize = null!;
         public static ItemDef ArterialThreads = null!;
+        public static ItemDef MendersMist = null!;
     }
 }
 

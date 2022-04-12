@@ -24,7 +24,7 @@ public static partial class BaseContent {
         public static Texture2D MilgrethQuit = null!;
         public static Texture2D MedKit = null!;
         public static Texture2D Cauterize = null!;
-
+        public static Texture2D QuestionMark = null!;
 
         public static void Load() {
             BadTexture = Core.Content.Load<Texture2D>(BadTexturePath);
@@ -37,6 +37,7 @@ public static partial class BaseContent {
             MilgrethQuit = Core.Content.Load<Texture2D>("UI/MainMenu/Quit");
             MedKit = Core.Content.Load<Texture2D>("Entities/Item/Consumables/MedKit");
             Cauterize = Core.Content.Load<Texture2D>("Entities/Item/Consumables/Cauterize");
+            QuestionMark = Core.Content.Load<Texture2D>("Entities/Item/Consumables/Cauterize");
         }
     }
 }
@@ -101,6 +102,7 @@ public static partial class BaseContent {
                 public const string Priorities = "icon-priorities";
                 public const string Build = "icon-build";
                 public const string Boak = "icon-boak";
+                public const string QuestionMark = "icon-question-mark-32-default";
             }
 
             public static class Panel {

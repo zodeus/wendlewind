@@ -10,7 +10,10 @@ namespace Grafted.Sim.Entities.Pawns;
 public class BodyPart : Entity {
     public List<BodyPartSocket> Sockets = new();
 
-    public float HitPoints;
+    private float _hitPoints;
+
+    private bool _isSevered; // todo, this should be set by an applied health condition
+
     public float MaxHitPoints;
 
     //public List<HealthCondition> HealthConditions = new();
@@ -38,8 +41,10 @@ public class BodyPart : Entity {
 
     public bool HasEquipmentSlots => BodyPartDef.EquipmentSlots?.Count > 0;
 
-    // todo, this should be set by an applied health condition
-    private bool _isSevered;
+    public float HitPoints {
+        get => _hitPoints;
+        set => _hitPoints = Mathf.Clamp(value, 0, MaxHitPoints);
+    }
 
     #region Dynamic Getters
 

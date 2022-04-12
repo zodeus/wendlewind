@@ -7,7 +7,7 @@ namespace Grafted.Sim.Entities.Pawns;
 
 public class PawnBody {
     private readonly Pawn _pawn;
-    public BodyPartSocket RootSocket;
+    public BodyPartSocket RootSocket = null!;
     public readonly float MaxBlood = 5000;
     public float BloodLevel => BloodAmount / MaxBlood;
     public float BloodAmount;
@@ -31,8 +31,6 @@ public class PawnBody {
     public PawnBody(Pawn pawn) {
         _pawn = pawn;
         BloodAmount = MaxBlood;
-        // Head
-        RootSocket = PawnBodiesTmp.GenerateHuman();
     }
 
     private void GetParts(BodyPart part, List<BodyPart> parts, bool externalOnly = false) {

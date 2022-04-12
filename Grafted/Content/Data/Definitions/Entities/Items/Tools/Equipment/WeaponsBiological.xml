@@ -14,7 +14,7 @@
             <ListItem>Combat</ListItem>
         </ToolCategories>
         <EquipmentProperties>
-            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/HumanHand</TexturePath>
         <BaseStats>
@@ -31,7 +31,7 @@
             <ListItem>Combat</ListItem>
         </ToolCategories>
         <EquipmentProperties>
-            <SlotUsedToEquip>FootWeapon</SlotUsedToEquip>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/HumanFoot</TexturePath>
         <BaseStats>

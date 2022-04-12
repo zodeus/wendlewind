@@ -56,28 +56,6 @@ public class PawnEquipment : IEnumerable<Item>, IExposable {
 
     public void Tick() { }
 
-    public void OnBodyChanged() {
-        /*foreach ((BodyPart? bodyPart, var _) in Items) {
-            if (bodyPart.HasMobility == false) {
-                Log.Info($"Removing body part equipment because {bodyPart} -> {bodyPart.Socket?.Label} is has no mobility");
-                Items.Remove(bodyPart);
-                continue;
-            }
-    
-            if (bodyPart.IsFunctional == false) {
-                Log.Info($"Removing body part equipment because {bodyPart} -> {bodyPart.Socket?.Label} is not functional");
-                Items.Remove(bodyPart);
-                continue;
-            }
-    
-            if (bodyPart.IsSevered) {
-                Log.Info($"Removing body part equipment because {bodyPart} is severed");
-                Items.Remove(bodyPart);
-                continue;
-            }
-        }*/
-    }
-
     public Item? TryEquip(BodyPart bodyPart, Item item) {
         /*if (item.ItemDef.ItemType == ItemType.Potion) {
             Item? potion = EquipPotion(item);

@@ -67,6 +67,7 @@ public class Pawn : Entity {
         foreach (Damage damage in request.RawDamages) {
             float amountToApply = damage.Amount;
             if (damage.Type.IsPhysicalDamage()) {
+                
                 var bodyPartArmor = bodyPart.Type is BodyPartType.Finger or BodyPartType.Thumb ? bodyPart.Socket.ParentPart!.Armor : bodyPart.Armor;
                 foreach (Item armor in bodyPartArmor) {
                     damage.UnblockedAmount = Mathf.Clamp(amountToApply - armor.GetStatValue(Defs.Stats.PhysicalResistance), 0, damage.Amount);
@@ -89,8 +90,6 @@ public class Pawn : Entity {
                 response.HealthConditions.Add(conditionDef);
             }
         }*/
-
-        Equipment.OnBodyChanged(); //todo this is pretty inefficient, does a full equipment scan on each hit
 
         return response;
     }

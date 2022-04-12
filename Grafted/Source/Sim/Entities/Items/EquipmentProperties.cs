@@ -10,6 +10,7 @@ public class EquipmentProperties {
 
 public enum EquipmentSlotType {
     Invalid,
+    BuiltIn,
     HandWeapon,
     HandArmor,
     FootWeapon,

@@ -31,7 +31,7 @@ public class GameScene : Scene {
             Log.Info($"{part.Label} : {part.HitWeight}");
         }*/
 
-        Core.Sim.GenerateNewWorld();
+        Core.Sim.World = WorldGenerator.GenerateNewWorld();
 
         var playerPawn = Core.Sim.World.PlayerPawns.First();
 
@@ -42,16 +42,7 @@ public class GameScene : Scene {
         var combatEvent = new CombatEvent();
         //combatEvent.IsInteractive = true;
         combatEvent.AddPlayerPawn(playerPawn);
-
         var pawn = PawnGenerator.CreatePawn(new PawnRequest { Race = DefRepository<RaceDef>.Defs.Where(r => r.Species == Defs.Species.Skeleton).RandomElement() });
-        var hand1 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyHand")!);
-        var hand2 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyHand")!);
-        var foot1 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyFoot")!);
-        var foot2 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyFoot")!);
-        pawn.Equipment.TryEquip(pawn.Body.AllParts.Where(p => p.SlotFor(hand1) != null).ToList()[0], hand1);
-        pawn.Equipment.TryEquip(pawn.Body.AllParts.Where(p => p.SlotFor(hand2) != null).ToList()[1], hand2);
-        pawn.Equipment.TryEquip(pawn.Body.AllParts.Where(p => p.SlotFor(foot1) != null).ToList()[0], foot1);
-        pawn.Equipment.TryEquip(pawn.Body.AllParts.Where(p => p.SlotFor(foot2) != null).ToList()[1], foot2);
         combatEvent.AddEnemyPawn(pawn);
         var gui = new CombatGui(combatEvent);
         Core.Sim.Gui = gui;

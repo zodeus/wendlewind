@@ -31,7 +31,7 @@
     <BodyPartDef ParentName="BodyPartBase">
         <Moniker>HumanHead</Moniker>
         <Label>Human Head</Label>
-        <HitWeight>15</HitWeight>
+        <HitWeight>20</HitWeight>
         <Size>50</Size>
         <BodyPartType>Head</BodyPartType>
         <IsVital>true</IsVital>
@@ -189,8 +189,9 @@
         <Label>Human Hand</Label>
         <BodyPartType>Hand</BodyPartType>
         <EquipmentSlots>
-            <ListItem>HandWeapon</ListItem>
+            <ListItem>BuiltIn</ListItem>
             <ListItem>HandArmor</ListItem>
+            <ListItem>HandWeapon</ListItem>
         </EquipmentSlots>
         <HitWeight>12</HitWeight>
         <Size>20</Size>
@@ -276,7 +277,7 @@
             <ListItem>ArterySocket</ListItem>
         </Sockets>
         <EquipmentSlots>
-            <ListItem>FootWeapon</ListItem>
+            <ListItem>BuiltIn</ListItem>
             <ListItem>FootArmor</ListItem>
         </EquipmentSlots>
         <BaseStats>

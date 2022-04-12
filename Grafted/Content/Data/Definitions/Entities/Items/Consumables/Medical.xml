@@ -25,6 +25,12 @@
         <TexturePath>Entities/Item/Consumables/ArterialThreads</TexturePath>
     </ItemDef>
     <ItemDef ParentName="Consumable">
+        <Moniker>MendersMist</Moniker>
+        <Label>Menders Mist</Label>
+        <Description>Used to heal bones and external parts, will traverse the tree until it's been fully used.</Description>
+        <TexturePath>Entities/Item/Consumables/MendersMist</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="Consumable">
         <Moniker>SurgicalScissors</Moniker>
         <Label>Surgical Scissors</Label>
         <Description>Used to severe small limbs</Description>
