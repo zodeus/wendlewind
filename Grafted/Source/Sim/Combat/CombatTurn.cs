@@ -69,7 +69,7 @@ public class CombatTurn {
                     }
 
                     List<CombatSequence> allSequences = attacker.GetPotentialCombatSequencesFor(tools, turnData.AvailableSequencePoints, target);
-                    if (attacker.PawnDef.PawnType == PawnType.Player && _combatEvent.IsInteractive && attacker.Brain.CombatSettings.IsAutoCombatEnabledFor(target.Race) == false) {
+                    if (attacker.PawnType == PawnType.Player && _combatEvent.IsInteractive && attacker.Brain.CombatSettings.IsAutoCombatEnabledFor(target.Race) == false) {
                         yield return Core.StartCoroutine(SetTurnInteractive());
                         if (_combatEvent.State is CombatState.TurnEnd or CombatState.CombatEnd) {
                             break;
@@ -136,7 +136,7 @@ public class CombatTurn {
     }
 
     private Pawn GetNewTarget(Pawn attacker) {
-        Pawn target = Pawns.InRandomOrder().First(target => target!.PawnDef.PawnType != attacker.PawnDef.PawnType && target.IsDead == false);
+        Pawn target = Pawns.InRandomOrder().First(target => target!.PawnType != attacker.PawnType && target.IsDead == false);
         return target;
     }
 
@@ -180,7 +180,7 @@ public class CombatTurn {
         var target = sequence.Target;
         if (target.IsDead) {
             _combatEvent.CombatRecord.Pawns.First(p => p.Id == target.Id).WasKilled = true;
-            if (target.PawnDef.PawnType == PawnType.Player) {
+            if (target.PawnType == PawnType.Player) {
                 //todo death records
                 /*target.World.DeathRecords.RecordDeath(new DeathRecord {
                     TickRecorded = Core.Sim.Ticker.Ticks,

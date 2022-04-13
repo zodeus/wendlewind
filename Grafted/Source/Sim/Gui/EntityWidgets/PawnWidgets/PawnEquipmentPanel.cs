@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
@@ -10,42 +11,61 @@ namespace Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 
 public class PawnEquipmentPanel : HorizontalStackPanel {
     private readonly PawnEquipment _equipment;
-    private readonly Dictionary<BodyPart, Widget> _panels = new();
+    private readonly Dictionary<BodyPart, EquipmentColumn> _panels = new();
 
-    public PawnEquipmentPanel(PawnEquipment equipment) {
+    public PawnEquipmentPanel(PawnEquipment equipment, Action<BodyPart, EquipmentSlotType>? clickAction = null) {
         _equipment = equipment;
         foreach ((BodyPart bodyPart, List<EquipmentSlotType> slots) in _equipment.Slots) {
             if (slots.Any() == false) {
                 continue;
             }
 
-            VerticalStackPanel partPanel = new();
-            Image image = new() { Background = new ColoredRegion(new TextureRegion(bodyPart.Icon), Color.White), Width = 32, Height = 32 };
-            partPanel.AddChild(image);
-            foreach (EquipmentSlotType slot in slots) {
-                new Label() {
-                    Text = slot.ToString(),
-                };
-                var slotFrame = new ImageButton(BaseContent.Styles.Button.Icon) { Width = 32, Height = 32 };
-                partPanel.AddChild(slotFrame);
-                if (bodyPart.Equipment[slot] is { } item) {
-                    slotFrame.Click += (_, _) => {
-                        Core.Sim.Gui!.ViewEntity(item);
-                    };
-                    slotFrame.Image = new TextureRegion(item.Icon);
-                }
-            }
-
+            EquipmentColumn partPanel = new(bodyPart, slots, clickAction);
             AddChild(partPanel);
             _panels.Add(bodyPart, partPanel);
         }
     }
 
     public void Update() {
-        foreach ((BodyPart? bodyPart, Widget? widget) in _panels) {
+        foreach ((BodyPart? bodyPart, EquipmentColumn? widget) in _panels) {
+            widget.Update();
             if (bodyPart.IsSevered) {
                 _panels.Remove(bodyPart);
                 widget.RemoveFromParent();
+            }
+        }
+    }
+
+    private class EquipmentColumn : VerticalStackPanel {
+        private readonly BodyPart _bodyPart;
+        private readonly Image _image;
+        private event Action<BodyPart, EquipmentSlotType>? ClickAction;
+
+        public EquipmentColumn(BodyPart bodyPart, List<EquipmentSlotType> slots, Action<BodyPart, EquipmentSlotType>? clickAction = null) {
+            _bodyPart = bodyPart;
+            ClickAction = clickAction;
+            _image = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.Icon), Color.White), Width = 32, Height = 32 };
+            AddChild(_image);
+            foreach (EquipmentSlotType slot in slots) {
+                ImageButton slotFrame = new(BaseContent.Styles.Button.Icon) { Width = 32, Height = 32 };
+                slotFrame.Click += (_, _) => {
+                    ClickAction?.Invoke(bodyPart, slot);
+                    if (bodyPart.Equipment[slot] is { } item) {
+                        slotFrame.Image = new TextureRegion(item.Icon);
+                    }    
+                };
+                AddChild(slotFrame);
+                if (bodyPart.Equipment[slot] is { } item) {
+                    slotFrame.Image = new TextureRegion(item.Icon);
+                }
+            }
+        }
+
+        public void Update() {
+            
+            if (_bodyPart.IsDestroyed) {
+                Color color = _bodyPart.IsDestroyed || _bodyPart.HasMobility == false ? new Color(160, 0, 0) : Color.White;
+                ((ColoredRegion) _image.Background).Color = color;
             }
         }
     }

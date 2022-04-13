@@ -24,6 +24,8 @@ public class ItemContainer : IEntityContainer, IEnumerable<Item> {
 
     }
 
+    public Item this[int i] => _list[i];
+
     IEnumerator<Entity> IEnumerable<Entity>.GetEnumerator() {
         return GetEnumerator();
     }
@@ -41,6 +43,16 @@ public class ItemContainer : IEntityContainer, IEnumerable<Item> {
     }
 
     public void TryAdd(Item item) {
+        if (item.IsStackable) {
+            for (int i = 0; i < _list.Count; i++) {
+                if (_list[i].Def != item.Def) continue;
+                _list[i].StackSize += item.StackSize;
+                item.StackSize = 0;
+                item.Destroy();
+                return;
+            }
+        }
+
         _list.Add(item);
     }
 }

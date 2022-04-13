@@ -20,12 +20,12 @@ public class Pawn : Entity {
     public PawnNeeds Needs = null!;
     public PawnInventory Inventory = null!;
     public PawnEquipment Equipment = null!;
+    public PawnType PawnType = PawnType.Invalid;
     public PawnDef PawnDef => (PawnDef) Def;
 
     public string Species => PawnDef.Label;
     public override string Label => Biography.Name;
     public override string LabelShort => Biography.Name;
-
     public override Texture2D Icon => Race.Icon;
 
     public bool IsDead { get; set; } // todo need to set this 
@@ -67,7 +67,7 @@ public class Pawn : Entity {
         foreach (Damage damage in request.RawDamages) {
             float amountToApply = damage.Amount;
             if (damage.Type.IsPhysicalDamage()) {
-                
+
                 var bodyPartArmor = bodyPart.Type is BodyPartType.Finger or BodyPartType.Thumb ? bodyPart.Socket.ParentPart!.Armor : bodyPart.Armor;
                 foreach (Item armor in bodyPartArmor) {
                     damage.UnblockedAmount = Mathf.Clamp(amountToApply - armor.GetStatValue(Defs.Stats.PhysicalResistance), 0, damage.Amount);

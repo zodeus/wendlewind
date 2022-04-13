@@ -49,7 +49,7 @@
             <ListItem>HeadArmor</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <MaxHitPoints>200</MaxHitPoints>
+            <MaxHitPoints>250</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="BodyPartBase">
@@ -63,7 +63,7 @@
             <ListItem>BrainSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>100</MaxHitPoints>
+            <MaxHitPoints>200</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="BodyPartBase">
@@ -116,6 +116,9 @@
         <IsFlesh>true</IsFlesh>
         <IsVital>true</IsVital>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanTorso</TexturePath>
+        <EquipmentSlots>
+            <ListItem>TorsoArmor</ListItem>
+        </EquipmentSlots>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
             <ListItem>RibCageSocket</ListItem>
@@ -174,6 +177,9 @@
         <Size>80</Size>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanArm</TexturePath>
+        <EquipmentSlots>
+            <ListItem>ArmArmor</ListItem>
+        </EquipmentSlots>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
             <ListItem>BoneSocket</ListItem>
@@ -253,6 +259,9 @@
         <Size>140</Size>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanLeg</TexturePath>
+        <!--<EquipmentSlots>
+            <ListItem>LegArmor</ListItem>
+        </EquipmentSlots>-->
         <Sockets>
             <ListItem>SkinSocket</ListItem>
             <ListItem>BoneSocket</ListItem>
@@ -271,15 +280,15 @@
         <Size>30</Size>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanFoot</TexturePath>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+            <ListItem>FootArmor</ListItem>
+        </EquipmentSlots>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
             <ListItem>BoneSocket</ListItem>
             <ListItem>ArterySocket</ListItem>
         </Sockets>
-        <EquipmentSlots>
-            <ListItem>BuiltIn</ListItem>
-            <ListItem>FootArmor</ListItem>
-        </EquipmentSlots>
         <BaseStats>
             <MaxHitPoints>70</MaxHitPoints>
         </BaseStats>

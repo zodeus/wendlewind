@@ -32,6 +32,12 @@ public class
             float chanceToHit = Source.ChanceToHit(Target);
             if (Core.Random.NextSingle() < chanceToHit) {
                 DamageResponse damageResponse = Target.TakeDamage(step.Damages);
+                foreach (DamagedPartRecord damage in damageResponse.Damages.SelectMany(r => r.BodyParts)) {
+                    if (damage.BodyPart.IsExternal && damage.WasSevered) {
+                        combatEvent.SeveredLimbs.Add(damage.BodyPart);
+                    }
+                }
+
                 foreach (DamageRecord damageResult in damageResponse.Damages) {
                     combatEvent.LogMessage(
                         $"        \\c[#b3b3b3]Damaged \\c[{TextColorPawn}]{Target.LabelShort}'s \\c[{TextColorBodyPart}]{damageResult.BodyPart.Type} " +
@@ -40,16 +46,16 @@ public class
                         $"blocked \\c[#00e6ff]{damageResult.AmountBlocked}"
                     );
                     foreach (DamagedPartRecord partRecord in damageResult.BodyParts) {
-                        if (partRecord.WasSevered) {
-                            combatEvent.LogMessage($"          \\c[{TextColorBodyPart}]{partRecord.Label} \\c[{TextColorRed}]SEVERED");
-                        }
-
                         if (partRecord.WasDestroyed && partRecord.IsVital == false) {
                             combatEvent.LogMessage($"          \\c[{TextColorRed}]\\c[{TextColorBodyPart}]{partRecord.Label} \\c[{TextColorRed}]destroyed");
                         }
 
                         if (partRecord.WasDestroyed && partRecord.IsVital) {
                             combatEvent.LogMessage($"          \\c[{TextColorRed}]VITAL part \\c[{TextColorBodyPart}]{partRecord.Label} \\c[{TextColorRed}]destroyed");
+                        }
+
+                        if (partRecord.BodyPart.IsExternal && partRecord.WasSevered) {
+                            combatEvent.LogMessage($"          \\c[{TextColorBodyPart}]{partRecord.Label} \\c[{TextColorRed}]SEVERED");
                         }
                     }
                 }

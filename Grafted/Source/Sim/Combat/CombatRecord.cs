@@ -16,7 +16,7 @@ public class CombatRecord : IExposable {
     public void AddPawn(Pawn pawn) {
         Pawns.Add(new PawnCombatRecord {
             Id = pawn.Id,
-            Faction = pawn.PawnDef.PawnType.ToString(),
+            Faction = pawn.PawnType.ToString(),
             Name = pawn.Label,
             WasKilled = false
         });

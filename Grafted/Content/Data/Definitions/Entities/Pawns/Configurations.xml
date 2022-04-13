@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <PawnConfigDef>
+        <Moniker>PlayerPawn</Moniker>
+        <PawnType>Player</PawnType>
+        <PawnName>Tillbury</PawnName>
+        <EquipmentItems>
+            <ListItem>Knife</ListItem>
+        </EquipmentItems>
+        <InventoryItems>
+            <ListItem>
+                <Item>Cauterize</Item>
+                <Amount>1</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <Item>ArterialThreads</Item>
+                <Amount>2</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
+        </InventoryItems>
+    </PawnConfigDef>
+    <PawnConfigDef>
+        <Moniker>TheHelplessMan</Moniker>
+        <PawnName>The Helpless Man</PawnName>
+        <PawnType>Enemy</PawnType>
+        <InventoryItems>
+            <ListItem>
+                <Item>MedKit</Item>
+                <Amount>1</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
+        </InventoryItems>
+    </PawnConfigDef>
+</Definitions>

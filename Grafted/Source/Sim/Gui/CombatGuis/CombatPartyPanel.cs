@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Pawns;
-using Microsoft.Xna.Framework;
 using Myra.Graphics2D;
-using Myra.Graphics2D.Brushes;
 using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.UI.Styles;
@@ -36,7 +34,7 @@ internal class CombatPartyPanel : VerticalStackPanel {
         };
         AddChild(_deathRow);
         foreach (Pawn pawn in pawns) {
-            bool isPlayer = pawn.PawnDef.PawnType == PawnType.Player;
+            bool isPlayer = pawn.PawnType == PawnType.Player;
             PawnCombatPanel panel = new(pawn, combatEvent, isPlayer);
             _panels.Add(panel);
             pawnRow.AddChild(panel);

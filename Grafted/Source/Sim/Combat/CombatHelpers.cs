@@ -127,17 +127,16 @@ public class DamageRecord {
 }
 
 public class DamagedPartRecord {
-    public readonly BodyPartType PartType;
-    public readonly bool IsVital;
-    public readonly string Label;
+    public readonly BodyPart BodyPart;
     public readonly float Amount;
-    public bool WasDestroyed;
-    public bool WasSevered;
+    public string Label => BodyPart.Label;
+    public BodyPartType PartType => BodyPart.Type;
+    public bool WasDestroyed => BodyPart.IsDestroyed;
+    public bool WasSevered => BodyPart.IsSevered;
+    public bool IsVital => BodyPart.IsVital;
 
-    public DamagedPartRecord(BodyPart part, float amount) {
-        PartType = part.Type;
-        IsVital = part.IsVital;
-        Label = part.Label;
+    public DamagedPartRecord(BodyPart bodyPart, float amount) {
+        BodyPart = bodyPart;
         Amount = amount;
     }
 }

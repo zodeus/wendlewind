@@ -243,18 +243,13 @@ public class BodyPart : Entity {
             partDamage *= 2;
         }
 
-        bool alreadyDestroyed = IsDestroyed;
         HitPoints -= partDamage;
         TicksSinceLastHit = 0;
-
-        DamagedPartRecord damagedPartRecord = new(this, partDamage);
-
-        if (HitPoints < 0 && alreadyDestroyed == false) {
-            damagedPartRecord.WasDestroyed = true;
-            HitPoints = 0;
+        damagedParts.Add(new DamagedPartRecord(this, partDamage));
+        if (damagedParts.Count(r => r.BodyPart.Type==BodyPartType.Brain) > 1) {
+            Log.Info("brain");
         }
-
-        foreach (BodyPart internalPart in AllInternalParts) {
+        foreach (BodyPart internalPart in InternalParts) {
             if (damage.Type == DamageType.Flesh && internalPart is not { Type: BodyPartType.Bone or BodyPartType.Skin }) {
                 continue;
             }
@@ -273,11 +268,10 @@ public class BodyPart : Entity {
 
             if (allInternalPartsDestroyed && Socket != null && Core.Random.Chance(.25f)) {
                 Severe();
-                damagedPartRecord.WasSevered = true;
+                //damagedPartRecord.WasSevered = true;
             }
         }
 
-        damagedParts.Add(damagedPartRecord);
 
         if (IsVital && HitPoints <= 0) {
             // if part is vital and last one, kill pawn

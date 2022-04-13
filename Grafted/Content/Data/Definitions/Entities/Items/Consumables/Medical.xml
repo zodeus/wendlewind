@@ -15,6 +15,7 @@
     <ItemDef ParentName="Consumable">
         <Moniker>Cauterize</Moniker>
         <Label>Cauterize</Label>
+        <StackLimit>1</StackLimit>
         <Description>Cauterizes a severed limb (socket)</Description>
         <TexturePath>Entities/Item/Consumables/Cauterize</TexturePath>
     </ItemDef>

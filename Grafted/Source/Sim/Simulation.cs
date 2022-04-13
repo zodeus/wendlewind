@@ -1,12 +1,5 @@
-using System.Collections.Generic;
-using System.Linq;
-using Grafted.Definitions;
-using Grafted.Sim.Entities;
-using Grafted.Sim.Entities.Items;
-using Grafted.Sim.Entities.Pawns;
 using Grafted.Sim.Gui;
 using Grafted.UI;
-using Grafted.Utils;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 

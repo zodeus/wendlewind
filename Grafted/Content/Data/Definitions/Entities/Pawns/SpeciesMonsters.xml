@@ -2,7 +2,6 @@
 
 <Definitions>
     <PawnDef Name="BaseMonster" ParentName="BasePawn" Abstract="true">
-        <PawnType>Enemy</PawnType>
     </PawnDef>
     <PawnDef ParentName="BaseMonster">
         <Moniker>Skeleton</Moniker>

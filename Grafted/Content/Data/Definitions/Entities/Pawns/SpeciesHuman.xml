@@ -4,7 +4,6 @@
     <PawnDef Name="Human" ParentName="BasePawn">
         <Moniker>Human</Moniker>
         <Label>Human</Label>
-        <PawnType>Player</PawnType>
         <BaseStats>
             <SequencePoints>3</SequencePoints>
             <AttackSpeed>2</AttackSpeed>

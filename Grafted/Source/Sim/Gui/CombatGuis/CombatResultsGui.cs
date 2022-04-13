@@ -1,21 +1,16 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Combat;
-using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
 using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 using Grafted.UI;
-using Grafted.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Myra.Graphics2D;
-using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
-using Myra.Graphics2D.UI.Styles;
 
 namespace Grafted.Sim.Gui.CombatGuis;
 
@@ -27,7 +22,6 @@ public class CombatResultsGui : SimulationGui {
 
     public CombatResultsGui(CombatEvent combatEvent) {
         _combatEvent = combatEvent;
-        UpdateWorldStuff();
         Pawn playerPawn = combatEvent.PlayerPawns.First();
 
         Label title = new(BaseContent.Styles.Label.Large) {
@@ -54,8 +48,25 @@ public class CombatResultsGui : SimulationGui {
             Width = 300, GridRow = 1, GridColumn = 1
         };
 
-        _equipmentPanel = new PawnEquipmentPanel(playerPawn.Equipment) {
-            Width = 250, GridRow = 1, GridColumn = 2
+        _equipmentPanel = new PawnEquipmentPanel(playerPawn.Equipment, (part, type) => {
+            if (Core.Sim.Gui!.MouseAttachment?.Data is Item item) {
+                if (item.ItemDef.EquipmentProperties.SlotUsedToEquip == type) {
+                    playerPawn.Inventory.Items.Remove(item);
+                    Item? unEquippedItem = playerPawn.Equipment.TryEquip(part, item);
+                    Core.Sim.Gui!.MouseAttachment.Detach();
+                    if (unEquippedItem != null) {
+                        playerPawn.Inventory.Items.TryAdd(unEquippedItem);
+                    }
+                }
+
+                return;
+            }
+
+            if (part.Equipment[type] != null) {
+                Core.Sim.Gui!.ViewEntity(part.Equipment[type]!);
+            }
+        }) {
+            GridRow = 1, GridColumn = 2
         };
 
         Widget progressButton = GenerateProgressButton();
@@ -80,68 +91,6 @@ public class CombatResultsGui : SimulationGui {
         Core.Instance.Window.TextInput += (_, a) => {
             Desktop.OnChar(a.Character);
         };
-    }
-
-    private void UpdateWorldStuff() {
-        Pawn playerPawn = _combatEvent.PlayerPawns.First();
-        playerPawn.Body.BloodAmount = playerPawn.Body.MaxBlood;
-
-        // GET GLOVEY
-        if (Core.Sim.World.TotalKills > 8) {
-            BodyPart head = playerPawn.Body.AllExternalParts.First(p => p.Type == BodyPartType.Head);
-            Item bucket = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("BucketHelmet")!);
-            playerPawn.Equipment.TryEquip(head, bucket);
-        }
-
-        if (Core.Sim.World.TotalKills == 2) {
-            var hand = playerPawn.Body.AllExternalParts.Where(p => p.Type == BodyPartType.Hand).ToList()[0];
-            ItemDef gloveDef = DefRepository<ItemDef>.GetByMoniker("LeatherGlove")!;
-            Item glove = EntityGenerator.CreateEntity<Item>(gloveDef);
-            playerPawn.Equipment.TryEquip(hand, glove);
-            
-            Item mendersMist = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("MendersMist")!);
-            mendersMist.StackSize = 2;
-            playerPawn.Inventory.Items.TryAdd(mendersMist);
-        }
-
-        if (Core.Sim.World.TotalKills == 6) {
-            var tmp = playerPawn.Body.AllExternalParts.Where(p => p.Type == BodyPartType.Hand).ToList();
-            if (tmp.Count > 1) {
-                var hand = playerPawn.Body.AllExternalParts.Where(p => p.Type == BodyPartType.Hand).ToList()[1];
-                ItemDef gloveDef = DefRepository<ItemDef>.GetByMoniker("LeatherGlove")!;
-                Item glove = EntityGenerator.CreateEntity<Item>(gloveDef);
-                playerPawn.Equipment.TryEquip(hand, glove);
-            }
-        } 
-        
-        if (Core.Sim.World.TotalKills == 10) {
-            var tmp = playerPawn.Body.AllExternalParts.Where(p => p.Type == BodyPartType.Hand).ToList();
-            if (tmp.Count > 1) {
-                var hand = playerPawn.Body.AllExternalParts.Where(p => p.Type == BodyPartType.Hand).ToList()[1];
-                ItemDef weaponDef = DefRepository<ItemDef>.GetByMoniker("Mace")!;
-                Item mace = EntityGenerator.CreateEntity<Item>(weaponDef);
-                playerPawn.Equipment.TryEquip(hand, mace);
-            }
-        }
-
-        foreach (BodyPart part in playerPawn.Body.AllParts) {
-            if (part.HealthPercent >= .97) { continue; }
-
-            if (part.Type == BodyPartType.Skin) {
-                part.HitPoints += part.MaxHitPoints * Core.Random.NextFloat(0.10f, 0.25f);
-                continue;
-            }
-
-            if (part.IsDestroyed) {
-                /*if (Core.Random.Chance(.04f)) {
-                    part.HitPoints = 1;
-                }*/
-
-                continue;
-            }
-
-            part.HitPoints += part.MaxHitPoints * Core.Random.NextFloat(0.03f, 0.08f);
-        }
     }
 
     private void BodyPartClickHandler(BodyPartSocket socket) {
@@ -264,26 +213,7 @@ public class CombatResultsGui : SimulationGui {
                 VerticalAlignment = VerticalAlignment.Bottom,
             };
             button.Click += (_, _) => {
-                Pawn playerPawn = _combatEvent.PlayerPawns.First();
-                CombatEvent newCombatEvent = new();
-                //combatEvent.IsInteractive = true;
-                newCombatEvent.AddPlayerPawn(playerPawn);
-                Pawn pawn = PawnGenerator.CreatePawn(new PawnRequest { Race = DefRepository<RaceDef>.Defs.Where(r => r.Species == Defs.Species.Skeleton).RandomElement() });
-                ItemDef weaponDef;
-                if (Core.Sim.World.TotalKills > 8) {
-                    weaponDef = DefRepository<ItemDef>.GetByMoniker("Mace")!;
-                }
-                else {
-                    weaponDef = DefRepository<ItemDef>.GetByMoniker("WoodenStick")!;
-                }
-
-                Item weapon = EntityGenerator.CreateEntity<Item>(weaponDef);
-                pawn.Equipment.TryEquip(pawn.Body.AllParts.First(p => p.SlotFor(weapon) != null), weapon);
-
-                newCombatEvent.AddEnemyPawn(pawn);
-                CombatGui gui = new(newCombatEvent);
-                Core.Sim.Gui = gui;
-                newCombatEvent.StartAsCoroutine();
+                Core.Sim.Gui = new CombatGui(Core.Sim.World.NextCombat());
             };
         }
 

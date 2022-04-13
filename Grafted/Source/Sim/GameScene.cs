@@ -1,12 +1,5 @@
-using System.Linq;
-using Grafted.Definitions;
 using Grafted.Scenes;
-using Grafted.Sim.Combat;
-using Grafted.Sim.Entities;
-using Grafted.Sim.Entities.Items;
-using Grafted.Sim.Entities.Pawns;
 using Grafted.Sim.Gui.CombatGuis;
-using Grafted.Utils;
 
 namespace Grafted.Sim;
 
@@ -21,32 +14,8 @@ public class GameScene : Scene {
     }
 
     public void QuickPlay() {
-        /*Log.Info($"SIZES");
-        foreach (var part in DefRepository<BodyPartDef>.Defs.OrderBy(def => def.Size)) {
-            Log.Info($"{part.Label} : {part.Size}");
-        }
-
-        Log.Info("\nHIT WEIGHTS");
-        foreach (var part in DefRepository<BodyPartDef>.Defs.OrderBy(def => def.HitWeight)) {
-            Log.Info($"{part.Label} : {part.HitWeight}");
-        }*/
-
         Core.Sim.World = WorldGenerator.GenerateNewWorld();
-
-        var playerPawn = Core.Sim.World.PlayerPawns.First();
-
-        /*foreach (BodyPart part in playerPawn.Body.AllParts) {
-            Log.Info($"{part.Label} : {part.HitPoints}");
-        }*/
-
-        var combatEvent = new CombatEvent();
-        //combatEvent.IsInteractive = true;
-        combatEvent.AddPlayerPawn(playerPawn);
-        var pawn = PawnGenerator.CreatePawn(new PawnRequest { Race = DefRepository<RaceDef>.Defs.Where(r => r.Species == Defs.Species.Skeleton).RandomElement() });
-        combatEvent.AddEnemyPawn(pawn);
-        var gui = new CombatGui(combatEvent);
-        Core.Sim.Gui = gui;
-        combatEvent.StartAsCoroutine();
+        Core.Sim.Gui = new CombatGui(Core.Sim.World.NextCombat());
     }
 
     public override void Update(float deltaTime) {

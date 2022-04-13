@@ -2,7 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Grafted.Definitions;
 using Grafted.Maths;
+using Grafted.Sim.Entities;
+using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
 using Microsoft.Xna.Framework;
 
@@ -10,15 +13,6 @@ namespace Grafted.Sim.Combat;
 
 public class CombatEvent {
     private CombatState _state = CombatState.Preparation;
-    public bool IsInteractive = false;
-
-    public CombatState State {
-        get { return _state; }
-        set {
-            _state = value;
-            StateChangedAction?.Invoke(_state);
-        }
-    }
 
     public event Action<CombatState>? StateChangedAction;
 
@@ -28,6 +22,17 @@ public class CombatEvent {
     public CombatTurn CurrentTurn = null!;
     public int CurrentTurnNum;
     public CombatRecord CombatRecord = new();
+    public List<BodyPart> SeveredLimbs = new();
+
+    public bool IsInteractive = false;
+
+    public CombatState State {
+        get { return _state; }
+        set {
+            _state = value;
+            StateChangedAction?.Invoke(_state);
+        }
+    }
 
     public void AddPlayerPawn(Pawn pawn) {
         CombatRecord.AddPawn(pawn);
@@ -92,15 +97,17 @@ public class CombatEvent {
             return;
         }
 
-        bool playerPawnDied = CombatRecord.Pawns.First(p => p.Faction == "Player").WasKilled;
+        bool playerPawnDied = PlayerPawns[0].IsDead;
         if (playerPawnDied) {
             Core.Sim.Messages.Push(new Message($"\\c[{CombatSequence.TextColorPawn}]{PlayerPawns.First().Label} \\c[{CombatSequence.TextColorRed}] was killed by \\c[{CombatSequence.TextColorEnemyPawn}]{EnemyPawns.First().Label}"));
         }
         else {
             Core.Sim.World.TotalKills++;
             Core.Sim.Messages.Push(new Message($"\\c[{CombatSequence.TextColorPawn}]{PlayerPawns.First().Label} \\c[{CombatSequence.TextColorGreen}]killed \\c[{CombatSequence.TextColorEnemyPawn}]{EnemyPawns.First().Label}"));
+            UpdateWorldStuff();
         }
-        LogMessage($"Battle is over");
+
+        LogMessage("Battle is over");
     }
 
     public void LogMessage(string message) {
@@ -122,7 +129,7 @@ public class CombatEvent {
     }
 
     public bool ShouldAttemptRetreat(CombatTurn combatTurn, Pawn pawn) {
-        Pawn target = combatTurn.Pawns.First(target => target.PawnDef.PawnType != pawn.PawnDef.PawnType);
+        Pawn target = combatTurn.Pawns.First(target => target.PawnType != pawn.PawnType);
         if (pawn.Brain.CombatSettings.IsAutoRetreatEnabledFor(target.Race)) {
             return true;
         }
@@ -135,14 +142,112 @@ public class CombatEvent {
     }
 
     public bool IsPartyDead(Pawn member) {
-        if (PlayerPawns.Any(p => p.PawnDef.PawnType == member.PawnDef.PawnType && p.IsDead == false)) {
+        if (PlayerPawns.Any(p => p.PawnType == member.PawnType && p.IsDead == false)) {
             return false;
         }
 
-        if (EnemyPawns.Any(p => p.PawnDef.PawnType == member.PawnDef.PawnType && p.IsDead == false)) {
+        if (EnemyPawns.Any(p => p.PawnType == member.PawnType && p.IsDead == false)) {
             return false;
         }
 
         return true;
+    }
+
+    private void UpdateWorldStuff() {
+        Pawn playerPawn = PlayerPawns[0];
+        playerPawn.Body.BloodAmount = playerPawn.Body.MaxBlood;
+
+        Pawn enemy = EnemyPawns[0];
+        for (int i = enemy.Inventory.Count() - 1; i >= 0; i--) {
+            Item item = enemy.Inventory.Items[i];
+            enemy.Inventory.Items.Remove(item);
+            playerPawn.Inventory.Items.TryAdd(item);
+        }
+
+        foreach ((BodyPart? bodyPart, var slots) in enemy.Equipment.Slots) {
+            foreach (EquipmentSlotType slot in slots) {
+                if (slot is EquipmentSlotType.BuiltIn) {
+                    continue;
+                }
+
+                Item? item = enemy.Equipment.UnEquip(bodyPart, slot);
+                if (item != null) {
+                    playerPawn.Inventory.Items.TryAdd(item);
+                }
+            }
+        }
+
+        void TakePartEquipment(BodyPart part) {
+            foreach ((EquipmentSlotType _, Item? item) in part.Equipment) {
+                if (item != null && item.ItemDef.EquipmentProperties.SlotUsedToEquip != EquipmentSlotType.BuiltIn) {
+                    playerPawn.Inventory.Items.TryAdd(item);
+                }
+            }
+        }
+
+        foreach (BodyPart part in SeveredLimbs) {
+            TakePartEquipment(part);
+            foreach (BodyPart externalPart in part.ExternalParts) {
+                TakePartEquipment(externalPart);
+            }
+        }
+
+        // GET GLOVEY
+        if (Core.Sim.World.TotalKills > 8) {
+            BodyPart head = playerPawn.Body.AllExternalParts.First(p => p.Type == BodyPartType.Head);
+            Item bucket = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("BucketHelmet")!);
+            playerPawn.Equipment.TryEquip(head, bucket);
+        }
+
+        if (Core.Sim.World.TotalKills == 2) {
+            var hand = playerPawn.Body.AllExternalParts.Where(p => p.Type == BodyPartType.Hand).ToList()[0];
+            ItemDef gloveDef = DefRepository<ItemDef>.GetByMoniker("LeatherGlove")!;
+            Item glove = EntityGenerator.CreateEntity<Item>(gloveDef);
+            playerPawn.Equipment.TryEquip(hand, glove);
+
+            Item mendersMist = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("MendersMist")!);
+            mendersMist.StackSize = 2;
+            playerPawn.Inventory.Items.TryAdd(mendersMist);
+        }
+
+        if (Core.Sim.World.TotalKills == 6) {
+            var tmp = playerPawn.Body.AllExternalParts.Where(p => p.Type == BodyPartType.Hand).ToList();
+            if (tmp.Count > 1) {
+                var hand = playerPawn.Body.AllExternalParts.Where(p => p.Type == BodyPartType.Hand).ToList()[1];
+                ItemDef gloveDef = DefRepository<ItemDef>.GetByMoniker("LeatherGlove")!;
+                Item glove = EntityGenerator.CreateEntity<Item>(gloveDef);
+                playerPawn.Equipment.TryEquip(hand, glove);
+            }
+        }
+
+        if (Core.Sim.World.TotalKills == 10) {
+            Core.Sim.GameSpeed = .2f;
+            var tmp = playerPawn.Body.AllExternalParts.Where(p => p.Type == BodyPartType.Hand).ToList();
+            if (tmp.Count > 1) {
+                var hand = playerPawn.Body.AllExternalParts.Where(p => p.Type == BodyPartType.Hand).ToList()[1];
+                ItemDef weaponDef = DefRepository<ItemDef>.GetByMoniker("Mace")!;
+                Item mace = EntityGenerator.CreateEntity<Item>(weaponDef);
+                playerPawn.Equipment.TryEquip(hand, mace);
+            }
+        }
+
+        foreach (BodyPart part in playerPawn.Body.AllParts) {
+            if (part.HealthPercent >= .97) { continue; }
+
+            if (part.Type == BodyPartType.Skin) {
+                part.HitPoints += part.MaxHitPoints * Core.Random.NextFloat(0.10f, 0.25f);
+                continue;
+            }
+
+            if (part.IsDestroyed) {
+                /*if (Core.Random.Chance(.04f)) {
+                    part.HitPoints = 1;
+                }*/
+
+                continue;
+            }
+
+            part.HitPoints += part.MaxHitPoints * Core.Random.NextFloat(0.03f, 0.08f);
+        }
     }
 }

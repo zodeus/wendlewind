@@ -6,7 +6,8 @@ public class Item : Entity {
     public ItemDef ItemDef => (ItemDef) Def;
     public float Durability = 0;
     public int StackSize;
-    public string LabelWithStackSize => $"{Label} x{StackSize}";
+    public override string Label => IsStackable ? $"{Def.Label} x{StackSize}" : Def.Label;
+    public bool IsStackable => ItemDef.StackLimit > 1;
 
     public override void Initialize() {
         Durability = this.GetStatValue(Defs.Stats.Durability);

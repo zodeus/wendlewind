@@ -1,10 +1,12 @@
 ﻿using Grafted.Definitions;
+using Grafted.Graphics.Textures;
 using Grafted.Maths;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Pawns;
 using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Myra.Graphics2D;
 using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
@@ -39,7 +41,11 @@ internal class PawnCombatPanel : HorizontalStackPanel {
     }
 
     private Widget GenerateEquipmentPanel() {
-        _pawnEquipmentPanel = new PawnEquipmentPanel(Pawn.Equipment);
+        _pawnEquipmentPanel = new PawnEquipmentPanel(Pawn.Equipment, (part, type) => {
+            if (part.Equipment[type] != null) {
+                Core.Sim.Gui!.ViewEntity(part.Equipment[type]!);
+            }
+        });
         return _pawnEquipmentPanel;
     }
 
@@ -50,7 +56,8 @@ internal class PawnCombatPanel : HorizontalStackPanel {
         };
         int panelWidth = 230;
 
-        Image image = new() { Background = new TextureRegion(Pawn.Icon), Width = panelWidth, Height = panelWidth, BorderThickness = new Thickness(2) };
+        Texture2D icon = Pawn.PawnType == PawnType.Enemy ? Pawn.Icon.Flip(false, true) : Pawn.Icon;
+        Image image = new() { Background = new TextureRegion(icon), Width = panelWidth, Height = panelWidth, BorderThickness = new Thickness(2) };
         image.TouchDown += (_, _) => {
             if (Core.Sim.Gui?.MouseAttachment == null) {
                 Core.Sim.Gui!.ViewEntity(Pawn);

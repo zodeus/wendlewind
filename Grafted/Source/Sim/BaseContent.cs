@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.IO;
 using FontStashSharp;
+using Grafted.Sim.Entities.Pawns;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -149,8 +151,8 @@ public static partial class BaseContent {
                 Medium = monoFont.GetFont(20),
                 Large = monoFont.GetFont(24),
                 VeryLarge = monoFont.GetFont(32)
-            }; 
-            
+            };
+
             Fancy = new FontData {
                 VerySmall = monoFont.GetFont(10),
                 Small = monoFont.GetFont(14),
@@ -159,7 +161,7 @@ public static partial class BaseContent {
                 Large = monoFont.GetFont(24),
                 VeryLarge = monoFont.GetFont(32)
             };
-          
+
         }
     }
 }

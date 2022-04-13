@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Grafted.Definitions;
 using Grafted.Sim.Entities.Items;
@@ -8,58 +9,88 @@ public static class PawnGenerator {
     public static Pawn CreatePawn(PawnRequest request) {
         Pawn pawn = EntityGenerator.CreateEntity<Pawn>(request.Race.Species, true);
         pawn.Race = request.Race;
+        pawn.PawnType = request.Config.PawnType;
         pawn.Initialize();
-        GenerateBody(pawn);
-        RegisterBuiltInTools(pawn);
-        RegisterTools(pawn);
+        if (request.Config.PawnName != null) {
+            pawn.Biography.Name = request.Config.PawnName;
+        }
 
-        //pawn.HitPoints = pawn.MaxHitPoints;
+        GenerateBody(pawn);
+        RegisterEquipment(pawn, request.Config.EquipmentItems);
+        RegisterInventory(pawn, request.Config.InventoryItems);
 
         return pawn;
     }
 
-    private static void GenerateBody(Pawn pawn) {
-        pawn.Body.RootSocket = HumanBodyGenerator.Generate();
+    private static void RegisterInventory(Pawn pawn, List<ItemDropCount> items) {
+        foreach (ItemDropCount dropCount in items) {
+            pawn.Inventory.Items.TryAdd(EntityGenerator.CreateEntity<Item>(dropCount.Item, dropCount.Amount.RandomValue));
+        }
     }
 
-    private static void RegisterBuiltInTools(Pawn pawn) {
-        var hand1 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyHand")!);
-        var hand2 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyHand")!);
-        var foot1 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyFoot")!);
-        var foot2 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyFoot")!);
+    private static void GenerateBody(Pawn pawn) {
+        HumanBodyGenerator.Generate(pawn);
+    }
+
+    private static void RegisterEquipment(Pawn pawn, List<ItemDef> equipment) {
+        foreach (ItemDef itemDef in equipment) {
+            Item item = EntityGenerator.CreateEntity<Item>(itemDef, 1);
+            var potentialParts = pawn.Body.AllParts.Where(p => {
+                if (p.SlotFor(item) is not { } slot) {
+                    return false;
+                }
+
+                if (p.Equipment[slot] != null) {
+                    return false;
+                }
+
+                return true;
+            }).ToList();
+
+            if (potentialParts.Any() == false) {
+                Log.Error($"Failed to equip {item} on {pawn}, no available body parts found");
+                continue;
+            }
+
+            Item? returnedItem = pawn.Equipment.TryEquip(
+                potentialParts[0],
+                item
+            );
+            if (returnedItem != null) {
+                Log.Error($"{returnedItem} was returned while attempting to equip on {pawn} PawnGenerator.RegisterTools");
+            }
+        }
+    }
+}
+
+public struct PawnRequest {
+    public RaceDef Race { get; }
+    public PawnConfigDef Config { get; }
+
+    public PawnRequest(RaceDef race, PawnConfigDef config) {
+        Race = race;
+        Config = config;
+    }
+}
+
+public static class HumanBodyGenerator {
+    public static void Generate(Pawn pawn) {
+        pawn.Body.RootSocket = GenerateBody();
+        GenerateBuiltInTools(pawn);
+    }
+
+    private static void GenerateBuiltInTools(Pawn pawn) {
+        Item hand1 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyHand")!);
+        Item hand2 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyHand")!);
+        Item foot1 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyFoot")!);
+        Item foot2 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyFoot")!);
         pawn.Equipment.TryEquip(pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Hand && p.SlotFor(hand1) != null).ToList()[0], hand1);
         pawn.Equipment.TryEquip(pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Hand && p.SlotFor(hand2) != null).ToList()[1], hand2);
         pawn.Equipment.TryEquip(pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Foot && p.SlotFor(foot1) != null).ToList()[0], foot1);
         pawn.Equipment.TryEquip(pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Foot && p.SlotFor(foot2) != null).ToList()[1], foot2);
     }
 
-
-    private static void RegisterTools(Pawn pawn) {
-        /*foreach (ItemDef itemDef in pawn.Race.Equipment) {
-            Item item = EntityGenerator.CreateEntity<Item>(itemDef);
-            var returnedItems = pawn.Equipment.TryEquip(
-                pawn.Body.AllParts.First(p => p.SlotFor(item)),
-                item
-            ).ToList();
-            if (returnedItems.Any()) {
-                foreach (Item returnedItem in returnedItems) {
-                    Log.Error($"{returnedItem} was returned while attempting to equip on {pawn} PawnGenerator.RegisterTools");
-                }
-            }
-        }*/
-    }
-}
-
-public struct PawnRequest {
-    public PawnRequest(RaceDef race) {
-        Race = race;
-    }
-
-    public RaceDef Race { get; init; }
-}
-
-public static class HumanBodyGenerator {
-    public static BodyPartSocket Generate() {
+    private static BodyPartSocket GenerateBody() {
         BodyPartSocket rootSocket = new(Defs.BodyPartSockets.HeadSocket);
         BodyPart head = rootSocket.TryAttachPart(EntityGenerator.CreateEntity<BodyPart>(Defs.BodyParts.HumanHead));
         head.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.HumanArtery);
@@ -108,7 +139,7 @@ public static class HumanBodyGenerator {
     }
 
     static void MakeHand(BodyPart hand) {
-        var artery = hand.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.HumanArtery);
+        BodyPart artery = hand.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.HumanArtery);
         //artery.HitPoints = 0;
         hand.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.HumanSkin);
         hand.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.HumanBone);

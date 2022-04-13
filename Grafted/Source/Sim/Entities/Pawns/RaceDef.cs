@@ -10,12 +10,8 @@ public class RaceDef : Def {
     private Texture2D? _iconTexture;
 
     public PawnDef Species = null!;
-    public List<ItemDef> Equipment = new();
-    public BodyPartDef BodyParts = new();
     public string? TexturePath;
     //public DecisionPackageDef? DecisionPackage = null!;
-    //public List<DropProperties> ItemDrops = new();
-
     //public Type NameGeneratorClass = typeof(INameGenerator);
     //public List<SkillRecord> BaseSkills = new();
     //public List<TraitDef> Traits = null!;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.UI;
@@ -17,7 +18,7 @@ public class EntityListPanelItem : HorizontalStackPanel {
         Spacing = 10;
         _entity = entity;
         _label = new Label { VerticalAlignment = VerticalAlignment.Center, Font = BaseContent.Fonts.Default.Normal };
-        ImageButton viewEntityButton = new () { Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.QuestionMark], Width = 24, Height = 24, VerticalAlignment = VerticalAlignment.Center };
+        ImageButton viewEntityButton = new() { Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.QuestionMark], Width = 24, Height = 24, VerticalAlignment = VerticalAlignment.Center };
         viewEntityButton.TouchDown += (_, _) => {
             Core.Sim.Gui!.ViewEntity(entity);
         };
@@ -41,7 +42,7 @@ public class EntityListPanelItem : HorizontalStackPanel {
     }
 
     public void Update() {
-        _label.Text = _entity is Item item ? item.LabelWithStackSize : _entity.Label;
+        _label.Text = _entity.Label;
     }
 }
 
@@ -75,7 +76,7 @@ public class EntityListPanel : VerticalStackPanel {
         }
 
         foreach ((Entity item, EntityListPanelItem panel) in _items) {
-            if (item.IsDestroyed) {
+            if (item.IsDestroyed || _container.Contains(item) == false) {
                 panel.RemoveFromParent();
                 _items.Remove(item);
                 continue;

@@ -28,6 +28,14 @@ public static partial class Defs {
 
 public static partial class Defs {
     [DefLocator]
+    public static class PawnConfigs {
+        public static PawnConfigDef PlayerPawn = null!;
+        public static PawnConfigDef TheHelplessMan = null!;
+    }
+}
+
+public static partial class Defs {
+    [DefLocator]
     public static class Items {
         public static ItemDef MedKit = null!;
         public static ItemDef Cauterize = null!;

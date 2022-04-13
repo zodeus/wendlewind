@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Grafted.Sim.Entities.Items;
 
 public class EquipmentProperties {
@@ -17,5 +15,7 @@ public enum EquipmentSlotType {
     FootArmor,
     LegArmor,
     ArmArmor,
+    TorsoArmor,
+    NeckArmor,
     HeadArmor
 }

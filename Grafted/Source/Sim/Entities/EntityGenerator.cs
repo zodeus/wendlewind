@@ -1,8 +1,16 @@
 using System;
+using Grafted.Maths;
+using Grafted.Sim.Entities.Items;
 
 namespace Grafted.Sim.Entities;
 
 public static class EntityGenerator {
+    public static T CreateEntity<T>(ItemDef def, int stackSize) where T : Item {
+        T entity = CreateEntity<T>(def);
+        entity.StackSize = stackSize;
+        return entity;
+    }
+
     public static T CreateEntity<T>(EntityDef def, bool suppressInitialization = false /*, EntityDef material = null*/) where T : Entity {
         return (T) CreateEntity(def, suppressInitialization);
     }

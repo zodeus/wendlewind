@@ -23,6 +23,7 @@ public class CombatGui : SimulationGui {
 
     public CombatGui(CombatEvent combatEvent) {
         _combatEvent = combatEvent;
+        _combatEvent.StartAsCoroutine();
         _combatEvent.StateChangedAction += CombatStateChangedAction();
         _combatEvent.CombatRecord.LogMessageAddedAction += message => {
             AddCombatLogEntry(message.Text);

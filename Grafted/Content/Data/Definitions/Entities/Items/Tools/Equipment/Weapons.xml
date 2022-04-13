@@ -2,7 +2,6 @@
 
 <Definitions>
     <ItemDef Name="WeaponBase" ParentName="EquipmentTool" Abstract="true">
-
     </ItemDef>
     <ItemDef Name="WeaponBlunt" ParentName="WeaponBase" Abstract="true">
         <DamageType>Blunt</DamageType>
