@@ -4,7 +4,7 @@
     <PawnConfigDef>
         <Moniker>PlayerPawn</Moniker>
         <PawnType>Player</PawnType>
-        <PawnName>Tillbury</PawnName>
+        <PawnName>Your Savior</PawnName>
         <EquipmentItems>
             <ListItem>Knife</ListItem>
         </EquipmentItems>
@@ -14,23 +14,11 @@
                 <Amount>1</Amount>
                 <ChanceToDrop>1</ChanceToDrop>
             </ListItem>
-            <ListItem>
-                <Item>ArterialThreads</Item>
-                <Amount>2</Amount>
-                <ChanceToDrop>1</ChanceToDrop>
-            </ListItem>
         </InventoryItems>
     </PawnConfigDef>
     <PawnConfigDef>
         <Moniker>TheHelplessMan</Moniker>
         <PawnName>The Helpless Man</PawnName>
         <PawnType>Enemy</PawnType>
-        <InventoryItems>
-            <ListItem>
-                <Item>MedKit</Item>
-                <Amount>1</Amount>
-                <ChanceToDrop>1</ChanceToDrop>
-            </ListItem>
-        </InventoryItems>
     </PawnConfigDef>
 </Definitions>

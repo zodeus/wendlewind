@@ -19,7 +19,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Leather/Glove</TexturePath>
         <BaseStats>
-            <PhysicalResistance>5</PhysicalResistance>
+            <PhysicalResistance>20</PhysicalResistance>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
@@ -32,7 +32,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Tin/BucketHelmet</TexturePath>
         <BaseStats>
-            <PhysicalResistance>20</PhysicalResistance>
+            <PhysicalResistance>30</PhysicalResistance>
         </BaseStats>
     </ItemDef>
 </Definitions>

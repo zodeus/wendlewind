@@ -22,7 +22,7 @@ public static class PawnGenerator {
         return pawn;
     }
 
-    private static void RegisterInventory(Pawn pawn, List<ItemDropCount> items) {
+    public static void RegisterInventory(Pawn pawn, List<ItemDropCount> items) {
         foreach (ItemDropCount dropCount in items) {
             pawn.Inventory.Items.TryAdd(EntityGenerator.CreateEntity<Item>(dropCount.Item, dropCount.Amount.RandomValue));
         }
@@ -32,7 +32,7 @@ public static class PawnGenerator {
         HumanBodyGenerator.Generate(pawn);
     }
 
-    private static void RegisterEquipment(Pawn pawn, List<ItemDef> equipment) {
+    public static void RegisterEquipment(Pawn pawn, List<ItemDef> equipment) {
         foreach (ItemDef itemDef in equipment) {
             Item item = EntityGenerator.CreateEntity<Item>(itemDef, 1);
             var potentialParts = pawn.Body.AllParts.Where(p => {

@@ -76,7 +76,7 @@ public class Core : Game {
             Screen.SetSize(1920, 1080);
         }
 
-        Window.Title = "Milgreth";
+        Window.Title = "Grafted";
         Window.AllowUserResizing = true;
         Window.ClientSizeChanged += OnGraphicsDeviceReset;
 

@@ -22,7 +22,10 @@ public class PawnBody {
     public List<BodyPart> AllExternalParts {
         get {
             List<BodyPart> parts = new();
-            GetParts(RootSocket.AttachedPart!, parts, true);
+            if (RootSocket.AttachedPart != null) {
+                GetParts(RootSocket.AttachedPart, parts, true);
+            }
+
             return parts;
         }
     }

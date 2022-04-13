@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Grafted.Sim.Entities.Items;
 
 namespace Grafted.Sim.Entities;
@@ -51,6 +52,11 @@ public class ItemContainer : IEntityContainer, IEnumerable<Item> {
                 item.Destroy();
                 return;
             }
+        }
+
+        //todo this is a hack
+        if (item.Def.Moniker == "WoodenStick" && _list.Any(i => i.Def.Moniker == "WoodenStick")) {
+            return;
         }
 
         _list.Add(item);

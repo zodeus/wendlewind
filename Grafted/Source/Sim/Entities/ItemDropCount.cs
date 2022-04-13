@@ -6,5 +6,5 @@ namespace Grafted.Sim.Entities;
 public class ItemDropCount {
     public ItemDef Item = null!;
     public RangeInt Amount;
-    public float ChanceToDrop;
+    public float ChanceToDrop = 1;
 }

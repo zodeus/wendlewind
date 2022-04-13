@@ -2,11 +2,15 @@ using System;
 using System.Linq;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
+using Grafted.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Myra.Graphics2D;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.UI.Styles;
+using HorizontalAlignment = Myra.Graphics2D.UI.HorizontalAlignment;
+using Label = Myra.Graphics2D.UI.Label;
 
 namespace Grafted.Sim.Gui.CombatGuis;
 
@@ -36,7 +40,7 @@ public class CombatGui : SimulationGui {
             GridRow = 1, GridColumn = 2 /*, Width = 846*/
         };
         _controlPanel = new CombatControlPanel(_combatEvent) {
-            GridRow = 2, GridColumn = 0, HorizontalAlignment = HorizontalAlignment.Center
+            GridRow = 2, GridColumn = 0, HorizontalAlignment = HorizontalAlignment.Stretch
         };
         _pawnBodyView = new PawnBodyPanel(combatEvent.PlayerPawns.First().Body, socket => {
             if (socket.AttachedPart != null) {
@@ -55,16 +59,22 @@ public class CombatGui : SimulationGui {
             Margin = new Thickness(0, 10, 0, 0),
             Font = BaseContent.Fonts.Fancy.Large, HorizontalAlignment = HorizontalAlignment.Center
         };
-
+        var label = new Label { Text = $"Fight {(Core.Sim.World.TotalKills + 1).ToString().PadLeft(2, '0')}", Font = BaseContent.Fonts.Fancy.Large, HorizontalAlignment = HorizontalAlignment.Center };
         VerticalStackPanel turnPane = new() {
-            Width = 150,
-            Height = 420,
+            //Width = 150,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
-            Widgets = { _turnLabel }
+            Padding = new Thickness(15),
+            Widgets = {
+                label,
+                _turnLabel
+            }
         };
 
         VerticalStackPanel centerColumn = new() {
-            Spacing = 0, GridRow = 1, GridColumn = 1, Widgets = {
+            Spacing = 0, GridRow = 1, GridColumn = 1,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Widgets = {
                 turnPane, _controlPanel
             }
         };
@@ -131,6 +141,9 @@ public class CombatGui : SimulationGui {
     }
 
     public override void Render(SpriteBatch spriteBatch) {
+        if (_combatEvent.State == CombatState.CombatFinished && Input.IsKeyPressed(Keys.Enter)) {
+            Core.Sim.Gui = new CombatResultsGui(_combatEvent);
+        }
         _programStats.Update();
         _playerPartyPanel.Update();
         _opponentPartyPanel.Update();

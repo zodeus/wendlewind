@@ -18,7 +18,7 @@ public class BodyPart : Entity {
 
     //public List<HealthCondition> HealthConditions = new();
 
-    public BodyPartSocket Socket = null!;
+    public BodyPartSocket? Socket = null;
 
     public Dictionary<EquipmentSlotType, Item?> Equipment = new();
 
@@ -240,15 +240,16 @@ public class BodyPart : Entity {
 
         float partDamage = damage.UnblockedAmount;
         if (damage.Type == DamageType.Blunt && IsBone) {
-            partDamage *= 2;
+            partDamage *= 1.5f;
         }
 
         HitPoints -= partDamage;
         TicksSinceLastHit = 0;
         damagedParts.Add(new DamagedPartRecord(this, partDamage));
-        if (damagedParts.Count(r => r.BodyPart.Type==BodyPartType.Brain) > 1) {
+        if (damagedParts.Count(r => r.BodyPart.Type == BodyPartType.Brain) > 1) {
             Log.Info("brain");
         }
+
         foreach (BodyPart internalPart in InternalParts) {
             if (damage.Type == DamageType.Flesh && internalPart is not { Type: BodyPartType.Bone or BodyPartType.Skin }) {
                 continue;
@@ -283,8 +284,11 @@ public class BodyPart : Entity {
     }
 
     public void Severe() {
-        Socket.AttachedPart = null;
-        Socket.IsSealed = false;
+        if (Socket != null) {
+            Socket.AttachedPart = null;
+            Socket.IsSealed = false;
+            Socket = null;
+        }
 
         IsSevered = true;
         Log.Info($"Severed limb {this} ({Socket})");

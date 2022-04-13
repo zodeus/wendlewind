@@ -109,12 +109,7 @@ public class CombatResultsGui : SimulationGui {
         //Handle Cauterize
         if (socket.AttachedPart == null && socket.IsSealed == false && item.Def == Defs.Items.Cauterize) {
             socket.IsSealed = true;
-            item.StackSize--;
-            if (item.StackSize == 0) {
-                item.Destroy();
-                MouseAttachment.Detach();
-            }
-
+            //MouseAttachment.Detach();
             return;
         }
 
@@ -130,7 +125,7 @@ public class CombatResultsGui : SimulationGui {
                 MouseAttachment.Detach();
             }
 
-            float mistJuice = 150;
+            float mistJuice = 200;
 
             float UpdateHealth(BodyPart bodyPart) {
                 float currentHealth = bodyPart.HitPoints;
@@ -145,7 +140,7 @@ public class CombatResultsGui : SimulationGui {
 
                 mistJuice -= UpdateHealth(bodyPart);
                 foreach (BodyPart internalPart in bodyPart.InternalParts) {
-                    if (internalPart.Type is BodyPartType.Bone or BodyPartType.Skin) {
+                    if (internalPart.IsBone || internalPart.Type is BodyPartType.Skin) {
                         mistJuice -= UpdateHealth(internalPart);
                     }
                 }

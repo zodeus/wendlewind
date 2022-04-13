@@ -9,16 +9,15 @@ public class CombatControlPanel : VerticalStackPanel {
     private readonly HorizontalStackPanel _speedButtons;
 
     public CombatControlPanel(CombatEvent combatEvent) {
-        _continueButton = new TextButton("large") {
-            Width = 122,
-            Text = "Continue", Visible = false, Margin = new Thickness(0, 0, 0, 0)
+        //ShowGridLines = true;
+        _continueButton = new TextButton(BaseContent.Styles.Button.Normal) {
+            Text = "Continue", Visible = false, Margin = new Thickness(0, 10, 0, 0), HorizontalAlignment = HorizontalAlignment.Stretch
         };
         _continueButton.Click += (_, _) => {
             Core.Sim.Gui = new CombatResultsGui(combatEvent);
         };
 
         AddChild(_continueButton);
-
 
         var pauseButton = new TextButton("small") {
             Text = "||"
@@ -30,6 +29,7 @@ public class CombatControlPanel : VerticalStackPanel {
         _speedButtons = new HorizontalStackPanel {
             Spacing = 3,
             Margin = new Thickness(0, 20, 0, 0),
+            HorizontalAlignment = HorizontalAlignment.Center,
             Widgets = {
                 pauseButton,
                 CreateSpeedButton("1x", .2f),

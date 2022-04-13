@@ -183,52 +183,17 @@ public class CombatEvent {
                     playerPawn.Inventory.Items.TryAdd(item);
                 }
             }
-        }
-
-        foreach (BodyPart part in SeveredLimbs) {
-            TakePartEquipment(part);
             foreach (BodyPart externalPart in part.ExternalParts) {
                 TakePartEquipment(externalPart);
             }
         }
 
-        // GET GLOVEY
-        if (Core.Sim.World.TotalKills > 8) {
-            BodyPart head = playerPawn.Body.AllExternalParts.First(p => p.Type == BodyPartType.Head);
-            Item bucket = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("BucketHelmet")!);
-            playerPawn.Equipment.TryEquip(head, bucket);
+        foreach (BodyPart part in SeveredLimbs) {
+            TakePartEquipment(part);
         }
-
-        if (Core.Sim.World.TotalKills == 2) {
-            var hand = playerPawn.Body.AllExternalParts.Where(p => p.Type == BodyPartType.Hand).ToList()[0];
-            ItemDef gloveDef = DefRepository<ItemDef>.GetByMoniker("LeatherGlove")!;
-            Item glove = EntityGenerator.CreateEntity<Item>(gloveDef);
-            playerPawn.Equipment.TryEquip(hand, glove);
-
-            Item mendersMist = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("MendersMist")!);
-            mendersMist.StackSize = 2;
-            playerPawn.Inventory.Items.TryAdd(mendersMist);
-        }
-
-        if (Core.Sim.World.TotalKills == 6) {
-            var tmp = playerPawn.Body.AllExternalParts.Where(p => p.Type == BodyPartType.Hand).ToList();
-            if (tmp.Count > 1) {
-                var hand = playerPawn.Body.AllExternalParts.Where(p => p.Type == BodyPartType.Hand).ToList()[1];
-                ItemDef gloveDef = DefRepository<ItemDef>.GetByMoniker("LeatherGlove")!;
-                Item glove = EntityGenerator.CreateEntity<Item>(gloveDef);
-                playerPawn.Equipment.TryEquip(hand, glove);
-            }
-        }
-
+        
         if (Core.Sim.World.TotalKills == 10) {
-            Core.Sim.GameSpeed = .2f;
-            var tmp = playerPawn.Body.AllExternalParts.Where(p => p.Type == BodyPartType.Hand).ToList();
-            if (tmp.Count > 1) {
-                var hand = playerPawn.Body.AllExternalParts.Where(p => p.Type == BodyPartType.Hand).ToList()[1];
-                ItemDef weaponDef = DefRepository<ItemDef>.GetByMoniker("Mace")!;
-                Item mace = EntityGenerator.CreateEntity<Item>(weaponDef);
-                playerPawn.Equipment.TryEquip(hand, mace);
-            }
+            Core.Sim.GameSpeed = .2f; //todo THIS IS JUNK
         }
 
         foreach (BodyPart part in playerPawn.Body.AllParts) {
