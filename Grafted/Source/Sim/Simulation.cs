@@ -26,6 +26,10 @@ public class Simulation {
         if (Input.IsKeyPressed(Keys.Space)) {
             Core.Sim.TogglePause();
         }
+
+        if (Input.IsKeyPressed(Keys.D0)) {
+            Core.Sim.GameSpeed = 0;
+        }
     }
 
     public void TogglePause() {

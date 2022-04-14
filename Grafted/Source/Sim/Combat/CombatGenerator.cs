@@ -33,12 +33,12 @@ public class SevereLimbRequest {
 
 public static class CombatGenerator {
     public static CombatEvent Generate(List<Pawn> playerPawns) {
-        int nextCombatId = Mathf.Clamp(Core.Sim.World.TotalKills + 1, 1, 10);
+        int nextCombatId = Mathf.Clamp(Core.Sim.World.TotalKills + 1, 1, 13);
         Pawn playerPawn = playerPawns[0];
         CombatEvent combatEvent = new();
         //combatEvent.IsInteractive = true;
         combatEvent.AddPlayerPawn(playerPawn);
-        
+
         CombatConfigDef combatConfig = DefRepository<CombatConfigDef>.GetByMoniker($"Combat{nextCombatId}")!;
         foreach (CombatConfigEnemyRecord enemyConfig in combatConfig.Enemies) {
             Pawn pawn = PawnGenerator.CreatePawn(new PawnRequest(

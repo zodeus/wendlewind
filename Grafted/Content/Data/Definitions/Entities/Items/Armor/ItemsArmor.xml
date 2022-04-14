@@ -23,6 +23,32 @@
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
+        <Moniker>LeatherVambrace</Moniker>
+        <Label>Leather Vambrace</Label>
+        <ItemType>Equipment</ItemType>
+        <MaterialType>Artificial</MaterialType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>ArmArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Leather/Vambrace</TexturePath>
+        <BaseStats>
+            <PhysicalResistance>20</PhysicalResistance>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="ArmorBase">
+        <Moniker>LeatherTunic</Moniker>
+        <Label>Leather Tunic</Label>
+        <ItemType>Equipment</ItemType>
+        <MaterialType>Artificial</MaterialType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>TorsoArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Leather/Tunic</TexturePath>
+        <BaseStats>
+            <PhysicalResistance>20</PhysicalResistance>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="ArmorBase">
         <Moniker>BucketHelmet</Moniker>
         <Label>Bucket Helmet</Label>
         <ItemType>Equipment</ItemType>

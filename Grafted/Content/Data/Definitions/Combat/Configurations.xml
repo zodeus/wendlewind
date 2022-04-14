@@ -157,20 +157,11 @@
                 <PawnName>Less Helpless Man</PawnName>
                 <EquipmentItems>
                     <ListItem>WoodenStick</ListItem>
+                    <ListItem>LeatherVambrace</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
                         <Item>ArterialThreads</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>MedKit</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>MendersMist</Item>
                         <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
@@ -219,9 +210,117 @@
             <ListItem>
                 <Race>Caucasian</Race>
                 <Config>TheHelplessMan</Config>
+                <PawnName>Legless Warrior</PawnName>
+                <EquipmentItems>
+                    <ListItem>Knife</ListItem>
+                    <ListItem>LeatherVambrace</ListItem>
+                </EquipmentItems>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>MedKit</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>ArterialThreads</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+                <BodyModifications>
+                    <LimbsToSevere>
+                        <ListItem>
+                            <RootLimb>HumanTorso</RootLimb>
+                            <Socket>LeftLegSocket</Socket>
+                            <Seal>true</Seal>
+                        </ListItem>
+                        <ListItem>
+                            <RootLimb>HumanTorso</RootLimb>
+                            <Socket>RightLegSocket</Socket>
+                            <Seal>true</Seal>
+                        </ListItem>
+                    </LimbsToSevere>
+                </BodyModifications>
+            </ListItem>
+        </Enemies>
+    </CombatConfigDef>
+    <CombatConfigDef>
+        <Moniker>Combat11</Moniker>
+        <Enemies>
+            <ListItem>
+                <Race>Caucasian</Race>
+                <Config>TheHelplessMan</Config>
                 <PawnName>Mr. Mace</PawnName>
                 <EquipmentItems>
                     <ListItem>Mace</ListItem>
+                </EquipmentItems>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>MendersMist</Item>
+                        <Amount>2</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>MedKit</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>ArterialThreads</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </CombatConfigDef>
+    <CombatConfigDef>
+        <Moniker>Combat12</Moniker>
+        <Enemies>
+            <ListItem>
+                <Race>Caucasian</Race>
+                <Config>TheHelplessMan</Config>
+                <PawnName>Mr. Mace</PawnName>
+                <EquipmentItems>
+                    <ListItem>Mace</ListItem>
+                    <ListItem>LeatherTunic</ListItem>
+                </EquipmentItems>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>MendersMist</Item>
+                        <Amount>2</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>MedKit</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>ArterialThreads</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </CombatConfigDef>
+    <CombatConfigDef>
+        <Moniker>Combat13</Moniker>
+        <Enemies>
+            <ListItem>
+                <Race>Caucasian</Race>
+                <Config>TheHelplessMan</Config>
+                <PawnName>The Champ</PawnName>
+                <EquipmentItems>
+                    <ListItem>Mace</ListItem>
+                    <ListItem>Mace</ListItem>
+                    <ListItem>BucketHelmet</ListItem>
+                    <ListItem>LeatherTunic</ListItem>
+                    <ListItem>LeatherVambrace</ListItem>
+                    <ListItem>LeatherVambrace</ListItem>
+                    <ListItem>LeatherGlove</ListItem>
+                    <ListItem>LeatherGlove</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
