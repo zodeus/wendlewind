@@ -7,7 +7,6 @@
         <Moniker>Skeleton</Moniker>
         <Label>Skeleton</Label>
         <BaseStats>
-            <Xp>200</Xp>
             <SequencePoints>3</SequencePoints>
             <AttackSpeed>6</AttackSpeed>
             <MeleeStrength>1</MeleeStrength>

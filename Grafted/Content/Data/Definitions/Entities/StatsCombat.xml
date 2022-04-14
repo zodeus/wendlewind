@@ -23,12 +23,6 @@
         <MaxValue>100</MaxValue>
     </StatDef>
     <StatDef>
-        <Moniker>Xp</Moniker>
-        <Label>Xp</Label>
-        <BaseValue>0</BaseValue>
-        <MinValue>0</MinValue>
-    </StatDef>
-    <StatDef>
         <Moniker>MeleeChanceToHit</Moniker>
         <Label>Melee Chance To Hit</Label>
         <BaseValue>1</BaseValue>

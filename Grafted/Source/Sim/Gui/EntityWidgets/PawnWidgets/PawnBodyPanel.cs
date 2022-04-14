@@ -38,7 +38,7 @@ public class PawnBodySummary : Grid {
 
     public void Update() {
         foreach ((BodyPart bodyPart, Image image) in _bodyParts) {
-            Color color = bodyPart.IsFunctional || bodyPart.HitPoints <= 0 ? Color.Lerp(Color.Red, Color.White, bodyPart.HealthPercent) : new Color(50, 50, 50);
+            Color color = bodyPart.IsFunctional || bodyPart.HitPoints <= 0 ? Color.Lerp(Color.Red, Color.LimeGreen, bodyPart.HealthPercent) : new Color(50, 50, 50);
             ((ColoredRegion) image.Background).Color = color;
         }
     }
@@ -48,6 +48,7 @@ public class PawnBodyPanel : VerticalStackPanel {
     private readonly PawnBody _body;
     private readonly List<BodyPartSocketPanel> _socketPanels;
     private readonly VerticalStackPanel _scrollBody;
+    private readonly PawnSkillsPanel _pawnSkillsPanel;
     private event Action<BodyPartSocket>? _socketClickHandler;
 
     public PawnBodyPanel(PawnBody body, Action<BodyPartSocket>? socketClickHandler = null) {
@@ -55,17 +56,29 @@ public class PawnBodyPanel : VerticalStackPanel {
         _socketClickHandler = socketClickHandler;
         _socketPanels = new List<BodyPartSocketPanel>();
         _scrollBody = new VerticalStackPanel { Padding = new Thickness(10), Spacing = 8 };
+        _pawnSkillsPanel = new PawnSkillsPanel(_body.Pawn.Skills);
         //Spacing = 5;
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
         Padding = new Thickness(15);
-        AddChild(new ScrollViewer { Content = _scrollBody });
+        AddChild(new ScrollViewer {
+            Content = new HorizontalStackPanel {
+                Spacing = 40,
+                Proportions = {
+                    Proportion.Fill,
+                    Proportion.Auto
+                },
+                Widgets = {
+                    _scrollBody,
+                    _pawnSkillsPanel
+                }
+            }
+        });
         GenerateSkeleton();
     }
 
     private void GenerateSkeleton() {
         _scrollBody.Widgets.Clear();
         _socketPanels.Clear();
-
         RegisterSocket(_body.RootSocket, 0);
     }
 
@@ -93,6 +106,7 @@ public class PawnBodyPanel : VerticalStackPanel {
     }
 
     public void Update() {
+        _pawnSkillsPanel.Update();
         for (int i = _socketPanels.Count - 1; i >= 0; i--) {
             BodyPartSocketPanel socketPanel = _socketPanels[i];
 
@@ -143,7 +157,7 @@ public class PawnBodyPanel : VerticalStackPanel {
                 return new Color(50, 50, 50);
             }
 
-            return Color.Lerp(new Color(255, 100, 0), new Color(255, 255, 255), value);
+            return Color.Lerp(new Color(255, 100, 0), new Color(200, 200, 200), value);
         }
 
         public void Update() {

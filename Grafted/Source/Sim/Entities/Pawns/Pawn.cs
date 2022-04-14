@@ -18,6 +18,7 @@ public class Pawn : Entity {
     public PawnBody Body = null!;
     public PawnHealth Health = null!;
     public PawnNeeds Needs = null!;
+    public PawnSkills Skills = null!;
     public PawnInventory Inventory = null!;
     public PawnEquipment Equipment = null!;
     public PawnType PawnType = PawnType.Invalid;
@@ -40,6 +41,7 @@ public class Pawn : Entity {
         Body = new PawnBody(this);
         Health = new PawnHealth(this);
         Needs = new PawnNeeds(this);
+        Skills = new PawnSkills(this);
         Inventory = new PawnInventory(this);
         Equipment = new PawnEquipment(this);
         base.Initialize();
@@ -51,7 +53,7 @@ public class Pawn : Entity {
         Body.Tick();
         Health.Tick();
         Needs.Tick();
-
+        Skills.Tick();
         if (IsDead) {
             return;
         }
@@ -65,6 +67,7 @@ public class Pawn : Entity {
 
         DamageResponse response = new();
         foreach (Damage damage in request.RawDamages) {
+            request.Source.GetSkill(damage.ToolType)?.Learn(1);
             float amountToApply = damage.Amount;
             if (damage.Type.IsPhysicalDamage()) {
 
@@ -96,6 +99,14 @@ public class Pawn : Entity {
 
     public override void ExposeData() {
         base.ExposeData();
+    }
+
+    public Skill GetSkill(SkillDef skill) {
+        return Skills.GetSkill(skill);
+    }
+
+    public Skill? GetSkill(ToolType toolType) {
+        return Skills.GetSkill(toolType);
     }
 
     public IEnumerable<Item> GetAvailableToolsFor(ToolCategory usedFor) {

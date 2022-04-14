@@ -49,6 +49,13 @@ public class CombatResultsGui : SimulationGui {
         };
 
         _equipmentPanel = new PawnEquipmentPanel(playerPawn.Equipment, (part, type) => {
+            if (Core.Sim.Gui!.MouseAttachment == null && Input.RightMouseButtonReleased && type != EquipmentSlotType.BuiltIn) {
+                Item? unEquippedItem = playerPawn.Equipment.UnEquip(part, type);
+                if (unEquippedItem != null) {
+                    playerPawn.Inventory.Items.TryAdd(unEquippedItem);
+                }
+            }
+
             if (Core.Sim.Gui!.MouseAttachment?.Data is Item item) {
                 if (item.ItemDef.EquipmentProperties.SlotUsedToEquip == type) {
                     playerPawn.Inventory.Items.Remove(item);
@@ -94,7 +101,7 @@ public class CombatResultsGui : SimulationGui {
     }
 
     private void BodyPartClickHandler(BodyPartSocket socket) {
-        if (Input.RightMouseButtonPressed) {
+        if (Input.RightMouseButtonReleased) {
             return;
         }
 

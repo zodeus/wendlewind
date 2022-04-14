@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <SkillDef>
+        <Moniker>Knives</Moniker>
+        <Label>Knives</Label>
+        <SkillType>Arms</SkillType>
+        <ToolType>Knife</ToolType>
+    </SkillDef>
+    <SkillDef>
+        <Moniker>Staves</Moniker>
+        <Label>Staves</Label>
+        <SkillType>Arms</SkillType>
+        <ToolType>Staff</ToolType>
+    </SkillDef> 
+    <SkillDef>
+        <Moniker>Hammers</Moniker>
+        <Label>Hammers</Label>
+        <SkillType>Arms</SkillType>
+        <ToolType>Hammer</ToolType>
+    </SkillDef> 
+    <SkillDef>
+        <Moniker>Maces</Moniker>
+        <Label>Maces</Label>
+        <SkillType>Arms</SkillType>
+        <ToolType>Mace</ToolType>
+    </SkillDef> 
+</Definitions>

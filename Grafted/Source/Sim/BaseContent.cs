@@ -105,6 +105,7 @@ public static partial class BaseContent {
                 public const string Build = "icon-build";
                 public const string Boak = "icon-boak";
                 public const string QuestionMark = "icon-question-mark-32-default";
+                public const string Trash = "icon-trash";
             }
 
             public static class Panel {

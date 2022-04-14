@@ -2,6 +2,7 @@ namespace Grafted.Sim.Entities.Items;
 
 public enum ToolType {
     None,
+    Invalid,
 
     //Human
     Hand,

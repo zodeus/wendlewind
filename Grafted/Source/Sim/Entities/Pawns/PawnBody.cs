@@ -5,7 +5,7 @@ using Grafted.Sim.Entities.Items;
 namespace Grafted.Sim.Entities.Pawns;
 
 public class PawnBody {
-    private readonly Pawn _pawn;
+    public readonly Pawn Pawn;
     public BodyPartSocket RootSocket = null!;
     public readonly float MaxBlood = 5000;
     public float BloodLevel => BloodAmount / MaxBlood;
@@ -31,7 +31,7 @@ public class PawnBody {
     }
 
     public PawnBody(Pawn pawn) {
-        _pawn = pawn;
+        Pawn = pawn;
         BloodAmount = MaxBlood;
     }
 
@@ -105,7 +105,7 @@ public class PawnBody {
 
 
         if (BloodAmount <= 0) {
-            _pawn.IsDead = true;
+            Pawn.IsDead = true;
         }
     }
 }

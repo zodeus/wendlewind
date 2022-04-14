@@ -24,6 +24,7 @@ public class EntityListPanelItem : HorizontalStackPanel {
         };
         AddChild(viewEntityButton);
         HorizontalStackPanel entityButton = new() {
+            Spacing = 10,
             Widgets = {
                 new Image { Background = new TextureRegion(entity.Icon), Width = 32, Height = 32 },
                 _label

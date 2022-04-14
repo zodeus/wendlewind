@@ -8,6 +8,7 @@
             <ListItem>Maul</ListItem>
             <ListItem>Mace</ListItem>
             <ListItem>Staff</ListItem>
+            <ListItem>Hammer</ListItem>
         </Tools>
         <DamageMultiplier>.65~1.25</DamageMultiplier>
         <VisualWaitTime>.5</VisualWaitTime>
@@ -27,6 +28,7 @@
         <Tools>
             <ListItem>Maul</ListItem>
             <ListItem>Mace</ListItem>
+            <ListItem>Hammer</ListItem>
         </Tools>
         <DamageMultiplier>.8~1.5</DamageMultiplier>
         <VisualWaitTime>.5</VisualWaitTime>

@@ -12,7 +12,7 @@
     <ItemDef ParentName="WeaponSharp">
         <Moniker>WoodenStick</Moniker>
         <Label>Wooden Stick</Label>
-        <Description>It's a beating stick...</Description>
+        <Description>It's a beating stick... (1.5x to bones)</Description>
         <ToolType>Staff</ToolType>
         <DamageType>Blunt</DamageType>
         <ToolCategories>
@@ -24,6 +24,23 @@
         <TexturePath>Entities/Item/Equipment/Weapon/Blunt/WoodenStick</TexturePath>
         <BaseStats>
             <MeleePower>4</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponSharp">
+        <Moniker>WoodenHammer</Moniker>
+        <Label>Wooden Hammer</Label>
+        <Description>It's a smasher! (1.5x to bones)</Description>
+        <ToolType>Hammer</ToolType>
+        <DamageType>Blunt</DamageType>
+        <ToolCategories>
+            <ListItem>Combat</ListItem>
+        </ToolCategories>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Blunt/WoodenHammer</TexturePath>
+        <BaseStats>
+            <MeleePower>15</MeleePower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponSharp">
@@ -46,7 +63,7 @@
     <ItemDef ParentName="WeaponSharp">
         <Moniker>Mace</Moniker>
         <Label>Mace</Label>
-        <Description>Bash! bash! BASH!</Description>
+        <Description>Bash! bash! BASH! (1.5x to bones)</Description>
         <ToolType>Mace</ToolType>
         <DamageType>Blunt</DamageType>
         <ToolCategories>
@@ -58,6 +75,23 @@
         <TexturePath>Entities/Item/Equipment/Weapon/Blunt/Mace</TexturePath>
         <BaseStats>
             <MeleePower>30</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponSharp">
+        <Moniker>ShortSword</Moniker>
+        <Label>Short Sword</Label>
+        <Description>Very cutty</Description>
+        <ToolType>Sword</ToolType>
+        <DamageType>Sharp</DamageType>
+        <ToolCategories>
+            <ListItem>Combat</ListItem>
+        </ToolCategories>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Sharp/ShortSword</TexturePath>
+        <BaseStats>
+            <MeleePower>50</MeleePower>
         </BaseStats>
     </ItemDef>
 </Definitions>

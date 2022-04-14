@@ -38,6 +38,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel {
 
     private class EquipmentColumn : VerticalStackPanel {
         private readonly BodyPart _bodyPart;
+        private readonly Dictionary<EquipmentSlotType, ImageButton> _slots = new();
         private readonly Image _image;
         private event Action<BodyPart, EquipmentSlotType>? ClickAction;
 
@@ -48,21 +49,27 @@ public class PawnEquipmentPanel : HorizontalStackPanel {
             AddChild(_image);
             foreach (EquipmentSlotType slot in slots) {
                 ImageButton slotFrame = new(BaseContent.Styles.Button.Icon) { Width = 32, Height = 32 };
+                _slots.Add(slot, slotFrame);
                 slotFrame.Click += (_, _) => {
                     ClickAction?.Invoke(bodyPart, slot);
                     if (bodyPart.Equipment[slot] is { } item) {
                         slotFrame.Image = new TextureRegion(item.Icon);
-                    }    
+                    }
                 };
                 AddChild(slotFrame);
-                if (bodyPart.Equipment[slot] is { } item) {
-                    slotFrame.Image = new TextureRegion(item.Icon);
-                }
             }
         }
 
         public void Update() {
-            
+            foreach ((EquipmentSlotType slot, ImageButton? image) in _slots) {
+                if (_bodyPart.Equipment[slot] is { } item) {
+                    image.Image = new TextureRegion(item.Icon);
+                }
+                else {
+                    image.Image = null;
+                }
+            }
+
             if (_bodyPart.IsDestroyed) {
                 Color color = _bodyPart.IsDestroyed || _bodyPart.HasMobility == false ? new Color(160, 0, 0) : Color.White;
                 ((ColoredRegion) _image.Background).Color = color;

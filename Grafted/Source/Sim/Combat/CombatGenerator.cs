@@ -33,7 +33,7 @@ public class SevereLimbRequest {
 
 public static class CombatGenerator {
     public static CombatEvent Generate(List<Pawn> playerPawns) {
-        int nextCombatId = Mathf.Clamp(Core.Sim.World.TotalKills + 1, 1, 13);
+        int nextCombatId = Mathf.Clamp(Core.Sim.World.TotalKills + 1, 1, 15);
         Pawn playerPawn = playerPawns[0];
         CombatEvent combatEvent = new();
         //combatEvent.IsInteractive = true;

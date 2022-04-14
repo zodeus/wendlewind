@@ -54,11 +54,6 @@ public class ItemContainer : IEntityContainer, IEnumerable<Item> {
             }
         }
 
-        //todo this is a hack
-        if (item.Def.Moniker == "WoodenStick" && _list.Any(i => i.Def.Moniker == "WoodenStick")) {
-            return;
-        }
-
         _list.Add(item);
     }
 }

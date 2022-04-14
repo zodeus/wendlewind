@@ -113,13 +113,23 @@
             <ListItem>
                 <Race>Caucasian</Race>
                 <Config>TheHelplessMan</Config>
-                <PawnName>Less Helpless Man</PawnName>
+                <PawnName>Hammer Boy</PawnName>
                 <EquipmentItems>
-                    <ListItem>WoodenStick</ListItem>
+                    <ListItem>WoodenHammer</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
                         <Item>ArterialThreads</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>MedKit</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>MendersMist</Item>
                         <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
@@ -156,7 +166,7 @@
                 <Config>TheHelplessMan</Config>
                 <PawnName>Less Helpless Man</PawnName>
                 <EquipmentItems>
-                    <ListItem>WoodenStick</ListItem>
+                    <ListItem>WoodenHammer</ListItem>
                     <ListItem>LeatherVambrace</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
@@ -280,7 +290,7 @@
             <ListItem>
                 <Race>Caucasian</Race>
                 <Config>TheHelplessMan</Config>
-                <PawnName>Mr. Mace</PawnName>
+                <PawnName>Mr. Mace+</PawnName>
                 <EquipmentItems>
                     <ListItem>Mace</ListItem>
                     <ListItem>LeatherTunic</ListItem>
@@ -311,9 +321,51 @@
             <ListItem>
                 <Race>Caucasian</Race>
                 <Config>TheHelplessMan</Config>
-                <PawnName>The Champ</PawnName>
+                <PawnName>Mr. Mace</PawnName>
                 <EquipmentItems>
                     <ListItem>Mace</ListItem>
+                    <ListItem>BucketHelmet</ListItem>
+                </EquipmentItems>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>MendersMist</Item>
+                        <Amount>2</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </CombatConfigDef>
+    <CombatConfigDef>
+        <Moniker>Combat14</Moniker>
+        <Enemies>
+            <ListItem>
+                <Race>Caucasian</Race>
+                <Config>TheHelplessMan</Config>
+                <PawnName>Mr. Mace</PawnName>
+                <EquipmentItems>
+                    <ListItem>Mace</ListItem>
+                    <ListItem>BucketHelmet</ListItem>
+                </EquipmentItems>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>MedKit</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </CombatConfigDef>
+    <CombatConfigDef>
+        <Moniker>Combat15</Moniker>
+        <Enemies>
+            <ListItem>
+                <Race>Caucasian</Race>
+                <Config>TheHelplessMan</Config>
+                <PawnName>The Champ</PawnName>
+                <EquipmentItems>
+                    <ListItem>ShortSword</ListItem>
                     <ListItem>Mace</ListItem>
                     <ListItem>BucketHelmet</ListItem>
                     <ListItem>LeatherTunic</ListItem>

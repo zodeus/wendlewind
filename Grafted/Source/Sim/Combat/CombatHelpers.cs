@@ -57,14 +57,21 @@ public static class CombatHelpers {
     private static DamageRequest CalculateDamages(Pawn pawn, Item tool, ToolSequenceDef sequence, ToolManeuverDef maneuver) {
         float pawnStrength = pawn.GetStatValue(Defs.Stats.MeleeStrength);
         float toolPower = tool.GetStatValue(Defs.Stats.MeleePower);
-        float rawDamage = Mathf.RoundToInt(maneuver.DamageMultiplier.RandomValue * sequence.DamageMultiplier.RandomValue * toolPower * pawnStrength);
+        float skillPower = 1 + (pawn.GetSkill(tool.ItemDef.ToolType)?.Level / 10f ?? 0);
+        float rawDamage = Mathf.RoundToInt(
+            maneuver.DamageMultiplier.RandomValue
+            * sequence.DamageMultiplier.RandomValue
+            * toolPower
+            * pawnStrength
+            * skillPower
+        );
         //rawDamage *= tool.GetStatValue(Defs.Stats.WeaponDamageMultiplier);
         if (rawDamage < 1) {
             rawDamage = 1;
         }
 
-        DamageRequest request = new();
-        request.RawDamages.Add(new Damage(tool.ItemDef.DamageType, rawDamage));
+        DamageRequest request = new(pawn);
+        request.RawDamages.Add(new Damage(tool.ItemDef.DamageType, tool.ItemDef.ToolType, rawDamage));
         //todo
         /*
         if (tool.ItemDef.InflictableHealthConditions != null) {
@@ -81,19 +88,26 @@ public static class CombatHelpers {
 }
 
 public class Damage {
+    public readonly ToolType ToolType;
     public readonly DamageType Type;
     public readonly float Amount;
     public float UnblockedAmount;
 
-    public Damage(DamageType type, float amount) {
+    public Damage(DamageType type, ToolType toolType, float amount) {
         Type = type;
+        ToolType = toolType;
         Amount = amount;
         UnblockedAmount = amount;
     }
 }
 
 public class DamageRequest {
+    public readonly Pawn Source;
     public List<Damage> RawDamages = new(1);
+
+    public DamageRequest(Pawn source) {
+        Source = source;
+    }
     //public List<HealthConditionDef>? HealthConditions;
 
     public float TotalRawDamage => RawDamages.Sum(damage => damage.Amount);
