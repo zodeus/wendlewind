@@ -157,22 +157,23 @@ public class CombatEvent {
         Pawn playerPawn = PlayerPawns[0];
         playerPawn.Body.BloodAmount = playerPawn.Body.MaxBlood;
 
-        Pawn enemy = EnemyPawns[0];
-        for (int i = enemy.Inventory.Count() - 1; i >= 0; i--) {
-            Item item = enemy.Inventory.Items[i];
-            enemy.Inventory.Items.Remove(item);
-            playerPawn.Inventory.Items.TryAdd(item);
-        }
+        foreach (Pawn enemy in EnemyPawns) {
+            for (int i = enemy.Inventory.Count() - 1; i >= 0; i--) {
+                Item item = enemy.Inventory.Items[i];
+                enemy.Inventory.Items.Remove(item);
+                playerPawn.Inventory.Items.TryAdd(item);
+            }
 
-        foreach ((BodyPart? bodyPart, var slots) in enemy.Equipment.Slots) {
-            foreach (EquipmentSlotType slot in slots) {
-                if (slot is EquipmentSlotType.BuiltIn) {
-                    continue;
-                }
+            foreach ((BodyPart? bodyPart, var slots) in enemy.Equipment.Slots) {
+                foreach (EquipmentSlotType slot in slots) {
+                    if (slot is EquipmentSlotType.BuiltIn) {
+                        continue;
+                    }
 
-                Item? item = enemy.Equipment.UnEquip(bodyPart, slot);
-                if (item != null) {
-                    playerPawn.Inventory.Items.TryAdd(item);
+                    Item? item = enemy.Equipment.UnEquip(bodyPart, slot);
+                    if (item != null) {
+                        playerPawn.Inventory.Items.TryAdd(item);
+                    }
                 }
             }
         }
@@ -183,6 +184,7 @@ public class CombatEvent {
                     playerPawn.Inventory.Items.TryAdd(item);
                 }
             }
+
             foreach (BodyPart externalPart in part.ExternalParts) {
                 TakePartEquipment(externalPart);
             }
@@ -191,7 +193,7 @@ public class CombatEvent {
         foreach (BodyPart part in SeveredLimbs) {
             TakePartEquipment(part);
         }
-        
+
         if (Core.Sim.World.TotalKills == 10) {
             Core.Sim.GameSpeed = .2f; //todo THIS IS JUNK
         }

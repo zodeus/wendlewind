@@ -92,9 +92,8 @@ public class CombatTurn {
                     }
 
                     CombatSequence sequence = usableSequences.RandomElementByWeight(combatSequence => {
-                        float totalRawDamage = combatSequence.Steps.Sum(step => step.Damages.TotalRawDamage);
-                        return totalRawDamage;
-                        //todo healthcondition
+                        return combatSequence.Steps.Sum(step => step.Damages.TotalRawDamage);
+                        //todo health conditions
                         //float conditionMultiplier = combatSequence.Steps.Any(step => step.Damages.InflictsConditions) ? 100 : 1;
                         //return totalRawDamage * conditionMultiplier;
                     })!;

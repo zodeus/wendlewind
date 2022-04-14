@@ -202,11 +202,13 @@
                     </ListItem>
                 </InventoryItems>
                 <BodyModifications>
+                    <LimbsToSevere>
                         <ListItem>
                             <RootLimb>HumanHead</RootLimb>
                             <Socket>LeftEyeSocket</Socket>
                             <Seal>true</Seal>
                         </ListItem>
+                    </LimbsToSevere>
                 </BodyModifications>
             </ListItem>
         </Enemies>

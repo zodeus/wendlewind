@@ -9,7 +9,7 @@ using Grafted.Sim.Entities.Pawns;
 namespace Grafted.Sim.Combat;
 
 public class CombatConfigDef : Def {
-    public List<CombatConfigEnemyRecord> Enemies;
+    public List<CombatConfigEnemyRecord> Enemies = new();
 }
 
 public class CombatConfigEnemyRecord {
@@ -18,10 +18,14 @@ public class CombatConfigEnemyRecord {
     public string PawnName = null;
     public List<ItemDef> EquipmentItems = new();
     public List<ItemDropCount> InventoryItems = new();
-    public List<BodyModificationRecord> BodyModifications = new();
+    public BodyModificationRecord BodyModifications = new();
 }
 
 public class BodyModificationRecord {
+    public List<SevereLimbRequest> LimbsToSevere = new();
+}
+
+public class SevereLimbRequest {
     public BodyPartDef RootLimb = null!;
     public BodyPartSocketDef Socket = null!;
     public bool Seal = true;
@@ -33,9 +37,10 @@ public static class CombatGenerator {
         Pawn playerPawn = playerPawns[0];
         CombatEvent combatEvent = new();
         //combatEvent.IsInteractive = true;
+        combatEvent.AddPlayerPawn(playerPawn);
+        
         CombatConfigDef combatConfig = DefRepository<CombatConfigDef>.GetByMoniker($"Combat{nextCombatId}")!;
         foreach (CombatConfigEnemyRecord enemyConfig in combatConfig.Enemies) {
-            combatEvent.AddPlayerPawn(playerPawn);
             Pawn pawn = PawnGenerator.CreatePawn(new PawnRequest(
                 enemyConfig.Race,
                 enemyConfig.Config
@@ -50,19 +55,16 @@ public static class CombatGenerator {
             combatEvent.AddEnemyPawn(pawn);
         }
 
-
         return combatEvent;
     }
 
-    private static void ApplyBodyModifications(Pawn pawn, List<BodyModificationRecord> modifications) {
-        foreach (BodyModificationRecord modification in modifications) {
-            BodyPart rootPart = pawn.Body.AllExternalParts.First(p => p.BodyPartDef == modification.RootLimb);
-            BodyPart targetLimb = rootPart.ExternalParts.First(p => p.Socket?.Def == modification.Socket);
+    private static void ApplyBodyModifications(Pawn pawn, BodyModificationRecord modifications) {
+        foreach (SevereLimbRequest severeLimbRequest in modifications.LimbsToSevere) {
+            BodyPart rootPart = pawn.Body.AllExternalParts.First(p => p.BodyPartDef == severeLimbRequest.RootLimb);
+            BodyPart targetLimb = rootPart.ExternalParts.First(p => p.Socket?.Def == severeLimbRequest.Socket);
             BodyPartSocket socket = targetLimb.Socket!;
             targetLimb.Severe();
-            socket.IsSealed = modification.Seal;
+            socket.IsSealed = severeLimbRequest.Seal;
         }
     }
-
-    private static void ApplyBodyModifications() { }
 }

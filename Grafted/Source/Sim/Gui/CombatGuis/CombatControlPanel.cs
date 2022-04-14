@@ -34,7 +34,8 @@ public class CombatControlPanel : VerticalStackPanel {
                 pauseButton,
                 CreateSpeedButton("1x", .2f),
                 CreateSpeedButton("2x", .1f),
-                CreateSpeedButton("4x", .01f)
+                CreateSpeedButton("4x", .01f),
+                CreateSpeedButton("∞", .0f)
             }
         };
 
