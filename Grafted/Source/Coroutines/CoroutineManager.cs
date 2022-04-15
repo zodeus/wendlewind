@@ -156,7 +156,6 @@ public class CoroutineManager /*: GlobalManager */ {
         }
 
 #if DEBUG
-
         // deprecation warning for yielding an int/float
         if (coroutine.Enumerator.Current is int) {
             Log.Error("yield Coroutine.waitForSeconds instead of an int. Yielding an int will not work in a release build.");
@@ -179,5 +178,10 @@ public class CoroutineManager /*: GlobalManager */ {
             // This coroutine yielded some value we don't understand. run it next frame.
             return true;
         }
+    }
+
+    public void Clear() {
+        _unblockedCoroutines.Clear();
+        _shouldRunNextFrame.Clear();
     }
 }

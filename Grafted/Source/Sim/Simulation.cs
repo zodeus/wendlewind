@@ -30,6 +30,26 @@ public class Simulation {
         if (Input.IsKeyPressed(Keys.D0)) {
             Core.Sim.GameSpeed = 0;
         }
+
+        if (Input.IsKeyPressed(Keys.D1)) {
+            Core.Sim.GameSpeed = .5f;
+        }
+
+        if (Input.IsKeyPressed(Keys.D2)) {
+            Core.Sim.GameSpeed = .25f;
+        }
+
+        if (Input.IsKeyPressed(Keys.D3)) {
+            Core.Sim.GameSpeed = .12f;
+        }
+
+        if (Input.IsKeyPressed(Keys.D4)) {
+            Core.Sim.GameSpeed = .06f;
+        }
+
+        if (Input.IsKeyPressed(Keys.F2)) {
+            ((GameScene) Core.Scene.ActiveScene!).QuickPlay();
+        }
     }
 
     public void TogglePause() {

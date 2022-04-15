@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Definitions>
+    <TraitDef>
+        <Moniker>ImThugginIt</Moniker>
+        <Label>I'm Thuggin' It</Label>
+        <Description>Likes to fight up close with a knife.</Description>
+    </TraitDef>
+    <TraitDef>
+        <Moniker>TenderMeat</Moniker>
+        <Label>Tender Meat</Label>
+        <Description>Maces are perfect tool for tenderizing.</Description>
+    </TraitDef>
+    <TraitDef>
+        <Moniker>TheForeman</Moniker>
+        <Label>The Foreman</Label>
+        <Description>Knows how to use a fine tool.</Description>
+    </TraitDef>
+    <TraitDef>
+        <Moniker>SteadyHands</Moniker>
+        <Label>Steady Hands</Label>
+        <Description>Perhaps he was a Dr. in some past life?</Description>
+    </TraitDef>
+    <TraitDef>
+        <Moniker>WarHero</Moniker>
+        <Label>War Hero</Label>
+        <Description>The past haunts him...</Description>
+    </TraitDef>
+</Definitions>

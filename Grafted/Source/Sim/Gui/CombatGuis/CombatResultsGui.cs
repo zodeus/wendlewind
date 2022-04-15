@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Windows.Forms;
 using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Combat;
@@ -11,6 +12,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Myra.Graphics2D;
 using Myra.Graphics2D.UI;
+using HorizontalAlignment = Myra.Graphics2D.UI.HorizontalAlignment;
+using Keys = Microsoft.Xna.Framework.Input.Keys;
+using Label = Myra.Graphics2D.UI.Label;
 
 namespace Grafted.Sim.Gui.CombatGuis;
 
@@ -37,6 +41,16 @@ public class CombatResultsGui : SimulationGui {
         _inventoryPanel = new PawnInventoryPanel(
             playerPawn.Inventory,
             entity => {
+                if (Core.Sim.Gui!.MouseAttachment == null && Input.IsKeyDown(Keys.LeftShift)) {
+                    if (entity is not Item item || item.Def.Moniker == "Cauterize") {
+                        return;
+                    }
+
+                    playerPawn.Inventory.Items.Remove(item);
+                    item.Destroy();
+                    return;
+                }
+
                 Core.Sim.Gui!.MouseAttachment = new MouseAttachment(entity.Icon, updateAction: attachment => {
                     if (Input.RightMouseButtonPressed) attachment.Detach();
                 }) {
@@ -132,10 +146,10 @@ public class CombatResultsGui : SimulationGui {
                 MouseAttachment.Detach();
             }
 
-            float mistJuice = 200;
+            int mistJuice = 200;
 
-            float UpdateHealth(BodyPart bodyPart) {
-                float currentHealth = bodyPart.HitPoints;
+            int UpdateHealth(BodyPart bodyPart) {
+                int currentHealth = bodyPart.HitPoints;
                 bodyPart.HitPoints += Math.Min(bodyPart.MaxHitPoints - bodyPart.HitPoints, mistJuice);
                 return bodyPart.HitPoints - currentHealth;
             }

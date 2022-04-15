@@ -1,20 +1,48 @@
 using Grafted.Definitions;
+using Grafted.Sim.Combat;
 
 namespace Grafted.Sim.Entities.Items;
 
 public class Item : Entity {
     public ItemDef ItemDef => (ItemDef) Def;
-    public float Durability = 0;
+    private float _durability;
+    public float MaxDurability = 0;
+    public float Durability => _durability;
     public int StackSize;
     public override string Label => IsStackable ? $"{Def.Label} x{StackSize}" : Def.Label;
     public bool IsStackable => ItemDef.StackLimit > 1;
 
     public override void Initialize() {
-        Durability = this.GetStatValue(Defs.Stats.Durability);
+        MaxDurability = this.GetStatValue(Defs.Stats.MaxDurability);
+        _durability = MaxDurability;
+
         base.Initialize();
     }
 
     public bool CanBeUsedFor(ToolCategory toolCategory) {
         return ItemDef.ToolCategories.Contains(toolCategory);
+    }
+
+    public void ApplyDurabilityLoss(Damage damage) {
+        _durability -= Core.Random.Next(1, 5);
+        if (_durability <= 0) {
+            Destroy();
+        }
+    }
+
+    public void ApplyDurabilityLoss(Item? armorHit) {
+        if (ItemDef.EquipmentProperties.SlotUsedToEquip == EquipmentSlotType.BuiltIn) {
+            return;
+        }
+
+        if (armorHit != null) {
+            _durability -= Core.Random.Next(1, 10);
+        }
+
+        _durability -= Core.Random.Next(1, 2);
+
+        if (_durability <= 0) {
+            Destroy();
+        }
     }
 }

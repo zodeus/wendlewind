@@ -10,11 +10,11 @@ namespace Grafted.Sim.Entities.Pawns;
 public class BodyPart : Entity {
     public List<BodyPartSocket> Sockets = new();
 
-    private float _hitPoints;
+    private int _hitPoints;
 
     private bool _isSevered; // todo, this should be set by an applied health condition
 
-    public float MaxHitPoints;
+    public int MaxHitPoints;
 
     //public List<HealthCondition> HealthConditions = new();
 
@@ -25,7 +25,7 @@ public class BodyPart : Entity {
     public BodyPartDef BodyPartDef => (BodyPartDef) Def;
     public BodyPartType Type => BodyPartDef.BodyPartType;
     public float Size => BodyPartDef.Size;
-    public float HealthPercent => HitPoints / MaxHitPoints;
+    public float HealthPercent => (float) HitPoints / MaxHitPoints;
     public bool IsExternal => Socket?.IsExternal ?? true;
     public bool IsBone => BodyPartDef.IsBone;
     public bool IsVital => BodyPartDef.IsVital;
@@ -41,7 +41,7 @@ public class BodyPart : Entity {
 
     public bool HasEquipmentSlots => BodyPartDef.EquipmentSlots?.Count > 0;
 
-    public float HitPoints {
+    public int HitPoints {
         get => _hitPoints;
         set => _hitPoints = Mathf.Clamp(value, 0, MaxHitPoints);
     }
@@ -156,13 +156,15 @@ public class BodyPart : Entity {
         }
     }
 
-    public IEnumerable<Item> Armor {
+    public Item? Armor {
         get {
             foreach (Item? item in Equipment.Values) {
                 if (item?.ItemDef.EquipmentProperties.EquipmentType == EquipmentType.Armor) {
-                    yield return item;
+                    return item;
                 }
             }
+
+            return null;
         }
     }
 
@@ -170,7 +172,7 @@ public class BodyPart : Entity {
 
     public override void Initialize() {
         base.Initialize();
-        MaxHitPoints = this.GetStatValue(Defs.Stats.MaxHitPoints);
+        MaxHitPoints = (int) this.GetStatValue(Defs.Stats.MaxHitPoints);
         HitPoints = MaxHitPoints;
 
         //Register Sockets
@@ -238,9 +240,9 @@ public class BodyPart : Entity {
             }
         }
 
-        float partDamage = damage.UnblockedAmount;
+        int partDamage = damage.UnblockedAmount;
         if (damage.Type == DamageType.Blunt && IsBone) {
-            partDamage *= 1.5f;
+            partDamage = Mathf.RoundToInt(partDamage * 1.5f);
         }
 
         HitPoints -= partDamage;
@@ -303,4 +305,15 @@ public class BodyPart : Entity {
     }
 
     #endregion
+
+    public Item? UnEquip(Item itemToUnEquip) {
+        foreach ((EquipmentSlotType slot, Item? item) in Equipment) {
+            if (item == itemToUnEquip) {
+                Equipment[slot] = null;
+                return item;
+            }
+        }
+
+        return null;
+    }
 }

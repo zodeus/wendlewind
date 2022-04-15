@@ -2,6 +2,7 @@
 
 <Definitions>
     <ItemDef Name="WeaponBase" ParentName="EquipmentTool" Abstract="true">
+        <UiClass>WeaponPanel</UiClass>
     </ItemDef>
     <ItemDef Name="WeaponBlunt" ParentName="WeaponBase" Abstract="true">
         <DamageType>Blunt</DamageType>
@@ -24,6 +25,7 @@
         <TexturePath>Entities/Item/Equipment/Weapon/Blunt/WoodenStick</TexturePath>
         <BaseStats>
             <MeleePower>4</MeleePower>
+            <MaxDurability>80</MaxDurability>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponSharp">
@@ -41,6 +43,7 @@
         <TexturePath>Entities/Item/Equipment/Weapon/Blunt/WoodenHammer</TexturePath>
         <BaseStats>
             <MeleePower>15</MeleePower>
+            <MaxDurability>200</MaxDurability>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponSharp">
@@ -58,6 +61,7 @@
         <TexturePath>Entities/Item/Equipment/Weapon/Sharp/BasicKnife</TexturePath>
         <BaseStats>
             <MeleePower>20</MeleePower>
+            <MaxDurability>400</MaxDurability>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponSharp">
@@ -75,6 +79,7 @@
         <TexturePath>Entities/Item/Equipment/Weapon/Blunt/Mace</TexturePath>
         <BaseStats>
             <MeleePower>30</MeleePower>
+            <MaxDurability>800</MaxDurability>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponSharp">
@@ -91,7 +96,8 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Sharp/ShortSword</TexturePath>
         <BaseStats>
-            <MeleePower>50</MeleePower>
+            <MeleePower>45</MeleePower>
+            <MaxDurability>800</MaxDurability>
         </BaseStats>
     </ItemDef>
 </Definitions>

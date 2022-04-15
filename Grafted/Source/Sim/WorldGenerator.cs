@@ -1,10 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Grafted.Definitions;
-using Grafted.Sim.Entities;
-using Grafted.Sim.Entities.Items;
+﻿using Grafted.Definitions;
 using Grafted.Sim.Entities.Pawns;
-using Grafted.Utils;
 
 namespace Grafted.Sim;
 

@@ -14,6 +14,7 @@ namespace Grafted.Sim.Entities.Pawns;
 public class Pawn : Entity {
     public RaceDef Race = null!;
     public PawnBiography Biography = null!;
+    public PawnTraits Traits = null!;
     public PawnBrain Brain = null!;
     public PawnBody Body = null!;
     public PawnHealth Health = null!;
@@ -37,6 +38,7 @@ public class Pawn : Entity {
 
     public override void Initialize() {
         Biography = new PawnBiography(this);
+        Traits = new PawnTraits(this);
         Brain = new PawnBrain(this);
         Body = new PawnBody(this);
         Health = new PawnHealth(this);
@@ -67,19 +69,34 @@ public class Pawn : Entity {
 
         DamageResponse response = new();
         foreach (Damage damage in request.RawDamages) {
+            DamageRecord damageRecord = new(damage.Type, bodyPart, damage.Amount, damage.UnblockedAmount);
             request.Source.GetSkill(damage.ToolType)?.Learn(1);
-            float amountToApply = damage.Amount;
-            if (damage.Type.IsPhysicalDamage()) {
+            int amountToApply = damage.Amount;
 
-                var bodyPartArmor = bodyPart.Type is BodyPartType.Finger or BodyPartType.Thumb ? bodyPart.Socket.ParentPart!.Armor : bodyPart.Armor;
-                foreach (Item armor in bodyPartArmor) {
-                    damage.UnblockedAmount = Mathf.Clamp(amountToApply - armor.GetStatValue(Defs.Stats.PhysicalResistance), 0, damage.Amount);
+
+            // Handle Armor
+            Item? bodyPartEquipment = bodyPart.Type is BodyPartType.Finger or BodyPartType.Thumb ? bodyPart.Socket!.ParentPart!.Armor : bodyPart.Armor;
+            if (bodyPartEquipment != null) {
+                if (damage.Type.IsPhysicalDamage())
+                    bodyPartEquipment.ApplyDurabilityLoss(damage);
+                if (bodyPartEquipment.IsDestroyed) {
+                    damageRecord.DestroyedEquipment.Add(new DestroyedItemRecord(bodyPartEquipment.ItemDef));
+                    bodyPart.UnEquip(bodyPartEquipment);
                 }
+
+                damage.UnblockedAmount = Mathf.Clamp(amountToApply - (int) bodyPartEquipment.GetStatValue(Defs.Stats.PhysicalResistance), 0, damage.Amount);
             }
 
-            List<DamagedPartRecord> damagedParts = bodyPart.ApplyDamage(damage);
-            response.Damages.Add(new DamageRecord(damage.Type, bodyPart, damagedParts, damage.Amount, damage.UnblockedAmount));
-            if (damagedParts.Any(p => p.IsVital && (p.WasDestroyed || p.WasSevered))) {
+            //Handle Weapon Durability
+            damage.Tool.ApplyDurabilityLoss(bodyPartEquipment);
+            if (damage.Tool.IsDestroyed) {
+                damageRecord.DestroyedEquipment.Add(new DestroyedItemRecord(damage.Tool.ItemDef));
+                request.Source.Equipment.UnEquip(damage.Tool);
+            }
+
+            damageRecord.BodyParts = bodyPart.ApplyDamage(damage);
+            response.Damages.Add(damageRecord);
+            if (damageRecord.BodyParts.Any(p => p.IsVital && (p.WasDestroyed || p.WasSevered))) {
                 IsDead = true;
                 response.Killed = true;
                 break;

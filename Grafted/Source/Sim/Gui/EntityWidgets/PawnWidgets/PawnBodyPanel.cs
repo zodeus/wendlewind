@@ -9,41 +9,6 @@ using Color = Microsoft.Xna.Framework.Color;
 
 namespace Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 
-public class PawnBodySummary : Grid {
-    private readonly Dictionary<BodyPart, Image> _bodyParts;
-
-    public PawnBodySummary(PawnBody body) {
-        //ShowGridLines = true;
-        _bodyParts = new Dictionary<BodyPart, Image>();
-        ColumnSpacing = 5;
-        Padding = new Thickness(6, 6, 6, 6);
-        //Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
-        int gridColumn = 0;
-        var partsToIgnore = new List<BodyPartType> {
-            BodyPartType.Finger, BodyPartType.Thumb, BodyPartType.Foot
-        };
-        int gridRow = 0;
-        foreach (BodyPart part in body.AllExternalParts) {
-            if (partsToIgnore.Contains(part.Type)) { continue; }
-
-            Image image = new() { Background = new ColoredRegion(new TextureRegion(part.Icon), Color.White), Width = 24, Height = 24, GridRow = gridRow, GridColumn = gridColumn++ };
-            _bodyParts.Add(part, image);
-            AddChild(image);
-            if (gridColumn > 5) {
-                gridColumn = 0;
-                gridRow++;
-            }
-        }
-    }
-
-    public void Update() {
-        foreach ((BodyPart bodyPart, Image image) in _bodyParts) {
-            Color color = bodyPart.IsFunctional || bodyPart.HitPoints <= 0 ? Color.Lerp(Color.Red, Color.LimeGreen, bodyPart.HealthPercent) : new Color(50, 50, 50);
-            ((ColoredRegion) image.Background).Color = color;
-        }
-    }
-}
-
 public class PawnBodyPanel : VerticalStackPanel {
     private readonly PawnBody _body;
     private readonly List<BodyPartSocketPanel> _socketPanels;
@@ -69,7 +34,10 @@ public class PawnBodyPanel : VerticalStackPanel {
                 },
                 Widgets = {
                     _scrollBody,
-                    _pawnSkillsPanel
+                    new VerticalStackPanel {
+                        Spacing = 20, Margin = new Thickness(0, 0, 15, 0),
+                        Widgets = { new PawnTraitsPanel(_body.Pawn.Traits), _pawnSkillsPanel }
+                    }
                 }
             }
         });
@@ -138,26 +106,10 @@ public class PawnBodyPanel : VerticalStackPanel {
             BodyPart = bodyPart;
             AddChild(_label);
             foreach (BodyPart internalPart in bodyPart.AllInternalParts) {
-                Image image = new() { Background = new ColoredRegion(new TextureRegion(internalPart.Icon), Color.White), Width = 20, Height = 20 };
+                Image image = new() { Background = new ColoredRegion(new TextureRegion(internalPart.Icon), BodyPartColor.Get(bodyPart)), Width = 20, Height = 20 };
                 _internalParts.Add(internalPart, image);
                 AddChild(image);
             }
-        }
-
-        private Color GetFillerColor(BodyPart part, float value) {
-            if (part.IsDestroyed) {
-                return new Color(225, 0, 0);
-            }
-
-            if (part.HasMobility == false) {
-                return new Color(50, 50, 50);
-            }
-
-            if (part.IsFunctional == false) {
-                return new Color(50, 50, 50);
-            }
-
-            return Color.Lerp(new Color(255, 100, 0), new Color(200, 200, 200), value);
         }
 
         public void Update() {
@@ -166,9 +118,9 @@ public class PawnBodyPanel : VerticalStackPanel {
             }
 
             _label.Text = $"{BodyPart.Type}";
-            _label.TextColor = GetFillerColor(BodyPart, BodyPart.HealthPercent);
-            foreach ((BodyPart bodyPart, Image image) in _internalParts) {
-                ((ColoredRegion) image.Background).Color = GetFillerColor(bodyPart, bodyPart.HealthPercent);
+            _label.TextColor = BodyPartColor.Get(BodyPart);
+            foreach ((BodyPart internalPart, Image image) in _internalParts) {
+                ((ColoredRegion) image.Background).Color = BodyPartColor.Get(internalPart);
             }
         }
     }
@@ -197,19 +149,6 @@ public class PawnBodyPanel : VerticalStackPanel {
 
             AddChild(_bodyPartPanel);
         }
-
-        private Color GetFillerColor() {
-            if (Socket.IsSealed == false) {
-                return new Color(225, 0, 0);
-            }
-
-            if (Socket.ParentPart?.IsFunctional == false) {
-                return new Color(50, 50, 50);
-            }
-
-            return Color.White;
-        }
-
         public void Update() {
             if (Socket.AttachedPart == null && _socketLabel.Visible == false) {
                 _socketLabel.Visible = true;
@@ -227,7 +166,7 @@ public class PawnBodyPanel : VerticalStackPanel {
             }
 
             _bodyPartPanel.Update();
-            _socketLabel.TextColor = GetFillerColor();
+            _socketLabel.TextColor = BodyPartColor.Get(Socket);
         }
     }
 }

@@ -22,7 +22,7 @@ public static partial class Defs {
         public static StatDef HealingValue = null!;
         public static StatDef MeleeChanceToHit = null!;
         public static StatDef PhysicalResistance = null!;
-        public static StatDef Durability = null!;
+        public static StatDef MaxDurability = null!;
     }
 }
 

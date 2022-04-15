@@ -180,7 +180,10 @@ public class Core : Game {
     public static ICoroutine StartCoroutine(IEnumerator enumerator) {
         return Instance._coroutineManager.StartCoroutine(enumerator);
     }
-
+    
+    public static void ClearCoroutines() {
+        Instance._coroutineManager.Clear();
+    }
     /// <summary>
     /// schedules a one-time or repeating timer that will call the passed in Action
     /// </summary>

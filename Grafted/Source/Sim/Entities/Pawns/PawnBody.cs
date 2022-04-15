@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Grafted.Definitions;
+using Grafted.Maths;
 using Grafted.Sim.Entities.Items;
 
 namespace Grafted.Sim.Entities.Pawns;
@@ -154,13 +155,13 @@ public class BodyPartSocket {
 
         //todo not sure if this should happen here...
         if (bodyPart.Type is BodyPartType.Skin) {
-            bodyPart.MaxHitPoints = .7f * ParentPart!.GetStatValue(Defs.Stats.MaxHitPoints);
+            bodyPart.MaxHitPoints = Mathf.FloorToInt(.7f * ParentPart!.GetStatValue(Defs.Stats.MaxHitPoints));
             bodyPart.HitPoints = bodyPart.MaxHitPoints;
         }
 
         //todo not sure if this should happen here...
         if (bodyPart.Type is BodyPartType.Bone) {
-            bodyPart.MaxHitPoints = .85f * ParentPart!.GetStatValue(Defs.Stats.MaxHitPoints);
+            bodyPart.MaxHitPoints = Mathf.FloorToInt(.85f * ParentPart!.GetStatValue(Defs.Stats.MaxHitPoints));
             bodyPart.HitPoints = bodyPart.MaxHitPoints;
         }
 

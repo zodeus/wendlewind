@@ -14,6 +14,7 @@ public class GameScene : Scene {
     }
 
     public void QuickPlay() {
+        Core.ClearCoroutines();
         Core.Sim.World = WorldGenerator.GenerateNewWorld();
         Core.Sim.Gui = new CombatGui(Core.Sim.World.NextCombat());
     }

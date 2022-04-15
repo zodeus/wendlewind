@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Grafted.Sim.Entities.Pawns;
 using Microsoft.Xna.Framework;
+using Myra.Graphics2D;
 using Myra.Graphics2D.UI;
+using Myra.Graphics2D.UI.Styles;
 
 namespace Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 
@@ -11,16 +13,18 @@ public class PawnSkillsPanel : HorizontalStackPanel {
 
     public PawnSkillsPanel(PawnSkills skills) {
         Spacing = 20;
+        Padding = new Thickness(15);
+        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.Red];
         var combatSkills = new Grid {
             RowSpacing = 15,
             ColumnSpacing = 25,
             DefaultColumnProportion = Proportion.Auto,
             DefaultRowProportion = Proportion.Auto
         };
-        combatSkills.AddChild(new Label(BaseContent.Styles.Label.Medium) { Text = "Arms Skills", GridRow = 0, GridColumn = 0, GridColumnSpan = 3 });
-        combatSkills.AddChild(new Label() { Text = "LVL", GridRow = 1, GridColumn = 1 });
-        combatSkills.AddChild(new Label() { Text = "XP", GridRow = 1, GridColumn = 2, HorizontalAlignment = HorizontalAlignment.Center });
-        int gridRow = 2;
+        combatSkills.AddChild(new Label() { Text = "Skills", GridRow = 0, GridColumn = 0 });
+        combatSkills.AddChild(new Label() { Text = "LVL", GridRow = 0, GridColumn = 1 });
+        combatSkills.AddChild(new Label() { Text = "XP", GridRow = 0, GridColumn = 2, HorizontalAlignment = HorizontalAlignment.Center });
+        int gridRow = 1;
         foreach (Skill skill in skills.Where(skill => skill.SkillType == SkillType.Arms).OrderBy(skill => skill.Def.Label)) {
             _skillList[skill] = new SkillPanelRow(skill, combatSkills, gridRow++);
         }

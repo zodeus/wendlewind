@@ -157,6 +157,15 @@ public class CombatEvent {
         Pawn playerPawn = PlayerPawns[0];
         playerPawn.Body.BloodAmount = playerPawn.Body.MaxBlood;
 
+
+        void AddToInventory(Item? i) {
+            if (i == null) { return; }
+
+            if (playerPawn.Inventory.Count(it => it.Def == i.Def) < 2) {
+                playerPawn.Inventory.Items.TryAdd(i);
+            }
+        }
+
         foreach (Pawn enemy in EnemyPawns) {
             for (int i = enemy.Inventory.Count() - 1; i >= 0; i--) {
                 Item item = enemy.Inventory.Items[i];
@@ -170,10 +179,7 @@ public class CombatEvent {
                         continue;
                     }
 
-                    Item? item = enemy.Equipment.UnEquip(bodyPart, slot);
-                    if (item != null) {
-                        playerPawn.Inventory.Items.TryAdd(item);
-                    }
+                    AddToInventory(enemy.Equipment.UnEquip(bodyPart, slot));
                 }
             }
         }
@@ -181,7 +187,8 @@ public class CombatEvent {
         void TakePartEquipment(BodyPart part) {
             foreach ((EquipmentSlotType _, Item? item) in part.Equipment) {
                 if (item != null && item.ItemDef.EquipmentProperties.SlotUsedToEquip != EquipmentSlotType.BuiltIn) {
-                    playerPawn.Inventory.Items.TryAdd(item);
+                    part.Equipment[item.ItemDef.EquipmentProperties.SlotUsedToEquip!.Value] = null;
+                    AddToInventory(item);
                 }
             }
 
@@ -202,7 +209,7 @@ public class CombatEvent {
             if (part.HealthPercent >= .97) { continue; }
 
             if (part.Type == BodyPartType.Skin) {
-                part.HitPoints += part.MaxHitPoints * Core.Random.NextFloat(0.10f, 0.25f);
+                part.HitPoints += Mathf.FloorToInt(part.MaxHitPoints * Core.Random.NextFloat(0.10f, 0.25f));
                 continue;
             }
 
@@ -214,7 +221,7 @@ public class CombatEvent {
                 continue;
             }
 
-            part.HitPoints += part.MaxHitPoints * Core.Random.NextFloat(0.03f, 0.08f);
+            part.HitPoints += Mathf.FloorToInt(part.MaxHitPoints * Core.Random.NextFloat(0.03f, 0.08f));
         }
     }
 }

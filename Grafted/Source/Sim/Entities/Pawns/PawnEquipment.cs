@@ -82,6 +82,17 @@ public class PawnEquipment : IEnumerable<Item>, IExposable {
         return unequippedItem;
     }
 
+    public Item? UnEquip(Item item) {
+        foreach ((BodyPart? bodyPart, var slots) in Slots) {
+            foreach (EquipmentSlotType slot in slots) {
+                if (item == bodyPart.Equipment[slot]) {
+                    return UnEquip(bodyPart, slot);
+                }
+            }
+        }
+
+        return null;
+    }
 
     public Item? UnEquip(BodyPart bodyPart, EquipmentSlotType slot) {
         Item? item = GetBySlot(bodyPart, slot);

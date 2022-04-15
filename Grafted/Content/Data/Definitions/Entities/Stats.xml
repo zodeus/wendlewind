@@ -16,8 +16,8 @@
         <MaxValue>100</MaxValue>
     </StatDef>
     <StatDef>
-        <Moniker>Durability</Moniker>
-        <Label>Durability</Label>
+        <Moniker>MaxDurability</Moniker>
+        <Label>MaxDurability</Label>
         <BaseValue>1</BaseValue>
         <MinValue>1</MinValue>
     </StatDef>

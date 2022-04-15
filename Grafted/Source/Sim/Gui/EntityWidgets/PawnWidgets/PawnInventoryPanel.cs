@@ -34,6 +34,7 @@ public class PawnInventoryPanel : Grid {
             Mouse.GetState();
             if (Input.LeftMouseButtonReleased && Core.Sim.Gui!.MouseAttachment?.Data is Item item) {
                 inventory.Items.Remove(item);
+                item.Destroy();
                 Core.Sim.Gui!.MouseAttachment.Detach();
             }
         };

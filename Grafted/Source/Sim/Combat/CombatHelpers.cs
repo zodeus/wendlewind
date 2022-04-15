@@ -58,7 +58,7 @@ public static class CombatHelpers {
         float pawnStrength = pawn.GetStatValue(Defs.Stats.MeleeStrength);
         float toolPower = tool.GetStatValue(Defs.Stats.MeleePower);
         float skillPower = 1 + (pawn.GetSkill(tool.ItemDef.ToolType)?.Level / 10f ?? 0);
-        float rawDamage = Mathf.RoundToInt(
+        int rawDamage = Mathf.RoundToInt(
             maneuver.DamageMultiplier.RandomValue
             * sequence.DamageMultiplier.RandomValue
             * toolPower
@@ -71,7 +71,7 @@ public static class CombatHelpers {
         }
 
         DamageRequest request = new(pawn);
-        request.RawDamages.Add(new Damage(tool.ItemDef.DamageType, tool.ItemDef.ToolType, rawDamage));
+        request.RawDamages.Add(new Damage(tool, rawDamage));
         //todo
         /*
         if (tool.ItemDef.InflictableHealthConditions != null) {
@@ -88,14 +88,15 @@ public static class CombatHelpers {
 }
 
 public class Damage {
-    public readonly ToolType ToolType;
-    public readonly DamageType Type;
-    public readonly float Amount;
-    public float UnblockedAmount;
+    public readonly Item Tool;
+    public ToolType ToolType => Tool.ItemDef.ToolType;
+    public DamageType Type => Tool.ItemDef.DamageType;
 
-    public Damage(DamageType type, ToolType toolType, float amount) {
-        Type = type;
-        ToolType = toolType;
+    public readonly int Amount;
+    public int UnblockedAmount;
+
+    public Damage(Item tool, int amount) {
+        Tool = tool;
         Amount = amount;
         UnblockedAmount = amount;
     }
@@ -122,17 +123,25 @@ public class DamageResponse {
     public DamageResponse() { }
 }
 
+public class DestroyedItemRecord {
+    public readonly ItemDef Def;
+
+    public DestroyedItemRecord(ItemDef def) {
+        Def = def;
+    }
+}
+
 public class DamageRecord {
     public readonly DamageType DamageType;
     public readonly BodyPart BodyPart;
-    public readonly IReadOnlyList<DamagedPartRecord> BodyParts;
+    public IReadOnlyList<DamagedPartRecord> BodyParts = new List<DamagedPartRecord>();
+    public List<DestroyedItemRecord> DestroyedEquipment = new();
     public readonly float RawAmount;
     public readonly float ActualAmount;
 
-    public DamageRecord(DamageType damageType, BodyPart bodyPart, IReadOnlyList<DamagedPartRecord> bodyParts, float rawAmount, float actualAmount) {
+    public DamageRecord(DamageType damageType, BodyPart bodyPart, float rawAmount, float actualAmount) {
         DamageType = damageType;
         BodyPart = bodyPart;
-        BodyParts = bodyParts;
         RawAmount = rawAmount;
         ActualAmount = actualAmount;
     }

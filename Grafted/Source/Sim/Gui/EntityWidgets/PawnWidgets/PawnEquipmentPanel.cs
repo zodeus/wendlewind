@@ -45,7 +45,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel {
         public EquipmentColumn(BodyPart bodyPart, List<EquipmentSlotType> slots, Action<BodyPart, EquipmentSlotType>? clickAction = null) {
             _bodyPart = bodyPart;
             ClickAction = clickAction;
-            _image = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.Icon), Color.White), Width = 32, Height = 32 };
+            _image = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.Icon), BodyPartColor.Get(bodyPart)), Width = 32, Height = 32 };
             AddChild(_image);
             foreach (EquipmentSlotType slot in slots) {
                 ImageButton slotFrame = new(BaseContent.Styles.Button.Icon) { Width = 32, Height = 32 };
@@ -53,7 +53,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel {
                 slotFrame.Click += (_, _) => {
                     ClickAction?.Invoke(bodyPart, slot);
                     if (bodyPart.Equipment[slot] is { } item) {
-                        slotFrame.Image = new TextureRegion(item.Icon);
+                        slotFrame.Image = new ColoredRegion(new TextureRegion(item.Icon), GetEquipmentColor(item));
                     }
                 };
                 AddChild(slotFrame);
@@ -63,17 +63,26 @@ public class PawnEquipmentPanel : HorizontalStackPanel {
         public void Update() {
             foreach ((EquipmentSlotType slot, ImageButton? image) in _slots) {
                 if (_bodyPart.Equipment[slot] is { } item) {
-                    image.Image = new TextureRegion(item.Icon);
+                    if (image.Image == null) {
+                        image.Image = new ColoredRegion(new TextureRegion(item.Icon), GetEquipmentColor(item));
+                    }
+
+                    ((ColoredRegion) image.Image).Color = GetEquipmentColor(item);
                 }
                 else {
                     image.Image = null;
                 }
             }
 
-            if (_bodyPart.IsDestroyed) {
-                Color color = _bodyPart.IsDestroyed || _bodyPart.HasMobility == false ? new Color(160, 0, 0) : Color.White;
-                ((ColoredRegion) _image.Background).Color = color;
-            }
+            ((ColoredRegion) _image.Background).Color = BodyPartColor.Get(_bodyPart);
         }
+    }
+
+    private static Color GetEquipmentColor(Item item) {
+        if (item.IsDestroyed) {
+            return Color.Black;
+        }
+
+        return Color.Lerp(Color.Black, Color.White, item.Durability / item.MaxDurability);
     }
 }

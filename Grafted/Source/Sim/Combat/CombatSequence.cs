@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Grafted.Coroutines;
+using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
 
 namespace Grafted.Sim.Combat;
@@ -17,6 +18,7 @@ public class
 
     public static string TextColorPawn = "#fa00ff";
     public static string TextColorBodyPart = "#ff0085";
+    public static string TextColorEquipment = "#0071ad";
     public static string TextColorEnemyPawn = "#ff4000";
     public static string TextColorDefault = "#b3b3b3";
     public static string TextColorSettlement = "#a600ff";
@@ -45,9 +47,14 @@ public class
                         $"\\c[#b3b3b3]) for \\c[#ff0000]{damageResult.ActualAmount} \\c[#b3b3b3](\\c[#fa9000]{damageResult.DamageType}\\c[#b3b3b3]) health, " +
                         $"blocked \\c[#00e6ff]{damageResult.AmountBlocked}"
                     );
+
+                    foreach (DestroyedItemRecord itemRecord in damageResult.DestroyedEquipment) {
+                        combatEvent.LogMessage($"          \\c[{TextColorEquipment}]{itemRecord.Def.Label} \\c[{TextColorRed}]destroyed");
+                    }
+
                     foreach (DamagedPartRecord partRecord in damageResult.BodyParts) {
                         if (partRecord.WasDestroyed && partRecord.IsVital == false) {
-                            combatEvent.LogMessage($"          \\c[{TextColorRed}]\\c[{TextColorBodyPart}]{partRecord.Label} \\c[{TextColorRed}]destroyed");
+                            combatEvent.LogMessage($"          \\c[{TextColorBodyPart}]{partRecord.Label} \\c[{TextColorRed}]destroyed");
                         }
 
                         if (partRecord.WasDestroyed && partRecord.IsVital) {

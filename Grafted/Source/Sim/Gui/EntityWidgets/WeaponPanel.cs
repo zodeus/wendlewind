@@ -7,11 +7,11 @@ using Myra.Graphics2D.UI;
 
 namespace Grafted.Sim.Gui.EntityWidgets;
 
-public class ArmorPanel : EntityPanelBase {
+public class WeaponPanel : EntityPanelBase {
     private readonly Item _item;
     private readonly Label _durabilityLabel;
 
-    public ArmorPanel(Item item, EntityPanelProperties? properties = null) : base(item, properties) {
+    public WeaponPanel(Item item, EntityPanelProperties? properties = null) : base(item, properties) {
         _item = item;
         Padding = new Thickness(20);
         MinWidth = 300;
