@@ -4,6 +4,7 @@ using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Items;
+using Grafted.Utils;
 
 namespace Grafted.Sim.Entities.Pawns;
 
@@ -28,6 +29,7 @@ public class BodyPart : Entity {
     public float HealthPercent => (float) HitPoints / MaxHitPoints;
     public bool IsExternal => Socket?.IsExternal ?? true;
     public bool IsBone => BodyPartDef.IsBone;
+    public bool IsOrgan => BodyPartDef.IsOrgan;
     public bool IsVital => BodyPartDef.IsVital;
 
     public bool IsDestroyed => HitPoints <= 0;
@@ -217,7 +219,18 @@ public class BodyPart : Entity {
         }
 
         if (Socket?.ParentPart?.HitPoints > 0 && Socket?.ParentPart?.Type is BodyPartType.Skull or BodyPartType.RibCage) {
-            return damagedParts;
+            float chanceToMiss = Socket?.ParentPart?.HealthPercent switch {
+                < .10f => 0.00f,
+                < .20f => 0.50f,
+                < .40f => 0.85f,
+                < .50f => 0.90f,
+                < .90f => 0.99f,
+                _ => 1
+            };
+
+            if (Core.Random.Chance(chanceToMiss)) {
+                return damagedParts;
+            }
         }
 
         if (Type is BodyPartType.Stomach && Socket?.ParentPart?.HealthPercent > 0.5) {
@@ -226,11 +239,10 @@ public class BodyPart : Entity {
 
         if (Type == BodyPartType.Artery) {
             float chanceToMiss = Socket?.ParentPart?.HealthPercent switch {
-                < .05f => 0.00f,
-                < .10f => 0.30f,
-                < .25f => 0.60f,
-                < .50f => 0.80f,
-                < .70f => 0.95f,
+                < .02f => 0.00f,
+                < .05f => 0.85f,
+                < .10f => 0.90f,
+                < .50f => 0.95f,
                 < .90f => 0.99f,
                 _ => 1
             };
@@ -248,13 +260,20 @@ public class BodyPart : Entity {
         HitPoints -= partDamage;
         TicksSinceLastHit = 0;
         damagedParts.Add(new DamagedPartRecord(this, partDamage));
-        if (damagedParts.Count(r => r.BodyPart.Type == BodyPartType.Brain) > 1) {
-            Log.Info("brain");
-        }
 
-        foreach (BodyPart internalPart in InternalParts) {
+        int organsHit = 0;
+        int maxNumberOfOrgansToHit = Core.Random.Next(1, 2);
+        foreach (BodyPart internalPart in InternalParts.InRandomOrder()) {
             if (damage.Type == DamageType.Flesh && internalPart is not { Type: BodyPartType.Bone or BodyPartType.Skin }) {
                 continue;
+            }
+
+            if (internalPart.IsOrgan && organsHit > maxNumberOfOrgansToHit) {
+                continue;
+            }
+
+            if (internalPart.IsOrgan) {
+                organsHit++;
             }
 
             internalPart.ApplyDamage(damage, damagedParts);
@@ -274,13 +293,6 @@ public class BodyPart : Entity {
                 //damagedPartRecord.WasSevered = true;
             }
         }
-
-
-        if (IsVital && HitPoints <= 0) {
-            // if part is vital and last one, kill pawn
-            Log.Info($"Pawn died because vital body part {this} was destroyed");
-        }
-        // if part is artery, disable connected external parts, do bleeding
 
         return damagedParts;
     }

@@ -3,6 +3,7 @@
 <Definitions>
     <BodyPartDef Name="BodyPartBase" Abstract="True">
         <EntityClass>BodyPart</EntityClass>
+        <UiClass>BodyPartPanel</UiClass>
     </BodyPartDef>
 
     <!-- Dynamic Scaling Internal Parts -->
@@ -72,6 +73,7 @@
         <BodyPartType>Brain</BodyPartType>
         <Size>15</Size>
         <IsVital>true</IsVital>
+        <IsOrgan>true</IsOrgan>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanBrain</TexturePath>
         <BaseStats>
             <MaxHitPoints>6</MaxHitPoints>
@@ -97,6 +99,9 @@
         <Size>12</Size>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanNeck</TexturePath>
+        <EquipmentSlots>
+            <ListItem>NeckArmor</ListItem>
+        </EquipmentSlots>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
             <ListItem>BoneSocket</ListItem>
@@ -138,6 +143,7 @@
         <Label>Human Stomach</Label>
         <Size>10</Size>
         <BodyPartType>Stomach</BodyPartType>
+        <IsOrgan>true</IsOrgan>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanStomach</TexturePath>
         <BaseStats>
             <MaxHitPoints>100</MaxHitPoints>
@@ -153,6 +159,8 @@
         <Sockets>
             <ListItem>ArterySocket</ListItem>
             <ListItem>HeartSocket</ListItem>
+            <ListItem>LeftLungSocket</ListItem>
+            <ListItem>RightLungSocket</ListItem>
         </Sockets>
         <BaseStats>
             <MaxHitPoints>300</MaxHitPoints>
@@ -164,9 +172,22 @@
         <BodyPartType>Heart</BodyPartType>
         <Size>10</Size>
         <IsVital>true</IsVital>
+        <IsOrgan>true</IsOrgan>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanHeart</TexturePath>
         <BaseStats>
-            <MaxHitPoints>5</MaxHitPoints>
+            <MaxHitPoints>30</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>HumanLung</Moniker>
+        <Label>Human Lung</Label>
+        <BodyPartType>Lung</BodyPartType>
+        <Size>10</Size>
+        <IsVital>true</IsVital>
+        <IsOrgan>true</IsOrgan>
+        <TexturePath>Entities/Pawn/BodyParts/Human/HumanLung</TexturePath>
+        <BaseStats>
+            <MaxHitPoints>15</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="BodyPartBase">

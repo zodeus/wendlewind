@@ -41,6 +41,8 @@ public static partial class Defs {
         public static ItemDef Cauterize = null!;
         public static ItemDef ArterialThreads = null!;
         public static ItemDef MendersMist = null!;
+        public static ItemDef RepairKit = null!;
+        public static ItemDef JarOfBlood = null!;
     }
 }
 
@@ -66,6 +68,7 @@ public static partial class Defs {
 
         public static BodyPartDef HumanBrain = null!;
         public static BodyPartDef HumanHeart = null!;
+        public static BodyPartDef HumanLung = null!;
         public static BodyPartDef HumanStomach = null!;
         public static BodyPartDef HumanArtery = null!;
         public static BodyPartDef HumanRibCage = null!;

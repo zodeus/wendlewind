@@ -43,7 +43,7 @@ public class EntityListPanelItem : HorizontalStackPanel {
     }
 
     public void Update() {
-        _label.Text = _entity.Label;
+        _label.Text = _entity is Item item ? item.LabelWithStackSize : _entity.Label;
     }
 }
 

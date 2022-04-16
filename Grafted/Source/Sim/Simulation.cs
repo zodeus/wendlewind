@@ -57,7 +57,7 @@ public class Simulation {
     }
 
     public void Draw(SpriteBatch spriteBatch, float deltaTime) {
-        Gui.Render(spriteBatch);
+        Gui.Render(spriteBatch, deltaTime);
     }
 
     public void Save(string filePath) {

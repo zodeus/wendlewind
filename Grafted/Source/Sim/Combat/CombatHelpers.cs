@@ -133,17 +133,16 @@ public class DestroyedItemRecord {
 
 public class DamageRecord {
     public readonly DamageType DamageType;
-    public readonly BodyPart BodyPart;
+    public readonly BodyPart BodyPartHit;
     public IReadOnlyList<DamagedPartRecord> BodyParts = new List<DamagedPartRecord>();
     public List<DestroyedItemRecord> DestroyedEquipment = new();
     public readonly float RawAmount;
-    public readonly float ActualAmount;
+    public float ActualAmount;
 
-    public DamageRecord(DamageType damageType, BodyPart bodyPart, float rawAmount, float actualAmount) {
+    public DamageRecord(DamageType damageType, BodyPart bodyPartHit, float rawAmount) {
         DamageType = damageType;
-        BodyPart = bodyPart;
+        BodyPartHit = bodyPartHit;
         RawAmount = rawAmount;
-        ActualAmount = actualAmount;
     }
 
     public float AmountBlocked => RawAmount - ActualAmount;

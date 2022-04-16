@@ -9,11 +9,12 @@ public class Item : Entity {
     public float MaxDurability = 0;
     public float Durability => _durability;
     public int StackSize;
-    public override string Label => IsStackable ? $"{Def.Label} x{StackSize}" : Def.Label;
+    public override string Label => Def.Label;
+    public string LabelWithStackSize => IsStackable ? $"{Def.Label} x{StackSize}" : Def.Label;
     public bool IsStackable => ItemDef.StackLimit > 1;
 
     public override void Initialize() {
-        MaxDurability = this.GetStatValue(Defs.Stats.MaxDurability);
+        MaxDurability =  this.GetStatValue(Defs.Stats.MaxDurability);
         _durability = MaxDurability;
 
         base.Initialize();
@@ -28,6 +29,10 @@ public class Item : Entity {
         if (_durability <= 0) {
             Destroy();
         }
+    }
+
+    public void Repair() {
+        _durability = MaxDurability;
     }
 
     public void ApplyDurabilityLoss(Item? armorHit) {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Grafted.Coroutines;
-using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
 
 namespace Grafted.Sim.Combat;
@@ -25,6 +24,7 @@ public class
     public static string TextColorRed = "#b00000";
     public static string TextColorGreen = "#3dc200";
     public static string TextColorItem = "#fa9000";
+    public static string TextColorYellow = "#cee000";
 
     public IEnumerator Execute(CombatEvent combatEvent) {
         combatEvent.LogMessage($"    Performing \\c[#fa9000]{FlavorText} \\c[#b3b3b3](\\c[#00e6ff]{TotalSequencePoints}\\c[#b3b3b3])");
@@ -42,7 +42,7 @@ public class
 
                 foreach (DamageRecord damageResult in damageResponse.Damages) {
                     combatEvent.LogMessage(
-                        $"        \\c[#b3b3b3]Damaged \\c[{TextColorPawn}]{Target.LabelShort}'s \\c[{TextColorBodyPart}]{damageResult.BodyPart.Type} " +
+                        $"        \\c[#b3b3b3]Damaged \\c[{TextColorPawn}]{Target.LabelShort}'s \\c[{TextColorBodyPart}]{damageResult.BodyPartHit.Type} " +
                         $"\\c[#b3b3b3]with \\c[#fa9000]{step.Tool} \\c[#b3b3b3](\\c[#00ff11]{step.Name}" +
                         $"\\c[#b3b3b3]) for \\c[#ff0000]{damageResult.ActualAmount} \\c[#b3b3b3](\\c[#fa9000]{damageResult.DamageType}\\c[#b3b3b3]) health, " +
                         $"blocked \\c[#00e6ff]{damageResult.AmountBlocked}"

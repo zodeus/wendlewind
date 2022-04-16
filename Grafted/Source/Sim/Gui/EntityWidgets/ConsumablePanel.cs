@@ -7,22 +7,22 @@ using Myra.Graphics2D.UI;
 
 namespace Grafted.Sim.Gui.EntityWidgets;
 
-public class WeaponPanel : EntityPanelBase {
+public class ConsumablePanel : EntityPanelBase {
     private readonly Item _item;
-    private readonly Label _durabilityLabel;
+    private readonly Label _stackLabel;
 
-    public WeaponPanel(Item item, EntityPanelProperties? properties = null) : base(item, properties) {
+    public ConsumablePanel(Item item, EntityPanelProperties? properties = null) : base(item, properties) {
         _item = item;
         Padding = new Thickness(20);
         MinWidth = 300;
-        _durabilityLabel = new Label("small") {
-            Text = $"Durability: {item.Durability}/{item.MaxDurability}", Margin = new Thickness(0, 0, 0, 15)
+        _stackLabel = new Label("small") {
+            Text = $"Stack Size: x{item.StackSize}", Margin = new Thickness(0, 0, 0, 15),
+            Visible = item.IsStackable
+
         };
         AddChild(new Image { Background = new TextureRegion(item.Icon), Width = 48, Height = 48 });
         AddChild(new Label("small") { Text = item.Def.Description, Wrap = true, Margin = new Thickness(10) });
-        AddChild(_durabilityLabel);
-        AddChild(new Label("small") { Text = $"Equipment Type: {item.ItemDef.EquipmentProperties.EquipmentType}" });
-        AddChild(new Label("small") { Text = $"Slot: {(item.ItemDef.EquipmentProperties.SlotUsedToEquip != null ? item.ItemDef.EquipmentProperties.SlotUsedToEquip : "n/a")}" });
+        AddChild(_stackLabel);
 
         foreach (BaseStat baseStat in item.Def.BaseStats) {
             var row = new HorizontalStackPanel { Spacing = 10 };
@@ -42,6 +42,6 @@ public class WeaponPanel : EntityPanelBase {
     }
 
     public override void Update() {
-        _durabilityLabel.Text =  $"Durability: {_item.Durability}/{_item.MaxDurability}";
+        _stackLabel.Text = $"Stack Size: x{_item.StackSize}";
     }
 }

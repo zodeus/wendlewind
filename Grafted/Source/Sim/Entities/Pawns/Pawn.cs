@@ -65,11 +65,11 @@ public class Pawn : Entity {
     }
 
     public DamageResponse TakeDamage(DamageRequest request) {
-        BodyPart bodyPart = Body.AllExternalParts.RandomElementByWeight(part => part.BodyPartDef.HitWeight)!;
+        BodyPart bodyPart = Body.AllExternalParts/*.Where(p => p.Type == BodyPartType.Torso)*/.RandomElementByWeight(part => part.BodyPartDef.HitWeight)!;
 
         DamageResponse response = new();
         foreach (Damage damage in request.RawDamages) {
-            DamageRecord damageRecord = new(damage.Type, bodyPart, damage.Amount, damage.UnblockedAmount);
+            DamageRecord damageRecord = new(damage.Type, bodyPart, damage.Amount);
             request.Source.GetSkill(damage.ToolType)?.Learn(1);
             int amountToApply = damage.Amount;
 
@@ -87,6 +87,7 @@ public class Pawn : Entity {
                 damage.UnblockedAmount = Mathf.Clamp(amountToApply - (int) bodyPartEquipment.GetStatValue(Defs.Stats.PhysicalResistance), 0, damage.Amount);
             }
 
+            damageRecord.ActualAmount = damage.UnblockedAmount;
             //Handle Weapon Durability
             damage.Tool.ApplyDurabilityLoss(bodyPartEquipment);
             if (damage.Tool.IsDestroyed) {
@@ -96,9 +97,7 @@ public class Pawn : Entity {
 
             damageRecord.BodyParts = bodyPart.ApplyDamage(damage);
             response.Damages.Add(damageRecord);
-            if (damageRecord.BodyParts.Any(p => p.IsVital && (p.WasDestroyed || p.WasSevered))) {
-                IsDead = true;
-                response.Killed = true;
+            if (PawnDied(damageRecord, response)) {
                 break;
             }
         }
@@ -112,6 +111,50 @@ public class Pawn : Entity {
         }*/
 
         return response;
+    }
+
+    private bool PawnDied(DamageRecord damageRecord, DamageResponse response) {
+        List<string> nonFunctionalVitalParts = new();
+        string causeOfDeath = "ERROR";
+        foreach (DamagedPartRecord partRecord in damageRecord.BodyParts) {
+            if (partRecord.IsVital) {
+                bool partIsFunctional = true;
+                if (partRecord.BodyPart.IsDestroyed) {
+                    partIsFunctional = false;
+                    nonFunctionalVitalParts.Add($"{partRecord.PartType} was destroyed");
+                }
+                else if (partRecord.BodyPart.IsExternal && partRecord.BodyPart.IsSevered) {
+                    partIsFunctional = false;
+                    nonFunctionalVitalParts.Add($"{partRecord.PartType} was severed");
+                }
+                else if (partRecord.BodyPart.IsFunctional == false) {
+                    partIsFunctional = false;
+                    nonFunctionalVitalParts.Add($"{partRecord.PartType} stopped functioning");
+                }
+
+                if (partIsFunctional == false) {
+                    if (Body.AllParts.Any(p => p.Type == partRecord.PartType && p.IsFunctional) == false) {
+                        IsDead = true;
+                        response.Killed = true;
+                        causeOfDeath = nonFunctionalVitalParts.Last();
+                    }
+                    else {
+                        Log.Info($"VITAL {partRecord} destroyed, but there is another one left");
+                    }
+                }
+            }
+        }
+
+        if (IsDead) {
+            Core.Sim.World.DeathRecords.RecordDeath(new DeathRecord {
+                Round = Core.Sim.World.TotalKills + 1,
+                PawnName = Label,
+                CauseOfDeath = causeOfDeath
+            });
+            return true;
+        }
+
+        return false;
     }
 
     public override void ExposeData() {

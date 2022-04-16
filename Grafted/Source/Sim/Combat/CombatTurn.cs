@@ -8,7 +8,9 @@ using Grafted.Maths;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
+using Grafted.Sim.Gui;
 using Grafted.Utils;
+using Microsoft.Xna.Framework;
 
 namespace Grafted.Sim.Combat;
 
@@ -118,6 +120,10 @@ public class CombatTurn {
         }
 
         foreach (Pawn pawn in Pawns) {
+            if (pawn.IsDead) {
+                continue;
+            }
+
             float currentBlood = pawn.Body.BloodAmount;
             pawn.Tick();
             int bloodLost = (int) (currentBlood - pawn.Body.BloodAmount);
@@ -144,17 +150,30 @@ public class CombatTurn {
             return;
         }
 
-        /*if (pawn.HitPoints / pawn.MaxHitPoints > .5f || pawn.Equipment.HasHealthPotions == false) {
+        if (pawn.Body.BloodLevel > .3f || pawn.Inventory.Any(item => item.Def == Defs.Items.JarOfBlood) == false) {
             return;
-        }*/
+        }
 
-        //Log.Error("POTIONS ARE BROKE");
-        /*var potion = pawn.Equipment.HealthPotions.First();
-        float amount = potion.GetStatValue(Defs.Stats.HealingValue);
-        pawn.HitPoints += potion.GetStatValue(Defs.Stats.HealingValue);
-        potion.Destroy();
+        var potion = pawn.Inventory.First(item => item.Def == Defs.Items.JarOfBlood);
+        float amount = 3000; //potion.GetStatValue(Defs.Stats.HealingValue);
+        pawn.Body.BloodAmount += amount;
+        potion.StackSize--;
+        if (potion.StackSize == 0) {
+            potion.Destroy();
+        }
+
         turnData.AvailableSequencePoints -= 1;
-        _combatEvent.LogMessage($"    \\c[{CombatSequence.TextColorPawn}]Sipped a \\c[#fa9000]{potion.Label} \\c[#b3b3b3]for \\c[#00ff11]{amount} \\c[#b3b3b3]health, HP={pawn.HitPoints}");*/
+        _combatEvent.LogMessage(
+            $"    \\c[{CombatSequence.TextColorYellow}]Sipped a \\c[{CombatSequence.TextColorItem}]{potion.Label} \\c[{CombatSequence.TextColorDefault}]for \\c[{CombatSequence.TextColorGreen}]{amount} \\c[{CombatSequence.TextColorDefault}]blood"
+        );
+        if (pawn.PawnType == PawnType.Player) {
+            Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData {
+                Text = "Sipped a Jar of Blood. Blood is good for battle, bad for the mind",
+                Font = BaseContent.Fonts.Default.Large,
+                Duration = 15,
+                Color = Color.IndianRed
+            });
+        }
     }
 
 
@@ -179,17 +198,6 @@ public class CombatTurn {
         var target = sequence.Target;
         if (target.IsDead) {
             _combatEvent.CombatRecord.Pawns.First(p => p.Id == target.Id).WasKilled = true;
-            if (target.PawnType == PawnType.Player) {
-                //todo death records
-                /*target.World.DeathRecords.RecordDeath(new DeathRecord {
-                    TickRecorded = Core.Sim.Ticker.Ticks,
-                    PawnName = target.Label,
-                    Profession = target.Profession,
-                    //TilePosition = pawn.Tile?.Position ?? Vector2Int.Invalid,
-                    CauseOfDeath = $"Killed by {sequence.Source.Label}"
-                });*/
-            }
-
             if (_combatEvent.IsPartyDead(target)) {
                 _combatEvent.State = CombatState.CombatEnd;
             }

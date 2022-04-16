@@ -24,8 +24,8 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Blunt/WoodenStick</TexturePath>
         <BaseStats>
-            <MeleePower>4</MeleePower>
-            <MaxDurability>80</MaxDurability>
+            <MeleePower>5</MeleePower>
+            <MaxDurability>40</MaxDurability>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponSharp">

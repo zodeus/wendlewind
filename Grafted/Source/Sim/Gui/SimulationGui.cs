@@ -16,65 +16,45 @@ public abstract class SimulationGui {
 
     public MouseAttachment? MouseAttachment;
 
-    private readonly Dictionary<Entity, EntityPanelBase> _entityPanels = new();
-    private readonly Dictionary<Entity, Window> _entityWindows = new();
-    private readonly HashSet<Entity> _windowsToRemove = new();
-
     private ScreenMessageData _screenMessage;
-    private int _screenMessageTicksLeft;
+    private float _screenMessageTimeLeft;
+    private readonly Window _entityViewerWindow = new();
+    private KeyValuePair<Entity, Point?>? _queuedEntityToView;
 
     public virtual void ViewEntity(Entity entity, Point? position = null) {
-        if (_entityWindows.ContainsKey(entity)) {
+        _queuedEntityToView = new KeyValuePair<Entity, Point?>(entity, position);
+    }
+
+    private void ShowEntityIfQueued() {
+        if (_queuedEntityToView == null) {
             return;
         }
 
-        _entityWindows[entity] = new Window {
-            Background = null,
-            TitleGrid = {
-                Visible = false
-            }
-        };
-        var entityPanel = entity.UiPanel(new EntityPanelProperties { ShowTitle = true, ShowCloseButton = true, CloseButtonAction = () => _entityWindows[entity].Close() });
-        _entityPanels[entity] = entityPanel;
-        _entityWindows[entity].Content = entityPanel;
-        _entityWindows[entity].DragHandle = entityPanel.Header;
-        _entityWindows[entity].Closed += (_, _) => {
-            _entityPanels.Remove(entity);
-            _entityWindows.Remove(entity);
-        };
-        _entityWindows[entity].Show(Desktop, position ?? new Point(Core.GraphicsDevice.Viewport.Width / 2 - 150, 150));
+        _entityViewerWindow.Content = _queuedEntityToView.Value.Key.UiPanel(new EntityPanelProperties {
+            ShowTitle = false, ShowCloseButton = false, Background = null
+        });
+        _entityViewerWindow.Title = _queuedEntityToView.Value.Key.Label;
+        if (_entityViewerWindow.IsPlaced == false) {
+            _entityViewerWindow.Show(Desktop, _queuedEntityToView.Value.Value);
+        }
 
+        _queuedEntityToView = null;
     }
 
     public virtual void Update(float deltaTime) {
         MouseAttachment?.Update();
-        foreach ((Entity entity, EntityPanelBase panel) in _entityPanels) {
-            panel.Update();
-
-            /*if (entity.IsDestroyed) {
-                _windowsToRemove.Add(entity);
-            }*/
-        }
-
-        if (_windowsToRemove.Any()) {
-            foreach (Entity entity in _windowsToRemove) {
-                _entityWindows[entity].Close();
-            }
-
-            _windowsToRemove.Clear();
-        }
-
-        if (_screenMessageTicksLeft > 1) {
-            _screenMessageTicksLeft--;
+        ShowEntityIfQueued();
+        ((EntityPanelBase?) _entityViewerWindow.Content)?.Update();
+      
+        if (_screenMessageTimeLeft > 0) {
+            _screenMessageTimeLeft -= deltaTime;
         }
     }
 
     public virtual void HandleInput() { }
 
-    public virtual void Render(SpriteBatch spriteBatch) {
-        
-        
-        if (_screenMessageTicksLeft > 1) {
+    public virtual void Render(SpriteBatch spriteBatch, float deltaTime) {
+        if (_screenMessageTimeLeft > 0) {
             spriteBatch.Begin(
                 SpriteSortMode.Deferred,
                 BlendState.NonPremultiplied,
@@ -83,24 +63,23 @@ public abstract class SimulationGui {
                 RasterizerState.CullNone
             );
             int offset = (int) _screenMessage.Font.MeasureString(_screenMessage.Text).X / 2;
-            Color colorA = _screenMessage.Color.Multiply(new Color(1f, 1f, 1f, Mathf.Lerp(0f, 1f, (float) _screenMessageTicksLeft / _screenMessage.Duration)));
-            Color colorB = _screenMessage.Color.Multiply(new Color(1f, 1f, 1f, Mathf.Lerp(0f, .6f, (float) _screenMessageTicksLeft / _screenMessage.Duration)));
+            Color colorA = _screenMessage.Color.Multiply(new Color(1f, 1f, 1f, Mathf.Lerp(0f, 1f, (float) _screenMessageTimeLeft / _screenMessage.Duration)));
+            Color colorB = _screenMessage.Color.Multiply(new Color(1f, 1f, 1f, Mathf.Lerp(0f, .6f, (float) _screenMessageTimeLeft / _screenMessage.Duration)));
             int xOffsetA = Core.Random.Next(-2, 2);
             int yOffsetA = Core.Random.Next(-2, 2);
             int xOffsetB = Core.Random.Next(-8, 8);
             int yOffsetB = Core.Random.Next(-8, 8);
 
-            spriteBatch.DrawString(_screenMessage.Font, _screenMessage.Text, new Vector2((Screen.Width / 2) - offset + xOffsetB, 150 + yOffsetB), colorB);
+            spriteBatch.DrawString(_screenMessage.Font, _screenMessage.Text, new Vector2((Screen.Width / 2) - offset + xOffsetB, 50 + yOffsetB), colorB);
             //spriteBatch.DrawString(BaseContent.Fonts.Default.VeryLarge, _screenMessage, new Vector2((Screen.Width / 2) - offset + Core.Random.Next(-5, 5), 300 + Core.Random.Next(-5, 5)), colorB);
-            spriteBatch.DrawString(_screenMessage.Font, _screenMessage.Text, new Vector2((Screen.Width / 2) - offset + xOffsetA, 150 + yOffsetA), colorA);
+            spriteBatch.DrawString(_screenMessage.Font, _screenMessage.Text, new Vector2((Screen.Width / 2) - offset + xOffsetA, 50 + yOffsetA), colorA);
             spriteBatch.End();
         }
-        
     }
 
     public void PushScreenMessage(ScreenMessageData message) {
         _screenMessage = message;
-        _screenMessageTicksLeft = message.Duration;
+        _screenMessageTimeLeft = message.Duration;
     }
 }
 

@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using Grafted.Definitions;
+﻿using Grafted.Definitions;
 using Grafted.Graphics.Textures;
-using Grafted.Sim.Entities.Items;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Grafted.Sim.Entities.Pawns;

@@ -55,6 +55,7 @@ public static class GenTypes {
         "Grafted.Sim.Gui.CombatGuis",
         "Grafted.Sim.Gui.DefWidgets",
         "Grafted.Sim.Gui.EntityWidgets",
+        "Grafted.Sim.Gui.EntityWidgets.PawnWidgets",
         "Grafted.Sim.Persistence"
     };
 

@@ -2,11 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Grafted.Definitions;
 using Grafted.Maths;
-using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
+using Grafted.Sim.Gui;
 using Microsoft.Xna.Framework;
 
 namespace Grafted.Sim.Combat;
@@ -223,5 +222,12 @@ public class CombatEvent {
 
             part.HitPoints += Mathf.FloorToInt(part.MaxHitPoints * Core.Random.NextFloat(0.03f, 0.08f));
         }
+
+        Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData {
+            Text = "A hero has fallen",
+            Font = BaseContent.Fonts.Default.Large,
+            Duration = 30,
+            Color = Color.IndianRed
+        });
     }
 }

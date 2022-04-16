@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef ParentName="Consumable">
+        <Moniker>RepairKit</Moniker>
+        <Label>Repair Kit</Label>
+        <Description>Used for fixing equipment</Description>
+        <TexturePath>Entities/Item/Consumables/RepairKit</TexturePath>
+    </ItemDef>
+</Definitions>

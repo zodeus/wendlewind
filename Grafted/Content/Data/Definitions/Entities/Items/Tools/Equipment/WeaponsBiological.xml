@@ -4,7 +4,7 @@
     <ItemDef Name="WeaponFlesh" ParentName="WeaponBase" Abstract="true">
         <DamageType>Flesh</DamageType>
     </ItemDef>
-    <ItemDef ParentName="EquipmentTool">
+    <ItemDef ParentName="WeaponFlesh">
         <Moniker>FleshyHand</Moniker>
         <Label>Fleshy Hand</Label>
         <Description>A fleshy hand</Description>
@@ -21,7 +21,7 @@
             <MeleePower>1</MeleePower>
         </BaseStats>
     </ItemDef>
-    <ItemDef ParentName="EquipmentTool">
+    <ItemDef ParentName="WeaponFlesh">
         <Moniker>FleshyFoot</Moniker>
         <Label>Fleshy Foot</Label>
         <Description>A fleshy foot</Description>

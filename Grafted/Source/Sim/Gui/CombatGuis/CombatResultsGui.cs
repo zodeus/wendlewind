@@ -1,17 +1,19 @@
 using System;
 using System.Linq;
-using System.Windows.Forms;
 using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
+using Grafted.Sim.Gui.EntityWidgets;
 using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 using Grafted.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Myra.Graphics2D;
+using Myra.Graphics2D.Brushes;
 using Myra.Graphics2D.UI;
+using Myra.Graphics2D.UI.Styles;
 using HorizontalAlignment = Myra.Graphics2D.UI.HorizontalAlignment;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 using Label = Myra.Graphics2D.UI.Label;
@@ -59,10 +61,13 @@ public class CombatResultsGui : SimulationGui {
                 };
             }
         ) {
+            MinHeight = 700,
             Width = 300, GridRow = 1, GridColumn = 1
         };
 
         _equipmentPanel = new PawnEquipmentPanel(playerPawn.Equipment, (part, type) => {
+
+            // UnEquip
             if (Core.Sim.Gui!.MouseAttachment == null && Input.RightMouseButtonReleased && type != EquipmentSlotType.BuiltIn) {
                 Item? unEquippedItem = playerPawn.Equipment.UnEquip(part, type);
                 if (unEquippedItem != null) {
@@ -71,6 +76,20 @@ public class CombatResultsGui : SimulationGui {
             }
 
             if (Core.Sim.Gui!.MouseAttachment?.Data is Item item) {
+                if (item.Def == Defs.Items.RepairKit) {
+                    if (playerPawn.Equipment.GetBySlot(part, type) is { } equipmentItem && equipmentItem.Durability < equipmentItem.MaxDurability) {
+                        equipmentItem.Repair();
+                        item.StackSize--;
+                        if (item.StackSize == 0) {
+                            item.Destroy();
+                            MouseAttachment.Detach();
+                        }
+                    }
+
+                    return;
+                }
+
+                // Try Equip
                 if (item.ItemDef.EquipmentProperties.SlotUsedToEquip == type) {
                     playerPawn.Inventory.Items.Remove(item);
                     Item? unEquippedItem = playerPawn.Equipment.TryEquip(part, item);
@@ -114,12 +133,27 @@ public class CombatResultsGui : SimulationGui {
         };
     }
 
+    private Widget DeathsButton() {
+        Image image = new() {
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Skull], Width = 48, Height = 48,
+            OverBorder = new SolidBrush(Color.DarkRed), BorderThickness = new Thickness(1)
+        };
+        image.TouchDown += (_, _) => {
+            new PawnDeathRecordsWindow(Core.Sim.World.DeathRecords).Show(Desktop);
+        };
+        return image;
+    }
+
     private void BodyPartClickHandler(BodyPartSocket socket) {
         if (Input.RightMouseButtonReleased) {
             return;
         }
 
         if (MouseAttachment == null) {
+            if (socket.AttachedPart != null) {
+                ViewEntity(socket.AttachedPart);
+            }
+
             return;
         }
 
@@ -233,10 +267,13 @@ public class CombatResultsGui : SimulationGui {
             };
         }
 
-        return button;
+        return new HorizontalStackPanel {
+            Spacing = 10,
+            Widgets = { DeathsButton(), button }
+        };
     }
 
-    public override void Render(SpriteBatch spriteBatch) {
+    public override void Render(SpriteBatch spriteBatch, float deltaTime) {
         MouseAttachment?.Update();
         _bodyPanel.Update();
         _inventoryPanel.Update();
@@ -251,5 +288,6 @@ public class CombatResultsGui : SimulationGui {
         );
         MouseAttachment?.Render(spriteBatch);
         spriteBatch.End();
+        base.Render(spriteBatch, deltaTime);
     }
 }

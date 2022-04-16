@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using System.IO;
 using FontStashSharp;
-using Grafted.Sim.Entities.Pawns;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

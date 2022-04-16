@@ -2,7 +2,7 @@
 
 <Definitions>
     <ItemDef Name="Consumable" ParentName="ItemBase" Abstract="true">
-        <UiClass>ToolPanel</UiClass>
+        <UiClass>ConsumablePanel</UiClass>
         <MaterialType>Artificial</MaterialType>
         <StackLimit>99</StackLimit>
     </ItemDef>
@@ -41,6 +41,12 @@
         <Moniker>SurgicalSaw</Moniker>
         <Label>Surgical Saw</Label>
         <Description>Used to severe large limbs</Description>
-        <!--<TexturePath>Entities/Item/Consumables/Cauterize</TexturePath>-->
+        <TexturePath>Entities/Item/Consumables/SurgicalSaw</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="Consumable">
+        <Moniker>JarOfBlood</Moniker>
+        <Label>Jar of Blood</Label>
+        <Description>Can be sipped during combat to replenish lost blood.</Description>
+        <TexturePath>Entities/Item/Consumables/JarOfBlood</TexturePath>
     </ItemDef>
 </Definitions>

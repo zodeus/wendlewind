@@ -8,9 +8,11 @@ namespace Grafted.Sim;
 public class World : IExposable {
     public List<Pawn> PlayerPawns = null!;
     public int TotalKills;
+    public PawnDeathRecords DeathRecords = null!;
 
     public void Initialize() {
         PlayerPawns = new List<Pawn>();
+        DeathRecords = new PawnDeathRecords();
         TotalKills = 0;
     }
 

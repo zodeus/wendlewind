@@ -14,7 +14,6 @@ public class ToolPanel : EntityPanelBase {
         Spacing = 5;
         AddChild(new Image { Background = new TextureRegion(item.Icon), Width = 48, Height = 48 });
         AddChild(new Label("small") { Text = item.Def.Description, Wrap = true, Margin = new Thickness(10) });
-        AddChild(new Label("small") { Text = $"Item Type: {item.ItemDef.ItemType}" });
         AddChild(new Label("small") { Text = $"Tool Type: {item.ItemDef.ToolType}" });
         AddChild(new Label("small") { Text = $"Tool Categories: {string.Join(", ", item.ItemDef.ToolCategories)}" });
         AddChild(new Label("small") { Text = $"Equipment Type: {item.ItemDef.EquipmentProperties.EquipmentType}" });

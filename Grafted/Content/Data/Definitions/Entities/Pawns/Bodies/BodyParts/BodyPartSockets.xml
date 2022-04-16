@@ -148,6 +148,19 @@
         </AllowedBodyPartTypes>
     </BodyPartSocketDef>
     <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>LeftLungSocket</Moniker>
+        <Label>Left Lung Socket</Label>
+        <AllowedBodyPartTypes>
+            <ListItem>Lung</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef><BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>RightLungSocket</Moniker>
+        <Label>Right Lung Socket</Label>
+        <AllowedBodyPartTypes>
+            <ListItem>Lung</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
         <Moniker>FingerSocket</Moniker>
         <Label>Finger Socket</Label>
         <IsExternal>true</IsExternal>

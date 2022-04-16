@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Grafted.Sim.Combat;
+using Grafted.Sim.Gui.EntityWidgets;
 using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 using Grafted.UI;
 using Microsoft.Xna.Framework;
@@ -24,7 +25,6 @@ public class CombatGui : SimulationGui {
     private readonly CombatControlPanel _controlPanel;
     private readonly PawnBodyPanel _pawnBodyView;
 
-
     public CombatGui(CombatEvent combatEvent) {
         _combatEvent = combatEvent;
         _combatEvent.StartAsCoroutine();
@@ -32,12 +32,13 @@ public class CombatGui : SimulationGui {
         _combatEvent.CombatRecord.LogMessageAddedAction += message => {
             AddCombatLogEntry(message.Text);
         };
-        _programStats = new ProgramStatsPanel { GridRow = 0, GridColumn = 0, GridColumnSpan = 3, Margin = new Thickness(0, 10, 0, 10) };
+        _programStats = new ProgramStatsPanel { GridRow = 0, GridColumn = 0, GridColumnSpan = 3, Margin = new Thickness(0, 10, 0, 50) };
+
         _playerPartyPanel = new CombatPartyPanel(_combatEvent, combatEvent.PlayerPawns, HorizontalAlignment.Right) {
-            GridRow = 1, GridColumn = 0 /*, Width = 846*/
+            GridRow = 1, GridColumn = 0
         };
         _opponentPartyPanel = new CombatPartyPanel(_combatEvent, combatEvent.EnemyPawns, HorizontalAlignment.Left) {
-            GridRow = 1, GridColumn = 2 /*, Width = 846*/
+            GridRow = 1, GridColumn = 2
         };
         _controlPanel = new CombatControlPanel(_combatEvent) {
             GridRow = 2, GridColumn = 0, HorizontalAlignment = HorizontalAlignment.Stretch
@@ -48,11 +49,11 @@ public class CombatGui : SimulationGui {
             }
         }) {
             GridRow = 2, GridColumn = 0, HorizontalAlignment = HorizontalAlignment.Right,
-            Width = 710,
+            Width = 810,
             Margin = new Thickness(0, 0, 30, 0),
         };
         _combatLog = new ScrollViewer {
-            Content = new VerticalStackPanel() { Padding = new Thickness(10) }
+            Content = new VerticalStackPanel() { Padding = new Thickness(0) }
         };
 
         _turnLabel = new Label {
@@ -61,7 +62,6 @@ public class CombatGui : SimulationGui {
         };
         var label = new Label { Text = $"Fight {(Core.Sim.World.TotalKills + 1).ToString().PadLeft(2, '0')}", Font = BaseContent.Fonts.Fancy.Large, HorizontalAlignment = HorizontalAlignment.Center };
         VerticalStackPanel turnPane = new() {
-            //Width = 150,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
             Padding = new Thickness(15),
@@ -80,20 +80,25 @@ public class CombatGui : SimulationGui {
         };
 
         HorizontalStackPanel logPanel = new() {
+            //BorderThickness = new Thickness(1),Border = new SolidBrush(Color.Orange),
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
             GridRow = 2, GridColumn = 2,
             Height = 800,
-            Width = 800,
+            Width = 810,
+            HorizontalAlignment = HorizontalAlignment.Left,
             DefaultProportion = Proportion.Fill,
-            Margin = new Thickness(30, 0, 30, 0),
-            Padding = new Thickness(15),
+            Padding = new Thickness(15, 15, 8, 15),
+            Margin = new Thickness(30, 0, 0, 0),
             Widgets = {
                 _combatLog
             }
         };
 
         Grid grid = new() {
-            ShowGridLines = false, HorizontalAlignment = HorizontalAlignment.Center,
+            //BorderThickness = new Thickness(1),Border = new SolidBrush(Color.Orange),
+            //Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
+            //ShowGridLines = true, 
+            HorizontalAlignment = HorizontalAlignment.Center,
             Margin = new Thickness(0), GridLinesColor = Color.Red, RowSpacing = 20,
             DefaultRowProportion = Proportion.Auto, DefaultColumnProportion = Proportion.Auto,
             Widgets = {
@@ -140,10 +145,11 @@ public class CombatGui : SimulationGui {
         };
     }
 
-    public override void Render(SpriteBatch spriteBatch) {
+    public override void Render(SpriteBatch spriteBatch, float deltaTime) {
         if (_combatEvent.State == CombatState.CombatFinished && Input.IsKeyPressed(Keys.Enter)) {
             Core.Sim.Gui = new CombatResultsGui(_combatEvent);
         }
+
         _programStats.Update();
         _playerPartyPanel.Update();
         _opponentPartyPanel.Update();
@@ -160,6 +166,7 @@ public class CombatGui : SimulationGui {
         );
         MouseAttachment?.Render(spriteBatch);
         spriteBatch.End();
+        base.Render(spriteBatch, deltaTime);
     }
 
     private void AddCombatLogEntry(string text, Color? color = null) {

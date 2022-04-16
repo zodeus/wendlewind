@@ -107,6 +107,11 @@ public class PawnBody {
 
         if (BloodAmount <= 0) {
             Pawn.IsDead = true;
+            Core.Sim.World.DeathRecords.RecordDeath(new DeathRecord {
+                Round = Core.Sim.World.TotalKills + 1,
+                PawnName = Pawn.Label,
+                CauseOfDeath = $"Blood Loss"
+            });
         }
     }
 }
@@ -212,5 +217,6 @@ public enum BodyPartType {
     Skull,
     RibCage,
     Stomach,
-    Heart
+    Heart,
+    Lung
 }

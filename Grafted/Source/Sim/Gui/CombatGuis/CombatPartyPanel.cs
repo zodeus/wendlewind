@@ -24,6 +24,8 @@ internal class CombatPartyPanel : VerticalStackPanel {
             Margin = new Thickness(30, 0, 30, 0),
         };
         AddChild(pawnRow);
+
+        //todo this is not used
         _deathRow = new() {
             Spacing = 20,
             HorizontalAlignment = pawnAlignment,
@@ -32,7 +34,8 @@ internal class CombatPartyPanel : VerticalStackPanel {
             Padding = new Thickness(60, 0, 60, 0),
             Width = 680,
         };
-        AddChild(_deathRow);
+        //AddChild(_deathRow);
+        //todo end
         foreach (Pawn pawn in pawns) {
             bool isPlayer = pawn.PawnType == PawnType.Player;
             PawnCombatPanel panel = new(pawn, combatEvent, isPlayer);

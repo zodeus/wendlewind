@@ -11,6 +11,7 @@ namespace Grafted.Sim.Gui.EntityWidgets;
 public class EntityPanelProperties {
     public bool ShowTitle { get; set; } = true;
     public bool ShowCloseButton { get; set; }
+    public TextureRegion? Background { get; set; } = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
     public Action? CloseButtonAction;
 }
 
@@ -18,7 +19,7 @@ public abstract class EntityPanelBase : VerticalStackPanel {
     public readonly HorizontalStackPanel Header;
 
     protected EntityPanelBase(Entity entity, EntityPanelProperties? properties) {
-        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
+        Background = properties?.Background;
         Padding = new Thickness(15);
         Header = new HorizontalStackPanel { Spacing = 20 };
         Header.Proportions.Add(Proportion.Fill);
