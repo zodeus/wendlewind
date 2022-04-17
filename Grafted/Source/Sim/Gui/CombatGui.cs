@@ -79,6 +79,7 @@ public class CombatGui : SimulationGui {
         _playerQueuedPotionSlot = new ImageButton(BaseContent.Styles.Button.Icon) {
             Width = 24, Height = 24
         };
+        _playerQueuedPotionSlot.Click += (_, _) => _combatEvent.DeQueuedPotionFor(_combatEvent.PlayerPawns[0]);
 
         VerticalStackPanel centerColumn = new() {
             Spacing = 0, GridRow = 1, GridColumn = 1,
@@ -94,8 +95,8 @@ public class CombatGui : SimulationGui {
                     Widgets = {
                         _playerQueuedPotionSlot,
                         new VerticalSeparator() { HorizontalAlignment = HorizontalAlignment.Center },
-                        new Image {
-                            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
+                        new ImageButton(BaseContent.Styles.Button.Icon) {
+                            Enabled = false,
                             Width = 24, Height = 24
                         },
                     }
@@ -188,6 +189,7 @@ public class CombatGui : SimulationGui {
         _opponentPartyPanel.Update();
         _pawnBodyView.Update();
         _turnLabel.Text = $"Turn {_combatEvent.CurrentTurnNum.ToString().PadLeft(2, '0')}";
+        base.Update(deltaTime);
     }
 
     private void AddCombatLogEntry(string text, Color? color = null) {

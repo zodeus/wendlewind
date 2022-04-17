@@ -315,8 +315,9 @@ public class BodyPart : Entity {
     }
 
     public EquipmentSlotType? EmptySlotFor(Item item) {
+        if (!HasEquipmentSlots) return null;
+
         if (item.ItemDef.ItemType == ItemType.Potion) {
-            if (!HasEquipmentSlots) return null;
             foreach (EquipmentSlotType potionSlot in EquipmentSlots!.Where(s => s is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2)) {
                 if (Equipment[potionSlot] == null) {
                     return potionSlot;
@@ -327,8 +328,14 @@ public class BodyPart : Entity {
         }
 
         var slot = item.ItemDef.EquipmentProperties.SlotUsedToEquip;
-        if (slot == null || EquipmentSlots == null) return null;
-        return EquipmentSlots.Contains(slot.Value) ? slot.Value : null;
+        if (slot == null) return null;
+        foreach (EquipmentSlotType potentialSlot in EquipmentSlots!) {
+            if (potentialSlot == slot && Equipment[potentialSlot] == null) {
+                return potentialSlot;
+            }
+        }
+
+        return null;
     }
 
     #endregion

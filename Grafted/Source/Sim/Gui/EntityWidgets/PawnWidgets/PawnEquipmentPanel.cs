@@ -14,6 +14,7 @@ namespace Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 public class PawnEquipmentPanel : HorizontalStackPanel {
     private readonly PawnEquipment _equipment;
     private readonly Dictionary<BodyPart, EquipmentColumn> _panels = new();
+    private static readonly Color DestroyedEquipmentColor = new(255, 0, 0, 15);
 
     public PawnEquipmentPanel(PawnEquipment equipment, Action<BodyPart, EquipmentSlotType>? clickAction = null) {
         _equipment = equipment;
@@ -82,13 +83,13 @@ public class PawnEquipmentPanel : HorizontalStackPanel {
 
     private static Color GetEquipmentColor(Item item, BodyPart bodyPart) {
         if (item.IsDestroyed) {
-            return Color.Transparent;
+            return DestroyedEquipmentColor;
         }
 
         if (item.ItemDef.EquipmentProperties.EquipmentType == EquipmentType.Tool && bodyPart.IsFunctional == false) {
             return Color.Red;
         }
 
-        return Color.Lerp(Color.Transparent, Color.White, item.Durability / item.MaxDurability);
+        return Color.Lerp(DestroyedEquipmentColor, Color.White, item.Durability / item.MaxDurability);
     }
 }

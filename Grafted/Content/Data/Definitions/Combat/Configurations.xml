@@ -20,7 +20,7 @@
                     </ListItem>
                     <ListItem>
                         <Item>JarOfBlood</Item>
-                        <Amount>1~2</Amount>
+                        <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
@@ -96,11 +96,6 @@
                     <ListItem>
                         <Item>MendersMist</Item>
                         <Amount>2</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>JarOfBlood</Item>
-                        <Amount>1~2</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
@@ -281,7 +276,7 @@
                 <InventoryItems>
                     <ListItem>
                         <Item>JarOfBlood</Item>
-                        <Amount>1~2</Amount>
+                        <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                     <ListItem>

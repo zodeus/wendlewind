@@ -169,6 +169,7 @@ public class CombatTurn {
 
         if (pawn.Body.BloodLevel < .3f && pawn.Equipment.PotionByDef(Defs.Items.JarOfBlood) is { } p) {
             UseBloodPotion(p, pawn, turnData);
+            pawn.Equipment.UnEquip(p);
         }
     }
 
@@ -178,8 +179,9 @@ public class CombatTurn {
         foreach (BodyPart eye in target.Body.AllExternalParts.Where(part => part.Type == BodyPartType.Eye).InRandomOrder()) {
             if (Core.Random.Chance(1)) {
                 eye.HitPoints = 0;
+                string eyeText = $"{eye.Socket?.Label.Split(" ")[0]} {eye.Type}";
                 _combatEvent.LogMessage(
-                    $"    \\c[{CombatSequence.TextColorYellow}]ACID EYES!!!!!!!!!!!"
+                    $"    \\c[{CombatSequence.TextColorYellow}]Burned out \\c[{CombatSequence.TextColorPawn}]{target.LabelShort}'s \\c[{CombatSequence.TextColorBodyPart}]{eyeText} \\c[{CombatSequence.TextColorDefault}]with \\c[{CombatSequence.TextColorItem}]{potion.Label}"
                 );
 
                 if (Core.Random.Chance(.75f)) {
@@ -191,7 +193,7 @@ public class CombatTurn {
         Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData {
             Text = $"{target.Label} has been spiced with acid",
             Font = BaseContent.Fonts.Default.Large,
-            Duration = 15,
+            Duration = 8,
             Color = Color.YellowGreen
         });
     }
@@ -208,7 +210,7 @@ public class CombatTurn {
             Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData {
                 Text = "Sipped a Jar of Blood. Blood is good for battle, bad for the mind",
                 Font = BaseContent.Fonts.Default.Large,
-                Duration = 15,
+                Duration = 8,
                 Color = Color.Red
             });
         }
