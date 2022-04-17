@@ -38,6 +38,49 @@
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
+        <Moniker>LeatherGorget</Moniker>
+        <Label>Leather Gorget</Label>
+        <ItemType>Equipment</ItemType>
+        <MaterialType>Artificial</MaterialType>
+        <Description>Fits snuggly around your neck</Description>
+        <EquipmentProperties>
+            <SlotUsedToEquip>NeckArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Leather/Gorget</TexturePath>
+        <BaseStats>
+            <PhysicalResistance>20</PhysicalResistance>
+            <MaxDurability>60</MaxDurability>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="ArmorBase">
+        <Moniker>LeatherBoot</Moniker>
+        <Label>Leather Boot</Label>
+        <ItemType>Equipment</ItemType>
+        <MaterialType>Artificial</MaterialType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>FootArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Leather/Boot</TexturePath>
+        <BaseStats>
+            <PhysicalResistance>20</PhysicalResistance>
+            <MaxDurability>100</MaxDurability>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="ArmorBase">
+        <Moniker>LeatherGreave</Moniker>
+        <Label>Leather Greave</Label>
+        <ItemType>Equipment</ItemType>
+        <MaterialType>Artificial</MaterialType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>LegArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Leather/Greave</TexturePath>
+        <BaseStats>
+            <PhysicalResistance>20</PhysicalResistance>
+            <MaxDurability>120</MaxDurability>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="ArmorBase">
         <Moniker>LeatherTunic</Moniker>
         <Label>Leather Tunic</Label>
         <ItemType>Equipment</ItemType>
@@ -63,6 +106,20 @@
         <BaseStats>
             <PhysicalResistance>30</PhysicalResistance>
             <MaxDurability>70</MaxDurability>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="ArmorBase">
+        <Moniker>FishBowlHelmet</Moniker>
+        <Label>Fish Bowl Helmet</Label>
+        <ItemType>Equipment</ItemType>
+        <MaterialType>Glass</MaterialType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Misc/FishBowlHelmet</TexturePath>
+        <BaseStats>
+            <PhysicalResistance>30</PhysicalResistance>
+            <MaxDurability>4</MaxDurability>
         </BaseStats>
     </ItemDef>
 </Definitions>

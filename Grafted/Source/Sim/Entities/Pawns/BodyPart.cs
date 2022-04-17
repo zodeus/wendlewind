@@ -222,9 +222,8 @@ public class BodyPart : Entity {
             float chanceToMiss = Socket?.ParentPart?.HealthPercent switch {
                 < .10f => 0.00f,
                 < .20f => 0.50f,
-                < .40f => 0.85f,
-                < .50f => 0.90f,
-                < .90f => 0.99f,
+                < .40f => 0.95f,
+                < .80f => 0.99f,
                 _ => 1
             };
 
@@ -305,12 +304,28 @@ public class BodyPart : Entity {
         }
 
         IsSevered = true;
-        Log.Info($"Severed limb {this} ({Socket})");
     }
 
     #region Equipment
 
     public EquipmentSlotType? SlotFor(Item item) {
+        var slot = item.ItemDef.EquipmentProperties.SlotUsedToEquip;
+        if (slot == null || EquipmentSlots == null) return null;
+        return EquipmentSlots.Contains(slot.Value) ? slot.Value : null;
+    }
+
+    public EquipmentSlotType? EmptySlotFor(Item item) {
+        if (item.ItemDef.ItemType == ItemType.Potion) {
+            if (!HasEquipmentSlots) return null;
+            foreach (EquipmentSlotType potionSlot in EquipmentSlots!.Where(s => s is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2)) {
+                if (Equipment[potionSlot] == null) {
+                    return potionSlot;
+                }
+            }
+
+            return null;
+        }
+
         var slot = item.ItemDef.EquipmentProperties.SlotUsedToEquip;
         if (slot == null || EquipmentSlots == null) return null;
         return EquipmentSlots.Contains(slot.Value) ? slot.Value : null;

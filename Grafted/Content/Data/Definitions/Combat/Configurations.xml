@@ -8,10 +8,19 @@
                 <Race>Caucasian</Race>
                 <Config>TheHelplessMan</Config>
                 <PawnName>Helpless Man</PawnName>
+                <EquipmentItems>
+                    <ListItem>LeatherBoot</ListItem>
+                    <ListItem>LeatherBoot</ListItem>
+                </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
                         <Item>ArterialThreads</Item>
                         <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>JarOfBlood</Item>
+                        <Amount>1~2</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
@@ -26,7 +35,8 @@
                 <Config>TheHelplessMan</Config>
                 <PawnName>Less Helpless Man</PawnName>
                 <EquipmentItems>
-                    <ListItem>WoodenStick</ListItem>
+                    <ListItem>BirchRod</ListItem>
+                    <ListItem>LeatherGorget</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
@@ -51,13 +61,19 @@
                 <Config>TheHelplessMan</Config>
                 <PawnName>One Glove Larry</PawnName>
                 <EquipmentItems>
-                    <ListItem>WoodenStick</ListItem>
+                    <ListItem>BirchRod</ListItem>
                     <ListItem>LeatherGlove</ListItem>
+                    <ListItem>FishBowlHelmet</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
                         <Item>ArterialThreads</Item>
                         <Amount>1~3</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>AcidFlask</Item>
+                        <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
@@ -72,13 +88,14 @@
                 <Config>TheHelplessMan</Config>
                 <PawnName>Timmy Two Sticks</PawnName>
                 <EquipmentItems>
-                    <ListItem>WoodenStick</ListItem>
-                    <ListItem>WoodenStick</ListItem>
+                    <ListItem>BirchRod</ListItem>
+                    <ListItem>BirchRod</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
                         <Item>MendersMist</Item>
-                        <Amount>1~2</Amount>
+                        <Amount>2</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                     <ListItem>
@@ -98,8 +115,8 @@
                 <Config>TheHelplessMan</Config>
                 <PawnName>Timmy Two Sticks+</PawnName>
                 <EquipmentItems>
-                    <ListItem>WoodenStick</ListItem>
-                    <ListItem>WoodenStick</ListItem>
+                    <ListItem>BirchRod</ListItem>
+                    <ListItem>BirchRod</ListItem>
                     <ListItem>LeatherGlove</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
@@ -127,6 +144,7 @@
                 <EquipmentItems>
                     <ListItem>WoodenHammer</ListItem>
                     <ListItem>LeatherGlove</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
@@ -151,9 +169,11 @@
                 <Config>TheHelplessMan</Config>
                 <PawnName>Timmy Two Sticks</PawnName>
                 <EquipmentItems>
-                    <ListItem>WoodenStick</ListItem>
-                    <ListItem>WoodenStick</ListItem>
+                    <ListItem>BirchRod</ListItem>
+                    <ListItem>BirchRod</ListItem>
                     <ListItem>LeatherVambrace</ListItem>
+                    <ListItem>JarOfBlood</ListItem>
+                    <ListItem>JarOfBlood</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
@@ -192,6 +212,11 @@
                         <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
+                    <ListItem>
+                        <Item>AcidFlask</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
@@ -206,6 +231,8 @@
                 <EquipmentItems>
                     <ListItem>Knife</ListItem>
                     <ListItem>BucketHelmet</ListItem>
+                    <ListItem>LeatherGorget</ListItem>
+                    <ListItem>JarOfBlood</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
@@ -248,6 +275,8 @@
                     <ListItem>Knife</ListItem>
                     <ListItem>LeatherVambrace</ListItem>
                     <ListItem>LeatherGlove</ListItem>
+                    <ListItem>LeatherBoot</ListItem>
+                    <ListItem>LeatherBoot</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
@@ -287,6 +316,8 @@
                 <PawnName>Mr. Mace</PawnName>
                 <EquipmentItems>
                     <ListItem>Mace</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
@@ -325,6 +356,7 @@
                     <ListItem>Mace</ListItem>
                     <ListItem>LeatherTunic</ListItem>
                     <ListItem>LeatherVambrace</ListItem>
+                    <ListItem>JarOfBlood</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
@@ -334,8 +366,8 @@
                     </ListItem>
                     <ListItem>
                         <Item>MedKit</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
+                        <Amount>1~2</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                     <ListItem>
                         <Item>ArterialThreads</Item>
@@ -367,6 +399,11 @@
                     <ListItem>
                         <Item>MendersMist</Item>
                         <Amount>1~2</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>AcidFlask</Item>
+                        <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
@@ -407,11 +444,16 @@
                     <ListItem>ShortSword</ListItem>
                     <ListItem>Mace</ListItem>
                     <ListItem>BucketHelmet</ListItem>
+                    <ListItem>LeatherGorget</ListItem>
                     <ListItem>LeatherTunic</ListItem>
                     <ListItem>LeatherVambrace</ListItem>
                     <ListItem>LeatherVambrace</ListItem>
                     <ListItem>LeatherGlove</ListItem>
                     <ListItem>LeatherGlove</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherBoot</ListItem>
+                    <ListItem>LeatherBoot</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>

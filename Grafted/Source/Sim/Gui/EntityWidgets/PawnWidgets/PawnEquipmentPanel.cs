@@ -4,8 +4,10 @@ using System.Linq;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
 using Microsoft.Xna.Framework;
+using Myra.Graphics2D;
 using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
+using Myra.Graphics2D.UI.Styles;
 
 namespace Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 
@@ -41,36 +43,36 @@ public class PawnEquipmentPanel : HorizontalStackPanel {
         private readonly Dictionary<EquipmentSlotType, ImageButton> _slots = new();
         private readonly Image _image;
         private event Action<BodyPart, EquipmentSlotType>? ClickAction;
+        private Dictionary<ItemDef, ColoredRegion> _iconCache = new();
+        private IImage _potionSlotIcon;
 
         public EquipmentColumn(BodyPart bodyPart, List<EquipmentSlotType> slots, Action<BodyPart, EquipmentSlotType>? clickAction = null) {
             _bodyPart = bodyPart;
             ClickAction = clickAction;
+            _potionSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.PotionSlot];
             _image = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.Icon), BodyPartColor.Get(bodyPart)), Width = 32, Height = 32 };
+            _image.TouchDown += (_, _) => Core.Sim.Gui!.ViewEntity(bodyPart);
             AddChild(_image);
             foreach (EquipmentSlotType slot in slots) {
                 ImageButton slotFrame = new(BaseContent.Styles.Button.Icon) { Width = 32, Height = 32 };
                 _slots.Add(slot, slotFrame);
-                slotFrame.Click += (_, _) => {
-                    ClickAction?.Invoke(bodyPart, slot);
-                    if (bodyPart.Equipment[slot] is { } item) {
-                        slotFrame.Image = new ColoredRegion(new TextureRegion(item.Icon), GetEquipmentColor(item));
-                    }
-                };
+                slotFrame.Click += (_, _) => ClickAction?.Invoke(bodyPart, slot);
                 AddChild(slotFrame);
             }
         }
 
         public void Update() {
             foreach ((EquipmentSlotType slot, ImageButton? image) in _slots) {
-                if (_bodyPart.Equipment[slot] is { } item) {
-                    if (image.Image == null) {
-                        image.Image = new ColoredRegion(new TextureRegion(item.Icon), GetEquipmentColor(item));
+                if (_bodyPart.Equipment[slot] is { } item && item.IsDestroyed == false) {
+                    if (_iconCache.ContainsKey(item.ItemDef) == false) {
+                        _iconCache[item.ItemDef] = new ColoredRegion(new TextureRegion(item.Icon), Color.White);
                     }
 
-                    ((ColoredRegion) image.Image).Color = GetEquipmentColor(item);
+                    image.Image = _iconCache[item.ItemDef];
+                    ((ColoredRegion) image.Image).Color = GetEquipmentColor(item, _bodyPart);
                 }
                 else {
-                    image.Image = null;
+                    image.Image = slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2 ? _potionSlotIcon : null;
                 }
             }
 
@@ -78,11 +80,15 @@ public class PawnEquipmentPanel : HorizontalStackPanel {
         }
     }
 
-    private static Color GetEquipmentColor(Item item) {
+    private static Color GetEquipmentColor(Item item, BodyPart bodyPart) {
         if (item.IsDestroyed) {
-            return Color.Black;
+            return Color.Transparent;
         }
 
-        return Color.Lerp(Color.Black, Color.White, item.Durability / item.MaxDurability);
+        if (item.ItemDef.EquipmentProperties.EquipmentType == EquipmentType.Tool && bodyPart.IsFunctional == false) {
+            return Color.Red;
+        }
+
+        return Color.Lerp(Color.Transparent, Color.White, item.Durability / item.MaxDurability);
     }
 }

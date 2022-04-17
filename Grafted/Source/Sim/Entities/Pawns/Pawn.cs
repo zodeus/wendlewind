@@ -65,7 +65,7 @@ public class Pawn : Entity {
     }
 
     public DamageResponse TakeDamage(DamageRequest request) {
-        BodyPart bodyPart = Body.AllExternalParts/*.Where(p => p.Type == BodyPartType.Torso)*/.RandomElementByWeight(part => part.BodyPartDef.HitWeight)!;
+        BodyPart bodyPart = Body.AllExternalParts /*.Where(p => p.Type == BodyPartType.Torso)*/.RandomElementByWeight(part => part.BodyPartDef.HitWeight)!;
 
         DamageResponse response = new();
         foreach (Damage damage in request.RawDamages) {
@@ -132,15 +132,10 @@ public class Pawn : Entity {
                     nonFunctionalVitalParts.Add($"{partRecord.PartType} stopped functioning");
                 }
 
-                if (partIsFunctional == false) {
-                    if (Body.AllParts.Any(p => p.Type == partRecord.PartType && p.IsFunctional) == false) {
-                        IsDead = true;
-                        response.Killed = true;
-                        causeOfDeath = nonFunctionalVitalParts.Last();
-                    }
-                    else {
-                        Log.Info($"VITAL {partRecord} destroyed, but there is another one left");
-                    }
+                if (partIsFunctional == false && Body.AllParts.Any(p => p.Type == partRecord.PartType && p.IsFunctional) == false) {
+                    IsDead = true;
+                    response.Killed = true;
+                    causeOfDeath = nonFunctionalVitalParts.Last();
                 }
             }
         }

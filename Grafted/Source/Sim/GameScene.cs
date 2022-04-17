@@ -1,5 +1,5 @@
 using Grafted.Scenes;
-using Grafted.Sim.Gui.CombatGuis;
+using Grafted.Sim.Gui;
 
 namespace Grafted.Sim;
 

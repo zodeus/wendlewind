@@ -1,19 +1,22 @@
 using System;
 using System.Linq;
 using Grafted.Sim.Combat;
-using Grafted.Sim.Gui.EntityWidgets;
+using Grafted.Sim.Entities.Items;
+using Grafted.Sim.Gui.CombatWidgets;
 using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
+using Grafted.Sim.Gui.MiscWidgets;
 using Grafted.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Myra.Graphics2D;
+using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.UI.Styles;
 using HorizontalAlignment = Myra.Graphics2D.UI.HorizontalAlignment;
 using Label = Myra.Graphics2D.UI.Label;
 
-namespace Grafted.Sim.Gui.CombatGuis;
+namespace Grafted.Sim.Gui;
 
 public class CombatGui : SimulationGui {
     private readonly CombatEvent _combatEvent;
@@ -24,6 +27,8 @@ public class CombatGui : SimulationGui {
     private readonly CombatPartyPanel _opponentPartyPanel;
     private readonly CombatControlPanel _controlPanel;
     private readonly PawnBodyPanel _pawnBodyView;
+    private ImageButton _playerQueuedPotionSlot;
+    private Item? _playerQueuedPotion = null;
 
     public CombatGui(CombatEvent combatEvent) {
         _combatEvent = combatEvent;
@@ -71,11 +76,30 @@ public class CombatGui : SimulationGui {
             }
         };
 
+        _playerQueuedPotionSlot = new ImageButton(BaseContent.Styles.Button.Icon) {
+            Width = 24, Height = 24
+        };
+
         VerticalStackPanel centerColumn = new() {
             Spacing = 0, GridRow = 1, GridColumn = 1,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Widgets = {
-                turnPane, _controlPanel
+                turnPane, _controlPanel,
+                new HorizontalSeparator(),
+                new HorizontalStackPanel {
+                    Margin = new Thickness(5, 20, 5, 5),
+                    Proportions = {
+                        Proportion.Auto, Proportion.Fill, Proportion.Auto
+                    },
+                    Widgets = {
+                        _playerQueuedPotionSlot,
+                        new VerticalSeparator() { HorizontalAlignment = HorizontalAlignment.Center },
+                        new Image {
+                            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
+                            Width = 24, Height = 24
+                        },
+                    }
+                }
             }
         };
 
@@ -97,7 +121,7 @@ public class CombatGui : SimulationGui {
         Grid grid = new() {
             //BorderThickness = new Thickness(1),Border = new SolidBrush(Color.Orange),
             //Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
-            //ShowGridLines = true, 
+            //ShowGridLines = true,
             HorizontalAlignment = HorizontalAlignment.Center,
             Margin = new Thickness(0), GridLinesColor = Color.Red, RowSpacing = 20,
             DefaultRowProportion = Proportion.Auto, DefaultColumnProportion = Proportion.Auto,
@@ -145,28 +169,25 @@ public class CombatGui : SimulationGui {
         };
     }
 
-    public override void Render(SpriteBatch spriteBatch, float deltaTime) {
+    public override void Update(float deltaTime) {
         if (_combatEvent.State == CombatState.CombatFinished && Input.IsKeyPressed(Keys.Enter)) {
             Core.Sim.Gui = new CombatResultsGui(_combatEvent);
+        }
+
+        if (_combatEvent.PotionQueuedFor(_combatEvent.PlayerPawns[0]) is { } potion) {
+            if (_playerQueuedPotion != potion) {
+                _playerQueuedPotionSlot.Image = new TextureRegion(potion.Icon);
+            }
+        }
+        else if (_playerQueuedPotionSlot.Image != null) {
+            _playerQueuedPotionSlot.Image = null;
         }
 
         _programStats.Update();
         _playerPartyPanel.Update();
         _opponentPartyPanel.Update();
         _pawnBodyView.Update();
-        MouseAttachment?.Update();
         _turnLabel.Text = $"Turn {_combatEvent.CurrentTurnNum.ToString().PadLeft(2, '0')}";
-        Desktop.Render();
-        spriteBatch.Begin(
-            SpriteSortMode.Deferred,
-            BlendState.NonPremultiplied,
-            SamplerState.PointClamp,
-            DepthStencilState.None,
-            RasterizerState.CullNone
-        );
-        MouseAttachment?.Render(spriteBatch);
-        spriteBatch.End();
-        base.Render(spriteBatch, deltaTime);
     }
 
     private void AddCombatLogEntry(string text, Color? color = null) {

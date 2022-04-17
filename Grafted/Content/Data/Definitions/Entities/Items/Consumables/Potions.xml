@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef Name="Potion" ParentName="Consumable" Abstract="true">
+        <ItemType>Potion</ItemType>
+        <MaterialType>Artificial</MaterialType>
+        <!--<StackLimit>99999</StackLimit>-->
+        <EquipmentProperties>
+            <EquipmentType>Potion</EquipmentType>
+        </EquipmentProperties>
+    </ItemDef>
+    <ItemDef ParentName="Potion">
+        <Moniker>JarOfBlood</Moniker>
+        <Label>Jar of Blood</Label>
+        <Description>Can be sipped during combat to replenish lost blood.</Description>
+        <TexturePath>Entities/Item/Consumables/JarOfBlood</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="Potion">
+        <Moniker>AcidFlask</Moniker>
+        <Label>Acid Flask</Label>
+        <Description>Has a chance to blind opponent</Description>
+        <TexturePath>Entities/Item/Consumables/AcidFlask</TexturePath>
+    </ItemDef>
+</Definitions>

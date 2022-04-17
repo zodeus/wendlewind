@@ -1,6 +1,6 @@
 using Myra.Graphics2D.UI;
 
-namespace Grafted.Sim.Gui;
+namespace Grafted.Sim.Gui.MiscWidgets;
 
 public class ProgramStatsPanel : HorizontalStackPanel {
     private readonly Label _fps;

@@ -3,8 +3,10 @@ using Grafted.Graphics.Textures;
 using Grafted.Maths;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Entities;
+using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
 using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
+using Grafted.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Myra.Graphics2D;
@@ -12,7 +14,7 @@ using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.UI.Styles;
 
-namespace Grafted.Sim.Gui.CombatGuis;
+namespace Grafted.Sim.Gui.CombatWidgets;
 
 internal class PawnCombatPanel : HorizontalStackPanel {
     public readonly Pawn Pawn;
@@ -42,8 +44,14 @@ internal class PawnCombatPanel : HorizontalStackPanel {
 
     private Widget GenerateEquipmentPanel() {
         _pawnEquipmentPanel = new PawnEquipmentPanel(Pawn.Equipment, (part, type) => {
-            if (part.Equipment[type] != null) {
-                Core.Sim.Gui!.ViewEntity(part.Equipment[type]!);
+            if (part.Equipment[type] is { } item) {
+                if (Pawn.PawnType == PawnType.Player && Input.RightMouseButtonReleased && item.ItemDef.ItemType == ItemType.Potion) {
+                    Log.Info($"Right clicked {part.Equipment[type]}");
+                    _combatEvent.QueuePotion(item, Pawn);
+                    return;
+                }
+
+                Core.Sim.Gui!.ViewEntity(item);
             }
         });
         return _pawnEquipmentPanel;

@@ -43,6 +43,7 @@ public static partial class Defs {
         public static ItemDef MendersMist = null!;
         public static ItemDef RepairKit = null!;
         public static ItemDef JarOfBlood = null!;
+        public static ItemDef AcidFlask = null!;
     }
 }
 

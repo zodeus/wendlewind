@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Grafted.Sim.Gui;
+namespace Grafted.Sim.Gui.MiscWidgets;
 
 public class MouseAttachment {
     public bool UseWorldSpacePosition { get; set; } = false;

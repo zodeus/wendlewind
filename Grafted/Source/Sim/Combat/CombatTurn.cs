@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using Grafted.Coroutines;
 using Grafted.Definitions;
 using Grafted.Maths;
@@ -78,7 +79,7 @@ public class CombatTurn {
                         }
                     }
 
-                    UsePotionsIfNecessary(attacker, turnData);
+                    UsePotionsIfNecessary(attacker, target, turnData);
                     if (_combatEvent.ShouldAttemptRetreat(this, attacker)) {
                         turnData.AvailableSequencePoints -= turnData.AvailableSequencePoints;
                         _combatEvent.AttemptRetreat();
@@ -145,23 +146,60 @@ public class CombatTurn {
         return target;
     }
 
-    private void UsePotionsIfNecessary(Pawn pawn, PawnTurnData turnData) {
+    private void UsePotionsIfNecessary(Pawn pawn, Pawn target, PawnTurnData turnData) {
         if (turnData.AvailableSequencePoints < 1) {
             return;
         }
 
-        if (pawn.Body.BloodLevel > .3f || pawn.Inventory.Any(item => item.Def == Defs.Items.JarOfBlood) == false) {
-            return;
+        if (_combatEvent.DeQueuedPotionFor(pawn) is { } potion) {
+            if (potion.Def == Defs.Items.JarOfBlood) {
+                UseBloodPotion(potion, pawn, turnData);
+                pawn.Equipment.UnEquip(potion);
+            }
+
+            if (potion.Def == Defs.Items.AcidFlask) {
+                UseAcidFlask(potion, target, turnData);
+                pawn.Equipment.UnEquip(potion);
+            }
+
+            if (turnData.AvailableSequencePoints < 1) {
+                return;
+            }
         }
 
-        var potion = pawn.Inventory.First(item => item.Def == Defs.Items.JarOfBlood);
+        if (pawn.Body.BloodLevel < .3f && pawn.Equipment.PotionByDef(Defs.Items.JarOfBlood) is { } p) {
+            UseBloodPotion(p, pawn, turnData);
+        }
+    }
+
+    private void UseAcidFlask(Item potion, Pawn target, PawnTurnData turnData) {
+        turnData.AvailableSequencePoints -= 1;
+        potion.Destroy();
+        foreach (BodyPart eye in target.Body.AllExternalParts.Where(part => part.Type == BodyPartType.Eye).InRandomOrder()) {
+            if (Core.Random.Chance(1)) {
+                eye.HitPoints = 0;
+                _combatEvent.LogMessage(
+                    $"    \\c[{CombatSequence.TextColorYellow}]ACID EYES!!!!!!!!!!!"
+                );
+
+                if (Core.Random.Chance(.75f)) {
+                    break;
+                }
+            }
+        }
+
+        Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData {
+            Text = $"{target.Label} has been spiced with acid",
+            Font = BaseContent.Fonts.Default.Large,
+            Duration = 15,
+            Color = Color.YellowGreen
+        });
+    }
+
+    private void UseBloodPotion(Item potion, Pawn pawn, PawnTurnData turnData) {
         float amount = 3000; //potion.GetStatValue(Defs.Stats.HealingValue);
         pawn.Body.BloodAmount += amount;
-        potion.StackSize--;
-        if (potion.StackSize == 0) {
-            potion.Destroy();
-        }
-
+        potion.Destroy();
         turnData.AvailableSequencePoints -= 1;
         _combatEvent.LogMessage(
             $"    \\c[{CombatSequence.TextColorYellow}]Sipped a \\c[{CombatSequence.TextColorItem}]{potion.Label} \\c[{CombatSequence.TextColorDefault}]for \\c[{CombatSequence.TextColorGreen}]{amount} \\c[{CombatSequence.TextColorDefault}]blood"
@@ -171,11 +209,10 @@ public class CombatTurn {
                 Text = "Sipped a Jar of Blood. Blood is good for battle, bad for the mind",
                 Font = BaseContent.Fonts.Default.Large,
                 Duration = 15,
-                Color = Color.IndianRed
+                Color = Color.Red
             });
         }
     }
-
 
     private IEnumerator SetTurnInteractive() {
         _combatEvent.State = CombatState.TurnInteractive;

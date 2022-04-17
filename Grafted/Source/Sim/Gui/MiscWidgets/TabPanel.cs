@@ -1,7 +1,7 @@
 ﻿using Myra.Graphics2D;
 using Myra.Graphics2D.UI;
 
-namespace Grafted.Sim.Gui;
+namespace Grafted.Sim.Gui.MiscWidgets;
 
 public class TabPanel : VerticalStackPanel {
     private readonly HorizontalStackPanel _tabButtons;

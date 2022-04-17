@@ -2,7 +2,7 @@
 using Myra.Graphics2D;
 using Myra.Graphics2D.UI;
 
-namespace Grafted.Sim.Gui;
+namespace Grafted.Sim.Gui.MiscWidgets;
 
 public class MessagePanel : Panel {
     public MessagePanel(SimulationMessages messages) {

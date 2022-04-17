@@ -11,9 +11,9 @@
         <DamageType>Sharp</DamageType>
     </ItemDef>
     <ItemDef ParentName="WeaponSharp">
-        <Moniker>WoodenStick</Moniker>
-        <Label>Wooden Stick</Label>
-        <Description>It's a beating stick... (1.5x to bones)</Description>
+        <Moniker>BirchRod</Moniker>
+        <Label>Birch Rod</Label>
+        <Description>A tool used in the service of justice (1.5x to bones)</Description>
         <ToolType>Staff</ToolType>
         <DamageType>Blunt</DamageType>
         <ToolCategories>

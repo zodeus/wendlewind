@@ -5,17 +5,3 @@ public class EquipmentProperties {
     public int MaxTrinkets = 0;
     public EquipmentSlotType? SlotUsedToEquip = EquipmentSlotType.Invalid;
 }
-
-public enum EquipmentSlotType {
-    Invalid,
-    BuiltIn,
-    HandWeapon,
-    HandArmor,
-    FootWeapon,
-    FootArmor,
-    LegArmor,
-    ArmArmor,
-    TorsoArmor,
-    NeckArmor,
-    HeadArmor
-}

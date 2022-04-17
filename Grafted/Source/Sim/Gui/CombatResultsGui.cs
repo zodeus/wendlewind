@@ -3,10 +3,12 @@ using System.Linq;
 using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Combat;
+using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
 using Grafted.Sim.Gui.EntityWidgets;
 using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
+using Grafted.Sim.Gui.MiscWidgets;
 using Grafted.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,7 +20,7 @@ using HorizontalAlignment = Myra.Graphics2D.UI.HorizontalAlignment;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 using Label = Myra.Graphics2D.UI.Label;
 
-namespace Grafted.Sim.Gui.CombatGuis;
+namespace Grafted.Sim.Gui;
 
 public class CombatResultsGui : SimulationGui {
     private readonly CombatEvent _combatEvent;
@@ -65,11 +67,11 @@ public class CombatResultsGui : SimulationGui {
             Width = 300, GridRow = 1, GridColumn = 1
         };
 
-        _equipmentPanel = new PawnEquipmentPanel(playerPawn.Equipment, (part, type) => {
+        _equipmentPanel = new PawnEquipmentPanel(playerPawn.Equipment, (part, slot) => {
 
             // UnEquip
-            if (Core.Sim.Gui!.MouseAttachment == null && Input.RightMouseButtonReleased && type != EquipmentSlotType.BuiltIn) {
-                Item? unEquippedItem = playerPawn.Equipment.UnEquip(part, type);
+            if (Core.Sim.Gui!.MouseAttachment == null && Input.RightMouseButtonReleased && slot != EquipmentSlotType.BuiltIn) {
+                Item? unEquippedItem = playerPawn.Equipment.UnEquip(part, slot);
                 if (unEquippedItem != null) {
                     playerPawn.Inventory.Items.TryAdd(unEquippedItem);
                 }
@@ -77,7 +79,7 @@ public class CombatResultsGui : SimulationGui {
 
             if (Core.Sim.Gui!.MouseAttachment?.Data is Item item) {
                 if (item.Def == Defs.Items.RepairKit) {
-                    if (playerPawn.Equipment.GetBySlot(part, type) is { } equipmentItem && equipmentItem.Durability < equipmentItem.MaxDurability) {
+                    if (playerPawn.Equipment.GetBySlot(part, slot) is { } equipmentItem && equipmentItem.Durability < equipmentItem.MaxDurability) {
                         equipmentItem.Repair();
                         item.StackSize--;
                         if (item.StackSize == 0) {
@@ -90,9 +92,27 @@ public class CombatResultsGui : SimulationGui {
                 }
 
                 // Try Equip
-                if (item.ItemDef.EquipmentProperties.SlotUsedToEquip == type) {
-                    playerPawn.Inventory.Items.Remove(item);
-                    Item? unEquippedItem = playerPawn.Equipment.TryEquip(part, item);
+                if (item.ItemDef.EquipmentProperties.SlotUsedToEquip == slot || (item.ItemDef.ItemType == ItemType.Potion && slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2)) {
+                    Item? unEquippedItem = null;
+                    if (item.ItemDef.ItemType == ItemType.Potion) {
+                        //todo implement splitting
+                        Item potion;
+                        if (item.StackSize > 1) {
+                            item.StackSize--;
+                            potion = EntityGenerator.CreateEntity<Item>(item.ItemDef, 1);
+                        }
+                        else {
+                            potion = item;
+                            playerPawn.Inventory.Items.Remove(item);
+                        }
+
+                        unEquippedItem = playerPawn.Equipment.TryEquip(part, slot, potion);
+                    }
+                    else {
+                        playerPawn.Inventory.Items.Remove(item);
+                        unEquippedItem = playerPawn.Equipment.TryEquip(part, slot, item);
+                    }
+
                     Core.Sim.Gui!.MouseAttachment.Detach();
                     if (unEquippedItem != null) {
                         playerPawn.Inventory.Items.TryAdd(unEquippedItem);
@@ -102,8 +122,8 @@ public class CombatResultsGui : SimulationGui {
                 return;
             }
 
-            if (part.Equipment[type] != null) {
-                Core.Sim.Gui!.ViewEntity(part.Equipment[type]!);
+            if (part.Equipment[slot] != null) {
+                Core.Sim.Gui!.ViewEntity(part.Equipment[slot]!);
             }
         }) {
             GridRow = 1, GridColumn = 2
@@ -274,20 +294,10 @@ public class CombatResultsGui : SimulationGui {
     }
 
     public override void Render(SpriteBatch spriteBatch, float deltaTime) {
-        MouseAttachment?.Update();
         _bodyPanel.Update();
         _inventoryPanel.Update();
         _equipmentPanel.Update();
-        Desktop.Render();
-        spriteBatch.Begin(
-            SpriteSortMode.Deferred,
-            BlendState.NonPremultiplied,
-            SamplerState.PointClamp,
-            DepthStencilState.None,
-            RasterizerState.CullNone
-        );
-        MouseAttachment?.Render(spriteBatch);
-        spriteBatch.End();
+
         base.Render(spriteBatch, deltaTime);
     }
 }

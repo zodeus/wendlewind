@@ -5,7 +5,6 @@ using System.Linq;
 using Grafted.Maths;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
-using Grafted.Sim.Gui;
 using Microsoft.Xna.Framework;
 
 namespace Grafted.Sim.Combat;
@@ -24,9 +23,10 @@ public class CombatEvent {
     public List<BodyPart> SeveredLimbs = new();
 
     public bool IsInteractive = false;
+    private Dictionary<Pawn, Item> _queuedPotions = new();
 
     public CombatState State {
-        get { return _state; }
+        get => _state;
         set {
             _state = value;
             StateChangedAction?.Invoke(_state);
@@ -222,12 +222,25 @@ public class CombatEvent {
 
             part.HitPoints += Mathf.FloorToInt(part.MaxHitPoints * Core.Random.NextFloat(0.03f, 0.08f));
         }
+    }
 
-        Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData {
-            Text = "A hero has fallen",
-            Font = BaseContent.Fonts.Default.Large,
-            Duration = 30,
-            Color = Color.IndianRed
-        });
+    public void QueuePotion(Item potion, Pawn pawn) {
+        _queuedPotions[pawn] = potion;
+    }
+
+    public Item? DeQueuedPotionFor(Pawn pawn) {
+        if (_queuedPotions.ContainsKey(pawn)) {
+            Item potion = _queuedPotions[pawn];
+            _queuedPotions.Remove(pawn);
+            return potion;
+        }
+
+        return null;
+
+    }
+
+    public Item? PotionQueuedFor(Pawn pawn) {
+        return _queuedPotions.ContainsKey(pawn) ? _queuedPotions[pawn] : null;
+
     }
 }

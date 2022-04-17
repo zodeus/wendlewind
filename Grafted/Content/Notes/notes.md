@@ -7,7 +7,7 @@
 - A Monster Fight + Harvesting / Butchering
 - Grafting System
 - Vampire Mechanics (Blood Gorging)
-
+- Add MessagePanel somewhere
 
 # NAMES
 - the shortener

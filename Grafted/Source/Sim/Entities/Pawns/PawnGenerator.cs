@@ -61,29 +61,22 @@ public static class PawnGenerator {
     }
 
     public static void RegisterEquipment(Pawn pawn, List<ItemDef> equipment) {
+        Item? returnedItem = null;
         foreach (ItemDef itemDef in equipment) {
             Item item = EntityGenerator.CreateEntity<Item>(itemDef, 1);
-            var potentialParts = pawn.Body.AllParts.Where(p => {
-                if (p.SlotFor(item) is not { } slot) {
-                    return false;
+            foreach (BodyPart bodyPart in pawn.Body.AllExternalParts) {
+                if (bodyPart.EmptySlotFor(item) is not { } slot) {
+                    continue;
                 }
 
-                if (p.Equipment[slot] != null) {
-                    return false;
-                }
-
-                return true;
-            }).ToList();
-
-            if (potentialParts.Any() == false) {
-                Log.Error($"Failed to equip {item} on {pawn}, no available body parts found");
-                continue;
+                pawn.Equipment.TryEquip(
+                    bodyPart,
+                    slot,
+                    item
+                );
+                break;
             }
 
-            Item? returnedItem = pawn.Equipment.TryEquip(
-                potentialParts[0],
-                item
-            );
             if (returnedItem != null) {
                 Log.Error($"{returnedItem} was returned while attempting to equip on {pawn} PawnGenerator.RegisterTools");
             }
@@ -138,7 +131,7 @@ public static class HumanBodyGenerator {
 
         //Torso
         BodyPart torso = neck.GetSocketsFor(BodyPartType.Torso)[0].TryAttachPart(Defs.BodyParts.HumanTorso);
-        torso.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.HumanArtery);
+        //torso.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.HumanArtery);
         torso.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.HumanSkin);
         torso.GetSocketsFor(BodyPartType.Stomach)[0].TryAttachPart(Defs.BodyParts.HumanStomach);
 

@@ -2,7 +2,7 @@
 using Myra.Graphics2D;
 using Myra.Graphics2D.UI;
 
-namespace Grafted.Sim.Gui.CombatGuis;
+namespace Grafted.Sim.Gui.CombatWidgets;
 
 public class CombatControlPanel : VerticalStackPanel {
     private readonly TextButton _continueButton;

@@ -4,6 +4,7 @@ using FontStashSharp;
 using Grafted.Maths;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Gui.EntityWidgets;
+using Grafted.Sim.Gui.MiscWidgets;
 using Grafted.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -21,39 +22,34 @@ public abstract class SimulationGui {
     private readonly Window _entityViewerWindow = new();
     private KeyValuePair<Entity, Point?>? _queuedEntityToView;
 
-    public virtual void ViewEntity(Entity entity, Point? position = null) {
-        _queuedEntityToView = new KeyValuePair<Entity, Point?>(entity, position);
-    }
-
-    private void ShowEntityIfQueued() {
-        if (_queuedEntityToView == null) {
-            return;
-        }
-
-        _entityViewerWindow.Content = _queuedEntityToView.Value.Key.UiPanel(new EntityPanelProperties {
-            ShowTitle = false, ShowCloseButton = false, Background = null
-        });
-        _entityViewerWindow.Title = _queuedEntityToView.Value.Key.Label;
-        if (_entityViewerWindow.IsPlaced == false) {
-            _entityViewerWindow.Show(Desktop, _queuedEntityToView.Value.Value);
-        }
-
-        _queuedEntityToView = null;
-    }
-
     public virtual void Update(float deltaTime) {
         MouseAttachment?.Update();
         ShowEntityIfQueued();
         ((EntityPanelBase?) _entityViewerWindow.Content)?.Update();
-      
+
         if (_screenMessageTimeLeft > 0) {
             _screenMessageTimeLeft -= deltaTime;
         }
     }
 
+    public virtual void ViewEntity(Entity entity, Point? position = null) {
+        _queuedEntityToView = new KeyValuePair<Entity, Point?>(entity, position);
+    }
+
     public virtual void HandleInput() { }
 
     public virtual void Render(SpriteBatch spriteBatch, float deltaTime) {
+        Desktop.Render();
+        spriteBatch.Begin(
+            SpriteSortMode.Deferred,
+            BlendState.NonPremultiplied,
+            SamplerState.PointClamp,
+            DepthStencilState.None,
+            RasterizerState.CullNone
+        );
+        MouseAttachment?.Render(spriteBatch);
+        spriteBatch.End();
+        
         if (_screenMessageTimeLeft > 0) {
             spriteBatch.Begin(
                 SpriteSortMode.Deferred,
@@ -80,6 +76,22 @@ public abstract class SimulationGui {
     public void PushScreenMessage(ScreenMessageData message) {
         _screenMessage = message;
         _screenMessageTimeLeft = message.Duration;
+    }
+
+    private void ShowEntityIfQueued() {
+        if (_queuedEntityToView == null) {
+            return;
+        }
+
+        _entityViewerWindow.Content = _queuedEntityToView.Value.Key.UiPanel(new EntityPanelProperties {
+            ShowTitle = false, ShowCloseButton = false, Background = null
+        });
+        _entityViewerWindow.Title = _queuedEntityToView.Value.Key.Label;
+        if (_entityViewerWindow.IsPlaced == false) {
+            _entityViewerWindow.Show(Desktop, _queuedEntityToView.Value.Value);
+        }
+
+        _queuedEntityToView = null;
     }
 }
 

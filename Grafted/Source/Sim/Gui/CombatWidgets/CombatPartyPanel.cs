@@ -6,7 +6,7 @@ using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.UI.Styles;
 
-namespace Grafted.Sim.Gui.CombatGuis;
+namespace Grafted.Sim.Gui.CombatWidgets;
 
 internal class CombatPartyPanel : VerticalStackPanel {
     private readonly List<PawnCombatPanel> _panels;

@@ -123,11 +123,13 @@
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanTorso</TexturePath>
         <EquipmentSlots>
             <ListItem>TorsoArmor</ListItem>
+            <ListItem>PotionSlot1</ListItem>
+            <ListItem>PotionSlot2</ListItem>
         </EquipmentSlots>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
             <ListItem>RibCageSocket</ListItem>
-            <ListItem>ArterySocket</ListItem>
+            <!--<ListItem>ArterySocket</ListItem>-->
             <ListItem>StomachSocket</ListItem>
             <ListItem>LeftArmSocket</ListItem>
             <ListItem>RightArmSocket</ListItem>
@@ -153,7 +155,7 @@
         <Moniker>HumanRibCage</Moniker>
         <Label>Human Rib Cage</Label>
         <BodyPartType>RibCage</BodyPartType>
-        <Size>200</Size>
+        <Size>250</Size>
         <IsBone>true</IsBone>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanRibCage</TexturePath>
         <Sockets>
@@ -280,9 +282,9 @@
         <Size>140</Size>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanLeg</TexturePath>
-        <!--<EquipmentSlots>
+        <EquipmentSlots>
             <ListItem>LegArmor</ListItem>
-        </EquipmentSlots>-->
+        </EquipmentSlots>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
             <ListItem>BoneSocket</ListItem>

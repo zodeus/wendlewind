@@ -22,7 +22,17 @@ public class PawnEquipment : IEnumerable<Item>, IExposable {
         }
     }
 
-    public IEnumerable<Item> Potions => new List<Item>();
+    public IEnumerable<Item> Potions {
+        get {
+            foreach (BodyPart externalPart in _pawn.Body.AllExternalParts) {
+                foreach (Item? item in externalPart.Equipment.Values) {
+                    if (item?.ItemDef.ItemType == ItemType.Potion) {
+                        yield return item;
+                    }
+                }
+            }
+        }
+    }
 
     public IEnumerable<Item> UsableItems {
         get {
@@ -55,29 +65,18 @@ public class PawnEquipment : IEnumerable<Item>, IExposable {
     public void Tick() { }
 
     public Item? TryEquip(BodyPart bodyPart, Item item) {
-        /*if (item.ItemDef.ItemType == ItemType.Potion) {
-            Item? potion = EquipPotion(item);
-            if (potion != null) {
-                //return potion, failed to equip
-                return new[] { potion };
-            }
-    
-            return Array.Empty<Item>();
-        }*/
+        return TryEquip(bodyPart, bodyPart.SlotFor(item)!.Value, item);
+    }
+
+    public Item? TryEquip(BodyPart bodyPart, EquipmentSlotType slot, Item item) {
 
         if (item.ItemDef.EquipmentProperties.SlotUsedToEquip == null) {
             Log.Error($"Tried to equip '{item}' but SlotUsedToEquip is null");
             return null;
         }
 
-        var slot = bodyPart.SlotFor(item);
-        if (slot == null) {
-            Log.Error($"Tried to equip '{item}' we don't have the slots");
-            return null;
-        }
-
-        Item? unequippedItem = UnEquip(bodyPart, slot.Value);
-        bodyPart.Equipment[slot.Value] = item;
+        Item? unequippedItem = UnEquip(bodyPart, slot);
+        bodyPart.Equipment[slot] = item;
         //OnEquipmentChanged(new OnChangeArgs(OnChangeArgs.ChangeType.ItemEquipped, item));
         return unequippedItem;
     }
@@ -97,22 +96,13 @@ public class PawnEquipment : IEnumerable<Item>, IExposable {
     public Item? UnEquip(BodyPart bodyPart, EquipmentSlotType slot) {
         Item? item = GetBySlot(bodyPart, slot);
         if (item == null) return null;
-        UnEquipInternal(bodyPart, item);
+        UnEquipInternal(bodyPart, slot, item);
 
         return item;
     }
 
-    private void UnEquipInternal(BodyPart bodyPart, Item? item) {
-        if (item?.ItemDef.EquipmentProperties.SlotUsedToEquip is not { } slot) {
-            return;
-        }
-
-        if (item.ItemDef.ItemType == ItemType.Potion) {
-            //_potions.Remove(item);
-        }
-        else {
-            bodyPart.Equipment[slot] = null;
-        }
+    private void UnEquipInternal(BodyPart bodyPart, EquipmentSlotType slot, Item item) {
+        bodyPart.Equipment[slot] = null;
 
         //OnEquipmentChanged(new OnChangeArgs(OnChangeArgs.ChangeType.ItemUnequipped, item));
     }
@@ -140,5 +130,16 @@ public class PawnEquipment : IEnumerable<Item>, IExposable {
 
     IEnumerator IEnumerable.GetEnumerator() {
         return GetEnumerator();
+    }
+
+    public Item? PotionByDef(ItemDef potionDef) {
+        foreach (Item potion in Potions) {
+            //todo this sucks but it's expensive to find the potion slot again to remove it, need to add proper ItemContainers....
+            if (potion.Def == potionDef) {
+                return potion;
+            }
+        }
+
+        return null;
     }
 }
