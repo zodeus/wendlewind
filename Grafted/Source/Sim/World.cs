@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Grafted.Maths;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Pawns;
 using Grafted.Sim.Persistence;
@@ -22,8 +23,8 @@ public class World : IExposable {
 
     public CombatEvent NextCombat() {
         Pawn playerPawn = PlayerPawns[0];
-
-        return CombatGenerator.Generate(PlayerPawns);
+        int nextCombatId = Mathf.Clamp(TotalKills + 1, 1, 15);
+        return CombatGenerator.Generate(PlayerPawns, nextCombatId);
     }
 
     public void ExposeData() { }

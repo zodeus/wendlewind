@@ -237,6 +237,7 @@
             <ListItem>FingerSocket</ListItem>
         </Sockets>
         <BaseStats>
+            <SequencePoints>1</SequencePoints>
             <MaxHitPoints>50</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
@@ -313,6 +314,7 @@
             <ListItem>ArterySocket</ListItem>
         </Sockets>
         <BaseStats>
+            <SequencePoints>1</SequencePoints>
             <MaxHitPoints>70</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>

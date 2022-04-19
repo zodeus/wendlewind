@@ -167,8 +167,6 @@
                     <ListItem>BirchRod</ListItem>
                     <ListItem>BirchRod</ListItem>
                     <ListItem>LeatherVambrace</ListItem>
-                    <ListItem>JarOfBlood</ListItem>
-                    <ListItem>JarOfBlood</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
@@ -200,6 +198,8 @@
                 <EquipmentItems>
                     <ListItem>WoodenHammer</ListItem>
                     <ListItem>LeatherVambrace</ListItem>
+                    <ListItem>PumpinJuice</ListItem>
+                    <ListItem>JarOfBlood</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
@@ -411,7 +411,7 @@
             <ListItem>
                 <Race>Caucasian</Race>
                 <Config>TheHelplessMan</Config>
-                <PawnName>Mr. Mace+</PawnName>
+                <PawnName>Stump'n Stanley</PawnName>
                 <EquipmentItems>
                     <ListItem>Mace</ListItem>
                     <ListItem>Mace</ListItem>
@@ -434,7 +434,7 @@
             <ListItem>
                 <Race>Caucasian</Race>
                 <Config>TheHelplessMan</Config>
-                <PawnName>The Champ</PawnName>
+                <PawnName>The Shortener</PawnName>
                 <EquipmentItems>
                     <ListItem>ShortSword</ListItem>
                     <ListItem>Mace</ListItem>

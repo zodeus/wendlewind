@@ -44,6 +44,7 @@ public static partial class Defs {
         public static ItemDef RepairKit = null!;
         public static ItemDef JarOfBlood = null!;
         public static ItemDef AcidFlask = null!;
+        public static ItemDef PumpinJuice = null!;
     }
 }
 
@@ -51,7 +52,6 @@ public static partial class Defs {
     [DefLocator]
     public static class Species {
         public static PawnDef Human = null!;
-        public static PawnDef Skeleton = null!;
     }
 }
 

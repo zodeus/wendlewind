@@ -21,15 +21,13 @@ using Label = Myra.Graphics2D.UI.Label;
 namespace Grafted.Sim.Gui;
 
 public class StageEndGui : SimulationGui {
-
     public StageEndGui() {
-       
-
         Grid grid = new() {
             ShowGridLines = false, HorizontalAlignment = HorizontalAlignment.Center, Padding = new Thickness(50),
             Margin = new Thickness(0, 50, 0, 0), GridLinesColor = Color.Red, RowSpacing = 20,
             DefaultRowProportion = Proportion.Auto, DefaultColumnProportion = Proportion.Auto,
             Widgets = {
+                new Label() { Text = "Stage 1 Complete" }
             }
         };
 
@@ -38,28 +36,5 @@ public class StageEndGui : SimulationGui {
         Core.Instance.Window.TextInput += (_, a) => {
             Desktop.OnChar(a.Character);
         };
-    }
-    
-
-    private Widget GenerateProgressButton() {
-        TextButton button;
-            button = new TextButton(BaseContent.Styles.Button.Large) {
-                Text = "Carry on",
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Bottom,
-            };
-            button.Click += (_, _) => {
-                Core.Sim.Gui = new CombatGui(Core.Sim.World.NextCombat());
-            };
-
-        return new HorizontalStackPanel {
-            Spacing = 10,
-            Widgets = {  button }
-        };
-    }
-
-    public override void Render(SpriteBatch spriteBatch, float deltaTime) {
-
-        base.Render(spriteBatch, deltaTime);
     }
 }

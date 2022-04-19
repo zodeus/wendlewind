@@ -3,14 +3,14 @@ using Grafted.Sim.Entities.Pawns;
 namespace Grafted.Sim.Combat;
 
 public class PawnTurnData {
-    public PawnTurnData(Pawn pawn, int sequencePoints) {
+    public PawnTurnData(Pawn pawn) {
         Pawn = pawn;
-        TotalSequencePoints = sequencePoints;
-        AvailableSequencePoints = sequencePoints;
+        TotalSequencePoints = pawn.SequencePoints;
+        AvailableSequencePoints = TotalSequencePoints;
     }
 
     public Pawn Pawn { get; }
-    public int TotalSequencePoints { get; }
+    public int TotalSequencePoints { get; set; }
     public int AvailableSequencePoints { get; set; }
     public bool WantsToRetreat { get; set; }
 }

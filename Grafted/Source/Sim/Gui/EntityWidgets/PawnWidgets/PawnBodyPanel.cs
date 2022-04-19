@@ -78,7 +78,7 @@ public class PawnBodyPanel : VerticalStackPanel {
             BodyPartSocketPanel socketPanel = _socketPanels[i];
 
             socketPanel.Update();
-            if (socketPanel.Socket.AttachedPart?.IsSevered == true) {
+            if (socketPanel.Socket.AttachedPart?.IsSevered == true ) {
                 _socketPanels.RemoveAt(i);
                 socketPanel.RemoveFromParent();
             }

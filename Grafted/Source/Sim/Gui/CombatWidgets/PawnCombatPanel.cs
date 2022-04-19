@@ -1,4 +1,5 @@
-﻿using Grafted.Definitions;
+﻿using System;
+using Grafted.Definitions;
 using Grafted.Graphics.Textures;
 using Grafted.Maths;
 using Grafted.Sim.Combat;
@@ -117,7 +118,7 @@ internal class PawnCombatPanel : HorizontalStackPanel {
         //todo something better here, this is hacky
         int points = _combatEvent.CurrentTurn.PawnTurnData.ContainsKey(Pawn)
             ? _combatEvent.CurrentTurn.PawnTurnData[Pawn].AvailableSequencePoints
-            : Mathf.FloorToInt(Pawn.GetStatValue(Defs.Stats.SequencePoints));
+            : Pawn.SequencePoints;
         Label label = (Label) _sequencePoints.GetChild(0);
         if (points <= 0) {
             label.TextColor = Color.DarkGray;

@@ -1,43 +1,44 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <ItemDef Name="Consumable" ParentName="ItemBase" Abstract="true">
+    <ItemDef Name="MedicalItem" ParentName="ItemBase" Abstract="true">
         <UiClass>ConsumablePanel</UiClass>
+        <ItemType>Medical</ItemType>
         <MaterialType>Artificial</MaterialType>
         <StackLimit>99</StackLimit>
     </ItemDef>
-    <ItemDef ParentName="Consumable">
+    <ItemDef ParentName="MedicalItem">
         <Moniker>MedKit</Moniker>
         <Label>Med Kit</Label>
         <Description>Heals a body part fully</Description>
         <TexturePath>Entities/Item/Consumables/MedKit</TexturePath>
     </ItemDef>
-    <ItemDef ParentName="Consumable">
+    <ItemDef ParentName="MedicalItem">
         <Moniker>Cauterize</Moniker>
         <Label>Cauterize</Label>
         <StackLimit>1</StackLimit>
         <Description>Cauterizes a severed limb (socket)</Description>
         <TexturePath>Entities/Item/Consumables/Cauterize</TexturePath>
     </ItemDef>
-    <ItemDef ParentName="Consumable">
+    <ItemDef ParentName="MedicalItem">
         <Moniker>ArterialThreads</Moniker>
         <Label>Arterial Threads</Label>
         <Description>Used to stitch arteries</Description>
         <TexturePath>Entities/Item/Consumables/ArterialThreads</TexturePath>
     </ItemDef>
-    <ItemDef ParentName="Consumable">
+    <ItemDef ParentName="MedicalItem">
         <Moniker>MendersMist</Moniker>
         <Label>Menders Mist</Label>
         <Description>Used to heal bones and external parts, will traverse the tree until it's been fully used.</Description>
         <TexturePath>Entities/Item/Consumables/MendersMist</TexturePath>
     </ItemDef>
-    <ItemDef ParentName="Consumable">
+    <ItemDef ParentName="MedicalItem">
         <Moniker>SurgicalScissors</Moniker>
         <Label>Surgical Scissors</Label>
         <Description>Used to severe small limbs</Description>
         <!--<TexturePath>Entities/Item/Consumables/Cauterize</TexturePath>-->
     </ItemDef>
-    <ItemDef ParentName="Consumable">
+    <ItemDef ParentName="MedicalItem">
         <Moniker>SurgicalSaw</Moniker>
         <Label>Surgical Saw</Label>
         <Description>Used to severe large limbs</Description>

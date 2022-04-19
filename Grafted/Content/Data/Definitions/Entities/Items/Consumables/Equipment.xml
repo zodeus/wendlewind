@@ -1,7 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <ItemDef ParentName="Consumable">
+    <ItemDef Name="TradeTool" ParentName="ItemBase" Abstract="true">
+        <UiClass>ConsumablePanel</UiClass>
+        <ItemType>TradeTool</ItemType>
+        <MaterialType>Artificial</MaterialType>
+        <StackLimit>99</StackLimit>
+    </ItemDef>
+    <ItemDef ParentName="TradeTool">
         <Moniker>RepairKit</Moniker>
         <Label>Repair Kit</Label>
         <Description>Used for fixing equipment</Description>

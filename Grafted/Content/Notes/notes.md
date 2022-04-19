@@ -1,6 +1,5 @@
-#TODO 
-- Neck Armor (Gorget)
-- Integrate Sequence points with BodyParts (External fighting limbs + NumberOfLungs)
+#TODO
+- Integrate Sequence Points with Lungs
 - Stages
 - World Events
 - World Map

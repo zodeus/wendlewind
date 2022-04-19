@@ -40,11 +40,22 @@ public class CombatTurn {
                 continue;
             }
 
-            PawnTurnData turnData = new(attacker, Mathf.FloorToInt(attacker.GetStatValue(Defs.Stats.SequencePoints)));
-            _combatEvent.LogMessage(
-                $"\n\\c[{CombatSequence.TextColorPawn}]{attacker.Label}'s \\c[#b3b3b3]Turn \\c[#b3b3b3]SP (\\c[#00e6ff]{turnData.AvailableSequencePoints}\\c[#b3b3b3])");
-            PawnTurnData.Add(attacker, turnData);
+            PawnTurnData turnData = new(attacker);
+            if (_combatEvent.HasBuff(attacker, Defs.Items.PumpinJuice)) {
+                turnData.TotalSequencePoints += 8;
+                turnData.AvailableSequencePoints = turnData.TotalSequencePoints;
+            }
 
+            _combatEvent.LogMessage(
+                $"\n\\c[{CombatSequence.TextColorPawn}]{attacker.Label}'s \\c[#b3b3b3]Turn \\c[#b3b3b3]SP (\\c[#00e6ff]{turnData.AvailableSequencePoints}\\c[#b3b3b3])"
+            );
+            if (_combatEvent.HasBuff(attacker, Defs.Items.PumpinJuice)) {
+                _combatEvent.LogMessage(
+                    $"    \\c[{CombatSequence.TextColorPawn}]{attacker.Label} \\c[{CombatSequence.TextColorBlue}]feels the pump!"
+                );
+            }
+
+            PawnTurnData.Add(attacker, turnData);
             if (turnData.AvailableSequencePoints > 0) {
                 int circuitBreaker = 0;
                 Pawn? target = null;
@@ -122,6 +133,7 @@ public class CombatTurn {
 
         foreach (Pawn pawn in Pawns) {
             if (pawn.IsDead) {
+                _combatEvent.RemoveBuffsFor(pawn);
                 continue;
             }
 
@@ -134,6 +146,18 @@ public class CombatTurn {
 
             if (bloodLost > 0) {
                 _combatEvent.LogMessage($"\\c[{CombatSequence.TextColorPawn}]{pawn.LabelShort} is losing blood \\c[{CombatSequence.TextColorRed}]-{bloodLost}");
+            }
+        }
+
+        for (int index = _combatEvent.Buffs.Count - 1; index >= 0; index--) {
+            CombatBuff buff = _combatEvent.Buffs[index];
+            buff.Duration--;
+            if (buff.Duration <= 0) {
+                _combatEvent.RemoveBuff(buff);
+                //if (buff.Def == PUMP)) {
+                _combatEvent.LogMessage($"\\c[{CombatSequence.TextColorPawn}]{buff.Pawn.LabelShort} feels heavy from pump drain");
+                //_combatEvent.ActivateBuff(Heavy, );
+                //}
             }
         }
 
@@ -162,6 +186,13 @@ public class CombatTurn {
                 pawn.Equipment.UnEquip(potion);
             }
 
+            if (potion.Def == Defs.Items.PumpinJuice) {
+                UsePumpinJuice(potion, pawn, turnData);
+                pawn.Equipment.UnEquip(potion);
+            }
+
+            potion.Destroy();
+
             if (turnData.AvailableSequencePoints < 1) {
                 return;
             }
@@ -173,9 +204,21 @@ public class CombatTurn {
         }
     }
 
+    private void UsePumpinJuice(Item potion, Pawn target, PawnTurnData turnData) {
+        _combatEvent.ActivateBuff(potion, target, 2);
+        _combatEvent.LogMessage(
+            $"    \\c[{CombatSequence.TextColorYellow}]Sipped the \\c[{CombatSequence.TextColorItem}]{potion.Label}"
+        );
+        Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData {
+            Text = $"{target.Label} is absorbing the Pumpin Juice",
+            Font = BaseContent.Fonts.Default.Large,
+            Duration = 8,
+            Color = Color.GreenYellow
+        });
+    }
+
     private void UseAcidFlask(Item potion, Pawn target, PawnTurnData turnData) {
         turnData.AvailableSequencePoints -= 1;
-        potion.Destroy();
         foreach (BodyPart eye in target.Body.AllExternalParts.Where(part => part.Type == BodyPartType.Eye).InRandomOrder()) {
             if (Core.Random.Chance(1)) {
                 eye.HitPoints = 0;
@@ -201,7 +244,6 @@ public class CombatTurn {
     private void UseBloodPotion(Item potion, Pawn pawn, PawnTurnData turnData) {
         float amount = 3000; //potion.GetStatValue(Defs.Stats.HealingValue);
         pawn.Body.BloodAmount += amount;
-        potion.Destroy();
         turnData.AvailableSequencePoints -= 1;
         _combatEvent.LogMessage(
             $"    \\c[{CombatSequence.TextColorYellow}]Sipped a \\c[{CombatSequence.TextColorItem}]{potion.Label} \\c[{CombatSequence.TextColorDefault}]for \\c[{CombatSequence.TextColorGreen}]{amount} \\c[{CombatSequence.TextColorDefault}]blood"

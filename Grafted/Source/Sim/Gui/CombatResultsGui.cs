@@ -283,7 +283,12 @@ public class CombatResultsGui : SimulationGui {
                 VerticalAlignment = VerticalAlignment.Bottom,
             };
             button.Click += (_, _) => {
+                //if (Core.Sim.World.TotalKills == 15) {
+                //Core.Sim.Gui = new StageEndGui();
+                //}
+                //else {
                 Core.Sim.Gui = new CombatGui(Core.Sim.World.NextCombat());
+                //}
             };
         }
 

@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <ItemDef Name="Potion" ParentName="Consumable" Abstract="true">
+    <ItemDef Name="Potion" ParentName="ItemBase" Abstract="true">
         <ItemType>Potion</ItemType>
+        <UiClass>ConsumablePanel</UiClass>
         <MaterialType>Artificial</MaterialType>
-        <!--<StackLimit>99999</StackLimit>-->
+        <StackLimit>99</StackLimit>
         <EquipmentProperties>
             <EquipmentType>Potion</EquipmentType>
         </EquipmentProperties>
@@ -20,5 +21,11 @@
         <Label>Acid Flask</Label>
         <Description>Has a chance to blind opponent</Description>
         <TexturePath>Entities/Item/Consumables/AcidFlask</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="Potion">
+        <Moniker>PumpinJuice</Moniker>
+        <Label>Pumpin Juice</Label>
+        <Description>Increases sequences points for a short period of time</Description>
+        <TexturePath>Entities/Item/Consumables/PumpinJuice</TexturePath>
     </ItemDef>
 </Definitions>

@@ -4,7 +4,7 @@ public enum ItemType : byte {
     Equipment,
     TradeTool,
     Potion,
-    Resource,
+    Medical,
     Trinket,
     None
 }

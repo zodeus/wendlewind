@@ -23,6 +23,12 @@ public class Pawn : Entity {
     public PawnInventory Inventory = null!;
     public PawnEquipment Equipment = null!;
     public PawnType PawnType = PawnType.Invalid;
+
+    private int _sequencePoints = 0;
+    public bool SequencePointDirty = true;
+
+    private bool _isDead = false;
+
     public PawnDef PawnDef => (PawnDef) Def;
 
     public string Species => PawnDef.Label;
@@ -30,11 +36,24 @@ public class Pawn : Entity {
     public override string LabelShort => Biography.Name;
     public override Texture2D Icon => Race.Icon;
 
-    public bool IsDead { get; set; } // todo need to set this 
+    public bool IsDead {
+        get => _isDead;
+        set => _isDead = value;
+    }
 
     public bool IsIncapacitated => false; //todo Health.IsIncapacitated;
 
     public Gender Gender => Biography.Gender;
+
+    public int SequencePoints {
+        get {
+            if (SequencePointDirty) {
+                CalculateSequencePoints();
+            }
+
+            return _sequencePoints;
+        }
+    }
 
     public override void Initialize() {
         Biography = new PawnBiography(this);
@@ -62,6 +81,18 @@ public class Pawn : Entity {
 
         Inventory.Tick();
         Equipment.Tick();
+    }
+
+    private void CalculateSequencePoints() {
+        //todo this should get called automatically via some _isDirty variable we set in other areas;
+        _sequencePoints = 0;
+        foreach (BodyPart bodyPart in Body.AllExternalParts) {
+            if (bodyPart.HasMobility == false) {
+                continue;
+            }
+
+            _sequencePoints += Mathf.FloorToInt(bodyPart.GetStatValue(Defs.Stats.SequencePoints));
+        }
     }
 
     public DamageResponse TakeDamage(DamageRequest request) {
@@ -97,6 +128,7 @@ public class Pawn : Entity {
 
             damageRecord.BodyParts = bodyPart.ApplyDamage(damage);
             response.Damages.Add(damageRecord);
+            SequencePointDirty = true;
             if (PawnDied(damageRecord, response)) {
                 break;
             }
@@ -133,7 +165,7 @@ public class Pawn : Entity {
                 }
 
                 if (partIsFunctional == false && Body.AllParts.Any(p => p.Type == partRecord.PartType && p.IsFunctional) == false) {
-                    IsDead = true;
+                    _isDead = true;
                     response.Killed = true;
                     causeOfDeath = nonFunctionalVitalParts.Last();
                 }

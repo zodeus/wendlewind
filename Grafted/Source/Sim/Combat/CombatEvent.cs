@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Grafted.Maths;
+using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
 using Microsoft.Xna.Framework;
@@ -10,8 +12,6 @@ using Microsoft.Xna.Framework;
 namespace Grafted.Sim.Combat;
 
 public class CombatEvent {
-    private CombatState _state = CombatState.Preparation;
-
     public event Action<CombatState>? StateChangedAction;
 
     public List<Pawn> PlayerPawns = new();
@@ -21,9 +21,13 @@ public class CombatEvent {
     public int CurrentTurnNum;
     public CombatRecord CombatRecord = new();
     public List<BodyPart> SeveredLimbs = new();
-
     public bool IsInteractive = false;
+
+    private CombatState _state = CombatState.Preparation;
     private Dictionary<Pawn, Item> _queuedPotions = new();
+    private List<CombatBuff> _buffs = new();
+
+    public IReadOnlyList<CombatBuff> Buffs => _buffs;
 
     public CombatState State {
         get => _state;
@@ -184,9 +188,9 @@ public class CombatEvent {
         }
 
         void TakePartEquipment(BodyPart part) {
-            foreach ((EquipmentSlotType _, Item? item) in part.Equipment) {
+            foreach ((EquipmentSlotType slot, Item? item) in part.Equipment) {
                 if (item != null && item.ItemDef.EquipmentProperties.SlotUsedToEquip != EquipmentSlotType.BuiltIn) {
-                    part.Equipment[item.ItemDef.EquipmentProperties.SlotUsedToEquip!.Value] = null;
+                    part.Equipment[slot] = null;
                     AddToInventory(item);
                 }
             }
@@ -242,5 +246,43 @@ public class CombatEvent {
     public Item? PotionQueuedFor(Pawn pawn) {
         return _queuedPotions.ContainsKey(pawn) ? _queuedPotions[pawn] : null;
 
+    }
+
+    public bool HasBuff(Pawn pawn, ItemDef buff) {
+        foreach (CombatBuff combatBuff in _buffs) {
+            if (combatBuff.Pawn == pawn && buff == combatBuff.Def) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void ActivateBuff(Item item, Pawn pawn, int duration) {
+        _buffs.Add(new CombatBuff(item.Def, pawn, duration));
+    }
+
+    public void RemoveBuffsFor(Pawn pawn) {
+        for (int i = _buffs.Count - 1; i >= 0; i--) {
+            if (_buffs[i].Pawn == pawn) {
+                _buffs.RemoveAt(i);
+            }
+        }
+    }
+
+    public void RemoveBuff(CombatBuff buff) {
+        _buffs.Remove(buff);
+    }
+}
+
+public class CombatBuff {
+    public readonly EntityDef Def;
+    public readonly Pawn Pawn;
+    public int Duration;
+
+    public CombatBuff(EntityDef def, Pawn pawn, int duration) {
+        Def = def;
+        Pawn = pawn;
+        Duration = duration;
     }
 }

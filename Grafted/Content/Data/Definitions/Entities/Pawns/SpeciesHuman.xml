@@ -5,7 +5,6 @@
         <Moniker>Human</Moniker>
         <Label>Human</Label>
         <BaseStats>
-            <SequencePoints>3</SequencePoints>
             <AttackSpeed>2</AttackSpeed>
             <MeleeStrength>1</MeleeStrength>
         </BaseStats>

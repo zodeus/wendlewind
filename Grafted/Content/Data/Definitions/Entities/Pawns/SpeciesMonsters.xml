@@ -3,13 +3,4 @@
 <Definitions>
     <PawnDef Name="BaseMonster" ParentName="BasePawn" Abstract="true">
     </PawnDef>
-    <PawnDef ParentName="BaseMonster">
-        <Moniker>Skeleton</Moniker>
-        <Label>Skeleton</Label>
-        <BaseStats>
-            <SequencePoints>3</SequencePoints>
-            <AttackSpeed>6</AttackSpeed>
-            <MeleeStrength>1</MeleeStrength>
-        </BaseStats>
-    </PawnDef>
 </Definitions>

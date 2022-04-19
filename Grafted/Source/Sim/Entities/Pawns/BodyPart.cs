@@ -55,7 +55,7 @@ public class BodyPart : Entity {
             if (_isSevered) {
                 return true;
             }
-
+            
             return Socket?.ParentPart?.IsSevered ?? false;
         }
         private set => _isSevered = value;
