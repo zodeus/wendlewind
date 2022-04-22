@@ -9,12 +9,12 @@
                 <Config>DefaultEnemy</Config>
                 <PawnName>A Glump</PawnName>
                 <EquipmentItems>
-                    <ListItem>Mace</ListItem>
+                    <ListItem>BirchRod</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
                         <Item>WoodLog</Item>
-                        <Amount>1</Amount>
+                        <Amount>8</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>

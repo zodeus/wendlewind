@@ -40,7 +40,7 @@ internal class PawnCombatPanel : HorizontalStackPanel {
     }
 
     private Widget GenerateEquipmentPanel() {
-        _pawnEquipmentPanel = new PawnEquipmentPanel(Pawn.Equipment, (part, type) => {
+        _pawnEquipmentPanel = new PawnEquipmentPanel(Pawn, (part, type) => {
             if (part.Equipment[type] is { } item) {
                 if (Pawn.PawnType == PawnType.Player && Input.RightMouseButtonReleased && item.ItemDef.ItemType == ItemType.Potion) {
                     Log.Info($"Right clicked {part.Equipment[type]}");

@@ -1,6 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Grafted.Definitions;
+using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
+using Grafted.Sim.Gui.MiscWidgets;
+using Grafted.UI;
 using Myra.Graphics2D;
 using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
@@ -57,6 +61,9 @@ public class PawnBodyPanel : VerticalStackPanel {
         if (_socketClickHandler != null) {
             panel.TouchDown += (_, _) => _socketClickHandler(socket);
         }
+        else {
+            panel.TouchDown += (_, _) => BodyPartClickHandler(socket); 
+        }
 
         _scrollBody.AddChild(panel);
         _socketPanels.Add(panel);
@@ -71,6 +78,108 @@ public class PawnBodyPanel : VerticalStackPanel {
             }
         }
     }
+    
+    private void BodyPartClickHandler(BodyPartSocket socket) {
+            if (Input.RightMouseButtonReleased) {
+                return;
+            }
+
+            if (Core.Sim.Gui!.MouseAttachment == null) {
+                if (socket.AttachedPart != null) {
+                    Core.Sim.Gui!.ViewEntity(socket.AttachedPart);
+                }
+
+                return;
+            }
+
+            if (Core.Sim.Gui!.MouseAttachment.Data is Item item == false) {
+                return;
+            }
+
+            //Handle Cauterize
+            if (socket.AttachedPart == null && socket.IsSealed == false && item.Def == Defs.Items.Cauterize) {
+                socket.IsSealed = true;
+                //MouseAttachment.Detach();
+                return;
+            }
+
+            if (socket.AttachedPart is not { } part) {
+                return;
+            }
+
+            //Handle MendersMist
+            if (item.Def == Defs.Items.MendersMist) {
+                item.StackSize--;
+                if (item.StackSize == 0) {
+                    item.Destroy();
+                    Core.Sim.Gui!.MouseAttachment.Detach();
+                }
+
+                int mistJuice = 200;
+
+                int UpdateHealth(BodyPart bodyPart) {
+                    int currentHealth = bodyPart.HitPoints;
+                    bodyPart.HitPoints += Math.Min(bodyPart.MaxHitPoints - bodyPart.HitPoints, mistJuice);
+                    return bodyPart.HitPoints - currentHealth;
+                }
+
+                void DoMisting(BodyPart bodyPart) {
+                    if (mistJuice <= 0) {
+                        return;
+                    }
+
+                    mistJuice -= UpdateHealth(bodyPart);
+                    foreach (BodyPart internalPart in bodyPart.InternalParts) {
+                        if (internalPart.IsBone || internalPart.Type is BodyPartType.Skin) {
+                            mistJuice -= UpdateHealth(internalPart);
+                        }
+                    }
+
+                    foreach (BodyPart externalPart in bodyPart.ExternalParts) {
+                        DoMisting(externalPart);
+                    }
+                }
+
+                DoMisting(socket.AttachedPart);
+            }
+
+            //Handle MedKit
+            if (item.Def == Defs.Items.MedKit) {
+                if (part.HealthPercent >= 1) {
+                    return;
+                }
+
+                item.StackSize--;
+                if (item.StackSize == 0) {
+                    item.Destroy();
+                    Core.Sim.Gui!.MouseAttachment.Detach();
+                }
+
+                socket.AttachedPart.HitPoints = socket.AttachedPart.MaxHitPoints;
+                foreach (BodyPart internalPart in socket.AttachedPart.InternalParts) {
+                    internalPart.HitPoints = internalPart.MaxHitPoints;
+                }
+            }
+
+            //Handle ArterialThreads
+            if (item.Def == Defs.Items.ArterialThreads) {
+                bool wasConsumed = false;
+                foreach (BodyPart internalPart in socket.AttachedPart.InternalParts) {
+                    if (internalPart.Type == BodyPartType.Artery && internalPart.HealthPercent < 1) {
+                        wasConsumed = true;
+                        internalPart.HitPoints = internalPart.MaxHitPoints;
+                    }
+                }
+
+                if (wasConsumed) {
+                    item.StackSize--;
+                    if (item.StackSize == 0) {
+                        item.Destroy();
+                        Core.Sim.Gui!.MouseAttachment.Detach();
+                    }
+                }
+            }
+        }
 
     public void Update() {
         _pawnSkillsPanel.Update();
@@ -78,13 +187,12 @@ public class PawnBodyPanel : VerticalStackPanel {
             BodyPartSocketPanel socketPanel = _socketPanels[i];
 
             socketPanel.Update();
-            if (socketPanel.Socket.AttachedPart?.IsSevered == true ) {
+            if (socketPanel.Socket.AttachedPart?.IsSevered == true) {
                 _socketPanels.RemoveAt(i);
                 socketPanel.RemoveFromParent();
             }
         }
     }
-
     private class BodyPartPanel : HorizontalStackPanel {
         public BodyPart? BodyPart;
         private Label _label;
@@ -128,7 +236,6 @@ public class PawnBodyPanel : VerticalStackPanel {
         public readonly BodyPartSocket Socket;
         private Label _socketLabel;
         private BodyPartPanel _bodyPartPanel;
-        private bool _partWasSeveredThisFrame;
 
         public BodyPartSocketPanel(BodyPartSocket socket) {
             Socket = socket;
@@ -148,6 +255,7 @@ public class PawnBodyPanel : VerticalStackPanel {
 
             AddChild(_bodyPartPanel);
         }
+
         public void Update() {
             if (Socket.AttachedPart == null && _socketLabel.Visible == false) {
                 _socketLabel.Visible = true;

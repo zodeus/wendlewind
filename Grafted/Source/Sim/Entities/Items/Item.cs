@@ -13,6 +13,7 @@ public class Item : Entity {
     public override string Label => Def.Label;
     public string LabelWithStackSize => IsStackable ? $"{Def.Label} x{StackSize}" : Def.Label;
     public bool IsStackable => ItemDef.StackLimit > 1;
+    public int WeightSingle => Mathf.CeilToInt(this.GetStatValue(Defs.Stats.Weight));
     public int Weight => Mathf.CeilToInt(this.GetStatValue(Defs.Stats.Weight) * StackSize);
 
     public override void Initialize() {

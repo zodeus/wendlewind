@@ -161,7 +161,6 @@ public class CombatEvent {
         foreach (Pawn enemy in EnemyPawns) {
             for (int i = enemy.Inventory.Count() - 1; i >= 0; i--) {
                 Item item = enemy.Inventory.Items[i];
-                enemy.Inventory.Items.Remove(item);
                 Loot.TryAdd(item);
             }
 

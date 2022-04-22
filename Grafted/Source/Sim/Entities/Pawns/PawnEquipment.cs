@@ -76,6 +76,7 @@ public class PawnEquipment : IEnumerable<Item>, IExposable {
         }
 
         Item? unequippedItem = UnEquip(bodyPart, slot);
+        item.Container?.Remove(item);
         bodyPart.Equipment[slot] = item;
         //OnEquipmentChanged(new OnChangeArgs(OnChangeArgs.ChangeType.ItemEquipped, item));
         return unequippedItem;

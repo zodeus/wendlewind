@@ -8,7 +8,8 @@
         <Label>Glump</Label>
         <BaseStats>
             <AttackSpeed>2</AttackSpeed>
-            <MeleeStrength>1.3</MeleeStrength>
+            <MeleeStrength>6</MeleeStrength>
+            <MaxCarryWeight>100</MaxCarryWeight>
         </BaseStats>
     </PawnDef>
 </Definitions>

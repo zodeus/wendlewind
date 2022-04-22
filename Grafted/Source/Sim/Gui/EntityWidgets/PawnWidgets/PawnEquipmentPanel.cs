@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Grafted.Definitions;
+using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
+using Grafted.UI;
 using Microsoft.Xna.Framework;
 using Myra.Graphics2D;
 using Myra.Graphics2D.TextureAtlases;
@@ -12,21 +15,87 @@ using Myra.Graphics2D.UI.Styles;
 namespace Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 
 public class PawnEquipmentPanel : HorizontalStackPanel {
-    private readonly PawnEquipment _equipment;
+    private readonly Pawn _pawn;
     private readonly Dictionary<BodyPart, EquipmentColumn> _panels = new();
     private static readonly Color DestroyedEquipmentColor = new(255, 0, 0, 15);
 
-    public PawnEquipmentPanel(PawnEquipment equipment, Action<BodyPart, EquipmentSlotType>? clickAction = null) {
-        _equipment = equipment;
+    public PawnEquipmentPanel(Pawn pawn, Action<BodyPart, EquipmentSlotType>? clickAction = null) {
+        _pawn = pawn;
         Spacing = 2;
-        foreach ((BodyPart bodyPart, List<EquipmentSlotType> slots) in _equipment.Slots) {
+        foreach ((BodyPart bodyPart, List<EquipmentSlotType> slots) in pawn.Equipment.Slots) {
             if (slots.Any() == false) {
                 continue;
             }
 
-            EquipmentColumn partPanel = new(bodyPart, slots, clickAction);
+            EquipmentColumn partPanel = new(bodyPart, slots, (part, type) => {
+                if (clickAction != null) {
+                    clickAction.Invoke(part, type);
+                    return;
+                }
+
+                HandleClick(part, type);
+            });
             AddChild(partPanel);
             _panels.Add(bodyPart, partPanel);
+        }
+    }
+
+    private void HandleClick(BodyPart part, EquipmentSlotType slot) {
+        // UnEquip
+        if (Core.Sim.Gui!.MouseAttachment == null && Input.RightMouseButtonReleased && slot != EquipmentSlotType.BuiltIn) {
+            Item? unEquippedItem = _pawn.Equipment.UnEquip(part, slot);
+            if (unEquippedItem != null) {
+                _pawn.Inventory.Items.TryAdd(unEquippedItem);
+            }
+        }
+
+        if (Core.Sim.Gui!.MouseAttachment?.Data is Item item) {
+            if (item.Def == Defs.Items.RepairKit) {
+                if (_pawn.Equipment.GetBySlot(part, slot) is { } equipmentItem && equipmentItem.Durability < equipmentItem.MaxDurability) {
+                    equipmentItem.Repair();
+                    item.StackSize--;
+                    if (item.StackSize == 0) {
+                        item.Destroy();
+                        Core.Sim.Gui!.MouseAttachment.Detach();
+                    }
+                }
+
+                return;
+            }
+
+            // Try Equip
+            if (item.ItemDef.EquipmentProperties.SlotUsedToEquip == slot || (item.ItemDef.ItemType == ItemType.Potion && slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2)) {
+                Item? unEquippedItem = null;
+                if (item.ItemDef.ItemType == ItemType.Potion) {
+                    //todo implement splitting
+                    Item potion;
+                    if (item.StackSize > 1) {
+                        item.StackSize--;
+                        potion = EntityGenerator.CreateEntity<Item>(item.ItemDef, 1);
+                    }
+                    else {
+                        potion = item;
+                        _pawn.Inventory.Items.Remove(item);
+                    }
+
+                    unEquippedItem = _pawn.Equipment.TryEquip(part, slot, potion);
+                }
+                else {
+                    _pawn.Inventory.Items.Remove(item);
+                    unEquippedItem = _pawn.Equipment.TryEquip(part, slot, item);
+                }
+
+                Core.Sim.Gui!.MouseAttachment.Detach();
+                if (unEquippedItem != null) {
+                    _pawn.Inventory.Items.TryAdd(unEquippedItem);
+                }
+            }
+
+            return;
+        }
+
+        if (part.Equipment[slot] != null) {
+            Core.Sim.Gui!.ViewEntity(part.Equipment[slot]!);
         }
     }
 

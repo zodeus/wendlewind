@@ -15,10 +15,13 @@ public class TownGui : BaseGui {
     private readonly TabPanel _tabs;
 
     public TownGui(Town town) {
-        _tabs = new TabPanel() { HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 30, 0, 0), Width = 1200 };
-        _tabs.AddTab("Storage", new TownStoragePanel(town, Core.Sim.World.PlayerPawns[0]));
+        _tabs = new TabPanel() {
+            ButtonStyle = BaseContent.Styles.Button.Large,
+            HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 30, 0, 0), Width = 1600
+        };
+        _tabs.AddTab("Home", new PawnDetailPanel(Core.Sim.World.PlayerPawns[0], "Storage", town.Storage));
         _tabs.AddTab("Merchant", new Label(BaseContent.Styles.Label.Large) { Text = "Coming soon!" });
-        _tabs.AddTab("Mend", new Label(BaseContent.Styles.Label.Large) { Text = "Coming soon!" });
+        /*_tabs.AddTab("Mend", new Label(BaseContent.Styles.Label.Large) { Text = "Coming soon!" });*/
         _tabs.AddTab("Build & Repair", new Image { Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Boak], Width = 64, Height = 64 });
         _tabs.AddTab("Travel", TravelPanel());
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Grafted.Definitions;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Persistence;
 
@@ -12,10 +13,8 @@ public class PawnInventory : IExposable, IEnumerable<Item> {
 
     public PawnInventory(Pawn pawn) {
         Pawn = pawn;
-        Items = new ItemContainer();
+        Items = new ItemContainer((int) pawn.GetStatValue(Defs.Stats.MaxCarryWeight));
     }
-
-    public int Weight => Items.Weight;
 
     public void Tick() {
         Items.Tick();
@@ -29,9 +28,5 @@ public class PawnInventory : IExposable, IEnumerable<Item> {
 
     IEnumerator IEnumerable.GetEnumerator() {
         return GetEnumerator();
-    }
-
-    public bool HasCapacityFor(Item item) {
-        return item.Weight + Weight < Pawn.MaxCarryWeight;
     }
 }

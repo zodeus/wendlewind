@@ -6,8 +6,8 @@
         <PawnType>Player</PawnType>
         <PawnName>The Recusant</PawnName>
         <EquipmentItems>
-            <ListItem>Knife</ListItem>
-            <!--<ListItem>ShortSword</ListItem>
+            <!--<ListItem>Knife</ListItem>-->
+            <ListItem>ShortSword</ListItem>
             <ListItem>Mace</ListItem>
             <ListItem>BucketHelmet</ListItem>
             <ListItem>LeatherGorget</ListItem>
@@ -21,7 +21,7 @@
             <ListItem>LeatherBoot</ListItem>
             <ListItem>LeatherBoot</ListItem>
             <ListItem>AcidFlask</ListItem>
-            <ListItem>AcidFlask</ListItem>-->
+            <ListItem>AcidFlask</ListItem>
         </EquipmentItems>
         <InventoryItems>
             <ListItem>
