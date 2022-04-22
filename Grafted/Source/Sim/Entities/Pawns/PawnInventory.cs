@@ -15,6 +15,8 @@ public class PawnInventory : IExposable, IEnumerable<Item> {
         Items = new ItemContainer();
     }
 
+    public int Weight => Items.Weight;
+
     public void Tick() {
         Items.Tick();
     }
@@ -27,5 +29,9 @@ public class PawnInventory : IExposable, IEnumerable<Item> {
 
     IEnumerator IEnumerable.GetEnumerator() {
         return GetEnumerator();
+    }
+
+    public bool HasCapacityFor(Item item) {
+        return item.Weight + Weight < Pawn.MaxCarryWeight;
     }
 }

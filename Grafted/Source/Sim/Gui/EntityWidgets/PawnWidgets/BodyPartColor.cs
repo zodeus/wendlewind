@@ -27,7 +27,7 @@ public static class BodyPartColor {
             return DestroyedColor;
         }
 
-        if (socket.ParentPart?.IsFunctional == false) {
+        if (socket.ParentPart?.HasMobility == false) {
             return DisabledColor;
         }
 

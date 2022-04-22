@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using Grafted.Sim;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
@@ -23,6 +24,8 @@ public static partial class Defs {
         public static StatDef MeleeChanceToHit = null!;
         public static StatDef PhysicalResistance = null!;
         public static StatDef MaxDurability = null!;
+        public static StatDef MaxCarryWeight = null!;
+        public static StatDef Weight = null!;
     }
 }
 
@@ -30,7 +33,15 @@ public static partial class Defs {
     [DefLocator]
     public static class PawnConfigs {
         public static PawnConfigDef PlayerPawn = null!;
-        public static PawnConfigDef TheHelplessMan = null!;
+    }
+}
+
+public static partial class Defs {
+    [DefLocator]
+    public static class Zones {
+        public static ZoneDef Intro = null!;
+        public static ZoneDef VillageOfTheDamned = null!;
+        public static ZoneDef TheOutskirts = null!;
     }
 }
 
@@ -57,6 +68,13 @@ public static partial class Defs {
 
 public static partial class Defs {
     [DefLocator]
+    public static class Races {
+        public static RaceDef Glump = null!;
+    }
+}
+
+public static partial class Defs {
+    [DefLocator]
     public static class BodyParts {
         public static BodyPartDef HumanHead = null!;
         public static BodyPartDef HumanNeck = null!;
@@ -78,11 +96,19 @@ public static partial class Defs {
         public static BodyPartDef HumanFinger = null!;
         public static BodyPartDef HumanLeg = null!;
         public static BodyPartDef HumanFoot = null!;
+
+        public static BodyPartDef GlumpTorso = null!;
+        public static BodyPartDef GlumpRibCage = null!;
+        public static BodyPartDef GlumpArm = null!;
+        public static BodyPartDef GlumpHand = null!;
+        public static BodyPartDef GlumpLeg = null!;
+        public static BodyPartDef GlumpFoot = null!;
     }
 
     [DefLocator]
     public static class BodyPartSockets {
         public static BodyPartSocketDef HeadSocket = null!;
+        public static BodyPartSocketDef TorsoSocket = null!;
     }
 }
 

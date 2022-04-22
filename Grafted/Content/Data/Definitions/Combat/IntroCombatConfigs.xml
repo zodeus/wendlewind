@@ -2,11 +2,11 @@
 
 <Definitions>
     <CombatConfigDef>
-        <Moniker>Combat1</Moniker>
+        <Moniker>Intro1</Moniker>
         <Enemies>
             <ListItem>
                 <Race>Caucasian</Race>
-                <Config>TheHelplessMan</Config>
+                <Config>DefaultEnemy</Config>
                 <PawnName>Helpless Man</PawnName>
                 <EquipmentItems>
                     <ListItem>LeatherBoot</ListItem>
@@ -28,11 +28,11 @@
         </Enemies>
     </CombatConfigDef>
     <CombatConfigDef>
-        <Moniker>Combat2</Moniker>
+        <Moniker>Intro2</Moniker>
         <Enemies>
             <ListItem>
                 <Race>Caucasian</Race>
-                <Config>TheHelplessMan</Config>
+                <Config>DefaultEnemy</Config>
                 <PawnName>Less Helpless Man</PawnName>
                 <EquipmentItems>
                     <ListItem>BirchRod</ListItem>
@@ -54,11 +54,11 @@
         </Enemies>
     </CombatConfigDef>
     <CombatConfigDef>
-        <Moniker>Combat3</Moniker>
+        <Moniker>Intro3</Moniker>
         <Enemies>
             <ListItem>
                 <Race>Caucasian</Race>
-                <Config>TheHelplessMan</Config>
+                <Config>DefaultEnemy</Config>
                 <PawnName>One Glove Larry</PawnName>
                 <EquipmentItems>
                     <ListItem>BirchRod</ListItem>
@@ -81,11 +81,11 @@
         </Enemies>
     </CombatConfigDef>
     <CombatConfigDef>
-        <Moniker>Combat4</Moniker>
+        <Moniker>Intro4</Moniker>
         <Enemies>
             <ListItem>
                 <Race>Caucasian</Race>
-                <Config>TheHelplessMan</Config>
+                <Config>DefaultEnemy</Config>
                 <PawnName>Timmy Two Sticks</PawnName>
                 <EquipmentItems>
                     <ListItem>BirchRod</ListItem>
@@ -103,11 +103,11 @@
         </Enemies>
     </CombatConfigDef>
     <CombatConfigDef>
-        <Moniker>Combat5</Moniker>
+        <Moniker>Intro5</Moniker>
         <Enemies>
             <ListItem>
                 <Race>Caucasian</Race>
-                <Config>TheHelplessMan</Config>
+                <Config>DefaultEnemy</Config>
                 <PawnName>Timmy Two Sticks+</PawnName>
                 <EquipmentItems>
                     <ListItem>BirchRod</ListItem>
@@ -125,16 +125,21 @@
                         <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
+                    <ListItem>
+                        <Item>JarOfBlood</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
     </CombatConfigDef>
     <CombatConfigDef>
-        <Moniker>Combat6</Moniker>
+        <Moniker>Intro6</Moniker>
         <Enemies>
             <ListItem>
                 <Race>Caucasian</Race>
-                <Config>TheHelplessMan</Config>
+                <Config>DefaultEnemy</Config>
                 <PawnName>Hammer Boy</PawnName>
                 <EquipmentItems>
                     <ListItem>WoodenHammer</ListItem>
@@ -157,11 +162,11 @@
         </Enemies>
     </CombatConfigDef>
     <CombatConfigDef>
-        <Moniker>Combat7</Moniker>
+        <Moniker>Intro7</Moniker>
         <Enemies>
             <ListItem>
                 <Race>Caucasian</Race>
-                <Config>TheHelplessMan</Config>
+                <Config>DefaultEnemy</Config>
                 <PawnName>Timmy Two Sticks</PawnName>
                 <EquipmentItems>
                     <ListItem>BirchRod</ListItem>
@@ -189,17 +194,16 @@
         </Enemies>
     </CombatConfigDef>
     <CombatConfigDef>
-        <Moniker>Combat8</Moniker>
+        <Moniker>Intro8</Moniker>
         <Enemies>
             <ListItem>
                 <Race>Caucasian</Race>
-                <Config>TheHelplessMan</Config>
+                <Config>DefaultEnemy</Config>
                 <PawnName>Hammer Boy</PawnName>
                 <EquipmentItems>
                     <ListItem>WoodenHammer</ListItem>
                     <ListItem>LeatherVambrace</ListItem>
                     <ListItem>PumpinJuice</ListItem>
-                    <ListItem>JarOfBlood</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
@@ -217,11 +221,11 @@
         </Enemies>
     </CombatConfigDef>
     <CombatConfigDef>
-        <Moniker>Combat9</Moniker>
+        <Moniker>Intro9</Moniker>
         <Enemies>
             <ListItem>
                 <Race>Caucasian</Race>
-                <Config>TheHelplessMan</Config>
+                <Config>DefaultEnemy</Config>
                 <PawnName>1-Eyed Warrior</PawnName>
                 <EquipmentItems>
                     <ListItem>Knife</ListItem>
@@ -247,23 +251,23 @@
                     </ListItem>
                 </InventoryItems>
                 <BodyModifications>
-                    <LimbsToSevere>
+                    <LimbsToSever>
                         <ListItem>
                             <RootLimb>HumanHead</RootLimb>
                             <Socket>LeftEyeSocket</Socket>
                             <Seal>true</Seal>
                         </ListItem>
-                    </LimbsToSevere>
+                    </LimbsToSever>
                 </BodyModifications>
             </ListItem>
         </Enemies>
     </CombatConfigDef>
     <CombatConfigDef>
-        <Moniker>Combat10</Moniker>
+        <Moniker>Intro10</Moniker>
         <Enemies>
             <ListItem>
                 <Race>Caucasian</Race>
-                <Config>TheHelplessMan</Config>
+                <Config>DefaultEnemy</Config>
                 <PawnName>1-Eyed Warrior</PawnName>
                 <EquipmentItems>
                     <ListItem>Knife</ListItem>
@@ -272,13 +276,9 @@
                     <ListItem>LeatherGlove</ListItem>
                     <ListItem>LeatherBoot</ListItem>
                     <ListItem>LeatherBoot</ListItem>
+                    <ListItem>JarOfBlood</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
-                    <ListItem>
-                        <Item>JarOfBlood</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
                     <ListItem>
                         <Item>MedKit</Item>
                         <Amount>1</Amount>
@@ -291,23 +291,23 @@
                     </ListItem>
                 </InventoryItems>
                 <BodyModifications>
-                    <LimbsToSevere>
+                    <LimbsToSever>
                         <ListItem>
                             <RootLimb>HumanHead</RootLimb>
                             <Socket>LeftEyeSocket</Socket>
                             <Seal>true</Seal>
                         </ListItem>
-                    </LimbsToSevere>
+                    </LimbsToSever>
                 </BodyModifications>
             </ListItem>
         </Enemies>
     </CombatConfigDef>
     <CombatConfigDef>
-        <Moniker>Combat11</Moniker>
+        <Moniker>Intro11</Moniker>
         <Enemies>
             <ListItem>
                 <Race>Caucasian</Race>
-                <Config>TheHelplessMan</Config>
+                <Config>DefaultEnemy</Config>
                 <PawnName>Mr. Mace</PawnName>
                 <EquipmentItems>
                     <ListItem>Mace</ListItem>
@@ -340,11 +340,11 @@
         </Enemies>
     </CombatConfigDef>
     <CombatConfigDef>
-        <Moniker>Combat12</Moniker>
+        <Moniker>Intro12</Moniker>
         <Enemies>
             <ListItem>
                 <Race>Caucasian</Race>
-                <Config>TheHelplessMan</Config>
+                <Config>DefaultEnemy</Config>
                 <PawnName>Mr. Mace+</PawnName>
                 <EquipmentItems>
                     <ListItem>Mace</ListItem>
@@ -379,11 +379,11 @@
         </Enemies>
     </CombatConfigDef>
     <CombatConfigDef>
-        <Moniker>Combat13</Moniker>
+        <Moniker>Intro13</Moniker>
         <Enemies>
             <ListItem>
                 <Race>Caucasian</Race>
-                <Config>TheHelplessMan</Config>
+                <Config>DefaultEnemy</Config>
                 <PawnName>Mr. Mace</PawnName>
                 <EquipmentItems>
                     <ListItem>Mace</ListItem>
@@ -406,11 +406,11 @@
         </Enemies>
     </CombatConfigDef>
     <CombatConfigDef>
-        <Moniker>Combat14</Moniker>
+        <Moniker>Intro14</Moniker>
         <Enemies>
             <ListItem>
                 <Race>Caucasian</Race>
-                <Config>TheHelplessMan</Config>
+                <Config>DefaultEnemy</Config>
                 <PawnName>Stump'n Stanley</PawnName>
                 <EquipmentItems>
                     <ListItem>Mace</ListItem>
@@ -429,11 +429,11 @@
         </Enemies>
     </CombatConfigDef>
     <CombatConfigDef>
-        <Moniker>Combat15</Moniker>
+        <Moniker>Intro15</Moniker>
         <Enemies>
             <ListItem>
                 <Race>Caucasian</Race>
-                <Config>TheHelplessMan</Config>
+                <Config>DefaultEnemy</Config>
                 <PawnName>The Shortener</PawnName>
                 <EquipmentItems>
                     <ListItem>ShortSword</ListItem>

@@ -7,7 +7,6 @@ using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 using Grafted.Sim.Gui.MiscWidgets;
 using Grafted.UI;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Myra.Graphics2D;
 using Myra.Graphics2D.TextureAtlases;
@@ -18,7 +17,7 @@ using Label = Myra.Graphics2D.UI.Label;
 
 namespace Grafted.Sim.Gui;
 
-public class CombatGui : SimulationGui {
+public class CombatGui : BaseGui {
     private readonly CombatEvent _combatEvent;
     private readonly ScrollViewer _combatLog;
     private readonly ProgramStatsPanel _programStats;
@@ -134,10 +133,6 @@ public class CombatGui : SimulationGui {
         };
 
         Desktop = new Desktop { Root = grid, HasExternalTextInput = true };
-        //todo fairly certain there is an issue here, deregister this event when gui's change?
-        Core.Instance.Window.TextInput += (_, a) => {
-            Desktop.OnChar(a.Character);
-        };
     }
 
 

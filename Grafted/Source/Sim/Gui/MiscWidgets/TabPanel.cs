@@ -17,7 +17,7 @@ public class TabPanel : VerticalStackPanel {
         AddChild(_activeTab);
     }
 
-    public void AddTab(string? label, IBrush? icon, Widget widget) {
+    public void AddTab(string? label, Widget widget, IBrush? icon = null) {
         HorizontalStackPanel row = new();
         if (icon != null) {
             row.AddChild(new Image { Background = icon, Width = 48, Height = 48 });
@@ -39,5 +39,11 @@ public class TabPanel : VerticalStackPanel {
     private void SetActiveTab(Widget widget) {
         _activeTab.Content?.RemoveFromParent();
         _activeTab.Content = widget;
+    }
+    
+    public void Update() {
+        if (_activeTab.Content is IUpdatable updateable) {
+            updateable.Update();
+        }
     }
 }

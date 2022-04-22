@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef Name="WoodResource" ParentName="ItemResource" Abstract="true">
+        <MaterialType>Wood</MaterialType>
+    </ItemDef>
+    <ItemDef ParentName="WoodResource">
+        <Moniker>WoodLog</Moniker>
+        <Label>Wood log</Label>
+        <TexturePath>Entities/Item/Resource/Wood/WoodLog</TexturePath>
+        <BaseStats>
+            <Weight>10</Weight>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WoodResource">
+        <Moniker>OakWoodLog</Moniker>
+        <Label>Oak Wood log</Label>
+        <TexturePath>Entities/Item/Resource/Wood/OakWoodLog</TexturePath>
+        <BaseStats>
+            <Weight>10</Weight>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WoodResource">
+        <Moniker>WoodBoard</Moniker>
+        <Label>Wooden board</Label>
+        <TexturePath>Entities/Item/Resource/Wood/WoodBoard</TexturePath>
+        <!--<BaseStats>
+            <Tier>2</Tier>
+        </BaseStats>-->
+        <!--        <CraftingProperties>
+                    <HoursToMake>4</HoursToMake>
+                    <AmountProduced>10</AmountProduced>
+                    <RequiredBuildingTag>LumberMill</RequiredBuildingTag>
+                    <RequiredTools>
+                        <ListItem>HandSaw</ListItem>
+                    </RequiredTools>
+                    <ResourceRequirements>
+                        <ListItem>
+                            <Resource>WoodLog</Resource>
+                            <Count>1</Count>
+                        </ListItem>
+                    </ResourceRequirements>
+                </CraftingProperties>-->
+    </ItemDef>
+</Definitions>

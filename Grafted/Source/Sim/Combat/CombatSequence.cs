@@ -55,15 +55,15 @@ public class
 
                     foreach (DamagedPartRecord partRecord in damageResult.BodyParts) {
                         if (partRecord.WasDestroyed && partRecord.IsVital == false) {
-                            combatEvent.LogMessage($"          \\c[{TextColorBodyPart}]{partRecord.Label} \\c[{TextColorRed}]destroyed");
+                            combatEvent.LogMessage($"          \\c[{TextColorBodyPart}]{partRecord.PartType} \\c[{TextColorRed}]destroyed");
                         }
 
                         if (partRecord.WasDestroyed && partRecord.IsVital) {
-                            combatEvent.LogMessage($"          \\c[{TextColorRed}]VITAL part \\c[{TextColorBodyPart}]{partRecord.Label} \\c[{TextColorRed}]destroyed");
+                            combatEvent.LogMessage($"          \\c[{TextColorRed}]VITAL part \\c[{TextColorBodyPart}]{partRecord.PartType} \\c[{TextColorRed}]destroyed");
                         }
 
                         if (partRecord.BodyPart.IsExternal && partRecord.WasSevered) {
-                            combatEvent.LogMessage($"          \\c[{TextColorBodyPart}]{partRecord.Label} \\c[{TextColorRed}]SEVERED");
+                            combatEvent.LogMessage($"          \\c[{TextColorBodyPart}]{partRecord.PartType} \\c[{TextColorRed}]SEVERED");
                         }
                     }
                 }

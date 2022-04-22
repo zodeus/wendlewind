@@ -1,9 +1,5 @@
-﻿using System;
-using Grafted.Definitions;
-using Grafted.Graphics.Textures;
-using Grafted.Maths;
+﻿using Grafted.Graphics.Textures;
 using Grafted.Sim.Combat;
-using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
 using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;

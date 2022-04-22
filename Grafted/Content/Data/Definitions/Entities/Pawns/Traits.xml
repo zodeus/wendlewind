@@ -25,4 +25,9 @@
         <Label>War Hero</Label>
         <Description>The past haunts him...</Description>
     </TraitDef>
+    <TraitDef>
+        <Moniker>DeepLungs</Moniker>
+        <Label>Deep Lungs</Label>
+        <Description>A great breather</Description>
+    </TraitDef>
 </Definitions>

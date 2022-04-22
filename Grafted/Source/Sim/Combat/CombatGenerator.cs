@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Grafted.Definitions;
-using Grafted.Maths;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
@@ -22,23 +21,38 @@ public class CombatConfigEnemyRecord {
 }
 
 public class BodyModificationRecord {
-    public List<SevereLimbRequest> LimbsToSevere = new();
+    public List<SeverLimbRequest> LimbsToSever = new();
 }
 
-public class SevereLimbRequest {
+public class SeverLimbRequest {
     public BodyPartDef RootLimb = null!;
     public BodyPartSocketDef Socket = null!;
     public bool Seal = true;
 }
 
 public static class CombatGenerator {
-    public static CombatEvent Generate(List<Pawn> playerPawns, int combatId) {
+    public static CombatEvent GenerateIntroCombat(List<Pawn> playerPawns, int combatId) {
         Pawn playerPawn = playerPawns[0];
         CombatEvent combatEvent = new();
         //combatEvent.IsInteractive = true;
         combatEvent.AddPlayerPawn(playerPawn);
 
-        CombatConfigDef combatConfig = DefRepository<CombatConfigDef>.GetByMoniker($"Combat{combatId}")!;
+        CombatConfigDef combatConfig = DefRepository<CombatConfigDef>.GetByMoniker($"Intro{combatId}")!;
+        return Generate(combatConfig, combatEvent);
+    }
+
+
+    public static CombatEvent GenerateForZone(List<Pawn> playerPawns, Zone zone) {
+        Pawn playerPawn = playerPawns[0];
+        CombatEvent combatEvent = new();
+        //combatEvent.IsInteractive = true;
+        combatEvent.AddPlayerPawn(playerPawn);
+
+        CombatConfigDef combatConfig = DefRepository<CombatConfigDef>.GetByMoniker($"{zone.Def.Moniker}-01")!;
+        return Generate(combatConfig, combatEvent);
+    }
+
+    private static CombatEvent Generate(CombatConfigDef combatConfig, CombatEvent combatEvent) {
         foreach (CombatConfigEnemyRecord enemyConfig in combatConfig.Enemies) {
             Pawn pawn = PawnGenerator.CreatePawn(new PawnRequest(
                 enemyConfig.Race,
@@ -57,13 +71,14 @@ public static class CombatGenerator {
         return combatEvent;
     }
 
+
     private static void ApplyBodyModifications(Pawn pawn, BodyModificationRecord modifications) {
-        foreach (SevereLimbRequest severeLimbRequest in modifications.LimbsToSevere) {
-            BodyPart rootPart = pawn.Body.AllExternalParts.First(p => p.BodyPartDef == severeLimbRequest.RootLimb);
-            BodyPart targetLimb = rootPart.ExternalParts.First(p => p.Socket?.Def == severeLimbRequest.Socket);
+        foreach (SeverLimbRequest severLimbRequest in modifications.LimbsToSever) {
+            BodyPart rootPart = pawn.Body.AllExternalParts.First(p => p.BodyPartDef == severLimbRequest.RootLimb);
+            BodyPart targetLimb = rootPart.ExternalParts.First(p => p.Socket?.Def == severLimbRequest.Socket);
             BodyPartSocket socket = targetLimb.Socket!;
-            targetLimb.Severe();
-            socket.IsSealed = severeLimbRequest.Seal;
+            targetLimb.Sever();
+            socket.IsSealed = severLimbRequest.Seal;
         }
     }
 }

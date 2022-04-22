@@ -21,6 +21,7 @@
         <BaseStats>
             <PhysicalResistance>25</PhysicalResistance>
             <MaxDurability>100</MaxDurability>
+            <Weight>3</Weight>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
@@ -35,6 +36,7 @@
         <BaseStats>
             <PhysicalResistance>30</PhysicalResistance>
             <MaxDurability>120</MaxDurability>
+            <Weight>5</Weight>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
@@ -50,6 +52,7 @@
         <BaseStats>
             <PhysicalResistance>20</PhysicalResistance>
             <MaxDurability>60</MaxDurability>
+            <Weight>5</Weight>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
@@ -64,6 +67,7 @@
         <BaseStats>
             <PhysicalResistance>20</PhysicalResistance>
             <MaxDurability>100</MaxDurability>
+            <Weight>6</Weight>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
@@ -78,6 +82,7 @@
         <BaseStats>
             <PhysicalResistance>20</PhysicalResistance>
             <MaxDurability>120</MaxDurability>
+            <Weight>6</Weight>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
@@ -92,6 +97,7 @@
         <BaseStats>
             <PhysicalResistance>35</PhysicalResistance>
             <MaxDurability>200</MaxDurability>
+            <Weight>8</Weight>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
@@ -106,6 +112,7 @@
         <BaseStats>
             <PhysicalResistance>30</PhysicalResistance>
             <MaxDurability>70</MaxDurability>
+            <Weight>5</Weight>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
@@ -119,6 +126,7 @@
         <TexturePath>Entities/Item/Equipment/Armor/Misc/FishBowlHelmet</TexturePath>
         <BaseStats>
             <PhysicalResistance>30</PhysicalResistance>
+            <Weight>2</Weight>
             <MaxDurability>4</MaxDurability>
         </BaseStats>
     </ItemDef>

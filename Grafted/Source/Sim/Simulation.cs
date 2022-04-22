@@ -1,5 +1,6 @@
 using Grafted.Sim.Gui;
 using Grafted.UI;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -9,7 +10,24 @@ public class Simulation {
     public SimulationMessages Messages = new();
     public IdProvider IdProvider = new();
     public World World = null!;
-    public SimulationGui? Gui { get; set; }
+    private BaseGui? _gui = null;
+
+    public BaseGui? Gui {
+        get => _gui;
+        set {
+            if (_gui != null) {
+                Core.Instance.Window.TextInput -= OnWindowOnTextInput;
+            }
+
+            _gui = value;
+            Core.Instance.Window.TextInput += OnWindowOnTextInput;
+        }
+    }
+
+    private void OnWindowOnTextInput(object? _, TextInputEventArgs args) {
+        _gui!.Desktop.OnChar(args.Character);
+    }
+
     public bool IsPaused => Core.PauseCoroutines;
 
     public float GameSpeed = .2f;

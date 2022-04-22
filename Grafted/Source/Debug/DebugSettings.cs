@@ -1,8 +1,7 @@
 ﻿namespace Grafted.Debug;
 
 public static class DebugSettings {
-    public static bool DrawImGui = true;
-    public static bool DrawSpriteOrigins = false;
-    public static bool QuickPlay = false;
-    public static bool InstantBuild = true;
+    public static bool QuickPlay = true;
+    public static bool SkipIntro = false;
+    public static bool SkipIntroDialogue = false;
 }

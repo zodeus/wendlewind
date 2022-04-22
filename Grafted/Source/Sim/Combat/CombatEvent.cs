@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Grafted.Maths;
 using Grafted.Sim.Entities;
@@ -12,20 +11,21 @@ using Microsoft.Xna.Framework;
 namespace Grafted.Sim.Combat;
 
 public class CombatEvent {
+    private readonly List<CombatTurn> _turns = new();
+    private CombatState _state = CombatState.Preparation;
+    private readonly Dictionary<Pawn, Item> _queuedPotions = new();
+    private readonly List<CombatBuff> _buffs = new();
+
     public event Action<CombatState>? StateChangedAction;
 
-    public List<Pawn> PlayerPawns = new();
-    public List<Pawn> EnemyPawns = new();
-    public List<CombatTurn> Turns = new();
+    public readonly List<Pawn> PlayerPawns = new();
+    public readonly List<Pawn> EnemyPawns = new();
     public CombatTurn CurrentTurn = null!;
     public int CurrentTurnNum;
-    public CombatRecord CombatRecord = new();
-    public List<BodyPart> SeveredLimbs = new();
+    public readonly CombatRecord CombatRecord = new();
+    public readonly List<BodyPart> SeveredLimbs = new();
     public bool IsInteractive = false;
-
-    private CombatState _state = CombatState.Preparation;
-    private Dictionary<Pawn, Item> _queuedPotions = new();
-    private List<CombatBuff> _buffs = new();
+    public ItemContainer Loot = new();
 
     public IReadOnlyList<CombatBuff> Buffs => _buffs;
 
@@ -64,7 +64,7 @@ public class CombatEvent {
             CurrentTurnNum++;
             State = CombatState.TurnStart;
             CurrentTurn = new CombatTurn(this);
-            Turns.Add(CurrentTurn);
+            _turns.Add(CurrentTurn);
 
             if (PlayerPawns.Any(p => p.IsDead == false) == false || EnemyPawns.Any(p => p.IsDead == false) == false) {
                 State = CombatState.CombatEnd;
@@ -107,7 +107,8 @@ public class CombatEvent {
         else {
             Core.Sim.World.TotalKills++;
             Core.Sim.Messages.Push(new Message($"\\c[{CombatSequence.TextColorPawn}]{PlayerPawns.First().Label} \\c[{CombatSequence.TextColorGreen}]killed \\c[{CombatSequence.TextColorEnemyPawn}]{EnemyPawns.First().Label}"));
-            UpdateWorldStuff();
+            //PlayerPawns[0].Body.BloodAmount = playerPawn.Body.MaxBlood;
+            CollectLoot();
         }
 
         LogMessage("Battle is over");
@@ -156,24 +157,12 @@ public class CombatEvent {
         return true;
     }
 
-    private void UpdateWorldStuff() {
-        Pawn playerPawn = PlayerPawns[0];
-        playerPawn.Body.BloodAmount = playerPawn.Body.MaxBlood;
-
-
-        void AddToInventory(Item? i) {
-            if (i == null) { return; }
-
-            if (playerPawn.Inventory.Count(it => it.Def == i.Def) < 2) {
-                playerPawn.Inventory.Items.TryAdd(i);
-            }
-        }
-
+    private void CollectLoot() {
         foreach (Pawn enemy in EnemyPawns) {
             for (int i = enemy.Inventory.Count() - 1; i >= 0; i--) {
                 Item item = enemy.Inventory.Items[i];
                 enemy.Inventory.Items.Remove(item);
-                playerPawn.Inventory.Items.TryAdd(item);
+                Loot.TryAdd(item);
             }
 
             foreach ((BodyPart? bodyPart, var slots) in enemy.Equipment.Slots) {
@@ -182,7 +171,9 @@ public class CombatEvent {
                         continue;
                     }
 
-                    AddToInventory(enemy.Equipment.UnEquip(bodyPart, slot));
+                    if (enemy.Equipment.UnEquip(bodyPart, slot) is { } item) {
+                        Loot.TryAdd(item);
+                    }
                 }
             }
         }
@@ -191,7 +182,7 @@ public class CombatEvent {
             foreach ((EquipmentSlotType slot, Item? item) in part.Equipment) {
                 if (item != null && item.ItemDef.EquipmentProperties.SlotUsedToEquip != EquipmentSlotType.BuiltIn) {
                     part.Equipment[slot] = null;
-                    AddToInventory(item);
+                    Loot.TryAdd(item);
                 }
             }
 
@@ -202,29 +193,6 @@ public class CombatEvent {
 
         foreach (BodyPart part in SeveredLimbs) {
             TakePartEquipment(part);
-        }
-
-        if (Core.Sim.World.TotalKills == 10) {
-            Core.Sim.GameSpeed = .2f; //todo THIS IS JUNK
-        }
-
-        foreach (BodyPart part in playerPawn.Body.AllParts) {
-            if (part.HealthPercent >= .97) { continue; }
-
-            if (part.Type == BodyPartType.Skin) {
-                part.HitPoints += Mathf.FloorToInt(part.MaxHitPoints * Core.Random.NextFloat(0.10f, 0.25f));
-                continue;
-            }
-
-            if (part.IsDestroyed) {
-                /*if (Core.Random.Chance(.04f)) {
-                    part.HitPoints = 1;
-                }*/
-
-                continue;
-            }
-
-            part.HitPoints += Mathf.FloorToInt(part.MaxHitPoints * Core.Random.NextFloat(0.03f, 0.08f));
         }
     }
 

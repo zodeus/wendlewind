@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Grafted.Sim.Entities;
-using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
 using Myra.Graphics2D;
 using Myra.Graphics2D.TextureAtlases;

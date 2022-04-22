@@ -6,6 +6,9 @@
         <ItemType>TradeTool</ItemType>
         <MaterialType>Artificial</MaterialType>
         <StackLimit>99</StackLimit>
+        <BaseStats>
+            <Weight>1</Weight>
+        </BaseStats>
     </ItemDef>
     <ItemDef ParentName="TradeTool">
         <Moniker>RepairKit</Moniker>

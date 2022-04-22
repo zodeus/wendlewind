@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <PawnDef Name="Human" ParentName="BasePawn">
+    <PawnDef ParentName="BasePawn">
         <Moniker>Human</Moniker>
         <Label>Human</Label>
         <BaseStats>
             <AttackSpeed>2</AttackSpeed>
             <MeleeStrength>1</MeleeStrength>
+            <MaxCarryWeight>50</MaxCarryWeight>
         </BaseStats>
     </PawnDef>
 </Definitions>

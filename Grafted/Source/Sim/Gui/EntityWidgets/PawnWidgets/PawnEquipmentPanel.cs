@@ -18,6 +18,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel {
 
     public PawnEquipmentPanel(PawnEquipment equipment, Action<BodyPart, EquipmentSlotType>? clickAction = null) {
         _equipment = equipment;
+        Spacing = 2;
         foreach ((BodyPart bodyPart, List<EquipmentSlotType> slots) in _equipment.Slots) {
             if (slots.Any() == false) {
                 continue;
@@ -50,6 +51,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel {
         public EquipmentColumn(BodyPart bodyPart, List<EquipmentSlotType> slots, Action<BodyPart, EquipmentSlotType>? clickAction = null) {
             _bodyPart = bodyPart;
             ClickAction = clickAction;
+            Spacing = 2;
             _potionSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.PotionSlot];
             _image = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.Icon), BodyPartColor.Get(bodyPart)), Width = 32, Height = 32 };
             _image.TouchDown += (_, _) => Core.Sim.Gui!.ViewEntity(bodyPart);
@@ -86,7 +88,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel {
             return DestroyedEquipmentColor;
         }
 
-        if (item.ItemDef.EquipmentProperties.EquipmentType == EquipmentType.Tool && bodyPart.IsFunctional == false) {
+        if (item.ItemDef.EquipmentProperties.EquipmentType == EquipmentType.Tool && bodyPart.HasMobility == false) {
             return Color.Red;
         }
 

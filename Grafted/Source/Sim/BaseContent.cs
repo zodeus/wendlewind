@@ -25,6 +25,7 @@ public static partial class BaseContent {
         public static Texture2D MedKit = null!;
         public static Texture2D Cauterize = null!;
         public static Texture2D QuestionMark = null!;
+        public static Texture2D Village = null!;
 
         public static void Load() {
             BadTexture = Core.Content.Load<Texture2D>(BadTexturePath);
@@ -38,6 +39,9 @@ public static partial class BaseContent {
             MedKit = Core.Content.Load<Texture2D>("Entities/Item/Consumables/MedKit");
             Cauterize = Core.Content.Load<Texture2D>("Entities/Item/Consumables/Cauterize");
             QuestionMark = Core.Content.Load<Texture2D>("Entities/Item/Consumables/Cauterize");
+
+            // Village
+            Village = Core.Content.Load<Texture2D>("UI/Village/Village");
         }
     }
 }
@@ -115,6 +119,7 @@ public static partial class BaseContent {
                 public const string RoundDark64 = "panel-round-dark-64";
                 public const string Red = "panel-red";
                 public const string DeepGold = "panel-deep-gold";
+                public const string FancyDark = "panel-bar-fancy-dark";
             }
 
             public static class Bar {

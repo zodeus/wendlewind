@@ -6,6 +6,9 @@
         <ItemType>Medical</ItemType>
         <MaterialType>Artificial</MaterialType>
         <StackLimit>99</StackLimit>
+        <BaseStats>
+            <Weight>1</Weight>
+        </BaseStats>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
         <Moniker>MedKit</Moniker>
@@ -35,13 +38,13 @@
     <ItemDef ParentName="MedicalItem">
         <Moniker>SurgicalScissors</Moniker>
         <Label>Surgical Scissors</Label>
-        <Description>Used to severe small limbs</Description>
+        <Description>Used to sever small limbs</Description>
         <!--<TexturePath>Entities/Item/Consumables/Cauterize</TexturePath>-->
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
         <Moniker>SurgicalSaw</Moniker>
         <Label>Surgical Saw</Label>
-        <Description>Used to severe large limbs</Description>
+        <Description>Used to sever large limbs</Description>
         <TexturePath>Entities/Item/Consumables/SurgicalSaw</TexturePath>
     </ItemDef>
 </Definitions>

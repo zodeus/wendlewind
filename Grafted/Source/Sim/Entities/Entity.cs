@@ -11,15 +11,17 @@ public enum EntityState {
 }
 
 public abstract class Entity : IExposable, IIdentityProvider {
+    private EntityState _internalState = EntityState.UnSpawned;
+
     public int Id = -1;
     public EntityDef Def = null!;
+    public ItemContainer? Container;
+    
     public virtual string Label => Def.Label;
     public virtual string LabelShort => Def.Label;
 
     public virtual string Description => Def.Description;
     public virtual Texture2D Icon => Def.Icon;
-
-    private EntityState _internalState = EntityState.UnSpawned;
     public bool IsDestroyed => _internalState == EntityState.Destroyed;
 
     public virtual void Destroy() {

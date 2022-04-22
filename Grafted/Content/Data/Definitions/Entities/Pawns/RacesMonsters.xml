@@ -4,4 +4,10 @@
     <RaceDef Name="BaseMonsterRace" Abstract="true">
         <!--<NameGeneratorClass>NameGeneratorMonsters</NameGeneratorClass>-->
     </RaceDef>
+    <RaceDef ParentName="BaseMonsterRace">
+        <Moniker>Glump</Moniker>
+        <Label>Glump</Label>
+        <Species>Glump</Species>
+        <TexturePath>Entities/Pawn/Creature/Glump/Glump</TexturePath>
+    </RaceDef>
 </Definitions>

@@ -1,4 +1,5 @@
 using Grafted.Definitions;
+using Grafted.Maths;
 using Grafted.Sim.Combat;
 
 namespace Grafted.Sim.Entities.Items;
@@ -12,9 +13,10 @@ public class Item : Entity {
     public override string Label => Def.Label;
     public string LabelWithStackSize => IsStackable ? $"{Def.Label} x{StackSize}" : Def.Label;
     public bool IsStackable => ItemDef.StackLimit > 1;
+    public int Weight => Mathf.CeilToInt(this.GetStatValue(Defs.Stats.Weight) * StackSize);
 
     public override void Initialize() {
-        MaxDurability =  this.GetStatValue(Defs.Stats.MaxDurability);
+        MaxDurability = this.GetStatValue(Defs.Stats.MaxDurability);
         _durability = MaxDurability;
 
         base.Initialize();

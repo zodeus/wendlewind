@@ -25,4 +25,10 @@
         <SkillType>Arms</SkillType>
         <ToolType>Mace</ToolType>
     </SkillDef> 
+    <SkillDef>
+        <Moniker>Swords</Moniker>
+        <Label>Swords</Label>
+        <SkillType>Arms</SkillType>
+        <ToolType>Sword</ToolType>
+    </SkillDef> 
 </Definitions>

@@ -55,7 +55,10 @@ public class Pawn : Entity {
         }
     }
 
+    public int MaxCarryWeight = 0;
+
     public override void Initialize() {
+        MaxCarryWeight = (int) this.GetStatValue(Defs.Stats.MaxCarryWeight);
         Biography = new PawnBiography(this);
         Traits = new PawnTraits(this);
         Brain = new PawnBrain(this);
@@ -84,7 +87,6 @@ public class Pawn : Entity {
     }
 
     private void CalculateSequencePoints() {
-        //todo this should get called automatically via some _isDirty variable we set in other areas;
         _sequencePoints = 0;
         foreach (BodyPart bodyPart in Body.AllExternalParts) {
             if (bodyPart.HasMobility == false) {
@@ -93,6 +95,10 @@ public class Pawn : Entity {
 
             _sequencePoints += Mathf.FloorToInt(bodyPart.GetStatValue(Defs.Stats.SequencePoints));
         }
+
+        //todo this calculates lung capacity, I think there should be a capacities list object somewhere instead, perhaps PawnBody or on Pawn? Need to add events to BodyPart to properly implement
+
+        _sequencePoints = Mathf.RoundToInt(_sequencePoints * (Body.AllParts.Count(p => p.BodyPartDef.BodyPartType == BodyPartType.Lung && p.IsFunctional) > 1 ? 1f : .5f));
     }
 
     public DamageResponse TakeDamage(DamageRequest request) {

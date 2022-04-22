@@ -288,7 +288,7 @@ public class BodyPart : Entity {
             }
 
             if (allInternalPartsDestroyed && Socket != null && Core.Random.Chance(.25f)) {
-                Severe();
+                Sever();
                 //damagedPartRecord.WasSevered = true;
             }
         }
@@ -296,7 +296,7 @@ public class BodyPart : Entity {
         return damagedParts;
     }
 
-    public void Severe() {
+    public void Sever() {
         if (Socket != null) {
             Socket.AttachedPart = null;
             Socket.IsSealed = false;

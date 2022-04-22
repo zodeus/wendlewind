@@ -9,6 +9,9 @@
         <EquipmentProperties>
             <EquipmentType>Potion</EquipmentType>
         </EquipmentProperties>
+        <BaseStats>
+            <Weight>1</Weight>
+        </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Potion">
         <Moniker>JarOfBlood</Moniker>

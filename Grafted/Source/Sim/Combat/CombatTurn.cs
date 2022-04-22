@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using Grafted.Coroutines;
 using Grafted.Definitions;
 using Grafted.Maths;
@@ -28,7 +27,7 @@ public class CombatTurn {
     }
 
     public void Prepare() {
-        Pawns = Pawns.OrderByDescending(pawn => StatExtensions.GetStatValue(pawn, Defs.Stats.AttackSpeed)).ToList();
+        Pawns = Pawns.OrderByDescending(pawn => StatExtensions.GetStatValue(pawn, Defs.Stats.AttackSpeed)).InRandomOrder().ToList();
     }
 
     public IEnumerator Run() {

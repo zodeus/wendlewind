@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using FontStashSharp;
 using Grafted.Maths;
 using Grafted.Sim.Entities;
@@ -12,7 +11,7 @@ using Myra.Graphics2D.UI;
 
 namespace Grafted.Sim.Gui;
 
-public abstract class SimulationGui {
+public abstract class BaseGui {
     public Desktop Desktop { get; set; } = null!;
 
     public MouseAttachment? MouseAttachment;

@@ -7,5 +7,6 @@
     </ItemDef>
     <ItemDef Name="ItemResource" ParentName="ItemBase" Abstract="true">
         <ItemType>Resource</ItemType>
+        <StackLimit>9999</StackLimit>
     </ItemDef>
 </Definitions>

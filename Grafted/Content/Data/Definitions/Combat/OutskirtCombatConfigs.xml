@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <CombatConfigDef>
+        <Moniker>TheOutskirts-01</Moniker>
+        <Enemies>
+            <ListItem>
+                <Race>Glump</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>A Glump</PawnName>
+                <EquipmentItems>
+                    <ListItem>Mace</ListItem>
+                </EquipmentItems>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>WoodLog</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </CombatConfigDef>
+</Definitions>
