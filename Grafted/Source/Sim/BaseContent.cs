@@ -63,11 +63,6 @@ public static partial class BaseContent {
             public const string Xp = "xp";
         }
 
-        public static class Panel {
-            public const string Medium = "panel-medium";
-            public const string FancyBar = "panel-bar-fancy";
-        }
-
         public static class Label {
             public const string Error = "error";
             public const string Success = "success";
@@ -83,11 +78,13 @@ public static partial class BaseContent {
             public const string Large = "large";
             public const string Plus24 = "plus-24";
             public const string Minus24 = "minus-24";
+            public const string Money24 = "money-24";
         }
 
 
         public static class Atlas {
             public static class Icon {
+                public const string Minus = "icon-minus-32";
                 public const string Close = "icon-close";
                 public const string Pause = "icon-pause";
                 public const string Play = "icon-play";
@@ -109,6 +106,7 @@ public static partial class BaseContent {
                 public const string QuestionMark = "icon-question-mark-32-default";
                 public const string Trash = "icon-trash";
                 public const string PotionSlot = "icon-potion-slot";
+                public const string SoulCoin = "icon-soul-coin";
             }
 
             public static class Panel {
@@ -125,6 +123,7 @@ public static partial class BaseContent {
             public static class Bar {
                 public const string FrameSmall = "bar-frame-small";
                 public const string Health = "bar-health";
+                public const string Neutral = "bar-neutral";
             }
         }
     }

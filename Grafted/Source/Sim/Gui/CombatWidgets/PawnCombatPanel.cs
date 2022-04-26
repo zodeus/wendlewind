@@ -74,7 +74,7 @@ internal class PawnCombatPanel : HorizontalStackPanel {
             Width = panelWidth, Height = 20,
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.FrameSmall],
             VerticalAlignment = VerticalAlignment.Center,
-            Filler = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.Health],
+            Filler = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.Neutral], Color.White),
             Padding = new Thickness(3, 6, 3, 6)
         };
         panel.AddChild(_bloodBar);
@@ -109,6 +109,8 @@ internal class PawnCombatPanel : HorizontalStackPanel {
         }
 
         _bloodBar.Value = Pawn.Body.BloodLevel * 100;
+        ((ColoredRegion) _bloodBar.Filler).Color = BodyPartColor.GetBloodColor(Pawn.Body.BloodLevel);
+        
         _bodySummary.Update();
         _pawnEquipmentPanel.Update();
         //todo something better here, this is hacky

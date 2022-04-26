@@ -3,11 +3,17 @@
 <Definitions>
     <ZoneDef>
         <Moniker>Intro</Moniker>
+        <Label>Intro</Label>
     </ZoneDef>
     <ZoneDef>
         <Moniker>VillageOfTheDamned</Moniker>
+        <Label>Village of the Damned</Label>
+        <ZoneType>Town</ZoneType>
     </ZoneDef>
     <ZoneDef>
         <Moniker>TheOutskirts</Moniker>
+        <Label>The Outskirts</Label>
+        <ZoneType>Adventure</ZoneType>
+        <TravelSize>20</TravelSize>
     </ZoneDef>
 </Definitions>

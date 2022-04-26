@@ -4,21 +4,9 @@ using Grafted.Definitions;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
+using Grafted.Utils;
 
 namespace Grafted.Sim.Combat;
-
-public class CombatConfigDef : Def {
-    public List<CombatConfigEnemyRecord> Enemies = new();
-}
-
-public class CombatConfigEnemyRecord {
-    public RaceDef Race = null!;
-    public PawnConfigDef Config = null!;
-    public string PawnName = null;
-    public List<ItemDef> EquipmentItems = new();
-    public List<ItemDropCount> InventoryItems = new();
-    public BodyModificationRecord BodyModifications = new();
-}
 
 public class BodyModificationRecord {
     public List<SeverLimbRequest> LimbsToSever = new();
@@ -48,12 +36,16 @@ public static class CombatGenerator {
         //combatEvent.IsInteractive = true;
         combatEvent.AddPlayerPawn(playerPawn);
 
-        CombatConfigDef combatConfig = DefRepository<CombatConfigDef>.GetByMoniker($"{zone.Def.Moniker}-01")!;
+
+        var zoneConfigs = DefRepository<CombatConfigDef>.Defs.Where(c => c.Moniker.Contains(zone.Def.Moniker)).ToList();
+        CombatConfigDef combatConfig = zone.PercentTraveled >= 1 ? zoneConfigs.Last() : zoneConfigs.First(c => zone.DistanceTraveled < c.DistanceToEnd);
         return Generate(combatConfig, combatEvent);
     }
 
     private static CombatEvent Generate(CombatConfigDef combatConfig, CombatEvent combatEvent) {
-        foreach (CombatConfigEnemyRecord enemyConfig in combatConfig.Enemies) {
+        combatEvent.Config = combatConfig;
+        var enemies = new List<CombatConfigEnemyRecord> { combatConfig.Enemies.InRandomOrder().First() }; // todo only handling a single enemy
+        foreach (CombatConfigEnemyRecord enemyConfig in enemies) {
             Pawn pawn = PawnGenerator.CreatePawn(new PawnRequest(
                 enemyConfig.Race,
                 enemyConfig.Config

@@ -1,58 +1,40 @@
-using System;
 using System.Linq;
 using Grafted.Definitions;
-using Grafted.Maths;
 using Grafted.Sim.Combat;
-using Grafted.Sim.Entities;
-using Grafted.Sim.Entities.Items;
-using Grafted.Sim.Entities.Pawns;
 using Grafted.Sim.Gui.EntityWidgets;
-using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 using Grafted.Sim.Gui.MiscWidgets;
 using Grafted.Sim.Gui.TownWidgets;
-using Grafted.UI;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Myra.Graphics2D;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.UI.Styles;
 using HorizontalAlignment = Myra.Graphics2D.UI.HorizontalAlignment;
-using Label = Myra.Graphics2D.UI.Label;
 
 namespace Grafted.Sim.Gui;
 
 public class CombatResultsGui : BaseGui {
     private readonly CombatEvent _combatEvent;
     private readonly PawnDetailPanel _pawnPanel;
+    private readonly GameStatsPanel _gameStatsPanel;
 
     public CombatResultsGui(CombatEvent combatEvent) {
         _combatEvent = combatEvent;
-        Label title = new(BaseContent.Styles.Label.Large) {
-            GridRow = 0, GridColumn = 0,
-            Text = $"Total kills \\c[{CombatSequence.TextColorGreen}]{Core.Sim.World.TotalKills}",
-            HorizontalAlignment = HorizontalAlignment.Center
-        };
-        _pawnPanel = new PawnDetailPanel(Core.Sim.World.PlayerPawns[0], "Loot", _combatEvent.Loot) {
-            GridRow = 1, GridColumn = 0
-        };
+        _gameStatsPanel = new GameStatsPanel { HorizontalAlignment = HorizontalAlignment.Center };
+        _pawnPanel = new PawnDetailPanel(Core.Sim.World.PlayerPawns[0], "Loot", _combatEvent.Loot);
 
         Widget progressButton = GenerateProgressButton();
-        progressButton.GridRow = 2;
-        progressButton.GridColumn = 0;
         progressButton.HorizontalAlignment = HorizontalAlignment.Right;
 
-        Grid grid = new() {
-            ShowGridLines = false, HorizontalAlignment = HorizontalAlignment.Center, Padding = new Thickness(50),
-            Margin = new Thickness(0, 50, 0, 0), GridLinesColor = Color.Red, RowSpacing = 20,
-            DefaultRowProportion = Proportion.Auto, DefaultColumnProportion = Proportion.Auto,
+        VerticalStackPanel panel = new() {
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Margin = new Thickness(0, 5, 0, 0), Spacing = 15,
             Widgets = {
-                title,
+                _gameStatsPanel,
                 _pawnPanel,
                 progressButton
             }
         };
 
-        Desktop = new Desktop { Root = grid, HasExternalTextInput = true };
+        Desktop = new Desktop { Root = panel, HasExternalTextInput = true };
     }
 
     private Widget DeathsButton() {
@@ -76,13 +58,14 @@ public class CombatResultsGui : BaseGui {
             TextButton button = new(BaseContent.Styles.Button.Large) {
                 Text = "You dead son"
             };
-            button.Click += (_, _) => ((GameScene) Core.Scene.ActiveScene!).QuickPlay();
+            button.Click += (_, _) => {
+                Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorRed}]You have been reborn"));
+                ((GameScene) Core.Scene.ActiveScene!).QuickPlay();
+            };
             buttons.AddChild(button);
         }
         else {
-            TextButton continueButton = new(BaseContent.Styles.Button.Large) {
-                Text = "Carry on"
-            };
+            TextButton continueButton = new(BaseContent.Styles.Button.Large) { Text = "Carry on" };
             continueButton.Click += (_, _) => {
                 if (Core.Sim.World.CurrentZone.Def == Defs.Zones.Intro) {
                     HandleIntro();
@@ -115,8 +98,9 @@ public class CombatResultsGui : BaseGui {
         Core.Sim.Gui = new DialogueGui(Core.Sim.World.NextDialogue());
     }
 
-    public override void Render(SpriteBatch spriteBatch, float deltaTime) {
+    public override void Update(float deltaTime) {
         _pawnPanel.Update();
-        base.Render(spriteBatch, deltaTime);
+        _gameStatsPanel.Update();
+        base.Update(deltaTime);
     }
 }

@@ -10,6 +10,7 @@
         <TexturePath>Entities/Item/Resource/Wood/WoodLog</TexturePath>
         <BaseStats>
             <Weight>10</Weight>
+            <CurrencyValue>2</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WoodResource">
@@ -18,6 +19,7 @@
         <TexturePath>Entities/Item/Resource/Wood/OakWoodLog</TexturePath>
         <BaseStats>
             <Weight>10</Weight>
+            <CurrencyValue>5</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WoodResource">

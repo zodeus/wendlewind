@@ -22,6 +22,10 @@ public static class BodyPartColor {
         return Color.Lerp(LowColor, HighColor, bodyPart.HealthPercent);
     }
 
+    public static Color GetBloodColor(float value) {
+        return Color.Lerp(DestroyedColor, HighColor, value);
+    }
+
     public static Color Get(BodyPartSocket socket) {
         if (socket.IsSealed == false) {
             return DestroyedColor;

@@ -27,6 +27,7 @@
             <MeleePower>5</MeleePower>
             <MaxDurability>40</MaxDurability>
             <Weight>3</Weight>
+            <CurrencyValue>0</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponSharp">
@@ -46,6 +47,7 @@
             <MeleePower>15</MeleePower>
             <MaxDurability>200</MaxDurability>
             <Weight>6</Weight>
+            <CurrencyValue>5</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponSharp">
@@ -65,6 +67,7 @@
             <MeleePower>20</MeleePower>
             <MaxDurability>400</MaxDurability>
             <Weight>1</Weight>
+            <CurrencyValue>6</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponSharp">
@@ -84,6 +87,7 @@
             <MeleePower>30</MeleePower>
             <MaxDurability>800</MaxDurability>
             <Weight>6</Weight>
+            <CurrencyValue>12</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponSharp">
@@ -103,6 +107,7 @@
             <MeleePower>45</MeleePower>
             <MaxDurability>800</MaxDurability>
             <Weight>5</Weight>
+            <CurrencyValue>15</CurrencyValue>
         </BaseStats>
     </ItemDef>
 </Definitions>

@@ -49,4 +49,11 @@
         <BaseValue>0</BaseValue>
         <MinValue>0</MinValue>
     </StatDef>
+    <StatDef>
+        <Moniker>CurrencyValue</Moniker>
+        <Label>Currency Value</Label>
+        <Description>What it worth</Description>
+        <BaseValue>0</BaseValue>
+        <MinValue>0</MinValue>
+    </StatDef>
 </Definitions>

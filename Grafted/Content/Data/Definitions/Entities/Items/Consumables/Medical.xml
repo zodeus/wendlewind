@@ -15,6 +15,9 @@
         <Label>Med Kit</Label>
         <Description>Heals a body part fully</Description>
         <TexturePath>Entities/Item/Consumables/MedKit</TexturePath>
+        <BaseStats>
+            <CurrencyValue>2</CurrencyValue>
+        </BaseStats>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
         <Moniker>Cauterize</Moniker>
@@ -28,12 +31,18 @@
         <Label>Arterial Threads</Label>
         <Description>Used to stitch arteries</Description>
         <TexturePath>Entities/Item/Consumables/ArterialThreads</TexturePath>
+        <BaseStats>
+            <CurrencyValue>1</CurrencyValue>
+        </BaseStats>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
         <Moniker>MendersMist</Moniker>
         <Label>Menders Mist</Label>
         <Description>Used to heal bones and external parts, will traverse the tree until it's been fully used.</Description>
         <TexturePath>Entities/Item/Consumables/MendersMist</TexturePath>
+        <BaseStats>
+            <CurrencyValue>3</CurrencyValue>
+        </BaseStats>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
         <Moniker>SurgicalScissors</Moniker>

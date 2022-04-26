@@ -20,7 +20,7 @@ namespace Grafted.Sim.Gui;
 public class CombatGui : BaseGui {
     private readonly CombatEvent _combatEvent;
     private readonly ScrollViewer _combatLog;
-    private readonly ProgramStatsPanel _programStats;
+    private readonly GameStatsPanel _gameStatsPanel;
     private readonly Label _turnLabel;
     private readonly CombatPartyPanel _playerPartyPanel;
     private readonly CombatPartyPanel _opponentPartyPanel;
@@ -36,7 +36,10 @@ public class CombatGui : BaseGui {
         _combatEvent.CombatRecord.LogMessageAddedAction += message => {
             AddCombatLogEntry(message.Text);
         };
-        _programStats = new ProgramStatsPanel { GridRow = 0, GridColumn = 0, GridColumnSpan = 3, Margin = new Thickness(0, 10, 0, 50) };
+        _gameStatsPanel = new GameStatsPanel {
+            HorizontalAlignment = HorizontalAlignment.Center,
+            GridRow = 0, GridColumn = 0, GridColumnSpan = 3, Margin = new Thickness(0, 5, 0, 0)
+        };
 
         _playerPartyPanel = new CombatPartyPanel(_combatEvent, combatEvent.PlayerPawns, HorizontalAlignment.Right) {
             GridRow = 1, GridColumn = 0
@@ -119,14 +122,12 @@ public class CombatGui : BaseGui {
         };
 
         Grid grid = new() {
-            //BorderThickness = new Thickness(1),Border = new SolidBrush(Color.Orange),
-            //Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
-            //ShowGridLines = true,
             HorizontalAlignment = HorizontalAlignment.Center,
-            Margin = new Thickness(0), GridLinesColor = Color.Red, RowSpacing = 20,
-            DefaultRowProportion = Proportion.Auto, DefaultColumnProportion = Proportion.Auto,
+            RowSpacing = 20,
+            DefaultRowProportion = Proportion.Auto, 
+            DefaultColumnProportion = Proportion.Auto,
             Widgets = {
-                _programStats,
+                _gameStatsPanel,
                 _playerPartyPanel, centerColumn, _opponentPartyPanel,
                 _pawnBodyView, logPanel
             }
@@ -179,7 +180,7 @@ public class CombatGui : BaseGui {
             _playerQueuedPotionSlot.Image = null;
         }
 
-        _programStats.Update();
+        _gameStatsPanel.Update();
         _playerPartyPanel.Update();
         _opponentPartyPanel.Update();
         _pawnBodyView.Update();

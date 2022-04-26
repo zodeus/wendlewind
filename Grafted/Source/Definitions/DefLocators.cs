@@ -26,6 +26,7 @@ public static partial class Defs {
         public static StatDef MaxDurability = null!;
         public static StatDef MaxCarryWeight = null!;
         public static StatDef Weight = null!;
+        public static StatDef CurrencyValue = null!;
     }
 }
 
@@ -56,6 +57,8 @@ public static partial class Defs {
         public static ItemDef JarOfBlood = null!;
         public static ItemDef AcidFlask = null!;
         public static ItemDef PumpinJuice = null!;
+        public static ItemDef SoulCoin = null!;
+        public static ItemDef ShortSword = null!;
     }
 }
 

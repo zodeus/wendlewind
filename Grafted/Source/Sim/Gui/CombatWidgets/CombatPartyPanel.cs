@@ -10,7 +10,7 @@ namespace Grafted.Sim.Gui.CombatWidgets;
 
 internal class CombatPartyPanel : VerticalStackPanel {
     private readonly List<PawnCombatPanel> _panels;
-    private readonly HorizontalStackPanel _deathRow;
+    //private readonly HorizontalStackPanel _deathRow;
 
     public CombatPartyPanel(CombatEvent combatEvent, List<Pawn> pawns, HorizontalAlignment pawnAlignment) {
         Spacing = 5;
@@ -26,14 +26,14 @@ internal class CombatPartyPanel : VerticalStackPanel {
         AddChild(pawnRow);
 
         //todo this is not used
-        _deathRow = new() {
+        /*_deathRow = new() {
             Spacing = 20,
             HorizontalAlignment = pawnAlignment,
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Panel.FancyBar],
             Height = 100,
             Padding = new Thickness(60, 0, 60, 0),
             Width = 680,
-        };
+        };*/
         //AddChild(_deathRow);
         //todo end
         foreach (Pawn pawn in pawns) {
@@ -50,7 +50,7 @@ internal class CombatPartyPanel : VerticalStackPanel {
             if (panel.Pawn.IsDead) {
                 panel.RemoveFromParent();
                 _panels.RemoveAt(i);
-                _deathRow.AddChild(new Image { Background = new TextureRegion(panel.Pawn.Icon), Width = 56, Height = 56, VerticalAlignment = VerticalAlignment.Center });
+                //_deathRow.AddChild(new Image { Background = new TextureRegion(panel.Pawn.Icon), Width = 56, Height = 56, VerticalAlignment = VerticalAlignment.Center });
                 continue;
             }
 

@@ -44,6 +44,11 @@
                 <Amount>2~4</Amount>
                 <ChanceToDrop>.5</ChanceToDrop>
             </ListItem>
+            <ListItem>
+                <Item>SoulCoin</Item>
+                <Amount>5~10</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
         </InventoryItems>
     </PawnConfigDef>
     <PawnConfigDef>

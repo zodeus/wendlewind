@@ -46,11 +46,11 @@ public class CombatTurn {
             }
 
             _combatEvent.LogMessage(
-                $"\n\\c[{CombatSequence.TextColorPawn}]{attacker.Label}'s \\c[#b3b3b3]Turn \\c[#b3b3b3]SP (\\c[#00e6ff]{turnData.AvailableSequencePoints}\\c[#b3b3b3])"
+                $"\n\\c[{UiTextColor.TextColorPawn}]{attacker.Label}'s \\c[#b3b3b3]Turn \\c[#b3b3b3]SP (\\c[#00e6ff]{turnData.AvailableSequencePoints}\\c[#b3b3b3])"
             );
             if (_combatEvent.HasBuff(attacker, Defs.Items.PumpinJuice)) {
                 _combatEvent.LogMessage(
-                    $"    \\c[{CombatSequence.TextColorPawn}]{attacker.Label} \\c[{CombatSequence.TextColorBlue}]feels the pump!"
+                    $"    \\c[{UiTextColor.TextColorPawn}]{attacker.Label} \\c[{UiTextColor.TextColorBlue}]feels the pump!"
                 );
             }
 
@@ -77,7 +77,7 @@ public class CombatTurn {
                     //todo this is slow here :(
                     var tools = attacker.GetAvailableToolsFor(ToolCategory.Combat).ToList();
                     if (tools.Any() == false) {
-                        _combatEvent.LogMessage($"    \\c[{CombatSequence.TextColorPawn}]{attacker.LabelShort} \\c[{CombatSequence.TextColorRed}]has no usable weapons!!!");
+                        _combatEvent.LogMessage($"    \\c[{UiTextColor.TextColorPawn}]{attacker.LabelShort} \\c[{UiTextColor.TextColorRed}]has no usable weapons!!!");
                         break;
                     }
 
@@ -140,11 +140,11 @@ public class CombatTurn {
             pawn.Tick();
             int bloodLost = (int) (currentBlood - pawn.Body.BloodAmount);
             if (pawn.IsDead && pawn.Body.BloodLevel <= 0) {
-                _combatEvent.LogMessage($"    \\c[{CombatSequence.TextColorPawn}]{pawn.LabelShort} \\c[{CombatSequence.TextColorRed}]died from blood loss");
+                _combatEvent.LogMessage($"    \\c[{UiTextColor.TextColorPawn}]{pawn.LabelShort} \\c[{UiTextColor.TextColorRed}]died from blood loss");
             }
 
             if (bloodLost > 0) {
-                _combatEvent.LogMessage($"\\c[{CombatSequence.TextColorPawn}]{pawn.LabelShort} is losing blood \\c[{CombatSequence.TextColorRed}]-{bloodLost}");
+                _combatEvent.LogMessage($"\\c[{UiTextColor.TextColorPawn}]{pawn.LabelShort} is losing blood \\c[{UiTextColor.TextColorRed}]-{bloodLost}");
             }
         }
 
@@ -154,7 +154,7 @@ public class CombatTurn {
             if (buff.Duration <= 0) {
                 _combatEvent.RemoveBuff(buff);
                 //if (buff.Def == PUMP)) {
-                _combatEvent.LogMessage($"\\c[{CombatSequence.TextColorPawn}]{buff.Pawn.LabelShort} feels heavy from pump drain");
+                _combatEvent.LogMessage($"\\c[{UiTextColor.TextColorPawn}]{buff.Pawn.LabelShort} feels heavy from pump drain");
                 //_combatEvent.ActivateBuff(Heavy, );
                 //}
             }
@@ -206,7 +206,7 @@ public class CombatTurn {
     private void UsePumpinJuice(Item potion, Pawn target, PawnTurnData turnData) {
         _combatEvent.ActivateBuff(potion, target, 2);
         _combatEvent.LogMessage(
-            $"    \\c[{CombatSequence.TextColorYellow}]Sipped the \\c[{CombatSequence.TextColorItem}]{potion.Label}"
+            $"    \\c[{UiTextColor.TextColorYellow}]Sipped the \\c[{UiTextColor.TextColorItem}]{potion.Label}"
         );
         Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData {
             Text = $"{target.Label} is absorbing the Pumpin Juice",
@@ -223,7 +223,7 @@ public class CombatTurn {
                 eye.HitPoints = 0;
                 string eyeText = $"{eye.Socket?.Label.Split(" ")[0]} {eye.Type}";
                 _combatEvent.LogMessage(
-                    $"    \\c[{CombatSequence.TextColorYellow}]Burned out \\c[{CombatSequence.TextColorPawn}]{target.LabelShort}'s \\c[{CombatSequence.TextColorBodyPart}]{eyeText} \\c[{CombatSequence.TextColorDefault}]with \\c[{CombatSequence.TextColorItem}]{potion.Label}"
+                    $"    \\c[{UiTextColor.TextColorYellow}]Burned out \\c[{UiTextColor.TextColorPawn}]{target.LabelShort}'s \\c[{UiTextColor.TextColorBodyPart}]{eyeText} \\c[{UiTextColor.TextColorDefault}]with \\c[{UiTextColor.TextColorItem}]{potion.Label}"
                 );
 
                 if (Core.Random.Chance(.75f)) {
@@ -245,7 +245,7 @@ public class CombatTurn {
         pawn.Body.BloodAmount += amount;
         turnData.AvailableSequencePoints -= 1;
         _combatEvent.LogMessage(
-            $"    \\c[{CombatSequence.TextColorYellow}]Sipped a \\c[{CombatSequence.TextColorItem}]{potion.Label} \\c[{CombatSequence.TextColorDefault}]for \\c[{CombatSequence.TextColorGreen}]{amount} \\c[{CombatSequence.TextColorDefault}]blood"
+            $"    \\c[{UiTextColor.TextColorYellow}]Sipped a \\c[{UiTextColor.TextColorItem}]{potion.Label} \\c[{UiTextColor.TextColorDefault}]for \\c[{UiTextColor.TextColorGreen}]{amount} \\c[{UiTextColor.TextColorDefault}]blood"
         );
         if (pawn.PawnType == PawnType.Player) {
             Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData {

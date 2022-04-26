@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Grafted.Coroutines;
 using Grafted.Sim.Entities.Pawns;
+using Grafted.Sim.Gui;
 
 namespace Grafted.Sim.Combat;
 
@@ -14,18 +15,6 @@ public class
     public string? FlavorText { get; set; }
     public int TotalSequencePoints { get; set; }
     public float VisualWaitTimeMultiplier { get; set; } = 1;
-
-    public static string TextColorPawn = "#fa00ff";
-    public static string TextColorBodyPart = "#ff0085";
-    public static string TextColorEquipment = "#0071ad";
-    public static string TextColorEnemyPawn = "#ff4000";
-    public static string TextColorDefault = "#b3b3b3";
-    public static string TextColorSettlement = "#a600ff";
-    public static string TextColorRed = "#b00000";
-    public static string TextColorBlue = "#8cff00";
-    public static string TextColorGreen = "#3dc200";
-    public static string TextColorItem = "#fa9000";
-    public static string TextColorYellow = "#cee000";
 
     public IEnumerator Execute(CombatEvent combatEvent) {
         combatEvent.LogMessage($"    Performing \\c[#fa9000]{FlavorText} \\c[#b3b3b3](\\c[#00e6ff]{TotalSequencePoints}\\c[#b3b3b3])");
@@ -43,27 +32,27 @@ public class
 
                 foreach (DamageRecord damageResult in damageResponse.Damages) {
                     combatEvent.LogMessage(
-                        $"        \\c[#b3b3b3]Damaged \\c[{TextColorPawn}]{Target.LabelShort}'s \\c[{TextColorBodyPart}]{damageResult.BodyPartHit.Type} " +
+                        $"        \\c[#b3b3b3]Damaged \\c[{UiTextColor.TextColorPawn}]{Target.LabelShort}'s \\c[{UiTextColor.TextColorBodyPart}]{damageResult.BodyPartHit.Type} " +
                         $"\\c[#b3b3b3]with \\c[#fa9000]{step.Tool} \\c[#b3b3b3](\\c[#00ff11]{step.Name}" +
                         $"\\c[#b3b3b3]) for \\c[#ff0000]{damageResult.ActualAmount} \\c[#b3b3b3](\\c[#fa9000]{damageResult.DamageType}\\c[#b3b3b3]) health, " +
                         $"blocked \\c[#00e6ff]{damageResult.AmountBlocked}"
                     );
 
                     foreach (DestroyedItemRecord itemRecord in damageResult.DestroyedEquipment) {
-                        combatEvent.LogMessage($"          \\c[{TextColorEquipment}]{itemRecord.Def.Label} \\c[{TextColorRed}]destroyed");
+                        combatEvent.LogMessage($"          \\c[{UiTextColor.TextColorEquipment}]{itemRecord.Def.Label} \\c[{UiTextColor.TextColorRed}]destroyed");
                     }
 
                     foreach (DamagedPartRecord partRecord in damageResult.BodyParts) {
                         if (partRecord.WasDestroyed && partRecord.IsVital == false) {
-                            combatEvent.LogMessage($"          \\c[{TextColorBodyPart}]{partRecord.PartType} \\c[{TextColorRed}]destroyed");
+                            combatEvent.LogMessage($"          \\c[{UiTextColor.TextColorBodyPart}]{partRecord.PartType} \\c[{UiTextColor.TextColorRed}]destroyed");
                         }
 
                         if (partRecord.WasDestroyed && partRecord.IsVital) {
-                            combatEvent.LogMessage($"          \\c[{TextColorRed}]VITAL part \\c[{TextColorBodyPart}]{partRecord.PartType} \\c[{TextColorRed}]destroyed");
+                            combatEvent.LogMessage($"          \\c[{UiTextColor.TextColorRed}]VITAL part \\c[{UiTextColor.TextColorBodyPart}]{partRecord.PartType} \\c[{UiTextColor.TextColorRed}]destroyed");
                         }
 
                         if (partRecord.BodyPart.IsExternal && partRecord.WasSevered) {
-                            combatEvent.LogMessage($"          \\c[{TextColorBodyPart}]{partRecord.PartType} \\c[{TextColorRed}]SEVERED");
+                            combatEvent.LogMessage($"          \\c[{UiTextColor.TextColorBodyPart}]{partRecord.PartType} \\c[{UiTextColor.TextColorRed}]SEVERED");
                         }
                     }
                 }
@@ -77,7 +66,7 @@ public class
 
                 if (Target.IsDead) {
                     //Target.Destroy();
-                    combatEvent.LogMessage($"    \\c[#ff0000]Killed \\c[{TextColorPawn}]{Target.LabelShort}");
+                    combatEvent.LogMessage($"    \\c[#ff0000]Killed \\c[{UiTextColor.TextColorPawn}]{Target.LabelShort}");
                     yield return Coroutine.WaitForSeconds(2);
 
                     // exiting sequence, target is dead 
@@ -85,7 +74,7 @@ public class
                 }
             }
             else {
-                combatEvent.LogMessage($"        Missed \\c[{TextColorPawn}]{Target.LabelShort} \\c[#b3b3b3]with \\c[#fa9000]{step.Tool} \\c[#b3b3b3]ChanceToHit = \\c[#00e6ff]{chanceToHit}");
+                combatEvent.LogMessage($"        Missed \\c[{UiTextColor.TextColorPawn}]{Target.LabelShort} \\c[#b3b3b3]with \\c[#fa9000]{step.Tool} \\c[#b3b3b3]ChanceToHit = \\c[#00e6ff]{chanceToHit}");
             }
         }
     }

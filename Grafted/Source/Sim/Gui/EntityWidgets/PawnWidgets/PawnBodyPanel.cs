@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Grafted.Definitions;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
-using Grafted.Sim.Gui.MiscWidgets;
 using Grafted.UI;
+using Microsoft.Xna.Framework;
 using Myra.Graphics2D;
 using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
@@ -15,19 +15,28 @@ namespace Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 public class PawnBodyPanel : VerticalStackPanel {
     private readonly PawnBody _body;
     private readonly List<BodyPartSocketPanel> _socketPanels;
-    private readonly VerticalStackPanel _scrollBody;
+    private readonly VerticalStackPanel _partsPanel;
     private readonly PawnSkillsPanel _pawnSkillsPanel;
+    private readonly HorizontalProgressBar _bloodBar;
     private event Action<BodyPartSocket>? _socketClickHandler;
 
     public PawnBodyPanel(PawnBody body, Action<BodyPartSocket>? socketClickHandler = null) {
+        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
+        Padding = new Thickness(15);
+
         _body = body;
         _socketClickHandler = socketClickHandler;
         _socketPanels = new List<BodyPartSocketPanel>();
-        _scrollBody = new VerticalStackPanel { Padding = new Thickness(10), Spacing = 8 };
+        _partsPanel = new VerticalStackPanel { Padding = new Thickness(10), Spacing = 8 };
         _pawnSkillsPanel = new PawnSkillsPanel(_body.Pawn.Skills);
-        //Spacing = 5;
-        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
-        Padding = new Thickness(15);
+        _bloodBar = new HorizontalProgressBar {
+            Height = 5,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.FrameSmall],
+            Filler = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.Neutral], Color.White),
+            Padding = new Thickness(3, 4, 3, 4)
+        };
+
         AddChild(new ScrollViewer {
             Content = new HorizontalStackPanel {
                 Spacing = 40,
@@ -36,7 +45,7 @@ public class PawnBodyPanel : VerticalStackPanel {
                     Proportion.Auto
                 },
                 Widgets = {
-                    _scrollBody,
+                    _partsPanel,
                     new VerticalStackPanel {
                         Spacing = 20, Margin = new Thickness(0, 0, 15, 0),
                         Widgets = { new PawnTraitsPanel(_body.Pawn.Traits), _pawnSkillsPanel }
@@ -48,8 +57,9 @@ public class PawnBodyPanel : VerticalStackPanel {
     }
 
     private void GenerateSkeleton() {
-        _scrollBody.Widgets.Clear();
+        _partsPanel.Widgets.Clear();
         _socketPanels.Clear();
+        _partsPanel.AddChild(_bloodBar);
         RegisterSocket(_body.RootSocket, 0);
     }
 
@@ -62,10 +72,10 @@ public class PawnBodyPanel : VerticalStackPanel {
             panel.TouchDown += (_, _) => _socketClickHandler(socket);
         }
         else {
-            panel.TouchDown += (_, _) => BodyPartClickHandler(socket); 
+            panel.TouchDown += (_, _) => BodyPartClickHandler(socket);
         }
 
-        _scrollBody.AddChild(panel);
+        _partsPanel.AddChild(panel);
         _socketPanels.Add(panel);
 
         if (socket.AttachedPart == null) {
@@ -78,111 +88,116 @@ public class PawnBodyPanel : VerticalStackPanel {
             }
         }
     }
-    
+
     private void BodyPartClickHandler(BodyPartSocket socket) {
-            if (Input.RightMouseButtonReleased) {
-                return;
+        if (Input.RightMouseButtonReleased) {
+            return;
+        }
+
+        if (Core.Sim.Gui!.MouseAttachment == null) {
+            if (socket.AttachedPart != null) {
+                Core.Sim.Gui!.ViewEntity(socket.AttachedPart);
             }
 
-            if (Core.Sim.Gui!.MouseAttachment == null) {
-                if (socket.AttachedPart != null) {
-                    Core.Sim.Gui!.ViewEntity(socket.AttachedPart);
-                }
+            return;
+        }
 
-                return;
+        if (Core.Sim.Gui!.MouseAttachment.Data is Item item == false) {
+            return;
+        }
+
+        //Handle Cauterize
+        if (socket.AttachedPart == null && socket.IsSealed == false && item.Def == Defs.Items.Cauterize) {
+            socket.IsSealed = true;
+            //MouseAttachment.Detach();
+            return;
+        }
+
+        if (socket.AttachedPart is not { } part) {
+            return;
+        }
+
+        //Handle MendersMist
+        if (item.Def == Defs.Items.MendersMist) {
+            item.StackSize--;
+            if (item.StackSize == 0) {
+                item.Destroy();
+                Core.Sim.Gui!.MouseAttachment.Detach();
             }
 
-            if (Core.Sim.Gui!.MouseAttachment.Data is Item item == false) {
-                return;
+            int mistJuice = 200;
+
+            int UpdateHealth(BodyPart bodyPart) {
+                int currentHealth = bodyPart.HitPoints;
+                bodyPart.HitPoints += Math.Min(bodyPart.MaxHitPoints - bodyPart.HitPoints, mistJuice);
+                return bodyPart.HitPoints - currentHealth;
             }
 
-            //Handle Cauterize
-            if (socket.AttachedPart == null && socket.IsSealed == false && item.Def == Defs.Items.Cauterize) {
-                socket.IsSealed = true;
-                //MouseAttachment.Detach();
-                return;
-            }
-
-            if (socket.AttachedPart is not { } part) {
-                return;
-            }
-
-            //Handle MendersMist
-            if (item.Def == Defs.Items.MendersMist) {
-                item.StackSize--;
-                if (item.StackSize == 0) {
-                    item.Destroy();
-                    Core.Sim.Gui!.MouseAttachment.Detach();
-                }
-
-                int mistJuice = 200;
-
-                int UpdateHealth(BodyPart bodyPart) {
-                    int currentHealth = bodyPart.HitPoints;
-                    bodyPart.HitPoints += Math.Min(bodyPart.MaxHitPoints - bodyPart.HitPoints, mistJuice);
-                    return bodyPart.HitPoints - currentHealth;
-                }
-
-                void DoMisting(BodyPart bodyPart) {
-                    if (mistJuice <= 0) {
-                        return;
-                    }
-
-                    mistJuice -= UpdateHealth(bodyPart);
-                    foreach (BodyPart internalPart in bodyPart.InternalParts) {
-                        if (internalPart.IsBone || internalPart.Type is BodyPartType.Skin) {
-                            mistJuice -= UpdateHealth(internalPart);
-                        }
-                    }
-
-                    foreach (BodyPart externalPart in bodyPart.ExternalParts) {
-                        DoMisting(externalPart);
-                    }
-                }
-
-                DoMisting(socket.AttachedPart);
-            }
-
-            //Handle MedKit
-            if (item.Def == Defs.Items.MedKit) {
-                if (part.HealthPercent >= 1) {
+            void DoMisting(BodyPart bodyPart) {
+                if (mistJuice <= 0) {
                     return;
                 }
 
-                item.StackSize--;
-                if (item.StackSize == 0) {
-                    item.Destroy();
-                    Core.Sim.Gui!.MouseAttachment.Detach();
+                mistJuice -= UpdateHealth(bodyPart);
+                foreach (BodyPart internalPart in bodyPart.InternalParts) {
+                    if (internalPart.IsBone || internalPart.Type is BodyPartType.Skin) {
+                        mistJuice -= UpdateHealth(internalPart);
+                    }
                 }
 
-                socket.AttachedPart.HitPoints = socket.AttachedPart.MaxHitPoints;
-                foreach (BodyPart internalPart in socket.AttachedPart.InternalParts) {
+                foreach (BodyPart externalPart in bodyPart.ExternalParts) {
+                    DoMisting(externalPart);
+                }
+            }
+
+            DoMisting(socket.AttachedPart);
+        }
+
+        //Handle MedKit
+        if (item.Def == Defs.Items.MedKit) {
+            if (part.HealthPercent >= 1) {
+                return;
+            }
+
+            item.StackSize--;
+            if (item.StackSize == 0) {
+                item.Destroy();
+                Core.Sim.Gui!.MouseAttachment.Detach();
+            }
+
+            socket.AttachedPart.HitPoints = socket.AttachedPart.MaxHitPoints;
+            foreach (BodyPart internalPart in socket.AttachedPart.InternalParts) {
+                internalPart.HitPoints = internalPart.MaxHitPoints;
+            }
+        }
+
+        //Handle ArterialThreads
+        if (item.Def == Defs.Items.ArterialThreads) {
+            bool wasConsumed = false;
+            foreach (BodyPart internalPart in socket.AttachedPart.InternalParts) {
+                if (internalPart.Type == BodyPartType.Artery && internalPart.HealthPercent < 1) {
+                    wasConsumed = true;
                     internalPart.HitPoints = internalPart.MaxHitPoints;
                 }
             }
 
-            //Handle ArterialThreads
-            if (item.Def == Defs.Items.ArterialThreads) {
-                bool wasConsumed = false;
-                foreach (BodyPart internalPart in socket.AttachedPart.InternalParts) {
-                    if (internalPart.Type == BodyPartType.Artery && internalPart.HealthPercent < 1) {
-                        wasConsumed = true;
-                        internalPart.HitPoints = internalPart.MaxHitPoints;
-                    }
-                }
-
-                if (wasConsumed) {
-                    item.StackSize--;
-                    if (item.StackSize == 0) {
-                        item.Destroy();
-                        Core.Sim.Gui!.MouseAttachment.Detach();
-                    }
+            if (wasConsumed) {
+                item.StackSize--;
+                if (item.StackSize == 0) {
+                    item.Destroy();
+                    Core.Sim.Gui!.MouseAttachment.Detach();
                 }
             }
         }
+    }
 
     public void Update() {
         _pawnSkillsPanel.Update();
+        _pawnSkillsPanel.Update();
+
+        _bloodBar.Value = _body.BloodLevel * 100;
+        ((ColoredRegion) _bloodBar.Filler).Color = BodyPartColor.GetBloodColor(_body.BloodLevel);
+
         for (int i = _socketPanels.Count - 1; i >= 0; i--) {
             BodyPartSocketPanel socketPanel = _socketPanels[i];
 
@@ -193,6 +208,7 @@ public class PawnBodyPanel : VerticalStackPanel {
             }
         }
     }
+
     private class BodyPartPanel : HorizontalStackPanel {
         public BodyPart? BodyPart;
         private Label _label;

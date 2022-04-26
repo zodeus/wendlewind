@@ -53,4 +53,31 @@ public class Item : Entity {
             Destroy();
         }
     }
+
+    public Item SplitStack(int? amountWanted = null) {
+        if (amountWanted == null || amountWanted >= StackSize) {
+            Container?.Remove(this);
+            return this;
+        }
+
+        Item item = CreateItemFromSplit(ItemDef, amountWanted.Value);
+        StackSize -= amountWanted.Value;
+        return item;
+    }
+
+    protected virtual Item CreateItemFromSplit(ItemDef def, int amountWanted) {
+        return EntityGenerator.CreateEntity<Item>(def, amountWanted);
+    }
+
+    /*public bool TryToAbsorbStack(Entity otherEntity) {
+        int amountToAbsorb = Math.Min(otherEntity.StackSize, Def.StackLimit - StackSize);
+        StackSize += amountToAbsorb;
+        otherEntity.StackSize -= amountToAbsorb;
+        if (otherEntity.StackSize <= 0) {
+            otherEntity.Destroy();
+            return true;
+        }
+
+        return false;
+    }*/
 }

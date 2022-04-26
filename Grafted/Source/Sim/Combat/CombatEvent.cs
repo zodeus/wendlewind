@@ -6,26 +6,28 @@ using Grafted.Maths;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
+using Grafted.Sim.Gui;
 using Microsoft.Xna.Framework;
 
 namespace Grafted.Sim.Combat;
 
 public class CombatEvent {
-    private readonly List<CombatTurn> _turns = new();
     private CombatState _state = CombatState.Preparation;
+    private readonly List<CombatTurn> _turns = new();
     private readonly Dictionary<Pawn, Item> _queuedPotions = new();
     private readonly List<CombatBuff> _buffs = new();
 
     public event Action<CombatState>? StateChangedAction;
 
-    public readonly List<Pawn> PlayerPawns = new();
-    public readonly List<Pawn> EnemyPawns = new();
+    public CombatConfigDef Config = null!;
     public CombatTurn CurrentTurn = null!;
     public int CurrentTurnNum;
-    public readonly CombatRecord CombatRecord = new();
-    public readonly List<BodyPart> SeveredLimbs = new();
     public bool IsInteractive = false;
     public ItemContainer Loot = new();
+    public readonly List<Pawn> PlayerPawns = new();
+    public readonly List<Pawn> EnemyPawns = new();
+    public readonly CombatRecord CombatRecord = new();
+    public readonly List<BodyPart> SeveredLimbs = new();
 
     public IReadOnlyList<CombatBuff> Buffs => _buffs;
 
@@ -95,23 +97,28 @@ public class CombatEvent {
         State = CombatState.CombatEnd;
         //todo Core.Sim.World.CombatEvents.Record(CombatRecord);
         if (CombatRecord.Retreated) {
-            Core.Sim.Messages.Push(new Message($"\\c[{CombatSequence.TextColorPawn}]{PlayerPawns.First().Label} \\c[{CombatSequence.TextColorDefault}]ran away from \\c[{CombatSequence.TextColorEnemyPawn}]{EnemyPawns.First().Label}",
+            Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorPawn}]{PlayerPawns.First().Label} \\c[{UiTextColor.TextColorDefault}]ran away from \\c[{UiTextColor.TextColorEnemyPawn}]{EnemyPawns.First().Label}",
                 Color.Green));
             return;
         }
 
         bool playerPawnDied = PlayerPawns[0].IsDead;
         if (playerPawnDied) {
-            Core.Sim.Messages.Push(new Message($"\\c[{CombatSequence.TextColorPawn}]{PlayerPawns.First().Label} \\c[{CombatSequence.TextColorRed}] was killed by \\c[{CombatSequence.TextColorEnemyPawn}]{EnemyPawns.First().Label}"));
+            Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorPawn}]{PlayerPawns.First().Label} \\c[{UiTextColor.TextColorRed}] was killed by \\c[{UiTextColor.TextColorEnemyPawn}]{EnemyPawns.First().Label}"));
         }
         else {
-            Core.Sim.World.TotalKills++;
-            Core.Sim.Messages.Push(new Message($"\\c[{CombatSequence.TextColorPawn}]{PlayerPawns.First().Label} \\c[{CombatSequence.TextColorGreen}]killed \\c[{CombatSequence.TextColorEnemyPawn}]{EnemyPawns.First().Label}"));
-            //PlayerPawns[0].Body.BloodAmount = playerPawn.Body.MaxBlood;
+            Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorPawn}]{PlayerPawns.First().Label} \\c[{UiTextColor.TextColorGreen}]killed \\c[{UiTextColor.TextColorEnemyPawn}]{EnemyPawns.First().Label}"));
+            Core.Sim.World.RegisterKill(EnemyPawns[0]);
             CollectLoot();
+            UpdateTravelDistance();
         }
 
         LogMessage("Battle is over");
+    }
+
+    private void UpdateTravelDistance() {
+        Zone zone = Core.Sim.World.CurrentZone;
+        zone.DistanceTraveled += Config.DistanceToTravel.RandomValue;
     }
 
     public void LogMessage(string message) {

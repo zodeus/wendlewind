@@ -66,7 +66,7 @@ public static class DialogueGenerator {
         _nextDialogueId++;
         if (_nextDialogueId == 1) {
             return new DialogueNode {
-                Text = "You've been banished to The Village of the Damned.\nYou and fifteen others will now fight to\nclaim a spot on this island.",
+                Text = "You've been banished to The Village of the Damned,\nalong with fifteen others.\nThere is only a single claim available.",
                 Options = new List<DialogueNodeOption> {
                     new() {
                         Text = "Continue",

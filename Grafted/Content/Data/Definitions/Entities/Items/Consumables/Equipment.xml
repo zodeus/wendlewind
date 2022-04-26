@@ -6,14 +6,15 @@
         <ItemType>TradeTool</ItemType>
         <MaterialType>Artificial</MaterialType>
         <StackLimit>99</StackLimit>
-        <BaseStats>
-            <Weight>1</Weight>
-        </BaseStats>
     </ItemDef>
     <ItemDef ParentName="TradeTool">
         <Moniker>RepairKit</Moniker>
         <Label>Repair Kit</Label>
         <Description>Used for fixing equipment</Description>
         <TexturePath>Entities/Item/Consumables/RepairKit</TexturePath>
+        <BaseStats>
+            <Weight>1</Weight>
+            <CurrencyValue>3</CurrencyValue>
+        </BaseStats>
     </ItemDef>
 </Definitions>

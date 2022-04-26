@@ -29,7 +29,7 @@
     </ScrollViewerStyles>
     <ButtonStyles>
         <ButtonStyle>
-            <LabelStyle Font="default-font" TextColor="#b3b3b3" DisabledTextColor="gray"/>
+            <LabelStyle Font="default-font" TextColor="#b3b3b3" DisabledTextColor="gray"/>1
         </ButtonStyle>
         <ButtonStyle Id="normal" Padding="11,10,11,10" Background="button-normal-default" OverBackground="button-normal-over" PressedBackground="button-normal-pressed">
             <LabelStyle Font="default-font" TextColor="#b3b3b3" DisabledTextColor="gray"/>
@@ -43,6 +43,7 @@
         <ButtonStyle Id="icon" Padding="3" Background="button-small-default" OverBackground="button-small-over" PressedBackground="button-small-pressed"/>
         <ButtonStyle Id="plus-24" Width="24" Height="24" Background="icon-plus-24-default" OverBackground="icon-plus-24-over" PressedBackground="icon-plus-24-pressed"/>
         <ButtonStyle Id="minus-24" Width="24" Height="24" Background="icon-minus-24-default" OverBackground="icon-minus-24-over" PressedBackground="icon-minus-24-pressed"/>
+        <ButtonStyle Id="money-24" Width="24" Height="24" Background="icon-money-24-default" OverBackground="icon-money-24-over" PressedBackground="icon-money-24-pressed"/>
     </ButtonStyles>
     <CheckBoxStyles>
         <CheckBoxStyle>

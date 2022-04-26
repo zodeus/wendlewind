@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Gui;
 using Microsoft.Xna.Framework;
@@ -64,41 +63,29 @@ public class ItemContainer : IEntityContainer, IEnumerable<Item> {
         CalculateWeight();
     }
 
-    public Item? TryAdd(Item item, int amount) {
+    public bool TryAdd(Item item, int amount) {
         if (HasCapacityFor(item, amount) == false) {
             Log.Warning($"No capacity for {item} ({item.Weight} {Weight}/{MaxWeight})");
             Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData {
                 Color = Color.Red, Duration = 2, Text = "Cannot transfer, exceeds container weight limit"
             });
-            return item;
+            return false;
         }
 
-        Item itemToAdd = item;
-        Item? itemToReturn = null;
-        if (item.StackSize > amount) {
-            item.StackSize -= amount;
-            item.Container?.CalculateWeight();
-            itemToAdd = EntityGenerator.CreateEntity<Item>(item.ItemDef, amount);
-            itemToReturn = item;
+        Item splitItem = item.SplitStack(amount);
+        if (TryAdd(splitItem)) {
+            return true;
         }
 
-        if (TryAdd(itemToAdd) is { } returnedItem) {
-            if (itemToReturn == null) {
-                itemToReturn = returnedItem;
-            }
-            else {
-                itemToReturn.StackSize += returnedItem.StackSize;
-                returnedItem.Destroy();
-            }
-        }
+        TryAdd(splitItem);
 
-        return itemToReturn;
+        return false;
     }
 
-    public Item? TryAdd(Item? item) {
+    public bool TryAdd(Item? item) {
         if (item == null) {
             Log.Warning("Tried to add null item :(");
-            return item;
+            return false;
         }
 
         if (HasCapacityFor(item) == false) {
@@ -106,18 +93,20 @@ public class ItemContainer : IEntityContainer, IEnumerable<Item> {
             Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData {
                 Color = Color.Red, Duration = 2, Text = "Cannot transfer, exceeds container weight limit"
             });
-            return item;
+            return false;
         }
 
+        //todo there is a bug here where StackSize can/will exceed StackLimit, not doing enough
         if (item.IsStackable) {
             for (int i = 0; i < _list.Count; i++) {
                 if (_list[i].Def != item.Def) continue;
+                //todo there is a bug here where StackSize can/will exceed StackLimit, not doing enough
                 _list[i].StackSize += item.StackSize;
                 item.StackSize = 0;
                 item.Container?.Remove(item);
                 item.Destroy();
                 CalculateWeight();
-                return null;
+                return true;
             }
         }
 
@@ -125,6 +114,49 @@ public class ItemContainer : IEntityContainer, IEnumerable<Item> {
         item.Container = this;
         _list.Add(item);
         CalculateWeight();
+        return true;
+    }
+
+    public bool Contains(ItemDef def, int amountWanted) {
+        int amount = 0;
+        foreach (Item item in _list) {
+            if (item.Def == def) {
+                amount += item.StackSize;
+            }
+        }
+
+        return amount >= amountWanted;
+    }
+
+    public Item? Take(EntityDef def, int amount) {
+        foreach (Item item in _list) {
+            if (item.Def == def) {
+                return Take(item, amount);
+            }
+        }
+
         return null;
+    }
+
+    public Item? Take(Item item, int amount) {
+        if (_list.Contains(item) == false) {
+            Log.Error("ItemContainer doesn't contain " + item);
+            return null;
+        }
+
+        if (amount > item.StackSize) {
+            Log.Error("Tried to get " + amount + " of " + item + " while only having " + item.StackSize);
+            amount = item.StackSize;
+        }
+
+        if (amount == item.StackSize) {
+            Remove(item);
+            return item;
+        }
+
+        Item splitItem = item.SplitStack(amount);
+        CalculateWeight();
+
+        return splitItem;
     }
 }

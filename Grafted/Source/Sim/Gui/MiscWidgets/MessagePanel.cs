@@ -1,14 +1,14 @@
 ﻿using System.Linq;
 using Myra.Graphics2D;
 using Myra.Graphics2D.UI;
+using Myra.Graphics2D.UI.Styles;
 
 namespace Grafted.Sim.Gui.MiscWidgets;
 
 public class MessagePanel : Panel {
     public MessagePanel(SimulationMessages messages) {
-        SetStyle(BaseContent.Styles.Panel.Medium);
-        //Background = BaseContent.Textures.WindowNinePatch;
-        //Padding = new Thickness(8);
+        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold];
+        Padding = new Thickness(8);
         VerticalStackPanel messageList = new() { Spacing = 10, Padding = new Thickness(10) };
         ScrollViewer scrollView = new() { Content = messageList, Height = 250 };
         foreach (Message message in messages.All.TakeLast(6)) {

@@ -1,7 +1,6 @@
-using Grafted.Definitions;
 using Grafted.Sim.Entities;
-using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
+using Grafted.Sim.Gui.EntityWidgets;
 using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 using Microsoft.Xna.Framework;
 using Myra.Graphics2D;
@@ -17,8 +16,7 @@ public class PawnDetailPanel : Panel, IUpdatable {
     private readonly PawnBodyPanel _bodyPanel;
 
     public PawnDetailPanel(Pawn playerPawn, string receivingContainerTitle, ItemContainer receivingContainer) {
-
-        _bodyPanel = new PawnBodyPanel(playerPawn.Body, null) {
+        _bodyPanel = new PawnBodyPanel(playerPawn.Body) {
             GridRow = 1, GridColumn = 0
         };
 
@@ -32,19 +30,16 @@ public class PawnDetailPanel : Panel, IUpdatable {
 
         _equipmentPanel = new PawnEquipmentPanel(playerPawn);
         _otherContainerPanel = new ItemContainerPanel(receivingContainer, playerPawn.Inventory.Items) {
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
-            Padding = new Thickness(15),
-            VerticalAlignment = VerticalAlignment.Center,
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame], VerticalAlignment = VerticalAlignment.Stretch
         };
 
-        VerticalStackPanel rightColumn = new() { Visible = !playerPawn.IsDead, GridRow = 1, GridColumn = 2 };
+        VerticalStackPanel rightColumn = new() {
+            Visible = !playerPawn.IsDead, GridRow = 1, GridColumn = 2,
+            Proportions = { Proportion.Auto, Proportion.Auto, Proportion.Auto, Proportion.Fill }
+        };
         rightColumn.AddChild(_equipmentPanel);
         rightColumn.AddChild(new HorizontalSeparator() { Margin = new Thickness(0, 50, 0, 20) });
-        rightColumn.AddChild(new HorizontalStackPanel {
-            Padding = new Thickness(15),
-            VerticalAlignment = VerticalAlignment.Center,
-            Widgets = { new Label(BaseContent.Styles.Label.Large) { Text = receivingContainerTitle } }
-        });
+        rightColumn.AddChild(new Label(BaseContent.Styles.Label.Large) { Text = receivingContainerTitle });
         rightColumn.AddChild(_otherContainerPanel);
         Grid grid = new() {
             ShowGridLines = false, HorizontalAlignment = HorizontalAlignment.Center,

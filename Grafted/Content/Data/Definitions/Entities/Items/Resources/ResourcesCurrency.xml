@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef Name="CurrencyResource" ParentName="ItemResource" Abstract="true">
+        <MaterialType>Metal</MaterialType>
+    </ItemDef>
+    <ItemDef ParentName="CurrencyResource">
+        <Moniker>SoulCoin</Moniker>
+        <Label>Soul Coin</Label>
+        <Description>A form of currency</Description>
+        <TexturePath>Entities/Item/Resource/Currency/SoulCoin</TexturePath>
+        <BaseStats>
+            <Weight>.05</Weight>
+            <CurrencyValue>1</CurrencyValue>
+        </BaseStats>
+    </ItemDef>
+</Definitions>
