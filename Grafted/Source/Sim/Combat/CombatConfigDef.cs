@@ -10,12 +10,12 @@ namespace Grafted.Sim.Combat;
 public class CombatConfigDef : Def {
     public List<CombatConfigEnemyRecord> Enemies = new();
     public float DistanceToEnd = 0;
-    public RangeFloat DistanceToTravel = RangeFloat.ZeroToOne;
 }
 
 public class CombatConfigEnemyRecord {
     public RaceDef Race = null!;
     public PawnConfigDef Config = null!;
+    public float SpawnWeight = 1;
     public string PawnName = null;
     public List<ItemDef> EquipmentItems = new();
     public List<ItemDropCount> InventoryItems = new();

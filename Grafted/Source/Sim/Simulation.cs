@@ -11,6 +11,7 @@ public class Simulation {
     public IdProvider IdProvider = new();
     public World World = null!;
     private BaseGui? _gui = null;
+    public int Ticks => World.Time.Ticks;
 
     public BaseGui? Gui {
         get => _gui;
@@ -38,7 +39,12 @@ public class Simulation {
         Gui.Update(deltaTime);
     }
 
-    public void FixedUpdate() { }
+    public void FixedUpdate() {
+        //todo this is super hacky, need to move combat events out of async co-routines, threads are contending 
+        if (Core.Sim.Gui is not CombatGui) {
+            Core.Sim.World.Time.ProgressTime(1);
+        }
+    }
 
     private void HandleInput() {
         if (Input.IsKeyPressed(Keys.Space)) {

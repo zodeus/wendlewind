@@ -45,8 +45,11 @@ public class PawnEquipmentPanel : HorizontalStackPanel {
         if (Core.Sim.Gui!.MouseAttachment == null && Input.RightMouseButtonReleased && slot != EquipmentSlotType.BuiltIn) {
             Item? unEquippedItem = _pawn.Equipment.UnEquip(part, slot);
             if (unEquippedItem != null) {
-                _pawn.Inventory.Items.TryAdd(unEquippedItem);
+                if (_pawn.Inventory.Items.TryAdd(unEquippedItem) == false) {
+                    _pawn.Equipment.TryEquip(part, slot, unEquippedItem);
+                }
             }
+            return;
         }
 
         if (Core.Sim.Gui!.MouseAttachment?.Data is Item item) {

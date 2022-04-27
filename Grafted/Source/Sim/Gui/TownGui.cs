@@ -51,6 +51,7 @@ public class TownGui : BaseGui {
         };
         button.Click += (_, _) => {
             Core.Sim.World.MoveToZone(Defs.Zones.TheOutskirts);
+            Core.Sim.World.DoZoneTravel();
             Core.Sim.Gui = new CombatGui(Core.Sim.World.NextCombat());
         };
         Grid grid = new() {

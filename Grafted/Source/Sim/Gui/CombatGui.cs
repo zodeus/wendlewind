@@ -28,6 +28,7 @@ public class CombatGui : BaseGui {
     private readonly PawnBodyPanel _pawnBodyView;
     private ImageButton _playerQueuedPotionSlot;
     private Item? _playerQueuedPotion = null;
+    public CombatEvent CombatEvent => _combatEvent;
 
     public CombatGui(CombatEvent combatEvent) {
         _combatEvent = combatEvent;
@@ -64,16 +65,13 @@ public class CombatGui : BaseGui {
         };
 
         _turnLabel = new Label {
-            Margin = new Thickness(0, 10, 0, 0),
             Font = BaseContent.Fonts.Fancy.Large, HorizontalAlignment = HorizontalAlignment.Center
         };
-        var label = new Label { Text = $"Fight {(Core.Sim.World.TotalKills + 1).ToString().PadLeft(2, '0')}", Font = BaseContent.Fonts.Fancy.Large, HorizontalAlignment = HorizontalAlignment.Center };
         VerticalStackPanel turnPane = new() {
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
             Padding = new Thickness(15),
             Widgets = {
-                label,
                 _turnLabel
             }
         };

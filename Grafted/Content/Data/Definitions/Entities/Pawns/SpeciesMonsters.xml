@@ -3,12 +3,12 @@
 <Definitions>
     <PawnDef Name="BaseMonster" ParentName="BasePawn" Abstract="true">
     </PawnDef>
-    <PawnDef ParentName="BasePawn">
+    <PawnDef ParentName="BaseMonster">
         <Moniker>Glump</Moniker>
         <Label>Glump</Label>
         <BaseStats>
             <AttackSpeed>2</AttackSpeed>
-            <MeleeStrength>6</MeleeStrength>
+            <MeleeStrength>2</MeleeStrength>
             <MaxCarryWeight>100</MaxCarryWeight>
         </BaseStats>
     </PawnDef>

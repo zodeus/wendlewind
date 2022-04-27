@@ -3,9 +3,9 @@
 <Definitions>
     <ItemDef Name="Potion" ParentName="ItemBase" Abstract="true">
         <ItemType>Potion</ItemType>
-        <UiClass>ConsumablePanel</UiClass>
+        <UiClass>PotionPanel</UiClass>
         <MaterialType>Artificial</MaterialType>
-        <StackLimit>99</StackLimit>
+        <StackLimit>9999</StackLimit>
         <EquipmentProperties>
             <EquipmentType>Potion</EquipmentType>
         </EquipmentProperties>
@@ -20,6 +20,7 @@
         <TexturePath>Entities/Item/Consumables/JarOfBlood</TexturePath>
         <BaseStats>
             <CurrencyValue>2</CurrencyValue>
+            <HealingValue>3000</HealingValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Potion">

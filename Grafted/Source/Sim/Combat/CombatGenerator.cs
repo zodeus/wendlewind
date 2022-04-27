@@ -44,7 +44,7 @@ public static class CombatGenerator {
 
     private static CombatEvent Generate(CombatConfigDef combatConfig, CombatEvent combatEvent) {
         combatEvent.Config = combatConfig;
-        var enemies = new List<CombatConfigEnemyRecord> { combatConfig.Enemies.InRandomOrder().First() }; // todo only handling a single enemy
+        var enemies = new List<CombatConfigEnemyRecord> { combatConfig.Enemies.RandomElementByWeight(c => c.SpawnWeight)! }; // todo only handling a single enemy
         foreach (CombatConfigEnemyRecord enemyConfig in enemies) {
             Pawn pawn = PawnGenerator.CreatePawn(new PawnRequest(
                 enemyConfig.Race,

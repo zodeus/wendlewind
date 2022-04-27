@@ -107,6 +107,7 @@ public static partial class BaseContent {
                 public const string Trash = "icon-trash";
                 public const string PotionSlot = "icon-potion-slot";
                 public const string SoulCoin = "icon-soul-coin";
+                public const string Blood = "icon-blood-64";
             }
 
             public static class Panel {

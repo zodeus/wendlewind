@@ -3,7 +3,6 @@
 <Definitions>
     <ItemDef Name="ItemBase" Abstract="True">
         <EntityClass>Item</EntityClass>
-        <!--<StackLimit>9999999</StackLimit>-->
     </ItemDef>
     <ItemDef Name="ItemResource" ParentName="ItemBase" Abstract="true">
         <ItemType>Resource</ItemType>

@@ -108,8 +108,8 @@ internal class PawnCombatPanel : HorizontalStackPanel {
             return;
         }
 
-        _bloodBar.Value = Pawn.Body.BloodLevel * 100;
-        ((ColoredRegion) _bloodBar.Filler).Color = BodyPartColor.GetBloodColor(Pawn.Body.BloodLevel);
+        _bloodBar.Value = Pawn.Body.BloodPercent * 100;
+        ((ColoredRegion) _bloodBar.Filler).Color = BodyPartColor.GetBloodColor(Pawn.Body.BloodPercent);
         
         _bodySummary.Update();
         _pawnEquipmentPanel.Update();

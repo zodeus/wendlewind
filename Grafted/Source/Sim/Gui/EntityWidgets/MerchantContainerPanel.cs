@@ -186,10 +186,10 @@ public class MerchantListPanelItem : HorizontalStackPanel {
         };
         TextBox amountTextBox = new() {
             Width = 15, HorizontalAlignment = HorizontalAlignment.Right,
-            VerticalAlignment = VerticalAlignment.Center, Text = "0"
+            VerticalAlignment = VerticalAlignment.Center
         };
         amountTextBox.ValueChanging += (_, args) => {
-            int oldValue = int.Parse(args.OldValue);
+            int oldValue = int.Parse(args.OldValue == null ? "0" : args.OldValue);
             int newValue = int.Parse(args.NewValue);
             if (oldValue == newValue + 1 || oldValue == newValue - 1) {
                 if (newValue < 0 || newValue > _item.StackSize) {
@@ -204,6 +204,7 @@ public class MerchantListPanelItem : HorizontalStackPanel {
             int value = int.Parse(args.NewValue);
             tradeValueTotalLabel.Text = (value * _item.GetStatValue(Defs.Stats.CurrencyValue)).ToString(CultureInfo.InvariantCulture);
         };
+        amountTextBox.Text = "1";
 
         ImageButton minusButton = new(BaseContent.Styles.Button.Minus24) {
             VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Right

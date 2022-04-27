@@ -4,14 +4,14 @@
     <CombatConfigDef>
         <Moniker>TheOutskirts-01</Moniker>
         <DistanceToEnd>5</DistanceToEnd>
-        <DistanceToTravel>.33~.64</DistanceToTravel>
         <Enemies>
             <ListItem>
                 <Race>Glump</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>A Glump</PawnName>
+                <SpawnWeight>5</SpawnWeight>
                 <EquipmentItems>
-                    <ListItem>BirchRod</ListItem>
+                    <ListItem>WoodenHammer</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
@@ -26,20 +26,37 @@
                     </ListItem>
                 </InventoryItems>
             </ListItem>
+            <ListItem>
+                <Race>InnocentRabbit</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Innocent Rabbit</PawnName>
+                <SpawnWeight>1</SpawnWeight>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>SoulCoin</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
         </Enemies>
     </CombatConfigDef>
     <CombatConfigDef>
         <Moniker>TheOutskirts-02</Moniker>
         <DistanceToEnd>10</DistanceToEnd>
-        <DistanceToTravel>.22~.63</DistanceToTravel>
         <Enemies>
             <ListItem>
                 <Race>Glump</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>A Glump</PawnName>
+                <SpawnWeight>10</SpawnWeight>
                 <EquipmentItems>
-                    <ListItem>BirchRod</ListItem>
-                    <ListItem>JarOfBlood</ListItem>
+                    <ListItem>WoodenHammer</ListItem>
                     <ListItem>PumpinJuice</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
@@ -55,19 +72,59 @@
                     </ListItem>
                 </InventoryItems>
             </ListItem>
+            <ListItem>
+                <Race>Glump</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>A Glump</PawnName>
+                <SpawnWeight>10</SpawnWeight>
+                <EquipmentItems>
+                    <ListItem>Knife</ListItem>
+                    <ListItem>JarOfBlood</ListItem>
+                </EquipmentItems>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>OakWoodLog</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.25</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>SoulCoin</Item>
+                        <Amount>1~4</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+            <ListItem>
+                <Race>InnocentRabbit</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Innocent Rabbit</PawnName>
+                <SpawnWeight>1</SpawnWeight>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>SoulCoin</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
         </Enemies>
     </CombatConfigDef>
     <CombatConfigDef>
         <Moniker>TheOutskirts-03</Moniker>
         <DistanceToEnd>20</DistanceToEnd>
-        <DistanceToTravel>.33~.66</DistanceToTravel>
         <Enemies>
             <ListItem>
                 <Race>Glump</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>A Glump</PawnName>
+                <SpawnWeight>10</SpawnWeight>
                 <EquipmentItems>
-                    <ListItem>WoodenHammer</ListItem>
+                    <ListItem>Mace</ListItem>
                     <ListItem>AcidFlask</ListItem>
                     <ListItem>LeatherGlove</ListItem>
                     <ListItem>LeatherGlove</ListItem>
@@ -81,6 +138,24 @@
                     <ListItem>
                         <Item>SoulCoin</Item>
                         <Amount>3~6</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+            <ListItem>
+                <Race>InnocentRabbit</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Innocent Rabbit</PawnName>
+                <SpawnWeight>1</SpawnWeight>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>SoulCoin</Item>
+                        <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>

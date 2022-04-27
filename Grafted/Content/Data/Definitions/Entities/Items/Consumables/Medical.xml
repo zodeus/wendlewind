@@ -5,7 +5,7 @@
         <UiClass>ConsumablePanel</UiClass>
         <ItemType>Medical</ItemType>
         <MaterialType>Artificial</MaterialType>
-        <StackLimit>99</StackLimit>
+        <StackLimit>9999</StackLimit>
         <BaseStats>
             <Weight>1</Weight>
         </BaseStats>
@@ -55,5 +55,8 @@
         <Label>Surgical Saw</Label>
         <Description>Used to sever large limbs</Description>
         <TexturePath>Entities/Item/Consumables/SurgicalSaw</TexturePath>
+        <BaseStats>
+            <CurrencyValue>20</CurrencyValue>
+        </BaseStats>
     </ItemDef>
 </Definitions>

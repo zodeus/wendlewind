@@ -27,7 +27,7 @@
         </Sockets>
         <BaseStats>
             <MaxHitPoints>700</MaxHitPoints>
-            <SequencePoints>1</SequencePoints>
+            <SequencePoints>2</SequencePoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="BodyPartBase">

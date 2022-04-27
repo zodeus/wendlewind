@@ -10,8 +10,8 @@ public class MessagePanel : Panel {
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold];
         Padding = new Thickness(8);
         VerticalStackPanel messageList = new() { Spacing = 10, Padding = new Thickness(10) };
-        ScrollViewer scrollView = new() { Content = messageList, Height = 250 };
-        foreach (Message message in messages.All.TakeLast(6)) {
+        ScrollViewer scrollView = new() { Content = messageList };
+        foreach (Message message in messages.All.TakeLast(1000)) {
             messageList.AddChild(new Label { Text = message.ToString(), Font = BaseContent.Fonts.Default.Small, Wrap = true });
         }
 
@@ -23,7 +23,7 @@ public class MessagePanel : Panel {
             }
 
             messageList.AddChild(label);
-            if (messageList.Widgets.Count > 20) {
+            if (messageList.Widgets.Count > 1000) {
                 messageList.Widgets.First()!.RemoveFromParent();
             }
 

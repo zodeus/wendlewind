@@ -6,14 +6,12 @@ using Grafted.Maths;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
-using Grafted.Sim.Gui;
 using Microsoft.Xna.Framework;
 
 namespace Grafted.Sim.Combat;
 
 public class CombatEvent {
     private CombatState _state = CombatState.Preparation;
-    private readonly List<CombatTurn> _turns = new();
     private readonly Dictionary<Pawn, Item> _queuedPotions = new();
     private readonly List<CombatBuff> _buffs = new();
 
@@ -28,7 +26,8 @@ public class CombatEvent {
     public readonly List<Pawn> EnemyPawns = new();
     public readonly CombatRecord CombatRecord = new();
     public readonly List<BodyPart> SeveredLimbs = new();
-
+    public readonly List<CombatTurn> Turns = new();
+    
     public IReadOnlyList<CombatBuff> Buffs => _buffs;
 
     public CombatState State {
@@ -66,7 +65,7 @@ public class CombatEvent {
             CurrentTurnNum++;
             State = CombatState.TurnStart;
             CurrentTurn = new CombatTurn(this);
-            _turns.Add(CurrentTurn);
+            Turns.Add(CurrentTurn);
 
             if (PlayerPawns.Any(p => p.IsDead == false) == false || EnemyPawns.Any(p => p.IsDead == false) == false) {
                 State = CombatState.CombatEnd;
@@ -110,15 +109,9 @@ public class CombatEvent {
             Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorPawn}]{PlayerPawns.First().Label} \\c[{UiTextColor.TextColorGreen}]killed \\c[{UiTextColor.TextColorEnemyPawn}]{EnemyPawns.First().Label}"));
             Core.Sim.World.RegisterKill(EnemyPawns[0]);
             CollectLoot();
-            UpdateTravelDistance();
         }
 
         LogMessage("Battle is over");
-    }
-
-    private void UpdateTravelDistance() {
-        Zone zone = Core.Sim.World.CurrentZone;
-        zone.DistanceTraveled += Config.DistanceToTravel.RandomValue;
     }
 
     public void LogMessage(string message) {

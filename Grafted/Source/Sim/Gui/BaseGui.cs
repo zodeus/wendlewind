@@ -19,11 +19,17 @@ public abstract class BaseGui {
     private ScreenMessageData _screenMessage;
     private float _screenMessageTimeLeft;
     private readonly Window _entityViewerWindow = new();
+    private Entity? _viewedEntity;
     private KeyValuePair<Entity, Point?>? _queuedEntityToView;
 
     public virtual void Update(float deltaTime) {
         MouseAttachment?.Update();
         ShowEntityIfQueued();
+        if (_viewedEntity?.IsDestroyed == true) {
+            _viewedEntity = null;
+            _entityViewerWindow.Close();
+        }
+
         ((EntityPanelBase?) _entityViewerWindow.Content)?.Update();
 
         if (_screenMessageTimeLeft > 0) {
@@ -48,7 +54,7 @@ public abstract class BaseGui {
         );
         MouseAttachment?.Render(spriteBatch);
         spriteBatch.End();
-        
+
         if (_screenMessageTimeLeft > 0) {
             spriteBatch.Begin(
                 SpriteSortMode.Deferred,
@@ -89,6 +95,8 @@ public abstract class BaseGui {
         if (_entityViewerWindow.IsPlaced == false) {
             _entityViewerWindow.Show(Desktop, _queuedEntityToView.Value.Value);
         }
+
+        _viewedEntity = _queuedEntityToView.Value.Key;
 
         _queuedEntityToView = null;
     }

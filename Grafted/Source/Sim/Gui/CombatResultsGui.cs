@@ -72,6 +72,7 @@ public class CombatResultsGui : BaseGui {
                     return;
                 }
 
+                Core.Sim.World.DoZoneTravel();
                 Core.Sim.Gui = new CombatGui(Core.Sim.World.NextCombat());
             };
             buttons.AddChild(continueButton);
@@ -83,7 +84,6 @@ public class CombatResultsGui : BaseGui {
                 };
                 buttons.AddChild(goHome);
             }
-
         }
 
         return new HorizontalStackPanel { Spacing = 10, Widgets = { DeathsButton(), buttons } };

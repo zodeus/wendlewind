@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <RaceDef Name="BaseAnimalRace" Abstract="true">
+        <!--<NameGeneratorClass>NameGeneratorMonsters</NameGeneratorClass>-->
+    </RaceDef>
+    <RaceDef ParentName="BaseAnimalRace">
+        <Moniker>InnocentRabbit</Moniker>
+        <Label>Innocent Rabbit</Label>
+        <Species>Rabbit</Species>
+        <TexturePath>Entities/Pawn/Creature/Rabbit/InnocentRabbit</TexturePath>
+    </RaceDef>
+</Definitions>

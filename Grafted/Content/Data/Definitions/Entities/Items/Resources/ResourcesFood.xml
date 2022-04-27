@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef Name="Food" ParentName="ItemResource" Abstract="true">
+        <MaterialType>Organic</MaterialType>
+    </ItemDef>
+    <ItemDef ParentName="Food">
+        <Moniker>RawMeat</Moniker>
+        <Label>Raw Meat</Label>
+        <Description>Some raw meat</Description>
+        <TexturePath>Entities/Item/Resource/Organic/RawMeat</TexturePath>
+        <BaseStats>
+            <Weight>.2</Weight>
+            <CurrencyValue>3</CurrencyValue>
+        </BaseStats>
+    </ItemDef>
+</Definitions>

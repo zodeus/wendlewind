@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Grafted.Definitions;
-using Grafted.Sim.Entities.Items;
+﻿using System;
+using System.Collections.Generic;
+using Grafted.Maths;
 
 namespace Grafted.Sim.Entities.Pawns;
 
@@ -8,8 +8,14 @@ public class PawnBody {
     public readonly Pawn Pawn;
     public BodyPartSocket RootSocket = null!;
     public readonly float MaxBlood = 5000;
-    public float BloodLevel => BloodAmount / MaxBlood;
-    public float BloodAmount;
+    public float BloodPercent => BloodAmount / MaxBlood;
+    public float _bloodAmount;
+    public float BloodChangeLastFrame = 0;
+
+    public float BloodAmount {
+        get => _bloodAmount;
+        set => _bloodAmount = Mathf.Clamp(value, 0f, MaxBlood);
+    }
 
     public List<BodyPart> AllParts {
         get {
@@ -46,11 +52,11 @@ public class PawnBody {
             }
         }
     }
-   
+
     private void CalculateBloodLossForExternalPart(BodyPart part) {
-        const float severedArteryBloodLossFactor = 1.3f;
-        const float severedLimbBloodLossFactor = 4f;
-        float bloodLossScaleFactor = part.Size / 3;
+        const float severedArteryBloodLossFactor = 4f;
+        const float severedLimbBloodLossFactor = 6f;
+        float bloodLossScaleFactor = part.Size / 6;
 
         if (part.HealthPercent < .95) {
             //Log.Info($"{_pawn} {part} losing {bloodLossScaleFactor * (1 - part.HealthPercent)}");
@@ -95,15 +101,27 @@ public class PawnBody {
     public void Tick() {
         if (RootSocket.AttachedPart == null) {
             BloodAmount = 0;
+            BloodChangeLastFrame = 0;
         }
         else {
+            float preTickBloodAmount = BloodAmount;
+            float preTickBloodPercent = BloodPercent;
             CalculateBloodLossForExternalPart(RootSocket.AttachedPart!);
             foreach (BodyPart bodyPart in AllParts) {
                 bodyPart.TicksSinceLastHit++;
             }
+
+            Regenerate();
+            if (Math.Abs(preTickBloodPercent - BloodPercent) > .00001) {
+                BloodChangeLastFrame = BloodPercent - preTickBloodPercent;
+            }
+            else {
+                BloodAmount = preTickBloodAmount;
+                BloodChangeLastFrame = 0;
+            }
         }
 
-        if (BloodAmount <= 0) {
+        if (BloodAmount <= 1) {
             Pawn.IsDead = true;
             Core.Sim.World.DeathRecords.RecordDeath(new DeathRecord {
                 Round = Core.Sim.World.TotalKills + 1,
@@ -112,47 +130,39 @@ public class PawnBody {
             });
         }
     }
-}
 
-public class BodyPartDef : EntityDef {
-    public override EntityType EntityType => EntityType.BodyPart;
-    //public override Type DefUiClass => typeof(ItemDefPanel);
-    public BodyPartType BodyPartType = BodyPartType.Undefined;
-    public float Size = 0;
-    public float HitWeight = 0;
-    public bool IsVital = false;
-    public bool IsOrgan = false;
-    public bool IsFlesh = false;
-    public bool IsBone = false;
-    public List<BodyPartSocketDef> Sockets = new();
-    public List<EquipmentSlotType>? EquipmentSlots = null;
-}
 
-public class BodyPartSocketDef : Def {
-    public bool IsExternal = false;
-    public List<BodyPartType> AllowedBodyPartTypes = new();
-}
+    private void Regenerate() {
+        if (RootSocket.AttachedPart == null) {
+            return;
+        }
 
-public enum BodyPartType {
-    Undefined,
-    Head,
-    Artery,
-    Bone,
-    Brain,
-    Eye,
-    Neck,
-    Torso,
-    Arm,
-    Hand,
-    Finger,
-    Thumb,
-    Leg,
-    Foot,
-    Toe,
-    Skin,
-    Skull,
-    RibCage,
-    Stomach,
-    Heart,
-    Lung
+        // stop regenerating blood when near death
+        if (BloodAmount > 100) {
+            BloodAmount += 1f;
+        }
+
+        const float regenerationFactor = 0.001f;
+
+        void UpdateHealth(BodyPart bodyPart) {
+            if (bodyPart.IsDestroyed) {
+                return;
+            }
+
+            bodyPart.HitPoints += bodyPart.HitPoints * regenerationFactor;
+        }
+
+        void DoRegeneration(BodyPart bodyPart) {
+            UpdateHealth(bodyPart);
+            foreach (BodyPart internalPart in bodyPart.InternalParts) {
+                UpdateHealth(internalPart);
+            }
+
+            foreach (BodyPart externalPart in bodyPart.ExternalParts) {
+                DoRegeneration(externalPart);
+            }
+        }
+
+        DoRegeneration(RootSocket.AttachedPart);
+    }
 }

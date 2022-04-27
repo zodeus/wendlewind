@@ -1,0 +1,25 @@
+namespace Grafted.Sim.Entities.Pawns;
+
+public enum BodyPartType {
+    Undefined,
+    Head,
+    Artery,
+    Bone,
+    Brain,
+    Eye,
+    Neck,
+    Torso,
+    Arm,
+    Hand,
+    Finger,
+    Thumb,
+    Leg,
+    Foot,
+    Toe,
+    Skin,
+    Skull,
+    RibCage,
+    Stomach,
+    Heart,
+    Lung
+}

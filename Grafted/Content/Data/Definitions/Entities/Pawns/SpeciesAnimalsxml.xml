@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <PawnDef Name="BaseAnimal" ParentName="BasePawn" Abstract="true">
+    </PawnDef>
+    <PawnDef ParentName="BaseAnimal">
+        <Moniker>Rabbit</Moniker>
+        <Label>Rabbit</Label>
+        <BaseStats>
+            <AttackSpeed>4</AttackSpeed>
+            <MeleeStrength>.5</MeleeStrength>
+            <MaxCarryWeight>10</MaxCarryWeight>
+        </BaseStats>
+    </PawnDef>
+</Definitions>

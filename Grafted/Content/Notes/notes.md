@@ -29,10 +29,16 @@
 # Things
 - Festering fields
 - Fester Pus
+- Rune stones for things like TP
+
+# Persistence
+- Helpful Hound - drags body home if dead but has brain
+- Shaman - Can resurrect a brainy body
+- Brain in a Vat - can upload brain state (requires item), can reload brain into a new body upon death
 
 # Home Stuff
 - Clear the bodies, 
-  - place them in a heap infront of your home. 
+  - place them in a heap in front of your home. 
   - Bury them behind your home.
 - Clean the blood
   - requires alcohol

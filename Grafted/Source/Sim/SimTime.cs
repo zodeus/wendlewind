@@ -1,7 +1,51 @@
-﻿// using System;
-// using Grafted.Maths;
-//
-// namespace Grafted.Sim;
+﻿using System;
+using Grafted.Sim.Entities.Pawns;
+using Grafted.Sim.Gui;
+using Grafted.Sim.Persistence;
+
+namespace Grafted.Sim;
+
+public class SimTime : IExposable {
+    public const int SecondsInMinute = 60;
+    public const int SecondsInHour = SecondsInMinute * 60;
+    public const int SecondsInDay = SecondsInHour * 24;
+    public const int MinutesPerKm = 10;
+    public int CurrentTimeInSeconds = 0 /*SecondsInDay * 2 + 4325*/;
+    public int Ticks = 0;
+    public string CurrentTimeString => TimeSpan.FromSeconds(CurrentTimeInSeconds).ToString(@"hh\:mm");
+    public string CurrentDayString => TimeSpan.FromSeconds(CurrentTimeInSeconds).Days.ToString();
+
+
+    public void ProgressTime(float seconds) {
+        while (seconds > 0) {
+            seconds--;
+            CurrentTimeInSeconds++;
+            if (CurrentTimeInSeconds % SecondsInMinute == 0) {
+                Ticks++;
+                foreach (Pawn pawn in Core.Sim.World.PlayerPawns) {
+                    pawn.Tick();
+                }
+
+                if (Core.Sim.Gui is CombatGui gui) {
+                    foreach (Pawn pawn in gui.CombatEvent.EnemyPawns) {
+                        pawn.Tick();
+                    }
+                }
+            }
+        }
+    }
+
+    public void ExposeData() { }
+
+    public override string ToString() {
+        return CurrentTimeString;
+    }
+
+    public static float MinutesToSeconds(int minutes) {
+        return SecondsInMinute * minutes;
+    }
+}
+
 //
 // public static class SimTime {
 //     //public const int TicksPerDay = (int) (1 * Ticker.TicksPerSecond); // super fast mode

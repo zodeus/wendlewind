@@ -5,7 +5,7 @@
         <UiClass>ConsumablePanel</UiClass>
         <ItemType>TradeTool</ItemType>
         <MaterialType>Artificial</MaterialType>
-        <StackLimit>99</StackLimit>
+        <StackLimit>9999</StackLimit>
     </ItemDef>
     <ItemDef ParentName="TradeTool">
         <Moniker>RepairKit</Moniker>

@@ -55,7 +55,6 @@ public class Core : Game {
     public static SamplerState DefaultSamplerState = new() { Filter = TextureFilter.Point };
 
     private readonly LogicTimer _fixedUpdateTimer;
-
     public Core(bool isFullScreen = false) {
         InactiveSleepTime = TimeSpan.Zero;
         Instance = this;
@@ -180,10 +179,11 @@ public class Core : Game {
     public static ICoroutine StartCoroutine(IEnumerator enumerator) {
         return Instance._coroutineManager.StartCoroutine(enumerator);
     }
-    
+
     public static void ClearCoroutines() {
         Instance._coroutineManager.Clear();
     }
+
     /// <summary>
     /// schedules a one-time or repeating timer that will call the passed in Action
     /// </summary>

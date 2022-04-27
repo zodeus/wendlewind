@@ -130,21 +130,19 @@ public class CombatTurn {
 
         }
 
+        UpdateWorldTime();
         foreach (Pawn pawn in Pawns) {
             if (pawn.IsDead) {
                 _combatEvent.RemoveBuffsFor(pawn);
-                continue;
+                if (pawn.Body.BloodPercent <= 0) {
+                    _combatEvent.LogMessage($"    \\c[{UiTextColor.TextColorPawn}]{pawn.LabelShort} \\c[{UiTextColor.TextColorRed}]died from blood loss");
+                }
             }
-
-            float currentBlood = pawn.Body.BloodAmount;
-            pawn.Tick();
-            int bloodLost = (int) (currentBlood - pawn.Body.BloodAmount);
-            if (pawn.IsDead && pawn.Body.BloodLevel <= 0) {
-                _combatEvent.LogMessage($"    \\c[{UiTextColor.TextColorPawn}]{pawn.LabelShort} \\c[{UiTextColor.TextColorRed}]died from blood loss");
-            }
-
-            if (bloodLost > 0) {
-                _combatEvent.LogMessage($"\\c[{UiTextColor.TextColorPawn}]{pawn.LabelShort} is losing blood \\c[{UiTextColor.TextColorRed}]-{bloodLost}");
+            else {
+                float bloodLost = PawnTurnData[pawn].StartingBloodLevel - pawn.Body.BloodAmount;
+                if (bloodLost > 0) {
+                    _combatEvent.LogMessage($"\\c[{UiTextColor.TextColorPawn}]{pawn.LabelShort} is losing blood \\c[{UiTextColor.TextColorRed}]-{bloodLost}");
+                }
             }
         }
 
@@ -162,6 +160,10 @@ public class CombatTurn {
 
         _combatEvent.LogMessage("\\c[white]Turn is over\n");
         yield return Coroutine.WaitForSeconds(0.5f);
+    }
+
+    private void UpdateWorldTime() {
+        Core.Sim.World.Time.ProgressTime(Core.Random.Next(30, 120));
     }
 
     private Pawn GetNewTarget(Pawn attacker) {
@@ -197,7 +199,7 @@ public class CombatTurn {
             }
         }
 
-        if (pawn.Body.BloodLevel < .3f && pawn.Equipment.PotionByDef(Defs.Items.JarOfBlood) is { } p) {
+        if (pawn.Body.BloodPercent < .3f && pawn.Equipment.PotionByDef(Defs.Items.JarOfBlood) is { } p) {
             UseBloodPotion(p, pawn, turnData);
             pawn.Equipment.UnEquip(p);
         }
@@ -241,7 +243,7 @@ public class CombatTurn {
     }
 
     private void UseBloodPotion(Item potion, Pawn pawn, PawnTurnData turnData) {
-        float amount = 3000; //potion.GetStatValue(Defs.Stats.HealingValue);
+        float amount = potion.GetStatValue(Defs.Stats.HealingValue);
         pawn.Body.BloodAmount += amount;
         turnData.AvailableSequencePoints -= 1;
         _combatEvent.LogMessage(

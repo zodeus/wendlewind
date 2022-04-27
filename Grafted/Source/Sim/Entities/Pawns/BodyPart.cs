@@ -11,7 +11,7 @@ namespace Grafted.Sim.Entities.Pawns;
 public class BodyPart : Entity {
     public List<BodyPartSocket> Sockets = new();
 
-    private int _hitPoints;
+    private float _hitPoints;
 
     private bool _isSevered; // todo, this should be set by an applied health condition
 
@@ -35,7 +35,7 @@ public class BodyPart : Entity {
     public bool IsDestroyed => HitPoints <= 0;
 
     // IsCoagulated
-    public bool IsBleeding => TicksSinceLastHit < 2;
+    public bool IsBleeding => HealthPercent < .99;
 
     public int TicksSinceLastHit = int.MaxValue;
 
@@ -43,9 +43,9 @@ public class BodyPart : Entity {
 
     public bool HasEquipmentSlots => BodyPartDef.EquipmentSlots?.Count > 0;
 
-    public int HitPoints {
+    public float HitPoints {
         get => _hitPoints;
-        set => _hitPoints = Mathf.Clamp(value, 0, MaxHitPoints);
+        set => _hitPoints = Mathf.Clamp(value, 0f, MaxHitPoints);
     }
 
     #region Dynamic Getters
@@ -55,7 +55,7 @@ public class BodyPart : Entity {
             if (_isSevered) {
                 return true;
             }
-            
+
             return Socket?.ParentPart?.IsSevered ?? false;
         }
         private set => _isSevered = value;

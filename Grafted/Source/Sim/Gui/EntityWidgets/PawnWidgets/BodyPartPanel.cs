@@ -11,12 +11,16 @@ namespace Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 
 public class BodyPartPanel : EntityPanelBase {
     private readonly BodyPart _bodyPart;
+    private readonly Label _hitPoints;
+    private readonly Label _healthPercent;
 
     public BodyPartPanel(BodyPart bodyPart, EntityPanelProperties? properties = null) : base(bodyPart, properties) {
         _bodyPart = bodyPart;
         Padding = new Thickness(20);
         MinWidth = 300;
 
+        _hitPoints = new Label(BaseContent.Styles.Label.Small);
+        _healthPercent = new Label(BaseContent.Styles.Label.Small);
         HorizontalStackPanel panel = new() { Spacing = 30 };
         VerticalStackPanel leftPanel = new() { Spacing = 5 };
         panel.AddChild(leftPanel);
@@ -30,8 +34,8 @@ public class BodyPartPanel : EntityPanelBase {
         leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Equipment Slots: {string.Join(",", bodyPart.EquipmentSlots?.Select(s => s.ToString()) ?? new List<string>())}" });
         leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Equipment: {string.Join(",", bodyPart.Equipment.Values.Select(i => i?.Label))}" });
         leftPanel.AddChild(new HorizontalSeparator());
-        leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Health %: {bodyPart.HealthPercent}" });
-        leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Hit Points: {bodyPart.HitPoints}" });
+        leftPanel.AddChild(_healthPercent);
+        leftPanel.AddChild(_hitPoints);
         leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Has Mobility: {bodyPart.HasMobility}" });
         leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Is Bleeding: {bodyPart.IsBleeding}" });
         leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Is Bone: {bodyPart.IsBone}" });
@@ -52,7 +56,7 @@ public class BodyPartPanel : EntityPanelBase {
         var rightPanel = new VerticalStackPanel { Spacing = 5 };
         panel.AddChild(rightPanel);
         if (bodyPart.InternalParts.Any()) {
-            VerticalStackPanel internalPartsPanel = new() { Spacing = 5};
+            VerticalStackPanel internalPartsPanel = new() { Spacing = 5 };
             internalPartsPanel.AddChild(new Label() { Text = "Internal Parts" });
             foreach (BodyPart internalPart in bodyPart.InternalParts) {
                 Image image = new() { Background = new TextureRegion(internalPart.Icon), Width = 32, Height = 32 };
@@ -87,5 +91,8 @@ public class BodyPartPanel : EntityPanelBase {
         AddChild(panel);
     }
 
-    public override void Update() { }
+    public override void Update() {
+        _hitPoints.Text = $"Hit Points: {_bodyPart.HitPoints}";
+        _healthPercent.Text = $"Health %: {_bodyPart.HealthPercent}";
+    }
 }

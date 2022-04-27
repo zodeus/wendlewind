@@ -18,7 +18,7 @@ public class TownSummaryPanel : HorizontalStackPanel, IUpdatable {
         };
         statsPanel.AddChild(new Label(BaseContent.Styles.Label.Large) { Text = $"Total Kills: \\c[{UiTextColor.TextColorGreen}]{Core.Sim.World.TotalKills}" });
         foreach ((ZoneDef? zoneDef, Zone? zone) in Core.Sim.World.Zones.Where(z => z.Key.ZoneType == ZoneType.Adventure)) {
-            string distanceText = $"Furthest Distance: \\c[{UiTextColor.TextColorGreen}]{Mathf.RoundToNearest(zone.FurthestDistanceTraveled, 0.1f)} " +
+            string distanceText = $"Furthest Distance: \\c[{UiTextColor.TextColorGreen}]{zone.FurthestDistanceTraveled.ToString("0.00")} " +
                                   $"\\c[{UiTextColor.TextColorDefault}]({Mathf.RoundToInt(zone.FurthestDistanceTraveled / zoneDef.TravelSize * 100)}%)";
             statsPanel.AddChild(new Label(BaseContent.Styles.Label.Large) { Text = zone.Label });
             statsPanel.AddChild(new HorizontalStackPanel {

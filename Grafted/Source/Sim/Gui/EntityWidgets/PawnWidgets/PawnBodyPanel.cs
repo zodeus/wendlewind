@@ -125,10 +125,10 @@ public class PawnBodyPanel : VerticalStackPanel {
                 Core.Sim.Gui!.MouseAttachment.Detach();
             }
 
-            int mistJuice = 200;
+            float mistJuice = 200;
 
-            int UpdateHealth(BodyPart bodyPart) {
-                int currentHealth = bodyPart.HitPoints;
+            float UpdateHealth(BodyPart bodyPart) {
+                float currentHealth = bodyPart.HitPoints;
                 bodyPart.HitPoints += Math.Min(bodyPart.MaxHitPoints - bodyPart.HitPoints, mistJuice);
                 return bodyPart.HitPoints - currentHealth;
             }
@@ -195,8 +195,8 @@ public class PawnBodyPanel : VerticalStackPanel {
         _pawnSkillsPanel.Update();
         _pawnSkillsPanel.Update();
 
-        _bloodBar.Value = _body.BloodLevel * 100;
-        ((ColoredRegion) _bloodBar.Filler).Color = BodyPartColor.GetBloodColor(_body.BloodLevel);
+        _bloodBar.Value = _body.BloodPercent * 100;
+        ((ColoredRegion) _bloodBar.Filler).Color = BodyPartColor.GetBloodColor(_body.BloodPercent);
 
         for (int i = _socketPanels.Count - 1; i >= 0; i--) {
             BodyPartSocketPanel socketPanel = _socketPanels[i];
