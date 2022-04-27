@@ -4,6 +4,7 @@ using Grafted.Sim.Gui.EntityWidgets;
 using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 using Microsoft.Xna.Framework;
 using Myra.Graphics2D;
+using Myra.Graphics2D.Brushes;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.UI.Styles;
 
@@ -16,17 +17,11 @@ public class PawnDetailPanel : Panel, IUpdatable {
     private readonly PawnBodyPanel _bodyPanel;
 
     public PawnDetailPanel(Pawn playerPawn, string receivingContainerTitle, ItemContainer receivingContainer) {
-        _bodyPanel = new PawnBodyPanel(playerPawn.Body) {
-            GridRow = 1, GridColumn = 0
-        };
-
+        _bodyPanel = new PawnBodyPanel(playerPawn.Body);
         _inventoryPanel = new ItemContainerPanel(
             playerPawn.Inventory.Items,
             receivingContainer
-        ) {
-            Visible = !playerPawn.IsDead, MinHeight = 700,
-            Width = 300, GridRow = 1, GridColumn = 1
-        };
+        ) { Visible = !playerPawn.IsDead, MinHeight = 700, Width = 400 };
 
         _equipmentPanel = new PawnEquipmentPanel(playerPawn);
         _otherContainerPanel = new ItemContainerPanel(receivingContainer, playerPawn.Inventory.Items) {
@@ -34,17 +29,15 @@ public class PawnDetailPanel : Panel, IUpdatable {
         };
 
         VerticalStackPanel rightColumn = new() {
-            Visible = !playerPawn.IsDead, GridRow = 1, GridColumn = 2,
+            Visible = !playerPawn.IsDead, 
             Proportions = { Proportion.Auto, Proportion.Auto, Proportion.Auto, Proportion.Fill }
         };
         rightColumn.AddChild(_equipmentPanel);
         rightColumn.AddChild(new HorizontalSeparator() { Margin = new Thickness(0, 50, 0, 20) });
         rightColumn.AddChild(new Label(BaseContent.Styles.Label.Large) { Text = receivingContainerTitle });
         rightColumn.AddChild(_otherContainerPanel);
-        Grid grid = new() {
-            ShowGridLines = false, HorizontalAlignment = HorizontalAlignment.Center,
-            GridLinesColor = Color.Red, RowSpacing = 20,
-            DefaultRowProportion = Proportion.Auto, DefaultColumnProportion = Proportion.Auto,
+        HorizontalStackPanel grid = new() {
+            HorizontalAlignment = HorizontalAlignment.Center,
             Widgets = {
                 _bodyPanel,
                 _inventoryPanel,

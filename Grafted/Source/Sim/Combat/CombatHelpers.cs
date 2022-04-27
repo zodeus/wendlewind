@@ -46,8 +46,7 @@ public static class CombatHelpers {
             steps.Add(new CombatSequenceStep {
                 Name = maneuver.Label,
                 Tool = tool.Label,
-                Damages = CalculateDamages(pawn, tool, toolSequence, maneuver),
-                VisualWaitTime = maneuver.VisualWaitTime
+                Damages = CalculateDamages(pawn, tool, toolSequence, maneuver)
             });
         }
 

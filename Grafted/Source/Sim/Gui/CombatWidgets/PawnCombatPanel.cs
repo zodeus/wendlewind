@@ -43,7 +43,6 @@ internal class PawnCombatPanel : HorizontalStackPanel {
         _pawnEquipmentPanel = new PawnEquipmentPanel(Pawn, (part, type) => {
             if (part.Equipment[type] is { } item) {
                 if (Pawn.PawnType == PawnType.Player && Input.RightMouseButtonReleased && item.ItemDef.ItemType == ItemType.Potion) {
-                    Log.Info($"Right clicked {part.Equipment[type]}");
                     _combatEvent.QueuePotion(item, Pawn);
                     return;
                 }
@@ -110,7 +109,7 @@ internal class PawnCombatPanel : HorizontalStackPanel {
 
         _bloodBar.Value = Pawn.Body.BloodPercent * 100;
         ((ColoredRegion) _bloodBar.Filler).Color = BodyPartColor.GetBloodColor(Pawn.Body.BloodPercent);
-        
+
         _bodySummary.Update();
         _pawnEquipmentPanel.Update();
         //todo something better here, this is hacky

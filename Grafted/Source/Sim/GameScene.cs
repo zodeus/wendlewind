@@ -22,8 +22,9 @@ public class GameScene : Scene {
 
         if (DebugSettings.SkipIntro) {
             //skip intro
-            Core.Sim.World.CurrentZone.Def = Defs.Zones.VillageOfTheDamned;
+            Core.Sim.World.CurrentZone = Core.Sim.World.Zones[Defs.Zones.VillageOfTheDamned];
             Core.Sim.Gui = new TownGui(Core.Sim.World.Zones[Defs.Zones.VillageOfTheDamned].Town!);
+            //Core.Sim.Gui = new DeathGui();
             return;
         }
 

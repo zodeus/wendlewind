@@ -27,6 +27,9 @@ public class TabPanel : VerticalStackPanel {
             row.AddChild(new TextButton(ButtonStyle) { Text = label });
         }
 
+        if (widget is IUpdatable updateable) {
+            updateable.Update();
+        }
 
         row.TouchDown += (_, _) => SetActiveTab(widget);
         _tabButtons.AddChild(row);
@@ -40,7 +43,7 @@ public class TabPanel : VerticalStackPanel {
         _activeTab.Content?.RemoveFromParent();
         _activeTab.Content = widget;
     }
-    
+
     public void Update() {
         if (_activeTab.Content is IUpdatable updateable) {
             updateable.Update();

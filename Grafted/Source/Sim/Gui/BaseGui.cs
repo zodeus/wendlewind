@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using FontStashSharp;
+using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Gui.EntityWidgets;
@@ -7,7 +8,9 @@ using Grafted.Sim.Gui.MiscWidgets;
 using Grafted.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Myra.Graphics2D;
 using Myra.Graphics2D.UI;
+using Myra.Graphics2D.UI.Styles;
 
 namespace Grafted.Sim.Gui;
 
@@ -21,6 +24,7 @@ public abstract class BaseGui {
     private readonly Window _entityViewerWindow = new();
     private Entity? _viewedEntity;
     private KeyValuePair<Entity, Point?>? _queuedEntityToView;
+    private bool _deathWindowIsOpen;
 
     public virtual void Update(float deltaTime) {
         MouseAttachment?.Update();
@@ -35,6 +39,17 @@ public abstract class BaseGui {
         if (_screenMessageTimeLeft > 0) {
             _screenMessageTimeLeft -= deltaTime;
         }
+
+        if (Core.Sim.World.PlayerPawns[0].IsDead && this is not CombatGui && _deathWindowIsOpen == false) {
+            ShowDeathWindow();
+            return;
+        }
+    }
+
+    protected void ShowDeathWindow() {
+        _deathWindowIsOpen = true;
+
+        new DeathGui().ShowModal(Desktop);
     }
 
     public virtual void ViewEntity(Entity entity, Point? position = null) {
@@ -99,6 +114,32 @@ public abstract class BaseGui {
         _viewedEntity = _queuedEntityToView.Value.Key;
 
         _queuedEntityToView = null;
+    }
+}
+
+public class DeathGui : Window {
+    public DeathGui() {
+        TextButton button = new(BaseContent.Styles.Button.Large) { Text = "Resurrect" };
+        button.Click += (_, _) => {
+            Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorYellow}]You have been reborn"));
+            Core.Sim.World.PlayerPawns.Clear();
+            Core.Sim.World.PlayerPawns.Add(WorldGenerator.GeneratePlayerPawn());
+            Core.Sim.World.CurrentZone.Reset();
+            Core.Sim.World.CurrentZone = Core.Sim.World.Zones[Defs.Zones.VillageOfTheDamned];
+            Core.Sim.Gui = new TownGui(Core.Sim.World.Zones[Defs.Zones.VillageOfTheDamned].Town!);
+        };
+        TitleGrid.Visible = false;
+        Width = Screen.Width - 100;
+        Height = Screen.Height - 100;
+        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.Red];
+        Content = new VerticalStackPanel() {
+            Spacing = 15,
+            Padding = new Thickness(50), HorizontalAlignment = HorizontalAlignment.Center,
+            Widgets = {
+                new Label(BaseContent.Styles.Label.Large) { Text = "You died" },
+                button
+            }
+        };
     }
 }
 

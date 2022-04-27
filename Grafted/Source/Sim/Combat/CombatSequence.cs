@@ -14,13 +14,11 @@ public class
     public List<CombatSequenceStep> Steps { get; set; }
     public string? FlavorText { get; set; }
     public int TotalSequencePoints { get; set; }
-    public float VisualWaitTimeMultiplier { get; set; } = 1;
 
     public IEnumerator Execute(CombatEvent combatEvent) {
         combatEvent.LogMessage($"    Performing \\c[#fa9000]{FlavorText} \\c[#b3b3b3](\\c[#00e6ff]{TotalSequencePoints}\\c[#b3b3b3])");
-        yield return Coroutine.WaitForSeconds(0.1f);
         foreach (CombatSequenceStep step in Steps) {
-            yield return Coroutine.WaitForSeconds(step.VisualWaitTime * VisualWaitTimeMultiplier);
+            yield return Coroutine.WaitForSeconds(Core.Sim.GameSpeed);
             float chanceToHit = Source.ChanceToHit(Target);
             if (Core.Random.NextSingle() < chanceToHit) {
                 DamageResponse damageResponse = Target.TakeDamage(step.Damages);
@@ -65,9 +63,16 @@ public class
                 }*/
 
                 if (Target.IsDead) {
+                    if (Target.PawnType == PawnType.Player) {
+                        Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorPawn}]{Target.Label} \\c[{UiTextColor.TextColorRed}]was killed by \\c[{UiTextColor.TextColorEnemyPawn}]{Source.Label}"));
+                    }
+                    else {
+                        Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorPawn}]{Source.Label} \\c[{UiTextColor.TextColorGreen}]killed \\c[{UiTextColor.TextColorEnemyPawn}]{Target.Label}"));
+                    }
+
                     //Target.Destroy();
                     combatEvent.LogMessage($"    \\c[#ff0000]Killed \\c[{UiTextColor.TextColorPawn}]{Target.LabelShort}");
-                    yield return Coroutine.WaitForSeconds(2);
+                    yield return Coroutine.WaitForSeconds(Core.Sim.GameSpeed);
 
                     // exiting sequence, target is dead 
                     yield break;

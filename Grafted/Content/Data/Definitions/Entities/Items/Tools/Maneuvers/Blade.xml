@@ -11,7 +11,6 @@
             <ListItem>Sword</ListItem>
         </Tools>
         <DamageMultiplier>.70~1.2</DamageMultiplier>
-        <VisualWaitTime>0</VisualWaitTime>
     </ToolManeuverDef>
     <ToolManeuverDef>
         <Moniker>Stab</Moniker>
@@ -22,6 +21,5 @@
             <ListItem>Dagger</ListItem>
         </Tools>
         <DamageMultiplier>.2~1.6</DamageMultiplier>
-        <VisualWaitTime>0</VisualWaitTime>
     </ToolManeuverDef>
 </Definitions>

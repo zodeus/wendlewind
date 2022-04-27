@@ -27,7 +27,7 @@ public class CombatEvent {
     public readonly CombatRecord CombatRecord = new();
     public readonly List<BodyPart> SeveredLimbs = new();
     public readonly List<CombatTurn> Turns = new();
-    
+
     public IReadOnlyList<CombatBuff> Buffs => _buffs;
 
     public CombatState State {
@@ -101,14 +101,10 @@ public class CombatEvent {
             return;
         }
 
-        bool playerPawnDied = PlayerPawns[0].IsDead;
-        if (playerPawnDied) {
-            Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorPawn}]{PlayerPawns.First().Label} \\c[{UiTextColor.TextColorRed}] was killed by \\c[{UiTextColor.TextColorEnemyPawn}]{EnemyPawns.First().Label}"));
-        }
-        else {
-            Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorPawn}]{PlayerPawns.First().Label} \\c[{UiTextColor.TextColorGreen}]killed \\c[{UiTextColor.TextColorEnemyPawn}]{EnemyPawns.First().Label}"));
-            Core.Sim.World.RegisterKill(EnemyPawns[0]);
+        bool playerIsAlive = !PlayerPawns[0].IsDead;
+        if (playerIsAlive) {
             CollectLoot();
+            Core.Sim.World.RegisterKill(EnemyPawns[0]);
         }
 
         LogMessage("Battle is over");

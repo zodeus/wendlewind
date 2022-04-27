@@ -15,26 +15,6 @@ public class SimTime : IExposable {
     public string CurrentTimeString => TimeSpan.FromSeconds(CurrentTimeInSeconds).ToString(@"hh\:mm");
     public string CurrentDayString => TimeSpan.FromSeconds(CurrentTimeInSeconds).Days.ToString();
 
-
-    public void ProgressTime(float seconds) {
-        while (seconds > 0) {
-            seconds--;
-            CurrentTimeInSeconds++;
-            if (CurrentTimeInSeconds % SecondsInMinute == 0) {
-                Ticks++;
-                foreach (Pawn pawn in Core.Sim.World.PlayerPawns) {
-                    pawn.Tick();
-                }
-
-                if (Core.Sim.Gui is CombatGui gui) {
-                    foreach (Pawn pawn in gui.CombatEvent.EnemyPawns) {
-                        pawn.Tick();
-                    }
-                }
-            }
-        }
-    }
-
     public void ExposeData() { }
 
     public override string ToString() {

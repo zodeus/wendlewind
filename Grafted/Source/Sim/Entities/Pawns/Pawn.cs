@@ -72,18 +72,35 @@ public class Pawn : Entity {
     }
 
     public override void Tick() {
-        base.Tick();
-        Brain.Tick();
-        Body.Tick();
-        Health.Tick();
-        Needs.Tick();
-        Skills.Tick();
         if (IsDead) {
             return;
         }
 
+        Brain.Tick();
+        if (IsDead) {
+            return;
+        }
+
+        Body.Tick();
+        if (IsDead) {
+            return;
+        }
+
+        Health.Tick();
+        if (IsDead) {
+            return;
+        }
+
+        Needs.Tick();
+        if (IsDead) {
+            return;
+        }
+
+        Skills.Tick();
+
         Inventory.Tick();
         Equipment.Tick();
+        base.Tick();
     }
 
     private void CalculateSequencePoints() {

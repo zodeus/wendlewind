@@ -11,7 +11,7 @@ public static class WorldGenerator {
         return world;
     }
 
-    private static Pawn GeneratePlayerPawn() {
+    public static Pawn GeneratePlayerPawn() {
         Pawn pawn = PawnGenerator.CreatePawn(new PawnRequest(
             DefRepository<RaceDef>.GetByMoniker("Caucasian")!,
             Defs.PawnConfigs.PlayerPawn

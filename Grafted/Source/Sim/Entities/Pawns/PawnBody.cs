@@ -20,7 +20,10 @@ public class PawnBody {
     public List<BodyPart> AllParts {
         get {
             List<BodyPart> parts = new();
-            GetParts(RootSocket.AttachedPart!, parts);
+            if (RootSocket.AttachedPart != null) {
+                GetParts(RootSocket.AttachedPart!, parts);
+            }
+
             return parts;
         }
     }
@@ -63,15 +66,16 @@ public class PawnBody {
             BloodAmount -= bloodLossScaleFactor * (1 - part.HealthPercent);
         }
 
+        // stop part traversal if part is an artery and it's been severed
         bool continuePartTraversal = true;
         foreach (BodyPart internalPart in part.InternalParts) {
             if (internalPart.Type != BodyPartType.Artery || internalPart.HealthPercent >= 1) {
                 continue;
             }
 
-            if (part.IsDestroyed) {
+            if (internalPart.IsDestroyed) {
                 //Log.Info($"{_pawn} {internalPart} losing {bloodLossScaleFactor * severedArteryBloodLossFactor}");
-                BloodAmount -= bloodLossScaleFactor * severedArteryBloodLossFactor;
+                BloodAmount -= Math.Max(bloodLossScaleFactor * severedArteryBloodLossFactor, 10f);
                 // Artery is severed stop propagating bleeding
                 continuePartTraversal = true;
                 continue;
@@ -86,7 +90,7 @@ public class PawnBody {
                 // part has been severed, start hemorrhaging
                 if (socket.IsSealed == false) {
                     //Log.Info($"{_pawn} {socket} losing {bloodLossScaleFactor * severedLimbBloodLossFactor}");
-                    BloodAmount -= bloodLossScaleFactor * severedLimbBloodLossFactor;
+                    BloodAmount -= Math.Max(bloodLossScaleFactor * severedLimbBloodLossFactor, 15);
                 }
 
                 continue;
@@ -123,6 +127,10 @@ public class PawnBody {
 
         if (BloodAmount <= 1) {
             Pawn.IsDead = true;
+            if (Pawn.PawnType == PawnType.Player) {
+                Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorPawn}]{Pawn.Label} \\c[{UiTextColor.TextColorRed}]died from blood loss"));
+            }
+
             Core.Sim.World.DeathRecords.RecordDeath(new DeathRecord {
                 Round = Core.Sim.World.TotalKills + 1,
                 PawnName = Pawn.Label,

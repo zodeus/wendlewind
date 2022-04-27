@@ -40,10 +40,12 @@ public class Simulation {
     }
 
     public void FixedUpdate() {
-        //todo this is super hacky, need to move combat events out of async co-routines, threads are contending 
-        if (Core.Sim.Gui is not CombatGui) {
-            Core.Sim.World.Time.ProgressTime(1);
+        if (Core.Sim.Gui is CombatGui) {
+            //todo this is super hacky, need to move combat events out of async co-routines, threads are contending
+            return;
         }
+
+        Core.Sim.World.ProgressTime(1);
     }
 
     private void HandleInput() {

@@ -11,7 +11,6 @@
             <ListItem>Hammer</ListItem>
         </Tools>
         <DamageMultiplier>.65~1.25</DamageMultiplier>
-        <VisualWaitTime>.5</VisualWaitTime>
     </ToolManeuverDef>
     <ToolManeuverDef>
         <Moniker>Jab</Moniker>
@@ -20,7 +19,6 @@
             <ListItem>Staff</ListItem>
         </Tools>
         <DamageMultiplier>.85~1.05</DamageMultiplier>
-        <VisualWaitTime>.5</VisualWaitTime>
     </ToolManeuverDef>
     <ToolManeuverDef>
         <Moniker>Crush</Moniker>
@@ -31,6 +29,5 @@
             <ListItem>Hammer</ListItem>
         </Tools>
         <DamageMultiplier>.8~1.5</DamageMultiplier>
-        <VisualWaitTime>.5</VisualWaitTime>
     </ToolManeuverDef>
 </Definitions>

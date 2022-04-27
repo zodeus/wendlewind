@@ -32,7 +32,7 @@ public class CombatTurn {
 
     public IEnumerator Run() {
         _combatEvent.LogMessage($"\\c[white]Starting turn {_combatEvent.CurrentTurnNum}");
-        yield return Coroutine.WaitForSeconds(0.25f);
+        yield return Coroutine.WaitForSeconds(Core.Sim.GameSpeed);
         foreach (Pawn attacker in Pawns) {
             CurrentPawn = attacker;
             if (attacker.IsDead) {
@@ -126,7 +126,7 @@ public class CombatTurn {
                 Log.Debug($"CombatEvent -- Pawn: {attacker.Label} is exiting without exhausting all sequence points, this is a bug");
             }
 
-            yield return Coroutine.WaitForSeconds(0.25f);
+            yield return Coroutine.WaitForSeconds(Core.Sim.GameSpeed);
 
         }
 
@@ -135,13 +135,17 @@ public class CombatTurn {
             if (pawn.IsDead) {
                 _combatEvent.RemoveBuffsFor(pawn);
                 if (pawn.Body.BloodPercent <= 0) {
-                    _combatEvent.LogMessage($"    \\c[{UiTextColor.TextColorPawn}]{pawn.LabelShort} \\c[{UiTextColor.TextColorRed}]died from blood loss");
+                    if (pawn.PawnType == PawnType.Enemy) {
+                        Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorPawn}]{_combatEvent.PlayerPawns[0].Label} \\c[{UiTextColor.TextColorGreen}]killed \\c[{UiTextColor.TextColorEnemyPawn}]{pawn.Label}"));
+                    }
+
+                    _combatEvent.LogMessage($"\\c[{UiTextColor.TextColorPawn}]{pawn.LabelShort} \\c[{UiTextColor.TextColorRed}]died from blood loss");
                 }
             }
             else {
                 float bloodLost = PawnTurnData[pawn].StartingBloodLevel - pawn.Body.BloodAmount;
                 if (bloodLost > 0) {
-                    _combatEvent.LogMessage($"\\c[{UiTextColor.TextColorPawn}]{pawn.LabelShort} is losing blood \\c[{UiTextColor.TextColorRed}]-{bloodLost}");
+                    _combatEvent.LogMessage($"\\c[{UiTextColor.TextColorPawn}]{pawn.LabelShort} is losing blood \\c[{UiTextColor.TextColorRed}]-{bloodLost:0.00}");
                 }
             }
         }
@@ -159,11 +163,11 @@ public class CombatTurn {
         }
 
         _combatEvent.LogMessage("\\c[white]Turn is over\n");
-        yield return Coroutine.WaitForSeconds(0.5f);
+        yield return Coroutine.WaitForSeconds(Core.Sim.GameSpeed);
     }
 
     private void UpdateWorldTime() {
-        Core.Sim.World.Time.ProgressTime(Core.Random.Next(30, 120));
+        Core.Sim.World.ProgressTime(Core.Random.Next(30, 120));
     }
 
     private Pawn GetNewTarget(Pawn attacker) {
@@ -262,7 +266,7 @@ public class CombatTurn {
     private IEnumerator SetTurnInteractive() {
         _combatEvent.State = CombatState.TurnInteractive;
         while (_combatEvent.State == CombatState.TurnInteractive) {
-            yield return Coroutine.WaitForSeconds(0.25f);
+            yield return Coroutine.WaitForSeconds(Core.Sim.GameSpeed);
         }
     }
 
@@ -284,12 +288,12 @@ public class CombatTurn {
                 _combatEvent.State = CombatState.CombatEnd;
             }
 
-            yield return Coroutine.WaitForSeconds(2);
+            yield return Coroutine.WaitForSeconds(Core.Sim.GameSpeed);
         }
 
         if (_combatEvent.State == CombatState.TurnInteractive && pawnTurnData.AvailableSequencePoints <= 0) {
             _combatEvent.LogMessage("Sequence Points Exhausted\n");
-            yield return Coroutine.WaitForSeconds(.25f);
+            yield return Coroutine.WaitForSeconds(Core.Sim.GameSpeed);
             _combatEvent.State = CombatState.Turn;
         }
 

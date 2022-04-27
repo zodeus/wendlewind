@@ -8,7 +8,6 @@
             <ListItem>Teeth</ListItem>
         </Tools>
         <DamageMultiplier>.8~1.2</DamageMultiplier>
-        <VisualWaitTime>.15</VisualWaitTime>
     </ToolManeuverDef>
     <ToolManeuverDef>
         <Moniker>TailWhip</Moniker>
@@ -17,7 +16,6 @@
             <ListItem>Tail</ListItem>
         </Tools>
         <DamageMultiplier>.9~1.2</DamageMultiplier>
-        <VisualWaitTime>.15</VisualWaitTime>
     </ToolManeuverDef>
     <ToolManeuverDef>
         <Moniker>Lick</Moniker>
@@ -26,7 +24,6 @@
             <ListItem>Tongue</ListItem>
         </Tools>
         <DamageMultiplier>.9~1.2</DamageMultiplier>
-        <VisualWaitTime>.15</VisualWaitTime>
     </ToolManeuverDef>
     <ToolManeuverDef>
         <Moniker>ProboscisPoke</Moniker>
@@ -35,7 +32,6 @@
             <ListItem>Proboscis</ListItem>
         </Tools>
         <DamageMultiplier>.9~1.2</DamageMultiplier>
-        <VisualWaitTime>.15</VisualWaitTime>
     </ToolManeuverDef>
     <ToolManeuverDef>
         <Moniker>PincerPinch</Moniker>
@@ -44,7 +40,6 @@
             <ListItem>Pincer</ListItem>
         </Tools>
         <DamageMultiplier>.5~1.6</DamageMultiplier>
-        <VisualWaitTime>.15</VisualWaitTime>
     </ToolManeuverDef>
     <ToolManeuverDef>
         <Moniker>PincerScratch</Moniker>
@@ -53,7 +48,6 @@
             <ListItem>Pincer</ListItem>
         </Tools>
         <DamageMultiplier>.9~1.1</DamageMultiplier>
-        <VisualWaitTime>.15</VisualWaitTime>
     </ToolManeuverDef>
     <ToolManeuverDef>
         <Moniker>HoofStomp</Moniker>
@@ -62,7 +56,6 @@
             <ListItem>Hoof</ListItem>
         </Tools>
         <DamageMultiplier>.5~1.3</DamageMultiplier>
-        <VisualWaitTime>.15</VisualWaitTime>
     </ToolManeuverDef>
     <ToolManeuverDef>
         <Moniker>ClawGouge</Moniker>
@@ -71,7 +64,6 @@
             <ListItem>Claw</ListItem>
         </Tools>
         <DamageMultiplier>.4~1.4</DamageMultiplier>
-        <VisualWaitTime>.15</VisualWaitTime>
     </ToolManeuverDef>
     <ToolManeuverDef>
         <Moniker>ClawScrape</Moniker>
@@ -80,6 +72,5 @@
             <ListItem>Claw</ListItem>
         </Tools>
         <DamageMultiplier>.9~1.1</DamageMultiplier>
-        <VisualWaitTime>.15</VisualWaitTime>
     </ToolManeuverDef>
 </Definitions>

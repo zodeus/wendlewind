@@ -46,9 +46,11 @@ public class PawnEquipmentPanel : HorizontalStackPanel {
             Item? unEquippedItem = _pawn.Equipment.UnEquip(part, slot);
             if (unEquippedItem != null) {
                 if (_pawn.Inventory.Items.TryAdd(unEquippedItem) == false) {
+                    //return item, failed to place in inventory
                     _pawn.Equipment.TryEquip(part, slot, unEquippedItem);
                 }
             }
+
             return;
         }
 
@@ -68,6 +70,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel {
 
             // Try Equip
             if (item.ItemDef.EquipmentProperties.SlotUsedToEquip == slot || (item.ItemDef.ItemType == ItemType.Potion && slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2)) {
+                ItemContainer transferringContainer = item.Container!;
                 Item? unEquippedItem = null;
                 if (item.ItemDef.ItemType == ItemType.Potion) {
                     //todo implement splitting
@@ -78,19 +81,19 @@ public class PawnEquipmentPanel : HorizontalStackPanel {
                     }
                     else {
                         potion = item;
-                        _pawn.Inventory.Items.Remove(item);
+                        transferringContainer.Remove(item);
                     }
 
                     unEquippedItem = _pawn.Equipment.TryEquip(part, slot, potion);
                 }
                 else {
-                    _pawn.Inventory.Items.Remove(item);
+                    transferringContainer.Remove(item);
                     unEquippedItem = _pawn.Equipment.TryEquip(part, slot, item);
                 }
 
                 Core.Sim.Gui!.MouseAttachment.Detach();
                 if (unEquippedItem != null) {
-                    _pawn.Inventory.Items.TryAdd(unEquippedItem);
+                    transferringContainer.TryAdd(unEquippedItem);
                 }
             }
 

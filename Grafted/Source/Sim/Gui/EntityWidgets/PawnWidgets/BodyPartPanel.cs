@@ -92,7 +92,7 @@ public class BodyPartPanel : EntityPanelBase {
     }
 
     public override void Update() {
-        _hitPoints.Text = $"Hit Points: {_bodyPart.HitPoints}";
-        _healthPercent.Text = $"Health %: {_bodyPart.HealthPercent}";
+        _hitPoints.Text = $"Hit Points: {_bodyPart.HitPoints:0.00}";
+        _healthPercent.Text = $"Health: {_bodyPart.HealthPercent:P}";
     }
 }

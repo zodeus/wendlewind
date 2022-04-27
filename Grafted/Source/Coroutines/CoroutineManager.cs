@@ -151,7 +151,6 @@ public class CoroutineManager /*: GlobalManager */ {
 
         if (coroutine.Enumerator.Current is WaitForSeconds seconds) {
             coroutine.WaitTimer = seconds.waitTime;
-            coroutine.WaitTimer = Core.Sim.GameSpeed; //todo need to do this more better 
             return true;
         }
 

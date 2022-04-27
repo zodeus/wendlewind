@@ -1,4 +1,5 @@
 using System.Linq;
+using Grafted.Debug;
 using Grafted.Definitions;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Gui.EntityWidgets;
@@ -54,36 +55,30 @@ public class CombatResultsGui : BaseGui {
             HorizontalAlignment = HorizontalAlignment.Left,
             VerticalAlignment = VerticalAlignment.Bottom
         };
-        if (_combatEvent.PlayerPawns.First().IsDead) {
-            TextButton button = new(BaseContent.Styles.Button.Large) {
-                Text = "You dead son"
-            };
-            button.Click += (_, _) => {
-                Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorRed}]You have been reborn"));
-                ((GameScene) Core.Scene.ActiveScene!).QuickPlay();
-            };
-            buttons.AddChild(button);
-        }
-        else {
-            TextButton continueButton = new(BaseContent.Styles.Button.Large) { Text = "Carry on" };
-            continueButton.Click += (_, _) => {
-                if (Core.Sim.World.CurrentZone.Def == Defs.Zones.Intro) {
-                    HandleIntro();
-                    return;
-                }
 
-                Core.Sim.World.DoZoneTravel();
-                Core.Sim.Gui = new CombatGui(Core.Sim.World.NextCombat());
-            };
-            buttons.AddChild(continueButton);
-            if (Core.Sim.World.CurrentZone.Def != Defs.Zones.Intro) {
-                TextButton goHome = new(BaseContent.Styles.Button.Large) { Text = "Go Home" };
-                goHome.Click += (_, _) => {
-                    Core.Sim.World.MoveToZone(Defs.Zones.VillageOfTheDamned);
-                    Core.Sim.Gui = new TownGui(Core.Sim.World.CurrentZone.Town!);
-                };
-                buttons.AddChild(goHome);
+        TextButton continueButton = new(BaseContent.Styles.Button.Large) { Text = "Carry on" };
+        continueButton.Click += (_, _) => {
+            if (Core.Sim.World.CurrentZone.Def == Defs.Zones.Intro) {
+                HandleIntro();
+                return;
             }
+
+            Core.Sim.World.DoZoneTravel();
+            if (Core.Sim.World.PlayerPawns[0].IsDead) {
+                ShowDeathWindow();
+                return;
+            }
+
+            Core.Sim.Gui = new CombatGui(Core.Sim.World.NextCombat());
+        };
+        buttons.AddChild(continueButton);
+        if (Core.Sim.World.CurrentZone.Def != Defs.Zones.Intro) {
+            TextButton goHome = new(BaseContent.Styles.Button.Large) { Text = "Go Home" };
+            goHome.Click += (_, _) => {
+                Core.Sim.World.MoveToZone(Defs.Zones.VillageOfTheDamned);
+                Core.Sim.Gui = new TownGui(Core.Sim.World.CurrentZone.Town!);
+            };
+            buttons.AddChild(goHome);
         }
 
         return new HorizontalStackPanel { Spacing = 10, Widgets = { DeathsButton(), buttons } };
@@ -95,7 +90,13 @@ public class CombatResultsGui : BaseGui {
             return;
         }
 
-        Core.Sim.Gui = new DialogueGui(Core.Sim.World.NextDialogue());
+        if (DebugSettings.SkipIntroDialogue) {
+            Core.Sim.World.MoveToZone(Defs.Zones.VillageOfTheDamned);
+            Core.Sim.Gui = new TownGui(Core.Sim.World.CurrentZone.Town!);
+        }
+        else {
+            Core.Sim.Gui = new DialogueGui(Core.Sim.World.NextDialogue());
+        }
     }
 
     public override void Update(float deltaTime) {

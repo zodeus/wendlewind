@@ -52,7 +52,6 @@
         <Label>Enraged Chomp</Label>
         <DamageMultiplier>.5~1.5</DamageMultiplier>
         <SequencePoints>2</SequencePoints>
-        <VisualWaitTimeMultiplier>1.25</VisualWaitTimeMultiplier>
         <Maneuvers>
             <ListItem>Bite</ListItem>
             <ListItem>Bite</ListItem>
