@@ -1,4 +1,3 @@
-using System.Globalization;
 using Grafted.Definitions;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;

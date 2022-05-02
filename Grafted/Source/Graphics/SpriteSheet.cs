@@ -34,7 +34,7 @@ public class SpriteSheet : IDisposable {
     }
 
     private Sprite GetRegion(Texture2D? texture, int x, int y, int width, int height) {
-        return new(texture, x, y, width, height);
+        return new Sprite(texture, x, y, width, height);
     }
 
     public void Dispose() {

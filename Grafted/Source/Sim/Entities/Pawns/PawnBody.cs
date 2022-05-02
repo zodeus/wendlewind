@@ -5,16 +5,28 @@ using Grafted.Maths;
 namespace Grafted.Sim.Entities.Pawns;
 
 public class PawnBody {
+    private float _bloodAmount;
+    private float _energy = 1;
+    private float _ticksWithEmptyStomach;
+
     public readonly Pawn Pawn;
-    public BodyPartSocket RootSocket = null!;
     public readonly float MaxBlood = 5000;
+
+    public BodyPartSocket RootSocket = null!;
+    public float BloodChangeLastFrame;
+    public float Temperature = 32;
+    public float StomachLevel = 1;
+    public PawnCapabilities Capabilities;
     public float BloodPercent => BloodAmount / MaxBlood;
-    public float _bloodAmount;
-    public float BloodChangeLastFrame = 0;
 
     public float BloodAmount {
         get => _bloodAmount;
         set => _bloodAmount = Mathf.Clamp(value, 0f, MaxBlood);
+    }
+
+    public float Energy {
+        get => _energy;
+        set => _energy = Mathf.Clamp(value, 0f, 1);
     }
 
     public List<BodyPart> AllParts {
@@ -42,6 +54,7 @@ public class PawnBody {
     public PawnBody(Pawn pawn) {
         Pawn = pawn;
         BloodAmount = MaxBlood;
+        Capabilities = new PawnCapabilities(pawn);
     }
 
     private void GetParts(BodyPart part, List<BodyPart> parts, bool externalOnly = false) {
@@ -103,6 +116,27 @@ public class PawnBody {
     }
 
     public void Tick() {
+        // Heat Calculations
+        PushExternalHeat();
+
+        // Stomach Calculations
+        StomachLevel = Mathf.Clamp(StomachLevel - 0.002f, 0, 1);
+        if (StomachLevel <= 0) {
+            _ticksWithEmptyStomach++;
+        }
+        else {
+            _ticksWithEmptyStomach = 0;
+        }
+
+        // Malnutrition Calculations
+        if (_ticksWithEmptyStomach > SimTime.HoursToTicks(24)) {
+            TakeMalnutritionDamage();
+        }
+
+        // Energy Calculations
+        ApplyEnergyLossFactor(0.0004f);
+
+        // Blood Loss Calculations
         if (RootSocket.AttachedPart == null) {
             BloodAmount = 0;
             BloodChangeLastFrame = 0;
@@ -139,8 +173,57 @@ public class PawnBody {
         }
     }
 
+    public void ApplyEnergyLossFactor(float factor) {
+        Energy -= _ticksWithEmptyStomach > 0 ? Energy * factor * 2 : Energy * factor;
+    }
+
+    private void TakeMalnutritionDamage() {
+        if (Core.Sim.World.Time.IsIntervalOf(SimTime.MinutesToSeconds(10)) == false) {
+            return;
+        }
+
+        foreach (BodyPart bodyPart in AllParts) {
+            if (bodyPart.Type == BodyPartType.Artery) {
+                continue;
+            }
+
+            if (Core.Random.Chance(0.7f)) {
+                continue;
+            }
+
+            bodyPart.HitPoints -= bodyPart.HitPoints * Core.Random.NextFloat(0.0001f, 0.0005f);
+        }
+    }
+
+    private void PushExternalHeat() {
+        float temp = Pawn.Zone?.Temperature ?? 0;
+        if (Pawn.Zone?.Town?.GetStructure<TownStructureHouse>() is { IsFireBurning: true }) {
+            temp = 22;
+        }
+
+        if (temp > 40) {
+            Temperature = Mathf.Clamp(Temperature + 1, Temperature, temp + 10);
+        }
+        else if (temp is >= 18 and <= 40) {
+            if (Temperature > 32) {
+                Temperature = Mathf.Clamp(Temperature - 1, 32, Temperature);
+            }
+            else {
+                if (Temperature < 32) {
+                    Temperature = Mathf.Clamp(Temperature + 1, Temperature, 32);
+                }
+            }
+        }
+        else if (temp < 18) {
+            Temperature = Mathf.Clamp(Temperature - 1, temp + 10, Temperature);
+        }
+    }
 
     private void Regenerate() {
+        if (StomachLevel <= 0) {
+            return;
+        }
+
         if (RootSocket.AttachedPart == null) {
             return;
         }

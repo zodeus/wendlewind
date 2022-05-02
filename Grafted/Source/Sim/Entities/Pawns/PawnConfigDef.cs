@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Grafted.Definitions;
 using Grafted.Sim.Entities.Items;
+using Grafted.Sim.Entities.Pawns.BodyGenerators;
 
 namespace Grafted.Sim.Entities.Pawns;
 

@@ -11,9 +11,35 @@
         <ZoneType>Town</ZoneType>
     </ZoneDef>
     <ZoneDef>
+        <Moniker>PeacefulMeadow</Moniker>
+        <Label>Peaceful Meadow</Label>
+        <ZoneType>Adventure</ZoneType>
+        <TravelSize>4</TravelSize>
+        <TravelSpeedFactor>.045</TravelSpeedFactor>
+        <MeanTimeBetweenEvents>45~110</MeanTimeBetweenEvents>
+        <Resources>
+            <ListItem>
+                <Item>WoodLog</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>1</ChanceToHarvest>
+                <HarvestArea>0~1</HarvestArea>
+            </ListItem>
+        </Resources>
+    </ZoneDef>
+    <ZoneDef>
         <Moniker>TheOutskirts</Moniker>
         <Label>The Outskirts</Label>
         <ZoneType>Adventure</ZoneType>
         <TravelSize>20</TravelSize>
+        <TravelSpeedFactor>.83</TravelSpeedFactor>
+        <MeanTimeBetweenEvents>15~45</MeanTimeBetweenEvents>
+        <Resources>
+            <ListItem>
+                <Item>WoodLog</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.5</ChanceToHarvest>
+                <HarvestArea>0~1</HarvestArea>
+            </ListItem>
+        </Resources>
     </ZoneDef>
 </Definitions>

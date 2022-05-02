@@ -26,22 +26,10 @@
         <Moniker>WoodBoard</Moniker>
         <Label>Wooden board</Label>
         <TexturePath>Entities/Item/Resource/Wood/WoodBoard</TexturePath>
-        <!--<BaseStats>
-            <Tier>2</Tier>
-        </BaseStats>-->
-        <!--        <CraftingProperties>
-                    <HoursToMake>4</HoursToMake>
-                    <AmountProduced>10</AmountProduced>
-                    <RequiredBuildingTag>LumberMill</RequiredBuildingTag>
-                    <RequiredTools>
-                        <ListItem>HandSaw</ListItem>
-                    </RequiredTools>
-                    <ResourceRequirements>
-                        <ListItem>
-                            <Resource>WoodLog</Resource>
-                            <Count>1</Count>
-                        </ListItem>
-                    </ResourceRequirements>
-                </CraftingProperties>-->
+    </ItemDef>
+    <ItemDef ParentName="WoodResource">
+        <Moniker>Firewood</Moniker>
+        <Label>Firewoodd</Label>
+        <TexturePath>Entities/Item/Resource/Wood/Firewood</TexturePath>
     </ItemDef>
 </Definitions>

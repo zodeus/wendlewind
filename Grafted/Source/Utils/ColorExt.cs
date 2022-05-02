@@ -9,7 +9,7 @@ public static class ColorExt {
 
     public static byte HexToByte(char c) => (byte) HEX.IndexOf(char.ToUpper(c));
 
-    public static Color Invert(this Color color) => new Color(255 - color.R, 255 - color.G, 255 - color.B, color.A);
+    public static Color Invert(this Color color) => new(255 - color.R, 255 - color.G, 255 - color.B, color.A);
 
     public static Color HexToColor(string hex) {
         float r = (HexToByte(hex[0]) * 16 + HexToByte(hex[1])) / 255.0f;

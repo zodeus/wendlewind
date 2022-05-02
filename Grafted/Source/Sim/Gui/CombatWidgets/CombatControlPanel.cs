@@ -24,7 +24,7 @@ public class CombatControlPanel : VerticalStackPanel {
         };
 
         pauseButton.Click += (_, _) => {
-            Core.Sim.TogglePause();
+            Core.Sim.CombatSettings.TogglePause();
         };
         _speedButtons = new HorizontalStackPanel {
             Spacing = 3,
@@ -48,7 +48,7 @@ public class CombatControlPanel : VerticalStackPanel {
 
         button.Click += (_, _) => {
             Core.PauseCoroutines = false;
-            Core.Sim.GameSpeed = speed;
+            Core.Sim.CombatSettings.Speed = speed;
         };
         return button;
     }

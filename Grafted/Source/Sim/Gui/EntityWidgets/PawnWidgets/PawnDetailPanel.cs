@@ -1,14 +1,10 @@
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Pawns;
-using Grafted.Sim.Gui.EntityWidgets;
-using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
-using Microsoft.Xna.Framework;
 using Myra.Graphics2D;
-using Myra.Graphics2D.Brushes;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.UI.Styles;
 
-namespace Grafted.Sim.Gui.TownWidgets;
+namespace Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 
 public class PawnDetailPanel : Panel, IUpdatable {
     private readonly ItemContainerPanel _inventoryPanel;
@@ -33,7 +29,7 @@ public class PawnDetailPanel : Panel, IUpdatable {
             Proportions = { Proportion.Auto, Proportion.Auto, Proportion.Auto, Proportion.Fill }
         };
         rightColumn.AddChild(_equipmentPanel);
-        rightColumn.AddChild(new HorizontalSeparator() { Margin = new Thickness(0, 50, 0, 20) });
+        rightColumn.AddChild(new HorizontalSeparator { Margin = new Thickness(0, 50, 0, 20) });
         rightColumn.AddChild(new Label(BaseContent.Styles.Label.Large) { Text = receivingContainerTitle });
         rightColumn.AddChild(_otherContainerPanel);
         HorizontalStackPanel grid = new() {

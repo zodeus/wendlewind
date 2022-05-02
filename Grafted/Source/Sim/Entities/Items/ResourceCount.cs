@@ -26,4 +26,8 @@ public class ResourceCount {
         MaterialType = materialType;
         Count = count;
     }
+
+    public ResourceCount Copy(int? count = null) {
+        return new ResourceCount(Resource, MaterialType, count ?? Count);
+    }
 }

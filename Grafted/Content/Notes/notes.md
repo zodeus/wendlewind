@@ -1,14 +1,15 @@
 #TODO
+- Food
+- Cooking, Fire, Logs
+- Resting
+- Meads
 - World Events
 - World Map
-- A Monster Fight + Harvesting / Butchering
+- Butchering
 - Grafting System
 - Vampire Mechanics (Blood Gorging)
-- Add MessagePanel somewhere
-- Runes + Reagents
+- Rune stones + Reagents
 - Audio
-- Resting (at night)
-- World Time
 
 # NAMES
 - the shortener
@@ -29,7 +30,6 @@
 # Things
 - Festering fields
 - Fester Pus
-- Rune stones for things like TP
 
 # Persistence
 - Helpful Hound - drags body home if dead but has brain

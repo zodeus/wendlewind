@@ -21,7 +21,7 @@ public static partial class Defs {
         public static StatDef SequencePoints = null!;
         public static StatDef NutritionalValue = null!;
         public static StatDef HealingValue = null!;
-        public static StatDef MeleeChanceToHit = null!;
+        public static StatDef MeleeAccuracy = null!;
         public static StatDef PhysicalResistance = null!;
         public static StatDef MaxDurability = null!;
         public static StatDef MaxCarryWeight = null!;
@@ -34,6 +34,7 @@ public static partial class Defs {
     [DefLocator]
     public static class PawnConfigs {
         public static PawnConfigDef PlayerPawn = null!;
+        public static PawnConfigDef IntroPlayerPawn = null!;
     }
 }
 
@@ -42,6 +43,7 @@ public static partial class Defs {
     public static class Zones {
         public static ZoneDef Intro = null!;
         public static ZoneDef VillageOfTheDamned = null!;
+        public static ZoneDef PeacefulMeadow = null!;
         public static ZoneDef TheOutskirts = null!;
     }
 }
@@ -49,6 +51,8 @@ public static partial class Defs {
 public static partial class Defs {
     [DefLocator]
     public static class Items {
+        public static ItemDef RawMeat = null!;
+        public static ItemDef CookedMeat = null!;
         public static ItemDef MedKit = null!;
         public static ItemDef Cauterize = null!;
         public static ItemDef ArterialThreads = null!;
@@ -59,6 +63,8 @@ public static partial class Defs {
         public static ItemDef PumpinJuice = null!;
         public static ItemDef SoulCoin = null!;
         public static ItemDef ShortSword = null!;
+        public static ItemDef Firewood = null!;
+        public static ItemDef WoodLog = null!;
     }
 }
 
@@ -71,29 +77,39 @@ public static partial class Defs {
 
 public static partial class Defs {
     [DefLocator]
+    public static class Structures {
+        public static TownStructureDef Merchant = null!;
+        public static TownStructureDef House = null!;
+    }
+}
+
+public static partial class Defs {
+    [DefLocator]
     public static class Races {
         public static RaceDef Glump = null!;
+        public static RaceDef InnocentRabbit = null!;
+        public static RaceDef FieldHound = null!;
     }
 }
 
 public static partial class Defs {
     [DefLocator]
     public static class BodyParts {
+        public static BodyPartDef Brain = null!;
+        public static BodyPartDef Eye = null!;
+        public static BodyPartDef Skin = null!;
+        public static BodyPartDef Bone = null!;
+        public static BodyPartDef Skull = null!;
+        public static BodyPartDef Heart = null!;
+        public static BodyPartDef Lung = null!;
+        public static BodyPartDef Stomach = null!;
+        public static BodyPartDef Artery = null!;
+        public static BodyPartDef RibCage = null!;
+
         public static BodyPartDef HumanHead = null!;
         public static BodyPartDef HumanNeck = null!;
-        public static BodyPartDef HumanEye = null!;
-        public static BodyPartDef HumanSkin = null!;
-        public static BodyPartDef HumanBone = null!;
-        public static BodyPartDef HumanSkull = null!;
         public static BodyPartDef HumanTorso = null!;
         public static BodyPartDef HumanArm = null!;
-
-        public static BodyPartDef HumanBrain = null!;
-        public static BodyPartDef HumanHeart = null!;
-        public static BodyPartDef HumanLung = null!;
-        public static BodyPartDef HumanStomach = null!;
-        public static BodyPartDef HumanArtery = null!;
-        public static BodyPartDef HumanRibCage = null!;
         public static BodyPartDef HumanHand = null!;
         public static BodyPartDef HumanThumb = null!;
         public static BodyPartDef HumanFinger = null!;
@@ -106,6 +122,19 @@ public static partial class Defs {
         public static BodyPartDef GlumpHand = null!;
         public static BodyPartDef GlumpLeg = null!;
         public static BodyPartDef GlumpFoot = null!;
+
+        public static BodyPartDef RabbitHead = null!;
+        public static BodyPartDef RabbitNeck = null!;
+        public static BodyPartDef RabbitTorso = null!;
+        public static BodyPartDef RabbitLeg = null!;
+        public static BodyPartDef RabbitPaw = null!;
+
+        public static BodyPartDef WolfHead = null!;
+        public static BodyPartDef WolfNeck = null!;
+        public static BodyPartDef WolfTorso = null!;
+        public static BodyPartDef WolfLeg = null!;
+        public static BodyPartDef WolfPaw = null!;
+        public static BodyPartDef WolfTail = null!;
     }
 
     [DefLocator]

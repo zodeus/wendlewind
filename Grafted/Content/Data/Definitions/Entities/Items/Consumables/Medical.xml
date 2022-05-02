@@ -44,12 +44,12 @@
             <CurrencyValue>3</CurrencyValue>
         </BaseStats>
     </ItemDef>
-    <ItemDef ParentName="MedicalItem">
+    <!--<ItemDef ParentName="MedicalItem">
         <Moniker>SurgicalScissors</Moniker>
         <Label>Surgical Scissors</Label>
         <Description>Used to sever small limbs</Description>
-        <!--<TexturePath>Entities/Item/Consumables/Cauterize</TexturePath>-->
-    </ItemDef>
+        &lt;!&ndash;<TexturePath>Entities/Item/Consumables/Cauterize</TexturePath>&ndash;&gt;
+    </ItemDef>-->
     <ItemDef ParentName="MedicalItem">
         <Moniker>SurgicalSaw</Moniker>
         <Label>Surgical Saw</Label>

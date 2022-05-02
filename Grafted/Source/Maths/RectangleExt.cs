@@ -218,7 +218,7 @@ public static class RectangleExt {
     /// clones and returns a new Rectangle with the same data as the current rectangle
     /// </summary>
     /// <param name="rect">Rect.</param>
-    public static Rectangle Clone(this Rectangle rect) => new Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
+    public static Rectangle Clone(this Rectangle rect) => new(rect.X, rect.Y, rect.Width, rect.Height);
 
 
     /// <summary>
@@ -509,38 +509,38 @@ public static class RectangleExt {
     /// </summary>
     /// <returns>The center.</returns>
     /// <param name="rect">Rect.</param>
-    public static Vector2 GetCenter(ref Rectangle rect) => new Vector2(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
+    public static Vector2 GetCenter(ref Rectangle rect) => new(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
 
     /// <summary>
     /// gets the center point of the rectangle as a Vector2
     /// </summary>
     /// <returns>The center.</returns>
     /// <param name="rect">Rect.</param>
-    public static Vector2 GetCenter(this Rectangle rect) => new Vector2(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
+    public static Vector2 GetCenter(this Rectangle rect) => new(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
 
     /// <summary>
     /// gets the half size of the rect
     /// </summary>
     /// <returns>The half size.</returns>
     /// <param name="rect">Rect.</param>
-    public static Vector2 GetHalfSize(this Rectangle rect) => new Vector2(rect.Width * 0.5f, rect.Height * 0.5f);
+    public static Vector2 GetHalfSize(this Rectangle rect) => new(rect.Width * 0.5f, rect.Height * 0.5f);
 
     /// <summary>
     /// gets the max point of the rectangle, the bottom-right corner
     /// </summary>
     /// <returns>The max.</returns>
     /// <param name="rect">Rect.</param>
-    public static Point GetMax(ref Rectangle rect) => new Point(rect.Right, rect.Bottom);
+    public static Point GetMax(ref Rectangle rect) => new(rect.Right, rect.Bottom);
 
     /// <summary>
     /// Gets the size of the Rectangle
     /// </summary>
-    public static Point GetSize(this Rectangle rect) => new Point(rect.Width, rect.Height);
+    public static Point GetSize(this Rectangle rect) => new(rect.Width, rect.Height);
 
     /// <summary>
     /// gets the position of the rectangle as a Vector2
     /// </summary>
     /// <returns>The position.</returns>
     /// <param name="rect">Rect.</param>
-    public static Vector2 GetPosition(ref Rectangle rect) => new Vector2(rect.X, rect.Y);
+    public static Vector2 GetPosition(ref Rectangle rect) => new(rect.X, rect.Y);
 }

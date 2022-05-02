@@ -5,6 +5,7 @@ using System.Linq;
 using Grafted.Definitions;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
+using Grafted.Sim.Gui.TownWidgets;
 using Microsoft.Xna.Framework;
 using Myra.Graphics2D;
 using Myra.Graphics2D.TextureAtlases;

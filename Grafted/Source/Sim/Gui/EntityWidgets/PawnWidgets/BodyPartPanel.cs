@@ -28,6 +28,7 @@ public class BodyPartPanel : EntityPanelBase {
         leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = bodyPart.Def.Description, Wrap = true, Margin = new Thickness(10) });
         leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Type: {bodyPart.Type}" });
         leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Size: {bodyPart.Size}" });
+        leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Position: {bodyPart.Position}" });
         leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Is External: {bodyPart.IsExternal}" });
         leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Attached To: {bodyPart.Socket?.Label ?? "n/a"}" });
         leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Has Bones: {bodyPart.HasBones}" });
@@ -57,7 +58,7 @@ public class BodyPartPanel : EntityPanelBase {
         panel.AddChild(rightPanel);
         if (bodyPart.InternalParts.Any()) {
             VerticalStackPanel internalPartsPanel = new() { Spacing = 5 };
-            internalPartsPanel.AddChild(new Label() { Text = "Internal Parts" });
+            internalPartsPanel.AddChild(new Label { Text = "Internal Parts" });
             foreach (BodyPart internalPart in bodyPart.InternalParts) {
                 Image image = new() { Background = new TextureRegion(internalPart.Icon), Width = 32, Height = 32 };
                 image.TouchDown += (_, _) => Core.Sim.Gui!.ViewEntity(internalPart);
@@ -74,7 +75,7 @@ public class BodyPartPanel : EntityPanelBase {
         rightPanel.AddChild(new HorizontalSeparator());
         if (bodyPart.ExternalParts.Any()) {
             VerticalStackPanel externalPartsPanel = new() { Spacing = 5 };
-            externalPartsPanel.AddChild(new Label() { Text = "External Parts" });
+            externalPartsPanel.AddChild(new Label { Text = "External Parts" });
             foreach (BodyPart externalPart in bodyPart.ExternalParts) {
                 Image image = new() { Background = new TextureRegion(externalPart.Icon), Width = 32, Height = 32 };
                 image.TouchDown += (_, _) => Core.Sim.Gui!.ViewEntity(externalPart);

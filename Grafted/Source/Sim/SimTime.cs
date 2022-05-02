@@ -1,19 +1,43 @@
 ﻿using System;
-using Grafted.Sim.Entities.Pawns;
-using Grafted.Sim.Gui;
 using Grafted.Sim.Persistence;
 
 namespace Grafted.Sim;
 
+public enum TimeOfDay {
+    Error,
+    Day,
+    Night,
+    Morning,
+    LateMorning,
+    Noon,
+    Afternoon,
+    Evening,
+    Midnight,
+    AllDay
+}
+
 public class SimTime : IExposable {
     public const int SecondsInMinute = 60;
     public const int SecondsInHour = SecondsInMinute * 60;
-    public const int SecondsInDay = SecondsInHour * 24;
+    public const int SecondsInDay = SecondsInHour * HoursInDay;
+
+    public const int HoursInDay = 24;
+
     public const int MinutesPerKm = 10;
-    public int CurrentTimeInSeconds = 0 /*SecondsInDay * 2 + 4325*/;
+    public int CurrentTimeInSeconds = -1 /*SecondsInDay * 2 + 4325*/;
     public int Ticks = 0;
     public string CurrentTimeString => TimeSpan.FromSeconds(CurrentTimeInSeconds).ToString(@"hh\:mm");
+
+    public int CurrentTime {
+        get {
+            TimeSpan time = TimeSpan.FromSeconds(CurrentTimeInSeconds);
+            return time.Hours * 100 + time.Minutes;
+        }
+    }
+
     public string CurrentDayString => TimeSpan.FromSeconds(CurrentTimeInSeconds).Days.ToString();
+
+    public bool IsNight => CurrentTime is > 1700 or < 0400;
 
     public void ExposeData() { }
 
@@ -21,47 +45,65 @@ public class SimTime : IExposable {
         return CurrentTimeString;
     }
 
-    public static float MinutesToSeconds(int minutes) {
+    public bool IsIntervalOf(int intervalInSeconds) {
+        return CurrentTimeInSeconds % intervalInSeconds == 0;
+    }
+
+    public static int MinutesToSeconds(int minutes) {
         return SecondsInMinute * minutes;
     }
-}
 
-//
-// public static class SimTime {
-//     //public const int TicksPerDay = (int) (1 * Ticker.TicksPerSecond); // super fast mode
-//     public const int TicksPerDay = 120 * Ticker.TicksPerSecond; // currently 2 minutes
-//     public const int DaysPerYear = 256;
-//     public const int DaysPerQuarter = DaysPerYear / 4;
-//     public const int DaysPerMonth = DaysPerQuarter / 2;
-//     public const int MonthsPerYear = DaysPerYear / DaysPerMonth;
-//     public const int TicksPerHour = TicksPerDay / 24;
-//
-//     public const int TicksPerYear = DaysPerYear * TicksPerDay;
-//     // 18000 Day
-//     // 750 Hour
-//     // 375 30 minutes
-//     // 187 15 minutes
-//     // 125 10 minutes
-//
-//     public static int DaysPassed => Convert.ToInt32((float) Core.Sim.Ticker.Ticks / TicksPerDay);
-//     public static int DayOfYear => DayOfYearAt(Core.Sim.Ticker.Ticks);
-//
-//     public static string CurrentDate => TickToDate(Core.Sim.Ticker.Ticks);
-//
-//     public static int YearAt(int atTick) {
-//         return Convert.ToInt32((float) atTick / TicksPerYear) + 1;
-//     }
-//
-//
-//     public static int DayOfYearAt(int atTick) {
-//         return Mathf.FloorToInt((float) (atTick % TicksPerYear) / TicksPerDay);
-//     }
-//
-//     public static int HourOfDayAt(int atTick) {
-//         return Mathf.FloorToInt((float) (atTick % TicksPerDay) / TicksPerHour);
-//     }
-//
-//     public static string TickToDate(int atTick) {
-//         return $"Year {YearAt(atTick)}, Day {DayOfYearAt(atTick)}, Hour {HourOfDayAt(atTick).ToString().PadLeft(2, '0')}";
-//     }
-// }
+    public static int HoursToTicks(int hours) {
+        return hours * SecondsInMinute;
+    }
+
+    public bool IsTimeOfDay(TimeOfDay timeOfDay) {
+        return timeOfDay switch {
+            TimeOfDay.Day => CurrentTime is > 0400 and < 1800,
+            TimeOfDay.Night => CurrentTime is > 1800 or < 0400,
+            TimeOfDay.Morning => CurrentTime is > 0400 and < 1100,
+            TimeOfDay.Noon => CurrentTime is > 1200 and < 1300,
+            TimeOfDay.Afternoon => CurrentTime is > 1300 and < 1700,
+            TimeOfDay.Evening => CurrentTime > 1700,
+            TimeOfDay.Midnight => CurrentTime is > 0 and < 0100,
+            TimeOfDay.AllDay => true,
+            _ => throw new ArgumentOutOfRangeException(nameof(timeOfDay), timeOfDay, null)
+        };
+    }
+
+    public TimeOfDay GeneralTimeOfDay() {
+        if (CurrentTime is >= 0400 and < 1200) {
+            return TimeOfDay.Morning;
+        }
+
+        if (CurrentTime is > 1200 and < 1300) {
+            return TimeOfDay.Noon;
+        }
+
+        if (CurrentTime is >= 1200 and < 1300) {
+            return TimeOfDay.Noon;
+        }
+
+        if (CurrentTime is >= 1300 and < 1700) {
+            return TimeOfDay.Afternoon;
+        }
+
+        if (CurrentTime >= 1700) {
+            return TimeOfDay.Evening;
+        }
+
+        if (CurrentTime is >= 0 and < 0100) {
+            return TimeOfDay.Midnight;
+        }
+
+        if (CurrentTime is >= 0100 and < 0400) {
+            return TimeOfDay.Night;
+        }
+
+        return TimeOfDay.Error;
+    }
+
+    public static double HoursToSeconds() {
+        throw new NotImplementedException();
+    }
+}

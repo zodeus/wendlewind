@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartDef Name="BodyPartBase" Abstract="True">
+        <EntityClass>BodyPart</EntityClass>
+        <UiClass>BodyPartPanel</UiClass>
+    </BodyPartDef>
+
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>Bone</Moniker>
+        <Label>Bone</Label>
+        <BodyPartType>Bone</BodyPartType>
+        <IsBone>true</IsBone>
+        <TexturePath>Entities/Pawn/BodyParts/Generic/Bone</TexturePath>
+        <AdaptiveProperties>
+            <HitPointScaler Class="HitPointScalerConstantFactor">
+                <Factor>0.85</Factor>
+            </HitPointScaler>
+        </AdaptiveProperties>
+    </BodyPartDef>
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>Skin</Moniker>
+        <Label>Skin</Label>
+        <BodyPartType>Skin</BodyPartType>
+        <IsFlesh>true</IsFlesh>
+        <TexturePath>Entities/Pawn/BodyParts/Generic/Skin</TexturePath>
+        <AdaptiveProperties>
+            <HitPointScaler Class="HitPointScalerConstantFactor">
+                <Factor>0.7</Factor>
+            </HitPointScaler>
+        </AdaptiveProperties>
+    </BodyPartDef>
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>Artery</Moniker>
+        <Label>Artery</Label>
+        <BodyPartType>Artery</BodyPartType>
+        <IsFlesh>true</IsFlesh>
+        <TexturePath>Entities/Pawn/BodyParts/Generic/Artery</TexturePath>
+        <AdaptiveProperties>
+            <!--<HitPointScaler Class="HitPointScalerCurve">
+                <Curve>
+                    <Points>
+                        <Point>(1, 20)</Point>
+                        <Point>(128, 30)</Point>
+                        <Point>(256, 20)</Point>
+                    </Points>
+                </Curve>
+            </HitPointScaler>-->
+            <HitPointScaler Class="HitPointScalerConstantFactor">
+                <Factor>0.08</Factor>
+            </HitPointScaler>
+        </AdaptiveProperties>
+    </BodyPartDef>
+
+    <!-- Regular Parts -->
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>Skull</Moniker>
+        <Label>Skull</Label>
+        <BodyPartType>Skull</BodyPartType>
+        <Size>28</Size>
+        <IsBone>true</IsBone>
+        <TexturePath>Entities/Pawn/BodyParts/Generic/Skull</TexturePath>
+        <Sockets>
+            <ListItem>BrainSocket</ListItem>
+        </Sockets>
+        <AdaptiveProperties>
+            <HitPointScaler Class="HitPointScalerConstantFactor">
+                <Factor>0.8</Factor>
+            </HitPointScaler>
+        </AdaptiveProperties>
+    </BodyPartDef>
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>Brain</Moniker>
+        <Label>Brain</Label>
+        <BodyPartType>Brain</BodyPartType>
+        <Size>15</Size>
+        <IsVital>true</IsVital>
+        <IsOrgan>true</IsOrgan>
+        <TexturePath>Entities/Pawn/BodyParts/Generic/Brain</TexturePath>
+        <AdaptiveProperties>
+            <HitPointScaler Class="HitPointScalerConstantFactor">
+                <Factor>0.15</Factor>
+            </HitPointScaler>
+        </AdaptiveProperties>
+    </BodyPartDef>
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>Eye</Moniker>
+        <Label>Eye</Label>
+        <BodyPartType>Eye</BodyPartType>
+        <HitWeight>1</HitWeight>
+        <Size>1</Size>
+        <TexturePath>Entities/Pawn/BodyParts/Generic/Eye</TexturePath>
+        <IsFlesh>true</IsFlesh>
+        <BaseStats>
+            <MaxHitPoints>3</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>Stomach</Moniker>
+        <Label>Stomach</Label>
+        <Size>10</Size>
+        <BodyPartType>Stomach</BodyPartType>
+        <IsOrgan>true</IsOrgan>
+        <TexturePath>Entities/Pawn/BodyParts/Generic/Stomach</TexturePath>
+        <AdaptiveProperties>
+            <HitPointScaler Class="HitPointScalerConstantFactor">
+                <Factor>0.2</Factor>
+            </HitPointScaler>
+        </AdaptiveProperties>
+    </BodyPartDef>
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>RibCage</Moniker>
+        <Label>Rib Cage</Label>
+        <BodyPartType>RibCage</BodyPartType>
+        <Size>250</Size>
+        <IsBone>true</IsBone>
+        <TexturePath>Entities/Pawn/BodyParts/Generic/RibCage</TexturePath>
+        <Sockets>
+            <ListItem>ArterySocket</ListItem>
+            <ListItem>HeartSocket</ListItem>
+            <ListItem>LeftLungSocket</ListItem>
+            <ListItem>RightLungSocket</ListItem>
+        </Sockets>
+        <AdaptiveProperties>
+            <HitPointScaler Class="HitPointScalerConstantFactor">
+                <Factor>0.8</Factor>
+            </HitPointScaler>
+        </AdaptiveProperties>
+    </BodyPartDef>
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>Heart</Moniker>
+        <Label>Heart</Label>
+        <BodyPartType>Heart</BodyPartType>
+        <Size>10</Size>
+        <IsVital>true</IsVital>
+        <IsOrgan>true</IsOrgan>
+        <TexturePath>Entities/Pawn/BodyParts/Generic/Heart</TexturePath>
+        <AdaptiveProperties>
+            <HitPointScaler Class="HitPointScalerConstantFactor">
+                <Factor>0.1</Factor>
+            </HitPointScaler>
+        </AdaptiveProperties>
+    </BodyPartDef>
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>Lung</Moniker>
+        <Label>Lung</Label>
+        <BodyPartType>Lung</BodyPartType>
+        <Size>10</Size>
+        <IsVital>true</IsVital>
+        <IsOrgan>true</IsOrgan>
+        <TexturePath>Entities/Pawn/BodyParts/Generic/Lung</TexturePath>
+        <AdaptiveProperties>
+            <HitPointScaler Class="HitPointScalerConstantFactor">
+                <Factor>0.11</Factor>
+            </HitPointScaler>
+        </AdaptiveProperties>
+    </BodyPartDef>
+</Definitions>

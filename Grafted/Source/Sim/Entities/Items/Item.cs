@@ -9,7 +9,7 @@ public class Item : Entity {
     private float _durability;
     public float MaxDurability = 0;
     public float Durability => _durability;
-    public int StackSize;
+    public int StackSize = 1;
     public override string Label => Def.Label;
     public string LabelWithStackSize => IsStackable ? $"{Def.Label} x{StackSize}" : Def.Label;
     public bool IsStackable => ItemDef.StackLimit > 1;

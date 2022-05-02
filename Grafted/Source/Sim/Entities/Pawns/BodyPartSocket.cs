@@ -1,13 +1,39 @@
-using Grafted.Definitions;
+using System;
 using Grafted.Maths;
 
 namespace Grafted.Sim.Entities.Pawns;
+
+public class AdaptiveBodyPartProperties {
+    public HitPointScaler HitPointScaler = null!;
+}
+
+public abstract class HitPointScaler {
+    public abstract float GetHitPointsFor(BodyPart parentPart);
+}
+
+class HitPointScalerConstantFactor : HitPointScaler {
+    public float Factor = 0;
+
+    public override float GetHitPointsFor(BodyPart parentPart) {
+        return Math.Max(1, parentPart.HitPoints * Factor);
+    }
+}
+
+class HitPointScalerCurve : HitPointScaler {
+    public Curve Curve = null!;
+
+    public override float GetHitPointsFor(BodyPart parentPart) {
+        return Curve.Evaluate(parentPart.HitPoints);
+    }
+}
 
 public class BodyPartSocket {
     public BodyPartSocketDef Def;
     public BodyPart? AttachedPart;
     public BodyPart? ParentPart;
     public bool IsSealed = false;
+
+    public BodyPartPosition? Position => Def.Position ?? ParentPart?.Position;
 
     public bool IsExternal => Def.IsExternal;
 
@@ -24,34 +50,14 @@ public class BodyPartSocket {
 
     public BodyPart TryAttachPart(BodyPart bodyPart) {
         if (CanSocket(bodyPart.Type) == false) {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         AttachedPart = bodyPart;
         bodyPart.Socket = this;
         IsSealed = true;
 
-        //todo not sure if this should happen here...
-        if (bodyPart.Type is BodyPartType.Skin) {
-            bodyPart.MaxHitPoints = Mathf.FloorToInt(.7f * ParentPart!.GetStatValue(Defs.Stats.MaxHitPoints));
-            bodyPart.HitPoints = bodyPart.MaxHitPoints;
-        }
-
-        //todo not sure if this should happen here...
-        if (bodyPart.Type is BodyPartType.Bone) {
-            bodyPart.MaxHitPoints = Mathf.FloorToInt(.85f * ParentPart!.GetStatValue(Defs.Stats.MaxHitPoints));
-            bodyPart.HitPoints = bodyPart.MaxHitPoints;
-        }
-
-        if (bodyPart.Type is BodyPartType.Artery) {
-            bodyPart.MaxHitPoints = bodyPart.Socket.ParentPart!.Size switch {
-                < 10 => 5,
-                < 30 => 7,
-                < 80 => 10,
-                _ => 15
-            };
-            bodyPart.HitPoints = bodyPart.MaxHitPoints;
-        }
+        bodyPart.AdaptBodyPartTo(ParentPart);
 
         return bodyPart;
     }

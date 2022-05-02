@@ -60,8 +60,8 @@ public class CoroutineManager /*: GlobalManager */ {
     /// </summary>
     bool _isInUpdate;
 
-    List<CoroutineImpl> _unblockedCoroutines = new List<CoroutineImpl>();
-    List<CoroutineImpl> _shouldRunNextFrame = new List<CoroutineImpl>();
+    List<CoroutineImpl> _unblockedCoroutines = new();
+    List<CoroutineImpl> _shouldRunNextFrame = new();
 
 
     /// <summary>

@@ -38,4 +38,55 @@
             <MeleePower>2</MeleePower>
         </BaseStats>
     </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>RabbitTeeth</Moniker>
+        <Label>Teeth</Label>
+        <Description>Rabbit teeth</Description>
+        <ToolType>Teeth</ToolType>
+        <DamageType>Sharp</DamageType>
+        <ToolCategories>
+            <ListItem>Combat</ListItem>
+        </ToolCategories>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
+        <BaseStats>
+            <MeleePower>3</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>WolfTeeth</Moniker>
+        <Label>Teeth</Label>
+        <Description>Wolf teeth</Description>
+        <ToolType>Teeth</ToolType>
+        <DamageType>Sharp</DamageType>
+        <ToolCategories>
+            <ListItem>Combat</ListItem>
+        </ToolCategories>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
+        <BaseStats>
+            <MeleePower>15</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>WolfClaws</Moniker>
+        <Label>Claws</Label>
+        <Description>Wolf Claws</Description>
+        <ToolType>Claw</ToolType>
+        <DamageType>Sharp</DamageType>
+        <ToolCategories>
+            <ListItem>Combat</ListItem>
+        </ToolCategories>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Claw</TexturePath>
+        <BaseStats>
+            <MeleePower>20</MeleePower>
+        </BaseStats>
+    </ItemDef>
 </Definitions>

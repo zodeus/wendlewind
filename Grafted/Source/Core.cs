@@ -36,7 +36,7 @@ public class Core : Game {
 
     public static CameraController CameraController { get; set; } = null!;
     public static bool PauseCoroutines { get; set; } = false;
-
+    
     //todo move this somewhere better
     public static FrameCounter FrameCounter = new();
 

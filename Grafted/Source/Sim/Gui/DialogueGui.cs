@@ -75,7 +75,7 @@ public static class DialogueGenerator {
                             Options = new List<DialogueNodeOption> {
                                 new() {
                                     Text = "Commence the Culling of the Fresh",
-                                    ClickHandler = () => Core.Sim.Gui = new CombatGui(Core.Sim.World.NextCombat())
+                                    ClickHandler = () => Core.Sim.ActivateCombatEvent(Core.Sim.World.NextCombat())
                                 }
                             }
                         }

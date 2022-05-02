@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Grafted.Coroutines;
 using Grafted.Sim.Entities.Pawns;
-using Grafted.Sim.Gui;
 
 namespace Grafted.Sim.Combat;
 
@@ -18,8 +17,9 @@ public class
     public IEnumerator Execute(CombatEvent combatEvent) {
         combatEvent.LogMessage($"    Performing \\c[#fa9000]{FlavorText} \\c[#b3b3b3](\\c[#00e6ff]{TotalSequencePoints}\\c[#b3b3b3])");
         foreach (CombatSequenceStep step in Steps) {
-            yield return Coroutine.WaitForSeconds(Core.Sim.GameSpeed);
+            yield return Coroutine.WaitForSeconds(Core.Sim.CombatSettings.Speed);
             float chanceToHit = Source.ChanceToHit(Target);
+            Source.Body.ApplyEnergyLossFactor(0.002f);
             if (Core.Random.NextSingle() < chanceToHit) {
                 DamageResponse damageResponse = Target.TakeDamage(step.Damages);
                 foreach (DamagedPartRecord damage in damageResponse.Damages.SelectMany(r => r.BodyParts)) {
@@ -30,7 +30,7 @@ public class
 
                 foreach (DamageRecord damageResult in damageResponse.Damages) {
                     combatEvent.LogMessage(
-                        $"        \\c[#b3b3b3]Damaged \\c[{UiTextColor.TextColorPawn}]{Target.LabelShort}'s \\c[{UiTextColor.TextColorBodyPart}]{damageResult.BodyPartHit.Type} " +
+                        $"        \\c[#b3b3b3]Damaged \\c[{UiTextColor.TextColorPawn}]{Target.LabelShort}'s \\c[{UiTextColor.TextColorBodyPart}]{damageResult.BodyPartHit.Label} " +
                         $"\\c[#b3b3b3]with \\c[#fa9000]{step.Tool} \\c[#b3b3b3](\\c[#00ff11]{step.Name}" +
                         $"\\c[#b3b3b3]) for \\c[#ff0000]{damageResult.ActualAmount} \\c[#b3b3b3](\\c[#fa9000]{damageResult.DamageType}\\c[#b3b3b3]) health, " +
                         $"blocked \\c[#00e6ff]{damageResult.AmountBlocked}"
@@ -72,7 +72,7 @@ public class
 
                     //Target.Destroy();
                     combatEvent.LogMessage($"    \\c[#ff0000]Killed \\c[{UiTextColor.TextColorPawn}]{Target.LabelShort}");
-                    yield return Coroutine.WaitForSeconds(Core.Sim.GameSpeed);
+                    yield return Coroutine.WaitForSeconds(Core.Sim.CombatSettings.Speed);
 
                     // exiting sequence, target is dead 
                     yield break;

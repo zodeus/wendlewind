@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <CombatConfigDef>
+        <Moniker>PeacefulMeadow-01</Moniker>
+        <SpawnRange>0~1.0</SpawnRange>
+        <Zone>PeacefulMeadow</Zone>
+        <Enemies>
+            <ListItem>
+                <Race>InnocentRabbit</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Innocent Rabbit</PawnName>
+                <SpawnWeight>1</SpawnWeight>
+                <SpawnDuring>Day</SpawnDuring>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+            <ListItem>
+                <Race>FieldHound</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Field Hound</PawnName>
+                <SpawnWeight>1</SpawnWeight>
+                <SpawnDuring>Night</SpawnDuring>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>8~16</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>SoulCoin</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </CombatConfigDef>
+</Definitions>

@@ -192,7 +192,7 @@ public static class TextureUtils {
     }
 
     public static Texture2D Flip(this Texture2D source, bool vertical, bool horizontal) {
-        Texture2D flipped = new Texture2D(source.GraphicsDevice, source.Width, source.Height);
+        Texture2D flipped = new(source.GraphicsDevice, source.Width, source.Height);
         Color[] data = new Color[source.Width * source.Height];
         Color[] flippedData = new Color[data.Length];
 

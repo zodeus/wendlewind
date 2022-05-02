@@ -25,6 +25,7 @@ public class PawnBodySummary : Grid {
             if (partsToIgnore.Contains(part.Type)) { continue; }
 
             Image image = new() { Background = new ColoredRegion(new TextureRegion(part.Icon), Color.White), Width = 24, Height = 24, GridRow = gridRow, GridColumn = gridColumn++ };
+            image.TouchDown += (_, _) => Core.Sim.Gui!.ViewEntity(part);
             _bodyParts.Add(part, image);
             AddChild(image);
             if (gridColumn > 5) {
@@ -36,6 +37,11 @@ public class PawnBodySummary : Grid {
 
     public void Update() {
         foreach ((BodyPart bodyPart, Image image) in _bodyParts) {
+            if (bodyPart.IsSevered) {
+                image.RemoveFromParent();
+                _bodyParts.Remove(bodyPart);
+                continue;
+            }
             Color color = BodyPartColor.Get(bodyPart);
             ((ColoredRegion) image.Background).Color = color;
         }

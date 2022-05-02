@@ -108,7 +108,7 @@ public sealed class Camera : IDisposable {
         _rotCos,
         _rotSin;
 
-    Vector3 _xyz = new Vector3(0, 0, 1);
+    Vector3 _xyz = new(0, 0, 1);
 
     Matrix _projectionMatrix,
         _originMatrix;

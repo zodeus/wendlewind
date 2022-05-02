@@ -292,7 +292,7 @@ public static class Input {
     /// unscaled mouse position. This is the actual screen space value
     /// </summary>
     /// <value>The raw mouse position.</value>
-    public static Point RawMousePosition => new Point(_currentMouseState.X, _currentMouseState.Y);
+    public static Point RawMousePosition => new(_currentMouseState.X, _currentMouseState.Y);
 
     /// <summary>
     /// alias for scaledMousePosition

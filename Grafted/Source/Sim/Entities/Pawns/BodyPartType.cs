@@ -21,5 +21,7 @@ public enum BodyPartType {
     RibCage,
     Stomach,
     Heart,
-    Lung
+    Lung,
+    Paw,
+    Tail
 }

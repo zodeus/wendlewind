@@ -35,7 +35,7 @@ public struct Matrix2D : IEquatable<Matrix2D> {
     /// Position stored in this matrix.
     /// </summary>
     public Vector2 Translation {
-        get => new Vector2(M31, M32);
+        get => new(M31, M32);
         set {
             M31 = value.X;
             M32 = value.Y;
@@ -72,7 +72,7 @@ public struct Matrix2D : IEquatable<Matrix2D> {
     /// Scale stored in this matrix.
     /// </summary>
     public Vector2 Scale {
-        get => new Vector2(M11, M22);
+        get => new(M11, M22);
         set {
             M11 = value.X;
             M22 = value.Y;
@@ -82,7 +82,7 @@ public struct Matrix2D : IEquatable<Matrix2D> {
     #endregion
 
 
-    static Matrix2D _identity = new Matrix2D(1f, 0f, 0f, 1f, 0f, 0f);
+    static Matrix2D _identity = new(1f, 0f, 0f, 1f, 0f, 0f);
 
 
     /// <summary>

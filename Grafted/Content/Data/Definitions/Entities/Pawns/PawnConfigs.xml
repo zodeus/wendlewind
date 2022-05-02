@@ -2,13 +2,47 @@
 
 <Definitions>
     <PawnConfigDef>
-        <Moniker>PlayerPawn</Moniker>
+        <Moniker>IntroPlayerPawn</Moniker>
         <PawnType>Player</PawnType>
         <PawnName>The Recusant</PawnName>
         <EquipmentItems>
             <ListItem>Knife</ListItem>
+        </EquipmentItems>
+        <InventoryItems>
+            <ListItem>
+                <Item>Cauterize</Item>
+                <Amount>1</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <Item>MendersMist</Item>
+                <Amount>2~3</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <Item>MedKit</Item>
+                <Amount>1~2</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <Item>ArterialThreads</Item>
+                <Amount>2~4</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
+            <!--<ListItem>
+                <Item>SoulCoin</Item>
+                <Amount>5~10</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>-->
+        </InventoryItems>
+    </PawnConfigDef>
+    <PawnConfigDef>
+        <Moniker>PlayerPawn</Moniker>
+        <PawnType>Player</PawnType>
+        <PawnName>Franklin</PawnName>
+        <EquipmentItems>
+            <ListItem>BirchRod</ListItem>
             <!--<ListItem>ShortSword</ListItem>
-            <ListItem>Mace</ListItem>
             <ListItem>BucketHelmet</ListItem>
             <ListItem>LeatherGorget</ListItem>
             <ListItem>LeatherTunic</ListItem>
@@ -19,9 +53,7 @@
             <ListItem>LeatherGreave</ListItem>
             <ListItem>LeatherGreave</ListItem>
             <ListItem>LeatherBoot</ListItem>
-            <ListItem>LeatherBoot</ListItem>
-            <ListItem>AcidFlask</ListItem>
-            <ListItem>AcidFlask</ListItem>-->
+            <ListItem>LeatherBoot</ListItem>-->
         </EquipmentItems>
         <InventoryItems>
             <ListItem>

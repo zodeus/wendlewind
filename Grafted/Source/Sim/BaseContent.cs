@@ -48,10 +48,10 @@ public static partial class BaseContent {
 
 public static partial class BaseContent {
     public static class Colors {
-        public static Color DefaultBorder = new Color(45, 45, 50);
+        public static Color DefaultBorder = new(45, 45, 50);
 
         public static class Text {
-            public static Color Golden = new Color(232, 170, 0);
+            public static Color Golden = new(232, 170, 0);
         }
     }
 }
@@ -108,6 +108,11 @@ public static partial class BaseContent {
                 public const string PotionSlot = "icon-potion-slot";
                 public const string SoulCoin = "icon-soul-coin";
                 public const string Blood = "icon-blood-64";
+                public const string Walking = "icon-walking-64";
+                public const string Thermometer = "icon-thermometer";
+                public const string Human = "icon-human";
+                public const string StomachOutline = "icon-stomach-outline";
+                public const string Energy = "icon-energy";
             }
 
             public static class Panel {

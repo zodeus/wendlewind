@@ -45,7 +45,7 @@ public static class SpriteAtlasLoader {
                 // source rect
                 line = stream.ReadLine();
                 string[] lineParts = line!.Split(commaSplitter, StringSplitOptions.RemoveEmptyEntries);
-                Rectangle rect = new Rectangle(int.Parse(lineParts[0]), int.Parse(lineParts[1]), int.Parse(lineParts[2]), int.Parse(lineParts[3]));
+                Rectangle rect = new(int.Parse(lineParts[0]), int.Parse(lineParts[1]), int.Parse(lineParts[2]), int.Parse(lineParts[3]));
                 spriteAtlas.SourceRects.Add(rect);
 
                 // origin

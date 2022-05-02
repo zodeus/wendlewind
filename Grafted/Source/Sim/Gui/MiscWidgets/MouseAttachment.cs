@@ -10,7 +10,7 @@ namespace Grafted.Sim.Gui.MiscWidgets;
 
 public class MouseAttachment {
     public bool UseWorldSpacePosition { get; set; } = false;
-    public Size IconSize { get; set; } = new Size(18, 18);
+    public Size IconSize { get; set; } = new(18, 18);
 
     private readonly Texture2D _texture;
 

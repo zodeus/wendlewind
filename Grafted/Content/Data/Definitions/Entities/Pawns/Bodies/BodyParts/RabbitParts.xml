@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>RabbitHead</Moniker>
+        <Label>Head</Label>
+        <HitWeight>20</HitWeight>
+        <Size>50</Size>
+        <BodyPartType>Head</BodyPartType>
+        <IsVital>true</IsVital>
+        <IsFlesh>true</IsFlesh>
+        <TexturePath>Entities/Pawn/BodyParts/Rabbit/Head</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>SkullSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+            <ListItem>LeftEyeSocket</ListItem>
+            <ListItem>RightEyeSocket</ListItem>
+            <ListItem>NeckSocket</ListItem>
+        </Sockets>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <MaxHitPoints>50</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>RabbitNeck</Moniker>
+        <Label>Neck</Label>
+        <BodyPartType>Neck</BodyPartType>
+        <IsVital>true</IsVital>
+        <HitWeight>7</HitWeight>
+        <Size>12</Size>
+        <IsFlesh>true</IsFlesh>
+        <TexturePath>Entities/Pawn/BodyParts/Rabbit/Neck</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+            <ListItem>TorsoSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>16</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>RabbitTorso</Moniker>
+        <Label>Torso</Label>
+        <BodyPartType>Torso</BodyPartType>
+        <HitWeight>50</HitWeight>
+        <Size>300</Size>
+        <IsFlesh>true</IsFlesh>
+        <IsVital>true</IsVital>
+        <TexturePath>Entities/Pawn/BodyParts/Rabbit/Torso</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>RibCageSocket</ListItem>
+            <ListItem>StomachSocket</ListItem>
+            <ListItem>FrontLeftLegSocket</ListItem>
+            <ListItem>FrontRightLegSocket</ListItem>
+            <ListItem>RearLeftLegSocket</ListItem>
+            <ListItem>RearRightLegSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>80</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>RabbitLeg</Moniker>
+        <Label>Leg</Label>
+        <BodyPartType>Leg</BodyPartType>
+        <HitWeight>11</HitWeight>
+        <Size>140</Size>
+        <IsFlesh>true</IsFlesh>
+        <TexturePath>Entities/Pawn/BodyParts/Rabbit/Leg</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+            <ListItem>PawSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>14</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>RabbitPaw</Moniker>
+        <Label>Paw</Label>
+        <BodyPartType>Paw</BodyPartType>
+        <HitWeight>7</HitWeight>
+        <Size>30</Size>
+        <IsFlesh>true</IsFlesh>
+        <TexturePath>Entities/Pawn/BodyParts/Rabbit/Paw</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <SequencePoints>1</SequencePoints>
+            <MaxHitPoints>10</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+</Definitions>

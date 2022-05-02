@@ -1,10 +1,9 @@
-using System.Linq;
 using Grafted.Debug;
 using Grafted.Definitions;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Gui.EntityWidgets;
+using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 using Grafted.Sim.Gui.MiscWidgets;
-using Grafted.Sim.Gui.TownWidgets;
 using Myra.Graphics2D;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.UI.Styles;
@@ -15,21 +14,20 @@ namespace Grafted.Sim.Gui;
 public class CombatResultsGui : BaseGui {
     private readonly CombatEvent _combatEvent;
     private readonly PawnDetailPanel _pawnPanel;
-    private readonly GameStatsPanel _gameStatsPanel;
+    private readonly GameHud _gameHud;
 
     public CombatResultsGui(CombatEvent combatEvent) {
         _combatEvent = combatEvent;
-        _gameStatsPanel = new GameStatsPanel { HorizontalAlignment = HorizontalAlignment.Center };
-        _pawnPanel = new PawnDetailPanel(Core.Sim.World.PlayerPawns[0], "Loot", _combatEvent.Loot);
+        _gameHud = new GameHud { HorizontalAlignment = HorizontalAlignment.Stretch };
+        _pawnPanel = new PawnDetailPanel(Core.Sim.World.PlayerPawns[0], "Loot", _combatEvent.Loot) { Margin = new Thickness(0, 100, 0, 0) };
 
         Widget progressButton = GenerateProgressButton();
-        progressButton.HorizontalAlignment = HorizontalAlignment.Right;
+        progressButton.HorizontalAlignment = HorizontalAlignment.Center;
 
         VerticalStackPanel panel = new() {
-            HorizontalAlignment = HorizontalAlignment.Center,
             Margin = new Thickness(0, 5, 0, 0), Spacing = 15,
             Widgets = {
-                _gameStatsPanel,
+                _gameHud,
                 _pawnPanel,
                 progressButton
             }
@@ -69,7 +67,7 @@ public class CombatResultsGui : BaseGui {
                 return;
             }
 
-            Core.Sim.Gui = new CombatGui(Core.Sim.World.NextCombat());
+            Core.Sim.ActivateCombatEvent(Core.Sim.World.NextCombat());
         };
         buttons.AddChild(continueButton);
         if (Core.Sim.World.CurrentZone.Def != Defs.Zones.Intro) {
@@ -86,7 +84,7 @@ public class CombatResultsGui : BaseGui {
 
     private void HandleIntro() {
         if (Core.Sim.World.TotalKills < 15) {
-            Core.Sim.Gui = new CombatGui(Core.Sim.World.NextCombat());
+            Core.Sim.ActivateCombatEvent(Core.Sim.World.NextCombat());
             return;
         }
 
@@ -101,7 +99,7 @@ public class CombatResultsGui : BaseGui {
 
     public override void Update(float deltaTime) {
         _pawnPanel.Update();
-        _gameStatsPanel.Update();
+        _gameHud.Update();
         base.Update(deltaTime);
     }
 }

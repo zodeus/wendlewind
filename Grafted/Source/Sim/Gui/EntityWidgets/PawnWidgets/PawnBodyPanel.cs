@@ -6,7 +6,6 @@ using Grafted.Sim.Entities.Pawns;
 using Grafted.UI;
 using Microsoft.Xna.Framework;
 using Myra.Graphics2D;
-using Myra.Graphics2D.Brushes;
 using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.UI.Styles;
@@ -217,7 +216,7 @@ public class PawnBodyPanel : VerticalStackPanel {
 
         public BodyPartPanel() {
             Spacing = 5;
-            _label = new Label() { VerticalAlignment = VerticalAlignment.Center };
+            _label = new Label { VerticalAlignment = VerticalAlignment.Center };
             /*Image image = new() { Background = new ColoredRegion(new TextureRegion(bodyPart.Icon), Color.White), Width = 20, Height = 20 };
             _internalParts.Add(bodyPart, image);
             AddChild(image);*/
@@ -241,7 +240,7 @@ public class PawnBodyPanel : VerticalStackPanel {
                 return;
             }
 
-            _label.Text = $"{BodyPart.Type}";
+            _label.Text = $"{BodyPart.Label}";
             _label.TextColor = BodyPartColor.Get(BodyPart);
             foreach ((BodyPart internalPart, Image image) in _internalParts) {
                 ((ColoredRegion) image.Background).Color = BodyPartColor.Get(internalPart);
@@ -257,7 +256,7 @@ public class PawnBodyPanel : VerticalStackPanel {
         public BodyPartSocketPanel(BodyPartSocket socket) {
             Socket = socket;
             Spacing = 5;
-            _socketLabel = new Label() {
+            _socketLabel = new Label {
                 Margin = new Thickness(5, 0, 0, 0),
                 Text = $"{socket.Label}",
                 VerticalAlignment = VerticalAlignment.Center

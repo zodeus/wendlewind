@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Combat;
@@ -9,24 +10,28 @@ using Grafted.Utils;
 namespace Grafted.Sim.Entities.Pawns;
 
 public class BodyPart : Entity {
-    public List<BodyPartSocket> Sockets = new();
-
     private float _hitPoints;
+
+    private string? _adaptedLabel;
 
     private bool _isSevered; // todo, this should be set by an applied health condition
 
-    public int MaxHitPoints;
+    public float MaxHitPoints;
 
-    //public List<HealthCondition> HealthConditions = new();
+    public BodyPartSocket? Socket;
 
-    public BodyPartSocket? Socket = null;
+    public List<BodyPartSocket> Sockets = new();
 
     public Dictionary<EquipmentSlotType, Item?> Equipment = new();
 
     public BodyPartDef BodyPartDef => (BodyPartDef) Def;
+
+    public override string Label => _adaptedLabel;
+
     public BodyPartType Type => BodyPartDef.BodyPartType;
     public float Size => BodyPartDef.Size;
-    public float HealthPercent => (float) HitPoints / MaxHitPoints;
+    public float HitWeight => BodyPartDef.HitWeight;
+    public float HealthPercent => HitPoints / MaxHitPoints;
     public bool IsExternal => Socket?.IsExternal ?? true;
     public bool IsBone => BodyPartDef.IsBone;
     public bool IsOrgan => BodyPartDef.IsOrgan;
@@ -34,8 +39,7 @@ public class BodyPart : Entity {
 
     public bool IsDestroyed => HitPoints <= 0;
 
-    // IsCoagulated
-    public bool IsBleeding => HealthPercent < .99;
+    public bool IsBleeding => HealthPercent < .99; //todo coagulation 
 
     public int TicksSinceLastHit = int.MaxValue;
 
@@ -123,7 +127,6 @@ public class BodyPart : Entity {
         }
     }
 
-
     public List<BodyPart> ExternalParts {
         get {
             List<BodyPart> parts = new();
@@ -169,6 +172,8 @@ public class BodyPart : Entity {
             return null;
         }
     }
+
+    public BodyPartPosition? Position => Socket?.Position;
 
     #endregion
 
@@ -349,5 +354,35 @@ public class BodyPart : Entity {
         }
 
         return null;
+    }
+
+    public void AdaptBodyPartTo(BodyPart? parentPart) {
+        _adaptedLabel = GenerateLabel();
+
+        if (BodyPartDef.AdaptiveProperties == null) {
+            return;
+        }
+
+        if (parentPart == null) {
+            Log.Error($"Attempting to adapt part '{this}' but part doesn't have parent");
+            return;
+        }
+
+
+        MaxHitPoints = Mathf.FloorToInt(
+            BodyPartDef.AdaptiveProperties.HitPointScaler.GetHitPointsFor(parentPart)
+        );
+        HitPoints = MaxHitPoints;
+    }
+
+    private string GenerateLabel() {
+        string label = "";
+        if (Socket?.Def.Position != null) {
+            label += Socket?.ParentPart?.Position == null ? "" : string.Join(" ", Regex.Split(Socket?.ParentPart?.Position.ToString()!, @"(?<!^)(?=[A-Z])")) + " ";
+        }
+
+        label += Position == null ? "" : string.Join(" ", Regex.Split(Position.ToString()!, @"(?<!^)(?=[A-Z])")) + " ";
+        label += base.Label;
+        return label;
     }
 }

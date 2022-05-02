@@ -159,4 +159,21 @@ public class ItemContainer : IEntityContainer, IEnumerable<Item> {
 
         return splitItem;
     }
+
+    public void Clear() {
+        _list.Clear();
+        CalculateWeight();
+        //todo should we destroy the items first?
+    }
+
+    public int AmountOf(ItemDef? itemDef) {
+        int amount = 0;
+        foreach (Item item in _list) {
+            if (item.Def == itemDef) {
+                amount += item.StackSize;
+            }
+        }
+
+        return amount;
+    }
 }

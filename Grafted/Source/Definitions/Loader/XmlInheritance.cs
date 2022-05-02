@@ -296,5 +296,4 @@ public static class XmlInheritance {
 
         return true;
     }
-#pragma warning restore 8602
 }

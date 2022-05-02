@@ -9,7 +9,8 @@ namespace Grafted.Sim.Combat;
 
 public class CombatConfigDef : Def {
     public List<CombatConfigEnemyRecord> Enemies = new();
-    public float DistanceToEnd = 0;
+    public RangeFloat SpawnRange; // as a percentage of travel distance
+    public ZoneDef Zone = null!;
 }
 
 public class CombatConfigEnemyRecord {
@@ -20,4 +21,5 @@ public class CombatConfigEnemyRecord {
     public List<ItemDef> EquipmentItems = new();
     public List<ItemDropCount> InventoryItems = new();
     public BodyModificationRecord BodyModifications = new();
+    public TimeOfDay SpawnDuring = TimeOfDay.AllDay;
 }

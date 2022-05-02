@@ -32,7 +32,7 @@ public class CombatTurn {
 
     public IEnumerator Run() {
         _combatEvent.LogMessage($"\\c[white]Starting turn {_combatEvent.CurrentTurnNum}");
-        yield return Coroutine.WaitForSeconds(Core.Sim.GameSpeed);
+        yield return Coroutine.WaitForSeconds(Core.Sim.CombatSettings.Speed);
         foreach (Pawn attacker in Pawns) {
             CurrentPawn = attacker;
             if (attacker.IsDead) {
@@ -126,7 +126,7 @@ public class CombatTurn {
                 Log.Debug($"CombatEvent -- Pawn: {attacker.Label} is exiting without exhausting all sequence points, this is a bug");
             }
 
-            yield return Coroutine.WaitForSeconds(Core.Sim.GameSpeed);
+            yield return Coroutine.WaitForSeconds(Core.Sim.CombatSettings.Speed);
 
         }
 
@@ -163,7 +163,7 @@ public class CombatTurn {
         }
 
         _combatEvent.LogMessage("\\c[white]Turn is over\n");
-        yield return Coroutine.WaitForSeconds(Core.Sim.GameSpeed);
+        yield return Coroutine.WaitForSeconds(Core.Sim.CombatSettings.Speed);
     }
 
     private void UpdateWorldTime() {
@@ -266,7 +266,7 @@ public class CombatTurn {
     private IEnumerator SetTurnInteractive() {
         _combatEvent.State = CombatState.TurnInteractive;
         while (_combatEvent.State == CombatState.TurnInteractive) {
-            yield return Coroutine.WaitForSeconds(Core.Sim.GameSpeed);
+            yield return Coroutine.WaitForSeconds(Core.Sim.CombatSettings.Speed);
         }
     }
 
@@ -288,12 +288,12 @@ public class CombatTurn {
                 _combatEvent.State = CombatState.CombatEnd;
             }
 
-            yield return Coroutine.WaitForSeconds(Core.Sim.GameSpeed);
+            yield return Coroutine.WaitForSeconds(Core.Sim.CombatSettings.Speed);
         }
 
         if (_combatEvent.State == CombatState.TurnInteractive && pawnTurnData.AvailableSequencePoints <= 0) {
             _combatEvent.LogMessage("Sequence Points Exhausted\n");
-            yield return Coroutine.WaitForSeconds(Core.Sim.GameSpeed);
+            yield return Coroutine.WaitForSeconds(Core.Sim.CombatSettings.Speed);
             _combatEvent.State = CombatState.Turn;
         }
 

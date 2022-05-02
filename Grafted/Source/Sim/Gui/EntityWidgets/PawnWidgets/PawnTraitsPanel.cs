@@ -13,7 +13,7 @@ public class PawnTraitsPanel : VerticalStackPanel {
         AddChild(new Label(BaseContent.Styles.Label.Medium) { Text = "Traits" });
         foreach (TraitDef trait in pawnTraits) {
             AddChild(new HorizontalSeparator());
-            AddChild(new Label() { Text = trait.Label });
+            AddChild(new Label { Text = trait.Label });
             AddChild(new Label(BaseContent.Styles.Label.Small) { Text = trait.Description });
         }
     }

@@ -18,22 +18,22 @@ public class GameScene : Scene {
 
     public void QuickPlay() {
         Core.ClearCoroutines();
-        Core.Sim.World = WorldGenerator.GenerateNewWorld();
+        Core.Sim.World = WorldGenerator.GenerateNewWorld(Defs.PawnConfigs.PlayerPawn);
 
-        if (DebugSettings.SkipIntro) {
-            //skip intro
-            Core.Sim.World.CurrentZone = Core.Sim.World.Zones[Defs.Zones.VillageOfTheDamned];
-            Core.Sim.Gui = new TownGui(Core.Sim.World.Zones[Defs.Zones.VillageOfTheDamned].Town!);
-            //Core.Sim.Gui = new DeathGui();
-            return;
-        }
+        Core.Sim.World.MoveToZone(Defs.Zones.VillageOfTheDamned, false);
+        Core.Sim.Gui = new TownGui(Core.Sim.World.Zones[Defs.Zones.VillageOfTheDamned].Town!);
+    }
 
+    public void PlayIntro() {
+        Core.ClearCoroutines();
+        Core.Sim.World = WorldGenerator.GenerateNewWorld(Defs.PawnConfigs.IntroPlayerPawn);
         if (_firstTime && DebugSettings.SkipIntroDialogue == false) {
             _firstTime = false;
             Core.Sim.Gui = new DialogueGui(Core.Sim.World.NextDialogue());
         }
         else {
-            Core.Sim.Gui = new CombatGui(Core.Sim.World.NextCombat());
+            Core.Sim.World.MoveToZone(Defs.Zones.Intro, false);
+            Core.Sim.ActivateCombatEvent(Core.Sim.World.NextCombat());
         }
     }
 

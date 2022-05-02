@@ -20,7 +20,7 @@ namespace Grafted.Sim.Gui;
 public class CombatGui : BaseGui {
     private readonly CombatEvent _combatEvent;
     private readonly ScrollViewer _combatLog;
-    private readonly GameStatsPanel _gameStatsPanel;
+    private readonly GameHud _gameHud;
     private readonly Label _turnLabel;
     private readonly CombatPartyPanel _playerPartyPanel;
     private readonly CombatPartyPanel _opponentPartyPanel;
@@ -37,9 +37,9 @@ public class CombatGui : BaseGui {
         _combatEvent.CombatRecord.LogMessageAddedAction += message => {
             AddCombatLogEntry(message.Text);
         };
-        _gameStatsPanel = new GameStatsPanel {
-            HorizontalAlignment = HorizontalAlignment.Center,
-            GridRow = 0, GridColumn = 0, GridColumnSpan = 3, Margin = new Thickness(0, 5, 0, 0)
+        _gameHud = new GameHud {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Margin = new Thickness(0, 5, 0, 0)
         };
 
         _playerPartyPanel = new CombatPartyPanel(_combatEvent, combatEvent.PlayerPawns, HorizontalAlignment.Right) {
@@ -61,7 +61,7 @@ public class CombatGui : BaseGui {
             Margin = new Thickness(0, 0, 30, 0),
         };
         _combatLog = new ScrollViewer {
-            Content = new VerticalStackPanel() { Padding = new Thickness(0) }
+            Content = new VerticalStackPanel { Padding = new Thickness(0) }
         };
 
         _turnLabel = new Label {
@@ -94,7 +94,7 @@ public class CombatGui : BaseGui {
                     },
                     Widgets = {
                         _playerQueuedPotionSlot,
-                        new VerticalSeparator() { HorizontalAlignment = HorizontalAlignment.Center },
+                        new VerticalSeparator { HorizontalAlignment = HorizontalAlignment.Center },
                         new ImageButton(BaseContent.Styles.Button.Icon) {
                             Enabled = false,
                             Width = 24, Height = 24
@@ -122,19 +122,21 @@ public class CombatGui : BaseGui {
         Grid grid = new() {
             HorizontalAlignment = HorizontalAlignment.Center,
             RowSpacing = 20,
-            DefaultRowProportion = Proportion.Auto, 
+            DefaultRowProportion = Proportion.Auto,
             DefaultColumnProportion = Proportion.Auto,
             Widgets = {
-                _gameStatsPanel,
                 _playerPartyPanel, centerColumn, _opponentPartyPanel,
                 _pawnBodyView, logPanel
             }
         };
 
-        Desktop = new Desktop { Root = grid, HasExternalTextInput = true };
+        Desktop = new Desktop {
+            Root = new VerticalStackPanel {
+                Widgets = { _gameHud, grid }
+            },
+            HasExternalTextInput = true
+        };
     }
-
-
 
     private Action<CombatState> CombatStateChangedAction() {
         return state => {
@@ -178,7 +180,7 @@ public class CombatGui : BaseGui {
             _playerQueuedPotionSlot.Image = null;
         }
 
-        _gameStatsPanel.Update();
+        _gameHud.Update();
         _playerPartyPanel.Update();
         _opponentPartyPanel.Update();
         _pawnBodyView.Update();

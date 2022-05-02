@@ -17,6 +17,7 @@ public class CombatEvent {
 
     public event Action<CombatState>? StateChangedAction;
 
+    public Zone? Zone;
     public CombatConfigDef Config = null!;
     public CombatTurn CurrentTurn = null!;
     public int CurrentTurnNum;
@@ -189,6 +190,14 @@ public class CombatEvent {
         foreach (BodyPart part in SeveredLimbs) {
             TakePartEquipment(part);
         }
+
+        if (Zone != null) {
+            foreach (ZoneResourceRecord resource in Zone.Def.Resources.Where(r => r.HarvestArea.Includes(Zone.PercentTraveled))) {
+                if (Core.Random.Chance(resource.ChanceToHarvest)) {
+                    Loot.TryAdd(EntityGenerator.CreateEntity<Item>(resource.Item, resource.Amount.RandomValue));
+                }
+            }
+        }
     }
 
     public void QueuePotion(Item potion, Pawn pawn) {
@@ -235,6 +244,12 @@ public class CombatEvent {
 
     public void RemoveBuff(CombatBuff buff) {
         _buffs.Remove(buff);
+    }
+
+    public void Tick() {
+        foreach (Pawn pawn in EnemyPawns) {
+            pawn.Tick();
+        }
     }
 }
 

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <TownStructureDef>
+        <Moniker>Merchant</Moniker>
+        <Label>Merchant</Label>
+        <StructureClass>TownStructureMerchant</StructureClass>
+    </TownStructureDef>
+    <TownStructureDef>
+        <Moniker>House</Moniker>
+        <Label>House</Label>
+        <StructureClass>TownStructureHouse</StructureClass>
+    </TownStructureDef>
+</Definitions>

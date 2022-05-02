@@ -10,7 +10,7 @@ namespace Grafted.Graphics;
 /// the real top of the stack.
 /// </summary>
 public static class ScissorStack {
-    static Stack<Rectangle> _scissors = new Stack<Rectangle>();
+    static Stack<Rectangle> _scissors = new();
 
 
     public static bool PushScissors(Rectangle scissor) {

@@ -10,4 +10,10 @@
         <Species>Rabbit</Species>
         <TexturePath>Entities/Pawn/Creature/Rabbit/InnocentRabbit</TexturePath>
     </RaceDef>
+    <RaceDef ParentName="BaseAnimalRace">
+        <Moniker>FieldHound</Moniker>
+        <Label>Field Hound</Label>
+        <Species>Wolf</Species>
+        <TexturePath>Entities/Pawn/Creature/Wolf/Wolf</TexturePath>
+    </RaceDef>
 </Definitions>

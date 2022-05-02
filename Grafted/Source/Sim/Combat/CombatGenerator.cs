@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Grafted.Definitions;
-using Grafted.Sim.Entities;
-using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
 using Grafted.Utils;
 
@@ -33,18 +32,37 @@ public static class CombatGenerator {
     public static CombatEvent GenerateForZone(List<Pawn> playerPawns, Zone zone) {
         Pawn playerPawn = playerPawns[0];
         CombatEvent combatEvent = new();
+        combatEvent.Zone = zone;
         //combatEvent.IsInteractive = true;
         combatEvent.AddPlayerPawn(playerPawn);
-
-
-        var zoneConfigs = DefRepository<CombatConfigDef>.Defs.Where(c => c.Moniker.Contains(zone.Def.Moniker)).ToList();
-        CombatConfigDef combatConfig = zone.PercentTraveled >= 1 ? zoneConfigs.Last() : zoneConfigs.First(c => zone.DistanceTraveled < c.DistanceToEnd);
+        CombatConfigDef combatConfig = DefRepository<CombatConfigDef>.Defs.Where(CombatFilter(zone)).RandomElement();
         return Generate(combatConfig, combatEvent);
+    }
+
+    private static Func<CombatConfigDef, bool> CombatFilter(Zone zone) {
+        return config => {
+            if (config.Zone != zone.Def) {
+                return false;
+            }
+
+            if (config.SpawnRange.Includes(zone.PercentTraveled) == false) {
+                return false;
+            }
+
+            if (config.Enemies.Any(record => Core.Sim.World.Time.IsTimeOfDay(record.SpawnDuring)) == false) {
+                return false;
+            }
+
+            return true;
+        };
     }
 
     private static CombatEvent Generate(CombatConfigDef combatConfig, CombatEvent combatEvent) {
         combatEvent.Config = combatConfig;
-        var enemies = new List<CombatConfigEnemyRecord> { combatConfig.Enemies.RandomElementByWeight(c => c.SpawnWeight)! }; // todo only handling a single enemy
+        var enemies = new List<CombatConfigEnemyRecord> {
+            combatConfig.Enemies.Where(record => Core.Sim.World.Time.IsTimeOfDay(record.SpawnDuring))
+                .RandomElementByWeight(c => c.SpawnWeight)!
+        }; // todo only handling a single enemy
         foreach (CombatConfigEnemyRecord enemyConfig in enemies) {
             Pawn pawn = PawnGenerator.CreatePawn(new PawnRequest(
                 enemyConfig.Race,

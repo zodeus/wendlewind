@@ -23,8 +23,8 @@
         <MaxValue>100</MaxValue>
     </StatDef>
     <StatDef>
-        <Moniker>MeleeChanceToHit</Moniker>
-        <Label>Melee Chance To Hit</Label>
+        <Moniker>MeleeAccuracy</Moniker>
+        <Label>Melee Accuracy</Label>
         <BaseValue>1</BaseValue>
         <MinValue>0</MinValue>
         <MaxValue>1</MaxValue>

@@ -12,4 +12,13 @@
             <MaxCarryWeight>10</MaxCarryWeight>
         </BaseStats>
     </PawnDef>
+    <PawnDef ParentName="BaseAnimal">
+        <Moniker>Wolf</Moniker>
+        <Label>Wolf</Label>
+        <BaseStats>
+            <AttackSpeed>8</AttackSpeed>
+            <MeleeStrength>2</MeleeStrength>
+            <MaxCarryWeight>150</MaxCarryWeight>
+        </BaseStats>
+    </PawnDef>
 </Definitions>

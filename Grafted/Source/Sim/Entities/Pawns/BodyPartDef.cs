@@ -15,4 +15,5 @@ public class BodyPartDef : EntityDef {
     public bool IsBone = false;
     public List<BodyPartSocketDef> Sockets = new();
     public List<EquipmentSlotType>? EquipmentSlots = null;
+    public AdaptiveBodyPartProperties? AdaptiveProperties;
 }

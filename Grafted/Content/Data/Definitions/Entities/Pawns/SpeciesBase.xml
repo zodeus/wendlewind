@@ -5,7 +5,7 @@
         <EntityClass>Pawn</EntityClass>
         <!--<UiClass>PawnPanel</UiClass>-->
         <BaseStats>
-            <MeleeChanceToHit>1</MeleeChanceToHit>
+            <MeleeAccuracy>1</MeleeAccuracy>
         </BaseStats>
     </PawnDef>
 </Definitions>

@@ -7,7 +7,7 @@ namespace Grafted.Sim.Gui.MiscWidgets;
 
 public class MessagePanel : Panel {
     public MessagePanel(SimulationMessages messages) {
-        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold];
+        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
         Padding = new Thickness(8);
         VerticalStackPanel messageList = new() { Spacing = 10, Padding = new Thickness(10) };
         ScrollViewer scrollView = new() { Content = messageList };

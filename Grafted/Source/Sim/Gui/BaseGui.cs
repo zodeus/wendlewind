@@ -115,6 +115,11 @@ public abstract class BaseGui {
 
         _queuedEntityToView = null;
     }
+
+    public void TransferScreenMessage(BaseGui gui) {
+        gui._screenMessage = _screenMessage;
+        gui._screenMessageTimeLeft = _screenMessageTimeLeft;
+    }
 }
 
 public class DeathGui : Window {
@@ -123,16 +128,16 @@ public class DeathGui : Window {
         button.Click += (_, _) => {
             Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorYellow}]You have been reborn"));
             Core.Sim.World.PlayerPawns.Clear();
-            Core.Sim.World.PlayerPawns.Add(WorldGenerator.GeneratePlayerPawn());
+            Core.Sim.World.PlayerPawns.Add(WorldGenerator.GeneratePlayerPawn(Defs.PawnConfigs.PlayerPawn));
             Core.Sim.World.CurrentZone.Reset();
-            Core.Sim.World.CurrentZone = Core.Sim.World.Zones[Defs.Zones.VillageOfTheDamned];
+            Core.Sim.World.MoveToZone(Defs.Zones.VillageOfTheDamned, false);
             Core.Sim.Gui = new TownGui(Core.Sim.World.Zones[Defs.Zones.VillageOfTheDamned].Town!);
         };
         TitleGrid.Visible = false;
         Width = Screen.Width - 100;
         Height = Screen.Height - 100;
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.Red];
-        Content = new VerticalStackPanel() {
+        Content = new VerticalStackPanel {
             Spacing = 15,
             Padding = new Thickness(50), HorizontalAlignment = HorizontalAlignment.Center,
             Widgets = {

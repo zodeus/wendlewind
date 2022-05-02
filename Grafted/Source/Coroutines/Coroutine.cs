@@ -33,7 +33,7 @@ public static class Coroutine {
 /// to avoid having to return an int/float and paying the boxing penalty.
 /// </summary>
 class WaitForSeconds {
-    internal static WaitForSeconds waiter = new WaitForSeconds();
+    internal static WaitForSeconds waiter = new();
     internal float waitTime;
 
     internal WaitForSeconds Wait(float seconds) {

@@ -74,10 +74,10 @@ public class StatHandler {
     public StatHandler(StatDef stat) {
         _stat = stat;
     }
-
     public virtual float GetValue(Entity entity) {
         float value = GetBaseValue(entity.Def);
         if (_stat.StatFactors != null) {
+            // Stat*stat multiplier
             for (int i = 0; i < _stat.StatFactors.Count; i++) {
                 value *= entity.GetStatValue(_stat.StatFactors[i]);
             }
@@ -90,8 +90,7 @@ public class StatHandler {
     private float GetBaseValue(EntityDef def) {
         float result = _stat.BaseValue;
         for (int i = 0; i < def.BaseStats.Count; i++) {
-            if (def.BaseStats[i].Def != _stat)
-                continue;
+            if (def.BaseStats[i].Def != _stat) continue;
             result = def.BaseStats[i].Value;
             break;
         }

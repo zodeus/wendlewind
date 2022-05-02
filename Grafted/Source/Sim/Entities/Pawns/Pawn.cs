@@ -17,13 +17,11 @@ public class Pawn : Entity {
     public PawnTraits Traits = null!;
     public PawnBrain Brain = null!;
     public PawnBody Body = null!;
-    public PawnHealth Health = null!;
-    public PawnNeeds Needs = null!;
     public PawnSkills Skills = null!;
     public PawnInventory Inventory = null!;
     public PawnEquipment Equipment = null!;
     public PawnType PawnType = PawnType.Invalid;
-
+    public Zone? Zone;
     private int _sequencePoints = 0;
     public bool SequencePointDirty = true;
 
@@ -63,8 +61,6 @@ public class Pawn : Entity {
         Traits = new PawnTraits(this);
         Brain = new PawnBrain(this);
         Body = new PawnBody(this);
-        Health = new PawnHealth(this);
-        Needs = new PawnNeeds(this);
         Skills = new PawnSkills(this);
         Inventory = new PawnInventory(this);
         Equipment = new PawnEquipment(this);
@@ -86,12 +82,10 @@ public class Pawn : Entity {
             return;
         }
 
-        Health.Tick();
         if (IsDead) {
             return;
         }
 
-        Needs.Tick();
         if (IsDead) {
             return;
         }
@@ -119,7 +113,7 @@ public class Pawn : Entity {
     }
 
     public DamageResponse TakeDamage(DamageRequest request) {
-        BodyPart bodyPart = Body.AllExternalParts /*.Where(p => p.Type == BodyPartType.Torso)*/.RandomElementByWeight(part => part.BodyPartDef.HitWeight)!;
+        BodyPart bodyPart = Body.AllExternalParts /*.Where(p => p.Type == BodyPartType.Torso)*/.RandomElementByWeight(part => part.HitWeight)!;
 
         DamageResponse response = new();
         foreach (Damage damage in request.RawDamages) {
@@ -256,6 +250,6 @@ public class Pawn : Entity {
     }
 
     public float ChanceToHit(Pawn target) {
-        return this.GetStatValue(Defs.Stats.MeleeChanceToHit) * Health.Capabilities.Sight;
+        return this.GetStatValue(Defs.Stats.MeleeAccuracy) * Body.Capabilities.Sight;
     }
 }

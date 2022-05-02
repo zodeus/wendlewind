@@ -3,7 +3,8 @@
 <Definitions>
     <CombatConfigDef>
         <Moniker>TheOutskirts-01</Moniker>
-        <DistanceToEnd>5</DistanceToEnd>
+        <SpawnRange>0~.5</SpawnRange>
+        <Zone>TheOutskirts</Zone>
         <Enemies>
             <ListItem>
                 <Race>Glump</Race>
@@ -48,7 +49,8 @@
     </CombatConfigDef>
     <CombatConfigDef>
         <Moniker>TheOutskirts-02</Moniker>
-        <DistanceToEnd>10</DistanceToEnd>
+        <SpawnRange>.5~.75</SpawnRange>
+        <Zone>TheOutskirts</Zone>
         <Enemies>
             <ListItem>
                 <Race>Glump</Race>
@@ -116,7 +118,8 @@
     </CombatConfigDef>
     <CombatConfigDef>
         <Moniker>TheOutskirts-03</Moniker>
-        <DistanceToEnd>20</DistanceToEnd>
+        <SpawnRange>.75~1</SpawnRange>
+        <Zone>TheOutskirts</Zone>
         <Enemies>
             <ListItem>
                 <Race>Glump</Race>

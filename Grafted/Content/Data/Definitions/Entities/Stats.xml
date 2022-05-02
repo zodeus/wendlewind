@@ -50,6 +50,13 @@
         <MinValue>0</MinValue>
     </StatDef>
     <StatDef>
+        <Moniker>DeteriorationRate</Moniker>
+        <Label>Deterioration Rate</Label>
+        <Description>Amount per tick to decrease</Description>
+        <BaseValue>0</BaseValue>
+        <MinValue>0</MinValue>
+    </StatDef>
+    <StatDef>
         <Moniker>CurrencyValue</Moniker>
         <Label>Currency Value</Label>
         <Description>What it worth</Description>
