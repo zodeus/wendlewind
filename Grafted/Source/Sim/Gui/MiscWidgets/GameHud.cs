@@ -68,6 +68,12 @@ public class GameHud : HorizontalStackPanel {
                 _bloodLabel
             }
         });
+        // Mind
+        centerPanel.AddChild(new VerticalSeparator());
+        centerPanel.AddChild(new Image {
+            VerticalAlignment = VerticalAlignment.Center,
+            Width = 32, Height = 32, Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Mind]
+        });
 
         // Energy
         centerPanel.AddChild(new VerticalSeparator());

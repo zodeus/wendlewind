@@ -22,9 +22,11 @@ public class Pawn : Entity {
     public PawnEquipment Equipment = null!;
     public PawnType PawnType = PawnType.Invalid;
     public Zone? Zone;
-    private int _sequencePoints = 0;
     public bool SequencePointDirty = true;
+    public int MaxCarryWeight = 0;
+    public bool IsResting;
 
+    private int _sequencePoints = 0;
     private bool _isDead = false;
 
     public PawnDef PawnDef => (PawnDef) Def;
@@ -33,6 +35,8 @@ public class Pawn : Entity {
     public override string Label => Biography.Name;
     public override string LabelShort => Biography.Name;
     public override Texture2D Icon => Race.Icon;
+
+    public bool IsHungry => Body.StomachLevel < 0.6f;
 
     public bool IsDead {
         get => _isDead;
@@ -49,11 +53,18 @@ public class Pawn : Entity {
                 CalculateSequencePoints();
             }
 
+            if (Body.Energy < .50) {
+                _sequencePoints--;
+            }
+
+            if (Body.Energy < .25) {
+                _sequencePoints--;
+            }
+
+
             return _sequencePoints;
         }
     }
-
-    public int MaxCarryWeight = 0;
 
     public override void Initialize() {
         MaxCarryWeight = (int) this.GetStatValue(Defs.Stats.MaxCarryWeight);
@@ -251,5 +262,26 @@ public class Pawn : Entity {
 
     public float ChanceToHit(Pawn target) {
         return this.GetStatValue(Defs.Stats.MeleeAccuracy) * Body.Capabilities.Sight;
+    }
+
+    public void TryEat(Item? item) {
+        if (item == null) {
+            Log.Error("failed to eat null item");
+            return;
+        }
+
+        float amount = item.GetStatValue(Defs.Stats.NutritionalValue);
+        Core.Sim.World.ProgressTime(SimTime.MinutesToSeconds(5));
+        Body.StomachLevel = 1;
+        Body.Energy += .3f;
+        Core.Sim.World.ProgressTime(SimTime.MinutesToSeconds(5));
+        Core.Sim.Messages.Push(new Message(
+            $"\\c[{UiTextColor.TextColorPawn}]{Core.Sim.World.PlayerPawns[0].Label} \\c[{UiTextColor.TextColorDefault}]ate \\c[{UiTextColor.TextColorItem}]{item.Label}"
+        ));
+
+        item.StackSize--;
+        if (item.StackSize < 1) {
+            item.Destroy();
+        }
     }
 }

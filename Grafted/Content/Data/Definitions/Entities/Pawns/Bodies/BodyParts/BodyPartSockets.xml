@@ -186,6 +186,22 @@
             <ListItem>Thumb</ListItem>
         </AllowedBodyPartTypes>
     </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>TailSocket</Moniker>
+        <Label>Tail Socket</Label>
+        <IsExternal>true</IsExternal>
+        <AllowedBodyPartTypes>
+            <ListItem>Tail</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>HoofSocket</Moniker>
+        <Label>Hoof Socket</Label>
+        <IsExternal>true</IsExternal>
+        <AllowedBodyPartTypes>
+            <ListItem>Hoof</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
 
     <!-- Internal Sockets -->
     <BodyPartSocketDef ParentName="BodyPartSocketBase">
@@ -258,13 +274,6 @@
         <Label>Skin Socket</Label>
         <AllowedBodyPartTypes>
             <ListItem>Skin</ListItem>
-        </AllowedBodyPartTypes>
-    </BodyPartSocketDef>
-    <BodyPartSocketDef ParentName="BodyPartSocketBase">
-        <Moniker>TailSocket</Moniker>
-        <Label>Tail Socket</Label>
-        <AllowedBodyPartTypes>
-            <ListItem>Tail</ListItem>
         </AllowedBodyPartTypes>
     </BodyPartSocketDef>
 </Definitions>

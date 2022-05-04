@@ -23,5 +23,6 @@ public enum BodyPartType {
     Heart,
     Lung,
     Paw,
-    Tail
+    Tail,
+    Hoof
 }

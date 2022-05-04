@@ -19,7 +19,7 @@ public class
         foreach (CombatSequenceStep step in Steps) {
             yield return Coroutine.WaitForSeconds(Core.Sim.CombatSettings.Speed);
             float chanceToHit = Source.ChanceToHit(Target);
-            Source.Body.ApplyEnergyLossFactor(0.002f);
+            Source.Body.ApplyEnergyLoss(0.002f);
             if (Core.Random.NextSingle() < chanceToHit) {
                 DamageResponse damageResponse = Target.TakeDamage(step.Damages);
                 foreach (DamagedPartRecord damage in damageResponse.Damages.SelectMany(r => r.BodyParts)) {

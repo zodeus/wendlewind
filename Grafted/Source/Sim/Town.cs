@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Grafted.Definitions;
+using Grafted.Maths;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
@@ -52,7 +52,6 @@ public abstract class TownStructure {
 public class TownStructureHouse : TownStructure {
     private int _burningLogTicks = 0;
 
-    public List<Pawn> Occupants = new();
     public ItemContainer Storage = new();
     public int Firewood;
     public bool IsFireBurning;
@@ -76,13 +75,9 @@ public class TownStructureHouse : TownStructure {
         }
     }
 
-    public void EnterHouse(Pawn pawn) {
-        Occupants.Add(pawn);
-    }
+    public void EnterHouse(Pawn pawn) { }
 
-    public void ExitHouse(Pawn pawn) {
-        Occupants.Remove(pawn);
-    }
+    public void ExitHouse(Pawn pawn) { }
 
     public void StartFire() {
         Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorGreen}]Started a fire"));
@@ -100,7 +95,7 @@ public class TownStructureHouse : TownStructure {
             $"\\c[{UiTextColor.TextColorDefault}] for \\c[{UiTextColor.TextColorGreen}]{woodLog.StackSize * 20} \\c[{UiTextColor.TextColorItem}]firewood"
         ));
         for (int i = 0; i < woodLog.StackSize; i++) {
-            Core.Sim.World.PlayerPawns[0].Body.ApplyEnergyLossFactor(0.15f);
+            Core.Sim.World.PlayerPawns[0].Body.ApplyEnergyLoss(0.15f);
             Core.Sim.World.ProgressTime(SimTime.SecondsInHour);
             Storage.TryAdd(EntityGenerator.CreateEntity<Item>(Defs.Items.Firewood, 20));
         }
@@ -122,8 +117,8 @@ public class TownStructureHouse : TownStructure {
 
     public void Rest() {
         Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorBlue}]Sleeping zzz...zz..z"));
-        Core.Sim.World.ProgressTime(SimTime.SecondsInHour * Core.Random.Next(6, 10));
-        Occupants[0].Body.Energy = 1;
+        Core.Sim.World.ProgressTimeUntil(Core.Random.Next(5, 9) * 100 + Core.Random.Next(0, 59));
+        Core.Sim.World.PlayerPawn.Body.Energy = 1;
     }
 
     public void CraftItem(ItemDef item, int amount) {
@@ -152,7 +147,7 @@ public class TownStructureHouse : TownStructure {
     }
 
     public int AmountOfItem(ItemDef? resource) {
-        int amount = Occupants.Sum(pawn => pawn.Inventory.Items.AmountOf(resource));
+        int amount = Core.Sim.World.PlayerPawn.Inventory.Items.AmountOf(resource);
         amount += Storage.AmountOf(resource);
         return amount;
     }
@@ -162,7 +157,7 @@ public class TownStructureHouse : TownStructure {
             Log.Warning($"House requirement failed, wanted {amount}x of {itemToTake.Label} but only had {AmountOfItem(itemToTake)}x");
         }
 
-        Item? item = Occupants[0].Inventory.Items.Take(itemToTake, amount);
+        Item? item = Core.Sim.World.PlayerPawn.Inventory.Items.Take(itemToTake, amount);
         if (item?.StackSize >= amount) {
             return item;
         }

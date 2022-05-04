@@ -60,7 +60,7 @@ public class TendFirePanel : HorizontalStackPanel {
         _fireStatusLabel = new Label(BaseContent.Styles.Label.Medium);
         VerticalStackPanel leftPanel = new() { Spacing = 15 };
         leftPanel.AddChild(_fireStatusLabel);
-        leftPanel.AddChild(new Label { Text = "Logs burn at 1/hour" });
+        leftPanel.AddChild(new Label { Text = $"Logs burn at \\c[{UiTextColor.TextColorBlue}]1/hour" });
         leftPanel.AddChild(new Label { Text = "Wood in fireplace" });
         leftPanel.AddChild(new HorizontalStackPanel {
             Spacing = 10,
@@ -110,7 +110,7 @@ public class TendFirePanel : HorizontalStackPanel {
         _woodInFireLabel.Text = _house.Firewood.ToString();
 
         if (_house.IsFireBurning) {
-            _fireStatusLabel.Text = $"\\c[{UiTextColor.TextColorGreen}]Fire is burning\n~{_house.Firewood}/hours";
+            _fireStatusLabel.Text = $"\\c[{UiTextColor.TextColorGreen}]Fire is burning\n\\c[{UiTextColor.TextColorBlue}]~{_house.Firewood}/hours";
         }
         else {
             _fireStatusLabel.Text = $"\\c[{UiTextColor.TextColorRed}]Fire is out";

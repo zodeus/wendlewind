@@ -10,6 +10,5 @@ public class HousePanel : TabPanel, IUpdatable {
 
         AddTab("General", new HouseGeneralPanel(town));
         AddTab("Character", new PawnDetailPanel(pawn, "Storage", town.GetStructure<TownStructureHouse>()!.Storage));
-        AddTab("Upgrades", new Label { Text = "Coming some day..." });
     }
 }

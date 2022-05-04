@@ -16,4 +16,10 @@
         <Species>Wolf</Species>
         <TexturePath>Entities/Pawn/Creature/Wolf/Wolf</TexturePath>
     </RaceDef>
+    <RaceDef ParentName="BaseAnimalRace">
+        <Moniker>TruffleBoar</Moniker>
+        <Label>Truffle Boar</Label>
+        <Species>Pig</Species>
+        <TexturePath>Entities/Pawn/Creature/Pig/Boar</TexturePath>
+    </RaceDef>
 </Definitions>

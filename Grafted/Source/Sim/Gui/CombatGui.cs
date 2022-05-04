@@ -111,6 +111,7 @@ public class CombatGui : BaseGui {
             Height = 800,
             Width = 810,
             HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Center,
             DefaultProportion = Proportion.Fill,
             Padding = new Thickness(15, 15, 8, 15),
             Margin = new Thickness(30, 0, 0, 0),

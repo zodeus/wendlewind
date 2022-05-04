@@ -1,4 +1,5 @@
 using Grafted.Debug;
+using Grafted.Maths;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Gui;
 using Grafted.UI;
@@ -117,11 +118,20 @@ public class Simulation {
         }
 
         if (Input.IsKeyPressed(Keys.F6)) {
-            DebugSettings.FastLoop = SimTime.SecondsInMinute;
+            if (DebugSettings.FastLoop != null) {
+                DebugSettings.FastLoop -= SimTime.SecondsInMinute;
+                if (DebugSettings.FastLoop < 0) {
+                    DebugSettings.FastLoop = 0;
+                }
+            }
         }
 
         if (Input.IsKeyPressed(Keys.F7)) {
-            DebugSettings.FastLoop = SimTime.SecondsInHour;
+            if (DebugSettings.FastLoop == null) {
+                DebugSettings.FastLoop = 0;
+            }
+
+            DebugSettings.FastLoop += SimTime.SecondsInMinute;
         }
 
         if (Input.IsKeyPressed(Keys.F8)) {

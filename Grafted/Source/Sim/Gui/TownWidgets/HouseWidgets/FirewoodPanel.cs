@@ -49,7 +49,10 @@ public class FirewoodPanel : VerticalStackPanel {
                 _availableWoodLogLabel
             }
         });
-        AddChild(new Label { Text = "Takes 60 minutes per log,\nproduces 20 pieces of firewood" });
+        AddChild(new Label {
+            Text = $"Takes \\c[{UiTextColor.TextColorBlue}]60 minutes \\c[{UiTextColor.TextColorDefault}]per log," +
+                   $"\nproduces \\c[{UiTextColor.TextColorGreen}]20 \\c[{UiTextColor.TextColorDefault}]pieces of \\c[{UiTextColor.TextColorItem}]Firewood"
+        });
         AddChild(new HorizontalStackPanel {
             Spacing = 10,
             Widgets = {
@@ -66,7 +69,7 @@ public class FirewoodPanel : VerticalStackPanel {
     public void Update() {
         _availableWood = _house.AmountOfItem(Defs.Items.WoodLog);
         _availableFireWood = _house.AmountOfItem(Defs.Items.Firewood);
-        _button.Enabled = _availableWood > 0;
+        _button.Enabled = _availableWood > 0 && Core.Sim.World.PlayerPawn.Body.Energy > .1;
         _availableWoodLogLabel.Text = _availableWood.ToString();
         _availableFireWoodLabel.Text = _availableFireWood.ToString();
     }

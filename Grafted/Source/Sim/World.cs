@@ -19,6 +19,7 @@ public class World : IExposable {
     public SimTime Time = null!;
 
     public List<Pawn> PlayerPawns = null!;
+    public Pawn PlayerPawn => PlayerPawns[0];
     public int TotalKills;
     public PawnDeathRecords DeathRecords = null!;
 
@@ -68,7 +69,6 @@ public class World : IExposable {
         // progress time to return to beginning of zone
         //todo MovementMultiplier
         ActiveCombat = null;
-        CurrentZone.Town?.GetStructure<TownStructureHouse>()?.ExitHouse(Core.Sim.World.PlayerPawns[0]);
         if (progressTime) {
             ProgressTime(CurrentZone.DistanceTraveled * SimTime.MinutesToSeconds(SimTime.MinutesPerKm)); //roughly 10 minutes per km    
         }
@@ -76,7 +76,6 @@ public class World : IExposable {
         CurrentZone.Reset();
         CurrentZone = Zones[zoneDef];
         Core.Sim.World.PlayerPawns[0].Zone = CurrentZone;
-        CurrentZone.Town?.GetStructure<TownStructureHouse>()?.EnterHouse(Core.Sim.World.PlayerPawns[0]);
         Core.Sim.Messages.Push(new Message(
             $"\\c[{UiTextColor.TextColorPawn}]{PlayerPawns[0]} \\c[{UiTextColor.TextColorDefault}]moved to zone \\c[{UiTextColor.TextColorZone}]{zoneDef.Label}"
         ));

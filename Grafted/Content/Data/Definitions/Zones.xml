@@ -35,7 +35,7 @@
         <MeanTimeBetweenEvents>15~45</MeanTimeBetweenEvents>
         <Resources>
             <ListItem>
-                <Item>WoodLog</Item>
+                <Item>OakWoodLog</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.5</ChanceToHarvest>
                 <HarvestArea>0~1</HarvestArea>

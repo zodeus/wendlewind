@@ -1,5 +1,4 @@
 using Grafted.Definitions;
-using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Myra.Graphics2D;
 using Myra.Graphics2D.TextureAtlases;
@@ -20,24 +19,15 @@ public class FoodPanel : EntityPanelBase {
         if (item.ItemDef == Defs.Items.CookedMeat) {
             _eatButton = new TextButton(BaseContent.Styles.Button.Normal) { Text = "Eat" };
             _eatButton.Click += (_, _) => {
-                float amount = item.GetStatValue(Defs.Stats.NutritionalValue);
-                Core.Sim.World.ProgressTime(SimTime.MinutesToSeconds(5));
-                Core.Sim.World.PlayerPawns[0].Body.StomachLevel = 1;
-                Core.Sim.World.PlayerPawns[0].Body.Energy += .3f;
-                Core.Sim.World.ProgressTime(SimTime.MinutesToSeconds(5));
-                Core.Sim.Messages.Push(new Message(
-                    $"\\c[{UiTextColor.TextColorPawn}]{Core.Sim.World.PlayerPawns[0].Label} \\c[{UiTextColor.TextColorDefault}]ate \\c[{UiTextColor.TextColorItem}]{item.Label}"
-                ));
-                item.StackSize--;
-                if (item.StackSize < 1) {
-                    item.Destroy();
-                }
+                Core.Sim.World.PlayerPawns[0].TryEat(item);
             };
             AddChild(_eatButton);
         }
     }
 
     public override void Update() {
-        _eatButton.Enabled = Core.Sim.World.PlayerPawns[0].Body.StomachLevel < .7;
+        if (_eatButton !=null) {
+            _eatButton.Enabled = Core.Sim.World.PlayerPawn.IsHungry;    
+        }
     }
 }

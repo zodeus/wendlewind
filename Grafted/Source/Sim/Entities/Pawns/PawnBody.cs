@@ -134,7 +134,7 @@ public class PawnBody {
         }
 
         // Energy Calculations
-        ApplyEnergyLossFactor(0.0004f);
+        ApplyEnergyLoss(0.0004f);
 
         // Blood Loss Calculations
         if (RootSocket.AttachedPart == null) {
@@ -173,8 +173,8 @@ public class PawnBody {
         }
     }
 
-    public void ApplyEnergyLossFactor(float factor) {
-        Energy -= _ticksWithEmptyStomach > 0 ? Energy * factor * 2 : Energy * factor;
+    public void ApplyEnergyLoss(float amount) {
+        Energy -= _ticksWithEmptyStomach > 0 ? amount * 2 : amount;
     }
 
     private void TakeMalnutritionDamage() {
@@ -196,31 +196,36 @@ public class PawnBody {
     }
 
     private void PushExternalHeat() {
-        float temp = Pawn.Zone?.Temperature ?? 0;
+        const float hotThreshold = 40;
+        const float coolThreshold = 18;
+        const float optimalBodyTemperature = 32;
+        const float roomTemperature = 22;
+        float amountOfHeatToPush = 1;
+        float externalTemp = Pawn.Zone?.Temperature ?? 0;
         if (Pawn.Zone?.Town?.GetStructure<TownStructureHouse>() is { IsFireBurning: true }) {
-            temp = 22;
+            externalTemp = roomTemperature;
         }
 
-        if (temp > 40) {
-            Temperature = Mathf.Clamp(Temperature + 1, Temperature, temp + 10);
+        if (externalTemp > hotThreshold) {
+            Temperature = Math.Min(Temperature + amountOfHeatToPush, externalTemp + 10);
         }
-        else if (temp is >= 18 and <= 40) {
-            if (Temperature > 32) {
-                Temperature = Mathf.Clamp(Temperature - 1, 32, Temperature);
+        else if (externalTemp is >= coolThreshold and <= hotThreshold) {
+            if (Temperature > optimalBodyTemperature) {
+                Temperature = Math.Max(Temperature - amountOfHeatToPush, optimalBodyTemperature);
             }
             else {
                 if (Temperature < 32) {
-                    Temperature = Mathf.Clamp(Temperature + 1, Temperature, 32);
+                    Temperature = Math.Min(Temperature + amountOfHeatToPush, optimalBodyTemperature);
                 }
             }
         }
-        else if (temp < 18) {
-            Temperature = Mathf.Clamp(Temperature - 1, temp + 10, Temperature);
+        else if (externalTemp < coolThreshold) {
+            Temperature = Math.Max(Temperature - amountOfHeatToPush, externalTemp + 10);
         }
     }
 
     private void Regenerate() {
-        if (StomachLevel <= 0) {
+        if (_ticksWithEmptyStomach > SimTime.HoursToTicks(2) || Energy < .2 || BloodPercent < 0.05 || Temperature < 10) {
             return;
         }
 
@@ -228,19 +233,20 @@ public class PawnBody {
             return;
         }
 
+        float restingBoost = Pawn.IsResting ? 2 : 1;
         // stop regenerating blood when near death
         if (BloodAmount > 100) {
-            BloodAmount += 1f;
+            BloodAmount += 1f * restingBoost;
         }
 
-        const float regenerationFactor = 0.001f;
+        float partRegenerationFactor = 0.001f * restingBoost;
 
         void UpdateHealth(BodyPart bodyPart) {
             if (bodyPart.IsDestroyed) {
                 return;
             }
 
-            bodyPart.HitPoints += bodyPart.HitPoints * regenerationFactor;
+            bodyPart.HitPoints += bodyPart.HitPoints * partRegenerationFactor;
         }
 
         void DoRegeneration(BodyPart bodyPart) {

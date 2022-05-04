@@ -16,11 +16,6 @@
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
-                        <Item>WoodLog</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
                         <Item>SoulCoin</Item>
                         <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
@@ -63,11 +58,6 @@
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
-                        <Item>OakWoodLog</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>.25</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
                         <Item>SoulCoin</Item>
                         <Amount>1~4</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
@@ -84,11 +74,6 @@
                     <ListItem>JarOfBlood</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
-                    <ListItem>
-                        <Item>OakWoodLog</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>.25</ChanceToDrop>
-                    </ListItem>
                     <ListItem>
                         <Item>SoulCoin</Item>
                         <Amount>1~4</Amount>
@@ -133,11 +118,6 @@
                     <ListItem>LeatherGlove</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
-                    <ListItem>
-                        <Item>OakWoodLog</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>.25</ChanceToDrop>
-                    </ListItem>
                     <ListItem>
                         <Item>SoulCoin</Item>
                         <Amount>3~6</Amount>

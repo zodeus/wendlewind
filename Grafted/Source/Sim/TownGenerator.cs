@@ -51,15 +51,10 @@ public static class TownGenerator {
             structureMerchant.Items.TryAdd(EntityGenerator.CreateEntity<Item>(def, Core.Random.Next(3, 13)));
         }
 
-        foreach (ItemDef def in DefRepository<ItemDef>.Defs.Where(def => def.ItemType == ItemType.Equipment).InRandomOrder().Take(Core.Random.Next(4, 7))) {
-            float? currency = def.BaseStats.GetStatValueFromList(Defs.Stats.CurrencyValue);
-            if (currency is null or <= 0) {
-                continue;
-            }
-
-            for (int i = 0; i < Core.Random.Next(1, 3); i++) {
-                structureMerchant.Items.TryAdd(EntityGenerator.CreateEntity<Item>(def));
-            }
+        foreach (ItemDef def in DefRepository<ItemDef>.Defs.Where(def => def.ItemType == ItemType.Equipment && def.BaseStats.GetStatValueFromList(Defs.Stats.CurrencyValue) > 0).InRandomOrder().Take(Core.Random.Next(6, 9))) {
+            //for (int i = 0; i < Core.Random.Next(1, 3); i++) {
+            structureMerchant.Items.TryAdd(EntityGenerator.CreateEntity<Item>(def));
+            //}
         }
 
         structureMerchant.Items.TryAdd(EntityGenerator.CreateEntity<Item>(Defs.Items.SoulCoin, Core.Random.Next(199, 699)));

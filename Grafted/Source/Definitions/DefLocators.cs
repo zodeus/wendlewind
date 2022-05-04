@@ -89,6 +89,7 @@ public static partial class Defs {
         public static RaceDef Glump = null!;
         public static RaceDef InnocentRabbit = null!;
         public static RaceDef FieldHound = null!;
+        public static RaceDef TruffleBoar = null!;
     }
 }
 
@@ -135,6 +136,13 @@ public static partial class Defs {
         public static BodyPartDef WolfLeg = null!;
         public static BodyPartDef WolfPaw = null!;
         public static BodyPartDef WolfTail = null!;
+
+        public static BodyPartDef PigHead = null!;
+        public static BodyPartDef PigNeck = null!;
+        public static BodyPartDef PigTorso = null!;
+        public static BodyPartDef PigLeg = null!;
+        public static BodyPartDef PigHoof = null!;
+        public static BodyPartDef PigTail = null!;
     }
 
     [DefLocator]

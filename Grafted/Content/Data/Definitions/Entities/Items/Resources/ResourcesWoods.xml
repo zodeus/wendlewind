@@ -29,7 +29,7 @@
     </ItemDef>
     <ItemDef ParentName="WoodResource">
         <Moniker>Firewood</Moniker>
-        <Label>Firewoodd</Label>
+        <Label>Firewood</Label>
         <TexturePath>Entities/Item/Resource/Wood/Firewood</TexturePath>
     </ItemDef>
 </Definitions>

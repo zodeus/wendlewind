@@ -21,4 +21,13 @@
             <MaxCarryWeight>150</MaxCarryWeight>
         </BaseStats>
     </PawnDef>
+    <PawnDef ParentName="BaseAnimal">
+        <Moniker>Pig</Moniker>
+        <Label>Pig</Label>
+        <BaseStats>
+            <AttackSpeed>6</AttackSpeed>
+            <MeleeStrength>1</MeleeStrength>
+            <MaxCarryWeight>80</MaxCarryWeight>
+        </BaseStats>
+    </PawnDef>
 </Definitions>

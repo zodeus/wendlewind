@@ -113,6 +113,7 @@ public static partial class BaseContent {
                 public const string Human = "icon-human";
                 public const string StomachOutline = "icon-stomach-outline";
                 public const string Energy = "icon-energy";
+                public const string Mind = "icon-mind";
             }
 
             public static class Panel {

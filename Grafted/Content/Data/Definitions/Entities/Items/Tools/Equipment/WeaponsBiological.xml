@@ -89,4 +89,38 @@
             <MeleePower>20</MeleePower>
         </BaseStats>
     </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>PigTeeth</Moniker>
+        <Label>Teeth</Label>
+        <Description>Pig teeth</Description>
+        <ToolType>Teeth</ToolType>
+        <DamageType>Sharp</DamageType>
+        <ToolCategories>
+            <ListItem>Combat</ListItem>
+        </ToolCategories>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
+        <BaseStats>
+            <MeleePower>6</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>FilthyPigHoof</Moniker>
+        <Label>Hoof</Label>
+        <Description>A filthy pig hoof</Description>
+        <ToolType>Hoof</ToolType>
+        <DamageType>Blunt</DamageType>
+        <ToolCategories>
+            <ListItem>Combat</ListItem>
+        </ToolCategories>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Hoof</TexturePath>
+        <BaseStats>
+            <MeleePower>4</MeleePower>
+        </BaseStats>
+    </ItemDef>
 </Definitions>
