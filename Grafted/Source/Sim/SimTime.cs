@@ -1,4 +1,5 @@
 ﻿using System;
+using Grafted.Maths;
 using Grafted.Sim.Persistence;
 
 namespace Grafted.Sim;
@@ -20,7 +21,9 @@ public class SimTime : IExposable {
     public const int SecondsInMinute = 60;
     public const int SecondsInHour = SecondsInMinute * 60;
     public const int SecondsInDay = SecondsInHour * HoursInDay;
-
+    public const int TicksPerMinute = 1;
+    public const int TicksPerHour = 60 * TicksPerMinute;
+    public const int TicksPerDay = HoursInDay * TicksPerHour;
     public const int HoursInDay = 24;
 
     public const int MinutesPerKm = 10;
@@ -53,8 +56,12 @@ public class SimTime : IExposable {
         return SecondsInMinute * minutes;
     }
 
+    public static int HoursToSeconds(int hours) {
+        return hours * SecondsInHour;
+    }
+
     public static int HoursToTicks(int hours) {
-        return hours * SecondsInMinute;
+        return hours * TicksPerHour;
     }
 
     public bool IsTimeOfDay(TimeOfDay timeOfDay) {
@@ -103,7 +110,7 @@ public class SimTime : IExposable {
         return TimeOfDay.Error;
     }
 
-    public static double HoursToSeconds() {
-        throw new NotImplementedException();
+    public static int TicksToHours(int ticks) {
+        return Mathf.FloorToInt(ticks / (float) TicksPerHour);
     }
 }

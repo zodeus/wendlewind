@@ -63,24 +63,29 @@
             </ListItem>
             <ListItem>
                 <Item>MendersMist</Item>
-                <Amount>2~3</Amount>
+                <Amount>3</Amount>
                 <ChanceToDrop>1</ChanceToDrop>
             </ListItem>
             <ListItem>
                 <Item>MedKit</Item>
-                <Amount>1~2</Amount>
+                <Amount>2</Amount>
                 <ChanceToDrop>1</ChanceToDrop>
             </ListItem>
             <ListItem>
                 <Item>ArterialThreads</Item>
-                <Amount>2~4</Amount>
+                <Amount>3</Amount>
                 <ChanceToDrop>1</ChanceToDrop>
             </ListItem>
-            <!--<ListItem>
-                <Item>SoulCoin</Item>
-                <Amount>5~10</Amount>
+            <ListItem>
+                <Item>CookedMeat</Item>
+                <Amount>3</Amount>
                 <ChanceToDrop>1</ChanceToDrop>
-            </ListItem>-->
+            </ListItem>
+            <ListItem>
+                <Item>Coin</Item>
+                <Amount>300</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
         </InventoryItems>
     </PawnConfigDef>
     <PawnConfigDef>

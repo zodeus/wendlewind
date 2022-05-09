@@ -270,6 +270,13 @@ public class Pawn : Entity {
             return;
         }
 
+        if (item.Def == Defs.Items.DriedMeat) {
+            Body.Effects.TryApplyEffect(new BodyEffect {
+                Def = Defs.BodyEffects.BeefedUp,
+                TicksLeft = SimTime.HoursToTicks(12)
+            });
+        }
+
         float amount = item.GetStatValue(Defs.Stats.NutritionalValue);
         Core.Sim.World.ProgressTime(SimTime.MinutesToSeconds(5));
         Body.StomachLevel = 1;

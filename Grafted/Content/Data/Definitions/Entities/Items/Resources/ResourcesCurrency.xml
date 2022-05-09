@@ -11,6 +11,16 @@
         <TexturePath>Entities/Item/Resource/Currency/SoulCoin</TexturePath>
         <BaseStats>
             <Weight>.05</Weight>
+            <CurrencyValue>5</CurrencyValue>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="CurrencyResource">
+        <Moniker>Coin</Moniker>
+        <Label>Coin</Label>
+        <Description>A form of currency</Description>
+        <TexturePath>Entities/Item/Resource/Currency/Coin</TexturePath>
+        <BaseStats>
+            <Weight>.0001</Weight>
             <CurrencyValue>1</CurrencyValue>
         </BaseStats>
     </ItemDef>

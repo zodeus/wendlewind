@@ -35,7 +35,7 @@ public class RestPanel : VerticalStackPanel {
             _restLabel.Text = "You may rest now";
         }
         else {
-            _restLabel.Text = "It's daytime an";
+            _restLabel.Text = "It's daytime now";
         }
     }
 }

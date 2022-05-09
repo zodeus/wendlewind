@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Grafted.Definitions;
+using Grafted.Maths;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Gui.TownWidgets;
@@ -15,13 +16,13 @@ using Myra.Graphics2D.UI.Styles;
 namespace Grafted.Sim.Gui.EntityWidgets;
 
 public class MerchantContainerPanel : VerticalStackPanel {
-    private readonly ItemContainer _container;
-    private readonly ItemContainer _receivingContainer;
+    private readonly EntityContainer _container;
+    private readonly EntityContainer _receivingContainer;
 
     private readonly List<MerchantListPanel> _sections = new();
     private readonly Label _weightLabel;
 
-    public MerchantContainerPanel(ItemContainer container, ItemContainer receivingContainer, string title, MerchantTransactionType merchantTransactionType) {
+    public MerchantContainerPanel(EntityContainer container, EntityContainer receivingContainer, string title, MerchantTransactionType merchantTransactionType) {
         _container = container;
         _receivingContainer = receivingContainer;
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
@@ -80,8 +81,8 @@ public class MerchantContainerPanel : VerticalStackPanel {
             amount = item.StackSize;
         }
 
-        int cost = (int) item.GetStatValue(Defs.Stats.CurrencyValue) * amount;
-        if (_receivingContainer.Contains(Defs.Items.SoulCoin, cost) == false) {
+        int cost = item.GetCurrencyValue(transactionType) * amount;
+        if (_receivingContainer.Contains(Defs.Items.Coin, cost) == false) {
             Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData {
                 Color = Color.Red, Duration = 2, Text = "Not enough coin"
             });
@@ -96,7 +97,7 @@ public class MerchantContainerPanel : VerticalStackPanel {
         }
 
         _receivingContainer.TryAdd(item, amount);
-        Item? coins = _receivingContainer.Take(Defs.Items.SoulCoin, cost);
+        Item? coins = _receivingContainer.Take(Defs.Items.Coin, cost);
         if (coins == null) {
             Log.Error("coin value is null during trade");
         }
@@ -119,7 +120,7 @@ public class MerchantContainerPanel : VerticalStackPanel {
 
     private class ItemContainerPanelSection {
         public string Label { get; set; } = null!;
-        public ItemContainer Container { get; set; } = null!;
+        public EntityContainer Container { get; set; } = null!;
         public Func<Entity, bool> Filter { get; set; } = null!;
     }
 }
@@ -155,7 +156,7 @@ public class MerchantListPanelItem : HorizontalStackPanel {
         });
         Proportions.Add(Proportion.Auto);
 
-        if (_item.Def == Defs.Items.SoulCoin || _item.Def == Defs.Items.Cauterize) {
+        if (_item.Def == Defs.Items.Coin || _item.Def == Defs.Items.Cauterize) {
             return;
         }
 
@@ -165,14 +166,14 @@ public class MerchantListPanelItem : HorizontalStackPanel {
             VerticalAlignment = VerticalAlignment.Center,
             Widgets = {
                 new Label {
-                    Text = _item.GetStatValue(Defs.Stats.CurrencyValue).ToString(CultureInfo.InvariantCulture),
+                    Text = _item.GetCurrencyValue(merchantTransactionType).ToString(CultureInfo.InvariantCulture),
                     TextAlign = TextAlign.Right,
                     Width = 30,
                     VerticalAlignment = VerticalAlignment.Center
                 },
                 new Image {
                     VerticalAlignment = VerticalAlignment.Center,
-                    Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.SoulCoin], Width = 24, Height = 24
+                    Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Coin], Width = 24, Height = 24
                 }
             },
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame]
@@ -203,7 +204,7 @@ public class MerchantListPanelItem : HorizontalStackPanel {
         };
         amountTextBox.TextChanged += (_, args) => {
             int value = int.Parse(args.NewValue);
-            tradeValueTotalLabel.Text = (value * _item.GetStatValue(Defs.Stats.CurrencyValue)).ToString(CultureInfo.InvariantCulture);
+            tradeValueTotalLabel.Text = (value * _item.GetCurrencyValue(merchantTransactionType)).ToString(CultureInfo.InvariantCulture);
         };
         amountTextBox.Text = "1";
 
@@ -224,7 +225,7 @@ public class MerchantListPanelItem : HorizontalStackPanel {
                 tradeValueTotalLabel,
                 new Image {
                     VerticalAlignment = VerticalAlignment.Center,
-                    Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.SoulCoin], Width = 24, Height = 24
+                    Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Coin], Width = 24, Height = 24
                 }
             },
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame]
@@ -252,14 +253,14 @@ public class MerchantListPanelItem : HorizontalStackPanel {
 }
 
 public class MerchantListPanel : VerticalStackPanel {
-    private readonly ItemContainer _container;
+    private readonly EntityContainer _container;
     private readonly MerchantTransactionType _merchantTransactionType;
     private readonly Action<Item, int, MerchantTransactionType> _tradeHandler;
     private readonly Dictionary<Entity, MerchantListPanelItem> _items = new();
 
     private Func<Entity, bool>? Filter { get; }
 
-    public MerchantListPanel(ItemContainer container, MerchantTransactionType merchantTransactionType, Func<Entity, bool> filter, Action<Item, int, MerchantTransactionType> tradeHandler) {
+    public MerchantListPanel(EntityContainer container, MerchantTransactionType merchantTransactionType, Func<Entity, bool> filter, Action<Item, int, MerchantTransactionType> tradeHandler) {
         Spacing = 5;
         _container = container;
         _merchantTransactionType = merchantTransactionType;

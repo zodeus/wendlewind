@@ -14,14 +14,20 @@
         <Moniker>PeacefulMeadow</Moniker>
         <Label>Peaceful Meadow</Label>
         <ZoneType>Adventure</ZoneType>
-        <TravelSize>4</TravelSize>
-        <TravelSpeedFactor>.045</TravelSpeedFactor>
-        <MeanTimeBetweenEvents>45~110</MeanTimeBetweenEvents>
+        <TravelSize>40</TravelSize>
+        <TravelSpeedFactor>1</TravelSpeedFactor>
+        <MeanTimeBetweenEvents>15~20</MeanTimeBetweenEvents>
         <Resources>
             <ListItem>
                 <Item>WoodLog</Item>
                 <Amount>1</Amount>
-                <ChanceToHarvest>1</ChanceToHarvest>
+                <ChanceToHarvest>.05</ChanceToHarvest>
+                <HarvestArea>0~1</HarvestArea>
+            </ListItem>
+            <ListItem>
+                <Item>ButtonTopMushroom</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.02</ChanceToHarvest>
                 <HarvestArea>0~1</HarvestArea>
             </ListItem>
         </Resources>
@@ -32,12 +38,18 @@
         <ZoneType>Adventure</ZoneType>
         <TravelSize>20</TravelSize>
         <TravelSpeedFactor>.83</TravelSpeedFactor>
-        <MeanTimeBetweenEvents>15~45</MeanTimeBetweenEvents>
+        <MeanTimeBetweenEvents>15~20</MeanTimeBetweenEvents>
         <Resources>
             <ListItem>
                 <Item>OakWoodLog</Item>
                 <Amount>1</Amount>
-                <ChanceToHarvest>.5</ChanceToHarvest>
+                <ChanceToHarvest>.05</ChanceToHarvest>
+                <HarvestArea>0~1</HarvestArea>
+            </ListItem>
+            <ListItem>
+                <Item>ButtonTopMushroom</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.03</ChanceToHarvest>
                 <HarvestArea>0~1</HarvestArea>
             </ListItem>
         </Resources>

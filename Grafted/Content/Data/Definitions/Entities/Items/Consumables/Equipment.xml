@@ -14,7 +14,7 @@
         <TexturePath>Entities/Item/Consumables/RepairKit</TexturePath>
         <BaseStats>
             <Weight>1</Weight>
-            <CurrencyValue>3</CurrencyValue>
+            <CurrencyValue>8</CurrencyValue>
         </BaseStats>
     </ItemDef>
 </Definitions>

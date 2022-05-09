@@ -1,9 +1,15 @@
+using System.Linq;
 using Grafted.Debug;
 using Grafted.Definitions;
 using Grafted.Sim.Combat;
+using Grafted.Sim.Entities.Items;
+using Grafted.Sim.Entities.Pawns;
 using Grafted.Sim.Gui.EntityWidgets;
 using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 using Grafted.Sim.Gui.MiscWidgets;
+using Grafted.UI;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Myra.Graphics2D;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.UI.Styles;
@@ -15,6 +21,8 @@ public class CombatResultsGui : BaseGui {
     private readonly CombatEvent _combatEvent;
     private readonly PawnDetailPanel _pawnPanel;
     private readonly GameHud _gameHud;
+    private bool _autoLootEnabled = true;
+    private readonly PawnBodyEffectsWindow _pawnBodyEffectsWindow;
 
     public CombatResultsGui(CombatEvent combatEvent) {
         _combatEvent = combatEvent;
@@ -34,6 +42,9 @@ public class CombatResultsGui : BaseGui {
         };
 
         Desktop = new Desktop { Root = panel, HasExternalTextInput = true };
+        
+        _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(Core.Sim.World.PlayerPawn);
+        _pawnBodyEffectsWindow.Show(Desktop, new Point(50, 20));
     }
 
     private Widget DeathsButton() {
@@ -55,24 +66,15 @@ public class CombatResultsGui : BaseGui {
         };
 
         TextButton continueButton = new(BaseContent.Styles.Button.Large) { Text = "Carry on" };
-        continueButton.Click += (_, _) => {
-            if (Core.Sim.World.CurrentZone.Def == Defs.Zones.Intro) {
-                HandleIntro();
-                return;
-            }
-
-            Core.Sim.World.DoZoneTravel();
-            if (Core.Sim.World.PlayerPawns[0].IsDead) {
-                ShowDeathWindow();
-                return;
-            }
-
-            Core.Sim.ActivateCombatEvent(Core.Sim.World.NextCombat());
-        };
+        continueButton.Click += (_, _) => MoveToNextCombat();
         buttons.AddChild(continueButton);
         if (Core.Sim.World.CurrentZone.Def != Defs.Zones.Intro) {
             TextButton goHome = new(BaseContent.Styles.Button.Large) { Text = "Go Home" };
             goHome.Click += (_, _) => {
+                if (_autoLootEnabled && DoAutoLoot() == false) {
+                    return;
+                }
+
                 Core.Sim.World.MoveToZone(Defs.Zones.VillageOfTheDamned);
                 Core.Sim.Gui = new TownGui(Core.Sim.World.CurrentZone.Town!);
             };
@@ -80,6 +82,45 @@ public class CombatResultsGui : BaseGui {
         }
 
         return new HorizontalStackPanel { Spacing = 10, Widgets = { DeathsButton(), buttons } };
+    }
+
+    private void MoveToNextCombat() {
+        if (_autoLootEnabled && DoAutoLoot() == false) {
+            return;
+        }
+
+        if (Core.Sim.World.CurrentZone.Def == Defs.Zones.Intro) {
+            HandleIntro();
+            return;
+        }
+
+        Core.Sim.World.DoZoneTravel();
+        if (Core.Sim.World.PlayerPawns[0].IsDead) {
+            ShowDeathWindow();
+            return;
+        }
+
+        Core.Sim.ActivateCombatEvent(Core.Sim.World.NextCombat());
+    }
+
+    private bool DoAutoLoot() {
+        Pawn player = Core.Sim.World.PlayerPawn;
+        var allItemsCollected = true;
+        foreach (Item item in _combatEvent.Loot.ToList()) {
+            if (player.Inventory.Entities.HasCapacityFor(item)) {
+                player.Inventory.Entities.TryAdd(item);
+            }
+            else { allItemsCollected = false; }
+        }
+
+        if (allItemsCollected == false) {
+            Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData {
+                Color = Color.Goldenrod, Duration = 2, Text = "There is remaining loot"
+            });
+            return false;
+        }
+
+        return true;
     }
 
     private void HandleIntro() {
@@ -97,9 +138,17 @@ public class CombatResultsGui : BaseGui {
         }
     }
 
+    public override void HandleInput() {
+        base.HandleInput();
+        if (Input.IsKeyPressed(Keys.Enter)) {
+            MoveToNextCombat();
+        }
+    }
+
     public override void Update(float deltaTime) {
         _pawnPanel.Update();
         _gameHud.Update();
+        _pawnBodyEffectsWindow.Update();
         base.Update(deltaTime);
     }
 }

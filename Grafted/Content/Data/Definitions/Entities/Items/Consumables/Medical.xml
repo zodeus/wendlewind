@@ -16,14 +16,14 @@
         <Description>Heals a body part fully</Description>
         <TexturePath>Entities/Item/Consumables/MedKit</TexturePath>
         <BaseStats>
-            <CurrencyValue>2</CurrencyValue>
+            <CurrencyValue>15</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
         <Moniker>Cauterize</Moniker>
         <Label>Cauterize</Label>
         <StackLimit>1</StackLimit>
-        <Description>Cauterizes a severed limb (socket)</Description>
+        <Description>Cauterizes a severed limb (unsealed socket)</Description>
         <TexturePath>Entities/Item/Consumables/Cauterize</TexturePath>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
@@ -32,7 +32,7 @@
         <Description>Used to stitch arteries</Description>
         <TexturePath>Entities/Item/Consumables/ArterialThreads</TexturePath>
         <BaseStats>
-            <CurrencyValue>1</CurrencyValue>
+            <CurrencyValue>10</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
@@ -41,7 +41,7 @@
         <Description>Used to heal bones and external parts, will traverse the tree until it's been fully used.</Description>
         <TexturePath>Entities/Item/Consumables/MendersMist</TexturePath>
         <BaseStats>
-            <CurrencyValue>3</CurrencyValue>
+            <CurrencyValue>25</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <!--<ItemDef ParentName="MedicalItem">
@@ -56,7 +56,7 @@
         <Description>Used to sever large limbs</Description>
         <TexturePath>Entities/Item/Consumables/SurgicalSaw</TexturePath>
         <BaseStats>
-            <CurrencyValue>20</CurrencyValue>
+            <CurrencyValue>100</CurrencyValue>
         </BaseStats>
     </ItemDef>
 </Definitions>

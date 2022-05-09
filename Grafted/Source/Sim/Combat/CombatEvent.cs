@@ -22,7 +22,7 @@ public class CombatEvent {
     public CombatTurn CurrentTurn = null!;
     public int CurrentTurnNum;
     public bool IsInteractive = false;
-    public ItemContainer Loot = new();
+    public EntityContainer Loot = new();
     public readonly List<Pawn> PlayerPawns = new();
     public readonly List<Pawn> EnemyPawns = new();
     public readonly CombatRecord CombatRecord = new();
@@ -157,7 +157,7 @@ public class CombatEvent {
     private void CollectLoot() {
         foreach (Pawn enemy in EnemyPawns) {
             for (int i = enemy.Inventory.Count() - 1; i >= 0; i--) {
-                Item item = enemy.Inventory.Items[i];
+                Item item = enemy.Inventory.Entities[i];
                 Loot.TryAdd(item);
             }
 

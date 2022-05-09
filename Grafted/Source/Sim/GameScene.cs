@@ -1,7 +1,11 @@
+using System.Linq;
+using System.Linq.Expressions;
 using Grafted.Debug;
 using Grafted.Definitions;
 using Grafted.Scenes;
+using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Gui;
+using Grafted.Utils;
 
 namespace Grafted.Sim;
 
@@ -22,6 +26,14 @@ public class GameScene : Scene {
 
         Core.Sim.World.MoveToZone(Defs.Zones.VillageOfTheDamned, false);
         Core.Sim.Gui = new TownGui(Core.Sim.World.Zones[Defs.Zones.VillageOfTheDamned].Town!);
+
+        //DebugInfo();
+    }
+
+    private void DebugInfo() {
+        foreach (ItemDef item in DefRepository<ItemDef>.Defs) {
+            Log.Info($"{item.Label}: {item.BaseStats.Where(stat => stat.Def == Defs.Stats.CurrencyValue).FirstOrNull()?.Value}");
+        }
     }
 
     public void PlayIntro() {

@@ -157,7 +157,8 @@ public class GameHud : HorizontalStackPanel {
         _timeLabel.Text = $"{Core.Sim.World.Time} \\c[{timeColor}]{Core.Sim.World.Time.GeneralTimeOfDay()}";
         _dayLabel.Text = $"Day {Core.Sim.World.Time.CurrentDayString.PadLeft(3, '0')}";
         _zoneLabel.Text = $"{Core.Sim.World.CurrentZone.Def.Label}";
-        _distanceLabel.Text = $"{Core.Sim.World.CurrentZone.DistanceTraveled.ToString("0.00")}km ({Mathf.RoundToInt(Core.Sim.World.CurrentZone.PercentTraveled * 100)}%)";
+        _distanceLabel.Text = $"{Core.Sim.World.CurrentZone.DistanceTraveled.ToString("0.00")}km ({Mathf.RoundToInt(Core.Sim.World.CurrentZone.PercentTraveled * 100)}%) " +
+                              $"{Core.Sim.World.PlayerPawn.Body.MovementSpeed}";
         _zoneKillsLabel.Text = $" \\c[{UiTextColor.TextColorYellow}]{Core.Sim.World.CurrentZone.ZoneKills}";
 
         _energyLabel.Text = player.Body.Energy.ToString("P0");

@@ -11,11 +11,11 @@ public class MerchantPanel : HorizontalStackPanel, IUpdatable {
 
     public MerchantPanel(Pawn playerPawn, Town town) {
         DefaultProportion = Proportion.Auto;
-        _inventoryPanel = new MerchantContainerPanel(playerPawn.Inventory.Items, town.GetStructure<TownStructureMerchant>()!.Items, "Inventory", MerchantTransactionType.Sell) {
+        _inventoryPanel = new MerchantContainerPanel(playerPawn.Inventory.Entities, town.GetStructure<TownStructureMerchant>()!.Entities, "Inventory", MerchantTransactionType.Sell) {
             Visible = !playerPawn.IsDead, MinHeight = 700, MinWidth = 600
         };
 
-        _merchantPanel = new MerchantContainerPanel(town.GetStructure<TownStructureMerchant>()!.Items, playerPawn.Inventory.Items, "Merchant", MerchantTransactionType.Buy) {
+        _merchantPanel = new MerchantContainerPanel(town.GetStructure<TownStructureMerchant>()!.Entities, playerPawn.Inventory.Entities, "Merchant", MerchantTransactionType.Buy) {
             Margin = new Thickness(50, 0, 0, 0),
             Visible = !playerPawn.IsDead, MinHeight = 700, MinWidth = 600
         };

@@ -27,7 +27,7 @@ public class CombatTurn {
     }
 
     public void Prepare() {
-        Pawns = Pawns.OrderByDescending(pawn => StatExtensions.GetStatValue(pawn, Defs.Stats.AttackSpeed)).InRandomOrder().ToList();
+        Pawns = Pawns.InRandomOrder().OrderByDescending(pawn => pawn.GetStatValue(Defs.Stats.AttackSpeed)).ToList();
     }
 
     public IEnumerator Run() {
@@ -170,9 +170,8 @@ public class CombatTurn {
         Core.Sim.World.ProgressTime(Core.Random.Next(30, 120));
     }
 
-    private Pawn GetNewTarget(Pawn attacker) {
-        Pawn target = Pawns.InRandomOrder().First(target => target!.PawnType != attacker.PawnType && target.IsDead == false);
-        return target;
+    private Pawn? GetNewTarget(Pawn attacker) {
+        return Pawns.InRandomOrder().FirstOrNull(target => target!.PawnType != attacker.PawnType && target.IsDead == false);
     }
 
     private void UsePotionsIfNecessary(Pawn pawn, Pawn target, PawnTurnData turnData) {

@@ -1,7 +1,10 @@
+using System.Collections;
 using Grafted.Definitions;
+using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 using Grafted.Sim.Gui.MiscWidgets;
 using Grafted.Sim.Gui.TownWidgets;
 using Grafted.Sim.Gui.TownWidgets.HouseWidgets;
+using Grafted.Utils;
 using Microsoft.Xna.Framework;
 using Myra.Graphics2D;
 using Myra.Graphics2D.TextureAtlases;
@@ -15,15 +18,19 @@ namespace Grafted.Sim.Gui;
 public class TownGui : BaseGui {
     private readonly TabPanel _tabs;
     private readonly GameHud _gameHud;
+    private readonly ZoneBeginWindow _zoneBeginWindow;
+    private readonly PawnBodyEffectsWindow _pawnBodyEffectsWindow;
 
     public TownGui(Town town) {
         _gameHud = new GameHud { HorizontalAlignment = HorizontalAlignment.Stretch, Margin = new Thickness(0, 5, 0, 0) };
+        _zoneBeginWindow = new ZoneBeginWindow(Defs.Zones.PeacefulMeadow);
         _tabs = new TabPanel {
             ButtonStyle = BaseContent.Styles.Button.Large,
             HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 30, 0, 0), Width = 1800
         };
-        _tabs.AddTab("House", new HousePanel(Core.Sim.World.PlayerPawns[0], town));
-        _tabs.AddTab("Merchant", new MerchantPanel(Core.Sim.World.PlayerPawns[0], town));
+        _tabs.AddTab("House", new HousePanel(town));
+        _tabs.AddTab("Character", new PawnDetailPanel(Core.Sim.World.PlayerPawn, "Storage", town.GetStructure<TownStructureHouse>()!.Storage));
+        _tabs.AddTab("Merchant", new MerchantPanel(Core.Sim.World.PlayerPawn, town));
         _tabs.AddTab("Adventure", AdventurePanel());
 
         Desktop = new Desktop {
@@ -35,11 +42,16 @@ public class TownGui : BaseGui {
             },
             HasExternalTextInput = true
         };
+
+        _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(Core.Sim.World.PlayerPawn);
+        _pawnBodyEffectsWindow.Show(Desktop, new Point(50, 20));
     }
 
     public override void Update(float deltaTime) {
         _tabs.Update();
         _gameHud.Update();
+        _zoneBeginWindow.Update();
+        _pawnBodyEffectsWindow.Update();
         base.Update(deltaTime);
     }
 
@@ -57,9 +69,7 @@ public class TownGui : BaseGui {
             Text = Defs.Zones.PeacefulMeadow.Label, HorizontalAlignment = HorizontalAlignment.Stretch
         };
         button2.Click += (_, _) => {
-            Core.Sim.World.MoveToZone(Defs.Zones.PeacefulMeadow);
-            Core.Sim.World.DoZoneTravel();
-            Core.Sim.ActivateCombatEvent(Core.Sim.World.NextCombat());
+            _zoneBeginWindow.ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint());
         };
         Grid grid = new() {
             ShowGridLines = false, HorizontalAlignment = HorizontalAlignment.Center,
@@ -91,24 +101,19 @@ public class TownGui : BaseGui {
                     Spacing = 10,
                     Padding = new Thickness(20),
                     Widgets = {
-                        new Label(BaseContent.Styles.Label.Large) { Text = "Zones (In Town)" },
-                        new HorizontalSeparator(),
-                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "Alchemist", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "Forgemaster", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "Skinworker", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "The Mill", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "Fallow Field", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "Vegetable Field", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "Blood Court", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "Rectory", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "The Chapel", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-
-                        new Label(BaseContent.Styles.Label.Large) { Text = "Zones (Combat)", Margin = new Thickness(0, 20, 0, 0) },
-                        new HorizontalSeparator(),
                         button2,
                         button1,
+                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "The Grain Mill", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                         new TextButton(BaseContent.Styles.Button.Normal) { Text = "Festerpus Swamp", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "Frozen Forest", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
+                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "The Alchemist Hut", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
+                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "Forgotten Forest", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
+                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "Forgemaster Quarry", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
+                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "Temple of the Skinworkers", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
+                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "Fallow Field", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
+                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "Field of Vegetables", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
+                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "Blood Court", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
+                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "His Rectory", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
+                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "Scarlet Chapel", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                         new TextButton(BaseContent.Styles.Button.Normal) { Text = "Steamy Oil Vents", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                     }
                 }

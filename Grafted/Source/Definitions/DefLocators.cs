@@ -27,6 +27,7 @@ public static partial class Defs {
         public static StatDef MaxCarryWeight = null!;
         public static StatDef Weight = null!;
         public static StatDef CurrencyValue = null!;
+        public static StatDef MoveSpeed = null!;
     }
 }
 
@@ -35,6 +36,14 @@ public static partial class Defs {
     public static class PawnConfigs {
         public static PawnConfigDef PlayerPawn = null!;
         public static PawnConfigDef IntroPlayerPawn = null!;
+    }
+}
+
+public static partial class Defs {
+    [DefLocator]
+    public static class BodyEffects {
+        public static BodyEffectDef BeefedUp = null!;
+        public static BodyEffectDef DeathToll = null!;
     }
 }
 
@@ -53,6 +62,7 @@ public static partial class Defs {
     public static class Items {
         public static ItemDef RawMeat = null!;
         public static ItemDef CookedMeat = null!;
+        public static ItemDef DriedMeat = null!;
         public static ItemDef MedKit = null!;
         public static ItemDef Cauterize = null!;
         public static ItemDef ArterialThreads = null!;
@@ -61,10 +71,12 @@ public static partial class Defs {
         public static ItemDef JarOfBlood = null!;
         public static ItemDef AcidFlask = null!;
         public static ItemDef PumpinJuice = null!;
+        public static ItemDef Coin = null!;
         public static ItemDef SoulCoin = null!;
         public static ItemDef ShortSword = null!;
         public static ItemDef Firewood = null!;
         public static ItemDef WoodLog = null!;
+        public static ItemDef WoodBoard = null!;
     }
 }
 

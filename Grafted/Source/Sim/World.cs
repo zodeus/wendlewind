@@ -87,11 +87,11 @@ public class World : IExposable {
         ActiveCombat = null;
         float minutesSpentTravelling = CurrentZone.Def.MeanTimeBetweenEvents.RandomValue;
         ProgressTime(SimTime.SecondsInMinute * minutesSpentTravelling);
-        float distanceTraveled = (minutesSpentTravelling / SimTime.MinutesPerKm * CurrentZone.Def.TravelSpeedFactor) + CurrentZone.DistanceTraveled;
+        float distanceTraveled = (minutesSpentTravelling / SimTime.MinutesPerKm * CurrentZone.Def.TravelSpeedFactor * PlayerPawn.Body.MovementSpeed) + CurrentZone.DistanceTraveled;
         CurrentZone.DistanceTraveled = Mathf.Clamp(distanceTraveled, 0, CurrentZone.Def.TravelSize);
     }
 
-    public void ProgressTimeUntil(int time) {
+    public void ProgressUntilTimeOfDay(int time) {
         while (Time.CurrentTime != time) {
             ProgressTime(1);
         }
@@ -131,6 +131,8 @@ public class World : IExposable {
         }
 
         ActiveCombat?.Tick();
+
+        Core.Sim.OminousMessageSpawner.Tick();
     }
 
     public void RegisterKill(Pawn pawnKilled) {

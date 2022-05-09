@@ -11,8 +11,8 @@
     <StatDef>
         <Moniker>MoveSpeed</Moniker>
         <Label>Move Speed</Label>
-        <BaseValue>1</BaseValue>
-        <MinValue>0.1</MinValue>
+        <BaseValue>0</BaseValue>
+        <MinValue>0.0</MinValue>
         <MaxValue>100</MaxValue>
     </StatDef>
     <StatDef>

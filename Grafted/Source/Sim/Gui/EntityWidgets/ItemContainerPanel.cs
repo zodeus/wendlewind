@@ -14,13 +14,13 @@ using Myra.Graphics2D.UI.Styles;
 namespace Grafted.Sim.Gui.EntityWidgets;
 
 public class ItemContainerPanel : VerticalStackPanel {
-    private readonly ItemContainer _container;
-    private readonly ItemContainer? _receivingContainer;
+    private readonly EntityContainer _container;
+    private readonly EntityContainer? _receivingContainer;
 
     private readonly List<EntityListPanel> _sections = new();
     private readonly Label _weightLabel;
 
-    public ItemContainerPanel(ItemContainer container, ItemContainer? receivingContainer) {
+    public ItemContainerPanel(EntityContainer container, EntityContainer? receivingContainer) {
         _container = container;
         _receivingContainer = receivingContainer;
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
@@ -126,7 +126,7 @@ public class ItemContainerPanel : VerticalStackPanel {
     }
 
     private class ItemContainerPanelSection {
-        public ItemContainer Container { get; set; }
+        public EntityContainer Container { get; set; }
         public Func<Entity, bool>? Filter { get; set; }
         public string Label { get; set; }
     }

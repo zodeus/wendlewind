@@ -32,6 +32,7 @@ public class Simulation {
     public World World = null!;
     private BaseGui? _gui = null;
     public CombatSettings CombatSettings = new();
+    public OminousMessageSpawner OminousMessageSpawner = new();
     public bool IsPaused = false;
 
     public int Ticks => World.Time.Ticks;

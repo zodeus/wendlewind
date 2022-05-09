@@ -32,7 +32,7 @@ public class TendFirePanel : HorizontalStackPanel {
         };
         _add1Wood.Click += (_, _) => {
             Item wood = _house.Storage.Take(Defs.Items.Firewood, 1)
-                        ?? Core.Sim.World.PlayerPawns[0].Inventory.Items.Take(Defs.Items.Firewood, 1)!;
+                        ?? Core.Sim.World.PlayerPawns[0].Inventory.Entities.Take(Defs.Items.Firewood, 1)!;
             _house.AddWoodToFire(wood);
         };
         _add5Wood = new TextButton(BaseContent.Styles.Button.Normal) {
@@ -40,7 +40,7 @@ public class TendFirePanel : HorizontalStackPanel {
         };
         _add5Wood.Click += (_, _) => {
             Item wood = _house.Storage.Take(Defs.Items.Firewood, 5)
-                        ?? Core.Sim.World.PlayerPawns[0].Inventory.Items.Take(Defs.Items.Firewood, 5)!;
+                        ?? Core.Sim.World.PlayerPawns[0].Inventory.Entities.Take(Defs.Items.Firewood, 5)!;
             _house.AddWoodToFire(wood);
         };
         _add10Wood = new TextButton(BaseContent.Styles.Button.Normal) {
@@ -48,7 +48,7 @@ public class TendFirePanel : HorizontalStackPanel {
         };
         _add10Wood.Click += (_, _) => {
             Item wood = _house.Storage.Take(Defs.Items.Firewood, 10)
-                        ?? Core.Sim.World.PlayerPawns[0].Inventory.Items.Take(Defs.Items.Firewood, 10)!;
+                        ?? Core.Sim.World.PlayerPawns[0].Inventory.Entities.Take(Defs.Items.Firewood, 10)!;
             _house.AddWoodToFire(wood);
         };
         _startFire = new TextButton(BaseContent.Styles.Button.Normal) {

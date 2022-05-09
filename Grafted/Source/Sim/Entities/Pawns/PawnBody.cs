@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Grafted.Definitions;
 using Grafted.Maths;
 
 namespace Grafted.Sim.Entities.Pawns;
@@ -18,6 +20,17 @@ public class PawnBody {
     public float StomachLevel = 1;
     public PawnCapabilities Capabilities;
     public float BloodPercent => BloodAmount / MaxBlood;
+
+    public PawnBodyEffects Effects;
+
+    public bool IsWarm => Temperature is > 10 and < 40;
+
+    public float MovementSpeed {
+        get {
+            float moveBonus = AllExternalParts.SelectMany(p => p.Equipment.Values).Sum(v => v?.GetStatValue(Defs.Stats.MoveSpeed) ?? 0);
+            return 1 + moveBonus;
+        }
+    }
 
     public float BloodAmount {
         get => _bloodAmount;
@@ -55,6 +68,7 @@ public class PawnBody {
         Pawn = pawn;
         BloodAmount = MaxBlood;
         Capabilities = new PawnCapabilities(pawn);
+        Effects = new PawnBodyEffects(pawn);
     }
 
     private void GetParts(BodyPart part, List<BodyPart> parts, bool externalOnly = false) {
@@ -116,11 +130,14 @@ public class PawnBody {
     }
 
     public void Tick() {
+        Effects.Tick();
+
         // Heat Calculations
         PushExternalHeat();
 
         // Stomach Calculations
-        StomachLevel = Mathf.Clamp(StomachLevel - 0.002f, 0, 1);
+        float foodLossAmount = (Pawn.IsResting ? .5f : 1f) * 0.002f;
+        StomachLevel = Mathf.Clamp(StomachLevel - foodLossAmount, 0, 1);
         if (StomachLevel <= 0) {
             _ticksWithEmptyStomach++;
         }
@@ -136,12 +153,12 @@ public class PawnBody {
         // Energy Calculations
         ApplyEnergyLoss(0.0004f);
 
-        // Blood Loss Calculations
         if (RootSocket.AttachedPart == null) {
             BloodAmount = 0;
             BloodChangeLastFrame = 0;
         }
         else {
+            // Blood Loss Calculations & Regeneration
             float preTickBloodAmount = BloodAmount;
             float preTickBloodPercent = BloodPercent;
             CalculateBloodLossForExternalPart(RootSocket.AttachedPart!);
@@ -149,7 +166,7 @@ public class PawnBody {
                 bodyPart.TicksSinceLastHit++;
             }
 
-            Regenerate();
+            Regenerate(); // Regeneration
             if (Math.Abs(preTickBloodPercent - BloodPercent) > .00001) {
                 BloodChangeLastFrame = BloodPercent - preTickBloodPercent;
             }
@@ -225,7 +242,7 @@ public class PawnBody {
     }
 
     private void Regenerate() {
-        if (_ticksWithEmptyStomach > SimTime.HoursToTicks(2) || Energy < .2 || BloodPercent < 0.05 || Temperature < 10) {
+        if (_ticksWithEmptyStomach > SimTime.HoursToTicks(2) || Energy < .2 || BloodPercent < 0.05 || IsWarm == false) {
             return;
         }
 

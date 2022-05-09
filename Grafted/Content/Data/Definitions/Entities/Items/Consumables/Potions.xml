@@ -19,7 +19,7 @@
         <Description>Can be sipped during combat to replenish lost blood.</Description>
         <TexturePath>Entities/Item/Consumables/JarOfBlood</TexturePath>
         <BaseStats>
-            <CurrencyValue>2</CurrencyValue>
+            <CurrencyValue>50</CurrencyValue>
             <HealingValue>3000</HealingValue>
         </BaseStats>
     </ItemDef>
@@ -29,7 +29,7 @@
         <Description>Has a chance to blind opponent</Description>
         <TexturePath>Entities/Item/Consumables/AcidFlask</TexturePath>
         <BaseStats>
-            <CurrencyValue>6</CurrencyValue>
+            <CurrencyValue>80</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Potion">
@@ -38,7 +38,7 @@
         <Description>Increases sequences points for a short period of time</Description>
         <TexturePath>Entities/Item/Consumables/PumpinJuice</TexturePath>
         <BaseStats>
-            <CurrencyValue>4</CurrencyValue>
+            <CurrencyValue>60</CurrencyValue>
         </BaseStats>
     </ItemDef>
 </Definitions>

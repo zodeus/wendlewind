@@ -4,6 +4,7 @@
     <StatDef>
         <Moniker>SequencePoints</Moniker>
         <Label>Sequence Points</Label>
+        <HandlerClass>BodyStatHandler</HandlerClass>
         <BaseValue>0</BaseValue>
         <MinValue>0</MinValue>
         <MaxValue>100</MaxValue>
@@ -11,6 +12,7 @@
     <StatDef>
         <Moniker>AttackSpeed</Moniker>
         <Label>Attack Speed</Label>
+        <HandlerClass>BodyStatHandler</HandlerClass>
         <BaseValue>1</BaseValue>
         <MinValue>0.1</MinValue>
         <MaxValue>999</MaxValue>
@@ -18,6 +20,7 @@
     <StatDef>
         <Moniker>MeleeStrength</Moniker>
         <Label>Melee Strength</Label>
+        <HandlerClass>BodyStatHandler</HandlerClass>
         <BaseValue>1</BaseValue>
         <MinValue>0</MinValue>
         <MaxValue>100</MaxValue>
@@ -25,10 +28,14 @@
     <StatDef>
         <Moniker>MeleeAccuracy</Moniker>
         <Label>Melee Accuracy</Label>
+        <HandlerClass>BodyStatHandler</HandlerClass>
         <BaseValue>1</BaseValue>
         <MinValue>0</MinValue>
         <MaxValue>1</MaxValue>
     </StatDef>
+    
+    
+    
     <StatDef>
         <Moniker>MeleePower</Moniker>
         <Label>Melee Power</Label>

@@ -1,6 +1,7 @@
 using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Combat;
+using Grafted.Sim.Gui.TownWidgets;
 
 namespace Grafted.Sim.Entities.Items;
 
@@ -21,6 +22,11 @@ public class Item : Entity {
         _durability = MaxDurability;
 
         base.Initialize();
+    }
+
+    public int GetCurrencyValue(MerchantTransactionType transactionType) {
+        float transactionMultiplier = transactionType == MerchantTransactionType.Buy ? 1f : .7f;
+        return Mathf.CeilToInt(this.GetStatValue(Defs.Stats.CurrencyValue) * transactionMultiplier);
     }
 
     public bool CanBeUsedFor(ToolCategory toolCategory) {

@@ -4,6 +4,7 @@ using System.Xml;
 using Grafted.Definitions;
 using Grafted.Definitions.Loader;
 using Grafted.Maths;
+using Grafted.Sim.Entities.Pawns;
 using JetBrains.Annotations;
 
 namespace Grafted.Sim.Entities;
@@ -27,14 +28,14 @@ public class StatDef : Def {
     public float BaseValue;
     public float MinValue;
     public float MaxValue = float.MaxValue;
-    public Type HandlerClass = typeof(StatHandler);
+    public Type HandlerClass = typeof(DefaultStatHandler);
 
-    private StatHandler? _handler;
+    private DefaultStatHandler? _handler;
 
-    public StatHandler Handler {
+    public DefaultStatHandler Handler {
         get {
             if (_handler == null) {
-                _handler = (StatHandler) Activator.CreateInstance(HandlerClass, this)!;
+                _handler = (DefaultStatHandler) Activator.CreateInstance(HandlerClass, this)!;
             }
 
             return _handler;
@@ -68,12 +69,13 @@ public static class StatExtensions {
     }
 }
 
-public class StatHandler {
-    private readonly StatDef _stat;
+public class DefaultStatHandler {
+    protected readonly StatDef _stat;
 
-    public StatHandler(StatDef stat) {
+    public DefaultStatHandler(StatDef stat) {
         _stat = stat;
     }
+
     public virtual float GetValue(Entity entity) {
         float value = GetBaseValue(entity.Def);
         if (_stat.StatFactors != null) {
@@ -87,7 +89,7 @@ public class StatHandler {
         return value;
     }
 
-    private float GetBaseValue(EntityDef def) {
+    protected float GetBaseValue(EntityDef def) {
         float result = _stat.BaseValue;
         for (int i = 0; i < def.BaseStats.Count; i++) {
             if (def.BaseStats[i].Def != _stat) continue;
@@ -96,5 +98,26 @@ public class StatHandler {
         }
 
         return result;
+    }
+}
+
+public class BodyStatHandler : DefaultStatHandler {
+    public BodyStatHandler(StatDef stat) : base(stat) { }
+
+    public override float GetValue(Entity entity) {
+        float value = base.GetValue(entity);
+        /*if (entity is BodyPart part) {
+            foreach (BodyEffect effect in part.Pawn.Body.Effects) {
+                effect.ModifyIfApplicable(_stat, ref value);
+            }
+        }*/
+        
+        if (entity is Pawn pawn) {
+            foreach (BodyEffect effect in pawn.Body.Effects) {
+                effect.ModifyIfApplicable(_stat, ref value);
+            }
+        }
+
+        return value;
     }
 }

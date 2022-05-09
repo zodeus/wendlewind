@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef Name="OrganicResource" ParentName="ItemResource" Abstract="true">
+        <MaterialType>Organic</MaterialType>
+    </ItemDef>
+    <ItemDef ParentName="OrganicResource">
+        <Moniker>ButtonTopMushroom</Moniker>
+        <Label>Button-top Mushroom</Label>
+        <TexturePath>Entities/Item/Resource/Organic/ButtonTopMushroom</TexturePath>
+        <BaseStats>
+            <Weight>0.2</Weight>
+            <CurrencyValue>800</CurrencyValue>
+        </BaseStats>
+    </ItemDef>
+</Definitions>

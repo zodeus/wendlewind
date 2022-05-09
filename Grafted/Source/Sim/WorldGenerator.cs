@@ -7,6 +7,7 @@ public static class WorldGenerator {
     public static World GenerateNewWorld(PawnConfigDef startingPawn) {
         World world = new();
         world.Initialize();
+        world.Time.CurrentTimeInSeconds = SimTime.HoursToSeconds(8);
         world.AddPlayerPawn(GeneratePlayerPawn(startingPawn));
         return world;
     }

@@ -16,7 +16,7 @@ public class FoodPanel : EntityPanelBase {
         AddChild(new Image { Background = new TextureRegion(item.Icon), Width = 48, Height = 48 });
         AddChild(new Label("small") { Text = item.Def.Description, Wrap = true, Margin = new Thickness(10) });
 
-        if (item.ItemDef == Defs.Items.CookedMeat) {
+        if (item.ItemDef == Defs.Items.CookedMeat || item.ItemDef == Defs.Items.DriedMeat) {
             _eatButton = new TextButton(BaseContent.Styles.Button.Normal) { Text = "Eat" };
             _eatButton.Click += (_, _) => {
                 Core.Sim.World.PlayerPawns[0].TryEat(item);
@@ -26,8 +26,8 @@ public class FoodPanel : EntityPanelBase {
     }
 
     public override void Update() {
-        if (_eatButton !=null) {
-            _eatButton.Enabled = Core.Sim.World.PlayerPawn.IsHungry;    
+        if (_eatButton != null) {
+            _eatButton.Enabled = Core.Sim.World.PlayerPawn.IsHungry;
         }
     }
 }

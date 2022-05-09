@@ -48,14 +48,14 @@ public class EntityListPanelItem : HorizontalStackPanel {
 }
 
 public class EntityListPanel : VerticalStackPanel {
-    private readonly IEntityContainer _container;
+    private readonly EntityContainer _container;
     private readonly Action<Entity>? _rightClickAction;
     private readonly Action<Entity>? _leftClickAction;
     private readonly Dictionary<Entity, EntityListPanelItem> _items = new();
 
     private Func<Entity, bool>? _filter { get; }
 
-    public EntityListPanel(IEntityContainer container, Func<Entity, bool>? filter = null, Action<Entity>? leftClickAction = null, Action<Entity>? rightClickAction = null) {
+    public EntityListPanel(EntityContainer container, Func<Entity, bool>? filter = null, Action<Entity>? leftClickAction = null, Action<Entity>? rightClickAction = null) {
         Spacing = 5;
         _container = container;
         _leftClickAction = leftClickAction;

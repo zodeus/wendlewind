@@ -10,20 +10,21 @@
         <Label>Raw Meat</Label>
         <Description>Some raw meat</Description>
         <TexturePath>Entities/Item/Resource/Organic/RawMeat</TexturePath>
+        <FoodProperties>
+            <FoodType>RawMeat</FoodType>
+        </FoodProperties>
         <BaseStats>
             <Weight>.5</Weight>
-            <CurrencyValue>3</CurrencyValue>
+            <CurrencyValue>10</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Food">
         <Moniker>CookedMeat</Moniker>
         <Label>Cooked Meat</Label>
-        <Description>Some cooked meat</Description>
-        <MaterialType>Organic</MaterialType>
+        <Description>Some cooked meat, just a belly filler</Description>
         <TexturePath>Entities/Item/Resource/Organic/CookedMeat</TexturePath>
         <FoodProperties>
             <FoodType>CookedMeat</FoodType>
-            <TicksToIngest>100</TicksToIngest>
         </FoodProperties>
         <CraftingProperties>
             <MinutesToMake>30</MinutesToMake>
@@ -40,6 +41,22 @@
             <NutritionalValue>2500</NutritionalValue>
             <HealingValue>110</HealingValue>
             <DeteriorationRate>0.01</DeteriorationRate>
+            <CurrencyValue>15</CurrencyValue>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="Food">
+        <Moniker>DriedMeat</Moniker>
+        <Label>Dried Meat</Label>
+        <Description>Some dried meat, eating it grants the Beefed Up! effect</Description>
+        <TexturePath>Entities/Item/Resource/Organic/DriedMeat</TexturePath>
+        <FoodProperties>
+            <FoodType>DriedMeat</FoodType>
+        </FoodProperties>
+        <BaseStats>
+            <Weight>.2</Weight>
+            <NutritionalValue>2500</NutritionalValue>
+            <DeteriorationRate>0.01</DeteriorationRate>
+            <CurrencyValue>50</CurrencyValue>
         </BaseStats>
     </ItemDef>
 </Definitions>

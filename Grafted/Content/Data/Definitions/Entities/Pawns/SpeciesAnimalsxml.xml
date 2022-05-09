@@ -7,7 +7,7 @@
         <Moniker>Rabbit</Moniker>
         <Label>Rabbit</Label>
         <BaseStats>
-            <AttackSpeed>4</AttackSpeed>
+            <AttackSpeed>2</AttackSpeed>
             <MeleeStrength>.5</MeleeStrength>
             <MaxCarryWeight>10</MaxCarryWeight>
         </BaseStats>
@@ -25,7 +25,7 @@
         <Moniker>Pig</Moniker>
         <Label>Pig</Label>
         <BaseStats>
-            <AttackSpeed>6</AttackSpeed>
+            <AttackSpeed>3</AttackSpeed>
             <MeleeStrength>1</MeleeStrength>
             <MaxCarryWeight>80</MaxCarryWeight>
         </BaseStats>

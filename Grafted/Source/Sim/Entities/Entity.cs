@@ -15,7 +15,7 @@ public abstract class Entity : IExposable, IIdentityProvider {
 
     public int Id = -1;
     public EntityDef Def = null!;
-    public ItemContainer? Container;
+    public EntityContainer? Container;
     
     public virtual string Label => Def.Label;
     public virtual string LabelShort => Def.Label;

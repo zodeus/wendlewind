@@ -9,21 +9,21 @@ namespace Grafted.Sim.Entities.Pawns;
 public class PawnInventory : IExposable, IEnumerable<Item> {
     public Pawn Pawn;
 
-    public ItemContainer Items;
+    public EntityContainer Entities;
 
     public PawnInventory(Pawn pawn) {
         Pawn = pawn;
-        Items = new ItemContainer((int) pawn.GetStatValue(Defs.Stats.MaxCarryWeight));
+        Entities = new EntityContainer((int) pawn.GetStatValue(Defs.Stats.MaxCarryWeight));
     }
 
     public void Tick() {
-        Items.Tick();
+        Entities.Tick();
     }
 
     public void ExposeData() { }
 
     public IEnumerator<Item> GetEnumerator() {
-        return Items.GetEnumerator();
+        return Entities.GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator() {

@@ -45,7 +45,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel {
         if (Core.Sim.Gui!.MouseAttachment == null && Input.RightMouseButtonReleased && slot != EquipmentSlotType.BuiltIn) {
             Item? unEquippedItem = _pawn.Equipment.UnEquip(part, slot);
             if (unEquippedItem != null) {
-                if (_pawn.Inventory.Items.TryAdd(unEquippedItem) == false) {
+                if (_pawn.Inventory.Entities.TryAdd(unEquippedItem) == false) {
                     //return item, failed to place in inventory
                     _pawn.Equipment.TryEquip(part, slot, unEquippedItem);
                 }
@@ -70,7 +70,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel {
 
             // Try Equip
             if (item.ItemDef.EquipmentProperties.SlotUsedToEquip == slot || (item.ItemDef.ItemType == ItemType.Potion && slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2)) {
-                ItemContainer transferringContainer = item.Container!;
+                EntityContainer transferringContainer = item.Container!;
                 Item? unEquippedItem = null;
                 if (item.ItemDef.ItemType == ItemType.Potion) {
                     //todo implement splitting

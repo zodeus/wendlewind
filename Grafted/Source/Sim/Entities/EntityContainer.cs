@@ -6,14 +6,13 @@ using Microsoft.Xna.Framework;
 
 namespace Grafted.Sim.Entities;
 
-public interface IEntityContainer : IEnumerable<Entity> { }
 
-public class ItemContainer : IEntityContainer, IEnumerable<Item> {
+public class EntityContainer : IEnumerable<Item> {
     private readonly List<Item> _list;
     private int _weight;
     private int _maxWeight;
 
-    public ItemContainer(int maxWeight = 999) {
+    public EntityContainer(int maxWeight = 999) {
         _list = new List<Item>();
         _maxWeight = maxWeight;
     }
@@ -45,7 +44,7 @@ public class ItemContainer : IEntityContainer, IEnumerable<Item> {
 
     public Item this[int i] => _list[i];
 
-    IEnumerator<Entity> IEnumerable<Entity>.GetEnumerator() {
+    IEnumerator<Item> IEnumerable<Item>.GetEnumerator() {
         return GetEnumerator();
     }
 

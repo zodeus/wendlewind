@@ -26,11 +26,13 @@ public static partial class BaseContent {
         public static Texture2D Cauterize = null!;
         public static Texture2D QuestionMark = null!;
         public static Texture2D Village = null!;
+        public static Texture2D ZoneBgPeacefulMeadow = null!;
 
         public static void Load() {
             BadTexture = Core.Content.Load<Texture2D>(BadTexturePath);
 
             // Main Menu
+            ZoneBgPeacefulMeadow = Core.Content.Load<Texture2D>("UI/Zones/PeacefulMeadow");
             MilgrethImage = Core.Content.Load<Texture2D>("UI/MainMenu/Milgreth");
             MilgrethTitle = Core.Content.Load<Texture2D>("UI/MainMenu/MilgrethTitle");
             MilgrethPlay = Core.Content.Load<Texture2D>("UI/MainMenu/Play");
@@ -106,6 +108,7 @@ public static partial class BaseContent {
                 public const string QuestionMark = "icon-question-mark-32-default";
                 public const string Trash = "icon-trash";
                 public const string PotionSlot = "icon-potion-slot";
+                public const string Coin = "icon-gold-coin";
                 public const string SoulCoin = "icon-soul-coin";
                 public const string Blood = "icon-blood-64";
                 public const string Walking = "icon-walking-64";

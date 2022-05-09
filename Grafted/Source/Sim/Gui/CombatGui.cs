@@ -6,13 +6,15 @@ using Grafted.Sim.Gui.CombatWidgets;
 using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 using Grafted.Sim.Gui.MiscWidgets;
 using Grafted.UI;
+using Grafted.Utils;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 using Myra.Graphics2D;
 using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.UI.Styles;
 using HorizontalAlignment = Myra.Graphics2D.UI.HorizontalAlignment;
+using Keys = Microsoft.Xna.Framework.Input.Keys;
 using Label = Myra.Graphics2D.UI.Label;
 
 namespace Grafted.Sim.Gui;
@@ -28,6 +30,7 @@ public class CombatGui : BaseGui {
     private readonly PawnBodyPanel _pawnBodyView;
     private ImageButton _playerQueuedPotionSlot;
     private Item? _playerQueuedPotion = null;
+    private readonly PawnBodyEffectsWindow _pawnBodyEffectsWindow;
     public CombatEvent CombatEvent => _combatEvent;
 
     public CombatGui(CombatEvent combatEvent) {
@@ -137,6 +140,10 @@ public class CombatGui : BaseGui {
             },
             HasExternalTextInput = true
         };
+        
+        
+        _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(Core.Sim.World.PlayerPawn);
+        _pawnBodyEffectsWindow.Show(Desktop, new Point(50, 20));
     }
 
     private Action<CombatState> CombatStateChangedAction() {
@@ -185,8 +192,23 @@ public class CombatGui : BaseGui {
         _playerPartyPanel.Update();
         _opponentPartyPanel.Update();
         _pawnBodyView.Update();
+        _pawnBodyEffectsWindow.Update();
         _turnLabel.Text = $"Turn {_combatEvent.CurrentTurnNum.ToString().PadLeft(2, '0')}";
         base.Update(deltaTime);
+    }
+
+    public override void Render(SpriteBatch spriteBatch, float deltaTime) {
+        spriteBatch.Begin(
+            SpriteSortMode.Deferred,
+            BlendState.NonPremultiplied,
+            SamplerState.PointClamp,
+            DepthStencilState.None,
+            RasterizerState.CullNone
+        );
+        spriteBatch.Draw(BaseContent.Textures.ZoneBgPeacefulMeadow, new Rectangle(0, 0, Screen.Width, Screen.Height), new Color(255, 255, 255, 20));
+        spriteBatch.End();
+
+        base.Render(spriteBatch, deltaTime);
     }
 
     private void AddCombatLogEntry(string text, Color? color = null) {

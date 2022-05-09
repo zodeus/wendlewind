@@ -12,15 +12,15 @@ public class PawnDetailPanel : Panel, IUpdatable {
     private readonly PawnEquipmentPanel _equipmentPanel;
     private readonly PawnBodyPanel _bodyPanel;
 
-    public PawnDetailPanel(Pawn playerPawn, string receivingContainerTitle, ItemContainer receivingContainer) {
+    public PawnDetailPanel(Pawn playerPawn, string receivingContainerTitle, EntityContainer receivingContainer) {
         _bodyPanel = new PawnBodyPanel(playerPawn.Body);
         _inventoryPanel = new ItemContainerPanel(
-            playerPawn.Inventory.Items,
+            playerPawn.Inventory.Entities,
             receivingContainer
         ) { Visible = !playerPawn.IsDead, MinHeight = 700, Width = 400 };
 
         _equipmentPanel = new PawnEquipmentPanel(playerPawn);
-        _otherContainerPanel = new ItemContainerPanel(receivingContainer, playerPawn.Inventory.Items) {
+        _otherContainerPanel = new ItemContainerPanel(receivingContainer, playerPawn.Inventory.Entities) {
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame], VerticalAlignment = VerticalAlignment.Stretch
         };
 

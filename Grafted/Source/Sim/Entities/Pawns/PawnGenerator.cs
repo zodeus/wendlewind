@@ -33,9 +33,9 @@ public static class PawnGenerator {
             return;
         }
 
-        var skills = pawn.Skills.InRandomOrder().ToList();
-        skills[0].Level = new RangeInt(2, 4).RandomValue;
-        skills[1].Level = new RangeInt(2, 4).RandomValue;
+        //var skills = pawn.Skills.InRandomOrder().ToList();
+        //skills[0].Level = new RangeInt(2, 4).RandomValue;
+        //skills[1].Level = new RangeInt(2, 4).RandomValue;
         /*RangeInt range = new(0, 3);
         foreach (Skill skill in pawn.Skills) {
             skill.Level = range.RandomValue;
@@ -52,7 +52,7 @@ public static class PawnGenerator {
     public static void RegisterInventory(Pawn pawn, List<ItemDropCount> items) {
         foreach (ItemDropCount dropCount in items) {
             if (Core.Random.Chance(dropCount.ChanceToDrop)) {
-                pawn.Inventory.Items.TryAdd(EntityGenerator.CreateEntity<Item>(dropCount.Item, dropCount.Amount.RandomValue));
+                pawn.Inventory.Entities.TryAdd(EntityGenerator.CreateEntity<Item>(dropCount.Item, dropCount.Amount.RandomValue));
             }
         }
     }

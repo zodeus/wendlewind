@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyEffectDef>
+        <Moniker>BeefedUp</Moniker>
+        <Label>Beefed Up!</Label>
+        <AffectedStats>
+            <ListItem>
+                <Stat>MeleeStrength</Stat>
+                <Offset>1</Offset>
+            </ListItem>
+            <ListItem>
+                <Stat>AttackSpeed</Stat>
+                <Offset>1</Offset>
+            </ListItem>
+        </AffectedStats>
+    </BodyEffectDef>
+    <BodyEffectDef>
+        <Moniker>DeathToll</Moniker>
+        <Label>Death Toll</Label>
+        <AffectedStats>
+            <ListItem>
+                <Stat>MeleeStrength</Stat>
+                <Factor>-0.20</Factor>
+            </ListItem>
+            <ListItem>
+                <Stat>AttackSpeed</Stat>
+                <Factor>-.20</Factor>
+            </ListItem>
+        </AffectedStats>
+    </BodyEffectDef>
+</Definitions>

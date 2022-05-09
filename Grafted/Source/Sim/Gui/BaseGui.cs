@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using FontStashSharp;
-using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Gui.EntityWidgets;
@@ -8,9 +7,7 @@ using Grafted.Sim.Gui.MiscWidgets;
 using Grafted.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Myra.Graphics2D;
 using Myra.Graphics2D.UI;
-using Myra.Graphics2D.UI.Styles;
 
 namespace Grafted.Sim.Gui;
 
@@ -119,32 +116,6 @@ public abstract class BaseGui {
     public void TransferScreenMessage(BaseGui gui) {
         gui._screenMessage = _screenMessage;
         gui._screenMessageTimeLeft = _screenMessageTimeLeft;
-    }
-}
-
-public class DeathGui : Window {
-    public DeathGui() {
-        TextButton button = new(BaseContent.Styles.Button.Large) { Text = "Resurrect" };
-        button.Click += (_, _) => {
-            Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorYellow}]You have been reborn"));
-            Core.Sim.World.PlayerPawns.Clear();
-            Core.Sim.World.PlayerPawns.Add(WorldGenerator.GeneratePlayerPawn(Defs.PawnConfigs.PlayerPawn));
-            Core.Sim.World.CurrentZone.Reset();
-            Core.Sim.World.MoveToZone(Defs.Zones.VillageOfTheDamned, false);
-            Core.Sim.Gui = new TownGui(Core.Sim.World.Zones[Defs.Zones.VillageOfTheDamned].Town!);
-        };
-        TitleGrid.Visible = false;
-        Width = Screen.Width - 100;
-        Height = Screen.Height - 100;
-        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.Red];
-        Content = new VerticalStackPanel {
-            Spacing = 15,
-            Padding = new Thickness(50), HorizontalAlignment = HorizontalAlignment.Center,
-            Widgets = {
-                new Label(BaseContent.Styles.Label.Large) { Text = "You died" },
-                button
-            }
-        };
     }
 }
 
