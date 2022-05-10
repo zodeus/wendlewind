@@ -2,10 +2,11 @@ using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Gui.TownWidgets;
+using Grafted.Sim.Persistence;
 
 namespace Grafted.Sim.Entities.Items;
 
-public class Item : Entity {
+public class Item : Entity,IExposable{
     public ItemDef ItemDef => (ItemDef) Def;
     private float _durability;
     public float MaxDurability = 0;
@@ -87,4 +88,11 @@ public class Item : Entity {
 
         return false;
     }*/
+
+    public override void ExposeData() {
+        Scribe_Values.Look(ref _durability!, "Durability");
+        Scribe_Values.Look(ref MaxDurability!, "MaxDurability");
+        Scribe_Values.Look(ref StackSize!, "StackSize");
+        base.ExposeData();
+    }
 }

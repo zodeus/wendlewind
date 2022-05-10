@@ -4,6 +4,7 @@ using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Items;
+using Grafted.Sim.Persistence;
 using Grafted.Utils;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,7 +12,10 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Grafted.Sim.Entities.Pawns;
 
 [UsedImplicitly] // Used by EntityGenerator, referenced by EntityDef.EntityClass
-public class Pawn : Entity {
+public class Pawn : Entity, IExposable {
+    private int _sequencePoints = 0;
+    private bool _isDead = false;
+
     public RaceDef Race = null!;
     public PawnBiography Biography = null!;
     public PawnTraits Traits = null!;
@@ -22,20 +26,16 @@ public class Pawn : Entity {
     public PawnEquipment Equipment = null!;
     public PawnType PawnType = PawnType.Invalid;
     public Zone? Zone;
-    public bool SequencePointDirty = true;
     public int MaxCarryWeight = 0;
+
+    public bool SequencePointDirty = true;
     public bool IsResting;
 
-    private int _sequencePoints = 0;
-    private bool _isDead = false;
-
     public PawnDef PawnDef => (PawnDef) Def;
-
     public string Species => PawnDef.Label;
     public override string Label => Biography.Name;
     public override string LabelShort => Biography.Name;
     public override Texture2D Icon => Race.Icon;
-
     public bool IsHungry => Body.StomachLevel < 0.6f;
 
     public bool IsDead {
@@ -44,7 +44,6 @@ public class Pawn : Entity {
     }
 
     public bool IsIncapacitated => false; //todo Health.IsIncapacitated;
-
     public Gender Gender => Biography.Gender;
 
     public int SequencePoints {
@@ -213,6 +212,19 @@ public class Pawn : Entity {
     }
 
     public override void ExposeData() {
+        Scribe_Values.Look(ref _sequencePoints, "SequencePoints");
+        Scribe_Values.Look(ref _isDead, "IsDead");
+        Scribe_Values.Look(ref PawnType, "PawnType");
+        Scribe_Values.Look(ref MaxCarryWeight, "MaxCarryWeight");
+        Scribe_Defs.Look(ref Race!, "Race");
+        Scribe_Deep.Look(ref Biography!, "Biography", this);
+        Scribe_Deep.Look(ref Traits!, "Traits", this);
+        Scribe_Deep.Look(ref Brain!, "Brain", this);
+        Scribe_Deep.Look(ref Body!, "Body", this);
+        Scribe_Deep.Look(ref Skills!, "Skills", this);
+        Scribe_Deep.Look(ref Inventory!, "Inventory", this);
+        Scribe_Deep.Look(ref Equipment!, "Equipment", this);
+        Scribe_References.Look(ref Zone!, "Zone");
         base.ExposeData();
     }
 

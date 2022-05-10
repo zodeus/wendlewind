@@ -1,7 +1,9 @@
 using Grafted.Debug;
+using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Gui;
+using Grafted.Sim.Persistence;
 using Grafted.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -26,11 +28,12 @@ public class CombatSettings {
     }
 }
 
-public class Simulation {
+public class Simulation : IExposable {
+    private BaseGui? _gui = null;
+
     public SimulationMessages Messages = new();
     public IdProvider IdProvider = new();
     public World World = null!;
-    private BaseGui? _gui = null;
     public CombatSettings CombatSettings = new();
     public OminousMessageSpawner OminousMessageSpawner = new();
     public bool IsPaused = false;
@@ -85,6 +88,20 @@ public class Simulation {
             CombatSettings.TogglePause();
         }
 
+        if (Input.IsKeyPressed(Keys.S) && Input.IsKeyDown(Keys.LeftControl) && Core.Sim.World.ActiveCombat == null) {
+            Save("save.xml");
+            Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData {
+                Text = $"Game Saved",
+                Font = BaseContent.Fonts.Default.Large,
+                Duration = 5,
+                Color = Color.LimeGreen
+            });
+        }
+
+        if (Input.IsKeyPressed(Keys.L) && Input.IsKeyDown(Keys.LeftControl)) {
+            Load("save.xml");
+        }
+
         if (Input.IsKeyPressed(Keys.D0)) {
             CombatSettings.Speed = 0;
         }
@@ -105,7 +122,7 @@ public class Simulation {
             CombatSettings.Speed = .06f;
         }
 
-        if (Input.IsKeyPressed(Keys.F2)) {
+        if (Input.IsKeyPressed(Keys.F2) && Input.IsKeyDown(Keys.LeftControl)) {
             if (Input.IsKeyDown(Keys.LeftControl)) {
                 ((GameScene) Core.Scene.ActiveScene!).PlayIntro();
             }
@@ -148,13 +165,48 @@ public class Simulation {
         Gui.Render(spriteBatch, deltaTime);
     }
 
+    #region Persistence
+
     public void Save(string filePath) {
         Log.Info("Saving Game to " + filePath);
+        Scribe.Saver.InitSaving(filePath, "SaveData");
+        Simulation sim = this;
+        Scribe_Deep.Look(ref sim!, "Simulation");
+        Scribe.Saver.FinalizeSaving();
     }
 
     public void Load(string filePath) {
-        Log.Info("Loading from " + filePath);
+        Scribe.Loader.InitLoading(filePath);
+        if (!Scribe.EnterNode("Simulation")) {
+            Log.Error("Could not find game XML node.");
+            Scribe.ForceStop();
+            return;
+        }
+
+        ExposeDataInternal();
+
+        Scribe.Loader.FinalizeLoading();
+        Core.Sim.World.CurrentZone = Core.Sim.World.Zones[Defs.Zones.VillageOfTheDamned];
+        Core.Sim.Gui = new TownGui(Core.Sim.World.CurrentZone.Town!);
     }
+
+
+    public void ExposeData() {
+        if (Scribe.State == ScribeState.LoadingObjects) {
+            Log.Error("You must use Simulation.Load method to load simulation.");
+            return;
+        }
+
+        ExposeDataInternal();
+    }
+
+    private void ExposeDataInternal() {
+        Scribe_Deep.Look(ref World!, "World");
+        Scribe_Deep.Look(ref IdProvider!, "IdProvider");
+        Scribe_Deep.Look(ref Messages!, "Messages");
+    }
+
+    #endregion
 
     public void ActivateCombatEvent(CombatEvent combat) {
         World.ActiveCombat = combat;

@@ -17,17 +17,14 @@ public enum ZoneType {
 
 public class World : IExposable {
     public SimTime Time = null!;
-
     public List<Pawn> PlayerPawns = null!;
-    public Pawn PlayerPawn => PlayerPawns[0];
-    public int TotalKills;
     public PawnDeathRecords DeathRecords = null!;
-
     public Zone CurrentZone = null!;
-
     public Dictionary<ZoneDef, Zone> Zones = null!;
-
     public CombatEvent? ActiveCombat;
+    public int TotalKills;
+
+    public Pawn PlayerPawn => PlayerPawns[0];
 
     public void Initialize() {
         Time = new SimTime();
@@ -59,8 +56,6 @@ public class World : IExposable {
         return CombatGenerator.GenerateForZone(PlayerPawns, CurrentZone);
     }
 
-    public void ExposeData() { }
-
     public DialogueNode NextDialogue() {
         return DialogueGenerator.Generate();
     }
@@ -79,6 +74,9 @@ public class World : IExposable {
         Core.Sim.Messages.Push(new Message(
             $"\\c[{UiTextColor.TextColorPawn}]{PlayerPawns[0]} \\c[{UiTextColor.TextColorDefault}]moved to zone \\c[{UiTextColor.TextColorZone}]{zoneDef.Label}"
         ));
+
+        Core.Sim.Save("save.xml");
+        Log.Info("Autosaving");
     }
 
     public void DoZoneTravel() {
@@ -142,5 +140,14 @@ public class World : IExposable {
         TotalKills++;
         CurrentZone.ZoneKills++;
         CurrentZone.TotalZoneKills++;
+    }
+
+    public void ExposeData() {
+        Scribe_Deep.Look(ref Time!, "Time");
+        Scribe_Collections.Look(ref PlayerPawns!, "PlayerPawns", LookMode.Deep);
+        Scribe_Deep.Look(ref DeathRecords!, "DeathRecords");
+        Scribe_References.Look(ref CurrentZone!, "CurrentZone");
+        Scribe_Collections.Look(ref Zones!, "Zones", LookMode.Def, LookMode.Deep);
+        Scribe_Values.Look(ref TotalKills, "TotalKills");
     }
 }

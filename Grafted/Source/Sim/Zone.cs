@@ -2,12 +2,13 @@ using System.Collections.Generic;
 using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Entities.Items;
+using Grafted.Sim.Persistence;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Grafted.Sim;
 
-public class Zone {
-    public ZoneDef Def;
+public class Zone : IExposable, IIdentityProvider {
+    public ZoneDef Def = null!;
     public int ZoneKills = 0;
     public int TotalZoneKills = 0;
     public float DistanceTraveled = 0;
@@ -28,6 +29,17 @@ public class Zone {
 
     public void Tick() {
         Town?.Tick();
+    }
+
+    public void ExposeData() {
+        Scribe_Defs.Look(ref Def!, "Def");
+        Scribe_Values.Look(ref TotalZoneKills!, "TotalZoneKills");
+        Scribe_Values.Look(ref FurthestDistanceTraveled!, "FurthestDistanceTraveled");
+        Scribe_Deep.Look(ref Town!, "Town");
+    }
+
+    public string GetUniqueId() {
+        return Def.Moniker;
     }
 }
 

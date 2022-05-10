@@ -57,7 +57,7 @@
                 <PawnName>A Glump</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <EquipmentItems>
-                    <ListItem>Knife</ListItem>
+                    <ListItem>WoodenHammer</ListItem>
                     <ListItem>LeatherGlove</ListItem>
                     <ListItem>LeatherGlove</ListItem>
                 </EquipmentItems>
@@ -78,7 +78,7 @@
     </CombatConfigDef>
     <CombatConfigDef>
         <Moniker>TheOutskirts-03</Moniker>
-        <SpawnRange>.5~1</SpawnRange>
+        <SpawnRange>.5~.75</SpawnRange>
         <Zone>TheOutskirts</Zone>
         <Enemies>
             <ListItem>
@@ -106,7 +106,7 @@
                 <PawnName>A Glump</PawnName>
                 <SpawnWeight>5</SpawnWeight>
                 <EquipmentItems>
-                    <ListItem>Mace</ListItem>
+                    <ListItem>WoodenHammer</ListItem>
                     <ListItem>BucketHelmet</ListItem>
                     <ListItem>LeatherGlove</ListItem>
                     <ListItem>LeatherGlove</ListItem>
@@ -121,6 +121,57 @@
                     <ListItem>
                         <Item>Coin</Item>
                         <Amount>700~900</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </CombatConfigDef>
+    <CombatConfigDef>
+        <Moniker>TheOutskirts-04</Moniker>
+        <SpawnRange>.75~1</SpawnRange>
+        <Zone>TheOutskirts</Zone>
+        <Enemies>
+            <ListItem>
+                <Race>TruffleBoar</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Truffle Boar</PawnName>
+                <SpawnWeight>1</SpawnWeight>
+                <SpawnDuring>Day</SpawnDuring>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>4~8</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>Coin</Item>
+                        <Amount>700~900</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+            <ListItem>
+                <Race>Glump</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>A Glump</PawnName>
+                <SpawnWeight>10</SpawnWeight>
+                <EquipmentItems>
+                    <ListItem>Knife</ListItem>
+                    <ListItem>BucketHelmet</ListItem>
+                    <ListItem>LeatherGlove</ListItem>
+                    <ListItem>LeatherGlove</ListItem>
+                    <ListItem>AcidFlask</ListItem>
+                </EquipmentItems>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>SoulCoin</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>Coin</Item>
+                        <Amount>1000~1500</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>

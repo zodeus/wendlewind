@@ -222,4 +222,18 @@ public static class GenTypes {
             }
         }
     }
+    
+    public static string GetTypeNameWithoutIgnoredNamespaces(Type type) {
+        if (type.IsGenericType) {
+            return type.ToString();
+        }
+
+        for (int i = 0; i < ImpliedNamespaceNames.Count; i++) {
+            if (type.Namespace == ImpliedNamespaceNames[i]) {
+                return type.Name;
+            }
+        }
+
+        return type.FullName;
+    }
 }

@@ -1,8 +1,9 @@
 using System.Linq;
+using Grafted.Sim.Persistence;
 
 namespace Grafted.Sim.Entities.Pawns;
 
-public class PawnCapabilities {
+public class PawnCapabilities : IExposable {
     private readonly Pawn _pawn;
 
     public PawnCapabilities(Pawn pawn) {
@@ -19,4 +20,6 @@ public class PawnCapabilities {
             };
         }
     }
+
+    public void ExposeData() { }
 }

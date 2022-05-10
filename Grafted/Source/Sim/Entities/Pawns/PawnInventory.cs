@@ -19,11 +19,10 @@ public class PawnInventory : IExposable, IEnumerable<Item> {
     public void Tick() {
         if (Pawn.MaxCarryWeight != Entities.MaxWeight) {
             Entities.UpdateMaxWeight(Pawn.MaxCarryWeight);
-        } 
+        }
+
         Entities.Tick();
     }
-
-    public void ExposeData() { }
 
     public IEnumerator<Item> GetEnumerator() {
         return Entities.GetEnumerator();
@@ -31,5 +30,9 @@ public class PawnInventory : IExposable, IEnumerable<Item> {
 
     IEnumerator IEnumerable.GetEnumerator() {
         return GetEnumerator();
+    }
+
+    public void ExposeData() {
+        Scribe_Deep.Look(ref Entities!, "Entities");
     }
 }

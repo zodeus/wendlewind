@@ -1,5 +1,6 @@
 using System;
 using Grafted.Maths;
+using Grafted.Sim.Persistence;
 
 namespace Grafted.Sim.Entities.Pawns;
 
@@ -27,11 +28,13 @@ class HitPointScalerCurve : HitPointScaler {
     }
 }
 
-public class BodyPartSocket {
+public class BodyPartSocket : IExposable, IIdentityProvider {
     public BodyPartSocketDef Def;
     public BodyPart? AttachedPart;
     public BodyPart? ParentPart;
     public bool IsSealed = false;
+    public int Id;
+    public static int NEXT_SOCKET_ID = 1;
 
     public BodyPartPosition? Position => Def.Position ?? ParentPart?.Position;
 
@@ -39,9 +42,12 @@ public class BodyPartSocket {
 
     public string Label => Def.Label;
 
+    public BodyPartSocket() { } // todo guard, only used by loader
+
     public BodyPartSocket(BodyPartSocketDef def, BodyPart? parentPart = null) {
         Def = def;
         ParentPart = parentPart;
+        Id = NEXT_SOCKET_ID++;
     }
 
     public BodyPart TryAttachPart(BodyPartDef def) {
@@ -68,5 +74,23 @@ public class BodyPartSocket {
 
     public override string ToString() {
         return Def.Moniker;
+    }
+
+    public string GetUniqueId() {
+        return $"{GetType().Name}-{Id}";
+    }
+
+    public void ExposeData() {
+        // public BodyPartSocketDef Def;
+        // public BodyPart? AttachedPart;
+        // public BodyPart? ParentPart;
+        // public bool IsSealed = false;
+
+        Scribe_Values.Look(ref Id!, "Id");
+        Scribe_Defs.Look(ref Def!, "Def");
+        Scribe_Deep.Look(ref AttachedPart!, "AttachedPart");
+        Scribe_References.Look(ref ParentPart!, "ParentPart");
+        Scribe_Values.Look(ref IsSealed, "IsSealed");
+        Scribe_Values.Look(ref NEXT_SOCKET_ID, "NEXT_SOCKET_ID");
     }
 }

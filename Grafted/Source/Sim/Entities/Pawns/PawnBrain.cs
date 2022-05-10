@@ -8,7 +8,6 @@ public class PawnBrain : IExposable {
     public PawnCombatSettings CombatSettings;
     public PawnBrain(Pawn pawn) {
         _pawn = pawn;
-        
         CombatSettings = new PawnCombatSettings();
     }
 

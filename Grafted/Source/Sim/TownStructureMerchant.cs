@@ -1,4 +1,5 @@
 using Grafted.Sim.Entities;
+using Grafted.Sim.Persistence;
 using JetBrains.Annotations;
 
 namespace Grafted.Sim;
@@ -20,5 +21,12 @@ public class TownStructureMerchant : TownStructure {
         }
 
         Entities.Tick();
+    }
+
+    public override void ExposeData() {
+        Scribe_Values.Look(ref _lastRefreshTick!, "_lastRefreshTick");
+        Scribe_Values.Look(ref _refreshInterval!, "_refreshInterval");
+        Scribe_Deep.Look(ref Entities!, "Entities");
+        base.ExposeData();
     }
 }

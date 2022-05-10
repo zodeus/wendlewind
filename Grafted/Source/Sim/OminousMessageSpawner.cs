@@ -56,6 +56,7 @@ public class OminousMessageSpawner {
             nextMessageDay += daysRange.RandomValue;
         }
     }
+
     private void RegisterSpawn(ScreenMessageData messageData, int daysBeginRange, int daysEndRange) {
         _messages[Core.Random.Next(SimTime.TicksPerDay * daysBeginRange, SimTime.TicksPerDay * daysEndRange)] = messageData;
     }

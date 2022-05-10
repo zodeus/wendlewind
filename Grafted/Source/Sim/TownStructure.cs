@@ -1,6 +1,8 @@
+using Grafted.Sim.Persistence;
+
 namespace Grafted.Sim;
 
-public abstract class TownStructure {
+public abstract class TownStructure :IExposable{
     public TownStructureDef Def = null!;
     public int Id = -1;
     public Town Town = null!;
@@ -8,4 +10,9 @@ public abstract class TownStructure {
     public virtual void Tick() { }
 
     public virtual void Initialize() { }
+    public virtual void ExposeData() {
+        Scribe_Values.Look(ref Id, "Id");
+        Scribe_Defs.Look(ref Def!, "Def");
+        Scribe_References.Look(ref Town!, "Town");
+    }
 }

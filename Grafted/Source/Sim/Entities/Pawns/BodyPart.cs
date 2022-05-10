@@ -5,25 +5,21 @@ using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Items;
+using Grafted.Sim.Persistence;
 using Grafted.Utils;
 
 namespace Grafted.Sim.Entities.Pawns;
 
 public class BodyPart : Entity {
     private float _hitPoints;
-
     private string? _adaptedLabel;
-
     private bool _isSevered; // todo, this should be set by an applied health condition
 
     public float MaxHitPoints;
-
     public BodyPartSocket? Socket;
-
     public List<BodyPartSocket> Sockets = new();
-
     public Dictionary<EquipmentSlotType, Item?> Equipment = new();
-
+    public int TicksSinceLastHit = int.MaxValue;
     public BodyPartDef BodyPartDef => (BodyPartDef) Def;
 
     public override string Label => _adaptedLabel;
@@ -36,12 +32,8 @@ public class BodyPart : Entity {
     public bool IsBone => BodyPartDef.IsBone;
     public bool IsOrgan => BodyPartDef.IsOrgan;
     public bool IsVital => BodyPartDef.IsVital;
-
     public bool IsDestroyed => HitPoints <= 0;
-
     public bool IsBleeding => HealthPercent < .99; //todo coagulation 
-
-    public int TicksSinceLastHit = int.MaxValue;
 
     public List<EquipmentSlotType>? EquipmentSlots => BodyPartDef.EquipmentSlots;
 
@@ -384,5 +376,17 @@ public class BodyPart : Entity {
         label += Position == null ? "" : string.Join(" ", Regex.Split(Position.ToString()!, @"(?<!^)(?=[A-Z])")) + " ";
         label += base.Label;
         return label;
+    }
+
+    public override void ExposeData() {
+        Scribe_Values.Look(ref _hitPoints, "HitPoints");
+        Scribe_Values.Look(ref _adaptedLabel!, "AdaptedLabel");
+        Scribe_Values.Look(ref _isSevered, "IsSevered");
+        Scribe_Values.Look(ref MaxHitPoints, "MaxHitPoints");
+        Scribe_Values.Look(ref TicksSinceLastHit, "TicksSinceLastHit");
+        Scribe_References.Look(ref Socket!, "Socket");
+        Scribe_Collections.Look(ref Sockets!, "Sockets", LookMode.Deep);
+        Scribe_Collections.Look(ref Equipment!, "Equipment", LookMode.Value, LookMode.Deep);
+        base.ExposeData();
     }
 }

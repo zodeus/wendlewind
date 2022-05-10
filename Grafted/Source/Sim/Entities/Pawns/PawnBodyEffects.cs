@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Grafted.Definitions;
+using Grafted.Sim.Persistence;
 
 namespace Grafted.Sim.Entities.Pawns;
 
@@ -14,7 +15,7 @@ public class AffectedStatRecord {
     public float? Offset = null;
 }
 
-public class BodyEffect {
+public class BodyEffect : IExposable {
     public BodyEffectDef Def = null!;
     public int TicksLeft;
     public bool IsExpired => TicksLeft < 1;
@@ -40,9 +41,14 @@ public class BodyEffect {
     public void Tick() {
         TicksLeft--;
     }
+
+    public void ExposeData() {
+        Scribe_Defs.Look(ref Def!, "Def");
+        Scribe_Values.Look(ref TicksLeft!, "TicksLeft");
+    }
 }
 
-public class PawnBodyEffects : IEnumerable<BodyEffect> {
+public class PawnBodyEffects : IEnumerable<BodyEffect>, IExposable {
     private List<BodyEffect> _effects = new();
 
     public PawnBodyEffects(Pawn pawn) { }
@@ -67,5 +73,9 @@ public class PawnBodyEffects : IEnumerable<BodyEffect> {
                 _effects.Remove(effect);
             }
         }
+    }
+
+    public void ExposeData() {
+        Scribe_Collections.Look(ref _effects!, "_effects", LookMode.Deep);
     }
 }

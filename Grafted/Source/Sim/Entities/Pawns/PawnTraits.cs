@@ -24,7 +24,7 @@ namespace Grafted.Sim.Entities.Pawns {
         }
 
         public void ExposeData() {
-            //Scribe_Collections.Look(ref _traits, "Traits", LookMode.Def);
+            Scribe_Collections.Look(ref _traits!, "Traits", LookMode.Def);
         }
     }
 }

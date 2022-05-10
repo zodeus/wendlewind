@@ -42,7 +42,10 @@ public class SimTime : IExposable {
 
     public bool IsNight => CurrentTime is > 1700 or < 0400;
 
-    public void ExposeData() { }
+    public void ExposeData() {
+        Scribe_Values.Look(ref CurrentTimeInSeconds, "CurrentTimeInSeconds");
+        Scribe_Values.Look(ref Ticks, "Ticks");
+    }
 
     public override string ToString() {
         return CurrentTimeString;

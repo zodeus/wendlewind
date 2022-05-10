@@ -9,6 +9,6 @@ public class PawnBiography : IExposable {
     public PawnBiography(Pawn pawn) { }
 
     public void ExposeData() {
-        throw new System.NotImplementedException();
+        Log.Info("PawnBiography.ExposeData not implemented");
     }
 }

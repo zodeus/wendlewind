@@ -2,18 +2,22 @@
 using System.Collections.Generic;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Gui;
+using Grafted.Sim.Persistence;
 using Microsoft.Xna.Framework;
 
 namespace Grafted.Sim.Entities;
 
-public class EntityContainer : IEnumerable<Item> {
-    private readonly List<Item> _list;
+public class EntityContainer : IEnumerable<Item>, IExposable {
+    private List<Item> _list = new List<Item>();
     private int _weight;
     private int _maxWeight;
 
     public EntityContainer(int maxWeight = 999) {
-        _list = new List<Item>();
         _maxWeight = maxWeight;
+    }
+
+    public EntityContainer() {
+        _maxWeight = 999;
     }
 
     public int Weight => _weight;
@@ -176,5 +180,21 @@ public class EntityContainer : IEnumerable<Item> {
 
     public void UpdateMaxWeight(int newWeight) {
         _maxWeight = newWeight;
+    }
+
+    public void ExposeData() {
+        Scribe_Collections.Look(ref _list!, "Container", LookMode.Deep);
+        Scribe_Values.Look(ref _maxWeight!, "MaxWeight");
+
+        if (Scribe.State == ScribeState.PostLoadInitialization) {
+            for (int i = 0; i < _list.Count; i++) {
+                //if (_container[i] != null) {
+                _list[i].Container = this;
+                //}
+            }
+
+            CalculateWeight();
+        }
+
     }
 }

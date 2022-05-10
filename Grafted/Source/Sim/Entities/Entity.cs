@@ -16,7 +16,7 @@ public abstract class Entity : IExposable, IIdentityProvider {
     public int Id = -1;
     public EntityDef Def = null!;
     public EntityContainer? Container;
-    
+
     public virtual string Label => Def.Label;
     public virtual string LabelShort => Def.Label;
 
@@ -36,7 +36,11 @@ public abstract class Entity : IExposable, IIdentityProvider {
         return Id;
     }
 
-    public virtual void ExposeData() { }
+    public virtual void ExposeData() {
+        Scribe_Values.Look(ref Id, "Id");
+        Scribe_Defs.Look(ref Def!, "Def");
+        Scribe_Values.Look(ref _internalState, "InternalState");
+    }
 
     public string GetUniqueId() {
         return "Entity_" + Id;

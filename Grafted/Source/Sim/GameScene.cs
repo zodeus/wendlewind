@@ -6,6 +6,7 @@ using Grafted.Scenes;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Gui;
 using Grafted.Utils;
+using SharpDX.MediaFoundation;
 
 namespace Grafted.Sim;
 
@@ -17,7 +18,13 @@ public class GameScene : Scene {
         _cameraController = new CameraController(MainCamera);
         Core.CameraController = _cameraController;
         Core.Sim = new Simulation();
-        QuickPlay();
+        if (DebugSettings.QuickLoad) {
+            Core.Sim.Load("save.xml");
+        }
+        else {
+            QuickPlay();
+        }
+
     }
 
     public void QuickPlay() {

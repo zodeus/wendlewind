@@ -1,10 +1,11 @@
 using System.Collections.Generic;
-using Grafted.Maths;
+using Grafted.Sim.Persistence;
 
 namespace Grafted.Sim;
 
-public class Town {
-    public Dictionary<TownStructureDef, TownStructure> _structures = new();
+public class Town : IExposable, IIdentityProvider {
+    private Dictionary<TownStructureDef, TownStructure> _structures = new();
+
     public ZoneDef ZoneDef = null!;
 
     public void Tick() {
@@ -25,5 +26,15 @@ public class Town {
         }
 
         return null;
+    }
+
+    public void ExposeData() {
+        Scribe_Defs.Look(ref ZoneDef!, "ZoneDef");
+        Scribe_Collections.Look(ref _structures!, "Structures", LookMode.Def, LookMode.Deep);
+
+    }
+
+    public string GetUniqueId() {
+        return ZoneDef.Moniker + "-Town";
     }
 }

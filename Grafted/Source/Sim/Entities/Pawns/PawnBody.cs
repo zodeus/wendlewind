@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Grafted.Definitions;
 using Grafted.Maths;
+using Grafted.Sim.Persistence;
 
 namespace Grafted.Sim.Entities.Pawns;
 
-public class PawnBody {
+public class PawnBody : IExposable {
     private float _bloodAmount;
     private float _energy = 1;
     private float _ticksWithEmptyStomach;
@@ -19,10 +20,9 @@ public class PawnBody {
     public float Temperature = 32;
     public float StomachLevel = 1;
     public PawnCapabilities Capabilities;
-    public float BloodPercent => BloodAmount / MaxBlood;
-
     public PawnBodyEffects Effects;
 
+    public float BloodPercent => BloodAmount / MaxBlood;
     public bool IsWarm => Temperature is > 10 and < 40;
 
     public float MovementSpeed {
@@ -278,5 +278,17 @@ public class PawnBody {
         }
 
         DoRegeneration(RootSocket.AttachedPart);
+    }
+
+    public void ExposeData() {
+        Scribe_Values.Look(ref _bloodAmount, "BloodAmount");
+        Scribe_Values.Look(ref _energy, "Energy");
+        Scribe_Values.Look(ref _ticksWithEmptyStomach, "TicksWithEmptyStomach");
+        Scribe_Values.Look(ref BloodChangeLastFrame, "BloodChangeLastFrame");
+        Scribe_Values.Look(ref Temperature, "Temperature");
+        Scribe_Values.Look(ref StomachLevel, "StomachLevel");
+        Scribe_Deep.Look(ref Capabilities!, "Capabilities", Pawn);
+        Scribe_Deep.Look(ref Effects!, "Effects", Pawn);
+        Scribe_Deep.Look(ref RootSocket!, "RootSocket");
     }
 }

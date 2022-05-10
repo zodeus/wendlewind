@@ -3,12 +3,13 @@ using Grafted.Definitions;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
+using Grafted.Sim.Persistence;
 using JetBrains.Annotations;
 
 namespace Grafted.Sim;
 
 [UsedImplicitly]
-public class TownStructureHouse : TownStructure {
+public class TownStructureHouse : TownStructure, IExposable {
     private int _burningLogTicks = 0;
 
     public EntityContainer Storage = new();
@@ -23,7 +24,6 @@ public class TownStructureHouse : TownStructure {
         { 0, 0 },
         { 1, 0 }
     };
-
 
     public override void Tick() {
         Storage.Tick();
@@ -182,5 +182,16 @@ public class TownStructureHouse : TownStructure {
         }
 
         MeatRack[slot] = meat;
+    }
+
+    public override void ExposeData() {
+        Scribe_Values.Look(ref _burningLogTicks, "BurningLogTicks");
+        Scribe_Values.Look(ref Firewood, "Firewood");
+        Scribe_Values.Look(ref IsFireBurning, "IsFireBurning");
+        Scribe_Values.Look(ref HasMeatRack, "HasMeatRack");
+        Scribe_Deep.Look(ref Storage!, "Storage");
+        Scribe_Collections.Look(ref MeatRack!, "MeatRack", LookMode.Value, LookMode.Deep);
+        Scribe_Collections.Look(ref MeatTicks!, "MeatTicks", LookMode.Value, LookMode.Value);
+        base.ExposeData();
     }
 }

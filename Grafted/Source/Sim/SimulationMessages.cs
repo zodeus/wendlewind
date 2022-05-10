@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using Grafted.Sim.Persistence;
 using Microsoft.Xna.Framework;
 
 namespace Grafted.Sim;
 
-public class SimulationMessages {
-    private readonly List<Message> _messages = new();
+public class SimulationMessages : IExposable {
+    private List<Message> _messages = new();
     public IEnumerable<Message> All => _messages;
     public event Action<Message>? MessagePushed;
 
@@ -18,11 +19,15 @@ public class SimulationMessages {
         _messages.Add(message);
         MessagePushed?.Invoke(message);
     }
+
+    public void ExposeData() {
+        Scribe_Collections.Look(ref _messages!, "List", LookMode.Deep);
+    }
 }
 
-public readonly struct Message {
-    private readonly string _message;
-    public readonly Color? TextColor;
+public struct Message : IExposable {
+    private string _message;
+    public Color? TextColor;
 
     public Message(string message, Color? textColor = null) {
         _message = message;
@@ -31,5 +36,10 @@ public readonly struct Message {
 
     public override string ToString() {
         return _message;
+    }
+
+    public void ExposeData() {
+        Scribe_Values.Look(ref _message, "Message");
+        Scribe_Values.Look(ref TextColor, "TextColor");
     }
 }
