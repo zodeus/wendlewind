@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 
 namespace Grafted.Sim.Entities;
 
-
 public class EntityContainer : IEnumerable<Item> {
     private readonly List<Item> _list;
     private int _weight;
@@ -35,7 +34,7 @@ public class EntityContainer : IEnumerable<Item> {
         }
     }
 
-    private void CalculateWeight() {
+    public void CalculateWeight() {
         _weight = 0;
         foreach (Item item in _list) {
             _weight += item.Weight;
@@ -154,7 +153,6 @@ public class EntityContainer : IEnumerable<Item> {
         }
 
         Item splitItem = item.SplitStack(amount);
-        CalculateWeight();
 
         return splitItem;
     }
@@ -174,5 +172,9 @@ public class EntityContainer : IEnumerable<Item> {
         }
 
         return amount;
+    }
+
+    public void UpdateMaxWeight(int newWeight) {
+        _maxWeight = newWeight;
     }
 }

@@ -13,5 +13,6 @@ public enum EquipmentSlotType {
     ArmArmor,
     TorsoArmor,
     NeckArmor,
-    HeadArmor
+    HeadArmor,
+    Bag
 }

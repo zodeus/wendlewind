@@ -205,7 +205,7 @@ public class CombatGui : BaseGui {
             DepthStencilState.None,
             RasterizerState.CullNone
         );
-        spriteBatch.Draw(BaseContent.Textures.ZoneBgPeacefulMeadow, new Rectangle(0, 0, Screen.Width, Screen.Height), new Color(255, 255, 255, 20));
+        spriteBatch.Draw(Core.Sim.World.CurrentZone.Def.BackgroundTexture, new Rectangle(0, 0, Screen.Width, Screen.Height), new Color(255, 255, 255, 20));
         spriteBatch.End();
 
         base.Render(spriteBatch, deltaTime);

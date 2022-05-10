@@ -65,7 +65,7 @@ public class MerchantContainerPanel : VerticalStackPanel {
             _sections.Add(panel);
             AddChild(new HorizontalSeparator());
             AddChild(new Label(BaseContent.Styles.Label.Medium) { Text = section.Label });
-            AddChild(new ScrollViewer { Content = panel, MaxHeight = 200 });
+            AddChild(new ScrollViewer { Content = panel, MaxHeight = 200});
         }
 
         Proportions.Add(Proportion.Fill);
@@ -150,7 +150,7 @@ public class MerchantListPanelItem : HorizontalStackPanel {
             VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Center,
         };
         AddChild(new Panel {
-            Width = 40, Height = 32, Widgets = { _stackSizeLabel },
+            Width = 55, Height = 32, Widgets = { _stackSizeLabel },
             VerticalAlignment = VerticalAlignment.Center,
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame]
         });
@@ -168,7 +168,7 @@ public class MerchantListPanelItem : HorizontalStackPanel {
                 new Label {
                     Text = _item.GetCurrencyValue(merchantTransactionType).ToString(CultureInfo.InvariantCulture),
                     TextAlign = TextAlign.Right,
-                    Width = 30,
+                    Width = 40,
                     VerticalAlignment = VerticalAlignment.Center
                 },
                 new Image {
@@ -183,11 +183,11 @@ public class MerchantListPanelItem : HorizontalStackPanel {
         // TRADE AMOUNT CONTROLS
         Label tradeValueTotalLabel = new() {
             TextAlign = TextAlign.Right,
-            Width = 30,
+            Width = 40,
             VerticalAlignment = VerticalAlignment.Center
         };
         TextBox amountTextBox = new() {
-            Width = 15, HorizontalAlignment = HorizontalAlignment.Right,
+            Width = 20, HorizontalAlignment = HorizontalAlignment.Right,
             VerticalAlignment = VerticalAlignment.Center
         };
         amountTextBox.ValueChanging += (_, args) => {
@@ -215,7 +215,7 @@ public class MerchantListPanelItem : HorizontalStackPanel {
         ImageButton plusButton = new(BaseContent.Styles.Button.Plus24) { VerticalAlignment = VerticalAlignment.Center };
         plusButton.Click += (_, _) => amountTextBox.Text = (int.Parse(amountTextBox.Text) + 1).ToString();
         AddChild(minusButton);
-        Proportions.Add(Proportion.Fill);
+        Proportions.Add(Proportion.Auto);
         AddChild(amountTextBox);
         AddChild(plusButton);
         AddChild(new HorizontalStackPanel {

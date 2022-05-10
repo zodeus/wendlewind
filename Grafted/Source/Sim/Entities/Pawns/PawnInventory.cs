@@ -13,10 +13,13 @@ public class PawnInventory : IExposable, IEnumerable<Item> {
 
     public PawnInventory(Pawn pawn) {
         Pawn = pawn;
-        Entities = new EntityContainer((int) pawn.GetStatValue(Defs.Stats.MaxCarryWeight));
+        Entities = new EntityContainer(pawn.MaxCarryWeight);
     }
 
     public void Tick() {
+        if (Pawn.MaxCarryWeight != Entities.MaxWeight) {
+            Entities.UpdateMaxWeight(Pawn.MaxCarryWeight);
+        } 
         Entities.Tick();
     }
 

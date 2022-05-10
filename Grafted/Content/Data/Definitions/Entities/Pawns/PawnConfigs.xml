@@ -42,6 +42,7 @@
         <PawnName>Franklin</PawnName>
         <EquipmentItems>
             <ListItem>BirchRod</ListItem>
+<!--            <ListItem>ClothSatchel</ListItem>-->
             <!--<ListItem>ShortSword</ListItem>
             <ListItem>BucketHelmet</ListItem>
             <ListItem>LeatherGorget</ListItem>

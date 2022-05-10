@@ -56,20 +56,21 @@ public class TownGui : BaseGui {
     }
 
     private Grid AdventurePanel() {
-        var button1 = new TextButton(BaseContent.Styles.Button.Normal) {
-            Text = Defs.Zones.TheOutskirts.Label, HorizontalAlignment = HorizontalAlignment.Stretch
+        var peacefulMeadow = new TextButton(BaseContent.Styles.Button.Normal) {
+            Text = Defs.Zones.PeacefulMeadow.Label, HorizontalAlignment = HorizontalAlignment.Stretch
         };
-        button1.Click += (_, _) => {
+        peacefulMeadow.Click += (_, _) => {
+            _zoneBeginWindow.ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint());
+        };
+        var outskirts = new TextButton(BaseContent.Styles.Button.Normal) {
+            Text = Defs.Zones.TheOutskirts.Label, HorizontalAlignment = HorizontalAlignment.Stretch,
+            Enabled = Core.Sim.World.Zones[Defs.Zones.PeacefulMeadow].IsComplete
+
+        };
+        outskirts.Click += (_, _) => {
             Core.Sim.World.MoveToZone(Defs.Zones.TheOutskirts);
             Core.Sim.World.DoZoneTravel();
             Core.Sim.ActivateCombatEvent(Core.Sim.World.NextCombat());
-        };
-
-        var button2 = new TextButton(BaseContent.Styles.Button.Normal) {
-            Text = Defs.Zones.PeacefulMeadow.Label, HorizontalAlignment = HorizontalAlignment.Stretch
-        };
-        button2.Click += (_, _) => {
-            _zoneBeginWindow.ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint());
         };
         Grid grid = new() {
             ShowGridLines = false, HorizontalAlignment = HorizontalAlignment.Center,
@@ -101,8 +102,8 @@ public class TownGui : BaseGui {
                     Spacing = 10,
                     Padding = new Thickness(20),
                     Widgets = {
-                        button2,
-                        button1,
+                        peacefulMeadow,
+                        outskirts,
                         new TextButton(BaseContent.Styles.Button.Normal) { Text = "The Grain Mill", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                         new TextButton(BaseContent.Styles.Button.Normal) { Text = "Festerpus Swamp", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                         new TextButton(BaseContent.Styles.Button.Normal) { Text = "The Alchemist Hut", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },

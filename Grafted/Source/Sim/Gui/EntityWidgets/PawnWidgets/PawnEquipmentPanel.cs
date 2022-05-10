@@ -122,12 +122,14 @@ public class PawnEquipmentPanel : HorizontalStackPanel {
         private event Action<BodyPart, EquipmentSlotType>? ClickAction;
         private Dictionary<ItemDef, ColoredRegion> _iconCache = new();
         private IImage _potionSlotIcon;
+        private IImage _bagSlotIcon;
 
         public EquipmentColumn(BodyPart bodyPart, List<EquipmentSlotType> slots, Action<BodyPart, EquipmentSlotType>? clickAction = null) {
             _bodyPart = bodyPart;
             ClickAction = clickAction;
             Spacing = 2;
             _potionSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.PotionSlot];
+            _bagSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.BagSlot];
             _image = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.Icon), BodyPartColor.Get(bodyPart)), Width = 32, Height = 32 };
             _image.TouchDown += (_, _) => Core.Sim.Gui!.ViewEntity(bodyPart);
             AddChild(_image);
@@ -141,7 +143,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel {
 
         public void Update() {
             foreach ((EquipmentSlotType slot, ImageButton? image) in _slots) {
-                if (_bodyPart.Equipment[slot] is { } item && item.IsDestroyed == false) {
+                if (_bodyPart.Equipment[slot] is { IsDestroyed: false } item) {
                     if (_iconCache.ContainsKey(item.ItemDef) == false) {
                         _iconCache[item.ItemDef] = new ColoredRegion(new TextureRegion(item.Icon), Color.White);
                     }
@@ -150,7 +152,14 @@ public class PawnEquipmentPanel : HorizontalStackPanel {
                     ((ColoredRegion) image.Image).Color = GetEquipmentColor(item, _bodyPart);
                 }
                 else {
-                    image.Image = slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2 ? _potionSlotIcon : null;
+                    if (slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2) {
+                        image.Image = _potionSlotIcon;
+                    }else if (slot is EquipmentSlotType.Bag) {
+                        image.Image = _bagSlotIcon;
+                    }
+                    else {
+                        image.Image = null;
+                    }
                 }
             }
 

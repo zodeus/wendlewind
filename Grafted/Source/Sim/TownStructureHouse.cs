@@ -118,7 +118,9 @@ public class TownStructureHouse : TownStructure {
 
     public void Rest() {
         Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorBlue}]Sleeping zzz...zz..z"));
+        Core.Sim.World.PlayerPawn.IsResting = true;
         Core.Sim.World.ProgressUntilTimeOfDay(Core.Random.Next(5, 9) * 100 + Core.Random.Next(0, 59));
+        Core.Sim.World.PlayerPawn.IsResting = false;
         Core.Sim.World.PlayerPawn.Body.Energy = 1;
     }
 

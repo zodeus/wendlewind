@@ -26,7 +26,7 @@
             <ListItem>RightLegSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>700</MaxHitPoints>
+            <MaxHitPoints>1000</MaxHitPoints>
             <SequencePoints>2</SequencePoints>
         </BaseStats>
     </BodyPartDef>
@@ -34,7 +34,7 @@
         <Moniker>GlumpRibCage</Moniker>
         <Label>Rib Cage</Label>
         <BodyPartType>RibCage</BodyPartType>
-        <Size>250</Size>
+        <Size>50</Size>
         <IsBone>true</IsBone>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanRibCage</TexturePath>
         <Sockets>
@@ -46,7 +46,7 @@
             <ListItem>StomachSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>600</MaxHitPoints>
+            <MaxHitPoints>800</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="BodyPartBase">
@@ -67,7 +67,7 @@
             <ListItem>HandSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>200</MaxHitPoints>
+            <MaxHitPoints>400</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="BodyPartBase">
@@ -94,7 +94,7 @@
         </Sockets>
         <BaseStats>
             <SequencePoints>1</SequencePoints>
-            <MaxHitPoints>60</MaxHitPoints>
+            <MaxHitPoints>200</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="BodyPartBase">
@@ -111,7 +111,7 @@
             <ListItem>ArterySocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>15</MaxHitPoints>
+            <MaxHitPoints>80</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="BodyPartBase">
@@ -128,7 +128,7 @@
             <ListItem>ArterySocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>20</MaxHitPoints>
+            <MaxHitPoints>90</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="BodyPartBase">
@@ -149,7 +149,7 @@
             <ListItem>FootSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>80</MaxHitPoints>
+            <MaxHitPoints>300</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="BodyPartBase">
@@ -171,7 +171,7 @@
         </Sockets>
         <BaseStats>
             <SequencePoints>1</SequencePoints>
-            <MaxHitPoints>50</MaxHitPoints>
+            <MaxHitPoints>250</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
 </Definitions>

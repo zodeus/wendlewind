@@ -13,6 +13,7 @@
     <ZoneDef>
         <Moniker>PeacefulMeadow</Moniker>
         <Label>Peaceful Meadow</Label>
+        <BackgroundTexturePath>Zones/PeacefulMeadow</BackgroundTexturePath>
         <ZoneType>Adventure</ZoneType>
         <TravelSize>40</TravelSize>
         <TravelSpeedFactor>1</TravelSpeedFactor>
@@ -27,8 +28,8 @@
             <ListItem>
                 <Item>ButtonTopMushroom</Item>
                 <Amount>1</Amount>
-                <ChanceToHarvest>.02</ChanceToHarvest>
-                <HarvestArea>0~1</HarvestArea>
+                <ChanceToHarvest>.015</ChanceToHarvest>
+                <HarvestArea>.25~1</HarvestArea>
             </ListItem>
         </Resources>
     </ZoneDef>
@@ -36,20 +37,27 @@
         <Moniker>TheOutskirts</Moniker>
         <Label>The Outskirts</Label>
         <ZoneType>Adventure</ZoneType>
-        <TravelSize>20</TravelSize>
-        <TravelSpeedFactor>.83</TravelSpeedFactor>
-        <MeanTimeBetweenEvents>15~20</MeanTimeBetweenEvents>
+        <BackgroundTexturePath>Zones/TheOutskirts</BackgroundTexturePath>
+        <TravelSize>60</TravelSize>
+        <TravelSpeedFactor>.9</TravelSpeedFactor>
+        <MeanTimeBetweenEvents>20~40</MeanTimeBetweenEvents>
         <Resources>
+            <ListItem>
+                <Item>WoodLog</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.1</ChanceToHarvest>
+                <HarvestArea>0~1</HarvestArea>
+            </ListItem>
             <ListItem>
                 <Item>OakWoodLog</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.05</ChanceToHarvest>
-                <HarvestArea>0~1</HarvestArea>
+                <HarvestArea>.25~1</HarvestArea>
             </ListItem>
             <ListItem>
                 <Item>ButtonTopMushroom</Item>
                 <Amount>1</Amount>
-                <ChanceToHarvest>.03</ChanceToHarvest>
+                <ChanceToHarvest>.05</ChanceToHarvest>
                 <HarvestArea>0~1</HarvestArea>
             </ListItem>
         </Resources>

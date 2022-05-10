@@ -68,6 +68,7 @@ public class Item : Entity {
 
         Item item = CreateItemFromSplit(ItemDef, amountWanted.Value);
         StackSize -= amountWanted.Value;
+        Container?.CalculateWeight();
         return item;
     }
 

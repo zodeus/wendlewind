@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Entities.Items;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Grafted.Sim;
 
@@ -18,13 +19,10 @@ public class Zone {
     public ZoneType ZoneType => Def.ZoneType;
 
     public float PercentTraveled => DistanceTraveled / Def.TravelSize;
+    public bool IsComplete => FurthestDistanceTraveled / Def.TravelSize >= 1;
 
     public void Reset() {
         ZoneKills = 0; // clear current zone kill count
-        if (DistanceTraveled > FurthestDistanceTraveled) {
-            FurthestDistanceTraveled = DistanceTraveled;
-        }
-
         DistanceTraveled = 0;
     }
 
@@ -39,6 +37,9 @@ public class ZoneDef : Def {
     public float TravelSpeedFactor = 1;
     public RangeInt MeanTimeBetweenEvents;
     public List<ZoneResourceRecord> Resources = new();
+    public string? BackgroundTexturePath;
+    private Texture2D? _texture;
+    public virtual Texture2D BackgroundTexture => _texture ??= BackgroundTexturePath != null ? Core.Content.Load<Texture2D>(BackgroundTexturePath) : BaseContent.Textures.BadTexture;
 }
 
 public class ZoneResourceRecord {

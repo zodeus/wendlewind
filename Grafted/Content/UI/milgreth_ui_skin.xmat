@@ -23,83 +23,84 @@
   <TextureRegion Id="icon-arrow-negative" Left="1539" Top="0" Width="16" Height="16" />
   <TextureRegion Id="icon-arrow-neutral" Left="1555" Top="0" Width="50" Height="50" />
   <TextureRegion Id="icon-arrow-positive" Left="1605" Top="0" Width="50" Height="50" />
-  <TextureRegion Id="icon-blood-64" Left="1655" Top="0" Width="64" Height="64" />
-  <TextureRegion Id="icon-boak" Left="1719" Top="0" Width="64" Height="64" />
-  <TextureRegion Id="icon-brain" Left="1783" Top="0" Width="64" Height="64" />
-  <TextureRegion Id="icon-build" Left="1847" Top="0" Width="64" Height="64" />
-  <TextureRegion Id="icon-citizen" Left="1911" Top="0" Width="64" Height="64" />
-  <TextureRegion Id="icon-close" Left="1975" Top="0" Width="14" Height="14" />
-  <TextureRegion Id="icon-combat" Left="1989" Top="0" Width="64" Height="64" />
-  <TextureRegion Id="icon-energy" Left="2053" Top="0" Width="64" Height="64" />
-  <TextureRegion Id="icon-gold-coin" Left="2117" Top="0" Width="128" Height="128" />
-  <TextureRegion Id="icon-graph" Left="2245" Top="0" Width="50" Height="50" />
-  <TextureRegion Id="icon-heart" Left="2295" Top="0" Width="64" Height="64" />
-  <TextureRegion Id="icon-human" Left="2359" Top="0" Width="64" Height="64" />
-  <TextureRegion Id="icon-mind" Left="2423" Top="0" Width="64" Height="64" />
-  <TextureRegion Id="icon-minus-24-default" Left="2487" Top="0" Width="24" Height="24" />
-  <TextureRegion Id="icon-minus-24-over" Left="2511" Top="0" Width="24" Height="24" />
-  <TextureRegion Id="icon-minus-24-pressed" Left="2535" Top="0" Width="24" Height="24" />
-  <TextureRegion Id="icon-minus-32" Left="2559" Top="0" Width="32" Height="32" />
-  <TextureRegion Id="icon-money-24-default" Left="2591" Top="0" Width="24" Height="24" />
-  <TextureRegion Id="icon-money-24-over" Left="2615" Top="0" Width="24" Height="24" />
-  <TextureRegion Id="icon-money-24-pressed" Left="2639" Top="0" Width="24" Height="24" />
-  <TextureRegion Id="icon-pause" Left="2663" Top="0" Width="32" Height="32" />
-  <TextureRegion Id="icon-play" Left="2695" Top="0" Width="24" Height="24" />
-  <TextureRegion Id="icon-plus-24-default" Left="2719" Top="0" Width="24" Height="24" />
-  <TextureRegion Id="icon-plus-24-over" Left="2743" Top="0" Width="24" Height="24" />
-  <TextureRegion Id="icon-plus-24-pressed" Left="2767" Top="0" Width="24" Height="24" />
-  <TextureRegion Id="icon-plus-32" Left="2791" Top="0" Width="32" Height="32" />
-  <TextureRegion Id="icon-potion-slot" Left="2823" Top="0" Width="64" Height="64" />
-  <TextureRegion Id="icon-priorities" Left="2887" Top="0" Width="64" Height="64" />
-  <TextureRegion Id="icon-question-mark-32-default" Left="2951" Top="0" Width="32" Height="32" />
-  <TextureRegion Id="icon-retreat" Left="2983" Top="0" Width="64" Height="64" />
-  <TextureRegion Id="icon-skull" Left="3047" Top="0" Width="64" Height="64" />
-  <TextureRegion Id="icon-soul-coin" Left="3111" Top="0" Width="128" Height="128" />
-  <TextureRegion Id="icon-speed-025x" Left="3239" Top="0" Width="24" Height="24" />
-  <TextureRegion Id="icon-speed-2x" Left="3263" Top="0" Width="24" Height="24" />
-  <TextureRegion Id="icon-speed-4x" Left="3287" Top="0" Width="24" Height="24" />
-  <TextureRegion Id="icon-speed-6x" Left="3311" Top="0" Width="24" Height="24" />
-  <TextureRegion Id="icon-stomach-outline" Left="3335" Top="0" Width="32" Height="32" />
-  <TextureRegion Id="icon-thermometer" Left="3367" Top="0" Width="128" Height="128" />
-  <TextureRegion Id="icon-trash" Left="3495" Top="0" Width="64" Height="64" />
-  <TextureRegion Id="icon-walking-64" Left="3559" Top="0" Width="64" Height="64" />
-  <TextureRegion Id="input-cursor" Left="3623" Top="0" Width="1" Height="1" />
+  <TextureRegion Id="icon-bag-slot" Left="1655" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-blood-64" Left="1719" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-boak" Left="1783" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-brain" Left="1847" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-build" Left="1911" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-citizen" Left="1975" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-close" Left="2039" Top="0" Width="14" Height="14" />
+  <TextureRegion Id="icon-combat" Left="2053" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-energy" Left="2117" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-gold-coin" Left="2181" Top="0" Width="128" Height="128" />
+  <TextureRegion Id="icon-graph" Left="2309" Top="0" Width="50" Height="50" />
+  <TextureRegion Id="icon-heart" Left="2359" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-human" Left="2423" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-mind" Left="2487" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-minus-24-default" Left="2551" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-minus-24-over" Left="2575" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-minus-24-pressed" Left="2599" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-minus-32" Left="2623" Top="0" Width="32" Height="32" />
+  <TextureRegion Id="icon-money-24-default" Left="2655" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-money-24-over" Left="2679" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-money-24-pressed" Left="2703" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-pause" Left="2727" Top="0" Width="32" Height="32" />
+  <TextureRegion Id="icon-play" Left="2759" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-plus-24-default" Left="2783" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-plus-24-over" Left="2807" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-plus-24-pressed" Left="2831" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-plus-32" Left="2855" Top="0" Width="32" Height="32" />
+  <TextureRegion Id="icon-potion-slot" Left="2887" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-priorities" Left="2951" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-question-mark-32-default" Left="3015" Top="0" Width="32" Height="32" />
+  <TextureRegion Id="icon-retreat" Left="3047" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-skull" Left="3111" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-soul-coin" Left="3175" Top="0" Width="128" Height="128" />
+  <TextureRegion Id="icon-speed-025x" Left="3303" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-speed-2x" Left="3327" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-speed-4x" Left="3351" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-speed-6x" Left="3375" Top="0" Width="24" Height="24" />
+  <TextureRegion Id="icon-stomach-outline" Left="3399" Top="0" Width="32" Height="32" />
+  <TextureRegion Id="icon-thermometer" Left="3431" Top="0" Width="128" Height="128" />
+  <TextureRegion Id="icon-trash" Left="3559" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="icon-walking-64" Left="3623" Top="0" Width="64" Height="64" />
+  <TextureRegion Id="input-cursor" Left="3687" Top="0" Width="1" Height="1" />
   <TextureRegion Id="Milgreth" Left="0" Top="64" Width="900" Height="900" />
   <TextureRegion Id="MilgrethTitle" Left="900" Top="64" Width="550" Height="161" />
-  <TextureRegion Id="panel-bar-fancy-dark" Left="2245" Top="64" Width="800" Height="100" />
-  <NinePatchRegion Id="panel-bar-fancy" Left="3045" Top="128" Width="800" Height="100" NinePatchLeft="36" NinePatchTop="50" NinePatchRight="267" NinePatchBottom="49" />
-  <NinePatchRegion Id="panel-deep-gold" Left="1450" Top="64" Width="300" Height="300" NinePatchLeft="8" NinePatchTop="7" NinePatchRight="8" NinePatchBottom="7" />
-  <NinePatchRegion Id="panel-frame-medium" Left="3845" Top="0" Width="88" Height="88" NinePatchLeft="8" NinePatchTop="8" NinePatchRight="8" NinePatchBottom="8" />
-  <NinePatchRegion Id="panel-frame-small" Left="3933" Top="0" Width="42" Height="42" NinePatchLeft="4" NinePatchTop="4" NinePatchRight="4" NinePatchBottom="4" />
-  <NinePatchRegion Id="panel-icon-frame" Left="3975" Top="0" Width="15" Height="15" NinePatchLeft="3" NinePatchTop="3" NinePatchRight="3" NinePatchBottom="3" />
-  <NinePatchRegion Id="panel-red" Left="1750" Top="64" Width="300" Height="300" NinePatchLeft="8" NinePatchTop="7" NinePatchRight="8" NinePatchBottom="7" />
-  <TextureRegion Id="panel-round-dark-32" Left="3990" Top="0" Width="32" Height="32" />
-  <TextureRegion Id="panel-round-dark-64" Left="4022" Top="0" Width="64" Height="64" />
-  <TextureRegion Id="Play" Left="2050" Top="164" Width="512" Height="256" />
+  <TextureRegion Id="panel-bar-fancy-dark" Left="2309" Top="64" Width="800" Height="100" />
+  <NinePatchRegion Id="panel-bar-fancy" Left="1450" Top="128" Width="800" Height="100" NinePatchLeft="36" NinePatchTop="50" NinePatchRight="267" NinePatchBottom="49" />
+  <NinePatchRegion Id="panel-deep-gold" Left="3688" Top="0" Width="300" Height="300" NinePatchLeft="8" NinePatchTop="7" NinePatchRight="8" NinePatchBottom="7" />
+  <NinePatchRegion Id="panel-frame-medium" Left="3988" Top="0" Width="88" Height="88" NinePatchLeft="8" NinePatchTop="8" NinePatchRight="8" NinePatchBottom="8" />
+  <NinePatchRegion Id="panel-frame-small" Left="3303" Top="24" Width="42" Height="42" NinePatchLeft="4" NinePatchTop="4" NinePatchRight="4" NinePatchBottom="4" />
+  <NinePatchRegion Id="panel-icon-frame" Left="4076" Top="0" Width="15" Height="15" NinePatchLeft="3" NinePatchTop="3" NinePatchRight="3" NinePatchBottom="3" />
+  <NinePatchRegion Id="panel-red" Left="3109" Top="128" Width="300" Height="300" NinePatchLeft="8" NinePatchTop="7" NinePatchRight="8" NinePatchBottom="7" />
+  <TextureRegion Id="panel-round-dark-32" Left="3559" Top="64" Width="32" Height="32" />
+  <TextureRegion Id="panel-round-dark-64" Left="3591" Top="64" Width="64" Height="64" />
+  <TextureRegion Id="Play" Left="2250" Top="164" Width="512" Height="256" />
   <TextureRegion Id="PlayOver" Left="900" Top="225" Width="512" Height="256" />
-  <TextureRegion Id="Quit" Left="2562" Top="228" Width="512" Height="256" />
-  <NinePatchRegion Id="scroll-frame" Left="3975" Top="15" Width="15" Height="15" NinePatchLeft="3" NinePatchTop="3" NinePatchRight="3" NinePatchBottom="3" />
-  <NinePatchRegion Id="scroll-handle-horizontal" Left="3933" Top="64" Width="119" Height="20" NinePatchLeft="10" NinePatchTop="0" NinePatchRight="12" NinePatchBottom="0" />
-  <NinePatchRegion Id="scroll-handle-vertical" Left="4052" Top="64" Width="20" Height="119" NinePatchLeft="7" NinePatchTop="12" NinePatchRight="4" NinePatchBottom="10" />
-  <TextureRegion Id="selection" Left="4086" Top="0" Width="1" Height="1" />
-  <NinePatchRegion Id="separator-menu" Left="4086" Top="1" Width="10" Height="7" NinePatchLeft="2" NinePatchTop="2" NinePatchRight="2" NinePatchBottom="2" />
-  <NinePatchRegion Id="separator-vertical" Left="4086" Top="8" Width="7" Height="10" NinePatchLeft="2" NinePatchTop="2" NinePatchRight="2" NinePatchBottom="2" />
-  <TextureRegion Id="stomach-1" Left="3933" Top="84" Width="32" Height="32" />
-  <TextureRegion Id="stomach-10" Left="3965" Top="84" Width="32" Height="32" />
-  <TextureRegion Id="stomach-11" Left="3997" Top="84" Width="32" Height="32" />
-  <TextureRegion Id="stomach-12" Left="3845" Top="88" Width="32" Height="32" />
-  <TextureRegion Id="stomach-13" Left="3877" Top="88" Width="32" Height="32" />
-  <TextureRegion Id="stomach-14" Left="3909" Top="116" Width="32" Height="32" />
-  <TextureRegion Id="stomach-15" Left="3941" Top="116" Width="32" Height="32" />
-  <TextureRegion Id="stomach-16" Left="3973" Top="116" Width="32" Height="32" />
-  <TextureRegion Id="stomach-2" Left="4005" Top="116" Width="32" Height="32" />
-  <TextureRegion Id="stomach-3" Left="3845" Top="120" Width="32" Height="32" />
-  <TextureRegion Id="stomach-4" Left="3877" Top="120" Width="32" Height="32" />
-  <TextureRegion Id="stomach-5" Left="3909" Top="148" Width="32" Height="32" />
-  <TextureRegion Id="stomach-6" Left="3941" Top="148" Width="32" Height="32" />
-  <TextureRegion Id="stomach-7" Left="3973" Top="148" Width="32" Height="32" />
-  <TextureRegion Id="stomach-8" Left="4005" Top="148" Width="32" Height="32" />
-  <TextureRegion Id="stomach-9" Left="3845" Top="152" Width="32" Height="32" />
-  <NinePatchRegion Id="textfield" Left="4072" Top="64" Width="15" Height="15" NinePatchLeft="3" NinePatchTop="3" NinePatchRight="3" NinePatchBottom="3" />
-  <TextureRegion Id="Village" Left="900" Top="481" Width="1200" Height="800" />
+  <TextureRegion Id="Quit" Left="1412" Top="228" Width="512" Height="256" />
+  <NinePatchRegion Id="scroll-frame" Left="4076" Top="15" Width="15" Height="15" NinePatchLeft="3" NinePatchTop="3" NinePatchRight="3" NinePatchBottom="3" />
+  <NinePatchRegion Id="scroll-handle-horizontal" Left="3409" Top="128" Width="119" Height="20" NinePatchLeft="10" NinePatchTop="0" NinePatchRight="12" NinePatchBottom="0" />
+  <NinePatchRegion Id="scroll-handle-vertical" Left="4076" Top="30" Width="20" Height="119" NinePatchLeft="7" NinePatchTop="12" NinePatchRight="4" NinePatchBottom="10" />
+  <TextureRegion Id="selection" Left="3687" Top="1" Width="1" Height="1" />
+  <NinePatchRegion Id="separator-menu" Left="3655" Top="64" Width="10" Height="7" NinePatchLeft="2" NinePatchTop="2" NinePatchRight="2" NinePatchBottom="2" />
+  <NinePatchRegion Id="separator-vertical" Left="3665" Top="64" Width="7" Height="10" NinePatchLeft="2" NinePatchTop="2" NinePatchRight="2" NinePatchBottom="2" />
+  <TextureRegion Id="stomach-1" Left="3655" Top="74" Width="32" Height="32" />
+  <TextureRegion Id="stomach-10" Left="3988" Top="88" Width="32" Height="32" />
+  <TextureRegion Id="stomach-11" Left="4020" Top="88" Width="32" Height="32" />
+  <TextureRegion Id="stomach-12" Left="3559" Top="96" Width="32" Height="32" />
+  <TextureRegion Id="stomach-13" Left="3655" Top="106" Width="32" Height="32" />
+  <TextureRegion Id="stomach-14" Left="3988" Top="120" Width="32" Height="32" />
+  <TextureRegion Id="stomach-15" Left="4020" Top="120" Width="32" Height="32" />
+  <TextureRegion Id="stomach-16" Left="3528" Top="128" Width="32" Height="32" />
+  <TextureRegion Id="stomach-2" Left="3560" Top="128" Width="32" Height="32" />
+  <TextureRegion Id="stomach-3" Left="3592" Top="128" Width="32" Height="32" />
+  <TextureRegion Id="stomach-4" Left="3624" Top="138" Width="32" Height="32" />
+  <TextureRegion Id="stomach-5" Left="3656" Top="138" Width="32" Height="32" />
+  <TextureRegion Id="stomach-6" Left="3409" Top="148" Width="32" Height="32" />
+  <TextureRegion Id="stomach-7" Left="3441" Top="148" Width="32" Height="32" />
+  <TextureRegion Id="stomach-8" Left="3473" Top="148" Width="32" Height="32" />
+  <TextureRegion Id="stomach-9" Left="4052" Top="149" Width="32" Height="32" />
+  <NinePatchRegion Id="textfield" Left="3505" Top="148" Width="15" Height="15" NinePatchLeft="3" NinePatchTop="3" NinePatchRight="3" NinePatchBottom="3" />
+  <TextureRegion Id="Village" Left="1924" Top="428" Width="1200" Height="800" />
 </TextureAtlas>

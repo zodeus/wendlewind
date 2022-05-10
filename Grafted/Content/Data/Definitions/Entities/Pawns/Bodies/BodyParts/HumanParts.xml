@@ -85,6 +85,7 @@
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanArm</TexturePath>
         <EquipmentSlots>
             <ListItem>ArmArmor</ListItem>
+            <ListItem>Bag</ListItem>
         </EquipmentSlots>
         <Sockets>
             <ListItem>SkinSocket</ListItem>

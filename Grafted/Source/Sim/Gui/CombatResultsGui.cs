@@ -8,7 +8,9 @@ using Grafted.Sim.Gui.EntityWidgets;
 using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
 using Grafted.Sim.Gui.MiscWidgets;
 using Grafted.UI;
+using Grafted.Utils;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Myra.Graphics2D;
 using Myra.Graphics2D.UI;
@@ -42,7 +44,7 @@ public class CombatResultsGui : BaseGui {
         };
 
         Desktop = new Desktop { Root = panel, HasExternalTextInput = true };
-        
+
         _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(Core.Sim.World.PlayerPawn);
         _pawnBodyEffectsWindow.Show(Desktop, new Point(50, 20));
     }
@@ -70,18 +72,20 @@ public class CombatResultsGui : BaseGui {
         buttons.AddChild(continueButton);
         if (Core.Sim.World.CurrentZone.Def != Defs.Zones.Intro) {
             TextButton goHome = new(BaseContent.Styles.Button.Large) { Text = "Go Home" };
-            goHome.Click += (_, _) => {
-                if (_autoLootEnabled && DoAutoLoot() == false) {
-                    return;
-                }
-
-                Core.Sim.World.MoveToZone(Defs.Zones.VillageOfTheDamned);
-                Core.Sim.Gui = new TownGui(Core.Sim.World.CurrentZone.Town!);
-            };
+            goHome.Click += (_, _) => GoHome();
             buttons.AddChild(goHome);
         }
 
         return new HorizontalStackPanel { Spacing = 10, Widgets = { DeathsButton(), buttons } };
+    }
+
+    private void GoHome() {
+        if (_autoLootEnabled && DoAutoLoot() == false) {
+            return;
+        }
+
+        Core.Sim.World.MoveToZone(Defs.Zones.VillageOfTheDamned);
+        Core.Sim.Gui = new TownGui(Core.Sim.World.CurrentZone.Town!);
     }
 
     private void MoveToNextCombat() {
@@ -91,6 +95,11 @@ public class CombatResultsGui : BaseGui {
 
         if (Core.Sim.World.CurrentZone.Def == Defs.Zones.Intro) {
             HandleIntro();
+            return;
+        }
+
+        if (Core.Sim.World.CurrentZone.IsComplete) {
+            GoHome();
             return;
         }
 
@@ -150,5 +159,18 @@ public class CombatResultsGui : BaseGui {
         _gameHud.Update();
         _pawnBodyEffectsWindow.Update();
         base.Update(deltaTime);
+    }
+
+    public override void Render(SpriteBatch spriteBatch, float deltaTime) {
+        spriteBatch.Begin(
+            SpriteSortMode.Deferred,
+            BlendState.NonPremultiplied,
+            SamplerState.PointClamp,
+            DepthStencilState.None,
+            RasterizerState.CullNone
+        );
+        spriteBatch.Draw(Core.Sim.World.CurrentZone.Def.BackgroundTexture, new Rectangle(0, 0, Screen.Width, Screen.Height), new Color(255, 255, 255, 20));
+        spriteBatch.End();
+        base.Render(spriteBatch, deltaTime);
     }
 }

@@ -136,7 +136,7 @@ public class PawnBody {
         PushExternalHeat();
 
         // Stomach Calculations
-        float foodLossAmount = (Pawn.IsResting ? .5f : 1f) * 0.002f;
+        float foodLossAmount = (Pawn.IsResting ? .75f : 1f) * 0.002f;
         StomachLevel = Mathf.Clamp(StomachLevel - foodLossAmount, 0, 1);
         if (StomachLevel <= 0) {
             _ticksWithEmptyStomach++;
@@ -158,7 +158,7 @@ public class PawnBody {
             BloodChangeLastFrame = 0;
         }
         else {
-            // Blood Loss Calculations & Regeneration
+            // Blood Loss Calculations & `eration
             float preTickBloodAmount = BloodAmount;
             float preTickBloodPercent = BloodPercent;
             CalculateBloodLossForExternalPart(RootSocket.AttachedPart!);

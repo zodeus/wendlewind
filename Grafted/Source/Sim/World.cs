@@ -89,6 +89,9 @@ public class World : IExposable {
         ProgressTime(SimTime.SecondsInMinute * minutesSpentTravelling);
         float distanceTraveled = (minutesSpentTravelling / SimTime.MinutesPerKm * CurrentZone.Def.TravelSpeedFactor * PlayerPawn.Body.MovementSpeed) + CurrentZone.DistanceTraveled;
         CurrentZone.DistanceTraveled = Mathf.Clamp(distanceTraveled, 0, CurrentZone.Def.TravelSize);
+        if (CurrentZone.DistanceTraveled > CurrentZone.FurthestDistanceTraveled) {
+            CurrentZone.FurthestDistanceTraveled = CurrentZone.DistanceTraveled;
+        }
     }
 
     public void ProgressUntilTimeOfDay(int time) {

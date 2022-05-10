@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Definitions>
+    <ItemDef Name="BagBase" ParentName="ItemBase" Abstract="true">
+        <ItemType>Equipment</ItemType>
+        <StackLimit>1</StackLimit>
+        <UiClass>ArmorPanel</UiClass>
+        <EquipmentProperties>
+            <EquipmentType>Bag</EquipmentType>
+        </EquipmentProperties>
+        <MaterialType>Artificial</MaterialType>
+    </ItemDef>
+    <ItemDef ParentName="BagBase">
+        <Moniker>ClothSatchel</Moniker>
+        <Label>Cloth Satchel</Label>
+        <EquipmentProperties>
+            <SlotUsedToEquip>Bag</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Bag/ClothSatchel</TexturePath>
+        <BaseStats>
+            <MaxDurability>100</MaxDurability>
+            <Weight>1</Weight>
+            <MaxCarryWeight>15</MaxCarryWeight>
+            <CurrencyValue>2000</CurrencyValue>
+        </BaseStats>
+    </ItemDef>
+</Definitions>

@@ -117,7 +117,7 @@
                     </ListItem>
                     <ListItem>
                         <Item>Coin</Item>
-                        <Amount>100~300</Amount>
+                        <Amount>200~400</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>

@@ -22,7 +22,7 @@
             <PhysicalResistance>25</PhysicalResistance>
             <MaxDurability>100</MaxDurability>
             <Weight>3</Weight>
-            <CurrencyValue>50</CurrencyValue>
+            <CurrencyValue>100</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
@@ -35,7 +35,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Leather/Vambrace</TexturePath>
         <BaseStats>
-            <PhysicalResistance>30</PhysicalResistance>
+            <PhysicalResistance>20</PhysicalResistance>
             <MaxDurability>120</MaxDurability>
             <Weight>5</Weight>
             <CurrencyValue>200</CurrencyValue>
@@ -71,7 +71,7 @@
             <PhysicalResistance>20</PhysicalResistance>
             <MaxDurability>100</MaxDurability>
             <Weight>6</Weight>
-            <CurrencyValue>100</CurrencyValue>
+            <CurrencyValue>200</CurrencyValue>
             <MoveSpeed>.3</MoveSpeed>
         </BaseStats>
     </ItemDef>
@@ -101,10 +101,10 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Leather/Tunic</TexturePath>
         <BaseStats>
-            <PhysicalResistance>35</PhysicalResistance>
+            <PhysicalResistance>20</PhysicalResistance>
             <MaxDurability>200</MaxDurability>
             <Weight>8</Weight>
-            <CurrencyValue>500</CurrencyValue>
+            <CurrencyValue>1000</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
@@ -117,10 +117,10 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Tin/BucketHelmet</TexturePath>
         <BaseStats>
-            <PhysicalResistance>30</PhysicalResistance>
+            <PhysicalResistance>15</PhysicalResistance>
             <MaxDurability>70</MaxDurability>
             <Weight>5</Weight>
-            <CurrencyValue>100</CurrencyValue>
+            <CurrencyValue>150</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
