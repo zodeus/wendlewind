@@ -105,7 +105,7 @@
         <TexturePath>Entities/Item/Equipment/Weapon/Sharp/ShortSword</TexturePath>
         <BaseStats>
             <MeleePower>45</MeleePower>
-            <MaxDurability>800</MaxDurability>
+            <MaxDurability>1200</MaxDurability>
             <Weight>5</Weight>
             <CurrencyValue>4000</CurrencyValue>
         </BaseStats>

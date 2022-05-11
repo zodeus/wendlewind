@@ -27,7 +27,7 @@ public class HouseUpgradesPanel : VerticalStackPanel {
         // 4
         AddChild(new HorizontalSeparator());
         AddChild(new Label() { Text = $"\\c[{UiTextColor.TextColorGolden}]Fortify the house" });
-        AddChild(new Label() { Text = $"Prevents theft after death" });
+        AddChild(new Label() { Text = $" " });
         AddChild(new Label() { Text = $"Requires \\c[{UiTextColor.TextColorGreen}]0/80 \\c[{UiTextColor.TextColorItem}]wood boards" });
         AddChild(new Label() { Text = $"Takes \\c[{UiTextColor.TextColorBlue}]6 hours \\c[{UiTextColor.TextColorDefault}]to install some boards" });
         AddChild(new TextButton(BaseContent.Styles.Button.Small) { Text = "Install some boards", Enabled = false });

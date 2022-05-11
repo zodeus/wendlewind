@@ -91,7 +91,7 @@ public class Simulation : IExposable {
         if (Input.IsKeyPressed(Keys.S) && Input.IsKeyDown(Keys.LeftControl) && Core.Sim.World.ActiveCombat == null) {
             Save("save.xml");
             Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData {
-                Text = $"Game Saved",
+                Text = "Game Saved",
                 Font = BaseContent.Fonts.Default.Large,
                 Duration = 5,
                 Color = Color.LimeGreen
@@ -123,12 +123,11 @@ public class Simulation : IExposable {
         }
 
         if (Input.IsKeyPressed(Keys.F2) && Input.IsKeyDown(Keys.LeftControl)) {
-            if (Input.IsKeyDown(Keys.LeftControl)) {
-                ((GameScene) Core.Scene.ActiveScene!).PlayIntro();
-            }
-            else {
-                ((GameScene) Core.Scene.ActiveScene!).QuickPlay();
-            }
+            ((GameScene) Core.Scene.ActiveScene!).QuickPlay();
+        }
+
+        if (Input.IsKeyPressed(Keys.F3) && Input.IsKeyDown(Keys.LeftControl)) {
+            ((GameScene) Core.Scene.ActiveScene!).PlayIntro();
         }
 
         if (Input.IsKeyPressed(Keys.F5)) {

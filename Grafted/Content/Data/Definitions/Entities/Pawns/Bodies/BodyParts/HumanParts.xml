@@ -36,6 +36,8 @@
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanNeck</TexturePath>
         <EquipmentSlots>
             <ListItem>NeckArmor</ListItem>
+            <ListItem>Cloak</ListItem>
+            <ListItem>Necklace</ListItem>
         </EquipmentSlots>
         <Sockets>
             <ListItem>SkinSocket</ListItem>

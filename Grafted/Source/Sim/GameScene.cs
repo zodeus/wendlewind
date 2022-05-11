@@ -1,3 +1,4 @@
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using Grafted.Debug;
@@ -18,7 +19,7 @@ public class GameScene : Scene {
         _cameraController = new CameraController(MainCamera);
         Core.CameraController = _cameraController;
         Core.Sim = new Simulation();
-        if (DebugSettings.QuickLoad) {
+        if (DebugSettings.QuickLoad && File.Exists("save.xml")) {
             Core.Sim.Load("save.xml");
         }
         else {
