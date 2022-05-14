@@ -3,9 +3,12 @@
 <Definitions>
     <ItemDef Name="ItemBase" Abstract="True">
         <EntityClass>Item</EntityClass>
+        <BaseStats>
+            <Tier>1</Tier>
+        </BaseStats>
     </ItemDef>
     <ItemDef Name="ItemResource" ParentName="ItemBase" Abstract="true">
         <ItemType>Resource</ItemType>
-        <StackLimit>9999</StackLimit>
+        <StackLimit>999999</StackLimit>
     </ItemDef>
 </Definitions>

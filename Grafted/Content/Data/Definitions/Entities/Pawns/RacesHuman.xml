@@ -12,6 +12,12 @@
         <TexturePath>Entities/Pawn/Creature/Human/Human1</TexturePath>
     </RaceDef>
     <RaceDef ParentName="BaseHumanRace">
+        <Moniker>Grainer</Moniker>
+        <Label>Grainer</Label>
+        <Species>Human</Species>
+        <TexturePath>Entities/Pawn/Creature/Human/Grainer</TexturePath>
+    </RaceDef>
+    <RaceDef ParentName="BaseHumanRace">
         <Moniker>Mongoloid</Moniker>
         <Label>Mongoloid</Label>
         <Species>Human</Species>

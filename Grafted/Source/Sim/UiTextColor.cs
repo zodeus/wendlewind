@@ -8,6 +8,7 @@ public static class UiTextColor {
     public static string TextColorDefault = "#b3b3b3";
     public static string TextColorZone = "#a600ff";
     public static string TextColorRed = "#b00000";
+    public static string TextColorTime = "#007bd7";
     public static string TextColorBlue = "#007bd7";
     public static string TextColorGreen = "#3dc200";
     public static string TextColorItem = "#fa9000";

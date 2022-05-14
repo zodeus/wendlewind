@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>GhoulHand</Moniker>
+        <Label>Ghoul Hand</Label>
+        <Description>Has no arteries. Has no regenerative properties</Description>
+        <BodyPartType>Hand</BodyPartType>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+            <ListItem>HandArmor</ListItem>
+            <ListItem>HandWeapon</ListItem>
+        </EquipmentSlots>
+        <HitWeight>12</HitWeight>
+        <Size>20</Size>
+        <IsFlesh>true</IsFlesh>
+        <TexturePath>Entities/Pawn/BodyParts/Ghoul/Hand</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ThumbSocket</ListItem>
+            <ListItem>IndexFingerSocket</ListItem>
+            <ListItem>MiddleFingerSocket</ListItem>
+            <ListItem>RingFingerSocket</ListItem>
+            <ListItem>LittleFingerSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>150</MaxHitPoints>
+            <CurrencyValue>25</CurrencyValue>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>GhoulFinger</Moniker>
+        <Label>Ghoul Finger</Label>
+        <BodyPartType>Finger</BodyPartType>
+        <HitWeight>10</HitWeight>
+        <Size>3</Size>
+        <IsFlesh>true</IsFlesh>
+        <TexturePath>Entities/Pawn/BodyParts/Ghoul/Finger</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <SequencePoints>.4</SequencePoints>
+            <MaxHitPoints>24</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>GhoulThumb</Moniker>
+        <Label>Ghoul Thumb</Label>
+        <BodyPartType>Thumb</BodyPartType>
+        <HitWeight>10</HitWeight>
+        <Size>2.5</Size>
+        <IsFlesh>true</IsFlesh>
+        <TexturePath>Entities/Pawn/BodyParts/Ghoul/Thumb</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <SequencePoints>.4</SequencePoints>
+            <MaxHitPoints>27</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+</Definitions>

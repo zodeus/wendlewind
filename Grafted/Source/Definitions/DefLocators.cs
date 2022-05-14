@@ -19,7 +19,6 @@ public static partial class Defs {
         public static StatDef MeleeStrength = null!;
         public static StatDef AttackSpeed = null!;
         public static StatDef SequencePoints = null!;
-        public static StatDef NutritionalValue = null!;
         public static StatDef HealingValue = null!;
         public static StatDef MeleeAccuracy = null!;
         public static StatDef PhysicalResistance = null!;
@@ -28,6 +27,7 @@ public static partial class Defs {
         public static StatDef Weight = null!;
         public static StatDef CurrencyValue = null!;
         public static StatDef MoveSpeed = null!;
+        public static StatDef Tier = null!;
     }
 }
 
@@ -35,7 +35,6 @@ public static partial class Defs {
     [DefLocator]
     public static class PawnConfigs {
         public static PawnConfigDef PlayerPawn = null!;
-        public static PawnConfigDef IntroPlayerPawn = null!;
     }
 }
 
@@ -50,10 +49,11 @@ public static partial class Defs {
 public static partial class Defs {
     [DefLocator]
     public static class Zones {
-        public static ZoneDef Intro = null!;
         public static ZoneDef VillageOfTheDamned = null!;
         public static ZoneDef PeacefulMeadow = null!;
         public static ZoneDef TheOutskirts = null!;
+        public static ZoneDef GrainMill = null!;
+        public static ZoneDef MeatMarket = null!;
     }
 }
 
@@ -155,12 +155,17 @@ public static partial class Defs {
         public static BodyPartDef PigLeg = null!;
         public static BodyPartDef PigHoof = null!;
         public static BodyPartDef PigTail = null!;
+        
+        public static BodyPartDef GhoulHand = null!;
+        public static BodyPartDef GhoulThumb = null!;
+        public static BodyPartDef GhoulFinger = null!;
     }
 
     [DefLocator]
     public static class BodyPartSockets {
         public static BodyPartSocketDef HeadSocket = null!;
         public static BodyPartSocketDef TorsoSocket = null!;
+        public static BodyPartSocketDef HandSocket = null!;
     }
 }
 

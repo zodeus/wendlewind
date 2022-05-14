@@ -56,7 +56,7 @@ public static class CombatHelpers {
     private static DamageRequest CalculateDamages(Pawn pawn, Item tool, ToolSequenceDef sequence, ToolManeuverDef maneuver) {
         float pawnStrength = pawn.GetStatValue(Defs.Stats.MeleeStrength);
         float toolPower = tool.GetStatValue(Defs.Stats.MeleePower);
-        float skillPower = 1 + (pawn.GetSkill(tool.ItemDef.ToolType)?.Level / 10f ?? 0);
+        float skillPower = 1 + (pawn.GetSkill(tool.ItemDef.ToolType)?.Level / 30f ?? 0);
         int rawDamage = Mathf.RoundToInt(
             maneuver.DamageMultiplier.RandomValue
             * sequence.DamageMultiplier.RandomValue

@@ -1,65 +1,54 @@
-﻿#nullable disable
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Grafted.Sim;
+using JetBrains.Annotations;
 
 namespace Grafted.Utils;
 
 public static class GenTypes {
-    private struct TypeCacheKey : IEquatable<TypeCacheKey> {
-        public string typeName;
+    private readonly struct TypeCacheKey : IEquatable<TypeCacheKey> {
+        public readonly string TypeName;
 
-        public string namespaceIfAmbiguous;
+        public readonly string NamespaceIfAmbiguous;
 
         public override int GetHashCode() {
-            if (namespaceIfAmbiguous == null) {
-                return typeName.GetHashCode();
+            if (NamespaceIfAmbiguous == null) {
+                return TypeName.GetHashCode();
             }
 
-            return (17 * 31 + typeName.GetHashCode()) * 31 + namespaceIfAmbiguous.GetHashCode();
+            return (17 * 31 + TypeName.GetHashCode()) * 31 + NamespaceIfAmbiguous.GetHashCode();
         }
 
         public bool Equals(TypeCacheKey other) {
-            if (string.Equals(typeName, other.typeName)) {
-                return string.Equals(namespaceIfAmbiguous, other.namespaceIfAmbiguous);
+            if (string.Equals(TypeName, other.TypeName)) {
+                return string.Equals(NamespaceIfAmbiguous, other.NamespaceIfAmbiguous);
             }
 
             return false;
         }
 
         public override bool Equals(object obj) {
-            if (obj is TypeCacheKey) {
-                return Equals((TypeCacheKey) obj);
+            if (obj is TypeCacheKey key) {
+                return Equals(key);
             }
 
             return false;
         }
 
-        public TypeCacheKey(string typeName, string namespaceIfAmbigous = null) {
-            this.typeName = typeName;
-            namespaceIfAmbiguous = namespaceIfAmbigous;
+        public TypeCacheKey(string typeName, string namespaceIfAmbiguous = null) {
+            this.TypeName = typeName;
+            NamespaceIfAmbiguous = namespaceIfAmbiguous;
         }
     }
 
-    public static readonly List<string> ImpliedNamespaceNames = new() {
-        "System",
-        "Grafted",
-        "Grafted.Sim",
-        "Grafted.Sim.Combat",
-        "Grafted.Sim.Entities",
-        "Grafted.Sim.Entities.Items",
-        "Grafted.Sim.Entities.Pawns",
-        "Grafted.Sim.Gui",
-        "Grafted.Sim.Gui.CombatGuis",
-        "Grafted.Sim.Gui.DefWidgets",
-        "Grafted.Sim.Gui.EntityWidgets",
-        "Grafted.Sim.Gui.EntityWidgets.PawnWidgets",
-        "Grafted.Sim.Persistence"
-    };
+    public static List<string> ImpliedNamespaceNames {
+        get { return _impliedNamespaceNames ??= typeof(Simulation).Assembly.GetTypes().Where(t => t.Namespace?.StartsWith("Grafted") == true).Select(t => t.Namespace).Distinct().ToList()!; }
+    }
 
-    private static Dictionary<TypeCacheKey, Type> typeCache = new(EqualityComparer<TypeCacheKey>.Default);
+    private static readonly Dictionary<TypeCacheKey, Type> TypeCache = new(EqualityComparer<TypeCacheKey>.Default);
+    private static List<string>? _impliedNamespaceNames;
 
     private static IEnumerable<Assembly> AllActiveAssemblies {
         get { yield return Assembly.GetExecutingAssembly(); }
@@ -118,9 +107,9 @@ public static class GenTypes {
 
     public static Type GetTypeInAnyAssembly(string typeName, string namespaceIfAmbiguous = null) {
         TypeCacheKey key = new(typeName, namespaceIfAmbiguous);
-        if (!typeCache.TryGetValue(key, out Type value)) {
+        if (!TypeCache.TryGetValue(key, out Type value)) {
             value = GetTypeInAnyAssemblyInt(typeName, namespaceIfAmbiguous);
-            typeCache.Add(key, value);
+            TypeCache.Add(key, value);
         }
 
         return value;
@@ -222,7 +211,7 @@ public static class GenTypes {
             }
         }
     }
-    
+
     public static string GetTypeNameWithoutIgnoredNamespaces(Type type) {
         if (type.IsGenericType) {
             return type.ToString();

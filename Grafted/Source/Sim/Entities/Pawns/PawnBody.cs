@@ -11,6 +11,7 @@ public class PawnBody : IExposable {
     private float _bloodAmount;
     private float _energy = 1;
     private float _ticksWithEmptyStomach;
+    private int _sequencePoints = 0;
 
     public readonly Pawn Pawn;
     public readonly float MaxBlood = 5000;
@@ -21,6 +22,7 @@ public class PawnBody : IExposable {
     public float StomachLevel = 1;
     public PawnCapabilities Capabilities;
     public PawnBodyEffects Effects;
+    public bool BodyPartsDirty = true;
 
     public float BloodPercent => BloodAmount / MaxBlood;
     public bool IsWarm => Temperature is > 10 and < 40;
@@ -290,5 +292,26 @@ public class PawnBody : IExposable {
         Scribe_Deep.Look(ref Capabilities!, "Capabilities", Pawn);
         Scribe_Deep.Look(ref Effects!, "Effects", Pawn);
         Scribe_Deep.Look(ref RootSocket!, "RootSocket");
+    }
+
+    public int GetSequencePoints() {
+        if (BodyPartsDirty) {
+            _sequencePoints = Mathf.RoundToInt(RootSocket.AttachedPart?.SequencePoints ?? 0);
+
+            //todo this calculates lung capacity, I think there should be a capacities list object somewhere instead, perhaps PawnBody or on Pawn? Need to add events to BodyPart to properly implement
+            _sequencePoints = Mathf.RoundToInt(_sequencePoints * (AllParts.Count(p => p.BodyPartDef.BodyPartType == BodyPartType.Lung && p.IsFunctional) > 1 ? 1f : .5f));
+            BodyPartsDirty = false;
+        }
+
+
+        if (Energy < .50) {
+            return _sequencePoints - 1;
+        }
+
+        if (Energy < .25) {
+            return _sequencePoints - 2;
+        }
+
+        return _sequencePoints;
     }
 }

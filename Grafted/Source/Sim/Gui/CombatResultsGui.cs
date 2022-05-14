@@ -4,9 +4,9 @@ using Grafted.Definitions;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
-using Grafted.Sim.Gui.EntityWidgets;
-using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
-using Grafted.Sim.Gui.MiscWidgets;
+using Grafted.Sim.Gui.Widgets.EntityWidgets;
+using Grafted.Sim.Gui.Widgets.EntityWidgets.PawnWidgets;
+using Grafted.Sim.Gui.Widgets.MiscWidgets;
 using Grafted.UI;
 using Grafted.Utils;
 using Microsoft.Xna.Framework;
@@ -70,11 +70,10 @@ public class CombatResultsGui : BaseGui {
         TextButton continueButton = new(BaseContent.Styles.Button.Large) { Text = "Carry on" };
         continueButton.Click += (_, _) => MoveToNextCombat();
         buttons.AddChild(continueButton);
-        if (Core.Sim.World.CurrentZone.Def != Defs.Zones.Intro) {
-            TextButton goHome = new(BaseContent.Styles.Button.Large) { Text = "Go Home" };
-            goHome.Click += (_, _) => GoHome();
-            buttons.AddChild(goHome);
-        }
+
+        TextButton goHome = new(BaseContent.Styles.Button.Large) { Text = "Go Home" };
+        goHome.Click += (_, _) => GoHome();
+        buttons.AddChild(goHome);
 
         return new HorizontalStackPanel { Spacing = 10, Widgets = { DeathsButton(), buttons } };
     }
@@ -93,17 +92,15 @@ public class CombatResultsGui : BaseGui {
             return;
         }
 
-        if (Core.Sim.World.CurrentZone.Def == Defs.Zones.Intro) {
-            HandleIntro();
-            return;
-        }
-
-        if (Core.Sim.World.CurrentZone.IsComplete) {
+        if (Core.Sim.World.CurrentZone!.BossKilledThisRun) {
             GoHome();
             return;
         }
 
-        Core.Sim.World.DoZoneTravel();
+        if (Core.Sim.World.CurrentZone!.PercentTraveled < 1) {
+            Core.Sim.World.DoZoneTravel();
+        }
+
         if (Core.Sim.World.PlayerPawns[0].IsDead) {
             ShowDeathWindow();
             return;
@@ -132,21 +129,6 @@ public class CombatResultsGui : BaseGui {
         return true;
     }
 
-    private void HandleIntro() {
-        if (Core.Sim.World.TotalKills < 15) {
-            Core.Sim.ActivateCombatEvent(Core.Sim.World.NextCombat());
-            return;
-        }
-
-        if (DebugSettings.SkipIntroDialogue) {
-            Core.Sim.World.MoveToZone(Defs.Zones.VillageOfTheDamned);
-            Core.Sim.Gui = new TownGui(Core.Sim.World.CurrentZone.Town!);
-        }
-        else {
-            Core.Sim.Gui = new DialogueGui(Core.Sim.World.NextDialogue());
-        }
-    }
-
     public override void HandleInput() {
         base.HandleInput();
         if (Input.IsKeyPressed(Keys.Enter)) {
@@ -169,7 +151,7 @@ public class CombatResultsGui : BaseGui {
             DepthStencilState.None,
             RasterizerState.CullNone
         );
-        spriteBatch.Draw(Core.Sim.World.CurrentZone.Def.BackgroundTexture, new Rectangle(0, 0, Screen.Width, Screen.Height), new Color(255, 255, 255, 20));
+        spriteBatch.Draw(Core.Sim.World.CurrentZone.Def.BackgroundTexture, new Rectangle(0, 0, Screen.Width, Screen.Height), new Color(255, 255, 255, Core.Sim.World.CurrentZone.Def.BackgroundTextureTransparency));
         spriteBatch.End();
         base.Render(spriteBatch, deltaTime);
     }

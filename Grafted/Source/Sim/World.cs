@@ -12,14 +12,15 @@ namespace Grafted.Sim;
 public enum ZoneType {
     Invalid,
     Town,
-    Adventure
+    Adventure,
+    SpecialEvent
 }
 
 public class World : IExposable {
     public SimTime Time = null!;
     public List<Pawn> PlayerPawns = null!;
     public PawnDeathRecords DeathRecords = null!;
-    public Zone CurrentZone = null!;
+    public Zone? CurrentZone;
     public Dictionary<ZoneDef, Zone> Zones = null!;
     public CombatEvent? ActiveCombat;
     public int TotalKills;
@@ -33,12 +34,8 @@ public class World : IExposable {
         Zones = new Dictionary<ZoneDef, Zone>();
         foreach (ZoneDef zoneDef in DefRepository<ZoneDef>.Defs) {
             Zones[zoneDef] = new Zone { Def = zoneDef };
-            if (zoneDef.ZoneType == ZoneType.Town) {
-                Zones[zoneDef].Town = TownGenerator.Generate(zoneDef);
-            }
+            Zones[zoneDef].Initialize();
         }
-
-        CurrentZone = Zones[Defs.Zones.Intro];
 
         TotalKills = 0;
     }
@@ -48,12 +45,7 @@ public class World : IExposable {
     }
 
     public CombatEvent NextCombat() {
-        if (CurrentZone.Def == Defs.Zones.Intro) {
-            int nextCombatId = Mathf.Clamp(TotalKills + 1, 1, 16);
-            return CombatGenerator.GenerateIntroCombat(PlayerPawns, nextCombatId);
-        }
-
-        return CombatGenerator.GenerateForZone(PlayerPawns, CurrentZone);
+        return CombatGenerator.GenerateForZone(PlayerPawns, CurrentZone!);
     }
 
     public DialogueNode NextDialogue() {
@@ -65,10 +57,10 @@ public class World : IExposable {
         //todo MovementMultiplier
         ActiveCombat = null;
         if (progressTime) {
-            ProgressTime(CurrentZone.DistanceTraveled * SimTime.MinutesToSeconds(SimTime.MinutesPerKm)); //roughly 10 minutes per km    
+            ProgressTime(CurrentZone.DistanceTraveledThisRun * SimTime.MinutesToSeconds(SimTime.MinutesPerKm)); //roughly 10 minutes per km    
         }
 
-        CurrentZone.Reset();
+        CurrentZone?.Reset();
         CurrentZone = Zones[zoneDef];
         Core.Sim.World.PlayerPawns[0].Zone = CurrentZone;
         Core.Sim.Messages.Push(new Message(
@@ -85,10 +77,10 @@ public class World : IExposable {
         ActiveCombat = null;
         float minutesSpentTravelling = CurrentZone.Def.MeanTimeBetweenEvents.RandomValue;
         ProgressTime(SimTime.SecondsInMinute * minutesSpentTravelling);
-        float distanceTraveled = (minutesSpentTravelling / SimTime.MinutesPerKm * CurrentZone.Def.TravelSpeedFactor * PlayerPawn.Body.MovementSpeed) + CurrentZone.DistanceTraveled;
-        CurrentZone.DistanceTraveled = Mathf.Clamp(distanceTraveled, 0, CurrentZone.Def.TravelSize);
-        if (CurrentZone.DistanceTraveled > CurrentZone.FurthestDistanceTraveled) {
-            CurrentZone.FurthestDistanceTraveled = CurrentZone.DistanceTraveled;
+        float distanceTraveled = (minutesSpentTravelling / SimTime.MinutesPerKm * CurrentZone.Def.TravelSpeedFactor * PlayerPawn.Body.MovementSpeed) + CurrentZone.DistanceTraveledThisRun;
+        CurrentZone.DistanceTraveledThisRun = Mathf.Clamp(distanceTraveled, 0, CurrentZone.Def.TravelSize);
+        if (CurrentZone.DistanceTraveledThisRun > CurrentZone.FurthestDistanceTraveled) {
+            CurrentZone.FurthestDistanceTraveled = CurrentZone.DistanceTraveledThisRun;
         }
     }
 

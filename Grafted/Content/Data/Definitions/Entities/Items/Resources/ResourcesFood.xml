@@ -38,7 +38,6 @@
         </CraftingProperties>
         <BaseStats>
             <Weight>.4</Weight>
-            <NutritionalValue>2500</NutritionalValue>
             <HealingValue>110</HealingValue>
             <DeteriorationRate>0.01</DeteriorationRate>
             <CurrencyValue>15</CurrencyValue>
@@ -51,10 +50,40 @@
         <TexturePath>Entities/Item/Resource/Organic/DriedMeat</TexturePath>
         <FoodProperties>
             <FoodType>DriedMeat</FoodType>
+            <Effects>
+                <ListItem>BeefedUp</ListItem>
+            </Effects>
         </FoodProperties>
         <BaseStats>
             <Weight>.2</Weight>
-            <NutritionalValue>2500</NutritionalValue>
+            <DeteriorationRate>0.01</DeteriorationRate>
+            <CurrencyValue>50</CurrencyValue>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="Food">
+        <Moniker>RawGrain</Moniker>
+        <Label>Raw Grain</Label>
+        <Description>Can be turned into flour</Description>
+        <TexturePath>Entities/Item/Resource/Organic/RawGrain</TexturePath>
+        <FoodProperties>
+            <FoodType>RawGrain</FoodType>
+        </FoodProperties>
+        <BaseStats>
+            <Weight>.2</Weight>
+            <DeteriorationRate>0.01</DeteriorationRate>
+            <CurrencyValue>50</CurrencyValue>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="Food">
+        <Moniker>RawCorn</Moniker>
+        <Label>Raw Corn</Label>
+        <Description>Can be boiled and eaten</Description>
+        <TexturePath>Entities/Item/Resource/Organic/RawCorn</TexturePath>
+        <FoodProperties>
+            <FoodType>RawGrain</FoodType>
+        </FoodProperties>
+        <BaseStats>
+            <Weight>.2</Weight>
             <DeteriorationRate>0.01</DeteriorationRate>
             <CurrencyValue>50</CurrencyValue>
         </BaseStats>

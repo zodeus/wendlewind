@@ -101,8 +101,9 @@
     </BodyPartDef>
     <BodyPartDef ParentName="BodyPartBase">
         <Moniker>HumanHand</Moniker>
-        <Label>Hand</Label>
+        <Label>Human Hand</Label>
         <BodyPartType>Hand</BodyPartType>
+        <Description>Standard issue human hand.</Description>
         <EquipmentSlots>
             <ListItem>BuiltIn</ListItem>
             <ListItem>HandArmor</ListItem>
@@ -123,8 +124,8 @@
             <ListItem>LittleFingerSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <SequencePoints>1</SequencePoints>
             <MaxHitPoints>50</MaxHitPoints>
+            <CurrencyValue>10</CurrencyValue>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="BodyPartBase">
@@ -141,6 +142,7 @@
             <ListItem>ArterySocket</ListItem>
         </Sockets>
         <BaseStats>
+            <SequencePoints>.2</SequencePoints>
             <MaxHitPoints>8</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
@@ -158,6 +160,7 @@
             <ListItem>ArterySocket</ListItem>
         </Sockets>
         <BaseStats>
+            <SequencePoints>.2</SequencePoints>
             <MaxHitPoints>9</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>

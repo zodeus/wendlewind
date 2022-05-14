@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Items;
-using Grafted.Sim.Gui.CombatWidgets;
-using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
-using Grafted.Sim.Gui.MiscWidgets;
+using Grafted.Sim.Gui.Widgets.CombatWidgets;
+using Grafted.Sim.Gui.Widgets.EntityWidgets.PawnWidgets;
+using Grafted.Sim.Gui.Widgets.MiscWidgets;
 using Grafted.UI;
 using Grafted.Utils;
 using Microsoft.Xna.Framework;
@@ -205,7 +205,7 @@ public class CombatGui : BaseGui {
             DepthStencilState.None,
             RasterizerState.CullNone
         );
-        spriteBatch.Draw(Core.Sim.World.CurrentZone.Def.BackgroundTexture, new Rectangle(0, 0, Screen.Width, Screen.Height), new Color(255, 255, 255, 20));
+        spriteBatch.Draw(Core.Sim.World.CurrentZone.Def.BackgroundTexture, new Rectangle(0, 0, Screen.Width, Screen.Height), new Color(255, 255, 255, Core.Sim.World.CurrentZone.Def.BackgroundTextureTransparency));
         spriteBatch.End();
 
         base.Render(spriteBatch, deltaTime);

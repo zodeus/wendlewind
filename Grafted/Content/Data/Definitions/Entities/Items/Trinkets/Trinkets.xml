@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef Name="ItemTrinket" ParentName="ItemBase" Abstract="true">
+        <MaterialType>Artificial</MaterialType>
+        <StackLimit>1</StackLimit>
+        <ItemType>Trinket</ItemType>
+    </ItemDef>
+    <ItemDef ParentName="ItemTrinket">
+        <Moniker>ATap</Moniker>
+        <Label>A Tap</Label>
+        <Description>A fluid tap, useful for dispensing.</Description>
+        <TexturePath>Entities/Item/Trinket/ATap</TexturePath>
+        <!--<BaseStats>
+            <ListItem>
+                <Stat>Tier</Stat>
+                <Value>1</Value>
+            </ListItem>
+            <ListItem>
+                <Stat>Durability</Stat>
+                <Value>100</Value>
+            </ListItem>
+        </BaseStats>-->
+    </ItemDef>
+    <ItemDef ParentName="ItemResource">
+        <Moniker>DookinDoll</Moniker>
+        <Label>Dookin Doll</Label>
+        <Description>What a curious little toy</Description>
+        <TexturePath>Entities/Item/Trinket/DookinDoll</TexturePath>
+    </ItemDef>
+</Definitions>

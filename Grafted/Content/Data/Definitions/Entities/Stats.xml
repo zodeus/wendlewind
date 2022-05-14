@@ -43,13 +43,6 @@
         <MaxValue>9999</MaxValue>
     </StatDef>
     <StatDef>
-        <Moniker>NutritionalValue</Moniker>
-        <Label>Nutritional Value</Label>
-        <Description>In kilojoules</Description>
-        <BaseValue>0</BaseValue>
-        <MinValue>0</MinValue>
-    </StatDef>
-    <StatDef>
         <Moniker>DeteriorationRate</Moniker>
         <Label>Deterioration Rate</Label>
         <Description>Amount per tick to decrease</Description>
@@ -62,5 +55,11 @@
         <Description>What it worth</Description>
         <BaseValue>0</BaseValue>
         <MinValue>0</MinValue>
+    </StatDef>
+    <StatDef>
+        <Moniker>Tier</Moniker>
+        <Label>Tier</Label>
+        <BaseValue>1</BaseValue>
+        <MinValue>1</MinValue>
     </StatDef>
 </Definitions>

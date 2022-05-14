@@ -11,6 +11,7 @@ public class CombatConfigDef : Def {
     public List<CombatConfigEnemyRecord> Enemies = new();
     public RangeFloat SpawnRange; // as a percentage of travel distance
     public ZoneDef Zone = null!;
+    public bool IsBoss;
 }
 
 public class CombatConfigEnemyRecord {
@@ -22,4 +23,5 @@ public class CombatConfigEnemyRecord {
     public List<ItemDropCount> InventoryItems = new();
     public BodyModificationRecord BodyModifications = new();
     public TimeOfDay SpawnDuring = TimeOfDay.AllDay;
+    public List<SkillValueRecord> Skills = new();
 }

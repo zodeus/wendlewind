@@ -120,6 +120,7 @@
             <PhysicalResistance>15</PhysicalResistance>
             <MaxDurability>70</MaxDurability>
             <Weight>5</Weight>
+            <Tier>2</Tier>
             <CurrencyValue>150</CurrencyValue>
         </BaseStats>
     </ItemDef>

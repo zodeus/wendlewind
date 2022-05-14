@@ -1,4 +1,4 @@
-using Grafted.Sim.Gui.EntityWidgets;
+using Grafted.Sim.Gui.Widgets.EntityWidgets;
 using Grafted.Sim.Persistence;
 using Microsoft.Xna.Framework.Graphics;
 

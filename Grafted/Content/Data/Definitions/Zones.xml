@@ -2,19 +2,17 @@
 
 <Definitions>
     <ZoneDef>
-        <Moniker>Intro</Moniker>
-        <Label>Intro</Label>
-    </ZoneDef>
-    <ZoneDef>
         <Moniker>VillageOfTheDamned</Moniker>
         <Label>Village of the Damned</Label>
         <ZoneType>Town</ZoneType>
+        <Location>0,0</Location>
     </ZoneDef>
     <ZoneDef>
         <Moniker>PeacefulMeadow</Moniker>
         <Label>Peaceful Meadow</Label>
         <BackgroundTexturePath>Zones/PeacefulMeadow</BackgroundTexturePath>
         <ZoneType>Adventure</ZoneType>
+        <Location>1,0</Location>
         <TravelSize>40</TravelSize>
         <TravelSpeedFactor>1</TravelSpeedFactor>
         <MeanTimeBetweenEvents>15~20</MeanTimeBetweenEvents>
@@ -37,6 +35,7 @@
         <Moniker>TheOutskirts</Moniker>
         <Label>The Outskirts</Label>
         <ZoneType>Adventure</ZoneType>
+        <Location>1,0</Location>
         <BackgroundTexturePath>Zones/TheOutskirts</BackgroundTexturePath>
         <TravelSize>60</TravelSize>
         <TravelSpeedFactor>.9</TravelSpeedFactor>
@@ -61,5 +60,42 @@
                 <HarvestArea>0~1</HarvestArea>
             </ListItem>
         </Resources>
+    </ZoneDef>
+    <ZoneDef>
+        <Moniker>GrainMill</Moniker>
+        <Label>Grain Mill</Label>
+        <ZoneType>Adventure</ZoneType>
+        <Location>1,0</Location>
+        <BackgroundTexturePath>Zones/GrainMill</BackgroundTexturePath>
+        <BackgroundTextureTransparency>10</BackgroundTextureTransparency>
+        <TravelSize>5</TravelSize>
+        <TravelSpeedFactor>1</TravelSpeedFactor>
+        <MeanTimeBetweenEvents>5~10</MeanTimeBetweenEvents>
+        <Resources>
+            <ListItem>
+                <Item>RawGrain</Item>
+                <Amount>1~2</Amount>
+                <ChanceToHarvest>.5</ChanceToHarvest>
+                <HarvestArea>0~1</HarvestArea>
+            </ListItem>
+            <ListItem>
+                <Item>RawCorn</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.5</ChanceToHarvest>
+                <HarvestArea>0.5~1</HarvestArea>
+            </ListItem>
+        </Resources>
+    </ZoneDef>
+    <ZoneDef>
+        <Moniker>MeatMarket</Moniker>
+        <Label>Meat Market</Label>
+        <Location>6,0</Location>
+        <ZoneType>SpecialEvent</ZoneType>
+        <EventHandlerClass>MeatMarketHandler</EventHandlerClass>
+        <EventGuiClass>MeatMarketGui</EventGuiClass>
+        <BackgroundTexturePath>Zones/MeatMarket</BackgroundTexturePath>
+        <BackgroundTextureTransparency>60</BackgroundTextureTransparency>
+        <TravelSize>10</TravelSize>
+        <TravelSpeedFactor>1</TravelSpeedFactor>
     </ZoneDef>
 </Definitions>

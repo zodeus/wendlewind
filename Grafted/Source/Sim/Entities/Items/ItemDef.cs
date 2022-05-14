@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Grafted.Definitions;
-using Grafted.Sim.Gui.DefWidgets;
+using Grafted.Sim.Gui.Widgets.DefWidgets;
 
 namespace Grafted.Sim.Entities.Items;
 

@@ -17,10 +17,14 @@ public class TownStructureMerchant : TownStructure {
     public override void Tick() {
         if (_lastRefreshTick == 0 || _lastRefreshTick + _refreshInterval <= Core.Sim.Ticks) {
             _lastRefreshTick = Core.Sim.Ticks;
-            TownGenerator.PopulateMerchantContainer(this);
+            Restock();
         }
 
         Entities.Tick();
+    }
+
+    public void Restock() {
+        TownGenerator.PopulateMerchantContainer(this);
     }
 
     public override void ExposeData() {

@@ -22,6 +22,23 @@
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
+        <Moniker>GhoulishHand</Moniker>
+        <Label>Ghoulish Hand</Label>
+        <Description>A ghoulish hand</Description>
+        <ToolType>Hand</ToolType>
+        <DamageType>Flesh</DamageType>
+        <ToolCategories>
+            <ListItem>Combat</ListItem>
+        </ToolCategories>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/GhoulishHand</TexturePath>
+        <BaseStats>
+            <MeleePower>5</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
         <Moniker>FleshyFoot</Moniker>
         <Label>Fleshy Foot</Label>
         <Description>A fleshy foot</Description>

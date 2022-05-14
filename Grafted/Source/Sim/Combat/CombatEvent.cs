@@ -106,6 +106,10 @@ public class CombatEvent {
         if (playerIsAlive) {
             CollectLoot();
             Core.Sim.World.RegisterKill(EnemyPawns[0]);
+            if (Config.IsBoss) {
+                Zone!.BossKilledThisRun = true;
+                Zone!.IsComplete = true;
+            }
         }
 
         LogMessage("Battle is over");
@@ -155,6 +159,7 @@ public class CombatEvent {
     }
 
     private void CollectLoot() {
+        float chanceToLootEquipment = 0.07f;
         foreach (Pawn enemy in EnemyPawns) {
             for (int i = enemy.Inventory.Count() - 1; i >= 0; i--) {
                 Item item = enemy.Inventory.Entities[i];
@@ -167,7 +172,7 @@ public class CombatEvent {
                         continue;
                     }
 
-                    if (enemy.Equipment.UnEquip(bodyPart, slot) is { } item) {
+                    if (enemy.Equipment.UnEquip(bodyPart, slot) is { } item && Core.Random.Chance(chanceToLootEquipment)) {
                         Loot.TryAdd(item);
                     }
                 }
@@ -176,7 +181,7 @@ public class CombatEvent {
 
         void TakePartEquipment(BodyPart part) {
             foreach ((EquipmentSlotType slot, Item? item) in part.Equipment) {
-                if (item != null && item.ItemDef.EquipmentProperties.SlotUsedToEquip != EquipmentSlotType.BuiltIn) {
+                if (item != null && item.ItemDef.EquipmentProperties.SlotUsedToEquip != EquipmentSlotType.BuiltIn && Core.Random.Chance(chanceToLootEquipment)) {
                     part.Equipment[slot] = null;
                     Loot.TryAdd(item);
                 }

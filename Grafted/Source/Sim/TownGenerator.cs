@@ -30,7 +30,23 @@ public static class TownGenerator {
 
     public static void PopulateMerchantContainer(TownStructureMerchant structureMerchant) {
         structureMerchant.Entities.Clear();
-        foreach (ItemDef def in DefRepository<ItemDef>.Defs.Where(def => def.ItemType == ItemType.Medical).InRandomOrder().Take(Core.Random.Next(4, 5))) {
+        int maxTier = 1;
+        if (Core.Sim.World.Zones[Defs.Zones.PeacefulMeadow].IsComplete) {
+            maxTier = 2;
+        }
+
+        if (Core.Sim.World.Zones[Defs.Zones.TheOutskirts].IsComplete) {
+            maxTier = 3;
+        }
+
+        if (Core.Sim.World.Zones[Defs.Zones.GrainMill].IsComplete) {
+            maxTier = 4;
+        }
+
+        var medicalItems = DefRepository<ItemDef>.Defs.Where(
+            def => def.ItemType == ItemType.Medical && def.BaseStats.GetStatValueFromList(Defs.Stats.Tier) <= maxTier
+        ).InRandomOrder().Take(Core.Random.Next(4, 5));
+        foreach (ItemDef def in medicalItems) {
             float? currency = def.BaseStats.GetStatValueFromList(Defs.Stats.CurrencyValue);
             if (currency is null or <= 0) {
                 continue;
@@ -39,19 +55,22 @@ public static class TownGenerator {
             structureMerchant.Entities.TryAdd(EntityGenerator.CreateEntity<Item>(def, Core.Random.Next(4, 13)));
         }
 
-        foreach (ItemDef def in DefRepository<ItemDef>.Defs.Where(def => def.ItemType == ItemType.TradeTool).InRandomOrder().Take(4)) {
+        foreach (ItemDef def in DefRepository<ItemDef>.Defs.Where(def => def.ItemType == ItemType.TradeTool && def.BaseStats.GetStatValueFromList(Defs.Stats.Tier) <= maxTier).InRandomOrder().Take(4)) {
             structureMerchant.Entities.TryAdd(EntityGenerator.CreateEntity<Item>(def, Core.Random.Next(2, 8)));
         }
 
-        foreach (ItemDef def in DefRepository<ItemDef>.Defs.Where(def => def.ItemType == ItemType.Potion).InRandomOrder().Take(2)) {
+        foreach (ItemDef def in DefRepository<ItemDef>.Defs.Where(def => def.ItemType == ItemType.Potion && def.BaseStats.GetStatValueFromList(Defs.Stats.Tier) <= maxTier).InRandomOrder().Take(2)) {
             structureMerchant.Entities.TryAdd(EntityGenerator.CreateEntity<Item>(def, Core.Random.Next(1, 5)));
         }
 
-        foreach (ItemDef def in DefRepository<ItemDef>.Defs.Where(def => def.ItemType == ItemType.Resource).InRandomOrder().Take(1)) {
+        foreach (ItemDef def in DefRepository<ItemDef>.Defs.Where(def => def.ItemType == ItemType.Resource && def.BaseStats.GetStatValueFromList(Defs.Stats.Tier) <= maxTier).InRandomOrder().Take(1)) {
             structureMerchant.Entities.TryAdd(EntityGenerator.CreateEntity<Item>(def, Core.Random.Next(3, 13)));
         }
 
-        foreach (ItemDef def in DefRepository<ItemDef>.Defs.Where(def => def.ItemType == ItemType.Equipment && def.BaseStats.GetStatValueFromList(Defs.Stats.CurrencyValue) > 0).InRandomOrder().Take(Core.Random.Next(6, 9))) {
+        var equipment = DefRepository<ItemDef>.Defs.Where(
+            def => def.ItemType == ItemType.Equipment && def.BaseStats.GetStatValueFromList(Defs.Stats.CurrencyValue) > 0 && def.BaseStats.GetStatValueFromList(Defs.Stats.Tier) <= maxTier
+        ).InRandomOrder().Take(10);
+        foreach (ItemDef def in equipment) {
             //for (int i = 0; i < Core.Random.Next(1, 3); i++) {
             structureMerchant.Entities.TryAdd(EntityGenerator.CreateEntity<Item>(def));
             //}

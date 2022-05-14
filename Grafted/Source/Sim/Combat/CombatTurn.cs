@@ -69,7 +69,7 @@ public class CombatTurn {
                     if (target == null || target.IsDead) {
                         target = GetNewTarget(attacker)!;
                         // all targets are dead, end combat
-                        if (_combatEvent.State == CombatState.CombatEnd) {
+                        if (target == null || _combatEvent.State == CombatState.CombatEnd) {
                             break;
                         }
                     }

@@ -18,30 +18,31 @@ public class SeverLimbRequest {
 }
 
 public static class CombatGenerator {
-    public static CombatEvent GenerateIntroCombat(List<Pawn> playerPawns, int combatId) {
-        Pawn playerPawn = playerPawns[0];
-        CombatEvent combatEvent = new();
-        //combatEvent.IsInteractive = true;
-        combatEvent.AddPlayerPawn(playerPawn);
-
-        CombatConfigDef combatConfig = DefRepository<CombatConfigDef>.GetByMoniker($"Intro{combatId}")!;
-        return Generate(combatConfig, combatEvent);
-    }
-
-
     public static CombatEvent GenerateForZone(List<Pawn> playerPawns, Zone zone) {
         Pawn playerPawn = playerPawns[0];
-        CombatEvent combatEvent = new();
-        combatEvent.Zone = zone;
+        CombatEvent combatEvent = new() {
+            Zone = zone
+        };
         //combatEvent.IsInteractive = true;
         combatEvent.AddPlayerPawn(playerPawn);
-        CombatConfigDef combatConfig = DefRepository<CombatConfigDef>.Defs.Where(CombatFilter(zone)).RandomElement();
+        CombatConfigDef combatConfig;
+        if (zone.PercentTraveled < 1) {
+            combatConfig = DefRepository<CombatConfigDef>.Defs.Where(CombatFilter(zone)).RandomElement();
+        }
+        else {
+            combatConfig = DefRepository<CombatConfigDef>.Defs.First(config => config.IsBoss);
+        }
+
         return Generate(combatConfig, combatEvent);
     }
 
     private static Func<CombatConfigDef, bool> CombatFilter(Zone zone) {
         return config => {
             if (config.Zone != zone.Def) {
+                return false;
+            }
+
+            if (config.IsBoss) {
                 return false;
             }
 
@@ -72,6 +73,7 @@ public static class CombatGenerator {
             pawn.Biography.Name = enemyConfig.PawnName!;
             PawnGenerator.RegisterEquipment(pawn, enemyConfig.EquipmentItems);
             PawnGenerator.RegisterInventory(pawn, enemyConfig.InventoryItems);
+            PawnGenerator.RegisterSkills(pawn, enemyConfig.Skills);
 
             ApplyBodyModifications(pawn, enemyConfig.BodyModifications);
 
@@ -87,7 +89,7 @@ public static class CombatGenerator {
             BodyPart rootPart = pawn.Body.AllExternalParts.First(p => p.BodyPartDef == severLimbRequest.RootLimb);
             BodyPart targetLimb = rootPart.ExternalParts.First(p => p.Socket?.Def == severLimbRequest.Socket);
             BodyPartSocket socket = targetLimb.Socket!;
-            targetLimb.Sever();
+            targetLimb.Severe();
             socket.IsSealed = severLimbRequest.Seal;
         }
     }

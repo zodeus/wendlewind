@@ -71,6 +71,28 @@ public static class ParseHelper {
         return new Vector2(x, y);
     }
 
+    public static Point FromStringPoint(string str) {
+        str = str.TrimStart('(');
+        str = str.TrimEnd(')');
+        string[] array = str.Split(',');
+        CultureInfo invariantCulture = CultureInfo.InvariantCulture;
+        int x;
+        int y;
+        if (array.Length == 1) {
+            x = (y = Convert.ToInt32(array[0], invariantCulture));
+        }
+        else {
+            if (array.Length != 2) {
+                throw new InvalidOperationException();
+            }
+
+            x = Convert.ToInt32(array[0], invariantCulture);
+            y = Convert.ToInt32(array[1], invariantCulture);
+        }
+
+        return new Point(x, y);
+    }
+
     public static Vector4 FromStringVector4Adaptive(string str) {
         str = str.TrimStart('(');
         str = str.TrimEnd(')');
@@ -181,6 +203,7 @@ public static class ParseHelper {
         result = new Color(Mathf.RoundToInt(red), Mathf.RoundToInt(green), Mathf.RoundToInt(blue), Mathf.RoundToInt(alpha));
         return result;
     }
+
     public static CurvePoint ParseCurvePoint(string str) {
         return new CurvePoint(FromString<Vector2>(str));
     }
@@ -269,6 +292,7 @@ public static class ParseHelper {
         Parsers<int>.Register(ParseIntPermissive);
         Parsers<Vector3>.Register(FromStringVector3);
         Parsers<Vector2>.Register(FromStringVector2);
+        Parsers<Point>.Register(FromStringPoint);
         Parsers<Vector4>.Register(FromStringVector4Adaptive);
         //Parsers<Rect>.Register(FromStringRect);
         Parsers<float>.Register(ParseFloat);

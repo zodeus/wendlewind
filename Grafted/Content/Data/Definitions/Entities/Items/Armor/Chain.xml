@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Definitions>
+    <ItemDef ParentName="ArmorBase">
+        <Moniker>ChainHelmet</Moniker>
+        <Label>Chain Helmet</Label>
+        <ItemType>Equipment</ItemType>
+        <MaterialType>Artificial</MaterialType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Chain/Helmet</TexturePath>
+        <BaseStats>
+            <PhysicalResistance>50</PhysicalResistance>
+            <MaxDurability>600</MaxDurability>
+            <Weight>3</Weight>
+            <Tier>3</Tier>
+            <CurrencyValue>8000</CurrencyValue>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="ArmorBase">
+        <Moniker>ChainGlove</Moniker>
+        <Label>Chain Glove</Label>
+        <ItemType>Equipment</ItemType>
+        <MaterialType>Artificial</MaterialType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Chain/Glove</TexturePath>
+        <BaseStats>
+            <PhysicalResistance>50</PhysicalResistance>
+            <MaxDurability>500</MaxDurability>
+            <Weight>3</Weight>
+            <Tier>3</Tier>
+            <CurrencyValue>3000</CurrencyValue>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="ArmorBase">
+        <Moniker>ChainVambrace</Moniker>
+        <Label>Chain Vambrace</Label>
+        <ItemType>Equipment</ItemType>
+        <MaterialType>Artificial</MaterialType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>ArmArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Chain/Vambrace</TexturePath>
+        <BaseStats>
+            <PhysicalResistance>50</PhysicalResistance>
+            <MaxDurability>800</MaxDurability>
+            <Weight>3</Weight>
+            <Tier>3</Tier>
+            <CurrencyValue>10000</CurrencyValue>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="ArmorBase">
+        <Moniker>ChainTunic</Moniker>
+        <Label>Chain Tunic</Label>
+        <ItemType>Equipment</ItemType>
+        <MaterialType>Artificial</MaterialType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>TorsoArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Chain/Tunic</TexturePath>
+        <BaseStats>
+            <PhysicalResistance>50</PhysicalResistance>
+            <MaxDurability>800</MaxDurability>
+            <Weight>3</Weight>
+            <Tier>3</Tier>
+            <CurrencyValue>15000</CurrencyValue>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="ArmorBase">
+        <Moniker>ChainBoot</Moniker>
+        <Label>Chain Boot</Label>
+        <ItemType>Equipment</ItemType>
+        <MaterialType>Artificial</MaterialType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>FootArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Chain/Boot</TexturePath>
+        <BaseStats>
+            <PhysicalResistance>50</PhysicalResistance>
+            <MaxDurability>800</MaxDurability>
+            <Weight>3</Weight>
+            <Tier>3</Tier>
+            <CurrencyValue>12000</CurrencyValue>
+            <MoveSpeed>.5</MoveSpeed>
+        </BaseStats>
+    </ItemDef>
+</Definitions>

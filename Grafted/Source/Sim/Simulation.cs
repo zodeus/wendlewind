@@ -3,30 +3,15 @@ using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Gui;
+using Grafted.Sim.Gui.SpecialEvents;
 using Grafted.Sim.Persistence;
+using Grafted.Sim.SpecialEvents;
 using Grafted.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Grafted.Sim;
-
-public class CombatSettings {
-    public float Speed = .2f;
-    private bool _isPaused = false;
-
-    public bool IsPaused {
-        get => _isPaused;
-        set {
-            _isPaused = value;
-            Core.PauseCoroutines = _isPaused;
-        }
-    }
-
-    public void TogglePause() {
-        IsPaused = !IsPaused;
-    }
-}
 
 public class Simulation : IExposable {
     private BaseGui? _gui = null;
@@ -126,10 +111,6 @@ public class Simulation : IExposable {
             ((GameScene) Core.Scene.ActiveScene!).QuickPlay();
         }
 
-        if (Input.IsKeyPressed(Keys.F3) && Input.IsKeyDown(Keys.LeftControl)) {
-            ((GameScene) Core.Scene.ActiveScene!).PlayIntro();
-        }
-
         if (Input.IsKeyPressed(Keys.F5)) {
             DebugSettings.FastLoop = null;
         }
@@ -167,6 +148,7 @@ public class Simulation : IExposable {
     #region Persistence
 
     public void Save(string filePath) {
+        return;
         Log.Info("Saving Game to " + filePath);
         Scribe.Saver.InitSaving(filePath, "SaveData");
         Simulation sim = this;
@@ -210,5 +192,10 @@ public class Simulation : IExposable {
     public void ActivateCombatEvent(CombatEvent combat) {
         World.ActiveCombat = combat;
         Gui = new CombatGui(combat);
+    }
+
+    public void ActivateSpecialEvent(SpecialEventHandler handler, SpecialEventGui gui) {
+        //World.ActiveCombat = combat;
+        Gui = gui;
     }
 }

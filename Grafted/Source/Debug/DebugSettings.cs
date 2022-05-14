@@ -2,7 +2,6 @@
 
 public static class DebugSettings {
     public static bool QuickPlay = true;
-    public static bool SkipIntroDialogue = true;
-    public static int? FastLoop;
     public static bool QuickLoad = true;
+    public static int? FastLoop;
 }

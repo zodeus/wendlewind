@@ -19,7 +19,6 @@ public static class PawnGenerator {
         }
 
         RegisterTraits(pawn);
-        RegisterSkills(pawn);
 
         GenerateBody(pawn);
         RegisterEquipment(pawn, request.Config.EquipmentItems);
@@ -28,11 +27,10 @@ public static class PawnGenerator {
         return pawn;
     }
 
-    private static void RegisterSkills(Pawn pawn) {
-        if (pawn.PawnType != PawnType.Player) {
-            return;
+    public static void RegisterSkills(Pawn pawn, List<SkillValueRecord> skills) {
+        foreach (SkillValueRecord record in skills) {
+            pawn.Skills.GetSkill(record.Def).Level = record.Value;
         }
-
         //var skills = pawn.Skills.InRandomOrder().ToList();
         //skills[0].Level = new RangeInt(2, 4).RandomValue;
         //skills[1].Level = new RangeInt(2, 4).RandomValue;

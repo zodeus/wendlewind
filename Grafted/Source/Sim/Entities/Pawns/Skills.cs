@@ -6,7 +6,7 @@ using Grafted.Definitions;
 using Grafted.Definitions.Loader;
 using Grafted.Maths;
 using Grafted.Sim.Entities.Items;
-using Grafted.Sim.Gui.DefWidgets;
+using Grafted.Sim.Gui.Widgets.DefWidgets;
 using Grafted.Sim.Persistence;
 using JetBrains.Annotations;
 
@@ -22,6 +22,20 @@ public enum SkillType {
     None,
     Arms,
     Trade
+}
+public class SkillValueRecord {
+    public SkillDef Def = null!;
+    public int Value;
+
+    public override string ToString() {
+        return Def.Moniker + ": " + Value;
+    }
+
+    [UsedImplicitly]
+    public void LoadDataFromXmlCustom(XmlNode xmlRoot) {
+        DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "Def", xmlRoot.Name);
+        Value = ParseHelper.FromString<int>(xmlRoot.FirstChild!.Value!);
+    }
 }
 
 public class PawnSkills : IExposable, IEnumerable<Skill> {

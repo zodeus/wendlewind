@@ -7,17 +7,13 @@ namespace Grafted.Sim.Entities.Pawns.BodyGenerators;
 public static class HumanBodyGenerator {
     public static void Generate(Pawn pawn) {
         pawn.Body.RootSocket = GenerateBody();
-        pawn.SequencePointDirty = true; //todo this should be set by/in BodyPart, but BodyPart doesn't have access to Pawn currently
+        pawn.Body.BodyPartsDirty = true; //todo this should be set by/in BodyPart, but BodyPart doesn't have access to Pawn currently
         GenerateBuiltInTools(pawn);
     }
 
     private static void GenerateBuiltInTools(Pawn pawn) {
-        Item hand1 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyHand")!);
-        Item hand2 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyHand")!);
         Item foot1 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyFoot")!);
         Item foot2 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyFoot")!);
-        pawn.Equipment.TryEquip(pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Hand && p.SlotFor(hand1) != null).ToList()[0], hand1);
-        pawn.Equipment.TryEquip(pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Hand && p.SlotFor(hand2) != null).ToList()[1], hand2);
         pawn.Equipment.TryEquip(pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Foot && p.SlotFor(foot1) != null).ToList()[0], foot1);
         pawn.Equipment.TryEquip(pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Foot && p.SlotFor(foot2) != null).ToList()[1], foot2);
     }
@@ -69,22 +65,25 @@ public static class HumanBodyGenerator {
         arm.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
         arm.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
         arm.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
-        MakeHand(arm.GetSocketsFor(BodyPartType.Hand)[0].TryAttachPart(Defs.BodyParts.HumanHand));
+        MakeHandForSocket(arm.GetSocketsFor(BodyPartType.Hand)[0]);
     }
 
-    static void MakeHand(BodyPart hand) {
-        BodyPart artery = hand.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
-        //artery.HitPoints = 0;
+
+    public static void MakeHandForSocket(BodyPartSocket socket) {
+        BodyPart hand = socket.TryAttachPart(Defs.BodyParts.HumanHand);
         hand.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
         hand.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
-        MakeFinger(hand.GetSocketsFor(BodyPartType.Thumb)[0].TryAttachPart(Defs.BodyParts.HumanThumb));
-        MakeFinger(hand.GetSocketsFor(BodyPartType.Finger)[0].TryAttachPart(Defs.BodyParts.HumanFinger));
-        MakeFinger(hand.GetSocketsFor(BodyPartType.Finger)[1].TryAttachPart(Defs.BodyParts.HumanFinger));
-        MakeFinger(hand.GetSocketsFor(BodyPartType.Finger)[2].TryAttachPart(Defs.BodyParts.HumanFinger));
-        MakeFinger(hand.GetSocketsFor(BodyPartType.Finger)[3].TryAttachPart(Defs.BodyParts.HumanFinger));
+        hand.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
+        MakeFingerForSocket(hand.GetSocketsFor(BodyPartType.Thumb)[0], Defs.BodyParts.HumanThumb);
+        MakeFingerForSocket(hand.GetSocketsFor(BodyPartType.Finger)[0], Defs.BodyParts.HumanFinger);
+        MakeFingerForSocket(hand.GetSocketsFor(BodyPartType.Finger)[1], Defs.BodyParts.HumanFinger);
+        MakeFingerForSocket(hand.GetSocketsFor(BodyPartType.Finger)[2], Defs.BodyParts.HumanFinger);
+        MakeFingerForSocket(hand.GetSocketsFor(BodyPartType.Finger)[3], Defs.BodyParts.HumanFinger);
+        hand.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyHand")!);
     }
 
-    static void MakeFinger(BodyPart finger) {
+    public static void MakeFingerForSocket(BodyPartSocket socket, BodyPartDef def) {
+        BodyPart finger = socket.TryAttachPart(def);
         finger.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
         finger.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
         finger.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);

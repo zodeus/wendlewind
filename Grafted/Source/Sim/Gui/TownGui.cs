@@ -1,11 +1,13 @@
 using System.Collections;
 using Grafted.Definitions;
-using Grafted.Sim.Gui.EntityWidgets.PawnWidgets;
-using Grafted.Sim.Gui.MiscWidgets;
-using Grafted.Sim.Gui.TownWidgets;
-using Grafted.Sim.Gui.TownWidgets.HouseWidgets;
+using Grafted.Sim.Gui.Widgets.EntityWidgets.PawnWidgets;
+using Grafted.Sim.Gui.Widgets.MiscWidgets;
+using Grafted.Sim.Gui.Widgets.TownWidgets;
+using Grafted.Sim.Gui.Widgets.TownWidgets.HouseWidgets;
+using Grafted.UI;
 using Grafted.Utils;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Myra.Graphics2D;
 using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
@@ -16,14 +18,15 @@ using Label = Myra.Graphics2D.UI.Label;
 namespace Grafted.Sim.Gui;
 
 public class TownGui : BaseGui {
+    private readonly Town _town;
     private readonly TabPanel _tabs;
     private readonly GameHud _gameHud;
-    private readonly ZoneBeginWindow _zoneBeginWindow;
     private readonly PawnBodyEffectsWindow _pawnBodyEffectsWindow;
+    private ZoneBeginWindow? _zoneBeginWindow;
 
     public TownGui(Town town) {
+        _town = town;
         _gameHud = new GameHud { HorizontalAlignment = HorizontalAlignment.Stretch, Margin = new Thickness(0, 5, 0, 0) };
-        _zoneBeginWindow = new ZoneBeginWindow(Defs.Zones.PeacefulMeadow);
         _tabs = new TabPanel {
             ButtonStyle = BaseContent.Styles.Button.Large,
             HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 30, 0, 0), Width = 1800
@@ -50,9 +53,17 @@ public class TownGui : BaseGui {
     public override void Update(float deltaTime) {
         _tabs.Update();
         _gameHud.Update();
-        _zoneBeginWindow.Update();
+        _zoneBeginWindow?.Update();
         _pawnBodyEffectsWindow.Update();
         base.Update(deltaTime);
+    }
+
+    public override void HandleInput() {
+        if (Input.IsKeyPressed(Keys.R) && Input.IsKeyDown(Keys.LeftControl)) {
+            _town.GetStructure<TownStructureMerchant>()!.Restock();
+        }
+
+        base.HandleInput();
     }
 
     private Grid AdventurePanel() {
@@ -60,18 +71,40 @@ public class TownGui : BaseGui {
             Text = Defs.Zones.PeacefulMeadow.Label, HorizontalAlignment = HorizontalAlignment.Stretch
         };
         peacefulMeadow.Click += (_, _) => {
+            _zoneBeginWindow = new ZoneBeginWindow(Defs.Zones.PeacefulMeadow);
             _zoneBeginWindow.ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint());
         };
+
         var outskirts = new TextButton(BaseContent.Styles.Button.Normal) {
             Text = Defs.Zones.TheOutskirts.Label, HorizontalAlignment = HorizontalAlignment.Stretch,
             Enabled = Core.Sim.World.Zones[Defs.Zones.PeacefulMeadow].IsComplete
 
         };
         outskirts.Click += (_, _) => {
-            Core.Sim.World.MoveToZone(Defs.Zones.TheOutskirts);
-            Core.Sim.World.DoZoneTravel();
-            Core.Sim.ActivateCombatEvent(Core.Sim.World.NextCombat());
+            _zoneBeginWindow = new ZoneBeginWindow(Defs.Zones.TheOutskirts);
+            _zoneBeginWindow.ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint());
         };
+
+        var grainMill = new TextButton(BaseContent.Styles.Button.Normal) {
+            Text = Defs.Zones.GrainMill.Label, HorizontalAlignment = HorizontalAlignment.Stretch,
+            Enabled = Core.Sim.World.Zones[Defs.Zones.TheOutskirts].IsComplete
+
+        };
+        grainMill.Click += (_, _) => {
+            _zoneBeginWindow = new ZoneBeginWindow(Defs.Zones.GrainMill);
+            _zoneBeginWindow.ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint());
+        };
+        
+        var meatMarket = new TextButton(BaseContent.Styles.Button.Normal) {
+            Text = Defs.Zones.MeatMarket.Label, HorizontalAlignment = HorizontalAlignment.Stretch,
+            Enabled = Core.Sim.World.Zones[Defs.Zones.TheOutskirts].IsComplete
+
+        };
+        meatMarket.Click += (_, _) => {
+            _zoneBeginWindow = new ZoneBeginWindow(Defs.Zones.MeatMarket);
+            _zoneBeginWindow.ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint());
+        };
+        
         Grid grid = new() {
             ShowGridLines = false, HorizontalAlignment = HorizontalAlignment.Center,
             GridLinesColor = Color.Red,
@@ -104,13 +137,14 @@ public class TownGui : BaseGui {
                     Widgets = {
                         peacefulMeadow,
                         outskirts,
-                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "The Grain Mill", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
+                        grainMill,
+                        meatMarket,
                         new TextButton(BaseContent.Styles.Button.Normal) { Text = "Festerpus Swamp", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                         new TextButton(BaseContent.Styles.Button.Normal) { Text = "The Alchemist Hut", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                         new TextButton(BaseContent.Styles.Button.Normal) { Text = "Forgotten Forest", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                         new TextButton(BaseContent.Styles.Button.Normal) { Text = "Forgemaster Quarry", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "Temple of the Skinworkers", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                         new TextButton(BaseContent.Styles.Button.Normal) { Text = "Fallow Field", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
+                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "Mage Tower", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                         new TextButton(BaseContent.Styles.Button.Normal) { Text = "Field of Vegetables", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                         new TextButton(BaseContent.Styles.Button.Normal) { Text = "Blood Court", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                         new TextButton(BaseContent.Styles.Button.Normal) { Text = "His Rectory", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },

@@ -9,6 +9,7 @@ public class PawnBiography : IExposable {
     public PawnBiography(Pawn pawn) { }
 
     public void ExposeData() {
-        Log.Info("PawnBiography.ExposeData not implemented");
+        Scribe_Values.Look(ref Name!, "Name");
+        Scribe_Values.Look(ref Gender, "Gender");
     }
 }

@@ -7,7 +7,7 @@ namespace Grafted.Sim.Entities.Pawns.BodyGenerators;
 public static class RabbitBodyGenerator {
     public static void Generate(Pawn pawn) {
         pawn.Body.RootSocket = GenerateBody();
-        pawn.SequencePointDirty = true; //todo this should be set by/in BodyPart, but BodyPart doesn't have access to Pawn currently
+        pawn.Body.BodyPartsDirty = true; //todo this should be set by/in BodyPart, but BodyPart doesn't have access to Pawn currently
         GenerateBuiltInTools(pawn);
     }
 

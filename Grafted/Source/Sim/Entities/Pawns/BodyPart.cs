@@ -119,6 +119,21 @@ public class BodyPart : Entity {
         }
     }
 
+    public float SequencePoints {
+        get {
+            if (HasMobility == false) {
+                return 0;
+            }
+
+            float points = this.GetStatValue(Defs.Stats.SequencePoints);
+            foreach (BodyPart bodyPart in ExternalParts) {
+                points += bodyPart.SequencePoints;
+            }
+
+            return points;
+        }
+    }
+
     public List<BodyPart> ExternalParts {
         get {
             List<BodyPart> parts = new();
@@ -285,7 +300,7 @@ public class BodyPart : Entity {
             }
 
             if (allInternalPartsDestroyed && Socket != null && Core.Random.Chance(.25f)) {
-                Sever();
+                Severe();
                 //damagedPartRecord.WasSevered = true;
             }
         }
@@ -293,7 +308,7 @@ public class BodyPart : Entity {
         return damagedParts;
     }
 
-    public void Sever() {
+    public void Severe() {
         if (Socket != null) {
             Socket.AttachedPart = null;
             Socket.IsSealed = false;
@@ -374,7 +389,7 @@ public class BodyPart : Entity {
         }
 
         label += Position == null ? "" : string.Join(" ", Regex.Split(Position.ToString()!, @"(?<!^)(?=[A-Z])")) + " ";
-        label += base.Label;
+        label += BodyPartDef.BodyPartType;
         return label;
     }
 

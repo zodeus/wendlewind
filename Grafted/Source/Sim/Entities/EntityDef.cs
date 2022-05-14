@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Grafted.Definitions;
 using Grafted.Graphics.Textures;
-using Grafted.Sim.Gui.EntityWidgets;
+using Grafted.Sim.Gui.Widgets.EntityWidgets;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Grafted.Sim.Entities;

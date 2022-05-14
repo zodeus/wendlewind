@@ -13,7 +13,6 @@ namespace Grafted.Sim.Entities.Pawns;
 
 [UsedImplicitly] // Used by EntityGenerator, referenced by EntityDef.EntityClass
 public class Pawn : Entity, IExposable {
-    private int _sequencePoints = 0;
     private bool _isDead = false;
 
     public RaceDef Race = null!;
@@ -28,7 +27,6 @@ public class Pawn : Entity, IExposable {
     public Zone? Zone;
     public int MaxCarryWeight = 0;
 
-    public bool SequencePointDirty = true;
     public bool IsResting;
 
     public PawnDef PawnDef => (PawnDef) Def;
@@ -46,24 +44,7 @@ public class Pawn : Entity, IExposable {
     public bool IsIncapacitated => false; //todo Health.IsIncapacitated;
     public Gender Gender => Biography.Gender;
 
-    public int SequencePoints {
-        get {
-            if (SequencePointDirty) {
-                CalculateSequencePoints();
-            }
-
-            if (Body.Energy < .50) {
-                _sequencePoints--;
-            }
-
-            if (Body.Energy < .25) {
-                _sequencePoints--;
-            }
-
-
-            return _sequencePoints;
-        }
-    }
+    public int SequencePoints => Body.GetSequencePoints();
 
     public override void Initialize() {
         MaxCarryWeight = (int) this.GetStatValue(Defs.Stats.MaxCarryWeight);
@@ -107,21 +88,6 @@ public class Pawn : Entity, IExposable {
         base.Tick();
     }
 
-    private void CalculateSequencePoints() {
-        _sequencePoints = 0;
-        foreach (BodyPart bodyPart in Body.AllExternalParts) {
-            if (bodyPart.HasMobility == false) {
-                continue;
-            }
-
-            _sequencePoints += Mathf.FloorToInt(bodyPart.GetStatValue(Defs.Stats.SequencePoints));
-        }
-
-        //todo this calculates lung capacity, I think there should be a capacities list object somewhere instead, perhaps PawnBody or on Pawn? Need to add events to BodyPart to properly implement
-
-        _sequencePoints = Mathf.RoundToInt(_sequencePoints * (Body.AllParts.Count(p => p.BodyPartDef.BodyPartType == BodyPartType.Lung && p.IsFunctional) > 1 ? 1f : .5f));
-    }
-
     public DamageResponse TakeDamage(DamageRequest request) {
         BodyPart bodyPart = Body.AllExternalParts /*.Where(p => p.Type == BodyPartType.Torso)*/.RandomElementByWeight(part => part.HitWeight)!;
 
@@ -154,8 +120,8 @@ public class Pawn : Entity, IExposable {
             }
 
             damageRecord.BodyParts = bodyPart.ApplyDamage(damage);
+            Body.BodyPartsDirty = true;
             response.Damages.Add(damageRecord);
-            SequencePointDirty = true;
             if (PawnDied(damageRecord, response)) {
                 break;
             }
@@ -212,7 +178,6 @@ public class Pawn : Entity, IExposable {
     }
 
     public override void ExposeData() {
-        Scribe_Values.Look(ref _sequencePoints, "SequencePoints");
         Scribe_Values.Look(ref _isDead, "IsDead");
         Scribe_Values.Look(ref PawnType, "PawnType");
         Scribe_Values.Look(ref MaxCarryWeight, "MaxCarryWeight");
@@ -277,19 +242,17 @@ public class Pawn : Entity, IExposable {
     }
 
     public void TryEat(Item? item) {
-        if (item == null) {
-            Log.Error("failed to eat null item");
+        if (item?.ItemDef.FoodProperties == null) {
+            Log.Error($"failed to eat null item '{item}'");
             return;
         }
 
-        if (item.Def == Defs.Items.DriedMeat) {
+        foreach (BodyEffectDef effectDef in item.ItemDef.FoodProperties.Effects) {
             Body.Effects.TryApplyEffect(new BodyEffect {
-                Def = Defs.BodyEffects.BeefedUp,
-                TicksLeft = SimTime.HoursToTicks(12)
+                Def = effectDef, TicksLeft = SimTime.HoursToTicks(12)
             });
         }
 
-        float amount = item.GetStatValue(Defs.Stats.NutritionalValue);
         Core.Sim.World.ProgressTime(SimTime.MinutesToSeconds(5));
         Body.StomachLevel = 1;
         Body.Energy += .3f;

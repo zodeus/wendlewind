@@ -19,6 +19,7 @@
         <BaseStats>
             <MaxDurability>100</MaxDurability>
             <Weight>1</Weight>
+            <Tier>2</Tier>
             <MaxCarryWeight>15</MaxCarryWeight>
             <CurrencyValue>2000</CurrencyValue>
         </BaseStats>

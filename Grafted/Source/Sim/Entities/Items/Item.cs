@@ -1,7 +1,7 @@
 using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Combat;
-using Grafted.Sim.Gui.TownWidgets;
+using Grafted.Sim.Gui.Widgets.TownWidgets;
 using Grafted.Sim.Persistence;
 
 namespace Grafted.Sim.Entities.Items;

@@ -1,9 +1,8 @@
-using System.Collections.Generic;
 using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Persistence;
-using Microsoft.Xna.Framework.Graphics;
+using Grafted.Sim.SpecialEvents;
 
 namespace Grafted.Sim;
 
@@ -11,20 +10,23 @@ public class Zone : IExposable, IIdentityProvider {
     public ZoneDef Def = null!;
     public int ZoneKills = 0;
     public int TotalZoneKills = 0;
-    public float DistanceTraveled = 0;
+    public float DistanceTraveledThisRun = 0;
+    public bool BossKilledThisRun;
+
     public float FurthestDistanceTraveled = 0;
     public Town? Town;
     public float Temperature = -1;
+    public bool IsComplete;
+    private SpecialEventHandler? Handler;
 
     public string Label => Def.Label;
     public ZoneType ZoneType => Def.ZoneType;
-
-    public float PercentTraveled => DistanceTraveled / Def.TravelSize;
-    public bool IsComplete => FurthestDistanceTraveled / Def.TravelSize >= 1;
+    public float PercentTraveled => DistanceTraveledThisRun / Def.TravelSize;
 
     public void Reset() {
         ZoneKills = 0; // clear current zone kill count
-        DistanceTraveled = 0;
+        DistanceTraveledThisRun = 0;
+        BossKilledThisRun = false;
     }
 
     public void Tick() {
@@ -35,23 +37,22 @@ public class Zone : IExposable, IIdentityProvider {
         Scribe_Defs.Look(ref Def!, "Def");
         Scribe_Values.Look(ref TotalZoneKills!, "TotalZoneKills");
         Scribe_Values.Look(ref FurthestDistanceTraveled!, "FurthestDistanceTraveled");
+        Scribe_Values.Look(ref IsComplete, "IsComplete");
         Scribe_Deep.Look(ref Town!, "Town");
     }
 
     public string GetUniqueId() {
         return Def.Moniker;
     }
-}
 
-public class ZoneDef : Def {
-    public ZoneType ZoneType = ZoneType.Invalid;
-    public float TravelSize;
-    public float TravelSpeedFactor = 1;
-    public RangeInt MeanTimeBetweenEvents;
-    public List<ZoneResourceRecord> Resources = new();
-    public string? BackgroundTexturePath;
-    private Texture2D? _texture;
-    public virtual Texture2D BackgroundTexture => _texture ??= BackgroundTexturePath != null ? Core.Content.Load<Texture2D>(BackgroundTexturePath) : BaseContent.Textures.BadTexture;
+    public void Initialize() {
+        if (ZoneType == ZoneType.Town) {
+            Town = TownGenerator.Generate(Def);
+        }
+
+        //andler = Def.Handler;
+        //Gui = Def.Gui;
+    }
 }
 
 public class ZoneResourceRecord {

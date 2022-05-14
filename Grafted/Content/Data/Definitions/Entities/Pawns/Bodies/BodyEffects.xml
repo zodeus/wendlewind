@@ -7,7 +7,7 @@
         <AffectedStats>
             <ListItem>
                 <Stat>MeleeStrength</Stat>
-                <Offset>1</Offset>
+                <Offset>.5</Offset>
             </ListItem>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
