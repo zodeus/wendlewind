@@ -13,6 +13,6 @@ public static class WorldGenerator {
     }
 
     public static Pawn GeneratePlayerPawn(PawnConfigDef startingPawn) {
-        return PawnGenerator.CreatePawn(new PawnRequest(DefRepository<RaceDef>.GetByMoniker("Caucasian")!, startingPawn));
+        return PawnGenerator.CreatePawn(new PawnRequest(DefRepository<RaceDef>.GetByMoniker("Journeyman")!, startingPawn));
     }
 }

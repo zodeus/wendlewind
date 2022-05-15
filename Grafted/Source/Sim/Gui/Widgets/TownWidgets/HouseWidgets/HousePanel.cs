@@ -13,7 +13,7 @@ public class HousePanel : HorizontalStackPanel, IUpdatable {
     private readonly WoodPanel _woodPanel;
     private readonly TendFirePanel _tendFirePanel;
     private readonly RestPanel _restPanel;
-    private readonly FoodPanel _foodPanel;
+    private readonly KitchenPanel _kitchenPanel;
     private readonly HouseUpgradesPanel _upgradesPanel;
 
     public HousePanel(Town town) {
@@ -28,7 +28,7 @@ public class HousePanel : HorizontalStackPanel, IUpdatable {
 
         _woodPanel = new WoodPanel(town);
         _tendFirePanel = new TendFirePanel(town.GetStructure<TownStructureHouse>()!);
-        _foodPanel = new FoodPanel(town.GetStructure<TownStructureHouse>()!) {
+        _kitchenPanel = new KitchenPanel(town.GetStructure<TownStructureHouse>()!) {
             Width = 260, HorizontalAlignment = HorizontalAlignment.Center,
             Padding = new Thickness(20), VerticalAlignment = VerticalAlignment.Center
         };
@@ -48,7 +48,7 @@ public class HousePanel : HorizontalStackPanel, IUpdatable {
         });
         AddChild(new VerticalStackPanel {
             //VerticalAlignment = VerticalAlignment.Stretch,
-            Spacing = 10, Widgets = { _foodPanel }
+            Spacing = 10, Widgets = { _kitchenPanel }
         });
         /*AddChild(statsPanel);*/
         AddChild(_upgradesPanel);
@@ -61,7 +61,7 @@ public class HousePanel : HorizontalStackPanel, IUpdatable {
         _woodPanel.Update();
         _tendFirePanel.Update();
         _restPanel.Update();
-        _foodPanel.Update();
+        _kitchenPanel.Update();
         _upgradesPanel.Update();
     }
 

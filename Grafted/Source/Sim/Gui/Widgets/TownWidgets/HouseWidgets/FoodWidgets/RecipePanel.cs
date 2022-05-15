@@ -99,7 +99,7 @@ public class RecipePanel : VerticalStackPanel {
     }
 
     public void Update() {
-        _cookButton.Enabled = _house.HasRequirementsFor(_food, _amountWanted);
+        _cookButton.Enabled = _amountWanted > 0 && _house.HasRequirementsFor(_food, _amountWanted);
         foreach ((ResourceCount requirement, Label label) in _ingredients) {
             label.Text = $"{requirement.Count}x {requirement.Resource!.Label} ({_house.AmountOfItem(requirement.Resource)}/{_amountWanted * requirement.Count})";
         }

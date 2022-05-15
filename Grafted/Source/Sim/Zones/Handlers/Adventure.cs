@@ -21,6 +21,11 @@ public class Adventure : ZoneHandler {
         Progress();
     }
 
+    public override void Tick() {
+        ActiveCombat?.Tick();
+        base.Tick();
+    }
+
     public override void OnExit() {
         State = AdventureState.Unoccupied;
 

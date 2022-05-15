@@ -41,10 +41,17 @@ public class BodyPart : Entity {
 
     public float HitPoints {
         get => _hitPoints;
-        set => _hitPoints = Mathf.Clamp(value, 0f, MaxHitPoints);
+        set {
+            _hitPoints = Mathf.Clamp(value, 0f, MaxHitPoints);
+            if (Body != null) {
+                Body.BodyPartsDirty = true;
+            }
+        }
     }
 
     #region Dynamic Getters
+
+    public PawnBody? Body => Socket?.Body ?? Socket?.ParentPart?.Body;
 
     public bool IsSevered {
         get {
@@ -310,6 +317,7 @@ public class BodyPart : Entity {
 
     public void Severe() {
         if (Socket != null) {
+            Socket.Body = null; //todo not that it matters, but this should probably also set Pawn.Body.RootSocket = null as well
             Socket.AttachedPart = null;
             Socket.IsSealed = false;
             Socket = null;

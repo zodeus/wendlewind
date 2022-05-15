@@ -181,7 +181,6 @@
             </ListItem>
         </Enemies>
     </CombatConfigDef>
-
     <CombatConfigDef>
         <Moniker>PeacefulMeadow-Boss</Moniker>
         <Zone>PeacefulMeadow</Zone>

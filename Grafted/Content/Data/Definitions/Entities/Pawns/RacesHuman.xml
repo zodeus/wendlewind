@@ -6,8 +6,8 @@
         <NameGeneratorClass>NameGeneratorHumans</NameGeneratorClass>-->
     </RaceDef>
     <RaceDef ParentName="BaseHumanRace">
-        <Moniker>Caucasian</Moniker>
-        <Label>Caucasian</Label>
+        <Moniker>Journeyman</Moniker>
+        <Label>Journeyman</Label>
         <Species>Human</Species>
         <TexturePath>Entities/Pawn/Creature/Human/Human1</TexturePath>
     </RaceDef>
@@ -18,15 +18,9 @@
         <TexturePath>Entities/Pawn/Creature/Human/Grainer</TexturePath>
     </RaceDef>
     <RaceDef ParentName="BaseHumanRace">
-        <Moniker>Mongoloid</Moniker>
-        <Label>Mongoloid</Label>
+        <Moniker>GrainBandit</Moniker>
+        <Label>Grain Bandit</Label>
         <Species>Human</Species>
-        <TexturePath>Entities/Pawn/Creature/Human/Human1</TexturePath>
-    </RaceDef>
-    <RaceDef ParentName="BaseHumanRace">
-        <Moniker>Negroid</Moniker>
-        <Label>Negroid</Label>
-        <Species>Human</Species>
-        <TexturePath>Entities/Pawn/Creature/Human/Human1</TexturePath>
+        <TexturePath>Entities/Pawn/Creature/Human/GrainBandit</TexturePath>
     </RaceDef>
 </Definitions>

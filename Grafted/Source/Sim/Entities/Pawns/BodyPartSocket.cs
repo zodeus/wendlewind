@@ -1,6 +1,7 @@
 using System;
 using Grafted.Maths;
 using Grafted.Sim.Persistence;
+using JetBrains.Annotations;
 
 namespace Grafted.Sim.Entities.Pawns;
 
@@ -29,7 +30,8 @@ class HitPointScalerCurve : HitPointScaler {
 }
 
 public class BodyPartSocket : IExposable, IIdentityProvider {
-    public BodyPartSocketDef Def;
+    public PawnBody? Body;
+    public BodyPartSocketDef Def = null!;
     public BodyPart? AttachedPart;
     public BodyPart? ParentPart;
     public bool IsSealed = false;
@@ -42,7 +44,8 @@ public class BodyPartSocket : IExposable, IIdentityProvider {
 
     public string Label => Def.Label;
 
-    public BodyPartSocket() { } // todo guard, only used by loader
+    [UsedImplicitly]
+    public BodyPartSocket() { }
 
     public BodyPartSocket(BodyPartSocketDef def, BodyPart? parentPart = null) {
         Def = def;
@@ -81,15 +84,13 @@ public class BodyPartSocket : IExposable, IIdentityProvider {
     }
 
     public void ExposeData() {
-        // public BodyPartSocketDef Def;
-        // public BodyPart? AttachedPart;
-        // public BodyPart? ParentPart;
-        // public bool IsSealed = false;
+
 
         Scribe_Values.Look(ref Id!, "Id");
         Scribe_Defs.Look(ref Def!, "Def");
         Scribe_Deep.Look(ref AttachedPart!, "AttachedPart");
         Scribe_References.Look(ref ParentPart!, "ParentPart");
+        Scribe_References.Look(ref Body, "Body");
         Scribe_Values.Look(ref IsSealed, "IsSealed");
         Scribe_Values.Look(ref NEXT_SOCKET_ID, "NEXT_SOCKET_ID");
     }

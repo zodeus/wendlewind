@@ -35,7 +35,7 @@
                 <Race>TruffleBoar</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>Truffle Boar</PawnName>
-                <SpawnWeight>5</SpawnWeight>
+                <SpawnWeight>20</SpawnWeight>
                 <SpawnDuring>Day</SpawnDuring>
                 <InventoryItems>
                     <ListItem>
@@ -84,7 +84,7 @@
                 <Race>TruffleBoar</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>Truffle Boar</PawnName>
-                <SpawnWeight>1</SpawnWeight>
+                <SpawnWeight>15</SpawnWeight>
                 <SpawnDuring>Day</SpawnDuring>
                 <InventoryItems>
                     <ListItem>
@@ -103,7 +103,7 @@
                 <Race>Glump</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>A Glump</PawnName>
-                <SpawnWeight>5</SpawnWeight>
+                <SpawnWeight>1</SpawnWeight>
                 <EquipmentItems>
                     <ListItem>WoodenHammer</ListItem>
                     <ListItem>BucketHelmet</ListItem>
@@ -135,7 +135,7 @@
                 <Race>TruffleBoar</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>Truffle Boar</PawnName>
-                <SpawnWeight>1</SpawnWeight>
+                <SpawnWeight>10</SpawnWeight>
                 <SpawnDuring>Day</SpawnDuring>
                 <InventoryItems>
                     <ListItem>
@@ -154,7 +154,7 @@
                 <Race>Glump</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>A Glump</PawnName>
-                <SpawnWeight>10</SpawnWeight>
+                <SpawnWeight>1</SpawnWeight>
                 <EquipmentItems>
                     <ListItem>Knife</ListItem>
                     <ListItem>BucketHelmet</ListItem>
@@ -201,12 +201,12 @@
                     <ListItem>
                         <Item>ATap</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
+                        <ChanceToDrop>.5</ChanceToDrop>
                     </ListItem>
                     <ListItem>
                         <Item>WarAxe</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
+                        <ChanceToDrop>.2</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>

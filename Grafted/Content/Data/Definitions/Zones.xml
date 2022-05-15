@@ -5,6 +5,8 @@
         <Moniker>VillageOfTheDamned</Moniker>
         <Label>Village of the Damned</Label>
         <ZoneType>Town</ZoneType>
+        <BackgroundTexturePath>Zones/House</BackgroundTexturePath>
+        <BackgroundTextureTransparency>60</BackgroundTextureTransparency>
         <HandlerClass>Town</HandlerClass>
         <GuiClass>TownGui</GuiClass>
         <Location>0,0</Location>
@@ -43,7 +45,7 @@
         <GuiClass>AdventureGui</GuiClass>
         <Location>1,0</Location>
         <BackgroundTexturePath>Zones/TheOutskirts</BackgroundTexturePath>
-        <TravelSize>60</TravelSize>
+        <TravelSize>50</TravelSize>
         <TravelSpeedFactor>.9</TravelSpeedFactor>
         <MeanTimeBetweenEvents>20~40</MeanTimeBetweenEvents>
         <Resources>

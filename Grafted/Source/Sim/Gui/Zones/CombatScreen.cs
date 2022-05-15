@@ -29,8 +29,6 @@ public class CombatScreen : VerticalStackPanel {
     private readonly PawnBodyPanel _pawnBodyView;
     private ImageButton _playerQueuedPotionSlot;
     private Item? _playerQueuedPotion = null;
-    private readonly PawnBodyEffectsWindow _pawnBodyEffectsWindow;
-    public CombatEvent CombatEvent => _combatEvent;
 
     public CombatScreen(AdventureGui gui, CombatEvent combatEvent) {
         _combatEvent = combatEvent;
@@ -134,9 +132,6 @@ public class CombatScreen : VerticalStackPanel {
         };
         AddChild(_gameHud);
         AddChild(grid);
-
-        _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(Core.Sim.World.PlayerPawn);
-        _pawnBodyEffectsWindow.Show(gui.Desktop, new Point(50, 20));
     }
 
     private Action<CombatState> CombatStateChangedAction() {
@@ -185,7 +180,6 @@ public class CombatScreen : VerticalStackPanel {
         _playerPartyPanel.Update();
         _opponentPartyPanel.Update();
         _pawnBodyView.Update();
-        _pawnBodyEffectsWindow.Update();
         _turnLabel.Text = $"Turn {_combatEvent.CurrentTurnNum.ToString().PadLeft(2, '0')}";
     }
 

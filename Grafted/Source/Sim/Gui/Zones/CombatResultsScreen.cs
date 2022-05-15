@@ -21,7 +21,6 @@ public class CombatResultsScreen : VerticalStackPanel {
     private readonly PawnDetailPanel _pawnPanel;
     private readonly GameHud _gameHud;
     private bool _autoLootEnabled = true;
-    private readonly PawnBodyEffectsWindow _pawnBodyEffectsWindow;
 
     public CombatResultsScreen(AdventureGui gui, CombatEvent combatEvent) {
         _combatEvent = combatEvent;
@@ -36,9 +35,6 @@ public class CombatResultsScreen : VerticalStackPanel {
         AddChild(_gameHud);
         AddChild(_pawnPanel);
         AddChild(progressButton);
-
-        _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(Core.Sim.World.PlayerPawn);
-        _pawnBodyEffectsWindow.Show(gui.Desktop, new Point(50, 20));
     }
 
     private Widget DeathsButton() {
@@ -122,6 +118,5 @@ public class CombatResultsScreen : VerticalStackPanel {
     public void Update() {
         _pawnPanel.Update();
         _gameHud.Update();
-        _pawnBodyEffectsWindow.Update();
     }
 }

@@ -4,6 +4,7 @@ using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Items;
+using Grafted.Sim.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Grafted.Sim.Persistence;
 using Grafted.Sim.Zones;
 using Grafted.Utils;
@@ -53,6 +54,7 @@ public class Pawn : Entity, IExposable {
         Traits = new PawnTraits(this);
         Brain = new PawnBrain(this);
         Body = new PawnBody(this);
+        Body.Initialize();
         Skills = new PawnSkills(this);
         Inventory = new PawnInventory(this);
         Equipment = new PawnEquipment(this);

@@ -8,6 +8,7 @@ public abstract class ZoneHandler : IExposable {
 
     public virtual void ExposeData() {
         Scribe_References.Look(ref Zone!, "Zone");
+        Scribe_References.Look(ref World!, "World");
     }
 
     public virtual void Initialize(World world, Zone zone) {

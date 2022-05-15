@@ -6,7 +6,9 @@ namespace Grafted.Sim.Entities.Pawns.BodyGenerators;
 
 public static class GlumpBodyGenerator {
     public static void Generate(Pawn pawn) {
-        pawn.Body.RootSocket = GenerateBody();
+        BodyPartSocket rootSocket = new(Defs.BodyPartSockets.TorsoSocket);
+        pawn.Body.RootSocket = rootSocket;
+        GenerateBodyInSocket(rootSocket);
         pawn.Body.BodyPartsDirty = true; //todo this should be set by/in BodyPart, but BodyPart doesn't have access to Pawn currently
         GenerateBuiltInTools(pawn);
     }
@@ -22,8 +24,7 @@ public static class GlumpBodyGenerator {
         pawn.Equipment.TryEquip(pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Foot && p.SlotFor(foot2) != null).ToList()[1], foot2);
     }
 
-    private static BodyPartSocket GenerateBody() {
-        BodyPartSocket rootSocket = new(Defs.BodyPartSockets.TorsoSocket);
+    private static void GenerateBodyInSocket(BodyPartSocket rootSocket) {
         BodyPart torso = rootSocket.TryAttachPart(EntityGenerator.CreateEntity<BodyPart>(Defs.BodyParts.GlumpTorso));
         torso.GetSocketsFor(BodyPartType.Eye)[0].TryAttachPart(Defs.BodyParts.Eye);
         torso.GetSocketsFor(BodyPartType.Eye)[1].TryAttachPart(Defs.BodyParts.Eye);
@@ -45,8 +46,6 @@ public static class GlumpBodyGenerator {
         // Legs
         MakeLeg(torso.GetSocketsFor(BodyPartType.Leg)[0].TryAttachPart(Defs.BodyParts.GlumpLeg));
         MakeLeg(torso.GetSocketsFor(BodyPartType.Leg)[1].TryAttachPart(Defs.BodyParts.GlumpLeg));
-
-        return rootSocket;
     }
 
     static void MakeArm(BodyPart arm) {

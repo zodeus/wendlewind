@@ -7,22 +7,31 @@ using Grafted.Sim.Persistence;
 
 namespace Grafted.Sim.Entities.Pawns;
 
-public class PawnBody : IExposable {
+public class PawnBody : IExposable, IIdentityProvider {
     private float _bloodAmount;
     private float _energy = 1;
     private float _ticksWithEmptyStomach;
     private int _sequencePoints = 0;
+    private BodyPartSocket _rootSocket;
 
     public readonly Pawn Pawn;
     public readonly float MaxBlood = 5000;
 
-    public BodyPartSocket RootSocket = null!;
+    public string Id = "invalid";
     public float BloodChangeLastFrame;
     public float Temperature = 32;
     public float StomachLevel = 1;
     public PawnCapabilities Capabilities;
     public PawnBodyEffects Effects;
     public bool BodyPartsDirty = true;
+
+    public BodyPartSocket RootSocket {
+        get => _rootSocket;
+        set {
+            _rootSocket = value;
+            _rootSocket.Body = this;
+        }
+    }
 
     public float BloodPercent => BloodAmount / MaxBlood;
     public bool IsWarm => Temperature is > 10 and < 40;
@@ -68,9 +77,13 @@ public class PawnBody : IExposable {
 
     public PawnBody(Pawn pawn) {
         Pawn = pawn;
+    }
+
+    public void Initialize() {
+        Id = $"{Pawn.Id}-Body";
         BloodAmount = MaxBlood;
-        Capabilities = new PawnCapabilities(pawn);
-        Effects = new PawnBodyEffects(pawn);
+        Capabilities = new PawnCapabilities(Pawn);
+        Effects = new PawnBodyEffects(Pawn);
     }
 
     private void GetParts(BodyPart part, List<BodyPart> parts, bool externalOnly = false) {
@@ -283,6 +296,7 @@ public class PawnBody : IExposable {
     }
 
     public void ExposeData() {
+        Scribe_Values.Look(ref Id!, "Id");
         Scribe_Values.Look(ref _bloodAmount, "BloodAmount");
         Scribe_Values.Look(ref _energy, "Energy");
         Scribe_Values.Look(ref _ticksWithEmptyStomach, "TicksWithEmptyStomach");
@@ -291,7 +305,7 @@ public class PawnBody : IExposable {
         Scribe_Values.Look(ref StomachLevel, "StomachLevel");
         Scribe_Deep.Look(ref Capabilities!, "Capabilities", Pawn);
         Scribe_Deep.Look(ref Effects!, "Effects", Pawn);
-        Scribe_Deep.Look(ref RootSocket!, "RootSocket");
+        Scribe_Deep.Look(ref _rootSocket!, "RootSocket");
     }
 
     public int GetSequencePoints() {
@@ -313,5 +327,9 @@ public class PawnBody : IExposable {
         }
 
         return _sequencePoints;
+    }
+
+    public string GetUniqueId() {
+        return Id;
     }
 }

@@ -30,7 +30,7 @@ public static class CombatGenerator {
             combatConfig = DefRepository<CombatConfigDef>.Defs.Where(CombatFilter(zone)).RandomElement();
         }
         else {
-            combatConfig = DefRepository<CombatConfigDef>.Defs.First(config => config.IsBoss);
+            combatConfig = DefRepository<CombatConfigDef>.Defs.First(config => config.Zone == zone.Def && config.IsBoss);
         }
 
         return Generate(combatConfig, combatEvent);

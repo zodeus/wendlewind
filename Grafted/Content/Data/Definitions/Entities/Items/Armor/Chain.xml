@@ -14,7 +14,7 @@
             <MaxDurability>600</MaxDurability>
             <Weight>3</Weight>
             <Tier>3</Tier>
-            <CurrencyValue>8000</CurrencyValue>
+            <CurrencyValue>10000</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
@@ -31,7 +31,7 @@
             <MaxDurability>500</MaxDurability>
             <Weight>3</Weight>
             <Tier>3</Tier>
-            <CurrencyValue>3000</CurrencyValue>
+            <CurrencyValue>8000</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
@@ -63,9 +63,26 @@
         <BaseStats>
             <PhysicalResistance>50</PhysicalResistance>
             <MaxDurability>800</MaxDurability>
-            <Weight>3</Weight>
+            <Weight>6</Weight>
             <Tier>3</Tier>
             <CurrencyValue>15000</CurrencyValue>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="ArmorBase">
+        <Moniker>ChainGreave</Moniker>
+        <Label>Chain Greave</Label>
+        <ItemType>Equipment</ItemType>
+        <MaterialType>Artificial</MaterialType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>LegArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Chain/Greave</TexturePath>
+        <BaseStats>
+            <PhysicalResistance>50</PhysicalResistance>
+            <MaxDurability>800</MaxDurability>
+            <Weight>6</Weight>
+            <Tier>3</Tier>
+            <CurrencyValue>9000</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">

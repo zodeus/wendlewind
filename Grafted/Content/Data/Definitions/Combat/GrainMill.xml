@@ -36,6 +36,11 @@
                         <Amount>100~300</Amount>
                         <ChanceToDrop>.75</ChanceToDrop>
                     </ListItem>
+                    <ListItem>
+                        <Item>SoulCoin</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
@@ -75,6 +80,11 @@
                         <Amount>100~300</Amount>
                         <ChanceToDrop>.75</ChanceToDrop>
                     </ListItem>
+                    <ListItem>
+                        <Item>SoulCoin</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
@@ -85,19 +95,38 @@
         <IsBoss>true</IsBoss>
         <Enemies>
             <ListItem>
-                <Race>FieldHound</Race>
+                <Race>GrainBandit</Race>
                 <Config>DefaultEnemy</Config>
-                <PawnName>Field Hound</PawnName>
+                <PawnName>Henry the Hungry</PawnName>
                 <SpawnWeight>1</SpawnWeight>
+                <Skills>
+                    <Swords>20</Swords>
+                </Skills>
+                <EquipmentItems>
+                    <ListItem>ShortSword</ListItem>
+                    <ListItem>ChainHelmet</ListItem>
+                    <ListItem>ChainVambrace</ListItem>
+                    <ListItem>ChainVambrace</ListItem>
+                    <ListItem>ChainGreave</ListItem>
+                    <ListItem>ChainGreave</ListItem>
+                    <ListItem>LeatherGorget</ListItem>
+                    <ListItem>ChainBoot</ListItem>
+                    <ListItem>ChainBoot</ListItem>
+                    <ListItem>ChainGlove</ListItem>
+                    <ListItem>ChainGlove</ListItem>
+                    <ListItem>ChainTunic</ListItem>
+                    <ListItem>JarOfBlood</ListItem>
+                    <ListItem>PumpinJuice</ListItem>
+                </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
-                        <Item>RawMeat</Item>
-                        <Amount>4~8</Amount>
+                        <Item>Coin</Item>
+                        <Amount>6000~10000</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                     <ListItem>
-                        <Item>Coin</Item>
-                        <Amount>3000~5000</Amount>
+                        <Item>SoulCoin</Item>
+                        <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>

@@ -26,7 +26,7 @@
         </Sockets>
         <BaseStats>
             <MaxHitPoints>150</MaxHitPoints>
-            <CurrencyValue>25</CurrencyValue>
+            <CurrencyValue>10</CurrencyValue>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="BodyPartBase">

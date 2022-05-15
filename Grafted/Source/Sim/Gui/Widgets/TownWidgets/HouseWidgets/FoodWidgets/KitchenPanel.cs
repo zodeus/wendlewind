@@ -7,7 +7,7 @@ using Myra.Graphics2D.UI.Styles;
 
 namespace Grafted.Sim.Gui.Widgets.TownWidgets.HouseWidgets.FoodWidgets;
 
-public class FoodPanel : VerticalStackPanel {
+public class KitchenPanel : VerticalStackPanel {
     private readonly TownStructureHouse _house;
     private RecipePanel? _recipePanel;
     private ImageButton _foodButton1;
@@ -17,7 +17,7 @@ public class FoodPanel : VerticalStackPanel {
     private bool _isFoodButton1Showing;
     private bool _isFoodButton2Showing;
 
-    public FoodPanel(TownStructureHouse house) {
+    public KitchenPanel(TownStructureHouse house) {
         _house = house;
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
         Spacing = 15;
