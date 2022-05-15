@@ -198,7 +198,7 @@ public class CombatEvent {
         }
 
         if (Zone != null) {
-            foreach (ZoneResourceRecord resource in Zone.Def.Resources.Where(r => r.HarvestArea.Includes(Zone.PercentTraveled))) {
+            foreach (ZoneResourceRecord resource in Zone.Def.Resources.Where(r => r.HarvestArea.Includes(Zone.PercentTraveledThisRun))) {
                 if (Core.Random.Chance(resource.ChanceToHarvest)) {
                     Loot.TryAdd(EntityGenerator.CreateEntity<Item>(resource.Item, resource.Amount.RandomValue));
                 }

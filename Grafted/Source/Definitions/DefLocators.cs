@@ -29,6 +29,7 @@ public static partial class Defs {
         public static StatDef CurrencyValue = null!;
         public static StatDef MoveSpeed = null!;
         public static StatDef Tier = null!;
+        public static StatDef NutritionalValue = null!;
     }
 }
 
@@ -55,6 +56,7 @@ public static partial class Defs {
         public static ZoneDef TheOutskirts = null!;
         public static ZoneDef GrainMill = null!;
         public static ZoneDef MeatMarket = null!;
+        public static ZoneDef FesterpusSwamp = null!;
     }
 }
 
@@ -62,6 +64,7 @@ public static partial class Defs {
     [DefLocator]
     public static class Items {
         public static ItemDef RawMeat = null!;
+        public static ItemDef CookedCorn = null!;
         public static ItemDef CookedMeat = null!;
         public static ItemDef DriedMeat = null!;
         public static ItemDef MedKit = null!;

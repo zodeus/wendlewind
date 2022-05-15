@@ -16,6 +16,7 @@ public class KitchenPanel : VerticalStackPanel {
     private readonly MeatRackPanel _meatRackPanel;
     private bool _isFoodButton1Showing;
     private bool _isFoodButton2Showing;
+    private bool _isFoodButton3Showing;
 
     public KitchenPanel(TownStructureHouse house) {
         _house = house;
@@ -25,8 +26,8 @@ public class KitchenPanel : VerticalStackPanel {
         _foodButton2 = GenerateFoodButton();
         _foodButton3 = GenerateFoodButton();
         _meatRackPanel = new MeatRackPanel(house);
-        Panel foodToCookPanel = new() { Height = 250 };
-        AddChild(new Label(BaseContent.Styles.Label.Large) { Text = "Foods" });
+        Panel foodToCookPanel = new() { Height = 350 };
+        AddChild(new Label(BaseContent.Styles.Label.Large) { Text = "Kitchen" });
         AddChild(_meatRackPanel);
         AddChild(new HorizontalSeparator());
         AddChild(new Grid {
@@ -37,7 +38,7 @@ public class KitchenPanel : VerticalStackPanel {
             ColumnSpacing = 5,
             Widgets = {
                 new RecipePicker(
-                    DefRepository<ItemDef>.Defs.FindAll(i => i == Defs.Items.CookedMeat),
+                    DefRepository<ItemDef>.Defs.FindAll(i => i == Defs.Items.CookedMeat || i == Defs.Items.CookedCorn),
                     (sender, _) => {
                         ListItem comboItem = ((ListBox) sender!).SelectedItem;
                         foodToCookPanel.Widgets.Clear();
@@ -80,6 +81,7 @@ public class KitchenPanel : VerticalStackPanel {
 
     public void Update() {
         _recipePanel?.Update();
+        //button 1
         if (_isFoodButton1Showing == false && _house.AmountOfItem(Defs.Items.CookedMeat) > 0) {
             _isFoodButton1Showing = true;
             _foodButton1.Image = new TextureRegion(Defs.Items.CookedMeat.Icon);
@@ -96,6 +98,7 @@ public class KitchenPanel : VerticalStackPanel {
             _foodButton1.Enabled = Core.Sim.World.PlayerPawn.IsHungry;
         }
 
+        //button 2
         if (_isFoodButton2Showing == false && _house.AmountOfItem(Defs.Items.DriedMeat) > 0) {
             _isFoodButton2Showing = true;
             _foodButton2.Image = new TextureRegion(Defs.Items.DriedMeat.Icon);
@@ -112,6 +115,23 @@ public class KitchenPanel : VerticalStackPanel {
             _foodButton2.Enabled = Core.Sim.World.PlayerPawn.IsHungry;
         }
 
+        //button 3
+        if (_isFoodButton3Showing == false && _house.AmountOfItem(Defs.Items.CookedCorn) > 0) {
+            _isFoodButton3Showing = true;
+            _foodButton3.Image = new TextureRegion(Defs.Items.CookedCorn.Icon);
+            _foodButton3.Enabled = true;
+            _foodButton3.Tag = Defs.Items.CookedCorn;
+        }
+        else if (_isFoodButton3Showing && _house.AmountOfItem(Defs.Items.CookedCorn) <= 0) {
+            _foodButton3.Image = null;
+            _foodButton3.Enabled = false;
+            _isFoodButton3Showing = false;
+        }
+
+        if (_isFoodButton3Showing) {
+            _foodButton3.Enabled = Core.Sim.World.PlayerPawn.IsHungry;
+        }
+        
         _meatRackPanel.Update();
     }
 }

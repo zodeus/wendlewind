@@ -2,6 +2,20 @@
 
 <Definitions>
     <BodyEffectDef>
+        <Moniker>FoodPoisoning</Moniker>
+        <Label>Food Poisoning</Label>
+        <AffectedStats>
+            <ListItem>
+                <Stat>MeleeStrength</Stat>
+                <Factor>-.10</Factor>
+            </ListItem>
+            <ListItem>
+                <Stat>AttackSpeed</Stat>
+                <Factor>-.10</Factor>
+            </ListItem>
+        </AffectedStats>
+    </BodyEffectDef>
+    <BodyEffectDef>
         <Moniker>BeefedUp</Moniker>
         <Label>Beefed Up!</Label>
         <AffectedStats>
@@ -35,7 +49,7 @@
         <AffectedStats>
             <ListItem>
                 <Stat>SequencePoints</Stat>
-                <Offset>6</Offset>
+                <Offset>3</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>

@@ -108,4 +108,31 @@
         <TravelSize>10</TravelSize>
         <TravelSpeedFactor>1</TravelSpeedFactor>
     </ZoneDef>
+    <ZoneDef>
+        <Moniker>FesterpusSwamp</Moniker>
+        <Label>Festerpus Swamp</Label>
+        <ZoneType>Adventure</ZoneType>
+        <HandlerClass>Adventure</HandlerClass>
+        <GuiClass>AdventureGui</GuiClass>
+        <Location>1,0</Location>
+        <BackgroundTexturePath>Zones/FesterpusSwamp</BackgroundTexturePath>
+        <BackgroundTextureTransparency>40</BackgroundTextureTransparency>
+        <TravelSize>70</TravelSize>
+        <TravelSpeedFactor>.6</TravelSpeedFactor>
+        <MeanTimeBetweenEvents>5~10</MeanTimeBetweenEvents>
+        <Resources>
+            <ListItem>
+                <Item>ChurniRoot</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.05</ChanceToHarvest>
+                <HarvestArea>0~1</HarvestArea>
+            </ListItem>
+            <ListItem>
+                <Item>MaeburyBulb</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.03</ChanceToHarvest>
+                <HarvestArea>0.2~1</HarvestArea>
+            </ListItem>
+        </Resources>
+    </ZoneDef>
 </Definitions>

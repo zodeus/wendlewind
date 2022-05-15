@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <CombatConfigDef>
+        <Moniker>FesterpusSwamp-01</Moniker>
+        <SpawnRange>0~1</SpawnRange>
+        <Zone>FesterpusSwamp</Zone>
+        <Enemies>
+            <ListItem>
+                <Race>Grainer</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Grain Goon</PawnName>
+                <SpawnWeight>100</SpawnWeight>
+                <Skills>
+                    <Maces>30</Maces>
+                </Skills>
+                <EquipmentItems>
+                    <ListItem>Mace</ListItem>
+                    <ListItem>BucketHelmet</ListItem>
+                    <ListItem>LeatherVambrace</ListItem>
+                    <ListItem>LeatherVambrace</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherGorget</ListItem>
+                    <ListItem>LeatherBoot</ListItem>
+                    <ListItem>LeatherBoot</ListItem>
+                    <ListItem>ChainGlove</ListItem>
+                    <ListItem>ChainGlove</ListItem>
+                    <ListItem>LeatherTunic</ListItem>
+                    <ListItem>JarOfBlood</ListItem>
+                    <ListItem>JarOfBlood</ListItem>
+                </EquipmentItems>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>Coin</Item>
+                        <Amount>100~300</Amount>
+                        <ChanceToDrop>.75</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>SoulCoin</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </CombatConfigDef>
+</Definitions>

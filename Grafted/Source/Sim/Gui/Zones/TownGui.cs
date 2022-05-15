@@ -106,6 +106,15 @@ public class TownGui : ZoneGui {
             _zoneBeginWindow = new ZoneBeginWindow(Defs.Zones.MeatMarket);
             _zoneBeginWindow.ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint());
         };
+        var festerpusSwamp = new TextButton(BaseContent.Styles.Button.Normal) {
+            Text = Defs.Zones.FesterpusSwamp.Label, HorizontalAlignment = HorizontalAlignment.Stretch,
+            Enabled = Core.Sim.World.Zones[Defs.Zones.GrainMill].IsComplete
+
+        };
+        festerpusSwamp.Click += (_, _) => {
+            _zoneBeginWindow = new ZoneBeginWindow(Defs.Zones.FesterpusSwamp);
+            _zoneBeginWindow.ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint());
+        };
 
         Grid grid = new() {
             ShowGridLines = false, HorizontalAlignment = HorizontalAlignment.Center,
@@ -141,7 +150,7 @@ public class TownGui : ZoneGui {
                         outskirts,
                         grainMill,
                         meatMarket,
-                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "Festerpus Swamp", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
+                        festerpusSwamp,
                         new TextButton(BaseContent.Styles.Button.Normal) { Text = "The Alchemist Hut", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                         new TextButton(BaseContent.Styles.Button.Normal) { Text = "Forgotten Forest", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                         new TextButton(BaseContent.Styles.Button.Normal) { Text = "Forgemaster Quarry", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },

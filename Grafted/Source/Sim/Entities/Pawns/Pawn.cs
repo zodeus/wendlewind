@@ -250,9 +250,9 @@ public class Pawn : Entity, IExposable {
             return;
         }
 
-        foreach (BodyEffectDef effectDef in item.ItemDef.FoodProperties.Effects) {
+        foreach (BodyEffectRecord record in item.ItemDef.FoodProperties.Effects) {
             Body.Effects.TryApplyEffect(new BodyEffect {
-                Def = effectDef, TicksLeft = SimTime.HoursToTicks(12)
+                Def = record.Def, TicksLeft = SimTime.TicksPerMinute * record.DurationInMinutes
             });
         }
 

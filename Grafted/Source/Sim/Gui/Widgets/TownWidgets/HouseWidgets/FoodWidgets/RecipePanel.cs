@@ -25,7 +25,7 @@ public class RecipePanel : VerticalStackPanel {
         AddChild(new Label("small") { Text = $"Time to make: {food.CraftingProperties.MinutesToMake}/hours" });
         AddChild(new Label("small") { Text = $"Yield: {food.CraftingProperties.AmountProduced}x" });
         if (food.CraftingProperties.RequiredTools != null) {
-            AddChild(new Label("small") { Text = "Required Tools: ", VerticalAlignment = VerticalAlignment.Center });
+            AddChild(new Label("small") { Text = "Required Tools: ", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 10, 0, 0) });
             foreach (ItemDef requiredTool in food.CraftingProperties.RequiredTools) {
                 AddChild(new HorizontalStackPanel {
                     Margin = new Thickness(10, 5, 0, 0),
@@ -38,7 +38,7 @@ public class RecipePanel : VerticalStackPanel {
             }
         }
 
-        AddChild(new Label("small") { Text = "Ingredients:" });
+        AddChild(new Label("small") { Text = "Ingredients:", Margin = new Thickness(0, 10, 0, 0) });
         foreach (ResourceCount requirement in food.CraftingProperties.ResourceRequirements) {
             HorizontalStackPanel row = new() { Margin = new Thickness(10, 5, 0, 0) };
 

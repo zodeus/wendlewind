@@ -146,6 +146,14 @@ public class TownStructureHouse : TownStructure, IExposable {
             }
         }
 
+        if (item.CraftingProperties.RequiredTools != null) {
+            foreach (ItemDef requiredTool in item.CraftingProperties.RequiredTools) {
+                if (AmountOfItem(requiredTool) < 1) {
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 

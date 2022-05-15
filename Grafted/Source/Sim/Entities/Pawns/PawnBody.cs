@@ -313,7 +313,7 @@ public class PawnBody : IExposable, IIdentityProvider {
             _sequencePoints = Mathf.RoundToInt(RootSocket.AttachedPart?.SequencePoints ?? 0);
 
             //todo this calculates lung capacity, I think there should be a capacities list object somewhere instead, perhaps PawnBody or on Pawn? Need to add events to BodyPart to properly implement
-            _sequencePoints = Mathf.RoundToInt(_sequencePoints * (AllParts.Count(p => p.BodyPartDef.BodyPartType == BodyPartType.Lung && p.IsFunctional) > 1 ? 1f : .5f));
+            _sequencePoints = Mathf.RoundToInt(_sequencePoints * Capabilities.Breathing);
             BodyPartsDirty = false;
         }
 

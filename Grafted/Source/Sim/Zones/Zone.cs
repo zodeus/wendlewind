@@ -25,7 +25,8 @@ public class Zone : IExposable, IIdentityProvider {
     public Town? Town => _handler as Town;
     public Adventure? Adventure => _handler as Adventure;
     public ZoneType ZoneType => Def.ZoneType;
-    public float PercentTraveled => DistanceTraveledThisRun / Def.TravelSize;
+    public float PercentTraveledThisRun => DistanceTraveledThisRun / Def.TravelSize;
+    public float PercentTraveled => FurthestDistanceTraveled / Def.TravelSize;
 
     public void Reset() {
         ZoneKills = 0; // clear current zone kill count

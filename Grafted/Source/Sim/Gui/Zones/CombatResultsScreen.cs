@@ -84,7 +84,7 @@ public class CombatResultsScreen : VerticalStackPanel {
             return;
         }
 
-        if (_combatEvent.Zone.PercentTraveled < 1) {
+        if (_combatEvent.Zone.PercentTraveledThisRun < 1) {
             _combatEvent.Zone.Adventure!.Progress();
         }
     }

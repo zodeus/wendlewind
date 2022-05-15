@@ -29,7 +29,7 @@ public class BodyEffect : IExposable {
             if (affectedStat.Stat != stat) { continue; }
 
             if (affectedStat.Factor != null) {
-                value *= affectedStat.Factor.Value;
+                value = value + value * affectedStat.Factor.Value;
             }
 
             if (affectedStat.Offset != null) {

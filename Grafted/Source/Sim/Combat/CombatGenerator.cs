@@ -26,7 +26,7 @@ public static class CombatGenerator {
         //combatEvent.IsInteractive = true;
         combatEvent.AddPlayerPawn(playerPawn);
         CombatConfigDef combatConfig;
-        if (zone.PercentTraveled < 1) {
+        if (zone.PercentTraveledThisRun < 1) {
             combatConfig = DefRepository<CombatConfigDef>.Defs.Where(CombatFilter(zone)).RandomElement();
         }
         else {
@@ -46,7 +46,7 @@ public static class CombatGenerator {
                 return false;
             }
 
-            if (config.SpawnRange.Includes(zone.PercentTraveled) == false) {
+            if (config.SpawnRange.Includes(zone.PercentTraveledThisRun) == false) {
                 return false;
             }
 

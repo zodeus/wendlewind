@@ -21,5 +21,16 @@ public class PawnCapabilities : IExposable {
         }
     }
 
+    public float Breathing {
+        get {
+            int lungs = _pawn.Body.AllParts.Count(p => p.BodyPartDef.BodyPartType == BodyPartType.Lung && p.IsFunctional);
+            return lungs switch {
+                2 => 1f,
+                1 => .5f,
+                _ => .0f
+            };
+        }
+    }
+
     public void ExposeData() { }
 }

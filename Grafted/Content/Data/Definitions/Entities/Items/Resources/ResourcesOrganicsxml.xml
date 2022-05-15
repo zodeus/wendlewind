@@ -13,4 +13,31 @@
             <CurrencyValue>800</CurrencyValue>
         </BaseStats>
     </ItemDef>
+    <ItemDef ParentName="OrganicResource">
+        <Moniker>ChurniRoot</Moniker>
+        <Label>Churni Root</Label>
+        <TexturePath>Entities/Item/Resource/Organic/ChurniRoot</TexturePath>
+        <BaseStats>
+            <Weight>0.2</Weight>
+            <CurrencyValue>1500</CurrencyValue>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="OrganicResource">
+        <Moniker>ChurniRoot</Moniker>
+        <Label>Churni Root</Label>
+        <TexturePath>Entities/Item/Resource/Organic/ChurniRoot</TexturePath>
+        <BaseStats>
+            <Weight>0.2</Weight>
+            <CurrencyValue>1500</CurrencyValue>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="OrganicResource">
+        <Moniker>MaeburyBulb</Moniker>
+        <Label>Maebury Bulb</Label>
+        <TexturePath>Entities/Item/Resource/Organic/MaeburyBulb</TexturePath>
+        <BaseStats>
+            <Weight>0.2</Weight>
+            <CurrencyValue>1700</CurrencyValue>
+        </BaseStats>
+    </ItemDef>
 </Definitions>
