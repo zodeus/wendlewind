@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Grafted.Definitions;
 using Grafted.Sim.Entities.Pawns;
+using Grafted.Sim.Zones;
 using Grafted.Utils;
 
 namespace Grafted.Sim.Combat;
@@ -18,8 +19,7 @@ public class SeverLimbRequest {
 }
 
 public static class CombatGenerator {
-    public static CombatEvent GenerateForZone(List<Pawn> playerPawns, Zone zone) {
-        Pawn playerPawn = playerPawns[0];
+    public static CombatEvent GenerateForZone(Pawn playerPawn, Zone zone) {
         CombatEvent combatEvent = new() {
             Zone = zone
         };

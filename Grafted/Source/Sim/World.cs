@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using Grafted.Definitions;
-using Grafted.Maths;
-using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Pawns;
 using Grafted.Sim.Gui;
 using Grafted.Sim.Persistence;
+using Grafted.Sim.Zones;
 using Microsoft.Xna.Framework;
 
 namespace Grafted.Sim;
@@ -16,13 +15,12 @@ public enum ZoneType {
     SpecialEvent
 }
 
-public class World : IExposable {
+public class World : IExposable, IIdentityProvider {
     public SimTime Time = null!;
     public List<Pawn> PlayerPawns = null!;
     public PawnDeathRecords DeathRecords = null!;
-    public Zone? CurrentZone;
+    public Zone CurrentZone = null!;
     public Dictionary<ZoneDef, Zone> Zones = null!;
-    public CombatEvent? ActiveCombat;
     public int TotalKills;
 
     public Pawn PlayerPawn => PlayerPawns[0];
@@ -33,8 +31,8 @@ public class World : IExposable {
         DeathRecords = new PawnDeathRecords();
         Zones = new Dictionary<ZoneDef, Zone>();
         foreach (ZoneDef zoneDef in DefRepository<ZoneDef>.Defs) {
-            Zones[zoneDef] = new Zone { Def = zoneDef };
-            Zones[zoneDef].Initialize();
+            Zones[zoneDef] = new Zone();
+            Zones[zoneDef].Initialize(this, zoneDef);
         }
 
         TotalKills = 0;
@@ -42,46 +40,6 @@ public class World : IExposable {
 
     public void AddPlayerPawn(Pawn pawn) {
         PlayerPawns.Add(pawn);
-    }
-
-    public CombatEvent NextCombat() {
-        return CombatGenerator.GenerateForZone(PlayerPawns, CurrentZone!);
-    }
-
-    public DialogueNode NextDialogue() {
-        return DialogueGenerator.Generate();
-    }
-
-    public void MoveToZone(ZoneDef zoneDef, bool progressTime = true) {
-        // progress time to return to beginning of zone
-        //todo MovementMultiplier
-        ActiveCombat = null;
-        if (progressTime) {
-            ProgressTime(CurrentZone.DistanceTraveledThisRun * SimTime.MinutesToSeconds(SimTime.MinutesPerKm)); //roughly 10 minutes per km    
-        }
-
-        CurrentZone?.Reset();
-        CurrentZone = Zones[zoneDef];
-        Core.Sim.World.PlayerPawns[0].Zone = CurrentZone;
-        Core.Sim.Messages.Push(new Message(
-            $"\\c[{UiTextColor.TextColorPawn}]{PlayerPawns[0]} \\c[{UiTextColor.TextColorDefault}]moved to zone \\c[{UiTextColor.TextColorZone}]{zoneDef.Label}"
-        ));
-
-        Core.Sim.Save("save.xml");
-        Log.Info("Autosaving");
-    }
-
-    public void DoZoneTravel() {
-        // Update Travel Distance
-        //todo MovementMultiplier
-        ActiveCombat = null;
-        float minutesSpentTravelling = CurrentZone.Def.MeanTimeBetweenEvents.RandomValue;
-        ProgressTime(SimTime.SecondsInMinute * minutesSpentTravelling);
-        float distanceTraveled = (minutesSpentTravelling / SimTime.MinutesPerKm * CurrentZone.Def.TravelSpeedFactor * PlayerPawn.Body.MovementSpeed) + CurrentZone.DistanceTraveledThisRun;
-        CurrentZone.DistanceTraveledThisRun = Mathf.Clamp(distanceTraveled, 0, CurrentZone.Def.TravelSize);
-        if (CurrentZone.DistanceTraveledThisRun > CurrentZone.FurthestDistanceTraveled) {
-            CurrentZone.FurthestDistanceTraveled = CurrentZone.DistanceTraveledThisRun;
-        }
     }
 
     public void ProgressUntilTimeOfDay(int time) {
@@ -123,8 +81,6 @@ public class World : IExposable {
             pawn.Tick();
         }
 
-        ActiveCombat?.Tick();
-
         Core.Sim.OminousMessageSpawner.Tick();
     }
 
@@ -141,5 +97,9 @@ public class World : IExposable {
         Scribe_References.Look(ref CurrentZone!, "CurrentZone");
         Scribe_Collections.Look(ref Zones!, "Zones", LookMode.Def, LookMode.Deep);
         Scribe_Values.Look(ref TotalKills, "TotalKills");
+    }
+
+    public string GetUniqueId() {
+        return "world";
     }
 }

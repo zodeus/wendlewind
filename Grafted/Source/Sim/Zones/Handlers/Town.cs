@@ -1,17 +1,30 @@
 using System.Collections.Generic;
+using Grafted.Definitions;
 using Grafted.Sim.Persistence;
 
-namespace Grafted.Sim;
+namespace Grafted.Sim.Zones.Handlers;
 
-public class Town : IExposable, IIdentityProvider {
+public class Town : ZoneHandler, IIdentityProvider {
     private Dictionary<TownStructureDef, TownStructure> _structures = new();
+    private string _id = "invalid";
 
-    public ZoneDef ZoneDef = null!;
-
-    public void Tick() {
+    public override void Tick() {
         foreach (TownStructure structure in _structures.Values) {
             structure.Tick();
         }
+    }
+
+    public override void OnEnter() { }
+    public override void OnExit() { }
+
+    public override void Initialize(World world, Zone zone) {
+        foreach (TownStructureDef structureDef in DefRepository<TownStructureDef>.Defs) {
+            AddStructure(TownGenerator.GenerateStructure(structureDef, this));
+        }
+
+        _id = zone.Def.Moniker + "-Town";
+
+        base.Initialize(world, zone);
     }
 
     public void AddStructure(TownStructure structure) {
@@ -28,13 +41,12 @@ public class Town : IExposable, IIdentityProvider {
         return null;
     }
 
-    public void ExposeData() {
-        Scribe_Defs.Look(ref ZoneDef!, "ZoneDef");
+    public override void ExposeData() {
         Scribe_Collections.Look(ref _structures!, "Structures", LookMode.Def, LookMode.Deep);
-
+        base.ExposeData();
     }
 
     public string GetUniqueId() {
-        return ZoneDef.Moniker + "-Town";
+        return _id;
     }
 }

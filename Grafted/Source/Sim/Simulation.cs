@@ -1,11 +1,9 @@
 using Grafted.Debug;
 using Grafted.Definitions;
-using Grafted.Maths;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Gui;
-using Grafted.Sim.Gui.SpecialEvents;
 using Grafted.Sim.Persistence;
-using Grafted.Sim.SpecialEvents;
+using Grafted.Sim.Zones;
 using Grafted.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -56,7 +54,7 @@ public class Simulation : IExposable {
             return;
         }
 
-        if ((World.ActiveCombat != null && World.ActiveCombat.State != CombatState.CombatFinished && Core.Sim.CombatSettings.IsPaused)) {
+        if ((World.CurrentZone.ZoneType == ZoneType.Adventure && World.CurrentZone.Adventure?.ActiveCombat != null && CombatSettings.IsPaused)) {
             return;
         }
 
@@ -73,9 +71,9 @@ public class Simulation : IExposable {
             CombatSettings.TogglePause();
         }
 
-        if (Input.IsKeyPressed(Keys.S) && Input.IsKeyDown(Keys.LeftControl) && Core.Sim.World.ActiveCombat == null) {
+        if (Input.IsKeyPressed(Keys.S) && Input.IsKeyDown(Keys.LeftControl) && World.CurrentZone.ZoneType != ZoneType.Adventure) {
             Save("save.xml");
-            Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData {
+            Gui!.PushScreenMessage(new ScreenMessageData {
                 Text = "Game Saved",
                 Font = BaseContent.Fonts.Default.Large,
                 Duration = 5,
@@ -148,7 +146,7 @@ public class Simulation : IExposable {
     #region Persistence
 
     public void Save(string filePath) {
-        return;
+        //return;
         Log.Info("Saving Game to " + filePath);
         Scribe.Saver.InitSaving(filePath, "SaveData");
         Simulation sim = this;
@@ -167,8 +165,7 @@ public class Simulation : IExposable {
         ExposeDataInternal();
 
         Scribe.Loader.FinalizeLoading();
-        Core.Sim.World.CurrentZone = Core.Sim.World.Zones[Defs.Zones.VillageOfTheDamned];
-        Core.Sim.Gui = new TownGui(Core.Sim.World.CurrentZone.Town!);
+        Core.Sim.ChangeZone(Defs.Zones.VillageOfTheDamned);
     }
 
 
@@ -189,13 +186,29 @@ public class Simulation : IExposable {
 
     #endregion
 
-    public void ActivateCombatEvent(CombatEvent combat) {
-        World.ActiveCombat = combat;
-        Gui = new CombatGui(combat);
-    }
+    public void ChangeZone(ZoneDef zoneDef, bool progressTime = true) {
+        if (progressTime) {
+            if (zoneDef == Defs.Zones.VillageOfTheDamned) {
+                //todo MovementMultiplier
+                // progress time to return to beginning of zone
+                World.ProgressTime(World.CurrentZone.DistanceTraveledThisRun * SimTime.MinutesToSeconds(SimTime.MinutesPerKm)); //roughly 10 minutes per km    
+            }
+            else {
+                //todo distance from zones Core.Sim.World.ProgressTime(SimTime.HoursToSeconds(1));    
+            }
+        }
 
-    public void ActivateSpecialEvent(SpecialEventHandler handler, SpecialEventGui gui) {
-        //World.ActiveCombat = combat;
-        Gui = gui;
+        World.CurrentZone?.Exit();
+        World.CurrentZone?.Reset();
+        World.CurrentZone = World.Zones[zoneDef];
+        World.PlayerPawn.Zone = World.CurrentZone;
+        World.CurrentZone.Enter();
+        Gui = World.CurrentZone.Gui;
+        //Core.Sim.Gui = new TownGui(Core.Sim.World.Zones[Defs.Zones.VillageOfTheDamned].Town!);
+        Messages.Push(new Message(
+            $"\\c[{UiTextColor.TextColorPawn}]{World.PlayerPawn} \\c[{UiTextColor.TextColorDefault}]moved to zone \\c[{UiTextColor.TextColorZone}]{zoneDef.Label}"
+        ));
+        Save("save.xml");
+        Log.Info("Autosaving");
     }
 }

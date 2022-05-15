@@ -3,21 +3,12 @@ using System.Linq;
 using Grafted.Definitions;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
+using Grafted.Sim.Zones.Handlers;
 using Grafted.Utils;
 
 namespace Grafted.Sim;
 
 public static class TownGenerator {
-    public static Town Generate(ZoneDef zoneDef) {
-        Town town = new() {
-            ZoneDef = zoneDef
-        };
-        foreach (TownStructureDef structureDef in DefRepository<TownStructureDef>.Defs) {
-            town.AddStructure(GenerateStructure(structureDef, town));
-        }
-
-        return town;
-    }
 
     public static TownStructure GenerateStructure(TownStructureDef def, Town town) {
         TownStructure structure = (TownStructure) Activator.CreateInstance(def.StructureClass)!;

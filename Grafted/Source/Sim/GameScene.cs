@@ -4,14 +4,12 @@ using Grafted.Debug;
 using Grafted.Definitions;
 using Grafted.Scenes;
 using Grafted.Sim.Entities.Items;
-using Grafted.Sim.Gui;
 using Grafted.Utils;
 
 namespace Grafted.Sim;
 
 public class GameScene : Scene {
     private CameraController _cameraController = null!;
-    private bool _firstTime = true;
 
     protected override void OnStart() {
         _cameraController = new CameraController(MainCamera);
@@ -28,10 +26,7 @@ public class GameScene : Scene {
     public void QuickPlay() {
         Core.ClearCoroutines();
         Core.Sim.World = WorldGenerator.GenerateNewWorld(Defs.PawnConfigs.PlayerPawn);
-
-        Core.Sim.World.MoveToZone(Defs.Zones.VillageOfTheDamned, false);
-        Core.Sim.Gui = new TownGui(Core.Sim.World.Zones[Defs.Zones.VillageOfTheDamned].Town!);
-
+        Core.Sim.ChangeZone(Defs.Zones.VillageOfTheDamned, false);
         //DebugInfo();
     }
 

@@ -1,9 +1,10 @@
-using System.Collections;
 using Grafted.Definitions;
 using Grafted.Sim.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Grafted.Sim.Gui.Widgets.MiscWidgets;
 using Grafted.Sim.Gui.Widgets.TownWidgets;
 using Grafted.Sim.Gui.Widgets.TownWidgets.HouseWidgets;
+using Grafted.Sim.Zones;
+using Grafted.Sim.Zones.Handlers;
 using Grafted.UI;
 using Grafted.Utils;
 using Microsoft.Xna.Framework;
@@ -15,25 +16,25 @@ using Myra.Graphics2D.UI.Styles;
 using HorizontalAlignment = Myra.Graphics2D.UI.HorizontalAlignment;
 using Label = Myra.Graphics2D.UI.Label;
 
-namespace Grafted.Sim.Gui;
+namespace Grafted.Sim.Gui.Zones;
 
-public class TownGui : BaseGui {
-    private readonly Town _town;
-    private readonly TabPanel _tabs;
-    private readonly GameHud _gameHud;
-    private readonly PawnBodyEffectsWindow _pawnBodyEffectsWindow;
+public class TownGui : ZoneGui {
+    private Town _town = null!;
+    private TabPanel _tabs = null!;
+    private GameHud _gameHud = null!;
+    private PawnBodyEffectsWindow _pawnBodyEffectsWindow = null!;
     private ZoneBeginWindow? _zoneBeginWindow;
 
-    public TownGui(Town town) {
-        _town = town;
+    public override void Initialize(Zone zone) {
+        _town = zone.Town!;
         _gameHud = new GameHud { HorizontalAlignment = HorizontalAlignment.Stretch, Margin = new Thickness(0, 5, 0, 0) };
         _tabs = new TabPanel {
             ButtonStyle = BaseContent.Styles.Button.Large,
             HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 30, 0, 0), Width = 1800
         };
-        _tabs.AddTab("House", new HousePanel(town));
-        _tabs.AddTab("Character", new PawnDetailPanel(Core.Sim.World.PlayerPawn, "Storage", town.GetStructure<TownStructureHouse>()!.Storage));
-        _tabs.AddTab("Merchant", new MerchantPanel(Core.Sim.World.PlayerPawn, town));
+        _tabs.AddTab("House", new HousePanel(_town));
+        _tabs.AddTab("Character", new PawnDetailPanel(Core.Sim.World.PlayerPawn, "Storage", _town.GetStructure<TownStructureHouse>()!.Storage));
+        _tabs.AddTab("Merchant", new MerchantPanel(Core.Sim.World.PlayerPawn, _town));
         _tabs.AddTab("Adventure", AdventurePanel());
 
         Desktop = new Desktop {
@@ -48,6 +49,7 @@ public class TownGui : BaseGui {
 
         _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(Core.Sim.World.PlayerPawn);
         _pawnBodyEffectsWindow.Show(Desktop, new Point(50, 20));
+        base.Initialize(zone);
     }
 
     public override void Update(float deltaTime) {
@@ -94,7 +96,7 @@ public class TownGui : BaseGui {
             _zoneBeginWindow = new ZoneBeginWindow(Defs.Zones.GrainMill);
             _zoneBeginWindow.ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint());
         };
-        
+
         var meatMarket = new TextButton(BaseContent.Styles.Button.Normal) {
             Text = Defs.Zones.MeatMarket.Label, HorizontalAlignment = HorizontalAlignment.Stretch,
             Enabled = Core.Sim.World.Zones[Defs.Zones.TheOutskirts].IsComplete
@@ -104,7 +106,7 @@ public class TownGui : BaseGui {
             _zoneBeginWindow = new ZoneBeginWindow(Defs.Zones.MeatMarket);
             _zoneBeginWindow.ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint());
         };
-        
+
         Grid grid = new() {
             ShowGridLines = false, HorizontalAlignment = HorizontalAlignment.Center,
             GridLinesColor = Color.Red,

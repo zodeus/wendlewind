@@ -1,23 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Linq;
 using Grafted.Definitions;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
 using Grafted.Sim.Entities.Pawns.BodyGenerators;
-using Grafted.Sim.SpecialEvents;
+using Grafted.Sim.Zones;
 using Grafted.Utils;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Myra.Graphics2D;
 using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.UI.Styles;
 
-namespace Grafted.Sim.Gui.SpecialEvents;
+namespace Grafted.Sim.Gui.Zones;
 
-public class MeatMarketGui : SpecialEventGui {
+public class MeatMarketGui : ZoneGui {
     private class BodyPartPortrait : VerticalStackPanel {
         private readonly BodyPartDef _bodyPartDef;
 
@@ -41,7 +38,7 @@ public class MeatMarketGui : SpecialEventGui {
             };
             purchaseButton.Click += (_, _) => {
                 Pawn player = Core.Sim.World.PlayerPawn;
-                Window window = new Window { };
+                Window window = new();
                 TextButton leftHand = new(BaseContent.Styles.Button.Large) { Text = "Left Hand" };
                 leftHand.Click += (_, _) => {
                     BodyPartSocket handSocket = player.Body.AllExternalParts.First(p => p.Type == BodyPartType.Hand && p.Position == BodyPartPosition.Left).Socket!;
@@ -137,16 +134,14 @@ public class MeatMarketGui : SpecialEventGui {
         }
     }
 
-    public MeatMarketGui(SpecialEventHandler handler) : base(handler) {
+    public override void Initialize(Zone zone) {
         TextButton travelHomeButton = new(BaseContent.Styles.Button.Large) {
             HorizontalAlignment = HorizontalAlignment.Center,
             Text = $"Travel Home",
             GridRow = 1, GridColumnSpan = 2
         };
         travelHomeButton.Click += (_, _) => {
-            Core.Sim.World.ProgressTime(SimTime.HoursToSeconds(1));
-            Core.Sim.World.MoveToZone(Defs.Zones.VillageOfTheDamned);
-            Core.Sim.Gui = new TownGui(Core.Sim.World.CurrentZone.Town!);
+            Core.Sim.ChangeZone(Defs.Zones.VillageOfTheDamned);
         };
         float totalCoins = Core.Sim.World.PlayerPawn.Inventory.Entities.AmountOf(Defs.Items.SoulCoin);
         Desktop = new Desktop {
@@ -189,19 +184,5 @@ public class MeatMarketGui : SpecialEventGui {
             },
             HasExternalTextInput = true
         };
-    }
-
-    public override void Render(SpriteBatch spriteBatch, float deltaTime) {
-        spriteBatch.Begin(
-            SpriteSortMode.Deferred,
-            BlendState.NonPremultiplied,
-            SamplerState.PointClamp,
-            DepthStencilState.None,
-            RasterizerState.CullNone
-        );
-        spriteBatch.Draw(Core.Sim.World.CurrentZone.Def.BackgroundTexture, new Rectangle(0, 0, Screen.Width, Screen.Height), new Color(255, 255, 255, Core.Sim.World.CurrentZone.Def.BackgroundTextureTransparency));
-        spriteBatch.End();
-
-        base.Render(spriteBatch, deltaTime);
     }
 }

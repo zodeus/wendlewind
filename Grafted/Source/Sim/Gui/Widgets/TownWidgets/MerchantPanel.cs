@@ -1,5 +1,6 @@
 using Grafted.Sim.Entities.Pawns;
 using Grafted.Sim.Gui.Widgets.EntityWidgets;
+using Grafted.Sim.Zones.Handlers;
 using Myra.Graphics2D;
 using Myra.Graphics2D.UI;
 

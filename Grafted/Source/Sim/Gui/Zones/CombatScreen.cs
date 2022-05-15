@@ -5,10 +5,9 @@ using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Gui.Widgets.CombatWidgets;
 using Grafted.Sim.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Grafted.Sim.Gui.Widgets.MiscWidgets;
+using Grafted.Sim.Zones.Handlers;
 using Grafted.UI;
-using Grafted.Utils;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Myra.Graphics2D;
 using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
@@ -17,9 +16,9 @@ using HorizontalAlignment = Myra.Graphics2D.UI.HorizontalAlignment;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 using Label = Myra.Graphics2D.UI.Label;
 
-namespace Grafted.Sim.Gui;
+namespace Grafted.Sim.Gui.Zones;
 
-public class CombatGui : BaseGui {
+public class CombatScreen : VerticalStackPanel {
     private readonly CombatEvent _combatEvent;
     private readonly ScrollViewer _combatLog;
     private readonly GameHud _gameHud;
@@ -33,7 +32,7 @@ public class CombatGui : BaseGui {
     private readonly PawnBodyEffectsWindow _pawnBodyEffectsWindow;
     public CombatEvent CombatEvent => _combatEvent;
 
-    public CombatGui(CombatEvent combatEvent) {
+    public CombatScreen(AdventureGui gui, CombatEvent combatEvent) {
         _combatEvent = combatEvent;
         _combatEvent.StartAsCoroutine();
         _combatEvent.StateChangedAction += CombatStateChangedAction();
@@ -56,7 +55,7 @@ public class CombatGui : BaseGui {
         };
         _pawnBodyView = new PawnBodyPanel(combatEvent.PlayerPawns.First().Body, socket => {
             if (socket.AttachedPart != null) {
-                ViewEntity(socket.AttachedPart);
+                gui.ViewEntity(socket.AttachedPart);
             }
         }) {
             GridRow = 2, GridColumn = 0, HorizontalAlignment = HorizontalAlignment.Right,
@@ -133,17 +132,11 @@ public class CombatGui : BaseGui {
                 _pawnBodyView, logPanel
             }
         };
+        AddChild(_gameHud);
+        AddChild(grid);
 
-        Desktop = new Desktop {
-            Root = new VerticalStackPanel {
-                Widgets = { _gameHud, grid }
-            },
-            HasExternalTextInput = true
-        };
-        
-        
         _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(Core.Sim.World.PlayerPawn);
-        _pawnBodyEffectsWindow.Show(Desktop, new Point(50, 20));
+        _pawnBodyEffectsWindow.Show(gui.Desktop, new Point(50, 20));
     }
 
     private Action<CombatState> CombatStateChangedAction() {
@@ -174,9 +167,9 @@ public class CombatGui : BaseGui {
         };
     }
 
-    public override void Update(float deltaTime) {
+    public void Update() {
         if (_combatEvent.State == CombatState.CombatFinished && Input.IsKeyPressed(Keys.Enter)) {
-            Core.Sim.Gui = new CombatResultsGui(_combatEvent);
+            _combatEvent.Zone!.Adventure!.State = AdventureState.CombatResults;
         }
 
         if (_combatEvent.PotionQueuedFor(_combatEvent.PlayerPawns[0]) is { } potion) {
@@ -194,21 +187,6 @@ public class CombatGui : BaseGui {
         _pawnBodyView.Update();
         _pawnBodyEffectsWindow.Update();
         _turnLabel.Text = $"Turn {_combatEvent.CurrentTurnNum.ToString().PadLeft(2, '0')}";
-        base.Update(deltaTime);
-    }
-
-    public override void Render(SpriteBatch spriteBatch, float deltaTime) {
-        spriteBatch.Begin(
-            SpriteSortMode.Deferred,
-            BlendState.NonPremultiplied,
-            SamplerState.PointClamp,
-            DepthStencilState.None,
-            RasterizerState.CullNone
-        );
-        spriteBatch.Draw(Core.Sim.World.CurrentZone.Def.BackgroundTexture, new Rectangle(0, 0, Screen.Width, Screen.Height), new Color(255, 255, 255, Core.Sim.World.CurrentZone.Def.BackgroundTextureTransparency));
-        spriteBatch.End();
-
-        base.Render(spriteBatch, deltaTime);
     }
 
     private void AddCombatLogEntry(string text, Color? color = null) {

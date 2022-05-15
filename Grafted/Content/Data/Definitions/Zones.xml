@@ -5,11 +5,15 @@
         <Moniker>VillageOfTheDamned</Moniker>
         <Label>Village of the Damned</Label>
         <ZoneType>Town</ZoneType>
+        <HandlerClass>Town</HandlerClass>
+        <GuiClass>TownGui</GuiClass>
         <Location>0,0</Location>
     </ZoneDef>
     <ZoneDef>
         <Moniker>PeacefulMeadow</Moniker>
         <Label>Peaceful Meadow</Label>
+        <HandlerClass>Adventure</HandlerClass>
+        <GuiClass>AdventureGui</GuiClass>
         <BackgroundTexturePath>Zones/PeacefulMeadow</BackgroundTexturePath>
         <ZoneType>Adventure</ZoneType>
         <Location>1,0</Location>
@@ -35,6 +39,8 @@
         <Moniker>TheOutskirts</Moniker>
         <Label>The Outskirts</Label>
         <ZoneType>Adventure</ZoneType>
+        <HandlerClass>Adventure</HandlerClass>
+        <GuiClass>AdventureGui</GuiClass>
         <Location>1,0</Location>
         <BackgroundTexturePath>Zones/TheOutskirts</BackgroundTexturePath>
         <TravelSize>60</TravelSize>
@@ -65,6 +71,8 @@
         <Moniker>GrainMill</Moniker>
         <Label>Grain Mill</Label>
         <ZoneType>Adventure</ZoneType>
+        <HandlerClass>Adventure</HandlerClass>
+        <GuiClass>AdventureGui</GuiClass>
         <Location>1,0</Location>
         <BackgroundTexturePath>Zones/GrainMill</BackgroundTexturePath>
         <BackgroundTextureTransparency>10</BackgroundTextureTransparency>
@@ -91,8 +99,8 @@
         <Label>Meat Market</Label>
         <Location>6,0</Location>
         <ZoneType>SpecialEvent</ZoneType>
-        <EventHandlerClass>MeatMarketHandler</EventHandlerClass>
-        <EventGuiClass>MeatMarketGui</EventGuiClass>
+        <HandlerClass>MeatMarket</HandlerClass>
+        <GuiClass>MeatMarketGui</GuiClass>
         <BackgroundTexturePath>Zones/MeatMarket</BackgroundTexturePath>
         <BackgroundTextureTransparency>60</BackgroundTextureTransparency>
         <TravelSize>10</TravelSize>

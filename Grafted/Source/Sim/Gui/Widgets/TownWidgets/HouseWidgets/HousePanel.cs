@@ -1,6 +1,8 @@
 using System.Linq;
 using Grafted.Sim.Gui.Widgets.MiscWidgets;
 using Grafted.Sim.Gui.Widgets.TownWidgets.HouseWidgets.FoodWidgets;
+using Grafted.Sim.Zones;
+using Grafted.Sim.Zones.Handlers;
 using Myra.Graphics2D;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.UI.Styles;

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Grafted.Definitions;
 using Grafted.Sim.Combat;
+using Grafted.Sim.Zones;
 using Microsoft.Xna.Framework;
 using Myra.Graphics2D;
 using Myra.Graphics2D.TextureAtlases;
@@ -17,9 +18,7 @@ internal class ZoneBeginWindow : Window {
         Title = zone.Label;
         _begin = new TextButton(BaseContent.Styles.Button.Large);
         _begin.Click += (_, _) => {
-            Core.Sim.World.MoveToZone(zone);
-            Core.Sim.World.DoZoneTravel();
-            Core.Sim.ActivateCombatEvent(Core.Sim.World.NextCombat());
+            Core.Sim.ChangeZone(zone);
         };
         _timeLabel = new Label(BaseContent.Styles.Label.Medium);
         TextButton close = new(BaseContent.Styles.Button.Large) { Text = $"\\c[{UiTextColor.TextColorRed}]Cancel" };
@@ -27,9 +26,7 @@ internal class ZoneBeginWindow : Window {
         if (zone == Defs.Zones.MeatMarket) {
             _travel = new TextButton(BaseContent.Styles.Button.Large) { Text = $"Travel" };
             _travel.Click += (_, _) => {
-                Core.Sim.World.MoveToZone(zone);
-                Core.Sim.World.ProgressTime(SimTime.HoursToSeconds(1));
-                Core.Sim.ActivateSpecialEvent(zone.Handler, zone.Gui);
+                Core.Sim.ChangeZone(zone);
             };
             Content = new VerticalStackPanel() {
                 Padding = new Thickness(50),

@@ -1,25 +1,29 @@
-using Grafted.Definitions;
-using Grafted.Maths;
-using Grafted.Sim.Entities.Items;
+using Grafted.Sim.Combat;
+using Grafted.Sim.Gui.Zones;
 using Grafted.Sim.Persistence;
-using Grafted.Sim.SpecialEvents;
+using Grafted.Sim.Zones.Handlers;
 
-namespace Grafted.Sim;
+namespace Grafted.Sim.Zones;
 
 public class Zone : IExposable, IIdentityProvider {
+    private ZoneHandler _handler = null!;
+    private ZoneGui _gui;
+
     public ZoneDef Def = null!;
+    public World World = null!;
     public int ZoneKills = 0;
     public int TotalZoneKills = 0;
     public float DistanceTraveledThisRun = 0;
     public bool BossKilledThisRun;
 
     public float FurthestDistanceTraveled = 0;
-    public Town? Town;
     public float Temperature = -1;
     public bool IsComplete;
-    private SpecialEventHandler? Handler;
-
     public string Label => Def.Label;
+    public ZoneGui Gui => _gui;
+    public ZoneHandler Handler => _handler;
+    public Town? Town => _handler as Town;
+    public Adventure? Adventure => _handler as Adventure;
     public ZoneType ZoneType => Def.ZoneType;
     public float PercentTraveled => DistanceTraveledThisRun / Def.TravelSize;
 
@@ -30,34 +34,38 @@ public class Zone : IExposable, IIdentityProvider {
     }
 
     public void Tick() {
-        Town?.Tick();
+        _handler?.Tick();
     }
 
     public void ExposeData() {
         Scribe_Defs.Look(ref Def!, "Def");
+        Scribe_References.Look(ref World!, "World");
         Scribe_Values.Look(ref TotalZoneKills!, "TotalZoneKills");
         Scribe_Values.Look(ref FurthestDistanceTraveled!, "FurthestDistanceTraveled");
         Scribe_Values.Look(ref IsComplete, "IsComplete");
-        Scribe_Deep.Look(ref Town!, "Town");
+        Scribe_Deep.Look(ref _handler!, "Handler");
     }
 
     public string GetUniqueId() {
         return Def.Moniker;
     }
 
-    public void Initialize() {
-        if (ZoneType == ZoneType.Town) {
-            Town = TownGenerator.Generate(Def);
-        }
-
-        //andler = Def.Handler;
-        //Gui = Def.Gui;
+    public void Initialize(World world, ZoneDef zoneDef) {
+        Def = zoneDef;
+        World = world;
+        _handler = zoneDef.Handler;
+        _handler.Initialize(world, this);
     }
-}
 
-public class ZoneResourceRecord {
-    public ItemDef Item = null!;
-    public RangeInt Amount;
-    public float ChanceToHarvest = 1;
-    public RangeFloat HarvestArea;
+    public void Enter() {
+        _gui = Def.Gui;
+        _gui.Initialize(this);
+        //ProgressTime(SimTime.SecondsInMinute * minutesSpentTravelling);
+        Handler.OnEnter();
+    }
+
+    public void Exit() {
+        //ProgressTime(SimTime.SecondsInMinute * minutesSpentTravelling);
+        Handler.OnExit();
+    }
 }

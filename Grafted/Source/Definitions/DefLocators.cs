@@ -4,6 +4,7 @@ using Grafted.Sim;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
+using Grafted.Sim.Zones;
 using Grafted.Utils;
 
 namespace Grafted.Definitions;

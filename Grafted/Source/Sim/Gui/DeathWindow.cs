@@ -8,8 +8,8 @@ using Myra.Graphics2D.UI.Styles;
 
 namespace Grafted.Sim.Gui;
 
-public class DeathGui : Window {
-    public DeathGui() {
+public class DeathWindow : Window {
+    public DeathWindow() {
         TextButton button = new(BaseContent.Styles.Button.Large) { Text = "Resurrect" };
         button.Click += (_, _) => {
             Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorYellow}]You have been reborn"));
@@ -34,9 +34,7 @@ public class DeathGui : Window {
                 TicksLeft = SimTime.HoursToTicks(72)
             });
 
-            Core.Sim.World.CurrentZone.Reset();
-            Core.Sim.World.MoveToZone(Defs.Zones.VillageOfTheDamned, false);
-            Core.Sim.Gui = new TownGui(Core.Sim.World.Zones[Defs.Zones.VillageOfTheDamned].Town!);
+            Core.Sim.ChangeZone(Defs.Zones.VillageOfTheDamned, false);
         };
         TitleGrid.Visible = false;
         Width = Screen.Width - 100;

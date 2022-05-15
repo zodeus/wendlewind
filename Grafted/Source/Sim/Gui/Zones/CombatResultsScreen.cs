@@ -1,5 +1,4 @@
 using System.Linq;
-using Grafted.Debug;
 using Grafted.Definitions;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Items;
@@ -8,45 +7,38 @@ using Grafted.Sim.Gui.Widgets.EntityWidgets;
 using Grafted.Sim.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Grafted.Sim.Gui.Widgets.MiscWidgets;
 using Grafted.UI;
-using Grafted.Utils;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Myra.Graphics2D;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.UI.Styles;
 using HorizontalAlignment = Myra.Graphics2D.UI.HorizontalAlignment;
 
-namespace Grafted.Sim.Gui;
+namespace Grafted.Sim.Gui.Zones;
 
-public class CombatResultsGui : BaseGui {
+public class CombatResultsScreen : VerticalStackPanel {
     private readonly CombatEvent _combatEvent;
     private readonly PawnDetailPanel _pawnPanel;
     private readonly GameHud _gameHud;
     private bool _autoLootEnabled = true;
     private readonly PawnBodyEffectsWindow _pawnBodyEffectsWindow;
 
-    public CombatResultsGui(CombatEvent combatEvent) {
+    public CombatResultsScreen(AdventureGui gui, CombatEvent combatEvent) {
         _combatEvent = combatEvent;
         _gameHud = new GameHud { HorizontalAlignment = HorizontalAlignment.Stretch };
-        _pawnPanel = new PawnDetailPanel(Core.Sim.World.PlayerPawns[0], "Loot", _combatEvent.Loot) { Margin = new Thickness(0, 100, 0, 0) };
+        _pawnPanel = new PawnDetailPanel(Core.Sim.World.PlayerPawn, "Loot", _combatEvent.Loot) { Margin = new Thickness(0, 100, 0, 0) };
 
         Widget progressButton = GenerateProgressButton();
         progressButton.HorizontalAlignment = HorizontalAlignment.Center;
 
-        VerticalStackPanel panel = new() {
-            Margin = new Thickness(0, 5, 0, 0), Spacing = 15,
-            Widgets = {
-                _gameHud,
-                _pawnPanel,
-                progressButton
-            }
-        };
-
-        Desktop = new Desktop { Root = panel, HasExternalTextInput = true };
+        Margin = new Thickness(0, 5, 0, 0);
+        Spacing = 15;
+        AddChild(_gameHud);
+        AddChild(_pawnPanel);
+        AddChild(progressButton);
 
         _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(Core.Sim.World.PlayerPawn);
-        _pawnBodyEffectsWindow.Show(Desktop, new Point(50, 20));
+        _pawnBodyEffectsWindow.Show(gui.Desktop, new Point(50, 20));
     }
 
     private Widget DeathsButton() {
@@ -83,8 +75,7 @@ public class CombatResultsGui : BaseGui {
             return;
         }
 
-        Core.Sim.World.MoveToZone(Defs.Zones.VillageOfTheDamned);
-        Core.Sim.Gui = new TownGui(Core.Sim.World.CurrentZone.Town!);
+        Core.Sim.ChangeZone(Defs.Zones.VillageOfTheDamned);
     }
 
     private void MoveToNextCombat() {
@@ -92,21 +83,14 @@ public class CombatResultsGui : BaseGui {
             return;
         }
 
-        if (Core.Sim.World.CurrentZone!.BossKilledThisRun) {
+        if (_combatEvent.Zone!.BossKilledThisRun) {
             GoHome();
             return;
         }
 
-        if (Core.Sim.World.CurrentZone!.PercentTraveled < 1) {
-            Core.Sim.World.DoZoneTravel();
+        if (_combatEvent.Zone.PercentTraveled < 1) {
+            _combatEvent.Zone.Adventure!.Progress();
         }
-
-        if (Core.Sim.World.PlayerPawns[0].IsDead) {
-            ShowDeathWindow();
-            return;
-        }
-
-        Core.Sim.ActivateCombatEvent(Core.Sim.World.NextCombat());
     }
 
     private bool DoAutoLoot() {
@@ -129,30 +113,15 @@ public class CombatResultsGui : BaseGui {
         return true;
     }
 
-    public override void HandleInput() {
-        base.HandleInput();
+    public void HandleInput() {
         if (Input.IsKeyPressed(Keys.Enter)) {
             MoveToNextCombat();
         }
     }
 
-    public override void Update(float deltaTime) {
+    public void Update() {
         _pawnPanel.Update();
         _gameHud.Update();
         _pawnBodyEffectsWindow.Update();
-        base.Update(deltaTime);
-    }
-
-    public override void Render(SpriteBatch spriteBatch, float deltaTime) {
-        spriteBatch.Begin(
-            SpriteSortMode.Deferred,
-            BlendState.NonPremultiplied,
-            SamplerState.PointClamp,
-            DepthStencilState.None,
-            RasterizerState.CullNone
-        );
-        spriteBatch.Draw(Core.Sim.World.CurrentZone.Def.BackgroundTexture, new Rectangle(0, 0, Screen.Width, Screen.Height), new Color(255, 255, 255, Core.Sim.World.CurrentZone.Def.BackgroundTextureTransparency));
-        spriteBatch.End();
-        base.Render(spriteBatch, deltaTime);
     }
 }

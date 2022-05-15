@@ -6,6 +6,7 @@ using Grafted.Maths;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
+using Grafted.Sim.Zones;
 using Microsoft.Xna.Framework;
 
 namespace Grafted.Sim.Combat;
@@ -255,17 +256,5 @@ public class CombatEvent {
         foreach (Pawn pawn in EnemyPawns) {
             pawn.Tick();
         }
-    }
-}
-
-public class CombatBuff {
-    public readonly EntityDef Def;
-    public readonly Pawn Pawn;
-    public int Duration;
-
-    public CombatBuff(EntityDef def, Pawn pawn, int duration) {
-        Def = def;
-        Pawn = pawn;
-        Duration = duration;
     }
 }

@@ -1,4 +1,6 @@
 ﻿using Grafted.Sim.Combat;
+using Grafted.Sim.Gui.Zones;
+using Grafted.Sim.Zones.Handlers;
 using Myra.Graphics2D;
 using Myra.Graphics2D.UI;
 
@@ -14,12 +16,12 @@ public class CombatControlPanel : VerticalStackPanel {
             Text = "Continue", Visible = false, Margin = new Thickness(0, 10, 0, 0), HorizontalAlignment = HorizontalAlignment.Stretch
         };
         _continueButton.Click += (_, _) => {
-            Core.Sim.Gui = new CombatResultsGui(combatEvent);
+            combatEvent.Zone!.Adventure!.State = AdventureState.CombatResults;
         };
 
         AddChild(_continueButton);
 
-        var pauseButton = new TextButton("small") {
+        TextButton pauseButton = new("small") {
             Text = "||"
         };
 

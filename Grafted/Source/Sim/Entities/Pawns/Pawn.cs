@@ -5,6 +5,7 @@ using Grafted.Maths;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Persistence;
+using Grafted.Sim.Zones;
 using Grafted.Utils;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework.Graphics;

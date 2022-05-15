@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Grafted.Definitions;
+﻿using Grafted.Definitions;
 using Grafted.Sim.Entities.Items;
 
 namespace Grafted.Sim.Entities.Pawns.BodyGenerators;
