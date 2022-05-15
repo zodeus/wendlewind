@@ -102,6 +102,9 @@
                 <Skills>
                     <Swords>20</Swords>
                 </Skills>
+                <Effects>
+                    <ListItem>EnergizedLikeABunny</ListItem>
+                </Effects>
                 <EquipmentItems>
                     <ListItem>ShortSword</ListItem>
                     <ListItem>ChainHelmet</ListItem>
@@ -126,6 +129,11 @@
                     </ListItem>
                     <ListItem>
                         <Item>SoulCoin</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>CookingPot</Item>
                         <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>

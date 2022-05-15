@@ -11,16 +11,12 @@
         <Label>A Tap</Label>
         <Description>A fluid tap, useful for dispensing.</Description>
         <TexturePath>Entities/Item/Trinket/ATap</TexturePath>
-        <!--<BaseStats>
-            <ListItem>
-                <Stat>Tier</Stat>
-                <Value>1</Value>
-            </ListItem>
-            <ListItem>
-                <Stat>Durability</Stat>
-                <Value>100</Value>
-            </ListItem>
-        </BaseStats>-->
+    </ItemDef>
+    <ItemDef ParentName="ItemTrinket">
+        <Moniker>CookingPot</Moniker>
+        <Label>Cooking Pot</Label>
+        <Description>A pot for cooking.</Description>
+        <TexturePath>Entities/Item/Trinket/CookingPot</TexturePath>
     </ItemDef>
     <ItemDef ParentName="ItemResource">
         <Moniker>DookinDoll</Moniker>

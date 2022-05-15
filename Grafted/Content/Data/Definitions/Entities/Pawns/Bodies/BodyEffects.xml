@@ -29,4 +29,14 @@
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
+    <BodyEffectDef>
+        <Moniker>EnergizedLikeABunny</Moniker>
+        <Label>Energized Like A Bunny</Label>
+        <AffectedStats>
+            <ListItem>
+                <Stat>SequencePoints</Stat>
+                <Offset>6</Offset>
+            </ListItem>
+        </AffectedStats>
+    </BodyEffectDef>
 </Definitions>

@@ -76,11 +76,20 @@ public static class CombatGenerator {
             PawnGenerator.RegisterSkills(pawn, enemyConfig.Skills);
 
             ApplyBodyModifications(pawn, enemyConfig.BodyModifications);
+            ApplyEffects(pawn, enemyConfig.Effects);
 
             combatEvent.AddEnemyPawn(pawn);
         }
 
         return combatEvent;
+    }
+
+    private static void ApplyEffects(Pawn pawn, List<BodyEffectDef> effects) {
+        foreach (BodyEffectDef effect in effects) {
+            pawn.Body.Effects.TryApplyEffect(new BodyEffect {
+                Def = effect, TicksLeft = SimTime.HoursToTicks(1)
+            });
+        }
     }
 
 

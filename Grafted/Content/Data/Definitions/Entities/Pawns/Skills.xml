@@ -31,4 +31,10 @@
         <SkillType>Arms</SkillType>
         <ToolType>Sword</ToolType>
     </SkillDef> 
+    <SkillDef>
+        <Moniker>Axes</Moniker>
+        <Label>Axes</Label>
+        <SkillType>Arms</SkillType>
+        <ToolType>Axe</ToolType>
+    </SkillDef> 
 </Definitions>

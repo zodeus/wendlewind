@@ -25,4 +25,5 @@ public class CombatConfigEnemyRecord {
     public BodyModificationRecord BodyModifications = new();
     public TimeOfDay SpawnDuring = TimeOfDay.AllDay;
     public List<SkillValueRecord> Skills = new();
+    public List<BodyEffectDef> Effects = new();
 }

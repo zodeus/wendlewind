@@ -46,7 +46,7 @@ public class Pawn : Entity, IExposable {
     public bool IsIncapacitated => false; //todo Health.IsIncapacitated;
     public Gender Gender => Biography.Gender;
 
-    public int SequencePoints => Body.GetSequencePoints();
+    public int SequencePoints => Body.GetSequencePoints() + (int) this.GetStatValue(Defs.Stats.SequencePoints);
 
     public override void Initialize() {
         MaxCarryWeight = (int) this.GetStatValue(Defs.Stats.MaxCarryWeight);
