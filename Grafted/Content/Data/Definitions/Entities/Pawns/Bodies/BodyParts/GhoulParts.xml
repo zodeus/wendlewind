@@ -15,6 +15,7 @@
         <Size>20</Size>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Ghoul/Hand</TexturePath>
+        <WhiteIconTexturePath>Entities/Pawn/BodyParts/Ghoul/Hand-Icon</WhiteIconTexturePath>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
             <ListItem>BoneSocket</ListItem>
@@ -37,6 +38,7 @@
         <Size>3</Size>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Ghoul/Finger</TexturePath>
+        <WhiteIconTexturePath>Entities/Pawn/BodyParts/Ghoul/Finger-Icon</WhiteIconTexturePath>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
             <ListItem>BoneSocket</ListItem>
@@ -54,6 +56,7 @@
         <Size>2.5</Size>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Ghoul/Thumb</TexturePath>
+        <WhiteIconTexturePath>Entities/Pawn/BodyParts/Ghoul/Thumb-Icon</WhiteIconTexturePath>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
             <ListItem>BoneSocket</ListItem>

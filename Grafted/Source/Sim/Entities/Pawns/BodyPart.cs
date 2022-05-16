@@ -7,6 +7,7 @@ using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Persistence;
 using Grafted.Utils;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Grafted.Sim.Entities.Pawns;
 
@@ -24,7 +25,7 @@ public class BodyPart : Entity {
     public BodyPartDef BodyPartDef => (BodyPartDef) Def;
 
     public override string Label => _adaptedLabel;
-
+    public Texture2D WhiteIcon => BodyPartDef.WhiteIcon;
     public BodyPartType Type => BodyPartDef.BodyPartType;
     public float Size => BodyPartDef.Size;
     public float HitWeight => BodyPartDef.HitWeight;
@@ -354,6 +355,7 @@ public class BodyPart : Entity {
             existingModifier.MergeWith(modifer);
             return;
         }
+
         modifer.BodyPart = this;
         Modifiers.Add(modifer);
     }

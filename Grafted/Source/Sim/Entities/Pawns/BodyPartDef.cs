@@ -1,9 +1,13 @@
 ﻿using System.Collections.Generic;
+using Grafted.Graphics.Textures;
 using Grafted.Sim.Entities.Items;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Grafted.Sim.Entities.Pawns;
 
 public class BodyPartDef : EntityDef {
+    private Texture2D? _whiteIconTexture;
+
     public override EntityType EntityType => EntityType.BodyPart;
     //public override Type DefUiClass => typeof(ItemDefPanel);
     public BodyPartType BodyPartType = BodyPartType.Undefined;
@@ -16,4 +20,7 @@ public class BodyPartDef : EntityDef {
     public List<BodyPartSocketDef> Sockets = new();
     public List<EquipmentSlotType>? EquipmentSlots = null;
     public AdaptiveBodyPartProperties? AdaptiveProperties;
+    public string? WhiteIconTexturePath;
+
+    public virtual Texture2D WhiteIcon => _whiteIconTexture ??= WhiteIconTexturePath != null ? TextureUtils.PreMultiply(Core.Content.Load<Texture2D>($"{WhiteIconTexturePath}"))! : Icon;
 }

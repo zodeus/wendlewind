@@ -234,7 +234,7 @@ public class PawnBodyPanel : VerticalStackPanel {
             foreach (BodyPart internalPart in parts) {
                 Color defaultColor = new Color(30, 30, 30);
                 Color venomColor = new Color(217, 245, 5);
-                Image partImage = new() { Background = new ColoredRegion(new TextureRegion(internalPart.Icon), BodyPartColor.Get(bodyPart)) };
+                Image partImage = new() { Background = new ColoredRegion(new TextureRegion(internalPart.WhiteIcon), BodyPartColor.Get(bodyPart)) };
                 ImageCircleIcon partIcon = new(partImage, Color.Transparent, panel => {
                     ((ColoredRegion) partImage.Background).Color = BodyPartColor.Get(internalPart);
                     foreach (BodyPartModifier modifier in internalPart.Modifiers) {

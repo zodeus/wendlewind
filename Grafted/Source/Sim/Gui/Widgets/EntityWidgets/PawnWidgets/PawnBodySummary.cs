@@ -24,7 +24,7 @@ public class PawnBodySummary : Grid {
         foreach (BodyPart part in body.AllExternalParts) {
             if (partsToIgnore.Contains(part.Type)) { continue; }
 
-            Image image = new() { Background = new ColoredRegion(new TextureRegion(part.Icon), Color.White), Width = 24, Height = 24, GridRow = gridRow, GridColumn = gridColumn++ };
+            Image image = new() { Background = new ColoredRegion(new TextureRegion(part.WhiteIcon), Color.White), Width = 24, Height = 24, GridRow = gridRow, GridColumn = gridColumn++ };
             image.TouchDown += (_, _) => Core.Sim.Gui!.ViewEntity(part);
             _bodyParts.Add(part, image);
             AddChild(image);
