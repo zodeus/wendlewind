@@ -68,6 +68,9 @@ public static class PawnGenerator {
         else if (pawn.Race == Defs.Races.TruffleBoar) {
             PigBodyGenerator.Generate(pawn);
         }
+        else if (pawn.Race == Defs.Races.BlisteringToad) {
+            FrogBodyGenerator.Generate(pawn);
+        }
         else {
             HumanBodyGenerator.Generate(pawn);
         }

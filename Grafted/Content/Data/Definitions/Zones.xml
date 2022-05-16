@@ -117,9 +117,9 @@
         <Location>1,0</Location>
         <BackgroundTexturePath>Zones/FesterpusSwamp</BackgroundTexturePath>
         <BackgroundTextureTransparency>40</BackgroundTextureTransparency>
-        <TravelSize>70</TravelSize>
+        <TravelSize>30</TravelSize>
         <TravelSpeedFactor>.6</TravelSpeedFactor>
-        <MeanTimeBetweenEvents>5~10</MeanTimeBetweenEvents>
+        <MeanTimeBetweenEvents>10~15</MeanTimeBetweenEvents>
         <Resources>
             <ListItem>
                 <Item>ChurniRoot</Item>

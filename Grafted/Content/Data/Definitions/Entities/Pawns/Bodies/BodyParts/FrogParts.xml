@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>FrogHead</Moniker>
+        <Label>Head</Label>
+        <HitWeight>12</HitWeight>
+        <Size>50</Size>
+        <BodyPartType>Head</BodyPartType>
+        <IsVital>true</IsVital>
+        <IsFlesh>true</IsFlesh>
+        <TexturePath>Entities/Pawn/BodyParts/Frog/Head</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>SkullSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+            <ListItem>LeftEyeSocket</ListItem>
+            <ListItem>RightEyeSocket</ListItem>
+            <ListItem>TorsoSocket</ListItem>
+        </Sockets>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <MaxHitPoints>500</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>FrogTorso</Moniker>
+        <Label>Torso</Label>
+        <BodyPartType>Torso</BodyPartType>
+        <HitWeight>50</HitWeight>
+        <Size>300</Size>
+        <IsFlesh>true</IsFlesh>
+        <IsVital>true</IsVital>
+        <TexturePath>Entities/Pawn/BodyParts/Frog/Torso</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>RibCageSocket</ListItem>
+            <ListItem>StomachSocket</ListItem>
+            <ListItem>FrontLeftLegSocket</ListItem>
+            <ListItem>FrontRightLegSocket</ListItem>
+            <ListItem>RearLeftLegSocket</ListItem>
+            <ListItem>RearRightLegSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>1600</MaxHitPoints>
+            <SequencePoints>2</SequencePoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>FrogLeg</Moniker>
+        <Label>Leg</Label>
+        <BodyPartType>Leg</BodyPartType>
+        <HitWeight>11</HitWeight>
+        <Size>140</Size>
+        <IsFlesh>true</IsFlesh>
+        <TexturePath>Entities/Pawn/BodyParts/Frog/Leg</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+            <ListItem>FootSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>700</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="BodyPartBase">
+        <Moniker>FrogFoot</Moniker>
+        <Label>Foot</Label>
+        <BodyPartType>Foot</BodyPartType>
+        <HitWeight>7</HitWeight>
+        <Size>30</Size>
+        <IsFlesh>true</IsFlesh>
+        <TexturePath>Entities/Pawn/BodyParts/Frog/Foot</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <SequencePoints>2</SequencePoints>
+            <MaxHitPoints>500</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+</Definitions>

@@ -89,7 +89,8 @@ public static class CombatHelpers {
 public class Damage {
     public readonly Item Tool;
     public ToolType ToolType => Tool.ItemDef.ToolType;
-    public DamageType Type => Tool.ItemDef.DamageType;
+    public DamageType Type => Tool.ItemDef.WeaponProperties.DamageType;
+    public List<BodyPartModifierRecord> BodyPartModifiers => Tool.ItemDef.WeaponProperties.BodyPartModifiers;
 
     public readonly int Amount;
     public int UnblockedAmount;

@@ -5,6 +5,7 @@ using Grafted.Sim.Entities;
 using Grafted.Sim.Gui.Widgets.EntityWidgets;
 using Grafted.Sim.Gui.Widgets.MiscWidgets;
 using Grafted.Sim.Gui.Zones;
+using Grafted.Sim.Zones.Handlers;
 using Grafted.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -38,7 +39,7 @@ public abstract class BaseGui {
             _screenMessageTimeLeft -= deltaTime;
         }
 
-        if (Core.Sim.World.PlayerPawn.IsDead/* && this is not CombatGui */ && _deathWindowIsOpen == false) {
+        if (Core.Sim.World.PlayerPawn.IsDead && _deathWindowIsOpen == false && (this is AdventureGui gui && gui.Zone.Adventure?.State == AdventureState.CombatResults)) {
             ShowDeathWindow();
             return;
         }

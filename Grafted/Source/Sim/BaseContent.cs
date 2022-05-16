@@ -122,6 +122,8 @@ public static partial class BaseContent {
                 public const string IconFrame = "panel-icon-frame";
                 public const string SmallFrame = "panel-frame-small";
                 public const string MediumFrame = "panel-frame-medium";
+                public const string RoundWhite24 = "panel-round-white-24";
+                public const string RoundWhite28 = "panel-round-white-28";
                 public const string RoundDark32 = "panel-round-dark-32";
                 public const string RoundDark64 = "panel-round-dark-64";
                 public const string Red = "panel-red";

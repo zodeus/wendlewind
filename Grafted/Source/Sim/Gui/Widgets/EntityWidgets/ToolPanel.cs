@@ -18,7 +18,7 @@ public class ToolPanel : EntityPanelBase {
         AddChild(new Label("small") { Text = $"Tool Categories: {string.Join(", ", item.ItemDef.ToolCategories)}" });
         AddChild(new Label("small") { Text = $"Equipment Type: {item.ItemDef.EquipmentProperties.EquipmentType}" });
         AddChild(new Label("small") { Text = $"Slot: {(item.ItemDef.EquipmentProperties.SlotUsedToEquip != null ? item.ItemDef.EquipmentProperties.SlotUsedToEquip : "n/a")}" });
-        AddChild(new Label("small") { Text = $"Damage Type: {item.ItemDef.DamageType}" });
+        AddChild(new Label("small") { Text = $"Damage Type: {item.ItemDef.WeaponProperties.DamageType}" });
 
         foreach (BaseStat baseStat in item.Def.BaseStats) {
             var row = new HorizontalStackPanel { Spacing = 10 };

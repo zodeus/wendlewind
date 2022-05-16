@@ -6,6 +6,7 @@ namespace Grafted.Sim;
 public class IdProvider : IExposable {
     private int _nextEntityId;
     private int _nextWorldObjectId;
+    private int _nextBodyPartModifierId;
 
     public int NextEntityId() {
         return NextId(ref _nextEntityId);
@@ -13,6 +14,10 @@ public class IdProvider : IExposable {
 
     public int NextWorldObjectId() {
         return NextId(ref _nextWorldObjectId);
+    }
+
+    public int NextBodyPartModifierId() {
+        return NextId(ref _nextBodyPartModifierId);
     }
 
     private static int NextId(ref int nextId) {
@@ -32,5 +37,6 @@ public class IdProvider : IExposable {
     public void ExposeData() {
         Scribe_Values.Look(ref _nextEntityId, "NextEntityId");
         Scribe_Values.Look(ref _nextWorldObjectId, "NextWorldObjectId");
+        Scribe_Values.Look(ref _nextBodyPartModifierId, "NextBodyPartModifierId");
     }
 }

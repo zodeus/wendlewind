@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Definitions>
+    <BodyPartModifierDef>
+        <Moniker>BurningAcid</Moniker>
+        <Label>Burning Acid</Label>
+        <Description>Melts the skin away, eats at the meat</Description>
+        <HandlerClass>BurningAcid</HandlerClass>
+    </BodyPartModifierDef>
+</Definitions>

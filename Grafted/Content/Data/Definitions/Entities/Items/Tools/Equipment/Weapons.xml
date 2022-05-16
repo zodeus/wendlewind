@@ -3,22 +3,25 @@
 <Definitions>
     <ItemDef Name="WeaponBase" ParentName="EquipmentTool" Abstract="true">
         <UiClass>WeaponPanel</UiClass>
+        <ToolCategories>
+            <ListItem>Combat</ListItem>
+        </ToolCategories>
     </ItemDef>
     <ItemDef Name="WeaponBlunt" ParentName="WeaponBase" Abstract="true">
-        <DamageType>Blunt</DamageType>
+        <WeaponProperties>
+            <DamageType>Blunt</DamageType>
+        </WeaponProperties>
     </ItemDef>
     <ItemDef Name="WeaponSharp" ParentName="WeaponBase" Abstract="true">
-        <DamageType>Sharp</DamageType>
+        <WeaponProperties>
+            <DamageType>Sharp</DamageType>
+        </WeaponProperties>
     </ItemDef>
-    <ItemDef ParentName="WeaponSharp">
+    <ItemDef ParentName="WeaponBlunt">
         <Moniker>BirchRod</Moniker>
         <Label>Birch Rod</Label>
         <Description>A tool used in the service of justice (1.5x to bones)</Description>
         <ToolType>Staff</ToolType>
-        <DamageType>Blunt</DamageType>
-        <ToolCategories>
-            <ListItem>Combat</ListItem>
-        </ToolCategories>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
         </EquipmentProperties>
@@ -30,15 +33,11 @@
             <CurrencyValue>50</CurrencyValue>
         </BaseStats>
     </ItemDef>
-    <ItemDef ParentName="WeaponSharp">
+    <ItemDef ParentName="WeaponBlunt">
         <Moniker>WoodenHammer</Moniker>
         <Label>Wooden Hammer</Label>
         <Description>It's a smasher! (1.5x to bones)</Description>
         <ToolType>Hammer</ToolType>
-        <DamageType>Blunt</DamageType>
-        <ToolCategories>
-            <ListItem>Combat</ListItem>
-        </ToolCategories>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
         </EquipmentProperties>
@@ -55,10 +54,6 @@
         <Label>Knife</Label>
         <Description>It's a simple knife</Description>
         <ToolType>Knife</ToolType>
-        <DamageType>Sharp</DamageType>
-        <ToolCategories>
-            <ListItem>Combat</ListItem>
-        </ToolCategories>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
         </EquipmentProperties>
@@ -70,15 +65,11 @@
             <CurrencyValue>400</CurrencyValue>
         </BaseStats>
     </ItemDef>
-    <ItemDef ParentName="WeaponSharp">
+    <ItemDef ParentName="WeaponBlunt">
         <Moniker>Mace</Moniker>
         <Label>Mace</Label>
         <Description>Bash! bash! BASH! (1.5x to bones)</Description>
         <ToolType>Mace</ToolType>
-        <DamageType>Blunt</DamageType>
-        <ToolCategories>
-            <ListItem>Combat</ListItem>
-        </ToolCategories>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
         </EquipmentProperties>
@@ -96,10 +87,6 @@
         <Label>Short Sword</Label>
         <Description>Very cutty</Description>
         <ToolType>Sword</ToolType>
-        <DamageType>Sharp</DamageType>
-        <ToolCategories>
-            <ListItem>Combat</ListItem>
-        </ToolCategories>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
         </EquipmentProperties>
@@ -117,10 +104,6 @@
         <Label>War Axe</Label>
         <Description>It chops, it also hurts</Description>
         <ToolType>Axe</ToolType>
-        <DamageType>Sharp</DamageType>
-        <ToolCategories>
-            <ListItem>Combat</ListItem>
-        </ToolCategories>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
         </EquipmentProperties>

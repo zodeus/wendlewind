@@ -39,6 +39,12 @@ public static partial class Defs {
         public static PawnConfigDef PlayerPawn = null!;
     }
 }
+public static partial class Defs {
+    [DefLocator]
+    public static class BodyPartModifiers {
+        public static BodyPartModifierDef BurningAcid = null!;
+    }
+}
 
 public static partial class Defs {
     [DefLocator]
@@ -106,6 +112,7 @@ public static partial class Defs {
         public static RaceDef InnocentRabbit = null!;
         public static RaceDef FieldHound = null!;
         public static RaceDef TruffleBoar = null!;
+        public static RaceDef BlisteringToad = null!;
     }
 }
 
@@ -146,6 +153,12 @@ public static partial class Defs {
         public static BodyPartDef RabbitLeg = null!;
         public static BodyPartDef RabbitPaw = null!;
 
+
+        public static BodyPartDef FrogHead = null!;
+        public static BodyPartDef FrogTorso = null!;
+        public static BodyPartDef FrogLeg = null!;
+        public static BodyPartDef FrogFoot = null!;
+
         public static BodyPartDef WolfHead = null!;
         public static BodyPartDef WolfNeck = null!;
         public static BodyPartDef WolfTorso = null!;
@@ -159,7 +172,7 @@ public static partial class Defs {
         public static BodyPartDef PigLeg = null!;
         public static BodyPartDef PigHoof = null!;
         public static BodyPartDef PigTail = null!;
-        
+
         public static BodyPartDef GhoulHand = null!;
         public static BodyPartDef GhoulThumb = null!;
         public static BodyPartDef GhoulFinger = null!;

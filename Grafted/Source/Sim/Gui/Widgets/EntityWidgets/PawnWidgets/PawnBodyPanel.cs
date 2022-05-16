@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Grafted.Definitions;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
@@ -27,7 +28,7 @@ public class PawnBodyPanel : VerticalStackPanel {
         _body = body;
         _socketClickHandler = socketClickHandler;
         _socketPanels = new List<BodyPartSocketPanel>();
-        _partsPanel = new VerticalStackPanel { Padding = new Thickness(10), Spacing = 8 };
+        _partsPanel = new VerticalStackPanel { Padding = new Thickness(10), Spacing = 3 };
         _pawnSkillsPanel = new PawnSkillsPanel(_body.Pawn.Skills);
         _bloodBar = new HorizontalProgressBar {
             Height = 5,
@@ -212,7 +213,7 @@ public class PawnBodyPanel : VerticalStackPanel {
     private class BodyPartRow : HorizontalStackPanel {
         public BodyPart? BodyPart;
         private Label _label;
-        private Dictionary<BodyPart, Image> _internalParts = new();
+        private List<ImageCircleIcon> _parts = new();
 
         public BodyPartRow() {
             Spacing = 5;
@@ -223,15 +224,30 @@ public class PawnBodyPanel : VerticalStackPanel {
         }
 
         public void SetPart(BodyPart bodyPart) {
-            _internalParts.Clear();
+            _parts.Clear();
             Widgets.Clear();
 
             BodyPart = bodyPart;
             AddChild(_label);
-            foreach (BodyPart internalPart in bodyPart.AllInternalParts) {
-                Image image = new() { Background = new ColoredRegion(new TextureRegion(internalPart.Icon), BodyPartColor.Get(bodyPart)), Width = 20, Height = 20 };
-                _internalParts.Add(internalPart, image);
-                AddChild(image);
+
+            var parts = bodyPart.AllInternalParts.Where(p => p.Type == BodyPartType.Skin).Concat(new List<BodyPart> { bodyPart }).Concat(bodyPart.AllInternalParts.Where(p => p.Type != BodyPartType.Skin));
+            foreach (BodyPart internalPart in parts) {
+                Color defaultColor = new Color(30, 30, 30);
+                Color venomColor = new Color(217, 245, 5);
+                Image partImage = new() { Background = new ColoredRegion(new TextureRegion(internalPart.Icon), BodyPartColor.Get(bodyPart)) };
+                ImageCircleIcon partIcon = new(partImage, Color.Transparent, panel => {
+                    ((ColoredRegion) partImage.Background).Color = BodyPartColor.Get(internalPart);
+                    foreach (BodyPartModifier modifier in internalPart.Modifiers) {
+                        if (modifier.Def == Defs.BodyPartModifiers.BurningAcid) {
+                            ((ColoredRegion) panel.Background).Color = venomColor;
+                            return;
+                        }
+                    }
+
+                    ((ColoredRegion) panel.Background).Color = defaultColor;
+                });
+                _parts.Add(partIcon);
+                AddChild(partIcon);
             }
         }
 
@@ -242,8 +258,8 @@ public class PawnBodyPanel : VerticalStackPanel {
 
             _label.Text = $"{BodyPart.Label}";
             _label.TextColor = BodyPartColor.Get(BodyPart);
-            foreach ((BodyPart internalPart, Image image) in _internalParts) {
-                ((ColoredRegion) image.Background).Color = BodyPartColor.Get(internalPart);
+            foreach (ImageCircleIcon image in _parts) {
+                image.Update();
             }
         }
     }

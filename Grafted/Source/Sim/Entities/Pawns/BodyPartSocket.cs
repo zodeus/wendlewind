@@ -36,7 +36,7 @@ public class BodyPartSocket : IExposable, IIdentityProvider {
     public BodyPart? ParentPart;
     public bool IsSealed = false;
     public int Id;
-    public static int NEXT_SOCKET_ID = 1;
+    public static int NEXT_SOCKET_ID = 1; //todo
 
     public BodyPartPosition? Position => Def.Position ?? ParentPart?.Position;
 

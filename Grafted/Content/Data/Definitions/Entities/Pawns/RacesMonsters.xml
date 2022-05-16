@@ -10,4 +10,10 @@
         <Species>Glump</Species>
         <TexturePath>Entities/Pawn/Creature/Glump/Glump</TexturePath>
     </RaceDef>
+    <RaceDef ParentName="BaseMonsterRace">
+        <Moniker>BlisteringToad</Moniker>
+        <Label>Blistering Toad</Label>
+        <Species>Frog</Species>
+        <TexturePath>Entities/Pawn/Creature/Frog/BlisteringToad</TexturePath>
+    </RaceDef>
 </Definitions>

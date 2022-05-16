@@ -12,4 +12,13 @@
             <MaxCarryWeight>100</MaxCarryWeight>
         </BaseStats>
     </PawnDef>
+    <PawnDef ParentName="BaseMonster">
+        <Moniker>Frog</Moniker>
+        <Label>Frog</Label>
+        <BaseStats>
+            <AttackSpeed>6</AttackSpeed>
+            <MeleeStrength>1</MeleeStrength>
+            <MaxCarryWeight>100</MaxCarryWeight>
+        </BaseStats>
+    </PawnDef>
 </Definitions>

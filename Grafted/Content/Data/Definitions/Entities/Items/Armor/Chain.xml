@@ -18,6 +18,24 @@
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
+        <Moniker>ChainGorget</Moniker>
+        <Label>Chain Gorget</Label>
+        <ItemType>Equipment</ItemType>
+        <MaterialType>Artificial</MaterialType>
+        <Description>Fits snuggly around your neck</Description>
+        <EquipmentProperties>
+            <SlotUsedToEquip>NeckArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Chain/Gorget</TexturePath>
+        <BaseStats>
+            <PhysicalResistance>50</PhysicalResistance>
+            <MaxDurability>500</MaxDurability>
+            <Weight>2</Weight>
+            <Tier>3</Tier>
+            <CurrencyValue>7000</CurrencyValue>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="ArmorBase">
         <Moniker>ChainGlove</Moniker>
         <Label>Chain Glove</Label>
         <ItemType>Equipment</ItemType>

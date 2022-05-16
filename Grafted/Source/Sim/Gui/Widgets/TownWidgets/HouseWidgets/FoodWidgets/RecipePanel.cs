@@ -22,8 +22,8 @@ public class RecipePanel : VerticalStackPanel {
         AddChild(icon);
         AddChild(new Image { Background = new TextureRegion(food.Icon), Margin = new Thickness(0, 5, 0, 0), Width = 48, Height = 48 });
         AddChild(GenerateAmountWantedPanel());
-        AddChild(new Label("small") { Text = $"Time to make: {food.CraftingProperties.MinutesToMake}/hours" });
-        AddChild(new Label("small") { Text = $"Yield: {food.CraftingProperties.AmountProduced}x" });
+        AddChild(new Label("small") { Text = $"Time to make: \\c[{UiTextColor.TextColorTime}]{food.CraftingProperties.MinutesToMake} minutes" });
+        AddChild(new Label("small") { Text = $"Yield: \\c[{UiTextColor.TextColorGreen}]{food.CraftingProperties.AmountProduced}x" });
         if (food.CraftingProperties.RequiredTools != null) {
             AddChild(new Label("small") { Text = "Required Tools: ", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 10, 0, 0) });
             foreach (ItemDef requiredTool in food.CraftingProperties.RequiredTools) {

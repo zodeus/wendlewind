@@ -19,6 +19,7 @@ public class BodyPart : Entity {
     public BodyPartSocket? Socket;
     public List<BodyPartSocket> Sockets = new();
     public Dictionary<EquipmentSlotType, Item?> Equipment = new();
+    public List<BodyPartModifier> Modifiers = new();
     public int TicksSinceLastHit = int.MaxValue;
     public BodyPartDef BodyPartDef => (BodyPartDef) Def;
 
@@ -208,6 +209,18 @@ public class BodyPart : Entity {
         }
     }
 
+    public override void Tick() {
+        for (int index = Modifiers.Count - 1; index >= 0; index--) {
+            BodyPartModifier modifier = Modifiers[index];
+            modifier.Tick();
+            if (modifier.IsCured) {
+                Modifiers.Remove(modifier);
+            }
+        }
+
+        base.Tick();
+    }
+
     private void GetParts(BodyPart part, List<BodyPart> parts, bool? partIsExternal = null) {
         foreach (BodyPartSocket socket in part.Sockets) {
             if (partIsExternal != null && socket.AttachedPart?.IsExternal == partIsExternal) {
@@ -276,6 +289,14 @@ public class BodyPart : Entity {
         }
 
         HitPoints -= partDamage;
+        foreach (BodyPartModifierRecord record in damage.BodyPartModifiers) {
+            if (Type == BodyPartType.Skin && record.Def == Defs.BodyPartModifiers.BurningAcid) {
+                if (Core.Random.Chance(record.Chance.RandomValue)) {
+                    TryAddModifier(BodyPartModifierGenerator.Generate(record.Def, record.DurationInMinutes.RandomValue));
+                }
+            }
+        }
+
         TicksSinceLastHit = 0;
         damagedParts.Add(new DamagedPartRecord(this, partDamage));
 
@@ -324,6 +345,17 @@ public class BodyPart : Entity {
         }
 
         IsSevered = true;
+    }
+
+    public void TryAddModifier(BodyPartModifier modifer) {
+        //Log.Debug($"Attempting to apply BodyPartModifier: {modifer.Label} to {this}");
+        BodyPartModifier? existingModifier = Modifiers.FirstOrNull(m => m?.Def == modifer.Def);
+        if (existingModifier != null) {
+            existingModifier.MergeWith(modifer);
+            return;
+        }
+        modifer.BodyPart = this;
+        Modifiers.Add(modifer);
     }
 
     #region Equipment
@@ -409,6 +441,7 @@ public class BodyPart : Entity {
         Scribe_Values.Look(ref TicksSinceLastHit, "TicksSinceLastHit");
         Scribe_References.Look(ref Socket!, "Socket");
         Scribe_Collections.Look(ref Sockets!, "Sockets", LookMode.Deep);
+        Scribe_Collections.Look(ref Modifiers!, "Modifiers", LookMode.Deep);
         Scribe_Collections.Look(ref Equipment!, "Equipment", LookMode.Value, LookMode.Deep);
         base.ExposeData();
     }

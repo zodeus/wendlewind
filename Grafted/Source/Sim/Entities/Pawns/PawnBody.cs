@@ -145,6 +145,10 @@ public class PawnBody : IExposable, IIdentityProvider {
     }
 
     public void Tick() {
+        foreach (BodyPart bodyPart in AllParts) {
+            bodyPart.Tick();
+        }
+
         Effects.Tick();
 
         // Heat Calculations

@@ -7,39 +7,20 @@
         <Zone>FesterpusSwamp</Zone>
         <Enemies>
             <ListItem>
-                <Race>Grainer</Race>
+                <Race>BlisteringToad</Race>
                 <Config>DefaultEnemy</Config>
-                <PawnName>Grain Goon</PawnName>
-                <SpawnWeight>100</SpawnWeight>
-                <Skills>
-                    <Maces>30</Maces>
-                </Skills>
-                <EquipmentItems>
-                    <ListItem>Mace</ListItem>
-                    <ListItem>BucketHelmet</ListItem>
-                    <ListItem>LeatherVambrace</ListItem>
-                    <ListItem>LeatherVambrace</ListItem>
-                    <ListItem>LeatherGreave</ListItem>
-                    <ListItem>LeatherGreave</ListItem>
-                    <ListItem>LeatherGorget</ListItem>
-                    <ListItem>LeatherBoot</ListItem>
-                    <ListItem>LeatherBoot</ListItem>
-                    <ListItem>ChainGlove</ListItem>
-                    <ListItem>ChainGlove</ListItem>
-                    <ListItem>LeatherTunic</ListItem>
-                    <ListItem>JarOfBlood</ListItem>
-                    <ListItem>JarOfBlood</ListItem>
-                </EquipmentItems>
+                <PawnName>Blistering Toad</PawnName>
+                <SpawnWeight>1</SpawnWeight>
                 <InventoryItems>
                     <ListItem>
                         <Item>Coin</Item>
-                        <Amount>100~300</Amount>
+                        <Amount>500~1000</Amount>
                         <ChanceToDrop>.75</ChanceToDrop>
                     </ListItem>
                     <ListItem>
-                        <Item>SoulCoin</Item>
+                        <Item>VenomVial</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
+                        <ChanceToDrop>.25</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
