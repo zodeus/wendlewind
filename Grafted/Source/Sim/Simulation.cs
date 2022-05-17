@@ -1,6 +1,5 @@
 using Grafted.Debug;
 using Grafted.Definitions;
-using Grafted.Sim.Combat;
 using Grafted.Sim.Gui;
 using Grafted.Sim.Persistence;
 using Grafted.Sim.Zones;
@@ -200,6 +199,10 @@ public class Simulation : IExposable {
 
         World.CurrentZone?.Exit();
         World.CurrentZone?.Reset();
+        if (World.PlayerPawn.IsDead) {
+            return;
+        }
+
         World.CurrentZone = World.Zones[zoneDef];
         World.PlayerPawn.Zone = World.CurrentZone;
         World.CurrentZone.Enter();

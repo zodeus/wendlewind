@@ -14,10 +14,10 @@ public class RecipePanel : VerticalStackPanel {
     private int _amountWanted;
     private Dictionary<ResourceCount, Label> _ingredients = new();
 
-    public RecipePanel(TownStructureHouse house, ItemDef food) {
+    public RecipePanel(TownStructureHouse house, ItemDef food, string buttonText) {
         _house = house;
         _food = food;
-        Label icon = new() { Text = food.Label };
+        Label icon = new(BaseContent.Styles.Label.Medium) { Text = food.Label };
         //icon.TouchDown += (sender, args) => Core.Sim.ActiveGui.ViewEntity(item);
         AddChild(icon);
         AddChild(new Image { Background = new TextureRegion(food.Icon), Margin = new Thickness(0, 5, 0, 0), Width = 48, Height = 48 });
@@ -57,7 +57,7 @@ public class RecipePanel : VerticalStackPanel {
             AddChild(row);
         }
 
-        _cookButton = new TextButton(BaseContent.Styles.Button.Normal) { Text = "Cook Food", Margin = new Thickness(0, 10, 0, 0) };
+        _cookButton = new TextButton(BaseContent.Styles.Button.Normal) { Text = buttonText, Margin = new Thickness(0, 10, 0, 0) };
         _cookButton.Click += (_, _) => _house.CraftItem(food, _amountWanted);
         AddChild(_cookButton);
     }

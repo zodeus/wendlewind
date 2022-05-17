@@ -72,15 +72,13 @@ public class BodyPartSocket : IExposable, IIdentityProvider {
         bodyPart.AdaptBodyPartTo(ParentPart);
 
         string name = bodyPart.Label.Replace(" ", "");
-        foreach (var texturePath in bodyPart.BodyPartDef.BodyTexturePaths)
-        {
+        foreach (var texturePath in bodyPart.BodyPartDef.BodyTexturePaths) {
             string pathName = texturePath.Split("/").Last();
-            if (name == pathName)
-            {
+            if (name == pathName) {
                 bodyPart.Image = TextureUtils.PreMultiply(Core.Content.Load<Texture2D>(texturePath));
             }
         }
-        
+
         return bodyPart;
     }
 

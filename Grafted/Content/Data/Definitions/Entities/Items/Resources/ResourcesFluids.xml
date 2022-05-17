@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef Name="FluidResource" ParentName="ItemResource" Abstract="true">
+        <MaterialType>Fluid</MaterialType>
+    </ItemDef>
+    <ItemDef ParentName="FluidResource">
+        <Moniker>WaterBucket</Moniker>
+        <Label>Water Bucket</Label>
+        <TexturePath>Entities/Item/Resource/Fluid/BucketOfWater</TexturePath>
+        <BaseStats>
+            <Weight>5</Weight>
+            <CurrencyValue>0</CurrencyValue>
+        </BaseStats>
+    </ItemDef>
+</Definitions>

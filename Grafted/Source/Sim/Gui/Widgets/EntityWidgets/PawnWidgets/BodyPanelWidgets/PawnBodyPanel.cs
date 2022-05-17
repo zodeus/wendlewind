@@ -11,7 +11,7 @@ using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.UI.Styles;
 
-namespace Grafted.Sim.Gui.Widgets.EntityWidgets.PawnWidgets;
+namespace Grafted.Sim.Gui.Widgets.EntityWidgets.PawnWidgets.BodyPanelWidgets;
 
 public class PawnBodyPanel : VerticalStackPanel {
     private readonly PawnBody _body;
@@ -96,6 +96,7 @@ public class PawnBodyPanel : VerticalStackPanel {
         }
 
         if (Core.Sim.Gui!.MouseAttachment == null) {
+            //todo ViewSocket's
             if (socket.AttachedPart != null) {
                 Core.Sim.Gui!.ViewEntity(socket.AttachedPart);
             }
@@ -110,7 +111,6 @@ public class PawnBodyPanel : VerticalStackPanel {
         //Handle Cauterize
         if (socket.AttachedPart == null && socket.IsSealed == false && item.Def == Defs.Items.Cauterize) {
             socket.IsSealed = true;
-            //MouseAttachment.Detach();
             return;
         }
 
@@ -118,77 +118,12 @@ public class PawnBodyPanel : VerticalStackPanel {
             return;
         }
 
-        //Handle MendersMist
-        if (item.Def == Defs.Items.MendersMist) {
+        if (item.MedicinalHandler?.ApplyToPart(part) == true) {
             item.StackSize--;
-            if (item.StackSize == 0) {
-                item.Destroy();
-                Core.Sim.Gui!.MouseAttachment.Detach();
-            }
+            if (item.StackSize != 0) return;
 
-            float mistJuice = 200;
-
-            float UpdateHealth(BodyPart bodyPart) {
-                float currentHealth = bodyPart.HitPoints;
-                bodyPart.HitPoints += Math.Min(bodyPart.MaxHitPoints - bodyPart.HitPoints, mistJuice);
-                return bodyPart.HitPoints - currentHealth;
-            }
-
-            void DoMisting(BodyPart bodyPart) {
-                if (mistJuice <= 0) {
-                    return;
-                }
-
-                mistJuice -= UpdateHealth(bodyPart);
-                foreach (BodyPart internalPart in bodyPart.InternalParts) {
-                    if (internalPart.IsBone || internalPart.Type is BodyPartType.Skin) {
-                        mistJuice -= UpdateHealth(internalPart);
-                    }
-                }
-
-                foreach (BodyPart externalPart in bodyPart.ExternalParts) {
-                    DoMisting(externalPart);
-                }
-            }
-
-            DoMisting(socket.AttachedPart);
-        }
-
-        //Handle MedKit
-        if (item.Def == Defs.Items.MedKit) {
-            if (part.HealthPercent >= 1) {
-                return;
-            }
-
-            item.StackSize--;
-            if (item.StackSize == 0) {
-                item.Destroy();
-                Core.Sim.Gui!.MouseAttachment.Detach();
-            }
-
-            socket.AttachedPart.HitPoints = socket.AttachedPart.MaxHitPoints;
-            foreach (BodyPart internalPart in socket.AttachedPart.InternalParts) {
-                internalPart.HitPoints = internalPart.MaxHitPoints;
-            }
-        }
-
-        //Handle ArterialThreads
-        if (item.Def == Defs.Items.ArterialThreads) {
-            bool wasConsumed = false;
-            foreach (BodyPart internalPart in socket.AttachedPart.InternalParts) {
-                if (internalPart.Type == BodyPartType.Artery && internalPart.HealthPercent < 1) {
-                    wasConsumed = true;
-                    internalPart.HitPoints = internalPart.MaxHitPoints;
-                }
-            }
-
-            if (wasConsumed) {
-                item.StackSize--;
-                if (item.StackSize == 0) {
-                    item.Destroy();
-                    Core.Sim.Gui!.MouseAttachment.Detach();
-                }
-            }
+            item.Destroy();
+            Core.Sim.Gui!.MouseAttachment.Detach();
         }
     }
 
@@ -234,12 +169,18 @@ public class PawnBodyPanel : VerticalStackPanel {
             foreach (BodyPart internalPart in parts) {
                 Color defaultColor = new Color(30, 30, 30);
                 Color venomColor = new Color(217, 245, 5);
+                Color balmColor = new Color(252, 177, 3);
                 Image partImage = new() { Background = new ColoredRegion(new TextureRegion(internalPart.WhiteIcon), BodyPartColor.Get(bodyPart)) };
                 ImageCircleIcon partIcon = new(partImage, Color.Transparent, panel => {
                     ((ColoredRegion) partImage.Background).Color = BodyPartColor.Get(internalPart);
                     foreach (BodyPartModifier modifier in internalPart.Modifiers) {
                         if (modifier.Def == Defs.BodyPartModifiers.BurningAcid) {
                             ((ColoredRegion) panel.Background).Color = venomColor;
+                            return;
+                        }
+
+                        if (modifier.Def == Defs.BodyPartModifiers.SoothingBalm) {
+                            ((ColoredRegion) panel.Background).Color = balmColor;
                             return;
                         }
                     }

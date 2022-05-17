@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Grafted.Definitions;
-using Grafted.Sim.Entities.Pawns;
+using Grafted.Sim.Entities.Items.Medicinals;
 using Grafted.Sim.Gui.Widgets.DefWidgets;
 
 namespace Grafted.Sim.Entities.Items;
@@ -21,6 +21,7 @@ public class ItemDef : EntityDef {
 
     public CraftingProperties CraftingProperties = new();
     public FoodProperties? FoodProperties;
+    public MedicinalProperties? MedicinalProperties;
 
     public override void ResolveDependencies() {
         base.ResolveDependencies();
@@ -37,9 +38,4 @@ public class ItemDef : EntityDef {
             ToolSequences.Add(toolSequenceDef);
         }
     }
-}
-
-public class WeaponProperties {
-    public List<BodyPartModifierRecord> BodyPartModifiers = new();
-    public DamageType DamageType = DamageType.Invalid;
 }

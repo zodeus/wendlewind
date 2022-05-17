@@ -18,7 +18,8 @@ public class Adventure : ZoneHandler {
 
     public override void OnEnter() {
         State = AdventureState.Occupied;
-        Progress();
+        MoveForward();
+        StartNextCombat();
     }
 
     public override void Tick() {
@@ -31,7 +32,7 @@ public class Adventure : ZoneHandler {
 
     }
 
-    public void Progress() {
+    public void MoveForward() {
         //todo MovementMultiplier
         State = AdventureState.Traveling;
         float minutesSpentTravelling = Zone.Def.MeanTimeBetweenEvents.RandomValue;
@@ -41,7 +42,9 @@ public class Adventure : ZoneHandler {
         if (Zone.DistanceTraveledThisRun > Zone.FurthestDistanceTraveled) {
             Zone.FurthestDistanceTraveled = Zone.DistanceTraveledThisRun;
         }
+    }
 
+    public void StartNextCombat() {
         State = AdventureState.InCombat;
         ActiveCombat = CombatGenerator.GenerateForZone(World.PlayerPawn, Zone);
     }

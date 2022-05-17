@@ -4,6 +4,7 @@ using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Gui.Widgets.CombatWidgets;
 using Grafted.Sim.Gui.Widgets.EntityWidgets.PawnWidgets;
+using Grafted.Sim.Gui.Widgets.EntityWidgets.PawnWidgets.BodyPanelWidgets;
 using Grafted.Sim.Gui.Widgets.MiscWidgets;
 using Grafted.Sim.Zones.Handlers;
 using Grafted.UI;

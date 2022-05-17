@@ -13,6 +13,7 @@ public class BodyPartPanel : EntityPanelBase {
     private readonly BodyPart _bodyPart;
     private readonly Label _hitPoints;
     private readonly Label _healthPercent;
+    private readonly Label _modifiers;
 
     public BodyPartPanel(BodyPart bodyPart, EntityPanelProperties? properties = null) : base(bodyPart, properties) {
         _bodyPart = bodyPart;
@@ -21,6 +22,7 @@ public class BodyPartPanel : EntityPanelBase {
 
         _hitPoints = new Label(BaseContent.Styles.Label.Small);
         _healthPercent = new Label(BaseContent.Styles.Label.Small);
+        _modifiers = new Label(BaseContent.Styles.Label.Small);
         HorizontalStackPanel panel = new() { Spacing = 30 };
         VerticalStackPanel leftPanel = new() { Spacing = 5 };
         panel.AddChild(leftPanel);
@@ -47,6 +49,7 @@ public class BodyPartPanel : EntityPanelBase {
         leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Has Broken Bones: {bodyPart.HasBrokenBones}" });
         leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Is Artery Functional: {bodyPart.IsArteryFunctional}" });
         leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Ticks Since Last Hit: {bodyPart.TicksSinceLastHit}" });
+        leftPanel.AddChild(_modifiers);
         leftPanel.AddChild(new HorizontalSeparator());
         foreach (BaseStat baseStat in bodyPart.Def.BaseStats) {
             var row = new HorizontalStackPanel { Spacing = 10 };
@@ -96,5 +99,6 @@ public class BodyPartPanel : EntityPanelBase {
     public override void Update() {
         _hitPoints.Text = $"Hit Points: {_bodyPart.HitPoints:0.00}";
         _healthPercent.Text = $"Health: {_bodyPart.HealthPercent:P}";
+        _modifiers.Text = "Modifiers: " + string.Join(",", _bodyPart.Modifiers.Select(i => i.Label));
     }
 }

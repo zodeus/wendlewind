@@ -6,4 +6,10 @@
         <Description>Melts the skin away, eats at the meat</Description>
         <HandlerClass>BurningAcid</HandlerClass>
     </BodyPartModifierDef>
+    <BodyPartModifierDef>
+        <Moniker>SoothingBalm</Moniker>
+        <Label>Soothing Balm</Label>
+        <Description>Slowly heals skin and meat, negates Burning Acid</Description>
+        <HandlerClass>SoothingBalm</HandlerClass>
+    </BodyPartModifierDef>
 </Definitions>

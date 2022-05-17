@@ -39,7 +39,7 @@ public abstract class BaseGui {
             _screenMessageTimeLeft -= deltaTime;
         }
 
-        if (Core.Sim.World.PlayerPawn.IsDead && _deathWindowIsOpen == false && (this is AdventureGui gui && gui.Zone.Adventure?.State == AdventureState.CombatResults)) {
+        if (Core.Sim.World.PlayerPawn.IsDead && _deathWindowIsOpen == false && (this is AdventureGui gui && gui.Zone.Adventure?.State is AdventureState.CombatResults or AdventureState.Unoccupied)) {
             ShowDeathWindow();
             return;
         }
@@ -47,8 +47,9 @@ public abstract class BaseGui {
 
     protected void ShowDeathWindow() {
         _deathWindowIsOpen = true;
-
-        new DeathWindow().ShowModal(Desktop);
+        DeathWindow window = new();
+        window.Closed += (_, _) => _deathWindowIsOpen = false;
+        window.ShowModal(Desktop);
     }
 
     public virtual void ViewEntity(Entity entity, Point? position = null) {

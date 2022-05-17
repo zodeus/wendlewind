@@ -15,6 +15,8 @@ public class HousePanel : HorizontalStackPanel, IUpdatable {
     private readonly RestPanel _restPanel;
     private readonly KitchenPanel _kitchenPanel;
     private readonly HouseUpgradesPanel _upgradesPanel;
+    private readonly AlchemyPanel _alchemyPanel;
+    private readonly WellPanel _wellPanel;
 
     public HousePanel(Town town) {
         Spacing = 20;
@@ -27,12 +29,15 @@ public class HousePanel : HorizontalStackPanel, IUpdatable {
         GameStatsPanel(statsPanel);
 
         _woodPanel = new WoodPanel(town);
+        _wellPanel = new WellPanel(town);
         _tendFirePanel = new TendFirePanel(town.GetStructure<TownStructureHouse>()!);
         _kitchenPanel = new KitchenPanel(town.GetStructure<TownStructureHouse>()!) {
-            Width = 260, HorizontalAlignment = HorizontalAlignment.Center,
-            Padding = new Thickness(20), VerticalAlignment = VerticalAlignment.Center
+            Padding = new Thickness(20)
         };
         _upgradesPanel = new HouseUpgradesPanel(town.GetStructure<TownStructureHouse>()!) {
+            VerticalAlignment = VerticalAlignment.Top
+        };
+        _alchemyPanel = new AlchemyPanel(town.GetStructure<TownStructureHouse>()!) {
             VerticalAlignment = VerticalAlignment.Top
         };
         _restPanel = new RestPanel(town.GetStructure<TownStructureHouse>()!);
@@ -47,22 +52,25 @@ public class HousePanel : HorizontalStackPanel, IUpdatable {
 
         });
         AddChild(new VerticalStackPanel {
-            //VerticalAlignment = VerticalAlignment.Stretch,
-            Spacing = 10, Widgets = { _kitchenPanel }
+            Spacing = 10, Widgets = { _wellPanel, _kitchenPanel }
         });
         /*AddChild(statsPanel);*/
-        AddChild(_upgradesPanel);
+        AddChild(new VerticalStackPanel {
+            Spacing = 10, Widgets = { _upgradesPanel, _alchemyPanel }
+        });
         AddChild(new MessagePanel(Core.Sim.Messages) {
             Width = 400, Height = 800, VerticalAlignment = VerticalAlignment.Stretch
         });
     }
 
     public void Update() {
+        _wellPanel.Update();
         _woodPanel.Update();
         _tendFirePanel.Update();
         _restPanel.Update();
         _kitchenPanel.Update();
         _upgradesPanel.Update();
+        _alchemyPanel.Update();
     }
 
     private static void GameStatsPanel(VerticalStackPanel statsPanel) {

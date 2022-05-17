@@ -1,6 +1,9 @@
+using System;
 using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Combat;
+using Grafted.Sim.Entities.Items.Medicinals;
+using Grafted.Sim.Entities.Pawns;
 using Grafted.Sim.Gui.Widgets.TownWidgets;
 using Grafted.Sim.Persistence;
 
@@ -17,6 +20,7 @@ public class Item : Entity,IExposable{
     public bool IsStackable => ItemDef.StackLimit > 1;
     public int WeightSingle => Mathf.CeilToInt(this.GetStatValue(Defs.Stats.Weight));
     public int Weight => Mathf.CeilToInt(this.GetStatValue(Defs.Stats.Weight) * StackSize);
+    public MedicinalHandler? MedicinalHandler => ItemDef.MedicinalProperties?.Handler;
 
     public override void Initialize() {
         MaxDurability = this.GetStatValue(Defs.Stats.MaxDurability);

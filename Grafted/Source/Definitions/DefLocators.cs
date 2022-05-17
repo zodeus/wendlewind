@@ -39,10 +39,12 @@ public static partial class Defs {
         public static PawnConfigDef PlayerPawn = null!;
     }
 }
+
 public static partial class Defs {
     [DefLocator]
     public static class BodyPartModifiers {
         public static BodyPartModifierDef BurningAcid = null!;
+        public static BodyPartModifierDef SoothingBalm = null!;
     }
 }
 
@@ -87,6 +89,8 @@ public static partial class Defs {
         public static ItemDef Firewood = null!;
         public static ItemDef WoodLog = null!;
         public static ItemDef WoodBoard = null!;
+        public static ItemDef WaterBucket = null!;
+        public static ItemDef BalmyOintment = null!;
     }
 }
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Security.Cryptography;
 using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Persistence;
@@ -79,6 +81,11 @@ public class BurningAcid : BodyPartModifier {
     public bool HasSpread = false;
 
     public override void Tick() {
+        if (BodyPart.Modifiers.Any(m => m.Def == Defs.BodyPartModifiers.SoothingBalm)) {
+            IsCured = true;
+            return;
+        }
+
         BodyPart.HitPoints -= BodyPart.HitPoints * .02f;
         if (HasSpread == false && BodyPart.Type == BodyPartType.Skin && BodyPart.HealthPercent < .2f) {
             HasSpread = true;
@@ -93,5 +100,14 @@ public class BurningAcid : BodyPartModifier {
     public override void ExposeData() {
         Scribe_Values.Look(ref HasSpread, "HasSpread");
         base.ExposeData();
+    }
+}
+
+[UsedImplicitly]
+public class SoothingBalm : BodyPartModifier {
+    public override void Tick() {
+        BodyPart.HitPoints += BodyPart.HitPoints * .02f;
+
+        base.Tick();
     }
 }

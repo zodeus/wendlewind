@@ -1,5 +1,6 @@
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Pawns;
+using Grafted.Sim.Gui.Widgets.EntityWidgets.PawnWidgets.BodyPanelWidgets;
 using Myra.Graphics2D;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.UI.Styles;

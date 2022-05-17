@@ -16,6 +16,7 @@ public class TownStructureHouse : TownStructure, IExposable {
     public int Firewood;
     public bool IsFireBurning;
     public bool HasMeatRack;
+    public bool HasAlchemyBarrel;
     public Dictionary<int, Item?> MeatRack = new() {
         { 0, null },
         { 1, null },
@@ -131,7 +132,7 @@ public class TownStructureHouse : TownStructure, IExposable {
             TakeItem(resourceCount.Resource!, resourceCount.Count * amount)!.Destroy();
         }
 
-        Storage.TryAdd(EntityGenerator.CreateEntity<Item>(item, amount));
+        Storage.TryAdd(EntityGenerator.CreateEntity<Item>(item, amount * item.CraftingProperties.AmountProduced));
     }
 
     public bool HasRequirementsFor(ItemDef item, int amountWanted) {
@@ -197,6 +198,7 @@ public class TownStructureHouse : TownStructure, IExposable {
         Scribe_Values.Look(ref Firewood, "Firewood");
         Scribe_Values.Look(ref IsFireBurning, "IsFireBurning");
         Scribe_Values.Look(ref HasMeatRack, "HasMeatRack");
+        Scribe_Values.Look(ref HasAlchemyBarrel, "HasAlchemyBarrel");
         Scribe_Deep.Look(ref Storage!, "Storage");
         Scribe_Collections.Look(ref MeatRack!, "MeatRack", LookMode.Value, LookMode.Deep);
         Scribe_Collections.Look(ref MeatTicks!, "MeatTicks", LookMode.Value, LookMode.Value);

@@ -1,4 +1,3 @@
-using Grafted.Sim.Combat;
 using Grafted.Sim.Gui.Zones;
 using Grafted.Sim.Persistence;
 using Grafted.Sim.Zones.Handlers;

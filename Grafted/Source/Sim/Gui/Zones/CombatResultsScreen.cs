@@ -55,6 +55,11 @@ public class CombatResultsScreen : VerticalStackPanel {
             VerticalAlignment = VerticalAlignment.Bottom
         };
 
+
+        TextButton lingerButton = new(BaseContent.Styles.Button.Large) { Text = "Linger" };
+        lingerButton.Click += (_, _) => MoveToNextCombat(true);
+        buttons.AddChild(lingerButton);
+
         TextButton continueButton = new(BaseContent.Styles.Button.Large) { Text = "Carry on" };
         continueButton.Click += (_, _) => MoveToNextCombat();
         buttons.AddChild(continueButton);
@@ -74,7 +79,7 @@ public class CombatResultsScreen : VerticalStackPanel {
         Core.Sim.ChangeZone(Defs.Zones.VillageOfTheDamned);
     }
 
-    private void MoveToNextCombat() {
+    private void MoveToNextCombat(bool linger = false) {
         if (_autoLootEnabled && DoAutoLoot() == false) {
             return;
         }
@@ -85,7 +90,11 @@ public class CombatResultsScreen : VerticalStackPanel {
         }
 
         if (_combatEvent.Zone.PercentTraveledThisRun < 1) {
-            _combatEvent.Zone.Adventure!.Progress();
+            if (linger == false) {
+                _combatEvent.Zone.Adventure!.MoveForward();
+            }
+
+            _combatEvent.Zone.Adventure!.StartNextCombat();
         }
     }
 

@@ -18,6 +18,9 @@
         <BaseStats>
             <CurrencyValue>15</CurrencyValue>
         </BaseStats>
+        <MedicinalProperties>
+            <HandlerClass>MedKitHandler</HandlerClass>
+        </MedicinalProperties>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
         <Moniker>Cauterize</Moniker>
@@ -34,6 +37,9 @@
         <BaseStats>
             <CurrencyValue>10</CurrencyValue>
         </BaseStats>
+        <MedicinalProperties>
+            <HandlerClass>ArterialThreadsHandler</HandlerClass>
+        </MedicinalProperties>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
         <Moniker>MendersMist</Moniker>
@@ -43,13 +49,10 @@
         <BaseStats>
             <CurrencyValue>25</CurrencyValue>
         </BaseStats>
+        <MedicinalProperties>
+            <HandlerClass>MenderMistHandler</HandlerClass>
+        </MedicinalProperties>
     </ItemDef>
-    <!--<ItemDef ParentName="MedicalItem">
-        <Moniker>SurgicalScissors</Moniker>
-        <Label>Surgical Scissors</Label>
-        <Description>Used to sever small limbs</Description>
-        &lt;!&ndash;<TexturePath>Entities/Item/Consumables/Cauterize</TexturePath>&ndash;&gt;
-    </ItemDef>-->
     <ItemDef ParentName="MedicalItem">
         <Moniker>SurgicalSaw</Moniker>
         <Label>Surgical Saw</Label>
@@ -58,5 +61,40 @@
         <BaseStats>
             <CurrencyValue>100</CurrencyValue>
         </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="MedicalItem">
+        <Moniker>BalmyOintment</Moniker>
+        <Label>Balmy Ointment</Label>
+        <Description>Sooths the skin and meat, tingly and nice.</Description>
+        <TexturePath>Entities/Item/Consumables/BalmyOintment</TexturePath>
+        <BaseStats>
+            <CurrencyValue>2000</CurrencyValue>
+            <Weight>0.1</Weight>
+            <Tier>3</Tier>
+        </BaseStats>
+        <MedicinalProperties>
+            <HandlerClass>BalmyOintmentHandler</HandlerClass>
+        </MedicinalProperties>
+        <CraftingProperties>
+            <MinutesToMake>2880</MinutesToMake>
+            <AmountProduced>40</AmountProduced>
+            <RequiredTools>
+                <ListItem>ATap</ListItem>
+            </RequiredTools>
+            <ResourceRequirements>
+                <ListItem>
+                    <Resource>ButtonTopMushroom</Resource>
+                    <Count>4</Count>
+                </ListItem>
+                <ListItem>
+                    <Resource>VenomVial</Resource>
+                    <Count>6</Count>
+                </ListItem>
+                <ListItem>
+                    <Resource>WaterBucket</Resource>
+                    <Count>5</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
     </ItemDef>
 </Definitions>

@@ -44,7 +44,7 @@ public class KitchenPanel : VerticalStackPanel {
                         foodToCookPanel.Widgets.Clear();
                         if (comboItem.Tag == null) { return; }
 
-                        _recipePanel = new RecipePanel(house, (ItemDef) comboItem.Tag);
+                        _recipePanel = new RecipePanel(house, (ItemDef) comboItem.Tag, "Cook Food");
                         foodToCookPanel.AddChild(_recipePanel);
                     }
                 ) {
