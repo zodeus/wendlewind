@@ -1,7 +1,10 @@
 using System;
+using System.Linq;
+using Grafted.Graphics.Textures;
 using Grafted.Maths;
 using Grafted.Sim.Persistence;
 using JetBrains.Annotations;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Grafted.Sim.Entities.Pawns;
 
@@ -68,6 +71,16 @@ public class BodyPartSocket : IExposable, IIdentityProvider {
 
         bodyPart.AdaptBodyPartTo(ParentPart);
 
+        string name = bodyPart.Label.Replace(" ", "");
+        foreach (var texturePath in bodyPart.BodyPartDef.BodyTexturePaths)
+        {
+            string pathName = texturePath.Split("/").Last();
+            if (name == pathName)
+            {
+                bodyPart.Image = TextureUtils.PreMultiply(Core.Content.Load<Texture2D>(texturePath));
+            }
+        }
+        
         return bodyPart;
     }
 
@@ -84,8 +97,6 @@ public class BodyPartSocket : IExposable, IIdentityProvider {
     }
 
     public void ExposeData() {
-
-
         Scribe_Values.Look(ref Id!, "Id");
         Scribe_Defs.Look(ref Def!, "Def");
         Scribe_Deep.Look(ref AttachedPart!, "AttachedPart");

@@ -1,4 +1,5 @@
-﻿using Grafted.Graphics.Textures;
+﻿using System.Collections.Generic;
+using Grafted.Graphics.Textures;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
@@ -20,6 +21,7 @@ internal class PawnCombatPanel : HorizontalStackPanel {
     private SequencePointsIcon _sequencePoints;
     private HorizontalProgressBar _bloodBar;
     private PawnEquipmentPanel _pawnEquipmentPanel;
+    private Dictionary<string, Image> _bodyPartImages = new Dictionary<string, Image>();
 
     public PawnCombatPanel(Pawn pawn, CombatEvent combatEvent, bool equipmentOnLeftSide = true) {
         Pawn = pawn;
@@ -53,21 +55,68 @@ internal class PawnCombatPanel : HorizontalStackPanel {
         return _pawnEquipmentPanel;
     }
 
+    private Panel InitializeBodyPartImages(int panelWidth)
+    {
+        Panel panel = new();
+
+        for (int i = 0; i < Pawn.Body.AllExternalParts.Count; i++)
+        {
+            if (Pawn.Body.AllExternalParts[i].Image is not null)
+            {
+                BodyPart bodyPart = Pawn.Body.AllExternalParts[i];
+                Texture2D icon = bodyPart.Image;
+                Image image = new() { Background = new TextureRegion(icon), Width = panelWidth, Height = panelWidth, BorderThickness = new Thickness(2) };
+                image.TouchDown += (_, _) => {
+                    if (Core.Sim.Gui?.MouseAttachment == null) {
+                        Core.Sim.Gui!.ViewEntity(Pawn);
+                    }
+                };
+                _bodyPartImages.Add(bodyPart.Label, image);
+                panel.AddChild(image);
+            }
+        }
+
+        return panel;
+    }
+
+    private void RenderBodyParts()
+    {
+        foreach (var bodyPartImage in _bodyPartImages)
+        {
+            bodyPartImage.Value.Visible = false;
+        }
+
+        foreach (var bodyPart in Pawn.Body.AllExternalParts)
+        {
+            if (_bodyPartImages.ContainsKey(bodyPart.Label))
+            {
+                _bodyPartImages[bodyPart.Label].Visible = true;    
+            }
+        }
+    }
+    
     private Widget GeneratePawnPanel() {
         VerticalStackPanel panel = new() {
             DefaultProportion = Proportion.Auto,
             //ShowGridLines = true
         };
         int panelWidth = 230;
-
-        Texture2D icon = Pawn.PawnType == PawnType.Enemy ? Pawn.Icon.Flip(false, true) : Pawn.Icon;
-        Image image = new() { Background = new TextureRegion(icon), Width = panelWidth, Height = panelWidth, BorderThickness = new Thickness(2) };
-        image.TouchDown += (_, _) => {
-            if (Core.Sim.Gui?.MouseAttachment == null) {
-                Core.Sim.Gui!.ViewEntity(Pawn);
-            }
-        };
-        panel.AddChild(image);
+        
+        if (Pawn.PawnType == PawnType.Enemy)
+        {
+            Texture2D icon = Pawn.Icon.Flip(false, true);
+            Image image = new() { Background = new TextureRegion(icon), Width = panelWidth, Height = panelWidth, BorderThickness = new Thickness(2) };
+            image.TouchDown += (_, _) => {
+                if (Core.Sim.Gui?.MouseAttachment == null) {
+                    Core.Sim.Gui!.ViewEntity(Pawn);
+                }
+            };
+            panel.AddChild(image);
+        }
+        else
+        {
+            panel.AddChild(InitializeBodyPartImages(panelWidth));   
+        }
 
         _bloodBar = new HorizontalProgressBar {
             Width = panelWidth, Height = 20,
@@ -114,5 +163,7 @@ internal class PawnCombatPanel : HorizontalStackPanel {
         }
 
         _sequencePoints.Label.Text = $"{points}";
+
+        RenderBodyParts();
     }
 }

@@ -9,6 +9,9 @@
         <BodyPartType>Head</BodyPartType>
         <IsVital>true</IsVital>
         <IsFlesh>true</IsFlesh>
+        <BodyTexturePaths>
+            <ListItem>Entities/Pawn/Creature/Human/Parts/Head</ListItem>
+        </BodyTexturePaths>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanHead</TexturePath>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
@@ -57,6 +60,9 @@
         <Size>300</Size>
         <IsFlesh>true</IsFlesh>
         <IsVital>true</IsVital>
+        <BodyTexturePaths>
+            <ListItem>Entities/Pawn/Creature/Human/Parts/Torso</ListItem>
+        </BodyTexturePaths>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanTorso</TexturePath>
         <EquipmentSlots>
             <ListItem>TorsoArmor</ListItem>
@@ -84,6 +90,10 @@
         <HitWeight>25</HitWeight>
         <Size>80</Size>
         <IsFlesh>true</IsFlesh>
+        <BodyTexturePaths>
+            <ListItem>Entities/Pawn/Creature/Human/Parts/LeftArm</ListItem>
+            <ListItem>Entities/Pawn/Creature/Human/Parts/RightArm</ListItem>
+        </BodyTexturePaths>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanArm</TexturePath>
         <EquipmentSlots>
             <ListItem>ArmArmor</ListItem>
@@ -112,6 +122,10 @@
         <HitWeight>12</HitWeight>
         <Size>20</Size>
         <IsFlesh>true</IsFlesh>
+        <BodyTexturePaths>
+            <ListItem>Entities/Pawn/Creature/Human/Parts/LeftHand</ListItem>
+            <ListItem>Entities/Pawn/Creature/Human/Parts/RightHand</ListItem>
+        </BodyTexturePaths>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanHand</TexturePath>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
@@ -171,6 +185,10 @@
         <HitWeight>11</HitWeight>
         <Size>140</Size>
         <IsFlesh>true</IsFlesh>
+        <BodyTexturePaths>
+            <ListItem>Entities/Pawn/Creature/Human/Parts/LeftLeg</ListItem>
+            <ListItem>Entities/Pawn/Creature/Human/Parts/RightLeg</ListItem>
+        </BodyTexturePaths>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanLeg</TexturePath>
         <EquipmentSlots>
             <ListItem>LegArmor</ListItem>
@@ -192,6 +210,10 @@
         <HitWeight>7</HitWeight>
         <Size>30</Size>
         <IsFlesh>true</IsFlesh>
+        <BodyTexturePaths>
+            <ListItem>Entities/Pawn/Creature/Human/Parts/LeftFoot</ListItem>
+            <ListItem>Entities/Pawn/Creature/Human/Parts/RightFoot</ListItem>
+        </BodyTexturePaths>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanFoot</TexturePath>
         <EquipmentSlots>
             <ListItem>BuiltIn</ListItem>

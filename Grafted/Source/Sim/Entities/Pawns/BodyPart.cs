@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Grafted.Definitions;
+using Grafted.Graphics.Textures;
 using Grafted.Maths;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Items;
@@ -34,6 +35,8 @@ public class BodyPart : Entity {
     public bool IsBone => BodyPartDef.IsBone;
     public bool IsOrgan => BodyPartDef.IsOrgan;
     public bool IsVital => BodyPartDef.IsVital;
+    
+    public Texture2D? Image;
     public bool IsDestroyed => HitPoints <= 0;
     public bool IsBleeding => HealthPercent < .99; //todo coagulation 
 
@@ -416,7 +419,6 @@ public class BodyPart : Entity {
             Log.Error($"Attempting to adapt part '{this}' but part doesn't have parent");
             return;
         }
-
 
         MaxHitPoints = Mathf.FloorToInt(
             BodyPartDef.AdaptiveProperties.HitPointScaler.GetHitPointsFor(parentPart)
