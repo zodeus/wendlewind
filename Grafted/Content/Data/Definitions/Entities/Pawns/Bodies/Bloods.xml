@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BodyDef>
+    <Moniker>Human</Moniker>
+    <Label>Human</Label>
+    <BodyType>Human</BodyType>
+    <BloodType>Animal</BloodType>
+    <GeneratorClass></GeneratorClass>
+    <HandlerClass></HandlerClass>
+</BodyDef>

@@ -48,7 +48,10 @@ public static class PigBodyGenerator {
         MakeLeg(torso.GetSocketsFor(BodyPartType.Leg)[3].TryAttachPart(Defs.BodyParts.PigLeg));
 
         // Tail
-        torso.GetSocketsFor(BodyPartType.Tail)[0].TryAttachPart(Defs.BodyParts.PigTail);
+        BodyPart tail = torso.GetSocketsFor(BodyPartType.Tail)[0].TryAttachPart(Defs.BodyParts.PigTail);
+        tail.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
+        tail.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
+        tail.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
 
         return rootSocket;
     }
