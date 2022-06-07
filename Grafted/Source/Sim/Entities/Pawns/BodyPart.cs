@@ -16,6 +16,7 @@ public class BodyPart : Entity {
     private float _hitPoints;
     private string? _adaptedLabel;
     private bool _isSevered; // todo, this should be set by an applied health condition
+    private Texture2D? _image;
 
     public float MaxHitPoints;
     public BodyPartSocket? Socket;
@@ -35,14 +36,30 @@ public class BodyPart : Entity {
     public bool IsBone => BodyPartDef.IsBone;
     public bool IsOrgan => BodyPartDef.IsOrgan;
     public bool IsVital => BodyPartDef.IsVital;
-    
-    public Texture2D? Image;
     public bool IsDestroyed => HitPoints <= 0;
     public bool IsBleeding => HealthPercent < .99; //todo coagulation 
 
     public List<EquipmentSlotType>? EquipmentSlots => BodyPartDef.EquipmentSlots;
 
     public bool HasEquipmentSlots => BodyPartDef.EquipmentSlots?.Count > 0;
+
+    public Texture2D? Image {
+        get {
+            if (_image == null) {
+                string name = Label.Replace(" ", "");
+                foreach (var texturePath in BodyPartDef.BodyTexturePaths) {
+                    string pathName = texturePath.Split("/").Last();
+                    if (name == pathName) {
+                        _image = TextureUtils.PreMultiply(Core.Content.Load<Texture2D>(texturePath));
+                        break;
+                    }
+                }
+            }
+
+            return _image;
+
+        }
+    }
 
     public float HitPoints {
         get => _hitPoints;
@@ -217,7 +234,8 @@ public class BodyPart : Entity {
         for (int index = Modifiers.Count - 1; index >= 0; index--) {
             BodyPartModifier modifier = Modifiers[index];
             modifier.Tick();
-            if (modifier.IsCured) {
+            TicksSinceLastHit++;
+            if (modifier.IsExpired) {
                 Modifiers.Remove(modifier);
             }
         }
@@ -287,22 +305,25 @@ public class BodyPart : Entity {
             }
         }
 
-        int partDamage = damage.UnblockedAmount;
+        DamagedPartRecord damagedPartRecord = new(this) {
+            Amount = damage.UnblockedAmount
+        };
         if (damage.Type == DamageType.Blunt && IsBone) {
-            partDamage = Mathf.RoundToInt(partDamage * 1.5f);
+            damagedPartRecord.Amount = Mathf.RoundToInt(damagedPartRecord.Amount * 1.5f);
         }
 
-        HitPoints -= partDamage;
+        HitPoints -= damagedPartRecord.Amount;
         foreach (BodyPartModifierRecord record in damage.BodyPartModifiers) {
             if (Type == BodyPartType.Skin && record.Def == Defs.BodyPartModifiers.BurningAcid) {
                 if (Core.Random.Chance(record.Chance.RandomValue)) {
                     TryAddModifier(BodyPartModifierGenerator.Generate(record.Def, record.DurationInMinutes.RandomValue));
+                    damagedPartRecord.AppliedModifiers.Add(record.Def);
                 }
             }
         }
 
         TicksSinceLastHit = 0;
-        damagedParts.Add(new DamagedPartRecord(this, partDamage));
+        damagedParts.Add(damagedPartRecord);
 
         int organsHit = 0;
         int maxNumberOfOrgansToHit = Core.Random.Next(1, 2);
@@ -363,6 +384,10 @@ public class BodyPart : Entity {
         Modifiers.Add(modifer);
     }
 
+    public bool HasModifer(BodyPartModifierDef def) {
+        return Modifiers.Any(m => m.Def == def);
+    }
+
     #region Equipment
 
     public EquipmentSlotType? SlotFor(Item item) {
@@ -410,6 +435,10 @@ public class BodyPart : Entity {
 
     public void AdaptBodyPartTo(BodyPart? parentPart) {
         _adaptedLabel = GenerateLabel();
+        if (Body != null) {
+            MaxHitPoints = Mathf.FloorToInt(MaxHitPoints * Body.BodySizeFactor);
+            HitPoints = MaxHitPoints;
+        }
 
         if (BodyPartDef.AdaptiveProperties == null) {
             return;
@@ -420,9 +449,7 @@ public class BodyPart : Entity {
             return;
         }
 
-        MaxHitPoints = Mathf.FloorToInt(
-            BodyPartDef.AdaptiveProperties.HitPointScaler.GetHitPointsFor(parentPart)
-        );
+        MaxHitPoints = Mathf.FloorToInt(BodyPartDef.AdaptiveProperties.MaxHitPointScaler.GetMaxHitPointsFor(parentPart));
         HitPoints = MaxHitPoints;
     }
 

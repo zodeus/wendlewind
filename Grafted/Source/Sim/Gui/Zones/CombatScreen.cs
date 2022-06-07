@@ -3,7 +3,6 @@ using System.Linq;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Gui.Widgets.CombatWidgets;
-using Grafted.Sim.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Grafted.Sim.Gui.Widgets.EntityWidgets.PawnWidgets.BodyPanelWidgets;
 using Grafted.Sim.Gui.Widgets.MiscWidgets;
 using Grafted.Sim.Zones.Handlers;
@@ -147,6 +146,10 @@ public class CombatScreen : VerticalStackPanel {
                     break;
                 case CombatState.CombatFinished:
                     _controlPanel.ShowContinueButton();
+                    if (_combatEvent.Retreated) {
+                        _combatEvent.Zone!.Adventure!.State = AdventureState.CombatResults;
+                    }
+
                     break;
                 case CombatState.TurnStart:
                     //ClearCombatLog();
@@ -178,6 +181,7 @@ public class CombatScreen : VerticalStackPanel {
         }
 
         _gameHud.Update();
+        _controlPanel.Update();
         _playerPartyPanel.Update();
         _opponentPartyPanel.Update();
         _pawnBodyView.Update();
@@ -189,7 +193,7 @@ public class CombatScreen : VerticalStackPanel {
             ClearCombatLog();
         }
 
-        Label label = new() { Text = text, Font = BaseContent.Fonts.Default.Small, Wrap = true };
+        Label label = new() { Text = text, Wrap = true };
         if (color != null) {
             label.TextColor = color.Value;
         }

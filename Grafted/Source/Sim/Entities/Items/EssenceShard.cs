@@ -1,5 +1,5 @@
-﻿namespace Grafted.Sim.Entities.Items; 
+﻿namespace Grafted.Sim.Entities.Items;
 
-public class EssenceShard {
+public class EssenceShard : Item {
     
 }

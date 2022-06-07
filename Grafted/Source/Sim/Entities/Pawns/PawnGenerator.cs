@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Entities.Items;
-using Grafted.Sim.Entities.Pawns.BodyGenerators;
+using Grafted.Sim.Entities.Pawns.Bodies;
 using Grafted.Utils;
 
 namespace Grafted.Sim.Entities.Pawns;
@@ -14,6 +15,7 @@ public static class PawnGenerator {
         pawn.Race = request.Race;
         pawn.PawnType = request.Config.PawnType;
         pawn.Initialize();
+        pawn.Body.BodySizeFactor = request.BodySizeFactor;
         if (request.Config.PawnName != null) {
             pawn.Biography.Name = request.Config.PawnName;
         }
@@ -56,24 +58,9 @@ public static class PawnGenerator {
     }
 
     private static void GenerateBody(Pawn pawn) {
-        if (pawn.Race == Defs.Races.Glump) {
-            GlumpBodyGenerator.Generate(pawn);
-        }
-        else if (pawn.Race == Defs.Races.InnocentRabbit) {
-            RabbitBodyGenerator.Generate(pawn);
-        }
-        else if (pawn.Race == Defs.Races.FieldHound) {
-            WolfBodyGenerator.Generate(pawn);
-        }
-        else if (pawn.Race == Defs.Races.TruffleBoar) {
-            PigBodyGenerator.Generate(pawn);
-        }
-        else if (pawn.Race == Defs.Races.BlisteringToad) {
-            FrogBodyGenerator.Generate(pawn);
-        }
-        else {
-            HumanBodyGenerator.Generate(pawn);
-        }
+        BodyPartSocket body = pawn.PawnDef.Body.Generator.Generate();
+        pawn.Body.RootSocket = body;
+        pawn.Body.BodyPartsDirty = true; //todo this should be set by/in BodyPart, but BodyPart doesn't have access to Pawn currently
     }
 
     public static void RegisterEquipment(Pawn pawn, List<ItemDef> equipment) {
@@ -103,6 +90,7 @@ public static class PawnGenerator {
 public struct PawnRequest {
     public RaceDef Race { get; }
     public PawnConfigDef Config { get; }
+    public float BodySizeFactor { get; set; } = 1;
 
     public PawnRequest(RaceDef race, PawnConfigDef config) {
         Race = race;

@@ -69,6 +69,7 @@ public static partial class BaseContent {
             public const string Small = "small";
             public const string Medium = "medium";
             public const string Large = "large";
+            public const string Huge = "huge";
         }
 
         public static class Button {
@@ -149,6 +150,7 @@ public static partial class BaseContent {
             public DynamicSpriteFont Medium { get; init; }
             public DynamicSpriteFont Large { get; init; }
             public DynamicSpriteFont VeryLarge { get; init; }
+            public DynamicSpriteFont Huge { get; init; }
         }
 
         public static FontData Default { get; set; }
@@ -158,6 +160,9 @@ public static partial class BaseContent {
             // Ordinary DynamicSpriteFont
             FontSystem monoFont = new();
             monoFont.AddFont(File.ReadAllBytes("Content/Fonts/JetBrainsMono-Regular.ttf"));
+            FontSystem fancyFont = new();
+            fancyFont.AddFont(File.ReadAllBytes("Content/Fonts/JetBrainsMono-Regular.ttf"));
+            //fancyFont.AddFont(File.ReadAllBytes("Content/Fonts/RedAlert.ttf"));
 
             Default = new FontData {
                 VerySmall = monoFont.GetFont(10),
@@ -165,18 +170,19 @@ public static partial class BaseContent {
                 Normal = monoFont.GetFont(16),
                 Medium = monoFont.GetFont(20),
                 Large = monoFont.GetFont(24),
-                VeryLarge = monoFont.GetFont(32)
+                VeryLarge = monoFont.GetFont(32),
+                Huge = monoFont.GetFont(64)
             };
 
             Fancy = new FontData {
-                VerySmall = monoFont.GetFont(10),
-                Small = monoFont.GetFont(14),
-                Normal = monoFont.GetFont(16),
-                Medium = monoFont.GetFont(20),
-                Large = monoFont.GetFont(24),
-                VeryLarge = monoFont.GetFont(32)
+                VerySmall = fancyFont.GetFont(10),
+                Small = fancyFont.GetFont(14),
+                Normal = fancyFont.GetFont(16),
+                Medium = fancyFont.GetFont(20),
+                Large = fancyFont.GetFont(24),
+                VeryLarge = fancyFont.GetFont(32),
+                Huge = fancyFont.GetFont(64)
             };
-
         }
     }
 }

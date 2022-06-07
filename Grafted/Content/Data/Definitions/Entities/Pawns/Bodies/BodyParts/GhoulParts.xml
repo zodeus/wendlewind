@@ -1,10 +1,118 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef Name="GhoulBodyPartBase" ParentName="BodyPartBase" Abstract="True">
+        
+    </BodyPartDef>
+
+    <BodyPartDef ParentName="GhoulBodyPartBase">
+        <Moniker>GhoulHead</Moniker>
+        <Label>Ghoul Head</Label>
+        <HitWeight>20</HitWeight>
+        <Size>50</Size>
+        <BodyPartType>Head</BodyPartType>
+        <IsVital>true</IsVital>
+        <IsFlesh>true</IsFlesh>
+        <BodyTexturePaths>
+            <ListItem>Entities/Pawn/Creature/Human/Parts/Head</ListItem>
+        </BodyTexturePaths>
+        <TexturePath>Entities/Pawn/BodyParts/Human/HumanHead</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>SkullSocket</ListItem>
+            <ListItem>LeftEyeSocket</ListItem>
+            <ListItem>RightEyeSocket</ListItem>
+            <ListItem>NeckSocket</ListItem>
+        </Sockets>
+        <EquipmentSlots>
+            <ListItem>HeadArmor</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <MaxHitPoints>750</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="GhoulBodyPartBase">
+        <Moniker>GhoulNeck</Moniker>
+        <Label>Ghoul Neck</Label>
+        <BodyPartType>Neck</BodyPartType>
+        <IsVital>true</IsVital>
+        <HitWeight>7</HitWeight>
+        <Size>12</Size>
+        <IsFlesh>true</IsFlesh>
+        <TexturePath>Entities/Pawn/BodyParts/Human/HumanNeck</TexturePath>
+        <EquipmentSlots>
+            <ListItem>NeckArmor</ListItem>
+            <ListItem>Cloak</ListItem>
+            <ListItem>Necklace</ListItem>
+        </EquipmentSlots>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>TorsoSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>360</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="GhoulBodyPartBase">
+        <Moniker>GhoulTorso</Moniker>
+        <Label>Ghoul Torso</Label>
+        <BodyPartType>Torso</BodyPartType>
+        <HitWeight>50</HitWeight>
+        <Size>300</Size>
+        <IsFlesh>true</IsFlesh>
+        <IsVital>true</IsVital>
+        <BodyTexturePaths>
+            <ListItem>Entities/Pawn/Creature/Human/Parts/Torso</ListItem>
+        </BodyTexturePaths>
+        <TexturePath>Entities/Pawn/BodyParts/Human/HumanTorso</TexturePath>
+        <EquipmentSlots>
+            <ListItem>TorsoArmor</ListItem>
+            <ListItem>PotionSlot1</ListItem>
+            <ListItem>PotionSlot2</ListItem>
+        </EquipmentSlots>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>RibCageSocket</ListItem>
+            <ListItem>StomachSocket</ListItem>
+            <ListItem>LeftArmSocket</ListItem>
+            <ListItem>RightArmSocket</ListItem>
+            <ListItem>LeftLegSocket</ListItem>
+            <ListItem>RightLegSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>1200</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="GhoulBodyPartBase">
+        <Moniker>GhoulArm</Moniker>
+        <Label>Ghoul Arm</Label>
+        <BodyPartType>Arm</BodyPartType>
+        <HitWeight>25</HitWeight>
+        <Size>80</Size>
+        <IsFlesh>true</IsFlesh>
+        <BodyTexturePaths>
+            <ListItem>Entities/Pawn/Creature/Human/Parts/LeftArm</ListItem>
+            <ListItem>Entities/Pawn/Creature/Human/Parts/RightArm</ListItem>
+        </BodyTexturePaths>
+        <TexturePath>Entities/Pawn/BodyParts/Human/HumanArm</TexturePath>
+        <EquipmentSlots>
+            <ListItem>ArmArmor</ListItem>
+            <ListItem>Bag</ListItem>
+        </EquipmentSlots>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>HandSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>240</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="GhoulBodyPartBase">
         <Moniker>GhoulHand</Moniker>
         <Label>Ghoul Hand</Label>
-        <Description>Has no arteries. Has no regenerative properties</Description>
+        <Description>Has no arteries.</Description>
         <BodyPartType>Hand</BodyPartType>
         <EquipmentSlots>
             <ListItem>BuiltIn</ListItem>
@@ -15,6 +123,10 @@
         <Size>20</Size>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Ghoul/Hand</TexturePath>
+        <BodyTexturePaths>
+            <ListItem>Entities/Pawn/Creature/Human/Parts/LeftHand</ListItem>
+            <ListItem>Entities/Pawn/Creature/Human/Parts/RightHand</ListItem>
+        </BodyTexturePaths>
         <WhiteIconTexturePath>Entities/Pawn/BodyParts/Ghoul/Hand-Icon</WhiteIconTexturePath>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
@@ -30,7 +142,7 @@
             <CurrencyValue>10</CurrencyValue>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="GhoulBodyPartBase">
         <Moniker>GhoulFinger</Moniker>
         <Label>Ghoul Finger</Label>
         <BodyPartType>Finger</BodyPartType>
@@ -48,7 +160,7 @@
             <MaxHitPoints>24</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="GhoulBodyPartBase">
         <Moniker>GhoulThumb</Moniker>
         <Label>Ghoul Thumb</Label>
         <BodyPartType>Thumb</BodyPartType>
@@ -64,6 +176,55 @@
         <BaseStats>
             <SequencePoints>.4</SequencePoints>
             <MaxHitPoints>27</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="GhoulBodyPartBase">
+        <Moniker>GhoulLeg</Moniker>
+        <Label>Ghoul Leg</Label>
+        <BodyPartType>Leg</BodyPartType>
+        <HitWeight>11</HitWeight>
+        <Size>140</Size>
+        <IsFlesh>true</IsFlesh>
+        <BodyTexturePaths>
+            <ListItem>Entities/Pawn/Creature/Human/Parts/LeftLeg</ListItem>
+            <ListItem>Entities/Pawn/Creature/Human/Parts/RightLeg</ListItem>
+        </BodyTexturePaths>
+        <TexturePath>Entities/Pawn/BodyParts/Human/HumanLeg</TexturePath>
+        <EquipmentSlots>
+            <ListItem>LegArmor</ListItem>
+        </EquipmentSlots>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>FootSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>240</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="GhoulBodyPartBase">
+        <Moniker>GhoulFoot</Moniker>
+        <Label>Ghoul Foot</Label>
+        <BodyPartType>Foot</BodyPartType>
+        <HitWeight>7</HitWeight>
+        <Size>30</Size>
+        <IsFlesh>true</IsFlesh>
+        <BodyTexturePaths>
+            <ListItem>Entities/Pawn/Creature/Human/Parts/LeftFoot</ListItem>
+            <ListItem>Entities/Pawn/Creature/Human/Parts/RightFoot</ListItem>
+        </BodyTexturePaths>
+        <TexturePath>Entities/Pawn/BodyParts/Human/HumanFoot</TexturePath>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+            <ListItem>FootArmor</ListItem>
+        </EquipmentSlots>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <SequencePoints>2</SequencePoints>
+            <MaxHitPoints>210</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
 </Definitions>

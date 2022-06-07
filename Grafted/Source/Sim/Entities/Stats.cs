@@ -50,6 +50,15 @@ public static class StatExtensions {
         return stat.Handler.GetValue(entity);
     }
 
+    public static float GetStatValue(this Pawn pawn, StatDef stat) {
+        float value = stat.Handler.GetValue(pawn);
+        foreach (BodyEffect effect in pawn.Body.Effects) {
+            effect.ModifyIfApplicable(stat, ref value);
+        }
+
+        return value;
+    }
+
     public static float GetStatFactorFromList(this List<BaseStat>? stats, StatDef stat) {
         return stats?.GetStatValueFromList(stat) ?? 1f;
     }
@@ -111,12 +120,6 @@ public class BodyStatHandler : DefaultStatHandler {
                 effect.ModifyIfApplicable(_stat, ref value);
             }
         }*/
-        
-        if (entity is Pawn pawn) {
-            foreach (BodyEffect effect in pawn.Body.Effects) {
-                effect.ModifyIfApplicable(_stat, ref value);
-            }
-        }
 
         return value;
     }

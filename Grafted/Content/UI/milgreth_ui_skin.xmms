@@ -5,6 +5,8 @@
         <Font Id="default-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="16"/>
         <Font Id="medium-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="20"/>
         <Font Id="large-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="24"/>
+        <Font Id="very-large-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="32"/>
+        <Font Id="huge-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="64"/>
     </Fonts>
     <LabelStyles>
         <LabelStyle Font="default-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
@@ -15,6 +17,8 @@
         <LabelStyle Id="error" Font="default-font" TextColor="#c80000" DisabledTextColor="#4f4f4f"/>
         <LabelStyle Id="error--dark" Font="default-font" TextColor="#780000" DisabledTextColor="#4f4f4f"/>
         <LabelStyle Id="large" Font="large-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
+        <LabelStyle Id="very-large" Font="very-large-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
+        <LabelStyle Id="huge" Font="huge-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
         <LabelStyle Id="ai-visualizer__final-decision--hit" Font="small-font" TextColor="#a88d28" DisabledTextColor="#4f4f4f"/>
         <LabelStyle Id="ai-visualizer__final-decision--miss" Font="small-font" TextColor="#780000" DisabledTextColor="#4f4f4f"/>
     </LabelStyles>
@@ -25,13 +29,15 @@
         <TextBoxStyle Background="textfield" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f" Font="default-font" Cursor="input-cursor" Selection="selection" Padding="10, 6, 10, 6"/>
     </TextBoxStyles>
     <ScrollViewerStyles>
-        <ScrollViewerStyle HorizontalScrollBackground="scroll-frame" HorizontalScrollKnob="scroll-handle-horizontal" VerticalScrollBackground="scroll-frame" VerticalScrollKnob="scroll-handle-vertical"/>
+        <ScrollViewerStyle HorizontalScrollBackground="scroll-frame" HorizontalScrollKnob="scroll-handle-horizontal" VerticalScrollBackground="scroll-frame"
+                           VerticalScrollKnob="scroll-handle-vertical"/>
     </ScrollViewerStyles>
     <ButtonStyles>
         <ButtonStyle>
             <LabelStyle Font="default-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
         </ButtonStyle>
-        <ButtonStyle Id="normal" Padding="11,10,11,10" Background="button-normal-default" OverBackground="button-normal-over" PressedBackground="button-normal-pressed" DisabledBackground="button-normal-disabled">
+        <ButtonStyle Id="normal" Padding="11,10,11,10" Background="button-normal-default" OverBackground="button-normal-over" PressedBackground="button-normal-pressed"
+                     DisabledBackground="button-normal-disabled">
             <LabelStyle Font="default-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
         </ButtonStyle>
         <ButtonStyle Id="small" Padding="6" Background="button-small-default" OverBackground="button-small-over" PressedBackground="button-small-pressed" DisabledBackground="button-small-disabled">
@@ -62,12 +68,12 @@
         <SpinButtonStyle Background="textfield">
             <TextBoxStyle TextColor="#b3b3b3" DisabledTextColor="#4f4f4f" Font="default-font" Cursor="input-cursor" Selection="selection"/>
             <UpButtonStyle Width="12" Height="12" Background="bad-texture" OverBackground="bad-texture" PressedBackground="bad-texture">
-            <!--<UpButtonStyle Width="12" Height="12" Background="button" OverBackground="button-over" PressedBackground="button-down">-->
+                <!--<UpButtonStyle Width="12" Height="12" Background="button" OverBackground="button-over" PressedBackground="button-down">-->
                 <!--<ImageStyle Image="select-up"/>-->
                 <ImageStyle Image="bad-texture"/>
             </UpButtonStyle>
             <DownButtonStyle Width="12" Height="12" Background="bad-texture" OverBackground="bad-texture" PressedBackground="bad-texture">
-            <!--<DownButtonStyle Width="12" Height="12" Background="button" OverBackground="button-over" PressedBackground="button-down">-->
+                <!--<DownButtonStyle Width="12" Height="12" Background="button" OverBackground="button-over" PressedBackground="button-down">-->
                 <!--<ImageStyle Image="select-down"/>-->
                 <ImageStyle Image="bad-texture"/>
             </DownButtonStyle>

@@ -18,6 +18,7 @@ public class Adventure : ZoneHandler {
 
     public override void OnEnter() {
         State = AdventureState.Occupied;
+        Core.Sim.CombatSettings.Speed = CombatSpeed.Slow;
         MoveForward();
         StartNextCombat();
     }

@@ -52,6 +52,27 @@
         <MedicinalProperties>
             <HandlerClass>MenderMistHandler</HandlerClass>
         </MedicinalProperties>
+        <CraftingProperties>
+            <MinutesToMake>2880</MinutesToMake>
+            <AmountProduced>20</AmountProduced>
+            <RequiredTools>
+                <ListItem>ATap</ListItem>
+            </RequiredTools>
+            <ResourceRequirements>
+                <ListItem>
+                    <Resource>ButtonTopMushroom</Resource>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Resource>HealingRoot</Resource>
+                    <Count>5</Count>
+                </ListItem>
+                <ListItem>
+                    <Resource>WaterBucket</Resource>
+                    <Count>10</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
         <Moniker>SurgicalSaw</Moniker>
@@ -60,6 +81,7 @@
         <TexturePath>Entities/Item/Consumables/SurgicalSaw</TexturePath>
         <BaseStats>
             <CurrencyValue>100</CurrencyValue>
+            <Tier>3</Tier>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
@@ -70,7 +92,7 @@
         <BaseStats>
             <CurrencyValue>2000</CurrencyValue>
             <Weight>0.1</Weight>
-            <Tier>3</Tier>
+            <Tier>5</Tier>
         </BaseStats>
         <MedicinalProperties>
             <HandlerClass>BalmyOintmentHandler</HandlerClass>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Grafted.Definitions;
 using Grafted.Graphics.Textures;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Items;
@@ -55,14 +56,11 @@ internal class PawnCombatPanel : HorizontalStackPanel {
         return _pawnEquipmentPanel;
     }
 
-    private Panel InitializeBodyPartImages(int panelWidth)
-    {
+    private Panel InitializeBodyPartImages(int panelWidth) {
         Panel panel = new();
 
-        for (int i = 0; i < Pawn.Body.AllExternalParts.Count; i++)
-        {
-            if (Pawn.Body.AllExternalParts[i].Image is not null)
-            {
+        for (int i = 0; i < Pawn.Body.AllExternalParts.Count; i++) {
+            if (Pawn.Body.AllExternalParts[i].Image is not null) {
                 BodyPart bodyPart = Pawn.Body.AllExternalParts[i];
                 Texture2D icon = bodyPart.Image;
                 Image image = new() { Background = new TextureRegion(icon), Width = panelWidth, Height = panelWidth, BorderThickness = new Thickness(2) };
@@ -79,31 +77,26 @@ internal class PawnCombatPanel : HorizontalStackPanel {
         return panel;
     }
 
-    private void RenderBodyParts()
-    {
-        foreach (var bodyPartImage in _bodyPartImages)
-        {
+    private void RenderBodyParts() {
+        foreach (var bodyPartImage in _bodyPartImages) {
             bodyPartImage.Value.Visible = false;
         }
 
-        foreach (var bodyPart in Pawn.Body.AllExternalParts)
-        {
-            if (_bodyPartImages.ContainsKey(bodyPart.Label))
-            {
-                _bodyPartImages[bodyPart.Label].Visible = true;    
+        foreach (var bodyPart in Pawn.Body.AllExternalParts) {
+            if (_bodyPartImages.ContainsKey(bodyPart.Label)) {
+                _bodyPartImages[bodyPart.Label].Visible = true;
             }
         }
     }
-    
+
     private Widget GeneratePawnPanel() {
         VerticalStackPanel panel = new() {
             DefaultProportion = Proportion.Auto,
             //ShowGridLines = true
         };
         int panelWidth = 230;
-        
-        if (Pawn.PawnType == PawnType.Enemy)
-        {
+
+        if (Pawn.PawnType == PawnType.Enemy || Pawn.Race != Defs.Races.Journeyman) {
             Texture2D icon = Pawn.Icon.Flip(false, true);
             Image image = new() { Background = new TextureRegion(icon), Width = panelWidth, Height = panelWidth, BorderThickness = new Thickness(2) };
             image.TouchDown += (_, _) => {
@@ -113,16 +106,15 @@ internal class PawnCombatPanel : HorizontalStackPanel {
             };
             panel.AddChild(image);
         }
-        else
-        {
-            panel.AddChild(InitializeBodyPartImages(panelWidth));   
+        else {
+            panel.AddChild(InitializeBodyPartImages(panelWidth));
         }
 
         _bloodBar = new HorizontalProgressBar {
             Width = panelWidth, Height = 20,
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.FrameSmall],
             VerticalAlignment = VerticalAlignment.Center,
-            Filler = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.Neutral], Color.White),
+            Filler = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.Neutral], Pawn.PawnDef.Body.BloodType.Color),
             Padding = new Thickness(3, 6, 3, 6)
         };
         panel.AddChild(_bloodBar);
@@ -147,7 +139,7 @@ internal class PawnCombatPanel : HorizontalStackPanel {
         }
 
         _bloodBar.Value = Pawn.Body.BloodPercent * 100;
-        ((ColoredRegion) _bloodBar.Filler).Color = BodyPartColor.GetBloodColor(Pawn.Body.BloodPercent);
+        //((ColoredRegion) _bloodBar.Filler).Color = BodyPartColor.GetBloodColor(Pawn.Body.BloodPercent);
 
         _bodySummary.Update();
         _pawnEquipmentPanel.Update();

@@ -30,6 +30,7 @@ public static partial class Defs {
         public static StatDef MoveSpeed = null!;
         public static StatDef Tier = null!;
         public static StatDef NutritionalValue = null!;
+        public static StatDef Evasion = null!;
     }
 }
 
@@ -91,6 +92,9 @@ public static partial class Defs {
         public static ItemDef WoodBoard = null!;
         public static ItemDef WaterBucket = null!;
         public static ItemDef BalmyOintment = null!;
+        public static ItemDef TheDreamingPowder = null!;
+        public static ItemDef CowardsFlag = null!;
+        public static ItemDef EssenceShard = null!;
     }
 }
 
@@ -98,6 +102,12 @@ public static partial class Defs {
     [DefLocator]
     public static class Species {
         public static PawnDef Human = null!;
+        public static PawnDef Frog = null!;
+        public static PawnDef Rabbit = null!;
+        public static PawnDef Wolf = null!;
+        public static PawnDef Glump = null!;
+        public static PawnDef Ghoul = null!;
+        public static PawnDef Pig = null!;
     }
 }
 
@@ -117,6 +127,8 @@ public static partial class Defs {
         public static RaceDef FieldHound = null!;
         public static RaceDef TruffleBoar = null!;
         public static RaceDef BlisteringToad = null!;
+        public static RaceDef Journeyman = null!;
+        public static RaceDef Ghoul = null!;
     }
 }
 
@@ -177,9 +189,15 @@ public static partial class Defs {
         public static BodyPartDef PigHoof = null!;
         public static BodyPartDef PigTail = null!;
 
+        public static BodyPartDef GhoulHead = null!;
+        public static BodyPartDef GhoulNeck = null!;
+        public static BodyPartDef GhoulTorso = null!;
+        public static BodyPartDef GhoulArm = null!;
         public static BodyPartDef GhoulHand = null!;
         public static BodyPartDef GhoulThumb = null!;
         public static BodyPartDef GhoulFinger = null!;
+        public static BodyPartDef GhoulLeg = null!;
+        public static BodyPartDef GhoulFoot = null!;
     }
 
     [DefLocator]

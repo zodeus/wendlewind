@@ -119,6 +119,7 @@ public class DamageResponse {
     public List<DamageRecord> Damages = new();
     //public List<HealthConditionDef>? HealthConditions;
     public bool Killed;
+    public bool Dodged;
 
     public DamageResponse() { }
 }
@@ -150,15 +151,15 @@ public class DamageRecord {
 
 public class DamagedPartRecord {
     public readonly BodyPart BodyPart;
-    public readonly float Amount;
+    public float Amount;
     public string Label => BodyPart.Label;
+    public List<BodyPartModifierDef> AppliedModifiers = new();
     public BodyPartType PartType => BodyPart.Type;
     public bool WasDestroyed => BodyPart.IsDestroyed;
     public bool WasSevered => BodyPart.IsSevered;
     public bool IsVital => BodyPart.IsVital;
 
-    public DamagedPartRecord(BodyPart bodyPart, float amount) {
+    public DamagedPartRecord(BodyPart bodyPart) {
         BodyPart = bodyPart;
-        Amount = amount;
     }
 }

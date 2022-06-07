@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Grafted.Sim.Persistence;
 
 namespace Grafted.Sim.Entities.Pawns;
@@ -18,6 +19,11 @@ public class PawnBodyEffects : IEnumerable<BodyEffect>, IExposable {
     }
 
     public void TryApplyEffect(BodyEffect effect) {
+        if (_effects.Find(e => e.Def == effect.Def) is { } existingEffect) {
+            existingEffect.TicksLeft += effect.TicksLeft;
+            return;
+        }
+
         _effects.Add(effect);
     }
 

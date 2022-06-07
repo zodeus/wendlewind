@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Grafted.Definitions;
+using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
 using Grafted.UI;
@@ -18,7 +19,7 @@ public class PawnBodyPanel : VerticalStackPanel {
     private readonly List<BodyPartSocketPanel> _socketPanels;
     private readonly VerticalStackPanel _partsPanel;
     private readonly PawnSkillsPanel _pawnSkillsPanel;
-    private readonly HorizontalProgressBar _bloodBar;
+    private readonly PawnStatsPanel _pawnStatsPanel;
     private event Action<BodyPartSocket>? _socketClickHandler;
 
     public PawnBodyPanel(PawnBody body, Action<BodyPartSocket>? socketClickHandler = null) {
@@ -30,13 +31,7 @@ public class PawnBodyPanel : VerticalStackPanel {
         _socketPanels = new List<BodyPartSocketPanel>();
         _partsPanel = new VerticalStackPanel { Padding = new Thickness(10), Spacing = 3 };
         _pawnSkillsPanel = new PawnSkillsPanel(_body.Pawn.Skills);
-        _bloodBar = new HorizontalProgressBar {
-            Height = 5,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.FrameSmall],
-            Filler = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.Neutral], Color.White),
-            Padding = new Thickness(3, 4, 3, 4)
-        };
+        _pawnStatsPanel = new PawnStatsPanel(_body.Pawn);
 
         AddChild(new ScrollViewer {
             Content = new HorizontalStackPanel {
@@ -49,7 +44,7 @@ public class PawnBodyPanel : VerticalStackPanel {
                     _partsPanel,
                     new VerticalStackPanel {
                         Spacing = 20, Margin = new Thickness(0, 0, 15, 0),
-                        Widgets = { new PawnTraitsPanel(_body.Pawn.Traits), _pawnSkillsPanel }
+                        Widgets = { new PawnTraitsPanel(_body.Pawn.Traits), _pawnSkillsPanel,_pawnStatsPanel }
                     }
                 }
             }
@@ -60,7 +55,6 @@ public class PawnBodyPanel : VerticalStackPanel {
     private void GenerateSkeleton() {
         _partsPanel.Widgets.Clear();
         _socketPanels.Clear();
-        _partsPanel.AddChild(_bloodBar);
         RegisterSocket(_body.RootSocket, 0);
     }
 
@@ -129,11 +123,7 @@ public class PawnBodyPanel : VerticalStackPanel {
 
     public void Update() {
         _pawnSkillsPanel.Update();
-        _pawnSkillsPanel.Update();
-
-        _bloodBar.Value = _body.BloodPercent * 100;
-        ((ColoredRegion) _bloodBar.Filler).Color = BodyPartColor.GetBloodColor(_body.BloodPercent);
-
+        _pawnStatsPanel.Update();
         for (int i = _socketPanels.Count - 1; i >= 0; i--) {
             BodyPartSocketPanel socketPanel = _socketPanels[i];
 
@@ -249,4 +239,22 @@ public class PawnBodyPanel : VerticalStackPanel {
             _socketLabel.TextColor = BodyPartColor.Get(Socket);
         }
     }
+}
+
+public class PawnStatsPanel : VerticalStackPanel {
+    public PawnStatsPanel(Pawn pawn) {
+        Spacing = 20;
+        Padding = new Thickness(15);
+        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.Red];
+        foreach (BaseStat baseStat in pawn.Def.BaseStats) {
+            AddChild(new HorizontalStackPanel {
+                Widgets = {
+                    new Label { Text = baseStat.Def.Label, Width = 250 },
+                    new Label { Text = pawn.GetStatValue(baseStat.Def).ToString() }
+                }
+            });
+        }
+    }
+
+    public void Update() { }
 }

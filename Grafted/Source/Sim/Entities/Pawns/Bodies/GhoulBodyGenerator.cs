@@ -1,12 +1,11 @@
 ﻿using Grafted.Definitions;
 using Grafted.Sim.Entities.Items;
 
-namespace Grafted.Sim.Entities.Pawns.BodyGenerators;
+namespace Grafted.Sim.Entities.Pawns.Bodies;
 
-public static class GhoulBodyGenerator {
-    public static void Generate(Pawn pawn) {
-        pawn.Body.RootSocket = GenerateBody();
-        pawn.Body.BodyPartsDirty = true; //todo this should be set by/in BodyPart, but BodyPart doesn't have access to Pawn currently
+public class GhoulBodyGenerator: IBodyGenerator {
+    public BodyPartSocket Generate() {
+        return GenerateBody();
     }
 
     private static BodyPartSocket GenerateBody() {

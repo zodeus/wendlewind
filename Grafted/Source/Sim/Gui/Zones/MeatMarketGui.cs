@@ -3,7 +3,7 @@ using Grafted.Definitions;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
-using Grafted.Sim.Entities.Pawns.BodyGenerators;
+using Grafted.Sim.Entities.Pawns.Bodies;
 using Grafted.Sim.Zones;
 using Grafted.Utils;
 using Microsoft.Xna.Framework;
@@ -79,6 +79,9 @@ public class MeatMarketGui : ZoneGui {
             });
             AddChild(new Label() {
                 Text = $"Sequence Points: {bodyPart.AttachedPart!.SequencePoints}", HorizontalAlignment = HorizontalAlignment.Center, Wrap = true, Width = 200
+            });
+            AddChild(new Label() {
+                Text = $"\\c[{UiTextColor.TextColorRed}]Sanity Cost: -20%", HorizontalAlignment = HorizontalAlignment.Center, Wrap = true, Width = 200
             });
             AddChild(new HorizontalStackPanel {
                 Padding = new Thickness(5, 3, 5, 3),

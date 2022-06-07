@@ -26,6 +26,10 @@ public class PawnSkillsPanel : HorizontalStackPanel {
         combatSkills.AddChild(new Label { Text = "XP", GridRow = 0, GridColumn = 2, HorizontalAlignment = HorizontalAlignment.Center });
         int gridRow = 1;
         foreach (Skill skill in skills.Where(skill => skill.SkillType == SkillType.Arms).OrderBy(skill => skill.Def.Label)) {
+            if (skill.TotalXp == 0) {
+                continue;
+            }
+
             _skillList[skill] = new SkillPanelRow(skill, combatSkills, gridRow++);
         }
 
@@ -61,9 +65,6 @@ public class PawnSkillsPanel : HorizontalStackPanel {
         }
 
         public void Update() {
-            if (_skill.TotalXp == 0) {
-                return;
-            }
             _level.Text = _skill.Level.ToString();
             _level.TextColor = Color.Lerp(Color.DarkRed, Color.YellowGreen, _skill.Level / 10f);
             _xp.Value = _skill.CurrentLevelXp / _skill.XpRequiredForLevelUp * 100;

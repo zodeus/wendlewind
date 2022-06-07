@@ -4,30 +4,48 @@
     <PawnDef Name="BaseAnimal" ParentName="BasePawn" Abstract="true">
     </PawnDef>
     <PawnDef ParentName="BaseAnimal">
+        <Moniker>Human</Moniker>
+        <Label>Human</Label>
+        <Body>HumanBody</Body>
+        <BaseStats>
+            <AttackSpeed>2</AttackSpeed>
+            <MeleeStrength>1</MeleeStrength>
+            <MaxCarryWeight>60</MaxCarryWeight>
+            <Evasion>.01</Evasion>
+            <MeleeAccuracy>.85</MeleeAccuracy>
+        </BaseStats>
+    </PawnDef>
+    <PawnDef ParentName="BaseAnimal">
         <Moniker>Rabbit</Moniker>
         <Label>Rabbit</Label>
+        <Body>RabbitBody</Body>
         <BaseStats>
             <AttackSpeed>2</AttackSpeed>
             <MeleeStrength>.5</MeleeStrength>
             <MaxCarryWeight>10</MaxCarryWeight>
+            <MeleeAccuracy>.7</MeleeAccuracy>
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseAnimal">
         <Moniker>Wolf</Moniker>
         <Label>Wolf</Label>
+        <Body>WolfBody</Body>
         <BaseStats>
             <AttackSpeed>8</AttackSpeed>
             <MeleeStrength>2</MeleeStrength>
             <MaxCarryWeight>150</MaxCarryWeight>
+            <MeleeAccuracy>.9</MeleeAccuracy>
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseAnimal">
         <Moniker>Pig</Moniker>
         <Label>Pig</Label>
+        <Body>PigBody</Body>
         <BaseStats>
             <AttackSpeed>3</AttackSpeed>
             <MeleeStrength>1</MeleeStrength>
             <MaxCarryWeight>80</MaxCarryWeight>
+            <MeleeAccuracy>.8</MeleeAccuracy>
         </BaseStats>
     </PawnDef>
 </Definitions>

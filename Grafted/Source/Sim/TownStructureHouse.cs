@@ -8,25 +8,67 @@ using JetBrains.Annotations;
 
 namespace Grafted.Sim;
 
+public class AlchemyBarrel : IExposable {
+    private readonly TownStructureHouse _house;
+    private int _ticks;
+
+    public ItemDef? ItemDef;
+    public Item? Item;
+
+    public AlchemyBarrel(TownStructureHouse house) {
+        _house = house;
+
+    }
+
+    public int TimeLeft => ItemDef == null ? 0 : ItemDef.CraftingProperties.MinutesToMake - _ticks;
+
+    public void SetItemToCraft(ItemDef item) {
+        _ticks = 0;
+        ItemDef = item;
+    }
+
+    public void Tick() {
+        Item?.Tick();
+        if (ItemDef == null) {
+            return;
+        }
+
+        _ticks++;
+        if (_ticks >= ItemDef.CraftingProperties.MinutesToMake) {
+            Item = EntityGenerator.CreateEntity<Item>(ItemDef, ItemDef.CraftingProperties.AmountProduced);
+            ItemDef = null;
+        }
+    }
+
+    public void TransferToStorage() {
+        Core.Sim.Messages.Push(new Message($"Bottling barrel contents, adding to house storage"));
+        Core.Sim.World.ProgressTime(SimTime.MinutesToSeconds(30));
+        _house.Storage.TryAdd(Item);
+        Item = null;
+    }
+
+    public void ExposeData() {
+        Scribe_Values.Look(ref _ticks, "Ticks");
+        Scribe_Defs.Look(ref ItemDef!, "ItemDef");
+        Scribe_Deep.Look(ref Item!, "Item");
+    }
+}
+
 [UsedImplicitly]
 public class TownStructureHouse : TownStructure, IExposable {
     private int _burningLogTicks = 0;
 
-    public EntityContainer Storage = new();
     public int Firewood;
     public bool IsFireBurning;
     public bool HasMeatRack;
     public bool HasAlchemyBarrel;
-    public Dictionary<int, Item?> MeatRack = new() {
-        { 0, null },
-        { 1, null },
-    };
-    public Dictionary<int, int> MeatTicks = new() {
-        { 0, 0 },
-        { 1, 0 }
-    };
+    public EntityContainer Storage = null!;
+    public Dictionary<int, Item?> MeatRack = null!;
+    public Dictionary<int, int> MeatTicks = null!;
+    public AlchemyBarrel Barrel = null!;
 
     public override void Tick() {
+        Barrel.Tick();
         Storage.Tick();
         if (!IsFireBurning) {
             return;
@@ -76,7 +118,7 @@ public class TownStructureHouse : TownStructure, IExposable {
             $"\\c[{UiTextColor.TextColorDefault}] for \\c[{UiTextColor.TextColorGreen}]{woodLog.StackSize * 100} \\c[{UiTextColor.TextColorItem}]firewood"
         ));
         for (int i = 0; i < woodLog.StackSize; i++) {
-            Core.Sim.World.PlayerPawns[0].Body.ApplyEnergyLoss(0.25f);
+            Core.Sim.PlayerPawn.Body.ConsumeEnergy(0.25f);
             Core.Sim.World.ProgressTime(SimTime.HoursToSeconds(2));
             Storage.TryAdd(EntityGenerator.CreateEntity<Item>(Defs.Items.Firewood, 100));
         }
@@ -86,6 +128,17 @@ public class TownStructureHouse : TownStructure, IExposable {
     }
 
     public override void Initialize() {
+        Storage = new();
+        MeatRack = new() {
+            { 0, null },
+            { 1, null },
+        };
+        MeatTicks = new() {
+            { 0, 0 },
+            { 1, 0 }
+        };
+
+        Barrel = new AlchemyBarrel(this);
         Storage.TryAdd(EntityGenerator.CreateEntity<Item>(Defs.Items.Firewood, 100));
         //Storage.TryAdd(EntityGenerator.CreateEntity<Item>(Defs.Items.RawMeat, 20));
         //Storage.TryAdd(EntityGenerator.CreateEntity<Item>(Defs.Items.CookedMeat, 10));
@@ -97,7 +150,7 @@ public class TownStructureHouse : TownStructure, IExposable {
             $"\\c[{UiTextColor.TextColorDefault}] for \\c[{UiTextColor.TextColorGreen}]{woodLog.StackSize * 8} \\c[{UiTextColor.TextColorItem}]wood boards"
         ));
         for (int i = 0; i < woodLog.StackSize; i++) {
-            Core.Sim.World.PlayerPawns[0].Body.ApplyEnergyLoss(0.30f);
+            Core.Sim.PlayerPawn.Body.ConsumeEnergy(0.30f);
             Core.Sim.World.ProgressTime(SimTime.SecondsInHour * 4);
             Storage.TryAdd(EntityGenerator.CreateEntity<Item>(Defs.Items.WoodBoard, 8));
         }
@@ -129,7 +182,7 @@ public class TownStructureHouse : TownStructure, IExposable {
         Core.Sim.Messages.Push(new Message($"Cooking \\c[{UiTextColor.TextColorGreen}]{amount}x \\c[{UiTextColor.TextColorItem}]{item.Label}"));
         Core.Sim.World.ProgressTime(SimTime.MinutesToSeconds(item.CraftingProperties.MinutesToMake));
         foreach (ResourceCount resourceCount in item.CraftingProperties.ResourceRequirements) {
-            TakeItem(resourceCount.Resource!, resourceCount.Count * amount)!.Destroy();
+            Core.Sim.Player.TakeItem(resourceCount.Resource!, resourceCount.Count * amount)!.Destroy();
         }
 
         Storage.TryAdd(EntityGenerator.CreateEntity<Item>(item, amount * item.CraftingProperties.AmountProduced));
@@ -142,14 +195,14 @@ public class TownStructureHouse : TownStructure, IExposable {
 
         foreach (ResourceCount resourceCount in item.CraftingProperties.ResourceRequirements) {
             int amount = resourceCount.Count * amountWanted;
-            if (AmountOfItem(resourceCount.Resource) < amount) {
+            if (Core.Sim.Player.AmountOfItem(resourceCount.Resource) < amount) {
                 return false;
             }
         }
 
         if (item.CraftingProperties.RequiredTools != null) {
             foreach (ItemDef requiredTool in item.CraftingProperties.RequiredTools) {
-                if (AmountOfItem(requiredTool) < 1) {
+                if (Core.Sim.Player.AmountOfItem(requiredTool) < 1) {
                     return false;
                 }
             }
@@ -158,31 +211,14 @@ public class TownStructureHouse : TownStructure, IExposable {
         return true;
     }
 
-    public int AmountOfItem(ItemDef? resource) {
-        int amount = Core.Sim.World.PlayerPawn.Inventory.Entities.AmountOf(resource);
-        amount += Storage.AmountOf(resource);
-        return amount;
-    }
-
-    public Item? TakeItem(ItemDef itemToTake, int amount) {
-        if (AmountOfItem(itemToTake) < amount) {
-            Log.Warning($"House requirement failed, wanted {amount}x of {itemToTake.Label} but only had {AmountOfItem(itemToTake)}x");
+    public void TryStartBrewing(ItemDef item) {
+        Core.Sim.Messages.Push(new Message($"Adding ingredients to \\c[{UiTextColor.TextColorItem}]alchemy barrel \\c[{UiTextColor.TextColorDefault}]to begin brewing \\c[{UiTextColor.TextColorItem}]{item.Label}"));
+        Core.Sim.World.ProgressTime(SimTime.MinutesToSeconds(15));
+        foreach (ResourceCount resourceCount in item.CraftingProperties.ResourceRequirements) {
+            Core.Sim.Player.TakeItem(resourceCount.Resource!, resourceCount.Count)!.Destroy();
         }
 
-        Item? item = Core.Sim.World.PlayerPawn.Inventory.Entities.Take(itemToTake, amount);
-        if (item?.StackSize >= amount) {
-            return item;
-        }
-
-        amount -= item?.StackSize ?? 0;
-        Item? storageItem = Storage.Take(itemToTake, amount);
-        if (item != null) {
-            item.StackSize += storageItem?.StackSize ?? 0;
-            storageItem?.Destroy();
-            return item;
-        }
-
-        return storageItem;
+        Barrel.SetItemToCraft(item);
     }
 
     public void AddMeatToDryingRack(Item meat, int slot) {
@@ -199,6 +235,7 @@ public class TownStructureHouse : TownStructure, IExposable {
         Scribe_Values.Look(ref IsFireBurning, "IsFireBurning");
         Scribe_Values.Look(ref HasMeatRack, "HasMeatRack");
         Scribe_Values.Look(ref HasAlchemyBarrel, "HasAlchemyBarrel");
+        Scribe_Deep.Look(ref Barrel!, "Barrel", this);
         Scribe_Deep.Look(ref Storage!, "Storage");
         Scribe_Collections.Look(ref MeatRack!, "MeatRack", LookMode.Value, LookMode.Deep);
         Scribe_Collections.Look(ref MeatTicks!, "MeatTicks", LookMode.Value, LookMode.Value);

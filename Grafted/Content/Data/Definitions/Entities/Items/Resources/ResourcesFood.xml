@@ -22,6 +22,7 @@
         <BaseStats>
             <Weight>.5</Weight>
             <CurrencyValue>10</CurrencyValue>
+            <NutritionalValue>.2</NutritionalValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Food">
@@ -47,6 +48,7 @@
             <HealingValue>110</HealingValue>
             <DeteriorationRate>0.01</DeteriorationRate>
             <CurrencyValue>15</CurrencyValue>
+            <NutritionalValue>.4</NutritionalValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Food">
@@ -67,6 +69,7 @@
             <Weight>.2</Weight>
             <DeteriorationRate>0.01</DeteriorationRate>
             <CurrencyValue>50</CurrencyValue>
+            <NutritionalValue>.3</NutritionalValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Food">
@@ -85,8 +88,10 @@
         </FoodProperties>
         <BaseStats>
             <Weight>.2</Weight>
+            <Tier>2</Tier>
             <DeteriorationRate>0.01</DeteriorationRate>
             <CurrencyValue>50</CurrencyValue>
+            <NutritionalValue>.1</NutritionalValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Food">
@@ -105,8 +110,10 @@
         </FoodProperties>
         <BaseStats>
             <Weight>.2</Weight>
+            <Tier>2</Tier>
             <DeteriorationRate>0.01</DeteriorationRate>
             <CurrencyValue>50</CurrencyValue>
+            <NutritionalValue>.1</NutritionalValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Food">
@@ -141,6 +148,7 @@
             <HealingValue>110</HealingValue>
             <DeteriorationRate>0.01</DeteriorationRate>
             <CurrencyValue>25</CurrencyValue>
+            <NutritionalValue>.3</NutritionalValue>
         </BaseStats>
     </ItemDef>
 </Definitions>

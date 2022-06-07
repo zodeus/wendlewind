@@ -2,20 +2,11 @@
 using Grafted.Definitions;
 using Grafted.Sim.Entities.Items;
 
-namespace Grafted.Sim.Entities.Pawns.BodyGenerators;
+namespace Grafted.Sim.Entities.Pawns.Bodies;
 
-public static class HumanBodyGenerator {
-    public static void Generate(Pawn pawn) {
-        pawn.Body.RootSocket = GenerateBody();
-        pawn.Body.BodyPartsDirty = true; //todo this should be set by/in BodyPart, but BodyPart doesn't have access to Pawn currently
-        GenerateBuiltInTools(pawn);
-    }
-
-    private static void GenerateBuiltInTools(Pawn pawn) {
-        Item foot1 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyFoot")!);
-        Item foot2 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyFoot")!);
-        pawn.Equipment.TryEquip(pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Foot && p.SlotFor(foot1) != null).ToList()[0], foot1);
-        pawn.Equipment.TryEquip(pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Foot && p.SlotFor(foot2) != null).ToList()[1], foot2);
+public class HumanBodyGenerator : IBodyGenerator {
+    public BodyPartSocket Generate() {
+        return GenerateBody();
     }
 
     private static BodyPartSocket GenerateBody() {
@@ -48,8 +39,7 @@ public static class HumanBodyGenerator {
         ribCage.GetSocketsFor(BodyPartType.Heart)[0].TryAttachPart(Defs.BodyParts.Heart);
         ribCage.GetSocketsFor(BodyPartType.Lung)[0].TryAttachPart(Defs.BodyParts.Lung);
         ribCage.GetSocketsFor(BodyPartType.Lung)[1].TryAttachPart(Defs.BodyParts.Lung);
-
-
+        
         // Arms
         MakeArm(torso.GetSocketsFor(BodyPartType.Arm)[0].TryAttachPart(Defs.BodyParts.HumanArm));
         MakeArm(torso.GetSocketsFor(BodyPartType.Arm)[1].TryAttachPart(Defs.BodyParts.HumanArm));
@@ -97,5 +87,7 @@ public static class HumanBodyGenerator {
         foot.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
         foot.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
         foot.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
+
+        foot.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyFoot")!);
     }
 }

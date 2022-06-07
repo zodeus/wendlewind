@@ -14,4 +14,5 @@ public static class UiTextColor {
     public static string TextColorItem = "#fa9000";
     public static string TextColorYellow = "#cee000";
     public static string TextColorGolden = "#E8AA00";
+    public static string TextPurple = "#913bf7";
 }

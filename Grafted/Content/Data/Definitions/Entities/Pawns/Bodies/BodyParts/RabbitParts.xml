@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef Name="RabbitBodyPartBase" ParentName="BodyPartBase" Abstract="True">
+        
+    </BodyPartDef>
+    <BodyPartDef ParentName="RabbitBodyPartBase">
         <Moniker>RabbitHead</Moniker>
         <Label>Head</Label>
         <HitWeight>20</HitWeight>
@@ -22,10 +25,10 @@
             <ListItem>BuiltIn</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <MaxHitPoints>50</MaxHitPoints>
+            <MaxHitPoints>60</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="RabbitBodyPartBase">
         <Moniker>RabbitNeck</Moniker>
         <Label>Neck</Label>
         <BodyPartType>Neck</BodyPartType>
@@ -41,10 +44,10 @@
             <ListItem>TorsoSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>16</MaxHitPoints>
+            <MaxHitPoints>60</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="RabbitBodyPartBase">
         <Moniker>RabbitTorso</Moniker>
         <Label>Torso</Label>
         <BodyPartType>Torso</BodyPartType>
@@ -63,10 +66,10 @@
             <ListItem>RearRightLegSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>80</MaxHitPoints>
+            <MaxHitPoints>120</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="RabbitBodyPartBase">
         <Moniker>RabbitLeg</Moniker>
         <Label>Leg</Label>
         <BodyPartType>Leg</BodyPartType>
@@ -81,10 +84,10 @@
             <ListItem>PawSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>14</MaxHitPoints>
+            <MaxHitPoints>30</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="RabbitBodyPartBase">
         <Moniker>RabbitPaw</Moniker>
         <Label>Paw</Label>
         <BodyPartType>Paw</BodyPartType>
@@ -99,7 +102,7 @@
         </Sockets>
         <BaseStats>
             <SequencePoints>1</SequencePoints>
-            <MaxHitPoints>10</MaxHitPoints>
+            <MaxHitPoints>20</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
 </Definitions>

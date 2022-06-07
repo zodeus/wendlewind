@@ -28,6 +28,7 @@
         <TexturePath>Entities/Item/Resource/Wood/WoodBoard</TexturePath>
         <BaseStats>
             <Weight>1</Weight>
+            <Tier>2</Tier>
             <CurrencyValue>200</CurrencyValue>
         </BaseStats>
     </ItemDef>

@@ -37,4 +37,16 @@
         <SkillType>Arms</SkillType>
         <ToolType>Axe</ToolType>
     </SkillDef> 
+    <SkillDef>
+        <Moniker>Teeth</Moniker>
+        <Label>Teeth</Label>
+        <SkillType>Arms</SkillType>
+        <ToolType>Teeth</ToolType>
+    </SkillDef> 
+    <SkillDef>
+        <Moniker>Claws</Moniker>
+        <Label>Claws</Label>
+        <SkillType>Arms</SkillType>
+        <ToolType>Claw</ToolType>
+    </SkillDef> 
 </Definitions>

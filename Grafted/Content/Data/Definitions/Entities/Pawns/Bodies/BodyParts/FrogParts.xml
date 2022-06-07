@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef Name="FrogBodyPartBase" ParentName="BodyPartBase" Abstract="True">
+    </BodyPartDef>
+    <BodyPartDef ParentName="FrogBodyPartBase">
         <Moniker>FrogHead</Moniker>
         <Label>Head</Label>
         <HitWeight>12</HitWeight>
@@ -25,7 +27,7 @@
             <MaxHitPoints>500</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="FrogBodyPartBase">
         <Moniker>FrogTorso</Moniker>
         <Label>Torso</Label>
         <BodyPartType>Torso</BodyPartType>
@@ -43,12 +45,15 @@
             <ListItem>RearLeftLegSocket</ListItem>
             <ListItem>RearRightLegSocket</ListItem>
         </Sockets>
+        <EquipmentSlots>
+            <ListItem>PotionSlot1</ListItem>
+        </EquipmentSlots>
         <BaseStats>
             <MaxHitPoints>1600</MaxHitPoints>
             <SequencePoints>2</SequencePoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="FrogBodyPartBase">
         <Moniker>FrogLeg</Moniker>
         <Label>Leg</Label>
         <BodyPartType>Leg</BodyPartType>
@@ -66,7 +71,7 @@
             <MaxHitPoints>700</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="FrogBodyPartBase">
         <Moniker>FrogFoot</Moniker>
         <Label>Foot</Label>
         <BodyPartType>Foot</BodyPartType>

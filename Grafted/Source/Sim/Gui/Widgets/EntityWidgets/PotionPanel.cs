@@ -19,7 +19,7 @@ public class PotionPanel : EntityPanelBase {
             TextButton button = new(BaseContent.Styles.Button.Normal) { Text = "Sip" };
             button.Click += (_, _) => {
                 float amount = item.GetStatValue(Defs.Stats.HealingValue);
-                Core.Sim.World.PlayerPawns[0].Body.BloodAmount += amount;
+                Core.Sim.PlayerPawn.Body.BloodAmount += amount;
                 item.StackSize--;
                 if (item.StackSize < 1) {
                     item.Destroy();

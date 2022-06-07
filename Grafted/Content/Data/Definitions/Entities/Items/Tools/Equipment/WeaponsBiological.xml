@@ -36,6 +36,19 @@
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
+        <Moniker>GhoulishFoot</Moniker>
+        <Label>Ghoulish Foot</Label>
+        <Description>A ghoulish foot</Description>
+        <ToolType>Hand</ToolType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/GhoulishFoot</TexturePath>
+        <BaseStats>
+            <MeleePower>10</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
         <Moniker>FleshyFoot</Moniker>
         <Label>Fleshy Foot</Label>
         <Description>A fleshy foot</Description>
@@ -61,7 +74,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
         <BaseStats>
-            <MeleePower>3</MeleePower>
+            <MeleePower>10</MeleePower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -75,7 +88,7 @@
                 <ListItem>
                     <Def>BurningAcid</Def>
                     <DurationInMinutes>30~90</DurationInMinutes>
-                    <Chance>.06</Chance>
+                    <Chance>.08</Chance>
                 </ListItem>
             </BodyPartModifiers>
         </WeaponProperties>

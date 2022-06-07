@@ -35,11 +35,11 @@
         <AffectedStats>
             <ListItem>
                 <Stat>MeleeStrength</Stat>
-                <Factor>-0.20</Factor>
+                <Factor>0.20</Factor>
             </ListItem>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Factor>-.20</Factor>
+                <Factor>.20</Factor>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>

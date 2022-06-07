@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Grafted.Definitions;
 using Grafted.Maths;
+using Grafted.Sim.Entities.Pawns.Bodies.Handlers;
 using Grafted.Sim.Persistence;
 
 namespace Grafted.Sim.Entities.Pawns;
@@ -10,20 +11,23 @@ namespace Grafted.Sim.Entities.Pawns;
 public class PawnBody : IExposable, IIdentityProvider {
     private float _bloodAmount;
     private float _energy = 1;
-    private float _ticksWithEmptyStomach;
     private int _sequencePoints = 0;
     private BodyPartSocket _rootSocket;
 
     public readonly Pawn Pawn;
-    public readonly float MaxBlood = 5000;
-
     public string Id = "invalid";
-    public float BloodChangeLastFrame;
+    public float BodySizeFactor = 1;
     public float Temperature = 32;
     public float StomachLevel = 1;
     public PawnCapabilities Capabilities;
     public PawnBodyEffects Effects;
     public bool BodyPartsDirty = true;
+    public float BloodChangeLastFrame;
+    public int TicksSinceLastRest = 0;
+    public DefaultBodyHandler Handler = null!;
+    public BodyDef Def => Pawn.PawnDef.Body;
+    public float MaxBlood => Def.MaxBlood * Pawn.Body.BodySizeFactor;
+    public bool IsFamished => Handler.IsFamished;
 
     public BodyPartSocket RootSocket {
         get => _rootSocket;
@@ -53,6 +57,8 @@ public class PawnBody : IExposable, IIdentityProvider {
         set => _energy = Mathf.Clamp(value, 0f, 1);
     }
 
+    public bool IsExhausted => TicksSinceLastRest > SimTime.TicksPerDay;
+
     public List<BodyPart> AllParts {
         get {
             List<BodyPart> parts = new();
@@ -75,73 +81,19 @@ public class PawnBody : IExposable, IIdentityProvider {
         }
     }
 
+    public bool IsHungry => Handler.IsHungry;
+
     public PawnBody(Pawn pawn) {
         Pawn = pawn;
     }
 
     public void Initialize() {
         Id = $"{Pawn.Id}-Body";
-        BloodAmount = MaxBlood;
+        BloodAmount = Pawn.PawnDef.Body.MaxBlood;
         Capabilities = new PawnCapabilities(Pawn);
         Effects = new PawnBodyEffects(Pawn);
-    }
-
-    private void GetParts(BodyPart part, List<BodyPart> parts, bool externalOnly = false) {
-        if (externalOnly == false || (externalOnly && part.IsExternal)) {
-            parts.Add(part);
-        }
-
-        foreach (BodyPartSocket socket in part.Sockets) {
-            if (socket.AttachedPart != null) {
-                GetParts(socket.AttachedPart, parts, externalOnly);
-            }
-        }
-    }
-
-    private void CalculateBloodLossForExternalPart(BodyPart part) {
-        const float severedArteryBloodLossFactor = 4f;
-        const float severedLimbBloodLossFactor = 6f;
-        float bloodLossScaleFactor = part.Size / 6;
-
-        if (part.HealthPercent < .95) {
-            //Log.Info($"{_pawn} {part} losing {bloodLossScaleFactor * (1 - part.HealthPercent)}");
-            BloodAmount -= bloodLossScaleFactor * (1 - part.HealthPercent);
-        }
-
-        // stop part traversal if part is an artery and it's been severed
-        bool continuePartTraversal = true;
-        foreach (BodyPart internalPart in part.InternalParts) {
-            if (internalPart.Type != BodyPartType.Artery || internalPart.HealthPercent >= 1) {
-                continue;
-            }
-
-            if (internalPart.IsDestroyed) {
-                //Log.Info($"{_pawn} {internalPart} losing {bloodLossScaleFactor * severedArteryBloodLossFactor}");
-                BloodAmount -= Math.Max(bloodLossScaleFactor * severedArteryBloodLossFactor, 10f);
-                // Artery is severed stop propagating bleeding
-                continuePartTraversal = true;
-                continue;
-            }
-
-            //Log.Info($"{_pawn} {internalPart} losing {bloodLossScaleFactor * (1.3f - part.HealthPercent)}");
-            BloodAmount -= bloodLossScaleFactor * (1.3f - part.HealthPercent);
-        }
-
-        foreach (BodyPartSocket socket in part.Sockets) {
-            if (socket.AttachedPart == null) {
-                // part has been severed, start hemorrhaging
-                if (socket.IsSealed == false) {
-                    //Log.Info($"{_pawn} {socket} losing {bloodLossScaleFactor * severedLimbBloodLossFactor}");
-                    BloodAmount -= Math.Max(bloodLossScaleFactor * severedLimbBloodLossFactor, 15);
-                }
-
-                continue;
-            }
-
-            if (continuePartTraversal && socket.AttachedPart?.IsExternal == true) {
-                CalculateBloodLossForExternalPart(socket.AttachedPart);
-            }
-        }
+        Handler = Def.Handler;
+        Handler.Initialize(this);
     }
 
     public void Tick() {
@@ -151,165 +103,24 @@ public class PawnBody : IExposable, IIdentityProvider {
 
         Effects.Tick();
 
-        // Heat Calculations
-        PushExternalHeat();
-
-        // Stomach Calculations
-        float foodLossAmount = (Pawn.IsResting ? .75f : 1f) * 0.002f;
-        StomachLevel = Mathf.Clamp(StomachLevel - foodLossAmount, 0, 1);
-        if (StomachLevel <= 0) {
-            _ticksWithEmptyStomach++;
-        }
-        else {
-            _ticksWithEmptyStomach = 0;
+        TicksSinceLastRest++;
+        if (Pawn.IsResting) {
+            TicksSinceLastRest = 0;
         }
 
-        // Malnutrition Calculations
-        if (_ticksWithEmptyStomach > SimTime.HoursToTicks(24)) {
-            TakeMalnutritionDamage();
-        }
-
-        // Energy Calculations
-        ApplyEnergyLoss(0.0004f);
-
-        if (RootSocket.AttachedPart == null) {
-            BloodAmount = 0;
-            BloodChangeLastFrame = 0;
-        }
-        else {
-            // Blood Loss Calculations & `eration
-            float preTickBloodAmount = BloodAmount;
-            float preTickBloodPercent = BloodPercent;
-            CalculateBloodLossForExternalPart(RootSocket.AttachedPart!);
-            foreach (BodyPart bodyPart in AllParts) {
-                bodyPart.TicksSinceLastHit++;
-            }
-
-            Regenerate(); // Regeneration
-            if (Math.Abs(preTickBloodPercent - BloodPercent) > .00001) {
-                BloodChangeLastFrame = BloodPercent - preTickBloodPercent;
-            }
-            else {
-                BloodAmount = preTickBloodAmount;
-                BloodChangeLastFrame = 0;
-            }
-        }
+        Handler.Tick();
 
         if (BloodAmount <= 1) {
-            Pawn.IsDead = true;
-            if (Pawn.PawnType == PawnType.Player) {
-                Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorPawn}]{Pawn.Label} \\c[{UiTextColor.TextColorRed}]died from blood loss"));
-            }
-
-            Core.Sim.World.DeathRecords.RecordDeath(new DeathRecord {
-                Round = Core.Sim.World.TotalKills + 1,
-                PawnName = Pawn.Label,
-                CauseOfDeath = $"Blood Loss"
-            });
+            HandleBloodLossDeath();
         }
     }
 
-    public void ApplyEnergyLoss(float amount) {
-        Energy -= _ticksWithEmptyStomach > 0 ? amount * 2 : amount;
+    public void PushExternalHeat() {
+        Handler.PushExternalHeat();
     }
 
-    private void TakeMalnutritionDamage() {
-        if (Core.Sim.World.Time.IsIntervalOf(SimTime.MinutesToSeconds(10)) == false) {
-            return;
-        }
-
-        foreach (BodyPart bodyPart in AllParts) {
-            if (bodyPart.Type == BodyPartType.Artery) {
-                continue;
-            }
-
-            if (Core.Random.Chance(0.7f)) {
-                continue;
-            }
-
-            bodyPart.HitPoints -= bodyPart.HitPoints * Core.Random.NextFloat(0.0001f, 0.0005f);
-        }
-    }
-
-    private void PushExternalHeat() {
-        const float hotThreshold = 40;
-        const float coolThreshold = 18;
-        const float optimalBodyTemperature = 32;
-        const float roomTemperature = 22;
-        float amountOfHeatToPush = 1;
-        float externalTemp = Pawn.Zone?.Temperature ?? 0;
-        if (Pawn.Zone?.Town?.GetStructure<TownStructureHouse>() is { IsFireBurning: true }) {
-            externalTemp = roomTemperature;
-        }
-
-        if (externalTemp > hotThreshold) {
-            Temperature = Math.Min(Temperature + amountOfHeatToPush, externalTemp + 10);
-        }
-        else if (externalTemp is >= coolThreshold and <= hotThreshold) {
-            if (Temperature > optimalBodyTemperature) {
-                Temperature = Math.Max(Temperature - amountOfHeatToPush, optimalBodyTemperature);
-            }
-            else {
-                if (Temperature < 32) {
-                    Temperature = Math.Min(Temperature + amountOfHeatToPush, optimalBodyTemperature);
-                }
-            }
-        }
-        else if (externalTemp < coolThreshold) {
-            Temperature = Math.Max(Temperature - amountOfHeatToPush, externalTemp + 10);
-        }
-    }
-
-    private void Regenerate() {
-        if (_ticksWithEmptyStomach > SimTime.HoursToTicks(2) || Energy < .2 || BloodPercent < 0.05 || IsWarm == false) {
-            return;
-        }
-
-        if (RootSocket.AttachedPart == null) {
-            return;
-        }
-
-        float restingBoost = Pawn.IsResting ? 2 : 1;
-        // stop regenerating blood when near death
-        if (BloodAmount > 100) {
-            BloodAmount += 1f * restingBoost;
-        }
-
-        float partRegenerationFactor = 0.001f * restingBoost;
-
-        void UpdateHealth(BodyPart bodyPart) {
-            if (bodyPart.IsDestroyed) {
-                return;
-            }
-
-            bodyPart.HitPoints += bodyPart.HitPoints * partRegenerationFactor;
-        }
-
-        void DoRegeneration(BodyPart bodyPart) {
-            UpdateHealth(bodyPart);
-            foreach (BodyPart internalPart in bodyPart.InternalParts) {
-                UpdateHealth(internalPart);
-            }
-
-            foreach (BodyPart externalPart in bodyPart.ExternalParts) {
-                DoRegeneration(externalPart);
-            }
-        }
-
-        DoRegeneration(RootSocket.AttachedPart);
-    }
-
-    public void ExposeData() {
-        Scribe_Values.Look(ref Id!, "Id");
-        Scribe_Values.Look(ref _bloodAmount, "BloodAmount");
-        Scribe_Values.Look(ref _energy, "Energy");
-        Scribe_Values.Look(ref _ticksWithEmptyStomach, "TicksWithEmptyStomach");
-        Scribe_Values.Look(ref BloodChangeLastFrame, "BloodChangeLastFrame");
-        Scribe_Values.Look(ref Temperature, "Temperature");
-        Scribe_Values.Look(ref StomachLevel, "StomachLevel");
-        Scribe_Deep.Look(ref Capabilities!, "Capabilities", Pawn);
-        Scribe_Deep.Look(ref Effects!, "Effects", Pawn);
-        Scribe_Deep.Look(ref _rootSocket!, "RootSocket");
+    public void ConsumeEnergy(float baseAmount) {
+        Handler.ConsumeEnergy(baseAmount);
     }
 
     public int GetSequencePoints() {
@@ -320,7 +131,6 @@ public class PawnBody : IExposable, IIdentityProvider {
             _sequencePoints = Mathf.RoundToInt(_sequencePoints * Capabilities.Breathing);
             BodyPartsDirty = false;
         }
-
 
         if (Energy < .50) {
             return _sequencePoints - 1;
@@ -335,5 +145,43 @@ public class PawnBody : IExposable, IIdentityProvider {
 
     public string GetUniqueId() {
         return Id;
+    }
+
+    public void ExposeData() {
+        Scribe_Values.Look(ref Id!, "Id");
+        Scribe_Values.Look(ref _bloodAmount, "BloodAmount");
+        Scribe_Values.Look(ref _energy, "Energy");
+        Scribe_Values.Look(ref BloodChangeLastFrame, "BloodChangeLastFrame");
+        Scribe_Values.Look(ref Temperature, "Temperature");
+        Scribe_Values.Look(ref StomachLevel, "StomachLevel");
+        Scribe_Deep.Look(ref Capabilities!, "Capabilities", Pawn);
+        Scribe_Deep.Look(ref Effects!, "Effects", Pawn);
+        Scribe_Deep.Look(ref _rootSocket!, "RootSocket");
+        Scribe_Deep.Look(ref Handler!, "Handler");
+    }
+
+    private void GetParts(BodyPart part, List<BodyPart> parts, bool externalOnly = false) {
+        if (externalOnly == false || (externalOnly && part.IsExternal)) {
+            parts.Add(part);
+        }
+
+        foreach (BodyPartSocket socket in part.Sockets) {
+            if (socket.AttachedPart != null) {
+                GetParts(socket.AttachedPart, parts, externalOnly);
+            }
+        }
+    }
+
+    private void HandleBloodLossDeath() {
+        Pawn.IsDead = true;
+        if (Pawn.PawnType == PawnType.Player) {
+            Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorPawn}]{Pawn.Label} \\c[{UiTextColor.TextColorRed}]died from blood loss"));
+        }
+
+        Core.Sim.World.DeathRecords.RecordDeath(new DeathRecord {
+            Round = Core.Sim.World.TotalKills + 1,
+            PawnName = Pawn.Label,
+            CauseOfDeath = "Blood Loss"
+        });
     }
 }

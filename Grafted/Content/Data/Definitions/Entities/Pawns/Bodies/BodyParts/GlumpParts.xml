@@ -1,8 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
+    <BodyPartDef Name="GlumpBodyPartBase" ParentName="BodyPartBase" Abstract="True">
+        
+    </BodyPartDef>
+    
     <!-- Regular Parts -->
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="GlumpBodyPartBase">
         <Moniker>GlumpTorso</Moniker>
         <Label>Torso</Label>
         <BodyPartType>Torso</BodyPartType>
@@ -30,13 +34,13 @@
             <SequencePoints>2</SequencePoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="GlumpBodyPartBase">
         <Moniker>GlumpRibCage</Moniker>
         <Label>Rib Cage</Label>
         <BodyPartType>RibCage</BodyPartType>
         <Size>50</Size>
         <IsBone>true</IsBone>
-        <TexturePath>Entities/Pawn/BodyParts/Human/HumanRibCage</TexturePath>
+        <TexturePath>Entities/Pawn/BodyParts/Generic/RibCage</TexturePath>
         <Sockets>
             <ListItem>ArterySocket</ListItem>
             <ListItem>HeartSocket</ListItem>
@@ -49,7 +53,7 @@
             <MaxHitPoints>800</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="GlumpBodyPartBase">
         <Moniker>GlumpArm</Moniker>
         <Label>Arm</Label>
         <BodyPartType>Arm</BodyPartType>
@@ -70,7 +74,7 @@
             <MaxHitPoints>400</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="GlumpBodyPartBase">
         <Moniker>GlumpHand</Moniker>
         <Label>Hand</Label>
         <BodyPartType>Hand</BodyPartType>
@@ -97,7 +101,7 @@
             <MaxHitPoints>200</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="GlumpBodyPartBase">
         <Moniker>GlumpFinger</Moniker>
         <Label>Finger</Label>
         <BodyPartType>Finger</BodyPartType>
@@ -114,7 +118,7 @@
             <MaxHitPoints>80</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="GlumpBodyPartBase">
         <Moniker>GlumpThumb</Moniker>
         <Label>Thumb</Label>
         <BodyPartType>Thumb</BodyPartType>
@@ -131,7 +135,7 @@
             <MaxHitPoints>90</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="GlumpBodyPartBase">
         <Moniker>GlumpLeg</Moniker>
         <Label>Leg</Label>
         <BodyPartType>Leg</BodyPartType>
@@ -152,7 +156,7 @@
             <MaxHitPoints>300</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="GlumpBodyPartBase">
         <Moniker>GlumpFoot</Moniker>
         <Label>Foot</Label>
         <BodyPartType>Foot</BodyPartType>

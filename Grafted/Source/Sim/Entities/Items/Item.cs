@@ -1,15 +1,13 @@
-using System;
 using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Items.Medicinals;
-using Grafted.Sim.Entities.Pawns;
 using Grafted.Sim.Gui.Widgets.TownWidgets;
 using Grafted.Sim.Persistence;
 
 namespace Grafted.Sim.Entities.Items;
 
-public class Item : Entity,IExposable{
+public class Item : Entity, IExposable {
     public ItemDef ItemDef => (ItemDef) Def;
     private float _durability;
     public float MaxDurability = 0;
@@ -21,6 +19,7 @@ public class Item : Entity,IExposable{
     public int WeightSingle => Mathf.CeilToInt(this.GetStatValue(Defs.Stats.Weight));
     public int Weight => Mathf.CeilToInt(this.GetStatValue(Defs.Stats.Weight) * StackSize);
     public MedicinalHandler? MedicinalHandler => ItemDef.MedicinalProperties?.Handler;
+    public bool CanBeDestroyed => ItemDef.ItemType != ItemType.Trinket && ItemDef != Defs.Items.Cauterize;
 
     public override void Initialize() {
         MaxDurability = this.GetStatValue(Defs.Stats.MaxDurability);

@@ -20,7 +20,7 @@
                     </ListItem>
                     <ListItem>
                         <Item>Coin</Item>
-                        <Amount>5~20</Amount>
+                        <Amount>25~50</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
@@ -65,7 +65,7 @@
                     </ListItem>
                     <ListItem>
                         <Item>Coin</Item>
-                        <Amount>25~50</Amount>
+                        <Amount>50~100</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
@@ -110,7 +110,7 @@
                     </ListItem>
                     <ListItem>
                         <Item>Coin</Item>
-                        <Amount>75~125</Amount>
+                        <Amount>100~200</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
@@ -142,15 +142,15 @@
         <Zone>PeacefulMeadow</Zone>
         <Enemies>
             <ListItem>
-                <Race>TruffleBoar</Race>
+                <Race>InnocentRabbit</Race>
                 <Config>DefaultEnemy</Config>
-                <PawnName>Truffle Boar</PawnName>
+                <PawnName>Innocent Rabbit</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <SpawnDuring>AllDay</SpawnDuring>
                 <InventoryItems>
                     <ListItem>
                         <Item>RawMeat</Item>
-                        <Amount>4~8</Amount>
+                        <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                     <ListItem>
@@ -187,6 +187,30 @@
         <IsBoss>true</IsBoss>
         <Enemies>
             <ListItem>
+                <Race>TruffleBoar</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Truffle Boar</PawnName>
+                <SpawnWeight>1</SpawnWeight>
+                <SpawnDuring>AllDay</SpawnDuring>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>4~8</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>Coin</Item>
+                        <Amount>600~900</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>CowardsFlag</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+            <!--<ListItem>
                 <Race>Glump</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>Glump Scoutling</PawnName>
@@ -208,7 +232,7 @@
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
-            </ListItem>
+            </ListItem>-->
         </Enemies>
     </CombatConfigDef>
 </Definitions>

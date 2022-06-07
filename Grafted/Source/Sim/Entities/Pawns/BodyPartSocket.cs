@@ -1,34 +1,31 @@
 using System;
-using System.Linq;
-using Grafted.Graphics.Textures;
 using Grafted.Maths;
 using Grafted.Sim.Persistence;
 using JetBrains.Annotations;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Grafted.Sim.Entities.Pawns;
 
 public class AdaptiveBodyPartProperties {
-    public HitPointScaler HitPointScaler = null!;
+    public MaxHitPointScaler MaxHitPointScaler = null!;
 }
 
-public abstract class HitPointScaler {
-    public abstract float GetHitPointsFor(BodyPart parentPart);
+public abstract class MaxHitPointScaler {
+    public abstract float GetMaxHitPointsFor(BodyPart parentPart);
 }
 
-class HitPointScalerConstantFactor : HitPointScaler {
+class MaxHitPointScalerConstantFactor : MaxHitPointScaler {
     public float Factor = 0;
 
-    public override float GetHitPointsFor(BodyPart parentPart) {
-        return Math.Max(1, parentPart.HitPoints * Factor);
+    public override float GetMaxHitPointsFor(BodyPart parentPart) {
+        return Math.Max(1, parentPart.MaxHitPoints * Factor);
     }
 }
 
-class HitPointScalerCurve : HitPointScaler {
+class MaxHitPointScalerCurve : MaxHitPointScaler {
     public Curve Curve = null!;
 
-    public override float GetHitPointsFor(BodyPart parentPart) {
-        return Curve.Evaluate(parentPart.HitPoints);
+    public override float GetMaxHitPointsFor(BodyPart parentPart) {
+        return Curve.Evaluate(parentPart.MaxHitPoints);
     }
 }
 
@@ -70,14 +67,6 @@ public class BodyPartSocket : IExposable, IIdentityProvider {
         IsSealed = true;
 
         bodyPart.AdaptBodyPartTo(ParentPart);
-
-        string name = bodyPart.Label.Replace(" ", "");
-        foreach (var texturePath in bodyPart.BodyPartDef.BodyTexturePaths) {
-            string pathName = texturePath.Split("/").Last();
-            if (name == pathName) {
-                bodyPart.Image = TextureUtils.PreMultiply(Core.Content.Load<Texture2D>(texturePath));
-            }
-        }
 
         return bodyPart;
     }

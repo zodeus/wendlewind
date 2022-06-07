@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using Grafted.Maths;
 using Grafted.Sim.Gui;
+using Grafted.Sim.Persistence;
 using Grafted.Utils;
 using Microsoft.Xna.Framework;
 
 namespace Grafted.Sim;
 
-public class OminousMessageSpawner {
+public class OminousMessageSpawner : IExposable {
     private Dictionary<int, ScreenMessageData> _messages = new();
 
     public OminousMessageSpawner() {
@@ -66,4 +67,6 @@ public class OminousMessageSpawner {
             Core.Sim.Gui!.PushScreenMessage(_messages[Core.Sim.Ticks]);
         }
     }
+
+    public void ExposeData() { }
 }

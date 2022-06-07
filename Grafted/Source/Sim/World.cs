@@ -17,29 +17,27 @@ public enum ZoneType {
 
 public class World : IExposable, IIdentityProvider {
     public SimTime Time = null!;
-    public List<Pawn> PlayerPawns = null!;
     public PawnDeathRecords DeathRecords = null!;
     public Zone CurrentZone = null!;
     public Dictionary<ZoneDef, Zone> Zones = null!;
+    public OminousMessageSpawner OminousMessageSpawner = null!;
+    public Player Player = null!;
     public int TotalKills;
 
-    public Pawn PlayerPawn => PlayerPawns[0];
+    public Pawn PlayerPawn => Player.Pawn;
 
-    public void Initialize() {
+    public void Initialize(Player player) {
+        Player = player;
         Time = new SimTime();
-        PlayerPawns = new List<Pawn>();
         DeathRecords = new PawnDeathRecords();
         Zones = new Dictionary<ZoneDef, Zone>();
+        OminousMessageSpawner = new OminousMessageSpawner();
         foreach (ZoneDef zoneDef in DefRepository<ZoneDef>.Defs) {
             Zones[zoneDef] = new Zone();
             Zones[zoneDef].Initialize(this, zoneDef);
         }
 
         TotalKills = 0;
-    }
-
-    public void AddPlayerPawn(Pawn pawn) {
-        PlayerPawns.Add(pawn);
     }
 
     public void ProgressUntilTimeOfDay(int time) {
@@ -77,11 +75,8 @@ public class World : IExposable, IIdentityProvider {
             zone.Tick();
         }
 
-        foreach (Pawn pawn in PlayerPawns) {
-            pawn.Tick();
-        }
-
-        Core.Sim.OminousMessageSpawner.Tick();
+        Player.Tick();
+        OminousMessageSpawner.Tick();
     }
 
     public void RegisterKill(Pawn pawnKilled) {
@@ -91,8 +86,9 @@ public class World : IExposable, IIdentityProvider {
     }
 
     public void ExposeData() {
+        Scribe_Deep.Look(ref OminousMessageSpawner!, "OminousMessageSpawner");
         Scribe_Deep.Look(ref Time!, "Time");
-        Scribe_Collections.Look(ref PlayerPawns!, "PlayerPawns", LookMode.Deep);
+        Scribe_Deep.Look(ref Player!, "Player");
         Scribe_Deep.Look(ref DeathRecords!, "DeathRecords");
         Scribe_References.Look(ref CurrentZone!, "CurrentZone");
         Scribe_Collections.Look(ref Zones!, "Zones", LookMode.Def, LookMode.Deep);

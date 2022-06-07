@@ -3,9 +3,9 @@
 <Definitions>
     <PawnDef Name="BasePawn" Abstract="True">
         <EntityClass>Pawn</EntityClass>
-        <!--<UiClass>PawnPanel</UiClass>-->
+        <UiClass>PawnPanel</UiClass>
         <BaseStats>
-            <MeleeAccuracy>1</MeleeAccuracy>
+            <MeleeAccuracy>.85</MeleeAccuracy>
         </BaseStats>
     </PawnDef>
 </Definitions>

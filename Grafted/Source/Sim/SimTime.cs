@@ -116,4 +116,12 @@ public class SimTime : IExposable {
     public static int TicksToHours(int ticks) {
         return Mathf.FloorToInt(ticks / (float) TicksPerHour);
     }
+
+    public static int TicksToDays(int ticks) {
+        return Mathf.FloorToInt(ticks / (float) TicksPerDay);
+    }
+
+    public static int TicksToMinutes(int ticks) {
+        return ticks * TicksPerMinute;
+    }
 }

@@ -30,6 +30,7 @@
         <TexturePath>Entities/Item/Consumables/AcidFlask</TexturePath>
         <BaseStats>
             <CurrencyValue>80</CurrencyValue>
+            <Tier>2</Tier>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Potion">
@@ -39,6 +40,43 @@
         <TexturePath>Entities/Item/Consumables/PumpinJuice</TexturePath>
         <BaseStats>
             <CurrencyValue>60</CurrencyValue>
+            <Tier>3</Tier>
         </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="Potion">
+        <Moniker>TheDreamingPowder</Moniker>
+        <Label>The Dreaming Powder</Label>
+        <Description>Sleep well my friend</Description>
+        <TexturePath>Entities/Item/Potion/TheDreamingPowder</TexturePath>
+        <BaseStats>
+            <CurrencyValue>8000</CurrencyValue>
+            <Tier>5</Tier>
+        </BaseStats>
+        <CraftingProperties>
+            <MinutesToMake>1440</MinutesToMake>
+            <AmountProduced>2</AmountProduced>
+            <RequiredTools>
+                <ListItem>ATap</ListItem>
+                <ListItem>MortarAndPestle</ListItem>
+            </RequiredTools>
+            <ResourceRequirements>
+                <ListItem>
+                    <Resource>ButtonTopMushroom</Resource>
+                    <Count>2</Count>
+                </ListItem>
+                <ListItem>
+                    <Resource>DreamBerry</Resource>
+                    <Count>2</Count>
+                </ListItem>
+                <ListItem>
+                    <Resource>ChurniRoot</Resource>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Resource>WaterBucket</Resource>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
     </ItemDef>
 </Definitions>

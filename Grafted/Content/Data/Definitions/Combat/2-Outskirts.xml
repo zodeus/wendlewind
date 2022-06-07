@@ -13,13 +13,37 @@
                 <SpawnWeight>1</SpawnWeight>
                 <InventoryItems>
                     <ListItem>
-                        <Item>RawMeat</Item>
+                        <Item>RawMeat</Item> 
                         <Amount>4~8</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                     <ListItem>
                         <Item>Coin</Item>
                         <Amount>300~500</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+            <ListItem>
+                <Race>FieldHound</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Field Hound</PawnName>
+                <SpawnWeight>20</SpawnWeight>
+                <BodySizeFactor>2</BodySizeFactor>
+                <SpawnDuring>Night</SpawnDuring>
+                <Skills>
+                    <Teeth>7</Teeth>
+                    <Claws>7</Claws>
+                </Skills>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>8~16</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>SoulCoin</Item>
+                        <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
@@ -51,24 +75,25 @@
                 </InventoryItems>
             </ListItem>
             <ListItem>
-                <Race>Glump</Race>
+                <Race>FieldHound</Race>
                 <Config>DefaultEnemy</Config>
-                <PawnName>A Glump</PawnName>
-                <SpawnWeight>1</SpawnWeight>
-                <EquipmentItems>
-                    <ListItem>WoodenHammer</ListItem>
-                    <ListItem>LeatherGlove</ListItem>
-                    <ListItem>LeatherGlove</ListItem>
-                </EquipmentItems>
+                <PawnName>Field Hound</PawnName>
+                <SpawnWeight>20</SpawnWeight>
+                <BodySizeFactor>2</BodySizeFactor>
+                <SpawnDuring>Night</SpawnDuring>
+                <Skills>
+                    <Teeth>7</Teeth>
+                    <Claws>7</Claws>
+                </Skills>
                 <InventoryItems>
                     <ListItem>
-                        <Item>SoulCoin</Item>
-                        <Amount>1</Amount>
+                        <Item>RawMeat</Item>
+                        <Amount>8~16</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                     <ListItem>
-                        <Item>Coin</Item>
-                        <Amount>500~700</Amount>
+                        <Item>SoulCoin</Item>
+                        <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
@@ -100,26 +125,25 @@
                 </InventoryItems>
             </ListItem>
             <ListItem>
-                <Race>Glump</Race>
+                <Race>FieldHound</Race>
                 <Config>DefaultEnemy</Config>
-                <PawnName>A Glump</PawnName>
-                <SpawnWeight>1</SpawnWeight>
-                <EquipmentItems>
-                    <ListItem>WoodenHammer</ListItem>
-                    <ListItem>BucketHelmet</ListItem>
-                    <ListItem>LeatherGlove</ListItem>
-                    <ListItem>LeatherGlove</ListItem>
-                    <ListItem>AcidFlask</ListItem>
-                </EquipmentItems>
+                <PawnName>Field Hound</PawnName>
+                <SpawnWeight>20</SpawnWeight>
+                <BodySizeFactor>2</BodySizeFactor>
+                <SpawnDuring>Night</SpawnDuring>
+                <Skills>
+                    <Teeth>7</Teeth>
+                    <Claws>7</Claws>
+                </Skills>
                 <InventoryItems>
                     <ListItem>
-                        <Item>SoulCoin</Item>
-                        <Amount>1</Amount>
+                        <Item>RawMeat</Item>
+                        <Amount>8~16</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                     <ListItem>
-                        <Item>Coin</Item>
-                        <Amount>700~900</Amount>
+                        <Item>SoulCoin</Item>
+                        <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
@@ -151,26 +175,25 @@
                 </InventoryItems>
             </ListItem>
             <ListItem>
-                <Race>Glump</Race>
+                <Race>FieldHound</Race>
                 <Config>DefaultEnemy</Config>
-                <PawnName>A Glump</PawnName>
-                <SpawnWeight>1</SpawnWeight>
-                <EquipmentItems>
-                    <ListItem>Knife</ListItem>
-                    <ListItem>BucketHelmet</ListItem>
-                    <ListItem>LeatherGlove</ListItem>
-                    <ListItem>LeatherGlove</ListItem>
-                    <ListItem>AcidFlask</ListItem>
-                </EquipmentItems>
+                <PawnName>Field Hound</PawnName>
+                <SpawnWeight>20</SpawnWeight>
+                <BodySizeFactor>2</BodySizeFactor>
+                <SpawnDuring>Night</SpawnDuring>
+                <Skills>
+                    <Teeth>7</Teeth>
+                    <Claws>7</Claws>
+                </Skills>
                 <InventoryItems>
                     <ListItem>
-                        <Item>SoulCoin</Item>
-                        <Amount>1</Amount>
+                        <Item>RawMeat</Item>
+                        <Amount>8~16</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                     <ListItem>
-                        <Item>Coin</Item>
-                        <Amount>1000~1500</Amount>
+                        <Item>SoulCoin</Item>
+                        <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
@@ -185,7 +208,8 @@
             <ListItem>
                 <Race>FieldHound</Race>
                 <Config>DefaultEnemy</Config>
-                <PawnName>Field Hound</PawnName>
+                <PawnName>Young Field Hound</PawnName>
+                <BodySizeFactor>.5</BodySizeFactor>
                 <SpawnWeight>1</SpawnWeight>
                 <InventoryItems>
                     <ListItem>
@@ -201,7 +225,7 @@
                     <ListItem>
                         <Item>ATap</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
+                        <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                     <ListItem>
                         <Item>WarAxe</Item>

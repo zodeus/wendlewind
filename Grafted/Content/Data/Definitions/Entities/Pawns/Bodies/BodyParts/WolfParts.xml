@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef Name="WolfBodyPartBase" ParentName="BodyPartBase" Abstract="True">
+        
+    </BodyPartDef>
+    <BodyPartDef ParentName="WolfBodyPartBase">
         <Moniker>WolfHead</Moniker>
         <Label>Head</Label>
         <HitWeight>20</HitWeight>
@@ -25,7 +28,7 @@
             <MaxHitPoints>500</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="WolfBodyPartBase">
         <Moniker>WolfNeck</Moniker>
         <Label>Neck</Label>
         <BodyPartType>Neck</BodyPartType>
@@ -41,10 +44,10 @@
             <ListItem>TorsoSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>200</MaxHitPoints>
+            <MaxHitPoints>300</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="WolfBodyPartBase">
         <Moniker>WolfTorso</Moniker>
         <Label>Torso</Label>
         <BodyPartType>Torso</BodyPartType>
@@ -67,7 +70,7 @@
             <MaxHitPoints>800</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="WolfBodyPartBase">
         <Moniker>WolfLeg</Moniker>
         <Label>Leg</Label>
         <BodyPartType>Leg</BodyPartType>
@@ -85,7 +88,7 @@
             <MaxHitPoints>180</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="WolfBodyPartBase">
         <Moniker>WolfPaw</Moniker>
         <Label>Paw</Label>
         <BodyPartType>Paw</BodyPartType>
@@ -106,7 +109,7 @@
             <MaxHitPoints>120</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="WolfBodyPartBase">
         <Moniker>WolfTail</Moniker>
         <Label>Tail</Label>
         <BodyPartType>Tail</BodyPartType>

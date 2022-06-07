@@ -31,24 +31,21 @@ public class TendFirePanel : HorizontalStackPanel {
             Text = " 1x Firewood", VerticalAlignment = VerticalAlignment.Center
         };
         _add1Wood.Click += (_, _) => {
-            Item wood = _house.Storage.Take(Defs.Items.Firewood, 1)
-                        ?? Core.Sim.World.PlayerPawns[0].Inventory.Entities.Take(Defs.Items.Firewood, 1)!;
+            Item wood = Core.Sim.Player.TakeItem(Defs.Items.Firewood, 1)!;
             _house.AddWoodToFire(wood);
         };
         _add5Wood = new TextButton(BaseContent.Styles.Button.Normal) {
             Text = " 5x Firewood", VerticalAlignment = VerticalAlignment.Center
         };
         _add5Wood.Click += (_, _) => {
-            Item wood = _house.Storage.Take(Defs.Items.Firewood, 5)
-                        ?? Core.Sim.World.PlayerPawns[0].Inventory.Entities.Take(Defs.Items.Firewood, 5)!;
+            Item wood = Core.Sim.Player.TakeItem(Defs.Items.Firewood, 5)!;
             _house.AddWoodToFire(wood);
         };
         _add10Wood = new TextButton(BaseContent.Styles.Button.Normal) {
             Text = "10x Firewood", VerticalAlignment = VerticalAlignment.Center
         };
         _add10Wood.Click += (_, _) => {
-            Item wood = _house.Storage.Take(Defs.Items.Firewood, 10)
-                        ?? Core.Sim.World.PlayerPawns[0].Inventory.Entities.Take(Defs.Items.Firewood, 10)!;
+            Item wood = Core.Sim.Player.TakeItem(Defs.Items.Firewood, 10)!;
             _house.AddWoodToFire(wood);
         };
         _startFire = new TextButton(BaseContent.Styles.Button.Normal) {
@@ -90,18 +87,7 @@ public class TendFirePanel : HorizontalStackPanel {
     }
 
     public void Update() {
-        int availableFireWood = 0;
-        foreach (Item item in _house.Storage) {
-            if (item.ItemDef == Defs.Items.Firewood) {
-                availableFireWood += item.StackSize;
-            }
-        }
-
-        foreach (Item item in Core.Sim.World.PlayerPawns[0].Inventory) {
-            if (item.ItemDef == Defs.Items.Firewood) {
-                availableFireWood += item.StackSize;
-            }
-        }
+        int availableFireWood = Core.Sim.Player.AmountOfItem(Defs.Items.Firewood);
 
         _add1Wood.Enabled = availableFireWood > 0 && _house.Firewood < 30;
         _add5Wood.Enabled = availableFireWood >= 5 && _house.Firewood <= 25;

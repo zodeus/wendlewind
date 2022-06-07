@@ -1,9 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<BodyDef>
-    <Moniker>Human</Moniker>
-    <Label>Human</Label>
-    <BodyType>Human</BodyType>
-    <BloodType>Animal</BloodType>
-    <GeneratorClass></GeneratorClass>
-    <HandlerClass></HandlerClass>
-</BodyDef>
+<Definitions>
+    <BloodDef>
+        <Moniker>AnimalBlood</Moniker>
+        <Label>Animal Blood</Label>
+        <Color>102,0,0</Color>
+        <Viscosity>6</Viscosity>
+    </BloodDef>
+    <BloodDef>
+        <Moniker>BlackPlasma</Moniker>
+        <Label>Animal Blood</Label>
+        <Color>51, 51, 51</Color>
+        <Viscosity>15</Viscosity>
+    </BloodDef>
+    <BloodDef>
+        <Moniker>ToxicSlime</Moniker>
+        <Label>Toxic Slime</Label>
+        <Color>140, 238, 43</Color>
+        <Viscosity>8</Viscosity>
+    </BloodDef>
+</Definitions>

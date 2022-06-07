@@ -6,9 +6,11 @@ using Grafted.Sim.Gui.Widgets.EntityWidgets;
 using Grafted.Sim.Gui.Widgets.MiscWidgets;
 using Grafted.Sim.Gui.Zones;
 using Grafted.Sim.Zones.Handlers;
+using Grafted.UI;
 using Grafted.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Myra.Graphics2D.UI;
 
 namespace Grafted.Sim.Gui;
@@ -39,9 +41,12 @@ public abstract class BaseGui {
             _screenMessageTimeLeft -= deltaTime;
         }
 
-        if (Core.Sim.World.PlayerPawn.IsDead && _deathWindowIsOpen == false && (this is AdventureGui gui && gui.Zone.Adventure?.State is AdventureState.CombatResults or AdventureState.Unoccupied)) {
+        if (Core.Sim.World.PlayerPawn.IsDead && _deathWindowIsOpen == false) {
+            if ((this is AdventureGui gui && gui.Zone.Adventure?.State is not AdventureState.CombatResults or AdventureState.Unoccupied)) {
+                return;
+            }
+
             ShowDeathWindow();
-            return;
         }
     }
 
@@ -56,7 +61,11 @@ public abstract class BaseGui {
         _queuedEntityToView = new KeyValuePair<Entity, Point?>(entity, position);
     }
 
-    public virtual void HandleInput() { }
+    public virtual void HandleInput() {
+        if (Input.IsKeyPressed(Keys.B)) {
+            (new BookOfAllKnowledgeWindow()).Show(Desktop, new Point(100, 100));
+        }
+    }
 
     public virtual void Render(SpriteBatch spriteBatch, float deltaTime) {
         Desktop.Render();

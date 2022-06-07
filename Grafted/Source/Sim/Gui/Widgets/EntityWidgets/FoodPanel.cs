@@ -26,7 +26,7 @@ public class FoodPanel : EntityPanelBase {
 
         _eatButton = new TextButton(BaseContent.Styles.Button.Normal) { Text = "Eat", Margin = new Thickness(0, 20, 0, 0) };
         _eatButton.Click += (_, _) => {
-            Core.Sim.World.PlayerPawns[0].TryEat(item);
+            Core.Sim.PlayerPawn.TryEat(item);
         };
         AddChild(_eatButton);
     }

@@ -2,13 +2,11 @@
 using Grafted.Definitions;
 using Grafted.Sim.Entities.Items;
 
-namespace Grafted.Sim.Entities.Pawns.BodyGenerators;
+namespace Grafted.Sim.Entities.Pawns.Bodies;
 
-public static class RabbitBodyGenerator {
-    public static void Generate(Pawn pawn) {
-        pawn.Body.RootSocket = GenerateBody();
-        pawn.Body.BodyPartsDirty = true; //todo this should be set by/in BodyPart, but BodyPart doesn't have access to Pawn currently
-        GenerateBuiltInTools(pawn);
+public class RabbitBodyGenerator : IBodyGenerator {
+    public BodyPartSocket Generate() {
+        return GenerateBody();
     }
 
     private static BodyPartSocket GenerateBody() {
@@ -18,6 +16,7 @@ public static class RabbitBodyGenerator {
         head.GetSocketsFor(BodyPartType.Eye)[0].TryAttachPart(Defs.BodyParts.Eye);
         head.GetSocketsFor(BodyPartType.Eye)[1].TryAttachPart(Defs.BodyParts.Eye);
         head.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
+        head.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("RabbitTeeth")!);
 
         //Skull
         BodyPart skull = head.GetSocketsFor(BodyPartType.Skull)[0].TryAttachPart(Defs.BodyParts.Skull);
@@ -58,10 +57,5 @@ public static class RabbitBodyGenerator {
         foot.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
         foot.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
         foot.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
-    }
-
-    private static void GenerateBuiltInTools(Pawn pawn) {
-        Item teeth = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("RabbitTeeth")!);
-        pawn.Equipment.TryEquip(pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Head && p.SlotFor(teeth) != null).ToList()[0], teeth);
     }
 }

@@ -30,6 +30,9 @@ public static class CombatGenerator {
             combatConfig = DefRepository<CombatConfigDef>.Defs.Where(CombatFilter(zone)).RandomElement();
         }
         else {
+            Core.Sim.CombatSettings.Speed = CombatSpeed.Slow;
+            Core.Sim.CombatSettings.IsPaused = true;
+            combatEvent.IsBoss = true;
             combatConfig = DefRepository<CombatConfigDef>.Defs.First(config => config.Zone == zone.Def && config.IsBoss);
         }
 
@@ -68,7 +71,9 @@ public static class CombatGenerator {
             Pawn pawn = PawnGenerator.CreatePawn(new PawnRequest(
                 enemyConfig.Race,
                 enemyConfig.Config
-            ));
+            ) {
+                BodySizeFactor = enemyConfig.BodySizeFactor
+            });
 
             pawn.Biography.Name = enemyConfig.PawnName!;
             PawnGenerator.RegisterEquipment(pawn, enemyConfig.EquipmentItems);

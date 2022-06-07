@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef Name="PigBodyPartBase" ParentName="BodyPartBase" Abstract="True">
+        
+    </BodyPartDef>
+    <BodyPartDef ParentName="PigBodyPartBase">
         <Moniker>PigHead</Moniker>
         <Label>Head</Label>
         <HitWeight>20</HitWeight>
@@ -25,7 +28,7 @@
             <MaxHitPoints>500</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="PigBodyPartBase">
         <Moniker>PigNeck</Moniker>
         <Label>Neck</Label>
         <BodyPartType>Neck</BodyPartType>
@@ -41,10 +44,10 @@
             <ListItem>TorsoSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>200</MaxHitPoints>
+            <MaxHitPoints>250</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="PigBodyPartBase">
         <Moniker>PigTorso</Moniker>
         <Label>Torso</Label>
         <BodyPartType>Torso</BodyPartType>
@@ -67,7 +70,7 @@
             <MaxHitPoints>800</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="PigBodyPartBase">
         <Moniker>PigLeg</Moniker>
         <Label>Leg</Label>
         <BodyPartType>Leg</BodyPartType>
@@ -85,7 +88,7 @@
             <MaxHitPoints>180</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="PigBodyPartBase">
         <Moniker>PigHoof</Moniker>
         <Label>Hoof</Label>
         <BodyPartType>Hoof</BodyPartType>
@@ -106,7 +109,7 @@
             <MaxHitPoints>120</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="PigBodyPartBase">
         <Moniker>PigTail</Moniker>
         <Label>Tail</Label>
         <BodyPartType>Tail</BodyPartType>

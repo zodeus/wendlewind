@@ -57,22 +57,22 @@ public class HouseUpgradesPanel : VerticalStackPanel {
             _button = new TextButton(BaseContent.Styles.Button.Small) { Text = "Assemble the barrel", Enabled = false };
             _button.Click += (_, _) => {
                 house.HasAlchemyBarrel = true;
-                Core.Sim.World.PlayerPawn.Body.ApplyEnergyLoss(0.15f);
+                Core.Sim.World.PlayerPawn.Body.ConsumeEnergy(0.15f);
                 Core.Sim.World.ProgressTime(SimTime.HoursToSeconds(4));
-                _house.TakeItem(Defs.Items.WoodBoard, 20)!.Destroy();
+                Core.Sim.Player.TakeItem(Defs.Items.WoodBoard, 20)!.Destroy();
                 Core.Sim.Messages.Push(new Message($"Assembled an \\c[{UiTextColor.TextColorItem}]Alchemy Barrel"));
                 RemoveFromParent();
             };
 
             AddChild(new Label() { Text = $"\\c[{UiTextColor.TextColorGolden}]Alchemy Barrel" });
-            AddChild(new Label() { Text = $"Allows for the brewing of assorted liquids... potions, elixirs, meads and medicinals" });
+            AddChild(new Label() { Text = $"Allows for the brewing of assorted\nliquids... potions, elixirs,\nmeads and medicinals" });
             AddChild(_label);
             AddChild(new Label() { Text = $"Takes \\c[{UiTextColor.TextColorBlue}]4 hours \\c[{UiTextColor.TextColorDefault}] to assemble" });
             AddChild(_button);
         }
 
         public void Update() {
-            int availableBoards = _house.AmountOfItem(Defs.Items.WoodBoard);
+            int availableBoards = Core.Sim.Player.AmountOfItem(Defs.Items.WoodBoard);
             string color = availableBoards >= 20 ? UiTextColor.TextColorGreen : UiTextColor.TextColorRed;
             _label.Text = $"Requires \\c[{color}]{availableBoards}/20 \\c[{UiTextColor.TextColorItem}]wood boards";
             _button.Enabled = availableBoards >= 20;
@@ -91,9 +91,9 @@ public class HouseUpgradesPanel : VerticalStackPanel {
             _button = new TextButton(BaseContent.Styles.Button.Small) { Text = "Build", Enabled = false };
             _button.Click += (_, _) => {
                 house.HasMeatRack = true;
-                Core.Sim.World.PlayerPawns[0].Body.ApplyEnergyLoss(0.35f);
+                Core.Sim.PlayerPawn.Body.ConsumeEnergy(0.35f);
                 Core.Sim.World.ProgressTime(SimTime.HoursToSeconds(5));
-                _house.TakeItem(Defs.Items.WoodLog, 2)!.Destroy();
+                Core.Sim.Player.TakeItem(Defs.Items.WoodLog, 2)!.Destroy();
                 Core.Sim.Messages.Push(new Message($"Built a \\c[{UiTextColor.TextColorItem}]Meat Rack"));
                 RemoveFromParent();
             };
@@ -105,7 +105,7 @@ public class HouseUpgradesPanel : VerticalStackPanel {
         }
 
         public void Update() {
-            int availableLogs = _house.AmountOfItem(Defs.Items.WoodLog);
+            int availableLogs = Core.Sim.Player.AmountOfItem(Defs.Items.WoodLog);
             string color = availableLogs >= 2 ? UiTextColor.TextColorGreen : UiTextColor.TextColorRed;
             _label.Text = $"Requires \\c[{color}]{availableLogs}/2 \\c[{UiTextColor.TextColorItem}]wood logs";
             _button.Enabled = availableLogs >= 2;

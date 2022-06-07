@@ -2,14 +2,13 @@
 using Grafted.Definitions;
 using Grafted.Sim.Entities.Items;
 
-namespace Grafted.Sim.Entities.Pawns.BodyGenerators;
+namespace Grafted.Sim.Entities.Pawns.Bodies;
 
-public static class WolfBodyGenerator {
-    public static void Generate(Pawn pawn) {
+public class WolfBodyGenerator : IBodyGenerator {
+    public BodyPartSocket Generate() {
         BodyPartSocket rootSocket = new(Defs.BodyPartSockets.HeadSocket);
-        pawn.Body.RootSocket = rootSocket;
         GenerateBodyInSocket(rootSocket);
-        GenerateBuiltInTools(pawn);
+        return rootSocket;
     }
 
     private static void GenerateBodyInSocket(BodyPartSocket rootSocket) {
@@ -18,6 +17,7 @@ public static class WolfBodyGenerator {
         head.GetSocketsFor(BodyPartType.Eye)[0].TryAttachPart(Defs.BodyParts.Eye);
         head.GetSocketsFor(BodyPartType.Eye)[1].TryAttachPart(Defs.BodyParts.Eye);
         head.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
+        head.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("WolfTeeth")!);
 
         // Skull
         BodyPart skull = head.GetSocketsFor(BodyPartType.Skull)[0].TryAttachPart(Defs.BodyParts.Skull);
@@ -58,24 +58,10 @@ public static class WolfBodyGenerator {
         leg.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
         leg.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
         leg.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
-        BodyPart foot = leg.GetSocketsFor(BodyPartType.Paw)[0].TryAttachPart(Defs.BodyParts.WolfPaw);
-        foot.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
-        foot.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
-        foot.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
-    }
-
-    private static void GenerateBuiltInTools(Pawn pawn) {
-        Item teeth = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("WolfTeeth")!);
-        pawn.Equipment.TryEquip(pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Head && p.SlotFor(teeth) != null).ToList()[0], teeth);
-        
-        Item claw0 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("WolfClaws")!);
-        Item claw1 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("WolfClaws")!);
-        Item claw2 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("WolfClaws")!);
-        Item claw3 = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("WolfClaws")!);
-
-        pawn.Equipment.TryEquip(pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Paw && p.SlotFor(claw0) != null).ToList()[0], claw0);
-        pawn.Equipment.TryEquip(pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Paw && p.SlotFor(claw0) != null).ToList()[1], claw1);
-        pawn.Equipment.TryEquip(pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Paw && p.SlotFor(claw0) != null).ToList()[2], claw2);
-        pawn.Equipment.TryEquip(pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Paw && p.SlotFor(claw0) != null).ToList()[3], claw3);
+        BodyPart paw = leg.GetSocketsFor(BodyPartType.Paw)[0].TryAttachPart(Defs.BodyParts.WolfPaw);
+        paw.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
+        paw.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
+        paw.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
+        paw.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("WolfClaws")!);
     }
 }

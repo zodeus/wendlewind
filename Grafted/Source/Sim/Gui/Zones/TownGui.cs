@@ -135,7 +135,7 @@ public class TownGui : ZoneGui {
                     Padding = new Thickness(8),
                     GridRow = 1, GridColumn = 0,
                     Widgets = {
-                        new Image { Background = new TextureRegion(BaseContent.Textures.Village), Width = 1200, Height = 800 }
+                        new Grid { Background = new TextureRegion(BaseContent.Textures.Village), Width = 1200, Height = 800 }
                     }
                 },
 

@@ -47,7 +47,7 @@ public class EntityListPanelItem : HorizontalStackPanel {
     }
 }
 
-public class EntityListPanel : VerticalStackPanel {
+public class EntityListPanel : VerticalStackPanel, IUpdatable {
     private readonly EntityContainer _container;
     private readonly Action<Entity>? _rightClickAction;
     private readonly Action<Entity>? _leftClickAction;

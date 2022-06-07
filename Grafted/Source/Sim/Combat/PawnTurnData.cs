@@ -13,6 +13,5 @@ public class PawnTurnData {
     public Pawn Pawn { get; }
     public int TotalSequencePoints { get; set; }
     public int AvailableSequencePoints { get; set; }
-    public bool WantsToRetreat { get; set; }
     public float StartingBloodLevel { get; set; }
 }

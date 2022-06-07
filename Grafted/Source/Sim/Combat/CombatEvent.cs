@@ -2,11 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items;
 using Grafted.Sim.Entities.Pawns;
+using Grafted.Sim.Gui;
 using Grafted.Sim.Zones;
+using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 
 namespace Grafted.Sim.Combat;
@@ -24,12 +27,15 @@ public class CombatEvent {
     public int CurrentTurnNum;
     public bool IsInteractive = false;
     public EntityContainer Loot = new();
+
     public readonly List<Pawn> PlayerPawns = new();
     public readonly List<Pawn> EnemyPawns = new();
     public readonly CombatRecord CombatRecord = new();
     public readonly List<BodyPart> SeveredLimbs = new();
     public readonly List<CombatTurn> Turns = new();
-
+    public bool IsBoss { get; set; }
+    public bool ShouldAttemptRetreat { get; set; }
+    public bool Retreated { get; set; }
     public IReadOnlyList<CombatBuff> Buffs => _buffs;
 
     public CombatState State {
@@ -63,6 +69,14 @@ public class CombatEvent {
 
     private IEnumerator TurnEngine() {
         //DeepProfiler.enabled = false;
+        if (IsBoss) {
+            Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData {
+                Color = Color.LightGoldenrodYellow, Duration = 5,
+                Font = BaseContent.Fonts.Fancy.Huge,
+                Text = "BOSS FIGHT!"
+            });
+        }
+
         while (State != CombatState.CombatEnd) {
             CurrentTurnNum++;
             State = CombatState.TurnStart;
@@ -98,8 +112,12 @@ public class CombatEvent {
         State = CombatState.CombatEnd;
         //todo Core.Sim.World.CombatEvents.Record(CombatRecord);
         if (CombatRecord.Retreated) {
-            Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorPawn}]{PlayerPawns.First().Label} \\c[{UiTextColor.TextColorDefault}]ran away from \\c[{UiTextColor.TextColorEnemyPawn}]{EnemyPawns.First().Label}",
-                Color.Green));
+            Core.Sim.Messages.Push(
+                new Message(
+                    $"\\c[{UiTextColor.TextColorPawn}]{PlayerPawns.First().Label} \\c[{UiTextColor.TextColorDefault}]ran away from \\c[{UiTextColor.TextColorEnemyPawn}]{EnemyPawns.First().Label}",
+                    Color.Green
+                )
+            );
             return;
         }
 
@@ -123,27 +141,16 @@ public class CombatEvent {
     }
 
     public bool AttemptRetreat() {
+        ShouldAttemptRetreat = false;
         if (Core.Random.Chance(0.5f)) {
             CombatRecord.Retreated = true;
             CombatRecord.LogMessage(new CombatLogMessage { Text = "\\c[YellowGreen]Retreated successfully" });
             State = CombatState.CombatEnd;
+            Retreated = true;
             return true;
         }
 
         CombatRecord.LogMessage(new CombatLogMessage { Text = "\\c[#acc700]Failed to retreat" });
-        return false;
-    }
-
-    public bool ShouldAttemptRetreat(CombatTurn combatTurn, Pawn pawn) {
-        Pawn target = combatTurn.Pawns.First(target => target.PawnType != pawn.PawnType);
-        if (pawn.Brain.CombatSettings.IsAutoRetreatEnabledFor(target.Race)) {
-            return true;
-        }
-
-        if (combatTurn.PawnTurnData[pawn].WantsToRetreat) {
-            return true;
-        }
-
         return false;
     }
 
@@ -164,7 +171,11 @@ public class CombatEvent {
         foreach (Pawn enemy in EnemyPawns) {
             for (int i = enemy.Inventory.Count() - 1; i >= 0; i--) {
                 Item item = enemy.Inventory.Entities[i];
-                Loot.TryAdd(item);
+                if (Core.Sim.Player.HasTrinket(item.ItemDef)) {
+                    continue;
+                }
+
+                AddToLootContainer(item);
             }
 
             foreach ((BodyPart? bodyPart, var slots) in enemy.Equipment.Slots) {
@@ -174,7 +185,7 @@ public class CombatEvent {
                     }
 
                     if (enemy.Equipment.UnEquip(bodyPart, slot) is { } item && Core.Random.Chance(chanceToLootEquipment)) {
-                        Loot.TryAdd(item);
+                        AddToLootContainer(item);
                     }
                 }
             }
@@ -184,7 +195,7 @@ public class CombatEvent {
             foreach ((EquipmentSlotType slot, Item? item) in part.Equipment) {
                 if (item != null && item.ItemDef.EquipmentProperties.SlotUsedToEquip != EquipmentSlotType.BuiltIn && Core.Random.Chance(chanceToLootEquipment)) {
                     part.Equipment[slot] = null;
-                    Loot.TryAdd(item);
+                    AddToLootContainer(item);
                 }
             }
 
@@ -200,10 +211,18 @@ public class CombatEvent {
         if (Zone != null) {
             foreach (ZoneResourceRecord resource in Zone.Def.Resources.Where(r => r.HarvestArea.Includes(Zone.PercentTraveledThisRun))) {
                 if (Core.Random.Chance(resource.ChanceToHarvest)) {
-                    Loot.TryAdd(EntityGenerator.CreateEntity<Item>(resource.Item, resource.Amount.RandomValue));
+                    AddToLootContainer(EntityGenerator.CreateEntity<Item>(resource.Item, resource.Amount.RandomValue));
                 }
             }
         }
+    }
+
+    private void AddToLootContainer(Item item) {
+        if (item.ItemDef.ItemType == ItemType.Trinket) {
+            Core.Sim.Player.TrinketsFound.Add(item.ItemDef);
+        }
+
+        Loot.TryAdd(item);
     }
 
     public void QueuePotion(Item potion, Pawn pawn) {

@@ -1,7 +1,9 @@
-﻿using Grafted.Sim.Gui.Widgets.EntityWidgets.PawnWidgets;
+﻿using Grafted.Sim.Entities.Pawns;
+using Grafted.Sim.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Grafted.Sim.Zones;
 using Grafted.Sim.Zones.Handlers;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Myra.Graphics2D.UI;
 
 namespace Grafted.Sim.Gui.Zones;
@@ -20,7 +22,7 @@ public class AdventureGui : ZoneGui {
 
         _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(Core.Sim.World.PlayerPawn);
         _pawnBodyEffectsWindow.Show(Desktop, new Point(50, 20));
-        
+
         base.Initialize(zone);
     }
 
@@ -47,5 +49,11 @@ public class AdventureGui : ZoneGui {
 
     public override void HandleInput() {
         _combatResultsScreen?.HandleInput();
+        base.HandleInput();
+    }
+
+    public override void Render(SpriteBatch spriteBatch, float deltaTime) {
+        base.Render(spriteBatch, deltaTime);
+        //todo I think maybe this is where we would render pawns?... sigh
     }
 }

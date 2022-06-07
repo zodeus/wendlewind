@@ -6,19 +6,37 @@
     <PawnDef ParentName="BaseMonster">
         <Moniker>Glump</Moniker>
         <Label>Glump</Label>
+        <Body>GlumpBody</Body>
         <BaseStats>
             <AttackSpeed>2</AttackSpeed>
             <MeleeStrength>2</MeleeStrength>
             <MaxCarryWeight>100</MaxCarryWeight>
+            <MeleeAccuracy>.75</MeleeAccuracy>
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseMonster">
         <Moniker>Frog</Moniker>
         <Label>Frog</Label>
+        <Body>FrogBody</Body>
         <BaseStats>
             <AttackSpeed>6</AttackSpeed>
             <MeleeStrength>1</MeleeStrength>
             <MaxCarryWeight>100</MaxCarryWeight>
+            <Evasion>.04</Evasion>
+            <MeleeAccuracy>.8</MeleeAccuracy>
         </BaseStats>
     </PawnDef>
+    <PawnDef ParentName="BaseMonster">
+        <Moniker>Ghoul</Moniker>
+        <Label>Ghoul</Label>
+        <Body>GhoulBody</Body>
+        <BaseStats>
+            <AttackSpeed>6</AttackSpeed>
+            <MeleeStrength>3</MeleeStrength>
+            <MaxCarryWeight>180</MaxCarryWeight>
+            <Evasion>.02</Evasion>
+            <MeleeAccuracy>.9</MeleeAccuracy>
+        </BaseStats>
+    </PawnDef>
+    
 </Definitions>

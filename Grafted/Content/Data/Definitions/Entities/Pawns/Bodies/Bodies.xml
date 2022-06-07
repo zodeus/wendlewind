@@ -1,1 +1,72 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+<Definitions>
+    <BodyDef>
+        <Moniker>HumanBody</Moniker>
+        <Label>Human Body</Label>
+        <BloodType>AnimalBlood</BloodType>
+        <MaxBlood>5000</MaxBlood>
+        <BoneDensity>1</BoneDensity>
+        <GeneratorClass>HumanBodyGenerator</GeneratorClass>
+        <BaseStats>
+            <CurrencyValue>0</CurrencyValue>
+        </BaseStats>
+        <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
+    </BodyDef>
+    <BodyDef>
+        <Moniker>RabbitBody</Moniker>
+        <Label>Rabbit Body</Label>
+        <BloodType>AnimalBlood</BloodType>
+        <MaxBlood>500</MaxBlood>
+        <BoneDensity>1</BoneDensity>
+        <GeneratorClass>RabbitBodyGenerator</GeneratorClass>
+        <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
+    </BodyDef>
+    <BodyDef>
+        <Moniker>PigBody</Moniker>
+        <Label>Pig Body</Label>
+        <BloodType>AnimalBlood</BloodType>
+        <BoneDensity>1</BoneDensity>
+        <MaxBlood>6000</MaxBlood>
+        <GeneratorClass>PigBodyGenerator</GeneratorClass>
+        <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
+    </BodyDef>
+    <BodyDef>
+        <Moniker>WolfBody</Moniker>
+        <Label>Wolf Body</Label>
+        <BloodType>AnimalBlood</BloodType>
+        <BoneDensity>1</BoneDensity>
+        <MaxBlood>7000</MaxBlood>
+        <GeneratorClass>WolfBodyGenerator</GeneratorClass>
+        <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
+    </BodyDef>
+    <BodyDef>
+        <Moniker>FrogBody</Moniker>
+        <Label>Frog Body</Label>
+        <BloodType>ToxicSlime</BloodType>
+        <BoneDensity>1</BoneDensity>
+        <MaxBlood>2000</MaxBlood>
+        <GeneratorClass>FrogBodyGenerator</GeneratorClass>
+        <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
+    </BodyDef>
+    <BodyDef>
+        <Moniker>GhoulBody</Moniker>
+        <Label>Ghoul Body</Label>
+        <BloodType>BlackPlasma</BloodType>
+        <BoneDensity>.85</BoneDensity>
+        <MaxBlood>100</MaxBlood>
+        <GeneratorClass>GhoulBodyGenerator</GeneratorClass>
+        <HandlerClass>GhoulBodyHandler</HandlerClass>
+        <BaseStats>
+            <CurrencyValue>10</CurrencyValue>
+        </BaseStats>
+    </BodyDef>
+    <BodyDef>
+        <Moniker>GlumpBody</Moniker>
+        <Label>Glump Body</Label>
+        <BloodType>AnimalBlood</BloodType>
+        <BoneDensity>1.5</BoneDensity>
+        <MaxBlood>10000</MaxBlood>
+        <GeneratorClass>GlumpBodyGenerator</GeneratorClass>
+        <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
+    </BodyDef>
+</Definitions>

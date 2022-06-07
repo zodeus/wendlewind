@@ -19,10 +19,15 @@ public class
         foreach (CombatSequenceStep step in Steps) {
             yield return Coroutine.WaitForSeconds(Core.Sim.CombatSettings.Speed);
             float chanceToHit = Source.ChanceToHit(Target);
-            Source.Body.ApplyEnergyLoss(0.002f);
+            Source.Body.ConsumeEnergy(0.002f);
             if (Core.Random.NextSingle() < chanceToHit) {
                 DamageResponse damageResponse = Target.TakeDamage(step.Damages);
-                
+
+                if (damageResponse.Dodged) {
+                    combatEvent.LogMessage($"        \\c[{UiTextColor.TextColorPawn}]{Target.LabelShort} \\c[{UiTextColor.TextColorBlue}] dodged attack");
+                    continue;
+                }
+
                 foreach (DamagedPartRecord damage in damageResponse.Damages.SelectMany(r => r.BodyParts)) {
                     if (damage.BodyPart.IsExternal && damage.WasSevered) {
                         combatEvent.SeveredLimbs.Add(damage.BodyPart);
@@ -42,6 +47,10 @@ public class
                     }
 
                     foreach (DamagedPartRecord partRecord in damageResult.BodyParts) {
+                        foreach (BodyPartModifierDef modifer in partRecord.AppliedModifiers) {
+                            combatEvent.LogMessage($"          \\c[{UiTextColor.TextColorBodyPart}]{partRecord.PartType} \\c[{UiTextColor.TextColorDefault}]afflicted with \\c[{UiTextColor.TextColorYellow}]{modifer}");
+                        }
+
                         if (partRecord.WasDestroyed && partRecord.IsVital == false) {
                             combatEvent.LogMessage($"          \\c[{UiTextColor.TextColorBodyPart}]{partRecord.PartType} \\c[{UiTextColor.TextColorRed}]destroyed");
                         }

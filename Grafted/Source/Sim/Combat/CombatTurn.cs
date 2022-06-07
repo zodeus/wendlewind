@@ -33,28 +33,37 @@ public class CombatTurn {
     public IEnumerator Run() {
         _combatEvent.LogMessage($"\\c[white]Starting turn {_combatEvent.CurrentTurnNum}");
         yield return Coroutine.WaitForSeconds(Core.Sim.CombatSettings.Speed);
-        foreach (Pawn attacker in Pawns) {
-            CurrentPawn = attacker;
-            if (attacker.IsDead) {
+        foreach (Pawn currentPawn in Pawns) {
+            CurrentPawn = currentPawn;
+            if (currentPawn.IsDead) {
                 continue;
             }
 
-            PawnTurnData turnData = new(attacker);
-            if (_combatEvent.HasBuff(attacker, Defs.Items.PumpinJuice)) {
+            PawnTurnData turnData = new(currentPawn);
+            if (_combatEvent.HasBuff(currentPawn, Defs.Items.PumpinJuice)) {
                 turnData.TotalSequencePoints += 8;
                 turnData.AvailableSequencePoints = turnData.TotalSequencePoints;
             }
 
+
             _combatEvent.LogMessage(
-                $"\n\\c[{UiTextColor.TextColorPawn}]{attacker.Label}'s \\c[#b3b3b3]Turn \\c[#b3b3b3]SP (\\c[#00e6ff]{turnData.AvailableSequencePoints}\\c[#b3b3b3])"
+                $"\n\\c[{UiTextColor.TextColorPawn}]{currentPawn.Label}'s \\c[#b3b3b3]Turn \\c[#b3b3b3]SP (\\c[#00e6ff]{turnData.AvailableSequencePoints}\\c[#b3b3b3])"
             );
-            if (_combatEvent.HasBuff(attacker, Defs.Items.PumpinJuice)) {
+            if (_combatEvent.HasBuff(currentPawn, Defs.Items.PumpinJuice)) {
                 _combatEvent.LogMessage(
-                    $"    \\c[{UiTextColor.TextColorPawn}]{attacker.Label} \\c[{UiTextColor.TextColorBlue}]feels the pump!"
+                    $"    \\c[{UiTextColor.TextColorPawn}]{currentPawn.Label} \\c[{UiTextColor.TextColorBlue}]feels the pump!"
                 );
             }
 
-            PawnTurnData.Add(attacker, turnData);
+            PawnTurnData.Add(currentPawn, turnData);
+
+            if (_combatEvent.HasBuff(currentPawn, Defs.Items.TheDreamingPowder)) {
+                _combatEvent.LogMessage(
+                    $"    \\c[{UiTextColor.TextColorPawn}]{currentPawn.Label} \\c[{UiTextColor.TextPurple}]is dreaming of grassy fields and pastures of plenty"
+                );
+                continue;
+            }
+
             if (turnData.AvailableSequencePoints > 0) {
                 int circuitBreaker = 0;
                 Pawn? target = null;
@@ -67,7 +76,7 @@ public class CombatTurn {
                     }
 
                     if (target == null || target.IsDead) {
-                        target = GetNewTarget(attacker)!;
+                        target = GetNewTarget(currentPawn)!;
                         // all targets are dead, end combat
                         if (target == null || _combatEvent.State == CombatState.CombatEnd) {
                             break;
@@ -75,26 +84,41 @@ public class CombatTurn {
                     }
 
                     //todo this is slow here :(
-                    var tools = attacker.GetAvailableToolsFor(ToolCategory.Combat).ToList();
+                    var tools = currentPawn.GetAvailableToolsFor(ToolCategory.Combat).ToList();
                     if (tools.Any() == false) {
-                        _combatEvent.LogMessage($"    \\c[{UiTextColor.TextColorPawn}]{attacker.LabelShort} \\c[{UiTextColor.TextColorRed}]has no usable weapons!!!");
+                        _combatEvent.LogMessage($"    \\c[{UiTextColor.TextColorPawn}]{currentPawn.LabelShort} \\c[{UiTextColor.TextColorRed}]has no usable weapons!!!");
                         break;
                     }
 
-                    List<CombatSequence> allSequences = attacker.GetPotentialCombatSequencesFor(tools, turnData.AvailableSequencePoints, target);
-                    if (attacker.PawnType == PawnType.Player && _combatEvent.IsInteractive && attacker.Brain.CombatSettings.IsAutoCombatEnabledFor(target.Race) == false) {
+                    List<CombatSequence> allSequences = currentPawn.GetPotentialCombatSequencesFor(tools, turnData.AvailableSequencePoints, target);
+                    if (currentPawn.PawnType == PawnType.Player && _combatEvent.IsInteractive) {
                         yield return Core.StartCoroutine(SetTurnInteractive());
                         if (_combatEvent.State is CombatState.TurnEnd or CombatState.CombatEnd) {
                             break;
                         }
                     }
 
-                    UsePotionsIfNecessary(attacker, target, turnData);
-                    if (_combatEvent.ShouldAttemptRetreat(this, attacker)) {
-                        turnData.AvailableSequencePoints -= turnData.AvailableSequencePoints;
-                        _combatEvent.AttemptRetreat();
-                        //end turn
-                        break;
+                    // Handle NPC Potions
+                    if (currentPawn.PawnType == PawnType.Enemy) {
+                        foreach (Item potion in currentPawn.Equipment.Potions) {
+                            if (potion.Def == Defs.Items.JarOfBlood) {
+                                continue;
+                            }
+
+                            if (Core.Random.Chance(.05f)) {
+                                _combatEvent.QueuePotion(potion, currentPawn);
+                            }
+                        }
+                    }
+
+                    UsePotionsIfNecessary(currentPawn, target, turnData);
+                    if (currentPawn.PawnType == PawnType.Player) {
+                        if (_combatEvent.ShouldAttemptRetreat && turnData.AvailableSequencePoints > 0) {
+                            turnData.AvailableSequencePoints -= turnData.AvailableSequencePoints;
+                            _combatEvent.AttemptRetreat();
+                            //end turn
+                            break;
+                        }
                     }
 
                     var usableSequences = allSequences.Where(s => s.TotalSequencePoints <= turnData.AvailableSequencePoints).ToList();
@@ -123,7 +147,7 @@ public class CombatTurn {
             }
 
             if (turnData.AvailableSequencePoints > 0) {
-                Log.Debug($"CombatEvent -- Pawn: {attacker.Label} is exiting without exhausting all sequence points, this is a bug");
+                Log.Debug($"CombatEvent -- Pawn: {currentPawn.Label} is exiting without exhausting all sequence points, this is a bug");
             }
 
             yield return Coroutine.WaitForSeconds(Core.Sim.CombatSettings.Speed);
@@ -155,10 +179,10 @@ public class CombatTurn {
             buff.Duration--;
             if (buff.Duration <= 0) {
                 _combatEvent.RemoveBuff(buff);
-                //if (buff.Def == PUMP)) {
-                _combatEvent.LogMessage($"\\c[{UiTextColor.TextColorPawn}]{buff.Pawn.LabelShort} feels heavy from pump drain");
-                //_combatEvent.ActivateBuff(Heavy, );
-                //}
+                if (buff.Def == Defs.Items.PumpinJuice) {
+                    _combatEvent.LogMessage($"\\c[{UiTextColor.TextColorPawn}]{buff.Pawn.LabelShort} feels heavy from pump drain");
+                    //_combatEvent.ActivateBuff(Heavy, );
+                }
             }
         }
 
@@ -195,6 +219,11 @@ public class CombatTurn {
                 pawn.Equipment.UnEquip(potion);
             }
 
+            if (potion.Def == Defs.Items.TheDreamingPowder) {
+                UseTheDreamingPowder(potion, target, turnData);
+                pawn.Equipment.UnEquip(potion);
+            }
+
             potion.Destroy();
 
             if (turnData.AvailableSequencePoints < 1) {
@@ -218,6 +247,19 @@ public class CombatTurn {
             Font = BaseContent.Fonts.Default.Large,
             Duration = 8,
             Color = Color.GreenYellow
+        });
+    }
+
+    private void UseTheDreamingPowder(Item potion, Pawn target, PawnTurnData turnData) {
+        _combatEvent.ActivateBuff(potion, target, Core.Random.Next(3, 6));
+        _combatEvent.LogMessage(
+            $"    \\c[{UiTextColor.TextPurple}]Released \\c[{UiTextColor.TextColorItem}]{potion.Label}"
+        );
+        Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData {
+            Text = $"{target.Label} has been transfixed",
+            Font = BaseContent.Fonts.Default.Large,
+            Duration = 8,
+            Color = Color.MediumPurple
         });
     }
 
@@ -263,6 +305,7 @@ public class CombatTurn {
     }
 
     private IEnumerator SetTurnInteractive() {
+        throw new NotImplementedException("i broke this  :(");
         _combatEvent.State = CombatState.TurnInteractive;
         while (_combatEvent.State == CombatState.TurnInteractive) {
             yield return Coroutine.WaitForSeconds(Core.Sim.CombatSettings.Speed);

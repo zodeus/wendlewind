@@ -28,8 +28,7 @@ public class WoodPanel : VerticalStackPanel {
             Text = "Chop Firewood", Width = 150, VerticalAlignment = VerticalAlignment.Center
         };
         _firewoodButton.Click += (_, _) => {
-            Item wood = _house.Storage.Take(Defs.Items.WoodLog, 1)
-                        ?? Core.Sim.World.PlayerPawns[0].Inventory.Entities.Take(Defs.Items.WoodLog, 1)!;
+            Item wood = Core.Sim.Player.TakeItem(Defs.Items.WoodLog, 1)!;
             _house.ChopFirewood(wood);
         };
 
@@ -37,8 +36,7 @@ public class WoodPanel : VerticalStackPanel {
             Text = "Cut Boards", Width = 150, VerticalAlignment = VerticalAlignment.Center
         };
         _woodBoardsButton.Click += (_, _) => {
-            Item wood = _house.Storage.Take(Defs.Items.WoodLog, 1)
-                        ?? Core.Sim.World.PlayerPawns[0].Inventory.Entities.Take(Defs.Items.WoodLog, 1)!;
+            Item wood = Core.Sim.Player.TakeItem(Defs.Items.WoodLog, 1)!;
             _house.CutBoard(wood);
         };
         _availableWoodLogLabel = new Label(BaseContent.Styles.Label.Medium) {
@@ -109,13 +107,13 @@ public class WoodPanel : VerticalStackPanel {
     }
 
     public void Update() {
-        _availableWood = _house.AmountOfItem(Defs.Items.WoodLog);
-        _availableFireWood = _house.AmountOfItem(Defs.Items.Firewood);
-        _availableWoodBoards = _house.AmountOfItem(Defs.Items.WoodBoard);
+        _availableWood = Core.Sim.Player.AmountOfItem(Defs.Items.WoodLog);
+        _availableFireWood = Core.Sim.Player.AmountOfItem(Defs.Items.Firewood);
+        _availableWoodBoards = Core.Sim.Player.AmountOfItem(Defs.Items.WoodBoard);
 
-        _availableWoodLogLabel.Text = _availableWood.ToString();
-        _availableFireWoodLabel.Text = _availableFireWood.ToString();
-        _availableWoodBoardsLabel.Text = _availableWoodBoards.ToString();
+        _availableWoodLogLabel.Text = $"{_availableWood}";
+        _availableFireWoodLabel.Text = $"{_availableFireWood}";
+        _availableWoodBoardsLabel.Text = $"{_availableWoodBoards}";
 
         _firewoodButton.Enabled = _availableWood > 0 && Core.Sim.World.PlayerPawn.Body.Energy > .1;
         _woodBoardsButton.Enabled = _availableWood > 0 && Core.Sim.World.PlayerPawn.Body.Energy > .3;

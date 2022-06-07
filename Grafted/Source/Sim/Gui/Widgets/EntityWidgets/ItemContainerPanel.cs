@@ -97,7 +97,7 @@ public class ItemContainerPanel : VerticalStackPanel {
 
         // Shift + Left-Click to delete item 
         if (Core.Sim.Gui!.MouseAttachment == null && Input.IsKeyDown(Keys.LeftControl)) {
-            if (item.Def.Moniker == "Cauterize") {
+            if (item.CanBeDestroyed == false) {
                 return;
             }
 

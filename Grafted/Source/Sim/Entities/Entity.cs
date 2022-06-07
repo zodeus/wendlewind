@@ -57,4 +57,6 @@ public abstract class Entity : IExposable, IIdentityProvider {
     public EntityPanelBase UiPanel(EntityPanelProperties? properties = null) {
         return Def.UiPanelFor(this, properties);
     }
+
+    public virtual void Render(SpriteBatch spriteBatch, float deltaTime) { }
 }

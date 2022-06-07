@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Security.Cryptography;
 using Grafted.Definitions;
 using Grafted.Maths;
 using Grafted.Sim.Persistence;
@@ -25,7 +24,7 @@ public abstract class BodyPartModifier : IExposable, IIdentityProvider {
     public int Ticks;
     public int DurationInMinutes;
     public int Id = -1;
-    public bool IsCured;
+    public bool IsExpired;
     public int Severity = 1;
 
     public string Label => Def.Label;
@@ -33,17 +32,22 @@ public abstract class BodyPartModifier : IExposable, IIdentityProvider {
     public virtual void Tick() {
         Ticks++;
         if (Ticks >= SimTime.TicksPerMinute * DurationInMinutes) {
-            IsCured = true;
+            IsExpired = true;
         }
     }
 
     public virtual void Initialize() { }
 
     public void SpreadTo(BodyPart part) {
+        if (part.HasModifer(Def)) {
+            return;
+        }
+
         part.TryAddModifier(BodyPartModifierGenerator.Generate(Def, SimTime.TicksPerMinute * DurationInMinutes - Ticks));
     }
 
     public virtual void MergeWith(BodyPartModifier modifier) {
+        DurationInMinutes += modifier.DurationInMinutes;
         Log.Warning($"No implementation for merging {modifier.Label} with self={this}");
     }
 
@@ -53,7 +57,7 @@ public abstract class BodyPartModifier : IExposable, IIdentityProvider {
         Scribe_Values.Look(ref Id, "Id");
         Scribe_Values.Look(ref Ticks, "Ticks");
         Scribe_Values.Look(ref DurationInMinutes, "DurationInMinutes");
-        Scribe_Values.Look(ref IsCured, "IsCured");
+        Scribe_Values.Look(ref IsExpired, "IsCured");
         Scribe_Values.Look(ref Severity, "Severity");
     }
 
@@ -82,7 +86,7 @@ public class BurningAcid : BodyPartModifier {
 
     public override void Tick() {
         if (BodyPart.Modifiers.Any(m => m.Def == Defs.BodyPartModifiers.SoothingBalm)) {
-            IsCured = true;
+            IsExpired = true;
             return;
         }
 

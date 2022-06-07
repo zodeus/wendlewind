@@ -1,5 +1,9 @@
 using Grafted.Debug;
 using Grafted.Definitions;
+using Grafted.Sim.Combat;
+using Grafted.Sim.Entities;
+using Grafted.Sim.Entities.Items;
+using Grafted.Sim.Entities.Pawns;
 using Grafted.Sim.Gui;
 using Grafted.Sim.Persistence;
 using Grafted.Sim.Zones;
@@ -17,11 +21,12 @@ public class Simulation : IExposable {
     public IdProvider IdProvider = new();
     public World World = null!;
     public CombatSettings CombatSettings = new();
-    public OminousMessageSpawner OminousMessageSpawner = new();
     public bool IsPaused = false;
 
     public int Ticks => World.Time.Ticks;
     public bool IsCombatPaused => CombatSettings.IsPaused;
+    public Player Player => World.Player;
+    public Pawn PlayerPawn => World.Player.Pawn;
 
     public BaseGui? Gui {
         get => _gui;
@@ -53,7 +58,7 @@ public class Simulation : IExposable {
             return;
         }
 
-        if ((World.CurrentZone.ZoneType == ZoneType.Adventure && World.CurrentZone.Adventure?.ActiveCombat != null && CombatSettings.IsPaused)) {
+        if ((World.CurrentZone.ZoneType == ZoneType.Adventure && World.CurrentZone.Adventure?.ActiveCombat?.State != CombatState.CombatFinished && CombatSettings.IsPaused)) {
             return;
         }
 
@@ -89,19 +94,15 @@ public class Simulation : IExposable {
         }
 
         if (Input.IsKeyPressed(Keys.D1)) {
-            CombatSettings.Speed = .5f;
+            CombatSettings.Speed = CombatSpeed.Slow;
         }
 
         if (Input.IsKeyPressed(Keys.D2)) {
-            CombatSettings.Speed = .25f;
+            CombatSettings.Speed = CombatSpeed.Normal;
         }
 
         if (Input.IsKeyPressed(Keys.D3)) {
-            CombatSettings.Speed = .12f;
-        }
-
-        if (Input.IsKeyPressed(Keys.D4)) {
-            CombatSettings.Speed = .06f;
+            CombatSettings.Speed = CombatSpeed.Fast;
         }
 
         if (Input.IsKeyPressed(Keys.F2) && Input.IsKeyDown(Keys.LeftControl)) {

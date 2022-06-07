@@ -19,7 +19,7 @@ public class Pawn : Entity, IExposable {
     public RaceDef Race = null!;
     public PawnBiography Biography = null!;
     public PawnTraits Traits = null!;
-    public PawnBrain Brain = null!;
+    public PawnMind Mind = null!;
     public PawnBody Body = null!;
     public PawnSkills Skills = null!;
     public PawnInventory Inventory = null!;
@@ -35,7 +35,9 @@ public class Pawn : Entity, IExposable {
     public override string Label => Biography.Name;
     public override string LabelShort => Biography.Name;
     public override Texture2D Icon => Race.Icon;
-    public bool IsHungry => Body.StomachLevel < 0.6f;
+    public bool IsExhausted => Body.IsExhausted;
+    public bool IsHungry => Body.IsHungry;
+    public bool IsFamished => Body.IsFamished;
 
     public bool IsDead {
         get => _isDead;
@@ -48,15 +50,15 @@ public class Pawn : Entity, IExposable {
     public int SequencePoints => Body.GetSequencePoints() + (int) this.GetStatValue(Defs.Stats.SequencePoints);
 
     public override void Initialize() {
-        MaxCarryWeight = (int) this.GetStatValue(Defs.Stats.MaxCarryWeight);
         Biography = new PawnBiography(this);
         Traits = new PawnTraits(this);
-        Brain = new PawnBrain(this);
+        Mind = new PawnMind(this);
         Body = new PawnBody(this);
         Body.Initialize();
         Skills = new PawnSkills(this);
-        Inventory = new PawnInventory(this);
         Equipment = new PawnEquipment(this);
+        MaxCarryWeight = (int) this.GetStatValue(Defs.Stats.MaxCarryWeight);
+        Inventory = new PawnInventory(this);
         base.Initialize();
     }
 
@@ -65,7 +67,7 @@ public class Pawn : Entity, IExposable {
             return;
         }
 
-        Brain.Tick();
+        Mind.Tick();
         if (IsDead) {
             return;
         }
@@ -91,9 +93,14 @@ public class Pawn : Entity, IExposable {
     }
 
     public DamageResponse TakeDamage(DamageRequest request) {
+        DamageResponse response = new();
+        if (Core.Random.Chance(this.GetStatValue(Defs.Stats.Evasion))) {
+            return new DamageResponse { Dodged = true };
+        }
+
         BodyPart bodyPart = Body.AllExternalParts /*.Where(p => p.Type == BodyPartType.Torso)*/.RandomElementByWeight(part => part.HitWeight)!;
 
-        DamageResponse response = new();
+
         foreach (Damage damage in request.RawDamages) {
             DamageRecord damageRecord = new(damage.Type, bodyPart, damage.Amount);
             request.Source.GetSkill(damage.ToolType)?.Learn(1);
@@ -186,7 +193,7 @@ public class Pawn : Entity, IExposable {
         Scribe_Defs.Look(ref Race!, "Race");
         Scribe_Deep.Look(ref Biography!, "Biography", this);
         Scribe_Deep.Look(ref Traits!, "Traits", this);
-        Scribe_Deep.Look(ref Brain!, "Brain", this);
+        Scribe_Deep.Look(ref Mind!, "Mind", this);
         Scribe_Deep.Look(ref Body!, "Body", this);
         Scribe_Deep.Look(ref Skills!, "Skills", this);
         Scribe_Deep.Look(ref Inventory!, "Inventory", this);
@@ -256,16 +263,21 @@ public class Pawn : Entity, IExposable {
         }
 
         Core.Sim.World.ProgressTime(SimTime.MinutesToSeconds(5));
-        Body.StomachLevel = 1;
-        Body.Energy += .3f;
+        float nutrition = item.GetStatValue(Defs.Stats.NutritionalValue);
+        Body.StomachLevel += nutrition;
+        Body.Energy += nutrition / 3;
         Core.Sim.World.ProgressTime(SimTime.MinutesToSeconds(5));
         Core.Sim.Messages.Push(new Message(
-            $"\\c[{UiTextColor.TextColorPawn}]{Core.Sim.World.PlayerPawns[0].Label} \\c[{UiTextColor.TextColorDefault}]ate \\c[{UiTextColor.TextColorItem}]{item.Label}"
+            $"\\c[{UiTextColor.TextColorPawn}]{Core.Sim.Player.Label} \\c[{UiTextColor.TextColorDefault}]ate \\c[{UiTextColor.TextColorItem}]{item.Label}"
         ));
 
         item.StackSize--;
         if (item.StackSize < 1) {
             item.Destroy();
         }
+    }
+
+    public override void Render(SpriteBatch spriteBatch, float deltaTime) {
+        base.Render(spriteBatch, deltaTime);
     }
 }

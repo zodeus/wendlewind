@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Grafted.Sim.Entities.Items;
 using Myra.Graphics2D;
@@ -9,24 +10,24 @@ namespace Grafted.Sim.Gui.Widgets.TownWidgets.HouseWidgets.FoodWidgets;
 
 public class RecipePanel : VerticalStackPanel {
     private readonly TownStructureHouse _house;
-    private readonly ItemDef _food;
+    private readonly ItemDef _item;
     private readonly TextButton _cookButton;
     private int _amountWanted;
     private Dictionary<ResourceCount, Label> _ingredients = new();
 
-    public RecipePanel(TownStructureHouse house, ItemDef food, string buttonText) {
+    public RecipePanel(TownStructureHouse house, ItemDef item, string buttonText, Action<ItemDef, int> clickHandler) {
         _house = house;
-        _food = food;
-        Label icon = new(BaseContent.Styles.Label.Medium) { Text = food.Label };
+        _item = item;
+        Label icon = new(BaseContent.Styles.Label.Medium) { Text = item.Label };
         //icon.TouchDown += (sender, args) => Core.Sim.ActiveGui.ViewEntity(item);
         AddChild(icon);
-        AddChild(new Image { Background = new TextureRegion(food.Icon), Margin = new Thickness(0, 5, 0, 0), Width = 48, Height = 48 });
+        AddChild(new Image { Background = new TextureRegion(item.Icon), Margin = new Thickness(0, 5, 0, 0), Width = 48, Height = 48 });
         AddChild(GenerateAmountWantedPanel());
-        AddChild(new Label("small") { Text = $"Time to make: \\c[{UiTextColor.TextColorTime}]{food.CraftingProperties.MinutesToMake} minutes" });
-        AddChild(new Label("small") { Text = $"Yield: \\c[{UiTextColor.TextColorGreen}]{food.CraftingProperties.AmountProduced}x" });
-        if (food.CraftingProperties.RequiredTools != null) {
+        AddChild(new Label("small") { Text = $"Time to make: \\c[{UiTextColor.TextColorTime}]{item.CraftingProperties.MinutesToMake} minutes" });
+        AddChild(new Label("small") { Text = $"Yield: \\c[{UiTextColor.TextColorGreen}]{item.CraftingProperties.AmountProduced}x" });
+        if (item.CraftingProperties.RequiredTools != null) {
             AddChild(new Label("small") { Text = "Required Tools: ", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 10, 0, 0) });
-            foreach (ItemDef requiredTool in food.CraftingProperties.RequiredTools) {
+            foreach (ItemDef requiredTool in item.CraftingProperties.RequiredTools) {
                 AddChild(new HorizontalStackPanel {
                     Margin = new Thickness(10, 5, 0, 0),
                     Spacing = 8,
@@ -39,7 +40,7 @@ public class RecipePanel : VerticalStackPanel {
         }
 
         AddChild(new Label("small") { Text = "Ingredients:", Margin = new Thickness(0, 10, 0, 0) });
-        foreach (ResourceCount requirement in food.CraftingProperties.ResourceRequirements) {
+        foreach (ResourceCount requirement in item.CraftingProperties.ResourceRequirements) {
             HorizontalStackPanel row = new() { Margin = new Thickness(10, 5, 0, 0) };
 
             if (requirement.MaterialType != null) {
@@ -58,7 +59,7 @@ public class RecipePanel : VerticalStackPanel {
         }
 
         _cookButton = new TextButton(BaseContent.Styles.Button.Normal) { Text = buttonText, Margin = new Thickness(0, 10, 0, 0) };
-        _cookButton.Click += (_, _) => _house.CraftItem(food, _amountWanted);
+        _cookButton.Click += (_, _) => clickHandler(item, _amountWanted);
         AddChild(_cookButton);
     }
 
@@ -91,6 +92,10 @@ public class RecipePanel : VerticalStackPanel {
             DefaultProportion = Proportion.Auto,
             Margin = new Thickness(0, 10, 0, 10)
         };
+        if (_item.FoodProperties == null) {
+            hPanel.Visible = false;
+        }
+
         hPanel.AddChild(new Label { Text = "Amount Wanted: ", TextColor = BaseContent.Colors.Text.Golden, VerticalAlignment = VerticalAlignment.Center });
         hPanel.AddChild(textBox);
         hPanel.AddChild(increaseAmount);
@@ -99,9 +104,9 @@ public class RecipePanel : VerticalStackPanel {
     }
 
     public void Update() {
-        _cookButton.Enabled = _amountWanted > 0 && _house.HasRequirementsFor(_food, _amountWanted);
+        _cookButton.Enabled = _amountWanted > 0 && _house.HasRequirementsFor(_item, _amountWanted);
         foreach ((ResourceCount requirement, Label label) in _ingredients) {
-            label.Text = $"{requirement.Count}x {requirement.Resource!.Label} ({_house.AmountOfItem(requirement.Resource)}/{_amountWanted * requirement.Count})";
+            label.Text = $"{requirement.Count}x {requirement.Resource!.Label} ({Core.Sim.Player.AmountOfItem(requirement.Resource)}/{_amountWanted * requirement.Count})";
         }
     }
 }

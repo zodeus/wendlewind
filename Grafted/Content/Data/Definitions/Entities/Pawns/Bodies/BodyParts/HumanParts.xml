@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef Name="HumanBodyPartBase" ParentName="BodyPartBase" Abstract="True">
+        
+    </BodyPartDef>
+    <BodyPartDef ParentName="HumanBodyPartBase">
         <Moniker>HumanHead</Moniker>
         <Label>Head</Label>
         <HitWeight>20</HitWeight>
@@ -28,7 +31,7 @@
             <MaxHitPoints>250</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="HumanBodyPartBase">
         <Moniker>HumanNeck</Moniker>
         <Label>Neck</Label>
         <BodyPartType>Neck</BodyPartType>
@@ -49,10 +52,10 @@
             <ListItem>TorsoSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>80</MaxHitPoints>
+            <MaxHitPoints>120</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="HumanBodyPartBase">
         <Moniker>HumanTorso</Moniker>
         <Label>Torso</Label>
         <BodyPartType>Torso</BodyPartType>
@@ -83,7 +86,7 @@
             <MaxHitPoints>400</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="HumanBodyPartBase">
         <Moniker>HumanArm</Moniker>
         <Label>Arm</Label>
         <BodyPartType>Arm</BodyPartType>
@@ -109,7 +112,7 @@
             <MaxHitPoints>80</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="HumanBodyPartBase">
         <Moniker>HumanHand</Moniker>
         <Label>Human Hand</Label>
         <BodyPartType>Hand</BodyPartType>
@@ -127,6 +130,7 @@
             <ListItem>Entities/Pawn/Creature/Human/Parts/RightHand</ListItem>
         </BodyTexturePaths>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanHand</TexturePath>
+        <WhiteIconTexturePath>Entities/Pawn/BodyParts/Human/HumanHand-Icon</WhiteIconTexturePath>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
             <ListItem>BoneSocket</ListItem>
@@ -142,7 +146,7 @@
             <CurrencyValue>5</CurrencyValue>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="HumanBodyPartBase">
         <Moniker>HumanFinger</Moniker>
         <Label>Finger</Label>
         <BodyPartType>Finger</BodyPartType>
@@ -150,6 +154,7 @@
         <Size>3</Size>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanFinger</TexturePath>
+        <WhiteIconTexturePath>Entities/Pawn/BodyParts/Human/HumanFinger-Icon</WhiteIconTexturePath>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
             <ListItem>BoneSocket</ListItem>
@@ -160,7 +165,7 @@
             <MaxHitPoints>8</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="HumanBodyPartBase">
         <Moniker>HumanThumb</Moniker>
         <Label>Thumb</Label>
         <BodyPartType>Thumb</BodyPartType>
@@ -168,6 +173,7 @@
         <Size>2.5</Size>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanThumb</TexturePath>
+        <WhiteIconTexturePath>Entities/Pawn/BodyParts/Human/HumanThumb-Icon</WhiteIconTexturePath>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
             <ListItem>BoneSocket</ListItem>
@@ -178,7 +184,7 @@
             <MaxHitPoints>9</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="HumanBodyPartBase">
         <Moniker>HumanLeg</Moniker>
         <Label>Leg</Label>
         <BodyPartType>Leg</BodyPartType>
@@ -203,7 +209,7 @@
             <MaxHitPoints>80</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
-    <BodyPartDef ParentName="BodyPartBase">
+    <BodyPartDef ParentName="HumanBodyPartBase">
         <Moniker>HumanFoot</Moniker>
         <Label>Foot</Label>
         <BodyPartType>Foot</BodyPartType>

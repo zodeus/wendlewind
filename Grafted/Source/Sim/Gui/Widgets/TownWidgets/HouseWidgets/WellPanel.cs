@@ -24,7 +24,7 @@ public class WellPanel : VerticalStackPanel {
             Text = "Fetch Water", VerticalAlignment = VerticalAlignment.Center
         };
         _waterButton.Click += (_, _) => {
-            Core.Sim.World.PlayerPawns[0].Body.ApplyEnergyLoss(0.05f);
+            Core.Sim.PlayerPawn.Body.ConsumeEnergy(0.05f);
             Core.Sim.World.ProgressTime(SimTime.MinutesToSeconds(15));
             _house.Storage.TryAdd(EntityGenerator.CreateEntity<Item>(Defs.Items.WaterBucket, 1));
         };
@@ -61,7 +61,7 @@ public class WellPanel : VerticalStackPanel {
     }
 
     public void Update() {
-        _availableWaterLabel.Text = _house.AmountOfItem(Defs.Items.WaterBucket).ToString();
+        _availableWaterLabel.Text = Core.Sim.Player.AmountOfItem(Defs.Items.WaterBucket).ToString();
 
         //_waterButton.Enabled = _availableWood > 0 && Core.Sim.World.PlayerPawn.Body.Energy > .1;
     }

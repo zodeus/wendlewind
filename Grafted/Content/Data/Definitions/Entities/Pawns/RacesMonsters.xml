@@ -11,6 +11,18 @@
         <TexturePath>Entities/Pawn/Creature/Glump/Glump</TexturePath>
     </RaceDef>
     <RaceDef ParentName="BaseMonsterRace">
+        <Moniker>LostOne</Moniker>
+        <Label>Lost One</Label>
+        <Species>Ghoul</Species>
+        <TexturePath>Entities/Pawn/Creature/Ghoul/LostOne</TexturePath>
+    </RaceDef>
+    <RaceDef ParentName="BaseMonsterRace">
+        <Moniker>Ghoul</Moniker>
+        <Label>Ghoul</Label>
+        <Species>Ghoul</Species>
+        <TexturePath>Entities/Pawn/Creature/Ghoul/Ghoul</TexturePath>
+    </RaceDef>
+    <RaceDef ParentName="BaseMonsterRace">
         <Moniker>BlisteringToad</Moniker>
         <Label>Blistering Toad</Label>
         <Species>Frog</Species>

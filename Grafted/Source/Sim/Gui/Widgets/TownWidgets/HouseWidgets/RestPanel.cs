@@ -23,7 +23,7 @@ public class RestPanel : VerticalStackPanel {
     }
 
     public void Update() {
-        bool isExhausted = Core.Sim.World.PlayerPawns[0].Body.Energy < .1;
+        bool isExhausted = Core.Sim.PlayerPawn.IsExhausted;
         _restButton.Enabled = Core.Sim.World.Time.CurrentTime is > 2000 or < 0400 || isExhausted;
         if (isExhausted) {
             _restLabel.Text = $"\\c[{UiTextColor.TextColorRed}]You are exhausted, \nrest now";

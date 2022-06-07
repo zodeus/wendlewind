@@ -1,4 +1,5 @@
-﻿using Grafted.Sim.Combat;
+﻿using Grafted.Definitions;
+using Grafted.Sim.Combat;
 using Grafted.Sim.Zones.Handlers;
 using Myra.Graphics2D;
 using Myra.Graphics2D.UI;
@@ -6,10 +7,13 @@ using Myra.Graphics2D.UI;
 namespace Grafted.Sim.Gui.Widgets.CombatWidgets;
 
 public class CombatControlPanel : VerticalStackPanel {
+    private readonly CombatEvent _combatEvent;
     private readonly TextButton _continueButton;
     private readonly HorizontalStackPanel _speedButtons;
+    private readonly TextButton _retreatButton;
 
     public CombatControlPanel(CombatEvent combatEvent) {
+        _combatEvent = combatEvent;
         //ShowGridLines = true;
         _continueButton = new TextButton(BaseContent.Styles.Button.Normal) {
             Text = "Continue", Visible = false, Margin = new Thickness(0, 10, 0, 0), HorizontalAlignment = HorizontalAlignment.Stretch
@@ -33,13 +37,22 @@ public class CombatControlPanel : VerticalStackPanel {
             HorizontalAlignment = HorizontalAlignment.Center,
             Widgets = {
                 pauseButton,
-                CreateSpeedButton("1x", .2f),
-                CreateSpeedButton("2x", .1f),
-                CreateSpeedButton("4x", .01f),
+                CreateSpeedButton("1x", CombatSpeed.Slow),
+                CreateSpeedButton("2x", CombatSpeed.Normal),
+                CreateSpeedButton("4x", CombatSpeed.Fast)
             }
         };
 
         AddChild(_speedButtons);
+
+        _retreatButton = new TextButton(BaseContent.Styles.Button.Normal) {
+            Text = $"\\c[{UiTextColor.TextColorGolden}]Attempt Escape", Margin = new Thickness(0, 10, 0, 0), HorizontalAlignment = HorizontalAlignment.Stretch,
+        };
+        _retreatButton.Click += (_, _) => {
+            combatEvent.ShouldAttemptRetreat = true;
+        };
+        _retreatButton.Visible = Core.Sim.Player.HasTrinket(Defs.Items.CowardsFlag);
+        AddChild(_retreatButton);
     }
 
     private TextButton CreateSpeedButton(string label, float speed) {
@@ -57,5 +70,9 @@ public class CombatControlPanel : VerticalStackPanel {
     public void ShowContinueButton() {
         _speedButtons.RemoveFromParent();
         _continueButton.Visible = true;
+    }
+
+    public void Update() {
+        _retreatButton.Enabled = !_combatEvent.ShouldAttemptRetreat;
     }
 }

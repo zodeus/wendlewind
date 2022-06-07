@@ -33,9 +33,14 @@
         <MinValue>0</MinValue>
         <MaxValue>1</MaxValue>
     </StatDef>
-    
-    
-    
+    <StatDef>
+        <Moniker>Evasion</Moniker>
+        <Label>Chance to evade</Label>
+        <HandlerClass>BodyStatHandler</HandlerClass>
+        <BaseValue>0</BaseValue>
+        <MinValue>0</MinValue>
+        <MaxValue>1</MaxValue>
+    </StatDef>
     <StatDef>
         <Moniker>MeleePower</Moniker>
         <Label>Melee Power</Label>

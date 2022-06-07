@@ -3,11 +3,59 @@ using Grafted.Maths;
 using Grafted.Sim.Entities.Pawns;
 using Grafted.Sim.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Microsoft.Xna.Framework;
+using Myra.Graphics2D;
 using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
 using Myra.Graphics2D.UI.Styles;
 
 namespace Grafted.Sim.Gui.Widgets.MiscWidgets;
+
+public class MindWidget : VerticalStackPanel {
+    private readonly Pawn _pawn;
+    private readonly HorizontalProgressBar _sanity;
+    private readonly HorizontalProgressBar _power;
+    private readonly HorizontalProgressBar _focus;
+
+    public MindWidget(Pawn pawn) {
+        _pawn = pawn;
+        Spacing = 1;
+
+        _sanity = new HorizontalProgressBar {
+            Width = 40, Height = 6,
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.FrameSmall],
+            Filler = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.Neutral], new Color(252, 86, 225)),
+            Padding = new Thickness(3, 3, 3, 3),
+
+            Value = 100f
+        };
+
+        _power = new HorizontalProgressBar {
+            Width = 40, Height = 6,
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.FrameSmall],
+            Filler = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.Neutral], new Color(20, 189, 255)),
+            Padding = new Thickness(3, 3, 3, 3),
+            Value = 50f
+        };
+
+        _focus = new HorizontalProgressBar() {
+            Width = 40, Height = 6,
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.FrameSmall],
+            Filler = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.Neutral], new Color(20, 255, 138)),
+            Padding = new Thickness(3, 3, 3, 3),
+
+            Value = 70f
+        };
+        AddChild(new HorizontalStackPanel { Spacing = 5, Widgets = { new Label(BaseContent.Styles.Label.Small) { Text = "S" }, _sanity } });
+        AddChild(new HorizontalStackPanel { Spacing = 5, Widgets = { new Label(BaseContent.Styles.Label.Small) { Text = "P" }, _power } });
+        AddChild(new HorizontalStackPanel { Spacing = 5, Widgets = { new Label(BaseContent.Styles.Label.Small) { Text = "F" }, _focus } });
+    }
+
+    public void Update() {
+        _sanity.Value = _pawn.Mind.Sanity * 100;
+        _power.Value = _pawn.Mind.Power * 100;
+        _focus.Value = _pawn.Mind.Focus * 100;
+    }
+}
 
 public class GameHud : HorizontalStackPanel {
     private Label _zoneLabel;
@@ -23,6 +71,7 @@ public class GameHud : HorizontalStackPanel {
     private readonly HorizontalStackPanel _stomachOutline;
     private readonly Label _energyLabel;
     private readonly SequencePointsIcon _sequencePoints;
+    private MindWidget _mindWidget;
 
     public GameHud() {
         Spacing = 50;
@@ -56,6 +105,7 @@ public class GameHud : HorizontalStackPanel {
                 _stomachGauge
             }
         };
+        _mindWidget = new MindWidget(Core.Sim.World.PlayerPawn);
         _programStats = new ProgramStatsPanel();
         centerPanel.AddChild(_zoneLabel);
 
@@ -72,10 +122,7 @@ public class GameHud : HorizontalStackPanel {
         });
         // Mind
         centerPanel.AddChild(new VerticalSeparator());
-        centerPanel.AddChild(new Image {
-            VerticalAlignment = VerticalAlignment.Center,
-            Width = 32, Height = 32, Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Mind]
-        });
+        centerPanel.AddChild(_mindWidget);
 
         // Energy
         centerPanel.AddChild(new VerticalSeparator());
@@ -147,7 +194,7 @@ public class GameHud : HorizontalStackPanel {
     }
 
     public void Update() {
-        Pawn player = Core.Sim.World.PlayerPawns[0];
+        Pawn player = Core.Sim.PlayerPawn;
         string plusSign = player.Body.BloodChangeLastFrame > 0 ? "+" : "";
         string bloodLossColor = player.Body.BloodChangeLastFrame switch {
             > 0 => UiTextColor.TextColorGreen,
@@ -168,6 +215,7 @@ public class GameHud : HorizontalStackPanel {
         _sequencePoints.Update();
         _energyLabel.Text = player.Body.Energy.ToString("P0");
         _energyLabel.TextColor = BodyPartColor.GetStomachColor(player.Body.Energy);
+        _mindWidget.Update();
 
         if (Core.Sim.World.CurrentZone.Town?.GetStructure<TownStructureHouse>()?.IsFireBurning == true) {
             _temperatureLabel.Text = $"\\c[{UiTextColor.TextColorGreen}]22°C";

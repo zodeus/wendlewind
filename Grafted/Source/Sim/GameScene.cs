@@ -4,6 +4,7 @@ using Grafted.Debug;
 using Grafted.Definitions;
 using Grafted.Scenes;
 using Grafted.Sim.Entities.Items;
+using Grafted.Sim.Gui.Zones;
 using Grafted.Utils;
 
 namespace Grafted.Sim;
@@ -26,6 +27,7 @@ public class GameScene : Scene {
     public void QuickPlay() {
         Core.ClearCoroutines();
         Core.Sim.World = WorldGenerator.GenerateNewWorld(Defs.PawnConfigs.PlayerPawn);
+        Core.Sim.Player.House = Core.Sim.World.Zones[Defs.Zones.VillageOfTheDamned].Town!.GetStructure<TownStructureHouse>()!;
         Core.Sim.ChangeZone(Defs.Zones.VillageOfTheDamned, false);
         //DebugInfo();
     }

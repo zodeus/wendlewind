@@ -30,4 +30,14 @@
         <Label>Deep Lungs</Label>
         <Description>A great breather</Description>
     </TraitDef>
+    <TraitDef>
+        <Moniker>WineBlood</Moniker>
+        <Label>Wine Blood</Label>
+        <Description>Low blood viscosity</Description>
+    </TraitDef>
+    <TraitDef>
+        <Moniker>FlowerBoy</Moniker>
+        <Label>Flower Boy</Label>
+        <Description>Does not eat meat</Description>
+    </TraitDef>
 </Definitions>

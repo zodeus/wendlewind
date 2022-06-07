@@ -57,14 +57,13 @@ public class MeatRackPanel : VerticalStackPanel {
             _button = new ImageButton(BaseContent.Styles.Button.Icon) { Width = 32, Height = 32 };
             _button.Click += (_, _) => {
                 if (_house.MeatRack[_slot]?.ItemDef.FoodProperties?.FoodType == FoodType.DriedMeat) {
-                    _house.Storage.TryAdd(_house.MeatRack[_slot]);
+                    house.Storage.TryAdd(_house.MeatRack[_slot]);
                     _house.MeatRack[_slot] = null;
                     _currentItem = null;
                     return;
                 }
 
-                var items = _house.Storage.Where(i => i.ItemDef.FoodProperties?.FoodType == FoodType.RawMeat)
-                    .Concat(Core.Sim.World.PlayerPawn.Inventory.Where(i => i.ItemDef.FoodProperties?.FoodType == FoodType.RawMeat));
+                var items = Core.Sim.Player.FindItems(i => i.ItemDef.FoodProperties?.FoodType == FoodType.RawMeat);
                 new EntitySelector(items, entity => {
                     Item item = (Item) entity;
                     _house.AddMeatToDryingRack(item.SplitStack(1), slot);
