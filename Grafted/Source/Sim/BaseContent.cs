@@ -165,23 +165,23 @@ public static partial class BaseContent {
             //fancyFont.AddFont(File.ReadAllBytes("Content/Fonts/RedAlert.ttf"));
 
             Default = new FontData {
-                VerySmall = monoFont.GetFont(10),
-                Small = monoFont.GetFont(14),
-                Normal = monoFont.GetFont(16),
-                Medium = monoFont.GetFont(20),
-                Large = monoFont.GetFont(24),
-                VeryLarge = monoFont.GetFont(32),
-                Huge = monoFont.GetFont(64)
+                VerySmall = monoFont.GetFont(16),
+                Small = monoFont.GetFont(24),
+                Normal = monoFont.GetFont(32),
+                Medium = monoFont.GetFont(40),
+                Large = monoFont.GetFont(48),
+                VeryLarge = monoFont.GetFont(64),
+                Huge = monoFont.GetFont(80)
             };
 
             Fancy = new FontData {
-                VerySmall = fancyFont.GetFont(10),
-                Small = fancyFont.GetFont(14),
-                Normal = fancyFont.GetFont(16),
-                Medium = fancyFont.GetFont(20),
-                Large = fancyFont.GetFont(24),
-                VeryLarge = fancyFont.GetFont(32),
-                Huge = fancyFont.GetFont(64)
+                VerySmall = fancyFont.GetFont(16),
+                Small = fancyFont.GetFont(24),
+                Normal = fancyFont.GetFont(32),
+                Medium = fancyFont.GetFont(40),
+                Large = fancyFont.GetFont(48),
+                VeryLarge = fancyFont.GetFont(64),
+                Huge = fancyFont.GetFont(80)
             };
         }
     }

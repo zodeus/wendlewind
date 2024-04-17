@@ -57,7 +57,7 @@ public class CombatScreen : VerticalStackPanel {
             }
         }) {
             GridRow = 2, GridColumn = 0, HorizontalAlignment = HorizontalAlignment.Right,
-            Width = 810,
+            Width = 1200,
             Margin = new Thickness(0, 0, 30, 0),
         };
         _combatLog = new ScrollViewer {
@@ -109,7 +109,7 @@ public class CombatScreen : VerticalStackPanel {
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
             GridRow = 2, GridColumn = 2,
             Height = 800,
-            Width = 810,
+            Width = 1600,
             HorizontalAlignment = HorizontalAlignment.Left,
             VerticalAlignment = VerticalAlignment.Center,
             DefaultProportion = Proportion.Fill,
@@ -193,7 +193,7 @@ public class CombatScreen : VerticalStackPanel {
             ClearCombatLog();
         }
 
-        Label label = new() { Text = text, Wrap = true };
+        Label label = new(BaseContent.Styles.Label.Small) { Text = text, Wrap = true };
         if (color != null) {
             label.TextColor = color.Value;
         }

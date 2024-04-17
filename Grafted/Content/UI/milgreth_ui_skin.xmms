@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Stylesheet TextureRegionAtlas="milgreth_ui_skin.xmat">
     <Fonts UsedSpace="0, 0, 4096, 2000">
-        <Font Id="small-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="14"/>
-        <Font Id="default-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="16"/>
-        <Font Id="medium-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="20"/>
-        <Font Id="large-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="24"/>
-        <Font Id="very-large-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="32"/>
-        <Font Id="huge-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="64"/>
+        <Font Id="very-small-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="16"/>
+        <Font Id="small-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="24"/>
+        <Font Id="normal-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="32"/>
+        <Font Id="medium-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="40"/>
+        <Font Id="large-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="48"/>
+        <Font Id="very-large-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="64"/>
+        <Font Id="huge-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="80"/>
     </Fonts>
     <LabelStyles>
-        <LabelStyle Font="default-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
+        <LabelStyle Font="normal-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
+        <LabelStyle Id="very-small" Font="very-small-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
         <LabelStyle Id="small" Font="small-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
+        <LabelStyle Id="normal" Font="normal-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
         <LabelStyle Id="medium" Font="medium-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
-        <LabelStyle Id="success" Font="default-font" TextColor="#459D00" DisabledTextColor="#4f4f4f"/>
-        <LabelStyle Id="ongoing" Font="default-font" TextColor="#38383e" DisabledTextColor="#4f4f4f"/>
-        <LabelStyle Id="error" Font="default-font" TextColor="#c80000" DisabledTextColor="#4f4f4f"/>
-        <LabelStyle Id="error--dark" Font="default-font" TextColor="#780000" DisabledTextColor="#4f4f4f"/>
         <LabelStyle Id="large" Font="large-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
         <LabelStyle Id="very-large" Font="very-large-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
         <LabelStyle Id="huge" Font="huge-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
+        
+        <LabelStyle Id="success" Font="normal-font" TextColor="#459D00" DisabledTextColor="#4f4f4f"/>
+        <LabelStyle Id="ongoing" Font="normal-font" TextColor="#38383e" DisabledTextColor="#4f4f4f"/>
+        <LabelStyle Id="error" Font="normal-font" TextColor="#c80000" DisabledTextColor="#4f4f4f"/>
+        <LabelStyle Id="error--dark" Font="normal-font" TextColor="#780000" DisabledTextColor="#4f4f4f"/>
+        
         <LabelStyle Id="ai-visualizer__final-decision--hit" Font="small-font" TextColor="#a88d28" DisabledTextColor="#4f4f4f"/>
         <LabelStyle Id="ai-visualizer__final-decision--miss" Font="small-font" TextColor="#780000" DisabledTextColor="#4f4f4f"/>
     </LabelStyles>
@@ -26,7 +31,7 @@
         <PanelStyle Id="panel-medium" Background="panel-frame-medium" Padding="15"/>
     </PanelStyles>-->
     <TextBoxStyles>
-        <TextBoxStyle Background="textfield" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f" Font="default-font" Cursor="input-cursor" Selection="selection" Padding="10, 6, 10, 6"/>
+        <TextBoxStyle Background="textfield" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f" Font="normal-font" Cursor="input-cursor" Selection="selection" Padding="10, 6, 10, 6"/>
     </TextBoxStyles>
     <ScrollViewerStyles>
         <ScrollViewerStyle HorizontalScrollBackground="scroll-frame" HorizontalScrollKnob="scroll-handle-horizontal" VerticalScrollBackground="scroll-frame"
@@ -34,11 +39,11 @@
     </ScrollViewerStyles>
     <ButtonStyles>
         <ButtonStyle>
-            <LabelStyle Font="default-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
+            <LabelStyle Font="normal-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
         </ButtonStyle>
         <ButtonStyle Id="normal" Padding="11,10,11,10" Background="button-normal-default" OverBackground="button-normal-over" PressedBackground="button-normal-pressed"
                      DisabledBackground="button-normal-disabled">
-            <LabelStyle Font="default-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
+            <LabelStyle Font="normal-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
         </ButtonStyle>
         <ButtonStyle Id="small" Padding="6" Background="button-small-default" OverBackground="button-small-over" PressedBackground="button-small-pressed" DisabledBackground="button-small-disabled">
             <LabelStyle Font="small-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
@@ -53,20 +58,20 @@
     </ButtonStyles>
     <CheckBoxStyles>
         <CheckBoxStyle>
-            <LabelStyle Font="default-font" TextColor="#b3b3b3"/>
+            <LabelStyle Font="normal-font" TextColor="#b3b3b3"/>
             <ImageStyle Background="checkbox-default" OverBackground="checkbox-over" PressedImage="checkbox-selected" Width="24" Height="24"/>
         </CheckBoxStyle>
     </CheckBoxStyles>
     <RadioButtonStyles>
         <RadioButtonStyle>
-            <LabelStyle Font="default-font" TextColor="#b3b3b3"/>
+            <LabelStyle Font="normal-font" TextColor="#b3b3b3"/>
             <!--<ImageStyle Image="vis-radio-tick-disabled" PressedImage="vis-radio-tick"/>-->
             <ImageStyle Image="bad-texture" PressedImage="bad-texture"/>
         </RadioButtonStyle>
     </RadioButtonStyles>
     <SpinButtonStyles>
         <SpinButtonStyle Background="textfield">
-            <TextBoxStyle TextColor="#b3b3b3" DisabledTextColor="#4f4f4f" Font="default-font" Cursor="input-cursor" Selection="selection"/>
+            <TextBoxStyle TextColor="#b3b3b3" DisabledTextColor="#4f4f4f" Font="normal-font" Cursor="input-cursor" Selection="selection"/>
             <UpButtonStyle Width="12" Height="12" Background="bad-texture" OverBackground="bad-texture" PressedBackground="bad-texture">
                 <!--<UpButtonStyle Width="12" Height="12" Background="button" OverBackground="button-over" PressedBackground="button-down">-->
                 <!--<ImageStyle Image="select-up"/>-->
@@ -117,10 +122,10 @@
     <ComboBoxStyles>
         <!--<ComboBoxStyle Background="default-select">-->
         <ComboBoxStyle Background="textfield" Padding="10, 6, 10, 6">
-            <LabelStyle Font="default-font" TextColor="#b3b3b3"/>
+            <LabelStyle Font="normal-font" TextColor="#b3b3b3"/>
             <ListBoxStyle Background="panel-icon-frame" Padding="6" Spacing="20">
                 <ListItemStyle OverBackground="button-small-over" PressedBackground="button-small-pressed" Background="panel-icon-frame" Padding="6" Margin="0,0,0,5">
-                    <LabelStyle Font="default-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
+                    <LabelStyle Font="normal-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
                 </ListItemStyle>
                 <!--<SeparatorStyle Padding="0, 2" Image="input-cursor" Thickness="4"/>-->
             </ListBoxStyle>
@@ -130,7 +135,7 @@
         <ListBoxStyle Background="button">
             <!--<ListItemStyle OverBackground="button-over" Padding="5, 0" PressedBackground="list-selection">-->
             <ListItemStyle OverBackground="bad-texture" Padding="5, 0" PressedBackground="bad-texture">
-                <LabelStyle Font="default-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
+                <LabelStyle Font="normal-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
             </ListItemStyle>
             <SeparatorStyle Padding="0, 2" Image="bad-texture" Thickness="4"/>
             <!--<SeparatorStyle Padding="0, 2" Image="separator-menu" Thickness="4"/>-->
@@ -140,7 +145,7 @@
         <TabControlStyle ButtonSpacing="0">
             <!--<TabItemStyle OverBackground="button-over" Padding="5, 0" PressedBackground="list-selection">-->
             <TabItemStyle OverBackground="bad-texture" Padding="5, 0" PressedBackground="bad-texture">
-                <LabelStyle Font="default-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
+                <LabelStyle Font="normal-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
             </TabItemStyle>
             <ContentStyle Background="bad-texture" Padding="5"/>
             <!--<ContentStyle Background="window" Padding="5"/>-->
@@ -153,7 +158,7 @@
                 <!--<ImageStyle Image="tree-plus" PressedImage="tree-minus"/>-->
                 <ImageStyle Image="bad-texture" PressedImage="bad-texture"/>
             </MarkStyle>
-            <LabelStyle Font="default-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
+            <LabelStyle Font="normal-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
         </TreeStyle>
     </TreeStyles>
     <HorizontalSplitPaneStyles>
@@ -171,7 +176,7 @@
     <HorizontalMenuStyles>
         <!--<HorizontalMenuStyle Background="button" SelectionHoverBackground="button-over" SelectionBackground="button-down" SpecialCharColor="red">-->
         <HorizontalMenuStyle Background="bad-texture" SelectionHoverBackground="bad-texture" SelectionBackground="bad-texture" SpecialCharColor="red">
-            <LabelStyle Font="default-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f" Padding="10, 0"/>
+            <LabelStyle Font="normal-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f" Padding="10, 0"/>
             <!--<SeparatorStyle Image="separator" Thickness="3"/>-->
             <SeparatorStyle Image="bad-texture" Thickness="3"/>
         </HorizontalMenuStyle>
@@ -180,8 +185,8 @@
         <!--<VerticalMenuStyle Background="button" Border="#1BA1E2" BorderThickness="1" SelectionHoverBackground="button-over" SelectionBackground="button-down" SpecialCharColor="red">-->
         <VerticalMenuStyle Background="bad-texture" Border="#1BA1E2" BorderThickness="1" SelectionHoverBackground="bad-texture" SelectionBackground="bad-texture" SpecialCharColor="red">
             <ImageStyle Padding="10, 0, 0, 0"/>
-            <LabelStyle Font="default-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f" Padding="10, 0"/>
-            <ShortcutStyle Font="default-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f" Padding="0, 0, 10, 0"/>
+            <LabelStyle Font="normal-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f" Padding="10, 0"/>
+            <ShortcutStyle Font="normal-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f" Padding="0, 0, 10, 0"/>
             <!--<SeparatorStyle Padding="0, 2" Image="separator-menu" Thickness="4"/>-->
             <SeparatorStyle Padding="0, 2" Image="bad-texture" Thickness="4"/>
             <!--<SeparatorStyle Padding="0, 2" Image="separator-menu" Thickness="4"/>-->

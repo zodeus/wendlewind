@@ -72,7 +72,7 @@ public class Core : Game {
         }
         else {
             Screen.Initialize(graphics);
-            Screen.SetSize(1920, 1080);
+            Screen.SetSize(3800, 2000);
         }
 
         Window.Title = "Grafted";

@@ -25,7 +25,7 @@
             <ListItem>BuiltIn</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <MaxHitPoints>60</MaxHitPoints>
+            <MaxHitPoints>20</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="RabbitBodyPartBase">
@@ -44,7 +44,7 @@
             <ListItem>TorsoSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>60</MaxHitPoints>
+            <MaxHitPoints>10</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="RabbitBodyPartBase">
@@ -66,7 +66,7 @@
             <ListItem>RearRightLegSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>120</MaxHitPoints>
+            <MaxHitPoints>20</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="RabbitBodyPartBase">
@@ -84,7 +84,7 @@
             <ListItem>PawSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>30</MaxHitPoints>
+            <MaxHitPoints>5</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="RabbitBodyPartBase">
@@ -102,7 +102,7 @@
         </Sockets>
         <BaseStats>
             <SequencePoints>1</SequencePoints>
-            <MaxHitPoints>20</MaxHitPoints>
+            <MaxHitPoints>5</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
 </Definitions>

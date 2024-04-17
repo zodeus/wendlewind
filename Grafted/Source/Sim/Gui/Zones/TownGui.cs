@@ -30,7 +30,7 @@ public class TownGui : ZoneGui {
         _gameHud = new GameHud { HorizontalAlignment = HorizontalAlignment.Stretch, Margin = new Thickness(0, 5, 0, 0) };
         _tabs = new TabPanel {
             ButtonStyle = BaseContent.Styles.Button.Large,
-            HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 30, 0, 0), Width = 1800
+            HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 30, 0, 0), Width = 3600
         };
         _tabs.AddTab("House", new HousePanel(_town));
         _tabs.AddTab("Character", new PawnDetailPanel(Core.Sim.World.PlayerPawn, "Storage", _town.GetStructure<TownStructureHouse>()!.Storage));
@@ -151,7 +151,7 @@ public class TownGui : ZoneGui {
                         grainMill,
                         meatMarket,
                         festerpusSwamp,
-                        new TextButton(BaseContent.Styles.Button.Normal) { Text = "The Alchemist Hut", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
+                        new TextButton(BaseContent.Styles.Button.Large) { Text = "The Alchemist Hut", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                         new TextButton(BaseContent.Styles.Button.Normal) { Text = "Forgotten Forest", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                         new TextButton(BaseContent.Styles.Button.Normal) { Text = "Forgemaster Quarry", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                         new TextButton(BaseContent.Styles.Button.Normal) { Text = "Fallow Field", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },

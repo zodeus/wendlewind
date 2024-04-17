@@ -130,11 +130,11 @@ public class PawnEquipmentPanel : HorizontalStackPanel {
             Spacing = 2;
             _potionSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.PotionSlot];
             _bagSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.BagSlot];
-            _image = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.WhiteIcon), BodyPartColor.Get(bodyPart)), Width = 32, Height = 32 };
+            _image = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.WhiteIcon), BodyPartColor.Get(bodyPart)), Width = 64, Height = 64 };
             _image.TouchDown += (_, _) => Core.Sim.Gui!.ViewEntity(bodyPart);
             AddChild(_image);
             foreach (EquipmentSlotType slot in slots) {
-                ImageButton slotFrame = new(BaseContent.Styles.Button.Icon) { Width = 32, Height = 32 };
+                ImageButton slotFrame = new(BaseContent.Styles.Button.Icon) { Width = 64, Height = 64 };
                 _slots.Add(slot, slotFrame);
                 slotFrame.Click += (_, _) => ClickAction?.Invoke(bodyPart, slot);
                 AddChild(slotFrame);

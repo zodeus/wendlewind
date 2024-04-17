@@ -94,7 +94,7 @@ internal class PawnCombatPanel : HorizontalStackPanel {
             DefaultProportion = Proportion.Auto,
             //ShowGridLines = true
         };
-        int panelWidth = 230;
+        int panelWidth = 400;
 
         if (Pawn.PawnType == PawnType.Enemy || Pawn.Race != Defs.Races.Journeyman) {
             Texture2D icon = Pawn.Icon.Flip(false, true);

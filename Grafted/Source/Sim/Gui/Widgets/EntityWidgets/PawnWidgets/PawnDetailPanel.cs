@@ -18,7 +18,7 @@ public class PawnDetailPanel : Panel, IUpdatable {
         _inventoryPanel = new ItemContainerPanel(
             playerPawn.Inventory.Entities,
             receivingContainer
-        ) { Visible = !playerPawn.IsDead, MinHeight = 700, Width = 400 };
+        ) { Visible = !playerPawn.IsDead, MinHeight = 700, Width = 700 };
 
         _equipmentPanel = new PawnEquipmentPanel(playerPawn);
         _otherContainerPanel = new ItemContainerPanel(receivingContainer, playerPawn.Inventory.Entities) {

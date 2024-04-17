@@ -20,8 +20,8 @@ public class SequencePointsIcon : Panel {
         };
 
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundDark32];
-        Width = 32;
-        Height = 32;
+        Width = 80;
+        Height = 80;
         base.VerticalAlignment = VerticalAlignment.Center;
 
         AddChild(Label);

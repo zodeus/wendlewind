@@ -120,6 +120,7 @@ public class DamageResponse {
     //public List<HealthConditionDef>? HealthConditions;
     public bool Killed;
     public bool Dodged;
+    public DeathRecord? DeathRecord;
 
     public DamageResponse() { }
 }

@@ -14,7 +14,7 @@ public class CombatControlPanel : VerticalStackPanel {
 
     public CombatControlPanel(CombatEvent combatEvent) {
         _combatEvent = combatEvent;
-        //ShowGridLines = true;
+        ShowGridLines = false;
         _continueButton = new TextButton(BaseContent.Styles.Button.Normal) {
             Text = "Continue", Visible = false, Margin = new Thickness(0, 10, 0, 0), HorizontalAlignment = HorizontalAlignment.Stretch
         };

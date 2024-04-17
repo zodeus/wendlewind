@@ -16,13 +16,15 @@ using HorizontalAlignment = Myra.Graphics2D.UI.HorizontalAlignment;
 
 namespace Grafted.Sim.Gui.Zones;
 
-public class CombatResultsScreen : VerticalStackPanel {
+public class CombatResultsScreen : VerticalStackPanel
+{
     private readonly CombatEvent _combatEvent;
     private readonly PawnDetailPanel _pawnPanel;
     private readonly GameHud _gameHud;
     private bool _autoLootEnabled = true;
 
-    public CombatResultsScreen(AdventureGui gui, CombatEvent combatEvent) {
+    public CombatResultsScreen(AdventureGui gui, CombatEvent combatEvent)
+    {
         _combatEvent = combatEvent;
         _gameHud = new GameHud { HorizontalAlignment = HorizontalAlignment.Stretch };
         _pawnPanel = new PawnDetailPanel(Core.Sim.World.PlayerPawn, "Loot", _combatEvent.Loot) { Margin = new Thickness(0, 100, 0, 0) };
@@ -37,79 +39,83 @@ public class CombatResultsScreen : VerticalStackPanel {
         AddChild(progressButton);
     }
 
-    private Widget DeathsButton() {
-        ImageButton image = new(BaseContent.Styles.Button.Large) {
-            Image = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Skull], Width = 32, Height = 32,
+    private Widget DeathsButton()
+    {
+        ImageButton image = new(BaseContent.Styles.Button.Large)
+        {
+            Image = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Skull], Width = 56, Height = 56,
             Padding = new Thickness(10)
         };
-        image.TouchDown += (_, _) => {
-            new PawnDeathRecordsWindow(Core.Sim.World.DeathRecords).Show(Desktop);
-        };
+        image.TouchDown += (_, _) => { new PawnDeathRecordsWindow(Core.Sim.World.DeathRecords).Show(Desktop); };
         return image;
     }
 
-    private Widget GenerateProgressButton() {
-        HorizontalStackPanel buttons = new() {
+    private Widget GenerateProgressButton()
+    {
+        HorizontalStackPanel buttons = new()
+        {
             Spacing = 5,
             HorizontalAlignment = HorizontalAlignment.Left,
             VerticalAlignment = VerticalAlignment.Bottom
         };
 
-
-        TextButton lingerButton = new(BaseContent.Styles.Button.Large) { Text = "Linger" };
-        lingerButton.Click += (_, _) => MoveToNextCombat(true);
-        buttons.AddChild(lingerButton);
-
         TextButton continueButton = new(BaseContent.Styles.Button.Large) { Text = "Carry on" };
         continueButton.Click += (_, _) => MoveToNextCombat();
         buttons.AddChild(continueButton);
 
-        TextButton goHome = new(BaseContent.Styles.Button.Large) { Text = "Go Home" };
-        goHome.Click += (_, _) => GoHome();
-        buttons.AddChild(goHome);
-
         return new HorizontalStackPanel { Spacing = 10, Widgets = { DeathsButton(), buttons } };
     }
 
-    private void GoHome() {
-        if (_autoLootEnabled && DoAutoLoot() == false) {
+    private void GoHome()
+    {
+        if (_autoLootEnabled && DoAutoLoot() == false)
+        {
             return;
         }
 
         Core.Sim.ChangeZone(Defs.Zones.VillageOfTheDamned);
     }
 
-    private void MoveToNextCombat(bool linger = false) {
-        if (_autoLootEnabled && DoAutoLoot() == false) {
+    private void MoveToNextCombat()
+    {
+        if (_autoLootEnabled && DoAutoLoot() == false)
+        {
             return;
         }
 
-        if (_combatEvent.Zone!.BossKilledThisRun) {
+        if (_combatEvent.Zone!.BossKilledThisRun)
+        {
             GoHome();
             return;
         }
 
-        if (_combatEvent.Zone.PercentTraveledThisRun < 1) {
-            if (linger == false) {
-                _combatEvent.Zone.Adventure!.MoveForward();
-            }
-
+        if (_combatEvent.Zone.PercentTraveledThisRun < 1)
+        {
+            _combatEvent.Zone.Adventure!.MoveForward();
             _combatEvent.Zone.Adventure!.StartNextCombat();
         }
     }
 
-    private bool DoAutoLoot() {
+    private bool DoAutoLoot()
+    {
         Pawn player = Core.Sim.World.PlayerPawn;
         var allItemsCollected = true;
-        foreach (Item item in _combatEvent.Loot.ToList()) {
-            if (player.Inventory.Entities.HasCapacityFor(item)) {
+        foreach (Item item in _combatEvent.Loot.ToList())
+        {
+            if (player.Inventory.Entities.HasCapacityFor(item))
+            {
                 player.Inventory.Entities.TryAdd(item);
             }
-            else { allItemsCollected = false; }
+            else
+            {
+                allItemsCollected = false;
+            }
         }
 
-        if (allItemsCollected == false) {
-            Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData {
+        if (allItemsCollected == false)
+        {
+            Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData
+            {
                 Color = Color.Goldenrod, Duration = 2, Text = "There is remaining loot"
             });
             return false;
@@ -118,13 +124,16 @@ public class CombatResultsScreen : VerticalStackPanel {
         return true;
     }
 
-    public void HandleInput() {
-        if (Input.IsKeyPressed(Keys.Enter)) {
+    public void HandleInput()
+    {
+        if (Input.IsKeyPressed(Keys.Enter))
+        {
             MoveToNextCombat();
         }
     }
 
-    public void Update() {
+    public void Update()
+    {
         _pawnPanel.Update();
         _gameHud.Update();
     }

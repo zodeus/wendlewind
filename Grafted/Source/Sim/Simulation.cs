@@ -21,7 +21,7 @@ public class Simulation : IExposable {
     public IdProvider IdProvider = new();
     public World World = null!;
     public CombatSettings CombatSettings = new();
-    public bool IsPaused = false;
+    public bool IsPaused = true;
 
     public int Ticks => World.Time.Ticks;
     public bool IsCombatPaused => CombatSettings.IsPaused;
