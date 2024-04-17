@@ -8,9 +8,9 @@ public class ProgramStatsPanel : HorizontalStackPanel {
 
     public ProgramStatsPanel() {
         Spacing = 10;
-        _fps = new Label { Width = 100 };
+        _fps = new Label { Width = 200 };
         AddChild(_fps);
-        _frameTime = new Label { Width = 80 };
+        _frameTime = new Label { Width = 200 };
         AddChild(_frameTime);
     }
 

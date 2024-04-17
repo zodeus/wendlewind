@@ -3,7 +3,7 @@
         <OutputType>WinExe</OutputType>
         <AssemblyName>Grafted</AssemblyName>
         <RootNamespace>Grafted</RootNamespace>
-        <TargetFramework>net6.0-windows</TargetFramework>
+        <TargetFramework>net8.0-windows</TargetFramework>
         <PublishReadyToRun>false</PublishReadyToRun>
         <TieredCompilation>false</TieredCompilation>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

@@ -23,6 +23,16 @@
                         <Amount>25~50</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
+                    <ListItem>
+                        <Item>LeatherGlove</Item>
+                        <Amount>1~2</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>LeatherBoot</Item>
+                        <Amount>1~2</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
@@ -47,6 +57,16 @@
                     <ListItem>
                         <Item>Coin</Item>
                         <Amount>50~100</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>LeatherVambrace</Item>
+                        <Amount>1~2</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>LeatherGreave</Item>
+                        <Amount>1~2</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
@@ -75,6 +95,11 @@
                         <Amount>100~200</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
+                    <ListItem>
+                        <Item>LeatherGorget</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
@@ -99,6 +124,11 @@
                     <ListItem>
                         <Item>Coin</Item>
                         <Amount>200~400</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>WoodenHammer</Item>
+                        <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
@@ -129,6 +159,16 @@
                     </ListItem>
                     <ListItem>
                         <Item>CowardsFlag</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>BucketHelmet</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>Knife</Item>
                         <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>

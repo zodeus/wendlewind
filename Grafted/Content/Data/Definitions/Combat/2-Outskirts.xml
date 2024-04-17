@@ -22,29 +22,15 @@
                         <Amount>300~500</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
-                </InventoryItems>
-            </ListItem>
-            <ListItem>
-                <Race>FieldHound</Race>
-                <Config>DefaultEnemy</Config>
-                <PawnName>Field Hound</PawnName>
-                <SpawnWeight>20</SpawnWeight>
-                <BodySizeFactor>2</BodySizeFactor>
-                <SpawnDuring>Night</SpawnDuring>
-                <Skills>
-                    <Teeth>7</Teeth>
-                    <Claws>7</Claws>
-                </Skills>
-                <InventoryItems>
                     <ListItem>
-                        <Item>RawMeat</Item>
-                        <Amount>8~16</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
+                        <Item>LeatherTunic</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
                     </ListItem>
                     <ListItem>
-                        <Item>SoulCoin</Item>
+                        <Item>ChainHelmet</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
+                        <ChanceToDrop>.5</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -72,29 +58,20 @@
                         <Amount>400~600</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
-                </InventoryItems>
-            </ListItem>
-            <ListItem>
-                <Race>FieldHound</Race>
-                <Config>DefaultEnemy</Config>
-                <PawnName>Field Hound</PawnName>
-                <SpawnWeight>20</SpawnWeight>
-                <BodySizeFactor>2</BodySizeFactor>
-                <SpawnDuring>Night</SpawnDuring>
-                <Skills>
-                    <Teeth>7</Teeth>
-                    <Claws>7</Claws>
-                </Skills>
-                <InventoryItems>
                     <ListItem>
-                        <Item>RawMeat</Item>
-                        <Amount>8~16</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
+                        <Item>LeatherTunic</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
                     </ListItem>
                     <ListItem>
-                        <Item>SoulCoin</Item>
+                        <Item>LeatherVambrace</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
+                        <ChanceToDrop>.5</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>ChainHelmet</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -122,29 +99,25 @@
                         <Amount>500~700</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
-                </InventoryItems>
-            </ListItem>
-            <ListItem>
-                <Race>FieldHound</Race>
-                <Config>DefaultEnemy</Config>
-                <PawnName>Field Hound</PawnName>
-                <SpawnWeight>20</SpawnWeight>
-                <BodySizeFactor>2</BodySizeFactor>
-                <SpawnDuring>Night</SpawnDuring>
-                <Skills>
-                    <Teeth>7</Teeth>
-                    <Claws>7</Claws>
-                </Skills>
-                <InventoryItems>
                     <ListItem>
-                        <Item>RawMeat</Item>
-                        <Amount>8~16</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
+                        <Item>LeatherTunic</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
                     </ListItem>
                     <ListItem>
-                        <Item>SoulCoin</Item>
+                        <Item>LeatherVambrace</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
+                        <ChanceToDrop>.5</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>ChainHelmet</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>Knife</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -172,29 +145,25 @@
                         <Amount>700~900</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
-                </InventoryItems>
-            </ListItem>
-            <ListItem>
-                <Race>FieldHound</Race>
-                <Config>DefaultEnemy</Config>
-                <PawnName>Field Hound</PawnName>
-                <SpawnWeight>20</SpawnWeight>
-                <BodySizeFactor>2</BodySizeFactor>
-                <SpawnDuring>Night</SpawnDuring>
-                <Skills>
-                    <Teeth>7</Teeth>
-                    <Claws>7</Claws>
-                </Skills>
-                <InventoryItems>
                     <ListItem>
-                        <Item>RawMeat</Item>
-                        <Amount>8~16</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
+                        <Item>LeatherTunic</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
                     </ListItem>
                     <ListItem>
-                        <Item>SoulCoin</Item>
+                        <Item>LeatherVambrace</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
+                        <ChanceToDrop>.5</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>ChainHelmet</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>Knife</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>

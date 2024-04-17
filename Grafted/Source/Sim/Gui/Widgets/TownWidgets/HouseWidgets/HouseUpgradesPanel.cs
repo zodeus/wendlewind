@@ -13,7 +13,7 @@ public class HouseUpgradesPanel : VerticalStackPanel {
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
         Padding = new Thickness(20);
         base.HorizontalAlignment = HorizontalAlignment.Center;
-        Width = 310;
+        Width = 600;
         Spacing = 10;
         AddChild(new Label(BaseContent.Styles.Label.Large) { Text = "Upgrades & Repairs" });
 

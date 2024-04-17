@@ -59,7 +59,7 @@ public class HousePanel : HorizontalStackPanel, IUpdatable {
             Spacing = 10, Widgets = { _upgradesPanel, _alchemyPanel }
         });
         AddChild(new MessagePanel(Core.Sim.Messages) {
-            Width = 400, Height = 800, VerticalAlignment = VerticalAlignment.Stretch
+            Width = 800, Height = 800, VerticalAlignment = VerticalAlignment.Stretch
         });
     }
 

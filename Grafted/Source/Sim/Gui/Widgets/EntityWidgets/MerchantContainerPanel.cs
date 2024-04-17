@@ -134,7 +134,7 @@ public class MerchantListPanelItem : HorizontalStackPanel {
 
         // ITEM LABEL
         HorizontalStackPanel entityButton = new() {
-            Spacing = 10, Width = 200,
+            Spacing = 10, Width = 400,
             Widgets = {
                 new Image { Background = new TextureRegion(item.Icon), Width = 32, Height = 32 },
                 new Label { Text = _item.Label, VerticalAlignment = VerticalAlignment.Center }

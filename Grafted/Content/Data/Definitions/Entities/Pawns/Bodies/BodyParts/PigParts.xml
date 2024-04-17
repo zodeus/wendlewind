@@ -25,7 +25,7 @@
             <ListItem>BuiltIn</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <MaxHitPoints>500</MaxHitPoints>
+            <MaxHitPoints>150</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="PigBodyPartBase">
@@ -44,7 +44,7 @@
             <ListItem>TorsoSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>250</MaxHitPoints>
+            <MaxHitPoints>60</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="PigBodyPartBase">
@@ -67,7 +67,7 @@
             <ListItem>TailSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>800</MaxHitPoints>
+            <MaxHitPoints>200</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="PigBodyPartBase">
@@ -85,7 +85,7 @@
             <ListItem>HoofSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>180</MaxHitPoints>
+            <MaxHitPoints>60</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="PigBodyPartBase">
@@ -106,7 +106,7 @@
         </EquipmentSlots>
         <BaseStats>
             <SequencePoints>1</SequencePoints>
-            <MaxHitPoints>120</MaxHitPoints>
+            <MaxHitPoints>60</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="PigBodyPartBase">
@@ -124,7 +124,7 @@
         </Sockets>
         <BaseStats>
             <SequencePoints>1</SequencePoints>
-            <MaxHitPoints>100</MaxHitPoints>
+            <MaxHitPoints>15</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
 </Definitions>

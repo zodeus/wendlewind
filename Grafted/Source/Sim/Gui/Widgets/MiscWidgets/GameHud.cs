@@ -84,23 +84,23 @@ public class GameHud : HorizontalStackPanel {
         _zoneLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center };
         _zoneKillsLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center };
         _distanceLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center };
-        _timeLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center, Width = 220, TextAlign = TextAlign.Center };
+        _timeLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center, Width = 400, TextAlign = TextAlign.Center };
         _dayLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center };
         _bloodLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center };
-        _temperatureLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center, Width = 50, TextAlign = TextAlign.Center };
-        _energyLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center, Width = 50, TextAlign = TextAlign.Center };
+        _temperatureLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center, Width = 90, TextAlign = TextAlign.Center };
+        _energyLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center, Width = 150, TextAlign = TextAlign.Center };
         _sequencePoints = new SequencePointsIcon(Core.Sim.World.PlayerPawn);
         _bodyTempIcon = new Image {
-            VerticalAlignment = VerticalAlignment.Center, Width = 28, Height = 28,
+            VerticalAlignment = VerticalAlignment.Center, Width = 80, Height = 80,
             Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Human], Color.White)
         };
         _stomachGauge = new Image {
-            VerticalAlignment = VerticalAlignment.Center, Width = 28, Height = 28,
+            VerticalAlignment = VerticalAlignment.Center, Width = 80, Height = 80,
             Background = new ColoredRegion(new TextureRegion(Defs.BodyParts.Stomach.Icon), Color.White)
         };
         _stomachOutline = new HorizontalStackPanel {
             VerticalAlignment = VerticalAlignment.Center,
-            Width = 28, Height = 28, Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.StomachOutline], Color.White),
+            Width = 80, Height = 80, Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.StomachOutline], Color.White),
             Widgets = {
                 _stomachGauge
             }
@@ -115,7 +115,7 @@ public class GameHud : HorizontalStackPanel {
             Widgets = {
                 new Image {
                     VerticalAlignment = VerticalAlignment.Center,
-                    Width = 32, Height = 32, Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Blood]
+                    Width = 80, Height = 80, Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Blood]
                 },
                 _bloodLabel
             }
@@ -130,7 +130,7 @@ public class GameHud : HorizontalStackPanel {
             Widgets = {
                 new Image {
                     VerticalAlignment = VerticalAlignment.Center,
-                    Width = 36, Height = 36, Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Energy]
+                    Width = 80, Height = 80, Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Energy]
                 },
                 _energyLabel
             }
@@ -149,7 +149,7 @@ public class GameHud : HorizontalStackPanel {
             Widgets = {
                 new Image {
                     VerticalAlignment = VerticalAlignment.Center,
-                    Width = 32, Height = 32, Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Thermometer]
+                    Width = 80, Height = 80, Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Thermometer]
                 },
                 _temperatureLabel,
                 _bodyTempIcon

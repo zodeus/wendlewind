@@ -89,7 +89,7 @@ public class
                 }
             }
             else {
-                combatEvent.LogMessage($"        Missed \\c[{UiTextColor.TextColorPawn}]{Target.LabelShort} \\c[#b3b3b3]with \\c[#fa9000]{step.Tool} \\c[#b3b3b3]ChanceToHit = \\c[#00e6ff]{chanceToHit}");
+                combatEvent.LogMessage($"        Missed \\c[{UiTextColor.TextColorPawn}]{Target.LabelShort} \\c[#b3b3b3]with \\c[#fa9000]{step.Tool} \\c[#b3b3b3]ChanceToHit = \\c[#00e6ff]{chanceToHit:P1}");
             }
         }
     }
