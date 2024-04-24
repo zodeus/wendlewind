@@ -9,9 +9,6 @@
         <EquipmentProperties>
             <EquipmentType>Potion</EquipmentType>
         </EquipmentProperties>
-        <BaseStats>
-            <Weight>1</Weight>
-        </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Potion">
         <Moniker>JarOfBlood</Moniker>
@@ -19,7 +16,7 @@
         <Description>Can be sipped during combat to replenish lost blood.</Description>
         <TexturePath>Entities/Item/Consumables/JarOfBlood</TexturePath>
         <BaseStats>
-            <CurrencyValue>50</CurrencyValue>
+          
             <HealingValue>3000</HealingValue>
         </BaseStats>
     </ItemDef>
@@ -28,30 +25,18 @@
         <Label>Acid Flask</Label>
         <Description>Has a chance to blind opponent</Description>
         <TexturePath>Entities/Item/Consumables/AcidFlask</TexturePath>
-        <BaseStats>
-            <CurrencyValue>80</CurrencyValue>
-            <Tier>2</Tier>
-        </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Potion">
         <Moniker>PumpinJuice</Moniker>
         <Label>Pumpin Juice</Label>
         <Description>Increases sequences points for a short period of time</Description>
         <TexturePath>Entities/Item/Consumables/PumpinJuice</TexturePath>
-        <BaseStats>
-            <CurrencyValue>60</CurrencyValue>
-            <Tier>3</Tier>
-        </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Potion">
         <Moniker>TheDreamingPowder</Moniker>
         <Label>The Dreaming Powder</Label>
         <Description>Sleep well my friend</Description>
         <TexturePath>Entities/Item/Potion/TheDreamingPowder</TexturePath>
-        <BaseStats>
-            <CurrencyValue>8000</CurrencyValue>
-            <Tier>5</Tier>
-        </BaseStats>
         <CraftingProperties>
             <MinutesToMake>1440</MinutesToMake>
             <AmountProduced>2</AmountProduced>

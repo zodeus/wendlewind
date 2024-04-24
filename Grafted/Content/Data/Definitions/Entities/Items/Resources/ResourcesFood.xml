@@ -15,13 +15,11 @@
             <Effects>
                 <ListItem>
                     <Def>FoodPoisoning</Def>
-                    <DurationInMinutes>1440</DurationInMinutes>
+                    <DurationInTicks>1440</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
         <BaseStats>
-            <Weight>.5</Weight>
-            <CurrencyValue>10</CurrencyValue>
             <NutritionalValue>.2</NutritionalValue>
         </BaseStats>
     </ItemDef>
@@ -44,10 +42,7 @@
             </ResourceRequirements>
         </CraftingProperties>
         <BaseStats>
-            <Weight>.4</Weight>
             <HealingValue>110</HealingValue>
-            <DeteriorationRate>0.01</DeteriorationRate>
-            <CurrencyValue>15</CurrencyValue>
             <NutritionalValue>.4</NutritionalValue>
         </BaseStats>
     </ItemDef>
@@ -61,14 +56,11 @@
             <Effects>
                 <ListItem>
                     <Def>BeefedUp</Def>
-                    <DurationInMinutes>720</DurationInMinutes>
+                    <DurationInTicks>720</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
         <BaseStats>
-            <Weight>.2</Weight>
-            <DeteriorationRate>0.01</DeteriorationRate>
-            <CurrencyValue>50</CurrencyValue>
             <NutritionalValue>.3</NutritionalValue>
         </BaseStats>
     </ItemDef>
@@ -82,15 +74,11 @@
             <Effects>
                 <ListItem>
                     <Def>FoodPoisoning</Def>
-                    <DurationInMinutes>1440</DurationInMinutes>
+                    <DurationInTicks>1440</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
         <BaseStats>
-            <Weight>.2</Weight>
-            <Tier>2</Tier>
-            <DeteriorationRate>0.01</DeteriorationRate>
-            <CurrencyValue>50</CurrencyValue>
             <NutritionalValue>.1</NutritionalValue>
         </BaseStats>
     </ItemDef>
@@ -104,15 +92,11 @@
             <Effects>
                 <ListItem>
                     <Def>FoodPoisoning</Def>
-                    <DurationInMinutes>1440</DurationInMinutes>
+                    <DurationInTicks>1440</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
         <BaseStats>
-            <Weight>.2</Weight>
-            <Tier>2</Tier>
-            <DeteriorationRate>0.01</DeteriorationRate>
-            <CurrencyValue>50</CurrencyValue>
             <NutritionalValue>.1</NutritionalValue>
         </BaseStats>
     </ItemDef>
@@ -126,7 +110,7 @@
             <Effects>
                 <ListItem>
                     <Def>EnergizedLikeABunny</Def>
-                    <DurationInMinutes>180</DurationInMinutes>
+                    <DurationInTicks>180</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
@@ -144,10 +128,7 @@
             </ResourceRequirements>
         </CraftingProperties>
         <BaseStats>
-            <Weight>.4</Weight>
             <HealingValue>110</HealingValue>
-            <DeteriorationRate>0.01</DeteriorationRate>
-            <CurrencyValue>25</CurrencyValue>
             <NutritionalValue>.3</NutritionalValue>
         </BaseStats>
     </ItemDef>

@@ -1,7 +1,4 @@
-﻿using Grafted.Maths;
-using Grafted.Sim.Entities.Items;
-
-namespace Grafted.Sim.Zones;
+﻿namespace Grafted.Sim.Zones;
 
 public class ZoneResourceRecord {
     public ItemDef Item = null!;

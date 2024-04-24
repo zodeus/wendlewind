@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-
-namespace Grafted.Graphics;
+﻿namespace Grafted.Graphics;
 
 /// <summary>
 /// A stack of Rectangle objects to be used for clipping via GraphicsDevice.ScissorRectangle. When a new

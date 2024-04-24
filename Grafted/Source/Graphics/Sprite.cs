@@ -1,8 +1,3 @@
-using Grafted.Debug;
-using Grafted.Maths;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
 namespace Grafted.Graphics;
 
 public class Sprite {

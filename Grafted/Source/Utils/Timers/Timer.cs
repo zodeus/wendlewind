@@ -1,5 +1,3 @@
-using System;
-
 namespace Grafted.Utils.Timers;
 
 /// <summary>

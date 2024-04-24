@@ -1,5 +1,3 @@
-using Grafted.Definitions;
-
 namespace Grafted.Sim.Persistence;
 
 public static class Scribe_Defs {

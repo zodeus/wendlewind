@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Grafted.Sim.Entities.Items;
-using Grafted.Sim.Persistence;
 
 namespace Grafted.Sim.Entities.Pawns;
 
@@ -12,15 +9,7 @@ public class PawnInventory : IExposable, IEnumerable<Item> {
 
     public PawnInventory(Pawn pawn) {
         Pawn = pawn;
-        Entities = new EntityContainer(pawn.MaxCarryWeight);
-    }
-
-    public void Tick() {
-        if (Pawn.MaxCarryWeight != Entities.MaxWeight) {
-            Entities.UpdateMaxWeight(Pawn.MaxCarryWeight);
-        }
-
-        Entities.Tick();
+        Entities = new EntityContainer();
     }
 
     public IEnumerator<Item> GetEnumerator() {

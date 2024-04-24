@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Grafted.Sim.Persistence;
 
 namespace Grafted.Sim.Entities.Pawns;
 

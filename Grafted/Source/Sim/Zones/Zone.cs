@@ -1,71 +1,94 @@
-using Grafted.Sim.Gui.Zones;
-using Grafted.Sim.Persistence;
-using Grafted.Sim.Zones.Handlers;
+using Grafted.Scenes.MainGameScene.Gui;
 
 namespace Grafted.Sim.Zones;
 
-public class Zone : IExposable, IIdentityProvider {
-    private ZoneHandler _handler = null!;
-    private ZoneGui _gui;
+public enum ZoneState
+{
+    Map,
+    Combat,
+    CombatResults,
+    Unoccupied
+}
 
-    public ZoneDef Def = null!;
-    public World World = null!;
+public class Zone : IExposable, IIdentityProvider
+{
+    public BiomeDef BiomeDef = null!;
     public int ZoneKills = 0;
-    public int TotalZoneKills = 0;
-    public float DistanceTraveledThisRun = 0;
-    public bool BossKilledThisRun;
 
-    public float FurthestDistanceTraveled = 0;
     public float Temperature = -1;
     public bool IsComplete;
-    public string Label => Def.Label;
-    public ZoneGui Gui => _gui;
-    public ZoneHandler Handler => _handler;
-    public Town? Town => _handler as Town;
-    public Adventure? Adventure => _handler as Adventure;
-    public ZoneType ZoneType => Def.ZoneType;
-    public float PercentTraveledThisRun => DistanceTraveledThisRun / Def.TravelSize;
-    public float PercentTraveled => FurthestDistanceTraveled / Def.TravelSize;
+    public string Label => BiomeDef.Label;
+    public ZoneState State { get; set; }
+    public Encounter? ActiveEncounter { get; set; }
+    public Player? Player { get; set; }
+    public event Action<ZoneState>? OnStateChanged;
+    public event Action<ScreenMessageData>? OnZoneMessage;
 
-    public void Reset() {
-        ZoneKills = 0; // clear current zone kill count
-        DistanceTraveledThisRun = 0;
-        BossKilledThisRun = false;
+    public void Tick(int ticks)
+    {
+        ActiveEncounter?.Tick(ticks);
     }
 
-    public void Tick() {
-        _handler?.Tick();
-    }
-
-    public void ExposeData() {
-        Scribe_Defs.Look(ref Def!, "Def");
-        Scribe_References.Look(ref World!, "World");
-        Scribe_Values.Look(ref TotalZoneKills!, "TotalZoneKills");
-        Scribe_Values.Look(ref FurthestDistanceTraveled!, "FurthestDistanceTraveled");
+    public void ExposeData()
+    {
+        Scribe_Defs.Look(ref BiomeDef!, "BiomeDef");
         Scribe_Values.Look(ref IsComplete, "IsComplete");
-        Scribe_Deep.Look(ref _handler!, "Handler");
     }
 
-    public string GetUniqueId() {
-        return Def.Moniker;
+    public string GetUniqueId()
+    {
+        return BiomeDef.Moniker;
     }
 
-    public void Initialize(World world, ZoneDef zoneDef) {
-        Def = zoneDef;
-        World = world;
-        _handler = zoneDef.Handler;
-        _handler.Initialize(world, this);
+    public void Initialize(BiomeDef biomeDef)
+    {
+        BiomeDef = biomeDef;
     }
 
-    public void Enter() {
-        _gui = Def.Gui;
-        _gui.Initialize(this);
-        //ProgressTime(SimTime.SecondsInMinute * minutesSpentTravelling);
-        Handler.OnEnter();
+    public void Enter(Player player)
+    {
+        Player = player;
+        ChangeState(ZoneState.Map);
     }
 
-    public void Exit() {
-        //ProgressTime(SimTime.SecondsInMinute * minutesSpentTravelling);
-        Handler.OnExit();
+    public void NextEncounter()
+    {
+        ActiveEncounter = CombatGenerator.GenerateForZone(Player!.Pawn, this);
+        if (ActiveEncounter.AtBoss)
+        {
+            ZoneMessage(new ScreenMessageData
+            {
+                Color = Color.LightGoldenrodYellow, Duration = 5,
+                Font = BaseContent.Fonts.Fancy.Huge,
+                Text = "BOSS FIGHT!"
+            });
+        }
+
+        ChangeState(ZoneState.Combat);
+        ActiveEncounter.State = EncounterState.InProgress;
+    }
+
+    public void ZoneMessage(ScreenMessageData message)
+    {
+        OnZoneMessage?.Invoke(message);
+    }
+
+    public void CombatResults()
+    {
+        ZoneKills++;
+        ChangeState(ZoneState.CombatResults);
+    }
+
+    public void Exit()
+    {
+        Player = null;
+        ChangeState(ZoneState.Unoccupied);
+        
+    }
+
+    private void ChangeState(ZoneState state)
+    {
+        State = state;
+        OnStateChanged?.Invoke(state);
     }
 }

@@ -1,14 +1,7 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Xml;
-using Grafted.Definitions;
 using Grafted.Definitions.Loader;
-using Grafted.Maths;
-using Grafted.Sim.Entities.Items;
-using Grafted.Sim.Gui.Widgets.DefWidgets;
-using Grafted.Sim.Persistence;
-using JetBrains.Annotations;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.DefWidgets;
 
 namespace Grafted.Sim.Entities.Pawns;
 
@@ -115,7 +108,7 @@ public class Skill : IExposable {
         }
     }
 
-    private static readonly Curve XpLevelingCurve = new() {
+    private static readonly SimpleCurve XpLevelingCurve = new() {
         new CurvePoint(0f, 50f), // 100 increment
         new CurvePoint(3f, 100f), // 100 increment
         new CurvePoint(5f, 500f), // 200 increment

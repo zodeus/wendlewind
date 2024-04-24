@@ -1,5 +1,4 @@
-﻿using System;
-using Grafted.Sim.Gui.Widgets.DefWidgets;
+﻿using Grafted.Scenes.MainGameScene.Gui.Widgets.DefWidgets;
 
 namespace Grafted.Definitions;
 

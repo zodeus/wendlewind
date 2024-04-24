@@ -13,7 +13,7 @@
         <Moniker>RabbitBody</Moniker>
         <Label>Rabbit Body</Label>
         <BloodType>AnimalBlood</BloodType>
-        <MaxBlood>500</MaxBlood>
+        <MaxBlood>5000</MaxBlood>
         <BoneDensity>1</BoneDensity>
         <GeneratorClass>RabbitBodyGenerator</GeneratorClass>
         <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->

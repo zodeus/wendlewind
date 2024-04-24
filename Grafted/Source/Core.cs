@@ -1,21 +1,14 @@
-using System;
 using System.Collections;
 using System.IO;
 using AssetManagementBase;
 using Grafted.Assets;
 using Grafted.Coroutines;
-using Grafted.Debug;
 using Grafted.Definitions.Loader;
 using Grafted.Graphics;
-using Grafted.Scenes;
-using Grafted.Sim;
-using Grafted.UI;
-using Grafted.Utils;
+using Grafted.Scenes.Components;
+using Grafted.Scenes.MainGameScene;
 using Grafted.Utils.Timers;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Myra;
-using Myra.Graphics2D.UI.Styles;
 
 namespace Grafted;
 
@@ -27,14 +20,12 @@ public class Core : Game {
 
     public static Emitter<CoreEvent> Emitter { get; private set; } = null!;
 
-    public static Simulation Sim { get; set; } = null!;
+    public static GameContext Context { get; set; } = null!;
     public static SceneManager Scene { get; } = new();
     public static GraphicsWrapper Graphics { get; private set; } = null!;
 
     public static Random Random { get; private set; } = null!;
     public static bool PauseInBackground { get; set; } = false;
-
-    public static CameraController CameraController { get; set; } = null!;
     public static bool PauseCoroutines { get; set; } = false;
     
     //todo move this somewhere better

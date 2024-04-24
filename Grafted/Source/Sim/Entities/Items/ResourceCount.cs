@@ -1,10 +1,7 @@
-﻿using JetBrains.Annotations;
-
-namespace Grafted.Sim.Entities.Items;
+﻿namespace Grafted.Sim.Entities.Items;
 
 [UsedImplicitly]
 public class ResourceCount {
-    public int MinMaterialTier;
     public MaterialType? MaterialType;
     public ItemDef? Resource;
     public int Count;

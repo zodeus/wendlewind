@@ -7,7 +7,7 @@
         <Tools>
             <ListItem>Hand</ListItem>
         </Tools>
-        <DamageMultiplier>1~3</DamageMultiplier>
+        <DamageMultiplier>0.5~1.7</DamageMultiplier>
     </ToolManeuverDef>
     <ToolManeuverDef>
         <Moniker>Kick</Moniker>
@@ -15,6 +15,6 @@
         <Tools>
             <ListItem>Foot</ListItem>
         </Tools>
-        <DamageMultiplier>1~5</DamageMultiplier>
+        <DamageMultiplier>0.3~1.9</DamageMultiplier>
     </ToolManeuverDef>
 </Definitions>

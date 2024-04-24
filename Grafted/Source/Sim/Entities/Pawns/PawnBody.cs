@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Grafted.Definitions;
-using Grafted.Maths;
-using Grafted.Sim.Entities.Pawns.Bodies.Handlers;
-using Grafted.Sim.Persistence;
+﻿using Grafted.Sim.Entities.Pawns.Bodies.Handlers;
 
 namespace Grafted.Sim.Entities.Pawns;
 
@@ -57,8 +51,6 @@ public class PawnBody : IExposable, IIdentityProvider {
         set => _energy = Mathf.Clamp(value, 0f, 1);
     }
 
-    public bool IsExhausted => TicksSinceLastRest > SimTime.TicksPerDay;
-
     public List<BodyPart> AllParts {
         get {
             List<BodyPart> parts = new();
@@ -96,9 +88,9 @@ public class PawnBody : IExposable, IIdentityProvider {
         Handler.Initialize(this);
     }
 
-    public void Tick() {
+    public void Tick(int ticks) {
         foreach (BodyPart bodyPart in AllParts) {
-            bodyPart.Tick();
+            bodyPart.Tick(ticks);
         }
 
         Effects.Tick();
@@ -108,10 +100,10 @@ public class PawnBody : IExposable, IIdentityProvider {
             TicksSinceLastRest = 0;
         }
 
-        Handler.Tick();
+        Handler.Tick(ticks);
 
         if (BloodAmount <= 1) {
-            HandleBloodLossDeath();
+            Pawn.HandleDeath("Blood loss");
         }
     }
 
@@ -170,18 +162,5 @@ public class PawnBody : IExposable, IIdentityProvider {
                 GetParts(socket.AttachedPart, parts, externalOnly);
             }
         }
-    }
-
-    private void HandleBloodLossDeath() {
-        Pawn.IsDead = true;
-        if (Pawn.PawnType == PawnType.Player) {
-            Core.Sim.Messages.Push(new Message($"\\c[{UiTextColor.TextColorPawn}]{Pawn.Label} \\c[{UiTextColor.TextColorRed}]died from blood loss"));
-        }
-
-        Core.Sim.World.DeathRecords.RecordDeath(new DeathRecord {
-            Round = Core.Sim.World.TotalKills + 1,
-            PawnName = Pawn.Label,
-            CauseOfDeath = "Blood Loss"
-        });
     }
 }

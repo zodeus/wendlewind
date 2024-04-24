@@ -139,7 +139,7 @@
         </Sockets>
         <BaseStats>
             <MaxHitPoints>150</MaxHitPoints>
-            <CurrencyValue>10</CurrencyValue>
+          
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="GhoulBodyPartBase">

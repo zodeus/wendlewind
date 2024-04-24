@@ -1,11 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
-using Grafted.Maths;
-using Grafted.Utils;
-using Microsoft.Xna.Framework;
 
 namespace Grafted.Definitions.Loader;
 

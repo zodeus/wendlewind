@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using Grafted.Definitions;
 using Grafted.Graphics.Textures;
-using Grafted.Sim.Gui.Widgets.EntityWidgets;
-using Microsoft.Xna.Framework.Graphics;
+using Grafted.Scenes.MainGameScene.Gui;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
 namespace Grafted.Sim.Entities;
 
@@ -21,7 +18,7 @@ public class EntityDef : Def {
     public virtual Texture2D Texture => _texture ??= TexturePath != null ? Core.Content.Load<Texture2D>(TexturePath) : BaseContent.Textures.BadTexture;
     public virtual Texture2D Icon => _iconTexture ??= TexturePath != null ? TextureUtils.PreMultiply(Texture)! : BaseContent.Textures.BadTexture;
 
-    public EntityPanelBase UiPanelFor(Entity entity, EntityPanelProperties? properties = null) {
-        return (EntityPanelBase) Activator.CreateInstance(UiClass, entity, properties)!;
+    public EntityPanelBase UiPanelFor(BaseGui gui, Entity entity, EntityPanelProperties? properties = null) {
+        return (EntityPanelBase) Activator.CreateInstance(UiClass, gui, entity, properties)!;
     }
 }

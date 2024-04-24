@@ -1,6 +1,4 @@
-﻿using Grafted.Sim.Persistence;
-
-namespace Grafted.Sim.Entities.Pawns;
+﻿namespace Grafted.Sim.Entities.Pawns;
 
 public class PawnBiography : IExposable {
     public Gender Gender;

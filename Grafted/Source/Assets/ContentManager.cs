@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
 using Grafted.Assets.SpriteAtlases;
 using Grafted.Assets.SpriteAtlases.Loader;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Grafted.Assets;
 

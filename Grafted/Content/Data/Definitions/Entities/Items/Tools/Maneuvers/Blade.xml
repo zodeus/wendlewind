@@ -20,6 +20,6 @@
             <ListItem>Sword</ListItem>
             <ListItem>Dagger</ListItem>
         </Tools>
-        <DamageMultiplier>.2~1.6</DamageMultiplier>
+        <DamageMultiplier>.4~1.7</DamageMultiplier>
     </ToolManeuverDef>
 </Definitions>

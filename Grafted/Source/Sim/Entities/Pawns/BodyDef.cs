@@ -1,6 +1,4 @@
-﻿using System;
-using Grafted.Definitions;
-using Grafted.Sim.Entities.Pawns.Bodies.Handlers;
+﻿using Grafted.Sim.Entities.Pawns.Bodies.Handlers;
 
 namespace Grafted.Sim.Entities.Pawns;
 

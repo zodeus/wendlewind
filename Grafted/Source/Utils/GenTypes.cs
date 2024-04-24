@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Grafted.Sim;
+﻿using System.Reflection;
 
 namespace Grafted.Utils;
 
@@ -43,7 +39,7 @@ public static class GenTypes {
     }
 
     public static List<string> ImpliedNamespaceNames {
-        get { return _impliedNamespaceNames ??= typeof(Simulation).Assembly.GetTypes().Where(t => t.Namespace?.StartsWith("Grafted") == true).Select(t => t.Namespace).Distinct().ToList()!; }
+        get { return _impliedNamespaceNames ??= typeof(GameContext).Assembly.GetTypes().Where(t => t.Namespace?.StartsWith("Grafted") == true).Select(t => t.Namespace).Distinct().ToList()!; }
     }
 
     private static readonly Dictionary<TypeCacheKey, Type> TypeCache = new(EqualityComparer<TypeCacheKey>.Default);

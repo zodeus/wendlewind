@@ -1,4 +1,3 @@
-using Grafted.Definitions;
 using Grafted.Sim.Entities;
 
 namespace Grafted.Sim.Persistence;

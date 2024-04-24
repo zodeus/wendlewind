@@ -12,9 +12,6 @@
         <BaseStats>
             <PhysicalResistance>50</PhysicalResistance>
             <MaxDurability>600</MaxDurability>
-            <Weight>3</Weight>
-            <Tier>3</Tier>
-            <CurrencyValue>10000</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
@@ -30,9 +27,6 @@
         <BaseStats>
             <PhysicalResistance>50</PhysicalResistance>
             <MaxDurability>500</MaxDurability>
-            <Weight>2</Weight>
-            <Tier>3</Tier>
-            <CurrencyValue>7000</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
@@ -47,9 +41,6 @@
         <BaseStats>
             <PhysicalResistance>50</PhysicalResistance>
             <MaxDurability>500</MaxDurability>
-            <Weight>3</Weight>
-            <Tier>3</Tier>
-            <CurrencyValue>8000</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
@@ -64,9 +55,6 @@
         <BaseStats>
             <PhysicalResistance>50</PhysicalResistance>
             <MaxDurability>800</MaxDurability>
-            <Weight>3</Weight>
-            <Tier>3</Tier>
-            <CurrencyValue>10000</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
@@ -81,9 +69,6 @@
         <BaseStats>
             <PhysicalResistance>50</PhysicalResistance>
             <MaxDurability>800</MaxDurability>
-            <Weight>6</Weight>
-            <Tier>3</Tier>
-            <CurrencyValue>15000</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
@@ -98,9 +83,6 @@
         <BaseStats>
             <PhysicalResistance>50</PhysicalResistance>
             <MaxDurability>800</MaxDurability>
-            <Weight>6</Weight>
-            <Tier>3</Tier>
-            <CurrencyValue>9000</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
@@ -115,9 +97,6 @@
         <BaseStats>
             <PhysicalResistance>50</PhysicalResistance>
             <MaxDurability>800</MaxDurability>
-            <Weight>3</Weight>
-            <Tier>3</Tier>
-            <CurrencyValue>12000</CurrencyValue>
             <MoveSpeed>.5</MoveSpeed>
         </BaseStats>
     </ItemDef>

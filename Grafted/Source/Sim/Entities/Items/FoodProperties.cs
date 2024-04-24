@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Grafted.Sim.Entities.Items;
 
 public class FoodProperties {

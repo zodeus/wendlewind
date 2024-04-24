@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <CombatConfigDef>
+        <Moniker>FesterpusSwamp-01</Moniker>
+        <Biome>FesterpusSwamp</Biome>
+        <Enemies>
+            <ListItem>
+                <Race>BlisteringToad</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Blistering Toad</PawnName>
+                <SpawnWeight>1</SpawnWeight>
+              <!--  <EquipmentItems>
+                    <ListItem>AcidFlask</ListItem>
+                </EquipmentItems>-->
+                <InventoryItems>
+                    <ListItem>
+                        <Item>Coin</Item>
+                        <Amount>500~1000</Amount>
+                        <ChanceToDrop>.75</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>VenomVial</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.75</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </CombatConfigDef>
+    <CombatConfigDef>
+        <Moniker>FesterpusSwamp-Boss</Moniker>
+        <Biome>FesterpusSwamp</Biome>
+        <IsBoss>true</IsBoss>
+        <Enemies>
+            <ListItem>
+                <Race>LostOne</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Lost One</PawnName>
+                <SpawnWeight>1000</SpawnWeight>
+                <Skills>
+                    <Swords>1</Swords>
+                </Skills>
+                <Effects>
+                    <ListItem>EnergizedLikeABunny</ListItem>
+                    <ListItem>BeefedUp</ListItem>
+                </Effects>
+                <EquipmentItems>
+                    <ListItem>Knife</ListItem>
+                    <ListItem>Knife</ListItem>
+                    <ListItem>ChainHelmet</ListItem>
+                    <ListItem>ChainVambrace</ListItem>
+                    <ListItem>ChainVambrace</ListItem>
+                    <ListItem>ChainGreave</ListItem>
+                    <ListItem>ChainGreave</ListItem>
+                    <ListItem>ChainGorget</ListItem>
+                    <ListItem>ChainBoot</ListItem>
+                    <ListItem>ChainBoot</ListItem>
+                    <ListItem>ChainGlove</ListItem>
+                    <ListItem>ChainGlove</ListItem>
+                    <ListItem>ChainTunic</ListItem>
+                    <ListItem>JarOfBlood</ListItem>
+                    <ListItem>PumpinJuice</ListItem>
+                </EquipmentItems>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>Coin</Item>
+                        <Amount>18000~28000</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>MortarAndPestle</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </CombatConfigDef>
+</Definitions>

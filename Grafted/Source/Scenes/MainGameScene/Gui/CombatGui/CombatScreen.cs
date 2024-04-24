@@ -1,0 +1,195 @@
+namespace Grafted.Scenes.MainGameScene.Gui.CombatGui;
+
+public class CombatScreen : VerticalStackPanel
+{
+    private readonly GameContext _context;
+    private readonly ScrollViewer _combatLog;
+    private readonly GameHud _gameHud;
+    private readonly CombatPartyPanel _playerPartyPanel;
+    private readonly CombatPartyPanel _opponentPartyPanel;
+    private readonly CombatControlPanel _controlPanel;
+    private readonly PawnBodyPanel _pawnBodyView;
+    private ImageButton _playerQueuedPotionSlot;
+    private Item? _playerQueuedPotion = null;
+
+    private Encounter Encounter => _context.CurrentZone!.ActiveEncounter!;
+
+    public CombatScreen(ZoneGui gui, GameContext context)
+    {
+        _context = context;
+        Core.Context.IsPaused = false;
+        Encounter.StateChangedAction += CombatStateChangedAction();
+        Encounter.CombatRecord.LogMessageAddedAction += message => { AddCombatLogEntry(message.Text); };
+        _gameHud = new GameHud(context.Player)
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Margin = new Thickness(0, 5, 0, 0)
+        };
+
+        _playerPartyPanel = new CombatPartyPanel(gui, Encounter, Encounter.PlayerPawns, HorizontalAlignment.Right)
+        {
+            GridRow = 1, GridColumn = 0
+        };
+        _opponentPartyPanel = new CombatPartyPanel(gui, Encounter, Encounter.EnemyPawns, HorizontalAlignment.Left)
+        {
+            GridRow = 1, GridColumn = 2
+        };
+        _controlPanel = new CombatControlPanel(Encounter)
+        {
+            GridRow = 2, GridColumn = 0, HorizontalAlignment = HorizontalAlignment.Stretch
+        };
+        _pawnBodyView = new PawnBodyPanel(gui, Encounter.PlayerPawns.First().Body, socket =>
+        {
+            if (socket.AttachedPart != null)
+            {
+                gui.ViewEntity(socket.AttachedPart);
+            }
+        })
+        {
+            GridRow = 2, GridColumn = 0, HorizontalAlignment = HorizontalAlignment.Right,
+            Width = 1200,
+            Margin = new Thickness(0, 0, 30, 0),
+        };
+        _combatLog = new ScrollViewer
+        {
+            Content = new VerticalStackPanel { Padding = new Thickness(0), Spacing = 12 }
+        };
+
+        _playerQueuedPotionSlot = new ImageButton(BaseContent.Styles.Button.Icon)
+        {
+            Width = 24, Height = 24
+        };
+        _playerQueuedPotionSlot.Click += (_, _) => Encounter.DeQueuedPotionFor(Encounter.PlayerPawns[0]);
+
+        VerticalStackPanel centerColumn = new()
+        {
+            Spacing = 0, GridRow = 1, GridColumn = 1,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Widgets =
+            {
+                _controlPanel,
+                new HorizontalSeparator(),
+                new HorizontalStackPanel
+                {
+                    Margin = new Thickness(5, 20, 5, 5),
+                    Proportions =
+                    {
+                        Proportion.Auto, Proportion.Fill, Proportion.Auto
+                    },
+                    Widgets =
+                    {
+                        _playerQueuedPotionSlot,
+                        new VerticalSeparator { HorizontalAlignment = HorizontalAlignment.Center },
+                        new ImageButton(BaseContent.Styles.Button.Icon)
+                        {
+                            Enabled = false,
+                            Width = 24, Height = 24
+                        },
+                    }
+                }
+            }
+        };
+
+        HorizontalStackPanel logPanel = new()
+        {
+            //BorderThickness = new Thickness(1),Border = new SolidBrush(Color.Orange),
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
+            GridRow = 2, GridColumn = 2,
+            Height = 800,
+            Width = 1600,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Center,
+            DefaultProportion = Proportion.Fill,
+            Padding = new Thickness(15, 15, 8, 15),
+            Margin = new Thickness(30, 0, 0, 0),
+            Widgets =
+            {
+                _combatLog
+            }
+        };
+
+        Grid grid = new()
+        {
+            HorizontalAlignment = HorizontalAlignment.Center,
+            RowSpacing = 20,
+            DefaultRowProportion = Proportion.Auto,
+            DefaultColumnProportion = Proportion.Auto,
+            Widgets =
+            {
+                _playerPartyPanel, centerColumn, _opponentPartyPanel,
+                _pawnBodyView, logPanel
+            }
+        };
+        AddChild(_gameHud);
+        AddChild(grid);
+    }
+
+    private Action<EncounterState> CombatStateChangedAction()
+    {
+        return state =>
+        {
+            switch (state)
+            {
+                case EncounterState.InProgress:
+                    break;
+                case EncounterState.Finished:
+                    _controlPanel.ShowContinueButton();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
+        };
+    }
+
+    public void Update()
+    {
+        if (Encounter.State == EncounterState.Finished && Input.IsKeyPressed(Keys.Enter))
+        {
+            Encounter.Zone!.CombatResults();
+        }
+
+        if (Encounter.PotionQueuedFor(Encounter.PlayerPawns[0]) is { } potion)
+        {
+            if (!Equals(_playerQueuedPotion, potion))
+            {
+                _playerQueuedPotionSlot.Image = new TextureRegion(potion.Icon);
+            }
+        }
+        else if (_playerQueuedPotionSlot.Image != null)
+        {
+            _playerQueuedPotionSlot.Image = null;
+        }
+
+        _gameHud.Update();
+        _controlPanel.Update();
+        _playerPartyPanel.Update();
+        _opponentPartyPanel.Update();
+        _pawnBodyView.Update();
+    }
+
+    private void AddCombatLogEntry(string text, Color? color = null)
+    {
+        if (((VerticalStackPanel)_combatLog.Content).ChildrenCount > 200)
+        {
+            ClearCombatLog();
+        }
+
+        Label label = new(BaseContent.Styles.Label.Small) { Text = text, Wrap = true };
+        if (color != null)
+        {
+            label.TextColor = color.Value;
+        }
+
+        ((VerticalStackPanel)_combatLog.Content).AddChild(label);
+        _combatLog.UpdateLayout();
+        _combatLog.ScrollPosition = _combatLog.ScrollMaximum;
+    }
+
+    private void ClearCombatLog()
+    {
+        while (((VerticalStackPanel)_combatLog.Content).Widgets.Count > 0)
+        {
+            ((VerticalStackPanel)_combatLog.Content).Widgets.RemoveAt(0);
+        }
+    }
+}

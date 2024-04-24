@@ -1,6 +1,3 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
 namespace Grafted.Graphics.Textures;
 
 public class NinePatchSprite : Sprite {

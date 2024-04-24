@@ -1,7 +1,7 @@
-using Grafted.Scenes;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using FontStashSharp;
+using Grafted.Scenes.Components;
+using Grafted.Scenes.MainGameScene;
+
 namespace Grafted.Sim;
 
 public class GameOverScene : Scene {

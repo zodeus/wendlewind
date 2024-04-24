@@ -1,8 +1,3 @@
-using System.Collections.Generic;
-using Grafted.Maths;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
 namespace Grafted.Graphics;
 
 /// <summary>

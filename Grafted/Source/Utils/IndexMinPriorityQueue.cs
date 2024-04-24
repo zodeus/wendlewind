@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Grafted.Utils;
+﻿namespace Grafted.Utils;
 
 /// <summary>
 /// The IndexMinPriorityQueue class represents an indexed priority queue of generic keys.

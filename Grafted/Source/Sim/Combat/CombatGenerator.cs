@@ -1,77 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Grafted.Definitions;
-using Grafted.Sim.Entities.Pawns;
-using Grafted.Sim.Zones;
-using Grafted.Utils;
+﻿namespace Grafted.Sim.Combat;
 
-namespace Grafted.Sim.Combat;
-
-public class BodyModificationRecord {
-    public List<SeverLimbRequest> LimbsToSever = new();
+public class BodyModificationRecord
+{
+    public List<SevereLimbRequest> LimbsToSever = new();
 }
 
-public class SeverLimbRequest {
+public class SevereLimbRequest
+{
     public BodyPartDef RootLimb = null!;
     public BodyPartSocketDef Socket = null!;
     public bool Seal = true;
 }
 
-public static class CombatGenerator {
-    public static CombatEvent GenerateForZone(Pawn playerPawn, Zone zone) {
-        CombatEvent combatEvent = new() {
-            Zone = zone
-        };
-        //combatEvent.IsInteractive = true;
-        combatEvent.AddPlayerPawn(playerPawn);
+public static class CombatGenerator
+{
+    public static Encounter GenerateForZone(Pawn playerPawn, Zone zone)
+    {
+        Encounter encounter = new(zone);
+        encounter.AddPlayerPawn(playerPawn);
         CombatConfigDef combatConfig;
-        if (zone.PercentTraveledThisRun < 1) {
-            combatConfig = DefRepository<CombatConfigDef>.Defs.Where(CombatFilter(zone)).RandomElement();
-        }
-        else {
-            Core.Sim.CombatSettings.Speed = CombatSpeed.Slow;
-            Core.Sim.CombatSettings.IsPaused = true;
-            combatEvent.IsBoss = true;
-            combatConfig = DefRepository<CombatConfigDef>.Defs.First(config => config.Zone == zone.Def && config.IsBoss);
+        combatConfig = DefRepository<CombatConfigDef>.Defs
+            .Where(d => d.Biome == zone.BiomeDef)
+            .Take(new Range(zone.ZoneKills, zone.ZoneKills + 1))
+            .First();
+        if (combatConfig.IsBoss)
+        {
+            encounter.AtBoss = true;
         }
 
-        return Generate(combatConfig, combatEvent);
+        Generate(combatConfig, encounter);
+        encounter.Initialize();
+        return encounter;
     }
 
-    private static Func<CombatConfigDef, bool> CombatFilter(Zone zone) {
-        return config => {
-            if (config.Zone != zone.Def) {
-                return false;
-            }
-
-            if (config.IsBoss) {
-                return false;
-            }
-
-            if (config.SpawnRange.Includes(zone.PercentTraveledThisRun) == false) {
-                return false;
-            }
-
-            if (config.Enemies.Any(record => Core.Sim.World.Time.IsTimeOfDay(record.SpawnDuring)) == false) {
-                return false;
-            }
-
-            return true;
-        };
-    }
-
-    private static CombatEvent Generate(CombatConfigDef combatConfig, CombatEvent combatEvent) {
-        combatEvent.Config = combatConfig;
-        var enemies = new List<CombatConfigEnemyRecord> {
-            combatConfig.Enemies.Where(record => Core.Sim.World.Time.IsTimeOfDay(record.SpawnDuring))
-                .RandomElementByWeight(c => c.SpawnWeight)!
+    private static Encounter Generate(CombatConfigDef combatConfig, Encounter encounter)
+    {
+        encounter.Config = combatConfig;
+        var enemies = new List<CombatConfigEnemyRecord>
+        {
+            combatConfig.Enemies.RandomElementByWeight(c => c.SpawnWeight)!
         }; // todo only handling a single enemy
-        foreach (CombatConfigEnemyRecord enemyConfig in enemies) {
+        foreach (CombatConfigEnemyRecord enemyConfig in enemies)
+        {
             Pawn pawn = PawnGenerator.CreatePawn(new PawnRequest(
                 enemyConfig.Race,
                 enemyConfig.Config
-            ) {
+            )
+            {
                 BodySizeFactor = enemyConfig.BodySizeFactor
             });
 
@@ -83,23 +58,28 @@ public static class CombatGenerator {
             ApplyBodyModifications(pawn, enemyConfig.BodyModifications);
             ApplyEffects(pawn, enemyConfig.Effects);
 
-            combatEvent.AddEnemyPawn(pawn);
+            encounter.AddEnemyPawn(pawn);
         }
 
-        return combatEvent;
+        return encounter;
     }
 
-    private static void ApplyEffects(Pawn pawn, List<BodyEffectDef> effects) {
-        foreach (BodyEffectDef effect in effects) {
-            pawn.Body.Effects.TryApplyEffect(new BodyEffect {
-                Def = effect, TicksLeft = SimTime.HoursToTicks(1)
+    private static void ApplyEffects(Pawn pawn, List<BodyEffectDef> effects)
+    {
+        foreach (BodyEffectDef effect in effects)
+        {
+            pawn.Body.Effects.TryApplyEffect(new BodyEffect
+            {
+                Def = effect, TicksLeft = 200
             });
         }
     }
 
 
-    private static void ApplyBodyModifications(Pawn pawn, BodyModificationRecord modifications) {
-        foreach (SeverLimbRequest severLimbRequest in modifications.LimbsToSever) {
+    private static void ApplyBodyModifications(Pawn pawn, BodyModificationRecord modifications)
+    {
+        foreach (SevereLimbRequest severLimbRequest in modifications.LimbsToSever)
+        {
             BodyPart rootPart = pawn.Body.AllExternalParts.First(p => p.BodyPartDef == severLimbRequest.RootLimb);
             BodyPart targetLimb = rootPart.ExternalParts.First(p => p.Socket?.Def == severLimbRequest.Socket);
             BodyPartSocket socket = targetLimb.Socket!;

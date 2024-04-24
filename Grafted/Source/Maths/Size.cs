@@ -1,7 +1,4 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
-using Grafted.Utils;
-using Microsoft.Xna.Framework;
 
 namespace Grafted.Maths;
 

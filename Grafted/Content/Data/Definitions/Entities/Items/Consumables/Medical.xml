@@ -6,18 +6,12 @@
         <ItemType>Medical</ItemType>
         <MaterialType>Artificial</MaterialType>
         <StackLimit>9999</StackLimit>
-        <BaseStats>
-            <Weight>1</Weight>
-        </BaseStats>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
         <Moniker>MedKit</Moniker>
         <Label>Med Kit</Label>
         <Description>Heals a body part fully</Description>
         <TexturePath>Entities/Item/Consumables/MedKit</TexturePath>
-        <BaseStats>
-            <CurrencyValue>15</CurrencyValue>
-        </BaseStats>
         <MedicinalProperties>
             <HandlerClass>MedKitHandler</HandlerClass>
         </MedicinalProperties>
@@ -34,9 +28,6 @@
         <Label>Arterial Threads</Label>
         <Description>Used to stitch arteries</Description>
         <TexturePath>Entities/Item/Consumables/ArterialThreads</TexturePath>
-        <BaseStats>
-            <CurrencyValue>10</CurrencyValue>
-        </BaseStats>
         <MedicinalProperties>
             <HandlerClass>ArterialThreadsHandler</HandlerClass>
         </MedicinalProperties>
@@ -46,9 +37,6 @@
         <Label>Menders Mist</Label>
         <Description>Used to heal bones and external parts, will traverse the tree until it's been fully used.</Description>
         <TexturePath>Entities/Item/Consumables/MendersMist</TexturePath>
-        <BaseStats>
-            <CurrencyValue>25</CurrencyValue>
-        </BaseStats>
         <MedicinalProperties>
             <HandlerClass>MenderMistHandler</HandlerClass>
         </MedicinalProperties>
@@ -79,21 +67,12 @@
         <Label>Surgical Saw</Label>
         <Description>Used to sever large limbs</Description>
         <TexturePath>Entities/Item/Consumables/SurgicalSaw</TexturePath>
-        <BaseStats>
-            <CurrencyValue>100</CurrencyValue>
-            <Tier>3</Tier>
-        </BaseStats>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
         <Moniker>BalmyOintment</Moniker>
         <Label>Balmy Ointment</Label>
         <Description>Sooths the skin and meat, tingly and nice.</Description>
         <TexturePath>Entities/Item/Consumables/BalmyOintment</TexturePath>
-        <BaseStats>
-            <CurrencyValue>2000</CurrencyValue>
-            <Weight>0.1</Weight>
-            <Tier>5</Tier>
-        </BaseStats>
         <MedicinalProperties>
             <HandlerClass>BalmyOintmentHandler</HandlerClass>
         </MedicinalProperties>

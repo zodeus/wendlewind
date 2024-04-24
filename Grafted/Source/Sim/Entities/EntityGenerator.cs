@@ -1,6 +1,3 @@
-using System;
-using Grafted.Sim.Entities.Items;
-
 namespace Grafted.Sim.Entities;
 
 public static class EntityGenerator {
@@ -27,7 +24,7 @@ public static class EntityGenerator {
 
     private static Entity CreateEntity(EntityDef def, bool suppressInitialization = false /*, EntityDef material = null*/) {
         Entity entity = (Entity) Activator.CreateInstance(def.EntityClass)!;
-        entity.Id = Core.Sim.IdProvider.NextEntityId();
+        entity.Id = Core.Context.IdProvider.NextEntityId();
         entity.Def = def;
         /*entity.SetBaseMaterialDirect(material);*/
         if (suppressInitialization == false) {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Grafted.Utils;
+﻿namespace Grafted.Utils;
 
 public static class CollectionExtensions {
     public static T? FirstOrNull<T>(this IEnumerable<T?> values, Func<T?, bool> func) where T : class {

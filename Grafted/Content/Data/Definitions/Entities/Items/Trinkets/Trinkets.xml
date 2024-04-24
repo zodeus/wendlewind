@@ -13,55 +13,35 @@
         <UiClass>EssenceShardPanel</UiClass>
         <Description>Your very being, perhaps it holds your consciousness.</Description>
         <TexturePath>Entities/Item/Trinket/EssenceShard</TexturePath>
-        <BaseStats>
-            <Tier>2</Tier>
-        </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ItemTrinket">
         <Moniker>ATap</Moniker>
         <Label>A Tap</Label>
         <Description>A fluid tap, useful for dispensing.</Description>
         <TexturePath>Entities/Item/Trinket/ATap</TexturePath>
-        <BaseStats>
-            <Tier>2</Tier>
-        </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ItemTrinket">
         <Moniker>CookingPot</Moniker>
         <Label>Cooking Pot</Label>
         <Description>A pot for cooking.</Description>
         <TexturePath>Entities/Item/Trinket/CookingPot</TexturePath>
-        <BaseStats>
-            <Tier>3</Tier>
-        </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ItemTrinket">
         <Moniker>DookinDoll</Moniker>
         <Label>Dookin Doll</Label>
         <Description>What a curious little toy</Description>
         <TexturePath>Entities/Item/Trinket/DookinDoll</TexturePath>
-        <BaseStats>
-            <Tier>3</Tier>
-            <CurrencyValue>40000</CurrencyValue>
-        </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ItemTrinket">
         <Moniker>CowardsFlag</Moniker>
         <Label>Cowards Flag</Label>
         <Description>Now you can run like a coward</Description>
         <TexturePath>Entities/Item/Trinket/CowardsFlag</TexturePath>
-        <BaseStats>
-            <Tier>3</Tier>
-            <CurrencyValue>40000</CurrencyValue>
-        </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ItemTrinket">
         <Moniker>MortarAndPestle</Moniker>
         <Label>Mortar and Pestle</Label>
         <Description>For making big things into smaller things.</Description>
         <TexturePath>Entities/Item/TradeTool/MortarAndPestle</TexturePath>
-        <BaseStats>
-            <Tier>4</Tier>
-        </BaseStats>
     </ItemDef>
 </Definitions>

@@ -1,6 +1,3 @@
-using System;
-using Microsoft.Xna.Framework.Graphics;
-
 namespace Grafted.Graphics;
 
 public class SpriteSheet : IDisposable {

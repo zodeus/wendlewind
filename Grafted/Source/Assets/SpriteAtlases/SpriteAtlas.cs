@@ -1,4 +1,3 @@
-using System;
 using Grafted.Graphics;
 
 namespace Grafted.Assets.SpriteAtlases;

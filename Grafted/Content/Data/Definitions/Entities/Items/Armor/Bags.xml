@@ -18,10 +18,6 @@
         <TexturePath>Entities/Item/Equipment/Bag/ClothSatchel</TexturePath>
         <BaseStats>
             <MaxDurability>100</MaxDurability>
-            <Weight>1</Weight>
-            <Tier>2</Tier>
-            <MaxCarryWeight>15</MaxCarryWeight>
-            <CurrencyValue>2000</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="BagBase">
@@ -33,10 +29,6 @@
         <TexturePath>Entities/Item/Equipment/Bag/LeatherSatchel</TexturePath>
         <BaseStats>
             <MaxDurability>100</MaxDurability>
-            <Weight>2</Weight>
-            <Tier>3</Tier>
-            <MaxCarryWeight>25</MaxCarryWeight>
-            <CurrencyValue>20000</CurrencyValue>
         </BaseStats>
     </ItemDef>
 </Definitions>

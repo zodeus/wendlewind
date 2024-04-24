@@ -1,7 +1,4 @@
 using System.IO;
-using Grafted.Utils;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Grafted.Graphics.Textures;
 

@@ -1,7 +1,3 @@
-using System;
-using JetBrains.Annotations;
-using Microsoft.Xna.Framework.Graphics;
-
 namespace Grafted.Sim.Entities.Pawns;
 
 [UsedImplicitly]

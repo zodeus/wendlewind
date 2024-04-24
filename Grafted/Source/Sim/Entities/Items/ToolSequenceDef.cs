@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using Grafted.Definitions;
-using Grafted.Maths;
-
 namespace Grafted.Sim.Entities.Items;
 
 public class ToolSequenceDef : Def {

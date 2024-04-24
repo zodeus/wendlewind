@@ -1,21 +1,10 @@
-using System.Collections.Generic;
-using System.Linq;
-using Grafted.Definitions;
-using Grafted.Maths;
-using Grafted.Sim.Combat;
-using Grafted.Sim.Entities.Items;
-using Grafted.Sim.Persistence;
-using Grafted.Sim.Zones;
-using Grafted.Utils;
-using JetBrains.Annotations;
-using Microsoft.Xna.Framework.Graphics;
+using Grafted.Utils.Timers;
 
 namespace Grafted.Sim.Entities.Pawns;
 
 [UsedImplicitly] // Used by EntityGenerator, referenced by EntityDef.EntityClass
-public class Pawn : Entity, IExposable {
-    private bool _isDead = false;
-
+public class Pawn : Entity, IExposable
+{
     public RaceDef Race = null!;
     public PawnBiography Biography = null!;
     public PawnTraits Traits = null!;
@@ -26,30 +15,29 @@ public class Pawn : Entity, IExposable {
     public PawnEquipment Equipment = null!;
     public PawnType PawnType = PawnType.Invalid;
     public Zone? Zone;
-    public int MaxCarryWeight = 0;
 
     public bool IsResting;
 
-    public PawnDef PawnDef => (PawnDef) Def;
+    public int TicksToAttack;
+
+    public PawnDef PawnDef => (PawnDef)Def;
     public string Species => PawnDef.Label;
     public override string Label => Biography.Name;
     public override string LabelShort => Biography.Name;
     public override Texture2D Icon => Race.Icon;
-    public bool IsExhausted => Body.IsExhausted;
     public bool IsHungry => Body.IsHungry;
     public bool IsFamished => Body.IsFamished;
-
-    public bool IsDead {
-        get => _isDead;
-        set => _isDead = value;
-    }
-
+    public bool IsDead { get; private set; }
     public bool IsIncapacitated => false; //todo Health.IsIncapacitated;
     public Gender Gender => Biography.Gender;
 
-    public int SequencePoints => Body.GetSequencePoints() + (int) this.GetStatValue(Defs.Stats.SequencePoints);
+    public int SequencePoints;
+    public int MaxSequencePoints => Body.GetSequencePoints() + (int)this.GetStatValue(Defs.Stats.SequencePoints);
 
-    public override void Initialize() {
+    public event Action<Pawn, string>? OnDeath;
+
+    public override void Initialize()
+    {
         Biography = new PawnBiography(this);
         Traits = new PawnTraits(this);
         Mind = new PawnMind(this);
@@ -57,73 +45,69 @@ public class Pawn : Entity, IExposable {
         Body.Initialize();
         Skills = new PawnSkills(this);
         Equipment = new PawnEquipment(this);
-        MaxCarryWeight = (int) this.GetStatValue(Defs.Stats.MaxCarryWeight);
         Inventory = new PawnInventory(this);
         base.Initialize();
     }
 
-    public override void Tick() {
-        if (IsDead) {
+    public override void Tick(int ticks)
+    {
+        if (IsDead)
+        {
             return;
         }
 
         Mind.Tick();
-        if (IsDead) {
+        if (IsDead)
+        {
             return;
         }
 
-        Body.Tick();
-        if (IsDead) {
+        Body.Tick(ticks);
+        if (IsDead)
+        {
             return;
         }
 
-        if (IsDead) {
-            return;
-        }
-
-        if (IsDead) {
-            return;
-        }
-
+        TicksToAttack--;
         Skills.Tick();
-
-        Inventory.Tick();
-        Equipment.Tick();
-        base.Tick();
+        base.Tick(ticks);
     }
 
-    public DamageResponse TakeDamage(DamageRequest request) {
+    public DamageResponse TakeDamage(DamageRequest request)
+    {
         DamageResponse response = new();
-        if (Core.Random.Chance(this.GetStatValue(Defs.Stats.Evasion))) {
+        if (Core.Random.Chance(this.GetStatValue(Defs.Stats.Evasion)))
+        {
             return new DamageResponse { Dodged = true };
         }
 
-        BodyPart bodyPart = Body.AllExternalParts /*.Where(p => p.Type == BodyPartType.Torso)*/.RandomElementByWeight(part => part.HitWeight)!;
-
-
-        foreach (Damage damage in request.RawDamages) {
+        BodyPart bodyPart = Body.AllExternalParts.RandomElementByWeight(part => part.HitWeight)!;
+        foreach (var damage in request.RawDamages)
+        {
             DamageRecord damageRecord = new(damage.Type, bodyPart, damage.Amount);
-            request.Source.GetSkill(damage.ToolType)?.Learn(1);
+            request.Source.GetSkill(damage.ToolType)?.Learn(10);
             int amountToApply = damage.Amount;
-
 
             // Handle Armor
             Item? bodyPartEquipment = bodyPart.Type is BodyPartType.Finger or BodyPartType.Thumb ? bodyPart.Socket!.ParentPart!.Armor : bodyPart.Armor;
-            if (bodyPartEquipment != null) {
+            if (bodyPartEquipment != null)
+            {
                 if (damage.Type.IsPhysicalDamage())
                     bodyPartEquipment.ApplyDurabilityLoss(damage);
-                if (bodyPartEquipment.IsDestroyed) {
+                if (bodyPartEquipment.IsDestroyed)
+                {
                     damageRecord.DestroyedEquipment.Add(new DestroyedItemRecord(bodyPartEquipment.ItemDef));
                     bodyPart.UnEquip(bodyPartEquipment);
                 }
 
-                damage.UnblockedAmount = Mathf.Clamp(amountToApply - (int) bodyPartEquipment.GetStatValue(Defs.Stats.PhysicalResistance), 0, damage.Amount);
+                damage.UnblockedAmount = Mathf.Clamp(amountToApply - (int)bodyPartEquipment.GetStatValue(Defs.Stats.PhysicalResistance), 0, damage.Amount);
             }
 
             damageRecord.ActualAmount = damage.UnblockedAmount;
             //Handle Weapon Durability
             damage.Tool.ApplyDurabilityLoss(bodyPartEquipment);
-            if (damage.Tool.IsDestroyed) {
+            if (damage.Tool.IsDestroyed)
+            {
                 damageRecord.DestroyedEquipment.Add(new DestroyedItemRecord(damage.Tool.ItemDef));
                 request.Source.Equipment.UnEquip(damage.Tool);
             }
@@ -131,7 +115,8 @@ public class Pawn : Entity, IExposable {
             damageRecord.BodyParts = bodyPart.ApplyDamage(damage);
             Body.BodyPartsDirty = true;
             response.Damages.Add(damageRecord);
-            if (PawnDied(damageRecord, response)) {
+            if (CheckIfKilledByAttack(damageRecord, response))
+            {
                 break;
             }
         }
@@ -147,49 +132,65 @@ public class Pawn : Entity, IExposable {
         return response;
     }
 
-    private bool PawnDied(DamageRecord damageRecord, DamageResponse response) {
+    private bool CheckIfKilledByAttack(DamageRecord damageRecord, DamageResponse response)
+    {
         List<string> nonFunctionalVitalParts = new();
         string causeOfDeath = "ERROR";
-        foreach (DamagedPartRecord partRecord in damageRecord.BodyParts) {
-            if (partRecord.IsVital) {
+        var died = false;
+        foreach (DamagedPartRecord partRecord in damageRecord.BodyParts)
+        {
+            if (partRecord.IsVital)
+            {
                 bool partIsFunctional = true;
-                if (partRecord.BodyPart.IsDestroyed) {
+                if (partRecord.BodyPart.IsDestroyed)
+                {
                     partIsFunctional = false;
                     nonFunctionalVitalParts.Add($"{partRecord.PartType} was destroyed");
                 }
-                else if (partRecord.BodyPart.IsExternal && partRecord.BodyPart.IsSevered) {
+                else if (partRecord.BodyPart.IsExternal && partRecord.BodyPart.IsSevered)
+                {
                     partIsFunctional = false;
                     nonFunctionalVitalParts.Add($"{partRecord.PartType} was severed");
                 }
-                else if (partRecord.BodyPart.IsFunctional == false) {
+                else if (partRecord.BodyPart.IsFunctional == false)
+                {
                     partIsFunctional = false;
                     nonFunctionalVitalParts.Add($"{partRecord.PartType} stopped functioning");
                 }
 
-                if (partIsFunctional == false && Body.AllParts.Any(p => p.Type == partRecord.PartType && p.IsFunctional) == false) {
-                    _isDead = true;
+                if (partIsFunctional == false && Body.AllParts.Any(p => p.Type == partRecord.PartType && p.IsFunctional) == false)
+                {
+                    died = true;
                     response.Killed = true;
                     causeOfDeath = nonFunctionalVitalParts.Last();
                 }
             }
         }
 
-        if (IsDead) {
-            Core.Sim.World.DeathRecords.RecordDeath(new DeathRecord {
-                Round = Core.Sim.World.TotalKills + 1,
-                PawnName = Label,
-                CauseOfDeath = causeOfDeath
-            });
+        if (died)
+        {
+            HandleDeath(causeOfDeath);
             return true;
         }
 
         return false;
     }
 
-    public override void ExposeData() {
-        Scribe_Values.Look(ref _isDead, "IsDead");
+    public void HandleDeath(string causeOfDeath)
+    {
+        IsDead = true;
+        OnDeath?.Invoke(this, causeOfDeath);
+        // Core.Context.World.DeathRecords.RecordDeath(new DeathRecord
+        // {
+        //     Round = Core.Context.World.TotalKills + 1,
+        //     PawnName = Label,
+        //     CauseOfDeath = causeOfDeath
+        // });
+    }
+
+    public override void ExposeData()
+    {
         Scribe_Values.Look(ref PawnType, "PawnType");
-        Scribe_Values.Look(ref MaxCarryWeight, "MaxCarryWeight");
         Scribe_Defs.Look(ref Race!, "Race");
         Scribe_Deep.Look(ref Biography!, "Biography", this);
         Scribe_Deep.Look(ref Traits!, "Traits", this);
@@ -202,82 +203,54 @@ public class Pawn : Entity, IExposable {
         base.ExposeData();
     }
 
-    public Skill GetSkill(SkillDef skill) {
+    public Skill GetSkill(SkillDef skill)
+    {
         return Skills.GetSkill(skill);
     }
 
-    public Skill? GetSkill(ToolType toolType) {
+    public Skill? GetSkill(ToolType toolType)
+    {
         return Skills.GetSkill(toolType);
     }
 
-    public IEnumerable<Item> GetAvailableToolsFor(ToolCategory usedFor) {
-        foreach (Item item in Equipment.UsableItems) {
-            if (item.CanBeUsedFor(usedFor)) {
-                yield return item;
-            }
-        }
-    }
-
-    public bool HasToolFor(ToolCategory toolUse) {
-        if (toolUse == ToolCategory.None) {
-            return true;
-        }
-
-        foreach (Item item in Equipment) {
-            if (item.ItemDef.ToolCategories.Contains(toolUse)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public bool HasTool(ToolType toolType) {
-        if (toolType == ToolType.None) {
-            return true;
-        }
-
-        foreach (Item item in Equipment) {
-            if (item.ItemDef.ToolType == toolType) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public float ChanceToHit(Pawn target) {
+    public float ChanceToHit(Pawn target)
+    {
         return this.GetStatValue(Defs.Stats.MeleeAccuracy) * Body.Capabilities.Sight;
     }
 
-    public void TryEat(Item? item) {
-        if (item?.ItemDef.FoodProperties == null) {
+    public void TryEat(Item? item)
+    {
+        if (item?.ItemDef.FoodProperties == null)
+        {
             Log.Error($"failed to eat null item '{item}'");
             return;
         }
 
-        foreach (BodyEffectRecord record in item.ItemDef.FoodProperties.Effects) {
-            Body.Effects.TryApplyEffect(new BodyEffect {
-                Def = record.Def, TicksLeft = SimTime.TicksPerMinute * record.DurationInMinutes
+        foreach (BodyEffectRecord record in item.ItemDef.FoodProperties.Effects)
+        {
+            Body.Effects.TryApplyEffect(new BodyEffect
+            {
+                Def = record.Def, TicksLeft = record.DurationInTicks
             });
         }
 
-        Core.Sim.World.ProgressTime(SimTime.MinutesToSeconds(5));
         float nutrition = item.GetStatValue(Defs.Stats.NutritionalValue);
         Body.StomachLevel += nutrition;
         Body.Energy += nutrition / 3;
-        Core.Sim.World.ProgressTime(SimTime.MinutesToSeconds(5));
-        Core.Sim.Messages.Push(new Message(
-            $"\\c[{UiTextColor.TextColorPawn}]{Core.Sim.Player.Label} \\c[{UiTextColor.TextColorDefault}]ate \\c[{UiTextColor.TextColorItem}]{item.Label}"
+        Core.Context.Messages.Push(new Message(
+            $"\\c[{TC.Victim}]{Core.Context.Player.Label} \\c[{TC.Default}]ate \\c[{TC.Item}]{item.Label}"
         ));
 
         item.StackSize--;
-        if (item.StackSize < 1) {
+        if (item.StackSize < 1)
+        {
             item.Destroy();
         }
     }
 
-    public override void Render(SpriteBatch spriteBatch, float deltaTime) {
-        base.Render(spriteBatch, deltaTime);
+    public void ResetAttackCoolDown()
+    {
+        var ticksPerSecond = 60;
+        TicksToAttack = Mathf.CeilToInt(ticksPerSecond / this.GetStatValue(Defs.Stats.AttackSpeed));
     }
 }

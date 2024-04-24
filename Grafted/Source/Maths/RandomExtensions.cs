@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-namespace Grafted.Maths;
+﻿namespace Grafted.Maths;
 
 public static class RandomExtension {
     public static bool Chance(this Random random, float chance) {

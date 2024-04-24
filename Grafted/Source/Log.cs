@@ -1,5 +1,3 @@
-using System;
-
 namespace Grafted;
 
 public static class Log {

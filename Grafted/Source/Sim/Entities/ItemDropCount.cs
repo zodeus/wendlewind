@@ -1,6 +1,3 @@
-using Grafted.Maths;
-using Grafted.Sim.Entities.Items;
-
 namespace Grafted.Sim.Entities;
 
 public class ItemDropCount {

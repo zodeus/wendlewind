@@ -1,81 +1,57 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using Grafted.Sim.Entities.Items;
-using Grafted.Sim.Gui;
-using Grafted.Sim.Persistence;
-using Microsoft.Xna.Framework;
+using Grafted.Scenes.MainGameScene.Gui;
 
 namespace Grafted.Sim.Entities;
 
-public class EntityContainer : IEnumerable<Item>, IExposable {
+public class EntityContainer : IEnumerable<Item>, IExposable
+{
     private List<Item> _list = new List<Item>();
-    private int _weight;
-    private int _maxWeight;
 
-    public EntityContainer(int maxWeight = 999) {
-        _maxWeight = maxWeight;
+    public EntityContainer()
+    {
     }
 
-    public EntityContainer() {
-        _maxWeight = 999;
-    }
-
-    public int Weight => _weight;
-    public int MaxWeight => _maxWeight;
-
-    public bool HasCapacityFor(Item item, int? count = null) {
-        return count == null ? item.Weight + Weight <= MaxWeight : (item.WeightSingle * count) + Weight <= MaxWeight;
-    }
-
-    public void Tick() {
-        for (int index = _list.Count - 1; index >= 0; index--) {
+    public void Tick(int ticks)
+    {
+        for (int index = _list.Count - 1; index >= 0; index--)
+        {
             Entity entity = _list[index];
-            entity.Tick();
-            if (entity.IsDestroyed) {
+            entity.Tick(ticks);
+            if (entity.IsDestroyed)
+            {
                 _list.RemoveAt(index);
-                CalculateWeight();
             }
-        }
-    }
-
-    public void CalculateWeight() {
-        _weight = 0;
-        foreach (Item item in _list) {
-            _weight += item.Weight;
         }
     }
 
     public Item this[int i] => _list[i];
 
-    IEnumerator<Item> IEnumerable<Item>.GetEnumerator() {
+    IEnumerator<Item> IEnumerable<Item>.GetEnumerator()
+    {
         return GetEnumerator();
     }
 
-    public IEnumerator<Item> GetEnumerator() {
+    public IEnumerator<Item> GetEnumerator()
+    {
         return _list.GetEnumerator();
     }
 
-    IEnumerator IEnumerable.GetEnumerator() {
+    IEnumerator IEnumerable.GetEnumerator()
+    {
         return GetEnumerator();
     }
 
-    public void Remove(Item item) {
+    public void Remove(Item item)
+    {
         _list.Remove(item);
         item.Container = null;
-        CalculateWeight();
     }
 
-    public bool TryAdd(Item item, int amount) {
-        if (HasCapacityFor(item, amount) == false) {
-            Log.Warning($"No capacity for {item} ({item.Weight} {Weight}/{MaxWeight})");
-            Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData {
-                Color = Color.Red, Duration = 2, Text = "Cannot transfer, exceeds container weight limit"
-            });
-            return false;
-        }
-
+    public bool TryAdd(Item item, int amount)
+    {
         Item splitItem = item.SplitStack(amount);
-        if (TryAdd(splitItem)) {
+        if (TryAdd(splitItem))
+        {
             return true;
         }
 
@@ -84,30 +60,25 @@ public class EntityContainer : IEnumerable<Item>, IExposable {
         return false;
     }
 
-    public bool TryAdd(Item? item) {
-        if (item == null) {
+    public bool TryAdd(Item? item)
+    {
+        if (item == null)
+        {
             Log.Warning("Tried to add null item :(");
             return false;
         }
 
-        if (HasCapacityFor(item) == false) {
-            Log.Warning($"No capacity for {item} ({item.Weight} {Weight}/{MaxWeight})");
-            Core.Sim.Gui!.PushScreenMessage(new ScreenMessageData {
-                Color = Color.Red, Duration = 2, Text = "Cannot transfer, exceeds container weight limit"
-            });
-            return false;
-        }
-
         //todo there is a bug here where StackSize can/will exceed StackLimit, not doing enough
-        if (item.IsStackable) {
-            for (int i = 0; i < _list.Count; i++) {
+        if (item.IsStackable)
+        {
+            for (int i = 0; i < _list.Count; i++)
+            {
                 if (_list[i].Def != item.Def) continue;
                 //todo there is a bug here where StackSize can/will exceed StackLimit, not doing enough
                 _list[i].StackSize += item.StackSize;
                 item.StackSize = 0;
                 item.Container?.Remove(item);
                 item.Destroy();
-                CalculateWeight();
                 return true;
             }
         }
@@ -115,14 +86,16 @@ public class EntityContainer : IEnumerable<Item>, IExposable {
         item.Container?.Remove(item);
         item.Container = this;
         _list.Add(item);
-        CalculateWeight();
         return true;
     }
 
-    public bool Contains(ItemDef def, int amountWanted) {
+    public bool Contains(ItemDef def, int amountWanted)
+    {
         int amount = 0;
-        foreach (Item item in _list) {
-            if (item.Def == def) {
+        foreach (Item item in _list)
+        {
+            if (item.Def == def)
+            {
                 amount += item.StackSize;
             }
         }
@@ -130,9 +103,12 @@ public class EntityContainer : IEnumerable<Item>, IExposable {
         return amount >= amountWanted;
     }
 
-    public Item? Take(EntityDef def, int amount) {
-        foreach (Item item in _list) {
-            if (item.Def == def) {
+    public Item? Take(EntityDef def, int amount)
+    {
+        foreach (Item item in _list)
+        {
+            if (item.Def == def)
+            {
                 return Take(item, amount);
             }
         }
@@ -140,18 +116,22 @@ public class EntityContainer : IEnumerable<Item>, IExposable {
         return null;
     }
 
-    public Item? Take(Item item, int amount) {
-        if (_list.Contains(item) == false) {
+    public Item? Take(Item item, int amount)
+    {
+        if (_list.Contains(item) == false)
+        {
             Log.Error("ItemContainer doesn't contain " + item);
             return null;
         }
 
-        if (amount > item.StackSize) {
+        if (amount > item.StackSize)
+        {
             Log.Error("Tried to get " + amount + " of " + item + " while only having " + item.StackSize);
             amount = item.StackSize;
         }
 
-        if (amount == item.StackSize) {
+        if (amount == item.StackSize)
+        {
             Remove(item);
             return item;
         }
@@ -161,16 +141,18 @@ public class EntityContainer : IEnumerable<Item>, IExposable {
         return splitItem;
     }
 
-    public void Clear() {
+    public void Clear()
+    {
         _list.Clear();
-        CalculateWeight();
-        //todo should we destroy the items first?
     }
 
-    public int AmountOf(ItemDef? itemDef) {
+    public int AmountOf(ItemDef? itemDef)
+    {
         int amount = 0;
-        foreach (Item item in _list) {
-            if (item.Def == itemDef) {
+        foreach (Item item in _list)
+        {
+            if (item.Def == itemDef)
+            {
                 amount += item.StackSize;
             }
         }
@@ -178,23 +160,17 @@ public class EntityContainer : IEnumerable<Item>, IExposable {
         return amount;
     }
 
-    public void UpdateMaxWeight(int newWeight) {
-        _maxWeight = newWeight;
-    }
-
-    public void ExposeData() {
+    public void ExposeData()
+    {
         Scribe_Collections.Look(ref _list!, "Container", LookMode.Deep);
-        Scribe_Values.Look(ref _maxWeight!, "MaxWeight");
-
-        if (Scribe.State == ScribeState.PostLoadInitialization) {
-            for (int i = 0; i < _list.Count; i++) {
+        if (Scribe.State == ScribeState.PostLoadInitialization)
+        {
+            for (int i = 0; i < _list.Count; i++)
+            {
                 //if (_container[i] != null) {
                 _list[i].Container = this;
                 //}
             }
-
-            CalculateWeight();
         }
-
     }
 }

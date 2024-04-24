@@ -1,7 +1,3 @@
-using System;
-using Grafted.Maths;
-using Microsoft.Xna.Framework;
-
 namespace Grafted.Utils;
 
 public static class ColorExt {

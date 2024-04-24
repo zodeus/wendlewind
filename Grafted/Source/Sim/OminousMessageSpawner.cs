@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using Grafted.Maths;
-using Grafted.Sim.Gui;
-using Grafted.Sim.Persistence;
-using Grafted.Utils;
-using Microsoft.Xna.Framework;
+﻿using Grafted.Scenes.MainGameScene.Gui;
 
 namespace Grafted.Sim;
 
@@ -50,21 +45,24 @@ public class OminousMessageSpawner : IExposable {
                 Color = Color.DarkOrange
             }
         };
-        RangeInt daysRange = new(9, 12);
-        int nextMessageDay = daysRange.RandomValue;
+        RangeInt tickRange = new(1000, 4000);
+        int nextMessageDay = tickRange.RandomValue;
         foreach (ScreenMessageData message in messages.InRandomOrder()) {
             RegisterSpawn(message, nextMessageDay, nextMessageDay);
-            nextMessageDay += daysRange.RandomValue;
+            nextMessageDay += tickRange.RandomValue;
         }
     }
 
-    private void RegisterSpawn(ScreenMessageData messageData, int daysBeginRange, int daysEndRange) {
-        _messages[Core.Random.Next(SimTime.TicksPerDay * daysBeginRange, SimTime.TicksPerDay * daysEndRange)] = messageData;
+    private void RegisterSpawn(ScreenMessageData messageData, int beginRange, int endRange) {
+        _messages[Core.Random.Next(beginRange, endRange)] = messageData;
     }
 
     public void Tick() {
-        if (_messages.ContainsKey(Core.Sim.Ticks)) {
-            Core.Sim.Gui!.PushScreenMessage(_messages[Core.Sim.Ticks]);
+        if (_messages.ContainsKey(Core.Context.Ticks))
+        {
+
+            Log.Warning($"OminousMessageSpawner.Tick WANTS Core.Context.Gui!.PushScreenMessag)");
+            //Core.Context.Gui!.PushScreenMessage(_messages[Core.Context.Ticks]);
         }
     }
 

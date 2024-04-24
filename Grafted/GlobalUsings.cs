@@ -1,0 +1,30 @@
+﻿// Global using directives
+
+global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using Grafted.Debug;
+global using Grafted.Definitions;
+global using Grafted.Maths;
+global using Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
+global using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.BodyPanelWidgets;
+global using Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
+global using Grafted.Sim;
+global using Grafted.Sim.Combat;
+global using Grafted.Sim.Entities.Items;
+global using Grafted.Sim.Entities.Pawns;
+global using Grafted.Sim.Persistence;
+global using Grafted.Sim.Zones;
+global using Grafted.UI;
+global using Grafted.Utils;
+global using JetBrains.Annotations;
+global using Microsoft.Xna.Framework;
+global using Microsoft.Xna.Framework.Graphics;
+global using Microsoft.Xna.Framework.Input;
+global using Myra.Graphics2D;
+global using Myra.Graphics2D.TextureAtlases;
+global using Myra.Graphics2D.UI;
+global using Myra.Graphics2D.UI.Styles;
+global using HorizontalAlignment = Myra.Graphics2D.UI.HorizontalAlignment;
+global using Keys = Microsoft.Xna.Framework.Input.Keys;
+global using Label = Myra.Graphics2D.UI.Label;

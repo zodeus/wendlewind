@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Grafted.Sim.Persistence;
+﻿namespace Grafted.Sim.Persistence;
 
 public class PostLoadInitializer {
     private readonly HashSet<IExposable> _saveablesToPostLoad = new();

@@ -1,8 +1,4 @@
-﻿using System;
-using Grafted.Maths;
-using Grafted.Sim.Persistence;
-
-namespace Grafted.Sim.Entities.Pawns.Bodies.Handlers;
+﻿namespace Grafted.Sim.Entities.Pawns.Bodies.Handlers;
 
 public class DefaultBodyHandler : IExposable {
     private int _ticksWithEmptyStomach;
@@ -22,18 +18,21 @@ public class DefaultBodyHandler : IExposable {
     public virtual float EnergyLossPerTick => 0.0004f;
     public virtual float FoodLossPerTick => 0.0015f;
     public virtual float FoodLossRestingFactor => 0.60f;
-    public virtual int TimeUntilFamishedInHours => 24;
+    public virtual int TicksUntilFamished => 4000;
     public virtual int EmptyStomachEnergyLossFactor => 2;
     public virtual float HungryThreshold => 0.6f;
     public virtual float MalnutritionDamageFactor => Core.Random.NextFloat(0.0001f, 0.0005f);
-    public virtual bool IsFamished => _ticksWithEmptyStomach > SimTime.HoursToTicks(TimeUntilFamishedInHours);
+    public virtual bool IsFamished => _ticksWithEmptyStomach > TicksUntilFamished;
     public bool IsHungry => Body.StomachLevel < HungryThreshold;
 
     public virtual void Initialize(PawnBody body) {
         Body = body;
     }
 
-    public virtual void Tick() {
+    public virtual void Tick(int ticks) {
+        
+        if (ticks % 90 != 0) return;
+
         PushExternalHeat();
         HandleNutrition();
         ConsumeEnergy(EnergyLossPerTick);
@@ -45,7 +44,7 @@ public class DefaultBodyHandler : IExposable {
             // Blood Loss Calculations & regeneration
             float preTickBloodAmount = Body.BloodAmount;
             float preTickBloodPercent = Body.BloodPercent;
-            DoBloodLoss();
+            DoBloodLoss(ticks);
             Regenerate();
             if (Math.Abs(preTickBloodPercent - Body.BloodPercent) > .00001) {
                 Body.BloodChangeLastFrame = Body.BloodPercent - preTickBloodPercent;
@@ -68,9 +67,6 @@ public class DefaultBodyHandler : IExposable {
         const float roomTemperature = 22;
         float amountOfHeatToPush = 1;
         float externalTemp = Body.Pawn.Zone?.Temperature ?? 0;
-        if (Body.Pawn.Zone?.Town?.GetStructure<TownStructureHouse>() is { IsFireBurning: true }) {
-            externalTemp = roomTemperature;
-        }
 
         if (externalTemp > hotThreshold) {
             Body.Temperature = Math.Min(Body.Temperature + amountOfHeatToPush, externalTemp + 10);
@@ -96,7 +92,7 @@ public class DefaultBodyHandler : IExposable {
     }
 
     protected virtual void Regenerate() {
-        if (_ticksWithEmptyStomach > SimTime.HoursToTicks(2) || Body.Energy < .2 || Body.BloodPercent < 0.05 || Body.IsWarm == false) {
+        if (_ticksWithEmptyStomach > 1 || Body.Energy < .2 || Body.BloodPercent < 0.05 || Body.IsWarm == false) {
             return;
         }
 
@@ -136,9 +132,6 @@ public class DefaultBodyHandler : IExposable {
     }
 
     protected virtual void TakeMalnutritionDamage() {
-        if (Core.Sim.World.Time.IsIntervalOf(SimTime.MinutesToSeconds(MalnutritionDamageIntervalInMinutes)) == false) {
-            return;
-        }
 
         foreach (BodyPart bodyPart in Body.AllParts) {
             if (bodyPart.Type == BodyPartType.Artery) {
@@ -153,11 +146,10 @@ public class DefaultBodyHandler : IExposable {
         }
     }
 
-    protected virtual void DoBloodLoss() {
+    protected virtual void DoBloodLoss(int ticks) {
         if (Body.RootSocket.AttachedPart == null) {
             return;
         }
-
         DoBloodLossForPart(Body.RootSocket.AttachedPart);
     }
 

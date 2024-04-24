@@ -1,5 +1,3 @@
-using System;
-
 namespace Grafted.Sim.Entities.Pawns;
 
 [Flags]

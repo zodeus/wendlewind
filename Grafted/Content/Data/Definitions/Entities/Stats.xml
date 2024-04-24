@@ -16,20 +16,6 @@
         <MaxValue>100</MaxValue>
     </StatDef>
     <StatDef>
-        <Moniker>MaxCarryWeight</Moniker>
-        <Label>Max Carry Weight</Label>
-        <BaseValue>0</BaseValue>
-        <MinValue>0</MinValue>
-        <MaxValue>9999</MaxValue>
-    </StatDef>
-    <StatDef>
-        <Moniker>Weight</Moniker>
-        <Label>Weight</Label>
-        <BaseValue>0</BaseValue>
-        <MinValue>0</MinValue>
-        <MaxValue>9999</MaxValue>
-    </StatDef>
-    <StatDef>
         <Moniker>MaxDurability</Moniker>
         <Label>Max Durability</Label>
         <BaseValue>1</BaseValue>
@@ -48,25 +34,5 @@
         <BaseValue>0</BaseValue>
         <MinValue>0</MinValue>
         <MaxValue>1</MaxValue>
-    </StatDef>
-    <StatDef>
-        <Moniker>DeteriorationRate</Moniker>
-        <Label>Deterioration Rate</Label>
-        <Description>Amount per tick to decrease</Description>
-        <BaseValue>0</BaseValue>
-        <MinValue>0</MinValue>
-    </StatDef>
-    <StatDef>
-        <Moniker>CurrencyValue</Moniker>
-        <Label>Currency Value</Label>
-        <Description>What it worth</Description>
-        <BaseValue>0</BaseValue>
-        <MinValue>0</MinValue>
-    </StatDef>
-    <StatDef>
-        <Moniker>Tier</Moniker>
-        <Label>Tier</Label>
-        <BaseValue>1</BaseValue>
-        <MinValue>1</MinValue>
     </StatDef>
 </Definitions>

@@ -1,6 +1,4 @@
-﻿using Grafted.Definitions;
-using Grafted.Graphics.Textures;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Grafted.Graphics.Textures;
 
 namespace Grafted.Sim.Entities.Pawns;
 

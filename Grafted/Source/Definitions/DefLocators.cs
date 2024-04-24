@@ -1,11 +1,5 @@
-using System;
 using System.Reflection;
-using Grafted.Sim;
 using Grafted.Sim.Entities;
-using Grafted.Sim.Entities.Items;
-using Grafted.Sim.Entities.Pawns;
-using Grafted.Sim.Zones;
-using Grafted.Utils;
 
 namespace Grafted.Definitions;
 
@@ -24,11 +18,7 @@ public static partial class Defs {
         public static StatDef MeleeAccuracy = null!;
         public static StatDef PhysicalResistance = null!;
         public static StatDef MaxDurability = null!;
-        public static StatDef MaxCarryWeight = null!;
-        public static StatDef Weight = null!;
-        public static StatDef CurrencyValue = null!;
         public static StatDef MoveSpeed = null!;
-        public static StatDef Tier = null!;
         public static StatDef NutritionalValue = null!;
         public static StatDef Evasion = null!;
     }
@@ -60,12 +50,10 @@ public static partial class Defs {
 public static partial class Defs {
     [DefLocator]
     public static class Zones {
-        public static ZoneDef VillageOfTheDamned = null!;
-        public static ZoneDef PeacefulMeadow = null!;
-        public static ZoneDef TheOutskirts = null!;
-        public static ZoneDef GrainMill = null!;
-        public static ZoneDef MeatMarket = null!;
-        public static ZoneDef FesterpusSwamp = null!;
+        public static BiomeDef PeacefulMeadow = null!;
+        public static BiomeDef TheOutskirts = null!;
+        public static BiomeDef GrainMill = null!;
+        public static BiomeDef FesterpusSwamp = null!;
     }
 }
 
@@ -108,14 +96,6 @@ public static partial class Defs {
         public static PawnDef Glump = null!;
         public static PawnDef Ghoul = null!;
         public static PawnDef Pig = null!;
-    }
-}
-
-public static partial class Defs {
-    [DefLocator]
-    public static class Structures {
-        public static TownStructureDef Merchant = null!;
-        public static TownStructureDef House = null!;
     }
 }
 

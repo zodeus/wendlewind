@@ -1,7 +1,3 @@
-using System;
-using Grafted.Utils;
-using Microsoft.Xna.Framework;
-
 namespace Grafted.Maths;
 
 public static class RectangleExt {

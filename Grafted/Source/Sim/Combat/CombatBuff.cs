@@ -1,5 +1,4 @@
 ﻿using Grafted.Sim.Entities;
-using Grafted.Sim.Entities.Pawns;
 
 namespace Grafted.Sim.Combat;
 

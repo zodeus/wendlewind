@@ -1,7 +1,4 @@
-﻿using Grafted.UI;
-using Microsoft.Xna.Framework.Input;
-
-namespace Grafted.Utils;
+﻿namespace Grafted.Utils;
 
 public static class KeysExt {
     public static char? GetChar(this Keys key) {

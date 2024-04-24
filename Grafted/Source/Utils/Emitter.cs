@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Grafted.Debug;
-
-namespace Grafted.Utils;
+﻿namespace Grafted.Utils;
 
 /// <summary>
 /// simple event emitter that is designed to have its generic constraint be either an int or an enum

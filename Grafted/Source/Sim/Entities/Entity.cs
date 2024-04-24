@@ -1,6 +1,5 @@
-using Grafted.Sim.Gui.Widgets.EntityWidgets;
-using Grafted.Sim.Persistence;
-using Microsoft.Xna.Framework.Graphics;
+using Grafted.Scenes.MainGameScene.Gui;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
 namespace Grafted.Sim.Entities;
 
@@ -30,7 +29,7 @@ public abstract class Entity : IExposable, IIdentityProvider {
 
     public virtual void Initialize() { }
 
-    public virtual void Tick() { }
+    public virtual void Tick(int ticks) { }
 
     public override int GetHashCode() {
         return Id;
@@ -54,8 +53,8 @@ public abstract class Entity : IExposable, IIdentityProvider {
         return ((Entity?) obj)?.Id == Id;
     }
 
-    public EntityPanelBase UiPanel(EntityPanelProperties? properties = null) {
-        return Def.UiPanelFor(this, properties);
+    public EntityPanelBase UiPanel(BaseGui gui, EntityPanelProperties? properties = null) {
+        return Def.UiPanelFor(gui, this, properties);
     }
 
     public virtual void Render(SpriteBatch spriteBatch, float deltaTime) { }

@@ -1,8 +1,3 @@
-using System;
-using Grafted.Maths;
-using Grafted.Sim.Persistence;
-using JetBrains.Annotations;
-
 namespace Grafted.Sim.Entities.Pawns;
 
 public class AdaptiveBodyPartProperties {
@@ -22,10 +17,10 @@ class MaxHitPointScalerConstantFactor : MaxHitPointScaler {
 }
 
 class MaxHitPointScalerCurve : MaxHitPointScaler {
-    public Curve Curve = null!;
+    public SimpleCurve SimpleCurve = null!;
 
     public override float GetMaxHitPointsFor(BodyPart parentPart) {
-        return Curve.Evaluate(parentPart.MaxHitPoints);
+        return SimpleCurve.Evaluate(parentPart.MaxHitPoints);
     }
 }
 

@@ -27,10 +27,8 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Blunt/WoodenStick</TexturePath>
         <BaseStats>
-            <MeleePower>5</MeleePower>
+            <MeleePower>10</MeleePower>
             <MaxDurability>150</MaxDurability>
-            <Weight>3</Weight>
-            <CurrencyValue>50</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponBlunt">
@@ -43,10 +41,8 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Blunt/WoodenHammer</TexturePath>
         <BaseStats>
-            <MeleePower>15</MeleePower>
+            <MeleePower>25</MeleePower>
             <MaxDurability>200</MaxDurability>
-            <Weight>6</Weight>
-            <CurrencyValue>200</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponSharp">
@@ -59,10 +55,8 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Sharp/BasicKnife</TexturePath>
         <BaseStats>
-            <MeleePower>20</MeleePower>
+            <MeleePower>40</MeleePower>
             <MaxDurability>400</MaxDurability>
-            <Weight>1</Weight>
-            <CurrencyValue>400</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponBlunt">
@@ -75,11 +69,8 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Blunt/Mace</TexturePath>
         <BaseStats>
-            <Tier>2</Tier>
             <MeleePower>30</MeleePower>
             <MaxDurability>800</MaxDurability>
-            <Weight>6</Weight>
-            <CurrencyValue>900</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponSharp">
@@ -92,11 +83,8 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Sharp/ShortSword</TexturePath>
         <BaseStats>
-            <Tier>2</Tier>
             <MeleePower>45</MeleePower>
             <MaxDurability>1200</MaxDurability>
-            <Weight>5</Weight>
-            <CurrencyValue>4000</CurrencyValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponSharp">
@@ -109,11 +97,8 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Sharp/WarAxe</TexturePath>
         <BaseStats>
-            <Tier>3</Tier>
             <MeleePower>60</MeleePower>
             <MaxDurability>3000</MaxDurability>
-            <Weight>6</Weight>
-            <CurrencyValue>12000</CurrencyValue>
         </BaseStats>
     </ItemDef>
 </Definitions>

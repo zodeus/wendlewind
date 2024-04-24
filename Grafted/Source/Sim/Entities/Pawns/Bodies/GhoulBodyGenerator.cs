@@ -1,7 +1,4 @@
-﻿using Grafted.Definitions;
-using Grafted.Sim.Entities.Items;
-
-namespace Grafted.Sim.Entities.Pawns.Bodies;
+﻿namespace Grafted.Sim.Entities.Pawns.Bodies;
 
 public class GhoulBodyGenerator: IBodyGenerator {
     public BodyPartSocket Generate() {

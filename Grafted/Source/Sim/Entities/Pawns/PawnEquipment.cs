@@ -1,9 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Grafted.Definitions;
-using Grafted.Sim.Entities.Items;
-using Grafted.Sim.Persistence;
 
 namespace Grafted.Sim.Entities.Pawns;
 
@@ -51,6 +46,9 @@ public class PawnEquipment : IEnumerable<Item>, IExposable {
         }
     }
 
+    public IEnumerable<Item> UsableWeapons => UsableItems.Where(i => i.ItemDef.EquipmentProperties.EquipmentType == EquipmentType.Tool);
+    
+
     public IEnumerable<KeyValuePair<BodyPart, List<EquipmentSlotType>>> Slots {
         get {
             foreach (BodyPart externalPart in _pawn.Body.AllExternalParts) {
@@ -62,8 +60,6 @@ public class PawnEquipment : IEnumerable<Item>, IExposable {
     public PawnEquipment(Pawn pawn) {
         _pawn = pawn;
     }
-
-    public void Tick() { }
 
     public Item? TryEquip(BodyPart bodyPart, Item item) {
         return TryEquip(bodyPart, bodyPart.SlotFor(item)!.Value, item);
@@ -79,11 +75,6 @@ public class PawnEquipment : IEnumerable<Item>, IExposable {
         Item? unequippedItem = UnEquip(bodyPart, slot);
         item.Container?.Remove(item);
         bodyPart.Equipment[slot] = item;
-
-        //Recalculate Carry Weights
-        if (item?.GetStatValue(Defs.Stats.MaxCarryWeight) > 0) {
-            _pawn.MaxCarryWeight += (int) item.GetStatValue(Defs.Stats.MaxCarryWeight);
-        }
 
         //OnEquipmentChanged(new OnChangeArgs(OnChangeArgs.ChangeType.ItemEquipped, item));
         return unequippedItem;
@@ -111,9 +102,6 @@ public class PawnEquipment : IEnumerable<Item>, IExposable {
 
     private void UnEquipInternal(BodyPart bodyPart, EquipmentSlotType slot, Item item) {
         bodyPart.Equipment[slot] = null;
-        if (item.GetStatValue(Defs.Stats.MaxCarryWeight) > 0) {
-            _pawn.MaxCarryWeight -= (int) item.GetStatValue(Defs.Stats.MaxCarryWeight);
-        }
         //OnEquipmentChanged(new OnChangeArgs(OnChangeArgs.ChangeType.ItemUnequipped, item));
     }
 

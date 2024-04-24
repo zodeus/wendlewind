@@ -1,8 +1,6 @@
-using Grafted.Debug;
 using Grafted.Graphics.Textures;
-using Grafted.Scenes;
-using Myra.Graphics2D.TextureAtlases;
-using Myra.Graphics2D.UI;
+using Grafted.Scenes.Components;
+using Grafted.Scenes.MainGameScene;
 
 namespace Grafted.Sim;
 

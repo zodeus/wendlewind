@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Grafted.Utils;
-
-namespace Grafted.Sim.Persistence;
+﻿namespace Grafted.Sim.Persistence;
 
 public class CrossRefHandler {
     private readonly LoadedObjectDirectory _loadedObjectDirectory = new();

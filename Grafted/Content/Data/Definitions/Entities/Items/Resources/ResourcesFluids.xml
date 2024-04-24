@@ -8,9 +8,5 @@
         <Moniker>WaterBucket</Moniker>
         <Label>Water Bucket</Label>
         <TexturePath>Entities/Item/Resource/Fluid/BucketOfWater</TexturePath>
-        <BaseStats>
-            <Weight>5</Weight>
-            <CurrencyValue>0</CurrencyValue>
-        </BaseStats>
     </ItemDef>
 </Definitions>

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Grafted.Definitions;
-using Grafted.Sim.Entities.Items;
-using Grafted.Sim.Entities.Pawns.Bodies;
+﻿using Grafted.Sim.Entities.Pawns.Bodies;
 
 namespace Grafted.Sim.Entities.Pawns;
 

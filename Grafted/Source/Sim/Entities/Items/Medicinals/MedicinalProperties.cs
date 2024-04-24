@@ -1,9 +1,3 @@
-using System;
-using System.Linq;
-using Grafted.Definitions;
-using Grafted.Sim.Entities.Pawns;
-using JetBrains.Annotations;
-
 namespace Grafted.Sim.Entities.Items.Medicinals;
 
 public class MedicinalProperties {

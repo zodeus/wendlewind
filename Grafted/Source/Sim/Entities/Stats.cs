@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Xml;
-using Grafted.Definitions;
+﻿using System.Xml;
 using Grafted.Definitions.Loader;
-using Grafted.Maths;
-using Grafted.Sim.Entities.Pawns;
-using JetBrains.Annotations;
 
 namespace Grafted.Sim.Entities;
 

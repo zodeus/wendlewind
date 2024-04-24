@@ -1,9 +1,4 @@
-using Grafted.Definitions;
-using Grafted.Maths;
-using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Items.Medicinals;
-using Grafted.Sim.Gui.Widgets.TownWidgets;
-using Grafted.Sim.Persistence;
 
 namespace Grafted.Sim.Entities.Items;
 
@@ -16,8 +11,6 @@ public class Item : Entity, IExposable {
     public override string Label => Def.Label;
     public string LabelWithStackSize => IsStackable ? $"{Def.Label} x{StackSize}" : Def.Label;
     public bool IsStackable => ItemDef.StackLimit > 1;
-    public int WeightSingle => Mathf.CeilToInt(this.GetStatValue(Defs.Stats.Weight));
-    public int Weight => Mathf.CeilToInt(this.GetStatValue(Defs.Stats.Weight) * StackSize);
     public MedicinalHandler? MedicinalHandler => ItemDef.MedicinalProperties?.Handler;
     public bool CanBeDestroyed => ItemDef.ItemType != ItemType.Trinket && ItemDef != Defs.Items.Cauterize;
 
@@ -26,11 +19,6 @@ public class Item : Entity, IExposable {
         _durability = MaxDurability;
 
         base.Initialize();
-    }
-
-    public int GetCurrencyValue(MerchantTransactionType transactionType) {
-        float transactionMultiplier = transactionType == MerchantTransactionType.Buy ? 1f : .7f;
-        return Mathf.CeilToInt(this.GetStatValue(Defs.Stats.CurrencyValue) * transactionMultiplier);
     }
 
     public bool CanBeUsedFor(ToolCategory toolCategory) {
@@ -72,7 +60,6 @@ public class Item : Entity, IExposable {
 
         Item item = CreateItemFromSplit(ItemDef, amountWanted.Value);
         StackSize -= amountWanted.Value;
-        Container?.CalculateWeight();
         return item;
     }
 

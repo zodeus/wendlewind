@@ -1,14 +1,5 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
-using Grafted.Definitions;
 using Grafted.Graphics.Textures;
-using Grafted.Maths;
-using Grafted.Sim.Combat;
-using Grafted.Sim.Entities.Items;
-using Grafted.Sim.Persistence;
-using Grafted.Utils;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Grafted.Sim.Entities.Pawns;
 
@@ -230,7 +221,7 @@ public class BodyPart : Entity {
         }
     }
 
-    public override void Tick() {
+    public override void Tick(int ticks) {
         for (int index = Modifiers.Count - 1; index >= 0; index--) {
             BodyPartModifier modifier = Modifiers[index];
             modifier.Tick();
@@ -240,7 +231,7 @@ public class BodyPart : Entity {
             }
         }
 
-        base.Tick();
+        base.Tick(ticks);
     }
 
     private void GetParts(BodyPart part, List<BodyPart> parts, bool? partIsExternal = null) {
@@ -316,7 +307,7 @@ public class BodyPart : Entity {
         foreach (BodyPartModifierRecord record in damage.BodyPartModifiers) {
             if (Type == BodyPartType.Skin && record.Def == Defs.BodyPartModifiers.BurningAcid) {
                 if (Core.Random.Chance(record.Chance.RandomValue)) {
-                    TryAddModifier(BodyPartModifierGenerator.Generate(record.Def, record.DurationInMinutes.RandomValue));
+                    TryAddModifier(BodyPartModifierGenerator.Generate(record.Def, record.DurationInTicks.RandomValue));
                     damagedPartRecord.AppliedModifiers.Add(record.Def);
                 }
             }

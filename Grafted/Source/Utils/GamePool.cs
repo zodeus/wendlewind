@@ -1,5 +1,3 @@
-using System;
-
 namespace Grafted.Utils;
 
 public class GamePool<T> where T : class {
