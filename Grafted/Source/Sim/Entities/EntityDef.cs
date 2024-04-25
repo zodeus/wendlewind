@@ -11,7 +11,6 @@ public class EntityDef : Def {
     public virtual EntityType EntityType => throw new NotImplementedException($"EntityType not set for class {GetType().Name}");
     public Type EntityClass = null!;
     public Type UiClass = typeof(EntityPanel);
-    public MaterialType MaterialType = MaterialType.None;
     public List<BaseStat> BaseStats = new();
     public string? TexturePath;
 

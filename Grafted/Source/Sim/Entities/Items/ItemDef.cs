@@ -10,7 +10,6 @@ public class ItemDef : EntityDef
 
     public ItemType ItemType = ItemType.None;
     public ToolType ToolType = ToolType.None;
-    public List<ToolCategory> ToolCategories = new();
     public int StackLimit = 1;
     public EquipmentProperties EquipmentProperties = new();
     public WeaponProperties WeaponProperties = new();

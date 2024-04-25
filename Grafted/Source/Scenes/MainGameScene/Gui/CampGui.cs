@@ -87,7 +87,7 @@ public class CampGui : BaseGui
         var festerpusSwamp = new TextButton(BaseContent.Styles.Button.Normal)
         {
             Text = Defs.Zones.FesterpusSwamp.Label, HorizontalAlignment = HorizontalAlignment.Stretch,
-            //Enabled = _world.GetZone(Defs.Zones.GrainMill).IsComplete && !_world.GetZone(Defs.Zones.FesterpusSwamp).IsComplete
+            Enabled = _world.GetZone(Defs.Zones.GrainMill).IsComplete && !_world.GetZone(Defs.Zones.FesterpusSwamp).IsComplete
         };
         festerpusSwamp.Click += (_, _) =>
         {

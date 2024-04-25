@@ -27,7 +27,6 @@ public abstract class BaseGui: IDisposable {
         }
 
         ((EntityPanelBase?) _entityViewerWindow.Content)?.Update();
-
         if (_screenMessageTimeLeft > 0) {
             _screenMessageTimeLeft -= deltaTime;
         }
@@ -82,9 +81,9 @@ public abstract class BaseGui: IDisposable {
             int xOffsetB = Core.Random.Next(-8, 8);
             int yOffsetB = Core.Random.Next(-8, 8);
 
-            spriteBatch.DrawString(_screenMessage.Font, _screenMessage.Text, new Vector2((Screen.Width / 2) - offset + xOffsetB, 50 + yOffsetB), colorB);
+            spriteBatch.DrawString(_screenMessage.Font, _screenMessage.Text, new Vector2((Screen.Width / 2) - offset + xOffsetB, 400 + yOffsetB), colorB);
             //spriteBatch.DrawString(BaseContent.Fonts.Default.VeryLarge, _screenMessage, new Vector2((Screen.Width / 2) - offset + Core.Random.Next(-5, 5), 300 + Core.Random.Next(-5, 5)), colorB);
-            spriteBatch.DrawString(_screenMessage.Font, _screenMessage.Text, new Vector2((Screen.Width / 2) - offset + xOffsetA, 50 + yOffsetA), colorA);
+            spriteBatch.DrawString(_screenMessage.Font, _screenMessage.Text, new Vector2((Screen.Width / 2) - offset + xOffsetA, 400 + yOffsetA), colorA);
             spriteBatch.End();
         }
     }
@@ -118,6 +117,11 @@ public abstract class BaseGui: IDisposable {
     }
 
     public abstract void Dispose();
+
+    public void TickGame()
+    {
+        Core.Context.TickOnce();
+    }
 }
 
 public class ScreenMessageData {

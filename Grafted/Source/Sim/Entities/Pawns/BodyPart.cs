@@ -27,7 +27,7 @@ public class BodyPart : Entity {
     public bool IsBone => BodyPartDef.IsBone;
     public bool IsOrgan => BodyPartDef.IsOrgan;
     public bool IsVital => BodyPartDef.IsVital;
-    public bool IsDestroyed => HitPoints <= 0;
+    public bool IsDestroyed => HitPoints <= .1f;
     public bool IsBleeding => HealthPercent < .99; //todo coagulation 
 
     public List<EquipmentSlotType>? EquipmentSlots => BodyPartDef.EquipmentSlots;
@@ -139,15 +139,15 @@ public class BodyPart : Entity {
         }
     }
 
-    public float SequencePoints {
+    public float AttackSpeedModifier {
         get {
             if (HasMobility == false) {
                 return 0;
             }
 
-            float points = this.GetStatValue(Defs.Stats.SequencePoints);
+            float points = this.GetStatValue(Defs.Stats.AttackSpeedModifier);
             foreach (BodyPart bodyPart in ExternalParts) {
-                points += bodyPart.SequencePoints;
+                points += bodyPart.AttackSpeedModifier;
             }
 
             return points;
@@ -304,12 +304,13 @@ public class BodyPart : Entity {
         }
 
         HitPoints -= damagedPartRecord.Amount;
-        foreach (BodyPartModifierRecord record in damage.BodyPartModifiers) {
-            if (Type == BodyPartType.Skin && record.Def == Defs.BodyPartModifiers.BurningAcid) {
-                if (Core.Random.Chance(record.Chance.RandomValue)) {
-                    TryAddModifier(BodyPartModifierGenerator.Generate(record.Def, record.DurationInTicks.RandomValue));
-                    damagedPartRecord.AppliedModifiers.Add(record.Def);
-                }
+        foreach (var record in damage.BodyPartModifiers) {
+            if (Type == BodyPartType.Skin && record.Def == Defs.BodyPartModifiers.BurningAcid)
+            {
+                if (!Core.Random.Chance(record.Chance.RandomValue)) continue;
+                
+                TryAddModifier(BodyPartModifierGenerator.Generate(record.Def, record.DurationInTicks.RandomValue));
+                damagedPartRecord.AppliedModifiers.Add(record.Def);
             }
         }
 

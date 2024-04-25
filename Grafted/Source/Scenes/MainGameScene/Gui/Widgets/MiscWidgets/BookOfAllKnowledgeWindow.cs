@@ -30,7 +30,6 @@ internal class BookOfAllKnowledgeWindow : Window {
                 new DefsPanel(DefRepository<BodyEffectDef>.Defs),
                 new DefsPanel(DefRepository<BodyPartModifierDef>.Defs),
                 new DefsPanel(DefRepository<ToolManeuverDef>.Defs),
-                new DefsPanel(DefRepository<ToolSequenceDef>.Defs)
             }
         });
         tabPanel.AddTab("Creatures", new DefsPanel(DefRepository<RaceDef>.Defs));

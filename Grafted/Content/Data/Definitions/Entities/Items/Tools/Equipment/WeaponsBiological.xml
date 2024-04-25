@@ -5,9 +5,6 @@
         <WeaponProperties>
             <DamageType>Flesh</DamageType>
         </WeaponProperties>
-        <ToolCategories>
-            <ListItem>Combat</ListItem>
-        </ToolCategories>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
         <Moniker>FleshyHand</Moniker>
@@ -97,7 +94,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
         <BaseStats>
-            <MeleePower>50</MeleePower>
+            <MeleePower>3</MeleePower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">

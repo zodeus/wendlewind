@@ -1,34 +1,36 @@
 ﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
-public class SequencePointsIcon : Panel {
+public class AttackSpeedIcon : Panel {
     private readonly Pawn _pawn;
     public readonly Label Label;
 
-    public SequencePointsIcon(Pawn pawn) {
+    public AttackSpeedIcon(Pawn pawn) {
         _pawn = pawn;
         Label = new Label {
-            Font = BaseContent.Fonts.Fancy.Large,
+            Font = BaseContent.Fonts.Fancy.Normal,
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center
         };
 
-        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundDark32];
-        Width = 80;
-        Height = 80;
+        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame];
+        Width = 64;
+        Height = 56;
         base.VerticalAlignment = VerticalAlignment.Center;
 
         AddChild(Label);
     }
 
     public void Update() {
-        if (_pawn.MaxSequencePoints <= 2) {
+        if (_pawn.AttackSpeed < _pawn.MaxAttackSpeed * .5f) {
+            Label.TextColor = Color.Red;
+        }else if (_pawn.AttackSpeed < _pawn.MaxAttackSpeed) {
             Label.TextColor = Color.Orange;
         }
         else {
             Label.TextColor = Color.YellowGreen;
         }
 
-        Label.Text = $"{_pawn.MaxSequencePoints}";
+        Label.Text = $"{_pawn.AttackSpeed:##.0}";
     }
 }
 

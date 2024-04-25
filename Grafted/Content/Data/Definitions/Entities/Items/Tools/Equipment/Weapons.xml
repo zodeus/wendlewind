@@ -3,9 +3,6 @@
 <Definitions>
     <ItemDef Name="WeaponBase" ParentName="EquipmentTool" Abstract="true">
         <UiClass>WeaponPanel</UiClass>
-        <ToolCategories>
-            <ListItem>Combat</ListItem>
-        </ToolCategories>
     </ItemDef>
     <ItemDef Name="WeaponBlunt" ParentName="WeaponBase" Abstract="true">
         <WeaponProperties>

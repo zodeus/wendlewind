@@ -30,6 +30,7 @@ public class World : IExposable, IIdentityProvider
     {
         Scribe_Deep.Look(ref Player!, "Player");
         Scribe_Values.Look(ref TotalKills, "TotalKills");
+        Scribe_Collections.Look(ref Zones!, "Zones", LookMode.Deep);
     }
 
     public string GetUniqueId()

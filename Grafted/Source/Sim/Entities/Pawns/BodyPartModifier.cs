@@ -45,7 +45,8 @@ public abstract class BodyPartModifier : IExposable, IIdentityProvider
             return;
         }
 
-        part.TryAddModifier(BodyPartModifierGenerator.Generate(Def, Ticks));
+        var ticksRemaining = DurationInTicks - Ticks;
+        part.TryAddModifier(BodyPartModifierGenerator.Generate(Def, ticksRemaining));
     }
 
     public virtual void MergeWith(BodyPartModifier modifier)
@@ -102,14 +103,15 @@ public class BurningAcid : BodyPartModifier
             return;
         }
 
-        var damage = BodyPart.HitPoints * .02f;
+        var damageMultiplier = HasSpread ? .005f : 0.0015f;
+        var damage = BodyPart.HitPoints * damageMultiplier;
         BodyPart.HitPoints -= damage;
         if (HasPenetrated == false && BodyPart is { Type: BodyPartType.Skin, HealthPercent: < .2f })
         {
             HasPenetrated = true;
-            if (BodyPart.Socket?.ParentPart?.InternalParts.Any() == true)
+            if (BodyPart.Socket?.ParentPart?.AllInternalParts.Count != 0)
             {
-                foreach (var internalPart in BodyPart.Socket.ParentPart.InternalParts)
+                foreach (var internalPart in BodyPart.Socket!.ParentPart!.AllInternalParts)
                 {
                     SpreadTo(internalPart);
                 }
@@ -126,6 +128,15 @@ public class BurningAcid : BodyPartModifier
         }
 
         base.Tick();
+        LostVitalPart();
+    }
+
+    private void LostVitalPart()
+    {
+        if (BodyPart.IsFunctional == false && BodyPart.Body?.AllParts.Any(p => p.Type == BodyPart.Type && p.IsFunctional) == false)
+        {
+           BodyPart.Body.Pawn.HandleDeath($"Vital body part {BodyPart.Label} was destroyed by {Def.Label}");
+        }
     }
 
     public override void ExposeData()
@@ -140,7 +151,7 @@ public class SoothingBalm : BodyPartModifier
 {
     public override void Tick()
     {
-        BodyPart.HitPoints += BodyPart.HitPoints * .02f;
+        BodyPart.HitPoints += BodyPart.HitPoints * .01f;
 
         base.Tick();
     }

@@ -2,7 +2,6 @@
 
 <Definitions>
     <ItemDef Name="WoodResource" ParentName="ItemResource" Abstract="true">
-        <MaterialType>Wood</MaterialType>
     </ItemDef>
     <ItemDef ParentName="WoodResource">
         <Moniker>WoodLog</Moniker>

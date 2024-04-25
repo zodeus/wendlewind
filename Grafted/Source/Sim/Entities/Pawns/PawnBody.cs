@@ -5,7 +5,7 @@ namespace Grafted.Sim.Entities.Pawns;
 public class PawnBody : IExposable, IIdentityProvider {
     private float _bloodAmount;
     private float _energy = 1;
-    private int _sequencePoints = 0;
+    private float _attackSpeedModifier = 0;
     private BodyPartSocket _rootSocket;
 
     public readonly Pawn Pawn;
@@ -115,24 +115,22 @@ public class PawnBody : IExposable, IIdentityProvider {
         Handler.ConsumeEnergy(baseAmount);
     }
 
-    public int GetSequencePoints() {
+    public float GetAttackSpeedModifier() {
         if (BodyPartsDirty) {
-            _sequencePoints = Mathf.RoundToInt(RootSocket.AttachedPart?.SequencePoints ?? 0);
-
-            //todo this calculates lung capacity, I think there should be a capacities list object somewhere instead, perhaps PawnBody or on Pawn? Need to add events to BodyPart to properly implement
-            _sequencePoints = Mathf.RoundToInt(_sequencePoints * Capabilities.Breathing);
+            _attackSpeedModifier = RootSocket.AttachedPart?.AttackSpeedModifier ?? 0;
+            _attackSpeedModifier *= Capabilities.Breathing;
             BodyPartsDirty = false;
         }
 
-        if (Energy < .50) {
-            return _sequencePoints - 1;
-        }
-
         if (Energy < .25) {
-            return _sequencePoints - 2;
+            return _attackSpeedModifier - (_attackSpeedModifier * .4f);
+        }
+        
+        if (Energy < .50) {
+            return _attackSpeedModifier - (_attackSpeedModifier * .2f);
         }
 
-        return _sequencePoints;
+        return _attackSpeedModifier;
     }
 
     public string GetUniqueId() {

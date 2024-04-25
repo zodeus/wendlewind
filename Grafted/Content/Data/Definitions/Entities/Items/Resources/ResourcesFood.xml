@@ -2,7 +2,6 @@
 
 <Definitions>
     <ItemDef Name="Food" ParentName="ItemResource" Abstract="true">
-        <MaterialType>Organic</MaterialType>
         <UiClass>FoodPanel</UiClass>
     </ItemDef>
     <ItemDef ParentName="Food">

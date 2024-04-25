@@ -4,7 +4,6 @@
     <ItemDef Name="Potion" ParentName="ItemBase" Abstract="true">
         <ItemType>Potion</ItemType>
         <UiClass>PotionPanel</UiClass>
-        <MaterialType>Artificial</MaterialType>
         <StackLimit>9999</StackLimit>
         <EquipmentProperties>
             <EquipmentType>Potion</EquipmentType>
@@ -29,7 +28,7 @@
     <ItemDef ParentName="Potion">
         <Moniker>PumpinJuice</Moniker>
         <Label>Pumpin Juice</Label>
-        <Description>Increases sequences points for a short period of time</Description>
+        <Description>Increases attack speed for a short period of time</Description>
         <TexturePath>Entities/Item/Consumables/PumpinJuice</TexturePath>
     </ItemDef>
     <ItemDef ParentName="Potion">

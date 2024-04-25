@@ -13,7 +13,6 @@ public static partial class Defs {
         public static StatDef MeleePower = null!;
         public static StatDef MeleeStrength = null!;
         public static StatDef AttackSpeed = null!;
-        public static StatDef SequencePoints = null!;
         public static StatDef HealingValue = null!;
         public static StatDef MeleeAccuracy = null!;
         public static StatDef PhysicalResistance = null!;
@@ -21,6 +20,7 @@ public static partial class Defs {
         public static StatDef MoveSpeed = null!;
         public static StatDef NutritionalValue = null!;
         public static StatDef Evasion = null!;
+        public static StatDef AttackSpeedModifier = null!;
     }
 }
 

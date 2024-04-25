@@ -21,10 +21,6 @@ public class Item : Entity, IExposable {
         base.Initialize();
     }
 
-    public bool CanBeUsedFor(ToolCategory toolCategory) {
-        return ItemDef.ToolCategories.Contains(toolCategory);
-    }
-
     public void ApplyDurabilityLoss(Damage damage) {
         _durability -= Core.Random.Next(1, 5);
         if (_durability <= 0) {

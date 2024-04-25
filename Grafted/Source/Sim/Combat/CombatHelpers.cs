@@ -9,7 +9,7 @@ public static class CombatHelpers
         var pawnStrength = pawn.GetStatValue(Defs.Stats.MeleeStrength);
         var toolPower = tool.GetStatValue(Defs.Stats.MeleePower);
         var toolManeuver = tool.ItemDef.ToolManeuvers.RandomElement();
-        var skillPower = 1 + (pawn.GetSkill(tool.ItemDef.ToolType)?.Level / 30f ?? 0);
+        var skillPower = 1 + (pawn.GetSkill(tool.ItemDef.ToolType)?.Level *.1f ?? 0);
         var rawDamage = Mathf.RoundToInt(
             toolPower
             * pawnStrength

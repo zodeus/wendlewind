@@ -58,14 +58,13 @@ public class GameHud : HorizontalStackPanel {
     private readonly Image _stomachGauge;
     private readonly HorizontalStackPanel _stomachOutline;
     private readonly Label _energyLabel;
-    private readonly SequencePointsIcon _sequencePoints;
     private MindWidget _mindWidget;
 
     public GameHud(Player player) {
         Spacing = 50;
         HorizontalStackPanel leftPanel = new() { Width = 200 };
         HorizontalStackPanel centerPanel = new() { Spacing = 10, HorizontalAlignment = HorizontalAlignment.Center };
-        HorizontalStackPanel rightPanel = new() { Width = 200 };
+        HorizontalStackPanel rightPanel = new() { Width = 300 };
         Proportions.Add(Proportion.Auto);
         Proportions.Add(Proportion.Fill);
         Proportions.Add(Proportion.Auto);
@@ -73,7 +72,6 @@ public class GameHud : HorizontalStackPanel {
         _bloodLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center };
         _temperatureLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center, Width = 90, TextAlign = TextAlign.Center };
         _energyLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center, Width = 150, TextAlign = TextAlign.Center };
-        _sequencePoints = new SequencePointsIcon(player.Pawn);
         _bodyTempIcon = new Image {
             VerticalAlignment = VerticalAlignment.Center, Width = 80, Height = 80,
             Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Human], Color.White)
@@ -125,7 +123,6 @@ public class GameHud : HorizontalStackPanel {
         centerPanel.AddChild(_stomachOutline);
         // Hunger
         centerPanel.AddChild(new VerticalSeparator());
-        centerPanel.AddChild(_sequencePoints);
 
         // Temperature
         centerPanel.AddChild(new VerticalSeparator());
@@ -161,7 +158,6 @@ public class GameHud : HorizontalStackPanel {
         _bloodLabel.TextColor = BodyPartColor.GetBloodColor(player.Body.BloodPercent);
         _zoneLabel.Text = $"blah";
         //_zoneLabel.Text = $"{Core.Context.World.CurrentZone?.Def.Label}";
-        _sequencePoints.Update();
         _energyLabel.Text = player.Body.Energy.ToString("P0");
         _energyLabel.TextColor = BodyPartColor.GetStomachColor(player.Body.Energy);
         _mindWidget.Update();

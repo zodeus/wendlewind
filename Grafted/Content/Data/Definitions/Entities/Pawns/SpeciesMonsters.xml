@@ -18,7 +18,7 @@
         <Label>Frog</Label>
         <Body>FrogBody</Body>
         <BaseStats>
-            <AttackSpeed>.1</AttackSpeed>
+            <AttackSpeed>.4</AttackSpeed>
             <MeleeStrength>1</MeleeStrength>
             <Evasion>.04</Evasion>
             <MeleeAccuracy>.8</MeleeAccuracy>
@@ -29,10 +29,10 @@
         <Label>Ghoul</Label>
         <Body>GhoulBody</Body>
         <BaseStats>
-            <AttackSpeed>6</AttackSpeed>
-            <MeleeStrength>3</MeleeStrength>
+            <AttackSpeed>0.1</AttackSpeed>
+            <MeleeStrength>2</MeleeStrength>
             <Evasion>.02</Evasion>
-            <MeleeAccuracy>.9</MeleeAccuracy>
+            <MeleeAccuracy>.6</MeleeAccuracy>
         </BaseStats>
     </PawnDef>
     

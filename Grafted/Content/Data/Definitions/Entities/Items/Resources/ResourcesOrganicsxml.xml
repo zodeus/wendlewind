@@ -2,7 +2,6 @@
 
 <Definitions>
     <ItemDef Name="OrganicResource" ParentName="ItemResource" Abstract="true">
-        <MaterialType>Organic</MaterialType>
     </ItemDef>
     <ItemDef ParentName="OrganicResource">
         <Moniker>ButtonTopMushroom</Moniker>

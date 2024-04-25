@@ -31,7 +31,7 @@
         </Sockets>
         <BaseStats>
             <MaxHitPoints>1000</MaxHitPoints>
-            <SequencePoints>2</SequencePoints>
+            <AttackSpeedModifier>.36</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="GlumpBodyPartBase">
@@ -97,7 +97,7 @@
             <ListItem>RingFingerSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <SequencePoints>1</SequencePoints>
+            <AttackSpeedModifier>.16</AttackSpeedModifier>
             <MaxHitPoints>200</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
@@ -174,7 +174,7 @@
             <ListItem>ArterySocket</ListItem>
         </Sockets>
         <BaseStats>
-            <SequencePoints>1</SequencePoints>
+            <AttackSpeedModifier>.16</AttackSpeedModifier>
             <MaxHitPoints>250</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>

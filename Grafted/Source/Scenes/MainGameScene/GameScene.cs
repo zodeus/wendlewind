@@ -10,8 +10,7 @@ public class GameScene : Scene
 {
     private CampGui _campGui = null!;
     private GameContext _context = null!;
-    private GameState _currentState = GameState.Camp;
-    private BaseGui ActiveGui { get; set; } = null!;
+    private BaseGui? ActiveGui { get; set; }
 
     protected override void OnStart()
     {
@@ -33,18 +32,14 @@ public class GameScene : Scene
 
     private void StartGame()
     {
+        ActiveGui?.Dispose();
         _campGui = new CampGui(_context.World);
         ActiveGui = _campGui;
     }
 
     private void HandleOnStateChanged(GameState state)
     {
-        _currentState = state;
-        if (ActiveGui is ZoneGui)
-        {
-            ActiveGui.Dispose();
-        }
-
+        ActiveGui?.Dispose();
         if (state == GameState.Restart)
         {
             QuickPlay();
@@ -70,12 +65,12 @@ public class GameScene : Scene
     public override void Update(float deltaTime)
     {
         HandleInput();
-        ActiveGui.Update(deltaTime);
+        ActiveGui?.Update(deltaTime);
     }
 
     public override void Draw(float deltaTime)
     {
-        ActiveGui.Draw(Core.Graphics.Batcher, deltaTime);
+        ActiveGui?.Draw(Core.Graphics.Batcher, deltaTime);
     }
 
     public override void FixedUpdate()
@@ -104,6 +99,7 @@ public class GameScene : Scene
         if (Input.IsKeyPressed(Keys.L) && Input.IsKeyDown(Keys.LeftControl))
         {
             _context.Load("save.xml");
+            StartGame();
         }
 
         if (Input.IsKeyPressed(Keys.F2) && Input.IsKeyDown(Keys.LeftControl))

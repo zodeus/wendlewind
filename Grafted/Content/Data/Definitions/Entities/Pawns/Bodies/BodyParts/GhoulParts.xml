@@ -106,6 +106,7 @@
             <ListItem>HandSocket</ListItem>
         </Sockets>
         <BaseStats>
+            <AttackSpeedModifier>.1</AttackSpeedModifier>
             <MaxHitPoints>240</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
@@ -139,7 +140,7 @@
         </Sockets>
         <BaseStats>
             <MaxHitPoints>150</MaxHitPoints>
-          
+            <AttackSpeedModifier>.1</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="GhoulBodyPartBase">
@@ -156,7 +157,7 @@
             <ListItem>BoneSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <SequencePoints>.4</SequencePoints>
+            <AttackSpeedModifier>.01</AttackSpeedModifier>
             <MaxHitPoints>24</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
@@ -174,7 +175,7 @@
             <ListItem>BoneSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <SequencePoints>.4</SequencePoints>
+            <AttackSpeedModifier>.01</AttackSpeedModifier>
             <MaxHitPoints>27</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
@@ -199,6 +200,7 @@
             <ListItem>FootSocket</ListItem>
         </Sockets>
         <BaseStats>
+            <AttackSpeedModifier>.1</AttackSpeedModifier>
             <MaxHitPoints>240</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
@@ -223,7 +225,7 @@
             <ListItem>BoneSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <SequencePoints>2</SequencePoints>
+            <AttackSpeedModifier>.1</AttackSpeedModifier>
             <MaxHitPoints>210</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>

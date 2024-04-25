@@ -4,7 +4,6 @@
     <ItemDef Name="MedicalItem" ParentName="ItemBase" Abstract="true">
         <UiClass>ConsumablePanel</UiClass>
         <ItemType>Medical</ItemType>
-        <MaterialType>Artificial</MaterialType>
         <StackLimit>9999</StackLimit>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
@@ -87,10 +86,10 @@
                     <Resource>ButtonTopMushroom</Resource>
                     <Count>4</Count>
                 </ListItem>
-                <ListItem>
+                <!--<ListItem>
                     <Resource>VenomVial</Resource>
                     <Count>6</Count>
-                </ListItem>
+                </ListItem>-->
                 <ListItem>
                     <Resource>WaterBucket</Resource>
                     <Count>5</Count>

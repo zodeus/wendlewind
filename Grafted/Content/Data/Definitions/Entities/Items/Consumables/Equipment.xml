@@ -4,7 +4,6 @@
     <ItemDef Name="TradeTool" ParentName="ItemBase" Abstract="true">
         <UiClass>ConsumablePanel</UiClass>
         <ItemType>TradeTool</ItemType>
-        <MaterialType>Artificial</MaterialType>
         <StackLimit>9999</StackLimit>
     </ItemDef>
     <ItemDef ParentName="TradeTool">

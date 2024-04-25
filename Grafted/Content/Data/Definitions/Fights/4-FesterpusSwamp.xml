@@ -20,9 +20,14 @@
                         <ChanceToDrop>.75</ChanceToDrop>
                     </ListItem>
                     <ListItem>
-                        <Item>VenomVial</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>.75</ChanceToDrop>
+                        <Item>BalmyOintment</Item>
+                        <Amount>5</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>AcidFlask</Item>
+                        <Amount>5</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -41,10 +46,10 @@
                 <Skills>
                     <Swords>1</Swords>
                 </Skills>
-                <Effects>
-                    <ListItem>EnergizedLikeABunny</ListItem>
-                    <ListItem>BeefedUp</ListItem>
-                </Effects>
+<!--                <Effects>-->
+<!--                    <ListItem>EnergizedLikeABunny</ListItem>-->
+<!--                    <ListItem>BeefedUp</ListItem>-->
+<!--                </Effects>-->
                 <EquipmentItems>
                     <ListItem>Knife</ListItem>
                     <ListItem>Knife</ListItem>

@@ -67,6 +67,7 @@
             <ListItem>TailSocket</ListItem>
         </Sockets>
         <BaseStats>
+            <AttackSpeedModifier>.2</AttackSpeedModifier>
             <MaxHitPoints>800</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
@@ -105,7 +106,7 @@
             <ListItem>BuiltIn</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <SequencePoints>1</SequencePoints>
+            <AttackSpeedModifier>.2</AttackSpeedModifier>
             <MaxHitPoints>120</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
@@ -123,7 +124,6 @@
             <ListItem>ArterySocket</ListItem>
         </Sockets>
         <BaseStats>
-            <SequencePoints>1</SequencePoints>
             <MaxHitPoints>100</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>

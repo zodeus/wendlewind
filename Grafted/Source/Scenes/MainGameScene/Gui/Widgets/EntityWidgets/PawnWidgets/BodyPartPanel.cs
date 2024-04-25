@@ -24,7 +24,7 @@ public class BodyPartPanel : EntityPanelBase {
         leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = bodyPart.Def.Description, Wrap = true, Margin = new Thickness(10) });
         leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Type: {bodyPart.Type}" });
         leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Size: {bodyPart.Size}" });
-        leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Sequence Points: {bodyPart.SequencePoints}" });
+        leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Attack Speed Mod: {bodyPart.AttackSpeedModifier}" });
         leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Position: {bodyPart.Position}" });
         leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Is External: {bodyPart.IsExternal}" });
         leftPanel.AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"Attached To: {bodyPart.Socket?.Label ?? "n/a"}" });

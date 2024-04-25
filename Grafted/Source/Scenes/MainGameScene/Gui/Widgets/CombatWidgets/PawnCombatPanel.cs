@@ -7,7 +7,7 @@ internal class PawnCombatPanel : HorizontalStackPanel {
     public readonly Pawn Pawn;
     private readonly Encounter _encounter;
     private PawnBodySummary _bodySummary;
-    private SequencePointsIcon _sequencePoints;
+    private AttackSpeedIcon _attackSpeed;
     private HorizontalProgressBar _bloodBar;
     private PawnEquipmentPanel _pawnEquipmentPanel;
     private Dictionary<string, Image> _bodyPartImages = new Dictionary<string, Image>();
@@ -115,8 +115,8 @@ internal class PawnCombatPanel : HorizontalStackPanel {
             Padding = new Thickness(12),
             Width = panelWidth - 24 - 32 - 5
         };
-        _sequencePoints = new SequencePointsIcon(Pawn);
-        panel.AddChild(new HorizontalStackPanel { Spacing = 5, Widgets = { namePlate, _sequencePoints } });
+        _attackSpeed = new AttackSpeedIcon(Pawn);
+        panel.AddChild(new HorizontalStackPanel { Spacing = 5, Widgets = { namePlate, _attackSpeed } });
 
         _bodySummary = new PawnBodySummary(_gui, Pawn.Body) { VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 10, 0, 0) };
         panel.AddChild(_bodySummary);
@@ -129,16 +129,7 @@ internal class PawnCombatPanel : HorizontalStackPanel {
 
         _bodySummary.Update();
         _pawnEquipmentPanel.Update();
-        //todo something better here, this is hacky
-        int points = Pawn.MaxSequencePoints ;
-        if (points <= 0) {
-            _sequencePoints.Label.TextColor = Color.DarkGray;
-        }
-        else {
-            _sequencePoints.Label.TextColor = Color.YellowGreen;
-        }
-
-        _sequencePoints.Label.Text = $"{points}";
+        _attackSpeed.Update();
 
         RenderBodyParts();
     }

@@ -48,7 +48,7 @@ public class CombatHandler
                 .ToList();
             if (damageOptions.Any() == false)
             {
-                Encounter.LogMessage($"  \\c[{TC.Purple2}] has no usable tools");
+                Encounter.LogMessage($"\\c[{TC.Attacker}]{attacker.LabelShort} has no usable weapons");
                 return;
             }
 
@@ -56,7 +56,7 @@ public class CombatHandler
             var damageResponse = victim.TakeDamage(damageRequest);
             if (damageResponse.Dodged)
             {
-                Encounter.LogMessage($"  \\c[{TC.Victim}]{victim.LabelShort} \\c[{TC.Blue}] dodged attack");
+                Encounter.LogMessage($"\\c[{TC.Victim}]{victim.LabelShort} \\c[{TC.Blue}] dodged attack");
                 return;
             }
 
@@ -103,6 +103,14 @@ public class CombatHandler
                     if (partRecord.BodyPart.IsExternal && partRecord.WasSevered)
                     {
                         Encounter.LogMessage($"  \\c[{TC.BodyPart}]{partRecord.PartType} \\c[{TC.Red}]SEVERED");
+                        Encounter.Zone!.Alert(
+                            new ScreenMessageData
+                            {
+                                Text = $"{victim.LabelShort}s {partRecord.PartType} has been severed",
+                                Font = BaseContent.Fonts.Default.Medium,
+                                Duration = 8,
+                                Color = Color.Red
+                            });
                     }
                 }
             }
@@ -133,7 +141,7 @@ public class CombatHandler
 
             if (potion.Def == Defs.Items.AcidFlask)
             {
-                UseAcidFlask(potion, target);
+                UseAcidFlask(potion, pawn, target);
                 pawn.Equipment.UnEquip(potion);
             }
 
@@ -164,10 +172,10 @@ public class CombatHandler
     {
         Encounter.ActivateBuff(potion, target, 2);
         Encounter.LogMessage(
-            $"    \\c[{TC.Yellow}]Sipped the \\c[{TC.Item}]{potion.Label}"
+            $"\\c[{TC.Attacker}]{target.LabelShort} \\c[{TC.Yellow}]sipped the \\c[{TC.Item}]{potion.Label}"
         );
 
-        Encounter.Zone!.ZoneMessage(new ScreenMessageData
+        Encounter.Zone!.Alert(new ScreenMessageData
         {
             Text = $"{target.Label} is absorbing the Pumpin Juice",
             Font = BaseContent.Fonts.Default.Large,
@@ -180,9 +188,9 @@ public class CombatHandler
     {
         Encounter.ActivateBuff(potion, target, Core.Random.Next(3, 6));
         Encounter.LogMessage(
-            $"    \\c[{TC.Purple}]Released \\c[{TC.Item}]{potion.Label}"
+            $"\\c[{TC.Attacker}]{target.LabelShort} \\c[{TC.Purple}]Released \\c[{TC.Item}]{potion.Label}"
         );
-        Encounter.Zone!.ZoneMessage(new ScreenMessageData
+        Encounter.Zone!.Alert(new ScreenMessageData
         {
             Text = $"{target.Label} has been transfixed",
             Font = BaseContent.Fonts.Default.Large,
@@ -191,7 +199,7 @@ public class CombatHandler
         });
     }
 
-    private void UseAcidFlask(Item potion, Pawn target)
+    private void UseAcidFlask(Item potion, Pawn attacker, Pawn target)
     {
         foreach (BodyPart eye in target.Body.AllExternalParts.Where(part => part.Type == BodyPartType.Eye).InRandomOrder())
         {
@@ -200,7 +208,7 @@ public class CombatHandler
                 eye.HitPoints = 0;
                 string eyeText = $"{eye.Socket?.Label.Split(" ")[0]} {eye.Type}";
                 Encounter.LogMessage(
-                    $"    \\c[{TC.Yellow}]Burned out \\c[{TC.Victim}]{target.LabelShort}'s \\c[{TC.BodyPart}]{eyeText} \\c[{TC.Default}]with \\c[{TC.Item}]{potion.Label}"
+                    $"\\c[{TC.Attacker}]{attacker.LabelShort} \\c[{TC.Yellow}]burned out \\c[{TC.Victim}]{target.LabelShort}'s \\c[{TC.BodyPart}]{eyeText} \\c[{TC.Default}]with \\c[{TC.Item}]{potion.Label}"
                 );
 
                 if (Core.Random.Chance(.75f))
@@ -210,7 +218,7 @@ public class CombatHandler
             }
         }
 
-        Encounter.Zone!.ZoneMessage(new ScreenMessageData
+        Encounter.Zone!.Alert(new ScreenMessageData
         {
             Text = $"{target.Label} has been spiced with acid",
             Font = BaseContent.Fonts.Default.Large,
@@ -224,16 +232,16 @@ public class CombatHandler
         float amount = potion.GetStatValue(Defs.Stats.HealingValue);
         pawn.Body.BloodAmount += amount;
         Encounter.LogMessage(
-            $"    \\c[{TC.Yellow}]Sipped a \\c[{TC.Item}]{potion.Label} \\c[{TC.Default}]for \\c[{TC.Green}]{amount} \\c[{TC.Default}]blood"
+            $"\\c[{TC.Attacker}]{pawn.LabelShort} \\c[{TC.Yellow}]Sipped a \\c[{TC.Item}]{potion.Label} \\c[{TC.Default}]for \\c[{TC.Green}]{amount} \\c[{TC.Default}]blood"
         );
         if (pawn.PawnType == PawnType.Player)
         {
-            Encounter.Zone!.ZoneMessage(new ScreenMessageData
+            Encounter.Zone!.Alert(new ScreenMessageData
             {
                 Text = "Sipped a Jar of Blood. Blood is good for battle, bad for the mind",
                 Font = BaseContent.Fonts.Default.Large,
                 Duration = 8,
-                Color = Color.Red
+                Color = Color.DarkRed
             });
         }
     }

@@ -38,13 +38,7 @@ public class CombatScreen : VerticalStackPanel
         {
             GridRow = 2, GridColumn = 0, HorizontalAlignment = HorizontalAlignment.Stretch
         };
-        _pawnBodyView = new PawnBodyPanel(gui, Encounter.PlayerPawns.First().Body, socket =>
-        {
-            if (socket.AttachedPart != null)
-            {
-                gui.ViewEntity(socket.AttachedPart);
-            }
-        })
+        _pawnBodyView = new PawnBodyPanel(gui, Encounter.PlayerPawns.First().Body)
         {
             GridRow = 2, GridColumn = 0, HorizontalAlignment = HorizontalAlignment.Right,
             Width = 1200,

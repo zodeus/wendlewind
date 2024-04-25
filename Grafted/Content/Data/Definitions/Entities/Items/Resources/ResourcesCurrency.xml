@@ -2,7 +2,6 @@
 
 <Definitions>
     <ItemDef Name="CurrencyResource" ParentName="ItemResource" Abstract="true">
-        <MaterialType>Metal</MaterialType>
     </ItemDef>
     <ItemDef ParentName="CurrencyResource">
         <Moniker>SoulCoin</Moniker>

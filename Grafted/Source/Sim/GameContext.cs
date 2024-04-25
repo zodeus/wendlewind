@@ -33,6 +33,16 @@ public class GameContext : IExposable
             return;
         }
 
+        InternalTick();
+    }
+
+    public void TickOnce()
+    {
+        InternalTick();
+    }
+
+    private void InternalTick()
+    {
         Ticks++;
         OminousMessageSpawner.Tick();
         World.Player.Pawn.Tick(Ticks);
@@ -76,15 +86,14 @@ public class GameContext : IExposable
     private void ChangeState(GameState value)
     {
         OnStateChanged?.Invoke(value);
-        Save("save.xml");
-        Log.Info("Autosaving");
+        //Save("save.xml");
+        Log.Info("Autosaving disabled");
     }
 
     #region Persistence
 
     public void Save(string filePath)
     {
-        return;
         Log.Info("Saving Game to " + filePath);
         Scribe.Saver.InitSaving(filePath, "SaveData");
         var context = this;
@@ -95,7 +104,7 @@ public class GameContext : IExposable
     public void Load(string filePath)
     {
         Scribe.Loader.InitLoading(filePath);
-        if (!Scribe.EnterNode("Simulation"))
+        if (!Scribe.EnterNode("Context"))
         {
             Log.Error("Could not find game XML node.");
             Scribe.ForceStop();

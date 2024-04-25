@@ -30,9 +30,8 @@ public class Pawn : Entity, IExposable
     public bool IsDead { get; private set; }
     public bool IsIncapacitated => false; //todo Health.IsIncapacitated;
     public Gender Gender => Biography.Gender;
-
-    public int SequencePoints;
-    public int MaxSequencePoints => Body.GetSequencePoints() + (int)this.GetStatValue(Defs.Stats.SequencePoints);
+    public float MaxAttackSpeed => this.GetStatValue(Defs.Stats.AttackSpeed);
+    public float AttackSpeed => Body.GetAttackSpeedModifier() * this.GetStatValue(Defs.Stats.AttackSpeed);
 
     public event Action<Pawn, string>? OnDeath;
 
@@ -251,6 +250,6 @@ public class Pawn : Entity, IExposable
     public void ResetAttackCoolDown()
     {
         var ticksPerSecond = 60;
-        TicksToAttack = Mathf.CeilToInt(ticksPerSecond / this.GetStatValue(Defs.Stats.AttackSpeed));
+        TicksToAttack = Mathf.CeilToInt(ticksPerSecond / AttackSpeed);
     }
 }

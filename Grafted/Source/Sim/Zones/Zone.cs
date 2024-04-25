@@ -33,6 +33,7 @@ public class Zone : IExposable, IIdentityProvider
     {
         Scribe_Defs.Look(ref BiomeDef!, "BiomeDef");
         Scribe_Values.Look(ref IsComplete, "IsComplete");
+        Scribe_Values.Look(ref ZoneKills, "ZoneKills");
     }
 
     public string GetUniqueId()
@@ -56,7 +57,7 @@ public class Zone : IExposable, IIdentityProvider
         ActiveEncounter = CombatGenerator.GenerateForZone(Player!.Pawn, this);
         if (ActiveEncounter.AtBoss)
         {
-            ZoneMessage(new ScreenMessageData
+            Alert(new ScreenMessageData
             {
                 Color = Color.LightGoldenrodYellow, Duration = 5,
                 Font = BaseContent.Fonts.Fancy.Huge,
@@ -68,7 +69,7 @@ public class Zone : IExposable, IIdentityProvider
         ActiveEncounter.State = EncounterState.InProgress;
     }
 
-    public void ZoneMessage(ScreenMessageData message)
+    public void Alert(ScreenMessageData message)
     {
         OnZoneMessage?.Invoke(message);
     }

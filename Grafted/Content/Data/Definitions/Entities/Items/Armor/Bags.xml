@@ -7,7 +7,6 @@
         <EquipmentProperties>
             <EquipmentType>Bag</EquipmentType>
         </EquipmentProperties>
-        <MaterialType>Artificial</MaterialType>
     </ItemDef>
     <ItemDef ParentName="BagBase">
         <Moniker>ClothSatchel</Moniker>

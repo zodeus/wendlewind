@@ -7,11 +7,11 @@ public class ProgramStatsPanel : VerticalStackPanel {
 
     public ProgramStatsPanel() {
         Spacing = 10;
-        _fps = new Label { Width = 200 };
+        _fps = new Label();
         AddChild(_fps);
-        _ticks = new Label { Width = 200 };
+        _ticks = new Label();
         AddChild(_ticks);
-        _frameTime = new Label { Width = 200 };
+        _frameTime = new Label();
         AddChild(_frameTime);
     }
 

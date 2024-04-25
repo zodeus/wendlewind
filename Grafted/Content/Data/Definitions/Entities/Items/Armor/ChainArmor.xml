@@ -4,7 +4,6 @@
         <Moniker>ChainHelmet</Moniker>
         <Label>Chain Helmet</Label>
         <ItemType>Equipment</ItemType>
-        <MaterialType>Artificial</MaterialType>
         <EquipmentProperties>
             <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>
         </EquipmentProperties>
@@ -18,7 +17,6 @@
         <Moniker>ChainGorget</Moniker>
         <Label>Chain Gorget</Label>
         <ItemType>Equipment</ItemType>
-        <MaterialType>Artificial</MaterialType>
         <Description>Fits snuggly around your neck</Description>
         <EquipmentProperties>
             <SlotUsedToEquip>NeckArmor</SlotUsedToEquip>
@@ -33,7 +31,6 @@
         <Moniker>ChainGlove</Moniker>
         <Label>Chain Glove</Label>
         <ItemType>Equipment</ItemType>
-        <MaterialType>Artificial</MaterialType>
         <EquipmentProperties>
             <SlotUsedToEquip>HandArmor</SlotUsedToEquip>
         </EquipmentProperties>
@@ -47,7 +44,6 @@
         <Moniker>ChainVambrace</Moniker>
         <Label>Chain Vambrace</Label>
         <ItemType>Equipment</ItemType>
-        <MaterialType>Artificial</MaterialType>
         <EquipmentProperties>
             <SlotUsedToEquip>ArmArmor</SlotUsedToEquip>
         </EquipmentProperties>
@@ -61,7 +57,6 @@
         <Moniker>ChainTunic</Moniker>
         <Label>Chain Tunic</Label>
         <ItemType>Equipment</ItemType>
-        <MaterialType>Artificial</MaterialType>
         <EquipmentProperties>
             <SlotUsedToEquip>TorsoArmor</SlotUsedToEquip>
         </EquipmentProperties>
@@ -75,7 +70,6 @@
         <Moniker>ChainGreave</Moniker>
         <Label>Chain Greave</Label>
         <ItemType>Equipment</ItemType>
-        <MaterialType>Artificial</MaterialType>
         <EquipmentProperties>
             <SlotUsedToEquip>LegArmor</SlotUsedToEquip>
         </EquipmentProperties>
@@ -89,7 +83,6 @@
         <Moniker>ChainBoot</Moniker>
         <Label>Chain Boot</Label>
         <ItemType>Equipment</ItemType>
-        <MaterialType>Artificial</MaterialType>
         <EquipmentProperties>
             <SlotUsedToEquip>FootArmor</SlotUsedToEquip>
         </EquipmentProperties>

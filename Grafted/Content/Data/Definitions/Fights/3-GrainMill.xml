@@ -75,6 +75,11 @@
                         <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
+                    <ListItem>
+                        <Item>BalmyOintment</Item>
+                        <Amount>5</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
@@ -93,10 +98,11 @@
                     <Swords>20</Swords>
                 </Skills>
                 <Effects>
-                    <ListItem>EnergizedLikeABunny</ListItem>
+                    <!--<ListItem>EnergizedLikeABunny</ListItem>-->
                 </Effects>
                 <EquipmentItems>
-                    <ListItem>ShortSword</ListItem>
+                    <ListItem>Knife</ListItem>
+                    <ListItem>Knife</ListItem>
                     <ListItem>ChainVambrace</ListItem>
                     <ListItem>ChainVambrace</ListItem>
                     <ListItem>ChainGreave</ListItem>

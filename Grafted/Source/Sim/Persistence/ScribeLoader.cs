@@ -30,9 +30,12 @@ public class ScribeLoader {
             CurPathRelToParent = null;
         }
 
-        try {
-            using (StreamReader input = new(filePath)) {
-                using (XmlTextReader reader = new(input)) {
+        try
+        {
+            using (StreamReader input = new(filePath))
+            {
+                using (XmlTextReader reader = new(input))
+                {
                     XmlDocument xmlDocument = new();
                     xmlDocument.Load(reader);
                     CurXmlParent = xmlDocument.DocumentElement;
@@ -41,7 +44,12 @@ public class ScribeLoader {
 
             Scribe.State = ScribeState.LoadingObjects;
         }
-        catch (Exception ex) {
+        catch (FileNotFoundException)
+        {
+            Log.Warning("No save file exists");
+        }
+        catch (Exception ex)
+        {
             Log.Error("Exception while init loading file: " + filePath + "\n" + ex);
             ForceStop();
             throw;

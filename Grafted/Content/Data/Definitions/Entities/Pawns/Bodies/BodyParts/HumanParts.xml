@@ -109,6 +109,7 @@
             <ListItem>HandSocket</ListItem>
         </Sockets>
         <BaseStats>
+            <AttackSpeedModifier>.1</AttackSpeedModifier>
             <MaxHitPoints>80</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
@@ -143,7 +144,7 @@
         </Sockets>
         <BaseStats>
             <MaxHitPoints>50</MaxHitPoints>
-          
+            <AttackSpeedModifier>.15</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="HumanBodyPartBase">
@@ -161,7 +162,7 @@
             <ListItem>ArterySocket</ListItem>
         </Sockets>
         <BaseStats>
-            <SequencePoints>.2</SequencePoints>
+            <AttackSpeedModifier>.01</AttackSpeedModifier>
             <MaxHitPoints>8</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
@@ -180,7 +181,7 @@
             <ListItem>ArterySocket</ListItem>
         </Sockets>
         <BaseStats>
-            <SequencePoints>.2</SequencePoints>
+            <AttackSpeedModifier>.01</AttackSpeedModifier>
             <MaxHitPoints>9</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
@@ -207,6 +208,7 @@
         </Sockets>
         <BaseStats>
             <MaxHitPoints>80</MaxHitPoints>
+            <AttackSpeedModifier>.1</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="HumanBodyPartBase">
@@ -231,7 +233,7 @@
             <ListItem>ArterySocket</ListItem>
         </Sockets>
         <BaseStats>
-            <SequencePoints>1</SequencePoints>
+            <AttackSpeedModifier>.1</AttackSpeedModifier>
             <MaxHitPoints>70</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>

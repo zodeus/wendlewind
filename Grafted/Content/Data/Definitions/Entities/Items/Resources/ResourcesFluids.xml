@@ -2,7 +2,6 @@
 
 <Definitions>
     <ItemDef Name="FluidResource" ParentName="ItemResource" Abstract="true">
-        <MaterialType>Fluid</MaterialType>
     </ItemDef>
     <ItemDef ParentName="FluidResource">
         <Moniker>WaterBucket</Moniker>

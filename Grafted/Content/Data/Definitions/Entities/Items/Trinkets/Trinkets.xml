@@ -2,7 +2,6 @@
 
 <Definitions>
     <ItemDef Name="ItemTrinket" ParentName="ItemBase" Abstract="true">
-        <MaterialType>Artificial</MaterialType>
         <StackLimit>1</StackLimit>
         <ItemType>Trinket</ItemType>
     </ItemDef>

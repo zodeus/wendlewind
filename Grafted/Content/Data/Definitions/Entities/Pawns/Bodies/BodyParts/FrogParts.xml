@@ -50,7 +50,7 @@
         </EquipmentSlots>
         <BaseStats>
             <MaxHitPoints>1600</MaxHitPoints>
-            <SequencePoints>2</SequencePoints>
+            <AttackSpeedModifier>.36</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="FrogBodyPartBase">
@@ -85,7 +85,7 @@
             <ListItem>ArterySocket</ListItem>
         </Sockets>
         <BaseStats>
-            <SequencePoints>2</SequencePoints>
+            <AttackSpeedModifier>.16</AttackSpeedModifier>
             <MaxHitPoints>500</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>

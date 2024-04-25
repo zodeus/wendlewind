@@ -25,7 +25,7 @@
             </ListItem>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Offset>1</Offset>
+                <Offset>2</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -48,7 +48,7 @@
         <Label>Energized Like A Bunny</Label>
         <AffectedStats>
             <ListItem>
-                <Stat>SequencePoints</Stat>
+                <Stat>AttackSpeed</Stat>
                 <Offset>3</Offset>
             </ListItem>
         </AffectedStats>
