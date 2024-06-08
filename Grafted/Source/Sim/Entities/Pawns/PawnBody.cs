@@ -107,12 +107,8 @@ public class PawnBody : IExposable, IIdentityProvider {
         }
     }
 
-    public void PushExternalHeat() {
-        Handler.PushExternalHeat();
-    }
-
-    public void ConsumeEnergy(float baseAmount) {
-        Handler.ConsumeEnergy(baseAmount);
+    public void ConsumeEnergy(float amount) {
+        Handler.ConsumeEnergy(amount);
     }
 
     public float GetAttackSpeedModifier() {

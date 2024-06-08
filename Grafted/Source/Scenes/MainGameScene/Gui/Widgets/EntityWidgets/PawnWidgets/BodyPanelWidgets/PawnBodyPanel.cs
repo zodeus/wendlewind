@@ -181,6 +181,7 @@ public class PawnBodyPanel : VerticalStackPanel
 
                     item.Destroy();
                     _gui.MouseAttachment.Detach();
+                   
                 }
             }
         }
@@ -248,6 +249,7 @@ public class PawnBodyPanel : VerticalStackPanel
             if (socket.AttachedPart == null && socket.IsSealed == false && item.Def == Defs.Items.Cauterize)
             {
                 socket.IsSealed = true;
+                _gui.TickGame();
             }
         }
         
@@ -280,7 +282,7 @@ public class PawnBodyPanel : VerticalStackPanel
 public class PawnStatsPanel : VerticalStackPanel
 {
     public PawnStatsPanel(Pawn pawn)
-    {
+    { 
         Spacing = 20;
         Padding = new Thickness(15);
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.Red];

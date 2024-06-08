@@ -75,7 +75,10 @@ public class GameScene : Scene
 
     public override void FixedUpdate()
     {
-        _context.Tick();
+        for (int i = 0; i < DebugSettings.CombatSpeed; i++)
+        {
+            _context.Tick();    
+        }
     }
 
     private void HandleInput()

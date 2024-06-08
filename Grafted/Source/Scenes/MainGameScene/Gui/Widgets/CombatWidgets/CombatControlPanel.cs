@@ -50,7 +50,7 @@ public class CombatControlPanel : VerticalStackPanel
         AddChild(_retreatButton);
     }
 
-    private TextButton CreateSpeedButton(string label, float speed)
+    private TextButton CreateSpeedButton(string label, int speed)
     {
         var button = new TextButton("small")
         {
@@ -59,8 +59,7 @@ public class CombatControlPanel : VerticalStackPanel
 
         button.Click += (_, _) =>
         {
-            Core.PauseCoroutines = false;
-            //Core.Context.CombatSettings.Speed = speed;
+            DebugSettings.CombatSpeed = speed;
         };
         return button;
     }

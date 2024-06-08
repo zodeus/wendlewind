@@ -12,4 +12,10 @@
         <Description>Slowly heals skin and meat, negates Burning Acid</Description>
         <HandlerClass>SoothingBalm</HandlerClass>
     </BodyPartModifierDef>
+    <BodyPartModifierDef>
+        <Moniker>PumpinEnhancement</Moniker>
+        <Label>Pumpin Enhancement</Label>
+        <Description>Increases attack speed</Description>
+        <HandlerClass>PumpinEnhancement</HandlerClass>
+    </BodyPartModifierDef>
 </Definitions>

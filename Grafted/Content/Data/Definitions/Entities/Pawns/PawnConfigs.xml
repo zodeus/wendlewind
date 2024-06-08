@@ -4,7 +4,7 @@
     <PawnConfigDef>
         <Moniker>PlayerPawn</Moniker>
         <PawnType>Player</PawnType>
-        <PawnName>Franklin</PawnName>
+        <PawnName>Zandalan</PawnName>
         <EquipmentItems>
             <ListItem>BirchRod</ListItem>
         </EquipmentItems>

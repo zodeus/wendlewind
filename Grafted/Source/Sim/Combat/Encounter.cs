@@ -6,7 +6,6 @@ public class Encounter
 {
     private EncounterState _state = EncounterState.NotStarted;
     private readonly Dictionary<Pawn, Item> _queuedPotions = new();
-    private readonly List<CombatBuff> _buffs = new();
     private CombatHandler CombatHandler = null!;
     public event Action<EncounterState>? StateChangedAction;
 
@@ -32,7 +31,6 @@ public class Encounter
 
     public bool AtBoss { get; set; }
     public bool ShouldAttemptRetreat { get; set; }
-    public IReadOnlyList<CombatBuff> Buffs => _buffs;
 
 
     public EncounterState State
@@ -186,40 +184,6 @@ public class Encounter
         return _queuedPotions.ContainsKey(pawn) ? _queuedPotions[pawn] : null;
     }
 
-    public bool HasBuff(Pawn pawn, ItemDef buff)
-    {
-        foreach (CombatBuff combatBuff in _buffs)
-        {
-            if (combatBuff.Pawn == pawn && buff == combatBuff.Def)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public void ActivateBuff(Item item, Pawn pawn, int duration)
-    {
-        _buffs.Add(new CombatBuff(item.Def, pawn, duration));
-    }
-
-    public void RemoveBuffsFor(Pawn pawn)
-    {
-        for (int i = _buffs.Count - 1; i >= 0; i--)
-        {
-            if (_buffs[i].Pawn == pawn)
-            {
-                _buffs.RemoveAt(i);
-            }
-        }
-    }
-
-    public void RemoveBuff(CombatBuff buff)
-    {
-        _buffs.Remove(buff);
-    }
-
     public void Tick(int ticks)
     {
         CombatHandler.DoFighting(ticks);
@@ -228,7 +192,7 @@ public class Encounter
             pawn.Tick(ticks);
             if (pawn.IsDead)
             {
-                RemoveBuffsFor(pawn);
+                continue;
             }
             else
             {
@@ -238,19 +202,7 @@ public class Encounter
                 // }
             }
         }
-
-        //
-        // for (int index = _combatEvent.Buffs.Count - 1; index >= 0; index--) {
-        //     CombatBuff buff = _combatEvent.Buffs[index];
-        //     buff.Duration--;
-        //     if (buff.Duration <= 0) {
-        //         _combatEvent.RemoveBuff(buff);
-        //         if (buff.Def == Defs.Items.PumpinJuice) {
-        //             _combatEvent.LogMessage($"\\c[{UiTextColor.TextColorPawn}]{buff.Pawn.LabelShort} feels heavy from pump drain");
-        //             //_combatEvent.ActivateBuff(Heavy, );
-        //         }
-        //     }
-        // }
+        
         if (_deathMessage != null)
         {
             LogMessage(_deathMessage);

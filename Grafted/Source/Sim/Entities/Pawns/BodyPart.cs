@@ -3,7 +3,8 @@ using Grafted.Graphics.Textures;
 
 namespace Grafted.Sim.Entities.Pawns;
 
-public class BodyPart : Entity {
+public class BodyPart : Entity
+{
     private float _hitPoints;
     private string? _adaptedLabel;
     private bool _isSevered; // todo, this should be set by an applied health condition
@@ -15,7 +16,7 @@ public class BodyPart : Entity {
     public Dictionary<EquipmentSlotType, Item?> Equipment = new();
     public List<BodyPartModifier> Modifiers = new();
     public int TicksSinceLastHit = int.MaxValue;
-    public BodyPartDef BodyPartDef => (BodyPartDef) Def;
+    public BodyPartDef BodyPartDef => (BodyPartDef)Def;
 
     public override string Label => _adaptedLabel;
     public Texture2D WhiteIcon => BodyPartDef.WhiteIcon;
@@ -34,13 +35,18 @@ public class BodyPart : Entity {
 
     public bool HasEquipmentSlots => BodyPartDef.EquipmentSlots?.Count > 0;
 
-    public Texture2D? Image {
-        get {
-            if (_image == null) {
+    public Texture2D? Image
+    {
+        get
+        {
+            if (_image == null)
+            {
                 string name = Label.Replace(" ", "");
-                foreach (var texturePath in BodyPartDef.BodyTexturePaths) {
+                foreach (var texturePath in BodyPartDef.BodyTexturePaths)
+                {
                     string pathName = texturePath.Split("/").Last();
-                    if (name == pathName) {
+                    if (name == pathName)
+                    {
                         _image = TextureUtils.PreMultiply(Core.Content.Load<Texture2D>(texturePath));
                         break;
                     }
@@ -48,15 +54,17 @@ public class BodyPart : Entity {
             }
 
             return _image;
-
         }
     }
 
-    public float HitPoints {
+    public float HitPoints
+    {
         get => _hitPoints;
-        set {
+        set
+        {
             _hitPoints = Mathf.Clamp(value, 0f, MaxHitPoints);
-            if (Body != null) {
+            if (Body != null)
+            {
                 Body.BodyPartsDirty = true;
             }
         }
@@ -66,9 +74,12 @@ public class BodyPart : Entity {
 
     public PawnBody? Body => Socket?.Body ?? Socket?.ParentPart?.Body;
 
-    public bool IsSevered {
-        get {
-            if (_isSevered) {
+    public bool IsSevered
+    {
+        get
+        {
+            if (_isSevered)
+            {
                 return true;
             }
 
@@ -77,13 +88,17 @@ public class BodyPart : Entity {
         private set => _isSevered = value;
     }
 
-    public bool IsArteryFunctional {
-        get {
-            if (Type == BodyPartType.Artery && HitPoints <= 0) {
+    public bool IsArteryFunctional
+    {
+        get
+        {
+            if (Type == BodyPartType.Artery && HitPoints <= 0)
+            {
                 return false;
             }
 
-            if (IsExternal && InternalParts.Any(part => part.Type == BodyPartType.Artery && part.HitPoints <= 0)) {
+            if (IsExternal && InternalParts.Any(part => part.Type == BodyPartType.Artery && part.HitPoints <= 0))
+            {
                 return false;
             }
 
@@ -91,47 +106,37 @@ public class BodyPart : Entity {
         }
     }
 
-    public bool HasBones {
+    public bool HasBones
+    {
         get { return AllInternalParts.Any(part => part.IsBone); }
     }
 
-    public bool HasBrokenBones {
+    public bool HasBrokenBones
+    {
         get { return AllInternalParts.Any(part => part.IsBone && part.HitPoints <= 0); }
     }
 
-    public bool HasMobility {
-        get {
-            if (IsDestroyed) {
+    public bool HasMobility
+    {
+        get
+        {
+            if (IsDestroyed)
+            {
                 return false;
             }
 
-            if (HasBrokenBones) {
+            if (HasBrokenBones)
+            {
                 return false;
             }
 
-            if (IsArteryFunctional == false) {
+            if (IsArteryFunctional == false)
+            {
                 return false;
             }
 
-            if (Socket?.ParentPart is { HasMobility: false }) {
-                return false;
-            }
-
-            return true;
-        }
-    }
-
-    public bool IsFunctional {
-        get {
-            if (IsDestroyed) {
-                return false;
-            }
-
-            if (IsArteryFunctional == false) {
-                return false;
-            }
-
-            if (Socket?.ParentPart is { IsFunctional: false }) {
+            if (Socket?.ParentPart is { HasMobility: false })
+            {
                 return false;
             }
 
@@ -139,14 +144,46 @@ public class BodyPart : Entity {
         }
     }
 
-    public float AttackSpeedModifier {
-        get {
-            if (HasMobility == false) {
+    public bool IsFunctional
+    {
+        get
+        {
+            if (IsDestroyed)
+            {
+                return false;
+            }
+
+            if (IsArteryFunctional == false)
+            {
+                return false;
+            }
+
+            if (Socket?.ParentPart is { IsFunctional: false })
+            {
+                return false;
+            }
+
+            return true;
+        }
+    }
+
+    public float AttackSpeedModifier
+    {
+        get
+        {
+            if (HasMobility == false)
+            {
                 return 0;
             }
 
             float points = this.GetStatValue(Defs.Stats.AttackSpeedModifier);
-            foreach (BodyPart bodyPart in ExternalParts) {
+            if (Modifiers.Any(m => m.Def == Defs.BodyPartModifiers.PumpinEnhancement))
+            {
+                points *= 2;
+            }
+
+            foreach (BodyPart bodyPart in ExternalParts)
+            {
                 points += bodyPart.AttackSpeedModifier;
             }
 
@@ -154,11 +191,15 @@ public class BodyPart : Entity {
         }
     }
 
-    public List<BodyPart> ExternalParts {
-        get {
+    public List<BodyPart> ExternalParts
+    {
+        get
+        {
             List<BodyPart> parts = new();
-            foreach (BodyPartSocket socket in Sockets) {
-                if (socket.AttachedPart?.IsExternal == true) {
+            foreach (BodyPartSocket socket in Sockets)
+            {
+                if (socket.AttachedPart?.IsExternal == true)
+                {
                     parts.Add(socket.AttachedPart);
                 }
             }
@@ -167,11 +208,15 @@ public class BodyPart : Entity {
         }
     }
 
-    public List<BodyPart> InternalParts {
-        get {
+    public List<BodyPart> InternalParts
+    {
+        get
+        {
             List<BodyPart> parts = new();
-            foreach (BodyPartSocket socket in Sockets) {
-                if (socket.AttachedPart?.IsExternal == false) {
+            foreach (BodyPartSocket socket in Sockets)
+            {
+                if (socket.AttachedPart?.IsExternal == false)
+                {
                     parts.Add(socket.AttachedPart);
                 }
             }
@@ -180,18 +225,24 @@ public class BodyPart : Entity {
         }
     }
 
-    public List<BodyPart> AllInternalParts {
-        get {
+    public List<BodyPart> AllInternalParts
+    {
+        get
+        {
             List<BodyPart> parts = new();
             GetParts(this, parts, false);
             return parts;
         }
     }
 
-    public Item? Armor {
-        get {
-            foreach (Item? item in Equipment.Values) {
-                if (item?.ItemDef.EquipmentProperties.EquipmentType == EquipmentType.Armor) {
+    public Item? Armor
+    {
+        get
+        {
+            foreach (Item? item in Equipment.Values)
+            {
+                if (item?.ItemDef.EquipmentProperties.EquipmentType == EquipmentType.Armor)
+                {
                     return item;
                 }
             }
@@ -204,29 +255,37 @@ public class BodyPart : Entity {
 
     #endregion
 
-    public override void Initialize() {
+    public override void Initialize()
+    {
         base.Initialize();
-        MaxHitPoints = (int) this.GetStatValue(Defs.Stats.MaxHitPoints);
+        MaxHitPoints = (int)this.GetStatValue(Defs.Stats.MaxHitPoints);
         HitPoints = MaxHitPoints;
 
         //Register Sockets
-        foreach (BodyPartSocketDef bodyPartSocketDef in BodyPartDef.Sockets) {
+        foreach (BodyPartSocketDef bodyPartSocketDef in BodyPartDef.Sockets)
+        {
             Sockets.Add(new BodyPartSocket(bodyPartSocketDef, this));
         }
 
-        if (BodyPartDef.EquipmentSlots != null) {
-            foreach (EquipmentSlotType slot in BodyPartDef.EquipmentSlots) {
+        if (BodyPartDef.EquipmentSlots != null)
+        {
+            foreach (EquipmentSlotType slot in BodyPartDef.EquipmentSlots)
+            {
                 Equipment.Add(slot, null);
             }
         }
     }
 
-    public override void Tick(int ticks) {
-        for (int index = Modifiers.Count - 1; index >= 0; index--) {
+    public override void Tick(int ticks)
+    {
+        for (int index = Modifiers.Count - 1; index >= 0; index--)
+        {
             BodyPartModifier modifier = Modifiers[index];
             modifier.Tick();
             TicksSinceLastHit++;
-            if (modifier.IsExpired) {
+            if (modifier.IsExpired)
+            {
+                modifier.Expired();
                 Modifiers.Remove(modifier);
             }
         }
@@ -234,19 +293,25 @@ public class BodyPart : Entity {
         base.Tick(ticks);
     }
 
-    private void GetParts(BodyPart part, List<BodyPart> parts, bool? partIsExternal = null) {
-        foreach (BodyPartSocket socket in part.Sockets) {
-            if (partIsExternal != null && socket.AttachedPart?.IsExternal == partIsExternal) {
+    private void GetParts(BodyPart part, List<BodyPart> parts, bool? partIsExternal = null)
+    {
+        foreach (BodyPartSocket socket in part.Sockets)
+        {
+            if (partIsExternal != null && socket.AttachedPart?.IsExternal == partIsExternal)
+            {
                 parts.Add(socket.AttachedPart);
                 GetParts(socket.AttachedPart, parts, partIsExternal);
             }
         }
     }
 
-    public List<BodyPartSocket> GetSocketsFor(BodyPartType bodyPartType) {
+    public List<BodyPartSocket> GetSocketsFor(BodyPartType bodyPartType)
+    {
         List<BodyPartSocket> sockets = new();
-        foreach (BodyPartSocket bodyPartSocket in Sockets) {
-            if (bodyPartSocket.CanSocket(bodyPartType)) {
+        foreach (BodyPartSocket bodyPartSocket in Sockets)
+        {
+            if (bodyPartSocket.CanSocket(bodyPartType))
+            {
                 sockets.Add(bodyPartSocket);
             }
         }
@@ -254,17 +319,22 @@ public class BodyPart : Entity {
         return sockets;
     }
 
-    public override string ToString() {
+    public override string ToString()
+    {
         return $"{Label} ({HitPoints:0.000})";
     }
 
-    public List<DamagedPartRecord> ApplyDamage(Damage damage, List<DamagedPartRecord>? damagedParts = null) {
-        if (damagedParts == null) {
+    public List<DamagedPartRecord> ApplyDamage(Damage damage, List<DamagedPartRecord>? damagedParts = null)
+    {
+        if (damagedParts == null)
+        {
             damagedParts = new List<DamagedPartRecord>();
         }
 
-        if (Socket?.ParentPart?.HitPoints > 0 && Socket?.ParentPart?.Type is BodyPartType.Skull or BodyPartType.RibCage) {
-            float chanceToMiss = Socket?.ParentPart?.HealthPercent switch {
+        if (Socket?.ParentPart?.HitPoints > 0 && Socket?.ParentPart?.Type is BodyPartType.Skull or BodyPartType.RibCage)
+        {
+            float chanceToMiss = Socket?.ParentPart?.HealthPercent switch
+            {
                 < .10f => 0.00f,
                 < .20f => 0.50f,
                 < .40f => 0.95f,
@@ -272,17 +342,21 @@ public class BodyPart : Entity {
                 _ => 1
             };
 
-            if (Core.Random.Chance(chanceToMiss)) {
+            if (Core.Random.Chance(chanceToMiss))
+            {
                 return damagedParts;
             }
         }
 
-        if (Type is BodyPartType.Stomach && Socket?.ParentPart?.HealthPercent > 0.5) {
+        if (Type is BodyPartType.Stomach && Socket?.ParentPart?.HealthPercent > 0.5)
+        {
             return damagedParts;
         }
 
-        if (Type == BodyPartType.Artery) {
-            float chanceToMiss = Socket?.ParentPart?.HealthPercent switch {
+        if (Type == BodyPartType.Artery)
+        {
+            float chanceToMiss = Socket?.ParentPart?.HealthPercent switch
+            {
                 < .02f => 0.00f,
                 < .05f => 0.85f,
                 < .10f => 0.90f,
@@ -291,24 +365,28 @@ public class BodyPart : Entity {
                 _ => 1
             };
 
-            if (Core.Random.Chance(chanceToMiss)) {
+            if (Core.Random.Chance(chanceToMiss))
+            {
                 return damagedParts;
             }
         }
 
-        DamagedPartRecord damagedPartRecord = new(this) {
+        DamagedPartRecord damagedPartRecord = new(this)
+        {
             Amount = damage.UnblockedAmount
         };
-        if (damage.Type == DamageType.Blunt && IsBone) {
+        if (damage.Type == DamageType.Blunt && IsBone)
+        {
             damagedPartRecord.Amount = Mathf.RoundToInt(damagedPartRecord.Amount * 1.5f);
         }
 
         HitPoints -= damagedPartRecord.Amount;
-        foreach (var record in damage.BodyPartModifiers) {
+        foreach (var record in damage.BodyPartModifiers)
+        {
             if (Type == BodyPartType.Skin && record.Def == Defs.BodyPartModifiers.BurningAcid)
             {
                 if (!Core.Random.Chance(record.Chance.RandomValue)) continue;
-                
+
                 TryAddModifier(BodyPartModifierGenerator.Generate(record.Def, record.DurationInTicks.RandomValue));
                 damagedPartRecord.AppliedModifiers.Add(record.Def);
             }
@@ -319,16 +397,20 @@ public class BodyPart : Entity {
 
         int organsHit = 0;
         int maxNumberOfOrgansToHit = Core.Random.Next(1, 2);
-        foreach (BodyPart internalPart in InternalParts.InRandomOrder()) {
-            if (damage.Type == DamageType.Flesh && internalPart is not { Type: BodyPartType.Bone or BodyPartType.Skin }) {
+        foreach (BodyPart internalPart in InternalParts.InRandomOrder())
+        {
+            if (damage.Type == DamageType.Flesh && internalPart is not { Type: BodyPartType.Bone or BodyPartType.Skin })
+            {
                 continue;
             }
 
-            if (internalPart.IsOrgan && organsHit > maxNumberOfOrgansToHit) {
+            if (internalPart.IsOrgan && organsHit > maxNumberOfOrgansToHit)
+            {
                 continue;
             }
 
-            if (internalPart.IsOrgan) {
+            if (internalPart.IsOrgan)
+            {
                 organsHit++;
             }
 
@@ -336,15 +418,19 @@ public class BodyPart : Entity {
         }
 
         // Potentially sever limb 
-        if (IsExternal && _isSevered == false && AllInternalParts.Count > 0) {
+        if (IsExternal && _isSevered == false && AllInternalParts.Count > 0)
+        {
             bool allInternalPartsDestroyed = true;
-            foreach (BodyPart internalPart in AllInternalParts) {
-                if (internalPart.HitPoints > 0) {
+            foreach (BodyPart internalPart in AllInternalParts)
+            {
+                if (internalPart.HitPoints > 0)
+                {
                     allInternalPartsDestroyed = false;
                 }
             }
 
-            if (allInternalPartsDestroyed && Socket != null && Core.Random.Chance(.25f)) {
+            if (allInternalPartsDestroyed && Socket != null && Core.Random.Chance(.25f))
+            {
                 Severe();
                 //damagedPartRecord.WasSevered = true;
             }
@@ -353,8 +439,10 @@ public class BodyPart : Entity {
         return damagedParts;
     }
 
-    public void Severe() {
-        if (Socket != null) {
+    public void Severe()
+    {
+        if (Socket != null)
+        {
             Socket.Body = null; //todo not that it matters, but this should probably also set Pawn.Body.RootSocket = null as well
             Socket.AttachedPart = null;
             Socket.IsSealed = false;
@@ -364,10 +452,12 @@ public class BodyPart : Entity {
         IsSevered = true;
     }
 
-    public void TryAddModifier(BodyPartModifier modifer) {
+    public void TryAddModifier(BodyPartModifier modifer)
+    {
         //Log.Debug($"Attempting to apply BodyPartModifier: {modifer.Label} to {this}");
         BodyPartModifier? existingModifier = Modifiers.FirstOrNull(m => m?.Def == modifer.Def);
-        if (existingModifier != null) {
+        if (existingModifier != null)
+        {
             existingModifier.MergeWith(modifer);
             return;
         }
@@ -376,24 +466,30 @@ public class BodyPart : Entity {
         Modifiers.Add(modifer);
     }
 
-    public bool HasModifer(BodyPartModifierDef def) {
+    public bool HasModifer(BodyPartModifierDef def)
+    {
         return Modifiers.Any(m => m.Def == def);
     }
 
     #region Equipment
 
-    public EquipmentSlotType? SlotFor(Item item) {
+    public EquipmentSlotType? SlotFor(Item item)
+    {
         var slot = item.ItemDef.EquipmentProperties.SlotUsedToEquip;
         if (slot == null || EquipmentSlots == null) return null;
         return EquipmentSlots.Contains(slot.Value) ? slot.Value : null;
     }
 
-    public EquipmentSlotType? EmptySlotFor(Item item) {
+    public EquipmentSlotType? EmptySlotFor(Item item)
+    {
         if (!HasEquipmentSlots) return null;
 
-        if (item.ItemDef.ItemType == ItemType.Potion) {
-            foreach (EquipmentSlotType potionSlot in EquipmentSlots!.Where(s => s is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2)) {
-                if (Equipment[potionSlot] == null) {
+        if (item.ItemDef.ItemType == ItemType.Potion)
+        {
+            foreach (EquipmentSlotType potionSlot in EquipmentSlots!.Where(s => s is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2))
+            {
+                if (Equipment[potionSlot] == null)
+                {
                     return potionSlot;
                 }
             }
@@ -403,8 +499,10 @@ public class BodyPart : Entity {
 
         var slot = item.ItemDef.EquipmentProperties.SlotUsedToEquip;
         if (slot == null) return null;
-        foreach (EquipmentSlotType potentialSlot in EquipmentSlots!) {
-            if (potentialSlot == slot && Equipment[potentialSlot] == null) {
+        foreach (EquipmentSlotType potentialSlot in EquipmentSlots!)
+        {
+            if (potentialSlot == slot && Equipment[potentialSlot] == null)
+            {
                 return potentialSlot;
             }
         }
@@ -414,9 +512,12 @@ public class BodyPart : Entity {
 
     #endregion
 
-    public Item? UnEquip(Item itemToUnEquip) {
-        foreach ((EquipmentSlotType slot, Item? item) in Equipment) {
-            if (item == itemToUnEquip) {
+    public Item? UnEquip(Item itemToUnEquip)
+    {
+        foreach ((EquipmentSlotType slot, Item? item) in Equipment)
+        {
+            if (item == itemToUnEquip)
+            {
                 Equipment[slot] = null;
                 return item;
             }
@@ -425,18 +526,22 @@ public class BodyPart : Entity {
         return null;
     }
 
-    public void AdaptBodyPartTo(BodyPart? parentPart) {
+    public void AdaptBodyPartTo(BodyPart? parentPart)
+    {
         _adaptedLabel = GenerateLabel();
-        if (Body != null) {
+        if (Body != null)
+        {
             MaxHitPoints = Mathf.FloorToInt(MaxHitPoints * Body.BodySizeFactor);
             HitPoints = MaxHitPoints;
         }
 
-        if (BodyPartDef.AdaptiveProperties == null) {
+        if (BodyPartDef.AdaptiveProperties == null)
+        {
             return;
         }
 
-        if (parentPart == null) {
+        if (parentPart == null)
+        {
             Log.Error($"Attempting to adapt part '{this}' but part doesn't have parent");
             return;
         }
@@ -445,9 +550,11 @@ public class BodyPart : Entity {
         HitPoints = MaxHitPoints;
     }
 
-    private string GenerateLabel() {
+    private string GenerateLabel()
+    {
         string label = "";
-        if (Socket?.Def.Position != null) {
+        if (Socket?.Def.Position != null)
+        {
             label += Socket?.ParentPart?.Position == null ? "" : string.Join(" ", Regex.Split(Socket?.ParentPart?.Position.ToString()!, @"(?<!^)(?=[A-Z])")) + " ";
         }
 
@@ -456,7 +563,8 @@ public class BodyPart : Entity {
         return label;
     }
 
-    public override void ExposeData() {
+    public override void ExposeData()
+    {
         Scribe_Values.Look(ref _hitPoints, "HitPoints");
         Scribe_Values.Look(ref _adaptedLabel!, "AdaptedLabel");
         Scribe_Values.Look(ref _isSevered, "IsSevered");

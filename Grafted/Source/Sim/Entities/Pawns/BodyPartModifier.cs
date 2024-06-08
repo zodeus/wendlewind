@@ -75,6 +75,10 @@ public abstract class BodyPartModifier : IExposable, IIdentityProvider
     {
         return $"{Def.Moniker} Id: {Id}";
     }
+
+    public virtual void Expired()
+    {
+    }
 }
 
 public class BodyPartModifierDef : Def
@@ -135,7 +139,7 @@ public class BurningAcid : BodyPartModifier
     {
         if (BodyPart.IsFunctional == false && BodyPart.Body?.AllParts.Any(p => p.Type == BodyPart.Type && p.IsFunctional) == false)
         {
-           BodyPart.Body.Pawn.HandleDeath($"Vital body part {BodyPart.Label} was destroyed by {Def.Label}");
+            BodyPart.Body.Pawn.HandleDeath($"Vital body part {BodyPart.Label} was destroyed by {Def.Label}");
         }
     }
 
@@ -154,5 +158,32 @@ public class SoothingBalm : BodyPartModifier
         BodyPart.HitPoints += BodyPart.HitPoints * .01f;
 
         base.Tick();
+    }
+}
+
+[UsedImplicitly]
+public class PumpinEnhancement : BodyPartModifier
+{
+    public override void Tick()
+    {
+        BodyPart.HitPoints += BodyPart.HitPoints * .01f;
+
+        base.Tick();
+    }
+
+    public override void Expired()
+    {
+        //
+        // for (int index = _combatEvent.Buffs.Count - 1; index >= 0; index--) {
+        //     CombatBuff buff = _combatEvent.Buffs[index];
+        //     buff.Duration--;
+        //     if (buff.Duration <= 0) {
+        //         _combatEvent.RemoveBuff(buff);
+        //         if (buff.Def == Defs.Items.PumpinJuice) {
+        //             _combatEvent.LogMessage($"\\c[{UiTextColor.TextColorPawn}]{buff.Pawn.LabelShort} feels heavy from pump drain");
+        //             //_combatEvent.ActivateBuff(Heavy, );
+        //         }
+        //     }
+        // }
     }
 }

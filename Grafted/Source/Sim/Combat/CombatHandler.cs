@@ -170,7 +170,9 @@ public class CombatHandler
 
     private void UsePumpinJuice(Item potion, Pawn target)
     {
-        Encounter.ActivateBuff(potion, target, 2);
+        target.Body.AllParts.ForEach(p => p.TryAddModifier(
+            BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.PumpinEnhancement, 600)
+        ));
         Encounter.LogMessage(
             $"\\c[{TC.Attacker}]{target.LabelShort} \\c[{TC.Yellow}]sipped the \\c[{TC.Item}]{potion.Label}"
         );
@@ -186,7 +188,7 @@ public class CombatHandler
 
     private void UseTheDreamingPowder(Item potion, Pawn target)
     {
-        Encounter.ActivateBuff(potion, target, Core.Random.Next(3, 6));
+        //Encounter.ActivateBuff(potion, target, Core.Random.Next(3, 6));
         Encounter.LogMessage(
             $"\\c[{TC.Attacker}]{target.LabelShort} \\c[{TC.Purple}]Released \\c[{TC.Item}]{potion.Label}"
         );

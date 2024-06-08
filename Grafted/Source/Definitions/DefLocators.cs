@@ -36,6 +36,7 @@ public static partial class Defs {
     public static class BodyPartModifiers {
         public static BodyPartModifierDef BurningAcid = null!;
         public static BodyPartModifierDef SoothingBalm = null!;
+        public static BodyPartModifierDef PumpinEnhancement = null!;
     }
 }
 

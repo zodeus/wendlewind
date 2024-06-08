@@ -19,6 +19,7 @@ public class PotionPanel : EntityPanelBase {
                 if (item.StackSize < 1) {
                     item.Destroy();
                 }
+                Core.Context.TickOnce();
             };
             AddChild(button);
         }

@@ -5,7 +5,7 @@ public static class BodyPartColor {
     private static readonly Color DisabledColor = new(50, 50, 50);
     private static readonly Color LowColor = new(170, 0, 0);
     private static readonly Color HighColor = new(65, 120, 64);
-    private static readonly Color SealSocketColor = new(77, 120, 50);
+    private static readonly Color SealSocketColor = new(154, 120, 50);
     private static readonly Color ColdBodyColor = new(0, 0, 200);
     private static readonly Color NormalBodyColor = new(0, 200, 0);
     private static readonly Color HotBodyColor = new(200, 0, 0);

@@ -153,7 +153,7 @@ public class GameHud : HorizontalStackPanel {
             _ => TC.Default
         };
 
-        string bloodLoss = $"\\c[{TC.Default}] (\\c[{bloodLossColor}]{plusSign}{player.Body.BloodChangeLastFrame:P}/min\\c[{TC.Default}])";
+        string bloodLoss = $"\\c[{TC.Default}] (\\c[{bloodLossColor}]{plusSign}{player.Body.BloodChangeLastFrame:P}\\c[{TC.Default}])";
         _bloodLabel.Text = $"{Mathf.RoundToInt(player.Body.BloodPercent * 100)}%{bloodLoss}";
         _bloodLabel.TextColor = BodyPartColor.GetBloodColor(player.Body.BloodPercent);
         _zoneLabel.Text = $"blah";
