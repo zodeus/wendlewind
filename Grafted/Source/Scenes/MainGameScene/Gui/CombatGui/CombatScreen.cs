@@ -163,7 +163,7 @@ public class CombatScreen : VerticalStackPanel
 
     private void AddCombatLogEntry(string text, Color? color = null)
     {
-        if (((VerticalStackPanel)_combatLog.Content).ChildrenCount > 200)
+        if (((VerticalStackPanel)_combatLog.Content).Widgets.Count > 200)
         {
             ClearCombatLog();
         }
@@ -175,7 +175,7 @@ public class CombatScreen : VerticalStackPanel
         }
 
         ((VerticalStackPanel)_combatLog.Content).AddChild(label);
-        _combatLog.UpdateLayout();
+        //_combatLog.UpdateLayout();
         _combatLog.ScrollPosition = _combatLog.ScrollMaximum;
     }
 

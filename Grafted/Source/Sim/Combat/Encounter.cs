@@ -45,7 +45,7 @@ public class Encounter
 
     private void LogDeathMessage(Pawn pawn, string causeOfDeath)
     {
-        _deathMessage = $"\\c[{TC.Victim}]{pawn.LabelShort} \\c[{TC.Red}]died from {causeOfDeath}";
+        _deathMessage = $"/c[{TC.Victim}]{pawn.LabelShort} /c[{TC.Red}]died from {causeOfDeath}";
     }
 
     public void AddPlayerPawn(Pawn pawn)
@@ -198,7 +198,7 @@ public class Encounter
             {
                 // float bloodLost = PawnTurnData[pawn].StartingBloodLevel - pawn.Body.BloodAmount;
                 // if (bloodLost > 0) {
-                //     _combatEvent.LogMessage($"\\c[{UiTextColor.TextColorPawn}]{pawn.LabelShort} is losing blood \\c[{UiTextColor.TextColorRed}]-{bloodLost:0.00}");
+                //     _combatEvent.LogMessage($"/c[{UiTextColor.TextColorPawn}]{pawn.LabelShort} is losing blood /c[{UiTextColor.TextColorRed}]-{bloodLost:0.00}");
                 // }
             }
         }

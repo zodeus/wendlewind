@@ -180,7 +180,7 @@ public class PumpinEnhancement : BodyPartModifier
         //     if (buff.Duration <= 0) {
         //         _combatEvent.RemoveBuff(buff);
         //         if (buff.Def == Defs.Items.PumpinJuice) {
-        //             _combatEvent.LogMessage($"\\c[{UiTextColor.TextColorPawn}]{buff.Pawn.LabelShort} feels heavy from pump drain");
+        //             _combatEvent.LogMessage($"/c[{UiTextColor.TextColorPawn}]{buff.Pawn.LabelShort} feels heavy from pump drain");
         //             //_combatEvent.ActivateBuff(Heavy, );
         //         }
         //     }

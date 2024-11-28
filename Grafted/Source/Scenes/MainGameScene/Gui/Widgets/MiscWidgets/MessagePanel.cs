@@ -22,7 +22,7 @@ public class MessagePanel : Panel {
                 messageList.Widgets.First()!.RemoveFromParent();
             }
 
-            scrollView.UpdateLayout();
+            //scrollView.UpdateLayout();
             scrollView.ScrollPosition = scrollView.ScrollMaximum;
         };
     }

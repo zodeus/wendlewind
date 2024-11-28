@@ -5,7 +5,6 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
 public class EntitySelector : Window {
     public EntitySelector(IEnumerable<Entity> entities, Action<Entity> selectionAction) {
-        TitleGrid.Visible = false;
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame];
         Padding = new Thickness(5);
         /*const int hitBoxSize = 50;

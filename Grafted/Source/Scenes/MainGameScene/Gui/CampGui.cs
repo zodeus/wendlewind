@@ -1,5 +1,6 @@
 using Grafted.Scenes.MainGameScene.Gui.CombatGui;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+using Myra;
 
 namespace Grafted.Scenes.MainGameScene.Gui;
 
@@ -25,6 +26,7 @@ public class CampGui : BaseGui
 
         Desktop = new Desktop
         {
+            Scale = new Vector2(1f, 1f),
             Root = new VerticalStackPanel
             {
                 Widgets =

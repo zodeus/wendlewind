@@ -12,7 +12,8 @@ using Myra;
 
 namespace Grafted;
 
-public class Core : Game {
+public class Core : Game
+{
     public new static GraphicsDevice GraphicsDevice { get; private set; } = null!;
     public new static ContentManager Content { get; private set; } = null!;
 
@@ -27,7 +28,7 @@ public class Core : Game {
     public static Random Random { get; private set; } = null!;
     public static bool PauseInBackground { get; set; } = false;
     public static bool PauseCoroutines { get; set; } = false;
-    
+
     //todo move this somewhere better
     public static FrameCounter FrameCounter = new();
 
@@ -46,22 +47,27 @@ public class Core : Game {
     public static SamplerState DefaultSamplerState = new() { Filter = TextureFilter.Point };
 
     private readonly LogicTimer _fixedUpdateTimer;
-    public Core(bool isFullScreen = false) {
+
+    public Core(bool isFullScreen = false)
+    {
         InactiveSleepTime = TimeSpan.Zero;
         Instance = this;
         Emitter = new Emitter<CoreEvent>(new CoreEventComparer());
-        GraphicsDeviceManager graphics = new(this) {
+        GraphicsDeviceManager graphics = new(this)
+        {
             IsFullScreen = isFullScreen,
             SynchronizeWithVerticalRetrace = false,
             PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8
         };
         graphics.DeviceReset += OnGraphicsDeviceReset;
-        if (isFullScreen) {
+        if (isFullScreen)
+        {
             Screen.Initialize(graphics);
             graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
         }
-        else {
+        else
+        {
             Screen.Initialize(graphics);
             Screen.SetSize(3800, 2000);
         }
@@ -75,14 +81,16 @@ public class Core : Game {
         _fixedUpdateTimer = new LogicTimer(FixedUpdate);
     }
 
-    protected override void Initialize() {
+    protected override void Initialize()
+    {
         base.Initialize();
         GraphicsDevice = base.GraphicsDevice;
 
         Random = new Random();
 
         const string contentDirectory = "Content";
-        if (!Directory.Exists(contentDirectory)) {
+        if (!Directory.Exists(contentDirectory))
+        {
             throw new Exception($"Content folder does not exists {contentDirectory}");
         }
 
@@ -99,8 +107,8 @@ public class Core : Game {
         #region GUI
 
         MyraEnvironment.Game = this;
-        AssetManager assetManager = new(new FileAssetResolver(contentDirectory + "\\UI"));
-        Stylesheet.Current = assetManager.Load<Stylesheet>("milgreth_ui_skin.xmms");
+        MyraEnvironment.DefaultAssetManager = AssetManager.CreateFileAssetManager(Path.Combine(contentDirectory, "UI"));
+        Stylesheet.Current = MyraEnvironment.DefaultAssetManager.LoadStylesheet("milgreth_ui_skin.xmms");
 
         #endregion
 
@@ -118,47 +126,57 @@ public class Core : Game {
 
     public static void ChangeScene<T>() where T : Scene => Scene.Load<T>();
 
-    public new static void Exit() => ((Game) Instance).Exit();
+    public new static void Exit() => ((Game)Instance).Exit();
 
-    protected override void Update(GameTime gameTime) {
-        if (PauseInBackground && !IsActive) {
+    protected override void Update(GameTime gameTime)
+    {
+        if (PauseInBackground && !IsActive)
+        {
             SuppressDraw();
             return;
         }
 
         int frameTime = gameTime.ElapsedGameTime.Milliseconds;
-        if (frameTime > 60) {
+        if (frameTime > 60)
+        {
             Log.Error($"Slow Frame T={frameTime}");
         }
 
-        float deltaTime = (float) gameTime.ElapsedGameTime.TotalSeconds;
+        float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
         FrameCounter.Update(deltaTime);
         Input.Update();
         Scene.Update(deltaTime);
         _fixedUpdateTimer.Update();
         _timerManager.Update(deltaTime);
-        if (PauseCoroutines == false) {
+        if (PauseCoroutines == false)
+        {
             _coroutineManager.Update(deltaTime);
         }
     }
 
-    private void FixedUpdate() {
+    private void FixedUpdate()
+    {
         Scene.FixedUpdate();
     }
 
-    protected override void Draw(GameTime gameTime) {
+    protected override void Draw(GameTime gameTime)
+    {
         if (PauseInBackground && !IsActive) return;
         GraphicsDevice.Clear(Color.Black);
-        Scene.Draw((float) gameTime.ElapsedGameTime.TotalSeconds);
+        Scene.Draw((float)gameTime.ElapsedGameTime.TotalSeconds);
     }
 
-    private void OnGraphicsDeviceReset(object? sender, EventArgs e) {
+    private void OnGraphicsDeviceReset(object? sender, EventArgs e)
+    {
         // coalesce reset events
-        if (_graphicsDeviceChangeTimer != null) {
+        if (_graphicsDeviceChangeTimer != null)
+        {
             _graphicsDeviceChangeTimer.Reset();
         }
-        else {
-            _graphicsDeviceChangeTimer = Schedule(0.05f, false, this, t => {
+        else
+        {
+            _graphicsDeviceChangeTimer = Schedule(0.05f, false, this, t =>
+            {
                 (t.Context as Core)!._graphicsDeviceChangeTimer = null;
                 Emitter.Emit(CoreEvent.GraphicsDeviceReset);
             });
@@ -167,11 +185,13 @@ public class Core : Game {
 
     #region Systems access
 
-    public static ICoroutine StartCoroutine(IEnumerator enumerator) {
+    public static ICoroutine StartCoroutine(IEnumerator enumerator)
+    {
         return Instance._coroutineManager.StartCoroutine(enumerator);
     }
 
-    public static void ClearCoroutines() {
+    public static void ClearCoroutines()
+    {
         Instance._coroutineManager.Clear();
     }
 
@@ -182,7 +202,8 @@ public class Core : Game {
     /// <param name="repeats">If set to <c>true</c> repeats.</param>
     /// <param name="context">Context.</param>
     /// <param name="onTime">On time.</param>
-    public static ITimer Schedule(float timeInSeconds, bool repeats, object context, Action<ITimer>? onTime) {
+    public static ITimer Schedule(float timeInSeconds, bool repeats, object context, Action<ITimer>? onTime)
+    {
         return Instance._timerManager.Schedule(timeInSeconds, repeats, context, onTime);
     }
 
@@ -192,7 +213,8 @@ public class Core : Game {
     /// <param name="timeInSeconds">Time in seconds.</param>
     /// <param name="context">Context.</param>
     /// <param name="onTime">On time.</param>
-    public static ITimer Schedule(float timeInSeconds, object context, Action<ITimer>? onTime) {
+    public static ITimer Schedule(float timeInSeconds, object context, Action<ITimer>? onTime)
+    {
         return Instance._timerManager.Schedule(timeInSeconds, false, context, onTime);
     }
 
@@ -202,7 +224,8 @@ public class Core : Game {
     /// <param name="timeInSeconds">Time in seconds.</param>
     /// <param name="repeats">If set to <c>true</c> repeats.</param>
     /// <param name="onTime">On time.</param>
-    public static ITimer Schedule(float timeInSeconds, bool repeats, Action<ITimer>? onTime) {
+    public static ITimer Schedule(float timeInSeconds, bool repeats, Action<ITimer>? onTime)
+    {
         return Instance._timerManager.Schedule(timeInSeconds, repeats, null!, onTime);
     }
 
@@ -211,7 +234,8 @@ public class Core : Game {
     /// </summary>
     /// <param name="timeInSeconds">Time in seconds.</param>
     /// <param name="onTime">On time.</param>
-    public static ITimer Schedule(float timeInSeconds, Action<ITimer>? onTime) {
+    public static ITimer Schedule(float timeInSeconds, Action<ITimer>? onTime)
+    {
         return Instance._timerManager.Schedule(timeInSeconds, false, null!, onTime);
     }
 

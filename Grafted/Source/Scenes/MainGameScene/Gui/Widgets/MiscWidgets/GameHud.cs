@@ -1,4 +1,5 @@
-﻿using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+﻿using FontStashSharp.RichText;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 
@@ -70,8 +71,8 @@ public class GameHud : HorizontalStackPanel {
         Proportions.Add(Proportion.Auto);
         _zoneLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center };
         _bloodLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center };
-        _temperatureLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center, Width = 90, TextAlign = TextAlign.Center };
-        _energyLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center, Width = 150, TextAlign = TextAlign.Center };
+        _temperatureLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center, Width = 90, TextAlign = TextHorizontalAlignment.Center};
+        _energyLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center, Width = 150, TextAlign = TextHorizontalAlignment.Center };
         _bodyTempIcon = new Image {
             VerticalAlignment = VerticalAlignment.Center, Width = 80, Height = 80,
             Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Human], Color.White)
@@ -153,7 +154,7 @@ public class GameHud : HorizontalStackPanel {
             _ => TC.Default
         };
 
-        string bloodLoss = $"\\c[{TC.Default}] (\\c[{bloodLossColor}]{plusSign}{player.Body.BloodChangeLastFrame:P}\\c[{TC.Default}])";
+        string bloodLoss = $"/c[{TC.Default}] (/c[{bloodLossColor}]{plusSign}{player.Body.BloodChangeLastFrame:P}/c[{TC.Default}])";
         _bloodLabel.Text = $"{Mathf.RoundToInt(player.Body.BloodPercent * 100)}%{bloodLoss}";
         _bloodLabel.TextColor = BodyPartColor.GetBloodColor(player.Body.BloodPercent);
         _zoneLabel.Text = $"blah";
@@ -161,7 +162,7 @@ public class GameHud : HorizontalStackPanel {
         _energyLabel.Text = player.Body.Energy.ToString("P0");
         _energyLabel.TextColor = BodyPartColor.GetStomachColor(player.Body.Energy);
         _mindWidget.Update();
-        _temperatureLabel.Text = $"\\c[{TC.Blue}]4°C";
+        _temperatureLabel.Text = $"/c[{TC.Blue}]4°C";
         _stomachGauge.Background = new ColoredRegion(
             Stylesheet.Current.Atlas["stomach-" + Mathf.RoundToInt(Mathf.Lerp(1, 16, player.Body.StomachLevel))],
             BodyPartColor.GetStomachColor(player.Body.StomachLevel)

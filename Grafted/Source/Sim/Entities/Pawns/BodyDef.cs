@@ -8,6 +8,7 @@ public class BodyDef : Def {
     public float BoneDensity = 1;
     public Type GeneratorClass = typeof(IBodyGenerator);
     public Type HandlerClass = typeof(DefaultBodyHandler);
+    
     private IBodyGenerator? _generator;
     public DefaultBodyHandler Handler => (DefaultBodyHandler) Activator.CreateInstance(HandlerClass)!;
     public IBodyGenerator Generator => _generator ??= (IBodyGenerator) Activator.CreateInstance(GeneratorClass)!;

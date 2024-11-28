@@ -8,7 +8,7 @@ internal class ZoneStartWindow : Window
         Title = biome.Label;
         _startButton = new TextButton(BaseContent.Styles.Button.Large);
         _startButton.Click += (_, _) => { Core.Context.EnterZone(biome); };
-        TextButton close = new(BaseContent.Styles.Button.Large) { Text = $"\\c[{TC.Red}]Cancel" };
+        TextButton close = new(BaseContent.Styles.Button.Large) { Text = $"/c[{TC.Red}]Cancel" };
         close.Click += (_, _) => Close();
         Content = new VerticalStackPanel()
         {
@@ -66,6 +66,6 @@ internal class ZoneStartWindow : Window
             return;
         }
 
-        _startButton.Text = $"\\c[{TC.Green}]Start";
+        _startButton.Text = $"/c[{TC.Green}]Start";
     }
 }

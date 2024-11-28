@@ -4,7 +4,6 @@ public class DeathWindow : Window
 {
     public DeathWindow()
     {
-        TitleGrid.Visible = false;
         Width = 600;
         Height = 400;
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.Red];

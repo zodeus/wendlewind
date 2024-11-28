@@ -9,7 +9,6 @@ public class PawnBodyEffectsWindow : Window {
     public PawnBodyEffectsWindow(Pawn pawn) {
         _pawn = pawn;
         Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold], new Color(255, 255, 255, 50));
-        TitleGrid.Visible = false;
         _container = new VerticalStackPanel();
         Content = _container;
     }
@@ -56,14 +55,14 @@ public class PawnBodyEffectsWindow : Window {
             }
 
             foreach (AffectedStatRecord affectedStat in effect.Def.AffectedStats) {
-                string factor = affectedStat.Factor != null ? $"\\c[{(affectedStat.Factor > 0 ?TC.Green :TC.Red)}]*{affectedStat.Factor} " : "";
-                string offset = affectedStat.Offset != null ? $"\\c[{(affectedStat.Offset > 0 ?TC.Green :TC.Red)}]+{affectedStat.Offset} " : "";
+                string factor = affectedStat.Factor != null ? $"/c[{(affectedStat.Factor > 0 ?TC.Green :TC.Red)}]*{affectedStat.Factor} " : "";
+                string offset = affectedStat.Offset != null ? $"/c[{(affectedStat.Offset > 0 ?TC.Green :TC.Red)}]+{affectedStat.Offset} " : "";
                 AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"  {affectedStat.Stat.Label} {offset}{factor}" });
             }
         }
 
         public void Update() {
-            _durationLabel.Text = $"  Ticks left \\c[{TC.Blue}] {_effect.TicksLeft}";
+            _durationLabel.Text = $"  Ticks left /c[{TC.Blue}] {_effect.TicksLeft}";
         }
     }
 }

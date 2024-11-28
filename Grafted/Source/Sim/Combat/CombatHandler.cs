@@ -48,7 +48,7 @@ public class CombatHandler
                 .ToList();
             if (damageOptions.Any() == false)
             {
-                Encounter.LogMessage($"\\c[{TC.Attacker}]{attacker.LabelShort} has no usable weapons");
+                Encounter.LogMessage($"/c[{TC.Attacker}]{attacker.LabelShort} has no usable weapons");
                 return;
             }
 
@@ -56,7 +56,7 @@ public class CombatHandler
             var damageResponse = victim.TakeDamage(damageRequest);
             if (damageResponse.Dodged)
             {
-                Encounter.LogMessage($"\\c[{TC.Victim}]{victim.LabelShort} \\c[{TC.Blue}] dodged attack");
+                Encounter.LogMessage($"/c[{TC.Victim}]{victim.LabelShort} /c[{TC.Blue}] dodged attack");
                 return;
             }
 
@@ -71,15 +71,15 @@ public class CombatHandler
             foreach (DamageRecord damageResult in damageResponse.Damages)
             {
                 Encounter.LogMessage(
-                    $"\\c[{TC.Attacker}]{attacker.ToString().PadRight(20)}\\c[{TC.Default}]hit \\c[{TC.Victim}]{victim.LabelShort}'s \\c[{TC.BodyPart}]{damageResult.BodyPartHit.Label} " +
-                    $"\\c[{TC.Default}]with \\c[{TC.Item}]{damageRequest.Tool} (\\c[{TC.Golden}]{damageRequest.ToolManeuver.Label}) " +
-                    $"\\c[{TC.Default}] for \\c[{TC.Red}]{damageResult.ActualAmount} \\c[{TC.Default}] \\c[{TC.Golden}]{damageResult.DamageType}\\c[{TC.Default}] damage, " +
-                    $"blocked \\c[#00e6ff]{damageResult.AmountBlocked}"
+                    $"/c[{TC.Attacker}]{attacker.ToString().PadRight(20)}/c[{TC.Default}]hit /c[{TC.Victim}]{victim.LabelShort}'s /c[{TC.BodyPart}]{damageResult.BodyPartHit.Label} " +
+                    $"/c[{TC.Default}]with /c[{TC.Item}]{damageRequest.Tool} (/c[{TC.Golden}]{damageRequest.ToolManeuver.Label}) " +
+                    $"/c[{TC.Default}] for /c[{TC.Red}]{damageResult.ActualAmount} /c[{TC.Default}] /c[{TC.Golden}]{damageResult.DamageType}/c[{TC.Default}] damage, " +
+                    $"blocked /c[#00e6ff]{damageResult.AmountBlocked}"
                 );
 
                 foreach (DestroyedItemRecord itemRecord in damageResult.DestroyedEquipment)
                 {
-                    Encounter.LogMessage($"  \\c[{TC.Equipment}]{itemRecord.Def.Label} \\c[{TC.Red}]destroyed");
+                    Encounter.LogMessage($"  /c[{TC.Equipment}]{itemRecord.Def.Label} /c[{TC.Red}]destroyed");
                 }
 
                 foreach (DamagedPartRecord partRecord in damageResult.BodyParts)
@@ -87,22 +87,22 @@ public class CombatHandler
                     foreach (BodyPartModifierDef modifer in partRecord.AppliedModifiers)
                     {
                         Encounter.LogMessage(
-                            $"  \\c[{TC.BodyPart}]{partRecord.PartType} \\c[{TC.Default}]afflicted with \\c[{TC.Yellow}]{modifer}");
+                            $"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Default}]afflicted with /c[{TC.Yellow}]{modifer}");
                     }
 
                     if (partRecord is { WasDestroyed: true, IsVital: false })
                     {
-                        Encounter.LogMessage($"  \\c[{TC.BodyPart}]{partRecord.PartType} \\c[{TC.Red}]destroyed");
+                        Encounter.LogMessage($"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]destroyed");
                     }
 
                     if (partRecord is { WasDestroyed: true, IsVital: true })
                     {
-                        Encounter.LogMessage($"  \\c[{TC.Red}]VITAL part \\c[{TC.BodyPart}]{partRecord.PartType} \\c[{TC.Red}]destroyed");
+                        Encounter.LogMessage($"  /c[{TC.Red}]VITAL part /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]destroyed");
                     }
 
                     if (partRecord.BodyPart.IsExternal && partRecord.WasSevered)
                     {
-                        Encounter.LogMessage($"  \\c[{TC.BodyPart}]{partRecord.PartType} \\c[{TC.Red}]SEVERED");
+                        Encounter.LogMessage($"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]SEVERED");
                         Encounter.Zone!.Alert(
                             new ScreenMessageData
                             {
@@ -118,14 +118,14 @@ public class CombatHandler
             //todo
             /*if (damageResponse.HealthConditions != null) {
                 foreach (HealthConditionDef condition in damageResponse.HealthConditions) {
-                    CombatEvent.LogMessage($"        \\c[#b3b3b3]Inflicted \\c[{TextColorPawn}]{Target.LabelShort} \\c[#b3b3b3]with \\c[#acc700]{condition.Label}");
+                    CombatEvent.LogMessage($"        /c[#b3b3b3]Inflicted /c[{TextColorPawn}]{Target.LabelShort} /c[#b3b3b3]with /c[#acc700]{condition.Label}");
                 }
             }*/
         }
         else
         {
             Encounter.LogMessage(
-                $"\\c[{TC.Attacker}]{attacker.ToString().PadRight(20)}\\c[{TC.Purple}]missed \\c[{TC.Victim}]{victim.LabelShort} \\c[{TC.Default}]ChanceToHit = \\c[{TC.BrightBlue}]{chanceToHit:P1}");
+                $"/c[{TC.Attacker}]{attacker.ToString().PadRight(20)}/c[{TC.Purple}]missed /c[{TC.Victim}]{victim.LabelShort} /c[{TC.Default}]ChanceToHit = /c[{TC.BrightBlue}]{chanceToHit:P1}");
         }
     }
 
@@ -174,7 +174,7 @@ public class CombatHandler
             BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.PumpinEnhancement, 600)
         ));
         Encounter.LogMessage(
-            $"\\c[{TC.Attacker}]{target.LabelShort} \\c[{TC.Yellow}]sipped the \\c[{TC.Item}]{potion.Label}"
+            $"/c[{TC.Attacker}]{target.LabelShort} /c[{TC.Yellow}]sipped the /c[{TC.Item}]{potion.Label}"
         );
 
         Encounter.Zone!.Alert(new ScreenMessageData
@@ -190,7 +190,7 @@ public class CombatHandler
     {
         //Encounter.ActivateBuff(potion, target, Core.Random.Next(3, 6));
         Encounter.LogMessage(
-            $"\\c[{TC.Attacker}]{target.LabelShort} \\c[{TC.Purple}]Released \\c[{TC.Item}]{potion.Label}"
+            $"/c[{TC.Attacker}]{target.LabelShort} /c[{TC.Purple}]Released /c[{TC.Item}]{potion.Label}"
         );
         Encounter.Zone!.Alert(new ScreenMessageData
         {
@@ -210,7 +210,7 @@ public class CombatHandler
                 eye.HitPoints = 0;
                 string eyeText = $"{eye.Socket?.Label.Split(" ")[0]} {eye.Type}";
                 Encounter.LogMessage(
-                    $"\\c[{TC.Attacker}]{attacker.LabelShort} \\c[{TC.Yellow}]burned out \\c[{TC.Victim}]{target.LabelShort}'s \\c[{TC.BodyPart}]{eyeText} \\c[{TC.Default}]with \\c[{TC.Item}]{potion.Label}"
+                    $"/c[{TC.Attacker}]{attacker.LabelShort} /c[{TC.Yellow}]burned out /c[{TC.Victim}]{target.LabelShort}'s /c[{TC.BodyPart}]{eyeText} /c[{TC.Default}]with /c[{TC.Item}]{potion.Label}"
                 );
 
                 if (Core.Random.Chance(.75f))
@@ -234,7 +234,7 @@ public class CombatHandler
         float amount = potion.GetStatValue(Defs.Stats.HealingValue);
         pawn.Body.BloodAmount += amount;
         Encounter.LogMessage(
-            $"\\c[{TC.Attacker}]{pawn.LabelShort} \\c[{TC.Yellow}]Sipped a \\c[{TC.Item}]{potion.Label} \\c[{TC.Default}]for \\c[{TC.Green}]{amount} \\c[{TC.Default}]blood"
+            $"/c[{TC.Attacker}]{pawn.LabelShort} /c[{TC.Yellow}]Sipped a /c[{TC.Item}]{potion.Label} /c[{TC.Default}]for /c[{TC.Green}]{amount} /c[{TC.Default}]blood"
         );
         if (pawn.PawnType == PawnType.Player)
         {

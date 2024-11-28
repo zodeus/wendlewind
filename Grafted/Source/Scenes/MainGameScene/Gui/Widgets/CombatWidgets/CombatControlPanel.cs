@@ -43,7 +43,7 @@ public class CombatControlPanel : VerticalStackPanel
 
         _retreatButton = new TextButton(BaseContent.Styles.Button.Normal)
         {
-            Text = $"\\c[{TC.Golden}]Attempt Escape", Margin = new Thickness(0, 10, 0, 0), HorizontalAlignment = HorizontalAlignment.Stretch,
+            Text = $"/c[{TC.Golden}]Attempt Escape", Margin = new Thickness(0, 10, 0, 0), HorizontalAlignment = HorizontalAlignment.Stretch,
         };
         _retreatButton.Click += (_, _) => { encounter.ShouldAttemptRetreat = true; };
         _retreatButton.Visible = Core.Context.Player.HasTrinket(Defs.Items.CowardsFlag);

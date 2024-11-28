@@ -36,11 +36,11 @@ public class PawnBodyPanel : VerticalStackPanel
                 Widgets =
                 {
                     _partsPanel,
-                    new VerticalStackPanel
-                    {
-                        Spacing = 20, Margin = new Thickness(0, 0, 15, 0),
-                        Widgets = { new PawnTraitsPanel(_body.Pawn.Traits), _pawnSkillsPanel, _pawnStatsPanel }
-                    }
+                    // new VerticalStackPanel
+                    // {
+                    //     Spacing = 20, Margin = new Thickness(0, 0, 15, 0),
+                    //     Widgets = { new PawnTraitsPanel(_body.Pawn.Traits), _pawnSkillsPanel, _pawnStatsPanel }
+                    // }
                 }
             }
         });
@@ -106,7 +106,7 @@ public class PawnBodyPanel : VerticalStackPanel
         {
             _gui = gui;
             Spacing = 5;
-            _label = new Label { VerticalAlignment = VerticalAlignment.Center };
+            _label = new Label { VerticalAlignment = VerticalAlignment.Center, Font = BaseContent.Fonts.Default.Large, TextColor = Color.Black };
             /*Image image = new() { Background = new ColoredRegion(new TextureRegion(bodyPart.Icon), Color.White), Width = 20, Height = 20 };
             _internalParts.Add(bodyPart, image);
             AddChild(image);*/

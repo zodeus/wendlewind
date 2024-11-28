@@ -237,7 +237,7 @@ public class Pawn : Entity, IExposable
         Body.StomachLevel += nutrition;
         Body.Energy += nutrition / 3;
         Core.Context.Messages.Push(new Message(
-            $"\\c[{TC.Victim}]{Core.Context.Player.Label} \\c[{TC.Default}]ate \\c[{TC.Item}]{item.Label}"
+            $"/c[{TC.Victim}]{Core.Context.Player.Label} /c[{TC.Default}]ate /c[{TC.Item}]{item.Label}"
         ));
 
         item.StackSize--;

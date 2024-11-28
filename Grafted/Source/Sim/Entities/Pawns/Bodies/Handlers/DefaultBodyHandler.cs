@@ -121,6 +121,7 @@ public class DefaultBodyHandler : IExposable
 
     protected virtual void Regenerate()
     {
+        return;
         if (_ticksWithEmptyStomach > 1 || Body.Energy < .2 || Body.BloodPercent < 0.05 || Body.IsWarm == false)
         {
             return;
