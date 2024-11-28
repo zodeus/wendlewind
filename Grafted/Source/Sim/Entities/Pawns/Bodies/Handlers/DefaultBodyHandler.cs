@@ -10,19 +10,18 @@ public class DefaultBodyHandler : IExposable
     public virtual float SeveredArteryBloodLossFactor => 4f;
     public virtual float SeveredLimbBloodLossFactor => 6f;
     public virtual float BloodLossThreshold => .95f;
-    public virtual float MaxDestroyedPartBloodLoss => 10f;
-    public virtual float MaxSeveredPartBloodLoss => 15f;
     public virtual float ArteryBloodLossOffset => 1.3f;
     public virtual float BloodRegenerationFactor => 1f;
     public virtual float HealthRegenerationFactor => 0.001f;
+    public virtual int MalnutritionDamageIntervalInMinutes => 10;
     public virtual float EnergyLossPerTick => 0.0004f;
-    public virtual float FoodLossPerTick => 0.015f;
+    public virtual float FoodLossPerTick => 0.0015f;
     public virtual float FoodLossRestingFactor => 0.60f;
-    public virtual int TicksUntilFamished => 4000;
-    public virtual float EmptyStomachEnergyLossFactor => 1.5f;
+    public virtual int TimeUntilFamishedInHours => 24;
+    public virtual int EmptyStomachEnergyLossFactor => 2;
     public virtual float HungryThreshold => 0.6f;
     public virtual float MalnutritionDamageFactor => Core.Random.NextFloat(0.0001f, 0.0005f);
-    public virtual bool IsFamished => _ticksWithEmptyStomach > TicksUntilFamished;
+    public virtual bool IsFamished => false;//_ticksWithEmptyStomach > WorldTime.HoursToTicks(TimeUntilFamishedInHours);
     public bool IsHungry => Body.StomachLevel < HungryThreshold;
 
     public virtual void Initialize(PawnBody body)
@@ -30,23 +29,10 @@ public class DefaultBodyHandler : IExposable
         Body = body;
     }
 
-    public virtual void Tick(int ticks)
+    public virtual void Tick()
     {
-        if (ticks % 90 == 0)
-        {
-            PushExternalHeat();
-        }
-
-        if (ticks % 91 == 0)
-        {
-            HandleNutrition(ticks);
-        }
-
-        if (ticks % 92 == 0)
-        {
-            ConsumeEnergy(EnergyLossPerTick);
-        }
-
+        HandleNutrition();
+        ConsumeEnergy(EnergyLossPerTick);
         if (Body.RootSocket.AttachedPart == null)
         {
             Body.BloodAmount = 0;
@@ -55,14 +41,10 @@ public class DefaultBodyHandler : IExposable
         else
         {
             // Blood Loss Calculations & regeneration
-            float preTickBloodAmount = Body.BloodAmount;
-            float preTickBloodPercent = Body.BloodPercent;
+            var preTickBloodAmount = Body.BloodAmount;
+            var preTickBloodPercent = Body.BloodPercent;
             DoBloodLoss();
-            if (ticks % 20 == 0)
-            {
-                Regenerate();
-            }
-            
+            Regenerate();
             if (Math.Abs(preTickBloodPercent - Body.BloodPercent) > .00001)
             {
                 Body.BloodChangeLastFrame = Body.BloodPercent - preTickBloodPercent;
@@ -80,112 +62,85 @@ public class DefaultBodyHandler : IExposable
         Body.Energy -= _ticksWithEmptyStomach > 0 ? baseAmount * EmptyStomachEnergyLossFactor : baseAmount;
     }
 
-    public virtual void PushExternalHeat()
-    {
-        const float hotThreshold = 40;
-        const float coolThreshold = 18;
-        const float optimalBodyTemperature = 32;
-        const float roomTemperature = 22;
-        float amountOfHeatToPush = 1;
-        float externalTemp = Body.Pawn.Zone?.Temperature ?? 0;
-
-        if (externalTemp > hotThreshold)
-        {
-            Body.Temperature = Math.Min(Body.Temperature + amountOfHeatToPush, externalTemp + 10);
-        }
-        else if (externalTemp is >= coolThreshold and <= hotThreshold)
-        {
-            if (Body.Temperature > optimalBodyTemperature)
-            {
-                Body.Temperature = Math.Max(Body.Temperature - amountOfHeatToPush, optimalBodyTemperature);
-            }
-            else
-            {
-                if (Body.Temperature < 32)
-                {
-                    Body.Temperature = Math.Min(Body.Temperature + amountOfHeatToPush, optimalBodyTemperature);
-                }
-            }
-        }
-        else if (externalTemp < coolThreshold)
-        {
-            Body.Temperature = Math.Max(Body.Temperature - amountOfHeatToPush, externalTemp + 10);
-        }
-    }
-
     public virtual void ExposeData()
     {
-        Scribe_References.Look(ref Body!, "Body");
-        Scribe_Values.Look(ref _ticksWithEmptyStomach, "TicksWithEmptyStomach");
+        ScribeReferences.Look(ref Body!, "Body");
+        ScribeValues.Look(ref _ticksWithEmptyStomach, "TicksWithEmptyStomach");
     }
 
     protected virtual void Regenerate()
     {
-        return;
-        if (_ticksWithEmptyStomach > 1 || Body.Energy < .2 || Body.BloodPercent < 0.05 || Body.IsWarm == false)
-        {
-            return;
-        }
-
-        if (Body.RootSocket.AttachedPart == null)
-        {
-            return;
-        }
-
-        float restingBoost = Body.Pawn.IsResting ? RestingMultiplier : 1;
-        // stop regenerating blood when near death
-
-        if (Body.BloodAmount > 100)
-        {
-            Body.BloodAmount += BloodRegenerationFactor * restingBoost;
-        }
-
-        float partRegenerationFactor = HealthRegenerationFactor * restingBoost;
-
-        void UpdateHealth(BodyPart bodyPart)
-        {
-            if (bodyPart.IsDestroyed)
-            {
-                return;
-            }
-
-            bodyPart.HitPoints += bodyPart.HitPoints * partRegenerationFactor;
-        }
-
-        void DoRegeneration(BodyPart bodyPart)
-        {
-            UpdateHealth(bodyPart);
-            foreach (BodyPart internalPart in bodyPart.InternalParts)
-            {
-                UpdateHealth(internalPart);
-            }
-
-            foreach (BodyPart externalPart in bodyPart.ExternalParts)
-            {
-                DoRegeneration(externalPart);
-            }
-        }
-
-        DoRegeneration(Body.RootSocket.AttachedPart);
+        //todo fix this
+        // return;
+        // if (_ticksWithEmptyStomach > WorldTime.HoursToTicks(2) || Body.Energy < .2 || Body.BloodPercent < 0.05 || Body.IsWarm == false)
+        // {
+        //     return;
+        // }
+        //
+        // if (Body.RootSocket.AttachedPart == null)
+        // {
+        //     return;
+        // }
+        //
+        // var restingBoost = Body.Pawn.IsResting ? RestingMultiplier : 1;
+        // // stop regenerating blood when near death
+        //
+        // if (Body.BloodAmount > 100)
+        // {
+        //     Body.BloodAmount += BloodRegenerationFactor * restingBoost;
+        // }
+        //
+        // var partRegenerationFactor = HealthRegenerationFactor * restingBoost;
+        //
+        // void UpdateHealth(BodyPart bodyPart)
+        // {
+        //     if (bodyPart.IsDestroyed)
+        //     {
+        //         return;
+        //     }
+        //
+        //     bodyPart.HitPoints += bodyPart.HitPoints * partRegenerationFactor;
+        // }
+        //
+        // void DoRegeneration(BodyPart bodyPart)
+        // {
+        //     UpdateHealth(bodyPart);
+        //     foreach (var internalPart in bodyPart.InternalParts)
+        //     {
+        //         UpdateHealth(internalPart);
+        //     }
+        //
+        //     foreach (var externalPart in bodyPart.ExternalParts)
+        //     {
+        //         DoRegeneration(externalPart);
+        //     }
+        // }
+        //
+        // DoRegeneration(Body.RootSocket.AttachedPart);
     }
 
-    protected virtual void TakeMalnutritionDamage()
-    {
-        foreach (BodyPart bodyPart in Body.AllParts)
-        {
-            if (bodyPart.Type == BodyPartType.Artery)
-            {
-                continue;
-            }
-
-            if (Core.Random.Chance(0.7f))
-            {
-                continue;
-            }
-
-            bodyPart.HitPoints -= bodyPart.HitPoints * MalnutritionDamageFactor;
-        }
-    }
+    // protected virtual void TakeMalnutritionDamage()
+    // {
+    //     if (Core.Context.World.Time.IsIntervalOf(WorldTime.MinutesToSeconds(MalnutritionDamageIntervalInMinutes)) == false)
+    //     {
+    //         return;
+    //     }
+    //
+    //     foreach (var bodyPart in Body.AllParts)
+    //     {
+    //         if (bodyPart.Type == BodyPartType.Artery)
+    //         {
+    //             continue;
+    //         }
+    //
+    //         if (Core.Context.Random.Chance(0.7f))
+    //         {
+    //             continue;
+    //         }
+    //
+    //         bodyPart.HitPoints -= bodyPart.HitPoints * MalnutritionDamageFactor;
+    //     }
+    // }
 
     protected virtual void DoBloodLoss()
     {
@@ -197,11 +152,9 @@ public class DefaultBodyHandler : IExposable
         DoBloodLossForPart(Body.RootSocket.AttachedPart);
     }
 
-    protected virtual void HandleNutrition(int ticks)
+    protected virtual void HandleNutrition()
     {
-        if (ticks % 91 != 0) return;
-
-        float foodLossAmount = (Body.Pawn.IsResting ? FoodLossRestingFactor : 1f) * FoodLossPerTick;
+        var foodLossAmount = (Body.Pawn.IsResting ? FoodLossRestingFactor : 1f) * FoodLossPerTick;
         Body.StomachLevel = Mathf.Clamp(Body.StomachLevel - foodLossAmount, 0, 1);
 
         if (Body.StomachLevel <= 0)
@@ -216,22 +169,23 @@ public class DefaultBodyHandler : IExposable
         // Malnutrition Calculations
         if (IsFamished)
         {
-            Body.Handler.TakeMalnutritionDamage();
+            //Body.Handler.TakeMalnutritionDamage();
         }
     }
 
     private void DoBloodLossForPart(BodyPart part)
     {
-        var bloodLossScaleFactor = part.Size / Body.Def.BloodType.Viscosity / Body.BodySizeFactor;
-        bloodLossScaleFactor *= .005f;
+        var bloodLossScaleFactor = /*part.PartSize /*/ Body.Def.BloodType.Viscosity / Body.BodySizeFactor;
+
         if (part.HealthPercent < BloodLossThreshold)
         {
+            //Log.Info($"{_pawn} {part} losing {bloodLossScaleFactor * (1 - part.HealthPercent)}");
             Body.BloodAmount -= bloodLossScaleFactor * (1 - part.HealthPercent);
         }
 
         // stop part traversal if part is an artery and it's been severed
-        bool continuePartTraversal = true;
-        foreach (BodyPart internalPart in part.InternalParts)
+        var continuePartTraversal = true;
+        foreach (var internalPart in part.InternalParts)
         {
             if (internalPart.Type != BodyPartType.Artery || internalPart.HealthPercent >= 1)
             {
@@ -240,23 +194,26 @@ public class DefaultBodyHandler : IExposable
 
             if (internalPart.IsDestroyed)
             {
-                Body.BloodAmount -= Math.Min(bloodLossScaleFactor * SeveredArteryBloodLossFactor, MaxDestroyedPartBloodLoss);
+                //Log.Info($"{_pawn} {internalPart} losing {bloodLossScaleFactor * severedArteryBloodLossFactor}");
+                Body.BloodAmount -= bloodLossScaleFactor * SeveredArteryBloodLossFactor;
                 // Artery is severed stop propagating bleeding
                 continuePartTraversal = true;
                 continue;
             }
 
+            //Log.Info($"{_pawn} {internalPart} losing {bloodLossScaleFactor * (1.3f - part.HealthPercent)}");
             Body.BloodAmount -= bloodLossScaleFactor * (ArteryBloodLossOffset - part.HealthPercent);
         }
 
-        foreach (BodyPartSocket socket in part.Sockets)
+        foreach (var socket in part.Sockets)
         {
             if (socket.AttachedPart == null)
             {
                 // part has been severed, start hemorrhaging
                 if (socket.IsSealed == false)
                 {
-                    Body.BloodAmount -= Math.Min(bloodLossScaleFactor * SeveredLimbBloodLossFactor, MaxSeveredPartBloodLoss);
+                    //Log.Info($"{_pawn} {socket} losing {bloodLossScaleFactor * severedLimbBloodLossFactor}");
+                    Body.BloodAmount -= bloodLossScaleFactor * SeveredLimbBloodLossFactor;
                 }
 
                 continue;

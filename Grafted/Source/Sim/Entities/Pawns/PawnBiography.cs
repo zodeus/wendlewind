@@ -7,7 +7,7 @@ public class PawnBiography : IExposable {
     public PawnBiography(Pawn pawn) { }
 
     public void ExposeData() {
-        Scribe_Values.Look(ref Name!, "Name");
-        Scribe_Values.Look(ref Gender, "Gender");
+        ScribeValues.Look(ref Name!, "Name");
+        ScribeValues.Look(ref Gender, "Gender");
     }
 }

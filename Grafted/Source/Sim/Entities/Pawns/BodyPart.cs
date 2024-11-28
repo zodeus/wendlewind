@@ -565,15 +565,15 @@ public class BodyPart : Entity
 
     public override void ExposeData()
     {
-        Scribe_Values.Look(ref _hitPoints, "HitPoints");
-        Scribe_Values.Look(ref _adaptedLabel!, "AdaptedLabel");
-        Scribe_Values.Look(ref _isSevered, "IsSevered");
-        Scribe_Values.Look(ref MaxHitPoints, "MaxHitPoints");
-        Scribe_Values.Look(ref TicksSinceLastHit, "TicksSinceLastHit");
-        Scribe_References.Look(ref Socket!, "Socket");
-        Scribe_Collections.Look(ref Sockets!, "Sockets", LookMode.Deep);
-        Scribe_Collections.Look(ref Modifiers!, "Modifiers", LookMode.Deep);
-        Scribe_Collections.Look(ref Equipment!, "Equipment", LookMode.Value, LookMode.Deep);
+        ScribeValues.Look(ref _hitPoints, "HitPoints");
+        ScribeValues.Look(ref _adaptedLabel!, "AdaptedLabel");
+        ScribeValues.Look(ref _isSevered, "IsSevered");
+        ScribeValues.Look(ref MaxHitPoints, "MaxHitPoints");
+        ScribeValues.Look(ref TicksSinceLastHit, "TicksSinceLastHit");
+        ScribeReferences.Look(ref Socket!, "Socket");
+        ScribeCollections.Look(ref Sockets!, "Sockets", LookMode.Deep);
+        ScribeCollections.Look(ref Modifiers!, "Modifiers", LookMode.Deep);
+        ScribeCollections.Look(ref Equipment!, "Equipment", LookMode.Value, LookMode.Deep);
         base.ExposeData();
     }
 }

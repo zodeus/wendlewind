@@ -35,6 +35,6 @@ public class PawnBodyEffects : IEnumerable<BodyEffect>, IExposable {
     }
 
     public void ExposeData() {
-        Scribe_Collections.Look(ref _effects!, "_effects", LookMode.Deep);
+        ScribeCollections.Look(ref _effects!, "_effects", LookMode.Deep);
     }
 }

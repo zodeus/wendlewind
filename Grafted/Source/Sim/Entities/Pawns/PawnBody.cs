@@ -100,7 +100,7 @@ public class PawnBody : IExposable, IIdentityProvider {
             TicksSinceLastRest = 0;
         }
 
-        Handler.Tick(ticks);
+        Handler.Tick();
 
         if (BloodAmount <= 1) {
             Pawn.HandleDeath("Blood loss");
@@ -134,16 +134,16 @@ public class PawnBody : IExposable, IIdentityProvider {
     }
 
     public void ExposeData() {
-        Scribe_Values.Look(ref Id!, "Id");
-        Scribe_Values.Look(ref _bloodAmount, "BloodAmount");
-        Scribe_Values.Look(ref _energy, "Energy");
-        Scribe_Values.Look(ref BloodChangeLastFrame, "BloodChangeLastFrame");
-        Scribe_Values.Look(ref Temperature, "Temperature");
-        Scribe_Values.Look(ref StomachLevel, "StomachLevel");
-        Scribe_Deep.Look(ref Capabilities!, "Capabilities", Pawn);
-        Scribe_Deep.Look(ref Effects!, "Effects", Pawn);
-        Scribe_Deep.Look(ref _rootSocket!, "RootSocket");
-        Scribe_Deep.Look(ref Handler!, "Handler");
+        ScribeValues.Look(ref Id!, "Id");
+        ScribeValues.Look(ref _bloodAmount, "BloodAmount");
+        ScribeValues.Look(ref _energy, "Energy");
+        ScribeValues.Look(ref BloodChangeLastFrame, "BloodChangeLastFrame");
+        ScribeValues.Look(ref Temperature, "Temperature");
+        ScribeValues.Look(ref StomachLevel, "StomachLevel");
+        ScribeDeep.Look(ref Capabilities!, "Capabilities", Pawn);
+        ScribeDeep.Look(ref Effects!, "Effects", Pawn);
+        ScribeDeep.Look(ref _rootSocket!, "RootSocket");
+        ScribeDeep.Look(ref Handler!, "Handler");
     }
 
     private void GetParts(BodyPart part, List<BodyPart> parts, bool externalOnly = false) {

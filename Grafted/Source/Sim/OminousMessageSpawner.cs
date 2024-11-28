@@ -6,7 +6,8 @@ public class OminousMessageSpawner : IExposable {
     private Dictionary<int, ScreenMessageData> _messages = new();
 
     public OminousMessageSpawner() {
-        List<ScreenMessageData> messages = new List<ScreenMessageData> {
+        List<ScreenMessageData> messages = new()
+        {
             new() {
                 Text = "all is calm, for now...",
                 Color = Color.DarkSeaGreen

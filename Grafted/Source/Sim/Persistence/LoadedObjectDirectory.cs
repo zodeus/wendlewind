@@ -1,55 +1,69 @@
 namespace Grafted.Sim.Persistence;
 
-public class LoadedObjectDirectory {
-    private Dictionary<string, IIdentityProvider> allObjectsByLoadID = new();
+public class LoadedObjectDirectory
+{
+    private readonly Dictionary<string, IIdentityProvider> _allObjectsByLoadId = new Dictionary<string, IIdentityProvider>();
 
-    public void Clear() {
-        allObjectsByLoadID.Clear();
+    public void Clear()
+    {
+        _allObjectsByLoadId.Clear();
     }
 
-    public void RegisterLoaded(IIdentityProvider reffable) {
+    public void RegisterLoaded(IIdentityProvider reffable)
+    {
         // if (Prefs.DevMode) {
-        string text = "[excepted]";
-        try {
+        var text = "[excepted]";
+        try
+        {
             text = reffable.GetUniqueId();
         }
-        catch (Exception) {
+        catch (Exception)
+        {
             //ignored 
         }
 
-        string text2 = $"[excepted: casting {reffable.GetType().Name} to string]";
-        try {
+        var text2 = $"[excepted: casting {reffable.GetType().Name} to string]";
+        try
+        {
             text2 = reffable.ToString()!;
         }
-        catch (Exception) {
+        catch (Exception)
+        {
             //      ignored
         }
 
-        if (allObjectsByLoadID.TryGetValue(text, out IIdentityProvider? value)) {
-            string text3 = "";
+        if (_allObjectsByLoadId.TryGetValue(text, out var value))
+        {
+            var text3 = "";
             Log.Error(string.Concat("Cannot register ", reffable.GetType(), " ", text2, ", (id=", text, " in loaded object directory. Id already used by ", value.GetType(), " ",
                 value.ToString(), ".", text3));
             return;
         }
         // }
 
-        try {
-            allObjectsByLoadID.Add(reffable.GetUniqueId(), reffable);
+        try
+        {
+            _allObjectsByLoadId.Add(reffable.GetUniqueId(), reffable);
         }
-        catch (Exception ex5) {
-            string text4 = "[excepted]";
-            try {
+        catch (Exception ex5)
+        {
+            var text4 = "[excepted]";
+            try
+            {
                 text4 = reffable.GetUniqueId();
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 // ignored
             }
 
-            string text5 = "[excepted]";
-            try {
+            var text5 = "[excepted]";
+            try
+            {
                 text5 = reffable.ToString()!;
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 // ignored
             }
 
@@ -57,16 +71,21 @@ public class LoadedObjectDirectory {
         }
     }
 
-    public T? ObjectWithLoadId<T>(string loadId) {
-        if (loadId.NullOrEmpty() || loadId == "null") {
+    public T? ObjectWithLoadId<T>(string loadId)
+    {
+        if (loadId.NullOrEmpty() || loadId == "null")
+        {
             return default;
         }
 
-        if (allObjectsByLoadID.TryGetValue(loadId, out IIdentityProvider? value)) {
-            try {
-                return (T) value;
+        if (_allObjectsByLoadId.TryGetValue(loadId, out var value))
+        {
+            try
+            {
+                return (T)value;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Log.Error(string.Concat("Exception getting object with load id ", loadId, " of type ", typeof(T), ". What we loaded was ", value.ToString(), ". Exception:\n", ex));
                 return default;
             }

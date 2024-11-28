@@ -28,7 +28,7 @@ public class BodyEffect : IExposable {
     }
 
     public void ExposeData() {
-        Scribe_Defs.Look(ref Def!, "Def");
-        Scribe_Values.Look(ref TicksLeft!, "TicksLeft");
+        ScribeDefs.Look(ref Def!, "Def");
+        ScribeValues.Look(ref TicksLeft!, "TicksLeft");
     }
 }

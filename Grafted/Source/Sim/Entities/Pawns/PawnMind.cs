@@ -55,8 +55,8 @@ public class PawnMind : IExposable
 
     public void ExposeData()
     {
-        Scribe_Values.Look(ref _sanity, "Sanity");
-        Scribe_Values.Look(ref _power, "Power");
-        Scribe_Values.Look(ref _focus, "Focus");
+        ScribeValues.Look(ref _sanity, "Sanity");
+        ScribeValues.Look(ref _power, "Power");
+        ScribeValues.Look(ref _focus, "Focus");
     }
 }

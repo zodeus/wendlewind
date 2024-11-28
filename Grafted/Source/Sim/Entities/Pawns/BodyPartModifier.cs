@@ -57,13 +57,13 @@ public abstract class BodyPartModifier : IExposable, IIdentityProvider
 
     public virtual void ExposeData()
     {
-        Scribe_Defs.Look(ref Def!, "Def");
-        Scribe_References.Look(ref BodyPart!, "BodyPart");
-        Scribe_Values.Look(ref Id, "Id");
-        Scribe_Values.Look(ref Ticks, "Ticks");
-        Scribe_Values.Look(ref DurationInTicks, "DurationInTicks");
-        Scribe_Values.Look(ref IsExpired, "IsExpired");
-        Scribe_Values.Look(ref Severity, "Severity");
+        ScribeDefs.Look(ref Def!, "Def");
+        ScribeReferences.Look(ref BodyPart!, "BodyPart");
+        ScribeValues.Look(ref Id, "Id");
+        ScribeValues.Look(ref Ticks, "Ticks");
+        ScribeValues.Look(ref DurationInTicks, "DurationInTicks");
+        ScribeValues.Look(ref IsExpired, "IsExpired");
+        ScribeValues.Look(ref Severity, "Severity");
     }
 
     public string GetUniqueId()
@@ -89,7 +89,7 @@ public class BodyPartModifierDef : Def
 public class BodyPartModifierRecord
 {
     public BodyPartModifierDef Def = null!;
-    public RangeInt DurationInTicks = new RangeInt(0, 0);
+    public RangeInt DurationInTicks = new(0, 0);
     public RangeFloat Chance = RangeFloat.One;
 }
 
@@ -145,7 +145,7 @@ public class BurningAcid : BodyPartModifier
 
     public override void ExposeData()
     {
-        Scribe_Values.Look(ref HasSpread, "HasSpread");
+        ScribeValues.Look(ref HasSpread, "HasSpread");
         base.ExposeData();
     }
 }

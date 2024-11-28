@@ -1,6 +1,6 @@
 namespace Grafted.Sim.Persistence;
 
-public static class Scribe_References {
+public static class ScribeReferences {
     public static void Look<T>(ref T? referenceObject, string label) where T : IIdentityProvider {
         switch (Scribe.State) {
             case ScribeState.Saving when referenceObject == null:
@@ -10,7 +10,7 @@ public static class Scribe_References {
                 //todo not sure whats going on here
                 //Entity? entity = referenceObject as Entity;
                 //if (entity == null) {
-                string uniqueLoadId = referenceObject.GetUniqueId();
+                var uniqueLoadId = referenceObject.GetUniqueId();
                 Scribe.Saver.WriteElement(label, uniqueLoadId);
                 //}
                 //else {
@@ -25,7 +25,7 @@ public static class Scribe_References {
                         ", but our current node is a value type. The reference won't be loaded properly. curParent=", Scribe.Loader.CurParent));
                 }
 
-                string targetLoadId = Scribe.Loader.CurXmlParent?[label]?.InnerText ?? string.Empty;
+                var targetLoadId = Scribe.Loader.CurXmlParent?[label]?.InnerText ?? string.Empty;
                 Scribe.Loader.CrossRefs.LoadIDs.RegisterLoadIdReadFromXml(targetLoadId, typeof(T), label);
                 break;
             }

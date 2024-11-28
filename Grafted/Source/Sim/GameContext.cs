@@ -97,7 +97,7 @@ public class GameContext : IExposable
         Log.Info("Saving Game to " + filePath);
         Scribe.Saver.InitSaving(filePath, "SaveData");
         var context = this;
-        Scribe_Deep.Look(ref context!, "Context");
+        ScribeDeep.Look(ref context!, "Context");
         Scribe.Saver.FinalizeSaving();
     }
 
@@ -130,12 +130,12 @@ public class GameContext : IExposable
 
     private void ExposeDataInternal()
     {
-        Scribe_Deep.Look(ref World!, "World");
-        Scribe_Deep.Look(ref IdProvider!, "IdProvider");
-        Scribe_Deep.Look(ref Messages!, "Messages");
-        Scribe_Values.Look(ref Ticks!, "Ticks");
-        Scribe_Deep.Look(ref OminousMessageSpawner!, "OminousMessageSpawner");
-        Scribe_Deep.Look(ref DeathRecords!, "DeathRecords");
+        ScribeDeep.Look(ref World!, "World");
+        ScribeDeep.Look(ref IdProvider!, "IdProvider");
+        ScribeDeep.Look(ref Messages!, "Messages");
+        ScribeValues.Look(ref Ticks!, "Ticks");
+        ScribeDeep.Look(ref OminousMessageSpawner!, "OminousMessageSpawner");
+        ScribeDeep.Look(ref DeathRecords!, "DeathRecords");
     }
 
     #endregion

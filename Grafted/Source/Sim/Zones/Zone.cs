@@ -31,9 +31,9 @@ public class Zone : IExposable, IIdentityProvider
 
     public void ExposeData()
     {
-        Scribe_Defs.Look(ref BiomeDef!, "BiomeDef");
-        Scribe_Values.Look(ref IsComplete, "IsComplete");
-        Scribe_Values.Look(ref ZoneKills, "ZoneKills");
+        ScribeDefs.Look(ref BiomeDef!, "BiomeDef");
+        ScribeValues.Look(ref IsComplete, "IsComplete");
+        ScribeValues.Look(ref ZoneKills, "ZoneKills");
     }
 
     public string GetUniqueId()

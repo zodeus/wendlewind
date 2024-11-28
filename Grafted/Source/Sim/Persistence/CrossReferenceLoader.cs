@@ -20,7 +20,7 @@ public class CrossRefHandler {
         Scribe.State = ScribeState.ResolvingCrossReferences;
         Log.Info("==================Register the saveables all so we can find them later");
 
-        foreach (IExposable crossReferencingExposable in CrossReferencingExposables) {
+        foreach (var crossReferencingExposable in CrossReferencingExposables) {
             if (crossReferencingExposable is IIdentityProvider identityProvider) {
                 _loadedObjectDirectory.RegisterLoaded(identityProvider);
             }
@@ -28,7 +28,7 @@ public class CrossRefHandler {
 
         Log.Info("==================Fill all cross-references to the saveables");
 
-        foreach (IExposable crossReferencingExposable2 in CrossReferencingExposables) {
+        foreach (var crossReferencingExposable2 in CrossReferencingExposables) {
             try {
                 Scribe.Loader.CurParent = crossReferencingExposable2;
                 Scribe.Loader.CurPathRelToParent = null;
@@ -45,13 +45,13 @@ public class CrossRefHandler {
         Clear(true);
     }
 
-    public T TakeResolvedRef<T>(string pathRelToParent, IExposable parent) where T : IIdentityProvider {
-        string loadId = LoadIDs.Take<T>(pathRelToParent, parent)!;
+    public T? TakeResolvedRef<T>(string pathRelToParent, IExposable parent) where T : IIdentityProvider {
+        var loadId = LoadIDs.Take<T>(pathRelToParent, parent)!;
         return _loadedObjectDirectory.ObjectWithLoadId<T>(loadId);
     }
 
-    public T TakeResolvedRef<T>(string toAppendToPathRelToParent) where T : IIdentityProvider {
-        string text = Scribe.Loader.CurPathRelToParent!;
+    public T? TakeResolvedRef<T>(string toAppendToPathRelToParent) where T : IIdentityProvider {
+        var text = Scribe.Loader.CurPathRelToParent!;
         if (!toAppendToPathRelToParent.NullOrEmpty()) {
             text = text + "/" + toAppendToPathRelToParent;
         }
@@ -62,15 +62,15 @@ public class CrossRefHandler {
     public List<T> TakeResolvedRefList<T>(string pathRelToParent, IExposable parent) {
         List<string> list = LoadIDs.TakeList(pathRelToParent, parent);
         List<T> list2 = new();
-        for (int i = 0; i < list.Count; i++) {
-            list2.Add(_loadedObjectDirectory.ObjectWithLoadId<T>(list[i]));
+        for (var i = 0; i < list.Count; i++) {
+            list2.Add(_loadedObjectDirectory.ObjectWithLoadId<T>(list[i])!);
         }
 
         return list2;
     }
 
     public List<T> TakeResolvedRefList<T>(string toAppendToPathRelToParent) {
-        string text = Scribe.Loader.CurPathRelToParent!;
+        var text = Scribe.Loader.CurPathRelToParent!;
         if (!toAppendToPathRelToParent.NullOrEmpty()) {
             text = text + "/" + toAppendToPathRelToParent;
         }

@@ -189,16 +189,16 @@ public class Pawn : Entity, IExposable
 
     public override void ExposeData()
     {
-        Scribe_Values.Look(ref PawnType, "PawnType");
-        Scribe_Defs.Look(ref Race!, "Race");
-        Scribe_Deep.Look(ref Biography!, "Biography", this);
-        Scribe_Deep.Look(ref Traits!, "Traits", this);
-        Scribe_Deep.Look(ref Mind!, "Mind", this);
-        Scribe_Deep.Look(ref Body!, "Body", this);
-        Scribe_Deep.Look(ref Skills!, "Skills", this);
-        Scribe_Deep.Look(ref Inventory!, "Inventory", this);
-        Scribe_Deep.Look(ref Equipment!, "Equipment", this);
-        Scribe_References.Look(ref Zone!, "Zone");
+        ScribeValues.Look(ref PawnType, "PawnType");
+        ScribeDefs.Look(ref Race!, "Race");
+        ScribeDeep.Look(ref Biography!, "Biography", this);
+        ScribeDeep.Look(ref Traits!, "Traits", this);
+        ScribeDeep.Look(ref Mind!, "Mind", this);
+        ScribeDeep.Look(ref Body!, "Body", this);
+        ScribeDeep.Look(ref Skills!, "Skills", this);
+        ScribeDeep.Look(ref Inventory!, "Inventory", this);
+        ScribeDeep.Look(ref Equipment!, "Equipment", this);
+        ScribeReferences.Look(ref Zone!, "Zone");
         base.ExposeData();
     }
 

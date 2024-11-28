@@ -21,6 +21,6 @@ public class PawnInventory : IExposable, IEnumerable<Item> {
     }
 
     public void ExposeData() {
-        Scribe_Deep.Look(ref Entities!, "Entities");
+        ScribeDeep.Look(ref Entities!, "Entities");
     }
 }

@@ -82,7 +82,7 @@ public class PawnSkills : IExposable, IEnumerable<Skill> {
     }
 
     public void ExposeData() {
-        Scribe_Collections.Look(ref _skills!, "skills", LookMode.Deep);
+        ScribeCollections.Look(ref _skills!, "skills", LookMode.Deep);
     }
 }
 
@@ -153,9 +153,9 @@ public class Skill : IExposable {
     }
 
     public void ExposeData() {
-        Scribe_Defs.Look(ref Def!, "Def");
-        Scribe_Values.Look(ref Level, "Level");
-        Scribe_Values.Look(ref CurrentLevelXp, "CurrentLevelXp");
+        ScribeDefs.Look(ref Def!, "Def");
+        ScribeValues.Look(ref Level, "Level");
+        ScribeValues.Look(ref CurrentLevelXp, "CurrentLevelXp");
     }
 }
 

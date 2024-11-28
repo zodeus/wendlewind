@@ -20,8 +20,8 @@ public class Player : IExposable {
     }
 
     public void ExposeData() {
-        Scribe_Deep.Look(ref _pawn!, "Pawn");
-        Scribe_Collections.Look(ref TrinketsFound!, "TrinketsFound", LookMode.Def);
+        ScribeDeep.Look(ref _pawn!, "Pawn");
+        ScribeCollections.Look(ref TrinketsFound!, "TrinketsFound", LookMode.Def);
     }
 
     public bool HasTrinket(ItemDef def) {

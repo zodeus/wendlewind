@@ -36,9 +36,9 @@ public abstract class Entity : IExposable, IIdentityProvider {
     }
 
     public virtual void ExposeData() {
-        Scribe_Values.Look(ref Id, "Id");
-        Scribe_Defs.Look(ref Def!, "Def");
-        Scribe_Values.Look(ref _internalState, "InternalState");
+        ScribeValues.Look(ref Id, "Id");
+        ScribeDefs.Look(ref Def!, "Def");
+        ScribeValues.Look(ref _internalState, "InternalState");
     }
 
     public string GetUniqueId() {

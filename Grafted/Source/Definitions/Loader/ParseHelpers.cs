@@ -1,60 +1,70 @@
 using System.Globalization;
-using System.Reflection;
 
 namespace Grafted.Definitions.Loader;
 
-public static class ParseHelper {
-    public static class Parsers<T> {
+public static class ParseHelper
+{
+    private static class Parsers<T>
+    {
         public static Func<string, T>? Parser;
 
-        public static void Register(Func<string, T>? method) {
+        public static void Register(Func<string, T>? method)
+        {
             Parser = method;
-            parsers.Add(typeof(T), str => method!(str)!);
+            _parsers.Add(typeof(T), str => method!(str)!);
         }
     }
 
-    private static Dictionary<Type, Func<string, object>?> parsers;
+    private static Dictionary<Type, Func<string, object>?> _parsers;
 
     private static readonly char[] ColorTrimStartParameters;
 
     private static readonly char[] ColorTrimEndParameters;
 
-    public static string ParseString(string str) {
+    public static string ParseString(string str)
+    {
         return str.Replace("\\n", "\n");
     }
 
-    public static int ParseIntPermissive(string str) {
-        if (!int.TryParse(str, NumberStyles.Any, CultureInfo.InvariantCulture, out int result)) {
-            result = (int) float.Parse(str, CultureInfo.InvariantCulture);
+    public static int ParseIntPermissive(string str)
+    {
+        if (!int.TryParse(str, NumberStyles.Any, CultureInfo.InvariantCulture, out var result))
+        {
+            result = (int)float.Parse(str, CultureInfo.InvariantCulture);
             Log.Warning("Parsed " + str + " as int.");
         }
 
         return result;
     }
 
-    public static Vector3 FromStringVector3(string str) {
+    public static Vector3 FromStringVector3(string str)
+    {
         str = str.TrimStart('(');
         str = str.TrimEnd(')');
         string[] array = str.Split(',');
-        CultureInfo invariantCulture = CultureInfo.InvariantCulture;
-        float x = Convert.ToSingle(array[0], invariantCulture);
-        float y = Convert.ToSingle(array[1], invariantCulture);
-        float z = Convert.ToSingle(array[2], invariantCulture);
+        var invariantCulture = CultureInfo.InvariantCulture;
+        var x = Convert.ToSingle(array[0], invariantCulture);
+        var y = Convert.ToSingle(array[1], invariantCulture);
+        var z = Convert.ToSingle(array[2], invariantCulture);
         return new Vector3(x, y, z);
     }
 
-    public static Vector2 FromStringVector2(string str) {
+    public static Vector2 FromStringVector2(string str)
+    {
         str = str.TrimStart('(');
         str = str.TrimEnd(')');
         string[] array = str.Split(',');
-        CultureInfo invariantCulture = CultureInfo.InvariantCulture;
+        var invariantCulture = CultureInfo.InvariantCulture;
         float x;
         float y;
-        if (array.Length == 1) {
+        if (array.Length == 1)
+        {
             x = (y = Convert.ToSingle(array[0], invariantCulture));
         }
-        else {
-            if (array.Length != 2) {
+        else
+        {
+            if (array.Length != 2)
+            {
                 throw new InvalidOperationException();
             }
 
@@ -65,18 +75,22 @@ public static class ParseHelper {
         return new Vector2(x, y);
     }
 
-    public static Point FromStringPoint(string str) {
+    public static Point FromStringPoint(string str)
+    {
         str = str.TrimStart('(');
         str = str.TrimEnd(')');
         string[] array = str.Split(',');
-        CultureInfo invariantCulture = CultureInfo.InvariantCulture;
+        var invariantCulture = CultureInfo.InvariantCulture;
         int x;
         int y;
-        if (array.Length == 1) {
+        if (array.Length == 1)
+        {
             x = (y = Convert.ToInt32(array[0], invariantCulture));
         }
-        else {
-            if (array.Length != 2) {
+        else
+        {
+            if (array.Length != 2)
+            {
                 throw new InvalidOperationException();
             }
 
@@ -87,32 +101,38 @@ public static class ParseHelper {
         return new Point(x, y);
     }
 
-    public static Vector4 FromStringVector4Adaptive(string str) {
+    public static Vector4 FromStringVector4Adaptive(string str)
+    {
         str = str.TrimStart('(');
         str = str.TrimEnd(')');
         string[] array = str.Split(',');
-        CultureInfo invariantCulture = CultureInfo.InvariantCulture;
-        float x = 0f;
-        float y = 0f;
-        float z = 0f;
-        float w = 0f;
-        if (array.Length >= 1) {
+        var invariantCulture = CultureInfo.InvariantCulture;
+        var x = 0f;
+        var y = 0f;
+        var z = 0f;
+        var w = 0f;
+        if (array.Length >= 1)
+        {
             x = Convert.ToSingle(array[0], invariantCulture);
         }
 
-        if (array.Length >= 2) {
+        if (array.Length >= 2)
+        {
             y = Convert.ToSingle(array[1], invariantCulture);
         }
 
-        if (array.Length >= 3) {
+        if (array.Length >= 3)
+        {
             z = Convert.ToSingle(array[2], invariantCulture);
         }
 
-        if (array.Length >= 4) {
+        if (array.Length >= 4)
+        {
             w = Convert.ToSingle(array[3], invariantCulture);
         }
 
-        if (array.Length >= 5) {
+        if (array.Length >= 5)
+        {
             Log.Error($"Too many elements in vector {str}");
         }
 
@@ -131,74 +151,88 @@ public static class ParseHelper {
     //     return new Rect(x, y, width, height);
     // }
 
-    public static float ParseFloat(string str) {
+    public static float ParseFloat(string str)
+    {
         return float.Parse(str, CultureInfo.InvariantCulture);
     }
 
-    public static bool ParseBool(string str) {
+    public static bool ParseBool(string str)
+    {
         return bool.Parse(str);
     }
 
-    public static long ParseLong(string str) {
+    public static long ParseLong(string str)
+    {
         return long.Parse(str, CultureInfo.InvariantCulture);
     }
 
-    public static double ParseDouble(string str) {
+    public static double ParseDouble(string str)
+    {
         return double.Parse(str, CultureInfo.InvariantCulture);
     }
 
-    public static sbyte ParseSByte(string str) {
+    public static sbyte ParseSByte(string str)
+    {
         return sbyte.Parse(str, CultureInfo.InvariantCulture);
     }
 
-    public static Type? ParseType(string str) {
-        if (str == "null" || str == "Null") {
+    public static Type? ParseType(string str)
+    {
+        if (str == "null" || str == "Null")
+        {
             return null;
         }
 
-        Type? typeInAnyAssembly = GenTypes.GetTypeInAnyAssembly(str);
-        if (typeInAnyAssembly == null) {
+        var typeInAnyAssembly = GenTypes.GetTypeInAnyAssembly(str);
+        if (typeInAnyAssembly == null)
+        {
             Log.Error("Could not find a type named " + str);
         }
 
         return typeInAnyAssembly;
     }
 
-    public static Action ParseAction(string str) {
+    public static Action ParseAction(string str)
+    {
         string[] array = str.Split('.');
-        string methodName = array[array.Length - 1];
-        string typeName = (array.Length != 3) ? array[0] : (array[0] + "." + array[1]);
-        MethodInfo method = GenTypes.GetTypeInAnyAssembly(typeName).GetMethods().First(m => m.Name == methodName);
-        return (Action) Delegate.CreateDelegate(typeof(Action), method);
+        var methodName = array[^1];
+        var typeName = (array.Length != 3) ? array[0] : (array[0] + "." + array[1]);
+        var method = GenTypes.GetTypeInAnyAssembly(typeName)!.GetMethods().First(m => m.Name == methodName);
+        return (Action)Delegate.CreateDelegate(typeof(Action), method);
     }
 
 
-    public static Color ParseColor(string str) {
+    public static Color ParseColor(string str)
+    {
         string[] colors = str.TrimStart(ColorTrimStartParameters).TrimEnd(ColorTrimEndParameters).Split(',');
-        float red = ParseFloat(colors[0]);
-        float green = ParseFloat(colors[1]);
-        float blue = ParseFloat(colors[2]);
-        bool isInt = red > 1f || blue > 1f || green > 1f;
+        var red = ParseFloat(colors[0]);
+        var green = ParseFloat(colors[1]);
+        var blue = ParseFloat(colors[2]);
+        var isInt = red > 1f || blue > 1f || green > 1f;
         float alpha = (!isInt) ? 1 : 255;
-        if (colors.Length == 4) {
+        if (colors.Length == 4)
+        {
             alpha = FromString<float>(colors[3]);
         }
 
         Color result;
-        if (isInt == false) {
+        if (isInt == false)
+        {
             throw new NotImplementedException();
             /*result.R = red;
             result.G = green;
             result.B = blue;
-            result.A = alpha;*/
+            result.A = alpha;
             return result;
+            */
         }
 
         result = new Color(Mathf.RoundToInt(red), Mathf.RoundToInt(green), Mathf.RoundToInt(blue), Mathf.RoundToInt(alpha));
         return result;
     }
 
-    public static CurvePoint ParseCurvePoint(string str) {
+    public static CurvePoint ParseCurvePoint(string str)
+    {
         return new CurvePoint(FromString<Vector2>(str));
     }
 
@@ -213,34 +247,40 @@ public static class ParseHelper {
         return FloatRange.FromString(str);
     }
     */
-    public static RangeInt ParseRangeInt(string value) {
-        CultureInfo invariantCulture = CultureInfo.InvariantCulture;
+    public static RangeInt ParseRangeInt(string value)
+    {
+        var invariantCulture = CultureInfo.InvariantCulture;
         string[] array = value.Split('~');
-        if (array.Length == 1) {
-            int num = Convert.ToInt32(array[0], invariantCulture);
+        if (array.Length == 1)
+        {
+            var num = Convert.ToInt32(array[0], invariantCulture);
             return new RangeInt(num, num);
         }
 
         return new RangeInt(Convert.ToInt32(array[0], invariantCulture), Convert.ToInt32(array[1], invariantCulture));
     }
 
-    public static RangeFloat ParseRangeFloat(string value) {
-        CultureInfo invariantCulture = CultureInfo.InvariantCulture;
+    public static RangeFloat ParseRangeFloat(string value)
+    {
+        var invariantCulture = CultureInfo.InvariantCulture;
         string[] array = value.Split('~');
-        if (array.Length == 1) {
-            float num = Convert.ToSingle(array[0], invariantCulture);
+        if (array.Length == 1)
+        {
+            var num = Convert.ToSingle(array[0], invariantCulture);
             return new RangeFloat(num, num);
         }
 
         return new RangeFloat(Convert.ToSingle(array[0], invariantCulture), Convert.ToSingle(array[1], invariantCulture));
     }
 
-    public static Size ParseSize(string value) {
-        CultureInfo invariantCulture = CultureInfo.InvariantCulture;
+    public static Size ParseSize(string value)
+    {
+        var invariantCulture = CultureInfo.InvariantCulture;
         value = value.TrimStart('(').TrimEnd(')');
         string[] array = value.Split(',');
-        if (array.Length == 1) {
-            int num = Convert.ToInt32(array[0], invariantCulture);
+        if (array.Length == 1)
+        {
+            var num = Convert.ToInt32(array[0], invariantCulture);
             return new Size(num, num);
         }
 
@@ -270,16 +310,19 @@ public static class ParseHelper {
         return result;
     }*/
 
-    static ParseHelper() {
-        parsers = new Dictionary<Type, Func<string, object>?>();
-        ColorTrimStartParameters = new[] {
+    static ParseHelper()
+    {
+        _parsers = new Dictionary<Type, Func<string, object>?>();
+        ColorTrimStartParameters = new[]
+        {
             '(',
             'R',
             'G',
             'B',
             'A'
         };
-        ColorTrimEndParameters = new[] {
+        ColorTrimEndParameters = new[]
+        {
             ')'
         };
         Parsers<string>.Register(ParseString);
@@ -311,20 +354,26 @@ public static class ParseHelper {
         //Parsers<ColorInt>.Register(ParseColorInt);
     }
 
-    public static T FromString<T>(string str) {
+    public static T FromString<T>(string str)
+    {
         Func<string, T>? parser = Parsers<T>.Parser;
-        if (parser != null) {
+        if (parser != null)
+        {
             return parser(str);
         }
 
-        return (T) FromString(str, typeof(T))!;
+        return (T)FromString(str, typeof(T))!;
     }
 
-    public static object? FromString(string str, Type itemType) {
-        try {
+    public static object? FromString(string str, Type itemType)
+    {
+        try
+        {
             itemType = (Nullable.GetUnderlyingType(itemType) ?? itemType);
-            if (itemType.IsEnum) {
-                try {
+            if (itemType.IsEnum)
+            {
+                try
+                {
                     /*object obj = BackCompatibility.BackCompatibleEnum(itemType, str);
                     if (obj != null)
                     {
@@ -332,25 +381,29 @@ public static class ParseHelper {
                     }*/
                     return Enum.Parse(itemType, str);
                 }
-                catch (ArgumentException innerException) {
+                catch (ArgumentException innerException)
+                {
                     throw new ArgumentException(
                         string.Concat(string.Concat("'", str, "' is not a valid value for ", itemType, ". Valid values are: \n"), TextHelpers.StringFromEnumerable(Enum.GetValues(itemType))),
                         innerException);
                 }
             }
 
-            if (parsers.TryGetValue(itemType, out Func<string, object>? value)) {
+            if (_parsers.TryGetValue(itemType, out Func<string, object>? value))
+            {
                 return value!(str);
             }
 
             return null;
         }
-        catch (Exception innerException2) {
+        catch (Exception innerException2)
+        {
             throw new ArgumentException(string.Concat("Exception parsing ", itemType, " from \"", str, "\""), innerException2);
         }
     }
 
-    public static bool HandlesType(Type type) {
+    public static bool HandlesType(Type type)
+    {
         return true;
     }
 }

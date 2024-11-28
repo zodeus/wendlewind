@@ -10,7 +10,7 @@ internal class PawnCombatPanel : HorizontalStackPanel {
     private AttackSpeedIcon _attackSpeed;
     private HorizontalProgressBar _bloodBar;
     private PawnEquipmentPanel _pawnEquipmentPanel;
-    private Dictionary<string, Image> _bodyPartImages = new Dictionary<string, Image>();
+    private Dictionary<string, Image> _bodyPartImages = new();
     private CombatGui.ZoneGui _gui;
 
     public PawnCombatPanel(CombatGui.ZoneGui gui, Pawn pawn, Encounter encounter, bool equipmentOnLeftSide = true) {

@@ -16,7 +16,7 @@ public class GameMessages : IExposable {
     }
 
     public void ExposeData() {
-        Scribe_Collections.Look(ref _messages!, "List", LookMode.Deep);
+        ScribeCollections.Look(ref _messages!, "List", LookMode.Deep);
     }
 }
 
@@ -34,7 +34,7 @@ public struct Message : IExposable {
     }
 
     public void ExposeData() {
-        Scribe_Values.Look(ref _message, "Message");
-        Scribe_Values.Look(ref TextColor, "TextColor");
+        ScribeValues.Look(ref _message, "Message");
+        ScribeValues.Look(ref TextColor, "TextColor");
     }
 }

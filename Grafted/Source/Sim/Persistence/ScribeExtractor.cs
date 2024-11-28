@@ -9,7 +9,7 @@ public static class ScribeExtractor {
             return defaultValue;
         }
 
-        XmlAttribute? xmlAttribute = subNode.Attributes!["IsNull"];
+        var xmlAttribute = subNode.Attributes!["IsNull"];
         if (xmlAttribute != null && xmlAttribute.Value.ToLower() == "true") {
             return default;
         }
@@ -35,8 +35,8 @@ public static class ScribeExtractor {
             return null;
         }
 
-        string text = subNode.InnerText;
-        T namedSilentFail = DefRepository<T>.GetByMoniker(text);
+        var text = subNode.InnerText;
+        var namedSilentFail = DefRepository<T>.GetByMoniker(text);
         //T namedSilentFail = DefDatabase<T>.GetNamedSilentFail(text);
         if (namedSilentFail == null) {
             if (text == subNode.InnerText) {
@@ -64,15 +64,15 @@ public static class ScribeExtractor {
             return default;
         }
 
-        XmlAttribute xmlAttribute = subNode.Attributes["IsNull"];
+        var xmlAttribute = subNode.Attributes?["IsNull"];
         if (xmlAttribute != null && xmlAttribute.Value.ToLower() == "true") {
             return default;
         }
 
         try {
-            XmlAttribute xmlAttribute2 = subNode.Attributes["Class"];
-            string text = (xmlAttribute2 != null) ? xmlAttribute2.Value : typeof(T).FullName;
-            Type type = GenTypes.GetTypeInAnyAssembly(text);
+            var xmlAttribute2 = subNode.Attributes?["Class"];
+            var text = xmlAttribute2 != null ? xmlAttribute2.Value : typeof(T).FullName;
+            var type = GenTypes.GetTypeInAnyAssembly(text);
             if (type == null) {
                 //Type bestFallbackType = GetBestFallbackType<T>(subNode);
                 Log.Error(string.Concat("Could not find class ", text, " while resolving node ", subNode.Name, ". Trying to use ", /*bestFallbackType,*/ " instead. Full node: ",
@@ -85,20 +85,20 @@ public static class ScribeExtractor {
                 throw new ArgumentException("Can't load abstract class " + type);
             }
 
-            IExposable exposable = (IExposable) Activator.CreateInstance(type, ctorArgs);
-            bool flag = typeof(T).IsValueType /*|| typeof(Name).IsAssignableFrom(typeof(T))*/;
+            var exposable = (IExposable?) Activator.CreateInstance(type, ctorArgs);
+            var flag = typeof(T).IsValueType /*|| typeof(Name).IsAssignableFrom(typeof(T))*/;
             if (!flag) {
                 Scribe.Loader.CrossRefs.RegisterForCrossRefResolve(exposable);
             }
 
-            XmlNode curXmlParent = Scribe.Loader.CurXmlParent;
-            IExposable curParent = Scribe.Loader.CurParent;
-            string curPathRelToParent = Scribe.Loader.CurPathRelToParent;
+            var curXmlParent = Scribe.Loader.CurXmlParent;
+            var curParent = Scribe.Loader.CurParent;
+            var curPathRelToParent = Scribe.Loader.CurPathRelToParent;
             Scribe.Loader.CurXmlParent = subNode;
             Scribe.Loader.CurParent = exposable;
             Scribe.Loader.CurPathRelToParent = null;
             try {
-                exposable.ExposeData();
+                exposable!.ExposeData();
             }
             finally {
                 Scribe.Loader.CurXmlParent = curXmlParent;
@@ -113,13 +113,13 @@ public static class ScribeExtractor {
             return (T) exposable;
         }
         catch (Exception ex) {
-            T result = default;
+            T result = default!;
             Log.Error(string.Concat("SaveableFromNode exception: ", ex, "\nSubnode:\n", subNode.OuterXml));
             return result;
         }
     }
 
-    private static Type GetBestFallbackType<T>(XmlNode node) {
+    //private static Type GetBestFallbackType<T>(XmlNode node) {
         /*
         if (typeof(Entity).IsAssignableFrom(typeof(T))) {
             Def entityDef = TryFindDef<Def>(node, "def");
@@ -153,18 +153,18 @@ public static class ScribeExtractor {
                 return thoughtDef.thoughtClass;
             }
         }*/
-        return typeof(T);
-    }
+        //return typeof(T);
+    //}
 
-    private static TDef TryFindDef<TDef>(XmlNode node, string defNodeName) where TDef : Def, new() {
-        XmlElement xmlElement = node[defNodeName];
+    /*private static TDef TryFindDef<TDef>(XmlNode node, string defNodeName) where TDef : Def, new() {
+        var xmlElement = node[defNodeName];
         if (xmlElement == null) {
             return null;
         }
 
         //return DefDatabase<TDef>.GetNamedSilentFail(xmlElement.InnerText);
         return DefRepository<TDef>.GetByMoniker(xmlElement.InnerText);
-    }
+    }*/
 
     /*    
     public static TargetInfo TargetInfoFromNode(XmlNode node, string label, TargetInfo defaultValue)

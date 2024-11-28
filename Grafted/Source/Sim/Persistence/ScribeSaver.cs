@@ -26,7 +26,8 @@ public class ScribeSaver {
         try {
             Scribe.State = ScribeState.Saving;
             _saveStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
-            XmlWriterSettings xmlWriterSettings = new() { Indent = true, IndentChars = "\t" };
+            var xmlWriterSettings = new XmlWriterSettings
+                { Indent = true, IndentChars = "\t" };
             _writer = XmlWriter.Create(_saveStream, xmlWriterSettings);
             _writer.WriteStartDocument();
             EnterNode(documentElementName);

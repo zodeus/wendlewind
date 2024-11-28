@@ -28,9 +28,9 @@ public class World : IExposable, IIdentityProvider
 
     public void ExposeData()
     {
-        Scribe_Deep.Look(ref Player!, "Player");
-        Scribe_Values.Look(ref TotalKills, "TotalKills");
-        Scribe_Collections.Look(ref Zones!, "Zones", LookMode.Deep);
+        ScribeDeep.Look(ref Player!, "Player");
+        ScribeValues.Look(ref TotalKills, "TotalKills");
+        ScribeCollections.Look(ref Zones!, "Zones", LookMode.Deep);
     }
 
     public string GetUniqueId()

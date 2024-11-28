@@ -24,7 +24,7 @@ public class PawnDeathRecords : IEnumerable<DeathRecord>, IExposable {
     }
 
     public void ExposeData() {
-        Scribe_Collections.Look(ref _deathRecords!, "DeathRecords", LookMode.Deep);
+        ScribeCollections.Look(ref _deathRecords!, "DeathRecords", LookMode.Deep);
     }
 }
 
@@ -34,8 +34,8 @@ public class DeathRecord : IExposable {
     public int Round = -1;
 
     public void ExposeData() {
-        Scribe_Values.Look(ref CauseOfDeath!, "CauseOfDeath");
-        Scribe_Values.Look(ref PawnName!, "PawnName");
-        Scribe_Values.Look(ref Round!, "Round");
+        ScribeValues.Look(ref CauseOfDeath!, "CauseOfDeath");
+        ScribeValues.Look(ref PawnName!, "PawnName");
+        ScribeValues.Look(ref Round!, "Round");
     }
 }

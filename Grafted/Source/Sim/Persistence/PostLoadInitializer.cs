@@ -1,7 +1,7 @@
 ﻿namespace Grafted.Sim.Persistence;
 
 public class PostLoadInitializer {
-    private readonly HashSet<IExposable> _saveablesToPostLoad = new();
+    private readonly HashSet<IExposable> _saveablesToPostLoad = new HashSet<IExposable>();
 
     public void RegisterForPostLoadInit(IExposable? s) {
         if (Scribe.State != ScribeState.LoadingObjects) {
@@ -20,7 +20,7 @@ public class PostLoadInitializer {
 
     public void DoAllPostLoadInits() {
         Scribe.State = ScribeState.PostLoadInitialization;
-        foreach (IExposable item in _saveablesToPostLoad) {
+        foreach (var item in _saveablesToPostLoad) {
             try {
                 Scribe.Loader.CurParent = item;
                 Scribe.Loader.CurPathRelToParent = null;

@@ -5,7 +5,7 @@ namespace Grafted.Sim.Entities;
 
 public class EntityContainer : IEnumerable<Item>, IExposable
 {
-    private List<Item> _list = new List<Item>();
+    private List<Item> _list = new();
 
     public EntityContainer()
     {
@@ -162,7 +162,7 @@ public class EntityContainer : IEnumerable<Item>, IExposable
 
     public void ExposeData()
     {
-        Scribe_Collections.Look(ref _list!, "Container", LookMode.Deep);
+        ScribeCollections.Look(ref _list!, "Container", LookMode.Deep);
         if (Scribe.State == ScribeState.PostLoadInitialization)
         {
             for (int i = 0; i < _list.Count; i++)

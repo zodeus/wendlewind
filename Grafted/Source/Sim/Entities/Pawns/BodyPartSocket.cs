@@ -79,12 +79,12 @@ public class BodyPartSocket : IExposable, IIdentityProvider {
     }
 
     public void ExposeData() {
-        Scribe_Values.Look(ref Id!, "Id");
-        Scribe_Defs.Look(ref Def!, "Def");
-        Scribe_Deep.Look(ref AttachedPart!, "AttachedPart");
-        Scribe_References.Look(ref ParentPart!, "ParentPart");
-        Scribe_References.Look(ref Body, "Body");
-        Scribe_Values.Look(ref IsSealed, "IsSealed");
-        Scribe_Values.Look(ref NEXT_SOCKET_ID, "NEXT_SOCKET_ID");
+        ScribeValues.Look(ref Id!, "Id");
+        ScribeDefs.Look(ref Def!, "Def");
+        ScribeDeep.Look(ref AttachedPart!, "AttachedPart");
+        ScribeReferences.Look(ref ParentPart!, "ParentPart");
+        ScribeReferences.Look(ref Body, "Body");
+        ScribeValues.Look(ref IsSealed, "IsSealed");
+        ScribeValues.Look(ref NEXT_SOCKET_ID, "NEXT_SOCKET_ID");
     }
 }

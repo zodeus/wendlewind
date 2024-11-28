@@ -1,6 +1,6 @@
 namespace Grafted.Sim.Persistence;
 
-public class Scribe_Deep {
+public class ScribeDeep {
     public static void Look<T>(ref T? target, string label, params object[] ctorArgs) {
         switch (Scribe.State) {
             case ScribeState.Saving: {
@@ -9,7 +9,7 @@ public class Scribe_Deep {
                     return;
                 }
 
-                IExposable exposable = (IExposable) target!;
+                var exposable = (IExposable) target!;
                 if (target == null) {
                     if (Scribe.EnterNode(label)) {
                         try {
@@ -23,7 +23,7 @@ public class Scribe_Deep {
                 else if (Scribe.EnterNode(label)) {
                     try {
                         if (target.GetType() != typeof(T) || typeof(T).IsGenericTypeDefinition) {
-                            Scribe.Saver.WriteAttribute("Class", GenTypes.GetTypeNameWithoutIgnoredNamespaces(target.GetType()));
+                            Scribe.Saver.WriteAttribute("Class", GenTypes.GetTypeNameWithoutIgnoredNamespaces(target.GetType())!);
                         }
 
                         exposable.ExposeData();

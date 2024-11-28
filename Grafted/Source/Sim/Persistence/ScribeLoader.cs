@@ -4,9 +4,9 @@ using System.Xml;
 namespace Grafted.Sim.Persistence;
 
 public class ScribeLoader {
-    public readonly CrossRefHandler CrossRefs = new();
+    public readonly CrossRefHandler CrossRefs = new CrossRefHandler();
 
-    public readonly PostLoadInitializer Initializer = new();
+    public readonly PostLoadInitializer Initializer = new PostLoadInitializer();
 
     public IExposable? CurParent;
 
@@ -30,13 +30,10 @@ public class ScribeLoader {
             CurPathRelToParent = null;
         }
 
-        try
-        {
-            using (StreamReader input = new(filePath))
-            {
-                using (XmlTextReader reader = new(input))
-                {
-                    XmlDocument xmlDocument = new();
+        try {
+            using (var input = new StreamReader(filePath)) {
+                using (var reader = new XmlTextReader(input)) {
+                    var xmlDocument = new XmlDocument();
                     xmlDocument.Load(reader);
                     CurXmlParent = xmlDocument.DocumentElement;
                 }
@@ -44,12 +41,7 @@ public class ScribeLoader {
 
             Scribe.State = ScribeState.LoadingObjects;
         }
-        catch (FileNotFoundException)
-        {
-            Log.Warning("No save file exists");
-        }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             Log.Error("Exception while init loading file: " + filePath + "\n" + ex);
             ForceStop();
             throw;
@@ -101,7 +93,7 @@ public class ScribeLoader {
 
         if (CurPathRelToParent == null) return;
 
-        int num = CurPathRelToParent.LastIndexOf('/');
+        var num = CurPathRelToParent.LastIndexOf('/');
         CurPathRelToParent = num > 0 ? CurPathRelToParent.Substring(0, num) : null;
     }
 

@@ -34,17 +34,17 @@ public class LoadIDsWantedBank {
         }
     }
 
-    private List<IdRecord> _idsRead = new();
+    private List<IdRecord> _idsRead = new List<IdRecord>();
 
-    private List<IdListRecord> _idListsRead = new();
+    private List<IdListRecord> _idListsRead = new List<IdListRecord>();
 
     public void ConfirmClear() {
         if (_idsRead.Count > 0 || _idListsRead.Count > 0) {
-            StringBuilder stringBuilder = new();
+            var stringBuilder = new StringBuilder();
             stringBuilder.AppendLine("Not all loadIDs which were read were consumed.");
             if (_idsRead.Count > 0) {
                 stringBuilder.AppendLine("Singles:");
-                for (int i = 0; i < _idsRead.Count; i++) {
+                for (var i = 0; i < _idsRead.Count; i++) {
                     stringBuilder.AppendLine(string.Concat("  ", _idsRead[i].TargetLoadId, " of type ", _idsRead[i].TargetType, ". pathRelToParent=", _idsRead[i].PathRelToParent,
                         ", parent=", _idsRead[i].Parent.ToString()));
                 }
@@ -52,7 +52,7 @@ public class LoadIDsWantedBank {
 
             if (_idListsRead.Count > 0) {
                 stringBuilder.AppendLine("Lists:");
-                for (int j = 0; j < _idListsRead.Count; j++) {
+                for (var j = 0; j < _idListsRead.Count; j++) {
                     stringBuilder.AppendLine("  List with " + ((_idListsRead[j].TargetLoadIDs != null) ? _idListsRead[j].TargetLoadIDs!.Count : 0) + " elements. pathRelToParent=" +
                                              _idListsRead[j].PathRelToParent + ", parent=" + _idListsRead[j].Parent);
                 }
@@ -70,8 +70,8 @@ public class LoadIDsWantedBank {
     }
 
     public void RegisterLoadIdReadFromXml(string targetLoadId, Type targetType, string pathRelToParent, IExposable parent) {
-        for (int i = 0; i < _idsRead.Count; i++) {
-            if (_idsRead[i].Parent == parent && _idsRead[i].PathRelToParent == pathRelToParent) {
+        for (var i = 0; i < _idsRead.Count; i++) {
+            if (Equals(_idsRead[i].Parent, parent) && _idsRead[i].PathRelToParent == pathRelToParent) {
                 Log.Error("Tried to register the same load ID twice: " + targetLoadId + ", pathRelToParent=" + pathRelToParent + ", parent=" + parent);
                 return;
             }
@@ -81,7 +81,7 @@ public class LoadIDsWantedBank {
     }
 
     public void RegisterLoadIdReadFromXml(string targetLoadId, Type targetType, string toAppendToPathRelToParent) {
-        string text = Scribe.Loader.CurPathRelToParent!;
+        var text = Scribe.Loader.CurPathRelToParent!;
         if (!toAppendToPathRelToParent.NullOrEmpty()) {
             text = text + "/" + toAppendToPathRelToParent;
         }
@@ -90,8 +90,8 @@ public class LoadIDsWantedBank {
     }
 
     public void RegisterLoadIdListReadFromXml(List<string>? targetLoadIdList, string pathRelToParent, IExposable parent) {
-        for (int i = 0; i < _idListsRead.Count; i++) {
-            if (_idListsRead[i].Parent == parent && _idListsRead[i].PathRelToParent == pathRelToParent) {
+        for (var i = 0; i < _idListsRead.Count; i++) {
+            if (Equals(_idListsRead[i].Parent, parent) && _idListsRead[i].PathRelToParent == pathRelToParent) {
                 Log.Error("Tried to register the same list of load IDs twice. pathRelToParent=" + pathRelToParent + ", parent=" + parent);
                 return;
             }
@@ -101,7 +101,7 @@ public class LoadIDsWantedBank {
     }
 
     public void RegisterLoadIdListReadFromXml(List<string>? targetLoadIdList, string? toAppendToPathRelToParent) {
-        string text = Scribe.Loader.CurPathRelToParent!;
+        var text = Scribe.Loader.CurPathRelToParent!;
         if (!toAppendToPathRelToParent?.NullOrEmpty() ?? true) {
             text = text + "/" + toAppendToPathRelToParent;
         }
@@ -110,9 +110,9 @@ public class LoadIDsWantedBank {
     }
 
     public string? Take<T>(string pathRelToParent, IExposable parent) {
-        for (int i = 0; i < _idsRead.Count; i++) {
-            if (_idsRead[i].Parent == parent && _idsRead[i].PathRelToParent == pathRelToParent) {
-                string targetLoadId = _idsRead[i].TargetLoadId;
+        for (var i = 0; i < _idsRead.Count; i++) {
+            if (Equals(_idsRead[i].Parent, parent) && _idsRead[i].PathRelToParent == pathRelToParent) {
+                var targetLoadId = _idsRead[i].TargetLoadId;
                 if (typeof(T) != _idsRead[i].TargetType) {
                     Log.Error(string.Concat("Trying to get load ID of object of type ", typeof(T), ", but it was registered as ", _idsRead[i].TargetType, ". pathRelToParent=", pathRelToParent,
                         ", parent=", parent.ToString()));
@@ -128,8 +128,8 @@ public class LoadIDsWantedBank {
     }
 
     public List<string> TakeList(string pathRelToParent, IExposable parent) {
-        for (int i = 0; i < _idListsRead.Count; i++) {
-            if (_idListsRead[i].Parent == parent && _idListsRead[i].PathRelToParent == pathRelToParent) {
+        for (var i = 0; i < _idListsRead.Count; i++) {
+            if (Equals(_idListsRead[i].Parent, parent) && _idListsRead[i].PathRelToParent == pathRelToParent) {
                 List<string> targetLoadIDs = _idListsRead[i].TargetLoadIDs!;
                 _idListsRead.RemoveAt(i);
                 return targetLoadIDs;

@@ -76,9 +76,9 @@ public class Item : Entity, IExposable {
     }*/
 
     public override void ExposeData() {
-        Scribe_Values.Look(ref _durability!, "Durability");
-        Scribe_Values.Look(ref MaxDurability!, "MaxDurability");
-        Scribe_Values.Look(ref StackSize!, "StackSize");
+        ScribeValues.Look(ref _durability!, "Durability");
+        ScribeValues.Look(ref MaxDurability!, "MaxDurability");
+        ScribeValues.Look(ref StackSize!, "StackSize");
         base.ExposeData();
     }
 }

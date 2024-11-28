@@ -27,7 +27,7 @@ public class IdProvider : IExposable {
     }
 
     public void ExposeData() {
-        Scribe_Values.Look(ref _nextEntityId, "NextEntityId");
-        Scribe_Values.Look(ref _nextBodyPartModifierId, "NextBodyPartModifierId");
+        ScribeValues.Look(ref _nextEntityId, "NextEntityId");
+        ScribeValues.Look(ref _nextBodyPartModifierId, "NextBodyPartModifierId");
     }
 }
