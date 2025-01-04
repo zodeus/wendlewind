@@ -15,74 +15,64 @@ public class CombatHandler
         Encounter = encounter;
         Player = encounter.PlayerPawns.First();
         Enemy = encounter.EnemyPawns.First();
+
+        Player.DamageTaken += OnDamageTaken;
+        Player.Died += OnDeath;
+
+        Enemy.DamageTaken += OnDamageTaken;
+        Enemy.Died += OnDeath;
     }
 
-    public void DoFighting(int ticks)
+    private void OnDeath(DeathEvent deathEvent)
     {
-        Attack(Player, Enemy);
-        if (Enemy.IsDead)
-        {
-            return;
-        }
-
-        Attack(Enemy, Player);
+        Encounter.LogMessage($"  /c[{TC.Victim}]{deathEvent.Pawn.LabelShort} /c[{TC.Red}]died from {deathEvent.Record.CauseOfDeath}");
+        Encounter.Zone!.Alert(
+            new ScreenMessageData
+            {
+                Text = $"{deathEvent.Pawn.LabelShort}s has died from {deathEvent.Record.CauseOfDeath}",
+                Font = BaseContent.Fonts.Default.Medium,
+                Duration = 8,
+                Color = Color.Red
+            });
     }
 
-    private void Attack(Pawn attacker, Pawn victim)
+    private void OnDamageTaken(Pawn victim, DamageRequest request, DamageResponse response)
     {
-        if (attacker.TicksToAttack > 0)
+        var attacker = request.Source;
+        //todo move this to Encounter
+        foreach (DamagedBodyPartRecord damage in response.Damages.SelectMany(r => r.BodyParts))
         {
-            return;
+            if (damage.BodyPart.IsExternal && damage.WasSevered)
+            {
+                Encounter.SeveredLimbs.Add(damage.BodyPart);
+            }
         }
 
-        attacker.ResetAttackCoolDown();
-        UsePotionsIfNecessary(attacker, victim); //todo move to different tick rate
-
-        float chanceToHit = attacker.ChanceToHit(victim);
-        attacker.Body.ConsumeEnergy(0.002f);
-        if (Core.Random.NextSingle() < chanceToHit)
+        if (response.Missed)
         {
-            var damageOptions = attacker.Equipment.UsableWeapons
-                .Select(t => CombatHelpers.CalculateDamages(attacker, t))
-                .OrderByDescending(t => t.TotalRawDamage)
-                .ToList();
-            if (damageOptions.Any() == false)
-            {
-                Encounter.LogMessage($"/c[{TC.Attacker}]{attacker.LabelShort} has no usable weapons");
-                return;
-            }
-
-            var damageRequest = damageOptions.First();
-            var damageResponse = victim.TakeDamage(damageRequest);
-            if (damageResponse.Dodged)
-            {
-                Encounter.LogMessage($"/c[{TC.Victim}]{victim.LabelShort} /c[{TC.Blue}] dodged attack");
-                return;
-            }
-
-            foreach (DamagedPartRecord damage in damageResponse.Damages.SelectMany(r => r.BodyParts))
-            {
-                if (damage.BodyPart.IsExternal && damage.WasSevered)
-                {
-                    Encounter.SeveredLimbs.Add(damage.BodyPart);
-                }
-            }
-
-            foreach (DamageRecord damageResult in damageResponse.Damages)
+            Encounter.LogMessage($"/c[{TC.Attacker}]{attacker.LabelShort} /c[{TC.Blue}] missed /c[{TC.Victim}]{victim.LabelShort}.");
+        }
+        else if (response.Dodged)
+        {
+            Encounter.LogMessage($"/c[{TC.Victim}]{victim.LabelShort} /c[{TC.Blue}] dodged attack");
+        }
+        else
+        {
+            foreach (var damage in response.Damages)
             {
                 Encounter.LogMessage(
-                    $"/c[{TC.Attacker}]{attacker.ToString().PadRight(20)}/c[{TC.Default}]hit /c[{TC.Victim}]{victim.LabelShort}'s /c[{TC.BodyPart}]{damageResult.BodyPartHit.Label} " +
-                    $"/c[{TC.Default}]with /c[{TC.Item}]{damageRequest.Tool} (/c[{TC.Golden}]{damageRequest.ToolManeuver.Label}) " +
-                    $"/c[{TC.Default}] for /c[{TC.Red}]{damageResult.ActualAmount} /c[{TC.Default}] /c[{TC.Golden}]{damageResult.DamageType}/c[{TC.Default}] damage, " +
-                    $"blocked /c[#00e6ff]{damageResult.AmountBlocked}"
+                    $"/c[{TC.Attacker}]{attacker.ToString().PadRight(20)}/c[{TC.Default}]hit /c[{TC.Victim}]{victim.LabelShort}'s /c[{TC.BodyPart}]{damage.BodyPartHit.Label} " +
+                    $"/c[{TC.Default}]with /c[{TC.Item}]{request.Tool} (/c[{TC.Golden}]{request.ToolManeuver.Label}) " +
+                    $"/c[{TC.Default}] for /c[{TC.Red}]{damage.ActualAmount} /c[{TC.Default}] /c[{TC.Golden}]{damage.DamageType}/c[{TC.Default}] damage, " +
+                    $"blocked /c[#00e6ff]{damage.AmountBlocked}"
                 );
 
-                foreach (DestroyedItemRecord itemRecord in damageResult.DestroyedEquipment)
+                foreach (DestroyedItemRecord itemRecord in damage.DestroyedEquipment)
                 {
                     Encounter.LogMessage($"  /c[{TC.Equipment}]{itemRecord.Def.Label} /c[{TC.Red}]destroyed");
                 }
 
-                foreach (DamagedPartRecord partRecord in damageResult.BodyParts)
+                foreach (DamagedBodyPartRecord partRecord in damage.BodyParts)
                 {
                     foreach (BodyPartModifierDef modifer in partRecord.AppliedModifiers)
                     {
@@ -114,19 +104,51 @@ public class CombatHandler
                     }
                 }
             }
+        }
+        //todo
+        /*if (damageResponse.HealthConditions != null) {
+            foreach (HealthConditionDef condition in damageResponse.HealthConditions) {
+                CombatEvent.LogMessage($"        /c[#b3b3b3]Inflicted /c[{TextColorPawn}]{Target.LabelShort} /c[#b3b3b3]with /c[#acc700]{condition.Label}");
+            }
+        }*/
+    }
 
-            //todo
-            /*if (damageResponse.HealthConditions != null) {
-                foreach (HealthConditionDef condition in damageResponse.HealthConditions) {
-                    CombatEvent.LogMessage($"        /c[#b3b3b3]Inflicted /c[{TextColorPawn}]{Target.LabelShort} /c[#b3b3b3]with /c[#acc700]{condition.Label}");
-                }
-            }*/
-        }
-        else
+    public void DoFighting(int ticks)
+    {
+        Attack(Player, Enemy);
+        if (Enemy.IsDead)
         {
-            Encounter.LogMessage(
-                $"/c[{TC.Attacker}]{attacker.ToString().PadRight(20)}/c[{TC.Purple}]missed /c[{TC.Victim}]{victim.LabelShort} /c[{TC.Default}]ChanceToHit = /c[{TC.BrightBlue}]{chanceToHit:P1}");
+            return;
         }
+
+        Attack(Enemy, Player);
+    }
+
+    private void Attack(Pawn attacker, Pawn victim)
+    {
+        if (attacker.TicksToAttack > 0)
+        {
+            return;
+        }
+
+        attacker.ResetAttackCoolDown();
+        UsePotionsIfNecessary(attacker, victim); //todo move to different tick rate
+
+        var energyUsedForAttack = 0.25f;
+        attacker.Body.ConsumeEnergy(energyUsedForAttack);
+        var damageOptions = attacker.Equipment.UsableWeapons
+            .Select(t => CombatHelpers.CalculateDamages(attacker, t))
+            .OrderByDescending(t => t.TotalRawDamage)
+            .ToList();
+
+        if (damageOptions.Any() == false)
+        {
+            Encounter.LogMessage($"/c[{TC.Attacker}]{attacker.LabelShort} has no usable weapons");
+            return;
+        }
+
+        var damageRequest = damageOptions.First();
+        victim.TakeDamage(damageRequest);
     }
 
     public void UsePotionsIfNecessary(Pawn pawn, Pawn target)

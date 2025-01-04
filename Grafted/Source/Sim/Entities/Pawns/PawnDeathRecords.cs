@@ -39,3 +39,8 @@ public class DeathRecord : IExposable {
         ScribeValues.Look(ref Round!, "Round");
     }
 }
+public struct DeathEvent
+{
+    public DeathRecord Record;
+    public Pawn Pawn;
+}

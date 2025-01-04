@@ -2,15 +2,21 @@ using System.Collections;
 
 namespace Grafted.Sim.Entities.Pawns;
 
-public class PawnEquipment : IEnumerable<Item>, IExposable {
+public class PawnEquipment : IEnumerable<Item>, IExposable
+{
     private readonly Pawn _pawn;
 
     //public Dictionary<BodyPart, List<Item>> Items;
-    public IEnumerable<Item> Armor {
-        get {
-            foreach (BodyPart externalPart in _pawn.Body.AllExternalParts) {
-                foreach (Item? item in externalPart.Equipment.Values) {
-                    if (item != null && item.ItemDef.EquipmentProperties.EquipmentType == EquipmentType.Armor) {
+    public IEnumerable<Item> Armor
+    {
+        get
+        {
+            foreach (BodyPart externalPart in _pawn.Body.AllExternalParts)
+            {
+                foreach (Item? item in externalPart.Equipment.Values)
+                {
+                    if (item != null && item.ItemDef.EquipmentProperties.EquipmentType == EquipmentType.Armor)
+                    {
                         yield return item;
                     }
                 }
@@ -18,11 +24,16 @@ public class PawnEquipment : IEnumerable<Item>, IExposable {
         }
     }
 
-    public IEnumerable<Item> Potions {
-        get {
-            foreach (BodyPart externalPart in _pawn.Body.AllExternalParts) {
-                foreach (Item? item in externalPart.Equipment.Values) {
-                    if (item?.ItemDef.ItemType == ItemType.Potion) {
+    public IEnumerable<Item> Potions
+    {
+        get
+        {
+            foreach (BodyPart externalPart in _pawn.Body.AllExternalParts)
+            {
+                foreach (Item? item in externalPart.Equipment.Values)
+                {
+                    if (item?.ItemDef.ItemType == ItemType.Potion)
+                    {
                         yield return item;
                     }
                 }
@@ -30,15 +41,21 @@ public class PawnEquipment : IEnumerable<Item>, IExposable {
         }
     }
 
-    public IEnumerable<Item> UsableItems {
-        get {
-            foreach (BodyPart externalPart in _pawn.Body.AllExternalParts) {
-                if (externalPart.HasMobility == false) {
+    public IEnumerable<Item> UsableItems
+    {
+        get
+        {
+            foreach (BodyPart externalPart in _pawn.Body.AllExternalParts)
+            {
+                if (externalPart.HasMobility == false)
+                {
                     continue;
                 }
 
-                foreach (Item? item in externalPart.Equipment.Values) {
-                    if (item != null) {
+                foreach (Item? item in externalPart.Equipment.Values)
+                {
+                    if (item != null)
+                    {
                         yield return item;
                     }
                 }
@@ -47,43 +64,53 @@ public class PawnEquipment : IEnumerable<Item>, IExposable {
     }
 
     public IEnumerable<Item> UsableWeapons => UsableItems.Where(i => i.ItemDef.EquipmentProperties.EquipmentType == EquipmentType.Tool);
-    
 
-    public IEnumerable<KeyValuePair<BodyPart, List<EquipmentSlotType>>> Slots {
-        get {
-            foreach (BodyPart externalPart in _pawn.Body.AllExternalParts) {
+
+    public IEnumerable<KeyValuePair<BodyPart, List<EquipmentSlotType>>> Slots
+    {
+        get
+        {
+            foreach (BodyPart externalPart in _pawn.Body.AllExternalParts)
+            {
                 yield return new KeyValuePair<BodyPart, List<EquipmentSlotType>>(externalPart, externalPart.Equipment.Keys.ToList());
             }
         }
     }
 
-    public PawnEquipment(Pawn pawn) {
+    public PawnEquipment(Pawn pawn)
+    {
         _pawn = pawn;
     }
 
-    public Item? TryEquip(BodyPart bodyPart, Item item) {
+    public Item? TryEquip(BodyPart bodyPart, Item item)
+    {
         return TryEquip(bodyPart, bodyPart.SlotFor(item)!.Value, item);
     }
 
-    public Item? TryEquip(BodyPart bodyPart, EquipmentSlotType slot, Item item) {
-
-        if (item.ItemDef.EquipmentProperties.SlotUsedToEquip == null) {
+    public Item? TryEquip(BodyPart bodyPart, EquipmentSlotType slot, Item item)
+    {
+        if (item.ItemDef.EquipmentProperties.SlotUsedToEquip == null)
+        {
             Log.Error($"Tried to equip '{item}' but SlotUsedToEquip is null");
             return null;
         }
 
         Item? unequippedItem = UnEquip(bodyPart, slot);
-        item.Container?.Remove(item);
+        item.EjectFromContainer();
         bodyPart.Equipment[slot] = item;
 
         //OnEquipmentChanged(new OnChangeArgs(OnChangeArgs.ChangeType.ItemEquipped, item));
         return unequippedItem;
     }
 
-    public Item? UnEquip(Item item) {
-        foreach ((BodyPart? bodyPart, var slots) in Slots) {
-            foreach (EquipmentSlotType slot in slots) {
-                if (item == bodyPart.Equipment[slot]) {
+    public Item? UnEquip(Item item)
+    {
+        foreach ((BodyPart? bodyPart, var slots) in Slots)
+        {
+            foreach (EquipmentSlotType slot in slots)
+            {
+                if (item == bodyPart.Equipment[slot])
+                {
                     return UnEquip(bodyPart, slot);
                 }
             }
@@ -92,7 +119,8 @@ public class PawnEquipment : IEnumerable<Item>, IExposable {
         return null;
     }
 
-    public Item? UnEquip(BodyPart bodyPart, EquipmentSlotType slot) {
+    public Item? UnEquip(BodyPart bodyPart, EquipmentSlotType slot)
+    {
         Item? item = GetBySlot(bodyPart, slot);
         if (item == null) return null;
         UnEquipInternal(bodyPart, slot, item);
@@ -100,40 +128,52 @@ public class PawnEquipment : IEnumerable<Item>, IExposable {
         return item;
     }
 
-    private void UnEquipInternal(BodyPart bodyPart, EquipmentSlotType slot, Item item) {
+    private void UnEquipInternal(BodyPart bodyPart, EquipmentSlotType slot, Item item)
+    {
         bodyPart.Equipment[slot] = null;
         //OnEquipmentChanged(new OnChangeArgs(OnChangeArgs.ChangeType.ItemUnequipped, item));
     }
 
-    public Item? GetBySlot(BodyPart bodyPart, EquipmentSlotType slot) {
-        if (bodyPart.Equipment.ContainsKey(slot) == false) {
+    public Item? GetBySlot(BodyPart bodyPart, EquipmentSlotType slot)
+    {
+        if (bodyPart.Equipment.ContainsKey(slot) == false)
+        {
             return null;
         }
 
         return bodyPart.Equipment[slot];
     }
 
-    public void ExposeData() { }
+    public void ExposeData()
+    {
+    }
 
-    public IEnumerator<Item> GetEnumerator() {
-        foreach (BodyPart externalPart in _pawn.Body.AllExternalParts) {
-            foreach (Item? item in externalPart.Equipment.Values) {
-                if (item != null) {
+    public IEnumerator<Item> GetEnumerator()
+    {
+        foreach (BodyPart externalPart in _pawn.Body.AllExternalParts)
+        {
+            foreach (Item? item in externalPart.Equipment.Values)
+            {
+                if (item != null)
+                {
                     yield return item;
                 }
-
             }
         }
     }
 
-    IEnumerator IEnumerable.GetEnumerator() {
+    IEnumerator IEnumerable.GetEnumerator()
+    {
         return GetEnumerator();
     }
 
-    public Item? PotionByDef(ItemDef potionDef) {
-        foreach (Item potion in Potions) {
+    public Item? PotionByDef(ItemDef potionDef)
+    {
+        foreach (Item potion in Potions)
+        {
             //todo this sucks but it's expensive to find the potion slot again to remove it, need to add proper ItemContainers....
-            if (potion.Def == potionDef) {
+            if (potion.Def == potionDef)
+            {
                 return potion;
             }
         }

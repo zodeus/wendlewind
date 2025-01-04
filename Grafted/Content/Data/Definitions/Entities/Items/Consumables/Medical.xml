@@ -47,15 +47,15 @@
             </RequiredTools>
             <ResourceRequirements>
                 <ListItem>
-                    <Resource>ButtonTopMushroom</Resource>
+                    <Item>ButtonTopMushroom</Item>
                     <Count>1</Count>
                 </ListItem>
                 <ListItem>
-                    <Resource>HealingRoot</Resource>
+                    <Item>HealingRoot</Item>
                     <Count>5</Count>
                 </ListItem>
                 <ListItem>
-                    <Resource>WaterBucket</Resource>
+                    <Item>WaterBucket</Item>
                     <Count>10</Count>
                 </ListItem>
             </ResourceRequirements>
@@ -83,15 +83,15 @@
             </RequiredTools>
             <ResourceRequirements>
                 <ListItem>
-                    <Resource>ButtonTopMushroom</Resource>
+                    <Item>ButtonTopMushroom</Item>
                     <Count>4</Count>
                 </ListItem>
                 <!--<ListItem>
-                    <Resource>VenomVial</Resource>
+                    <Item>VenomVial</Item>
                     <Count>6</Count>
                 </ListItem>-->
                 <ListItem>
-                    <Resource>WaterBucket</Resource>
+                    <Item>WaterBucket</Item>
                     <Count>5</Count>
                 </ListItem>
             </ResourceRequirements>

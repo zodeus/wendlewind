@@ -35,7 +35,7 @@
             <AmountProduced>1</AmountProduced>
             <ResourceRequirements>
                 <ListItem>
-                    <Resource>RawMeat</Resource>
+                    <Item>RawMeat</Item>
                     <Count>1</Count>
                 </ListItem>
             </ResourceRequirements>
@@ -121,7 +121,7 @@
             </RequiredTools>
             <ResourceRequirements>
                 <ListItem>
-                    <Resource>RawCorn</Resource>
+                    <Item>RawCorn</Item>
                     <Count>1</Count>
                 </ListItem>
             </ResourceRequirements>

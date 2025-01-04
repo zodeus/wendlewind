@@ -28,7 +28,7 @@
     <ItemDef ParentName="Potion">
         <Moniker>PumpinJuice</Moniker>
         <Label>Pumpin Juice</Label>
-        <Description>Increases attack speed for a short period of time</Description>
+        <Description>Increases attack speed for a short period of time, also provides a small amount of health regeneration (not blood)</Description>
         <TexturePath>Entities/Item/Consumables/PumpinJuice</TexturePath>
     </ItemDef>
     <ItemDef ParentName="Potion">
@@ -45,19 +45,19 @@
             </RequiredTools>
             <ResourceRequirements>
                 <ListItem>
-                    <Resource>ButtonTopMushroom</Resource>
+                    <Item>ButtonTopMushroom</Item>
                     <Count>2</Count>
                 </ListItem>
                 <ListItem>
-                    <Resource>DreamBerry</Resource>
+                    <Item>DreamBerry</Item>
                     <Count>2</Count>
                 </ListItem>
                 <ListItem>
-                    <Resource>ChurniRoot</Resource>
+                    <Item>ChurniRoot</Item>
                     <Count>1</Count>
                 </ListItem>
                 <ListItem>
-                    <Resource>WaterBucket</Resource>
+                    <Item>WaterBucket</Item>
                     <Count>1</Count>
                 </ListItem>
             </ResourceRequirements>

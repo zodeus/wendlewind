@@ -2,18 +2,18 @@
 
 [UsedImplicitly]
 public class ResourceCount {
-    public ItemDef? Resource;
+    public ItemDef Item = null!;
     public int Count;
-
+    
     public ResourceCount() { }
-
+    
     public ResourceCount(Item item, int count) {
-        Resource = item.ItemDef;
+        Item = item.ItemDef;
         Count = count;
     }
 
     public ResourceCount(ItemDef def, int count) {
-        Resource = def;
+        Item = def;
         Count = count;
     }
 }

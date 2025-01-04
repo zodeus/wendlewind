@@ -159,8 +159,8 @@ public class GameHud : HorizontalStackPanel {
         _bloodLabel.TextColor = BodyPartColor.GetBloodColor(player.Body.BloodPercent);
         _zoneLabel.Text = $"blah";
         //_zoneLabel.Text = $"{Core.Context.World.CurrentZone?.Def.Label}";
-        _energyLabel.Text = player.Body.Energy.ToString("P0");
-        _energyLabel.TextColor = BodyPartColor.GetStomachColor(player.Body.Energy);
+        _energyLabel.Text = player.Body.EnergyPercent.ToString("P0");
+        _energyLabel.TextColor = BodyPartColor.GetStomachColor(player.Body.EnergyPercent);
         _mindWidget.Update();
         _temperatureLabel.Text = $"/c[{TC.Blue}]4°C";
         _stomachGauge.Background = new ColoredRegion(

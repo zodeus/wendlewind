@@ -34,6 +34,38 @@
         </Enemies>
     </CombatConfigDef>
     <CombatConfigDef>
+        <Moniker>FesterpusSwamp-02</Moniker>
+        <Biome>FesterpusSwamp</Biome>
+        <Enemies>
+            <ListItem>
+                <Race>BlisteringToad</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Blistering Toad</PawnName>
+                <SpawnWeight>1</SpawnWeight>
+                <!--  <EquipmentItems>
+                      <ListItem>AcidFlask</ListItem>
+                  </EquipmentItems>-->
+                <InventoryItems>
+                    <ListItem>
+                        <Item>Coin</Item>
+                        <Amount>500~1000</Amount>
+                        <ChanceToDrop>.75</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>BalmyOintment</Item>
+                        <Amount>5</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>PumpinJuice</Item>
+                        <Amount>2</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </CombatConfigDef>
+    <CombatConfigDef>
         <Moniker>FesterpusSwamp-Boss</Moniker>
         <Biome>FesterpusSwamp</Biome>
         <IsBoss>true</IsBoss>

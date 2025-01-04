@@ -1,0 +1,6 @@
+
+Set XML values for BodyPartDef.MobilityFraction
+
+Remove Durability
+
+What body part is severed remove a chunk of blood in proportion to the part lost. Should we store blood in each part?

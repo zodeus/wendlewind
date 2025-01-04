@@ -50,7 +50,7 @@ public class Item : Entity, IExposable {
 
     public Item SplitStack(int? amountWanted = null) {
         if (amountWanted == null || amountWanted >= StackSize) {
-            Container?.Remove(this);
+            EjectFromContainer();
             return this;
         }
 

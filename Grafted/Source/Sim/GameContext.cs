@@ -94,6 +94,8 @@ public class GameContext : IExposable
 
     public void Save(string filePath)
     {
+        Log.Warning("Save is dislabled");
+        return;
         Log.Info("Saving Game to " + filePath);
         Scribe.Saver.InitSaving(filePath, "SaveData");
         var context = this;

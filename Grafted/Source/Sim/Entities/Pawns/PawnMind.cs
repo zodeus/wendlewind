@@ -40,7 +40,7 @@ public class PawnMind : IExposable
             Focus -= 0.001f;
         }
 
-        if (_pawn.Body.Energy < 5)
+        if (_pawn.Body.EnergyPercent < .05f)
         {
             Sanity -= 0.001f;
             Power -= 0.001f;

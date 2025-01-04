@@ -5,6 +5,9 @@ namespace Grafted.Sim.Entities.Pawns;
 [UsedImplicitly] // Used by EntityGenerator, referenced by EntityDef.EntityClass
 public class Pawn : Entity, IExposable
 {
+    public event Action<Pawn, DamageRequest, DamageResponse>? DamageTaken; //todo - actions
+    public event Action<DeathEvent>? Died; //todo - actions
+
     public RaceDef Race = null!;
     public PawnBiography Biography = null!;
     public PawnTraits Traits = null!;
@@ -32,8 +35,6 @@ public class Pawn : Entity, IExposable
     public Gender Gender => Biography.Gender;
     public float MaxAttackSpeed => this.GetStatValue(Defs.Stats.AttackSpeed);
     public float AttackSpeed => Body.GetAttackSpeedModifier() * this.GetStatValue(Defs.Stats.AttackSpeed);
-
-    public event Action<Pawn, string>? OnDeath;
 
     public override void Initialize()
     {
@@ -69,40 +70,63 @@ public class Pawn : Entity, IExposable
 
         TicksToAttack--;
         Skills.Tick();
+        Inventory.Tick(ticks);
         base.Tick(ticks);
     }
 
-    public DamageResponse TakeDamage(DamageRequest request)
+    public void TakeDamage(DamageRequest request)
     {
         DamageResponse response = new();
-        if (Core.Random.Chance(this.GetStatValue(Defs.Stats.Evasion)))
+        if (Core.Random.Chance(request.Source.ChanceToHit(this)) == false)
         {
-            return new DamageResponse { Dodged = true };
+            response.Missed = true;
+            DamageTaken?.Invoke(this, request, response);
+            return;
         }
 
-        BodyPart bodyPart = Body.AllExternalParts.RandomElementByWeight(part => part.HitWeight)!;
+        if (Core.Random.Chance(this.GetStatValue(Defs.Stats.Evasion)))
+        {
+            response.Dodged = true;
+            DamageTaken?.Invoke(this, request, response);
+            return;
+        }
+
+        var bodyPart = Body.AllExternalParts
+            .Where(p => p.IsDestroyed == false || p.AllInternalParts.Count != 0)
+            .RandomElementByWeight(part => part.HitWeight)!;
+
         foreach (var damage in request.RawDamages)
         {
-            DamageRecord damageRecord = new(damage.Type, bodyPart, damage.Amount);
             request.Source.GetSkill(damage.ToolType)?.Learn(10);
-            int amountToApply = damage.Amount;
+
+            DamageRecord damageRecord = new(damage.Type, bodyPart, damage.TotalDamage);
 
             // Handle Armor
-            Item? bodyPartEquipment = bodyPart.Type is BodyPartType.Finger or BodyPartType.Thumb ? bodyPart.Socket!.ParentPart!.Armor : bodyPart.Armor;
+            var isPartCoveredByParentArmor = bodyPart.Type is BodyPartType.Finger or BodyPartType.Thumb;
+            var bodyPartEquipment = isPartCoveredByParentArmor ? bodyPart.Socket!.ParentPart!.Armor : bodyPart.Armor;
             if (bodyPartEquipment != null)
             {
                 if (damage.Type.IsPhysicalDamage())
+                {
                     bodyPartEquipment.ApplyDurabilityLoss(damage);
+                }
+
+                damage.Block(bodyPartEquipment);
+
                 if (bodyPartEquipment.IsDestroyed)
                 {
                     damageRecord.DestroyedEquipment.Add(new DestroyedItemRecord(bodyPartEquipment.ItemDef));
-                    bodyPart.UnEquip(bodyPartEquipment);
+                    if (isPartCoveredByParentArmor)
+                    {
+                        bodyPart.Socket!.ParentPart!.UnEquip(bodyPartEquipment);
+                    }
+                    else
+                    {
+                        bodyPart.UnEquip(bodyPartEquipment);
+                    }
                 }
-
-                damage.UnblockedAmount = Mathf.Clamp(amountToApply - (int)bodyPartEquipment.GetStatValue(Defs.Stats.PhysicalResistance), 0, damage.Amount);
             }
-
-            damageRecord.ActualAmount = damage.UnblockedAmount;
+            
             //Handle Weapon Durability
             damage.Tool.ApplyDurabilityLoss(bodyPartEquipment);
             if (damage.Tool.IsDestroyed)
@@ -110,14 +134,11 @@ public class Pawn : Entity, IExposable
                 damageRecord.DestroyedEquipment.Add(new DestroyedItemRecord(damage.Tool.ItemDef));
                 request.Source.Equipment.UnEquip(damage.Tool);
             }
-
-            damageRecord.BodyParts = bodyPart.ApplyDamage(damage);
+            
+            damageRecord.ActualAmount = damage.TotalUnblockedDamage;
+            damageRecord.BodyParts = bodyPart.ApplyDamageToExternalPart(damage);
             Body.BodyPartsDirty = true;
             response.Damages.Add(damageRecord);
-            if (CheckIfKilledByAttack(damageRecord, response))
-            {
-                break;
-            }
         }
 
         /*if (request.HealthConditions != null) {
@@ -127,64 +148,70 @@ public class Pawn : Entity, IExposable
                 response.HealthConditions.Add(conditionDef);
             }
         }*/
-
-        return response;
+        
+        DamageTaken?.Invoke(this, request, response);
+        foreach (var damage in response.Damages)
+        {
+            foreach (var partRecord in damage.BodyParts)
+            {
+                Log.Info($"{partRecord.BodyPart}, damage taken: {partRecord.DamageApplied}");    
+            }
+            
+        }
+        CheckIfKilledByDamage(response);
     }
 
-    private bool CheckIfKilledByAttack(DamageRecord damageRecord, DamageResponse response)
+    private bool CheckIfKilledByDamage(DamageResponse response)
     {
-        List<string> nonFunctionalVitalParts = new();
-        string causeOfDeath = "ERROR";
+        List<string> nonFunctionalVitalParts = [];
+        var causeOfDeath = "ERROR";
         var died = false;
-        foreach (DamagedPartRecord partRecord in damageRecord.BodyParts)
+        foreach (var damageRecord in response.Damages)
         {
-            if (partRecord.IsVital)
+            foreach (var partRecord in damageRecord.BodyParts)
             {
-                bool partIsFunctional = true;
+                if (!partRecord.IsVital) continue;
+
                 if (partRecord.BodyPart.IsDestroyed)
                 {
-                    partIsFunctional = false;
                     nonFunctionalVitalParts.Add($"{partRecord.PartType} was destroyed");
                 }
-                else if (partRecord.BodyPart.IsExternal && partRecord.BodyPart.IsSevered)
+                else if (partRecord.BodyPart is { IsExternal: true, IsSevered: true })
                 {
-                    partIsFunctional = false;
                     nonFunctionalVitalParts.Add($"{partRecord.PartType} was severed");
                 }
                 else if (partRecord.BodyPart.IsFunctional == false)
                 {
-                    partIsFunctional = false;
                     nonFunctionalVitalParts.Add($"{partRecord.PartType} stopped functioning");
                 }
 
-                if (partIsFunctional == false && Body.AllParts.Any(p => p.Type == partRecord.PartType && p.IsFunctional) == false)
+                if (partRecord.BodyPart.DidPawnDieFromPartFailure())
                 {
                     died = true;
-                    response.Killed = true;
                     causeOfDeath = nonFunctionalVitalParts.Last();
                 }
             }
         }
 
-        if (died)
-        {
-            HandleDeath(causeOfDeath);
-            return true;
-        }
+        if (!died) return false;
 
-        return false;
+        TriggerDeath(causeOfDeath);
+
+        return true;
     }
 
-    public void HandleDeath(string causeOfDeath)
+    public void TriggerDeath(string causeOfDeath)
     {
         IsDead = true;
-        OnDeath?.Invoke(this, causeOfDeath);
-        // Core.Context.World.DeathRecords.RecordDeath(new DeathRecord
-        // {
-        //     Round = Core.Context.World.TotalKills + 1,
-        //     PawnName = Label,
-        //     CauseOfDeath = causeOfDeath
-        // });
+        Died?.Invoke(new DeathEvent
+        {
+            Pawn = this,
+            Record = new DeathRecord
+            {
+                PawnName = Label,
+                CauseOfDeath = causeOfDeath
+            }
+        });
     }
 
     public override void ExposeData()
@@ -225,7 +252,7 @@ public class Pawn : Entity, IExposable
             return;
         }
 
-        foreach (BodyEffectRecord record in item.ItemDef.FoodProperties.Effects)
+        foreach (var record in item.ItemDef.FoodProperties.Effects)
         {
             Body.Effects.TryApplyEffect(new BodyEffect
             {
@@ -233,9 +260,10 @@ public class Pawn : Entity, IExposable
             });
         }
 
-        float nutrition = item.GetStatValue(Defs.Stats.NutritionalValue);
+        var nutrition = item.GetStatValue(Defs.Stats.NutritionalValue);
         Body.StomachLevel += nutrition;
-        Body.Energy += nutrition / 3;
+        //Body.Energy += nutrition / 3;
+        Body.Energy = Body.MaxEnergy;
         Core.Context.Messages.Push(new Message(
             $"/c[{TC.Victim}]{Core.Context.Player.Label} /c[{TC.Default}]ate /c[{TC.Item}]{item.Label}"
         ));

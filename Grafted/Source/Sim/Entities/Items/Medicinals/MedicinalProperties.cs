@@ -11,7 +11,7 @@ public abstract class MedicinalHandler {
 
 public class BalmyOintmentHandler : MedicinalHandler {
     public override bool ApplyToPart(BodyPart part) {
-        int duration = 600;
+        int duration = 1200;
         part.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.SoothingBalm, duration));
         foreach (BodyPart internalPart in part.AllInternalParts) {
             internalPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.SoothingBalm, duration));

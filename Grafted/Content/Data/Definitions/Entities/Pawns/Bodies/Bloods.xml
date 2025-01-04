@@ -3,7 +3,7 @@
     <BloodDef>
         <Moniker>AnimalBlood</Moniker>
         <Label>Animal Blood</Label>
-        <Color>102,0,0</Color>
+        <Color>199, 4, 4</Color>
         <Viscosity>6</Viscosity>
     </BloodDef>
     <BloodDef>

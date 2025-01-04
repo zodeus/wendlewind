@@ -106,7 +106,7 @@ public class PawnBodyPanel : VerticalStackPanel
         {
             _gui = gui;
             Spacing = 5;
-            _label = new Label { VerticalAlignment = VerticalAlignment.Center, Font = BaseContent.Fonts.Default.Large, TextColor = Color.Black };
+            _label = new Label { VerticalAlignment = VerticalAlignment.Center, Font = BaseContent.Fonts.Default.Medium, TextColor = Color.Black };
             /*Image image = new() { Background = new ColoredRegion(new TextureRegion(bodyPart.Icon), Color.White), Width = 20, Height = 20 };
             _internalParts.Add(bodyPart, image);
             AddChild(image);*/

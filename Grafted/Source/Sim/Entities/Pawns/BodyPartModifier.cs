@@ -139,7 +139,7 @@ public class BurningAcid : BodyPartModifier
     {
         if (BodyPart.IsFunctional == false && BodyPart.Body?.AllParts.Any(p => p.Type == BodyPart.Type && p.IsFunctional) == false)
         {
-            BodyPart.Body.Pawn.HandleDeath($"Vital body part {BodyPart.Label} was destroyed by {Def.Label}");
+            BodyPart.Body.Pawn.TriggerDeath($"Vital body part {BodyPart.Label} was destroyed by {Def.Label}");
         }
     }
 
@@ -166,7 +166,7 @@ public class PumpinEnhancement : BodyPartModifier
 {
     public override void Tick()
     {
-        BodyPart.HitPoints += BodyPart.HitPoints * .01f;
+        BodyPart.HitPoints += BodyPart.HitPoints * .02f;
 
         base.Tick();
     }

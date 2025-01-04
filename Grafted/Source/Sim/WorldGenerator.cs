@@ -8,7 +8,8 @@ public static class WorldGenerator
     {
         Player player = new();
         player.Initialize(GeneratePlayerPawn(DefRepository<RaceDef>.GetByMoniker("Journeyman")!, startingPawn));
-        //player.Pawn.Inventory.Entities.TryAdd(EntityGenerator.CreateEntity<EssenceShard>(Defs.Items.EssenceShard));
+        player.Pawn.Inventory.Entities.TryAdd(EntityGenerator.CreateEntity<Item>(Defs.Items.AcidFlask));
+        player.Pawn.Inventory.Entities.TryAdd(EntityGenerator.CreateEntity<Item>(Defs.Items.PumpinJuice));
         World world = new();
         world.Initialize(player, DefRepository<BiomeDef>.Defs);
         return world;

@@ -22,7 +22,6 @@ public class CampGui : BaseGui
             HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 30, 0, 0), Width = 3600
         };
         _tabs.AddTab("Camp", new CampOverviewPanel(this, world.PlayerPawn));
-        _tabs.AddTab("Zones", ZonePanel());
 
         Desktop = new Desktop
         {

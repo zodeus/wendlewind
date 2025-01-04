@@ -137,7 +137,7 @@ public class Core : Game
         }
 
         int frameTime = gameTime.ElapsedGameTime.Milliseconds;
-        if (frameTime > 60)
+        if (frameTime > 10)
         {
             Log.Error($"Slow Frame T={frameTime}");
         }

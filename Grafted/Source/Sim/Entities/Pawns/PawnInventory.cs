@@ -2,25 +2,41 @@ using System.Collections;
 
 namespace Grafted.Sim.Entities.Pawns;
 
-public class PawnInventory : IExposable, IEnumerable<Item> {
+public class PawnInventory : IExposable, IEnumerable<Item>
+{
     public Pawn Pawn;
 
     public EntityContainer Entities;
+    public Item this[int i] => (Item)Entities[i];
 
-    public PawnInventory(Pawn pawn) {
+    public PawnInventory(Pawn pawn)
+    {
         Pawn = pawn;
         Entities = new EntityContainer();
     }
 
-    public IEnumerator<Item> GetEnumerator() {
-        return Entities.GetEnumerator();
+    public bool TryAdd(Entity? entity)
+    {
+        return Entities.TryAdd(entity);
     }
 
-    IEnumerator IEnumerable.GetEnumerator() {
+    public IEnumerator<Item> GetEnumerator()
+    {
+        return EntityContainerExtensions.AsItems(Entities.AsEnumerable());
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
         return GetEnumerator();
     }
 
-    public void ExposeData() {
+    public void ExposeData()
+    {
         ScribeDeep.Look(ref Entities!, "Entities");
+    }
+
+    public void Tick(int ticks)
+    {
+        Entities.Tick();
     }
 }

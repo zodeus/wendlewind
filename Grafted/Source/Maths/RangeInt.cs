@@ -1,15 +1,11 @@
 namespace Grafted.Maths;
 
-public readonly struct RangeInt {
-    public readonly int Min;
-    public readonly int Max;
+public readonly struct RangeInt(int min, int max)
+{
+    public readonly int Min = min;
+    public readonly int Max = max;
 
     public int RandomValue => Core.Random.Next(Min, Max + 1);
-
-    public RangeInt(int min, int max) {
-        Min = min;
-        Max = max;
-    }
 
     public override string ToString() {
         return Min + "~" + Max;

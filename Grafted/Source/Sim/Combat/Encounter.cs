@@ -17,7 +17,6 @@ public class Encounter
     public readonly List<Pawn> EnemyPawns = new();
     public readonly CombatRecord CombatRecord = new();
     public readonly List<BodyPart> SeveredLimbs = new();
-    private string? _deathMessage;
 
     public Encounter(Zone zone)
     {
@@ -43,21 +42,21 @@ public class Encounter
         }
     }
 
-    private void LogDeathMessage(Pawn pawn, string causeOfDeath)
+    private void OnDeath(DeathEvent deathEvent)
     {
-        _deathMessage = $"/c[{TC.Victim}]{pawn.LabelShort} /c[{TC.Red}]died from {causeOfDeath}";
+        EndCombat();
     }
 
     public void AddPlayerPawn(Pawn pawn)
     {
-        pawn.OnDeath += LogDeathMessage;
+        pawn.Died += OnDeath;
         CombatRecord.AddPawn(pawn);
         PlayerPawns.Add(pawn);
     }
 
     public void AddEnemyPawn(Pawn pawn)
     {
-        pawn.OnDeath += LogDeathMessage;
+        pawn.Died += OnDeath;
         CombatRecord.AddPawn(pawn);
         EnemyPawns.Add(pawn);
     }
@@ -95,7 +94,7 @@ public class Encounter
         {
             for (int i = enemy.Inventory.Count() - 1; i >= 0; i--)
             {
-                Item item = enemy.Inventory.Entities[i];
+                Item item = enemy.Inventory[i];
                 if (Core.Context.Player.HasTrinket(item.ItemDef))
                 {
                     continue;
@@ -190,23 +189,6 @@ public class Encounter
         foreach (var pawn in EnemyPawns)
         {
             pawn.Tick(ticks);
-            if (pawn.IsDead)
-            {
-                continue;
-            }
-            else
-            {
-                // float bloodLost = PawnTurnData[pawn].StartingBloodLevel - pawn.Body.BloodAmount;
-                // if (bloodLost > 0) {
-                //     _combatEvent.LogMessage($"/c[{UiTextColor.TextColorPawn}]{pawn.LabelShort} is losing blood /c[{UiTextColor.TextColorRed}]-{bloodLost:0.00}");
-                // }
-            }
-        }
-        
-        if (_deathMessage != null)
-        {
-            LogMessage(_deathMessage);
-            EndCombat();
         }
     }
 }

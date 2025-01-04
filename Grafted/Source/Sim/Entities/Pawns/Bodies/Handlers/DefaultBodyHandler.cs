@@ -7,21 +7,20 @@ public class DefaultBodyHandler : IExposable
     public PawnBody Body = null!;
 
     public virtual float RestingMultiplier => 2;
-    public virtual float SeveredArteryBloodLossFactor => 4f;
-    public virtual float SeveredLimbBloodLossFactor => 6f;
+    public virtual float SeveredArteryBloodLossFactor => 1.7f;
+    public virtual float SeveredLimbBloodLossFactor => 3f;
     public virtual float BloodLossThreshold => .95f;
-    public virtual float ArteryBloodLossOffset => 1.3f;
+    public virtual float ArteryBloodLossOffset => 1.15f;
     public virtual float BloodRegenerationFactor => 1f;
     public virtual float HealthRegenerationFactor => 0.001f;
     public virtual int MalnutritionDamageIntervalInMinutes => 10;
-    public virtual float EnergyLossPerTick => 0.0004f;
     public virtual float FoodLossPerTick => 0.0015f;
     public virtual float FoodLossRestingFactor => 0.60f;
     public virtual int TimeUntilFamishedInHours => 24;
     public virtual int EmptyStomachEnergyLossFactor => 2;
     public virtual float HungryThreshold => 0.6f;
     public virtual float MalnutritionDamageFactor => Core.Random.NextFloat(0.0001f, 0.0005f);
-    public virtual bool IsFamished => false;//_ticksWithEmptyStomach > WorldTime.HoursToTicks(TimeUntilFamishedInHours);
+    public virtual bool IsFamished => false; //_ticksWithEmptyStomach > WorldTime.HoursToTicks(TimeUntilFamishedInHours);
     public bool IsHungry => Body.StomachLevel < HungryThreshold;
 
     public virtual void Initialize(PawnBody body)
@@ -32,7 +31,6 @@ public class DefaultBodyHandler : IExposable
     public virtual void Tick()
     {
         HandleNutrition();
-        ConsumeEnergy(EnergyLossPerTick);
         if (Body.RootSocket.AttachedPart == null)
         {
             Body.BloodAmount = 0;
@@ -154,6 +152,11 @@ public class DefaultBodyHandler : IExposable
 
     protected virtual void HandleNutrition()
     {
+        if (Core.Context.Ticks % 10 != 0)
+        {
+            return;
+        }
+
         var foodLossAmount = (Body.Pawn.IsResting ? FoodLossRestingFactor : 1f) * FoodLossPerTick;
         Body.StomachLevel = Mathf.Clamp(Body.StomachLevel - foodLossAmount, 0, 1);
 
@@ -175,7 +178,7 @@ public class DefaultBodyHandler : IExposable
 
     private void DoBloodLossForPart(BodyPart part)
     {
-        var bloodLossScaleFactor = /*part.PartSize /*/ Body.Def.BloodType.Viscosity / Body.BodySizeFactor;
+        var bloodLossScaleFactor = .01f * (part.Size / Body.Def.BloodType.Viscosity / Body.BodySizeFactor);
 
         if (part.HealthPercent < BloodLossThreshold)
         {

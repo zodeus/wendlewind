@@ -1,10 +1,14 @@
 using System.Text.RegularExpressions;
 using Grafted.Graphics.Textures;
+using SharpDX;
 
 namespace Grafted.Sim.Entities.Pawns;
 
 public class BodyPart : Entity
 {
+    private const float SKIN_DAMAGE_SCALER = 0.6f;
+    public event Action<BodyPart, List<DamagedBodyPartRecord>>? PartDamaged; //todo - actions
+
     private float _hitPoints;
     private string? _adaptedLabel;
     private bool _isSevered; // todo, this should be set by an applied health condition
@@ -18,7 +22,7 @@ public class BodyPart : Entity
     public int TicksSinceLastHit = int.MaxValue;
     public BodyPartDef BodyPartDef => (BodyPartDef)Def;
 
-    public override string Label => _adaptedLabel;
+    public override string Label => _adaptedLabel ?? "failed to adapt label";
     public Texture2D WhiteIcon => BodyPartDef.WhiteIcon;
     public BodyPartType Type => BodyPartDef.BodyPartType;
     public float Size => BodyPartDef.Size;
@@ -28,7 +32,7 @@ public class BodyPart : Entity
     public bool IsBone => BodyPartDef.IsBone;
     public bool IsOrgan => BodyPartDef.IsOrgan;
     public bool IsVital => BodyPartDef.IsVital;
-    public bool IsDestroyed => HitPoints <= .1f;
+    public new bool IsDestroyed => HitPoints <= .1f;
     public bool IsBleeding => HealthPercent < .99; //todo coagulation 
 
     public List<EquipmentSlotType>? EquipmentSlots => BodyPartDef.EquipmentSlots;
@@ -324,119 +328,90 @@ public class BodyPart : Entity
         return $"{Label} ({HitPoints:0.000})";
     }
 
-    public List<DamagedPartRecord> ApplyDamage(Damage damage, List<DamagedPartRecord>? damagedParts = null)
+    public float ApplyDamage(float damage, DamageType damageType, List<BodyPartModifierRecord> bodyPartModifiers,
+        List<DamagedBodyPartRecord> damagedParts, bool cascade = true)
     {
-        if (damagedParts == null)
-        {
-            damagedParts = new List<DamagedPartRecord>();
-        }
-
-        if (Socket?.ParentPart?.HitPoints > 0 && Socket?.ParentPart?.Type is BodyPartType.Skull or BodyPartType.RibCage)
-        {
-            float chanceToMiss = Socket?.ParentPart?.HealthPercent switch
-            {
-                < .10f => 0.00f,
-                < .20f => 0.50f,
-                < .40f => 0.95f,
-                < .80f => 0.99f,
-                _ => 1
-            };
-
-            if (Core.Random.Chance(chanceToMiss))
-            {
-                return damagedParts;
-            }
-        }
-
-        if (Type is BodyPartType.Stomach && Socket?.ParentPart?.HealthPercent > 0.5)
-        {
-            return damagedParts;
-        }
-
-        if (Type == BodyPartType.Artery)
-        {
-            float chanceToMiss = Socket?.ParentPart?.HealthPercent switch
-            {
-                < .02f => 0.00f,
-                < .05f => 0.85f,
-                < .10f => 0.90f,
-                < .50f => 0.95f,
-                < .90f => 0.99f,
-                _ => 1
-            };
-
-            if (Core.Random.Chance(chanceToMiss))
-            {
-                return damagedParts;
-            }
-        }
-
-        DamagedPartRecord damagedPartRecord = new(this)
-        {
-            Amount = damage.UnblockedAmount
-        };
-        if (damage.Type == DamageType.Blunt && IsBone)
-        {
-            damagedPartRecord.Amount = Mathf.RoundToInt(damagedPartRecord.Amount * 1.5f);
-        }
-
-        HitPoints -= damagedPartRecord.Amount;
-        foreach (var record in damage.BodyPartModifiers)
-        {
-            if (Type == BodyPartType.Skin && record.Def == Defs.BodyPartModifiers.BurningAcid)
-            {
-                if (!Core.Random.Chance(record.Chance.RandomValue)) continue;
-
-                TryAddModifier(BodyPartModifierGenerator.Generate(record.Def, record.DurationInTicks.RandomValue));
-                damagedPartRecord.AppliedModifiers.Add(record.Def);
-            }
-        }
-
         TicksSinceLastHit = 0;
-        damagedParts.Add(damagedPartRecord);
+        var wasDestroyedBeforeDamage = IsDestroyed;
+        var wasFunctional = IsFunctional;
 
-        int organsHit = 0;
-        int maxNumberOfOrgansToHit = Core.Random.Next(1, 2);
-        foreach (BodyPart internalPart in InternalParts.InRandomOrder())
+        // Do damage scale here
+        var scaledDamage = damage;
+        if (damageType == DamageType.Blunt && IsBone)
         {
-            if (damage.Type == DamageType.Flesh && internalPart is not { Type: BodyPartType.Bone or BodyPartType.Skin })
-            {
-                continue;
-            }
-
-            if (internalPart.IsOrgan && organsHit > maxNumberOfOrgansToHit)
-            {
-                continue;
-            }
-
-            if (internalPart.IsOrgan)
-            {
-                organsHit++;
-            }
-
-            internalPart.ApplyDamage(damage, damagedParts);
+            scaledDamage *= 1.5f;
         }
 
-        // Potentially sever limb 
-        if (IsExternal && _isSevered == false && AllInternalParts.Count > 0)
-        {
-            bool allInternalPartsDestroyed = true;
-            foreach (BodyPart internalPart in AllInternalParts)
-            {
-                if (internalPart.HitPoints > 0)
-                {
-                    allInternalPartsDestroyed = false;
-                }
-            }
+        var damageApplied = HitPoints;
+        HitPoints -= scaledDamage;
+        damageApplied -= HitPoints;
+        var remainingDamage = damage - damageApplied;
+        remainingDamage = damage * 0.7f;
 
-            if (allInternalPartsDestroyed && Socket != null && Core.Random.Chance(.25f))
-            {
-                Severe();
-                //damagedPartRecord.WasSevered = true;
-            }
+        var wasDestroyed = wasDestroyedBeforeDamage == false && IsDestroyed;
+        var stoppedFunctioning = wasFunctional && IsFunctional == false;
+
+        var record = new DamagedBodyPartRecord(this)
+        {
+            DamageApplied = damageApplied,
+            WasDestroyed = wasDestroyed,
+            StoppedFunctioning = stoppedFunctioning
+        };
+        this.ApplyBodyPartModifiers(bodyPartModifiers, record);
+        damagedParts.Add(record);
+        if (remainingDamage > 0 && cascade)
+        {
+            remainingDamage = this.CascadeDamageToInternalParts(remainingDamage, damageType, bodyPartModifiers, damagedParts);
         }
 
+        return remainingDamage;
+    }
+
+    public List<DamagedBodyPartRecord> ApplyDamageToExternalPart(Damage damage, List<DamagedBodyPartRecord>? damagedParts = null)
+    {
+        damagedParts ??= [];
+        var remainingDamage = ApplyDamage(damage.TotalUnblockedDamage, damage.Type, damage.BodyPartModifiers, damagedParts, false);
+        var skin = InternalParts.Where(p => p.Type == BodyPartType.Skin).FirstOrNull();
+        skin?.ApplyDamage(damage.TotalUnblockedDamage * SKIN_DAMAGE_SCALER, damage.Type, damage.BodyPartModifiers, damagedParts, false);
+
+        // Cascade damage to internal parts
+        if (remainingDamage > 0)
+        {
+            this.CascadeDamageToInternalParts(remainingDamage, damage.Type, damage.BodyPartModifiers, damagedParts);
+        }
+
+        this.PotentiallySevereLimb();
+        damagedParts[0].WasSevered = IsSevered;
+        PartDamaged?.Invoke(this, damagedParts);
         return damagedParts;
+    }
+
+    public bool DidPawnDieFromPartFailure()
+    {
+        if (this is { IsVital: true, IsFunctional: false })
+        {
+            if (Body == null)
+            {
+                return true;
+            }
+
+            if (Body!.AllParts.Any(p => p.Type == Type && p.IsFunctional) == false)
+            {
+                return true;
+            }
+        }
+
+        if (IsFunctional) return false;
+
+        foreach (var internalPart in InternalParts)
+        {
+            if (internalPart.DidPawnDieFromPartFailure())
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void Severe()
@@ -516,7 +491,7 @@ public class BodyPart : Entity
     {
         foreach ((EquipmentSlotType slot, Item? item) in Equipment)
         {
-            if (item == itemToUnEquip)
+            if (Equals(item, itemToUnEquip))
             {
                 Equipment[slot] = null;
                 return item;

@@ -62,7 +62,7 @@ public class OminousMessageSpawner : IExposable {
         if (_messages.ContainsKey(Core.Context.Ticks))
         {
 
-            Log.Warning($"OminousMessageSpawner.Tick WANTS Core.Context.Gui!.PushScreenMessag)");
+            Log.Warning($"OminousMessageSpawner.Tick WANTS Core.Context.Gui!.PushScreenMessage)");
             //Core.Context.Gui!.PushScreenMessage(_messages[Core.Context.Ticks]);
         }
     }

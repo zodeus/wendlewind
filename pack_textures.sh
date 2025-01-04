@@ -1,4 +1,4 @@
-cd /mnt/c/Users/hawkk/games/Grafted/
+cd /mnt/c/Users/hawkk/development-personal/Grafted/
 rm -rf Grafted/bin/Textures
 mkdir -p Grafted/bin/Textures/ 
 find Grafted/Content/Textures/UI -type f -name "*.png" -exec cp {} Grafted/bin/Textures \;

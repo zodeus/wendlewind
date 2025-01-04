@@ -35,10 +35,6 @@ internal class CombatPartyPanel : VerticalStackPanel
             PawnCombatPanel panel = _panels[i];
             if (panel.Pawn.IsDead)
             {
-                panel.RemoveFromParent();
-                _panels.RemoveAt(i);
-                //_deathRow.AddChild(new Image { Background = new TextureRegion(panel.Pawn.Icon), Width = 56, Height = 56, VerticalAlignment = VerticalAlignment.Center });
-                continue;
             }
 
             panel.Update();

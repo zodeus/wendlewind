@@ -3,20 +3,19 @@ using Grafted.Scenes.MainGameScene.Gui;
 
 namespace Grafted.Sim.Entities;
 
-public class EntityContainer : IEnumerable<Item>, IExposable
+public partial class EntityContainer : IEnumerable<Entity>, IExposable
 {
-    private List<Item> _list = new();
+    private List<Entity> _list = new();
+    public event Action<Item>? ItemAdded;
+    public event Action<Item>? ItemRemoved;
+    public event Action<Item>? ItemStackSizeChanged;
 
-    public EntityContainer()
+    public void Tick()
     {
-    }
-
-    public void Tick(int ticks)
-    {
-        for (int index = _list.Count - 1; index >= 0; index--)
+        for (var index = _list.Count - 1; index >= 0; index--)
         {
-            Entity entity = _list[index];
-            entity.Tick(ticks);
+            var entity = _list[index];
+            entity.Tick(0);
             if (entity.IsDestroyed)
             {
                 _list.RemoveAt(index);
@@ -24,14 +23,58 @@ public class EntityContainer : IEnumerable<Item>, IExposable
         }
     }
 
-    public Item this[int i] => _list[i];
+    public Entity this[int i] => _list[i];
 
-    IEnumerator<Item> IEnumerable<Item>.GetEnumerator()
+    public bool TryAdd(Entity? entity)
+    {
+        if (entity == null)
+        {
+            Log.Warning("Tried to add null entity");
+            return false;
+        }
+
+        if (entity is Item item)
+        {
+            return AddItem(item);
+        }
+
+        entity.EjectFromContainer();
+        entity.EjectedFromContainer += OnContainerEject;
+        _list.Add(entity);
+
+        return true;
+    }
+
+    private void OnContainerEject(Entity entity)
+    {
+        Remove(entity);
+    }
+
+    public void Remove(Entity entity)
+    {
+        entity.EjectedFromContainer -= OnContainerEject;
+        _list.Remove(entity);
+
+        if (entity is Item item)
+        {
+            ItemRemoved?.Invoke(item);
+        }
+    }
+
+    public void Clear()
+    {
+        for (var i = _list.Count - 1; i >= 0; i--)
+        {
+            Remove(_list[i]);
+        }
+    }
+
+    IEnumerator<Entity> IEnumerable<Entity>.GetEnumerator()
     {
         return GetEnumerator();
     }
 
-    public IEnumerator<Item> GetEnumerator()
+    public IEnumerator<Entity> GetEnumerator()
     {
         return _list.GetEnumerator();
     }
@@ -41,15 +84,42 @@ public class EntityContainer : IEnumerable<Item>, IExposable
         return GetEnumerator();
     }
 
-    public void Remove(Item item)
+    public void ExposeData()
     {
-        _list.Remove(item);
-        item.Container = null;
+        ScribeCollections.Look(ref _list!, "Container", LookMode.Deep);
+    }
+}
+
+public partial class EntityContainer
+{
+    private bool AddItem(Item item)
+    {
+        if (item.IsStackable)
+        {
+            foreach (var mergeEntity in _list)
+            {
+                if (mergeEntity is not Item mergeItem || mergeItem.Def != item.Def) continue;
+                mergeItem.StackSize += item.StackSize; // todo currently no overfill handling
+                item.StackSize = 0;
+                item.EjectFromContainer();
+                item.Destroy();
+
+                ItemStackSizeChanged?.Invoke(mergeItem);
+                return true;
+            }
+        }
+
+        item.EjectFromContainer();
+        item.EjectedFromContainer += OnContainerEject;
+
+        _list.Add(item);
+        ItemAdded?.Invoke(item);
+        return true;
     }
 
     public bool TryAdd(Item item, int amount)
     {
-        Item splitItem = item.SplitStack(amount);
+        var splitItem = item.SplitStack(amount);
         if (TryAdd(splitItem))
         {
             return true;
@@ -60,41 +130,12 @@ public class EntityContainer : IEnumerable<Item>, IExposable
         return false;
     }
 
-    public bool TryAdd(Item? item)
-    {
-        if (item == null)
-        {
-            Log.Warning("Tried to add null item :(");
-            return false;
-        }
-
-        //todo there is a bug here where StackSize can/will exceed StackLimit, not doing enough
-        if (item.IsStackable)
-        {
-            for (int i = 0; i < _list.Count; i++)
-            {
-                if (_list[i].Def != item.Def) continue;
-                //todo there is a bug here where StackSize can/will exceed StackLimit, not doing enough
-                _list[i].StackSize += item.StackSize;
-                item.StackSize = 0;
-                item.Container?.Remove(item);
-                item.Destroy();
-                return true;
-            }
-        }
-
-        item.Container?.Remove(item);
-        item.Container = this;
-        _list.Add(item);
-        return true;
-    }
-
     public bool Contains(ItemDef def, int amountWanted)
     {
-        int amount = 0;
-        foreach (Item item in _list)
+        var amount = 0;
+        foreach (var entity in _list)
         {
-            if (item.Def == def)
+            if (entity is Item item && item.Def == def)
             {
                 amount += item.StackSize;
             }
@@ -103,11 +144,16 @@ public class EntityContainer : IEnumerable<Item>, IExposable
         return amount >= amountWanted;
     }
 
+    public bool Contains(ResourceCount resourceCount)
+    {
+        return Contains(resourceCount.Item, resourceCount.Count);
+    }
+
     public Item? Take(EntityDef def, int amount)
     {
-        foreach (Item item in _list)
+        foreach (var entity in _list)
         {
-            if (item.Def == def)
+            if (entity is Item item && item.Def == def)
             {
                 return Take(item, amount);
             }
@@ -116,11 +162,12 @@ public class EntityContainer : IEnumerable<Item>, IExposable
         return null;
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     public Item? Take(Item item, int amount)
     {
         if (_list.Contains(item) == false)
         {
-            Log.Error("ItemContainer doesn't contain " + item);
+            Log.Error("EntityContainer doesn't contain " + item);
             return null;
         }
 
@@ -136,22 +183,30 @@ public class EntityContainer : IEnumerable<Item>, IExposable
             return item;
         }
 
-        Item splitItem = item.SplitStack(amount);
+        var splitItem = item.SplitStack(amount);
+        ItemStackSizeChanged?.Invoke(item);
 
         return splitItem;
     }
 
-    public void Clear()
+    public Item? Take(ResourceCount resource)
     {
-        _list.Clear();
+        return Take(resource.Item, resource.Count);
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     public int AmountOf(ItemDef? itemDef)
     {
-        int amount = 0;
-        foreach (Item item in _list)
+        if (itemDef == null)
         {
-            if (item.Def == itemDef)
+            Log.Warning("Called EntityContainer.AmountOf with null itemDef");
+            return 0;
+        }
+
+        var amount = 0;
+        foreach (var entity in _list)
+        {
+            if (entity is Item item && item.Def == itemDef)
             {
                 amount += item.StackSize;
             }
@@ -159,18 +214,14 @@ public class EntityContainer : IEnumerable<Item>, IExposable
 
         return amount;
     }
+}
 
-    public void ExposeData()
+public static class EntityContainerExtensions
+{
+    public static IEnumerator<Item> AsItems(this IEnumerable<Entity> entities)
     {
-        ScribeCollections.Look(ref _list!, "Container", LookMode.Deep);
-        if (Scribe.State == ScribeState.PostLoadInitialization)
-        {
-            for (int i = 0; i < _list.Count; i++)
-            {
-                //if (_container[i] != null) {
-                _list[i].Container = this;
-                //}
-            }
-        }
+        var items = entities.Where(e => e is Item).Cast<Item>();
+        var enumerator = items.GetEnumerator();
+        return enumerator;
     }
 }

@@ -32,14 +32,22 @@ public class CampOverviewPanel : Panel, IUpdatable
             Widgets =
             {
                 new Label { Text = "  - Tarred Blood" },
-                new Label { Text = "  - Synthetic Arteries" }
+                new Label { Text = "  - Synthetic Arteries" },
+                new Label { Text = "  - Random Bits" },
+                new Label { Text = "  - Toughened Arteries" },
+                new Label { Text = "  - Blood Bloated" },
+                new Label { Text = "  - Weaved Ligaments" },
+                new Label { Text = "  - Elven Grace" },
+                new Label { Text = "  - Regeneration Potion" },
             }
         });
         HorizontalStackPanel grid = new()
         {
+            Spacing = 20,
             HorizontalAlignment = HorizontalAlignment.Center,
             Widgets =
             {
+                //ZonePanel(),
                 _bodyPanel,
                 _inventoryPanel,
                 rightColumn
