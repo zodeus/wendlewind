@@ -109,7 +109,7 @@ public static class ScribeExtractor {
             if (!flag) {
                 Scribe.Loader.Initializer.RegisterForPostLoadInit(exposable);
             }
-
+            
             return (T) exposable;
         }
         catch (Exception ex) {

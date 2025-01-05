@@ -89,18 +89,13 @@
                 <BodySizeFactor>.5</BodySizeFactor>
                 <SpawnWeight>1</SpawnWeight>
                 <InventoryItems>
-                    <ListItem>
-                        <Item>Coin</Item>
-                        <Amount>3000~5000</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
+<!--                    <ListItem>-->
+<!--                        <Item>Coin</Item>-->
+<!--                        <Amount>3000~5000</Amount>-->
+<!--                        <ChanceToDrop>1</ChanceToDrop>-->
+<!--                    </ListItem>-->
                     <ListItem>
                         <Item>ATap</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>CowardsFlag</Item>
                         <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>

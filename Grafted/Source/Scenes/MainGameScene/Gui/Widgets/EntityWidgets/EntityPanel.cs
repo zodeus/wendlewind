@@ -58,7 +58,7 @@ public class EntityPanel : EntityPanelBase
         MinWidth = 300;
         Spacing = 5;
         AddChild(new Image { Background = new TextureRegion(entity.Icon), Width = 128, Height = 128 });
-        AddChild(new Label { Text = entity.Def.Description, Wrap = true, Margin = new Thickness(10), Font = BaseContent.Fonts.Default.Small });
+        AddChild(new Label { Text = entity.Def.Description, Wrap = true, Margin = new Thickness(10), Font = BaseContent.Fonts.Default.Small, MaxWidth = 600});
 
 
         foreach (BaseStat baseStat in entity.Def.BaseStats)

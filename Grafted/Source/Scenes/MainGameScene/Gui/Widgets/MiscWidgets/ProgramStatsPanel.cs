@@ -6,12 +6,12 @@ public class ProgramStatsPanel : VerticalStackPanel {
     private readonly Label _frameTime;
 
     public ProgramStatsPanel() {
-        Spacing = 10;
-        _fps = new Label();
+        Spacing = 3;
+        _fps = new Label(BaseContent.Styles.Label.Small);
         AddChild(_fps);
-        _ticks = new Label();
+        _ticks = new Label(BaseContent.Styles.Label.Small);
         AddChild(_ticks);
-        _frameTime = new Label();
+        _frameTime = new Label(BaseContent.Styles.Label.Small);
         AddChild(_frameTime);
     }
 

@@ -127,7 +127,7 @@ internal class PawnCombatPanel : HorizontalStackPanel
 
         _bloodBar = new HorizontalProgressBar
         {
-            Width = panelWidth, Height = 20,
+            Width = panelWidth, Height = 30,
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.FrameSmall],
             VerticalAlignment = VerticalAlignment.Center,
             Filler = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.Neutral], Pawn.PawnDef.Body.BloodType.Color),

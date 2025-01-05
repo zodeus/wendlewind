@@ -35,6 +35,9 @@ public class ArmorPanel : EntityPanelBase {
                 value.RemoveFromClassList("text--hover");
             });*/
         }
+        var destroyButton = new TextButton(BaseContent.Styles.Button.Small) { Text = "Destroy", Margin = new Thickness(0, 10, 0, 0) };
+        destroyButton.Click += (_, _) => { item.Destroy(); };
+        AddChild(destroyButton);
     }
 
     public override void Update() {

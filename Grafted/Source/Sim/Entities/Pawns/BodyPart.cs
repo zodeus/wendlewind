@@ -278,6 +278,8 @@ public class BodyPart : Entity
                 Equipment.Add(slot, null);
             }
         }
+
+        Log.Info(GetUniqueId() + " initialized");
     }
 
     public override void Tick(int ticks)
@@ -540,6 +542,7 @@ public class BodyPart : Entity
 
     public override void ExposeData()
     {
+        base.ExposeData();
         ScribeValues.Look(ref _hitPoints, "HitPoints");
         ScribeValues.Look(ref _adaptedLabel!, "AdaptedLabel");
         ScribeValues.Look(ref _isSevered, "IsSevered");
@@ -549,6 +552,5 @@ public class BodyPart : Entity
         ScribeCollections.Look(ref Sockets!, "Sockets", LookMode.Deep);
         ScribeCollections.Look(ref Modifiers!, "Modifiers", LookMode.Deep);
         ScribeCollections.Look(ref Equipment!, "Equipment", LookMode.Value, LookMode.Deep);
-        base.ExposeData();
     }
 }

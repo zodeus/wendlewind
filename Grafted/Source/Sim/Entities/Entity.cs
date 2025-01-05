@@ -68,7 +68,7 @@ public abstract class Entity : IExposable, IIdentityProvider
 
     public override bool Equals(object? obj)
     {
-        return ((Entity?)obj)?.Id == Id;
+        return obj is Entity e && e.GetUniqueId() == GetUniqueId();
     }
 
     public EntityPanelBase UiPanel(BaseGui gui, EntityPanelProperties? properties = null)

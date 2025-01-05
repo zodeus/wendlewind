@@ -88,11 +88,11 @@
                 <PawnName>Truffle Boar</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <InventoryItems>
-                    <ListItem>
-                        <Item>Coin</Item>
-                        <Amount>600~900</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
+<!--                    <ListItem>-->
+<!--                        <Item>Coin</Item>-->
+<!--                        <Amount>600~900</Amount>-->
+<!--                        <ChanceToDrop>1</ChanceToDrop>-->
+<!--                    </ListItem>-->
                     <ListItem>
                         <Item>CowardsFlag</Item>
                         <Amount>1</Amount>

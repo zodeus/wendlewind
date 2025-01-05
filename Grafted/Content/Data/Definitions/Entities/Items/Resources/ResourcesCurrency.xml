@@ -12,7 +12,7 @@
     <ItemDef ParentName="CurrencyResource">
         <Moniker>Coin</Moniker>
         <Label>Coin</Label>
-        <Description>A form of currency</Description>
+        <Description>Collect them, you will probably want a lot of these</Description>
         <TexturePath>Entities/Item/Resource/Currency/Coin</TexturePath>
     </ItemDef>
 </Definitions>

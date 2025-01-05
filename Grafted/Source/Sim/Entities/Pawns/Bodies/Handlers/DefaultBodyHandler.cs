@@ -152,7 +152,7 @@ public class DefaultBodyHandler : IExposable
 
     protected virtual void HandleNutrition()
     {
-        if (Core.Context.Ticks % 10 != 0)
+        if (Core.Context.Ticks % 30 != 0)
         {
             return;
         }
@@ -200,7 +200,7 @@ public class DefaultBodyHandler : IExposable
                 //Log.Info($"{_pawn} {internalPart} losing {bloodLossScaleFactor * severedArteryBloodLossFactor}");
                 Body.BloodAmount -= bloodLossScaleFactor * SeveredArteryBloodLossFactor;
                 // Artery is severed stop propagating bleeding
-                continuePartTraversal = true;
+                continuePartTraversal = false;
                 continue;
             }
 

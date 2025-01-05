@@ -97,7 +97,7 @@ public class Pawn : Entity, IExposable
 
         foreach (var damage in request.RawDamages)
         {
-            request.Source.GetSkill(damage.ToolType)?.Learn(10);
+            request.Source.GetSkill(damage.ToolType)?.Learn(1);
 
             DamageRecord damageRecord = new(damage.Type, bodyPart, damage.TotalDamage);
 

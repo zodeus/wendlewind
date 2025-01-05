@@ -87,6 +87,13 @@ public partial class EntityContainer : IEnumerable<Entity>, IExposable
     public void ExposeData()
     {
         ScribeCollections.Look(ref _list!, "Container", LookMode.Deep);
+        if (Scribe.State == ScribeState.PostLoadInitialization)
+        {
+            foreach (var entity in _list)
+            {
+                entity.EjectedFromContainer += OnContainerEject;
+            }
+        }
     }
 }
 

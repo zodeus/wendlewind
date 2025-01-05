@@ -46,7 +46,7 @@ public class CombatControlPanel : VerticalStackPanel
             Text = $"/c[{TC.Golden}]Attempt Escape", Margin = new Thickness(0, 10, 0, 0), HorizontalAlignment = HorizontalAlignment.Stretch,
         };
         _retreatButton.Click += (_, _) => { encounter.ShouldAttemptRetreat = true; };
-        _retreatButton.Visible = Core.Context.Player.HasTrinket(Defs.Items.CowardsFlag);
+        _retreatButton.Visible = false; //Core.Context.Player.HasTrinket(Defs.Items.CowardsFlag);//todo - fix this, the retreat button doesn't work
         AddChild(_retreatButton);
     }
 

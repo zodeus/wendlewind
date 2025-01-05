@@ -2,6 +2,7 @@
 
 <Definitions>
     <ItemDef Name="Food" ParentName="ItemResource" Abstract="true">
+        <ItemType>Food</ItemType>
         <UiClass>FoodPanel</UiClass>
     </ItemDef>
     <ItemDef ParentName="Food">
@@ -25,7 +26,7 @@
     <ItemDef ParentName="Food">
         <Moniker>CookedMeat</Moniker>
         <Label>Cooked Meat</Label>
-        <Description>Some cooked meat, just a belly filler</Description>
+        <Description>Some cooked meat, just a belly filler, also fully restores energy</Description>
         <TexturePath>Entities/Item/Resource/Organic/CookedMeat</TexturePath>
         <FoodProperties>
             <FoodType>CookedMeat</FoodType>

@@ -23,9 +23,9 @@ public class ItemContainerPanel : VerticalStackPanel
         {
             new ItemContainerPanelSection
             {
-                Label = "Consumables",
+                Label = "Medicinal",
                 Container = _container,
-                Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Medical or ItemType.TradeTool || entity.Def == Defs.Items.Cauterize
+                Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Medical || entity.Def == Defs.Items.Cauterize
             },
             new ItemContainerPanelSection
             {
@@ -35,13 +35,25 @@ public class ItemContainerPanel : VerticalStackPanel
             },
             new ItemContainerPanelSection
             {
+                Label = "Food",
+                Container = _container,
+                Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Food
+            },
+            new ItemContainerPanelSection
+            {
+                Label = "Equipment Supplies",
+                Container = _container,
+                Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.EquipmentSupplies
+            },
+            new ItemContainerPanelSection
+            {
                 Label = "Equipment",
                 Container = _container,
                 Filter = entity => ((Item)entity).ItemDef.ItemType == ItemType.Equipment
             },
             new ItemContainerPanelSection
             {
-                Label = "Trinkets",
+                Label = "Misc",
                 Container = _container,
                 Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Resource or ItemType.Trinket
             }
@@ -54,14 +66,12 @@ public class ItemContainerPanel : VerticalStackPanel
             Proportions.Add(Proportion.Auto);
             Proportions.Add(Proportion.Auto);
 
-            EntityListPanel panel = new(_gui, section.Container, section.Filter, LeftClickHandler, RightClickHandler)
+            EntityListPanel panel = new(_gui, section.Label, section.Container, section.Filter, LeftClickHandler, RightClickHandler)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch
             };
             _sections.Add(panel);
-            AddChild(new HorizontalSeparator());
-            AddChild(new Label(BaseContent.Styles.Label.Medium) { Text = section.Label });
-            AddChild(new ScrollViewer { Content = panel, MaxHeight = 400 });
+            AddChild(panel);
         }
     }
 

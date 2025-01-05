@@ -34,6 +34,11 @@ public class CombatHandler
                 Duration = 8,
                 Color = Color.Red
             });
+        Core.Context.DeathRecords.RecordDeath(new DeathRecord
+        {
+            CauseOfDeath = deathEvent.Record.CauseOfDeath,
+            PawnName = deathEvent.Pawn.LabelShort
+        });
     }
 
     private void OnDamageTaken(Pawn victim, DamageRequest request, DamageResponse response)

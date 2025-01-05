@@ -3,7 +3,8 @@ namespace Grafted.Sim.Entities.Items;
 public enum ItemType : byte {
     Equipment,
     Resource,
-    TradeTool,
+    EquipmentSupplies,
+    Food,
     Potion,
     Medical,
     Trinket,

@@ -2,31 +2,30 @@ using Grafted.Sim.Entities;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
-public class PawnDetailPanel : Panel, IUpdatable {
+public class LootPanel : Panel, IUpdatable {
     private readonly ItemContainerPanel _inventoryPanel;
     private readonly ItemContainerPanel _otherContainerPanel;
     private readonly PawnEquipmentPanel _equipmentPanel;
     private readonly PawnBodyPanel _bodyPanel;
 
-    public PawnDetailPanel(BaseGui gui, Pawn playerPawn, string receivingContainerTitle, EntityContainer receivingContainer) {
+    public LootPanel(BaseGui gui, Pawn playerPawn, EntityContainer lootContainer) {
         _bodyPanel = new PawnBodyPanel(gui, playerPawn.Body);
         _inventoryPanel = new ItemContainerPanel(gui,
             playerPawn.Inventory.Entities,
-            receivingContainer
+            lootContainer
         ) { Visible = !playerPawn.IsDead, MinHeight = 700, Width = 700 };
 
         _equipmentPanel = new PawnEquipmentPanel(gui,playerPawn);
-        _otherContainerPanel = new ItemContainerPanel(gui,receivingContainer, playerPawn.Inventory.Entities) {
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame], VerticalAlignment = VerticalAlignment.Stretch
+        _otherContainerPanel = new ItemContainerPanel(gui,lootContainer, playerPawn.Inventory.Entities) {
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.Loot], VerticalAlignment = VerticalAlignment.Stretch,
         };
 
         VerticalStackPanel rightColumn = new() {
-            Visible = !playerPawn.IsDead, 
-            Proportions = { Proportion.Auto, Proportion.Auto, Proportion.Auto, Proportion.Fill }
+            Margin = new Thickness(20,0,0,0),
+            Proportions = { Proportion.Auto, Proportion.Auto, Proportion.Fill }
         };
         rightColumn.AddChild(_equipmentPanel);
-        rightColumn.AddChild(new HorizontalSeparator { Margin = new Thickness(0, 50, 0, 20) });
-        rightColumn.AddChild(new Label(BaseContent.Styles.Label.Large) { Text = receivingContainerTitle });
+        rightColumn.AddChild(new Label(BaseContent.Styles.Label.Large) { Text = "Loot",  Margin = new Thickness(0,50,0,0),});
         rightColumn.AddChild(_otherContainerPanel);
         HorizontalStackPanel grid = new() {
             HorizontalAlignment = HorizontalAlignment.Center,

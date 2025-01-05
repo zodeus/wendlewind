@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <ItemDef Name="TradeTool" ParentName="ItemBase" Abstract="true">
+    <ItemDef Name="EquipmentSupplies" ParentName="ItemBase" Abstract="true">
         <UiClass>ConsumablePanel</UiClass>
-        <ItemType>TradeTool</ItemType>
+        <ItemType>EquipmentSupplies</ItemType>
         <StackLimit>9999</StackLimit>
     </ItemDef>
-    <ItemDef ParentName="TradeTool">
+    <ItemDef ParentName="EquipmentSupplies">
         <Moniker>RepairKit</Moniker>
         <Label>Repair Kit</Label>
         <Description>Used for fixing equipment</Description>

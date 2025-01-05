@@ -5,7 +5,7 @@ namespace Grafted.Scenes.MainGameScene.Gui.CombatGui;
 
 public class CombatResultsScreen : VerticalStackPanel
 {
-    private readonly PawnDetailPanel _pawnPanel;
+    private readonly LootPanel _pawnPanel;
     private readonly GameHud _gameHud;
     private ZoneGui _gui;
     private readonly GameContext _context;
@@ -16,7 +16,7 @@ public class CombatResultsScreen : VerticalStackPanel
         _gui = gui;
         _context = context;
         _gameHud = new GameHud(context.World.Player) { HorizontalAlignment = HorizontalAlignment.Stretch };
-        _pawnPanel = new PawnDetailPanel(gui, context.World.PlayerPawn, "Loot", Encounter.Loot) { Margin = new Thickness(0, 100, 0, 0) };
+        _pawnPanel = new LootPanel(gui, context.World.PlayerPawn, Encounter.Loot) { Margin = new Thickness(0, 100, 0, 0) };
 
         Widget progressButton = GenerateProgressButton();
         progressButton.HorizontalAlignment = HorizontalAlignment.Center;
@@ -28,14 +28,14 @@ public class CombatResultsScreen : VerticalStackPanel
         AddChild(progressButton);
     }
 
-    private Widget DeathsButton()
+    private Widget KillsButton()
     {
         ImageButton image = new(BaseContent.Styles.Button.Large)
         {
-            Image = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Skull], Width = 56, Height = 56,
+            Image = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Skull], Width = 76, Height = 76,
             Padding = new Thickness(10)
         };
-        image.TouchDown += (_, _) => { new PawnDeathRecordsWindow(_context.DeathRecords).Show(Desktop); };
+        image.TouchDown += (_, _) => { new PlayerKillsWindow(_context.DeathRecords).Show(Desktop); };
         return image;
     }
 
@@ -70,7 +70,7 @@ public class CombatResultsScreen : VerticalStackPanel
         }
 
 
-        return new HorizontalStackPanel { Spacing = 10, Widgets = { DeathsButton(), buttons } };
+        return new HorizontalStackPanel { Spacing = 10, Widgets = { KillsButton(), buttons } };
     }
 
     private void MoveToNextCombat()

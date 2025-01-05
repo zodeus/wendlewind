@@ -14,11 +14,11 @@
                     <ListItem>AcidFlask</ListItem>
                 </EquipmentItems>-->
                 <InventoryItems>
-                    <ListItem>
+                    <!--<ListItem>
                         <Item>Coin</Item>
                         <Amount>500~1000</Amount>
                         <ChanceToDrop>.75</ChanceToDrop>
-                    </ListItem>
+                    </ListItem>-->
                     <ListItem>
                         <Item>BalmyOintment</Item>
                         <Amount>5</Amount>
@@ -46,11 +46,11 @@
                       <ListItem>AcidFlask</ListItem>
                   </EquipmentItems>-->
                 <InventoryItems>
-                    <ListItem>
+                    <!--<ListItem>
                         <Item>Coin</Item>
                         <Amount>500~1000</Amount>
                         <ChanceToDrop>.75</ChanceToDrop>
-                    </ListItem>
+                    </ListItem>-->
                     <ListItem>
                         <Item>BalmyOintment</Item>
                         <Amount>5</Amount>
@@ -100,11 +100,11 @@
                     <ListItem>PumpinJuice</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
-                    <ListItem>
+                    <!--<ListItem>
                         <Item>Coin</Item>
                         <Amount>18000~28000</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
+                    </ListItem>-->
                     <ListItem>
                         <Item>MortarAndPestle</Item>
                         <Amount>1</Amount>

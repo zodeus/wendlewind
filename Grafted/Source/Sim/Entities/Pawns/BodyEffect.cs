@@ -10,11 +10,11 @@ public class BodyEffect : IExposable {
             return;
         }
 
-        foreach (AffectedStatRecord affectedStat in Def.AffectedStats) {
+        foreach (var affectedStat in Def.AffectedStats) {
             if (affectedStat.Stat != stat) { continue; }
 
             if (affectedStat.Factor != null) {
-                value = value + value * affectedStat.Factor.Value;
+                value += (value * affectedStat.Factor.Value);
             }
 
             if (affectedStat.Offset != null) {

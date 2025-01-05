@@ -7,7 +7,7 @@
         <BackgroundTexturePath>Zones/PeacefulMeadow</BackgroundTexturePath>
         <Resources>
             <ListItem>
-                <Item>WoodLog</Item>
+                <Item>GlitteringLog</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.1</ChanceToHarvest>
                 <HarvestArea>0~1</HarvestArea>
@@ -26,7 +26,7 @@
         <BackgroundTexturePath>Zones/TheOutskirts</BackgroundTexturePath>
         <Resources>
             <ListItem>
-                <Item>WoodLog</Item>
+                <Item>GlitteringLog</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.2</ChanceToHarvest>
                 <HarvestArea>0~1</HarvestArea>
@@ -37,12 +37,12 @@
                 <ChanceToHarvest>.5</ChanceToHarvest>
                 <HarvestArea>0~1</HarvestArea>
             </ListItem>
-            <ListItem>
-                <Item>OakWoodLog</Item>
-                <Amount>1</Amount>
-                <ChanceToHarvest>.05</ChanceToHarvest>
-                <HarvestArea>.25~1</HarvestArea>
-            </ListItem>
+<!--            <ListItem>-->
+<!--                <Item>OakWoodLog</Item>-->
+<!--                <Amount>1</Amount>-->
+<!--                <ChanceToHarvest>.05</ChanceToHarvest>-->
+<!--                <HarvestArea>.25~1</HarvestArea>-->
+<!--            </ListItem>-->
             <ListItem>
                 <Item>ButtonTopMushroom</Item>
                 <Amount>1</Amount>
@@ -84,7 +84,7 @@
                 <HarvestArea>0~1</HarvestArea>
             </ListItem>
             <ListItem>
-                <Item>WoodLog</Item>
+                <Item>GlitteringLog</Item>
                 <Amount>1~2</Amount>
                 <ChanceToHarvest>.1</ChanceToHarvest>
                 <HarvestArea>0~1</HarvestArea>

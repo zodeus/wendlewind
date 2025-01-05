@@ -103,7 +103,7 @@ public class Encounter
                 AddToLootContainer(item);
             }
 
-            foreach ((BodyPart? bodyPart, var slots) in enemy.Equipment.Slots)
+            /*foreach ((BodyPart? bodyPart, var slots) in enemy.Equipment.Slots)
             {
                 foreach (EquipmentSlotType slot in slots)
                 {
@@ -117,7 +117,7 @@ public class Encounter
                         AddToLootContainer(item);
                     }
                 }
-            }
+            }*/
         }
 
         void TakePartEquipment(BodyPart part)
@@ -142,13 +142,13 @@ public class Encounter
             TakePartEquipment(part);
         }
 
-        // foreach (ZoneResourceRecord resource in Zone.BiomeDef.Resources)
-        // {
-        //     if (Core.Random.Chance(resource.ChanceToHarvest))
-        //     {
-        //         AddToLootContainer(EntityGenerator.CreateEntity<Item>(resource.Item, resource.Amount.RandomValue));
-        //     }
-        // }
+        foreach (ZoneResourceRecord resource in Zone!.BiomeDef.Resources)
+        {
+            if (Core.Random.Chance(resource.ChanceToHarvest))
+            {
+                AddToLootContainer(EntityGenerator.CreateEntity<Item>(resource.Item, resource.Amount.RandomValue));
+            }
+        }
     }
 
     private void AddToLootContainer(Item item)

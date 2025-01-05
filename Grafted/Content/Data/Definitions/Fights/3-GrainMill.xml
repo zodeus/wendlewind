@@ -28,19 +28,24 @@
                     <ListItem>JarOfBlood</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
-                    <ListItem>
+                    <!--<ListItem>
                         <Item>Coin</Item>
                         <Amount>400~800</Amount>
                         <ChanceToDrop>.75</ChanceToDrop>
-                    </ListItem>
+                    </ListItem>-->
+<!--                    <ListItem>-->
+<!--                        <Item>SoulCoin</Item>-->
+<!--                        <Amount>1</Amount>-->
+<!--                        <ChanceToDrop>1</ChanceToDrop>-->
+<!--                    </ListItem>-->
                     <ListItem>
-                        <Item>SoulCoin</Item>
+                        <Item>AcidFlask</Item>
                         <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                     <ListItem>
-                        <Item>AcidFlask</Item>
-                        <Amount>1</Amount>
+                        <Item>ChainGlove</Item>
+                        <Amount>2</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
@@ -75,13 +80,23 @@
                     <ListItem>PumpinJuice</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
+<!--                    <ListItem>-->
+<!--                        <Item>SoulCoin</Item>-->
+<!--                        <Amount>1</Amount>-->
+<!--                        <ChanceToDrop>1</ChanceToDrop>-->
+<!--                    </ListItem>-->
                     <ListItem>
-                        <Item>SoulCoin</Item>
+                        <Item>AcidFlask</Item>
                         <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                     <ListItem>
-                        <Item>AcidFlask</Item>
+                        <Item>PumpinJuice</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>ChainTunic</Item>
                         <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
@@ -122,24 +137,69 @@
                     <ListItem>PumpinJuice</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
-                    <ListItem>
-                        <Item>Coin</Item>
-                        <Amount>6000~10000</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>SoulCoin</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
+<!--                    <ListItem>-->
+<!--                        <Item>Coin</Item>-->
+<!--                        <Amount>6000~10000</Amount>-->
+<!--                        <ChanceToDrop>1</ChanceToDrop>-->
+<!--                    </ListItem>-->
+<!--                    <ListItem>-->
+<!--                        <Item>SoulCoin</Item>-->
+<!--                        <Amount>1</Amount>-->
+<!--                        <ChanceToDrop>1</ChanceToDrop>-->
+<!--                    </ListItem>-->
                     <ListItem>
                         <Item>CookingPot</Item>
                         <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                     <ListItem>
+                        <Item>RepairKit</Item>
+                        <Amount>4</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>MendersMist</Item>
+                        <Amount>2</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>MedKit</Item>
+                        <Amount>2</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>ArterialThreads</Item>
+                        <Amount>2</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
                         <Item>BalmyOintment</Item>
                         <Amount>5</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>ChainVambrace</Item>
+                        <Amount>2</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>ChainGreave</Item>
+                        <Amount>2</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>ChainGorget</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>ChainBoot</Item>
+                        <Amount>2</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>JarOfBlood</Item>
+                        <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>

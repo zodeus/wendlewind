@@ -46,6 +46,7 @@ public class BodyPartSocket : IExposable, IIdentityProvider {
         Def = def;
         ParentPart = parentPart;
         Id = NEXT_SOCKET_ID++;
+        Log.Info(GetUniqueId() + " - Socket Created");
     }
 
     public BodyPart TryAttachPart(BodyPartDef def) {

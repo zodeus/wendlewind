@@ -109,10 +109,10 @@ public class Skill : IExposable {
     }
 
     private static readonly SimpleCurve XpLevelingCurve = new() {
-        new CurvePoint(0f, 50f), // 100 increment
-        new CurvePoint(3f, 100f), // 100 increment
-        new CurvePoint(5f, 500f), // 200 increment
-        new CurvePoint(6f, 500f)
+        new CurvePoint(0f, 10f), 
+        new CurvePoint(3f, 20f), 
+        new CurvePoint(5f, 30f), 
+        new CurvePoint(6f, 50f)
     };
 
     public Skill() { }

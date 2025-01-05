@@ -6,7 +6,7 @@ public class PawnSkillsPanel : HorizontalStackPanel {
     public PawnSkillsPanel(PawnSkills skills) {
         Spacing = 20;
         Padding = new Thickness(15);
-        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.Red];
+        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
         var combatSkills = new Grid {
             RowSpacing = 15,
             ColumnSpacing = 25,
@@ -46,7 +46,7 @@ public class PawnSkillsPanel : HorizontalStackPanel {
                 GridRow = gridRow, GridColumn = 1, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center
             };
             _xp = new HorizontalProgressBar(BaseContent.Styles.Bar.Xp) {
-                Width = 100, Height = 10,
+                Width = 100, Height = 30,
                 GridRow = gridRow, GridColumn = 2, VerticalAlignment = VerticalAlignment.Center
             };
             grid.AddChild(new Label {

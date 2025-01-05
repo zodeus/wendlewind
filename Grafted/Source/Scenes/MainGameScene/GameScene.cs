@@ -59,6 +59,7 @@ public class GameScene : Scene
         Core.ClearCoroutines();
         _context.World = WorldGenerator.GenerateNewWorld(Defs.PawnConfigs.PlayerPawn);
         _context.Ticks = 0;
+        _context.DeathRecords.Reset();
         StartGame();
     }
 

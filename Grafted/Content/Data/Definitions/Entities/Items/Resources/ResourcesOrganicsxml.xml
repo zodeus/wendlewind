@@ -6,11 +6,13 @@
     <ItemDef ParentName="OrganicResource">
         <Moniker>ButtonTopMushroom</Moniker>
         <Label>Button-top Mushroom</Label>
+        <Description>This is an interesting morsel, perhaps I should taste it...</Description>
         <TexturePath>Entities/Item/Resource/Organic/ButtonTopMushroom</TexturePath>
     </ItemDef>
     <ItemDef ParentName="OrganicResource">
         <Moniker>HealingRoot</Moniker>
         <Label>Healing Root</Label>
+        <Description>Toot, toot, it's a healing root... Grind it, water it, sip it. Taste like dandelions, but feels like a warm hug.</Description>
         <TexturePath>Entities/Item/Resource/Organic/HealingRoot</TexturePath>
     </ItemDef>
     <ItemDef ParentName="OrganicResource">

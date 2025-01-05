@@ -10,7 +10,7 @@ public class FoodPanel : EntityPanelBase {
         MinWidth = 300;
         Spacing = 5;
         AddChild(new Image { Background = new TextureRegion(item.Icon), Width = 64, Height = 64 });
-        AddChild(new Label("small") { Text = item.Def.Description, Wrap = true, Margin = new Thickness(0, 10, 0, 10) });
+        AddChild(new Label("small") { Text = item.Def.Description, Wrap = true, Margin = new Thickness(0, 10, 0, 10), MaxWidth = 600});
         AddChild(new Label() { Text = $"Nutritional Value: {item.GetStatValue(Defs.Stats.NutritionalValue)}", Wrap = true });
         if (item.ItemDef.FoodProperties?.Effects.Any() == true) {
             AddChild(new Label() {

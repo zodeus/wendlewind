@@ -52,18 +52,9 @@ public class PawnPanel : EntityPanelBase
         }) /*{ HorizontalAlignment = HorizontalAlignment.Center }#1#;
         */
 
-        EntityListPanel inventoryPanel = new(gui, pawn.Inventory.Entities, null, itemToGive =>
-        {
-            /*EntitySelector pawnSelector = new(Core.Sim.World.AllPlayerPawns.Where(p => p != pawn), entity => {
-                if (((Pawn) entity).Inventory.Container.TryAddOrTransfer(itemToGive) == false) {
-                    Log.Error($"Failed to transfer {itemToGive} from {pawn} to {entity}");
-                }
-            });
-            pawnSelector.Show(Core.Sim.ActiveGui!.Desktop, Input.MousePosition.ToPoint() + new Point(-20, -20));*/
-        });
+     
         //_tabPanel.AddTab("Equipment", null, equipmentGrid);
         //_tabPanel.AddTab("Health", null, new PawnHealthPanel(pawn));
-        _tabPanel.AddTab("Inventory", inventoryPanel);
         _tabPanel.AddTab("Skills", new PawnSkillsPanel(pawn.Skills));
         //_tabPanel.AddTab("Stats", null, new PawnStatsPanel(pawn));
         //_tabPanel.AddTab("Labor", null, new PawnLaborSettingsPanel(pawn));

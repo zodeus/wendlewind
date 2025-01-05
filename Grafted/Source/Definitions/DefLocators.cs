@@ -61,6 +61,7 @@ public static partial class Defs {
 public static partial class Defs {
     [DefLocator]
     public static class Items {
+        public static ItemDef RawCorn = null!;
         public static ItemDef RawMeat = null!;
         public static ItemDef CookedCorn = null!;
         public static ItemDef CookedMeat = null!;
@@ -77,7 +78,6 @@ public static partial class Defs {
         public static ItemDef SoulCoin = null!;
         public static ItemDef ShortSword = null!;
         public static ItemDef Firewood = null!;
-        public static ItemDef WoodLog = null!;
         public static ItemDef WoodBoard = null!;
         public static ItemDef WaterBucket = null!;
         public static ItemDef BalmyOintment = null!;

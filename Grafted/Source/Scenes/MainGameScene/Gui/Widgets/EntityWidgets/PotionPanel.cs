@@ -8,7 +8,7 @@ public class PotionPanel : EntityPanelBase {
         MinWidth = 300;
         Spacing = 5;
         AddChild(new Image { Background = new TextureRegion(item.Icon), Width = 48, Height = 48 });
-        AddChild(new Label("small") { Text = item.Def.Description, Wrap = true, Margin = new Thickness(10) });
+        AddChild(new Label(BaseContent.Styles.Label.Small) { Text = item.Def.Description, Wrap = true, Margin = new Thickness(10), Width = 600});
 
         if (item.ItemDef == Defs.Items.JarOfBlood) {
             TextButton button = new(BaseContent.Styles.Button.Normal) { Text = "Sip" };
