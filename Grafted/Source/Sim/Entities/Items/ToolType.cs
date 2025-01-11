@@ -11,6 +11,7 @@ public enum ToolType {
     //Other
 
     Misc,
+    Branch,
     Trade,
     Teeth,
     Tail,

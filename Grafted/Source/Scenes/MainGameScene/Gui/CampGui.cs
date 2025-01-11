@@ -16,7 +16,7 @@ public class CampGui : BaseGui
         _campOverview = new CampOverviewPanel(this, world);
         Desktop = new Desktop
         {
-            Scale = new Vector2(1f, 1f),
+            Scale = new Vector2(1, 1),
             Root = new VerticalStackPanel
             {
                 Widgets =

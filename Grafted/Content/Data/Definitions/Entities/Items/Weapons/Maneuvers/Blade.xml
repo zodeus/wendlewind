@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ToolManeuverDef>
+        <Moniker>Slash</Moniker>
+        <Label>Slash</Label>
+        <Tools>
+            <ListItem>Knife</ListItem>
+            <ListItem>Dagger</ListItem>
+            <ListItem>Axe</ListItem>
+            <ListItem>Sword</ListItem>
+        </Tools>
+        <DamageMultiplier>.70~1.2</DamageMultiplier>
+    </ToolManeuverDef>
+    <ToolManeuverDef>
+        <Moniker>Chop</Moniker>
+        <Label>Chop</Label>
+        <Tools>
+            <ListItem>Axe</ListItem>
+            <ListItem>Sword</ListItem>
+        </Tools>
+        <DamageMultiplier>.6~1.4</DamageMultiplier>
+    </ToolManeuverDef>
+    <ToolManeuverDef>
+        <Moniker>Stab</Moniker>
+        <Label>Stab</Label>
+        <Tools>
+            <ListItem>Knife</ListItem>
+            <ListItem>Sword</ListItem>
+            <ListItem>Dagger</ListItem>
+        </Tools>
+        <DamageMultiplier>.4~1.7</DamageMultiplier>
+    </ToolManeuverDef>
+</Definitions>

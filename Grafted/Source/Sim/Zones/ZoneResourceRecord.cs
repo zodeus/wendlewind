@@ -4,5 +4,4 @@ public class ZoneResourceRecord {
     public ItemDef Item = null!;
     public RangeInt Amount;
     public float ChanceToHarvest = 1;
-    public RangeFloat HarvestArea;
 }

@@ -59,6 +59,7 @@ public class GameHud : HorizontalStackPanel {
     private readonly HorizontalStackPanel _stomachOutline;
     private readonly Label _energyLabel;
     private MindWidget _mindWidget;
+    private readonly AttackSpeedIcon _attackSpeedLabel;
 
     public GameHud(Player player) {
         Spacing = 50;
@@ -69,6 +70,7 @@ public class GameHud : HorizontalStackPanel {
         Proportions.Add(Proportion.Fill);
         Proportions.Add(Proportion.Auto);
         _bloodLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center };
+        _attackSpeedLabel = new AttackSpeedIcon(player.Pawn);
         _temperatureLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center, Width = 90, TextAlign = TextHorizontalAlignment.Center};
         _energyLabel = new Label(BaseContent.Styles.Label.Medium) { VerticalAlignment = VerticalAlignment.Center, Width = 150, TextAlign = TextHorizontalAlignment.Center };
         _bodyTempIcon = new Image {
@@ -105,6 +107,7 @@ public class GameHud : HorizontalStackPanel {
 
         // Energy
         centerPanel.AddChild(new VerticalSeparator());
+        centerPanel.AddChild(_attackSpeedLabel);
         centerPanel.AddChild(new VerticalStackPanel {
             Widgets = {
                 new Image {
@@ -146,7 +149,7 @@ public class GameHud : HorizontalStackPanel {
             < 0 => TC.Red,
             _ => TC.Default
         };
-
+        _attackSpeedLabel.Update();
         string bloodLoss = $"/c[{TC.Default}] (/c[{bloodLossColor}]{plusSign}{player.Body.BloodChangeLastFrame:P}/c[{TC.Default}])";
         _bloodLabel.Text = $"{Mathf.RoundToInt(player.Body.BloodPercent * 100)}%{bloodLoss}";
         _bloodLabel.TextColor = BodyPartColor.GetBloodColor(player.Body.BloodPercent);

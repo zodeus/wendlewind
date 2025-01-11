@@ -21,6 +21,7 @@ public static partial class Defs {
         public static StatDef NutritionalValue = null!;
         public static StatDef Evasion = null!;
         public static StatDef AttackSpeedModifier = null!;
+        public static StatDef WeaponSpeed  = null!;
     }
 }
 
@@ -55,6 +56,7 @@ public static partial class Defs {
         public static BiomeDef TheOutskirts = null!;
         public static BiomeDef GrainMill = null!;
         public static BiomeDef FesterpusSwamp = null!;
+        public static BiomeDef ForgottenForest = null!;
     }
 }
 
@@ -74,16 +76,19 @@ public static partial class Defs {
         public static ItemDef JarOfBlood = null!;
         public static ItemDef AcidFlask = null!;
         public static ItemDef PumpinJuice = null!;
-        public static ItemDef Coin = null!;
-        public static ItemDef SoulCoin = null!;
         public static ItemDef ShortSword = null!;
         public static ItemDef Firewood = null!;
         public static ItemDef WoodBoard = null!;
-        public static ItemDef WaterBucket = null!;
+        public static ItemDef EndlessWaterBucket = null!;
+        public static ItemDef CookingPot = null!;
         public static ItemDef BalmyOintment = null!;
         public static ItemDef TheDreamingPowder = null!;
         public static ItemDef CowardsFlag = null!;
         public static ItemDef EssenceShard = null!;
+        public static ItemDef EncasedFire = null!;
+        public static ItemDef MortarAndPestle = null!;
+        public static ItemDef VialOfDuplicity = null!;
+        public static ItemDef HealingRoot = null!;
     }
 }
 
@@ -179,6 +184,11 @@ public static partial class Defs {
         public static BodyPartDef GhoulFinger = null!;
         public static BodyPartDef GhoulLeg = null!;
         public static BodyPartDef GhoulFoot = null!;
+        
+        public static BodyPartDef TreeTrunk = null!;
+        public static BodyPartDef TreeInnerCore = null!;
+        public static BodyPartDef TreeStump = null!;
+        
     }
 
     [DefLocator]
@@ -186,6 +196,9 @@ public static partial class Defs {
         public static BodyPartSocketDef HeadSocket = null!;
         public static BodyPartSocketDef TorsoSocket = null!;
         public static BodyPartSocketDef HandSocket = null!;
+        
+        //Treeborn
+        public static BodyPartSocketDef TreeTrunkSocket = null!;
     }
 }
 

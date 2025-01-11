@@ -30,10 +30,10 @@ internal class PawnCombatPanel : HorizontalStackPanel
 
         if (isPlayer == false)
         {
-            _bodySummary = new PawnBodySummary(_gui, Pawn.Body) { VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 10, 0, 0) };
+            _bodySummary = new PawnBodySummary(_gui, Pawn.Body) { VerticalAlignment = VerticalAlignment.Bottom, Margin = new Thickness(0, 10, 0, 0) };
             AddChild(_bodySummary);
         }
-        
+
         Update();
     }
 
@@ -106,11 +106,11 @@ internal class PawnCombatPanel : HorizontalStackPanel
             GridLinesColor = new Color(255, 0, 0, 255),
         };
         int panelWidth = 400;
-
         if (Pawn.PawnType == PawnType.Enemy || Pawn.Race != Defs.Races.Journeyman)
         {
             Texture2D icon = Pawn.Icon.Flip(false, true);
             Image image = new() { Background = new TextureRegion(icon), Width = panelWidth, Height = panelWidth, BorderThickness = new Thickness(2) };
+            Pawn.Died += _ => { image.Background = new ColoredRegion(new TextureRegion(icon), Color.Red); };
             image.TouchDown += (_, _) =>
             {
                 if (_gui.MouseAttachment == null)

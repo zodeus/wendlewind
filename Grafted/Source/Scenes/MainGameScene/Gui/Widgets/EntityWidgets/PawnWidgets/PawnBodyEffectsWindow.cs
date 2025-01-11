@@ -10,7 +10,7 @@ public class PawnBodyEffectsWindow : Window {
         _pawn = pawn;
         Title = "Effects";
         Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold], new Color(255, 255, 255, 50));
-        _container = new VerticalStackPanel();
+        _container = new VerticalStackPanel(){Spacing = 20};
         Content = _container;
     }
 

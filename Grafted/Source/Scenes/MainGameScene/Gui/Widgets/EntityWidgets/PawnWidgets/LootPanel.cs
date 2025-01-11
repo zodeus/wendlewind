@@ -25,7 +25,7 @@ public class LootPanel : Panel, IUpdatable {
             Proportions = { Proportion.Auto, Proportion.Auto, Proportion.Fill }
         };
         rightColumn.AddChild(_equipmentPanel);
-        rightColumn.AddChild(new Label(BaseContent.Styles.Label.Large) { Text = "Loot",  Margin = new Thickness(0,50,0,0),});
+        rightColumn.AddChild(new Label(BaseContent.Styles.Label.Large) { Text = "Ground Loot",  Margin = new Thickness(0,50,0,0),});
         rightColumn.AddChild(_otherContainerPanel);
         HorizontalStackPanel grid = new() {
             HorizontalAlignment = HorizontalAlignment.Center,

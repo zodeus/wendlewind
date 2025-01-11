@@ -1,9 +1,9 @@
 ﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 
-public class CombatControlPanel : VerticalStackPanel
+public sealed class CombatControlPanel : VerticalStackPanel
 {
     private readonly Encounter _encounter;
-    private readonly TextButton _continueButton;
+    private readonly Button _continueButton;
     private readonly HorizontalStackPanel _speedButtons;
     private readonly TextButton _retreatButton;
 
@@ -11,13 +11,14 @@ public class CombatControlPanel : VerticalStackPanel
     {
         _encounter = encounter;
         ShowGridLines = false;
-        _continueButton = new TextButton(BaseContent.Styles.Button.Normal)
+        _continueButton = new Button(BaseContent.Styles.Button.LargeGold)
         {
-            Text = "Continue", Visible = false, Margin = new Thickness(0, 10, 0, 0), HorizontalAlignment = HorizontalAlignment.Stretch
+            Content = new Label { Text = "Continue" },
+            Visible = false, Margin = new Thickness(0, 10, 0, 0), HorizontalAlignment = HorizontalAlignment.Stretch,
         };
         _continueButton.Click += (_, _) => { encounter.Zone!.CombatResults(); };
 
-        AddChild(_continueButton);
+        Widgets.Add(_continueButton);
 
         TextButton pauseButton = new("small")
         {
@@ -39,7 +40,7 @@ public class CombatControlPanel : VerticalStackPanel
             }
         };
 
-        AddChild(_speedButtons);
+        Widgets.Add(_speedButtons);
 
         _retreatButton = new TextButton(BaseContent.Styles.Button.Normal)
         {
@@ -47,7 +48,7 @@ public class CombatControlPanel : VerticalStackPanel
         };
         _retreatButton.Click += (_, _) => { encounter.ShouldAttemptRetreat = true; };
         _retreatButton.Visible = false; //Core.Context.Player.HasTrinket(Defs.Items.CowardsFlag);//todo - fix this, the retreat button doesn't work
-        AddChild(_retreatButton);
+        Widgets.Add(_retreatButton);
     }
 
     private TextButton CreateSpeedButton(string label, int speed)
@@ -57,10 +58,7 @@ public class CombatControlPanel : VerticalStackPanel
             Text = label
         };
 
-        button.Click += (_, _) =>
-        {
-            DebugSettings.CombatSpeed = speed;
-        };
+        button.Click += (_, _) => { DebugSettings.CombatSpeed = speed; };
         return button;
     }
 

@@ -17,7 +17,6 @@ public class ItemContainerPanel : VerticalStackPanel
         _receivingContainer = receivingContainer;
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
         Padding = new Thickness(30);
-        Spacing = 10;
 
         List<ItemContainerPanelSection> sections = new()
         {
@@ -55,20 +54,21 @@ public class ItemContainerPanel : VerticalStackPanel
             {
                 Label = "Misc",
                 Container = _container,
-                Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Resource or ItemType.Trinket
+                Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Resource
             }
         };
 
 
         foreach (ItemContainerPanelSection section in sections)
         {
-            Proportions.Add(Proportion.Auto);
-            Proportions.Add(Proportion.Auto);
-            Proportions.Add(Proportion.Auto);
+            // Proportions.Add(Proportion.Auto);
+            // Proportions.Add(Proportion.Auto);
+            // Proportions.Add(Proportion.Auto);
 
             EntityListPanel panel = new(_gui, section.Label, section.Container, section.Filter, LeftClickHandler, RightClickHandler)
             {
-                HorizontalAlignment = HorizontalAlignment.Stretch
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                Margin = new Thickness(0, 0, 0, 10)
             };
             _sections.Add(panel);
             AddChild(panel);

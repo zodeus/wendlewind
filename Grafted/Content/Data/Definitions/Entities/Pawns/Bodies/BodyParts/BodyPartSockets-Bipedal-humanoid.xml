@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>LeftArmSocket</Moniker>
+        <Label>Left Arm Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>Left</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Arm</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>RightArmSocket</Moniker>
+        <Label>Right Arm Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>Right</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Arm</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>HandSocket</Moniker>
+        <Label>Hand Socket</Label>
+        <IsExternal>true</IsExternal>
+        <AllowedBodyPartTypes>
+            <ListItem>Hand</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>RightLegSocket</Moniker>
+        <Label>Right Leg Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>Right</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Leg</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>LeftLegSocket</Moniker>
+        <Label>Left Leg Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>Left</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Leg</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>FootSocket</Moniker>
+        <Label>Foot Socket</Label>
+        <IsExternal>true</IsExternal>
+        <AllowedBodyPartTypes>
+            <ListItem>Foot</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>IndexFingerSocket</Moniker>
+        <Label>Index Finger Socket</Label>
+        <Position>Index</Position>
+        <IsExternal>true</IsExternal>
+        <AllowedBodyPartTypes>
+            <ListItem>Finger</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>MiddleFingerSocket</Moniker>
+        <Label>Middle Finger Socket</Label>
+        <Position>Middle</Position>
+        <IsExternal>true</IsExternal>
+        <AllowedBodyPartTypes>
+            <ListItem>Finger</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>RingFingerSocket</Moniker>
+        <Label>Ring Finger Socket</Label>
+        <Position>Ring</Position>
+        <IsExternal>true</IsExternal>
+        <AllowedBodyPartTypes>
+            <ListItem>Finger</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>LittleFingerSocket</Moniker>
+        <Label>Little Finger Socket</Label>
+        <Position>Little</Position>
+        <IsExternal>true</IsExternal>
+        <AllowedBodyPartTypes>
+            <ListItem>Finger</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>ThumbSocket</Moniker>
+        <Label>Thumb Socket</Label>
+        <IsExternal>true</IsExternal>
+        <AllowedBodyPartTypes>
+            <ListItem>Thumb</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+</Definitions>

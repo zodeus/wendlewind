@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef ParentName="WeaponBlunt">
+        <Moniker>Mace</Moniker>
+        <Label>Mace</Label>
+        <Description>Bash! bash! BASH! (1.5x to bones)</Description>
+        <ToolType>Mace</ToolType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Blunt/Mace</TexturePath>
+        <BaseStats>
+            <WeaponSpeed>.8</WeaponSpeed>
+            <MeleePower>35</MeleePower>
+            <MaxDurability>2000</MaxDurability>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponSharp">
+        <Moniker>ShortSword</Moniker>
+        <Label>Short Sword</Label>
+        <Description>Very cutty</Description>
+        <ToolType>Sword</ToolType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Sharp/ShortSword</TexturePath>
+        <BaseStats>
+            <MeleePower>30</MeleePower>
+            <WeaponSpeed>1.2</WeaponSpeed>
+            <MaxDurability>2000</MaxDurability>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponSharp">
+        <Moniker>WarAxe</Moniker>
+        <Label>War Axe</Label>
+        <Description>It chops, it also hurts</Description>
+        <ToolType>Axe</ToolType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Sharp/WarAxe</TexturePath>
+        <BaseStats>
+            <MeleePower>40</MeleePower>
+            <WeaponSpeed>1</WeaponSpeed>
+            <MaxDurability>2000</MaxDurability>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponSharp">
+        <Moniker>WarHammer</Moniker>
+        <Label>War Hammer</Label>
+        <Description>It's purpose, rattle the brains</Description>
+        <ToolType>Axe</ToolType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Blunt/WarHammer</TexturePath>
+        <BaseStats>
+            <MeleePower>30</MeleePower>
+            <WeaponSpeed>1.2</WeaponSpeed>
+            <MaxDurability>2000</MaxDurability>
+        </BaseStats>
+    </ItemDef>
+</Definitions>

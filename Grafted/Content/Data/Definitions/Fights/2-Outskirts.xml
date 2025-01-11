@@ -4,12 +4,18 @@
     <CombatConfigDef>
         <Moniker>TheOutskirts-01</Moniker>
         <Biome>TheOutskirts</Biome>
+        <PotentialLootBoxes>
+            <ListItem>TrinketsChestBasic</ListItem>
+        </PotentialLootBoxes>
         <Enemies>
             <ListItem>
                 <Race>TruffleBoar</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>Truffle Boar</PawnName>
                 <SpawnWeight>1</SpawnWeight>
+                <Skills>
+                    <Biting>1</Biting>
+                </Skills>
                 <InventoryItems>
                     <ListItem>
                         <Item>LeatherGreave</Item>
@@ -23,12 +29,18 @@
     <CombatConfigDef>
         <Moniker>TheOutskirts-02</Moniker>
         <Biome>TheOutskirts</Biome>
+        <PotentialLootBoxes>
+            <ListItem>MedicinalChestPrimitive</ListItem>
+        </PotentialLootBoxes>
         <Enemies>
             <ListItem>
                 <Race>TruffleBoar</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>Truffle Boar</PawnName>
                 <SpawnWeight>20</SpawnWeight>
+                <Skills>
+                    <Biting>2</Biting>
+                </Skills>
                 <InventoryItems>
                     <ListItem>
                         <Item>LeatherVambrace</Item>
@@ -48,6 +60,9 @@
                 <Config>DefaultEnemy</Config>
                 <PawnName>Truffle Boar</PawnName>
                 <SpawnWeight>15</SpawnWeight>
+                <Skills>
+                    <Biting>2</Biting>
+                </Skills>
                 <InventoryItems>
                     <ListItem>
                         <Item>LeatherVambrace</Item>
@@ -61,12 +76,18 @@
     <CombatConfigDef>
         <Moniker>TheOutskirts-04</Moniker>
         <Biome>TheOutskirts</Biome>
+        <PotentialLootBoxes>
+            <ListItem>WeaponChestIronAge</ListItem>
+        </PotentialLootBoxes>
         <Enemies>
             <ListItem>
                 <Race>TruffleBoar</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>Truffle Boar</PawnName>
                 <SpawnWeight>10</SpawnWeight>
+                <Skills>
+                    <Biting>3</Biting>
+                </Skills>
                 <InventoryItems>
                     <ListItem>
                         <Item>LeatherTunic</Item>
@@ -81,6 +102,9 @@
         <Moniker>TheOutskirts-Boss</Moniker>
         <Biome>TheOutskirts</Biome>
         <IsBoss>true</IsBoss>
+        <PotentialLootBoxes>
+            <ListItem>TrinketsChestBasic</ListItem>
+        </PotentialLootBoxes>
         <Enemies>
             <ListItem>
                 <Race>FieldHound</Race>
@@ -89,48 +113,8 @@
                 <BodySizeFactor>.5</BodySizeFactor>
                 <SpawnWeight>1</SpawnWeight>
                 <InventoryItems>
-<!--                    <ListItem>-->
-<!--                        <Item>Coin</Item>-->
-<!--                        <Amount>3000~5000</Amount>-->
-<!--                        <ChanceToDrop>1</ChanceToDrop>-->
-<!--                    </ListItem>-->
                     <ListItem>
-                        <Item>ATap</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>JarOfBlood</Item>
-                        <Amount>2</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>MendersMist</Item>
-                        <Amount>3</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>MedKit</Item>
-                        <Amount>4</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>ArterialThreads</Item>
-                        <Amount>2</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>RepairKit</Item>
-                        <Amount>10</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>ShortSword</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>ChainHelmet</Item>
+                        <Item>BucketHelmet</Item>
                         <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>

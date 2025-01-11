@@ -78,24 +78,20 @@ public class GameScene : Scene
     {
         for (int i = 0; i < DebugSettings.CombatSpeed; i++)
         {
-            _context.Tick();    
+            _context.Tick();
         }
     }
 
     private void HandleInput()
     {
-        if (Input.IsKeyPressed(Keys.Space))
-        {
-        }
-
         if (Input.IsKeyPressed(Keys.S) && Input.IsKeyDown(Keys.LeftControl))
         {
             _context.Save("save.xml");
-            _campGui.PushScreenMessage(new ScreenMessageData
+            ActiveGui!.PushScreenMessage(new ScreenMessageData
             {
                 Text = "Game Saved",
-                Font = BaseContent.Fonts.Default.Large,
-                Duration = 5,
+                Font = BaseContent.Fonts.Default.VeryLarge,
+                Duration = 3,
                 Color = Color.LimeGreen
             });
         }

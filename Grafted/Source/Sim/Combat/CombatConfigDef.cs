@@ -1,9 +1,11 @@
 ﻿using Grafted.Sim.Entities;
+using Grafted.Sim.LootBoxes;
 
 namespace Grafted.Sim.Combat;
 
 public class CombatConfigDef : Def {
     public List<CombatConfigEnemyRecord> Enemies = new();
+    public List<LootBoxDef> PotentialLootBoxes = new();
     public BiomeDef Biome = null!;
     public bool IsBoss;
 }

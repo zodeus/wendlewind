@@ -30,6 +30,12 @@
         <TexturePath>Entities/Item/Resource/Organic/CookedMeat</TexturePath>
         <FoodProperties>
             <FoodType>CookedMeat</FoodType>
+            <Effects>
+                <ListItem>
+                    <Def>BeefedUp</Def>
+                    <DurationInTicks>1000</DurationInTicks>
+                </ListItem>
+            </Effects>
         </FoodProperties>
         <CraftingProperties>
             <MinutesToMake>30</MinutesToMake>
@@ -42,26 +48,25 @@
             </ResourceRequirements>
         </CraftingProperties>
         <BaseStats>
-            <HealingValue>110</HealingValue>
-            <NutritionalValue>.4</NutritionalValue>
+            <NutritionalValue>1</NutritionalValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Food">
         <Moniker>DriedMeat</Moniker>
         <Label>Dried Meat</Label>
-        <Description>Some dried meat, eating it grants the Beefed Up! effect</Description>
+        <Description>Some dried meat, it's beefy</Description>
         <TexturePath>Entities/Item/Resource/Organic/DriedMeat</TexturePath>
         <FoodProperties>
             <FoodType>DriedMeat</FoodType>
             <Effects>
                 <ListItem>
                     <Def>BeefedUp</Def>
-                    <DurationInTicks>720</DurationInTicks>
+                    <DurationInTicks>3000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
         <BaseStats>
-            <NutritionalValue>.3</NutritionalValue>
+            <NutritionalValue>1</NutritionalValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Food">
@@ -74,12 +79,12 @@
             <Effects>
                 <ListItem>
                     <Def>FoodPoisoning</Def>
-                    <DurationInTicks>1440</DurationInTicks>
+                    <DurationInTicks>2000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
         <BaseStats>
-            <NutritionalValue>.1</NutritionalValue>
+            <NutritionalValue>.3</NutritionalValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Food">
@@ -97,7 +102,7 @@
             </Effects>
         </FoodProperties>
         <BaseStats>
-            <NutritionalValue>.1</NutritionalValue>
+            <NutritionalValue>.3</NutritionalValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Food">
@@ -110,7 +115,7 @@
             <Effects>
                 <ListItem>
                     <Def>EnergizedLikeABunny</Def>
-                    <DurationInTicks>180</DurationInTicks>
+                    <DurationInTicks>2000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
@@ -128,8 +133,7 @@
             </ResourceRequirements>
         </CraftingProperties>
         <BaseStats>
-            <HealingValue>110</HealingValue>
-            <NutritionalValue>.3</NutritionalValue>
+            <NutritionalValue>1</NutritionalValue>
         </BaseStats>
     </ItemDef>
 </Definitions>

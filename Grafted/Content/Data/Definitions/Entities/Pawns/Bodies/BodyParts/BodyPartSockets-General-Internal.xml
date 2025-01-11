@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>BoneSocket</Moniker>
+        <Label>Bone Socket</Label>
+        <AllowedBodyPartTypes>
+            <ListItem>Bone</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>RibCageSocket</Moniker>
+        <Label>Rib Cage Socket</Label>
+        <AllowedBodyPartTypes>
+            <ListItem>RibCage</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>StomachSocket</Moniker>
+        <Label>Stomach Socket</Label>
+        <AllowedBodyPartTypes>
+            <ListItem>Stomach</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>HeartSocket</Moniker>
+        <Label>Heart Socket</Label>
+        <AllowedBodyPartTypes>
+            <ListItem>Heart</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>LeftLungSocket</Moniker>
+        <Label>Left Lung Socket</Label>
+        <Position>Left</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Lung</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>RightLungSocket</Moniker>
+        <Label>Right Lung Socket</Label>
+        <Position>Right</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Lung</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>SkullSocket</Moniker>
+        <Label>Skull Socket</Label>
+        <AllowedBodyPartTypes>
+            <ListItem>Skull</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>BrainSocket</Moniker>
+        <Label>Brain Socket</Label>
+        <AllowedBodyPartTypes>
+            <ListItem>Brain</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>ArterySocket</Moniker>
+        <Label>Artery Socket</Label>
+        <AllowedBodyPartTypes>
+            <ListItem>Artery</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>SkinSocket</Moniker>
+        <Label>Skin Socket</Label>
+        <AllowedBodyPartTypes>
+            <ListItem>Skin</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+</Definitions>

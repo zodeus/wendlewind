@@ -6,6 +6,12 @@
         <ItemType>Trinket</ItemType>
     </ItemDef>
     <ItemDef ParentName="ItemTrinket">
+        <Moniker>EndlessWaterBucket</Moniker>
+        <Label>Endless Water Bucket</Label>
+        <Description>It's water, not all to special, however... as your pour it out you notice the inside begin to weep.</Description>
+        <TexturePath>Entities/Item/Resource/Fluid/BucketOfWater</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="ItemTrinket">
         <Moniker>EssenceShard</Moniker>
         <Label>Essence Shard</Label>
         <EntityClass>EssenceShard</EntityClass>
@@ -42,5 +48,17 @@
         <Label>Mortar and Pestle</Label>
         <Description>For making big things into smaller things.</Description>
         <TexturePath>Entities/Item/TradeTool/MortarAndPestle</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="ItemTrinket">
+        <Moniker>EncasedFire</Moniker>
+        <Label>Encased Fire</Label>
+        <Description>It burns...</Description>
+        <TexturePath>Entities/Item/Trinket/EncasedFire</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="ItemTrinket">
+        <Moniker>VialOfDuplicity</Moniker>
+        <Label>Vial of Duplicity</Label>
+        <Description>A vial that seems to copy itself</Description>
+        <TexturePath>Entities/Item/Trinket/VialOfDuplicity</TexturePath>
     </ItemDef>
 </Definitions>

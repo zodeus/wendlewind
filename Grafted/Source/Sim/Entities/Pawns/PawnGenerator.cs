@@ -76,6 +76,13 @@ public static class PawnGenerator
         BodyPartSocket body = pawn.PawnDef.Body.Generator.Generate();
         pawn.Body.RootSocket = body;
         pawn.Body.BodyPartsDirty = true; //todo this should be set by/in BodyPart, but BodyPart doesn't have access to Pawn currently
+        // ReSharper disable once CompareOfFloatsByEqualityOperator
+        if (pawn.Body.AllParts.Sum(p => p.BodyPartDef.MobilityFraction) != 1)
+        {
+            Log.Error(pawn.Label + " has a body that does not add up to 1 mobility");
+        }
+
+        pawn.Body.RequiresLungs = pawn.Body.AllParts.Any(p => p.BodyPartDef == Defs.BodyParts.Lung);
     }
 
     public static void RegisterEquipment(Pawn pawn, List<ItemDef> equipment)

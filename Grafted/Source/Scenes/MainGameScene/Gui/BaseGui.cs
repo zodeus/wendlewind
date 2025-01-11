@@ -5,55 +5,65 @@ using Grafted.Sim.Entities;
 
 namespace Grafted.Scenes.MainGameScene.Gui;
 
-public abstract class BaseGui: IDisposable {
+public abstract class BaseGui : IDisposable
+{
     public Desktop Desktop { get; set; } = null!;
 
     public MouseAttachment? MouseAttachment;
 
-    private ScreenMessageData _screenMessage;
+    private ScreenMessageData? _screenMessage;
     private float _screenMessageTimeLeft;
     private readonly Window _entityViewerWindow = new();
     private Entity? _viewedEntity;
     private KeyValuePair<Entity, Point?>? _queuedEntityToView;
     private bool _deathWindowIsOpen;
 
-    public virtual void Update(float deltaTime) {
+    public virtual void Update(float deltaTime)
+    {
         HandleInput();
         MouseAttachment?.Update();
         ShowEntityIfQueued();
-        if (_viewedEntity?.IsDestroyed == true) {
+        if (_viewedEntity?.IsDestroyed == true)
+        {
             _viewedEntity = null;
             _entityViewerWindow.Close();
         }
 
-        ((EntityPanelBase?) _entityViewerWindow.Content)?.Update();
-        if (_screenMessageTimeLeft > 0) {
+        ((EntityPanelBase?)_entityViewerWindow.Content)?.Update();
+        if (_screenMessageTimeLeft > 0)
+        {
             _screenMessageTimeLeft -= deltaTime;
         }
 
-        if (Core.Context.World.PlayerPawn.IsDead && _deathWindowIsOpen == false) {
-           ShowDeathWindow();
+        if (Core.Context.World.PlayerPawn.IsDead && _deathWindowIsOpen == false)
+        {
+            ShowDeathWindow();
         }
     }
 
-    protected void ShowDeathWindow() {
+    protected void ShowDeathWindow()
+    {
         _deathWindowIsOpen = true;
         DeathWindow window = new();
         window.Closed += (_, _) => _deathWindowIsOpen = false;
         window.ShowModal(Desktop);
     }
 
-    public virtual void ViewEntity(Entity entity, Point? position = null) {
+    public virtual void ViewEntity(Entity entity, Point? position = null)
+    {
         _queuedEntityToView = new KeyValuePair<Entity, Point?>(entity, position);
     }
 
-    public virtual void HandleInput() {
-        if (Input.IsKeyPressed(Keys.B)) {
+    public virtual void HandleInput()
+    {
+        if (Input.IsKeyPressed(Keys.B))
+        {
             (new BookOfAllKnowledgeWindow()).Show(Desktop, new Point(100, 100));
         }
     }
 
-    public virtual void Draw(SpriteBatch spriteBatch, float deltaTime) {
+    public virtual void Draw(SpriteBatch spriteBatch, float deltaTime)
+    {
         Desktop.Render();
         spriteBatch.Begin(
             SpriteSortMode.Deferred,
@@ -65,7 +75,8 @@ public abstract class BaseGui: IDisposable {
         MouseAttachment?.Draw(spriteBatch);
         spriteBatch.End();
 
-        if (_screenMessageTimeLeft > 0) {
+        if (_screenMessageTimeLeft > 0 && _screenMessage != null)
+        {
             spriteBatch.Begin(
                 SpriteSortMode.Deferred,
                 BlendState.NonPremultiplied,
@@ -73,9 +84,9 @@ public abstract class BaseGui: IDisposable {
                 DepthStencilState.None,
                 RasterizerState.CullNone
             );
-            int offset = (int) _screenMessage.Font.MeasureString(_screenMessage.Text).X / 2;
-            Color colorA = _screenMessage.Color.Multiply(new Color(1f, 1f, 1f, Mathf.Lerp(0f, 1f, (float) _screenMessageTimeLeft / _screenMessage.Duration)));
-            Color colorB = _screenMessage.Color.Multiply(new Color(1f, 1f, 1f, Mathf.Lerp(0f, .6f, (float) _screenMessageTimeLeft / _screenMessage.Duration)));
+            int offset = (int)_screenMessage.Font.MeasureString(_screenMessage.Text).X / 2;
+            Color colorA = _screenMessage.Color.Multiply(new Color(1f, 1f, 1f, Mathf.Lerp(0f, 1f, (float)_screenMessageTimeLeft / _screenMessage.Duration)));
+            Color colorB = _screenMessage.Color.Multiply(new Color(1f, 1f, 1f, Mathf.Lerp(0f, .6f, (float)_screenMessageTimeLeft / _screenMessage.Duration)));
             int xOffsetA = Core.Random.Next(-2, 2);
             int yOffsetA = Core.Random.Next(-2, 2);
             int xOffsetB = Core.Random.Next(-8, 8);
@@ -88,21 +99,32 @@ public abstract class BaseGui: IDisposable {
         }
     }
 
-    public void PushScreenMessage(ScreenMessageData message) {
+    public void PushScreenMessage(ScreenMessageData message)
+    {
         _screenMessage = message;
         _screenMessageTimeLeft = message.Duration;
     }
 
-    private void ShowEntityIfQueued() {
-        if (_queuedEntityToView == null) {
+    public void ClearScreenMessage()
+    {
+        _screenMessage = null;
+        _screenMessageTimeLeft = 0;
+    }
+
+    private void ShowEntityIfQueued()
+    {
+        if (_queuedEntityToView == null)
+        {
             return;
         }
 
-        _entityViewerWindow.Content = _queuedEntityToView.Value.Key.UiPanel(this, new EntityPanelProperties {
+        _entityViewerWindow.Content = _queuedEntityToView.Value.Key.UiPanel(this, new EntityPanelProperties
+        {
             ShowTitle = false, ShowCloseButton = false, Background = null
         });
         _entityViewerWindow.Title = _queuedEntityToView.Value.Key.Label;
-        if (_entityViewerWindow.IsPlaced == false) {
+        if (_entityViewerWindow.IsPlaced == false)
+        {
             _entityViewerWindow.Show(Desktop, _queuedEntityToView.Value.Value);
         }
 
@@ -111,7 +133,8 @@ public abstract class BaseGui: IDisposable {
         _queuedEntityToView = null;
     }
 
-    public void TransferScreenMessage(BaseGui gui) {
+    public void TransferScreenMessage(BaseGui gui)
+    {
         gui._screenMessage = _screenMessage;
         gui._screenMessageTimeLeft = _screenMessageTimeLeft;
     }
@@ -124,8 +147,9 @@ public abstract class BaseGui: IDisposable {
     }
 }
 
-public class ScreenMessageData {
-    public string Text;
+public class ScreenMessageData
+{
+    public string Text = "";
     public Color Color;
     public int Duration = 10000;
     public DynamicSpriteFont Font = BaseContent.Fonts.Default.VeryLarge;

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef ParentName="WeaponBlunt">
+        <Moniker>BirchRod</Moniker>
+        <Label>Birch Rod</Label>
+        <Description>A tool used in the service of justice (1.5x to bones)</Description>
+        <ToolType>Staff</ToolType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Blunt/WoodenStick</TexturePath>
+        <BaseStats>
+            <MeleePower>15</MeleePower>
+            <WeaponSpeed>1.2</WeaponSpeed>
+            <MaxDurability>400</MaxDurability>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponBlunt">
+        <Moniker>WoodenHammer</Moniker>
+        <Label>Wooden Hammer</Label>
+        <Description>It's a smasher! (1.5x to bones)</Description>
+        <ToolType>Hammer</ToolType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Blunt/WoodenHammer</TexturePath>
+        <BaseStats>
+            <MeleePower>20</MeleePower>
+            <WeaponSpeed>.9</WeaponSpeed>
+            <MaxDurability>400</MaxDurability>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponSharp">
+        <Moniker>Knife</Moniker>
+        <Label>Knife</Label>
+        <Description>It's a simple knife</Description>
+        <ToolType>Knife</ToolType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Sharp/BasicKnife</TexturePath>
+        <BaseStats>
+            <MeleePower>15</MeleePower>
+            <WeaponSpeed>1.4</WeaponSpeed>
+            <MaxDurability>400</MaxDurability>
+        </BaseStats>
+    </ItemDef>
+</Definitions>

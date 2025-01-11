@@ -1,4 +1,6 @@
-﻿namespace Grafted.Sim.Entities.Pawns;
+﻿using FontStashSharp.Rasterizers.StbTrueTypeSharp;
+
+namespace Grafted.Sim.Entities.Pawns;
 
 public static class BodyPartModifierGenerator
 {
@@ -107,7 +109,7 @@ public class BurningAcid : BodyPartModifier
             return;
         }
 
-        var damageMultiplier = HasSpread ? .005f : 0.0015f;
+        var damageMultiplier = HasSpread ? .004f : 0.001f;
         var damage = BodyPart.HitPoints * damageMultiplier;
         BodyPart.HitPoints -= damage;
         if (HasPenetrated == false && BodyPart is { Type: BodyPartType.Skin, HealthPercent: < .2f })
@@ -132,15 +134,29 @@ public class BurningAcid : BodyPartModifier
         }
 
         base.Tick();
-        LostVitalPart();
+        CheckIfLostVitalPart(BodyPart);
     }
 
-    private void LostVitalPart()
+    private bool CheckIfLostVitalPart(BodyPart bodyPart)
     {
-        if (BodyPart.IsFunctional == false && BodyPart.Body?.AllParts.Any(p => p.Type == BodyPart.Type && p.IsFunctional) == false)
+        if (bodyPart.IsFunctional) return false;
+        foreach (var internalPart in bodyPart.InternalParts.InRandomOrder())
         {
-            BodyPart.Body.Pawn.TriggerDeath($"Vital body part {BodyPart.Label} was destroyed by {Def.Label}");
+            if (!internalPart.IsVital) continue;
+            if (CheckIfLostVitalPart(internalPart))
+            {
+                return true;
+            }
         }
+
+        var remainingFunctionalParts = bodyPart.Body!.AllParts.Count(p => p.Type == bodyPart.Type && p.IsFunctional);
+        if (bodyPart is { IsVital: true, IsFunctional: false } && remainingFunctionalParts <= 0)
+        {
+            bodyPart.Body.Pawn.TriggerDeath($"{bodyPart.Label} {(bodyPart.IsDestroyed ? "was destroyed" : "stopped functioning")}");
+            return true;
+        }
+
+        return false;
     }
 
     public override void ExposeData()
@@ -173,17 +189,6 @@ public class PumpinEnhancement : BodyPartModifier
 
     public override void Expired()
     {
-        //
-        // for (int index = _combatEvent.Buffs.Count - 1; index >= 0; index--) {
-        //     CombatBuff buff = _combatEvent.Buffs[index];
-        //     buff.Duration--;
-        //     if (buff.Duration <= 0) {
-        //         _combatEvent.RemoveBuff(buff);
-        //         if (buff.Def == Defs.Items.PumpinJuice) {
-        //             _combatEvent.LogMessage($"/c[{UiTextColor.TextColorPawn}]{buff.Pawn.LabelShort} feels heavy from pump drain");
-        //             //_combatEvent.ActivateBuff(Heavy, );
-        //         }
-        //     }
-        // }
+        //BodyPart.Body.Effects.TryApplyEffect(PumpDrain);
     }
 }

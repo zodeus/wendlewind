@@ -278,8 +278,6 @@ public class BodyPart : Entity
                 Equipment.Add(slot, null);
             }
         }
-
-        Log.Info(GetUniqueId() + " initialized");
     }
 
     public override void Tick(int ticks)
@@ -405,7 +403,7 @@ public class BodyPart : Entity
 
         if (IsFunctional) return false;
 
-        foreach (var internalPart in InternalParts)
+        foreach (var internalPart in InternalParts.InRandomOrder())
         {
             if (internalPart.DidPawnDieFromPartFailure())
             {

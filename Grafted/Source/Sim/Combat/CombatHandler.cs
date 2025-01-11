@@ -92,7 +92,7 @@ public class CombatHandler
 
                     if (partRecord is { WasDestroyed: true, IsVital: true })
                     {
-                        Encounter.LogMessage($"  /c[{TC.Red}]VITAL part /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]destroyed");
+                        Encounter.LogMessage($"  /c[{TC.Red}]Vital part /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]destroyed");
                     }
 
                     if (partRecord.BodyPart.IsExternal && partRecord.WasSevered)
@@ -110,12 +110,6 @@ public class CombatHandler
                 }
             }
         }
-        //todo
-        /*if (damageResponse.HealthConditions != null) {
-            foreach (HealthConditionDef condition in damageResponse.HealthConditions) {
-                CombatEvent.LogMessage($"        /c[#b3b3b3]Inflicted /c[{TextColorPawn}]{Target.LabelShort} /c[#b3b3b3]with /c[#acc700]{condition.Label}");
-            }
-        }*/
     }
 
     public void DoFighting(int ticks)
@@ -188,6 +182,7 @@ public class CombatHandler
             return;
         }
 
+        // Automatically queue up potions
         if (pawn.Body.BloodPercent < .3f && pawn.Equipment.PotionByDef(Defs.Items.JarOfBlood) is { } p)
         {
             UseBloodPotion(p, pawn);
@@ -258,10 +253,9 @@ public class CombatHandler
 
     private void UseBloodPotion(Item potion, Pawn pawn)
     {
-        float amount = potion.GetStatValue(Defs.Stats.HealingValue);
-        pawn.Body.BloodAmount += amount;
+        pawn.Body.BloodAmount = pawn.Body.MaxBlood;
         Encounter.LogMessage(
-            $"/c[{TC.Attacker}]{pawn.LabelShort} /c[{TC.Yellow}]Sipped a /c[{TC.Item}]{potion.Label} /c[{TC.Default}]for /c[{TC.Green}]{amount} /c[{TC.Default}]blood"
+            $"/c[{TC.Attacker}]{pawn.LabelShort} /c[{TC.Yellow}]Sipped a /c[{TC.Item}]{potion.Label}"
         );
         if (pawn.PawnType == PawnType.Player)
         {

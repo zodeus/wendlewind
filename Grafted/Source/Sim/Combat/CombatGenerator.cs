@@ -70,7 +70,7 @@ public static class CombatGenerator
         {
             pawn.Body.Effects.TryApplyEffect(new BodyEffect
             {
-                Def = effect, TicksLeft = 200
+                Def = effect, TicksLeft = 99999
             });
         }
     }

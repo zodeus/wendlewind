@@ -27,5 +27,17 @@
         <Label>Blistering Toad</Label>
         <Species>Frog</Species>
         <TexturePath>Entities/Pawn/Creature/Frog/BlisteringToad</TexturePath>
+    </RaceDef> 
+    <RaceDef ParentName="BaseMonsterRace">
+        <Moniker>FrogFather</Moniker>
+        <Label>Frog Father</Label>
+        <Species>Frog</Species>
+        <TexturePath>Entities/Pawn/Creature/Frog/FrogFather</TexturePath>
+    </RaceDef>
+    <RaceDef ParentName="BaseMonsterRace">
+        <Moniker>Treeling</Moniker>
+        <Label>Treeling</Label>
+        <Species>Treeborn</Species>
+        <TexturePath>Entities/Pawn/Creature/Treeling/Treeling</TexturePath>
     </RaceDef>
 </Definitions>

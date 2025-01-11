@@ -21,11 +21,11 @@
         <AffectedStats>
             <ListItem>
                 <Stat>MeleeStrength</Stat>
-                <Offset>.5</Offset>
+                <Offset>.20</Offset>
             </ListItem>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Offset>2</Offset>
+                <Offset>.25</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -49,7 +49,7 @@
         <AffectedStats>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Offset>3</Offset>
+                <Offset>.5</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>

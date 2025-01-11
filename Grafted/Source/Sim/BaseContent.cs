@@ -59,12 +59,14 @@ public static partial class BaseContent {
         public static class Bar {
             public const string Health = "health";
             public const string Xp = "xp";
+            public const string Durability = "durability";
         }
 
         public static class Label {
             public const string Error = "error";
             public const string Success = "success";
             public const string Small = "small";
+            public const string Normal = "normal";
             public const string Medium = "medium";
             public const string Large = "large";
             public const string Huge = "huge";
@@ -75,6 +77,7 @@ public static partial class BaseContent {
             public const string Small = "small";
             public const string Normal = "normal";
             public const string Large = "large";
+            public const string LargeGold = "large-gold";
             public const string Plus24 = "plus-24";
             public const string Minus24 = "minus-24";
             public const string Money24 = "money-24";
@@ -123,6 +126,7 @@ public static partial class BaseContent {
                 public const string MediumFrame = "panel-frame-medium";
                 public const string RoundWhite24 = "panel-round-white-24";
                 public const string RoundWhite28 = "panel-round-white-28";
+                public const string RoundWhite42 = "panel-round-white-42";
                 public const string RoundDark32 = "panel-round-dark-32";
                 public const string RoundDark64 = "panel-round-dark-64";
                 public const string Red = "panel-red";

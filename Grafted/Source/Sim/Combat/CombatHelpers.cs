@@ -26,17 +26,6 @@ public static class CombatHelpers
         DamageRequest request = new(pawn, tool, toolManeuver);
         request.RawDamages.Add(new Damage(tool, rawDamage));
 
-        //todo
-        /*
-        if (tool.ItemDef.InflictableHealthConditions != null) {
-            request.HealthConditions = new List<HealthConditionDef>();
-            foreach (InflictableHealthConditionRecord condition in tool.ItemDef.InflictableHealthConditions) {
-                if (Core.Random.Chance(condition.ChanceToInflict.RandomValue)) {
-                    request.HealthConditions.Add(condition.Condition);
-                }
-        }
-        }*/
-
         return request;
     }
 }
@@ -69,9 +58,7 @@ public class DamageRequest
 
     public ToolManeuverDef ToolManeuver { get; }
 
-    //public List<HealthConditionDef>? HealthConditions;
     public float TotalRawDamage => RawDamages.Sum(damage => damage.TotalDamage);
-    //public bool InflictsConditions => HealthConditions?.Any() ?? false;
 
     public DamageRequest(Pawn source, Item tool, ToolManeuverDef toolManeuver)
     {
@@ -85,7 +72,6 @@ public class DamageResponse
 {
     public List<DamageRecord> Damages = new();
 
-    //public List<HealthConditionDef>? HealthConditions;
     public bool Dodged;
     public bool Missed;
 

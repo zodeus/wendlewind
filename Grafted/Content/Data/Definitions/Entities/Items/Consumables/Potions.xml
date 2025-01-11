@@ -14,10 +14,6 @@
         <Label>Jar of Blood</Label>
         <Description>Can be sipped during combat to replenish lost blood.</Description>
         <TexturePath>Entities/Item/Consumables/JarOfBlood</TexturePath>
-        <BaseStats>
-          
-            <HealingValue>3000</HealingValue>
-        </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Potion">
         <Moniker>AcidFlask</Moniker>
@@ -57,7 +53,7 @@
                     <Count>1</Count>
                 </ListItem>
                 <ListItem>
-                    <Item>WaterBucket</Item>
+                    <Item>EndlessWaterBucket</Item>
                     <Count>1</Count>
                 </ListItem>
             </ResourceRequirements>

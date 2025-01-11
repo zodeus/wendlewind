@@ -18,4 +18,10 @@
         <Color>140, 238, 43</Color>
         <Viscosity>10</Viscosity>
     </BloodDef>
+    <BloodDef>
+        <Moniker>Sap</Moniker>
+        <Label>Tree Blood</Label>
+        <Color>255, 209, 0</Color>
+        <Viscosity>600</Viscosity>
+    </BloodDef>
 </Definitions>

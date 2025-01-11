@@ -55,7 +55,7 @@
                     <Count>5</Count>
                 </ListItem>
                 <ListItem>
-                    <Item>WaterBucket</Item>
+                    <Item>EndlessWaterBucket</Item>
                     <Count>10</Count>
                 </ListItem>
             </ResourceRequirements>
@@ -91,7 +91,7 @@
                     <Count>6</Count>
                 </ListItem>-->
                 <ListItem>
-                    <Item>WaterBucket</Item>
+                    <Item>EndlessWaterBucket</Item>
                     <Count>5</Count>
                 </ListItem>
             </ResourceRequirements>

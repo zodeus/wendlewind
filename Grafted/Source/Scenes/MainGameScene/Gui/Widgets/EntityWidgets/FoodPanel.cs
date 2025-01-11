@@ -2,30 +2,80 @@ using Grafted.Sim.Entities;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
-public class FoodPanel : EntityPanelBase {
-    private readonly TextButton _eatButton;
+[UsedImplicitly]
+public sealed class FoodPanel : EntityPanelBase
+{
+    private readonly Button _eatButton;
+    private readonly Button _cookButton;
 
-    public FoodPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties) {
+    public FoodPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
+    {
         Padding = new Thickness(20);
         MinWidth = 300;
         Spacing = 5;
-        AddChild(new Image { Background = new TextureRegion(item.Icon), Width = 64, Height = 64 });
-        AddChild(new Label("small") { Text = item.Def.Description, Wrap = true, Margin = new Thickness(0, 10, 0, 10), MaxWidth = 600});
-        AddChild(new Label() { Text = $"Nutritional Value: {item.GetStatValue(Defs.Stats.NutritionalValue)}", Wrap = true });
-        if (item.ItemDef.FoodProperties?.Effects.Any() == true) {
-            AddChild(new Label() {
+        Widgets.Add(new Image { Background = new TextureRegion(item.Icon), Width = 64, Height = 64 });
+        Widgets.Add(new Label("small") { Text = item.Def.Description, Wrap = true, Margin = new Thickness(0, 10, 0, 10), MaxWidth = 600 });
+        Widgets.Add(new Label("small") { Text = $"Nutritional Value: {item.GetStatValue(Defs.Stats.NutritionalValue)}", Wrap = true });
+        if (item.ItemDef.FoodProperties?.Effects.Any() == true)
+        {
+            Widgets.Add(new Label("small")
+            {
                 Text = $"Effects: {string.Join(", ", item.ItemDef.FoodProperties.Effects.Select(e => e.Def.Label))}", Wrap = true
             });
         }
 
-        _eatButton = new TextButton(BaseContent.Styles.Button.Normal) { Text = "Eat", Margin = new Thickness(0, 20, 0, 0) };
-        _eatButton.Click += (_, _) => {
-            Core.Context.PlayerPawn.TryEat(item);
+        _eatButton = new Button(BaseContent.Styles.Button.Normal)
+        {
+            Content = new Label { Text = "Eat" }, Margin = new Thickness(0, 20, 0, 0)
         };
-        AddChild(_eatButton);
+        _eatButton.Click += (_, _) => { Core.Context.PlayerPawn.TryEat(item); };
+
+        _cookButton = new Button(BaseContent.Styles.Button.Normal)
+        {
+            Content = new Label { Text = "Cook" }, Margin = new Thickness(0, 20, 0, 0),
+            Visible = ShowCookButton(item)
+        };
+        _cookButton.Click += (_, _) => { HandleCooking(item); };
+        Widgets.Add(new HorizontalStackPanel
+        {
+            Spacing = 20,
+            Widgets = { _eatButton, _cookButton }
+        });
     }
 
-    public override void Update() {
+    private static void HandleCooking(Item item)
+    {
+        if (item.ItemDef != Defs.Items.RawMeat && item.ItemDef != Defs.Items.RawCorn) return;
+        if (item.StackSize > 1)
+        {
+            item.StackSize--;
+        }
+        else
+        {
+            item.Destroy();
+        }
+
+        if (item.ItemDef == Defs.Items.RawMeat)
+        {
+            Core.Context.PlayerPawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(Defs.Items.CookedMeat));
+        }
+        else if (item.ItemDef == Defs.Items.RawCorn)
+        {
+            Core.Context.PlayerPawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(Defs.Items.CookedCorn));
+        }
+    }
+
+    private static bool ShowCookButton(Item item)
+    {
+        if (item.ItemDef == Defs.Items.RawMeat && Core.Context.Player.HasTrinkets(Defs.Items.EncasedFire))
+            return true;
+        else if (item.ItemDef == Defs.Items.RawCorn && Core.Context.Player.HasTrinkets(Defs.Items.EncasedFire, Defs.Items.CookingPot, Defs.Items.EndlessWaterBucket))
+            return true;
+        return false;
+    }
+
+    public override void Update()
+    {
         _eatButton.Enabled = Core.Context.World.PlayerPawn.IsHungry;
     }
 }

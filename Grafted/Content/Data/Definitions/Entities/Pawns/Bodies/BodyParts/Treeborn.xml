@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartSocketDef Name="TreeBodyPartSocketBase" ParentName="BodyPartSocketBase" Abstract="True">
+
+    </BodyPartSocketDef>
+
+    <!-- Sockets -->
+    <BodyPartSocketDef ParentName="TreeBodyPartSocketBase">
+        <Moniker>TreeTrunkSocket</Moniker>
+        <Label>Tree Trunk Socket</Label>
+        <IsExternal>true</IsExternal>
+        <AllowedBodyPartTypes>
+            <ListItem>Torso</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+
+    <!-- Regular Parts -->
+    <BodyPartDef Name="TreeBodyPartBase" ParentName="BodyPartBase" Abstract="True">
+
+    </BodyPartDef>
+
+    <BodyPartDef ParentName="TreeBodyPartBase">
+        <Moniker>TreeTrunk</Moniker>
+        <Label>Tree Trunk</Label>
+        <BodyPartType>Torso</BodyPartType>
+        <HitWeight>50</HitWeight>
+        <Size>300</Size>
+        <IsFlesh>false</IsFlesh>
+        <IsVital>false</IsVital>
+        <TexturePath>Entities/Pawn/BodyParts/Human/HumanTorso</TexturePath>
+        <EquipmentSlots>
+            <ListItem>TorsoArmor</ListItem>
+            <ListItem>PotionSlot1</ListItem>
+        </EquipmentSlots>
+        <Sockets>
+            <ListItem>RibCageSocket</ListItem>
+            <ListItem>LeftEyeSocket</ListItem>
+            <ListItem>RightEyeSocket</ListItem>
+            <ListItem>FrontLeftLegSocket</ListItem>
+            <ListItem>FrontLeftLegSocket</ListItem>
+            <ListItem>RearLeftLegSocket</ListItem>
+            <ListItem>RearLeftLegSocket</ListItem>
+            <ListItem>FrontRightLegSocket</ListItem>
+            <ListItem>FrontRightLegSocket</ListItem>
+            <ListItem>RearRightLegSocket</ListItem>
+            <ListItem>RearRightLegSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>400</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="TreeBodyPartBase">
+        <Moniker>TreeInnerCore</Moniker>
+        <Label>Inner Core</Label>
+        <BodyPartType>RibCage</BodyPartType>
+        <Size>200</Size>
+        <IsBone>true</IsBone>
+        <TexturePath>Entities/Pawn/BodyParts/Generic/RibCage</TexturePath>
+        <Sockets>
+            <ListItem>ArterySocket</ListItem>
+            <ListItem>HeartSocket</ListItem>
+            <ListItem>BrainSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>150</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="TreeBodyPartBase">
+        <Moniker>TreeStump</Moniker>
+        <Label>Stump</Label>
+        <BodyPartType>Leg</BodyPartType>
+        <HitWeight>25</HitWeight>
+        <Size>80</Size>
+        <IsFlesh>false</IsFlesh>
+        <MobilityFraction>.125</MobilityFraction>
+        <TexturePath>Entities/Pawn/BodyParts/Tree/TreeStump</TexturePath>
+        <EquipmentSlots>
+            <ListItem>LegArmor</ListItem>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+        <Sockets>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>25</MaxHitPoints>
+            <AttackSpeedModifier>.75</AttackSpeedModifier>
+        </BaseStats>
+    </BodyPartDef>
+</Definitions>

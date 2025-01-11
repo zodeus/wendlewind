@@ -50,7 +50,6 @@ public class EntityListPanel : VerticalStackPanel, IUpdatable
 {
     private readonly BaseGui _gui;
     private readonly EntityContainer _container;
-    private readonly VerticalStackPanel _itemVerticalPanel;
     private readonly Action<Entity>? _rightClickAction;
     private readonly Action<Entity>? _leftClickAction;
     private readonly Dictionary<Entity, EntityListPanelItem> _items = new();
@@ -64,10 +63,10 @@ public class EntityListPanel : VerticalStackPanel, IUpdatable
         _leftClickAction = leftClickAction;
         _rightClickAction = rightClickAction;
         _filter = filter;
-        _itemVerticalPanel = new VerticalStackPanel() { Spacing = 5 };
-        AddChild(new HorizontalSeparator());
+        var itemVerticalPanel = new VerticalStackPanel() { Spacing = 5 };
+        //AddChild(new HorizontalSeparator());
         AddChild(new Label( /*BaseContent.Styles.Label.Medium*/) { Text = label, TextColor = Color.DarkGoldenrod });
-        AddChild(new ScrollViewer { Content = _itemVerticalPanel, MaxHeight = 240 });
+        AddChild(new ScrollViewer { Content = itemVerticalPanel, MaxHeight = 240 });
     }
 
     public void Update()
@@ -81,7 +80,10 @@ public class EntityListPanel : VerticalStackPanel, IUpdatable
 
             if (!_items.ContainsKey(entity))
             {
-                _items[entity] = new EntityListPanelItem(_gui, entity, _leftClickAction, _rightClickAction);
+                _items[entity] = new EntityListPanelItem(_gui, entity, _leftClickAction, _rightClickAction)
+                {
+                    Margin = new Thickness(0, 0, 0,  5)
+                };
                 AddChild(_items[entity]);
             }
         }

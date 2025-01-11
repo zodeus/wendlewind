@@ -45,7 +45,7 @@ public class ImageCircleIcon : Panel {
         Image.Height = 42;
         Image.VerticalAlignment = VerticalAlignment.Center;
         Image.HorizontalAlignment = HorizontalAlignment.Center;
-        Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundWhite28], color ?? Color.White);
+        Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundWhite42], color ?? Color.White);
         Width = 48;
         Height = 48;
         base.VerticalAlignment = VerticalAlignment.Center;

@@ -13,7 +13,7 @@ public class SkillDef : Def {
 
 public enum SkillType {
     None,
-    Arms,
+    Combat,
     Trade
 }
 public class SkillValueRecord {

@@ -18,10 +18,21 @@
         <Label>Frog</Label>
         <Body>FrogBody</Body>
         <BaseStats>
-            <AttackSpeed>.4</AttackSpeed>
+            <AttackSpeed>1.3</AttackSpeed>
             <MeleeStrength>1</MeleeStrength>
             <Evasion>.04</Evasion>
             <MeleeAccuracy>.8</MeleeAccuracy>
+        </BaseStats>
+    </PawnDef>
+    <PawnDef ParentName="BaseMonster">
+        <Moniker>Treeborn</Moniker>
+        <Label>Treeborn</Label>
+        <Body>TreebornBody</Body>
+        <BaseStats>
+            <AttackSpeed>1</AttackSpeed>
+            <MeleeStrength>1</MeleeStrength>
+            <Evasion>.01</Evasion>
+            <MeleeAccuracy>.65</MeleeAccuracy>
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseMonster">
@@ -35,5 +46,4 @@
             <MeleeAccuracy>.85</MeleeAccuracy>
         </BaseStats>
     </PawnDef>
-    
 </Definitions>

@@ -51,6 +51,9 @@
         <ButtonStyle Id="large" Padding="14" Background="button-large-default" OverBackground="button-large-over" PressedBackground="button-large-pressed" DisabledBackground="button-large-disabled">
             <LabelStyle Font="large-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
         </ButtonStyle>
+        <ButtonStyle Id="large-gold" Padding="14" Background="button-large-gold-default" OverBackground="button-large-gold-over" PressedBackground="button-large-gold-pressed" DisabledBackground="button-large-gold-disabled">
+            <LabelStyle Font="large-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
+        </ButtonStyle>
         <ButtonStyle Id="icon" Padding="3" Background="button-small-default" OverBackground="button-small-over" PressedBackground="button-small-pressed" DisabledBackground="button-small-disabled"/>
         <ButtonStyle Id="plus-24" Width="24" Height="24" Background="icon-plus-24-default" OverBackground="icon-plus-24-over" PressedBackground="icon-plus-24-pressed"/>
         <ButtonStyle Id="minus-24" Width="24" Height="24" Background="icon-minus-24-default" OverBackground="icon-minus-24-over" PressedBackground="icon-minus-24-pressed"/>
@@ -107,6 +110,7 @@
         <!--<HorizontalProgressBarStyle Background="progressbar" Filler="progressbar-filled" Height="16"/>-->
         <HorizontalProgressBarStyle Id="health" Background="bar-frame-small" Filler="bar-health" Padding="2"/>
         <HorizontalProgressBarStyle Id="xp" Background="bar-frame-small" Filler="bar-xp" Padding="4"/>
+        <HorizontalProgressBarStyle Id="durability" Background="bar-frame-small-filled" Filler="bar-durability" Padding="4"/>
     </HorizontalProgressBarStyles>
     <VerticalProgressBarStyles>
         <!--<VerticalProgressBarStyle Background="progressbar-vertical" Filler="progressbar-filled-vertical" Width="16"/>-->

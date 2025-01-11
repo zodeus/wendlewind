@@ -14,6 +14,7 @@ namespace Grafted;
 
 public class Core : Game
 {
+    public const int TicksPerSecond = 60;
     public new static GraphicsDevice GraphicsDevice { get; private set; } = null!;
     public new static ContentManager Content { get; private set; } = null!;
 

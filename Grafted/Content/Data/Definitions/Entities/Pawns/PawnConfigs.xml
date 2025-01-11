@@ -4,34 +4,20 @@
     <PawnConfigDef>
         <Moniker>PlayerPawn</Moniker>
         <PawnType>Player</PawnType>
-        <PawnName>Zandalan</PawnName>
+        <PawnName>Nameless</PawnName>
         <EquipmentItems>
-            <ListItem>BirchRod</ListItem>
+            <!--<ListItem>BirchRod</ListItem>-->
+            <!--<ListItem>WarAxe</ListItem>-->
         </EquipmentItems>
         <InventoryItems>
             <ListItem>
                 <Item>Cauterize</Item>
                 <Amount>1</Amount>
                 <ChanceToDrop>1</ChanceToDrop>
-            </ListItem>
+            </ListItem>          
             <ListItem>
-                <Item>MendersMist</Item>
-                <Amount>3</Amount>
-                <ChanceToDrop>1</ChanceToDrop>
-            </ListItem>
-            <ListItem>
-                <Item>MedKit</Item>
-                <Amount>5</Amount>
-                <ChanceToDrop>1</ChanceToDrop>
-            </ListItem>
-            <ListItem>
-                <Item>ArterialThreads</Item>
-                <Amount>3</Amount>
-                <ChanceToDrop>1</ChanceToDrop>
-            </ListItem>
-            <ListItem>
-                <Item>CookedMeat</Item>
-                <Amount>3</Amount>
+                <Item>RawCorn</Item>
+                <Amount>1</Amount>
                 <ChanceToDrop>1</ChanceToDrop>
             </ListItem>
         </InventoryItems>

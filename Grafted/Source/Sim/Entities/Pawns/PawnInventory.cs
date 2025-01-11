@@ -22,7 +22,7 @@ public class PawnInventory : IExposable, IEnumerable<Item>
 
     public IEnumerator<Item> GetEnumerator()
     {
-        return EntityContainerExtensions.AsItems(Entities.AsEnumerable());
+        return Entities.AsEnumerable().AsItems().GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()

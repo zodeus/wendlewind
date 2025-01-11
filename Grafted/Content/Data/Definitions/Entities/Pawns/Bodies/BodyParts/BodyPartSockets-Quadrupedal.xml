@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>FrontLeftLegSocket</Moniker>
+        <Label>Front Left Leg Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>FrontLeft</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Leg</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>FrontRightLegSocket</Moniker>
+        <Label>Front Right Leg Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>FrontRight</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Leg</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>RearLeftLegSocket</Moniker>
+        <Label>Rear Left Leg Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>RearLeft</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Leg</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>RearRightLegSocket</Moniker>
+        <Label>Rear Right Leg Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>RearRight</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Leg</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>PawSocket</Moniker>
+        <Label>Paw Socket</Label>
+        <IsExternal>true</IsExternal>
+        <AllowedBodyPartTypes>
+            <ListItem>Paw</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>TailSocket</Moniker>
+        <Label>Tail Socket</Label>
+        <IsExternal>true</IsExternal>
+        <AllowedBodyPartTypes>
+            <ListItem>Tail</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>HoofSocket</Moniker>
+        <Label>Hoof Socket</Label>
+        <IsExternal>true</IsExternal>
+        <AllowedBodyPartTypes>
+            <ListItem>Hoof</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+</Definitions>

@@ -225,10 +225,8 @@ public partial class EntityContainer
 
 public static class EntityContainerExtensions
 {
-    public static IEnumerator<Item> AsItems(this IEnumerable<Entity> entities)
+    public static IEnumerable<Item> AsItems(this IEnumerable<Entity> entities)
     {
-        var items = entities.Where(e => e is Item).Cast<Item>();
-        var enumerator = items.GetEnumerator();
-        return enumerator;
+        return entities.Where(e => e is Item).Cast<Item>();
     }
 }

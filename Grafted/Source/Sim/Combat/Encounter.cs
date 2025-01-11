@@ -90,19 +90,19 @@ public class Encounter
     private void CollectLoot()
     {
         float chanceToLootEquipment = 1;
-        foreach (Pawn enemy in EnemyPawns)
+        foreach (var enemy in EnemyPawns)
         {
-            for (int i = enemy.Inventory.Count() - 1; i >= 0; i--)
+            for (var i = enemy.Inventory.Count() - 1; i >= 0; i--)
             {
-                Item item = enemy.Inventory[i];
-                if (Core.Context.Player.HasTrinket(item.ItemDef))
+                var item = enemy.Inventory[i];
+                if (Core.Context.Player.HasTrinkets(item.ItemDef))
                 {
                     continue;
                 }
 
                 AddToLootContainer(item);
             }
-
+            
             /*foreach ((BodyPart? bodyPart, var slots) in enemy.Equipment.Slots)
             {
                 foreach (EquipmentSlotType slot in slots)
@@ -120,27 +120,27 @@ public class Encounter
             }*/
         }
 
-        void TakePartEquipment(BodyPart part)
-        {
-            foreach ((EquipmentSlotType slot, Item? item) in part.Equipment)
-            {
-                if (item != null && item.ItemDef.EquipmentProperties.SlotUsedToEquip != EquipmentSlotType.BuiltIn && Core.Random.Chance(chanceToLootEquipment))
-                {
-                    part.Equipment[slot] = null;
-                    AddToLootContainer(item);
-                }
-            }
-
-            foreach (BodyPart externalPart in part.ExternalParts)
-            {
-                TakePartEquipment(externalPart);
-            }
-        }
-
-        foreach (BodyPart part in SeveredLimbs)
-        {
-            TakePartEquipment(part);
-        }
+        // void TakePartEquipment(BodyPart part)
+        // {
+        //     foreach ((EquipmentSlotType slot, Item? item) in part.Equipment)
+        //     {
+        //         if (item != null && item.ItemDef.EquipmentProperties.SlotUsedToEquip != EquipmentSlotType.BuiltIn && Core.Random.Chance(chanceToLootEquipment))
+        //         {
+        //             part.Equipment[slot] = null;
+        //             AddToLootContainer(item);
+        //         }
+        //     }
+        //
+        //     foreach (BodyPart externalPart in part.ExternalParts)
+        //     {
+        //         TakePartEquipment(externalPart);
+        //     }
+        // }
+        //
+        // foreach (BodyPart part in SeveredLimbs)
+        // {
+        //     TakePartEquipment(part);
+        // }
 
         foreach (ZoneResourceRecord resource in Zone!.BiomeDef.Resources)
         {
@@ -153,11 +153,6 @@ public class Encounter
 
     private void AddToLootContainer(Item item)
     {
-        if (item.ItemDef.ItemType == ItemType.Trinket)
-        {
-            Core.Context.Player.TrinketsFound.Add(item.ItemDef);
-        }
-
         Loot.TryAdd(item);
     }
 
@@ -186,9 +181,20 @@ public class Encounter
     public void Tick(int ticks)
     {
         CombatHandler.DoFighting(ticks);
+        var usablePotions = new List<ItemDef> { Defs.Items.AcidFlask, Defs.Items.PumpinJuice };
         foreach (var pawn in EnemyPawns)
         {
             pawn.Tick(ticks);
+            if (pawn.PawnType == PawnType.Enemy)
+            {
+                foreach (var potionDef in usablePotions)
+                {
+                    if (PotionQueuedFor(pawn) == null && pawn.Equipment.PotionByDef(potionDef) is { } potion)
+                    {
+                        QueuePotion(potion, pawn);
+                    }
+                }
+            }
         }
     }
 }

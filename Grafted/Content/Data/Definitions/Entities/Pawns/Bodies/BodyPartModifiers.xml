@@ -9,7 +9,7 @@
     <BodyPartModifierDef>
         <Moniker>SoothingBalm</Moniker>
         <Label>Soothing Balm</Label>
-        <Description>Slowly heals skin and meat, negates Burning Acid</Description>
+        <Description>Slowly heals the skin, meat and even organs. Oh, it also negates acid</Description>
         <HandlerClass>SoothingBalm</HandlerClass>
     </BodyPartModifierDef>
     <BodyPartModifierDef>

@@ -4,49 +4,55 @@
     <SkillDef>
         <Moniker>Knives</Moniker>
         <Label>Knives</Label>
-        <SkillType>Arms</SkillType>
+        <SkillType>Combat</SkillType>
         <ToolType>Knife</ToolType>
     </SkillDef>
     <SkillDef>
         <Moniker>Staves</Moniker>
         <Label>Staves</Label>
-        <SkillType>Arms</SkillType>
+        <SkillType>Combat</SkillType>
         <ToolType>Staff</ToolType>
     </SkillDef> 
     <SkillDef>
         <Moniker>Hammers</Moniker>
         <Label>Hammers</Label>
-        <SkillType>Arms</SkillType>
+        <SkillType>Combat</SkillType>
         <ToolType>Hammer</ToolType>
     </SkillDef> 
     <SkillDef>
         <Moniker>Maces</Moniker>
         <Label>Maces</Label>
-        <SkillType>Arms</SkillType>
+        <SkillType>Combat</SkillType>
         <ToolType>Mace</ToolType>
     </SkillDef> 
     <SkillDef>
         <Moniker>Swords</Moniker>
         <Label>Swords</Label>
-        <SkillType>Arms</SkillType>
+        <SkillType>Combat</SkillType>
         <ToolType>Sword</ToolType>
     </SkillDef> 
     <SkillDef>
         <Moniker>Axes</Moniker>
         <Label>Axes</Label>
-        <SkillType>Arms</SkillType>
+        <SkillType>Combat</SkillType>
         <ToolType>Axe</ToolType>
     </SkillDef> 
     <SkillDef>
-        <Moniker>Teeth</Moniker>
-        <Label>Teeth</Label>
-        <SkillType>Arms</SkillType>
+        <Moniker>Biting</Moniker>
+        <Label>Biting</Label>
+        <SkillType>Combat</SkillType>
         <ToolType>Teeth</ToolType>
     </SkillDef> 
     <SkillDef>
         <Moniker>Claws</Moniker>
         <Label>Claws</Label>
-        <SkillType>Arms</SkillType>
+        <SkillType>Combat</SkillType>
         <ToolType>Claw</ToolType>
+    </SkillDef> 
+    <SkillDef>
+        <Moniker>Tonguing</Moniker>
+        <Label>Tonguing</Label>
+        <SkillType>Combat</SkillType>
+        <ToolType>Tongue</ToolType>
     </SkillDef> 
 </Definitions>

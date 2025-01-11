@@ -16,6 +16,7 @@ public class ZoneGui : BaseGui
         _context = context;
         Desktop = new Desktop
         {
+            Scale = new Vector2(1, 1),
             Root = new Panel(),
             HasExternalTextInput = true
         };
@@ -47,6 +48,7 @@ public class ZoneGui : BaseGui
 
         if (state == ZoneState.CombatResults)
         {
+            ClearScreenMessage();
             _combatScreen?.RemoveFromParent();
             _combatScreen = null;
             _combatResultsScreen = new CombatResultsScreen(this, _context);

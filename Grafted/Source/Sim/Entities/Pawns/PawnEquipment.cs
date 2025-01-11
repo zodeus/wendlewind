@@ -77,6 +77,8 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
         }
     }
 
+    public float WeaponAttackSpeedModifier => UsableWeapons.Aggregate(1f, (x, y) => x * y.GetStatValue(Defs.Stats.WeaponSpeed));
+
     public PawnEquipment(Pawn pawn)
     {
         _pawn = pawn;
@@ -171,7 +173,6 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
     {
         foreach (Item potion in Potions)
         {
-            //todo this sucks but it's expensive to find the potion slot again to remove it, need to add proper ItemContainers....
             if (potion.Def == potionDef)
             {
                 return potion;
@@ -179,5 +180,10 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
         }
 
         return null;
+    }
+
+    public int SlotCountFor(ItemDef itemDef)
+    {
+        return Slots.Sum(slot => slot.Value.Count(slotType => itemDef.EquipmentProperties.SlotUsedToEquip == slotType));
     }
 }

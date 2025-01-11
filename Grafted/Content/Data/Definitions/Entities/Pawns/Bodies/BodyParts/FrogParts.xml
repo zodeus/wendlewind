@@ -47,9 +47,10 @@
         </Sockets>
         <EquipmentSlots>
             <ListItem>PotionSlot1</ListItem>
+            <ListItem>PotionSlot2</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <MaxHitPoints>1600</MaxHitPoints>
+            <MaxHitPoints>1000</MaxHitPoints>
             <AttackSpeedModifier>.36</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>
@@ -68,7 +69,7 @@
             <ListItem>FootSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>700</MaxHitPoints>
+            <MaxHitPoints>500</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="FrogBodyPartBase">
@@ -86,7 +87,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.16</AttackSpeedModifier>
-            <MaxHitPoints>500</MaxHitPoints>
+            <MaxHitPoints>300</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
 </Definitions>

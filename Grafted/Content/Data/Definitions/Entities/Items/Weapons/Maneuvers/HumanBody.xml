@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ToolManeuverDef>
+        <Moniker>Punch</Moniker>
+        <Label>Punch</Label>
+        <Tools>
+            <ListItem>Hand</ListItem>
+        </Tools>
+        <DamageMultiplier>0.5~1.7</DamageMultiplier>
+    </ToolManeuverDef>
+    <ToolManeuverDef>
+        <Moniker>Kick</Moniker>
+        <Label>Kick</Label>
+        <Tools>
+            <ListItem>Foot</ListItem>
+        </Tools>
+        <DamageMultiplier>0.3~1.9</DamageMultiplier>
+    </ToolManeuverDef>
+</Definitions>

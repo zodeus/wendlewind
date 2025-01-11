@@ -17,7 +17,7 @@ public class PawnSkillsPanel : HorizontalStackPanel {
         combatSkills.AddChild(new Label { Text = "LVL", GridRow = 0, GridColumn = 1 });
         combatSkills.AddChild(new Label { Text = "XP", GridRow = 0, GridColumn = 2, HorizontalAlignment = HorizontalAlignment.Center });
         int gridRow = 1;
-        foreach (Skill skill in skills.Where(skill => skill.SkillType == SkillType.Arms).OrderBy(skill => skill.Def.Label)) {
+        foreach (Skill skill in skills.Where(skill => skill.SkillType == SkillType.Combat).OrderBy(skill => skill.Def.Label)) {
             if (skill.TotalXp == 0) {
                 continue;
             }

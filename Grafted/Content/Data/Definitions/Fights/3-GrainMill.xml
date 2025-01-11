@@ -4,6 +4,9 @@
     <CombatConfigDef>
         <Moniker>GrainMill-01</Moniker>
         <Biome>GrainMill</Biome>
+        <PotentialLootBoxes>
+            <ListItem>ToolboxPrimitive</ListItem>
+        </PotentialLootBoxes>
         <Enemies>
             <ListItem>
                 <Race>Grainer</Race>
@@ -11,7 +14,7 @@
                 <PawnName>Grain Goon</PawnName>
                 <SpawnWeight>100</SpawnWeight>
                 <Skills>
-                    <Maces>30</Maces>
+                    <Hammers>1</Hammers>
                 </Skills>
                 <EquipmentItems>
                     <ListItem>WoodenHammer</ListItem>
@@ -28,24 +31,9 @@
                     <ListItem>JarOfBlood</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
-                    <!--<ListItem>
-                        <Item>Coin</Item>
-                        <Amount>400~800</Amount>
-                        <ChanceToDrop>.75</ChanceToDrop>
-                    </ListItem>-->
-<!--                    <ListItem>-->
-<!--                        <Item>SoulCoin</Item>-->
-<!--                        <Amount>1</Amount>-->
-<!--                        <ChanceToDrop>1</ChanceToDrop>-->
-<!--                    </ListItem>-->
                     <ListItem>
                         <Item>AcidFlask</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>ChainGlove</Item>
-                        <Amount>2</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
@@ -55,6 +43,9 @@
     <CombatConfigDef>
         <Moniker>GrainMill-02</Moniker>
         <Biome>GrainMill</Biome>
+        <PotentialLootBoxes>
+            <ListItem>ArmorChestIronAge</ListItem>
+        </PotentialLootBoxes>
         <Enemies>
             <ListItem>
                 <Race>Grainer</Race>
@@ -62,7 +53,7 @@
                 <PawnName>Grain Goon</PawnName>
                 <SpawnWeight>100</SpawnWeight>
                 <Skills>
-                    <Maces>40</Maces>
+                    <Hammers>2</Hammers>
                 </Skills>
                 <EquipmentItems>
                     <ListItem>WoodenHammer</ListItem>
@@ -73,32 +64,101 @@
                     <ListItem>LeatherGorget</ListItem>
                     <ListItem>LeatherBoot</ListItem>
                     <ListItem>LeatherBoot</ListItem>
-                    <ListItem>LeatherGlove</ListItem>
-                    <ListItem>LeatherGlove</ListItem>
+                    <ListItem>ChainGlove</ListItem>
+                    <ListItem>ChainGlove</ListItem>
                     <ListItem>ChainTunic</ListItem>
                     <ListItem>JarOfBlood</ListItem>
-                    <ListItem>PumpinJuice</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
-<!--                    <ListItem>-->
-<!--                        <Item>SoulCoin</Item>-->
-<!--                        <Amount>1</Amount>-->
-<!--                        <ChanceToDrop>1</ChanceToDrop>-->
-<!--                    </ListItem>-->
                     <ListItem>
                         <Item>AcidFlask</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
+                        <ChanceToDrop>.5</ChanceToDrop>
                     </ListItem>
                     <ListItem>
                         <Item>PumpinJuice</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
+                        <ChanceToDrop>.5</ChanceToDrop>
                     </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </CombatConfigDef>
+    <CombatConfigDef>
+        <Moniker>GrainMill-03</Moniker>
+        <Biome>GrainMill</Biome>
+        <PotentialLootBoxes>
+            <ListItem>TrinketsChestNormal</ListItem>
+        </PotentialLootBoxes>
+        <Enemies>
+            <ListItem>
+                <Race>Grainer</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Grain Goon</PawnName>
+                <SpawnWeight>100</SpawnWeight>
+                <Skills>
+                    <Hammers>3</Hammers>
+                </Skills>
+                <EquipmentItems>
+                    <ListItem>WoodenHammer</ListItem>
+                    <ListItem>LeatherVambrace</ListItem>
+                    <ListItem>LeatherVambrace</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherGorget</ListItem>
+                    <ListItem>LeatherBoot</ListItem>
+                    <ListItem>LeatherBoot</ListItem>
+                    <ListItem>ChainGlove</ListItem>
+                    <ListItem>ChainGlove</ListItem>
+                    <ListItem>ChainTunic</ListItem>
+                    <ListItem>JarOfBlood</ListItem>
+                    <ListItem>JarOfBlood</ListItem>
+                </EquipmentItems>
+                <InventoryItems>
                     <ListItem>
-                        <Item>ChainTunic</Item>
+                        <Item>PumpinJuice</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
+                        <ChanceToDrop>.5</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </CombatConfigDef>
+    <CombatConfigDef>
+        <Moniker>GrainMill-04</Moniker>
+        <Biome>GrainMill</Biome>
+        <PotentialLootBoxes>
+            <ListItem>WeaponChestIronAge</ListItem>
+        </PotentialLootBoxes>
+        <Enemies>
+            <ListItem>
+                <Race>Grainer</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Grain Goon</PawnName>
+                <SpawnWeight>100</SpawnWeight>
+                <Skills>
+                    <Hammers>4</Hammers>
+                </Skills>
+                <EquipmentItems>
+                    <ListItem>WoodenHammer</ListItem>
+                    <ListItem>LeatherVambrace</ListItem>
+                    <ListItem>LeatherVambrace</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherGorget</ListItem>
+                    <ListItem>LeatherBoot</ListItem>
+                    <ListItem>LeatherBoot</ListItem>
+                    <ListItem>ChainGlove</ListItem>
+                    <ListItem>ChainGlove</ListItem>
+                    <ListItem>ChainTunic</ListItem>
+                    <ListItem>JarOfBlood</ListItem>
+                    <ListItem>JarOfBlood</ListItem>
+                </EquipmentItems>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>PumpinJuice</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -108,6 +168,9 @@
         <Moniker>GrainMill-Boss</Moniker>
         <Biome>GrainMill</Biome>
         <IsBoss>true</IsBoss>
+        <PotentialLootBoxes>
+            <ListItem>ArmorChestIronAge</ListItem>
+        </PotentialLootBoxes>
         <Enemies>
             <ListItem>
                 <Race>GrainBandit</Race>
@@ -115,7 +178,7 @@
                 <PawnName>Henry the Hungry</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <Skills>
-                    <Swords>20</Swords>
+                    <Knives>5</Knives>
                 </Skills>
                 <Effects>
                     <!--<ListItem>EnergizedLikeABunny</ListItem>-->
@@ -130,78 +193,14 @@
                     <ListItem>ChainGorget</ListItem>
                     <ListItem>ChainBoot</ListItem>
                     <ListItem>ChainBoot</ListItem>
-                    <ListItem>LeatherGlove</ListItem>
-                    <ListItem>LeatherGlove</ListItem>
-                    <ListItem>LeatherTunic</ListItem>
+                    <ListItem>ChainGlove</ListItem>
+                    <ListItem>ChainGlove</ListItem>
+                    <ListItem>ChainTunic</ListItem>
+                    <ListItem>FishBowlHelmet</ListItem>
                     <ListItem>JarOfBlood</ListItem>
                     <ListItem>PumpinJuice</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
-<!--                    <ListItem>-->
-<!--                        <Item>Coin</Item>-->
-<!--                        <Amount>6000~10000</Amount>-->
-<!--                        <ChanceToDrop>1</ChanceToDrop>-->
-<!--                    </ListItem>-->
-<!--                    <ListItem>-->
-<!--                        <Item>SoulCoin</Item>-->
-<!--                        <Amount>1</Amount>-->
-<!--                        <ChanceToDrop>1</ChanceToDrop>-->
-<!--                    </ListItem>-->
-                    <ListItem>
-                        <Item>CookingPot</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>RepairKit</Item>
-                        <Amount>4</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>MendersMist</Item>
-                        <Amount>2</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>MedKit</Item>
-                        <Amount>2</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>ArterialThreads</Item>
-                        <Amount>2</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>BalmyOintment</Item>
-                        <Amount>5</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>ChainVambrace</Item>
-                        <Amount>2</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>ChainGreave</Item>
-                        <Amount>2</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>ChainGorget</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>ChainBoot</Item>
-                        <Amount>2</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>JarOfBlood</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>

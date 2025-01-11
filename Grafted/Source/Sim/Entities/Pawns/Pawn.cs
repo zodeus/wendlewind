@@ -34,7 +34,7 @@ public class Pawn : Entity, IExposable
     public bool IsIncapacitated => false; //todo Health.IsIncapacitated;
     public Gender Gender => Biography.Gender;
     public float MaxAttackSpeed => this.GetStatValue(Defs.Stats.AttackSpeed);
-    public float AttackSpeed => Body.GetAttackSpeedModifier() * this.GetStatValue(Defs.Stats.AttackSpeed);
+    public float AttackSpeed => Body.GetAttackSpeedModifier() * this.GetStatValue(Defs.Stats.AttackSpeed) * Equipment.WeaponAttackSpeedModifier;
 
     public override void Initialize()
     {
@@ -97,7 +97,10 @@ public class Pawn : Entity, IExposable
 
         foreach (var damage in request.RawDamages)
         {
-            request.Source.GetSkill(damage.ToolType)?.Learn(1);
+            if (request.Source.PawnType == PawnType.Player)
+            {
+                request.Source.GetSkill(damage.ToolType)?.Learn(1);
+            }
 
             DamageRecord damageRecord = new(damage.Type, bodyPart, damage.TotalDamage);
 
@@ -126,7 +129,7 @@ public class Pawn : Entity, IExposable
                     }
                 }
             }
-            
+
             //Handle Weapon Durability
             damage.Tool.ApplyDurabilityLoss(bodyPartEquipment);
             if (damage.Tool.IsDestroyed)
@@ -134,30 +137,22 @@ public class Pawn : Entity, IExposable
                 damageRecord.DestroyedEquipment.Add(new DestroyedItemRecord(damage.Tool.ItemDef));
                 request.Source.Equipment.UnEquip(damage.Tool);
             }
-            
+
             damageRecord.ActualAmount = damage.TotalUnblockedDamage;
             damageRecord.BodyParts = bodyPart.ApplyDamageToExternalPart(damage);
             Body.BodyPartsDirty = true;
             response.Damages.Add(damageRecord);
         }
 
-        /*if (request.HealthConditions != null) {
-            response.HealthConditions = new List<HealthConditionDef>();
-            foreach (HealthConditionDef conditionDef in request.HealthConditions) {
-                Health.TryAddHealthCondition(conditionDef);
-                response.HealthConditions.Add(conditionDef);
-            }
-        }*/
-        
         DamageTaken?.Invoke(this, request, response);
         foreach (var damage in response.Damages)
         {
             foreach (var partRecord in damage.BodyParts)
             {
-                Log.Info($"{partRecord.BodyPart}, damage taken: {partRecord.DamageApplied}");    
+                Log.Info($"{partRecord.BodyPart}, damage taken: {partRecord.DamageApplied}");
             }
-            
         }
+
         CheckIfKilledByDamage(response);
     }
 
@@ -277,7 +272,6 @@ public class Pawn : Entity, IExposable
 
     public void ResetAttackCoolDown()
     {
-        var ticksPerSecond = 60;
-        TicksToAttack = Mathf.CeilToInt(ticksPerSecond / AttackSpeed);
+        TicksToAttack = Mathf.CeilToInt(Core.TicksPerSecond / AttackSpeed);
     }
 }

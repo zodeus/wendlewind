@@ -46,6 +46,15 @@
         <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
     </BodyDef>
     <BodyDef>
+        <Moniker>TreebornBody</Moniker>
+        <Label>Treeborn Body</Label>
+        <BloodType>Sap</BloodType>
+        <BoneDensity>5</BoneDensity>
+        <MaxBlood>20000</MaxBlood>
+        <GeneratorClass>TreebornBodyGenerator</GeneratorClass>
+        <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
+    </BodyDef>
+    <BodyDef>
         <Moniker>GhoulBody</Moniker>
         <Label>Ghoul Body</Label>
         <BloodType>BlackPlasma</BloodType>

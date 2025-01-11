@@ -54,4 +54,10 @@
         <BaseValue>0</BaseValue>
         <MinValue>0</MinValue>
     </StatDef>
+    <StatDef>
+        <Moniker>WeaponSpeed</Moniker>
+        <Label>WeaponSpeed</Label>
+        <BaseValue>1</BaseValue>
+        <MinValue>0</MinValue>
+    </StatDef>
 </Definitions>

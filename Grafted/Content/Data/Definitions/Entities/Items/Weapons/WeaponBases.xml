@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef Name="WeaponBase" ParentName="ItemBase" Abstract="true">
+        <ItemType>Equipment</ItemType>
+        <StackLimit>1</StackLimit>
+        <EquipmentProperties>
+            <EquipmentType>Tool</EquipmentType>
+        </EquipmentProperties>
+        <UiClass>WeaponPanel</UiClass>
+        <BaseStats>
+            <WeaponSpeed>1</WeaponSpeed>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef Name="WeaponFlesh" ParentName="WeaponBase" Abstract="true">
+        <WeaponProperties>
+            <DamageType>Flesh</DamageType>
+        </WeaponProperties>
+    </ItemDef>
+    <ItemDef Name="WeaponBlunt" ParentName="WeaponBase" Abstract="true">
+        <WeaponProperties>
+            <DamageType>Blunt</DamageType>
+        </WeaponProperties>
+    </ItemDef>
+    <ItemDef Name="WeaponSharp" ParentName="WeaponBase" Abstract="true">
+        <WeaponProperties>
+            <DamageType>Sharp</DamageType>
+        </WeaponProperties>
+    </ItemDef>
+</Definitions>

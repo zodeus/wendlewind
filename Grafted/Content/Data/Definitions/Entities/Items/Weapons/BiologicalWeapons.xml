@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>FleshyHand</Moniker>
+        <Label>Fleshy Hand</Label>
+        <Description>A fleshy hand</Description>
+        <ToolType>Hand</ToolType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/HumanHand</TexturePath>
+        <BaseStats>
+            <MeleePower>5</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>GhoulishHand</Moniker>
+        <Label>Ghoulish Hand</Label>
+        <Description>A ghoulish hand</Description>
+        <ToolType>Hand</ToolType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/GhoulishHand</TexturePath>
+        <BaseStats>
+            <MeleePower>5</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>GhoulishFoot</Moniker>
+        <Label>Ghoulish Foot</Label>
+        <Description>A ghoulish foot</Description>
+        <ToolType>Hand</ToolType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/GhoulishFoot</TexturePath>
+        <BaseStats>
+            <MeleePower>10</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>FleshyFoot</Moniker>
+        <Label>Fleshy Foot</Label>
+        <Description>A fleshy foot</Description>
+        <ToolType>Foot</ToolType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/HumanFoot</TexturePath>
+        <BaseStats>
+            <MeleePower>8</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>RabbitTeeth</Moniker>
+        <Label>Teeth</Label>
+        <Description>Rabbit teeth</Description>
+        <ToolType>Teeth</ToolType>
+        <WeaponProperties>
+            <DamageType>Sharp</DamageType>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
+        <BaseStats>
+            <MeleePower>5</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>BlisteringToadTongue</Moniker>
+        <Label>Toad Tongue</Label>
+        <Description>Blistering Toad Tongue</Description>
+        <ToolType>Tongue</ToolType>
+        <WeaponProperties>
+            <DamageType>Flesh</DamageType>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>BurningAcid</Def>
+                    <DurationInTicks>600~900</DurationInTicks>
+                    <Chance>.3</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
+        <BaseStats>
+            <MeleePower>45</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>WolfTeeth</Moniker>
+        <Label>Teeth</Label>
+        <Description>Wolf teeth</Description>
+        <ToolType>Teeth</ToolType>
+        <WeaponProperties>
+            <DamageType>Sharp</DamageType>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
+        <BaseStats>
+            <MeleePower>22</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>WolfClaws</Moniker>
+        <Label>Claws</Label>
+        <Description>Wolf Claws</Description>
+        <ToolType>Claw</ToolType>
+        <WeaponProperties>
+            <DamageType>Sharp</DamageType>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Claw</TexturePath>
+        <BaseStats>
+            <MeleePower>20</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>PigTeeth</Moniker>
+        <Label>Teeth</Label>
+        <Description>Pig teeth</Description>
+        <ToolType>Teeth</ToolType>
+        <WeaponProperties>
+            <DamageType>Sharp</DamageType>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
+        <BaseStats>
+            <MeleePower>6</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>FilthyPigHoof</Moniker>
+        <Label>Hoof</Label>
+        <Description>A filthy pig hoof</Description>
+        <ToolType>Hoof</ToolType>
+        <WeaponProperties>
+            <DamageType>Blunt</DamageType>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Hoof</TexturePath>
+        <BaseStats>
+            <MeleePower>3</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponBlunt">
+        <Moniker>TreeBranch</Moniker>
+        <Label>Tree Branch</Label>
+        <Description>It cracks like a whip...</Description>
+        <ToolType>Branch</ToolType>
+        <WeaponProperties>
+            <DamageType>Blunt</DamageType>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/TreeBranch</TexturePath>
+        <BaseStats>
+            <MeleePower>48</MeleePower>
+        </BaseStats>
+    </ItemDef>
+</Definitions>

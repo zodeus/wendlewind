@@ -89,7 +89,7 @@
         <Moniker>Eye</Moniker>
         <Label>Eye</Label>
         <BodyPartType>Eye</BodyPartType>
-        <HitWeight>1</HitWeight>
+        <HitWeight>.7</HitWeight>
         <Size>1</Size>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Eye</TexturePath>
         <IsFlesh>true</IsFlesh>

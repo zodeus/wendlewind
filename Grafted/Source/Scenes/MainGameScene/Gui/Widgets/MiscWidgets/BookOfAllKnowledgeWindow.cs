@@ -1,5 +1,6 @@
 ﻿using Grafted.Scenes.MainGameScene.Gui.Widgets.DefWidgets;
 using Grafted.Sim.Entities;
+using Grafted.Sim.LootBoxes;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 
@@ -8,8 +9,8 @@ internal class BookOfAllKnowledgeWindow : Window {
 
     public BookOfAllKnowledgeWindow( /*BookOfAllKnowledge boak*/) {
         //_boak = boak;
-        Width = 1600;
-        Height = 900;
+        Width = 2800;
+        Height = 1400;
         Title = "Book of all Knowledge";
         TitleFont = BaseContent.Fonts.Default.Large;
         TabPanel tabPanel = new() {
@@ -19,6 +20,8 @@ internal class BookOfAllKnowledgeWindow : Window {
         //tabPanel.AddTab("Biomes",  new DefsPanel(DefRepository<BiomeDef>.Defs, Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.SmallFrame]));
         tabPanel.AddTab("Pawns", new VerticalStackPanel {
             Widgets = {
+                new DefsPanel(DefRepository<BiomeDef>.Defs),
+                new DefsPanel(DefRepository<LootBoxDef>.Defs),
                 new DefsPanel(DefRepository<PawnDef>.Defs),
                 new DefsPanel(DefRepository<RaceDef>.Defs),
                 new DefsPanel(DefRepository<SkillDef>.Defs),

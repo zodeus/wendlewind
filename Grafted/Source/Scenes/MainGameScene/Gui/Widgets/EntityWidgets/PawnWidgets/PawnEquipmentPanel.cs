@@ -132,9 +132,10 @@ public class PawnEquipmentPanel : HorizontalStackPanel
 
     private class EquipmentColumn : VerticalStackPanel
     {
+        private const int CellSize = 80;
         private readonly BodyPart _bodyPart;
-        private readonly Dictionary<EquipmentSlotType, ImageButton> _slots = new();
-        private readonly Image _image;
+        private readonly Dictionary<EquipmentSlotType, Button> _slots = new();
+        private readonly Image _imageFrame;
         private event Action<BodyPart, EquipmentSlotType>? ClickAction;
         private Dictionary<ItemDef, ColoredRegion> _iconCache = new();
         private IImage _potionSlotIcon;
@@ -147,12 +148,26 @@ public class PawnEquipmentPanel : HorizontalStackPanel
             Spacing = 2;
             _potionSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.PotionSlot];
             _bagSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.BagSlot];
-            _image = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.WhiteIcon), BodyPartColor.Get(bodyPart)), Width = 64, Height = 64 };
-            _image.TouchDown += (_, _) => gui.ViewEntity(bodyPart);
-            AddChild(_image);
+            _imageFrame = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.WhiteIcon), BodyPartColor.Get(bodyPart)), Width = CellSize, Height = CellSize };
+            _imageFrame.TouchDown += (_, _) => gui.ViewEntity(bodyPart);
+            AddChild(_imageFrame);
             foreach (EquipmentSlotType slot in slots)
             {
-                ImageButton slotFrame = new(BaseContent.Styles.Button.Icon) { Width = 64, Height = 64 };
+                Button slotFrame = new(BaseContent.Styles.Button.Icon)
+                {
+                    Content = new HorizontalStackPanel()
+                    {
+                        Widgets =
+                        {
+                            new HorizontalProgressBar(BaseContent.Styles.Bar.Durability)
+                            {
+                                Width = CellSize - 4, Height = 12, HorizontalAlignment = HorizontalAlignment.Center,
+                                VerticalAlignment = VerticalAlignment.Bottom
+                            }
+                        }
+                    },
+                    Width = CellSize, Height = CellSize
+                };
                 _slots.Add(slot, slotFrame);
                 slotFrame.Click += (_, _) => ClickAction?.Invoke(bodyPart, slot);
                 AddChild(slotFrame);
@@ -161,7 +176,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel
 
         public void Update()
         {
-            foreach ((EquipmentSlotType slot, ImageButton? image) in _slots)
+            foreach ((EquipmentSlotType slot, Button? image) in _slots)
             {
                 if (_bodyPart.Equipment[slot] is { IsDestroyed: false } item)
                 {
@@ -170,27 +185,31 @@ public class PawnEquipmentPanel : HorizontalStackPanel
                         _iconCache[item.ItemDef] = new ColoredRegion(new TextureRegion(item.Icon), Color.White);
                     }
 
-                    image.Image = _iconCache[item.ItemDef];
-                    ((ColoredRegion)image.Image).Color = GetEquipmentColor(item, _bodyPart);
+                    ((HorizontalProgressBar)((HorizontalStackPanel)image.Content).Widgets[0]).Visible = item.Durability > 1;
+                    image.Content.Background = _iconCache[item.ItemDef];
+                    ((HorizontalProgressBar)((HorizontalStackPanel)image.Content).Widgets[0]).Value = item.Durability / item.MaxDurability * 100;
+                    ((ColoredRegion)image.Content.Background).Color = GetEquipmentColor(item, _bodyPart);
                 }
                 else
                 {
                     if (slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2)
                     {
-                        image.Image = _potionSlotIcon;
+                        image.Content.Background = _potionSlotIcon;
                     }
                     else if (slot is EquipmentSlotType.Bag)
                     {
-                        image.Image = _bagSlotIcon;
+                        image.Content.Background = _bagSlotIcon;
                     }
                     else
                     {
-                        image.Image = null;
+                        image.Content.Background = null;
                     }
+
+                    ((HorizontalProgressBar)((HorizontalStackPanel)image.Content).Widgets[0]).Visible = false;
                 }
             }
 
-            ((ColoredRegion)_image.Background).Color = BodyPartColor.Get(_bodyPart);
+            ((ColoredRegion)_imageFrame.Background).Color = BodyPartColor.Get(_bodyPart);
         }
     }
 
@@ -206,6 +225,6 @@ public class PawnEquipmentPanel : HorizontalStackPanel
             return Color.Red;
         }
 
-        return Color.Lerp(DestroyedEquipmentColor, Color.White, item.Durability / item.MaxDurability);
+        return Color.White;
     }
 }
