@@ -49,7 +49,7 @@ public class Pawn : Entity, IExposable
         base.Initialize();
     }
 
-    public override void Tick(int ticks)
+    public override void Tick()
     {
         if (IsDead)
         {
@@ -62,7 +62,7 @@ public class Pawn : Entity, IExposable
             return;
         }
 
-        Body.Tick(ticks);
+        Body.Tick();
         if (IsDead)
         {
             return;
@@ -70,8 +70,8 @@ public class Pawn : Entity, IExposable
 
         TicksToAttack--;
         Skills.Tick();
-        Inventory.Tick(ticks);
-        base.Tick(ticks);
+        Inventory.Tick();
+        base.Tick();
     }
 
     public void TakeDamage(DamageRequest request)
@@ -95,6 +95,10 @@ public class Pawn : Entity, IExposable
             .Where(p => p.IsDestroyed == false || p.AllInternalParts.Count != 0)
             .RandomElementByWeight(part => part.HitWeight)!;
 
+        if (bodyPart == null)
+        {
+            
+        }
         foreach (var damage in request.RawDamages)
         {
             if (request.Source.PawnType == PawnType.Player)

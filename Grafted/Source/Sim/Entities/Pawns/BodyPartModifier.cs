@@ -178,11 +178,20 @@ public class SoothingBalm : BodyPartModifier
 }
 
 [UsedImplicitly]
-public class PumpinEnhancement : BodyPartModifier
+public class PurpleRegeneration : BodyPartModifier
 {
     public override void Tick()
     {
-        BodyPart.HitPoints += BodyPart.HitPoints * .02f;
+        // Chance to regenerate from destroyed status
+        if (BodyPart.HitPoints < 1 && Core.Random.Chance(0.01f))
+        {
+            BodyPart.HitPoints = 1;
+        }
+
+        //if (Core.Context.Ticks % 15==0)
+        //{
+        BodyPart.HitPoints += BodyPart.HitPoints * .0005f;
+        //}
 
         base.Tick();
     }

@@ -53,4 +53,30 @@
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
+    <BodyEffectDef>
+        <Moniker>SmokeyHaze</Moniker>
+        <Label>Smokey Haze</Label>
+        <Description>You've danced in the flames of glittering wood, your skin absorbed a pungent smoke</Description>
+        <AffectedStats>
+            <ListItem>
+                <Stat>MeleeAccuracy</Stat>
+                <Offset>.05</Offset>
+            </ListItem>
+            <ListItem>
+                <Stat>Evasion</Stat>
+                <Offset>.02</Offset>
+            </ListItem>
+        </AffectedStats>
+    </BodyEffectDef>
+    <BodyEffectDef>
+        <Moniker>FeelingThePurple</Moniker>
+        <Label>Feeling the Purple</Label>
+        <Notes>Regenerating health</Notes>
+        <AffectedStats>
+            <ListItem>
+                <Stat>MeleeStrength</Stat>
+                <Factor>0.20</Factor>
+            </ListItem>
+        </AffectedStats>
+    </BodyEffectDef>
 </Definitions>

@@ -32,7 +32,7 @@
             <AttackSpeed>1</AttackSpeed>
             <MeleeStrength>1</MeleeStrength>
             <Evasion>.01</Evasion>
-            <MeleeAccuracy>.65</MeleeAccuracy>
+            <MeleeAccuracy>.75</MeleeAccuracy>
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseMonster">

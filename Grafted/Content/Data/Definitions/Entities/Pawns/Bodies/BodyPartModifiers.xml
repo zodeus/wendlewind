@@ -13,9 +13,9 @@
         <HandlerClass>SoothingBalm</HandlerClass>
     </BodyPartModifierDef>
     <BodyPartModifierDef>
-        <Moniker>PumpinEnhancement</Moniker>
-        <Label>Pumpin Enhancement</Label>
-        <Description>Increases attack speed</Description>
-        <HandlerClass>PumpinEnhancement</HandlerClass>
+        <Moniker>PurpleRegeneration</Moniker>
+        <Label>Purple Regeneration</Label>
+        <Description>Regenerates body part health</Description>
+        <HandlerClass>PurpleRegeneration</HandlerClass>
     </BodyPartModifierDef>
 </Definitions>

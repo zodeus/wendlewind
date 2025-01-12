@@ -115,6 +115,10 @@ public sealed class LootBoxScreen : VerticalStackPanel
 
             resultsScreen.ShowResultsScreen();
         };
+        if (items.Count == 0)
+        {
+            itemRow.Widgets.Add(new Label(BaseContent.Styles.Label.Medium){Text = "Womp, womp, the loot box is empty."});
+        }
         foreach (var item in items)
         {
             itemRow.Widgets.Add(new VerticalStackPanel

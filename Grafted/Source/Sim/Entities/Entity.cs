@@ -40,7 +40,7 @@ public abstract class Entity : IExposable, IIdentityProvider
     {
     }
 
-    public virtual void Tick(int ticks)
+    public virtual void Tick()
     {
     }
 

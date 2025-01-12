@@ -35,7 +35,7 @@ public class PawnInventory : IExposable, IEnumerable<Item>
         ScribeDeep.Look(ref Entities!, "Entities");
     }
 
-    public void Tick(int ticks)
+    public void Tick()
     {
         Entities.Tick();
     }

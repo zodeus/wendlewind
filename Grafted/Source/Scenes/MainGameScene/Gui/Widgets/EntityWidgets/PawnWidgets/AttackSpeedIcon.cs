@@ -1,32 +1,43 @@
-﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+﻿using FontStashSharp;
 
-public class AttackSpeedIcon : Panel {
+namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+
+public class AttackSpeedIcon : Panel
+{
     private readonly Pawn _pawn;
     public readonly Label Label;
 
-    public AttackSpeedIcon(Pawn pawn) {
+    public AttackSpeedIcon(Pawn pawn, SpriteFontBase? font = null)
+    {
+        font ??= BaseContent.Fonts.Fancy.Normal;
         _pawn = pawn;
-        Label = new Label {
-            Font = BaseContent.Fonts.Fancy.Normal,
+        Label = new Label
+        {
+            Font = font,
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center
         };
 
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame];
-        Width = 64;
         Height = 56;
+        Padding = new Thickness(6,0,6,0);
         base.VerticalAlignment = VerticalAlignment.Center;
 
         AddChild(Label);
     }
 
-    public void Update() {
-        if (_pawn.AttackSpeed < _pawn.MaxAttackSpeed * .5f) {
+    public void Update()
+    {
+        if (_pawn.AttackSpeed < _pawn.MaxAttackSpeed * .5f)
+        {
             Label.TextColor = Color.Red;
-        }else if (_pawn.AttackSpeed < _pawn.MaxAttackSpeed) {
+        }
+        else if (_pawn.AttackSpeed < _pawn.MaxAttackSpeed)
+        {
             Label.TextColor = Color.Orange;
         }
-        else {
+        else
+        {
             Label.TextColor = Color.YellowGreen;
         }
 
@@ -34,11 +45,13 @@ public class AttackSpeedIcon : Panel {
     }
 }
 
-public class ImageCircleIcon : Panel {
+public class ImageCircleIcon : Panel
+{
     public readonly Image Image;
     private event Action<Panel>? Handler;
 
-    public ImageCircleIcon(Image image, Color? color = null, Action<Panel>? handler = null) {
+    public ImageCircleIcon(Image image, Color? color = null, Action<Panel>? handler = null)
+    {
         Handler = handler;
         Image = image;
         Image.Width = 42;
@@ -53,7 +66,8 @@ public class ImageCircleIcon : Panel {
         AddChild(Image);
     }
 
-    public void Update() {
+    public void Update()
+    {
         Handler?.Invoke(this);
     }
 }

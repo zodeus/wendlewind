@@ -173,7 +173,7 @@ public class PawnBodyPanel : VerticalStackPanel
 
             if (useItems && _gui.MouseAttachment.Data is Item item)
             {
-                if (item.MedicinalHandler?.ApplyToPart(part) == true)
+                if (item.MedicinalHandler?.ApplyToPart(item, part) == true)
                 {
                     item.StackSize--;
                     _gui.TickGame();

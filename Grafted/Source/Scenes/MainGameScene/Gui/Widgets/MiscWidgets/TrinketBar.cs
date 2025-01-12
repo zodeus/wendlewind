@@ -6,8 +6,13 @@ public sealed class TrinketBar : HorizontalStackPanel
 {
     public TrinketBar(BaseGui gui, EntityContainer container)
     {
-        foreach (var trinket in container.AsItems().Where(i => i.ItemDef.ItemType == ItemType.Trinket))
+        void CreatePanel(Item trinket)
         {
+            if (trinket.ItemDef.ItemType != ItemType.Trinket)
+            {
+                return;
+            }
+
             var panel = new Button()
             {
                 Width = 74, Height = 74,
@@ -21,6 +26,12 @@ public sealed class TrinketBar : HorizontalStackPanel
             };
             panel.Click += (_, _) => gui.ViewEntity(trinket);
             Widgets.Add(panel);
+        }
+
+        container.ItemAdded += CreatePanel;
+        foreach (var trinket in container.AsItems().Where(i => i.ItemDef.ItemType == ItemType.Trinket))
+        {
+            CreatePanel(trinket);
         }
     }
 }

@@ -10,7 +10,7 @@
         <BaseStats>
             <AttackSpeed>1</AttackSpeed>
             <MeleeStrength>1</MeleeStrength>
-            <MeleeAccuracy>.85</MeleeAccuracy>
+            <MeleeAccuracy>.80</MeleeAccuracy>
             <Evasion>.01</Evasion>
         </BaseStats>
     </PawnDef>

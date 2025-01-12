@@ -8,6 +8,7 @@ public class ZoneGui : BaseGui
     private readonly PawnBodyEffectsWindow _pawnBodyEffectsWindow;
 
     private CombatScreen? _combatScreen;
+    private ShrineScreen? _shrineScreen;
     private CombatResultsScreen? _combatResultsScreen;
     private Zone Zone => _context.CurrentZone!;
 
@@ -24,8 +25,7 @@ public class ZoneGui : BaseGui
         Zone.OnStateChanged += HandleZoneStateChanged;
         Zone.OnZoneMessage += HandleZoneMessage;
 
-        //todo this is hack
-        HandleZoneStateChanged(ZoneState.Combat);
+        HandleZoneStateChanged(Zone.State);
 
         _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(Core.Context.World.PlayerPawn);
         _pawnBodyEffectsWindow.Show(Desktop, new Point(50, 20));
@@ -38,21 +38,31 @@ public class ZoneGui : BaseGui
 
     private void HandleZoneStateChanged(ZoneState state)
     {
-        if (state == ZoneState.Combat)
-        {
-            _combatResultsScreen?.RemoveFromParent();
-            _combatResultsScreen = null;
-            _combatScreen = new CombatScreen(this, _context);
-            (Desktop.Root as Panel)!.AddChild(_combatScreen);
-        }
+        ClearScreenMessage();
 
-        if (state == ZoneState.CombatResults)
+        _combatResultsScreen?.RemoveFromParent();
+        _combatResultsScreen = null;
+
+        _combatScreen?.RemoveFromParent();
+        _combatScreen = null;
+
+        _shrineScreen?.RemoveFromParent();
+        _shrineScreen = null;
+
+        switch (state)
         {
-            ClearScreenMessage();
-            _combatScreen?.RemoveFromParent();
-            _combatScreen = null;
-            _combatResultsScreen = new CombatResultsScreen(this, _context);
-            (Desktop.Root as Panel)!.AddChild(_combatResultsScreen);
+            case ZoneState.Combat:
+                _combatScreen = new CombatScreen(this, _context);
+                (Desktop.Root as Panel)!.Widgets.Add(_combatScreen);
+                break;
+            case ZoneState.CombatResults:
+                _combatResultsScreen = new CombatResultsScreen(this, _context);
+                (Desktop.Root as Panel)!.Widgets.Add(_combatResultsScreen);
+                break;
+            case ZoneState.Shrine:
+                _shrineScreen = new ShrineScreen(this, _context.PlayerPawn, _context.CurrentZone!.ActiveEncounter!.Def.ShrineProperties);
+                (Desktop.Root as Panel)!.Widgets.Add(_shrineScreen);
+                break;
         }
     }
 
@@ -61,6 +71,7 @@ public class ZoneGui : BaseGui
         _combatScreen?.Update();
         _combatResultsScreen?.Update();
         _pawnBodyEffectsWindow.Update();
+        _shrineScreen?.Update(deltaTime);
         base.Update(deltaTime);
     }
 
@@ -90,5 +101,15 @@ public class ZoneGui : BaseGui
     {
         Zone.OnStateChanged -= HandleZoneStateChanged;
         Zone.OnZoneMessage -= HandleZoneMessage;
+    }
+
+    public void NextEncounter(bool advanceStage = false)
+    {
+        if (advanceStage)
+        {
+            Zone.Stage++;
+        }
+
+        Zone.NextEncounter();
     }
 }

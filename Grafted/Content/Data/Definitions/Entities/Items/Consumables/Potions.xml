@@ -22,10 +22,13 @@
         <TexturePath>Entities/Item/Consumables/AcidFlask</TexturePath>
     </ItemDef>
     <ItemDef ParentName="Potion">
-        <Moniker>PumpinJuice</Moniker>
-        <Label>Pumpin Juice</Label>
-        <Description>Increases attack speed for a short period of time, also provides a small amount of health regeneration (not blood)</Description>
-        <TexturePath>Entities/Item/Consumables/PumpinJuice</TexturePath>
+        <Moniker>PurpleJuice</Moniker>
+        <Label>Purple Juice</Label>
+        <BaseStats>
+            <PotionDuration>1200</PotionDuration>
+        </BaseStats>
+        <Description>Increases melee strength for a short period of time, also provides a small amount of health regeneration (not blood)</Description>
+        <TexturePath>Entities/Item/Consumables/PurpleJuice</TexturePath>
     </ItemDef>
     <ItemDef ParentName="Potion">
         <Moniker>TheDreamingPowder</Moniker>

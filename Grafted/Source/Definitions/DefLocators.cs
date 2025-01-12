@@ -22,6 +22,7 @@ public static partial class Defs {
         public static StatDef Evasion = null!;
         public static StatDef AttackSpeedModifier = null!;
         public static StatDef WeaponSpeed  = null!;
+        public static StatDef PotionDuration  = null!;
     }
 }
 
@@ -37,7 +38,7 @@ public static partial class Defs {
     public static class BodyPartModifiers {
         public static BodyPartModifierDef BurningAcid = null!;
         public static BodyPartModifierDef SoothingBalm = null!;
-        public static BodyPartModifierDef PumpinEnhancement = null!;
+        public static BodyPartModifierDef PurpleRegeneration = null!;
     }
 }
 
@@ -45,6 +46,8 @@ public static partial class Defs {
     [DefLocator]
     public static class BodyEffects {
         public static BodyEffectDef BeefedUp = null!;
+        public static BodyEffectDef FeelingThePurple = null!;
+        public static BodyEffectDef SmokeyHaze = null!;
         public static BodyEffectDef DeathToll = null!;
     }
 }
@@ -75,7 +78,7 @@ public static partial class Defs {
         public static ItemDef RepairKit = null!;
         public static ItemDef JarOfBlood = null!;
         public static ItemDef AcidFlask = null!;
-        public static ItemDef PumpinJuice = null!;
+        public static ItemDef PurpleJuice = null!;
         public static ItemDef ShortSword = null!;
         public static ItemDef Firewood = null!;
         public static ItemDef WoodBoard = null!;
@@ -89,6 +92,7 @@ public static partial class Defs {
         public static ItemDef MortarAndPestle = null!;
         public static ItemDef VialOfDuplicity = null!;
         public static ItemDef HealingRoot = null!;
+        public static ItemDef GlitteringLog = null!;
     }
 }
 

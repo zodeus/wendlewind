@@ -45,7 +45,7 @@ internal class PawnCombatPanel : HorizontalStackPanel
             {
                 if (Pawn.PawnType == PawnType.Player && Input.RightMouseButtonReleased && item.ItemDef.ItemType == ItemType.Potion)
                 {
-                    _encounter.QueuePotion(item, Pawn);
+                    _encounter.CombatHandler?.QueuePotion(item, Pawn);
                     return;
                 }
 

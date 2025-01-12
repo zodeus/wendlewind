@@ -2,6 +2,7 @@ namespace Grafted.Sim.Entities.Pawns;
 
 public class BodyEffectDef : Def {
     public List<AffectedStatRecord>? AffectedStats;
+    public string? Notes;
 }
 
 public class AffectedStatRecord {

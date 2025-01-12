@@ -20,7 +20,7 @@ public class DefaultBodyHandler : IExposable
     public virtual int EmptyStomachEnergyLossFactor => 2;
     public virtual float HungryThreshold => 0.85f;
     public virtual float MalnutritionDamageFactor => Core.Random.NextFloat(0.0001f, 0.0005f);
-    public virtual bool IsFamished => _ticksWithEmptyStomach > TicksUntilFamished; 
+    public virtual bool IsFamished => _ticksWithEmptyStomach > TicksUntilFamished;
     public bool IsHungry => Body.StomachLevel < HungryThreshold;
 
     public virtual void Initialize(PawnBody body)
@@ -123,12 +123,12 @@ public class DefaultBodyHandler : IExposable
             {
                 continue;
             }
-    
+
             if (Core.Random.Chance(0.7f))
             {
                 continue;
             }
-    
+
             bodyPart.HitPoints -= bodyPart.HitPoints * MalnutritionDamageFactor;
         }
     }
@@ -175,7 +175,7 @@ public class DefaultBodyHandler : IExposable
         if (part.HealthPercent < BloodLossThreshold)
         {
             //Log.Info($"{_pawn} {part} losing {bloodLossScaleFactor * (1 - part.HealthPercent)}");
-            Body.BloodAmount -= bloodLossScaleFactor * (1 - part.HealthPercent);
+            Body.BloodAmount -= bloodLossScaleFactor * (1 - (float)part.HealthPercent);
         }
 
         // stop part traversal if part is an artery and it's been severed
@@ -197,7 +197,7 @@ public class DefaultBodyHandler : IExposable
             }
 
             //Log.Info($"{_pawn} {internalPart} losing {bloodLossScaleFactor * (1.3f - part.HealthPercent)}");
-            Body.BloodAmount -= bloodLossScaleFactor * (ArteryBloodLossOffset - part.HealthPercent);
+            Body.BloodAmount -= bloodLossScaleFactor * (ArteryBloodLossOffset - (float)part.HealthPercent);
         }
 
         foreach (var socket in part.Sockets)

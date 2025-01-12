@@ -21,6 +21,7 @@ internal sealed class BodyPartPanelPartLabel : HorizontalStackPanel
 
         Refresh();
         bodyPart.PartDamaged += (_, _) => Refresh();
+        bodyPart.HealthChanged += _ => Refresh();
     }
 
     private void Refresh()

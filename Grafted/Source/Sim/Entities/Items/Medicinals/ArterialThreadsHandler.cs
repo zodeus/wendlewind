@@ -1,0 +1,15 @@
+﻿namespace Grafted.Sim.Entities.Items.Medicinals;
+
+[UsedImplicitly]
+public class ArterialThreadsHandler : MedicinalHandler {
+    public override bool ApplyToPart(Item item, BodyPart part) {
+        foreach (BodyPart internalPart in part.InternalParts) {
+            if (internalPart.Type == BodyPartType.Artery && internalPart.HealthPercent < 1) {
+                internalPart.HitPoints = internalPart.MaxHitPoints;
+                return true;
+            }
+        }
+
+        return false;
+    }
+}

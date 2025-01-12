@@ -7,19 +7,29 @@ public class WeaponPanel : EntityPanelBase
 {
     private readonly Item _item;
     private readonly Label _durabilityLabel;
+    private readonly HorizontalProgressBar _durabilityBar;
 
     public WeaponPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
         _item = item;
         Padding = new Thickness(20);
         MinWidth = 300;
+        _durabilityBar = new HorizontalProgressBar(BaseContent.Styles.Bar.Durability)
+        {
+            Width = 100, Height = 20,
+            VerticalAlignment = VerticalAlignment.Bottom
+        };
         _durabilityLabel = new Label("small")
         {
             Text = $"Durability: {item.Durability}/{item.MaxDurability}", Margin = new Thickness(0, 0, 0, 15)
         };
-        AddChild(new Image { Background = new TextureRegion(item.Icon), Width = 48, Height = 48 });
-        AddChild(new Label("small") { Text = item.Def.Description, Wrap = true, Margin = new Thickness(10) , MaxWidth = 600});
+        AddChild(new Image { Background = new TextureRegion(item.Icon), Width = 64, Height = 64 });
+        AddChild(_durabilityBar);
         AddChild(_durabilityLabel);
+        if (item.Def.Description != "undefined")
+        {
+            AddChild(new Label("small") { Text = item.Def.Description, Wrap = true, MaxWidth = 400 });
+        }
         AddChild(new Label("small") { Text = $"Damage Type: {item.ItemDef.WeaponProperties.DamageType}" });
         AddChild(new Label("small") { Text = $"Slot: {(item.ItemDef.EquipmentProperties.SlotUsedToEquip != null ? item.ItemDef.EquipmentProperties.SlotUsedToEquip : "n/a")}" });
 
@@ -47,6 +57,7 @@ public class WeaponPanel : EntityPanelBase
 
     public override void Update()
     {
+        _durabilityBar.Value = _item.Durability / _item.MaxDurability * 100;
         _durabilityLabel.Text = $"Durability: {_item.Durability}/{_item.MaxDurability}";
     }
 }

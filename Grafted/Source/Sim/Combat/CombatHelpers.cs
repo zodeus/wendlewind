@@ -112,7 +112,7 @@ public class DamageRecord
 public class DamagedBodyPartRecord
 {
     public readonly BodyPart BodyPart;
-    public float DamageApplied;
+    public double DamageApplied;
     public string Label => BodyPart.Label;
     public List<BodyPartModifierDef> AppliedModifiers = new();
     public BodyPartType PartType => BodyPart.Type;

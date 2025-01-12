@@ -15,7 +15,7 @@ public partial class EntityContainer : IEnumerable<Entity>, IExposable
         for (var index = _list.Count - 1; index >= 0; index--)
         {
             var entity = _list[index];
-            entity.Tick(0);
+            entity.Tick();
             if (entity.IsDestroyed)
             {
                 _list.RemoveAt(index);
@@ -40,9 +40,15 @@ public partial class EntityContainer : IEnumerable<Entity>, IExposable
 
         entity.EjectFromContainer();
         entity.EjectedFromContainer += OnContainerEject;
+        entity.Destroyed += OnEntityDestroyed;
         _list.Add(entity);
 
         return true;
+    }
+
+    private void OnEntityDestroyed(Entity entity)
+    {
+        Remove(entity);
     }
 
     private void OnContainerEject(Entity entity)
@@ -53,6 +59,7 @@ public partial class EntityContainer : IEnumerable<Entity>, IExposable
     public void Remove(Entity entity)
     {
         entity.EjectedFromContainer -= OnContainerEject;
+        entity.Destroyed -= OnEntityDestroyed;
         _list.Remove(entity);
 
         if (entity is Item item)
@@ -92,6 +99,7 @@ public partial class EntityContainer : IEnumerable<Entity>, IExposable
             foreach (var entity in _list)
             {
                 entity.EjectedFromContainer += OnContainerEject;
+                entity.Destroyed += OnEntityDestroyed;
             }
         }
     }

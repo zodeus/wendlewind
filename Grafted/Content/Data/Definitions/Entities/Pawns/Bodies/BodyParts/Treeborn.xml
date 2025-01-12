@@ -47,7 +47,7 @@
             <ListItem>RearRightLegSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>400</MaxHitPoints>
+            <MaxHitPoints>500</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="TreeBodyPartBase">
@@ -63,7 +63,7 @@
             <ListItem>BrainSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>150</MaxHitPoints>
+            <MaxHitPoints>250</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="TreeBodyPartBase">

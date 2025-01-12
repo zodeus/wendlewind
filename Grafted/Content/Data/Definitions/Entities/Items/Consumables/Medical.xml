@@ -37,8 +37,11 @@
         <Description>Used to heal bones and external parts, will traverse the tree until it's been fully used.</Description>
         <TexturePath>Entities/Item/Consumables/MendersMist</TexturePath>
         <MedicinalProperties>
-            <HandlerClass>MenderMistHandler</HandlerClass>
+            <HandlerClass>MendersMistHandler</HandlerClass>
         </MedicinalProperties>
+        <BaseStats>
+            <HealingValue>200</HealingValue>
+        </BaseStats>
         <CraftingProperties>
             <MinutesToMake>2880</MinutesToMake>
             <AmountProduced>20</AmountProduced>

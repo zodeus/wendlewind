@@ -22,7 +22,7 @@ public sealed class CombatResultsScreen : VerticalStackPanel
             Margin = new Thickness(0, 100, 0, 0)
         };
 
-        _progressButton = GenerateProgressButton();
+        _progressButton = GenerateControlButtons();
         _progressButton.HorizontalAlignment = HorizontalAlignment.Center;
 
         Margin = new Thickness(0, 5, 0, 0);
@@ -32,9 +32,9 @@ public sealed class CombatResultsScreen : VerticalStackPanel
         Widgets.Add(_pawnPanel);
         Widgets.Add(_progressButton);
 
-        if (Encounter.Config.PotentialLootBoxes.Any())
+        if (Encounter.Def.PotentialLootBoxes.Any())
         {
-            var box = Encounter.Config.PotentialLootBoxes.RandomElement();
+            var box = Encounter.Def.PotentialLootBoxes.RandomElement();
             var lootBoxPanel = new LootBoxScreen(this, context, box);
             Widgets.Add(lootBoxPanel);
             _pawnPanel.Visible = false;
@@ -59,15 +59,16 @@ public sealed class CombatResultsScreen : VerticalStackPanel
         return image;
     }
 
-    private Widget GenerateProgressButton()
+    private Widget GenerateControlButtons()
     {
-        HorizontalStackPanel buttons = new()
+        HorizontalStackPanel panel = new()
         {
-            Spacing = 5,
+            Spacing = 10,
             HorizontalAlignment = HorizontalAlignment.Left,
             VerticalAlignment = VerticalAlignment.Bottom
         };
 
+        panel.Widgets.Add(KillsButton());
         if (Encounter.AtBoss)
         {
             TextButton campButton = new(BaseContent.Styles.Button.Large) { Text = "Return to camp" };
@@ -76,21 +77,33 @@ public sealed class CombatResultsScreen : VerticalStackPanel
                 DoAutoLoot();
                 Encounter.Zone!.Exit();
             };
-            buttons.AddChild(campButton);
+            panel.Widgets.Add(campButton);
         }
         else
         {
-            TextButton continueButton = new(BaseContent.Styles.Button.Large) { Text = "Fight!" };
+            TextButton continueButton = new(BaseContent.Styles.Button.Large) { Text = Encounter.AtBoss? "Boss!": "Fight!" };
             continueButton.Click += (_, _) =>
             {
                 DoAutoLoot();
                 MoveToNextCombat();
             };
-            buttons.AddChild(continueButton);
+            panel.Widgets.Add(continueButton);
         }
 
+        if (Encounter.AtBoss == false)
+        {
+            var combatConfig = DefRepository<EncounterDef>.Defs
+                .Where(d => d.Biome == Encounter.Zone!.BiomeDef)
+                .Take(new Range(Encounter.Zone!.Stage, Encounter.Zone.Stage + 1))
+                .First();
+            panel.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
+            {
+                VerticalAlignment = VerticalAlignment.Center,
+                Text = $"{combatConfig.Enemies.First().PawnName} up next!"
+            });
+        }
 
-        return new HorizontalStackPanel { Spacing = 10, Widgets = { KillsButton(), buttons } };
+        return panel;
     }
 
     private void MoveToNextCombat()

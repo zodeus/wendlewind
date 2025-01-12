@@ -38,6 +38,12 @@
         <Moniker>Treeling</Moniker>
         <Label>Treeling</Label>
         <Species>Treeborn</Species>
-        <TexturePath>Entities/Pawn/Creature/Treeling/Treeling</TexturePath>
+        <TexturePath>Entities/Pawn/Creature/Treeborn/Treeling</TexturePath>
+    </RaceDef>
+    <RaceDef ParentName="BaseMonsterRace">
+        <Moniker>Ent</Moniker>
+        <Label>Ent</Label>
+        <Species>Treeborn</Species>
+        <TexturePath>Entities/Pawn/Creature/Treeborn/Ent</TexturePath>
     </RaceDef>
 </Definitions>

@@ -60,7 +60,7 @@ public class CombatScreen : VerticalStackPanel
         {
             Width = 64, Height = 64
         };
-        _playerQueuedPotionSlot.Click += (_, _) => Encounter.DeQueuedPotionFor(Encounter.PlayerPawns[0]);
+        _playerQueuedPotionSlot.Click += (_, _) => Encounter.CombatHandler?.DeQueuedPotionFor(Encounter.PlayerPawns[0]);
         _enemyQueuedPotionSlot = new ImageButton(BaseContent.Styles.Button.Icon)
         {
             Width = 64, Height = 64
@@ -142,7 +142,7 @@ public class CombatScreen : VerticalStackPanel
 
     public void Update()
     {
-        if (Encounter.PotionQueuedFor(Encounter.PlayerPawns[0]) is { } potion)
+        if (Encounter.CombatHandler?.PotionQueuedFor(Encounter.PlayerPawns[0]) is { } potion)
         {
             if (!Equals(_playerQueuedPotion, potion))
             {
@@ -156,7 +156,7 @@ public class CombatScreen : VerticalStackPanel
             _playerQueuedPotionSlot.Image = null;
         }
 
-        if (Encounter.PotionQueuedFor(Encounter.EnemyPawns[0]) is { } enemyPotion)
+        if (Encounter.CombatHandler?.PotionQueuedFor(Encounter.EnemyPawns[0]) is { } enemyPotion)
         {
             if (!Equals(_enemyQueuedPotion, enemyPotion))
             {

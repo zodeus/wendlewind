@@ -12,7 +12,7 @@ class MaxHitPointScalerConstantFactor : MaxHitPointScaler {
     public float Factor = 0;
 
     public override float GetMaxHitPointsFor(BodyPart parentPart) {
-        return Math.Max(1, parentPart.MaxHitPoints * Factor);
+        return Math.Max(1, (float)parentPart.MaxHitPoints * Factor);
     }
 }
 
@@ -20,7 +20,7 @@ class MaxHitPointScalerCurve : MaxHitPointScaler {
     public SimpleCurve SimpleCurve = null!;
 
     public override float GetMaxHitPointsFor(BodyPart parentPart) {
-        return SimpleCurve.Evaluate(parentPart.MaxHitPoints);
+        return SimpleCurve.Evaluate((float)parentPart.MaxHitPoints);
     }
 }
 

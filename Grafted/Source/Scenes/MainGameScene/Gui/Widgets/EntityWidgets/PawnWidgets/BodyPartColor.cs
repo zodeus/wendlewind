@@ -21,7 +21,7 @@ public static class BodyPartColor {
             return DisabledColor;
         }
 
-        return Color.Lerp(LowColor, HighColor, bodyPart.HealthPercent);
+        return Color.Lerp(LowColor, HighColor, (float)bodyPart.HealthPercent);
     }
 
     public static Color GetBloodColor(float value) {

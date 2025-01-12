@@ -6,6 +6,7 @@ public enum ZoneState
 {
     Map,
     Combat,
+    Shrine,
     CombatResults,
     Unoccupied
 }
@@ -13,7 +14,7 @@ public enum ZoneState
 public class Zone : IExposable, IIdentityProvider
 {
     public BiomeDef BiomeDef = null!;
-    public int ZoneKills = 0;
+    public int Stage = 0;
 
     public float Temperature = -1;
     public bool IsComplete;
@@ -24,16 +25,16 @@ public class Zone : IExposable, IIdentityProvider
     public event Action<ZoneState>? OnStateChanged;
     public event Action<ScreenMessageData>? OnZoneMessage;
 
-    public void Tick(int ticks)
+    public void Tick()
     {
-        ActiveEncounter?.Tick(ticks);
+        ActiveEncounter?.Tick();
     }
 
     public void ExposeData()
     {
         ScribeDefs.Look(ref BiomeDef!, "BiomeDef");
         ScribeValues.Look(ref IsComplete, "IsComplete");
-        ScribeValues.Look(ref ZoneKills, "ZoneKills");
+        ScribeValues.Look(ref Stage, "ZoneKills");
     }
 
     public string GetUniqueId()
@@ -65,7 +66,15 @@ public class Zone : IExposable, IIdentityProvider
             });
         }
 
-        ChangeState(ZoneState.Combat);
+        if (ActiveEncounter.CombatHandler != null)
+        {
+            ChangeState(ZoneState.Combat);
+        }
+        else if (ActiveEncounter.Def.ShrineProperties != null)
+        {
+            ChangeState(ZoneState.Shrine);
+        }
+
         ActiveEncounter.State = EncounterState.InProgress;
     }
 
@@ -76,7 +85,7 @@ public class Zone : IExposable, IIdentityProvider
 
     public void CombatResults()
     {
-        ZoneKills++;
+        Stage++;
         ChangeState(ZoneState.CombatResults);
     }
 
@@ -84,7 +93,6 @@ public class Zone : IExposable, IIdentityProvider
     {
         Player = null;
         ChangeState(ZoneState.Unoccupied);
-        
     }
 
     private void ChangeState(ZoneState state)

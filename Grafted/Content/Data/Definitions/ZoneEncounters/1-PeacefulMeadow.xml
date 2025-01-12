@@ -1,145 +1,141 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <CombatConfigDef>
-        <Moniker>FesterpusSwamp-01</Moniker>
-        <Biome>FesterpusSwamp</Biome>
+    <EncounterDef>
+        <Moniker>PeacefulMeadow-01</Moniker>
+        <Biome>PeacefulMeadow</Biome>
+        <Enemies>
+            <ListItem>
+                <Race>InnocentRabbit</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Innocent Rabbit</PawnName>
+                <SpawnWeight>1</SpawnWeight>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>LeatherGlove</Item>
+                        <Amount>2</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </EncounterDef>
+    <EncounterDef>
+        <Moniker>PeacefulMeadow-02</Moniker>
+        <Biome>PeacefulMeadow</Biome>
+        <PotentialLootBoxes>
+            <ListItem>WeaponChestPrimitive</ListItem>
+        </PotentialLootBoxes>
+        <Enemies>
+            <ListItem>
+                <Race>InnocentRabbit</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Innocent Rabbit</PawnName>
+                <SpawnWeight>1</SpawnWeight>
+                <Skills>
+                    <Biting>1</Biting>
+                </Skills>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>LeatherBoot</Item>
+                        <Amount>2</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </EncounterDef>
+    <EncounterDef>
+        <Moniker>PeacefulMeadow-03</Moniker>
+        <Biome>PeacefulMeadow</Biome>
+        <PotentialLootBoxes>
+            <ListItem>TrinketsChestBasic</ListItem>
+        </PotentialLootBoxes>
+        <Enemies>
+            <ListItem>
+                <Race>InnocentRabbit</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Innocent Rabbit</PawnName>
+                <SpawnWeight>1</SpawnWeight>
+                <Skills>
+                    <Biting>2</Biting>
+                </Skills>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>LeatherGorget</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </EncounterDef>
+    <EncounterDef>
+        <Moniker>PeacefulMeadow-04</Moniker>
+        <Biome>PeacefulMeadow</Biome>
+        <PotentialLootBoxes>
+            <ListItem>ToolboxPrimitive</ListItem>
+        </PotentialLootBoxes>
+        <Enemies>
+            <ListItem>
+                <Race>InnocentRabbit</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Innocent Rabbit</PawnName>
+                <SpawnWeight>1</SpawnWeight>
+                <Skills>
+                    <Biting>2</Biting>
+                </Skills>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </EncounterDef>
+    <EncounterDef>
+        <Moniker>PeacefulMeadow-Boss</Moniker>
+        <Biome>PeacefulMeadow</Biome>
+        <IsBoss>true</IsBoss>
         <PotentialLootBoxes>
             <ListItem>MedicinalChestPrimitive</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>BlisteringToad</Race>
+                <Race>TruffleBoar</Race>
                 <Config>DefaultEnemy</Config>
-                <PawnName>Blistering Toad</PawnName>
+                <PawnName>Truffle Boar</PawnName>
                 <SpawnWeight>1</SpawnWeight>
-                <EquipmentItems>
-                </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
-                        <Item>PumpinJuice</Item>
-                        <Amount>2</Amount>
+                        <Item>FishBowlHelmet</Item>
+                        <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                     <ListItem>
                         <Item>RawMeat</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
+                        <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
-    </CombatConfigDef>
-    <CombatConfigDef>
-        <Moniker>FesterpusSwamp-02</Moniker>
-        <Biome>FesterpusSwamp</Biome>
-        <PotentialLootBoxes>
-            <ListItem>ArmorChestIronAge</ListItem>
-        </PotentialLootBoxes>
-        <Enemies>
-            <ListItem>
-                <Race>BlisteringToad</Race>
-                <Config>DefaultEnemy</Config>
-                <PawnName>Blistering Toad</PawnName>
-                <SpawnWeight>1</SpawnWeight>
-                <Skills>
-                    <Tonguing>0</Tonguing>
-                </Skills>
-                <EquipmentItems>
-                    <ListItem>PumpinJuice</ListItem>
-                </EquipmentItems>
-                <InventoryItems>
-                    <ListItem>
-                        <Item>PumpinJuice</Item>
-                        <Amount>2</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>RawMeat</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
-                    </ListItem>
-                </InventoryItems>
-            </ListItem>
-        </Enemies>
-    </CombatConfigDef>
-    <CombatConfigDef>
-        <Moniker>FesterpusSwamp-03</Moniker>
-        <Biome>FesterpusSwamp</Biome>
-        <PotentialLootBoxes>
-            <ListItem>TrinketsChestNormal</ListItem>
-        </PotentialLootBoxes>
-        <Enemies>
-            <ListItem>
-                <Race>BlisteringToad</Race>
-                <Config>DefaultEnemy</Config>
-                <PawnName>Blistering Toad</PawnName>
-                <SpawnWeight>1</SpawnWeight>
-                <Skills>
-                    <Tonguing>1</Tonguing>
-                </Skills>
-                <EquipmentItems>
-                    <ListItem>AcidFlask</ListItem>
-                </EquipmentItems>
-                <InventoryItems>
-                    <ListItem>
-                        <Item>BalmyOintment</Item>
-                        <Amount>3~5</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>AcidFlask</Item>
-                        <Amount>2</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>RawMeat</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
-                    </ListItem>
-                </InventoryItems>
-            </ListItem>
-        </Enemies>
-    </CombatConfigDef>
-    <CombatConfigDef>
-        <Moniker>FesterpusSwamp-Boss</Moniker>
-        <Biome>FesterpusSwamp</Biome>
-        <IsBoss>true</IsBoss>
-        <PotentialLootBoxes>
-            <ListItem>WeaponChestIronAge</ListItem>
-        </PotentialLootBoxes>
-        <Enemies>
-            <ListItem>
-                <Race>FrogFather</Race>
-                <Config>DefaultEnemy</Config>
-                <PawnName>Blistering Toad</PawnName>
-                <SpawnWeight>1</SpawnWeight>
-                <Skills>
-                    <Tonguing>2</Tonguing>
-                </Skills>
-                <Effects>
-                    <ListItem>BeefedUp</ListItem>
-                </Effects>
-                <EquipmentItems>
-                </EquipmentItems>
-                <InventoryItems>
-                    <ListItem>
-                        <Item>BalmyOintment</Item>
-                        <Amount>3~5</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>AcidFlask</Item>
-                        <Amount>5</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
-                        <Item>RawMeat</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
-                    </ListItem>
-                </InventoryItems>
-            </ListItem>
-        </Enemies>
-    </CombatConfigDef>
+    </EncounterDef>
 </Definitions>

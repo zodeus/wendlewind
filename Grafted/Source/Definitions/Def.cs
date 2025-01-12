@@ -5,7 +5,7 @@ namespace Grafted.Definitions;
 public class Def {
     public string Moniker = "undefined";
     public string Label = "undefined";
-    public string Description = "undefined";
+    public string Description = "";
     public ushort Index = ushort.MaxValue;
     public virtual Type DefUiClass => typeof(DefPanel);
 

@@ -6,10 +6,15 @@
         <Label>Peaceful Meadow</Label>
         <BackgroundTexturePath>Zones/PeacefulMeadow</BackgroundTexturePath>
         <Resources>
-            <ListItem>
+            <!--<ListItem>
                 <Item>ButtonTopMushroom</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.06</ChanceToHarvest>
+            </ListItem>-->
+            <ListItem>
+                <Item>GlitteringLog</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.3</ChanceToHarvest>
             </ListItem>
         </Resources>
     </BiomeDef>
@@ -42,6 +47,11 @@
                 <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>-->
             <ListItem>
+                <Item>HealingRoot</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.25</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
                 <Item>RawCorn</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.8</ChanceToHarvest>
@@ -60,6 +70,11 @@
                 <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>
             <ListItem>
+                <Item>RawCorn</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.5</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
                 <Item>DreamBerry</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.15</ChanceToHarvest>
@@ -72,6 +87,11 @@
         <BackgroundTexturePath>Zones/ForgottenForest</BackgroundTexturePath>
         <BackgroundTextureTransparency>85</BackgroundTextureTransparency>
         <Resources>
+            <ListItem>
+                <Item>GlitteringLog</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.35</ChanceToHarvest>
+            </ListItem>
             <ListItem>
                 <Item>ChurniRoot</Item>
                 <Amount>1</Amount>

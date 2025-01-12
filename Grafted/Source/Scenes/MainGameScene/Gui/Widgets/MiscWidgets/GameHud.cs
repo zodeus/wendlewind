@@ -58,7 +58,7 @@ public class GameHud : HorizontalStackPanel {
     private readonly Image _stomachGauge;
     private readonly HorizontalStackPanel _stomachOutline;
     private readonly Label _energyLabel;
-    private MindWidget _mindWidget;
+    //private MindWidget _mindWidget;
     private readonly AttackSpeedIcon _attackSpeedLabel;
 
     public GameHud(Player player) {
@@ -70,7 +70,7 @@ public class GameHud : HorizontalStackPanel {
         Proportions.Add(Proportion.Fill);
         Proportions.Add(Proportion.Auto);
         _bloodLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center };
-        _attackSpeedLabel = new AttackSpeedIcon(player.Pawn);
+        _attackSpeedLabel = new AttackSpeedIcon(player.Pawn, BaseContent.Fonts.Fancy.Medium);
         _temperatureLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center, Width = 90, TextAlign = TextHorizontalAlignment.Center};
         _energyLabel = new Label(BaseContent.Styles.Label.Medium) { VerticalAlignment = VerticalAlignment.Center, Width = 150, TextAlign = TextHorizontalAlignment.Center };
         _bodyTempIcon = new Image {
@@ -88,7 +88,7 @@ public class GameHud : HorizontalStackPanel {
                 _stomachGauge
             }
         };
-        _mindWidget = new MindWidget(Core.Context.World.PlayerPawn);
+        //_mindWidget = new MindWidget(Core.Context.World.PlayerPawn);
         _programStats = new ProgramStatsPanel();
 
         // Blood
@@ -102,8 +102,8 @@ public class GameHud : HorizontalStackPanel {
             }
         });
         // Mind
-        centerPanel.AddChild(new VerticalSeparator());
-        centerPanel.AddChild(_mindWidget);
+        // centerPanel.AddChild(new VerticalSeparator());
+        // centerPanel.AddChild(_mindWidget);
 
         // Energy
         centerPanel.AddChild(new VerticalSeparator());
@@ -121,18 +121,18 @@ public class GameHud : HorizontalStackPanel {
         // Hunger
         centerPanel.AddChild(_stomachOutline);
 
-        // Temperature
-        centerPanel.AddChild(new VerticalSeparator());
-        centerPanel.AddChild(new HorizontalStackPanel {
-            Widgets = {
-                new Image {
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Width = 80, Height = 80, Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Thermometer]
-                },
-                _temperatureLabel,
-                _bodyTempIcon
-            }
-        });
+        // // Temperature
+        // centerPanel.AddChild(new VerticalSeparator());
+        // centerPanel.AddChild(new HorizontalStackPanel {
+        //     Widgets = {
+        //         new Image {
+        //             VerticalAlignment = VerticalAlignment.Center,
+        //             Width = 80, Height = 80, Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Thermometer]
+        //         },
+        //         _temperatureLabel,
+        //         _bodyTempIcon
+        //     }
+        // });
 
         rightPanel.AddChild(_programStats);
 
@@ -155,7 +155,7 @@ public class GameHud : HorizontalStackPanel {
         _bloodLabel.TextColor = BodyPartColor.GetBloodColor(player.Body.BloodPercent);
         _energyLabel.Text = player.Body.EnergyPercent.ToString("P0");
         _energyLabel.TextColor = BodyPartColor.GetStomachColor(player.Body.EnergyPercent);
-        _mindWidget.Update();
+        //_mindWidget.Update();
         _temperatureLabel.Text = $"/c[{TC.Blue}]4°C";
         _stomachGauge.Background = new ColoredRegion(
             Stylesheet.Current.Atlas["stomach-" + Mathf.RoundToInt(Mathf.Lerp(1, 16, player.Body.StomachLevel))],

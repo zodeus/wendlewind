@@ -22,7 +22,7 @@
             }
         }
 
-        public static float CascadeDamageToInternalParts(this BodyPart rootPart, float damage, DamageType damageType, List<BodyPartModifierRecord> bodyPartModifiers,
+        public static double CascadeDamageToInternalParts(this BodyPart rootPart, double damage, DamageType damageType, List<BodyPartModifierRecord> bodyPartModifiers,
             List<DamagedBodyPartRecord> damagedParts)
         {
             var organsHit = 0;

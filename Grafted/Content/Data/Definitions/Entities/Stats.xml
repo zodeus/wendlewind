@@ -26,7 +26,7 @@
         <Label>Healing Amount</Label>
         <BaseValue>0</BaseValue>
         <MinValue>0</MinValue>
-        <MaxValue>9999</MaxValue>
+        <MaxValue>999999</MaxValue>
     </StatDef>
     <StatDef>
         <Moniker>NutritionalValue</Moniker>
@@ -34,5 +34,12 @@
         <BaseValue>0</BaseValue>
         <MinValue>0</MinValue>
         <MaxValue>1</MaxValue>
+    </StatDef>
+    <StatDef>
+        <Moniker>PotionDuration</Moniker>
+        <Label>Potion Duration</Label>
+        <BaseValue>0</BaseValue>
+        <MinValue>0</MinValue>
+        <MaxValue>999999</MaxValue>
     </StatDef>
 </Definitions>

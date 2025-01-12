@@ -18,31 +18,33 @@ public static class CombatGenerator
     {
         Encounter encounter = new(zone);
         encounter.AddPlayerPawn(playerPawn);
-        CombatConfigDef combatConfig;
-        combatConfig = DefRepository<CombatConfigDef>.Defs
+        var encounterDef = DefRepository<EncounterDef>.Defs
             .Where(d => d.Biome == zone.BiomeDef)
-            .Take(new Range(zone.ZoneKills, zone.ZoneKills + 1))
+            .Take(new Range(zone.Stage, zone.Stage + 1))
             .First();
-        if (combatConfig.IsBoss)
+        encounter.Def = encounterDef;
+
+        if (encounter.Def.Enemies.Count != 0)
         {
-            encounter.AtBoss = true;
+            GenerateEnemies(encounter);
         }
 
-        Generate(combatConfig, encounter);
         encounter.Initialize();
+
         return encounter;
     }
 
-    private static Encounter Generate(CombatConfigDef combatConfig, Encounter encounter)
+    private static void GenerateEnemies(Encounter encounter)
     {
-        encounter.Config = combatConfig;
-        var enemies = new List<CombatConfigEnemyRecord>
+        // todo only handling a single enemy
+        var enemies = new List<EncounterEnemyRecord>
         {
-            combatConfig.Enemies.RandomElementByWeight(c => c.SpawnWeight)!
-        }; // todo only handling a single enemy
-        foreach (CombatConfigEnemyRecord enemyConfig in enemies)
+            encounter.Def.Enemies.RandomElementByWeight(c => c.SpawnWeight)!
+        };
+
+        foreach (var enemyConfig in enemies)
         {
-            Pawn pawn = PawnGenerator.CreatePawn(new PawnRequest(
+            var pawn = PawnGenerator.CreatePawn(new PawnRequest(
                 enemyConfig.Race,
                 enemyConfig.Config
             )
@@ -50,7 +52,7 @@ public static class CombatGenerator
                 BodySizeFactor = enemyConfig.BodySizeFactor
             });
 
-            pawn.Biography.Name = enemyConfig.PawnName!;
+            pawn.Biography.Name = enemyConfig.PawnName;
             PawnGenerator.RegisterEquipment(pawn, enemyConfig.EquipmentItems);
             PawnGenerator.RegisterInventory(pawn, enemyConfig.InventoryItems);
             PawnGenerator.RegisterSkills(pawn, enemyConfig.Skills);
@@ -60,13 +62,11 @@ public static class CombatGenerator
 
             encounter.AddEnemyPawn(pawn);
         }
-
-        return encounter;
     }
 
     private static void ApplyEffects(Pawn pawn, List<BodyEffectDef> effects)
     {
-        foreach (BodyEffectDef effect in effects)
+        foreach (var effect in effects)
         {
             pawn.Body.Effects.TryApplyEffect(new BodyEffect
             {
@@ -75,14 +75,13 @@ public static class CombatGenerator
         }
     }
 
-
     private static void ApplyBodyModifications(Pawn pawn, BodyModificationRecord modifications)
     {
-        foreach (SevereLimbRequest severLimbRequest in modifications.LimbsToSever)
+        foreach (var severLimbRequest in modifications.LimbsToSever)
         {
-            BodyPart rootPart = pawn.Body.AllExternalParts.First(p => p.BodyPartDef == severLimbRequest.RootLimb);
-            BodyPart targetLimb = rootPart.ExternalParts.First(p => p.Socket?.Def == severLimbRequest.Socket);
-            BodyPartSocket socket = targetLimb.Socket!;
+            var rootPart = pawn.Body.AllExternalParts.First(p => p.BodyPartDef == severLimbRequest.RootLimb);
+            var targetLimb = rootPart.ExternalParts.First(p => p.Socket?.Def == severLimbRequest.Socket);
+            var socket = targetLimb.Socket!;
             targetLimb.Severe();
             socket.IsSealed = severLimbRequest.Seal;
         }

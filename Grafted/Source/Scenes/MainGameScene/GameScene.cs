@@ -84,6 +84,11 @@ public class GameScene : Scene
 
     private void HandleInput()
     {
+        if (Input.IsKeyPressed(Keys.Space))
+        {
+            _context.TogglePause();
+        }
+        
         if (Input.IsKeyPressed(Keys.S) && Input.IsKeyDown(Keys.LeftControl))
         {
             _context.Save("save.xml");
@@ -98,6 +103,8 @@ public class GameScene : Scene
 
         if (Input.IsKeyPressed(Keys.L) && Input.IsKeyDown(Keys.LeftControl))
         {
+            ActiveGui?.Dispose();
+            ActiveGui = null;
             _context.Load("save.xml");
             StartGame();
         }

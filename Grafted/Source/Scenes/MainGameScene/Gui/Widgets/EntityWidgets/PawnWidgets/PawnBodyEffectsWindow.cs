@@ -1,31 +1,40 @@
 ﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
-public class PawnBodyEffectsWindow : Window {
+public sealed class PawnBodyEffectsWindow : Window
+{
     private readonly Pawn _pawn;
     private Dictionary<BodyEffect, BodyEffectRow> _cachedEffects = new();
     private readonly VerticalStackPanel _container;
     private List<BodyEffect> _effectsToRemove = new();
 
-    public PawnBodyEffectsWindow(Pawn pawn) {
+    public PawnBodyEffectsWindow(Pawn pawn)
+    {
         _pawn = pawn;
         Title = "Effects";
-        Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold], new Color(255, 255, 255, 50));
-        _container = new VerticalStackPanel(){Spacing = 20};
+        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold];
+//        Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold], new Color(255, 255, 255, 100));
+        _container = new VerticalStackPanel() { Spacing = 20 };
+        _container.Widgets.Add(new HorizontalSeparator());
         Content = _container;
     }
 
-    public void Update() {
-        foreach (BodyEffect effect in _pawn.Body.Effects) {
-            if (_cachedEffects.ContainsKey(effect)) {
+    public void Update()
+    {
+        foreach (BodyEffect effect in _pawn.Body.Effects)
+        {
+            if (_cachedEffects.ContainsKey(effect))
+            {
                 continue;
             }
 
             _cachedEffects.Add(effect, new BodyEffectRow(effect));
-            _container.AddChild(_cachedEffects[effect]);
+            _container.Widgets.Add(_cachedEffects[effect]);
         }
 
-        foreach ((BodyEffect? effect, BodyEffectRow? panel) in _cachedEffects) {
-            if (effect.IsExpired) {
+        foreach ((var effect, var panel) in _cachedEffects)
+        {
+            if (effect.IsExpired)
+            {
                 _cachedEffects[effect].RemoveFromParent();
                 _effectsToRemove.Add(effect);
             }
@@ -33,8 +42,10 @@ public class PawnBodyEffectsWindow : Window {
             panel.Update();
         }
 
-        if (_effectsToRemove.Any()) {
-            foreach (BodyEffect bodyEffect in _effectsToRemove) {
+        if (_effectsToRemove.Any())
+        {
+            foreach (var bodyEffect in _effectsToRemove)
+            {
                 _cachedEffects.Remove(bodyEffect);
             }
 
@@ -42,27 +53,39 @@ public class PawnBodyEffectsWindow : Window {
         }
     }
 
-    private class BodyEffectRow : VerticalStackPanel {
+    private sealed class BodyEffectRow : VerticalStackPanel
+    {
         private readonly BodyEffect _effect;
         private readonly Label _durationLabel;
 
-        public BodyEffectRow(BodyEffect effect) {
+        public BodyEffectRow(BodyEffect effect)
+        {
             _effect = effect;
             _durationLabel = new Label(BaseContent.Styles.Label.Small);
-            AddChild(new Label { Text = effect.Def.Label });
-            AddChild(_durationLabel);
-            if (effect.Def.AffectedStats == null) {
+            Widgets.Add(new Label { Text = effect.Def.Label });
+
+
+            Widgets.Add(_durationLabel);
+            if (effect.Def.Notes != null)
+            {
+                Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = "  " + effect.Def.Notes });
+            }
+
+            if (effect.Def.AffectedStats == null)
+            {
                 return;
             }
 
-            foreach (AffectedStatRecord affectedStat in effect.Def.AffectedStats) {
-                string factor = affectedStat.Factor != null ? $"/c[{(affectedStat.Factor > 0 ?TC.Green :TC.Red)}]*{affectedStat.Factor} " : "";
-                string offset = affectedStat.Offset != null ? $"/c[{(affectedStat.Offset > 0 ?TC.Green :TC.Red)}]+{affectedStat.Offset} " : "";
-                AddChild(new Label(BaseContent.Styles.Label.Small) { Text = $"  {affectedStat.Stat.Label} {offset}{factor}" });
+            foreach (var affectedStat in effect.Def.AffectedStats)
+            {
+                var factor = affectedStat.Factor != null ? $"/c[{(affectedStat.Factor > 0 ? TC.Green : TC.Red)}]*{affectedStat.Factor} " : "";
+                var offset = affectedStat.Offset != null ? $"/c[{(affectedStat.Offset > 0 ? TC.Green : TC.Red)}]+{affectedStat.Offset} " : "";
+                Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"  {affectedStat.Stat.Label} {offset}{factor}" });
             }
         }
 
-        public void Update() {
+        public void Update()
+        {
             _durationLabel.Text = $"  Ticks left /c[{TC.Blue}] {_effect.TicksLeft}";
         }
     }

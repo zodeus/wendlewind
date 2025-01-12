@@ -8,13 +8,14 @@ public class BodyPart : Entity
 {
     private const float SKIN_DAMAGE_SCALER = 0.6f;
     public event Action<BodyPart, List<DamagedBodyPartRecord>>? PartDamaged; //todo - actions
+    public event Action<BodyPart>? HealthChanged; //todo - actions
 
-    private float _hitPoints;
+    private double _hitPoints;
     private string? _adaptedLabel;
     private bool _isSevered; // todo, this should be set by an applied health condition
     private Texture2D? _image;
 
-    public float MaxHitPoints;
+    public double MaxHitPoints;
     public BodyPartSocket? Socket;
     public List<BodyPartSocket> Sockets = new();
     public Dictionary<EquipmentSlotType, Item?> Equipment = new();
@@ -27,13 +28,13 @@ public class BodyPart : Entity
     public BodyPartType Type => BodyPartDef.BodyPartType;
     public float Size => BodyPartDef.Size;
     public float HitWeight => BodyPartDef.HitWeight;
-    public float HealthPercent => HitPoints / MaxHitPoints;
+    public double HealthPercent => HitPoints / MaxHitPoints;
     public bool IsExternal => Socket?.IsExternal ?? true;
     public bool IsBone => BodyPartDef.IsBone;
     public bool IsOrgan => BodyPartDef.IsOrgan;
     public bool IsVital => BodyPartDef.IsVital;
     public new bool IsDestroyed => HitPoints <= .1f;
-    public bool IsBleeding => HealthPercent < .99; //todo coagulation 
+    public bool IsBleeding => HealthPercent < .99 && IsBone == false; //todo coagulation 
 
     public List<EquipmentSlotType>? EquipmentSlots => BodyPartDef.EquipmentSlots;
 
@@ -61,12 +62,13 @@ public class BodyPart : Entity
         }
     }
 
-    public float HitPoints
+    public double HitPoints
     {
         get => _hitPoints;
         set
         {
-            _hitPoints = Mathf.Clamp(value, 0f, MaxHitPoints);
+            _hitPoints = Math.Clamp(value, 0, MaxHitPoints);
+            HealthChanged?.Invoke(this);
             if (Body != null)
             {
                 Body.BodyPartsDirty = true;
@@ -181,11 +183,6 @@ public class BodyPart : Entity
             }
 
             float points = this.GetStatValue(Defs.Stats.AttackSpeedModifier);
-            if (Modifiers.Any(m => m.Def == Defs.BodyPartModifiers.PumpinEnhancement))
-            {
-                points *= 2;
-            }
-
             foreach (BodyPart bodyPart in ExternalParts)
             {
                 points += bodyPart.AttackSpeedModifier;
@@ -280,7 +277,7 @@ public class BodyPart : Entity
         }
     }
 
-    public override void Tick(int ticks)
+    public override void Tick()
     {
         for (int index = Modifiers.Count - 1; index >= 0; index--)
         {
@@ -294,7 +291,7 @@ public class BodyPart : Entity
             }
         }
 
-        base.Tick(ticks);
+        base.Tick();
     }
 
     private void GetParts(BodyPart part, List<BodyPart> parts, bool? partIsExternal = null)
@@ -328,7 +325,7 @@ public class BodyPart : Entity
         return $"{Label} ({HitPoints:0.000})";
     }
 
-    public float ApplyDamage(float damage, DamageType damageType, List<BodyPartModifierRecord> bodyPartModifiers,
+    public double ApplyDamage(double damage, DamageType damageType, List<BodyPartModifierRecord> bodyPartModifiers,
         List<DamagedBodyPartRecord> damagedParts, bool cascade = true)
     {
         TicksSinceLastHit = 0;
@@ -506,7 +503,7 @@ public class BodyPart : Entity
         _adaptedLabel = GenerateLabel();
         if (Body != null)
         {
-            MaxHitPoints = Mathf.FloorToInt(MaxHitPoints * Body.BodySizeFactor);
+            MaxHitPoints = Mathf.FloorToInt((float)(MaxHitPoints * Body.BodySizeFactor));
             HitPoints = MaxHitPoints;
         }
 

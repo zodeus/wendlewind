@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <CombatConfigDef>
+    <EncounterDef>
         <Moniker>GrainMill-01</Moniker>
         <Biome>GrainMill</Biome>
         <PotentialLootBoxes>
@@ -39,8 +39,8 @@
                 </InventoryItems>
             </ListItem>
         </Enemies>
-    </CombatConfigDef>
-    <CombatConfigDef>
+    </EncounterDef>
+    <EncounterDef>
         <Moniker>GrainMill-02</Moniker>
         <Biome>GrainMill</Biome>
         <PotentialLootBoxes>
@@ -76,15 +76,15 @@
                         <ChanceToDrop>.5</ChanceToDrop>
                     </ListItem>
                     <ListItem>
-                        <Item>PumpinJuice</Item>
+                        <Item>PurpleJuice</Item>
                         <Amount>1</Amount>
                         <ChanceToDrop>.5</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
-    </CombatConfigDef>
-    <CombatConfigDef>
+    </EncounterDef>
+    <EncounterDef>
         <Moniker>GrainMill-03</Moniker>
         <Biome>GrainMill</Biome>
         <PotentialLootBoxes>
@@ -116,15 +116,15 @@
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
-                        <Item>PumpinJuice</Item>
+                        <Item>PurpleJuice</Item>
                         <Amount>1</Amount>
                         <ChanceToDrop>.5</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
-    </CombatConfigDef>
-    <CombatConfigDef>
+    </EncounterDef>
+    <EncounterDef>
         <Moniker>GrainMill-04</Moniker>
         <Biome>GrainMill</Biome>
         <PotentialLootBoxes>
@@ -156,15 +156,15 @@
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
-                        <Item>PumpinJuice</Item>
+                        <Item>PurpleJuice</Item>
                         <Amount>1</Amount>
                         <ChanceToDrop>.5</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
-    </CombatConfigDef>
-    <CombatConfigDef>
+    </EncounterDef>
+    <EncounterDef>
         <Moniker>GrainMill-Boss</Moniker>
         <Biome>GrainMill</Biome>
         <IsBoss>true</IsBoss>
@@ -198,11 +198,11 @@
                     <ListItem>ChainTunic</ListItem>
                     <ListItem>FishBowlHelmet</ListItem>
                     <ListItem>JarOfBlood</ListItem>
-                    <ListItem>PumpinJuice</ListItem>
+                    <ListItem>PurpleJuice</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                 </InventoryItems>
             </ListItem>
         </Enemies>
-    </CombatConfigDef>
+    </EncounterDef>
 </Definitions>

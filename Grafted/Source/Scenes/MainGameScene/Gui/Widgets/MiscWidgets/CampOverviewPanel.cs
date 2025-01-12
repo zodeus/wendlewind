@@ -59,6 +59,7 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
                 _bodyPanel,
                 new VerticalStackPanel
                 {
+                    Proportions = { Proportion.Auto, Proportion.Fill },
                     Spacing = 5,
                     Widgets =
                     {

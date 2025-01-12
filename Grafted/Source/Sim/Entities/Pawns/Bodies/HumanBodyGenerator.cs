@@ -1,11 +1,14 @@
 ﻿namespace Grafted.Sim.Entities.Pawns.Bodies;
 
-public class HumanBodyGenerator : IBodyGenerator {
-    public BodyPartSocket Generate() {
+public class HumanBodyGenerator : IBodyGenerator
+{
+    public BodyPartSocket Generate()
+    {
         return GenerateBody();
     }
 
-    private static BodyPartSocket GenerateBody() {
+    private static BodyPartSocket GenerateBody()
+    {
         BodyPartSocket rootSocket = new(Defs.BodyPartSockets.HeadSocket);
         BodyPart head = rootSocket.TryAttachPart(EntityGenerator.CreateEntity<BodyPart>(Defs.BodyParts.HumanHead));
         head.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
@@ -35,7 +38,7 @@ public class HumanBodyGenerator : IBodyGenerator {
         ribCage.GetSocketsFor(BodyPartType.Heart)[0].TryAttachPart(Defs.BodyParts.Heart);
         ribCage.GetSocketsFor(BodyPartType.Lung)[0].TryAttachPart(Defs.BodyParts.Lung);
         ribCage.GetSocketsFor(BodyPartType.Lung)[1].TryAttachPart(Defs.BodyParts.Lung);
-        
+
         // Arms
         MakeArm(torso.GetSocketsFor(BodyPartType.Arm)[0].TryAttachPart(Defs.BodyParts.HumanArm));
         MakeArm(torso.GetSocketsFor(BodyPartType.Arm)[1].TryAttachPart(Defs.BodyParts.HumanArm));
@@ -47,7 +50,8 @@ public class HumanBodyGenerator : IBodyGenerator {
         return rootSocket;
     }
 
-    static void MakeArm(BodyPart arm) {
+    static void MakeArm(BodyPart arm)
+    {
         arm.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
         arm.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
         arm.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
@@ -55,7 +59,8 @@ public class HumanBodyGenerator : IBodyGenerator {
     }
 
 
-    public static void MakeHandForSocket(BodyPartSocket socket) {
+    public static void MakeHandForSocket(BodyPartSocket socket)
+    {
         BodyPart hand = socket.TryAttachPart(Defs.BodyParts.HumanHand);
         hand.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
         hand.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
@@ -68,18 +73,25 @@ public class HumanBodyGenerator : IBodyGenerator {
         hand.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FleshyHand")!);
     }
 
-    public static void MakeFingerForSocket(BodyPartSocket socket, BodyPartDef def) {
+    public static void MakeFingerForSocket(BodyPartSocket socket, BodyPartDef def)
+    {
         BodyPart finger = socket.TryAttachPart(def);
         finger.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
         finger.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
         finger.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
     }
 
-    static void MakeLeg(BodyPart leg) {
+    static void MakeLeg(BodyPart leg)
+    {
         leg.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
         leg.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
         leg.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
-        BodyPart foot = leg.GetSocketsFor(BodyPartType.Foot)[0].TryAttachPart(Defs.BodyParts.HumanFoot);
+        MakeFootForSocket(leg.GetSocketsFor(BodyPartType.Foot)[0]);
+    }
+
+    public static void MakeFootForSocket(BodyPartSocket socket)
+    {
+        BodyPart foot = socket.TryAttachPart(Defs.BodyParts.HumanFoot);
         foot.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
         foot.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
         foot.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);

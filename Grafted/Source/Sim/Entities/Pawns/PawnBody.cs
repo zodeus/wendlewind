@@ -103,11 +103,11 @@ public class PawnBody : IExposable, IIdentityProvider
         Energy = MaxEnergy;
     }
 
-    public void Tick(int ticks)
+    public void Tick()
     {
         foreach (BodyPart bodyPart in AllParts)
         {
-            bodyPart.Tick(ticks);
+            bodyPart.Tick();
         }
 
         Effects.Tick();

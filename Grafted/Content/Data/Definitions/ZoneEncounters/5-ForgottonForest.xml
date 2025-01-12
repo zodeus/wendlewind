@@ -1,11 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <CombatConfigDef>
+    <EncounterDef>
+        <Moniker>ForgottenForest-Shrine</Moniker>
+        <Biome>ForgottenForest</Biome>
+        <ShrineProperties>
+            <PartsToRestore>3~5</PartsToRestore>
+            <TexturePath>Zones/Shrines/forest_shrine_1</TexturePath>
+            <RestorablePartTypes>
+                <ListItem>Thumb</ListItem>
+                <ListItem>Finger</ListItem>
+                <ListItem>Hand</ListItem>
+                <ListItem>Foot</ListItem>
+            </RestorablePartTypes>
+        </ShrineProperties>
+    </EncounterDef>
+    <EncounterDef>
         <Moniker>ForgottenForest-01</Moniker>
         <Biome>ForgottenForest</Biome>
         <PotentialLootBoxes>
-            <ListItem>MedicinalChestPrimitive</ListItem>
+            <!--<ListItem>MedicinalChestPrimitive</ListItem>-->
+            <ListItem>EnchantedChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -22,8 +37,8 @@
                 </InventoryItems>
             </ListItem>
         </Enemies>
-    </CombatConfigDef>
-    <CombatConfigDef>
+    </EncounterDef>
+    <EncounterDef>
         <Moniker>ForgottenForest-02</Moniker>
         <Biome>ForgottenForest</Biome>
         <PotentialLootBoxes>
@@ -47,8 +62,34 @@
                 </InventoryItems>
             </ListItem>
         </Enemies>
-    </CombatConfigDef>
-    <CombatConfigDef>
+    </EncounterDef>
+    <EncounterDef>
+        <Moniker>ForgottenForest-03</Moniker>
+        <Biome>ForgottenForest</Biome>
+        <PotentialLootBoxes>
+            <ListItem>EnchantedChestNormal</ListItem>
+        </PotentialLootBoxes>
+        <Enemies>
+            <ListItem>
+                <Race>Treeling</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Treeling</PawnName>
+                <SpawnWeight>1</SpawnWeight>
+                <Skills>
+                </Skills>
+                <EquipmentItems>
+                    <ListItem>LeatherTunic</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                </EquipmentItems>
+                <InventoryItems>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </EncounterDef>
+    <EncounterDef>
         <Moniker>ForgottenForest-Boss</Moniker>
         <Biome>ForgottenForest</Biome>
         <IsBoss>true</IsBoss>
@@ -57,9 +98,9 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>Treeling</Race>
+                <Race>Ent</Race>
                 <Config>DefaultEnemy</Config>
-                <PawnName>Treeling</PawnName>
+                <PawnName>Ent</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <Skills>
                 </Skills>
@@ -73,10 +114,11 @@
                     <ListItem>LeatherGreave</ListItem>
                     <ListItem>LeatherGreave</ListItem>
                     <ListItem>LeatherGreave</ListItem>
+                    <!--<ListItem>PurpleJuice</ListItem>-->
                 </EquipmentItems>
                 <InventoryItems>
                 </InventoryItems>
             </ListItem>
         </Enemies>
-    </CombatConfigDef>
+    </EncounterDef>
 </Definitions>

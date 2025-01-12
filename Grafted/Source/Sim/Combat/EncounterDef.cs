@@ -1,16 +1,31 @@
-﻿using Grafted.Sim.Entities;
+﻿using Grafted.Graphics.Textures;
+using Grafted.Sim.Entities;
 using Grafted.Sim.LootBoxes;
 
 namespace Grafted.Sim.Combat;
 
-public class CombatConfigDef : Def {
-    public List<CombatConfigEnemyRecord> Enemies = new();
+public class EncounterDef : Def
+{
+    public List<EncounterEnemyRecord> Enemies = new();
     public List<LootBoxDef> PotentialLootBoxes = new();
     public BiomeDef Biome = null!;
+    public ShrineProperties? ShrineProperties = null;
     public bool IsBoss;
 }
 
-public class CombatConfigEnemyRecord {
+public class ShrineProperties
+{
+    private Texture2D? _texture;
+
+    public RangeInt PartsToRestore;
+    public List<BodyPartType> RestorablePartTypes = [];
+
+    public string? TexturePath;
+    public virtual Texture2D Texture => _texture ??= TexturePath != null ? Core.Content.Load<Texture2D>(TexturePath) : BaseContent.Textures.BadTexture;
+}
+
+public class EncounterEnemyRecord
+{
     public RaceDef Race = null!;
     public PawnConfigDef Config = null!;
     public float SpawnWeight = 1;

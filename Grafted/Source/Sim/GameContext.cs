@@ -6,6 +6,7 @@ public enum GameState
     Zone,
     Restart
 }
+
 public class GameContext : IExposable
 {
     public GameMessages Messages = new();
@@ -45,8 +46,8 @@ public class GameContext : IExposable
     {
         Ticks++;
         OminousMessageSpawner.Tick();
-        World.Player.Pawn.Tick(Ticks);
-        CurrentZone?.Tick(Ticks);
+        World.Player.Pawn.Tick();
+        CurrentZone?.Tick();
     }
 
     public void TogglePause()
@@ -94,7 +95,7 @@ public class GameContext : IExposable
 
     public void Save(string filePath)
     {
-       // Log.Warning("Save is dislabled");
+        // Log.Warning("Save is dislabled");
         //return;
         Log.Info("Saving Game to " + filePath);
         Scribe.Saver.InitSaving(filePath, "SaveData");
@@ -105,6 +106,7 @@ public class GameContext : IExposable
 
     public void Load(string filePath)
     {
+        CurrentZone = null;
         Scribe.Loader.InitLoading(filePath);
         if (!Scribe.EnterNode("Context"))
         {

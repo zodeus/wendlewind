@@ -5,12 +5,11 @@ namespace Grafted.Sim.Combat;
 public class Encounter
 {
     private EncounterState _state = EncounterState.NotStarted;
-    private readonly Dictionary<Pawn, Item> _queuedPotions = new();
-    private CombatHandler CombatHandler = null!;
+    public CombatHandler? CombatHandler { get; private set; }
     public event Action<EncounterState>? StateChangedAction;
 
     public Zone? Zone;
-    public CombatConfigDef Config = null!;
+    public EncounterDef Def = null!;
     public EntityContainer Loot = new();
 
     public readonly List<Pawn> PlayerPawns = new();
@@ -25,10 +24,13 @@ public class Encounter
 
     public void Initialize()
     {
-        CombatHandler = new CombatHandler(this);
+        if (Def.Enemies.Count > 0)
+        {
+            CombatHandler = new CombatHandler(this);
+        }
     }
 
-    public bool AtBoss { get; set; }
+    public bool AtBoss => Def.IsBoss;
     public bool ShouldAttemptRetreat { get; set; }
 
 
@@ -70,7 +72,7 @@ public class Encounter
         {
             CollectLoot();
             Core.Context.World.RegisterKill(EnemyPawns[0]);
-            if (Config.IsBoss)
+            if (Def.IsBoss)
             {
                 Zone!.IsComplete = true;
             }
@@ -89,7 +91,6 @@ public class Encounter
 
     private void CollectLoot()
     {
-        float chanceToLootEquipment = 1;
         foreach (var enemy in EnemyPawns)
         {
             for (var i = enemy.Inventory.Count() - 1; i >= 0; i--)
@@ -102,7 +103,7 @@ public class Encounter
 
                 AddToLootContainer(item);
             }
-            
+
             /*foreach ((BodyPart? bodyPart, var slots) in enemy.Equipment.Slots)
             {
                 foreach (EquipmentSlotType slot in slots)
@@ -156,45 +157,9 @@ public class Encounter
         Loot.TryAdd(item);
     }
 
-    public void QueuePotion(Item potion, Pawn pawn)
-    {
-        _queuedPotions[pawn] = potion;
-    }
 
-    public Item? DeQueuedPotionFor(Pawn pawn)
+    public void Tick()
     {
-        if (_queuedPotions.ContainsKey(pawn))
-        {
-            Item potion = _queuedPotions[pawn];
-            _queuedPotions.Remove(pawn);
-            return potion;
-        }
-
-        return null;
-    }
-
-    public Item? PotionQueuedFor(Pawn pawn)
-    {
-        return _queuedPotions.ContainsKey(pawn) ? _queuedPotions[pawn] : null;
-    }
-
-    public void Tick(int ticks)
-    {
-        CombatHandler.DoFighting(ticks);
-        var usablePotions = new List<ItemDef> { Defs.Items.AcidFlask, Defs.Items.PumpinJuice };
-        foreach (var pawn in EnemyPawns)
-        {
-            pawn.Tick(ticks);
-            if (pawn.PawnType == PawnType.Enemy)
-            {
-                foreach (var potionDef in usablePotions)
-                {
-                    if (PotionQueuedFor(pawn) == null && pawn.Equipment.PotionByDef(potionDef) is { } potion)
-                    {
-                        QueuePotion(potion, pawn);
-                    }
-                }
-            }
-        }
+        CombatHandler?.DoFighting();
     }
 }
