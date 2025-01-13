@@ -96,6 +96,7 @@ public static partial class Defs {
         public static ItemDef HealingRoot = null!;
         public static ItemDef GlitteringLog = null!;
         public static ItemDef SoothingVibrations = null!;
+        public static ItemDef SpidersBite = null!;
     }
 }
 

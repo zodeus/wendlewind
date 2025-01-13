@@ -24,20 +24,38 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>Treeling</Race>
+                <Race>GrainBandit</Race>
                 <Config>DefaultEnemy</Config>
-                <PawnName>Treeling</PawnName>
+                <PawnName>Henry the Hungry</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <Skills>
+                    <Knives>5</Knives>
                 </Skills>
+                <Effects>
+                    <!--<ListItem>EnergizedLikeABunny</ListItem>-->
+                </Effects>
                 <EquipmentItems>
-                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>Knife</ListItem>
+                    <ListItem>Knife</ListItem>
+                    <ListItem>ChainVambrace</ListItem>
+                    <ListItem>ChainVambrace</ListItem>
+                    <ListItem>ChainGreave</ListItem>
+                    <ListItem>ChainGreave</ListItem>
+                    <ListItem>ChainGorget</ListItem>
+                    <ListItem>ChainBoot</ListItem>
+                    <ListItem>ChainBoot</ListItem>
+                    <ListItem>ChainGlove</ListItem>
+                    <ListItem>ChainGlove</ListItem>
+                    <ListItem>ChainTunic</ListItem>
+                    <ListItem>FishBowlHelmet</ListItem>
+                    <ListItem>JarOfBlood</ListItem>
+                    <ListItem>PurpleJuice</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
-                        <Item>RawMeat</Item>
+                        <Item>PurpleJuice</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
+                        <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>

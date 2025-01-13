@@ -70,14 +70,17 @@ public class DamageRequest
 
 public class DamageResponse
 {
-    public List<DamageRecord> Damages = new();
+    public readonly List<DamageRecord> Damages = new();
+    public readonly List<AfflictionRecord> Afflictions = new();
 
     public bool Dodged;
     public bool Missed;
+}
 
-    public DamageResponse()
-    {
-    }
+public class AfflictionRecord(BodyPart bodyPart, string affliction)
+{
+    public readonly BodyPart BodyPart = bodyPart;
+    public readonly string Affliction = affliction;
 }
 
 public class DestroyedItemRecord

@@ -16,4 +16,20 @@
         </MedicinalProperties>
         <TexturePath>Entities/Item/Enchantments/SoothingVibrations</TexturePath>
     </ItemDef>
+    <ItemDef ParentName="ItemEnchantment">
+        <Moniker>SpidersBite</Moniker>
+        <Label>Spiders Bite</Label>
+        <Description>When an item with this enchantment is struck it begins to vibrate with energy.\nApplies a short burst of Soothing Balm.</Description>
+        <WeaponProperties>
+            <DamageType>Flesh</DamageType>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>BurningAcid</Def>
+                    <DurationInTicks>80~240</DurationInTicks>
+                    <Chance>1</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </WeaponProperties>
+        <TexturePath>Entities/Item/Enchantments/SpidersBite</TexturePath>
+    </ItemDef>
 </Definitions>

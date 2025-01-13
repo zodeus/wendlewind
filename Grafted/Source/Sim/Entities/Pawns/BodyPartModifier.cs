@@ -56,7 +56,6 @@ public abstract class BodyPartModifier : IExposable, IIdentityProvider
     public virtual void MergeWith(BodyPartModifier modifier)
     {
         DurationInTicks += modifier.DurationInTicks;
-        Log.Warning($"No implementation for merging {modifier.Label} with self={this}");
     }
 
     public virtual void ExposeData()
