@@ -88,7 +88,7 @@ public class BodyPart : Entity
             {
                 return true;
             }
-
+    
             return Socket?.ParentPart?.IsSevered ?? false;
         }
         private set => _isSevered = value;
@@ -380,6 +380,21 @@ public class BodyPart : Entity
         this.PotentiallySevereLimb();
         damagedParts[0].WasSevered = IsSevered;
         PartDamaged?.Invoke(this, damagedParts);
+
+        var enchantments = Equipment.Values.SelectMany(e => e?.Enchantments?.ToList() ?? []);
+        foreach (var enchantment in enchantments)
+        {
+            if (enchantment.ItemDef == Defs.Items.SoothingVibrations)
+            {
+                Log.Info(enchantment.ToString());
+                enchantment.MedicinalHandler!.ApplyToPart(enchantment, this);
+                foreach (var externalPart in ExternalParts)
+                {
+                    enchantment.MedicinalHandler!.ApplyToPart(enchantment, externalPart);
+                }
+            }
+        }
+
         return damagedParts;
     }
 

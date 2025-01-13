@@ -47,7 +47,7 @@ public class CombatHandler
     {
         var attacker = request.Source;
         //todo move this to Encounter
-        foreach (DamagedBodyPartRecord damage in response.Damages.SelectMany(r => r.BodyParts))
+        foreach (var damage in response.Damages.SelectMany(r => r.BodyParts))
         {
             if (damage.BodyPart.IsExternal && damage.WasSevered)
             {
@@ -74,14 +74,14 @@ public class CombatHandler
                     $"blocked /c[#00e6ff]{damage.AmountBlocked}"
                 );
 
-                foreach (DestroyedItemRecord itemRecord in damage.DestroyedEquipment)
+                foreach (var itemRecord in damage.DestroyedEquipment)
                 {
                     Encounter.LogMessage($"  /c[{TC.Equipment}]{itemRecord.Def.Label} /c[{TC.Red}]destroyed");
                 }
 
-                foreach (DamagedBodyPartRecord partRecord in damage.BodyParts)
+                foreach (var partRecord in damage.BodyParts)
                 {
-                    foreach (BodyPartModifierDef modifer in partRecord.AppliedModifiers)
+                    foreach (var modifer in partRecord.AppliedModifiers)
                     {
                         Encounter.LogMessage(
                             $"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Default}]afflicted with /c[{TC.Yellow}]{modifer}");
@@ -124,14 +124,20 @@ public class CombatHandler
 
         Attack(Enemy, Player);
 
-        var usablePotions = new List<ItemDef> { Defs.Items.AcidFlask, Defs.Items.PurpleJuice };
-        foreach (var potionDef in usablePotions)
+        // Auto potions for enemy
+        if (PotionQueuedFor(Enemy) == null && Core.Random.Chance(0.01f))
         {
-            if (PotionQueuedFor(Enemy) == null && Enemy.Equipment.PotionByDef(potionDef) is { } potion)
+            var usablePotions = new List<ItemDef> { Defs.Items.AcidFlask, Defs.Items.PurpleJuice };
+            foreach (var potionDef in usablePotions)
             {
-                QueuePotion(potion, Enemy);
+                if (Enemy.Equipment.PotionByDef(potionDef) is { } potion)
+                {
+                    QueuePotion(potion, Enemy);
+                }
             }
         }
+
+
         Enemy.Tick();
     }
 
@@ -211,7 +217,7 @@ public class CombatHandler
     {
         if (_queuedPotions.ContainsKey(pawn))
         {
-            Item potion = _queuedPotions[pawn];
+            var potion = _queuedPotions[pawn];
             _queuedPotions.Remove(pawn);
             return potion;
         }
@@ -265,20 +271,16 @@ public class CombatHandler
 
     private void UseAcidFlask(Item potion, Pawn attacker, Pawn target)
     {
-        foreach (BodyPart eye in target.Body.AllExternalParts.Where(part => part.Type == BodyPartType.Eye).InRandomOrder())
+        foreach (var eye in target.Body.AllExternalParts.Where(part => part.Type == BodyPartType.Eye).InRandomOrder())
         {
             if (Core.Random.Chance(1))
             {
                 eye.HitPoints = 0;
-                string eyeText = $"{eye.Socket?.Label.Split(" ")[0]} {eye.Type}";
+                var eyeText = $"{eye.Socket?.Label.Split(" ")[0]} {eye.Type}";
                 Encounter.LogMessage(
                     $"/c[{TC.Attacker}]{attacker.LabelShort} /c[{TC.Yellow}]burned out /c[{TC.Victim}]{target.LabelShort}'s /c[{TC.BodyPart}]{eyeText} /c[{TC.Default}]with /c[{TC.Item}]{potion.Label}"
                 );
-
-                if (Core.Random.Chance(.75f))
-                {
-                    break;
-                }
+                break;
             }
         }
 

@@ -16,13 +16,13 @@ public sealed class BodyPartPanel : EntityPanelBase
         VerticalStackPanel leftPanel = new() { Spacing = 0 };
 
         leftPanel.Widgets.Add(new BodyPartPanelHealthLabel(bodyPart));
+        leftPanel.Widgets.Add(new BodyPartPanelModifiersLabel(bodyPart));
         leftPanel.Widgets.Add(new BodyPartPanelBleedingLabel(bodyPart));
         leftPanel.Widgets.Add(new BodyPartPanelBrokenBonesLabel(bodyPart));
         leftPanel.Widgets.Add(new BodyPartPanelMobilityLabel(bodyPart));
         leftPanel.Widgets.Add(new BodyPartPanelFunctionalLabel(bodyPart));
         leftPanel.Widgets.Add(new BodyPartPanelArteryLabel(bodyPart));
         leftPanel.Widgets.Add(new BodyPartPanelDestroyedLabel(bodyPart));
-        //leftPanel.Widgets.Add(_modifiers);
         RegisterAttachedParts(gui, leftPanel, bodyPart);
 
         var rightPanel = new VerticalStackPanel { Spacing = 5 };
@@ -42,7 +42,7 @@ public sealed class BodyPartPanel : EntityPanelBase
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Is Severed: {bodyPart.IsSevered}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Is Vital: {bodyPart.IsVital}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Ticks Since Last Hit: {bodyPart.TicksSinceLastHit}" });
-        
+
         rightPanel.Widgets.Add(new HorizontalSeparator() { Margin = new Thickness(0, 15, 0, 15) });
         foreach (var baseStat in bodyPart.Def.BaseStats)
         {
@@ -103,5 +103,23 @@ public sealed class BodyPartPanel : EntityPanelBase
 
     public override void Update()
     {
+    }
+}
+
+public sealed class BodyPartPanelModifiersLabel : VerticalStackPanel
+{
+    public BodyPartPanelModifiersLabel(BodyPart bodyPart)
+    {
+        foreach (var modifier in bodyPart.Modifiers)
+        {
+            Widgets.Add(new Label()
+            {
+                Text = modifier.Label + ": " + modifier.TicksRemaining + "t",
+                Padding = new Thickness(12),
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
+                TextColor = Color.ForestGreen
+            });
+        }
     }
 }

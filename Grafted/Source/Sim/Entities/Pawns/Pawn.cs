@@ -149,14 +149,7 @@ public class Pawn : Entity, IExposable
         }
 
         DamageTaken?.Invoke(this, request, response);
-        foreach (var damage in response.Damages)
-        {
-            foreach (var partRecord in damage.BodyParts)
-            {
-                Log.Info($"{partRecord.BodyPart}, damage taken: {partRecord.DamageApplied}");
-            }
-        }
-
+        
         CheckIfKilledByDamage(response);
     }
 

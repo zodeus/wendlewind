@@ -38,6 +38,12 @@
         <ToolType>Axe</ToolType>
     </SkillDef> 
     <SkillDef>
+        <Moniker>Whipping</Moniker>
+        <Label>Whipping</Label>
+        <SkillType>Combat</SkillType>
+        <ToolType>Whip</ToolType>
+    </SkillDef> 
+    <SkillDef>
         <Moniker>Biting</Moniker>
         <Label>Biting</Label>
         <SkillType>Combat</SkillType>
@@ -54,5 +60,11 @@
         <Label>Tonguing</Label>
         <SkillType>Combat</SkillType>
         <ToolType>Tongue</ToolType>
+    </SkillDef> 
+    <SkillDef>
+        <Moniker>TreebornPower</Moniker>
+        <Label>Treeborn Power</Label>
+        <SkillType>Combat</SkillType>
+        <ToolType>Branch</ToolType>
     </SkillDef> 
 </Definitions>

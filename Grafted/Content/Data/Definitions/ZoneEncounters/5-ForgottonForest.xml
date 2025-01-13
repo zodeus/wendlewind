@@ -5,12 +5,13 @@
         <Moniker>ForgottenForest-Shrine</Moniker>
         <Biome>ForgottenForest</Biome>
         <ShrineProperties>
-            <PartsToRestore>3~5</PartsToRestore>
+            <GodLabel>Goddess Gaia</GodLabel>
+            <PartsToRestore>3~6</PartsToRestore>
             <TexturePath>Zones/Shrines/forest_shrine_1</TexturePath>
             <RestorablePartTypes>
                 <ListItem>Thumb</ListItem>
                 <ListItem>Finger</ListItem>
-                <ListItem>Hand</ListItem>
+                <!--<ListItem>Hand</ListItem>-->
                 <ListItem>Foot</ListItem>
             </RestorablePartTypes>
         </ShrineProperties>
@@ -19,7 +20,6 @@
         <Moniker>ForgottenForest-01</Moniker>
         <Biome>ForgottenForest</Biome>
         <PotentialLootBoxes>
-            <!--<ListItem>MedicinalChestPrimitive</ListItem>-->
             <ListItem>EnchantedChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
@@ -34,6 +34,11 @@
                     <ListItem>LeatherGreave</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
@@ -90,11 +95,39 @@
         </Enemies>
     </EncounterDef>
     <EncounterDef>
+        <Moniker>ForgottenForest-04</Moniker>
+        <Biome>ForgottenForest</Biome>
+        <PotentialLootBoxes>
+            <ListItem>EnchantedChestNormal</ListItem>
+        </PotentialLootBoxes>
+        <Enemies>
+            <ListItem>
+                <Race>Treeling</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Treeling</PawnName>
+                <SpawnWeight>1</SpawnWeight>
+                <Skills>
+                </Skills>
+                <EquipmentItems>
+                    <ListItem>LeatherTunic</ListItem>
+                    <ListItem>ChainGreave</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                </EquipmentItems>
+                <InventoryItems>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </EncounterDef>
+    <EncounterDef>
         <Moniker>ForgottenForest-Boss</Moniker>
         <Biome>ForgottenForest</Biome>
         <IsBoss>true</IsBoss>
         <PotentialLootBoxes>
-            <ListItem>TrinketsChestNormal</ListItem>
+            <ListItem>EnchantedChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -103,18 +136,18 @@
                 <PawnName>Ent</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <Skills>
+                    <TreebornPower>2</TreebornPower>
                 </Skills>
                 <EquipmentItems>
-                    <ListItem>LeatherTunic</ListItem>
+                    <ListItem>ChainTunic</ListItem>
+                    <ListItem>ChainGreave</ListItem>
+                    <ListItem>ChainGreave</ListItem>
                     <ListItem>ChainGreave</ListItem>
                     <ListItem>ChainGreave</ListItem>
                     <ListItem>LeatherGreave</ListItem>
                     <ListItem>LeatherGreave</ListItem>
                     <ListItem>LeatherGreave</ListItem>
                     <ListItem>LeatherGreave</ListItem>
-                    <ListItem>LeatherGreave</ListItem>
-                    <ListItem>LeatherGreave</ListItem>
-                    <!--<ListItem>PurpleJuice</ListItem>-->
                 </EquipmentItems>
                 <InventoryItems>
                 </InventoryItems>

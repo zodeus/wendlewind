@@ -52,6 +52,12 @@ public class ItemContainerPanel : VerticalStackPanel
             },
             new ItemContainerPanelSection
             {
+                Label = "Enchantments",
+                Container = _container,
+                Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Enchantment
+            },
+            new ItemContainerPanelSection
+            {
                 Label = "Misc",
                 Container = _container,
                 Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Resource

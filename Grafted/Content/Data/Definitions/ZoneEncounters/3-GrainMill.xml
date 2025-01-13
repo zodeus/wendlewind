@@ -14,7 +14,7 @@
                 <PawnName>Grain Goon</PawnName>
                 <SpawnWeight>100</SpawnWeight>
                 <Skills>
-                    <Hammers>1</Hammers>
+                    <Hammers>0</Hammers>
                 </Skills>
                 <EquipmentItems>
                     <ListItem>WoodenHammer</ListItem>
@@ -28,7 +28,6 @@
                     <ListItem>ChainGlove</ListItem>
                     <ListItem>ChainGlove</ListItem>
                     <ListItem>LeatherTunic</ListItem>
-                    <ListItem>JarOfBlood</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
@@ -53,7 +52,7 @@
                 <PawnName>Grain Goon</PawnName>
                 <SpawnWeight>100</SpawnWeight>
                 <Skills>
-                    <Hammers>2</Hammers>
+                    <Hammers>0</Hammers>
                 </Skills>
                 <EquipmentItems>
                     <ListItem>WoodenHammer</ListItem>
@@ -97,7 +96,7 @@
                 <PawnName>Grain Goon</PawnName>
                 <SpawnWeight>100</SpawnWeight>
                 <Skills>
-                    <Hammers>3</Hammers>
+                    <Hammers>1</Hammers>
                 </Skills>
                 <EquipmentItems>
                     <ListItem>WoodenHammer</ListItem>
@@ -137,7 +136,7 @@
                 <PawnName>Grain Goon</PawnName>
                 <SpawnWeight>100</SpawnWeight>
                 <Skills>
-                    <Hammers>4</Hammers>
+                    <Hammers>2</Hammers>
                 </Skills>
                 <EquipmentItems>
                     <ListItem>WoodenHammer</ListItem>
@@ -198,9 +197,14 @@
                     <ListItem>ChainTunic</ListItem>
                     <ListItem>FishBowlHelmet</ListItem>
                     <ListItem>JarOfBlood</ListItem>
-                    <ListItem>PurpleJuice</ListItem>
+                    <ListItem>JarOfBlood</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
+                    <ListItem>
+                        <Item>PurpleJuice</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>

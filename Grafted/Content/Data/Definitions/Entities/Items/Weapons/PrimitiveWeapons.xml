@@ -26,8 +26,8 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Blunt/WoodenHammer</TexturePath>
         <BaseStats>
-            <MeleePower>20</MeleePower>
-            <WeaponSpeed>.9</WeaponSpeed>
+            <MeleePower>25</MeleePower>
+            <WeaponSpeed>1</WeaponSpeed>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
     </ItemDef>
@@ -42,7 +42,7 @@
         <TexturePath>Entities/Item/Equipment/Weapon/Sharp/BasicKnife</TexturePath>
         <BaseStats>
             <MeleePower>15</MeleePower>
-            <WeaponSpeed>1.4</WeaponSpeed>
+            <WeaponSpeed>1.3</WeaponSpeed>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
     </ItemDef>

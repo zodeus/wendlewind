@@ -25,6 +25,8 @@ public abstract class BodyPartModifier : IExposable, IIdentityProvider
     public bool IsExpired;
     public int Severity = 1;
 
+    public int TicksRemaining => DurationInTicks - Ticks;
+
     public string Label => Def.Label;
 
     public virtual void Tick()
@@ -171,6 +173,11 @@ public class SoothingBalm : BodyPartModifier
 {
     public override void Tick()
     {
+        if (BodyPart.HitPoints < 1 && Core.Random.Chance(0.01f))
+        {
+            BodyPart.HitPoints = 1;
+        }
+
         BodyPart.HitPoints += BodyPart.HitPoints * .01f;
 
         base.Tick();

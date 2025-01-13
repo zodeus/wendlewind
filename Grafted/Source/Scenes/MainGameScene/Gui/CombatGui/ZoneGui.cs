@@ -103,13 +103,21 @@ public class ZoneGui : BaseGui
         Zone.OnZoneMessage -= HandleZoneMessage;
     }
 
-    public void NextEncounter(bool advanceStage = false)
+    public void LeaveShrine()
     {
-        if (advanceStage)
-        {
-            Zone.Stage++;
-        }
+        Zone.Stage++;
+        _combatResultsScreen = new CombatResultsScreen(this, _context);
+        (Desktop.Root as Panel)!.Widgets.Add(_combatResultsScreen);
+        
+        _shrineScreen?.RemoveFromParent();
+        _shrineScreen = null;
 
-        Zone.NextEncounter();
+        
+        // if (advanceStage)
+        // {
+        //     Zone.Stage++;
+        // }
+        //
+        // Zone.NextEncounter();
     }
 }

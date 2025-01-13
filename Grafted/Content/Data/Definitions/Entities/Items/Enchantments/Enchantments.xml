@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef Name="ItemEnchantment" ParentName="ItemBase" Abstract="true">
+        <StackLimit>1</StackLimit>
+        <ItemType>Enchantment</ItemType>
+        <UiClass>ResourcePanel</UiClass>
+    </ItemDef>
+    <ItemDef ParentName="ItemEnchantment">
+        <Moniker>SoothingVibrations</Moniker>
+        <Label>Soothing Vibrations</Label>
+        <Description>When an item with this enchantment is struck it begins to vibrate with energy.\nApplies a short burst of Soothing Balm.</Description>
+        <MedicinalProperties>
+            <HandlerClass>BalmyOintmentHandler</HandlerClass>
+            <DurationInTicks>120</DurationInTicks>
+        </MedicinalProperties>
+        <TexturePath>Entities/Item/Enchantments/SoothingVibrations</TexturePath>
+    </ItemDef>
+</Definitions>

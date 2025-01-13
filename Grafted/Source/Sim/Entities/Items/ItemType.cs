@@ -8,5 +8,6 @@ public enum ItemType : byte {
     Potion,
     Medical,
     Trinket,
+    Enchantment,
     None
 }

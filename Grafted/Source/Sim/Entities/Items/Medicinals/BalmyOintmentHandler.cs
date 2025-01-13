@@ -1,11 +1,14 @@
 ﻿namespace Grafted.Sim.Entities.Items.Medicinals;
 
 [UsedImplicitly]
-public class BalmyOintmentHandler : MedicinalHandler {
-    public override bool ApplyToPart(Item item, BodyPart part) {
-        int duration = 1200;
+public class BalmyOintmentHandler : MedicinalHandler
+{
+    public override bool ApplyToPart(Item item, BodyPart part)
+    {
+        var duration = item.ItemDef.MedicinalProperties!.DurationInTicks;
         part.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.SoothingBalm, duration));
-        foreach (BodyPart internalPart in part.AllInternalParts) {
+        foreach (var internalPart in part.AllInternalParts)
+        {
             internalPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.SoothingBalm, duration));
         }
 

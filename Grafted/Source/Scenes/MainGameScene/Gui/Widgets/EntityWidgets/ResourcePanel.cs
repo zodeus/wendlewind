@@ -82,7 +82,7 @@ public sealed class ResourcePanel : EntityPanelBase
     {
         if (item.ItemDef == Defs.Items.HealingRoot)
         {
-            if (player.HasTrinkets(Defs.Items.MortarAndPestle) && player.HasTrinkets(Defs.Items.VialOfDuplicity))
+            if (player.HasTrinkets(Defs.Items.MortarAndPestle) && player.HasTrinkets(Defs.Items.VialOfDuplicity) && player.HasTrinkets(Defs.Items.EndlessWaterBucket))
             {
                 return Defs.Items.BalmyOintment.Label;
             }
@@ -93,28 +93,18 @@ public sealed class ResourcePanel : EntityPanelBase
 
     private static void MakePotion(Player player, Item item)
     {
-        if (item.ItemDef == Defs.Items.HealingRoot)
+        ItemDef potionToMake = Defs.Items.BalmyOintment;
+
+        if (item.StackSize > 1)
         {
-            if (item.StackSize > 1)
-            {
-                item.StackSize--;
-            }
-            else
-            {
-                item.Destroy();
-            }
-
-            player.Pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(Defs.Items.BalmyOintment));
+            item.StackSize--;
         }
-    }
+        else
+        {
+            item.Destroy();
+        }
 
-    private static bool ShowCookButton(Item item)
-    {
-        if (item.ItemDef == Defs.Items.RawMeat && Core.Context.Player.HasTrinkets(Defs.Items.EncasedFire))
-            return true;
-        else if (item.ItemDef == Defs.Items.RawCorn && Core.Context.Player.HasTrinkets(Defs.Items.EncasedFire, Defs.Items.CookingPot, Defs.Items.EndlessWaterBucket))
-            return true;
-        return false;
+        player.Pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(potionToMake));
     }
 
     public override void Update()

@@ -120,7 +120,7 @@ public class PawnBodyPanel : VerticalStackPanel
             BodyPart = bodyPart;
             AddChild(_label);
             _label.TouchDown += (_, _) => BodyPartClickHandler(bodyPart, true);
-            
+
             var parts = bodyPart.AllInternalParts
                 .Where(p => p.Type == BodyPartType.Skin)
                 .Concat(new List<BodyPart> { bodyPart })
@@ -157,7 +157,7 @@ public class PawnBodyPanel : VerticalStackPanel
                 AddChild(partIcon);
             }
         }
-        
+
         private void BodyPartClickHandler(BodyPart part, bool useItems = false)
         {
             if (Input.RightMouseButtonReleased)
@@ -173,7 +173,7 @@ public class PawnBodyPanel : VerticalStackPanel
 
             if (useItems && _gui.MouseAttachment.Data is Item item)
             {
-                if (item.MedicinalHandler?.ApplyToPart(item, part) == true)
+                if (item.ItemDef.ItemType == ItemType.Medical && item.MedicinalHandler?.ApplyToPart(item, part) == true)
                 {
                     item.StackSize--;
                     _gui.TickGame();
@@ -181,11 +181,10 @@ public class PawnBodyPanel : VerticalStackPanel
 
                     item.Destroy();
                     _gui.MouseAttachment.Detach();
-                   
                 }
             }
         }
-        
+
         public void Update()
         {
             if (BodyPart == null)
@@ -232,14 +231,14 @@ public class PawnBodyPanel : VerticalStackPanel
 
             AddChild(_bodyPartRow);
         }
-        
+
         private void BodyPartSocketClickHandler(BodyPartSocket socket)
         {
             if (Input.RightMouseButtonReleased)
             {
                 return;
             }
-            
+
             if (_gui.MouseAttachment?.Data is Item item == false)
             {
                 return;
@@ -252,7 +251,7 @@ public class PawnBodyPanel : VerticalStackPanel
                 _gui.TickGame();
             }
         }
-        
+
         public void Update()
         {
             if (Socket.AttachedPart == null && _socketLabel.Visible == false)
@@ -267,7 +266,7 @@ public class PawnBodyPanel : VerticalStackPanel
                 _bodyPartRow.Visible = true;
             }
 
-            if (Socket.AttachedPart?.IsSevered == true)
+            if (Socket.AttachedPart?.IsSevered == true || (Socket.ParentPart?.IsSevered == true))
             {
                 _socketLabel.Visible = false;
                 _bodyPartRow.Visible = false;
@@ -282,7 +281,7 @@ public class PawnBodyPanel : VerticalStackPanel
 public class PawnStatsPanel : VerticalStackPanel
 {
     public PawnStatsPanel(Pawn pawn)
-    { 
+    {
         Spacing = 20;
         Padding = new Thickness(15);
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.Red];

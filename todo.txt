@@ -1,7 +1,5 @@
 Add Weapon and Armor Sheets in BoaK
 
-Add resting and prayer spots/choices
-
 Add Trinkets Bars (Combat, Interactive, Passive)
 	crude cauterizing rod
 

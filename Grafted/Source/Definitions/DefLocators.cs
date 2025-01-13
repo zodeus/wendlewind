@@ -60,6 +60,7 @@ public static partial class Defs {
         public static BiomeDef GrainMill = null!;
         public static BiomeDef FesterpusSwamp = null!;
         public static BiomeDef ForgottenForest = null!;
+        public static BiomeDef DampCave = null!;
     }
 }
 
@@ -86,6 +87,7 @@ public static partial class Defs {
         public static ItemDef CookingPot = null!;
         public static ItemDef BalmyOintment = null!;
         public static ItemDef TheDreamingPowder = null!;
+        public static ItemDef DreamBerry = null!;
         public static ItemDef CowardsFlag = null!;
         public static ItemDef EssenceShard = null!;
         public static ItemDef EncasedFire = null!;
@@ -93,6 +95,7 @@ public static partial class Defs {
         public static ItemDef VialOfDuplicity = null!;
         public static ItemDef HealingRoot = null!;
         public static ItemDef GlitteringLog = null!;
+        public static ItemDef SoothingVibrations = null!;
     }
 }
 

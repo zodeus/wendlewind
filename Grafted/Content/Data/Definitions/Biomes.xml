@@ -41,11 +41,11 @@
         <BackgroundTexturePath>Zones/GrainMill</BackgroundTexturePath>
         <BackgroundTextureTransparency>10</BackgroundTextureTransparency>
         <Resources>
-<!--            <ListItem>
-                <Item>RawGrain</Item>
-                <Amount>1~3</Amount>
-                <ChanceToHarvest>.5</ChanceToHarvest>
-            </ListItem>-->
+            <!--            <ListItem>
+                            <Item>RawGrain</Item>
+                            <Amount>1~3</Amount>
+                            <ChanceToHarvest>.5</ChanceToHarvest>
+                        </ListItem>-->
             <ListItem>
                 <Item>HealingRoot</Item>
                 <Amount>1</Amount>
@@ -90,18 +90,42 @@
             <ListItem>
                 <Item>GlitteringLog</Item>
                 <Amount>1</Amount>
-                <ChanceToHarvest>.35</ChanceToHarvest>
+                <ChanceToHarvest>.40</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>HealingRoot</Item>
+                <Amount>1~3</Amount>
+                <ChanceToHarvest>.3</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>DreamBerry</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.6</ChanceToHarvest>
+            </ListItem>
+        </Resources>
+    </BiomeDef>
+    <BiomeDef>
+        <Moniker>DampCave</Moniker>
+        <Label>Damp Cave</Label>
+        <BackgroundTexturePath>Zones/DampCave</BackgroundTexturePath>
+        <BackgroundTextureTransparency>50</BackgroundTextureTransparency>
+        <Resources>
+            <ListItem>
+                <Item>GlitteringLog</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.20</ChanceToHarvest>
             </ListItem>
             <ListItem>
                 <Item>ChurniRoot</Item>
                 <Amount>1</Amount>
-                <ChanceToHarvest>.1</ChanceToHarvest>
+                <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>
+            <!--
             <ListItem>
                 <Item>MaeburyBulb</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.06</ChanceToHarvest>
-            </ListItem>
+            </ListItem>-->
         </Resources>
     </BiomeDef>
 </Definitions>

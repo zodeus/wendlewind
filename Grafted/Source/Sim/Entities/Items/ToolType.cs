@@ -1,6 +1,7 @@
 namespace Grafted.Sim.Entities.Items;
 
-public enum ToolType {
+public enum ToolType
+{
     None,
     Invalid,
 
@@ -11,7 +12,6 @@ public enum ToolType {
     //Other
 
     Misc,
-    Branch,
     Trade,
     Teeth,
     Tail,
@@ -22,6 +22,7 @@ public enum ToolType {
     Claw,
     Axe,
     Saw,
+    Whip,
     Pickaxe,
     Hammer,
     Mace,
@@ -35,5 +36,6 @@ public enum ToolType {
     FireStaff,
     Proboscis,
     Pincer,
-    Hoof
+    Hoof,
+    Branch
 }

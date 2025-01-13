@@ -3,7 +3,8 @@ using Grafted.Sim.Entities;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
-public class ArmorPanel : EntityPanelBase
+[UsedImplicitly]
+public sealed class ArmorPanel : EntityPanelBase
 {
     private readonly Item _item;
     private readonly Label _durabilityLabel;
@@ -24,23 +25,23 @@ public class ArmorPanel : EntityPanelBase
         {
             Text = $"Durability: {item.Durability}/{item.MaxDurability}", Margin = new Thickness(0, 5, 0, 0)
         };
-        AddChild(new Image { Background = new TextureRegion(item.Icon), Width = 64, Height = 64 });
-        AddChild(_durabilityBar);
-        AddChild(_durabilityLabel);
+        Widgets.Add(new Image { Background = new TextureRegion(item.Icon), Width = 64, Height = 64 });
+        Widgets.Add(_durabilityBar);
+        Widgets.Add(_durabilityLabel);
         if (item.Def.Description != "undefined")
         {
-            AddChild(new Label("small") { Text = item.Def.Description, Wrap = true, MaxWidth = 400 });
+            Widgets.Add(new Label("small") { Text = item.Def.Description, Wrap = true, MaxWidth = 400 });
         }
 
-        AddChild(new Label("small") { Text = $"Equipment Type: {item.ItemDef.EquipmentProperties.EquipmentType}" });
-        AddChild(new Label("small") { Text = $"Slot: {(item.ItemDef.EquipmentProperties.SlotUsedToEquip != null ? item.ItemDef.EquipmentProperties.SlotUsedToEquip : "n/a")}" });
+        Widgets.Add(new Label("small") { Text = $"Equipment Type: {item.ItemDef.EquipmentProperties.EquipmentType}" });
+        Widgets.Add(new Label("small") { Text = $"Slot: {(item.ItemDef.EquipmentProperties.SlotUsedToEquip != null ? item.ItemDef.EquipmentProperties.SlotUsedToEquip : "n/a")}" });
 
-        foreach (BaseStat baseStat in item.Def.BaseStats)
+        foreach (var baseStat in item.Def.BaseStats)
         {
             var row = new HorizontalStackPanel { Spacing = 10 };
-            row.AddChild(new Label("small") { Text = $"{baseStat.Def.Label}:" });
-            row.AddChild(new Label("small") { Text = item.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture) });
-            AddChild(row);
+            row.Widgets.Add(new Label("small") { Text = $"{baseStat.Def.Label}:" });
+            row.Widgets.Add(new Label("small") { Text = item.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture) });
+            Widgets.Add(row);
 
             /*row.RegisterCallback<MouseEnterEvent>(evt => {
                 key.AddToClassList("text--hover");
@@ -52,9 +53,54 @@ public class ArmorPanel : EntityPanelBase
             });*/
         }
 
+        var maxEnchantments = item.Enchantments?.MaxEnchantments;
+        if (maxEnchantments > 0)
+        {
+            var stackPanel = new HorizontalStackPanel()
+            {
+                Margin = new Thickness(0, 10, 0, 10)
+            };
+            for (var i = 0; i < maxEnchantments; i++)
+            {
+                var slot = new Button()
+                {
+                    Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
+                    Padding = new Thickness(8),
+                    Width = 64, Height = 64
+                };
+                if (item.Enchantments?.TryGetAtSlot(i) is { } enchantment)
+                {
+                    slot.Content = new Image { Width = 58, Height = 58, Background = new TextureRegion(enchantment.Icon) };
+                }
+
+                var position = i;
+                slot.Click += (_, _) =>
+                {
+                    var existing = item.Enchantments?.TryGetAtSlot(position);
+                    if (existing != null)
+                    {
+                        gui.ViewEntity(existing);
+                        return;
+                    }
+
+                    if (gui.MouseAttachment?.Data is Item { ItemDef.ItemType: ItemType.Enchantment } e)
+                    {
+                        e.EjectFromContainer();
+                        gui.MouseAttachment.Detach();
+                        item.Enchantments!.TryAdd(e, position);
+                        slot.Content = new Image { Width = 58, Height = 58, Background = new TextureRegion(e.Icon) };
+                    }
+                };
+
+                stackPanel.Widgets.Add(slot);
+            }
+
+            Widgets.Add(stackPanel);
+        }
+
         var destroyButton = new TextButton(BaseContent.Styles.Button.Small) { Text = "Destroy", Margin = new Thickness(0, 10, 0, 0) };
         destroyButton.Click += (_, _) => { item.Destroy(); };
-        AddChild(destroyButton);
+        Widgets.Add(destroyButton);
     }
 
     public override void Update()

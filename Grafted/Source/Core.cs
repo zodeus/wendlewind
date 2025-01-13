@@ -137,11 +137,11 @@ public class Core : Game
             return;
         }
 
-        int frameTime = gameTime.ElapsedGameTime.Milliseconds;
-        if (frameTime > 10)
-        {
-            Log.Error($"Slow Frame T={frameTime}");
-        }
+        // int frameTime = gameTime.ElapsedGameTime.Milliseconds;
+        // if (frameTime > 10)
+        // {
+        //     Log.Error($"Slow Frame T={frameTime}");
+        // }
 
         float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
         FrameCounter.Update(deltaTime);

@@ -137,6 +137,14 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
             Enabled = world.GetZone(Defs.Zones.FesterpusSwamp).IsComplete && !world.GetZone(Defs.Zones.ForgottenForest).IsComplete
         };
         forgottenForest.Click += (_, _) => { new ZoneStartWindow(Defs.Zones.ForgottenForest).ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint()); };
+        
+        var dampCave = new Button(BaseContent.Styles.Button.Normal)
+        {
+            Content = new Label { Text = Defs.Zones.DampCave.Label, HorizontalAlignment = HorizontalAlignment.Center },
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Enabled = world.GetZone(Defs.Zones.ForgottenForest).IsComplete && !world.GetZone(Defs.Zones.DampCave).IsComplete
+        };
+        dampCave.Click += (_, _) => { new ZoneStartWindow(Defs.Zones.DampCave).ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint()); };
 
         return new VerticalStackPanel
         {
@@ -161,6 +169,7 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
                 festerpusSwamp,
                 // new TextButton(BaseContent.Styles.Button.Normal) { Text = "The Alchemist Hut", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                 forgottenForest,
+                dampCave,
                 // new TextButton(BaseContent.Styles.Button.Normal) { Text = "Forgemaster's Quarry", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                 // new TextButton(BaseContent.Styles.Button.Normal) { Text = "Fallow Field", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                 // new TextButton(BaseContent.Styles.Button.Normal) { Text = "Mage Tower", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },

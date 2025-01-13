@@ -28,7 +28,12 @@ internal sealed class ShrineScreen : VerticalStackPanel
         };
         Widgets.Add(new Label(BaseContent.Styles.Label.Huge)
         {
-            Margin = new Thickness(0, 50, 0, 20),
+            Margin = new Thickness(0, 50, 0, 0),
+            Text = _shrine.GodLabel
+        });
+        Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
+        {
+            Margin = new Thickness(0, 0, 0, 20),
             Text = "It's shrine time, let's pray"
         });
         Widgets.Add(new HorizontalStackPanel
@@ -91,10 +96,11 @@ internal sealed class ShrineScreen : VerticalStackPanel
         if (part == null)
         {
             EndMystery();
+            return;
         }
 
         _partsRestored++;
-        var socketFor = part!.Def.AllowedBodyPartTypes;
+        var socketFor = part.Def.AllowedBodyPartTypes;
         if (socketFor.Contains(BodyPartType.Finger) && _shrine.RestorablePartTypes.Contains(BodyPartType.Finger))
         {
             HumanBodyGenerator.MakeFingerForSocket(part, Defs.BodyParts.HumanFinger);
@@ -129,7 +135,7 @@ internal sealed class ShrineScreen : VerticalStackPanel
         {
             _panel.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
             {
-                Text = $"God smiles, you are gifted a {part.AttachedPart?.Label ?? "error_bug"}"
+                Text = $"Gaia smiles, you are gifted a {part.AttachedPart?.Label ?? "error_bug"}"
             });
         }
         else
@@ -137,7 +143,7 @@ internal sealed class ShrineScreen : VerticalStackPanel
             _panel.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
             {
                 TextColor = Color.Crimson,
-                Text = "God does not smile"
+                Text = "Gaia gazes upon the wound, she frowns...\nYour favor is too low"
             });
         }
     }
@@ -147,13 +153,13 @@ internal sealed class ShrineScreen : VerticalStackPanel
         _praying = false;
         _panel.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
         {
-            Text = $"The mystery has ended"
+            Text = $"The mystery has completed"
         });
         var leave = new Button(BaseContent.Styles.Button.Large)
         {
-            Content = new Label(BaseContent.Styles.Label.Large) { Text = "Carry on" }
+            Content = new Label(BaseContent.Styles.Label.Large) { Text = "Leave the shrine" }
         };
-        leave.Click += (_, _) => _gui.NextEncounter(true);
+        leave.Click += (_, _) => _gui.LeaveShrine();
         _panel.Widgets.Add(leave);
     }
 }

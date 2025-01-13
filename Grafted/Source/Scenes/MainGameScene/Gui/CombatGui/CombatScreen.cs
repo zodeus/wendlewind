@@ -20,7 +20,7 @@ public class CombatScreen : VerticalStackPanel
     public CombatScreen(ZoneGui gui, GameContext context)
     {
         _context = context;
-        Core.Context.IsPaused = false;
+        //Core.Context.IsPaused = false;
         Encounter.StateChangedAction += CombatStateChangedAction();
         Encounter.CombatRecord.LogMessageAddedAction += message => { AddCombatLogEntry(message.Text); };
         _gameHud = new GameHud(context.Player)

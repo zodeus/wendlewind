@@ -22,6 +22,7 @@ public class ShrineProperties
 
     public string? TexturePath;
     public virtual Texture2D Texture => _texture ??= TexturePath != null ? Core.Content.Load<Texture2D>(TexturePath) : BaseContent.Textures.BadTexture;
+    public string GodLabel = "";
 }
 
 public class EncounterEnemyRecord

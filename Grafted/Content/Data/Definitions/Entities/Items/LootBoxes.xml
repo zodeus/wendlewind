@@ -224,8 +224,15 @@
         <Moniker>EnchantedChestNormal</Moniker>
         <Label>Enchanted Chest</Label>
         <Rarity>Normal</Rarity>
-        <Description></Description>
+        <Description>An assortment of magical enchantments</Description>
         <TexturePath>Chests/EnchantedChestNormal</TexturePath>
+        <CollectionLimit>1</CollectionLimit>
+        <Items>
+            <ListItem>
+                <ItemDef>SoothingVibrations</ItemDef>
+                <ChanceToDrop>100</ChanceToDrop>
+            </ListItem>
+        </Items>
     </LootBoxDef>
 </Definitions>
 

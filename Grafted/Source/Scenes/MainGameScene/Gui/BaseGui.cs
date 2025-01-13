@@ -118,15 +118,18 @@ public abstract class BaseGui : IDisposable
             return;
         }
 
+        if (_entityViewerWindow.IsPlaced)
+        {
+            _entityViewerWindow.Close();
+        }
+
         _entityViewerWindow.Content = _queuedEntityToView.Value.Key.UiPanel(this, new EntityPanelProperties
         {
             ShowTitle = false, ShowCloseButton = false, Background = null
         });
         _entityViewerWindow.Title = _queuedEntityToView.Value.Key.Label;
-        if (_entityViewerWindow.IsPlaced == false)
-        {
-            _entityViewerWindow.Show(Desktop, _queuedEntityToView.Value.Value);
-        }
+
+        _entityViewerWindow.Show(Desktop, _queuedEntityToView.Value.Value);
 
         _viewedEntity = _queuedEntityToView.Value.Key;
 
