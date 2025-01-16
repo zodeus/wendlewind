@@ -7,7 +7,6 @@ global using Grafted.Debug;
 global using Grafted.Definitions;
 global using Grafted.Maths;
 global using Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
-global using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.BodyPanelWidgets;
 global using Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 global using Grafted.Sim;
 global using Grafted.Sim.Combat;

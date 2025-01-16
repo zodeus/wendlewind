@@ -135,7 +135,7 @@ internal sealed class ShrineScreen : VerticalStackPanel
         {
             _panel.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
             {
-                Text = $"Gaia smiles, you are gifted a {part.AttachedPart?.Label ?? "error_bug"}"
+                Text = $"{_shrine.GodLabel} smiles, you are gifted a {part.AttachedPart?.Label ?? "error_bug"}"
             });
         }
         else
@@ -143,7 +143,7 @@ internal sealed class ShrineScreen : VerticalStackPanel
             _panel.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
             {
                 TextColor = Color.Crimson,
-                Text = "Gaia gazes upon the wound, she frowns...\nYour favor is too low"
+                Text = $"{_shrine.GodLabel} gazes upon the wound, she frowns...\nYour favor is too low"
             });
         }
     }

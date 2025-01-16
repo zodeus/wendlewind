@@ -2,7 +2,7 @@
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
-public class PawnEquipmentPanel : HorizontalStackPanel
+public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
 {
     private readonly BaseGui _gui;
     private readonly Pawn _pawn;
@@ -16,7 +16,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel
         Spacing = 2;
         foreach ((BodyPart bodyPart, List<EquipmentSlotType> slots) in pawn.Equipment.Slots)
         {
-            if (slots.Any() == false)
+            if (bodyPart.Type is BodyPartType.Finger or BodyPartType.Thumb or BodyPartType.Eye)
             {
                 continue;
             }
@@ -31,7 +31,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel
 
                 HandleClick(part, type);
             });
-            AddChild(partPanel);
+            Widgets.Add(partPanel);
             _panels.Add(bodyPart, partPanel);
         }
     }
@@ -150,7 +150,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel
             _bagSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.BagSlot];
             _imageFrame = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.WhiteIcon), BodyPartColor.Get(bodyPart)), Width = CellSize, Height = CellSize };
             _imageFrame.TouchDown += (_, _) => gui.ViewEntity(bodyPart);
-            AddChild(_imageFrame);
+            Widgets.Add(_imageFrame);
             foreach (EquipmentSlotType slot in slots)
             {
                 Button slotFrame = new(BaseContent.Styles.Button.Icon)
@@ -170,7 +170,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel
                 };
                 _slots.Add(slot, slotFrame);
                 slotFrame.Click += (_, _) => ClickAction?.Invoke(bodyPart, slot);
-                AddChild(slotFrame);
+                Widgets.Add(slotFrame);
             }
         }
 

@@ -72,4 +72,13 @@
         <GeneratorClass>GlumpBodyGenerator</GeneratorClass>
         <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
     </BodyDef>
+    <BodyDef>
+        <Moniker>MushroomBody</Moniker>
+        <Label>Mushroom Body</Label>
+        <BloodType>AnimalBlood</BloodType>
+        <BoneDensity>1.5</BoneDensity>
+        <MaxBlood>10000</MaxBlood>
+        <GeneratorClass>MushroomBodyGenerator</GeneratorClass>
+        <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
+    </BodyDef>
 </Definitions>

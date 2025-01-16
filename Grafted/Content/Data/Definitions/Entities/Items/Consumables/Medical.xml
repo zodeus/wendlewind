@@ -77,7 +77,7 @@
         <TexturePath>Entities/Item/Consumables/BalmyOintment</TexturePath>
         <MedicinalProperties>
             <HandlerClass>BalmyOintmentHandler</HandlerClass>
-            <DurationInTicks>1200</DurationInTicks>
+            <DurationInTicks>800</DurationInTicks>
         </MedicinalProperties>
         <CraftingProperties>
             <MinutesToMake>2880</MinutesToMake>

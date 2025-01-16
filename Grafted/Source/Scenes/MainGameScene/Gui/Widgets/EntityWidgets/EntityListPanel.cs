@@ -15,7 +15,7 @@ public class EntityListPanelItem : HorizontalStackPanel
         ImageButton viewEntityButton = new()
             { Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.QuestionMark], Width = 32, Height = 32, VerticalAlignment = VerticalAlignment.Center };
         viewEntityButton.TouchDown += (_, _) => { gui.ViewEntity(entity); };
-        AddChild(viewEntityButton);
+        Widgets.Add(viewEntityButton);
         HorizontalStackPanel entityButton = new()
         {
             Spacing = 10,
@@ -25,7 +25,7 @@ public class EntityListPanelItem : HorizontalStackPanel
                 _label
             }
         };
-        AddChild(entityButton);
+        Widgets.Add(entityButton);
         entityButton.TouchDown += (_, _) =>
         {
             if (Input.LeftMouseButtonPressed)
@@ -64,9 +64,9 @@ public class EntityListPanel : VerticalStackPanel, IUpdatable
         _rightClickAction = rightClickAction;
         _filter = filter;
         var itemVerticalPanel = new VerticalStackPanel() { Spacing = 5 };
-        //AddChild(new HorizontalSeparator());
-        AddChild(new Label( /*BaseContent.Styles.Label.Medium*/) { Text = label, TextColor = Color.DarkGoldenrod });
-        AddChild(new ScrollViewer { Content = itemVerticalPanel, MaxHeight = 240 });
+        //Widgets.Add(new HorizontalSeparator());
+        Widgets.Add(new Label( /*BaseContent.Styles.Label.Medium*/) { Text = label, TextColor = Color.DarkGoldenrod });
+        Widgets.Add(new ScrollViewer { Content = itemVerticalPanel, MaxHeight = 240 });
     }
 
     public void Update()
@@ -84,7 +84,7 @@ public class EntityListPanel : VerticalStackPanel, IUpdatable
                 {
                     Margin = new Thickness(0, 0, 0,  5)
                 };
-                AddChild(_items[entity]);
+                Widgets.Add(_items[entity]);
             }
         }
 

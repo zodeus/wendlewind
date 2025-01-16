@@ -14,7 +14,7 @@ public sealed class PawnBodySummary : Grid
         int gridColumn = 0;
         var partsToIgnore = new List<BodyPartType>
         {
-            BodyPartType.Finger, BodyPartType.Thumb, BodyPartType.Foot
+            BodyPartType.Finger, BodyPartType.Thumb
         };
         int gridRow = 0;
         foreach (BodyPart part in body.AllExternalParts)

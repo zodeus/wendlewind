@@ -2,6 +2,7 @@
 
 public class DefaultBodyHandler : IExposable
 {
+    private const float FixedBloodLossFactor = .01f;
     private int _ticksWithEmptyStomach;
 
     public PawnBody Body = null!;
@@ -135,6 +136,11 @@ public class DefaultBodyHandler : IExposable
 
     protected virtual void DoBloodLoss()
     {
+        if (Body.Def.BloodType == null)
+        {
+            return;
+        }
+
         if (Body.RootSocket.AttachedPart == null)
         {
             return;
@@ -170,7 +176,7 @@ public class DefaultBodyHandler : IExposable
 
     private void DoBloodLossForPart(BodyPart part)
     {
-        var bloodLossScaleFactor = .01f * (part.Size / Body.Def.BloodType.Viscosity / Body.BodySizeFactor);
+        var bloodLossScaleFactor = FixedBloodLossFactor * (part.BloodAmount / Body.Def.BloodType!.Viscosity / Body.BodySizeFactor);
 
         if (part.HealthPercent < BloodLossThreshold)
         {

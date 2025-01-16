@@ -6,9 +6,6 @@ namespace Grafted.Sim.Entities;
 public partial class EntityContainer : IEnumerable<Entity>, IExposable
 {
     private List<Entity> _list = new();
-    public event Action<Item>? ItemAdded;
-    public event Action<Item>? ItemRemoved;
-    public event Action<Item>? ItemStackSizeChanged;
 
     public void Tick()
     {
@@ -107,6 +104,10 @@ public partial class EntityContainer : IEnumerable<Entity>, IExposable
 
 public partial class EntityContainer
 {
+    public event Action<Item>? ItemAdded;
+    public event Action<Item>? ItemRemoved;
+    public event Action<Item>? ItemStackSizeChanged;
+
     private bool AddItem(Item item)
     {
         if (item.IsStackable)
@@ -126,6 +127,7 @@ public partial class EntityContainer
 
         item.EjectFromContainer();
         item.EjectedFromContainer += OnContainerEject;
+        item.Destroyed += OnEntityDestroyed;
 
         _list.Add(item);
         ItemAdded?.Invoke(item);

@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Grafted.Graphics.Textures;
+using Grafted.Sim.Entities.Pawns.Modifiers;
 using SharpDX;
 
 namespace Grafted.Sim.Entities.Pawns;
@@ -26,7 +27,7 @@ public class BodyPart : Entity
     public override string Label => _adaptedLabel ?? "failed to adapt label";
     public Texture2D WhiteIcon => BodyPartDef.WhiteIcon;
     public BodyPartType Type => BodyPartDef.BodyPartType;
-    public float Size => BodyPartDef.Size;
+    public float BloodAmount => BodyPartDef.BloodAmount;
     public float HitWeight => BodyPartDef.HitWeight;
     public double HealthPercent => HitPoints / MaxHitPoints;
     public bool IsExternal => Socket?.IsExternal ?? true;
@@ -512,6 +513,10 @@ public class BodyPart : Entity
             MaxHitPoints = Mathf.FloorToInt((float)(MaxHitPoints * Body.BodySizeFactor));
             HitPoints = MaxHitPoints;
         }
+        else
+        {
+            Log.Warning("BodyPart.AdaptBodyPartTo failed to scale BodyPart, no reference to Body.");
+        }
 
         if (BodyPartDef.AdaptiveProperties == null)
         {
@@ -537,7 +542,7 @@ public class BodyPart : Entity
         }
 
         label += Position == null ? "" : string.Join(" ", Regex.Split(Position.ToString()!, @"(?<!^)(?=[A-Z])")) + " ";
-        label += BodyPartDef.BodyPartType;
+        label += BodyPartDef.Label;
         return label;
     }
 

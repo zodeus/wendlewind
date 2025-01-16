@@ -8,7 +8,7 @@
         <Moniker>WolfHead</Moniker>
         <Label>Head</Label>
         <HitWeight>20</HitWeight>
-        <Size>50</Size>
+        <BloodAmount>50</BloodAmount>
         <BodyPartType>Head</BodyPartType>
         <IsVital>true</IsVital>
         <IsFlesh>true</IsFlesh>
@@ -34,7 +34,7 @@
         <BodyPartType>Neck</BodyPartType>
         <IsVital>true</IsVital>
         <HitWeight>7</HitWeight>
-        <Size>12</Size>
+        <BloodAmount>12</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Wolf/Neck</TexturePath>
         <Sockets>
@@ -44,7 +44,7 @@
             <ListItem>TorsoSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>300</MaxHitPoints>
+            <MaxHitPoints>200</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="WolfBodyPartBase">
@@ -52,9 +52,12 @@
         <Label>Torso</Label>
         <BodyPartType>Torso</BodyPartType>
         <HitWeight>50</HitWeight>
-        <Size>300</Size>
+        <BloodAmount>300</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <IsVital>true</IsVital>
+        <EquipmentSlots>
+            <ListItem>PotionSlot1</ListItem>
+        </EquipmentSlots>
         <TexturePath>Entities/Pawn/BodyParts/Wolf/Torso</TexturePath>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
@@ -76,7 +79,7 @@
         <Label>Leg</Label>
         <BodyPartType>Leg</BodyPartType>
         <HitWeight>11</HitWeight>
-        <Size>140</Size>
+        <BloodAmount>140</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Wolf/Leg</TexturePath>
         <Sockets>
@@ -94,7 +97,7 @@
         <Label>Paw</Label>
         <BodyPartType>Paw</BodyPartType>
         <HitWeight>7</HitWeight>
-        <Size>30</Size>
+        <BloodAmount>30</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Wolf/Paw</TexturePath>
         <Sockets>
@@ -115,7 +118,7 @@
         <Label>Tail</Label>
         <BodyPartType>Tail</BodyPartType>
         <HitWeight>7</HitWeight>
-        <Size>30</Size>
+        <BloodAmount>30</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Wolf/Tail</TexturePath>
         <Sockets>

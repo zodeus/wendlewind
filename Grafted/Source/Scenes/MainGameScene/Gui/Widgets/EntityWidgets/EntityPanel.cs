@@ -23,11 +23,11 @@ public abstract class EntityPanelBase : VerticalStackPanel
         Padding = new Thickness(15);
         Header = new HorizontalStackPanel { Spacing = 20 };
         Header.Proportions.Add(Proportion.Fill);
-        AddChild(Header);
+        Widgets.Add(Header);
         if (properties?.ShowTitle ?? false)
         {
             Header.Margin = new Thickness(0, 0, 0, 10);
-            Header.AddChild(new Label("large") { Text = entity.Label, VerticalAlignment = VerticalAlignment.Center });
+            Header.Widgets.Add(new Label("large") { Text = entity.Label, VerticalAlignment = VerticalAlignment.Center });
         }
 
         if (properties?.ShowCloseButton ?? false)
@@ -40,7 +40,7 @@ public abstract class EntityPanelBase : VerticalStackPanel
                 VerticalAlignment = VerticalAlignment.Center
             };
             closeButton.Click += (_, _) => { properties.CloseButtonAction?.Invoke(); };
-            Header.AddChild(closeButton);
+            Header.Widgets.Add(closeButton);
         }
     }
 
@@ -57,16 +57,16 @@ public class EntityPanel : EntityPanelBase
         _entity = entity;
         MinWidth = 300;
         Spacing = 5;
-        AddChild(new Image { Background = new TextureRegion(entity.Icon), Width = 128, Height = 128 });
-        AddChild(new Label { Text = entity.Def.Description, Wrap = true, Margin = new Thickness(10), Font = BaseContent.Fonts.Default.Small, MaxWidth = 600});
+        Widgets.Add(new Image { Background = new TextureRegion(entity.Icon), Width = 128, Height = 128 });
+        Widgets.Add(new Label { Text = entity.Def.Description, Wrap = true, Margin = new Thickness(10), Font = BaseContent.Fonts.Default.Small, MaxWidth = 600});
 
 
         foreach (BaseStat baseStat in entity.Def.BaseStats)
         {
             var row = new HorizontalStackPanel { Spacing = 10 };
-            row.AddChild(new Label { Text = $"{baseStat.Def.Label}:" });
-            row.AddChild(new Label { Text = entity.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture) });
-            AddChild(row);
+            row.Widgets.Add(new Label { Text = $"{baseStat.Def.Label}:" });
+            row.Widgets.Add(new Label { Text = entity.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture) });
+            Widgets.Add(row);
 
             /*row.RegisterCallback<MouseEnterEvent>(evt => {
                 key.AddToClassList("text--hover");

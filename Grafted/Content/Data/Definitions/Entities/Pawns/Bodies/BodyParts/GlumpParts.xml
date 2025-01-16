@@ -11,7 +11,7 @@
         <Label>Torso</Label>
         <BodyPartType>Torso</BodyPartType>
         <HitWeight>50</HitWeight>
-        <Size>300</Size>
+        <BloodAmount>300</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <IsVital>true</IsVital>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanTorso</TexturePath>
@@ -38,7 +38,7 @@
         <Moniker>GlumpRibCage</Moniker>
         <Label>Rib Cage</Label>
         <BodyPartType>RibCage</BodyPartType>
-        <Size>50</Size>
+        <BloodAmount>50</BloodAmount>
         <IsBone>true</IsBone>
         <TexturePath>Entities/Pawn/BodyParts/Generic/RibCage</TexturePath>
         <Sockets>
@@ -58,7 +58,7 @@
         <Label>Arm</Label>
         <BodyPartType>Arm</BodyPartType>
         <HitWeight>25</HitWeight>
-        <Size>80</Size>
+        <BloodAmount>80</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanArm</TexturePath>
         <EquipmentSlots>
@@ -84,7 +84,7 @@
             <ListItem>HandWeapon</ListItem>
         </EquipmentSlots>
         <HitWeight>12</HitWeight>
-        <Size>20</Size>
+        <BloodAmount>20</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanHand</TexturePath>
         <Sockets>
@@ -106,7 +106,7 @@
         <Label>Finger</Label>
         <BodyPartType>Finger</BodyPartType>
         <HitWeight>10</HitWeight>
-        <Size>3</Size>
+        <BloodAmount>3</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanFinger</TexturePath>
         <Sockets>
@@ -123,7 +123,7 @@
         <Label>Thumb</Label>
         <BodyPartType>Thumb</BodyPartType>
         <HitWeight>10</HitWeight>
-        <Size>2.5</Size>
+        <BloodAmount>2.5</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanThumb</TexturePath>
         <Sockets>
@@ -140,7 +140,7 @@
         <Label>Leg</Label>
         <BodyPartType>Leg</BodyPartType>
         <HitWeight>11</HitWeight>
-        <Size>140</Size>
+        <BloodAmount>140</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanLeg</TexturePath>
         <EquipmentSlots>
@@ -161,7 +161,7 @@
         <Label>Foot</Label>
         <BodyPartType>Foot</BodyPartType>
         <HitWeight>7</HitWeight>
-        <Size>30</Size>
+        <BloodAmount>30</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanFoot</TexturePath>
         <EquipmentSlots>

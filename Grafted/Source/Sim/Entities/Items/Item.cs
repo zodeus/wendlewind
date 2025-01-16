@@ -1,4 +1,5 @@
 using System.Collections;
+using Grafted.Sim.Entities.Items.Enchantments;
 using Grafted.Sim.Entities.Items.Medicinals;
 
 namespace Grafted.Sim.Entities.Items;
@@ -10,6 +11,7 @@ public class Item : Entity, IExposable
     public float MaxDurability = 0;
     public float Durability => _durability;
     public int StackSize = 1;
+    public EnchantmentHandler? EnchantmentHandler;
     public override string Label => Def.Label;
     public string LabelWithStackSize => IsStackable ? $"{Def.Label} x{StackSize}" : Def.Label;
     public bool IsStackable => ItemDef.StackLimit > 1;
@@ -27,6 +29,12 @@ public class Item : Entity, IExposable
                 MaxEnchantments = ItemDef.EquipmentProperties.MaxEnchantments
             };
             Enchantments.Initialize();
+        }
+
+        if (ItemDef.EnchantmentProperties?.HandlerClass != null)
+        {
+            EnchantmentHandler = (EnchantmentHandler)Activator.CreateInstance(ItemDef.EnchantmentProperties.HandlerClass)!;
+            EnchantmentHandler.Enchantment = this;
         }
 
         MaxDurability = this.GetStatValue(Defs.Stats.MaxDurability);
@@ -105,6 +113,7 @@ public class Item : Entity, IExposable
         ScribeValues.Look(ref MaxDurability!, "MaxDurability");
         ScribeValues.Look(ref StackSize!, "StackSize");
         ScribeDeep.Look(ref Enchantments!, "Enchantments");
+        ScribeDeep.Look(ref EnchantmentHandler!, "EnchantmentHandler");
         base.ExposeData();
     }
 }

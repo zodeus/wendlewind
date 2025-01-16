@@ -1,21 +1,47 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Definitions>
+    <!-- DE-BUFFS -->
     <BodyPartModifierDef>
         <Moniker>BurningAcid</Moniker>
         <Label>Burning Acid</Label>
+        <Type>Debuff</Type>
         <Description>Melts the skin away, eats at the meat</Description>
         <HandlerClass>BurningAcid</HandlerClass>
+        <Color>237, 245, 22</Color>
     </BodyPartModifierDef>
+    <BodyPartModifierDef>
+        <Moniker>RotLung</Moniker>
+        <Label>Rot Lung</Label>
+        <Type>Debuff</Type>
+        <Description>This can't be good...</Description>
+        <HandlerClass>RotLung</HandlerClass>
+        <Color>201, 91, 0</Color>
+    </BodyPartModifierDef>
+
+    <!-- BUFFS -->
     <BodyPartModifierDef>
         <Moniker>SoothingBalm</Moniker>
         <Label>Soothing Balm</Label>
+        <Type>Buff</Type>
         <Description>Slowly heals the skin, meat and even organs. Oh, it also negates acid</Description>
         <HandlerClass>SoothingBalm</HandlerClass>
+        <Color>128, 214, 58</Color>
+    </BodyPartModifierDef>
+    <BodyPartModifierDef>
+        <Moniker>LifeRegeneration</Moniker>
+        <Label>Life Regen</Label>
+        <Type>Buff</Type>
+        <Description>Slowly heals the skin, meat and even organs.</Description>
+        <HandlerClass>LifeRegenerationHandler</HandlerClass>
+        <Color>128, 214, 58</Color>
     </BodyPartModifierDef>
     <BodyPartModifierDef>
         <Moniker>PurpleRegeneration</Moniker>
-        <Label>Purple Regeneration</Label>
+        <Label>Purple Regen</Label>
+        <Type>Buff</Type>
         <Description>Regenerates body part health</Description>
         <HandlerClass>PurpleRegeneration</HandlerClass>
+        <Color>168, 2, 214</Color>
+        <ColorPriority>2</ColorPriority>
     </BodyPartModifierDef>
 </Definitions>

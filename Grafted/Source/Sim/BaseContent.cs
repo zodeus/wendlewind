@@ -127,12 +127,14 @@ public static partial class BaseContent {
                 public const string RoundWhite24 = "panel-round-white-24";
                 public const string RoundWhite28 = "panel-round-white-28";
                 public const string RoundWhite42 = "panel-round-white-42";
+                public const string RoundWhite64 = "panel-round-white-64";
                 public const string RoundDark32 = "panel-round-dark-32";
                 public const string RoundDark64 = "panel-round-dark-64";
                 public const string RoundElite64 = "panel-round-elite-64";
                 public const string Red = "panel-red";
                 public const string Loot = "panel-loot";
                 public const string DeepGold = "panel-deep-gold";
+                public const string SimpleWhite = "panel-simple-white";
                 public const string FancyDark = "panel-bar-fancy-dark";
             }
 

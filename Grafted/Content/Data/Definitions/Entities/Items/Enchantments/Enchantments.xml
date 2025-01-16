@@ -9,17 +9,20 @@
     <ItemDef ParentName="ItemEnchantment">
         <Moniker>SoothingVibrations</Moniker>
         <Label>Soothing Vibrations</Label>
-        <Description>When an item with this enchantment is struck it begins to vibrate with energy.\nApplies a short burst of Soothing Balm.</Description>
-        <MedicinalProperties>
-            <HandlerClass>BalmyOintmentHandler</HandlerClass>
-            <DurationInTicks>120</DurationInTicks>
-        </MedicinalProperties>
+        <Description>When struck it vibrates with life energy.</Description>
+        <EnchantmentProperties>
+            <HandlerClass>SoothingVibrationsHandler</HandlerClass>
+        </EnchantmentProperties>
+       
         <TexturePath>Entities/Item/Enchantments/SoothingVibrations</TexturePath>
     </ItemDef>
     <ItemDef ParentName="ItemEnchantment">
         <Moniker>SpidersBite</Moniker>
         <Label>Spiders Bite</Label>
-        <Description>When an item with this enchantment is struck it begins to vibrate with energy.\nApplies a short burst of Soothing Balm.</Description>
+        <Description>Hit me once shame you, I bite you.</Description>
+        <EnchantmentProperties>
+            <HandlerClass>SpidersBiteHandler</HandlerClass>
+        </EnchantmentProperties>
         <WeaponProperties>
             <DamageType>Flesh</DamageType>
             <BodyPartModifiers>
@@ -31,5 +34,14 @@
             </BodyPartModifiers>
         </WeaponProperties>
         <TexturePath>Entities/Item/Enchantments/SpidersBite</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="ItemEnchantment">
+        <Moniker>BloodBath</Moniker>
+        <Label>Blood Bath</Label>
+        <Description>Time for the gore to pour.</Description>
+        <EnchantmentProperties>
+            <HandlerClass>BloodBathHandler</HandlerClass>
+        </EnchantmentProperties>
+        <TexturePath>Entities/Item/Enchantments/BloodBath</TexturePath>
     </ItemDef>
 </Definitions>

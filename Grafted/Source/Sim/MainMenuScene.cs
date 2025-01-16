@@ -12,11 +12,11 @@ public class MainMenuScene : Scene {
         grid.DefaultRowProportion = Proportion.Auto;
         grid.ColumnsProportions.Add(Proportion.Auto);
         grid.ColumnsProportions.Add(Proportion.Fill);
-        grid.AddChild(new Image {
+        grid.Widgets.Add(new Image {
             Background = new TextureRegion(TextureUtils.PreMultiply(BaseContent.Textures.MilgrethTitle)), Width = 825, Height = 242, GridRow = 0 , GridColumnSpan = 2,
             HorizontalAlignment = HorizontalAlignment.Center
         });
-        grid.AddChild(new Image { Background = new TextureRegion(TextureUtils.PreMultiply(BaseContent.Textures.MilgrethImage)), Width = 900, Height = 900, GridRow = 1, GridColumn = 0 });
+        grid.Widgets.Add(new Image { Background = new TextureRegion(TextureUtils.PreMultiply(BaseContent.Textures.MilgrethImage)), Width = 900, Height = 900, GridRow = 1, GridColumn = 0 });
 
         var buttonPanel = new VerticalStackPanel { Spacing = 20, GridRow = 1, GridColumn = 1, HorizontalAlignment = HorizontalAlignment.Left,VerticalAlignment = VerticalAlignment.Top};
         var newGame = new Image {
@@ -28,9 +28,9 @@ public class MainMenuScene : Scene {
             Background = new TextureRegion(TextureUtils.PreMultiply(BaseContent.Textures.MilgrethQuit)), Width = 256, Height = 128
         };
         newGame.TouchDown += (_, _) => Core.ChangeScene<GameScene>();
-        buttonPanel.AddChild(newGame);
-        buttonPanel.AddChild(quit);
-        grid.AddChild(buttonPanel);
+        buttonPanel.Widgets.Add(newGame);
+        buttonPanel.Widgets.Add(quit);
+        grid.Widgets.Add(buttonPanel);
 
         if (DebugSettings.QuickPlay) {
             Core.ChangeScene<GameScene>();

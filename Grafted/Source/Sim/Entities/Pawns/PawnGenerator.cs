@@ -6,19 +6,19 @@ public static class PawnGenerator
 {
     public static Pawn CreatePawn(PawnRequest request)
     {
-        Pawn pawn = EntityGenerator.CreateEntity<Pawn>(request.Race.Species, true);
+        var pawn = EntityGenerator.CreateEntity<Pawn>(request.Race.Species, true);
         pawn.Race = request.Race;
         pawn.PawnType = request.Config.PawnType;
         pawn.Initialize();
-        pawn.Body.BodySizeFactor = request.BodySizeFactor;
+        RegisterTraits(pawn);
         if (request.Config.PawnName != null)
         {
             pawn.Biography.Name = request.Config.PawnName;
         }
-
-        RegisterTraits(pawn);
-
+        
+        pawn.Body.BodySizeFactor = request.BodySizeFactor;
         GenerateBody(pawn);
+        
         RegisterEquipment(pawn, request.Config.EquipmentItems);
         RegisterInventory(pawn, request.Config.InventoryItems);
 
@@ -27,7 +27,7 @@ public static class PawnGenerator
 
     public static void RegisterSkills(Pawn pawn, List<SkillValueRecord> skills)
     {
-        foreach (SkillValueRecord record in skills)
+        foreach (var record in skills)
         {
             pawn.Skills.GetSkill(record.Def).Level = record.Value;
         }
@@ -42,8 +42,8 @@ public static class PawnGenerator
 
     private static void RegisterTraits(Pawn pawn)
     {
-        int numberOfTraits = new RangeInt(2, 2).RandomValue;
-        foreach (TraitDef def in DefRepository<TraitDef>.Defs.InRandomOrder().Take(numberOfTraits))
+        var numberOfTraits = new RangeInt(2, 2).RandomValue;
+        foreach (var def in DefRepository<TraitDef>.Defs.InRandomOrder().Take(numberOfTraits))
         {
             pawn.Traits.Add(def);
         }
@@ -51,7 +51,7 @@ public static class PawnGenerator
 
     public static void RegisterInventory(Pawn pawn, List<ItemDropCount> items)
     {
-        foreach (ItemDropCount dropCount in items)
+        foreach (var dropCount in items)
         {
             if (Core.Random.Chance(dropCount.ChanceToDrop))
             {
@@ -73,9 +73,7 @@ public static class PawnGenerator
 
     private static void GenerateBody(Pawn pawn)
     {
-        BodyPartSocket body = pawn.PawnDef.Body.Generator.Generate();
-        pawn.Body.RootSocket = body;
-        pawn.Body.BodyPartsDirty = true; //todo this should be set by/in BodyPart, but BodyPart doesn't have access to Pawn currently
+        pawn.GenerateBody();
         // ReSharper disable once CompareOfFloatsByEqualityOperator
         if (pawn.Body.AllParts.Sum(p => p.BodyPartDef.MobilityFraction) != 1)
         {
@@ -88,10 +86,10 @@ public static class PawnGenerator
     public static void RegisterEquipment(Pawn pawn, List<ItemDef> equipment)
     {
         Item? returnedItem = null;
-        foreach (ItemDef itemDef in equipment)
+        foreach (var itemDef in equipment)
         {
-            Item item = EntityGenerator.CreateEntity<Item>(itemDef, 1);
-            foreach (BodyPart bodyPart in pawn.Body.AllExternalParts)
+            var item = EntityGenerator.CreateEntity<Item>(itemDef, 1);
+            foreach (var bodyPart in pawn.Body.AllExternalParts)
             {
                 if (bodyPart.EmptySlotFor(item) is not { } slot)
                 {

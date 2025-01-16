@@ -22,13 +22,13 @@
 
     <BodyPartDef ParentName="TreeBodyPartBase">
         <Moniker>TreeTrunk</Moniker>
-        <Label>Tree Trunk</Label>
+        <Label>Trunk</Label>
         <BodyPartType>Torso</BodyPartType>
         <HitWeight>50</HitWeight>
-        <Size>300</Size>
+        <BloodAmount>300</BloodAmount>
         <IsFlesh>false</IsFlesh>
         <IsVital>false</IsVital>
-        <TexturePath>Entities/Pawn/BodyParts/Human/HumanTorso</TexturePath>
+        <TexturePath>Entities/Pawn/BodyParts/Tree/Trunk</TexturePath>
         <EquipmentSlots>
             <ListItem>TorsoArmor</ListItem>
             <ListItem>PotionSlot1</ListItem>
@@ -54,7 +54,7 @@
         <Moniker>TreeInnerCore</Moniker>
         <Label>Inner Core</Label>
         <BodyPartType>RibCage</BodyPartType>
-        <Size>200</Size>
+        <BloodAmount>300</BloodAmount>
         <IsBone>true</IsBone>
         <TexturePath>Entities/Pawn/BodyParts/Generic/RibCage</TexturePath>
         <Sockets>
@@ -70,8 +70,8 @@
         <Moniker>TreeStump</Moniker>
         <Label>Stump</Label>
         <BodyPartType>Leg</BodyPartType>
-        <HitWeight>25</HitWeight>
-        <Size>80</Size>
+        <HitWeight>50</HitWeight>
+        <BloodAmount>80</BloodAmount>
         <IsFlesh>false</IsFlesh>
         <MobilityFraction>.125</MobilityFraction>
         <TexturePath>Entities/Pawn/BodyParts/Tree/TreeStump</TexturePath>

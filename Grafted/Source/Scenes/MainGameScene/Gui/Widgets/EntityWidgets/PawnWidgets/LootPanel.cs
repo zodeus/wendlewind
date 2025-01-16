@@ -1,3 +1,4 @@
+using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.BodyPartPanelWidget;
 using Grafted.Sim.Entities;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
@@ -32,9 +33,9 @@ public class LootPanel : Panel, IUpdatable
             Margin = new Thickness(20, 0, 0, 0),
             Proportions = { Proportion.Auto, Proportion.Auto, Proportion.Fill }
         };
-        rightColumn.AddChild(_equipmentPanel);
-        rightColumn.AddChild(new Label(BaseContent.Styles.Label.Large) { Text = "Ground Loot", Margin = new Thickness(0, 50, 0, 0), });
-        rightColumn.AddChild(_otherContainerPanel);
+        rightColumn.Widgets.Add(_equipmentPanel);
+        rightColumn.Widgets.Add(new Label(BaseContent.Styles.Label.Large) { Text = "Ground Loot", Margin = new Thickness(0, 50, 0, 0), });
+        rightColumn.Widgets.Add(_otherContainerPanel);
         HorizontalStackPanel grid = new()
         {
             HorizontalAlignment = HorizontalAlignment.Center,
@@ -54,7 +55,7 @@ public class LootPanel : Panel, IUpdatable
                 rightColumn
             }
         };
-        AddChild(grid);
+        Widgets.Add(grid);
     }
 
     public void Update()

@@ -7,7 +7,7 @@
         <Moniker>FrogHead</Moniker>
         <Label>Head</Label>
         <HitWeight>12</HitWeight>
-        <Size>50</Size>
+        <BloodAmount>50</BloodAmount>
         <BodyPartType>Head</BodyPartType>
         <IsVital>true</IsVital>
         <IsFlesh>true</IsFlesh>
@@ -32,7 +32,7 @@
         <Label>Torso</Label>
         <BodyPartType>Torso</BodyPartType>
         <HitWeight>50</HitWeight>
-        <Size>300</Size>
+        <BloodAmount>300</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <IsVital>true</IsVital>
         <TexturePath>Entities/Pawn/BodyParts/Frog/Torso</TexturePath>
@@ -59,7 +59,7 @@
         <Label>Leg</Label>
         <BodyPartType>Leg</BodyPartType>
         <HitWeight>11</HitWeight>
-        <Size>140</Size>
+        <BloodAmount>140</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Frog/Leg</TexturePath>
         <Sockets>
@@ -77,7 +77,7 @@
         <Label>Foot</Label>
         <BodyPartType>Foot</BodyPartType>
         <HitWeight>7</HitWeight>
-        <Size>30</Size>
+        <BloodAmount>30</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Frog/Foot</TexturePath>
         <Sockets>

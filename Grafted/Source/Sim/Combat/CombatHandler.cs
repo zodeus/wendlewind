@@ -1,5 +1,6 @@
 using Grafted.Scenes.MainGameScene.Gui;
 using Grafted.Sim.Entities;
+using Grafted.Sim.Entities.Pawns.Modifiers;
 
 namespace Grafted.Sim.Combat;
 
@@ -39,6 +40,7 @@ public class CombatHandler
         Core.Context.DeathRecords.RecordDeath(new DeathRecord
         {
             CauseOfDeath = deathEvent.Record.CauseOfDeath,
+            Biome = Encounter.Zone.BiomeDef,
             PawnName = deathEvent.Pawn.LabelShort + (Encounter.AtBoss ? " (Boss)" : "")
         });
     }
@@ -110,6 +112,14 @@ public class CombatHandler
                             });
                     }
                 }
+
+                foreach (var affliction in damage.SourceAfflictions)
+                {
+                    Encounter.LogMessage(
+                        $"/c[{TC.Purple2}]{attacker}/c[{TC.Default}]'s /c[{TC.BodyPart}]{affliction.BodyPart.Label} " +
+                        $"/c[{TC.Default}]has been (/c[{TC.GreenYellow}]{affliction.Label}) "
+                    );
+                }
             }
         }
     }
@@ -124,21 +134,35 @@ public class CombatHandler
 
         Attack(Enemy, Player);
 
-        // Auto potions for enemy
-        if (PotionQueuedFor(Enemy) == null && Core.Random.Chance(0.01f))
-        {
-            var usablePotions = new List<ItemDef> { Defs.Items.AcidFlask, Defs.Items.PurpleJuice };
-            foreach (var potionDef in usablePotions)
-            {
-                if (Enemy.Equipment.PotionByDef(potionDef) is { } potion)
-                {
-                    QueuePotion(potion, Enemy);
-                }
-            }
-        }
+        UseBloodPotionIfNeeded(Player);
+        UseBloodPotionIfNeeded(Enemy);
 
+        AutoQueueEnemyPotions();
 
         Enemy.Tick();
+    }
+
+    private void UseBloodPotionIfNeeded(Pawn pawn)
+    {
+        if (pawn.Body.BloodPercent < .1f && pawn.Equipment.PotionByDef(Defs.Items.JarOfBlood) is { } p)
+        {
+            UseBloodPotion(p, pawn);
+            pawn.Equipment.UnEquip(p);
+        }
+    }
+
+    private void AutoQueueEnemyPotions()
+    {
+        if (PotionQueuedFor(Enemy) != null || !Core.Random.Chance(0.01f)) return;
+
+        var usablePotions = new List<ItemDef> { Defs.Items.AcidFlask, Defs.Items.PurpleJuice };
+        foreach (var potionDef in usablePotions)
+        {
+            if (Enemy.Equipment.PotionByDef(potionDef) is { } potion)
+            {
+                QueuePotion(potion, Enemy);
+            }
+        }
     }
 
     private void Attack(Pawn attacker, Pawn victim)
@@ -148,8 +172,9 @@ public class CombatHandler
             return;
         }
 
+        UseQueuedPotion(attacker, victim);
+
         attacker.ResetAttackCoolDown();
-        UsePotionsIfNecessary(attacker, victim); //todo move to different tick rate
 
         var energyUsedForAttack = 0.25f;
         attacker.Body.ConsumeEnergy(energyUsedForAttack);
@@ -168,7 +193,7 @@ public class CombatHandler
         victim.TakeDamage(damageRequest);
     }
 
-    public void UsePotionsIfNecessary(Pawn pawn, Pawn target)
+    public void UseQueuedPotion(Pawn pawn, Pawn target)
     {
         if (DeQueuedPotionFor(pawn) is { } potion)
         {
@@ -198,13 +223,6 @@ public class CombatHandler
 
             potion.Destroy();
             return;
-        }
-
-        // Automatically use blood potion
-        if (pawn.Body.BloodPercent < .1f && pawn.Equipment.PotionByDef(Defs.Items.JarOfBlood) is { } p)
-        {
-            UseBloodPotion(p, pawn);
-            pawn.Equipment.UnEquip(p);
         }
     }
 

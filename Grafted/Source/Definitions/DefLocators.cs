@@ -1,5 +1,6 @@
 using System.Reflection;
 using Grafted.Sim.Entities;
+using Grafted.Sim.Entities.Pawns.Modifiers;
 
 namespace Grafted.Definitions;
 
@@ -37,8 +38,10 @@ public static partial class Defs {
     [DefLocator]
     public static class BodyPartModifiers {
         public static BodyPartModifierDef BurningAcid = null!;
+        public static BodyPartModifierDef RotLung = null!;
         public static BodyPartModifierDef SoothingBalm = null!;
         public static BodyPartModifierDef PurpleRegeneration = null!;
+        public static BodyPartModifierDef LifeRegeneration = null!;
     }
 }
 
@@ -117,7 +120,7 @@ public static partial class Defs {
     [DefLocator]
     public static class Races {
         public static RaceDef Glump = null!;
-        public static RaceDef InnocentRabbit = null!;
+        public static RaceDef Bunny = null!;
         public static RaceDef FieldHound = null!;
         public static RaceDef TruffleBoar = null!;
         public static RaceDef BlisteringToad = null!;
@@ -196,6 +199,13 @@ public static partial class Defs {
         public static BodyPartDef TreeTrunk = null!;
         public static BodyPartDef TreeInnerCore = null!;
         public static BodyPartDef TreeStump = null!;
+        
+        public static BodyPartDef MushroomCap = null!;
+        public static BodyPartDef MushroomStump = null!;
+        public static BodyPartDef MushroomArm = null!;
+        public static BodyPartDef MushroomHand = null!;
+        public static BodyPartDef MushroomLeg = null!;
+        public static BodyPartDef MushroomFoot = null!;
         
     }
 

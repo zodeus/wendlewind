@@ -97,10 +97,6 @@ public sealed class ArmorPanel : EntityPanelBase
 
             Widgets.Add(stackPanel);
         }
-
-        var destroyButton = new TextButton(BaseContent.Styles.Button.Small) { Text = "Destroy", Margin = new Thickness(0, 10, 0, 0) };
-        destroyButton.Click += (_, _) => { item.Destroy(); };
-        Widgets.Add(destroyButton);
     }
 
     public override void Update()

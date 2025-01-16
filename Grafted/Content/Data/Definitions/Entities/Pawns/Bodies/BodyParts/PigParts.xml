@@ -8,7 +8,7 @@
         <Moniker>PigHead</Moniker>
         <Label>Head</Label>
         <HitWeight>20</HitWeight>
-        <Size>50</Size>
+        <BloodAmount>50</BloodAmount>
         <BodyPartType>Head</BodyPartType>
         <IsVital>true</IsVital>
         <IsFlesh>true</IsFlesh>
@@ -34,7 +34,7 @@
         <BodyPartType>Neck</BodyPartType>
         <IsVital>true</IsVital>
         <HitWeight>7</HitWeight>
-        <Size>12</Size>
+        <BloodAmount>12</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Pig/Neck</TexturePath>
         <Sockets>
@@ -52,7 +52,7 @@
         <Label>Torso</Label>
         <BodyPartType>Torso</BodyPartType>
         <HitWeight>50</HitWeight>
-        <Size>300</Size>
+        <BloodAmount>300</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <IsVital>true</IsVital>
         <TexturePath>Entities/Pawn/BodyParts/Pig/Torso</TexturePath>
@@ -76,7 +76,7 @@
         <Label>Leg</Label>
         <BodyPartType>Leg</BodyPartType>
         <HitWeight>11</HitWeight>
-        <Size>140</Size>
+        <BloodAmount>140</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Pig/Leg</TexturePath>
         <Sockets>
@@ -94,7 +94,7 @@
         <Label>Hoof</Label>
         <BodyPartType>Hoof</BodyPartType>
         <HitWeight>7</HitWeight>
-        <Size>30</Size>
+        <BloodAmount>30</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Pig/Hoof</TexturePath>
         <Sockets>
@@ -115,7 +115,7 @@
         <Label>Tail</Label>
         <BodyPartType>Tail</BodyPartType>
         <HitWeight>7</HitWeight>
-        <Size>30</Size>
+        <BloodAmount>30</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Pig/Tail</TexturePath>
         <Sockets>

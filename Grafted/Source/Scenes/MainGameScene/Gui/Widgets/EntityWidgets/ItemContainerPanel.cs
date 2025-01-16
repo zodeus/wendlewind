@@ -77,7 +77,7 @@ public class ItemContainerPanel : VerticalStackPanel
                 Margin = new Thickness(0, 0, 0, 10)
             };
             _sections.Add(panel);
-            AddChild(panel);
+            Widgets.Add(panel);
         }
     }
 

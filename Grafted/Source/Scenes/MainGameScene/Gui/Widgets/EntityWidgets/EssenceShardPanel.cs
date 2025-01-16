@@ -7,8 +7,8 @@ public class EssenceShardPanel : EntityPanelBase {
         _shard = shard;
         Padding = new Thickness(20);
         MinWidth = 300;
-        AddChild(new Image { Background = new TextureRegion(shard.Icon), Width = 48, Height = 48 });
-        AddChild(new Label("small") { Text = shard.Def.Description, Wrap = true });
+        Widgets.Add(new Image { Background = new TextureRegion(shard.Icon), Width = 48, Height = 48 });
+        Widgets.Add(new Label("small") { Text = shard.Def.Description, Wrap = true });
         // todo track kills
         // track severed limbs / destroyed parts
         // track trinkets

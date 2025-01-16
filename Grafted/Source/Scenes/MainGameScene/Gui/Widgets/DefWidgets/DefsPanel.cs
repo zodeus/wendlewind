@@ -10,7 +10,7 @@ internal class DefsPanel : Grid {
             DefPanelBase panel = def.UiPanelFor(def, new DefPanelProperties { Background = background });
             panel.GridRow = gridRow;
             panel.GridColumn = gridColum;
-            AddChild(panel);
+            Widgets.Add(panel);
 
             gridColum++;
             if (gridColum > 2) {

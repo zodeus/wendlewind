@@ -13,14 +13,17 @@ public sealed class PlayerKillsWindow : Window
         Grid container = new() { RowSpacing = 10, ColumnSpacing = 50, Margin = new Thickness(10), DefaultColumnProportion = Proportion.Auto, DefaultRowProportion = Proportion.Auto };
         scrollViewer.Content = container;
         Content = scrollViewer;
-        container.Widgets.Add(new Label(BaseContent.Styles.Label.Medium) { Text = "Cause of death", GridRow = 0, GridColumn = 1 });
-        container.Widgets.Add(new Label(BaseContent.Styles.Label.Medium) { Text = "Round", GridRow = 0, GridColumn = 2 });
+        container.Widgets.Add(new Label(BaseContent.Styles.Label.Medium) { Text = "Biome", GridRow = 0, GridColumn = 0 });
+        container.Widgets.Add(new Label(BaseContent.Styles.Label.Medium) { Text = "Creature", GridRow = 0, GridColumn = 1 });
+        container.Widgets.Add(new Label(BaseContent.Styles.Label.Medium) { Text = "Cause of death", GridRow = 0, GridColumn = 2 });
+        container.Widgets.Add(new Label(BaseContent.Styles.Label.Medium) { Text = "Round", GridRow = 0, GridColumn = 3 });
         int gridRow = 1;
         foreach (DeathRecord deathRecord in deathRecords)
         {
-            container.Widgets.Add(new Label() { Text = deathRecord.PawnName, GridRow = gridRow, GridColumn = 0 });
-            container.Widgets.Add(new Label() { Text = deathRecord.CauseOfDeath, GridRow = gridRow, GridColumn = 1 });
-            container.Widgets.Add(new Label() { Text = deathRecord.Round.ToString(), GridRow = gridRow, GridColumn = 2 });
+            container.Widgets.Add(new Label() { Text = deathRecord.Biome.Label, GridRow = gridRow, GridColumn = 0 });
+            container.Widgets.Add(new Label() { Text = deathRecord.PawnName, GridRow = gridRow, GridColumn = 1 });
+            container.Widgets.Add(new Label() { Text = deathRecord.CauseOfDeath, GridRow = gridRow, GridColumn = 2 });
+            container.Widgets.Add(new Label() { Text = deathRecord.Round.ToString(), GridRow = gridRow, GridColumn = 3 });
             gridRow++;
         }
     }

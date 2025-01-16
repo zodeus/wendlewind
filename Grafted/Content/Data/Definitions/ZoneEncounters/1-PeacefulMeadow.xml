@@ -6,9 +6,9 @@
         <Biome>PeacefulMeadow</Biome>
         <Enemies>
             <ListItem>
-                <Race>InnocentRabbit</Race>
+                <Race>Bunny</Race>
                 <Config>DefaultEnemy</Config>
-                <PawnName>Innocent Rabbit</PawnName>
+                <PawnName>Bunny</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <InventoryItems>
                     <ListItem>
@@ -19,7 +19,7 @@
                     <ListItem>
                         <Item>RawMeat</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
+                        <ChanceToDrop>.3</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -33,9 +33,9 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>InnocentRabbit</Race>
+                <Race>Bunny</Race>
                 <Config>DefaultEnemy</Config>
-                <PawnName>Innocent Rabbit</PawnName>
+                <PawnName>Bunny</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <Skills>
                     <Biting>1</Biting>
@@ -49,7 +49,7 @@
                     <ListItem>
                         <Item>RawMeat</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
+                        <ChanceToDrop>.3</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -63,9 +63,9 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>InnocentRabbit</Race>
+                <Race>Bunny</Race>
                 <Config>DefaultEnemy</Config>
-                <PawnName>Innocent Rabbit</PawnName>
+                <PawnName>Bunny</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <Skills>
                     <Biting>2</Biting>
@@ -79,7 +79,7 @@
                     <ListItem>
                         <Item>RawMeat</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
+                        <ChanceToDrop>.3</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -93,9 +93,9 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>InnocentRabbit</Race>
+                <Race>Bunny</Race>
                 <Config>DefaultEnemy</Config>
-                <PawnName>Innocent Rabbit</PawnName>
+                <PawnName>Bunny</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <Skills>
                     <Biting>2</Biting>
@@ -104,7 +104,7 @@
                     <ListItem>
                         <Item>RawMeat</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
+                        <ChanceToDrop>.3</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -115,7 +115,7 @@
         <Biome>PeacefulMeadow</Biome>
         <IsBoss>true</IsBoss>
         <PotentialLootBoxes>
-            <ListItem>MedicinalChestPrimitive</ListItem>
+            <ListItem>MedicinalChest</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>

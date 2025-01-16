@@ -1,3 +1,6 @@
+using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.BodyPartPanelWidget;
+
 namespace Grafted.Scenes.MainGameScene.Gui.CombatGui;
 
 public class CombatScreen : VerticalStackPanel
@@ -118,8 +121,8 @@ public class CombatScreen : VerticalStackPanel
                 _pawnBodyView, logPanel
             }
         };
-        AddChild(_gameHud);
-        AddChild(grid);
+        Widgets.Add(_gameHud);
+        Widgets.Add(grid);
     }
 
     private Action<EncounterState> CombatStateChangedAction()

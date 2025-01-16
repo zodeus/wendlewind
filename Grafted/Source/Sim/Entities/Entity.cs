@@ -12,9 +12,9 @@ public enum EntityState
 
 public abstract class Entity : IExposable, IIdentityProvider
 {
-    public event Action<Entity>? Destroyed;//todo - actions
-    public event Action<Entity>? EjectedFromContainer; //todo - actions
-    
+    public event Action<Entity>? Destroyed;
+    public event Action<Entity>? EjectedFromContainer;
+
     public int Id = -1;
     public EntityDef Def = null!;
     public virtual string Label => Def.Label;
@@ -22,9 +22,9 @@ public abstract class Entity : IExposable, IIdentityProvider
     public virtual string Description => Def.Description;
     public virtual Texture2D Icon => Def.Icon;
     public bool IsDestroyed => _internalState == EntityState.Destroyed;
-    
+
     private EntityState _internalState = EntityState.UnSpawned;
-    
+
     public void EjectFromContainer()
     {
         EjectedFromContainer?.Invoke(this);

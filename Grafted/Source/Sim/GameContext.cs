@@ -29,10 +29,21 @@ public class GameContext : IExposable
 
     public void Tick()
     {
-        if (IsPaused || CurrentZone?.ActiveEncounter?.State != EncounterState.InProgress)
+        if (IsPaused)
         {
             return;
         }
+
+        if (CurrentZone?.ActiveEncounter?.Zone?.State != ZoneState.Combat)
+        {
+            return;
+        }
+        
+        if (CurrentZone?.ActiveEncounter?.State != EncounterState.InProgress)
+        {
+            return;
+        }
+        
 
         InternalTick();
     }

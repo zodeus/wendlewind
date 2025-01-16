@@ -8,7 +8,7 @@ public class BodyPartDef : EntityDef {
     public override EntityType EntityType => EntityType.BodyPart;
     //public override Type DefUiClass => typeof(ItemDefPanel);
     public BodyPartType BodyPartType = BodyPartType.Undefined;
-    public float Size = 0;
+    public float BloodAmount = 0;
     public float HitWeight = 0;
     public bool IsVital = false;
     public bool IsOrgan = false;

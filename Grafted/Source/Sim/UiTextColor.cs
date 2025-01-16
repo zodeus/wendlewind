@@ -16,4 +16,5 @@ public static class TC {
     public static string Golden = "#E8AA00";
     public static string Purple = "#913bf7";
     public static string Purple2 = "#fa00ff";
+    public static string GreenYellow = "#b4d400";
 }

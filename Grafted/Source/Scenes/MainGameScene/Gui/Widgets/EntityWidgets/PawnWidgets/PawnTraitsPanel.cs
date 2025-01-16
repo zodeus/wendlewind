@@ -5,11 +5,11 @@ public class PawnTraitsPanel : VerticalStackPanel {
         Spacing = 5;
         Padding = new Thickness(15);
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.Red];
-        AddChild(new Label(BaseContent.Styles.Label.Medium) { Text = "Traits" });
+        Widgets.Add(new Label(BaseContent.Styles.Label.Medium) { Text = "Traits" });
         foreach (TraitDef trait in pawnTraits) {
-            AddChild(new HorizontalSeparator());
-            AddChild(new Label { Text = trait.Label });
-            AddChild(new Label(BaseContent.Styles.Label.Small) { Text = trait.Description });
+            Widgets.Add(new HorizontalSeparator());
+            Widgets.Add(new Label { Text = trait.Label });
+            Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = trait.Description });
         }
     }
 }

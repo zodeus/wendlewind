@@ -38,9 +38,9 @@ public class MindWidget : VerticalStackPanel {
 
             Value = 70f
         };
-        AddChild(new HorizontalStackPanel { Spacing = 5, Widgets = { new Label(BaseContent.Styles.Label.Small) { Text = "S" }, _sanity } });
-        AddChild(new HorizontalStackPanel { Spacing = 5, Widgets = { new Label(BaseContent.Styles.Label.Small) { Text = "P" }, _power } });
-        AddChild(new HorizontalStackPanel { Spacing = 5, Widgets = { new Label(BaseContent.Styles.Label.Small) { Text = "F" }, _focus } });
+        Widgets.Add(new HorizontalStackPanel { Spacing = 5, Widgets = { new Label(BaseContent.Styles.Label.Small) { Text = "S" }, _sanity } });
+        Widgets.Add(new HorizontalStackPanel { Spacing = 5, Widgets = { new Label(BaseContent.Styles.Label.Small) { Text = "P" }, _power } });
+        Widgets.Add(new HorizontalStackPanel { Spacing = 5, Widgets = { new Label(BaseContent.Styles.Label.Small) { Text = "F" }, _focus } });
     }
 
     public void Update() {
@@ -92,7 +92,7 @@ public class GameHud : HorizontalStackPanel {
         _programStats = new ProgramStatsPanel();
 
         // Blood
-        centerPanel.AddChild(new HorizontalStackPanel {
+        centerPanel.Widgets.Add(new HorizontalStackPanel {
             Widgets = {
                 new Image {
                     VerticalAlignment = VerticalAlignment.Center,
@@ -102,13 +102,13 @@ public class GameHud : HorizontalStackPanel {
             }
         });
         // Mind
-        // centerPanel.AddChild(new VerticalSeparator());
-        // centerPanel.AddChild(_mindWidget);
+        // centerPanel.Widgets.Add(new VerticalSeparator());
+        // centerPanel.Widgets.Add(_mindWidget);
 
         // Energy
-        centerPanel.AddChild(new VerticalSeparator());
-        centerPanel.AddChild(_attackSpeedLabel);
-        centerPanel.AddChild(new VerticalStackPanel {
+        centerPanel.Widgets.Add(new VerticalSeparator());
+        centerPanel.Widgets.Add(_attackSpeedLabel);
+        centerPanel.Widgets.Add(new VerticalStackPanel {
             Widgets = {
                 new Image {
                     HorizontalAlignment = HorizontalAlignment.Center,
@@ -119,11 +119,11 @@ public class GameHud : HorizontalStackPanel {
         });
 
         // Hunger
-        centerPanel.AddChild(_stomachOutline);
+        centerPanel.Widgets.Add(_stomachOutline);
 
         // // Temperature
-        // centerPanel.AddChild(new VerticalSeparator());
-        // centerPanel.AddChild(new HorizontalStackPanel {
+        // centerPanel.Widgets.Add(new VerticalSeparator());
+        // centerPanel.Widgets.Add(new HorizontalStackPanel {
         //     Widgets = {
         //         new Image {
         //             VerticalAlignment = VerticalAlignment.Center,
@@ -134,11 +134,11 @@ public class GameHud : HorizontalStackPanel {
         //     }
         // });
 
-        rightPanel.AddChild(_programStats);
+        rightPanel.Widgets.Add(_programStats);
 
-        AddChild(leftPanel);
-        AddChild(centerPanel);
-        AddChild(rightPanel);
+        Widgets.Add(leftPanel);
+        Widgets.Add(centerPanel);
+        Widgets.Add(rightPanel);
     }
 
     public void Update() {

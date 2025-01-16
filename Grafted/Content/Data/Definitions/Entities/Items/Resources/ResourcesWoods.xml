@@ -15,6 +15,11 @@
         <TexturePath>Entities/Item/Resource/Wood/OakWoodLog</TexturePath>
     </ItemDef>
     <ItemDef ParentName="WoodResource">
+        <Moniker>ShimmeringBark</Moniker>
+        <Label>Shimmering Bark</Label>
+        <TexturePath>Entities/Item/Resource/Wood/WoodBoard</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="WoodResource">
         <Moniker>WoodBoard</Moniker>
         <Label>Wooden board</Label>
         <TexturePath>Entities/Item/Resource/Wood/WoodBoard</TexturePath>

@@ -16,9 +16,9 @@ public class ItemDefPanel : DefPanelBase {
                 Proportion.Auto
             }
         };
-        AddChild(grid);
-        grid.AddChild(GenerateDetails(resource));
-        grid.AddChild(new Panel {
+        Widgets.Add(grid);
+        grid.Widgets.Add(GenerateDetails(resource));
+        grid.Widgets.Add(new Panel {
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
             Padding = new Thickness(3),
             Widgets = { new Image { Background = new TextureRegion(resource.Icon), Width = 64, Height = 64 } },
@@ -36,7 +36,7 @@ public class ItemDefPanel : DefPanelBase {
             }
         };
         int gridRow = 0;
-        grid.AddChild(new Label { Text = item.Description, GridRow = gridRow, GridColumn = 0, GridColumnSpan = 2 });
+        grid.Widgets.Add(new Label { Text = item.Description, GridRow = gridRow, GridColumn = 0, GridColumnSpan = 2 });
         //gridRow++;
         return grid;
     }

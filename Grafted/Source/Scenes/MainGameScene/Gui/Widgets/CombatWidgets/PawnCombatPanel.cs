@@ -23,15 +23,15 @@ internal class PawnCombatPanel : HorizontalStackPanel
         _gui = gui;
         if (isPlayer)
         {
-            AddChild(GenerateEquipmentPanel());
+            Widgets.Add(GenerateEquipmentPanel());
         }
 
-        AddChild(GeneratePawnPanel(isPlayer));
+        Widgets.Add(GeneratePawnPanel(isPlayer));
 
         if (isPlayer == false)
         {
             _bodySummary = new PawnBodySummary(_gui, Pawn.Body) { VerticalAlignment = VerticalAlignment.Bottom, Margin = new Thickness(0, 10, 0, 0) };
-            AddChild(_bodySummary);
+            Widgets.Add(_bodySummary);
         }
 
         Update();
@@ -74,7 +74,7 @@ internal class PawnCombatPanel : HorizontalStackPanel
                     }
                 };
                 _bodyPartImages.Add(bodyPart.Label, image);
-                panel.AddChild(image);
+                panel.Widgets.Add(image);
             }
         }
 
@@ -118,22 +118,15 @@ internal class PawnCombatPanel : HorizontalStackPanel
                     _gui.ViewEntity(Pawn);
                 }
             };
-            panel.AddChild(image);
+            panel.Widgets.Add(image);
         }
         else
         {
-            panel.AddChild(InitializeBodyPartImages(panelWidth));
+            panel.Widgets.Add(InitializeBodyPartImages(panelWidth));
         }
 
-        _bloodBar = new HorizontalProgressBar
-        {
-            Width = panelWidth, Height = 30,
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.FrameSmall],
-            VerticalAlignment = VerticalAlignment.Center,
-            Filler = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.Neutral], Pawn.PawnDef.Body.BloodType.Color),
-            Padding = new Thickness(3, 6, 3, 6)
-        };
-        panel.AddChild(_bloodBar);
+        _bloodBar = new BloodBar(Pawn) { Width = panelWidth, Height = 30 };
+        panel.Widgets.Add(_bloodBar);
 
         Label namePlate = new()
         {
@@ -143,7 +136,7 @@ internal class PawnCombatPanel : HorizontalStackPanel
             Width = panelWidth - 24 - 32 - 5
         };
         _attackSpeed = new AttackSpeedIcon(Pawn);
-        panel.AddChild(new HorizontalStackPanel { Spacing = 5, Widgets = { namePlate, _attackSpeed } });
+        panel.Widgets.Add(new HorizontalStackPanel { Spacing = 5, Widgets = { namePlate, _attackSpeed } });
 
         return panel;
     }

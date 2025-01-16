@@ -1,6 +1,7 @@
 using Grafted.Scenes.MainGameScene.Gui.CombatGui;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.BodyPartPanelWidget;
 using Grafted.Sim.LootBoxes;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;

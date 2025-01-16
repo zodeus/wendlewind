@@ -5,7 +5,7 @@
         <Moniker>FesterpusSwamp-01</Moniker>
         <Biome>FesterpusSwamp</Biome>
         <PotentialLootBoxes>
-            <ListItem>MedicinalChestPrimitive</ListItem>
+            <ListItem>MedicinalChest</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -13,18 +13,16 @@
                 <Config>DefaultEnemy</Config>
                 <PawnName>Blistering Toad</PawnName>
                 <SpawnWeight>1</SpawnWeight>
-                <EquipmentItems>
-                </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
                         <Item>PurpleJuice</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
+                        <ChanceToDrop>.25</ChanceToDrop>
                     </ListItem>
                     <ListItem>
                         <Item>RawMeat</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
+                        <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -50,8 +48,8 @@
                 <InventoryItems>
                     <ListItem>
                         <Item>PurpleJuice</Item>
-                        <Amount>1~2</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.75</ChanceToDrop>
                     </ListItem>
                     <ListItem>
                         <Item>RawMeat</Item>
@@ -86,14 +84,9 @@
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                     <ListItem>
-                        <Item>AcidFlask</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
                         <Item>RawMeat</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
+                        <ChanceToDrop>.6</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -119,8 +112,8 @@
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
-                        <Item>BalmyOintment</Item>
-                        <Amount>2~3</Amount>
+                        <Item>PurpleJuice</Item>
+                        <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                     <ListItem>

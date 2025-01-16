@@ -36,6 +36,17 @@
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseMonster">
+        <Moniker>Mushroom</Moniker>
+        <Label>Mushroom</Label>
+        <Body>MushroomBody</Body>
+        <BaseStats>
+            <AttackSpeed>1</AttackSpeed>
+            <MeleeStrength>1</MeleeStrength>
+            <Evasion>.02</Evasion>
+            <MeleeAccuracy>.9</MeleeAccuracy>
+        </BaseStats>
+    </PawnDef>
+    <PawnDef ParentName="BaseMonster">
         <Moniker>Ghoul</Moniker>
         <Label>Ghoul</Label>
         <Body>GhoulBody</Body>

@@ -70,14 +70,9 @@
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
-                        <Item>AcidFlask</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
-                    </ListItem>
-                    <ListItem>
                         <Item>PurpleJuice</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
+                        <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -115,9 +110,9 @@
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
-                        <Item>PurpleJuice</Item>
+                        <Item>GlitteringLog</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
+                        <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -155,9 +150,9 @@
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
-                        <Item>PurpleJuice</Item>
+                        <Item>AcidFlask</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
+                        <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -177,7 +172,7 @@
                 <PawnName>Henry the Hungry</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <Skills>
-                    <Knives>5</Knives>
+                    <Knives>10</Knives>
                 </Skills>
                 <Effects>
                     <!--<ListItem>EnergizedLikeABunny</ListItem>-->

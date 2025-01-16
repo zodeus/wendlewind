@@ -13,7 +13,7 @@ public sealed class BodyPartPanel : EntityPanelBase
         Padding = new Thickness(20);
         MinWidth = 300;
 
-        VerticalStackPanel leftPanel = new() { Spacing = 0 };
+        VerticalStackPanel leftPanel = new() { Spacing = 5 };
 
         leftPanel.Widgets.Add(new BodyPartPanelHealthLabel(bodyPart));
         leftPanel.Widgets.Add(new BodyPartPanelModifiersLabel(bodyPart));
@@ -28,8 +28,9 @@ public sealed class BodyPartPanel : EntityPanelBase
         var rightPanel = new VerticalStackPanel { Spacing = 5 };
 
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = bodyPart.Def.Description, Wrap = true });
+        rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Short Label: {bodyPart.LabelShort}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Type: {bodyPart.Type}" });
-        rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Size: {bodyPart.Size}" });
+        rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Size: {bodyPart.BloodAmount}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Attack Speed Mod: {bodyPart.AttackSpeedModifier}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Position: {bodyPart.Position}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Is External: {bodyPart.IsExternal}" });
@@ -110,6 +111,7 @@ public sealed class BodyPartPanelModifiersLabel : VerticalStackPanel
 {
     public BodyPartPanelModifiersLabel(BodyPart bodyPart)
     {
+        Spacing = 5;
         foreach (var modifier in bodyPart.Modifiers)
         {
             Widgets.Add(new Label()
@@ -117,8 +119,8 @@ public sealed class BodyPartPanelModifiersLabel : VerticalStackPanel
                 Text = modifier.Label + ": " + modifier.TicksRemaining + "t",
                 Padding = new Thickness(12),
                 HorizontalAlignment = HorizontalAlignment.Stretch,
-                Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
-                TextColor = Color.ForestGreen
+                Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.SimpleWhite], modifier.Def.Color),
+                TextColor = modifier.Def.Color
             });
         }
     }

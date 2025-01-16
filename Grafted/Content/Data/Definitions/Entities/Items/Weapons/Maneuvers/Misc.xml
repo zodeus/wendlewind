@@ -81,4 +81,12 @@
         </Tools>
         <DamageMultiplier>.0~1.5</DamageMultiplier>
     </ToolManeuverDef>
+    <ToolManeuverDef>
+        <Moniker>MushroomCap</Moniker>
+        <Label>Cap Puff</Label>
+        <Tools>
+            <ListItem>MushroomCap</ListItem>
+        </Tools>
+        <DamageMultiplier>0.9~1.2</DamageMultiplier>
+    </ToolManeuverDef>
 </Definitions>

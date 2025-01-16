@@ -46,4 +46,16 @@
         <Species>Treeborn</Species>
         <TexturePath>Entities/Pawn/Creature/Treeborn/Ent</TexturePath>
     </RaceDef>
+    <RaceDef ParentName="BaseMonsterRace">
+        <Moniker>RedCapMushroom</Moniker>
+        <Label>Red Cap Mushroom</Label>
+        <Species>Mushroom</Species>
+        <TexturePath>Entities/Pawn/Creature/Mushroom/RedCap</TexturePath>
+    </RaceDef>
+    <RaceDef ParentName="BaseMonsterRace">
+        <Moniker>GreenCapMushroom</Moniker>
+        <Label>Green Cap Mushroom</Label>
+        <Species>Mushroom</Species>
+        <TexturePath>Entities/Pawn/Creature/Mushroom/GreenCap</TexturePath>
+    </RaceDef>
 </Definitions>

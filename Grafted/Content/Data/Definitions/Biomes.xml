@@ -6,11 +6,6 @@
         <Label>Peaceful Meadow</Label>
         <BackgroundTexturePath>Zones/PeacefulMeadow</BackgroundTexturePath>
         <Resources>
-            <!--<ListItem>
-                <Item>ButtonTopMushroom</Item>
-                <Amount>1</Amount>
-                <ChanceToHarvest>.06</ChanceToHarvest>
-            </ListItem>-->
             <ListItem>
                 <Item>GlitteringLog</Item>
                 <Amount>1</Amount>
@@ -65,14 +60,19 @@
         <BackgroundTextureTransparency>40</BackgroundTextureTransparency>
         <Resources>
             <ListItem>
+                <Item>GlitteringLog</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.2</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
                 <Item>HealingRoot</Item>
-                <Amount>1~3</Amount>
+                <Amount>1~2</Amount>
                 <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>
             <ListItem>
                 <Item>RawCorn</Item>
                 <Amount>1</Amount>
-                <ChanceToHarvest>.5</ChanceToHarvest>
+                <ChanceToHarvest>.3</ChanceToHarvest>
             </ListItem>
             <ListItem>
                 <Item>DreamBerry</Item>
@@ -90,7 +90,7 @@
             <ListItem>
                 <Item>GlitteringLog</Item>
                 <Amount>1</Amount>
-                <ChanceToHarvest>.40</ChanceToHarvest>
+                <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>
             <ListItem>
                 <Item>HealingRoot</Item>
@@ -111,9 +111,9 @@
         <BackgroundTextureTransparency>50</BackgroundTextureTransparency>
         <Resources>
             <ListItem>
-                <Item>GlitteringLog</Item>
+                <Item>ButtonTopMushroom</Item>
                 <Amount>1</Amount>
-                <ChanceToHarvest>.20</ChanceToHarvest>
+                <ChanceToHarvest>.75</ChanceToHarvest>
             </ListItem>
             <ListItem>
                 <Item>ChurniRoot</Item>

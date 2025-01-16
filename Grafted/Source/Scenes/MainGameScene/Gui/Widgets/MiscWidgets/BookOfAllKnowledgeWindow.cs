@@ -1,5 +1,6 @@
 ﻿using Grafted.Scenes.MainGameScene.Gui.Widgets.DefWidgets;
 using Grafted.Sim.Entities;
+using Grafted.Sim.Entities.Pawns.Modifiers;
 using Grafted.Sim.LootBoxes;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;

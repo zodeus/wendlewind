@@ -3,7 +3,7 @@
 namespace Grafted.Sim.Entities.Pawns;
 
 public class BodyDef : Def {
-    public BloodDef BloodType = null!;
+    public BloodDef? BloodType;
     public float MaxBlood = 5000;
     public float MaxEnergy = 100;
     public float BoneDensity = 1;

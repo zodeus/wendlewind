@@ -52,12 +52,12 @@
         </Items>
     </LootBoxDef>
     <LootBoxDef>
-        <Moniker>MedicinalChestPrimitive</Moniker>
-        <Label>Primitive Medicinal Chest</Label>
+        <Moniker>MedicinalChest</Moniker>
+        <Label>Medicinal Chest</Label>
         <Description>It may be primitive, but it sure is useful...</Description>
         <Category>Medicinal</Category>
-        <Rarity>Primitive</Rarity>
-        <TexturePath>Chests/MedicinalChestPrimitive</TexturePath>
+        <Rarity>Normal</Rarity>
+        <TexturePath>Chests/MedicinalChest</TexturePath>
         <CollectionLimit>4</CollectionLimit>
         <Items>
             <ListItem>
@@ -135,15 +135,15 @@
         <Items>
             <ListItem>
                 <ItemDef>CookingPot</ItemDef>
-                <ChanceToDrop>100</ChanceToDrop>
+                <Weight>100</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>MortarAndPestle</ItemDef>
-                <ChanceToDrop>10</ChanceToDrop>
+                <Weight>10</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>VialOfDuplicity</ItemDef>
-                <ChanceToDrop>10</ChanceToDrop>
+                <Weight>10</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>
@@ -230,7 +230,11 @@
         <Items>
             <ListItem>
                 <ItemDef>SoothingVibrations</ItemDef>
-                <ChanceToDrop>100</ChanceToDrop>
+                <Weight>30</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>SpidersBite</ItemDef>
+                <Weight>5</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>

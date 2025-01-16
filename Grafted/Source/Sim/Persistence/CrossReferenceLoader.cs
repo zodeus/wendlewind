@@ -18,7 +18,7 @@ public class CrossRefHandler {
 
     public void ResolveAllCrossReferences() {
         Scribe.State = ScribeState.ResolvingCrossReferences;
-        Log.Info("==================Register the saveables all so we can find them later");
+        Log.Debug("==================Register the saveables all so we can find them later");
 
         foreach (var crossReferencingExposable in CrossReferencingExposables) {
             if (crossReferencingExposable is IIdentityProvider identityProvider) {
@@ -26,7 +26,7 @@ public class CrossRefHandler {
             }
         }
 
-        Log.Info("==================Fill all cross-references to the saveables");
+        Log.Debug("==================Fill all cross-references to the saveables");
 
         foreach (var crossReferencingExposable2 in CrossReferencingExposables) {
             try {

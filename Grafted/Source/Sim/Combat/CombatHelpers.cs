@@ -1,4 +1,5 @@
 ﻿using Grafted.Sim.Entities;
+using Grafted.Sim.Entities.Pawns.Modifiers;
 
 namespace Grafted.Sim.Combat;
 
@@ -71,16 +72,15 @@ public class DamageRequest
 public class DamageResponse
 {
     public readonly List<DamageRecord> Damages = new();
-    public readonly List<AfflictionRecord> Afflictions = new();
 
     public bool Dodged;
     public bool Missed;
 }
 
-public class AfflictionRecord(BodyPart bodyPart, string affliction)
+public class AfflictionRecord(BodyPart bodyPart, string label)
 {
     public readonly BodyPart BodyPart = bodyPart;
-    public readonly string Affliction = affliction;
+    public readonly string Label = label;
 }
 
 public class DestroyedItemRecord
@@ -97,6 +97,7 @@ public class DamageRecord
 {
     public readonly DamageType DamageType;
     public readonly BodyPart BodyPartHit;
+    public readonly List<AfflictionRecord> SourceAfflictions = new();
     public IReadOnlyList<DamagedBodyPartRecord> BodyParts = new List<DamagedBodyPartRecord>();
     public List<DestroyedItemRecord> DestroyedEquipment = new();
     public readonly float TotalDamage;

@@ -19,6 +19,21 @@
                 <Item>RawCorn</Item>
                 <Amount>1</Amount>
                 <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>   
+            <ListItem>
+                <Item>BloodBath</Item>
+                <Amount>1</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <Item>SoothingVibrations</Item>
+                <Amount>1</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <Item>ChainTunic</Item>
+                <Amount>1</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
             </ListItem>
         </InventoryItems>
     </PawnConfigDef>

@@ -17,14 +17,14 @@ internal class CombatPartyPanel : VerticalStackPanel
             Spacing = 15, HorizontalAlignment = pawnAlignment,
             Margin = new Thickness(30, 0, 30, 0),
         };
-        AddChild(pawnRow);
+        Widgets.Add(pawnRow);
 
         foreach (Pawn pawn in pawns)
         {
             bool isPlayer = pawn.PawnType == PawnType.Player;
             PawnCombatPanel panel = new(gui, pawn, encounter, isPlayer);
             _panels.Add(panel);
-            pawnRow.AddChild(panel);
+            pawnRow.Widgets.Add(panel);
         }
     }
 

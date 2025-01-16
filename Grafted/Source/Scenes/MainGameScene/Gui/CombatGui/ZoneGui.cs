@@ -49,6 +49,9 @@ public class ZoneGui : BaseGui
         _shrineScreen?.RemoveFromParent();
         _shrineScreen = null;
 
+        CloseEntityWindow();
+        _shrineScreen = null;
+        
         switch (state)
         {
             case ZoneState.Combat:

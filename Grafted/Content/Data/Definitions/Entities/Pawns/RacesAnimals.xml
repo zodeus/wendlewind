@@ -5,10 +5,10 @@
         <!--<NameGeneratorClass>NameGeneratorMonsters</NameGeneratorClass>-->
     </RaceDef>
     <RaceDef ParentName="BaseAnimalRace">
-        <Moniker>InnocentRabbit</Moniker>
-        <Label>Innocent Rabbit</Label>
+        <Moniker>Bunny</Moniker>
+        <Label>Bunny</Label>
         <Species>Rabbit</Species>
-        <TexturePath>Entities/Pawn/Creature/Rabbit/InnocentRabbit</TexturePath>
+        <TexturePath>Entities/Pawn/Creature/Rabbit/Bunny</TexturePath>
     </RaceDef>
     <RaceDef ParentName="BaseAnimalRace">
         <Moniker>FieldHound</Moniker>

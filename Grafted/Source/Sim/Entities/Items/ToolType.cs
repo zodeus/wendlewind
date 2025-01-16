@@ -37,5 +37,6 @@ public enum ToolType
     Proboscis,
     Pincer,
     Hoof,
-    Branch
+    Branch,
+    MushroomCap
 }

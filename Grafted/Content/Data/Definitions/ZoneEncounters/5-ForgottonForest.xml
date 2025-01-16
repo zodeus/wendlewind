@@ -35,9 +35,9 @@
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
-                        <Item>RawMeat</Item>
+                        <Item>ShimmeringBark</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
+                        <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -64,6 +64,11 @@
                     <ListItem>LeatherGreave</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
+                    <ListItem>
+                        <Item>ShimmeringBark</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
@@ -90,6 +95,11 @@
                     <ListItem>LeatherGreave</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
+                    <ListItem>
+                        <Item>ShimmeringBark</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
@@ -118,6 +128,11 @@
                     <ListItem>LeatherGreave</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
+                    <ListItem>
+                        <Item>ShimmeringBark</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
@@ -127,7 +142,7 @@
         <Biome>ForgottenForest</Biome>
         <IsBoss>true</IsBoss>
         <PotentialLootBoxes>
-            <ListItem>EnchantedChestNormal</ListItem>
+            <ListItem>MedicinalChest</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -150,6 +165,11 @@
                     <ListItem>LeatherGreave</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
+                    <ListItem>
+                        <Item>ShimmeringBark</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>

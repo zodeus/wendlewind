@@ -1,8 +1,8 @@
-using Grafted.Sim.Entities;
+using Grafted.Sim.Entities.Pawns.Modifiers;
 
-namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.BodyPanelWidgets;
+namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
-public class PawnBodyPanel : VerticalStackPanel
+public class PawnBodyPanel : VerticalStackPanel, IUpdatable
 {
     private readonly BaseGui _gui;
     private readonly PawnBody _body;
@@ -23,7 +23,7 @@ public class PawnBodyPanel : VerticalStackPanel
         _pawnSkillsPanel = new PawnSkillsPanel(_body.Pawn.Skills);
         _pawnStatsPanel = new PawnStatsPanel(_body.Pawn);
 
-        AddChild(new ScrollViewer
+        Widgets.Add(new ScrollViewer
         {
             Content = new HorizontalStackPanel
             {
@@ -61,7 +61,7 @@ public class PawnBodyPanel : VerticalStackPanel
             Margin = new Thickness(padding * 25, 0, 0, 0),
         };
 
-        _partsPanel.AddChild(panel);
+        _partsPanel.Widgets.Add(panel);
         _socketPanels.Add(panel);
 
         if (socket.AttachedPart == null)
@@ -109,7 +109,7 @@ public class PawnBodyPanel : VerticalStackPanel
             _label = new Label { VerticalAlignment = VerticalAlignment.Center, Font = BaseContent.Fonts.Default.Medium, TextColor = Color.Black };
             /*Image image = new() { Background = new ColoredRegion(new TextureRegion(bodyPart.Icon), Color.White), Width = 20, Height = 20 };
             _internalParts.Add(bodyPart, image);
-            AddChild(image);*/
+            Widgets.Add(image);*/
         }
 
         public void SetPart(BodyPart bodyPart)
@@ -118,43 +118,48 @@ public class PawnBodyPanel : VerticalStackPanel
             Widgets.Clear();
 
             BodyPart = bodyPart;
-            AddChild(_label);
+            Widgets.Add(_label);
             _label.TouchDown += (_, _) => BodyPartClickHandler(bodyPart, true);
 
             var parts = bodyPart.AllInternalParts
                 .Where(p => p.Type == BodyPartType.Skin)
                 .Concat(new List<BodyPart> { bodyPart })
                 .Concat(bodyPart.AllInternalParts.Where(p => p.Type != BodyPartType.Skin));
+
+            Color defaultColor = new Color(30, 30, 30);
             foreach (BodyPart part in parts)
             {
-                Color defaultColor = new Color(30, 30, 30);
-                Color venomColor = new Color(217, 245, 5);
-                Color balmColor = new Color(252, 177, 3);
                 Image partImage = new() { Background = new ColoredRegion(new TextureRegion(part.WhiteIcon), BodyPartColor.Get(bodyPart)) };
                 ImageCircleIcon partIcon = new(partImage, Color.Transparent, panel =>
                 {
                     ((ColoredRegion)partImage.Background).Color = BodyPartColor.Get(part);
-                    foreach (BodyPartModifier modifier in part.Modifiers)
+                    var buffColor = part.Modifiers.Where(m => m.Def.Type == BodyPartModifierType.Buff)
+                        .OrderByDescending(m => m.Def.ColorPriority).FirstOrNull()?.Def.Color;
+                    var debuffColor = part.Modifiers.Where(m => m.Def.Type == BodyPartModifierType.Debuff)
+                        .OrderByDescending(m => m.Def.ColorPriority).FirstOrNull()?.Def.Color;
+                    if (buffColor != null || debuffColor != null)
                     {
-                        if (modifier.Def == Defs.BodyPartModifiers.BurningAcid)
+                        var color = buffColor;
+                        if (color != null && debuffColor != null)
                         {
-                            ((ColoredRegion)panel.Background).Color = venomColor;
-                            return;
+                            color = color.Value.Multiply(debuffColor.Value);
+                        }
+                        else if (debuffColor != null)
+                        {
+                            color = debuffColor;
                         }
 
-                        if (modifier.Def == Defs.BodyPartModifiers.SoothingBalm)
-                        {
-                            ((ColoredRegion)panel.Background).Color = balmColor;
-                            return;
-                        }
+                        ((ColoredRegion)panel.Background).Color = color!.Value;
                     }
-
-                    ((ColoredRegion)panel.Background).Color = defaultColor;
+                    else
+                    {
+                        ((ColoredRegion)panel.Background).Color = defaultColor;
+                    }
                 });
 
                 partIcon.TouchDown += (_, _) => BodyPartClickHandler(part);
                 _parts.Add(partIcon);
-                AddChild(partIcon);
+                Widgets.Add(partIcon);
             }
         }
 
@@ -220,7 +225,7 @@ public class PawnBodyPanel : VerticalStackPanel
                 VerticalAlignment = VerticalAlignment.Center
             };
             _socketLabel.TouchDown += (_, _) => BodyPartSocketClickHandler(socket);
-            AddChild(_socketLabel);
+            Widgets.Add(_socketLabel);
             _bodyPartRow = new BodyPartRow(gui);
             if (Socket.AttachedPart != null)
             {
@@ -229,7 +234,7 @@ public class PawnBodyPanel : VerticalStackPanel
                 _bodyPartRow.SetPart(Socket.AttachedPart);
             }
 
-            AddChild(_bodyPartRow);
+            Widgets.Add(_bodyPartRow);
         }
 
         private void BodyPartSocketClickHandler(BodyPartSocket socket)
@@ -275,30 +280,5 @@ public class PawnBodyPanel : VerticalStackPanel
             _bodyPartRow.Update();
             _socketLabel.TextColor = BodyPartColor.Get(Socket);
         }
-    }
-}
-
-public class PawnStatsPanel : VerticalStackPanel
-{
-    public PawnStatsPanel(Pawn pawn)
-    {
-        Spacing = 20;
-        Padding = new Thickness(15);
-        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.Red];
-        foreach (BaseStat baseStat in pawn.Def.BaseStats)
-        {
-            AddChild(new HorizontalStackPanel
-            {
-                Widgets =
-                {
-                    new Label { Text = baseStat.Def.Label, Width = 250 },
-                    new Label { Text = pawn.GetStatValue(baseStat.Def).ToString() }
-                }
-            });
-        }
-    }
-
-    public void Update()
-    {
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Grafted.Sim.Entities.Pawns
+﻿using Grafted.Sim.Entities.Pawns.Modifiers;
+
+namespace Grafted.Sim.Entities.Pawns
 {
     public static class BodyPartExtensions
     {
@@ -106,6 +108,24 @@
                 if (part.Type == BodyPartType.Skin && record.Def == Defs.BodyPartModifiers.BurningAcid)
                 {
                     part.TryAddModifier(BodyPartModifierGenerator.Generate(record.Def, record.DurationInTicks.RandomValue));
+
+                    //todo raise event MODIFIER APPLIED
+                    damagedBodyPartRecord.AppliedModifiers.Add(record.Def);
+                }
+
+                if (part.Type is BodyPartType.Head or BodyPartType.Neck && record.Def == Defs.BodyPartModifiers.RotLung)
+                {
+                    var lung = part.Body?.AllExternalParts
+                        .FirstOrNull(p => p.Type == BodyPartType.Torso)?
+                        .AllInternalParts.Where(p => p.Type == BodyPartType.Lung).RandomElement();
+
+                    if (lung == null)
+                    {
+                        Log.Warning($"No lungs found while applying body part modifier {Defs.BodyPartModifiers.RotLung.Moniker}");
+                        return;
+                    }
+
+                    lung.TryAddModifier(BodyPartModifierGenerator.Generate(record.Def, record.DurationInTicks.RandomValue));
 
                     //todo raise event MODIFIER APPLIED
                     damagedBodyPartRecord.AppliedModifiers.Add(record.Def);

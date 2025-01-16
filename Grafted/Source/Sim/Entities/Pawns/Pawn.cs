@@ -36,6 +36,12 @@ public class Pawn : Entity, IExposable
     public float MaxAttackSpeed => this.GetStatValue(Defs.Stats.AttackSpeed);
     public float AttackSpeed => Body.GetAttackSpeedModifier() * this.GetStatValue(Defs.Stats.AttackSpeed) * Equipment.WeaponAttackSpeedModifier;
 
+    public void GenerateBody()
+    {
+        PawnDef.Body.Generator.Generate(this);
+        Body.BodyPartsDirty = true;
+    }
+
     public override void Initialize()
     {
         Biography = new PawnBiography(this);
@@ -95,10 +101,6 @@ public class Pawn : Entity, IExposable
             .Where(p => p.IsDestroyed == false || p.AllInternalParts.Count != 0)
             .RandomElementByWeight(part => part.HitWeight)!;
 
-        if (bodyPart == null)
-        {
-        }
-
         foreach (var damage in request.RawDamages)
         {
             if (request.Source.PawnType == PawnType.Player)
@@ -142,6 +144,7 @@ public class Pawn : Entity, IExposable
                 request.Source.Equipment.UnEquip(damage.Tool);
             }
 
+            // Apply Damage
             damageRecord.ActualAmount = damage.TotalUnblockedDamage;
             damageRecord.BodyParts = bodyPart.ApplyDamageToExternalPart(damage);
 
@@ -149,26 +152,10 @@ public class Pawn : Entity, IExposable
             var enchantments = bodyPart.Equipment.Values.SelectMany(e => e?.Enchantments?.ToList() ?? []);
             foreach (var enchantment in enchantments)
             {
-                if (enchantment.ItemDef == Defs.Items.SoothingVibrations)
-                {
-                    enchantment.MedicinalHandler!.ApplyToPart(enchantment, bodyPart);
-                    foreach (var externalPart in bodyPart.ExternalParts)
-                    {
-                        enchantment.MedicinalHandler!.ApplyToPart(enchantment, externalPart);
-                    }
-                }
-                else if (enchantment.ItemDef == Defs.Items.SpidersBite)
-                {
-                    var randomPart = request.Source.Body.AllExternalParts.RandomElement();
-                    if (randomPart.Skin is { } skin)
-                    {
-                        response.Afflictions.Add(new AfflictionRecord(randomPart, "Bitten"));
-                        var afflictionRecord = new DamagedBodyPartRecord(skin); //todo this should get added to responses (maybe responses.AfflictionsReturned) 
-                        skin.ApplyBodyPartModifiers(enchantment.ItemDef.WeaponProperties.BodyPartModifiers, afflictionRecord);
-                    }
-                }
+                enchantment.EnchantmentHandler!.HandlePawnTakeDamage(bodyPart, this, request.Source, damageRecord);
             }
 
+            // Finish up
             Body.BodyPartsDirty = true;
             response.Damages.Add(damageRecord);
         }

@@ -23,22 +23,22 @@ public class WeaponPanel : EntityPanelBase
         {
             Text = $"Durability: {item.Durability}/{item.MaxDurability}", Margin = new Thickness(0, 0, 0, 15)
         };
-        AddChild(new Image { Background = new TextureRegion(item.Icon), Width = 64, Height = 64 });
-        AddChild(_durabilityBar);
-        AddChild(_durabilityLabel);
+        Widgets.Add(new Image { Background = new TextureRegion(item.Icon), Width = 64, Height = 64 });
+        Widgets.Add(_durabilityBar);
+        Widgets.Add(_durabilityLabel);
         if (item.Def.Description != "undefined")
         {
-            AddChild(new Label("small") { Text = item.Def.Description, Wrap = true, MaxWidth = 400 });
+            Widgets.Add(new Label("small") { Text = item.Def.Description, Wrap = true, MaxWidth = 400 });
         }
-        AddChild(new Label("small") { Text = $"Damage Type: {item.ItemDef.WeaponProperties.DamageType}" });
-        AddChild(new Label("small") { Text = $"Slot: {(item.ItemDef.EquipmentProperties.SlotUsedToEquip != null ? item.ItemDef.EquipmentProperties.SlotUsedToEquip : "n/a")}" });
+        Widgets.Add(new Label("small") { Text = $"Damage Type: {item.ItemDef.WeaponProperties.DamageType}" });
+        Widgets.Add(new Label("small") { Text = $"Slot: {(item.ItemDef.EquipmentProperties.SlotUsedToEquip != null ? item.ItemDef.EquipmentProperties.SlotUsedToEquip : "n/a")}" });
 
         foreach (BaseStat baseStat in item.Def.BaseStats)
         {
             var row = new HorizontalStackPanel { Spacing = 10 };
-            row.AddChild(new Label("small") { Text = $"{baseStat.Def.Label}:" });
-            row.AddChild(new Label("small") { Text = item.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture) });
-            AddChild(row);
+            row.Widgets.Add(new Label("small") { Text = $"{baseStat.Def.Label}:" });
+            row.Widgets.Add(new Label("small") { Text = item.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture) });
+            Widgets.Add(row);
 
             /*row.RegisterCallback<MouseEnterEvent>(evt => {
                 key.AddToClassList("text--hover");
@@ -49,10 +49,6 @@ public class WeaponPanel : EntityPanelBase
                 value.RemoveFromClassList("text--hover");
             });*/
         }
-
-        var destroyButton = new TextButton(BaseContent.Styles.Button.Small) { Text = "Destroy", Margin = new Thickness(0, 10, 0, 0) };
-        destroyButton.Click += (_, _) => { item.Destroy(); };
-        AddChild(destroyButton);
     }
 
     public override void Update()

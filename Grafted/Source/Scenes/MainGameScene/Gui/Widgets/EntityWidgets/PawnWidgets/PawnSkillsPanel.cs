@@ -1,6 +1,6 @@
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
-public class PawnSkillsPanel : HorizontalStackPanel {
+public class PawnSkillsPanel : HorizontalStackPanel, IUpdatable {
     private readonly Dictionary<Skill, SkillPanelRow> _skillList = new();
 
     public PawnSkillsPanel(PawnSkills skills) {
@@ -13,9 +13,9 @@ public class PawnSkillsPanel : HorizontalStackPanel {
             DefaultColumnProportion = Proportion.Auto,
             DefaultRowProportion = Proportion.Auto
         };
-        combatSkills.AddChild(new Label { Text = "Skills", GridRow = 0, GridColumn = 0 });
-        combatSkills.AddChild(new Label { Text = "LVL", GridRow = 0, GridColumn = 1 });
-        combatSkills.AddChild(new Label { Text = "XP", GridRow = 0, GridColumn = 2, HorizontalAlignment = HorizontalAlignment.Center });
+        combatSkills.Widgets.Add(new Label { Text = "Skills", GridRow = 0, GridColumn = 0 });
+        combatSkills.Widgets.Add(new Label { Text = "LVL", GridRow = 0, GridColumn = 1 });
+        combatSkills.Widgets.Add(new Label { Text = "XP", GridRow = 0, GridColumn = 2, HorizontalAlignment = HorizontalAlignment.Center });
         int gridRow = 1;
         foreach (Skill skill in skills.Where(skill => skill.SkillType == SkillType.Combat).OrderBy(skill => skill.Def.Label)) {
             if (skill.TotalXp == 0) {
@@ -25,7 +25,7 @@ public class PawnSkillsPanel : HorizontalStackPanel {
             _skillList[skill] = new SkillPanelRow(skill, combatSkills, gridRow++);
         }
 
-        AddChild(combatSkills);
+        Widgets.Add(combatSkills);
         Update();
     }
 
@@ -49,11 +49,11 @@ public class PawnSkillsPanel : HorizontalStackPanel {
                 Width = 100, Height = 30,
                 GridRow = gridRow, GridColumn = 2, VerticalAlignment = VerticalAlignment.Center
             };
-            grid.AddChild(new Label {
+            grid.Widgets.Add(new Label {
                 Text = skill.Def.Label, GridRow = gridRow, GridColumn = 0, VerticalAlignment = VerticalAlignment.Center
             });
-            grid.AddChild(_level);
-            grid.AddChild(_xp);
+            grid.Widgets.Add(_level);
+            grid.Widgets.Add(_xp);
         }
 
         public void Update() {

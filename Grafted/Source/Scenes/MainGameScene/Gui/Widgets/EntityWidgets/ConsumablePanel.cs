@@ -16,15 +16,15 @@ public class ConsumablePanel : EntityPanelBase {
             Visible = item.IsStackable
 
         };
-        AddChild(new Image { Background = new TextureRegion(item.Icon), Width = 48, Height = 48 });
-        AddChild(new Label("small") { Text = item.Def.Description, Wrap = true, Margin = new Thickness(10) });
-        AddChild(_stackLabel);
+        Widgets.Add(new Image { Background = new TextureRegion(item.Icon), Width = 48, Height = 48 });
+        Widgets.Add(new Label("small") { Text = item.Def.Description, Wrap = true, Margin = new Thickness(10) });
+        Widgets.Add(_stackLabel);
 
         foreach (BaseStat baseStat in item.Def.BaseStats) {
             var row = new HorizontalStackPanel { Spacing = 10 };
-            row.AddChild(new Label("small") { Text = $"{baseStat.Def.Label}:" });
-            row.AddChild(new Label("small") { Text = item.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture) });
-            AddChild(row);
+            row.Widgets.Add(new Label("small") { Text = $"{baseStat.Def.Label}:" });
+            row.Widgets.Add(new Label("small") { Text = item.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture) });
+            Widgets.Add(row);
 
             /*row.RegisterCallback<MouseEnterEvent>(evt => {
                 key.AddToClassList("text--hover");

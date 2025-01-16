@@ -172,4 +172,27 @@
             <MeleePower>48</MeleePower>
         </BaseStats>
     </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>MushroomCapWeapon</Moniker>
+        <Label>Mushroom Cap</Label>
+        <Description>The cap of a mushroom is very deadly...</Description>
+        <ToolType>MushroomCap</ToolType>
+        <WeaponProperties>
+            <DamageType>Flesh</DamageType>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>RotLung</Def>
+                    <DurationInTicks>250~400</DurationInTicks>
+                    <Chance>1</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/MushroomCap</TexturePath>
+        <BaseStats>
+            <MeleePower>50</MeleePower>
+        </BaseStats>
+    </ItemDef>
 </Definitions>

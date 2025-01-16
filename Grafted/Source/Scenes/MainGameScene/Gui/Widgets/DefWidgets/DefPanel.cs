@@ -7,6 +7,6 @@ public class DefPanel : DefPanelBase {
         _resource = resource;
         MinWidth = 300;
         Spacing = 5;
-        AddChild(new Label { Text = resource.Moniker });
+        Widgets.Add(new Label { Text = resource.Moniker });
     }
 }

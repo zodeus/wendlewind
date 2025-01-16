@@ -16,10 +16,10 @@ public abstract class DefPanelBase : VerticalStackPanel {
         Padding = new Thickness(15);
         Header = new HorizontalStackPanel { Spacing = 20 };
         Header.Proportions.Add(Proportion.Fill);
-        AddChild(Header);
+        Widgets.Add(Header);
         if (properties?.ShowTitle ?? false) {
             Header.Margin = new Thickness(0, 0, 0, 10);
-            Header.AddChild(new Label("large") { Text = resource.Label, VerticalAlignment = VerticalAlignment.Center });
+            Header.Widgets.Add(new Label("large") { Text = resource.Label, VerticalAlignment = VerticalAlignment.Center });
         }
 
         if (properties?.ShowCloseButton ?? false) {
@@ -32,7 +32,7 @@ public abstract class DefPanelBase : VerticalStackPanel {
             closeButton.Click += (_, _) => {
                 properties.CloseButtonAction?.Invoke();
             };
-            Header.AddChild(closeButton);
+            Header.Widgets.Add(closeButton);
         }
     }
 }

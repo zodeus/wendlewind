@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartDef Name="MushroomBodyPartBase" ParentName="BodyPartBase" Abstract="True">
+
+    </BodyPartDef>
+    <BodyPartDef ParentName="MushroomBodyPartBase">
+        <Moniker>MushroomCap</Moniker>
+        <Label>Cap</Label>
+        <HitWeight>100</HitWeight>
+        <BloodAmount>0</BloodAmount>
+        <BodyPartType>Head</BodyPartType>
+        <IsVital>false</IsVital>
+        <IsFlesh>true</IsFlesh>
+        <TexturePath>Entities/Pawn/BodyParts/Mushroom/Cap</TexturePath>
+        <Sockets/>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <MaxHitPoints>2000</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="MushroomBodyPartBase">
+        <Moniker>MushroomStump</Moniker>
+        <Label>Stump</Label>
+        <BodyPartType>Torso</BodyPartType>
+        <HitWeight>50</HitWeight>
+        <BloodAmount>0</BloodAmount>
+        <IsFlesh>true</IsFlesh>
+        <IsVital>true</IsVital>
+        <TexturePath>Entities/Pawn/BodyParts/Mushroom/Stump</TexturePath>
+        <Sockets>
+            <ListItem>HeadSocket</ListItem>
+            <ListItem>SkullSocket</ListItem>
+            <ListItem>LeftEyeSocket</ListItem>
+            <ListItem>RightEyeSocket</ListItem>
+
+            <ListItem>LeftArmSocket</ListItem>
+            <ListItem>RightArmSocket</ListItem>
+            <ListItem>LeftLegSocket</ListItem>
+            <ListItem>RightLegSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <AttackSpeedModifier>.5</AttackSpeedModifier>
+            <MaxHitPoints>800</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="MushroomBodyPartBase">
+        <Moniker>MushroomArm</Moniker>
+        <Label>Arm</Label>
+        <BodyPartType>Arm</BodyPartType>
+        <HitWeight>20</HitWeight>
+        <BloodAmount>0</BloodAmount>
+        <IsFlesh>true</IsFlesh>
+        <TexturePath>Entities/Pawn/BodyParts/Mushroom/Arm</TexturePath>
+        <Sockets>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>HandSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <AttackSpeedModifier>.2</AttackSpeedModifier>
+            <MaxHitPoints>350</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="MushroomBodyPartBase">
+        <Moniker>MushroomHand</Moniker>
+        <Label>Hand</Label>
+        <BodyPartType>Hand</BodyPartType>
+        <HitWeight>10</HitWeight>
+        <BloodAmount>0</BloodAmount>
+        <IsFlesh>true</IsFlesh>
+        <TexturePath>Entities/Pawn/BodyParts/Mushroom/Hand</TexturePath>
+        <EquipmentSlots>
+            <ListItem>HandArmor</ListItem>
+            <ListItem>HandWeapon</ListItem>
+        </EquipmentSlots>
+        <Sockets>
+            <ListItem>BoneSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <AttackSpeedModifier>.1</AttackSpeedModifier>
+            <MaxHitPoints>200</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="MushroomBodyPartBase">
+        <Moniker>MushroomLeg</Moniker>
+        <Label>Leg</Label>
+        <BodyPartType>Leg</BodyPartType>
+        <HitWeight>12</HitWeight>
+        <BloodAmount>0</BloodAmount>
+        <IsFlesh>true</IsFlesh>
+        <TexturePath>Entities/Pawn/BodyParts/Mushroom/Leg</TexturePath>
+        <Sockets>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>FootSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <AttackSpeedModifier>.2</AttackSpeedModifier>
+            <MaxHitPoints>400</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="MushroomBodyPartBase">
+        <Moniker>MushroomFoot</Moniker>
+        <Label>Foot</Label>
+        <BodyPartType>Foot</BodyPartType>
+        <HitWeight>8</HitWeight>
+        <BloodAmount>0</BloodAmount>
+        <IsFlesh>true</IsFlesh>
+        <TexturePath>Entities/Pawn/BodyParts/Mushroom/Foot</TexturePath>
+        <Sockets>
+            <ListItem>BoneSocket</ListItem>
+        </Sockets>
+        <EquipmentSlots>
+        </EquipmentSlots>
+        <BaseStats>
+            <AttackSpeedModifier>.1</AttackSpeedModifier>
+            <MaxHitPoints>200</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+</Definitions>

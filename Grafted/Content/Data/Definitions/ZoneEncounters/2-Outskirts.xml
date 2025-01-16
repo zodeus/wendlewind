@@ -22,6 +22,11 @@
                         <Amount>2</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.4</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
@@ -30,7 +35,7 @@
         <Moniker>TheOutskirts-02</Moniker>
         <Biome>TheOutskirts</Biome>
         <PotentialLootBoxes>
-            <ListItem>MedicinalChestPrimitive</ListItem>
+            <ListItem>MedicinalChest</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -46,6 +51,11 @@
                         <Item>LeatherVambrace</Item>
                         <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.4</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -68,6 +78,11 @@
                         <Item>LeatherVambrace</Item>
                         <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.4</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -94,6 +109,11 @@
                         <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.4</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
@@ -109,14 +129,20 @@
             <ListItem>
                 <Race>FieldHound</Race>
                 <Config>DefaultEnemy</Config>
-                <PawnName>Young Field Hound</PawnName>
-                <BodySizeFactor>.5</BodySizeFactor>
-                <SpawnWeight>1</SpawnWeight>
+                <PawnName>Field Hound</PawnName>
+                <EquipmentItems>
+                    <ListItem>JarOfBlood</ListItem>
+                </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
                         <Item>BucketHelmet</Item>
                         <Amount>1</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>

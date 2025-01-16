@@ -1,4 +1,5 @@
 using Grafted.Scenes.MainGameScene.Gui.Widgets.DefWidgets;
+using Grafted.Sim.Entities.Items.Enchantments;
 using Grafted.Sim.Entities.Items.Medicinals;
 
 namespace Grafted.Sim.Entities.Items;
@@ -11,6 +12,7 @@ public class ItemDef : EntityDef
     public ItemType ItemType = ItemType.None;
     public ToolType ToolType = ToolType.None;
     public int StackLimit = 1;
+    
     public EquipmentProperties EquipmentProperties = new();
     public WeaponProperties WeaponProperties = new();
     public List<ToolManeuverDef> ToolManeuvers = new();
@@ -18,6 +20,7 @@ public class ItemDef : EntityDef
     public CraftingProperties CraftingProperties = new();
     public FoodProperties? FoodProperties;
     public MedicinalProperties? MedicinalProperties;
+    public EnchantmentProperties? EnchantmentProperties;
 
     public override void ResolveDependencies()
     {

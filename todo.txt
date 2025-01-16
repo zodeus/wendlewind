@@ -1,7 +1,8 @@
-Add Weapon and Armor Sheets in BoaK
+Clean up BodyPart Icon images
 
-Add Trinkets Bars (Combat, Interactive, Passive)
-	crude cauterizing rod
+Add BodyPart (Size, HitWeight, Hit points) Weapon (Speed, Damage, durability), Armor (defence, durability) Sheets in BoaK
+
+Add Trinkets Bars (Combat, Interactive)
 
 Set XML values for BodyPartDef.MobilityFraction
 

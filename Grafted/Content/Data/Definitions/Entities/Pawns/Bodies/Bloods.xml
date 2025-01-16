@@ -22,6 +22,6 @@
         <Moniker>Sap</Moniker>
         <Label>Tree Blood</Label>
         <Color>255, 209, 0</Color>
-        <Viscosity>600</Viscosity>
+        <Viscosity>50</Viscosity>
     </BloodDef>
 </Definitions>

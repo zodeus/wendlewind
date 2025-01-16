@@ -1,6 +1,6 @@
 ﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.BodyPartPanelWidget;
 
-internal sealed class BodyPartPanelHealthLabel : HorizontalStackPanel
+internal sealed class BodyPartPanelHealthLabel : VerticalStackPanel
 {
     private readonly BodyPart _bodyPart;
     private readonly Label _label;
@@ -13,8 +13,8 @@ internal sealed class BodyPartPanelHealthLabel : HorizontalStackPanel
         Margin = new Thickness(0, 0, 0, 10);
         Spacing = 10;
 
-        _image = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.Icon), Color.White), Width = 48, Height = 48 };
-        _label = new Label(BaseContent.Styles.Label.Large);
+        _image = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.Icon), Color.White), Width = 128, Height = 128 };
+        _label = new Label(BaseContent.Styles.Label.Medium);
         Widgets.Add(_image);
         Widgets.Add(_label);
 
@@ -28,6 +28,6 @@ internal sealed class BodyPartPanelHealthLabel : HorizontalStackPanel
     {
         ((ColoredRegion)_image.Background).Color = BodyPartColor.Get(_bodyPart);
         _label.TextColor = BodyPartColor.Get(_bodyPart);
-        _label.Text = $"{_bodyPart.HitPoints:N0}/{_bodyPart.MaxHitPoints:N0} {_bodyPart.HealthPercent:P0}";
+        _label.Text = $"{_bodyPart.HitPoints:N0}/{_bodyPart.MaxHitPoints:N0}";
     }
 }

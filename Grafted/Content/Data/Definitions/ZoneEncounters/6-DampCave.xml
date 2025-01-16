@@ -20,36 +20,114 @@
         <Moniker>DampCave-01</Moniker>
         <Biome>DampCave</Biome>
         <PotentialLootBoxes>
-            <ListItem>EnchantedChestNormal</ListItem>
+            <ListItem>WeaponChestIronAge</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>GrainBandit</Race>
+                <Race>RedCapMushroom</Race>
                 <Config>DefaultEnemy</Config>
-                <PawnName>Henry the Hungry</PawnName>
-                <SpawnWeight>1</SpawnWeight>
+                <PawnName>Red Cap</PawnName>
                 <Skills>
-                    <Knives>5</Knives>
+                    <Swords>5</Swords>
                 </Skills>
                 <Effects>
-                    <!--<ListItem>EnergizedLikeABunny</ListItem>-->
                 </Effects>
                 <EquipmentItems>
-                    <ListItem>Knife</ListItem>
-                    <ListItem>Knife</ListItem>
-                    <ListItem>ChainVambrace</ListItem>
-                    <ListItem>ChainVambrace</ListItem>
-                    <ListItem>ChainGreave</ListItem>
-                    <ListItem>ChainGreave</ListItem>
-                    <ListItem>ChainGorget</ListItem>
-                    <ListItem>ChainBoot</ListItem>
-                    <ListItem>ChainBoot</ListItem>
-                    <ListItem>ChainGlove</ListItem>
-                    <ListItem>ChainGlove</ListItem>
-                    <ListItem>ChainTunic</ListItem>
-                    <ListItem>FishBowlHelmet</ListItem>
-                    <ListItem>JarOfBlood</ListItem>
-                    <ListItem>PurpleJuice</ListItem>
+                    <ListItem>ShortSword</ListItem>
+                    <ListItem>ShortSword</ListItem>
+                </EquipmentItems>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>PurpleJuice</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </EncounterDef>
+    <EncounterDef>
+        <Moniker>DampCave-02</Moniker>
+        <Biome>DampCave</Biome>
+        <PotentialLootBoxes>
+            <ListItem>WeaponChestIronAge</ListItem>
+        </PotentialLootBoxes>
+        <Enemies>
+            <ListItem>
+                <Race>RedCapMushroom</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Red Cap</PawnName>
+                <BodySizeFactor>1.2</BodySizeFactor>
+                <Skills>
+                    <Swords>5</Swords>
+                </Skills>
+                <Effects>
+                </Effects>
+                <EquipmentItems>
+                    <ListItem>ShortSword</ListItem>
+                    <ListItem>ShortSword</ListItem>
+                </EquipmentItems>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>PurpleJuice</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </EncounterDef>
+    <EncounterDef>
+        <Moniker>DampCave-03</Moniker>
+        <Biome>DampCave</Biome>
+        <PotentialLootBoxes>
+            <ListItem>WeaponChestIronAge</ListItem>
+        </PotentialLootBoxes>
+        <Enemies>
+            <ListItem>
+                <Race>RedCapMushroom</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Red Cap</PawnName>
+                <BodySizeFactor>1.4</BodySizeFactor>
+                <Skills>
+                    <Swords>5</Swords>
+                </Skills>
+                <Effects>
+                </Effects>
+                <EquipmentItems>
+                    <ListItem>ShortSword</ListItem>
+                    <ListItem>ShortSword</ListItem>
+                </EquipmentItems>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>PurpleJuice</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </EncounterDef>
+    <EncounterDef>
+        <Moniker>DampCave-04</Moniker>
+        <Biome>DampCave</Biome>
+        <PotentialLootBoxes>
+            <ListItem>WeaponChestIronAge</ListItem>
+        </PotentialLootBoxes>
+        <Enemies>
+            <ListItem>
+                <Race>RedCapMushroom</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Red Cap</PawnName>
+                <BodySizeFactor>1.5</BodySizeFactor>
+                <Skills>
+                    <Swords>6</Swords>
+                </Skills>
+                <Effects>
+                </Effects>
+                <EquipmentItems>
+                    <ListItem>ShortSword</ListItem>
+                    <ListItem>ShortSword</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
@@ -66,27 +144,20 @@
         <Biome>DampCave</Biome>
         <IsBoss>true</IsBoss>
         <PotentialLootBoxes>
-            <ListItem>EnchantedChestNormal</ListItem>
+            <ListItem>TrinketsChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>Ent</Race>
+                <Race>GreenCapMushroom</Race>
                 <Config>DefaultEnemy</Config>
-                <PawnName>Ent</PawnName>
-                <SpawnWeight>1</SpawnWeight>
+                <PawnName>Stink Puff</PawnName>
+                <BodySizeFactor>2</BodySizeFactor>
                 <Skills>
-                    <TreebornPower>2</TreebornPower>
+                    <Swords>10</Swords>
                 </Skills>
                 <EquipmentItems>
-                    <ListItem>ChainTunic</ListItem>
-                    <ListItem>ChainGreave</ListItem>
-                    <ListItem>ChainGreave</ListItem>
-                    <ListItem>ChainGreave</ListItem>
-                    <ListItem>ChainGreave</ListItem>
-                    <ListItem>LeatherGreave</ListItem>
-                    <ListItem>LeatherGreave</ListItem>
-                    <ListItem>LeatherGreave</ListItem>
-                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>ShortSword</ListItem>
+                    <ListItem>ShortSword</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                 </InventoryItems>

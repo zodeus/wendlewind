@@ -23,7 +23,7 @@ public class AttackSpeedIcon : Panel
         Padding = new Thickness(6,0,6,0);
         base.VerticalAlignment = VerticalAlignment.Center;
 
-        AddChild(Label);
+        Widgets.Add(Label);
     }
 
     public void Update()
@@ -42,32 +42,5 @@ public class AttackSpeedIcon : Panel
         }
 
         Label.Text = $"{_pawn.AttackSpeed:##.0}";
-    }
-}
-
-public class ImageCircleIcon : Panel
-{
-    public readonly Image Image;
-    private event Action<Panel>? Handler;
-
-    public ImageCircleIcon(Image image, Color? color = null, Action<Panel>? handler = null)
-    {
-        Handler = handler;
-        Image = image;
-        Image.Width = 42;
-        Image.Height = 42;
-        Image.VerticalAlignment = VerticalAlignment.Center;
-        Image.HorizontalAlignment = HorizontalAlignment.Center;
-        Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundWhite42], color ?? Color.White);
-        Width = 48;
-        Height = 48;
-        base.VerticalAlignment = VerticalAlignment.Center;
-
-        AddChild(Image);
-    }
-
-    public void Update()
-    {
-        Handler?.Invoke(this);
     }
 }

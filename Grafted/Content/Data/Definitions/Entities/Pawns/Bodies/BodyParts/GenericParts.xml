@@ -59,7 +59,7 @@
         <Moniker>Skull</Moniker>
         <Label>Skull</Label>
         <BodyPartType>Skull</BodyPartType>
-        <Size>28</Size>
+        <BloodAmount>28</BloodAmount>
         <IsBone>true</IsBone>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Skull</TexturePath>
         <Sockets>
@@ -75,7 +75,7 @@
         <Moniker>Brain</Moniker>
         <Label>Brain</Label>
         <BodyPartType>Brain</BodyPartType>
-        <Size>15</Size>
+        <BloodAmount>15</BloodAmount>
         <IsVital>true</IsVital>
         <IsOrgan>true</IsOrgan>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Brain</TexturePath>
@@ -90,7 +90,7 @@
         <Label>Eye</Label>
         <BodyPartType>Eye</BodyPartType>
         <HitWeight>.7</HitWeight>
-        <Size>1</Size>
+        <BloodAmount>1</BloodAmount>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Eye</TexturePath>
         <IsFlesh>true</IsFlesh>
         <BaseStats>
@@ -100,7 +100,7 @@
     <BodyPartDef ParentName="GenericBodyPartBase">
         <Moniker>Stomach</Moniker>
         <Label>Stomach</Label>
-        <Size>10</Size>
+        <BloodAmount>10</BloodAmount>
         <BodyPartType>Stomach</BodyPartType>
         <IsOrgan>true</IsOrgan>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Stomach</TexturePath>
@@ -114,7 +114,7 @@
         <Moniker>RibCage</Moniker>
         <Label>Rib Cage</Label>
         <BodyPartType>RibCage</BodyPartType>
-        <Size>250</Size>
+        <BloodAmount>250</BloodAmount>
         <IsBone>true</IsBone>
         <TexturePath>Entities/Pawn/BodyParts/Generic/RibCage</TexturePath>
         <Sockets>
@@ -133,7 +133,7 @@
         <Moniker>Heart</Moniker>
         <Label>Heart</Label>
         <BodyPartType>Heart</BodyPartType>
-        <Size>10</Size>
+        <BloodAmount>10</BloodAmount>
         <IsVital>true</IsVital>
         <IsOrgan>true</IsOrgan>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Heart</TexturePath>
@@ -147,7 +147,7 @@
         <Moniker>Lung</Moniker>
         <Label>Lung</Label>
         <BodyPartType>Lung</BodyPartType>
-        <Size>10</Size>
+        <BloodAmount>10</BloodAmount>
         <IsVital>true</IsVital>
         <IsOrgan>true</IsOrgan>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Lung</TexturePath>

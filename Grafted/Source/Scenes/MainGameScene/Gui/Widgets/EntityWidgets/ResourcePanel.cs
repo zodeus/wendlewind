@@ -6,7 +6,7 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 public sealed class ResourcePanel : EntityPanelBase
 {
     private readonly Button _makePotionButton;
-    private readonly Button _burnLogButton;
+    private readonly Button _burnWoodButton;
 
     public ResourcePanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
@@ -25,22 +25,22 @@ public sealed class ResourcePanel : EntityPanelBase
         _makePotionButton.Click += (_, _) => MakePotion(Core.Context.Player, item);
         _makePotionButton.Visible = makePotionTitle != null;
 
-        // BURN LOG
-        _burnLogButton = new Button(BaseContent.Styles.Button.Normal)
+        // BURN Wood
+        _burnWoodButton = new Button(BaseContent.Styles.Button.Normal)
         {
-            Content = new Label { Text = "Burn Log" }, Margin = new Thickness(0, 20, 0, 0)
+            Content = new Label { Text = "Burn Wood" }, Margin = new Thickness(0, 20, 0, 0)
         };
-        _burnLogButton.Click += (_, _) => BurnLog(gui, Core.Context.Player, item);
-        _burnLogButton.Visible = ShowMakeBurnLogPotion(Core.Context.Player, item);
+        _burnWoodButton.Click += (_, _) => BurnWood(gui, Core.Context.Player, item);
+        _burnWoodButton.Visible = ShowBurnWood(Core.Context.Player, item);
 
         Widgets.Add(new HorizontalStackPanel
         {
             Spacing = 20,
-            Widgets = { _makePotionButton, _burnLogButton }
+            Widgets = { _makePotionButton, _burnWoodButton }
         });
     }
 
-    private void BurnLog(BaseGui gui, Player player, Item item)
+    private void BurnWood(BaseGui gui, Player player, Item item)
     {
         if (item.ItemDef == Defs.Items.GlitteringLog)
         {
@@ -68,7 +68,7 @@ public sealed class ResourcePanel : EntityPanelBase
         }
     }
 
-    private bool ShowMakeBurnLogPotion(Player player, Item item)
+    private bool ShowBurnWood(Player player, Item item)
     {
         if (item.ItemDef == Defs.Items.GlitteringLog)
         {

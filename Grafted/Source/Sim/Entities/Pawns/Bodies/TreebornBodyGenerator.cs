@@ -2,11 +2,10 @@
 
 public class TreebornBodyGenerator : IBodyGenerator
 {
-    public BodyPartSocket Generate()
+    public void Generate(Pawn pawn)
     {
-        var rootSocket = new BodyPartSocket(Defs.BodyPartSockets.TreeTrunkSocket);
-        GenerateBodyInSocket(rootSocket);
-        return rootSocket;
+        pawn.Body.RootSocket = new BodyPartSocket(Defs.BodyPartSockets.TreeTrunkSocket);
+        GenerateBodyInSocket(pawn.Body.RootSocket);
     }
 
     private static void GenerateBodyInSocket(BodyPartSocket rootSocket)

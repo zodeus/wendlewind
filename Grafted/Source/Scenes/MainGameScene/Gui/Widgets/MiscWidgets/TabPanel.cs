@@ -9,19 +9,19 @@ public class TabPanel : VerticalStackPanel {
     public TabPanel() {
         Spacing = 10;
         _tabButtons = new HorizontalStackPanel { Spacing = 5 };
-        AddChild(_tabButtons);
-        AddChild(new HorizontalSeparator());
-        AddChild(_activeTab);
+        Widgets.Add(_tabButtons);
+        Widgets.Add(new HorizontalSeparator());
+        Widgets.Add(_activeTab);
     }
 
     public void AddTab(string? label, Widget widget, IBrush? icon = null) {
         HorizontalStackPanel row = new();
         if (icon != null) {
-            row.AddChild(new Image { Background = icon, Width = 48, Height = 48 });
+            row.Widgets.Add(new Image { Background = icon, Width = 48, Height = 48 });
         }
 
         if (label != null) {
-            row.AddChild(new TextButton(ButtonStyle) { Text = label });
+            row.Widgets.Add(new TextButton(ButtonStyle) { Text = label });
         }
 
         if (widget is IUpdatable updateable) {
@@ -29,7 +29,7 @@ public class TabPanel : VerticalStackPanel {
         }
 
         row.TouchDown += (_, _) => SetActiveTab(widget);
-        _tabButtons.AddChild(row);
+        _tabButtons.Widgets.Add(row);
 
         if (_activeTab.Content == null) {
             SetActiveTab(widget);

@@ -135,7 +135,10 @@ public abstract class BaseGui : IDisposable
 
         _queuedEntityToView = null;
     }
-
+    public void CloseEntityWindow()
+    {
+        _entityViewerWindow.Close();
+    }
     public void TransferScreenMessage(BaseGui gui)
     {
         gui._screenMessage = _screenMessage;

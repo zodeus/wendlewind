@@ -8,11 +8,11 @@ public class ProgramStatsPanel : VerticalStackPanel {
     public ProgramStatsPanel() {
         Spacing = 3;
         _fps = new Label(BaseContent.Styles.Label.Small);
-        AddChild(_fps);
+        Widgets.Add(_fps);
         _ticks = new Label(BaseContent.Styles.Label.Small);
-        AddChild(_ticks);
+        Widgets.Add(_ticks);
         _frameTime = new Label(BaseContent.Styles.Label.Small);
-        AddChild(_frameTime);
+        Widgets.Add(_frameTime);
     }
 
     public void Update() {
