@@ -56,7 +56,7 @@
     </StatDef>
     <StatDef>
         <Moniker>WeaponSpeed</Moniker>
-        <Label>WeaponSpeed</Label>
+        <Label>Weapon Speed</Label>
         <BaseValue>1</BaseValue>
         <MinValue>0</MinValue>
     </StatDef>

@@ -1,13 +1,17 @@
 ﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets;
 
-public class DeathWindow : Window
+public sealed class DeathWindow : Window
 {
     public DeathWindow()
     {
+        TitlePanel.Visible = false;
         Width = 600;
         Height = 400;
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.Red];
-        var button = new TextButton(BaseContent.Styles.Button.Large) { Text = "Try again" };
+        var button = new TextButton(BaseContent.Styles.Button.Large)
+        {
+            HorizontalAlignment = HorizontalAlignment.Center, Text = "Try again"
+        };
         button.Click += (_, _) =>
         {
             Close();
@@ -19,7 +23,11 @@ public class DeathWindow : Window
             Padding = new Thickness(50), HorizontalAlignment = HorizontalAlignment.Center,
             Widgets =
             {
-                new Label(BaseContent.Styles.Label.Huge) { Text = "You dead..." },
+                new Label(BaseContent.Styles.Label.Huge)
+                {
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Text = "You dead..."
+                },
                 button
             }
         };

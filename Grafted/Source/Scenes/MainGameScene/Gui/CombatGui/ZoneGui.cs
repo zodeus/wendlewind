@@ -27,8 +27,9 @@ public class ZoneGui : BaseGui
 
         HandleZoneStateChanged(Zone.State);
 
-        _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(Core.Context.World.PlayerPawn);
-        _pawnBodyEffectsWindow.Show(Desktop, new Point(50, 20));
+        
+        _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(context.PlayerPawn) { Width = 340, Height = 500 };
+        _pawnBodyEffectsWindow.Show(Desktop, new Point(10, 115));
     }
 
     private void HandleZoneMessage(ScreenMessageData message)

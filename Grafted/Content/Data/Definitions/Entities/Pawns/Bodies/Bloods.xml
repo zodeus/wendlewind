@@ -8,7 +8,7 @@
     </BloodDef>
     <BloodDef>
         <Moniker>BlackPlasma</Moniker>
-        <Label>Animal Blood</Label>
+        <Label>Black Plasma</Label>
         <Color>51, 51, 51</Color>
         <Viscosity>15</Viscosity>
     </BloodDef>
@@ -20,7 +20,7 @@
     </BloodDef>
     <BloodDef>
         <Moniker>Sap</Moniker>
-        <Label>Tree Blood</Label>
+        <Label>Sap</Label>
         <Color>255, 209, 0</Color>
         <Viscosity>50</Viscosity>
     </BloodDef>

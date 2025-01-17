@@ -9,12 +9,13 @@ public sealed class PawnBodyEffectsWindow : Window
 
     public PawnBodyEffectsWindow(Pawn pawn)
     {
+        TitlePanel.Visible = false;
+        //CloseButton.Visible = false;
         _pawn = pawn;
         Title = "Effects";
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold];
 //        Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold], new Color(255, 255, 255, 100));
         _container = new VerticalStackPanel() { Spacing = 20 };
-        _container.Widgets.Add(new HorizontalSeparator());
         Content = _container;
     }
 
@@ -51,6 +52,8 @@ public sealed class PawnBodyEffectsWindow : Window
 
             _effectsToRemove.Clear();
         }
+
+        Visible = _cachedEffects.Any();
     }
 
     private sealed class BodyEffectRow : VerticalStackPanel

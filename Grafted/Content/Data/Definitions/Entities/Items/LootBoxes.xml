@@ -214,13 +214,6 @@
         </Items>
     </LootBoxDef>
     <LootBoxDef>
-        <Moniker>FoodBundleTiny</Moniker>
-        <Label>Tiny Food Bundle</Label>
-        <Rarity>Morsel</Rarity>
-        <Description></Description>
-        <TexturePath>Chests/FoodPlate</TexturePath>
-    </LootBoxDef>
-    <LootBoxDef>
         <Moniker>EnchantedChestNormal</Moniker>
         <Label>Enchanted Chest</Label>
         <Rarity>Normal</Rarity>
@@ -230,10 +223,14 @@
         <Items>
             <ListItem>
                 <ItemDef>SoothingVibrations</ItemDef>
-                <Weight>30</Weight>
+                <Weight>40</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>SpidersBite</ItemDef>
+                <Weight>10</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>BloodBath</ItemDef>
                 <Weight>5</Weight>
             </ListItem>
         </Items>

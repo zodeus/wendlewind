@@ -53,6 +53,12 @@ public sealed class ArmorPanel : EntityPanelBase
             });*/
         }
 
+         
+        ItemEnchantmentsPanel(gui, item);
+    }
+
+    private void ItemEnchantmentsPanel(BaseGui gui, Item item)
+    {
         var maxEnchantments = item.Enchantments?.MaxEnchantments;
         if (maxEnchantments > 0)
         {

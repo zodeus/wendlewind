@@ -1,12 +1,14 @@
 using FontStashSharp;
 using Grafted.Scenes.MainGameScene.Gui.Widgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
 using Grafted.Sim.Entities;
 
 namespace Grafted.Scenes.MainGameScene.Gui;
 
 public abstract class BaseGui : IDisposable
 {
+    private BookOfAllKnowledgeWindow? Boak;
     public Desktop Desktop { get; set; } = null!;
 
     public MouseAttachment? MouseAttachment;
@@ -58,7 +60,13 @@ public abstract class BaseGui : IDisposable
     {
         if (Input.IsKeyPressed(Keys.B))
         {
-            (new BookOfAllKnowledgeWindow()).Show(Desktop, new Point(100, 100));
+            if (Boak != null)
+            {
+                Boak.Close();
+            }
+
+            Boak = new BookOfAllKnowledgeWindow();
+            Boak.Show(Desktop, new Point(100, 100));
         }
     }
 
@@ -135,10 +143,12 @@ public abstract class BaseGui : IDisposable
 
         _queuedEntityToView = null;
     }
+
     public void CloseEntityWindow()
     {
         _entityViewerWindow.Close();
     }
+
     public void TransferScreenMessage(BaseGui gui)
     {
         gui._screenMessage = _screenMessage;

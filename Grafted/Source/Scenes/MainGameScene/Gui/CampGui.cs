@@ -29,8 +29,8 @@ public class CampGui : BaseGui
             HasExternalTextInput = true
         };
 
-        _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(world.PlayerPawn);
-        _pawnBodyEffectsWindow.Show(Desktop, new Point(50, 20));
+        _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(world.PlayerPawn) { Width = 340, Height = 500 };
+        _pawnBodyEffectsWindow.Show(Desktop, new Point(10, 115));
     }
 
     public override void Update(float deltaTime)

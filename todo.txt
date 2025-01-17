@@ -1,6 +1,4 @@
-Clean up BodyPart Icon images
-
-Add BodyPart (Size, HitWeight, Hit points) Weapon (Speed, Damage, durability), Armor (defence, durability) Sheets in BoaK
+Add BodyPart (Size, HitWeight, Hit points)
 
 Add Trinkets Bars (Combat, Interactive)
 

@@ -85,6 +85,7 @@ public static partial class BaseContent {
 
 
         public static class Atlas {
+            public const string White = "white";
             public static class Icon {
                 public const string Minus = "icon-minus-32";
                 public const string Close = "icon-close";
@@ -94,6 +95,7 @@ public static partial class BaseContent {
                 public const string Speed2x = "icon-speed-2x";
                 public const string Speed4x = "icon-speed-4x";
                 public const string Speed6x = "icon-speed-6x";
+                public const string AttackSpeed = "icon-attack-speed";
                 public const string ArrowNeutral = "icon-arrow-neutral";
                 public const string ArrowNegative = "icon-arrow-negative";
                 public const string ArrowPositive = "icon-arrow-positive";
