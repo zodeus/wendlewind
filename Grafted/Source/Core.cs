@@ -61,18 +61,17 @@ public class Core : Game
             PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8
         };
         graphics.DeviceReset += OnGraphicsDeviceReset;
+        Screen.Initialize(graphics);
         if (isFullScreen)
         {
-            Screen.Initialize(graphics);
             graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
         }
         else
         {
-            Screen.Initialize(graphics);
-            Screen.SetSize(3800, 2000);
+            //Screen.SetSize(2560 , 1440 );
+            Screen.SetSize(3820, 2040);
         }
-
         Window.Title = "Grafted";
         Window.AllowUserResizing = true;
         Window.ClientSizeChanged += OnGraphicsDeviceReset;

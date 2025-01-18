@@ -67,4 +67,10 @@
         <SkillType>Combat</SkillType>
         <ToolType>Branch</ToolType>
     </SkillDef> 
+    <SkillDef>
+        <Moniker>MushroomPower</Moniker>
+        <Label>Mushroom Power</Label>
+        <SkillType>Combat</SkillType>
+        <ToolType>MushroomCap</ToolType>
+    </SkillDef> 
 </Definitions>

@@ -51,6 +51,7 @@ public static partial class Defs {
         public static BodyEffectDef BeefedUp = null!;
         public static BodyEffectDef FeelingThePurple = null!;
         public static BodyEffectDef SmokeyHaze = null!;
+        public static BodyEffectDef Psychedelic = null!;
         public static BodyEffectDef DeathToll = null!;
     }
 }
@@ -98,6 +99,7 @@ public static partial class Defs {
         public static ItemDef VialOfDuplicity = null!;
         public static ItemDef HealingRoot = null!;
         public static ItemDef GlitteringLog = null!;
+        public static ItemDef ShimmeringBark = null!;
         public static ItemDef SoothingVibrations = null!;
         public static ItemDef SpidersBite = null!;
     }

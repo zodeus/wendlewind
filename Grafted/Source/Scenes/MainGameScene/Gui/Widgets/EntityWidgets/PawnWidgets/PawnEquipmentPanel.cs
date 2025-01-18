@@ -75,7 +75,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
             // Try Equip
             if (item.ItemDef.EquipmentProperties.SlotUsedToEquip == slot || (item.ItemDef.ItemType == ItemType.Potion && slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2))
             {
-                //EntityContainer transferringContainer = item.Container!;
+                // Item that can be potentially unEquipped, if this is set it will re-add this item to the pawns inventory
                 Item? unEquippedItem;
                 if (item.ItemDef.ItemType == ItemType.Potion)
                 {
@@ -103,7 +103,6 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
                 _gui.MouseAttachment.Detach();
                 if (unEquippedItem != null)
                 {
-                    Log.Warning("In weird spot, not sure what this is anymore.");
                     _pawn.Inventory.TryAdd(unEquippedItem);
                 }
             }

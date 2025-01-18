@@ -21,11 +21,11 @@
         <AffectedStats>
             <ListItem>
                 <Stat>MeleeStrength</Stat>
-                <Offset>.20</Offset>
+                <Offset>.15</Offset>
             </ListItem>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Offset>.25</Offset>
+                <Offset>.20</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -44,12 +44,12 @@
         </AffectedStats>
     </BodyEffectDef>
     <BodyEffectDef>
-        <Moniker>EnergizedLikeABunny</Moniker>
-        <Label>Energized Like A Bunny</Label>
+        <Moniker>Energized</Moniker>
+        <Label>Energized</Label>
         <AffectedStats>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Offset>.5</Offset>
+                <Offset>.35</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -65,6 +65,26 @@
             <ListItem>
                 <Stat>Evasion</Stat>
                 <Offset>.02</Offset>
+            </ListItem>
+        </AffectedStats>
+    </BodyEffectDef>
+    <BodyEffectDef>
+        <Moniker>Psychedelic</Moniker>
+        <Label>Psychedelic</Label>
+        <Description>You can perceive a high reality</Description>
+        <Notes>Higher reality perception</Notes>
+        <AffectedStats>
+            <ListItem>
+                <Stat>MeleeAccuracy</Stat>
+                <Offset>.075</Offset>
+            </ListItem>
+            <ListItem>
+                <Stat>Evasion</Stat>
+                <Offset>.03</Offset>
+            </ListItem>
+            <ListItem>
+                <Stat>AttackSpeed</Stat>
+                <Offset>1</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>

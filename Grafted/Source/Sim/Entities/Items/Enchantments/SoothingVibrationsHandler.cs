@@ -5,7 +5,7 @@ namespace Grafted.Sim.Entities.Items.Enchantments;
 [UsedImplicitly]
 public class SoothingVibrationsHandler : EnchantmentHandler
 {
-    private const int DurationInTicks = 80;
+    private const int DurationInTicks = 60;
     public override void HandlePawnTakeDamage(BodyPart bodyPart, Pawn pawn, Pawn requestSource, DamageRecord damageRecord)
     {
         ApplyToRegenerationToPart(bodyPart);

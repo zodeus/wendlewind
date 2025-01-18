@@ -36,6 +36,7 @@
                 <Race>Bunny</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>Bunny</PawnName>
+                <BodySizeFactor>1.2</BodySizeFactor>
                 <SpawnWeight>1</SpawnWeight>
                 <Skills>
                     <Biting>1</Biting>
@@ -66,6 +67,7 @@
                 <Race>Bunny</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>Bunny</PawnName>
+                <BodySizeFactor>1.4</BodySizeFactor>
                 <SpawnWeight>1</SpawnWeight>
                 <Skills>
                     <Biting>2</Biting>
@@ -97,6 +99,7 @@
                 <Config>DefaultEnemy</Config>
                 <PawnName>Bunny</PawnName>
                 <SpawnWeight>1</SpawnWeight>
+                <BodySizeFactor>1.6</BodySizeFactor>
                 <Skills>
                     <Biting>2</Biting>
                 </Skills>

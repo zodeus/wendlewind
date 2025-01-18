@@ -180,8 +180,8 @@ public static partial class BaseContent {
                 Large = monoFont.GetFont(48),
                 VeryLarge = monoFont.GetFont(64),
                 Huge = monoFont.GetFont(80)
-            };
-
+            };  
+            
             Fancy = new FontData {
                 VerySmall = fancyFont.GetFont(16),
                 Small = fancyFont.GetFont(24),

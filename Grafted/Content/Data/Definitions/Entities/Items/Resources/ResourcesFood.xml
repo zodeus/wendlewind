@@ -20,7 +20,7 @@
             </Effects>
         </FoodProperties>
         <BaseStats>
-            <NutritionalValue>.2</NutritionalValue>
+            <NutritionalValue>.15</NutritionalValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Food">
@@ -33,7 +33,7 @@
             <Effects>
                 <ListItem>
                     <Def>BeefedUp</Def>
-                    <DurationInTicks>1000</DurationInTicks>
+                    <DurationInTicks>5000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
@@ -48,7 +48,7 @@
             </ResourceRequirements>
         </CraftingProperties>
         <BaseStats>
-            <NutritionalValue>1</NutritionalValue>
+            <NutritionalValue>.4</NutritionalValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Food">
@@ -61,12 +61,12 @@
             <Effects>
                 <ListItem>
                     <Def>BeefedUp</Def>
-                    <DurationInTicks>3000</DurationInTicks>
+                    <DurationInTicks>5000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
         <BaseStats>
-            <NutritionalValue>1</NutritionalValue>
+            <NutritionalValue>.3</NutritionalValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Food">
@@ -79,12 +79,12 @@
             <Effects>
                 <ListItem>
                     <Def>FoodPoisoning</Def>
-                    <DurationInTicks>2000</DurationInTicks>
+                    <DurationInTicks>3000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
         <BaseStats>
-            <NutritionalValue>.3</NutritionalValue>
+            <NutritionalValue>.15</NutritionalValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Food">
@@ -97,12 +97,12 @@
             <Effects>
                 <ListItem>
                     <Def>FoodPoisoning</Def>
-                    <DurationInTicks>1440</DurationInTicks>
+                    <DurationInTicks>3000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
         <BaseStats>
-            <NutritionalValue>.3</NutritionalValue>
+            <NutritionalValue>.15</NutritionalValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Food">
@@ -114,8 +114,8 @@
             <FoodType>CookedVegetable</FoodType>
             <Effects>
                 <ListItem>
-                    <Def>EnergizedLikeABunny</Def>
-                    <DurationInTicks>2000</DurationInTicks>
+                    <Def>Energized</Def>
+                    <DurationInTicks>5000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
@@ -133,7 +133,7 @@
             </ResourceRequirements>
         </CraftingProperties>
         <BaseStats>
-            <NutritionalValue>1</NutritionalValue>
+            <NutritionalValue>.3</NutritionalValue>
         </BaseStats>
     </ItemDef>
 </Definitions>

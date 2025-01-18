@@ -13,6 +13,7 @@
                 <Config>DefaultEnemy</Config>
                 <PawnName>Grain Goon</PawnName>
                 <SpawnWeight>100</SpawnWeight>
+                <BodySizeFactor>1</BodySizeFactor>
                 <Skills>
                     <Hammers>0</Hammers>
                 </Skills>
@@ -51,6 +52,7 @@
                 <Config>DefaultEnemy</Config>
                 <PawnName>Grain Goon</PawnName>
                 <SpawnWeight>100</SpawnWeight>
+                <BodySizeFactor>1.1</BodySizeFactor>
                 <Skills>
                     <Hammers>0</Hammers>
                 </Skills>
@@ -90,6 +92,7 @@
                 <Config>DefaultEnemy</Config>
                 <PawnName>Grain Goon</PawnName>
                 <SpawnWeight>100</SpawnWeight>
+                <BodySizeFactor>1.1</BodySizeFactor>
                 <Skills>
                     <Hammers>1</Hammers>
                 </Skills>
@@ -130,6 +133,7 @@
                 <Config>DefaultEnemy</Config>
                 <PawnName>Grain Goon</PawnName>
                 <SpawnWeight>100</SpawnWeight>
+                <BodySizeFactor>1.1</BodySizeFactor>
                 <Skills>
                     <Hammers>2</Hammers>
                 </Skills>
@@ -171,11 +175,11 @@
                 <Config>DefaultEnemy</Config>
                 <PawnName>Henry the Hungry</PawnName>
                 <SpawnWeight>1</SpawnWeight>
+                <BodySizeFactor>1.2</BodySizeFactor>
                 <Skills>
                     <Knives>10</Knives>
                 </Skills>
                 <Effects>
-                    <!--<ListItem>EnergizedLikeABunny</ListItem>-->
                 </Effects>
                 <EquipmentItems>
                     <ListItem>Knife</ListItem>

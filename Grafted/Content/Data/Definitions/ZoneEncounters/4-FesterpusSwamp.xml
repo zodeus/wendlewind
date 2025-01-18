@@ -40,6 +40,7 @@
                 <Config>DefaultEnemy</Config>
                 <PawnName>Blistering Toad</PawnName>
                 <SpawnWeight>1</SpawnWeight>
+                <BodySizeFactor>1</BodySizeFactor>
                 <Skills>
                     <Tonguing>0</Tonguing>
                 </Skills>
@@ -72,6 +73,7 @@
                 <Config>DefaultEnemy</Config>
                 <PawnName>Blistering Toad</PawnName>
                 <SpawnWeight>1</SpawnWeight>
+                <BodySizeFactor>1.2</BodySizeFactor>
                 <Skills>
                     <Tonguing>1</Tonguing>
                 </Skills>
@@ -104,6 +106,7 @@
                 <Config>DefaultEnemy</Config>
                 <PawnName>Blistering Toad</PawnName>
                 <SpawnWeight>1</SpawnWeight>
+                <BodySizeFactor>1.3</BodySizeFactor>
                 <Skills>
                     <Tonguing>1</Tonguing>
                 </Skills>
@@ -138,13 +141,15 @@
                 <Config>DefaultEnemy</Config>
                 <PawnName>Frog Father</PawnName>
                 <SpawnWeight>1</SpawnWeight>
+                <BodySizeFactor>1.5</BodySizeFactor>
                 <Skills>
-                    <Tonguing>2</Tonguing>
+                    <Tonguing>3</Tonguing>
                 </Skills>
                 <Effects>
                     <ListItem>BeefedUp</ListItem>
                 </Effects>
                 <EquipmentItems>
+                    <ListItem>JarOfBlood</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>

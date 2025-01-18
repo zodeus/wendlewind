@@ -6,8 +6,7 @@ namespace Grafted.Sim.Combat;
 
 public class CombatHandler
 {
-    public readonly Encounter Encounter;
-
+    private readonly Encounter Encounter;
     private readonly Dictionary<Pawn, Item> _queuedPotions = new();
     private string? _deathMessage;
     public Pawn Player { get; set; }
@@ -40,6 +39,7 @@ public class CombatHandler
         Core.Context.DeathRecords.RecordDeath(new DeathRecord
         {
             CauseOfDeath = deathEvent.Record.CauseOfDeath,
+            Ticks = Encounter.Ticks,
             Biome = Encounter.Zone.BiomeDef,
             PawnName = deathEvent.Pawn.LabelShort + (Encounter.AtBoss ? " (Boss)" : "")
         });
@@ -48,12 +48,16 @@ public class CombatHandler
     private void OnDamageTaken(Pawn victim, DamageRequest request, DamageResponse response)
     {
         var attacker = request.Source;
-        //todo move this to Encounter
-        foreach (var damage in response.Damages.SelectMany(r => r.BodyParts))
+        
+        // Record players severed body parts in order to take its equipment
+        if (victim.PawnType == PawnType.Player)
         {
-            if (damage.BodyPart.IsExternal && damage.WasSevered)
+            foreach (var damage in response.Damages.SelectMany(r => r.BodyParts))
             {
-                Encounter.SeveredLimbs.Add(damage.BodyPart);
+                if (damage.BodyPart.IsExternal && damage.WasSevered)
+                {
+                    Encounter.SeveredLimbs.Add(damage.BodyPart);
+                }
             }
         }
 

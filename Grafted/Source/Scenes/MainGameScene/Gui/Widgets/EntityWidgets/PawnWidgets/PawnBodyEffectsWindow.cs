@@ -71,7 +71,7 @@ public sealed class PawnBodyEffectsWindow : Window
             Widgets.Add(_durationLabel);
             if (effect.Def.Notes != null)
             {
-                Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = "  " + effect.Def.Notes });
+                Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = effect.Def.Notes, Wrap = true, Margin = new Thickness(26, 0, 0, 0) });
             }
 
             if (effect.Def.AffectedStats == null)

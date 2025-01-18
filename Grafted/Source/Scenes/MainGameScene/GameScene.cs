@@ -33,7 +33,7 @@ public class GameScene : Scene
     private void StartGame()
     {
         ActiveGui?.Dispose();
-        _campGui = new CampGui(_context.World);
+        _campGui = new CampGui(_context);
         ActiveGui = _campGui;
     }
 
@@ -49,7 +49,7 @@ public class GameScene : Scene
         ActiveGui = state switch
         {
             GameState.Zone => new ZoneGui(_context),
-            GameState.Camp => new CampGui(_context.World), //todo this should only be instantiated once, but it doesn't refresh properly
+            GameState.Camp => new CampGui(_context), //todo this should only be instantiated once, but it doesn't refresh properly
             _ => ActiveGui
         };
     }

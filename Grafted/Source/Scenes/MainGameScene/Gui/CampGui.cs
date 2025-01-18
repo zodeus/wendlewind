@@ -10,10 +10,10 @@ public class CampGui : BaseGui
     private readonly PawnBodyEffectsWindow _pawnBodyEffectsWindow;
     private readonly CampOverviewPanel _campOverview;
 
-    public CampGui(World world)
+    public CampGui(GameContext context)
     {
-        _gameHud = new GameHud(world.Player) { HorizontalAlignment = HorizontalAlignment.Stretch, Margin = new Thickness(0, 5, 0, 0) };
-        _campOverview = new CampOverviewPanel(this, world);
+        _gameHud = new GameHud(this, context) { HorizontalAlignment = HorizontalAlignment.Stretch, Margin = new Thickness(0, 5, 0, 0) };
+        _campOverview = new CampOverviewPanel(this, context);
         Desktop = new Desktop
         {
             Scale = new Vector2(1, 1),
@@ -29,7 +29,7 @@ public class CampGui : BaseGui
             HasExternalTextInput = true
         };
 
-        _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(world.PlayerPawn) { Width = 340, Height = 500 };
+        _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(context.PlayerPawn) { Width = 340 };
         _pawnBodyEffectsWindow.Show(Desktop, new Point(10, 115));
     }
 

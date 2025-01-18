@@ -43,7 +43,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.5</AttackSpeedModifier>
-            <MaxHitPoints>800</MaxHitPoints>
+            <MaxHitPoints>1200</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="MushroomBodyPartBase">
@@ -60,7 +60,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.2</AttackSpeedModifier>
-            <MaxHitPoints>350</MaxHitPoints>
+            <MaxHitPoints>400</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="MushroomBodyPartBase">
@@ -80,7 +80,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.1</AttackSpeedModifier>
-            <MaxHitPoints>200</MaxHitPoints>
+            <MaxHitPoints>300</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="MushroomBodyPartBase">
@@ -115,7 +115,7 @@
         </EquipmentSlots>
         <BaseStats>
             <AttackSpeedModifier>.1</AttackSpeedModifier>
-            <MaxHitPoints>200</MaxHitPoints>
+            <MaxHitPoints>300</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
 </Definitions>

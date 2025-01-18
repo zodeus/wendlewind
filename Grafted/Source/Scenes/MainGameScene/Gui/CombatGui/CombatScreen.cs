@@ -17,16 +17,16 @@ public class CombatScreen : VerticalStackPanel
     private ImageButton _enemyQueuedPotionSlot;
     private Item? _enemyQueuedPotion = null;
     private readonly HorizontalStackPanel _potionQueuePanel;
+    private readonly Label _tickLabel;
 
     private Encounter Encounter => _context.CurrentZone!.ActiveEncounter!;
 
     public CombatScreen(ZoneGui gui, GameContext context)
     {
         _context = context;
-        //Core.Context.IsPaused = false;
         Encounter.StateChangedAction += CombatStateChangedAction();
         Encounter.CombatRecord.LogMessageAddedAction += message => { AddCombatLogEntry(message.Text); };
-        _gameHud = new GameHud(context.Player)
+        _gameHud = new GameHud(gui, context)
         {
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Margin = new Thickness(0, 5, 0, 0)
@@ -79,9 +79,16 @@ public class CombatScreen : VerticalStackPanel
             {
                 _playerQueuedPotionSlot,
                 new VerticalSeparator { HorizontalAlignment = HorizontalAlignment.Center },
-               _enemyQueuedPotionSlot,
+                _enemyQueuedPotionSlot,
             }
         };
+        _tickLabel = new Label(BaseContent.Styles.Label.Normal)
+        {
+            Margin = new Thickness(0, 15, 0, 0),
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Text = "0", TextColor = Color.DarkGoldenrod
+        };
+
         VerticalStackPanel centerColumn = new()
         {
             Spacing = 0, GridRow = 1, GridColumn = 1,
@@ -89,7 +96,8 @@ public class CombatScreen : VerticalStackPanel
             Widgets =
             {
                 _controlPanel,
-                _potionQueuePanel
+                _potionQueuePanel,
+                _tickLabel
             }
         };
 
@@ -173,6 +181,7 @@ public class CombatScreen : VerticalStackPanel
             _enemyQueuedPotionSlot.Image = null;
         }
 
+        _tickLabel.Text = $"{_context.CurrentZone?.ActiveEncounter?.Ticks}";
         _gameHud.Update();
         _controlPanel.Update();
         _playerPartyPanel.Update();

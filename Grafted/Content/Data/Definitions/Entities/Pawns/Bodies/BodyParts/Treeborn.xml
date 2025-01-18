@@ -84,7 +84,7 @@
             <ListItem>ArterySocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>25</MaxHitPoints>
+            <MaxHitPoints>40</MaxHitPoints>
             <AttackSpeedModifier>.75</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>

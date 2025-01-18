@@ -16,14 +16,27 @@ public sealed class PlayerKillsWindow : Window
         container.Widgets.Add(new Label(BaseContent.Styles.Label.Medium) { Text = "Biome", GridRow = 0, GridColumn = 0 });
         container.Widgets.Add(new Label(BaseContent.Styles.Label.Medium) { Text = "Creature", GridRow = 0, GridColumn = 1 });
         container.Widgets.Add(new Label(BaseContent.Styles.Label.Medium) { Text = "Cause of death", GridRow = 0, GridColumn = 2 });
-        container.Widgets.Add(new Label(BaseContent.Styles.Label.Medium) { Text = "Round", GridRow = 0, GridColumn = 3 });
+        container.Widgets.Add(new Label(BaseContent.Styles.Label.Medium) { Text = "Ticks", GridRow = 0, GridColumn = 3 });
+        container.Widgets.Add(new Label(BaseContent.Styles.Label.Medium) { Text = "Round", GridRow = 0, GridColumn = 4 });
         int gridRow = 1;
         foreach (DeathRecord deathRecord in deathRecords)
         {
+            var ticks = new Label()
+            {
+                Text = deathRecord.Ticks.ToString(), GridRow = gridRow, GridColumn = 3
+            };
+            var defaultColor = deathRecord.Ticks > 2000 ? Color.OrangeRed : ticks.TextColor;
+            ticks.TextColor = defaultColor;
+
             container.Widgets.Add(new Label() { Text = deathRecord.Biome.Label, GridRow = gridRow, GridColumn = 0 });
             container.Widgets.Add(new Label() { Text = deathRecord.PawnName, GridRow = gridRow, GridColumn = 1 });
             container.Widgets.Add(new Label() { Text = deathRecord.CauseOfDeath, GridRow = gridRow, GridColumn = 2 });
-            container.Widgets.Add(new Label() { Text = deathRecord.Round.ToString(), GridRow = gridRow, GridColumn = 3 });
+            container.Widgets.Add(ticks);
+            container.Widgets.Add(new Label()
+            {
+                TextColor = defaultColor,
+                Text = deathRecord.Round.ToString(), GridRow = gridRow, GridColumn = 4
+            });
             gridRow++;
         }
     }

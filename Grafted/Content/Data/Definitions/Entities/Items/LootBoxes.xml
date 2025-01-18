@@ -72,12 +72,12 @@
             </ListItem>
             <ListItem>
                 <ItemDef>MedKit</ItemDef>
-                <Amount>4~7</Amount>
+                <Amount>4~6</Amount>
                 <ChanceToDrop>1</ChanceToDrop>
             </ListItem>
             <ListItem>
                 <ItemDef>ArterialThreads</ItemDef>
-                <Amount>2~4</Amount>
+                <Amount>3~4</Amount>
                 <ChanceToDrop>1</ChanceToDrop>
             </ListItem>
         </Items>
@@ -135,15 +135,19 @@
         <Items>
             <ListItem>
                 <ItemDef>CookingPot</ItemDef>
-                <Weight>100</Weight>
+                <Weight>200</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>MortarAndPestle</ItemDef>
-                <Weight>10</Weight>
+                <Weight>100</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>VialOfDuplicity</ItemDef>
-                <Weight>10</Weight>
+                <Weight>100</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>ThirdEye</ItemDef>
+                <Weight>50</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>

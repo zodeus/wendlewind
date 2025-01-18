@@ -34,13 +34,13 @@
     <ItemDef ParentName="ItemTrinket">
         <Moniker>DookinDoll</Moniker>
         <Label>Dookin Doll</Label>
-        <Description>What a curious little toy</Description>
+        <Description>What a curious little toy.</Description>
         <TexturePath>Entities/Item/Trinket/DookinDoll</TexturePath>
     </ItemDef>
     <ItemDef ParentName="ItemTrinket">
         <Moniker>CowardsFlag</Moniker>
         <Label>Cowards Flag</Label>
-        <Description>Now you can run like a coward</Description>
+        <Description>Now you can run like a coward.</Description>
         <TexturePath>Entities/Item/Trinket/CowardsFlag</TexturePath>
     </ItemDef>
     <ItemDef ParentName="ItemTrinket">
@@ -58,7 +58,13 @@
     <ItemDef ParentName="ItemTrinket">
         <Moniker>VialOfDuplicity</Moniker>
         <Label>Vial of Duplicity</Label>
-        <Description>A vial that seems to copy itself</Description>
+        <Description>A vial that seems to copy itself.</Description>
         <TexturePath>Entities/Item/Trinket/VialOfDuplicity</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="ItemTrinket">
+        <Moniker>ThirdEye</Moniker>
+        <Label>Third Eye</Label>
+        <Description>Never lose your way again.</Description>
+        <TexturePath>Entities/Item/Trinket/ThirdEye</TexturePath>
     </ItemDef>
 </Definitions>

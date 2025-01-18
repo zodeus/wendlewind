@@ -6,12 +6,11 @@
         <Biome>ForgottenForest</Biome>
         <ShrineProperties>
             <GodLabel>Goddess Gaia</GodLabel>
-            <PartsToRestore>3~6</PartsToRestore>
+            <PartsToRestore>4~7</PartsToRestore>
             <TexturePath>Zones/Shrines/forest_shrine_1</TexturePath>
             <RestorablePartTypes>
                 <ListItem>Thumb</ListItem>
                 <ListItem>Finger</ListItem>
-                <!--<ListItem>Hand</ListItem>-->
                 <ListItem>Foot</ListItem>
             </RestorablePartTypes>
         </ShrineProperties>
@@ -37,7 +36,7 @@
                     <ListItem>
                         <Item>ShimmeringBark</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
+                        <ChanceToDrop>.8</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -55,6 +54,7 @@
                 <Config>DefaultEnemy</Config>
                 <PawnName>Treeling</PawnName>
                 <SpawnWeight>1</SpawnWeight>
+                <BodySizeFactor>1.2</BodySizeFactor>
                 <Skills>
                 </Skills>
                 <EquipmentItems>
@@ -67,7 +67,7 @@
                     <ListItem>
                         <Item>ShimmeringBark</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
+                        <ChanceToDrop>.8</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -85,6 +85,7 @@
                 <Config>DefaultEnemy</Config>
                 <PawnName>Treeling</PawnName>
                 <SpawnWeight>1</SpawnWeight>
+                <BodySizeFactor>1.4</BodySizeFactor>
                 <Skills>
                 </Skills>
                 <EquipmentItems>
@@ -98,7 +99,7 @@
                     <ListItem>
                         <Item>ShimmeringBark</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
+                        <ChanceToDrop>.8</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -116,6 +117,7 @@
                 <Config>DefaultEnemy</Config>
                 <PawnName>Treeling</PawnName>
                 <SpawnWeight>1</SpawnWeight>
+                <BodySizeFactor>1.6</BodySizeFactor>
                 <Skills>
                 </Skills>
                 <EquipmentItems>
@@ -131,7 +133,7 @@
                     <ListItem>
                         <Item>ShimmeringBark</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
+                        <ChanceToDrop>.8</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -150,6 +152,7 @@
                 <Config>DefaultEnemy</Config>
                 <PawnName>Ent</PawnName>
                 <SpawnWeight>1</SpawnWeight>
+                <BodySizeFactor>2</BodySizeFactor>
                 <Skills>
                     <TreebornPower>2</TreebornPower>
                 </Skills>

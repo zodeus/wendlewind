@@ -27,8 +27,8 @@ public class ZoneGui : BaseGui
 
         HandleZoneStateChanged(Zone.State);
 
-        
-        _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(context.PlayerPawn) { Width = 340, Height = 500 };
+
+        _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(context.PlayerPawn) { Width = 340 };
         _pawnBodyEffectsWindow.Show(Desktop, new Point(10, 115));
     }
 
@@ -52,7 +52,7 @@ public class ZoneGui : BaseGui
 
         CloseEntityWindow();
         _shrineScreen = null;
-        
+
         switch (state)
         {
             case ZoneState.Combat:
@@ -112,11 +112,11 @@ public class ZoneGui : BaseGui
         Zone.Stage++;
         _combatResultsScreen = new CombatResultsScreen(this, _context);
         (Desktop.Root as Panel)!.Widgets.Add(_combatResultsScreen);
-        
+
         _shrineScreen?.RemoveFromParent();
         _shrineScreen = null;
 
-        
+
         // if (advanceStage)
         // {
         //     Zone.Stage++;

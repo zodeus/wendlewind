@@ -16,7 +16,7 @@ public sealed class PawnStatsPanel : VerticalStackPanel, IUpdatable
             {
                 Widgets =
                 {
-                    new Label { Text = baseStat.Def.Label, Width = 250 },
+                    new Label { Text = baseStat.Def.Label, Width = 400 },
                     new Label { Text = pawn.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture) }
                 }
             });

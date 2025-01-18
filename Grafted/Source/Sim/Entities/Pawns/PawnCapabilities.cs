@@ -12,6 +12,7 @@ public class PawnCapabilities : IExposable {
         get
         {
             var eyes = _pawn.Body.AllExternalParts.Count(p => p.Type == BodyPartType.Eye && p.IsFunctional);
+            //todo add third eye behavior
             return eyes switch
             {
                 2 => 1f,

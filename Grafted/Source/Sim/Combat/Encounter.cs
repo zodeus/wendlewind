@@ -11,11 +11,12 @@ public class Encounter
     public Zone? Zone;
     public EncounterDef Def = null!;
     public EntityContainer Loot = new();
+    public int Ticks;
 
-    public readonly List<Pawn> PlayerPawns = new();
-    public readonly List<Pawn> EnemyPawns = new();
+    public readonly List<Pawn> PlayerPawns = [];
+    public readonly List<Pawn> EnemyPawns = [];
     public readonly CombatRecord CombatRecord = new();
-    public readonly List<BodyPart> SeveredLimbs = new();
+    public readonly List<BodyPart> SeveredLimbs = [];
 
     public Encounter(Zone zone)
     {
@@ -67,7 +68,7 @@ public class Encounter
     {
         State = EncounterState.Finished;
 
-        bool playerIsAlive = !PlayerPawns[0].IsDead;
+        var playerIsAlive = !PlayerPawns[0].IsDead;
         if (playerIsAlive)
         {
             CollectLoot();
@@ -104,50 +105,52 @@ public class Encounter
                 AddToLootContainer(item);
             }
 
-            /*foreach ((BodyPart? bodyPart, var slots) in enemy.Equipment.Slots)
-            {
-                foreach (EquipmentSlotType slot in slots)
-                {
-                    if (slot is EquipmentSlotType.BuiltIn)
-                    {
-                        continue;
-                    }
-
-                    if (enemy.Equipment.UnEquip(bodyPart, slot) is { } item && Core.Random.Chance(chanceToLootEquipment))
-                    {
-                        AddToLootContainer(item);
-                    }
-                }
-            }*/
+            //CollectEquipment(enemy);
         }
 
-        // void TakePartEquipment(BodyPart part)
-        // {
-        //     foreach ((EquipmentSlotType slot, Item? item) in part.Equipment)
-        //     {
-        //         if (item != null && item.ItemDef.EquipmentProperties.SlotUsedToEquip != EquipmentSlotType.BuiltIn && Core.Random.Chance(chanceToLootEquipment))
-        //         {
-        //             part.Equipment[slot] = null;
-        //             AddToLootContainer(item);
-        //         }
-        //     }
-        //
-        //     foreach (BodyPart externalPart in part.ExternalParts)
-        //     {
-        //         TakePartEquipment(externalPart);
-        //     }
-        // }
-        //
-        // foreach (BodyPart part in SeveredLimbs)
-        // {
-        //     TakePartEquipment(part);
-        // }
+        foreach (var part in SeveredLimbs)
+        {
+            TakePartEquipment(part);
+        }
 
-        foreach (ZoneResourceRecord resource in Zone!.BiomeDef.Resources)
+        foreach (var resource in Zone!.BiomeDef.Resources)
         {
             if (Core.Random.Chance(resource.ChanceToHarvest))
             {
                 AddToLootContainer(EntityGenerator.CreateEntity<Item>(resource.Item, resource.Amount.RandomValue));
+            }
+        }
+
+        return;
+
+        void TakePartEquipment(BodyPart part)
+        {
+            foreach (var (slot, item) in part.Equipment)
+            {
+                if (item == null || item.ItemDef.EquipmentProperties.SlotUsedToEquip == EquipmentSlotType.BuiltIn) continue;
+
+                part.Equipment[slot] = null;
+                AddToLootContainer(item);
+            }
+
+            foreach (var externalPart in part.ExternalParts)
+            {
+                TakePartEquipment(externalPart);
+            }
+        }
+    }
+
+    private void CollectEquipment(Pawn enemy)
+    {
+        const int chanceToLootEquipment = 1;
+        foreach (var (bodyPart, slots) in enemy.Equipment.Slots)
+        {
+            foreach (var slot in slots.Where(slot => slot is not EquipmentSlotType.BuiltIn))
+            {
+                if (enemy.Equipment.UnEquip(bodyPart, slot) is { } item && Core.Random.Chance(chanceToLootEquipment))
+                {
+                    AddToLootContainer(item);
+                }
             }
         }
     }
@@ -160,6 +163,7 @@ public class Encounter
 
     public void Tick()
     {
+        Ticks++;
         CombatHandler?.DoFighting();
     }
 }

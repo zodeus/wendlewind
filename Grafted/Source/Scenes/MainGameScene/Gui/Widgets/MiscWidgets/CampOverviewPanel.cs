@@ -13,9 +13,9 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
     private readonly PawnBodyPanel _bodyPanel;
     private readonly TrinketBar _trinketBar;
 
-    public CampOverviewPanel(BaseGui gui, World world)
+    public CampOverviewPanel(BaseGui gui, GameContext context)
     {
-        var playerPawn = world.PlayerPawn;
+        var playerPawn = context.PlayerPawn;
         _bodyPanel = new PawnBodyPanel(gui, playerPawn.Body);
         _inventoryPanel = new ItemContainerPanel(gui,
             playerPawn.Inventory.Entities, null
@@ -56,7 +56,7 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
             HorizontalAlignment = HorizontalAlignment.Center,
             Widgets =
             {
-                ZonePanel(world),
+                ZonePanel(context.World),
                 _bodyPanel,
                 new VerticalStackPanel
                 {

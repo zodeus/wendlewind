@@ -42,17 +42,17 @@ public sealed class ResourcePanel : EntityPanelBase
 
     private void BurnWood(BaseGui gui, Player player, Item item)
     {
+        if (item.StackSize > 1)
+        {
+            item.StackSize--;
+        }
+        else
+        {
+            item.Destroy();
+        }
+        
         if (item.ItemDef == Defs.Items.GlitteringLog)
         {
-            if (item.StackSize > 1)
-            {
-                item.StackSize--;
-            }
-            else
-            {
-                item.Destroy();
-            }
-
             gui.PushScreenMessage(new ScreenMessageData
             {
                 Font = BaseContent.Fonts.Fancy.Medium,
@@ -65,12 +65,26 @@ public sealed class ResourcePanel : EntityPanelBase
                 Def = Defs.BodyEffects.SmokeyHaze,
                 TicksLeft = 4000
             });
+        } else if (item.ItemDef == Defs.Items.ShimmeringBark)
+        {
+            gui.PushScreenMessage(new ScreenMessageData
+            {
+                Font = BaseContent.Fonts.Fancy.Medium,
+                Text = Defs.BodyEffects.SmokeyHaze.Description,
+                Duration = 6,
+                Color = Color.Orange
+            });
+            player.Pawn.Body.Effects.TryApplyEffect(new BodyEffect
+            {
+                Def = Defs.BodyEffects.Psychedelic,
+                TicksLeft = 4000
+            });
         }
     }
 
     private bool ShowBurnWood(Player player, Item item)
     {
-        if (item.ItemDef == Defs.Items.GlitteringLog)
+        if (item.ItemDef == Defs.Items.GlitteringLog || item.ItemDef == Defs.Items.ShimmeringBark)
         {
             return player.HasTrinkets(Defs.Items.EncasedFire);
         }

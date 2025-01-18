@@ -6,7 +6,7 @@
         <Biome>DampCave</Biome>
         <ShrineProperties>
             <GodLabel>God Glurmf</GodLabel>
-            <PartsToRestore>2~5</PartsToRestore>
+            <PartsToRestore>4~7</PartsToRestore>
             <TexturePath>Zones/Shrines/cave_shrine_1</TexturePath>
             <RestorablePartTypes>
                 <ListItem>Thumb</ListItem>
@@ -20,7 +20,7 @@
         <Moniker>DampCave-01</Moniker>
         <Biome>DampCave</Biome>
         <PotentialLootBoxes>
-            <ListItem>WeaponChestIronAge</ListItem>
+            <ListItem>TrinketsChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -28,13 +28,11 @@
                 <Config>DefaultEnemy</Config>
                 <PawnName>Red Cap</PawnName>
                 <Skills>
-                    <Swords>5</Swords>
+                    <MushroomPower>0</MushroomPower>
                 </Skills>
                 <Effects>
                 </Effects>
                 <EquipmentItems>
-                    <ListItem>ShortSword</ListItem>
-                    <ListItem>ShortSword</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
@@ -50,22 +48,20 @@
         <Moniker>DampCave-02</Moniker>
         <Biome>DampCave</Biome>
         <PotentialLootBoxes>
-            <ListItem>WeaponChestIronAge</ListItem>
+            <ListItem>TrinketsChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
                 <Race>RedCapMushroom</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>Red Cap</PawnName>
-                <BodySizeFactor>1.2</BodySizeFactor>
+                <BodySizeFactor>1</BodySizeFactor>
                 <Skills>
-                    <Swords>5</Swords>
+                    <MushroomPower>1</MushroomPower>
                 </Skills>
                 <Effects>
                 </Effects>
                 <EquipmentItems>
-                    <ListItem>ShortSword</ListItem>
-                    <ListItem>ShortSword</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
@@ -81,22 +77,20 @@
         <Moniker>DampCave-03</Moniker>
         <Biome>DampCave</Biome>
         <PotentialLootBoxes>
-            <ListItem>WeaponChestIronAge</ListItem>
+            <ListItem>EnchantedChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
                 <Race>RedCapMushroom</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>Red Cap</PawnName>
-                <BodySizeFactor>1.4</BodySizeFactor>
+                <BodySizeFactor>1.1</BodySizeFactor>
                 <Skills>
-                    <Swords>5</Swords>
+                    <MushroomPower>1</MushroomPower>
                 </Skills>
                 <Effects>
                 </Effects>
                 <EquipmentItems>
-                    <ListItem>ShortSword</ListItem>
-                    <ListItem>ShortSword</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
                     <ListItem>
@@ -112,23 +106,19 @@
         <Moniker>DampCave-04</Moniker>
         <Biome>DampCave</Biome>
         <PotentialLootBoxes>
-            <ListItem>WeaponChestIronAge</ListItem>
+            <ListItem>TrinketsChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
                 <Race>RedCapMushroom</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>Red Cap</PawnName>
-                <BodySizeFactor>1.5</BodySizeFactor>
+                <BodySizeFactor>1.2</BodySizeFactor>
                 <Skills>
-                    <Swords>6</Swords>
+                    <MushroomPower>2</MushroomPower>
                 </Skills>
-                <Effects>
-                </Effects>
-                <EquipmentItems>
-                    <ListItem>ShortSword</ListItem>
-                    <ListItem>ShortSword</ListItem>
-                </EquipmentItems>
+                <Effects/>
+                <EquipmentItems/>
                 <InventoryItems>
                     <ListItem>
                         <Item>PurpleJuice</Item>
@@ -144,23 +134,19 @@
         <Biome>DampCave</Biome>
         <IsBoss>true</IsBoss>
         <PotentialLootBoxes>
-            <ListItem>TrinketsChestNormal</ListItem>
+            <ListItem>EnchantedChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
                 <Race>GreenCapMushroom</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>Stink Puff</PawnName>
-                <BodySizeFactor>2</BodySizeFactor>
+                <BodySizeFactor>1.3</BodySizeFactor>
                 <Skills>
-                    <Swords>10</Swords>
+                    <MushroomPower>2</MushroomPower>
                 </Skills>
-                <EquipmentItems>
-                    <ListItem>ShortSword</ListItem>
-                    <ListItem>ShortSword</ListItem>
-                </EquipmentItems>
-                <InventoryItems>
-                </InventoryItems>
+                <EquipmentItems/>
+                <InventoryItems/>
             </ListItem>
         </Enemies>
     </EncounterDef>

@@ -1,60 +1,9 @@
 ﻿using FontStashSharp.RichText;
+using Grafted.Scenes.MainGameScene.Gui.CombatGui;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
-
-public class MindWidget : VerticalStackPanel
-{
-    private readonly Pawn _pawn;
-    private readonly HorizontalProgressBar _sanity;
-    private readonly HorizontalProgressBar _power;
-    private readonly HorizontalProgressBar _focus;
-
-    public MindWidget(Pawn pawn)
-    {
-        _pawn = pawn;
-        Spacing = 1;
-
-        _sanity = new HorizontalProgressBar
-        {
-            Width = 40, Height = 6,
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.FrameSmall],
-            Filler = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.Neutral], new Color(252, 86, 225)),
-            Padding = new Thickness(3, 3, 3, 3),
-
-            Value = 100f
-        };
-
-        _power = new HorizontalProgressBar
-        {
-            Width = 40, Height = 6,
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.FrameSmall],
-            Filler = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.Neutral], new Color(20, 189, 255)),
-            Padding = new Thickness(3, 3, 3, 3),
-            Value = 50f
-        };
-
-        _focus = new HorizontalProgressBar()
-        {
-            Width = 40, Height = 6,
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.FrameSmall],
-            Filler = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.Neutral], new Color(20, 255, 138)),
-            Padding = new Thickness(3, 3, 3, 3),
-
-            Value = 70f
-        };
-        Widgets.Add(new HorizontalStackPanel { Spacing = 5, Widgets = { new Label(BaseContent.Styles.Label.Small) { Text = "S" }, _sanity } });
-        Widgets.Add(new HorizontalStackPanel { Spacing = 5, Widgets = { new Label(BaseContent.Styles.Label.Small) { Text = "P" }, _power } });
-        Widgets.Add(new HorizontalStackPanel { Spacing = 5, Widgets = { new Label(BaseContent.Styles.Label.Small) { Text = "F" }, _focus } });
-    }
-
-    public void Update()
-    {
-        _sanity.Value = _pawn.Mind.Sanity * 100;
-        _power.Value = _pawn.Mind.Power * 100;
-        _focus.Value = _pawn.Mind.Focus * 100;
-    }
-}
 
 public class GameHud : HorizontalStackPanel
 {
@@ -71,15 +20,16 @@ public class GameHud : HorizontalStackPanel
     private readonly AttackSpeedIcon _attackSpeedLabel;
     private readonly Image _bloodArrow;
 
-    public GameHud(Player player)
+    public GameHud(BaseGui gui, GameContext context)
     {
+        var player = context.Player;
         Spacing = 50;
-        HorizontalStackPanel leftPanel = new() { Width = 200 };
+        HorizontalStackPanel leftPanel = new() { Width = 200, VerticalAlignment = VerticalAlignment.Center };
         HorizontalStackPanel centerPanel = new() { Spacing = 10, HorizontalAlignment = HorizontalAlignment.Center };
         HorizontalStackPanel rightPanel = new() { Width = 300 };
-        Proportions.Add(Proportion.Auto);
-        Proportions.Add(Proportion.Fill);
-        Proportions.Add(Proportion.Auto);
+        SetProportionType(leftPanel, ProportionType.Auto);
+        SetProportionType(centerPanel, ProportionType.Fill);
+        SetProportionType(rightPanel, ProportionType.Auto);
         _bloodArrow = new Image
         {
             Visible = false,
@@ -91,7 +41,7 @@ public class GameHud : HorizontalStackPanel
             Width = 150,
             VerticalAlignment = VerticalAlignment.Center
         };
-        _attackSpeedLabel = new AttackSpeedIcon(player.Pawn, BaseContent.Fonts.Fancy.Medium) {Height = 64};
+        _attackSpeedLabel = new AttackSpeedIcon(player.Pawn, BaseContent.Fonts.Fancy.Medium) { Height = 64 };
         _temperatureLabel = new Label(BaseContent.Styles.Label.Large) { VerticalAlignment = VerticalAlignment.Center, Width = 90, TextAlign = TextHorizontalAlignment.Center };
         _energyLabel = new Label(BaseContent.Styles.Label.Medium) { VerticalAlignment = VerticalAlignment.Center, Width = 150, TextAlign = TextHorizontalAlignment.Center };
         _bodyTempIcon = new Image
@@ -115,6 +65,22 @@ public class GameHud : HorizontalStackPanel
         };
         //_mindWidget = new MindWidget(Core.Context.World.PlayerPawn);
         _programStats = new ProgramStatsPanel();
+
+        Button kills = new(BaseContent.Styles.Button.Large)
+        {
+            Content = new Image { Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Skull], Width = 56, Height = 56, },
+            Padding = new Thickness(10)
+        };
+        kills.TouchDown += (_, _) => { new PlayerKillsWindow(context.DeathRecords).Show(Desktop); };
+        leftPanel.Widgets.Add(kills);
+
+        Button pawn = new(BaseContent.Styles.Button.Large)
+        {
+            Content = new Image { Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Human], Color.DarkGoldenrod), Width = 56, Height = 56, },
+            Padding = new Thickness(10)
+        };
+        pawn.TouchDown += (_, _) => { gui.ViewEntity(context.PlayerPawn); };
+        leftPanel.Widgets.Add(pawn);
 
         // Blood
         centerPanel.Widgets.Add(new HorizontalStackPanel
@@ -146,7 +112,7 @@ public class GameHud : HorizontalStackPanel
             Width = 64, Height = 64
         });
         centerPanel.Widgets.Add(_attackSpeedLabel);
-        
+
         // Energy
         centerPanel.Widgets.Add(new VerticalStackPanel
         {

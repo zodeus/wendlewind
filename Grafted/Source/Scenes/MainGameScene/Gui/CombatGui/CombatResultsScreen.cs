@@ -16,7 +16,7 @@ public sealed class CombatResultsScreen : VerticalStackPanel
     public CombatResultsScreen(ZoneGui gui, GameContext context)
     {
         _context = context;
-        _gameHud = new GameHud(context.World.Player) { HorizontalAlignment = HorizontalAlignment.Stretch };
+        _gameHud = new GameHud(gui, context) { HorizontalAlignment = HorizontalAlignment.Stretch };
         _pawnPanel = new LootPanel(gui, context.World.PlayerPawn, Encounter.Loot)
         {
             Margin = new Thickness(0, 100, 0, 0)

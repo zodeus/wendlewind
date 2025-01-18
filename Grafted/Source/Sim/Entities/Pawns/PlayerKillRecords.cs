@@ -48,6 +48,7 @@ public class PlayerKillRecords : IEnumerable<DeathRecord>, IExposable
 public class DeathRecord : IExposable
 {
     public string CauseOfDeath = "undefined";
+    public int Ticks;
     public BiomeDef Biome = null!;
     public string PawnName = "undefined";
     public int Round = -1;
@@ -55,6 +56,7 @@ public class DeathRecord : IExposable
     public void ExposeData()
     {
         ScribeValues.Look(ref CauseOfDeath!, "CauseOfDeath");
+        ScribeValues.Look(ref Ticks!, "Ticks");
         ScribeValues.Look(ref PawnName!, "PawnName");
         ScribeValues.Look(ref Round!, "Round");
         ScribeDefs.Look(ref Biome!, "Biome");

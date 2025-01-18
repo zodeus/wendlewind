@@ -15,14 +15,14 @@ public sealed class FoodPanel : EntityPanelBase
         Spacing = 5;
         Widgets.Add(new Image { Background = new TextureRegion(item.Icon), Width = 64, Height = 64 });
         Widgets.Add(new Label("small") { Text = item.Def.Description, Wrap = true, Margin = new Thickness(0, 10, 0, 10), MaxWidth = 600 });
-        Widgets.Add(new Label("small") { Text = $"Nutritional Value: {item.GetStatValue(Defs.Stats.NutritionalValue)}", Wrap = true });
+        /*Widgets.Add(new Label("small") { Text = $"Nutritional Value: {item.GetStatValue(Defs.Stats.NutritionalValue)}", Wrap = true });
         if (item.ItemDef.FoodProperties?.Effects.Any() == true)
         {
             Widgets.Add(new Label("small")
             {
                 Text = $"Effects: {string.Join(", ", item.ItemDef.FoodProperties.Effects.Select(e => e.Def.Label))}", Wrap = true
             });
-        }
+        }*/
 
         _eatButton = new Button(BaseContent.Styles.Button.Normal)
         {

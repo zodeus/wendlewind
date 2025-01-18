@@ -3,16 +3,16 @@ using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 
-internal class PawnCombatPanel : HorizontalStackPanel
+internal sealed class PawnCombatPanel : HorizontalStackPanel
 {
     public readonly Pawn Pawn;
     private readonly Encounter _encounter;
-    private PawnBodySummary? _bodySummary;
-    private AttackSpeedIcon _attackSpeed;
-    private HorizontalProgressBar _bloodBar;
+    private readonly PawnBodySummary? _bodySummary;
+    private AttackSpeedIcon _attackSpeed = null!;
+    private HorizontalProgressBar _bloodBar = null!;
     private PawnEquipmentPanel? _pawnEquipmentPanel;
-    private Dictionary<string, Image> _bodyPartImages = new();
-    private CombatGui.ZoneGui _gui;
+    private readonly Dictionary<string, Image> _bodyPartImages = new();
+    private readonly CombatGui.ZoneGui _gui;
 
     public PawnCombatPanel(CombatGui.ZoneGui gui, Pawn pawn, Encounter encounter, bool isPlayer = true)
     {
@@ -23,10 +23,18 @@ internal class PawnCombatPanel : HorizontalStackPanel
         _gui = gui;
         if (isPlayer)
         {
-            Widgets.Add(GenerateEquipmentPanel());
+            Widgets.Add(new VerticalStackPanel
+            {
+                Proportions = { Proportion.Auto, Proportion.Fill },
+                Widgets =
+                {
+                    GenerateEquipmentPanel(),
+                    new TrinketBar(gui, pawn.Inventory.Entities) { VerticalAlignment = VerticalAlignment.Bottom, HorizontalAlignment = HorizontalAlignment.Right }
+                }
+            });
         }
 
-        Widgets.Add(GeneratePawnPanel(isPlayer));
+        Widgets.Add(GeneratePawnPanel());
 
         if (isPlayer == false)
         {
@@ -59,23 +67,22 @@ internal class PawnCombatPanel : HorizontalStackPanel
     {
         Panel panel = new();
 
-        for (int i = 0; i < Pawn.Body.AllExternalParts.Count; i++)
+        for (var i = 0; i < Pawn.Body.AllExternalParts.Count; i++)
         {
-            if (Pawn.Body.AllExternalParts[i].Image is not null)
+            if (Pawn.Body.AllExternalParts[i].Image is null) continue;
+            
+            var bodyPart = Pawn.Body.AllExternalParts[i];
+            var icon = bodyPart.Image!;
+            Image image = new() { Background = new TextureRegion(icon), Width = panelWidth, Height = panelWidth, BorderThickness = new Thickness(2) };
+            image.TouchDown += (_, _) =>
             {
-                BodyPart bodyPart = Pawn.Body.AllExternalParts[i];
-                Texture2D icon = bodyPart.Image;
-                Image image = new() { Background = new TextureRegion(icon), Width = panelWidth, Height = panelWidth, BorderThickness = new Thickness(2) };
-                image.TouchDown += (_, _) =>
+                if (_gui.MouseAttachment == null)
                 {
-                    if (_gui.MouseAttachment == null)
-                    {
-                        _gui.ViewEntity(Pawn);
-                    }
-                };
-                _bodyPartImages.Add(bodyPart.Label, image);
-                panel.Widgets.Add(image);
-            }
+                    _gui.ViewEntity(Pawn);
+                }
+            };
+            _bodyPartImages.Add(bodyPart.Label, image);
+            panel.Widgets.Add(image);
         }
 
         return panel;
@@ -90,14 +97,14 @@ internal class PawnCombatPanel : HorizontalStackPanel
 
         foreach (var bodyPart in Pawn.Body.AllExternalParts)
         {
-            if (_bodyPartImages.ContainsKey(bodyPart.Label))
+            if (_bodyPartImages.TryGetValue(bodyPart.Label, out var image))
             {
-                _bodyPartImages[bodyPart.Label].Visible = true;
+                image.Visible = true;
             }
         }
     }
 
-    private Widget GeneratePawnPanel(bool isPlayer = true)
+    private Widget GeneratePawnPanel()
     {
         VerticalStackPanel panel = new()
         {
@@ -105,10 +112,10 @@ internal class PawnCombatPanel : HorizontalStackPanel
             ShowGridLines = false,
             GridLinesColor = new Color(255, 0, 0, 255),
         };
-        int panelWidth = 400;
+        var panelWidth = 400;
         if (Pawn.PawnType == PawnType.Enemy || Pawn.Race != Defs.Races.Journeyman)
         {
-            Texture2D icon = Pawn.Icon.Flip(false, true);
+            var icon = Pawn.Icon.Flip(false, true);
             Image image = new() { Background = new TextureRegion(icon), Width = panelWidth, Height = panelWidth, BorderThickness = new Thickness(2) };
             Pawn.Died += _ => { image.Background = new ColoredRegion(new TextureRegion(icon), Color.Red); };
             image.TouchDown += (_, _) =>
@@ -144,8 +151,6 @@ internal class PawnCombatPanel : HorizontalStackPanel
     public void Update()
     {
         _bloodBar.Value = Pawn.Body.BloodPercent * 100;
-        //((ColoredRegion) _bloodBar.Filler).Color = BodyPartColor.GetBloodColor(Pawn.Body.BloodPercent);
-
         _bodySummary?.Update();
         _pawnEquipmentPanel?.Update();
         _attackSpeed.Update();
