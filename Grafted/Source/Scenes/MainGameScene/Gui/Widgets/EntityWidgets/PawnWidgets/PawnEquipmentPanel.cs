@@ -219,7 +219,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
             return DestroyedEquipmentColor;
         }
 
-        if (item.ItemDef.EquipmentProperties.EquipmentType == EquipmentType.Tool && bodyPart.HasMobility == false)
+        if (item.ItemDef.EquipmentProperties.EquipmentType == EquipmentType.Weapon && bodyPart.HasMobility == false)
         {
             return Color.Red;
         }

@@ -8,7 +8,7 @@
     <ItemDef ParentName="Food">
         <Moniker>RawMeat</Moniker>
         <Label>Raw Meat</Label>
-        <Description>Some raw meat</Description>
+        <Description>Raw meat.</Description>
         <TexturePath>Entities/Item/Resource/Organic/RawMeat</TexturePath>
         <FoodProperties>
             <FoodType>RawMeat</FoodType>
@@ -26,7 +26,7 @@
     <ItemDef ParentName="Food">
         <Moniker>CookedMeat</Moniker>
         <Label>Cooked Meat</Label>
-        <Description>Some cooked meat, just a belly filler, also fully restores energy</Description>
+        <Description>Some cooked meat, a nice belly filler.</Description>
         <TexturePath>Entities/Item/Resource/Organic/CookedMeat</TexturePath>
         <FoodProperties>
             <FoodType>CookedMeat</FoodType>
@@ -38,8 +38,9 @@
             </Effects>
         </FoodProperties>
         <CraftingProperties>
-            <MinutesToMake>30</MinutesToMake>
-            <AmountProduced>1</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>EncasedFire</ListItem>
+            </RequiredTrinkets>
             <ResourceRequirements>
                 <ListItem>
                     <Item>RawMeat</Item>
@@ -48,13 +49,13 @@
             </ResourceRequirements>
         </CraftingProperties>
         <BaseStats>
-            <NutritionalValue>.4</NutritionalValue>
+            <NutritionalValue>.35</NutritionalValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Food">
         <Moniker>DriedMeat</Moniker>
         <Label>Dried Meat</Label>
-        <Description>Some dried meat, it's beefy</Description>
+        <Description>Some dried meat, it's beefy.</Description>
         <TexturePath>Entities/Item/Resource/Organic/DriedMeat</TexturePath>
         <FoodProperties>
             <FoodType>DriedMeat</FoodType>
@@ -65,6 +66,17 @@
                 </ListItem>
             </Effects>
         </FoodProperties>
+        <CraftingProperties>
+            <RequiredTrinkets>
+                <ListItem>ATap</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>CookedMeat</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
         <BaseStats>
             <NutritionalValue>.3</NutritionalValue>
         </BaseStats>
@@ -72,7 +84,7 @@
     <ItemDef ParentName="Food">
         <Moniker>RawGrain</Moniker>
         <Label>Raw Grain</Label>
-        <Description>Can be turned into flour</Description>
+        <Description>Can be milled.</Description>
         <TexturePath>Entities/Item/Resource/Organic/RawGrain</TexturePath>
         <FoodProperties>
             <FoodType>RawGrain</FoodType>
@@ -120,11 +132,11 @@
             </Effects>
         </FoodProperties>
         <CraftingProperties>
-            <MinutesToMake>10</MinutesToMake>
-            <AmountProduced>1</AmountProduced>
-            <RequiredTools>
+            <RequiredTrinkets>
+                <ListItem>EncasedFire</ListItem>
+                <ListItem>WeepingBucket</ListItem>
                 <ListItem>CookingPot</ListItem>
-            </RequiredTools>
+            </RequiredTrinkets>
             <ResourceRequirements>
                 <ListItem>
                     <Item>RawCorn</Item>
@@ -134,6 +146,24 @@
         </CraftingProperties>
         <BaseStats>
             <NutritionalValue>.3</NutritionalValue>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="Food">
+        <Moniker>GoldCapMushroom</Moniker>
+        <Label>Golden Cap</Label>
+        <Description>This is an interesting morsel, perhaps I should taste it...</Description>
+        <TexturePath>Entities/Item/Resource/Organic/GoldCapMushroom</TexturePath>
+        <FoodProperties>
+            <FoodType>Fungi</FoodType>
+            <Effects>
+                <ListItem>
+                    <Def>GoldenLips</Def>
+                    <DurationInTicks>300</DurationInTicks>
+                </ListItem>
+            </Effects>
+        </FoodProperties>
+        <BaseStats>
+            <NutritionalValue>.1</NutritionalValue>
         </BaseStats>
     </ItemDef>
 </Definitions>

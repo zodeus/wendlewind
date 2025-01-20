@@ -1,4 +1,4 @@
-namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
+namespace Grafted.Scenes.MainGameScene.Gui.Widgets;
 
 public sealed class PlayerKillsWindow : Window
 {
@@ -19,13 +19,15 @@ public sealed class PlayerKillsWindow : Window
         container.Widgets.Add(new Label(BaseContent.Styles.Label.Medium) { Text = "Ticks", GridRow = 0, GridColumn = 3 });
         container.Widgets.Add(new Label(BaseContent.Styles.Label.Medium) { Text = "Round", GridRow = 0, GridColumn = 4 });
         int gridRow = 1;
+        int totalTicks = 0;
         foreach (DeathRecord deathRecord in deathRecords)
         {
+            totalTicks += deathRecord.Ticks;
             var ticks = new Label()
             {
-                Text = deathRecord.Ticks.ToString(), GridRow = gridRow, GridColumn = 3
+                Text = $"{deathRecord.Ticks}", GridRow = gridRow, GridColumn = 3
             };
-            var defaultColor = deathRecord.Ticks > 2000 ? Color.OrangeRed : ticks.TextColor;
+            var defaultColor = deathRecord.Ticks > 3000 ? Color.OrangeRed : ticks.TextColor;
             ticks.TextColor = defaultColor;
 
             container.Widgets.Add(new Label() { Text = deathRecord.Biome.Label, GridRow = gridRow, GridColumn = 0 });
@@ -39,5 +41,10 @@ public sealed class PlayerKillsWindow : Window
             });
             gridRow++;
         }
+
+        container.Widgets.Add(new Label()
+        {
+            Text = $"{totalTicks:N0}", GridRow = gridRow++, GridColumn = 3
+        });
     }
 }

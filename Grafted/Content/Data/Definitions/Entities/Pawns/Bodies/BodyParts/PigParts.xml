@@ -7,7 +7,7 @@
     <BodyPartDef ParentName="PigBodyPartBase">
         <Moniker>PigHead</Moniker>
         <Label>Head</Label>
-        <HitWeight>20</HitWeight>
+        <HitWeight>25</HitWeight>
         <BloodAmount>50</BloodAmount>
         <BodyPartType>Head</BodyPartType>
         <IsVital>true</IsVital>
@@ -51,7 +51,7 @@
         <Moniker>PigTorso</Moniker>
         <Label>Torso</Label>
         <BodyPartType>Torso</BodyPartType>
-        <HitWeight>50</HitWeight>
+        <HitWeight>35</HitWeight>
         <BloodAmount>300</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <IsVital>true</IsVital>

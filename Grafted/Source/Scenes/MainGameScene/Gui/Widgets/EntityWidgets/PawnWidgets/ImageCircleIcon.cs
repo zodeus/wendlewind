@@ -8,8 +8,8 @@ public sealed class ImageCircleIcon : Panel
     {
         Handler = handler;
         Padding = new Thickness(8);
-        Width = 52;
-        Height = 52;
+        Width = 48;
+        Height = 48;
         Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundWhite64], color ?? Color.White);
         
         image.VerticalAlignment = VerticalAlignment.Stretch;

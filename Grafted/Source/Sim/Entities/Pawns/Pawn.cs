@@ -83,6 +83,16 @@ public class Pawn : Entity, IExposable
     public void TakeDamage(DamageRequest request)
     {
         DamageResponse response = new();
+
+        // Add trinket damages 
+        response.TrinketDamages.AddRange(request.TrinketResults);
+        CheckIfKilledByDamage(response);
+        if (IsDead)
+        {
+            DamageTaken?.Invoke(this, request, response);
+            return;
+        }
+
         if (Core.Random.Chance(request.Source.ChanceToHit(this)) == false)
         {
             response.Missed = true;
@@ -105,10 +115,10 @@ public class Pawn : Entity, IExposable
         {
             if (request.Source.PawnType == PawnType.Player)
             {
-                request.Source.GetSkill(damage.ToolType)?.Learn(1);
+                request.Source.GetSkill(damage.WeaponType)?.Learn(1);
             }
 
-            DamageRecord damageRecord = new(damage.Type, bodyPart, damage.TotalDamage);
+            DamageRecord damageRecord = new(damage.Tool.Label, request.WeaponManeuver.Label, damage.Type, bodyPart, damage.TotalDamage);
 
             // Handle Armor
             var isPartCoveredByParentArmor = bodyPart.Type is BodyPartType.Finger or BodyPartType.Thumb;
@@ -152,7 +162,7 @@ public class Pawn : Entity, IExposable
             var enchantments = bodyPart.Equipment.Values.SelectMany(e => e?.Enchantments?.ToList() ?? []);
             foreach (var enchantment in enchantments)
             {
-                enchantment.EnchantmentHandler!.HandlePawnTakeDamage(bodyPart, this, request.Source, damageRecord);
+                enchantment.EnchantmentHandler!.HandlePawnTakeDamageEffect(bodyPart, this, request.Source, damageRecord);
             }
 
             // Finish up
@@ -170,7 +180,7 @@ public class Pawn : Entity, IExposable
         List<string> nonFunctionalVitalParts = [];
         var causeOfDeath = "ERROR";
         var died = false;
-        foreach (var damageRecord in response.Damages)
+        foreach (var damageRecord in response.Damages.Concat(response.TrinketDamages))
         {
             foreach (var partRecord in damageRecord.BodyParts)
             {
@@ -238,9 +248,9 @@ public class Pawn : Entity, IExposable
         return Skills.GetSkill(skill);
     }
 
-    public Skill? GetSkill(ToolType toolType)
+    public Skill? GetSkill(WeaponType weaponType)
     {
-        return Skills.GetSkill(toolType);
+        return Skills.GetSkill(weaponType);
     }
 
     public float ChanceToHit(Pawn target)

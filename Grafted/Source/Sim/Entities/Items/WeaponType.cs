@@ -1,6 +1,6 @@
 namespace Grafted.Sim.Entities.Items;
 
-public enum ToolType
+public enum WeaponType
 {
     None,
     Invalid,
@@ -38,5 +38,6 @@ public enum ToolType
     Pincer,
     Hoof,
     Branch,
-    MushroomCap
+    MushroomCap,
+    Trinket
 }

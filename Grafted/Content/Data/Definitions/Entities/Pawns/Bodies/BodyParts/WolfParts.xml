@@ -7,7 +7,7 @@
     <BodyPartDef ParentName="WolfBodyPartBase">
         <Moniker>WolfHead</Moniker>
         <Label>Head</Label>
-        <HitWeight>20</HitWeight>
+        <HitWeight>40</HitWeight>
         <BloodAmount>50</BloodAmount>
         <BodyPartType>Head</BodyPartType>
         <IsVital>true</IsVital>
@@ -25,7 +25,7 @@
             <ListItem>BuiltIn</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <MaxHitPoints>500</MaxHitPoints>
+            <MaxHitPoints>600</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="WolfBodyPartBase">

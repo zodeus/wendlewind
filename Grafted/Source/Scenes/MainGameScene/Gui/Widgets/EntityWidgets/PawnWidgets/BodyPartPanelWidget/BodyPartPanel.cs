@@ -1,11 +1,13 @@
 using System.Globalization;
 using Grafted.Sim.Entities;
+using Grafted.Sim.Entities.Pawns.Modifiers;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.BodyPartPanelWidget;
 
 public sealed class BodyPartPanel : EntityPanelBase
 {
     private readonly BodyPart _bodyPart;
+    private readonly BodyPartPanelModifiersLabel _modifiersPanel;
 
     public BodyPartPanel(BaseGui gui, BodyPart bodyPart, EntityPanelProperties? properties = null) : base(gui, bodyPart, properties)
     {
@@ -13,10 +15,11 @@ public sealed class BodyPartPanel : EntityPanelBase
         Padding = new Thickness(20);
         MinWidth = 300;
 
-        VerticalStackPanel leftPanel = new() { Spacing = 5 };
+        _modifiersPanel = new BodyPartPanelModifiersLabel(bodyPart);
 
+        VerticalStackPanel leftPanel = new() { Spacing = 5 };
         leftPanel.Widgets.Add(new BodyPartPanelHealthLabel(bodyPart));
-        leftPanel.Widgets.Add(new BodyPartPanelModifiersLabel(bodyPart));
+        leftPanel.Widgets.Add(_modifiersPanel);
         leftPanel.Widgets.Add(new BodyPartPanelBleedingLabel(bodyPart));
         leftPanel.Widgets.Add(new BodyPartPanelBrokenBonesLabel(bodyPart));
         leftPanel.Widgets.Add(new BodyPartPanelMobilityLabel(bodyPart));
@@ -104,24 +107,38 @@ public sealed class BodyPartPanel : EntityPanelBase
 
     public override void Update()
     {
+        _modifiersPanel.Update();
     }
 }
 
 public sealed class BodyPartPanelModifiersLabel : VerticalStackPanel
 {
+    private Dictionary<BodyPartModifier, Label> _labels = new();
+
     public BodyPartPanelModifiersLabel(BodyPart bodyPart)
     {
         Spacing = 5;
         foreach (var modifier in bodyPart.Modifiers)
         {
-            Widgets.Add(new Label()
+            var label = new Label()
             {
                 Text = modifier.Label + ": " + modifier.TicksRemaining + "t",
                 Padding = new Thickness(12),
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.SimpleWhite], modifier.Def.Color),
                 TextColor = modifier.Def.Color
-            });
+            };
+            Widgets.Add(label);
+
+            _labels.Add(modifier, label);
+        }
+    }
+
+    public void Update()
+    {
+        foreach (var (modifier, label) in _labels)
+        {
+            label.Text = modifier.Label + ": " + modifier.TicksRemaining + "t";
         }
     }
 }

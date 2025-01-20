@@ -10,7 +10,7 @@ public sealed class PawnBodyEffectsWindow : Window
     public PawnBodyEffectsWindow(Pawn pawn)
     {
         TitlePanel.Visible = false;
-        //CloseButton.Visible = false;
+        CloseButton.Visible = false;
         _pawn = pawn;
         Title = "Effects";
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold];

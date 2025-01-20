@@ -5,10 +5,13 @@
         <Moniker>FleshyHand</Moniker>
         <Label>Fleshy Hand</Label>
         <Description>A fleshy hand</Description>
-        <ToolType>Hand</ToolType>
         <EquipmentProperties>
             <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
         </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Hand</WeaponType>
+            <DamageType>Flesh</DamageType>
+        </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/HumanHand</TexturePath>
         <BaseStats>
             <MeleePower>5</MeleePower>
@@ -18,10 +21,13 @@
         <Moniker>GhoulishHand</Moniker>
         <Label>Ghoulish Hand</Label>
         <Description>A ghoulish hand</Description>
-        <ToolType>Hand</ToolType>
         <EquipmentProperties>
             <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
         </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Hand</WeaponType>
+            <DamageType>Flesh</DamageType>
+        </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/GhoulishHand</TexturePath>
         <BaseStats>
             <MeleePower>5</MeleePower>
@@ -31,10 +37,13 @@
         <Moniker>GhoulishFoot</Moniker>
         <Label>Ghoulish Foot</Label>
         <Description>A ghoulish foot</Description>
-        <ToolType>Hand</ToolType>
         <EquipmentProperties>
             <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
         </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Hand</WeaponType>
+            <DamageType>Flesh</DamageType>
+        </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/GhoulishFoot</TexturePath>
         <BaseStats>
             <MeleePower>10</MeleePower>
@@ -44,10 +53,13 @@
         <Moniker>FleshyFoot</Moniker>
         <Label>Fleshy Foot</Label>
         <Description>A fleshy foot</Description>
-        <ToolType>Foot</ToolType>
         <EquipmentProperties>
             <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
         </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Foot</WeaponType>
+            <DamageType>Flesh</DamageType>
+        </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/HumanFoot</TexturePath>
         <BaseStats>
             <MeleePower>8</MeleePower>
@@ -57,8 +69,8 @@
         <Moniker>RabbitTeeth</Moniker>
         <Label>Teeth</Label>
         <Description>Rabbit teeth</Description>
-        <ToolType>Teeth</ToolType>
         <WeaponProperties>
+            <WeaponType>Teeth</WeaponType>
             <DamageType>Sharp</DamageType>
         </WeaponProperties>
         <EquipmentProperties>
@@ -73,8 +85,8 @@
         <Moniker>BlisteringToadTongue</Moniker>
         <Label>Toad Tongue</Label>
         <Description>Blistering Toad Tongue</Description>
-        <ToolType>Tongue</ToolType>
         <WeaponProperties>
+            <WeaponType>Tongue</WeaponType>
             <DamageType>Flesh</DamageType>
             <BodyPartModifiers>
                 <ListItem>
@@ -96,8 +108,8 @@
         <Moniker>WolfTeeth</Moniker>
         <Label>Teeth</Label>
         <Description>Wolf teeth</Description>
-        <ToolType>Teeth</ToolType>
         <WeaponProperties>
+            <WeaponType>Teeth</WeaponType>
             <DamageType>Sharp</DamageType>
         </WeaponProperties>
         <EquipmentProperties>
@@ -112,8 +124,8 @@
         <Moniker>WolfClaws</Moniker>
         <Label>Claws</Label>
         <Description>Wolf Claws</Description>
-        <ToolType>Claw</ToolType>
         <WeaponProperties>
+            <WeaponType>Claw</WeaponType>
             <DamageType>Sharp</DamageType>
         </WeaponProperties>
         <EquipmentProperties>
@@ -128,8 +140,8 @@
         <Moniker>PigTeeth</Moniker>
         <Label>Teeth</Label>
         <Description>Pig teeth</Description>
-        <ToolType>Teeth</ToolType>
         <WeaponProperties>
+            <WeaponType>Teeth</WeaponType>
             <DamageType>Sharp</DamageType>
         </WeaponProperties>
         <EquipmentProperties>
@@ -144,8 +156,8 @@
         <Moniker>FilthyPigHoof</Moniker>
         <Label>Hoof</Label>
         <Description>A filthy pig hoof</Description>
-        <ToolType>Hoof</ToolType>
         <WeaponProperties>
+            <WeaponType>Hoof</WeaponType>
             <DamageType>Blunt</DamageType>
         </WeaponProperties>
         <EquipmentProperties>
@@ -160,8 +172,8 @@
         <Moniker>TreeBranch</Moniker>
         <Label>Tree Branch</Label>
         <Description>It cracks like a whip...</Description>
-        <ToolType>Branch</ToolType>
         <WeaponProperties>
+            <WeaponType>Branch</WeaponType>
             <DamageType>Blunt</DamageType>
         </WeaponProperties>
         <EquipmentProperties>
@@ -176,8 +188,8 @@
         <Moniker>MushroomCapWeapon</Moniker>
         <Label>Mushroom Cap</Label>
         <Description>The cap of a mushroom is very deadly...</Description>
-        <ToolType>MushroomCap</ToolType>
         <WeaponProperties>
+            <WeaponType>MushroomCap</WeaponType>
             <DamageType>Flesh</DamageType>
             <BodyPartModifiers>
                 <ListItem>

@@ -1,6 +1,7 @@
 using Grafted.Scenes.MainGameScene.Gui.Widgets.DefWidgets;
 using Grafted.Sim.Entities.Items.Enchantments;
 using Grafted.Sim.Entities.Items.Medicinals;
+using Grafted.Sim.Entities.Items.Trinkets;
 
 namespace Grafted.Sim.Entities.Items;
 
@@ -10,35 +11,33 @@ public class ItemDef : EntityDef
     public override Type DefUiClass => typeof(ItemDefPanel);
 
     public ItemType ItemType = ItemType.None;
-    public ToolType ToolType = ToolType.None;
     public int StackLimit = 1;
-    
-    public EquipmentProperties EquipmentProperties = new();
-    public WeaponProperties WeaponProperties = new();
-    public List<ToolManeuverDef> ToolManeuvers = new();
 
-    public CraftingProperties CraftingProperties = new();
+    public EquipmentProperties? EquipmentProperties;
+    public WeaponProperties? WeaponProperties;
+    public CraftingProperties? CraftingProperties;
     public FoodProperties? FoodProperties;
     public MedicinalProperties? MedicinalProperties;
     public EnchantmentProperties? EnchantmentProperties;
+    public TrinketProperties? TrinketProperties;
 
     public override void ResolveDependencies()
     {
         base.ResolveDependencies();
-        if (ToolType == ToolType.None)
+        if (WeaponProperties == null || WeaponProperties.WeaponType == WeaponType.None)
         {
             return;
         }
 
-        if (ToolManeuvers.Any())
+        if (WeaponProperties.WeaponManeuvers.Count != 0)
         {
             Log.Info($"Sequences for Def:{Moniker} have been specified by XML, skipping auto-associations");
             return;
         }
 
-        foreach (var def in DefRepository<ToolManeuverDef>.Defs.Where(maneuverDef => maneuverDef.Tools?.Contains(ToolType) == true))
+        foreach (var def in DefRepository<WeaponManeuverDef>.Defs.Where(maneuverDef => maneuverDef.Weapons?.Contains(WeaponProperties.WeaponType) == true))
         {
-            ToolManeuvers.Add(def);
+            WeaponProperties.WeaponManeuvers.Add(def);
         }
     }
 }

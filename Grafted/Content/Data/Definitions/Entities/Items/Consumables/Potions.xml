@@ -18,8 +18,25 @@
     <ItemDef ParentName="Potion">
         <Moniker>AcidFlask</Moniker>
         <Label>Acid Flask</Label>
-        <Description>Has a chance to blind opponent</Description>
+        <Description>Has a chance to blind opponent.</Description>
         <TexturePath>Entities/Item/Consumables/AcidFlask</TexturePath>
+        <CraftingProperties>
+            <AmountProduced>2</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>MortarAndPestle</ListItem>
+                <ListItem>VialOfDuplicity</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>VenomVial</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>ChurniRoot</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
     </ItemDef>
     <ItemDef ParentName="Potion">
         <Moniker>PurpleJuice</Moniker>
@@ -27,28 +44,23 @@
         <BaseStats>
             <PotionDuration>1200</PotionDuration>
         </BaseStats>
-        <Description>Increases melee strength for a short period of time, also provides a small amount of health regeneration (not blood)</Description>
+        <Description>Ancient battle medicine.</Description>
         <TexturePath>Entities/Item/Consumables/PurpleJuice</TexturePath>
-    </ItemDef>
-    <ItemDef ParentName="Potion">
-        <Moniker>TheDreamingPowder</Moniker>
-        <Label>The Dreaming Powder</Label>
-        <Description>Sleep well my friend</Description>
-        <TexturePath>Entities/Item/Potion/TheDreamingPowder</TexturePath>
         <CraftingProperties>
-            <MinutesToMake>1440</MinutesToMake>
             <AmountProduced>2</AmountProduced>
-            <RequiredTools>
-                <ListItem>ATap</ListItem>
+            <RequiredTrinkets>
+                <ListItem>VialOfDuplicity</ListItem>
                 <ListItem>MortarAndPestle</ListItem>
-            </RequiredTools>
+                <ListItem>EncasedFire</ListItem>
+                <ListItem>CookingPot</ListItem>
+            </RequiredTrinkets>
             <ResourceRequirements>
                 <ListItem>
                     <Item>GoldCapMushroom</Item>
                     <Count>2</Count>
                 </ListItem>
                 <ListItem>
-                    <Item>DreamBerry</Item>
+                    <Item>HealingRoot</Item>
                     <Count>2</Count>
                 </ListItem>
                 <ListItem>
@@ -56,10 +68,16 @@
                     <Count>1</Count>
                 </ListItem>
                 <ListItem>
-                    <Item>EndlessWaterBucket</Item>
+                    <Item>VenomVial</Item>
                     <Count>1</Count>
                 </ListItem>
             </ResourceRequirements>
         </CraftingProperties>
+    </ItemDef>
+    <ItemDef ParentName="Potion">
+        <Moniker>TheDreamingPowder</Moniker>
+        <Label>The Dreaming Powder</Label>
+        <Description>Sleep well my friend</Description>
+        <TexturePath>Entities/Item/Potion/TheDreamingPowder</TexturePath>
     </ItemDef>
 </Definitions>

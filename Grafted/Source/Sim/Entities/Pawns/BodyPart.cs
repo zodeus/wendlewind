@@ -342,14 +342,14 @@ public class BodyPart : Entity
         var scaledDamage = damage;
         if (damageType == DamageType.Blunt && IsBone)
         {
-            scaledDamage *= 1.5f;
+            scaledDamage *= 1.3f;
         }
 
         var damageApplied = HitPoints;
         HitPoints -= scaledDamage;
         damageApplied -= HitPoints;
-        var remainingDamage = damage - damageApplied;
-        remainingDamage = damage * 0.7f;
+        //var remainingDamage = damage - damageApplied;
+        var remainingDamage = damage * 0.7f;
 
         var wasDestroyed = wasDestroyedBeforeDamage == false && IsDestroyed;
         var stoppedFunctioning = wasFunctional && IsFunctional == false;

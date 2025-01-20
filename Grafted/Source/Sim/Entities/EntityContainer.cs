@@ -190,7 +190,7 @@ public partial class EntityContainer
 
         if (amount > item.StackSize)
         {
-            Log.Error("Tried to get " + amount + " of " + item + " while only having " + item.StackSize);
+            Log.Warning("Tried to get " + amount + " of " + item + " while only having " + item.StackSize);
             amount = item.StackSize;
         }
 

@@ -4,12 +4,6 @@
     <ItemDef Name="OrganicResource" ParentName="ItemResource" Abstract="true">
     </ItemDef>
     <ItemDef ParentName="OrganicResource">
-        <Moniker>GoldCapMushroom</Moniker>
-        <Label>Golden Cap</Label>
-        <Description>This is an interesting morsel, perhaps I should taste it...</Description>
-        <TexturePath>Entities/Item/Resource/Organic/GoldCapMushroom</TexturePath>
-    </ItemDef>
-    <ItemDef ParentName="OrganicResource">
         <Moniker>HealingRoot</Moniker>
         <Label>Healing Root</Label>
         <Description>Toot, toot, it's a healing root... Grind it, water it, sip it. Tastes like dandelions, but feels like a warm hug.</Description>

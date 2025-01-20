@@ -5,7 +5,6 @@ public sealed class CombatControlPanel : VerticalStackPanel
     private readonly Encounter _encounter;
     private readonly Button _continueButton;
     private readonly HorizontalStackPanel _speedButtons;
-    private readonly TextButton _retreatButton;
 
     public CombatControlPanel(Encounter encounter)
     {
@@ -41,14 +40,6 @@ public sealed class CombatControlPanel : VerticalStackPanel
         };
 
         Widgets.Add(_speedButtons);
-
-        _retreatButton = new TextButton(BaseContent.Styles.Button.Normal)
-        {
-            Text = $"/c[{TC.Golden}]Attempt Escape", Margin = new Thickness(0, 10, 0, 0), HorizontalAlignment = HorizontalAlignment.Stretch,
-        };
-        _retreatButton.Click += (_, _) => { encounter.ShouldAttemptRetreat = true; };
-        _retreatButton.Visible = false; //Core.Context.Player.HasTrinket(Defs.Items.CowardsFlag);//todo - fix this, the retreat button doesn't work
-        Widgets.Add(_retreatButton);
     }
 
     private TextButton CreateSpeedButton(string label, int speed)
@@ -66,10 +57,5 @@ public sealed class CombatControlPanel : VerticalStackPanel
     {
         _speedButtons.RemoveFromParent();
         _continueButton.Visible = true;
-    }
-
-    public void Update()
-    {
-        _retreatButton.Enabled = !_encounter.ShouldAttemptRetreat;
     }
 }

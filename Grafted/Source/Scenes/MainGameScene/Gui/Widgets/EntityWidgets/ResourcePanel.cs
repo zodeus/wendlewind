@@ -96,7 +96,7 @@ public sealed class ResourcePanel : EntityPanelBase
     {
         if (item.ItemDef == Defs.Items.HealingRoot)
         {
-            if (player.HasTrinkets(Defs.Items.MortarAndPestle) && player.HasTrinkets(Defs.Items.VialOfDuplicity) && player.HasTrinkets(Defs.Items.EndlessWaterBucket))
+            if (player.HasTrinkets(Defs.Items.MortarAndPestle) && player.HasTrinkets(Defs.Items.VialOfDuplicity) && player.HasTrinkets(Defs.Items.WeepingBucket))
             {
                 return Defs.Items.BalmyOintment.Label;
             }

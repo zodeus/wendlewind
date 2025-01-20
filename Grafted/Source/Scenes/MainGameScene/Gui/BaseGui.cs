@@ -136,7 +136,7 @@ public abstract class BaseGui : IDisposable
             ShowTitle = false, ShowCloseButton = false, Background = null
         });
         _entityViewerWindow.Title = _queuedEntityToView.Value.Key.Label;
-
+        _entityViewerWindow.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold];
         _entityViewerWindow.Show(Desktop, _queuedEntityToView.Value.Value);
 
         _viewedEntity = _queuedEntityToView.Value.Key;

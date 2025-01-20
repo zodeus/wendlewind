@@ -2,7 +2,7 @@
 
 internal sealed class BoakItemsManeuversPanel : Grid
 {
-    public BoakItemsManeuversPanel(IReadOnlyList<ToolManeuverDef> defs)
+    public BoakItemsManeuversPanel(IReadOnlyList<WeaponManeuverDef> defs)
     {
         Padding = new Thickness(16);
         RowSpacing = 20;
@@ -28,7 +28,7 @@ internal sealed class BoakItemsManeuversPanel : Grid
             AddCell(new Label(BaseContent.Styles.Label.Normal)
             {
                 VerticalAlignment = VerticalAlignment.Center,
-                Text = string.Join(", ", def.Tools?.Select(t => t.ToString()) ?? Array.Empty<string>())
+                Text = string.Join(", ", def.Weapons?.Select(t => t.ToString()) ?? Array.Empty<string>())
             }, gridRow, column++);
 
             gridRow++;

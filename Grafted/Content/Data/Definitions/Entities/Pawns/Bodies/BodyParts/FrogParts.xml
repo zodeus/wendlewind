@@ -31,7 +31,7 @@
         <Moniker>FrogTorso</Moniker>
         <Label>Torso</Label>
         <BodyPartType>Torso</BodyPartType>
-        <HitWeight>50</HitWeight>
+        <HitWeight>35</HitWeight>
         <BloodAmount>300</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <IsVital>true</IsVital>

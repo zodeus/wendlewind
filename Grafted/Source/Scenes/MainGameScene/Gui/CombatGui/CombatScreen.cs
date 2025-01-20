@@ -63,7 +63,7 @@ public class CombatScreen : VerticalStackPanel
         {
             Width = 64, Height = 64
         };
-        _playerQueuedPotionSlot.Click += (_, _) => Encounter.CombatHandler?.DeQueuedPotionFor(Encounter.PlayerPawns[0]);
+        _playerQueuedPotionSlot.Click += (_, _) => Encounter.CombatHandler?.DeQueuedItemForPawn(Encounter.PlayerPawns[0]);
         _enemyQueuedPotionSlot = new ImageButton(BaseContent.Styles.Button.Icon)
         {
             Width = 64, Height = 64
@@ -120,7 +120,7 @@ public class CombatScreen : VerticalStackPanel
         Grid grid = new()
         {
             HorizontalAlignment = HorizontalAlignment.Center,
-            RowSpacing = 20,
+            RowSpacing = 10,
             DefaultRowProportion = Proportion.Auto,
             DefaultColumnProportion = Proportion.Auto,
             Widgets =
@@ -153,7 +153,7 @@ public class CombatScreen : VerticalStackPanel
 
     public void Update()
     {
-        if (Encounter.CombatHandler?.PotionQueuedFor(Encounter.PlayerPawns[0]) is { } potion)
+        if (Encounter.CombatHandler?.ItemQueuedFor(Encounter.PlayerPawns[0]) is { } potion)
         {
             if (!Equals(_playerQueuedPotion, potion))
             {
@@ -167,7 +167,7 @@ public class CombatScreen : VerticalStackPanel
             _playerQueuedPotionSlot.Image = null;
         }
 
-        if (Encounter.CombatHandler?.PotionQueuedFor(Encounter.EnemyPawns[0]) is { } enemyPotion)
+        if (Encounter.CombatHandler?.ItemQueuedFor(Encounter.EnemyPawns[0]) is { } enemyPotion)
         {
             if (!Equals(_enemyQueuedPotion, enemyPotion))
             {
@@ -183,7 +183,6 @@ public class CombatScreen : VerticalStackPanel
 
         _tickLabel.Text = $"{_context.CurrentZone?.ActiveEncounter?.Ticks}";
         _gameHud.Update();
-        _controlPanel.Update();
         _playerPartyPanel.Update();
         _opponentPartyPanel.Update();
         _pawnBodyView.Update();

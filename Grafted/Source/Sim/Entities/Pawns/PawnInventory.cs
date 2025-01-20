@@ -9,6 +9,9 @@ public class PawnInventory : IExposable, IEnumerable<Item>
     public EntityContainer Entities;
     public Item this[int i] => (Item)Entities[i];
 
+    public List<Item> Trinkets => Entities.AsItems().Where(i => i.ItemDef.ItemType == ItemType.Trinket).ToList();
+    public List<Item> Resources => Entities.AsItems().Where(i => i.ItemDef.ItemType == ItemType.Resource).ToList();
+
     public PawnInventory(Pawn pawn)
     {
         Pawn = pawn;
@@ -19,6 +22,8 @@ public class PawnInventory : IExposable, IEnumerable<Item>
     {
         return Entities.TryAdd(entity);
     }
+
+    public int AmountOf(ItemDef def) => Entities.AmountOf(def);
 
     public IEnumerator<Item> GetEnumerator()
     {

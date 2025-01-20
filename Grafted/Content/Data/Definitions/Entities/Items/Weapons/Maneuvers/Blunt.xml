@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <ToolManeuverDef>
+    <WeaponManeuverDef>
         <Moniker>Whack</Moniker>
         <Label>Whack</Label>
-        <Tools>
+        <Weapons>
             <ListItem>Maul</ListItem>
             <ListItem>Mace</ListItem>
             <ListItem>Staff</ListItem>
             <ListItem>Hammer</ListItem>
             <ListItem>Branch</ListItem>
-        </Tools>
+        </Weapons>
         <DamageMultiplier>.65~1.25</DamageMultiplier>
-    </ToolManeuverDef>
-    <ToolManeuverDef>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
         <Moniker>Jab</Moniker>
         <Label>Jab</Label>
-        <Tools>
+        <Weapons>
             <ListItem>Staff</ListItem>
             <ListItem>Branch</ListItem>
-        </Tools>
+        </Weapons>
         <DamageMultiplier>.85~1.05</DamageMultiplier>
-    </ToolManeuverDef>
-    <ToolManeuverDef>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
         <Moniker>Crush</Moniker>
         <Label>Crush</Label>
-        <Tools>
+        <Weapons>
             <ListItem>Maul</ListItem>
             <ListItem>Mace</ListItem>
             <ListItem>Hammer</ListItem>
-        </Tools>
+        </Weapons>
         <DamageMultiplier>.8~1.5</DamageMultiplier>
-    </ToolManeuverDef>
+    </WeaponManeuverDef>
 </Definitions>

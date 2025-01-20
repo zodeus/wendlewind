@@ -5,72 +5,72 @@
         <Moniker>Knives</Moniker>
         <Label>Knives</Label>
         <SkillType>Combat</SkillType>
-        <ToolType>Knife</ToolType>
+        <WeaponType>Knife</WeaponType>
     </SkillDef>
     <SkillDef>
         <Moniker>Staves</Moniker>
         <Label>Staves</Label>
         <SkillType>Combat</SkillType>
-        <ToolType>Staff</ToolType>
+        <WeaponType>Staff</WeaponType>
     </SkillDef> 
     <SkillDef>
         <Moniker>Hammers</Moniker>
         <Label>Hammers</Label>
         <SkillType>Combat</SkillType>
-        <ToolType>Hammer</ToolType>
+        <WeaponType>Hammer</WeaponType>
     </SkillDef> 
     <SkillDef>
         <Moniker>Maces</Moniker>
         <Label>Maces</Label>
         <SkillType>Combat</SkillType>
-        <ToolType>Mace</ToolType>
+        <WeaponType>Mace</WeaponType>
     </SkillDef> 
     <SkillDef>
         <Moniker>Swords</Moniker>
         <Label>Swords</Label>
         <SkillType>Combat</SkillType>
-        <ToolType>Sword</ToolType>
+        <WeaponType>Sword</WeaponType>
     </SkillDef> 
     <SkillDef>
         <Moniker>Axes</Moniker>
         <Label>Axes</Label>
         <SkillType>Combat</SkillType>
-        <ToolType>Axe</ToolType>
+        <WeaponType>Axe</WeaponType>
     </SkillDef> 
     <SkillDef>
         <Moniker>Whipping</Moniker>
         <Label>Whipping</Label>
         <SkillType>Combat</SkillType>
-        <ToolType>Whip</ToolType>
+        <WeaponType>Whip</WeaponType>
     </SkillDef> 
     <SkillDef>
         <Moniker>Biting</Moniker>
         <Label>Biting</Label>
         <SkillType>Combat</SkillType>
-        <ToolType>Teeth</ToolType>
+        <WeaponType>Teeth</WeaponType>
     </SkillDef> 
     <SkillDef>
         <Moniker>Claws</Moniker>
         <Label>Claws</Label>
         <SkillType>Combat</SkillType>
-        <ToolType>Claw</ToolType>
+        <WeaponType>Claw</WeaponType>
     </SkillDef> 
     <SkillDef>
         <Moniker>Tonguing</Moniker>
         <Label>Tonguing</Label>
         <SkillType>Combat</SkillType>
-        <ToolType>Tongue</ToolType>
+        <WeaponType>Tongue</WeaponType>
     </SkillDef> 
     <SkillDef>
         <Moniker>TreebornPower</Moniker>
         <Label>Treeborn Power</Label>
         <SkillType>Combat</SkillType>
-        <ToolType>Branch</ToolType>
+        <WeaponType>Branch</WeaponType>
     </SkillDef> 
     <SkillDef>
         <Moniker>MushroomPower</Moniker>
         <Label>Mushroom Power</Label>
         <SkillType>Combat</SkillType>
-        <ToolType>MushroomCap</ToolType>
+        <WeaponType>MushroomCap</WeaponType>
     </SkillDef> 
 </Definitions>

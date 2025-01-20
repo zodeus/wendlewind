@@ -1,6 +1,6 @@
-using System.Collections;
 using Grafted.Sim.Entities.Items.Enchantments;
 using Grafted.Sim.Entities.Items.Medicinals;
+using Grafted.Sim.Entities.Items.Trinkets;
 
 namespace Grafted.Sim.Entities.Items;
 
@@ -8,21 +8,23 @@ public class Item : Entity, IExposable
 {
     public ItemDef ItemDef => (ItemDef)Def;
     private float _durability;
-    public float MaxDurability = 0;
+    public float MaxDurability;
     public float Durability => _durability;
     public int StackSize = 1;
     public EnchantmentHandler? EnchantmentHandler;
+    public TrinketHandler? TrinketHandler;
     public override string Label => Def.Label;
     public string LabelWithStackSize => IsStackable ? $"{Def.Label} x{StackSize}" : Def.Label;
     public bool IsStackable => ItemDef.StackLimit > 1;
     public MedicinalHandler? MedicinalHandler => ItemDef.MedicinalProperties?.Handler;
+
     public bool CanBeDestroyed => ItemDef.ItemType == ItemType.Equipment;
 
     public ItemEnchantments? Enchantments;
 
     public override void Initialize()
     {
-        if (ItemDef.EquipmentProperties.MaxEnchantments > 0)
+        if (ItemDef.EquipmentProperties?.MaxEnchantments > 0)
         {
             Enchantments = new ItemEnchantments
             {
@@ -35,6 +37,12 @@ public class Item : Entity, IExposable
         {
             EnchantmentHandler = (EnchantmentHandler)Activator.CreateInstance(ItemDef.EnchantmentProperties.HandlerClass)!;
             EnchantmentHandler.Enchantment = this;
+        }
+
+        if (ItemDef.TrinketProperties?.HandlerClass != null)
+        {
+            TrinketHandler = (TrinketHandler)Activator.CreateInstance(ItemDef.TrinketProperties.HandlerClass)!;
+            TrinketHandler.Trinket = this;
         }
 
         MaxDurability = this.GetStatValue(Defs.Stats.MaxDurability);
@@ -59,7 +67,7 @@ public class Item : Entity, IExposable
 
     public void ApplyDurabilityLoss(Item? armorHit)
     {
-        if (ItemDef.EquipmentProperties.SlotUsedToEquip == EquipmentSlotType.BuiltIn)
+        if (ItemDef.EquipmentProperties?.SlotUsedToEquip == EquipmentSlotType.BuiltIn)
         {
             return;
         }
@@ -107,55 +115,21 @@ public class Item : Entity, IExposable
         return false;
     }*/
 
+    public override void Tick()
+    {
+        EnchantmentHandler?.Tick();
+        TrinketHandler?.Tick();
+        base.Tick();
+    }
+
     public override void ExposeData()
     {
-        ScribeValues.Look(ref _durability!, "Durability");
-        ScribeValues.Look(ref MaxDurability!, "MaxDurability");
-        ScribeValues.Look(ref StackSize!, "StackSize");
+        ScribeValues.Look(ref _durability, "Durability");
+        ScribeValues.Look(ref MaxDurability, "MaxDurability");
+        ScribeValues.Look(ref StackSize, "StackSize");
         ScribeDeep.Look(ref Enchantments!, "Enchantments");
         ScribeDeep.Look(ref EnchantmentHandler!, "EnchantmentHandler");
+        ScribeDeep.Look(ref TrinketHandler!, "TrinketHandler");
         base.ExposeData();
-    }
-}
-
-public class ItemEnchantments : IEnumerable<Item>, IExposable
-{
-    public int MaxEnchantments;
-
-    private Dictionary<int, Item?> _enchantments = null!;
-
-    public void ExposeData()
-    {
-        ScribeValues.Look(ref MaxEnchantments!, "MaxEnchantments");
-        ScribeCollections.Look(ref _enchantments!, "Enchantments", LookMode.Value, LookMode.Deep);
-    }
-
-    public Item? TryGetAtSlot(int position)
-    {
-        return _enchantments.Count > position ? _enchantments[position] : null;
-    }
-
-    public void TryAdd(Item enchantment, int position = 0)
-    {
-        _enchantments[position] = enchantment;
-    }
-
-    public void Initialize()
-    {
-        _enchantments = new Dictionary<int, Item?>();
-        for (var i = 0; i < MaxEnchantments; i++)
-        {
-            _enchantments[i] = null;
-        }
-    }
-
-    public IEnumerator<Item> GetEnumerator()
-    {
-        return _enchantments.Values.Where(i => i != null).GetEnumerator()!;
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
     }
 }

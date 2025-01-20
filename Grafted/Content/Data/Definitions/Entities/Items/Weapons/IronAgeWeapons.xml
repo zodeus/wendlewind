@@ -5,11 +5,13 @@
         <Moniker>Mace</Moniker>
         <Label>Mace</Label>
         <Description>Bash! bash! BASH! (1.5x to bones)</Description>
-        <ToolType>Mace</ToolType>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Mace</WeaponType>
+        </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Blunt/Mace</TexturePath>
         <BaseStats>
             <WeaponSpeed>1</WeaponSpeed>
@@ -21,11 +23,13 @@
         <Moniker>ShortSword</Moniker>
         <Label>Short Sword</Label>
         <Description>Very cutty</Description>
-        <ToolType>Sword</ToolType>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Sword</WeaponType>
+        </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Sharp/ShortSword</TexturePath>
         <BaseStats>
             <MeleePower>30</MeleePower>
@@ -37,11 +41,13 @@
         <Moniker>WarAxe</Moniker>
         <Label>War Axe</Label>
         <Description>It chops, it also hurts</Description>
-        <ToolType>Axe</ToolType>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Axe</WeaponType>
+        </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Sharp/WarAxe</TexturePath>
         <BaseStats>
             <MeleePower>35</MeleePower>
@@ -53,11 +59,13 @@
         <Moniker>WarHammer</Moniker>
         <Label>War Hammer</Label>
         <Description>It's purpose, rattle the brains</Description>
-        <ToolType>Hammer</ToolType>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Hammer</WeaponType>
+        </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Blunt/WarHammer</TexturePath>
         <BaseStats>
             <MeleePower>30</MeleePower>

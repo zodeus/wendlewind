@@ -89,29 +89,43 @@ public class GameScene : Scene
             _context.TogglePause();
         }
         
-        if (Input.IsKeyPressed(Keys.S) && Input.IsKeyDown(Keys.LeftControl))
+        if (Input.IsKeyPressed(Keys.F5))
         {
             _context.Save("save.xml");
             ActiveGui!.PushScreenMessage(new ScreenMessageData
             {
                 Text = "Game Saved",
-                Font = BaseContent.Fonts.Default.VeryLarge,
+                Font = BaseContent.Fonts.Default.Huge,
                 Duration = 3,
-                Color = Color.LimeGreen
+                Color = Color.WhiteSmoke
             });
         }
 
-        if (Input.IsKeyPressed(Keys.L) && Input.IsKeyDown(Keys.LeftControl))
+        if (Input.IsKeyPressed(Keys.F9))
         {
             ActiveGui?.Dispose();
             ActiveGui = null;
             _context.Load("save.xml");
             StartGame();
+            ActiveGui!.PushScreenMessage(new ScreenMessageData
+            {
+                Text = "Game Loaded",
+                Font = BaseContent.Fonts.Default.Huge,
+                Duration = 3,
+                Color = Color.WhiteSmoke
+            });
         }
 
-        if (Input.IsKeyPressed(Keys.F2) && Input.IsKeyDown(Keys.LeftControl))
+        if (Input.IsKeyPressed(Keys.F2))
         {
             QuickPlay();
+            ActiveGui!.PushScreenMessage(new ScreenMessageData
+            {
+                Text = "New Game",
+                Font = BaseContent.Fonts.Default.Huge,
+                Duration = 3,
+                Color = Color.WhiteSmoke
+            });
         }
     }
 }

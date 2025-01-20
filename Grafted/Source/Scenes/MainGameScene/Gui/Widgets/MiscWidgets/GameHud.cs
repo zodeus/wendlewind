@@ -24,7 +24,7 @@ public class GameHud : HorizontalStackPanel
     {
         var player = context.Player;
         Spacing = 50;
-        HorizontalStackPanel leftPanel = new() { Width = 200, VerticalAlignment = VerticalAlignment.Center };
+        HorizontalStackPanel leftPanel = new() { Spacing = 10, Width = 400, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(10,0,0,0)};
         HorizontalStackPanel centerPanel = new() { Spacing = 10, HorizontalAlignment = HorizontalAlignment.Center };
         HorizontalStackPanel rightPanel = new() { Width = 300 };
         SetProportionType(leftPanel, ProportionType.Auto);
@@ -65,6 +65,14 @@ public class GameHud : HorizontalStackPanel
         };
         //_mindWidget = new MindWidget(Core.Context.World.PlayerPawn);
         _programStats = new ProgramStatsPanel();
+
+        Button achievements = new(BaseContent.Styles.Button.Large)
+        {
+            Content = new Image { Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Achievements], Width = 56, Height = 56, },
+            Padding = new Thickness(10)
+        };
+        leftPanel.Widgets.Add(achievements);
+        leftPanel.TouchDown += (_, _) => { new PlayerAchievementsWindow().Show(Desktop); };
 
         Button kills = new(BaseContent.Styles.Button.Large)
         {

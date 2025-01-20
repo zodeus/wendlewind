@@ -5,7 +5,7 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
 
 internal sealed class BoakItemsWeaponPanel : Grid
 {
-    public BoakItemsWeaponPanel(IReadOnlyList<ItemDef> defs, IReadOnlyList<ToolManeuverDef> toolManeuverDefs)
+    public BoakItemsWeaponPanel(IReadOnlyList<ItemDef> defs, IReadOnlyList<WeaponManeuverDef> toolManeuverDefs)
     {
         defs = defs.OrderBy(d => d.BaseStats.FirstOrNull(s => s?.Def == Defs.Stats.MeleePower)?.Value).ToList();
         Padding = new Thickness(16);
@@ -78,7 +78,7 @@ internal sealed class BoakItemsWeaponPanel : Grid
             AddCell(new Label(BaseContent.Styles.Label.Medium)
             {
                 VerticalAlignment = VerticalAlignment.Center,
-                Text = string.Join(", ", def.ToolManeuvers.Select(f => f.Label))
+                Text = string.Join(", ", def.WeaponProperties.WeaponManeuvers.Select(f => f.Label))
             }, gridRow, 6);
 
 

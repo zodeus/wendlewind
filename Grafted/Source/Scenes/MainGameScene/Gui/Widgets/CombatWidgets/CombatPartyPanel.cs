@@ -6,7 +6,7 @@ internal class CombatPartyPanel : VerticalStackPanel
 
     public CombatPartyPanel(CombatGui.ZoneGui gui, Encounter encounter, List<Pawn> pawns, HorizontalAlignment pawnAlignment)
     {
-        Spacing = 5;
+        Spacing = 0;
         ShowGridLines = false;
         _panels = new List<PawnCombatPanel>();
         HorizontalStackPanel pawnRow = new()

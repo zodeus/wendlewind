@@ -15,7 +15,7 @@
                 <SpawnWeight>100</SpawnWeight>
                 <BodySizeFactor>1</BodySizeFactor>
                 <Skills>
-                    <Hammers>0</Hammers>
+                    <Hammers>1</Hammers>
                 </Skills>
                 <EquipmentItems>
                     <ListItem>WoodenHammer</ListItem>
@@ -54,7 +54,7 @@
                 <SpawnWeight>100</SpawnWeight>
                 <BodySizeFactor>1.1</BodySizeFactor>
                 <Skills>
-                    <Hammers>0</Hammers>
+                    <Hammers>2</Hammers>
                 </Skills>
                 <EquipmentItems>
                     <ListItem>WoodenHammer</ListItem>
@@ -94,7 +94,7 @@
                 <SpawnWeight>100</SpawnWeight>
                 <BodySizeFactor>1.1</BodySizeFactor>
                 <Skills>
-                    <Hammers>1</Hammers>
+                    <Hammers>2</Hammers>
                 </Skills>
                 <EquipmentItems>
                     <ListItem>WoodenHammer</ListItem>

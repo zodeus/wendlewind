@@ -1,9 +1,11 @@
 namespace Grafted.Sim.Entities.Pawns;
 
-public class PawnCapabilities : IExposable {
+public class PawnCapabilities : IExposable
+{
     private readonly Pawn _pawn;
 
-    public PawnCapabilities(Pawn pawn) {
+    public PawnCapabilities(Pawn pawn)
+    {
         _pawn = pawn;
     }
 
@@ -12,13 +14,22 @@ public class PawnCapabilities : IExposable {
         get
         {
             var eyes = _pawn.Body.AllExternalParts.Count(p => p.Type == BodyPartType.Eye && p.IsFunctional);
-            //todo add third eye behavior
-            return eyes switch
+            if (_pawn.Inventory.Trinkets.Any(t => t.Def == Defs.Items.ThirdEye))
             {
-                2 => 1f,
-                1 => .6f,
-                _ => .05f
-            };
+                eyes += 1;
+            }
+
+            if (eyes >= 2)
+            {
+                return 1;
+            }
+
+            if (eyes >= 1)
+            {
+                return .6f;
+            }
+
+            return 0.05f;
         }
     }
 
@@ -39,5 +50,7 @@ public class PawnCapabilities : IExposable {
 
     public float Mobility => _pawn.Body.AllParts.Sum(p => p.HasMobility ? p.BodyPartDef.MobilityFraction : 0f);
 
-    public void ExposeData() { }
+    public void ExposeData()
+    {
+    }
 }

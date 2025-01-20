@@ -33,8 +33,8 @@ public sealed class ArmorPanel : EntityPanelBase
             Widgets.Add(new Label("small") { Text = item.Def.Description, Wrap = true, MaxWidth = 400 });
         }
 
-        Widgets.Add(new Label("small") { Text = $"Equipment Type: {item.ItemDef.EquipmentProperties.EquipmentType}" });
-        Widgets.Add(new Label("small") { Text = $"Slot: {(item.ItemDef.EquipmentProperties.SlotUsedToEquip != null ? item.ItemDef.EquipmentProperties.SlotUsedToEquip : "n/a")}" });
+        Widgets.Add(new Label("small") { Text = $"Equipment Type: {item.ItemDef.EquipmentProperties?.EquipmentType}" });
+        Widgets.Add(new Label("small") { Text = $"Slot: {(item.ItemDef.EquipmentProperties?.SlotUsedToEquip != null ? item.ItemDef.EquipmentProperties.SlotUsedToEquip : "n/a")}" });
 
         foreach (var baseStat in item.Def.BaseStats)
         {
@@ -42,68 +42,14 @@ public sealed class ArmorPanel : EntityPanelBase
             row.Widgets.Add(new Label("small") { Text = $"{baseStat.Def.Label}:" });
             row.Widgets.Add(new Label("small") { Text = item.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture) });
             Widgets.Add(row);
-
-            /*row.RegisterCallback<MouseEnterEvent>(evt => {
-                key.AddToClassList("text--hover");
-                value.AddToClassList("text--hover");
-            });
-            row.RegisterCallback<MouseLeaveEvent>(evt => {
-                key.RemoveFromClassList("text--hover");
-                value.RemoveFromClassList("text--hover");
-            });*/
         }
 
-         
-        ItemEnchantmentsPanel(gui, item);
-    }
-
-    private void ItemEnchantmentsPanel(BaseGui gui, Item item)
-    {
-        var maxEnchantments = item.Enchantments?.MaxEnchantments;
-        if (maxEnchantments > 0)
+        Widgets.Add(new ItemEnchantmentSlotsPanel(gui, item)
         {
-            var stackPanel = new HorizontalStackPanel()
-            {
-                Margin = new Thickness(0, 10, 0, 10)
-            };
-            for (var i = 0; i < maxEnchantments; i++)
-            {
-                var slot = new Button()
-                {
-                    Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
-                    Padding = new Thickness(8),
-                    Width = 64, Height = 64
-                };
-                if (item.Enchantments?.TryGetAtSlot(i) is { } enchantment)
-                {
-                    slot.Content = new Image { Width = 58, Height = 58, Background = new TextureRegion(enchantment.Icon) };
-                }
-
-                var position = i;
-                slot.Click += (_, _) =>
-                {
-                    var existing = item.Enchantments?.TryGetAtSlot(position);
-                    if (existing != null)
-                    {
-                        gui.ViewEntity(existing);
-                        return;
-                    }
-
-                    if (gui.MouseAttachment?.Data is Item { ItemDef.ItemType: ItemType.Enchantment } e)
-                    {
-                        e.EjectFromContainer();
-                        gui.MouseAttachment.Detach();
-                        item.Enchantments!.TryAdd(e, position);
-                        slot.Content = new Image { Width = 58, Height = 58, Background = new TextureRegion(e.Icon) };
-                    }
-                };
-
-                stackPanel.Widgets.Add(slot);
-            }
-
-            Widgets.Add(stackPanel);
-        }
+            Margin = new Thickness(0, 10, 0, 10)
+        });
     }
+
 
     public override void Update()
     {

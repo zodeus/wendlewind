@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <ToolManeuverDef>
+    <WeaponManeuverDef>
         <Moniker>Punch</Moniker>
         <Label>Punch</Label>
-        <Tools>
+        <Weapons>
             <ListItem>Hand</ListItem>
-        </Tools>
+        </Weapons>
         <DamageMultiplier>0.5~1.7</DamageMultiplier>
-    </ToolManeuverDef>
-    <ToolManeuverDef>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
         <Moniker>Kick</Moniker>
         <Label>Kick</Label>
-        <Tools>
+        <Weapons>
             <ListItem>Foot</ListItem>
-        </Tools>
+        </Weapons>
         <DamageMultiplier>0.3~1.9</DamageMultiplier>
-    </ToolManeuverDef>
+    </WeaponManeuverDef>
 </Definitions>

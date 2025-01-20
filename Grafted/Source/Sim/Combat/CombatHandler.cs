@@ -7,7 +7,8 @@ namespace Grafted.Sim.Combat;
 public class CombatHandler
 {
     private readonly Encounter Encounter;
-    private readonly Dictionary<Pawn, Item> _queuedPotions = new();
+    private readonly Dictionary<Pawn, Item> _queuedItems = new();
+    private readonly Dictionary<Pawn, List<Item>> _activeTrinkets = new();
     private string? _deathMessage;
     public Pawn Player { get; set; }
     public Pawn Enemy { get; set; }
@@ -20,14 +21,16 @@ public class CombatHandler
 
         Player.DamageTaken += OnDamageTaken;
         Player.Died += OnDeath;
+        _activeTrinkets[Player] = [];
 
         Enemy.DamageTaken += OnDamageTaken;
         Enemy.Died += OnDeath;
+        _activeTrinkets[Enemy] = [];
     }
 
     private void OnDeath(DeathEvent deathEvent)
     {
-        Encounter.LogMessage($"  /c[{TC.Victim}]{deathEvent.Pawn.LabelShort} /c[{TC.Red}]died from {deathEvent.Record.CauseOfDeath}");
+        Encounter.LogMessage($"/f[default, 32]/c[{TC.Victim}]{deathEvent.Pawn.LabelShort} /cddied from /c[{TC.Red}]{deathEvent.Record.CauseOfDeath}\n");
         Encounter.Zone!.Alert(
             new ScreenMessageData
             {
@@ -48,7 +51,7 @@ public class CombatHandler
     private void OnDamageTaken(Pawn victim, DamageRequest request, DamageResponse response)
     {
         var attacker = request.Source;
-        
+
         // Record players severed body parts in order to take its equipment
         if (victim.PawnType == PawnType.Player)
         {
@@ -59,6 +62,11 @@ public class CombatHandler
                     Encounter.SeveredLimbs.Add(damage.BodyPart);
                 }
             }
+        }
+
+        foreach (var damage in response.TrinketDamages)
+        {
+            LogDamage(victim, attacker, damage, TC.Purple2);
         }
 
         if (response.Missed)
@@ -73,64 +81,70 @@ public class CombatHandler
         {
             foreach (var damage in response.Damages)
             {
-                Encounter.LogMessage(
-                    $"/c[{TC.Attacker}]{attacker,-20}/c[{TC.Default}]hit /c[{TC.Victim}]{victim.LabelShort}'s /c[{TC.BodyPart}]{damage.BodyPartHit.Label} " +
-                    $"/c[{TC.Default}]with /c[{TC.Item}]{request.Tool} (/c[{TC.Golden}]{request.ToolManeuver.Label}) " +
-                    $"/c[{TC.Default}] for /c[{TC.Red}]{damage.ActualAmount} /c[{TC.Default}] /c[{TC.Golden}]{damage.DamageType}/c[{TC.Default}] damage, " +
-                    $"blocked /c[#00e6ff]{damage.AmountBlocked}"
-                );
-
-                foreach (var itemRecord in damage.DestroyedEquipment)
-                {
-                    Encounter.LogMessage($"  /c[{TC.Equipment}]{itemRecord.Def.Label} /c[{TC.Red}]destroyed");
-                }
-
-                foreach (var partRecord in damage.BodyParts)
-                {
-                    foreach (var modifer in partRecord.AppliedModifiers)
-                    {
-                        Encounter.LogMessage(
-                            $"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Default}]afflicted with /c[{TC.Yellow}]{modifer}");
-                    }
-
-                    if (partRecord is { WasDestroyed: true, IsVital: false })
-                    {
-                        Encounter.LogMessage($"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]destroyed");
-                    }
-
-                    if (partRecord is { WasDestroyed: true, IsVital: true })
-                    {
-                        Encounter.LogMessage($"  /c[{TC.Red}]Vital part /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]destroyed");
-                    }
-
-                    if (partRecord.BodyPart.IsExternal && partRecord.WasSevered)
-                    {
-                        Encounter.LogMessage($"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]SEVERED");
-                        Encounter.Zone!.Alert(
-                            new ScreenMessageData
-                            {
-                                Text = $"{victim.LabelShort}s {partRecord.PartType} has been severed",
-                                Font = BaseContent.Fonts.Default.Medium,
-                                Duration = 8,
-                                Color = Color.Red
-                            });
-                    }
-                }
-
-                foreach (var affliction in damage.SourceAfflictions)
-                {
-                    Encounter.LogMessage(
-                        $"/c[{TC.Purple2}]{attacker}/c[{TC.Default}]'s /c[{TC.BodyPart}]{affliction.BodyPart.Label} " +
-                        $"/c[{TC.Default}]has been (/c[{TC.GreenYellow}]{affliction.Label}) "
-                    );
-                }
+                LogDamage(victim, attacker, damage, TC.Item);
             }
+        }
+    }
+
+    private void LogDamage(Pawn victim, Pawn attacker, DamageRecord damage, string weaponColor)
+    {
+        Encounter.LogMessage(
+            $"/c[{TC.Attacker}]{attacker,-20}/c[{TC.Default}]hit /c[{TC.Victim}]{victim.LabelShort}'s /c[{TC.BodyPart}]{damage.BodyPartHit.Label}" +
+            $"/c[{TC.Default}] with /c[{weaponColor}]{damage.WeaponLabel} /c[{TC.Golden}]({damage.WeaponManeuverLabel})" +
+            $"/c[{TC.Default}] for /c[{TC.Red}]{damage.ActualAmount:N0} /c[{TC.Golden}]{damage.DamageType}/c[{TC.Default}] damage," +
+            $" blocked /c[#00e6ff]{damage.AmountBlocked}"
+        );
+
+        foreach (var itemRecord in damage.DestroyedEquipment)
+        {
+            Encounter.LogMessage($"  /c[{TC.Equipment}]{itemRecord.Def.Label} /c[{TC.Red}]destroyed");
+        }
+
+        foreach (var partRecord in damage.BodyParts)
+        {
+            foreach (var modifer in partRecord.AppliedModifiers)
+            {
+                Encounter.LogMessage(
+                    $"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Default}]afflicted with /c[{TC.Yellow}]{modifer}");
+            }
+
+            if (partRecord is { WasDestroyed: true, IsVital: false })
+            {
+                Encounter.LogMessage($"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]destroyed");
+            }
+
+            if (partRecord is { WasDestroyed: true, IsVital: true })
+            {
+                Encounter.LogMessage($"  /c[{TC.Red}]Vital part /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]destroyed");
+            }
+
+            if (partRecord.BodyPart.IsExternal && partRecord.WasSevered)
+            {
+                Encounter.LogMessage($"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]SEVERED");
+                Encounter.Zone!.Alert(
+                    new ScreenMessageData
+                    {
+                        Text = $"{victim.LabelShort}s {partRecord.PartType} has been severed",
+                        Font = BaseContent.Fonts.Default.Medium,
+                        Duration = 8,
+                        Color = Color.Red
+                    });
+            }
+        }
+
+        foreach (var affliction in damage.SourceAfflictions)
+        {
+            Encounter.LogMessage(
+                $"/c[{TC.Purple2}]{attacker}/c[{TC.Default}]'s /c[{TC.BodyPart}]{affliction.BodyPart.Label} " +
+                $"/c[{TC.Default}]has been (/c[{TC.GreenYellow}]{affliction.Label}) "
+            );
         }
     }
 
     public void DoFighting()
     {
         Attack(Player, Enemy);
+
         if (Enemy.IsDead)
         {
             return;
@@ -157,14 +171,14 @@ public class CombatHandler
 
     private void AutoQueueEnemyPotions()
     {
-        if (PotionQueuedFor(Enemy) != null || !Core.Random.Chance(0.01f)) return;
+        if (ItemQueuedFor(Enemy) != null || !Core.Random.Chance(0.01f)) return;
 
         var usablePotions = new List<ItemDef> { Defs.Items.AcidFlask, Defs.Items.PurpleJuice };
         foreach (var potionDef in usablePotions)
         {
             if (Enemy.Equipment.PotionByDef(potionDef) is { } potion)
             {
-                QueuePotion(potion, Enemy);
+                QueueItemForPawn(potion, Enemy);
             }
         }
     }
@@ -176,7 +190,7 @@ public class CombatHandler
             return;
         }
 
-        UseQueuedPotion(attacker, victim);
+        HandleQueuedItem(attacker, victim);
 
         attacker.ResetAttackCoolDown();
 
@@ -194,12 +208,33 @@ public class CombatHandler
         }
 
         var damageRequest = damageOptions.First();
+
+        damageRequest.AddTrinketResults(HandleActivatedTrinkets(attacker, victim));
+
         victim.TakeDamage(damageRequest);
     }
 
-    public void UseQueuedPotion(Pawn pawn, Pawn target)
+    private List<DamageRecord>? HandleActivatedTrinkets(Pawn attacker, Pawn victim)
     {
-        if (DeQueuedPotionFor(pawn) is { } potion)
+        var results = new List<DamageRecord>();
+        for (var index = _activeTrinkets[attacker].Count - 1; index >= 0; index--)
+        {
+            var trinket = _activeTrinkets[attacker][index];
+            if (trinket.TrinketHandler!.HandleCombat(attacker, victim) is { } damageRecord)
+            {
+                _activeTrinkets[attacker].Remove(trinket);
+                results.Add(damageRecord);
+            }
+        }
+
+        return results.Count != 0 ? results : null;
+    }
+
+    private void HandleQueuedItem(Pawn pawn, Pawn target)
+    {
+        if (DeQueuedItemForPawn(pawn) is not { } item) return;
+
+        if (item is { ItemDef: { ItemType: ItemType.Potion } } potion)
         {
             if (potion.Def == Defs.Items.JarOfBlood)
             {
@@ -226,30 +261,29 @@ public class CombatHandler
             }
 
             potion.Destroy();
-            return;
         }
     }
 
-    public void QueuePotion(Item potion, Pawn pawn)
+    public void QueueItemForPawn(Item potion, Pawn pawn)
     {
-        _queuedPotions[pawn] = potion;
+        _queuedItems[pawn] = potion;
     }
 
-    public Item? DeQueuedPotionFor(Pawn pawn)
+    public Item? DeQueuedItemForPawn(Pawn pawn)
     {
-        if (_queuedPotions.ContainsKey(pawn))
+        if (_queuedItems.ContainsKey(pawn))
         {
-            var potion = _queuedPotions[pawn];
-            _queuedPotions.Remove(pawn);
+            var potion = _queuedItems[pawn];
+            _queuedItems.Remove(pawn);
             return potion;
         }
 
         return null;
     }
 
-    public Item? PotionQueuedFor(Pawn pawn)
+    public Item? ItemQueuedFor(Pawn pawn)
     {
-        return _queuedPotions.ContainsKey(pawn) ? _queuedPotions[pawn] : null;
+        return _queuedItems.ContainsKey(pawn) ? _queuedItems[pawn] : null;
     }
 
     private void UsePurpleJuice(Item potion, Pawn target)
@@ -331,5 +365,34 @@ public class CombatHandler
                 Color = Color.DarkRed
             });
         }
+    }
+
+    public void ActivateTrinketForPawn(Item trinket, Pawn pawn)
+    {
+        if (trinket.TrinketHandler == null)
+        {
+            return;
+        }
+
+        if (trinket.TrinketHandler.IsActive)
+        {
+            return;
+        }
+
+        if (trinket.TrinketHandler.Activate())
+        {
+            _activeTrinkets[pawn].Add(trinket);
+        }
+    }
+
+    public void DeActivateTrinketForPawn(Item trinket, Pawn pawn)
+    {
+        if (trinket.TrinketHandler?.IsActive == false)
+        {
+            return;
+        }
+
+        trinket.TrinketHandler!.DeActivate();
+        _activeTrinkets[pawn].Remove(trinket);
     }
 }

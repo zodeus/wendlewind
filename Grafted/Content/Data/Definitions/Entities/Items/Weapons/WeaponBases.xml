@@ -5,7 +5,7 @@
         <ItemType>Equipment</ItemType>
         <StackLimit>1</StackLimit>
         <EquipmentProperties>
-            <EquipmentType>Tool</EquipmentType>
+            <EquipmentType>Weapon</EquipmentType>
         </EquipmentProperties>
         <UiClass>WeaponPanel</UiClass>
         <BaseStats>

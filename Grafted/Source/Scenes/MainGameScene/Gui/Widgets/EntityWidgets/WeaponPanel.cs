@@ -3,7 +3,7 @@ using Grafted.Sim.Entities;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
-public class WeaponPanel : EntityPanelBase
+public sealed class WeaponPanel : EntityPanelBase
 {
     private readonly Item _item;
     private readonly Label _durabilityLabel;
@@ -30,7 +30,8 @@ public class WeaponPanel : EntityPanelBase
         {
             Widgets.Add(new Label("small") { Text = item.Def.Description, Wrap = true, MaxWidth = 400 });
         }
-        Widgets.Add(new Label("small") { Text = $"Damage Type: {item.ItemDef.WeaponProperties.DamageType}" });
+        Widgets.Add(new Label("small") { Text = $"Weapon Type: {item.ItemDef.WeaponProperties?.WeaponType}" });
+        Widgets.Add(new Label("small") { Text = $"Damage Type: {item.ItemDef.WeaponProperties?.DamageType}" });
         Widgets.Add(new Label("small") { Text = $"Slot: {(item.ItemDef.EquipmentProperties.SlotUsedToEquip != null ? item.ItemDef.EquipmentProperties.SlotUsedToEquip : "n/a")}" });
 
         foreach (BaseStat baseStat in item.Def.BaseStats)
@@ -39,16 +40,12 @@ public class WeaponPanel : EntityPanelBase
             row.Widgets.Add(new Label("small") { Text = $"{baseStat.Def.Label}:" });
             row.Widgets.Add(new Label("small") { Text = item.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture) });
             Widgets.Add(row);
-
-            /*row.RegisterCallback<MouseEnterEvent>(evt => {
-                key.AddToClassList("text--hover");
-                value.AddToClassList("text--hover");
-            });
-            row.RegisterCallback<MouseLeaveEvent>(evt => {
-                key.RemoveFromClassList("text--hover");
-                value.RemoveFromClassList("text--hover");
-            });*/
         }
+        
+        Widgets.Add(new ItemEnchantmentSlotsPanel(gui, item)
+        {
+            Margin = new Thickness(0, 10, 0, 10)
+        });
     }
 
     public override void Update()

@@ -1,92 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <ToolManeuverDef>
+    <WeaponManeuverDef>
         <Moniker>Bite</Moniker>
         <Label>Bite</Label>
-        <Tools>
+        <Weapons>
             <ListItem>Teeth</ListItem>
-        </Tools>
+        </Weapons>
         <DamageMultiplier>.8~1.2</DamageMultiplier>
-    </ToolManeuverDef>
-    <ToolManeuverDef>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
         <Moniker>TailWhip</Moniker>
         <Label>Tail Whip</Label>
-        <Tools>
+        <Weapons>
             <ListItem>Tail</ListItem>
-        </Tools>
+        </Weapons>
         <DamageMultiplier>.9~1.2</DamageMultiplier>
-    </ToolManeuverDef>
-    <ToolManeuverDef>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
         <Moniker>Lick</Moniker>
         <Label>Lick</Label>
-        <Tools>
+        <Weapons>
             <ListItem>Tongue</ListItem>
-        </Tools>
+        </Weapons>
         <DamageMultiplier>.9~1.2</DamageMultiplier>
-    </ToolManeuverDef>
-    <ToolManeuverDef>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
         <Moniker>ProboscisPoke</Moniker>
         <Label>Proboscis Poke</Label>
-        <Tools>
+        <Weapons>
             <ListItem>Proboscis</ListItem>
-        </Tools>
+        </Weapons>
         <DamageMultiplier>.9~1.2</DamageMultiplier>
-    </ToolManeuverDef>
-    <ToolManeuverDef>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
         <Moniker>PincerPinch</Moniker>
         <Label>Pincer Pinch</Label>
-        <Tools>
+        <Weapons>
             <ListItem>Pincer</ListItem>
-        </Tools>
+        </Weapons>
         <DamageMultiplier>.5~1.6</DamageMultiplier>
-    </ToolManeuverDef>
-    <ToolManeuverDef>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
         <Moniker>PincerScratch</Moniker>
         <Label>Pincer Scratch</Label>
-        <Tools>
+        <Weapons>
             <ListItem>Pincer</ListItem>
-        </Tools>
+        </Weapons>
         <DamageMultiplier>.9~1.1</DamageMultiplier>
-    </ToolManeuverDef>
-    <ToolManeuverDef>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
         <Moniker>HoofStomp</Moniker>
         <Label>HoofStomp</Label>
-        <Tools>
+        <Weapons>
             <ListItem>Hoof</ListItem>
-        </Tools>
+        </Weapons>
         <DamageMultiplier>.5~1.3</DamageMultiplier>
-    </ToolManeuverDef>
-    <ToolManeuverDef>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
         <Moniker>ClawGouge</Moniker>
         <Label>Gouge</Label>
-        <Tools>
+        <Weapons>
             <ListItem>Claw</ListItem>
-        </Tools>
+        </Weapons>
         <DamageMultiplier>.4~1.4</DamageMultiplier>
-    </ToolManeuverDef>
-    <ToolManeuverDef>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
         <Moniker>ClawScrape</Moniker>
         <Label>Scrape</Label>
-        <Tools>
+        <Weapons>
             <ListItem>Claw</ListItem>
-        </Tools>
+        </Weapons>
         <DamageMultiplier>.9~1.1</DamageMultiplier>
-    </ToolManeuverDef>
-    <ToolManeuverDef>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
         <Moniker>StumpStomp</Moniker>
         <Label>Stump Stomp</Label>
-        <Tools>
+        <Weapons>
             <ListItem>Branch</ListItem>
-        </Tools>
+        </Weapons>
         <DamageMultiplier>.0~1.5</DamageMultiplier>
-    </ToolManeuverDef>
-    <ToolManeuverDef>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
         <Moniker>MushroomCap</Moniker>
         <Label>Cap Puff</Label>
-        <Tools>
+        <Weapons>
             <ListItem>MushroomCap</ListItem>
-        </Tools>
+        </Weapons>
         <DamageMultiplier>0.9~1.2</DamageMultiplier>
-    </ToolManeuverDef>
+    </WeaponManeuverDef>
 </Definitions>

@@ -11,9 +11,11 @@
         <Label>Soothing Vibrations</Label>
         <Description>When struck it vibrates with life energy.</Description>
         <EnchantmentProperties>
+            <ValidEquipmentTypes>
+                <ListItem>Armor</ListItem>
+            </ValidEquipmentTypes>
             <HandlerClass>SoothingVibrationsHandler</HandlerClass>
         </EnchantmentProperties>
-       
         <TexturePath>Entities/Item/Enchantments/SoothingVibrations</TexturePath>
     </ItemDef>
     <ItemDef ParentName="ItemEnchantment">
@@ -21,6 +23,10 @@
         <Label>Spiders Bite</Label>
         <Description>Hit me once shame you, I bite you.</Description>
         <EnchantmentProperties>
+            <ValidEquipmentTypes>
+                <ListItem>Weapon</ListItem>
+                <ListItem>Armor</ListItem>
+            </ValidEquipmentTypes>
             <HandlerClass>SpidersBiteHandler</HandlerClass>
         </EnchantmentProperties>
         <WeaponProperties>
@@ -40,6 +46,9 @@
         <Label>Blood Bath</Label>
         <Description>Time for the gore to pour.</Description>
         <EnchantmentProperties>
+            <ValidEquipmentTypes>
+                <ListItem>Armor</ListItem>
+            </ValidEquipmentTypes>
             <HandlerClass>BloodBathHandler</HandlerClass>
         </EnchantmentProperties>
         <TexturePath>Entities/Item/Enchantments/BloodBath</TexturePath>

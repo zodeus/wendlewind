@@ -1,6 +1,8 @@
 using System.Collections;
 using System.IO;
 using AssetManagementBase;
+using FontStashSharp;
+using FontStashSharp.RichText;
 using Grafted.Assets;
 using Grafted.Coroutines;
 using Grafted.Definitions.Loader;
@@ -69,9 +71,10 @@ public class Core : Game
         }
         else
         {
-            //Screen.SetSize(2560 , 1440 );
+            //Screen.SetSize(2560, 1440);
             Screen.SetSize(3820, 2040);
         }
+
         Window.Title = "Grafted";
         Window.AllowUserResizing = true;
         Window.ClientSizeChanged += OnGraphicsDeviceReset;
@@ -109,6 +112,19 @@ public class Core : Game
         MyraEnvironment.Game = this;
         MyraEnvironment.DefaultAssetManager = AssetManager.CreateFileAssetManager(Path.Combine(contentDirectory, "UI"));
         Stylesheet.Current = MyraEnvironment.DefaultAssetManager.LoadStylesheet("milgreth_ui_skin.xmms");
+
+        RichTextDefaults.FontResolver = p =>
+        {
+            // Parse font name and size
+            var args = p.Split(',');
+            var fontName = args[0].Trim();
+            var fontSize = int.Parse(args[1].Trim());
+            // _fontCache is field of type Dictionary<string, FontSystem>
+            // It is used to cache fonts
+            FontSystem fontSystem = BaseContent.Fonts.Default.Normal.FontSystem;
+            // Return the required font
+            return fontSystem.GetFont(fontSize);
+        };
 
         #endregion
 

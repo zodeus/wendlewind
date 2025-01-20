@@ -17,6 +17,52 @@
         </ShrineProperties>
     </EncounterDef>
     <EncounterDef>
+        <Moniker>DampCave-Test</Moniker>
+        <Biome>DampCave</Biome>
+        <IsBoss>true</IsBoss>
+        <PotentialLootBoxes>
+            <ListItem>TrinketsChestNormal</ListItem>
+        </PotentialLootBoxes>
+        <Enemies>
+            <ListItem>
+                <Race>GrainBandit</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Henry's Brother</PawnName>
+                <SpawnWeight>1</SpawnWeight>
+                <BodySizeFactor>4</BodySizeFactor>
+                <Skills>
+                    <Swords>25</Swords>
+                </Skills>
+                <Effects>
+                </Effects>
+                <EquipmentItems>
+                    <ListItem>ShortSword</ListItem>
+                    <ListItem>ShortSword</ListItem>
+                    <ListItem>ChainVambrace</ListItem>
+                    <ListItem>ChainVambrace</ListItem>
+                    <ListItem>ChainGreave</ListItem>
+                    <ListItem>ChainGreave</ListItem>
+                    <ListItem>ChainGorget</ListItem>
+                    <ListItem>ChainBoot</ListItem>
+                    <ListItem>ChainBoot</ListItem>
+                    <ListItem>ChainGlove</ListItem>
+                    <ListItem>ChainGlove</ListItem>
+                    <ListItem>ChainTunic</ListItem>
+                    <ListItem>FishBowlHelmet</ListItem>
+                    <ListItem>JarOfBlood</ListItem>
+                    <ListItem>JarOfBlood</ListItem>
+                </EquipmentItems>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>PurpleJuice</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </EncounterDef>
+    <EncounterDef>
         <Moniker>DampCave-01</Moniker>
         <Biome>DampCave</Biome>
         <PotentialLootBoxes>
@@ -48,7 +94,7 @@
         <Moniker>DampCave-02</Moniker>
         <Biome>DampCave</Biome>
         <PotentialLootBoxes>
-            <ListItem>TrinketsChestNormal</ListItem>
+            <ListItem>ToolboxPrimitive</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -134,7 +180,7 @@
         <Biome>DampCave</Biome>
         <IsBoss>true</IsBoss>
         <PotentialLootBoxes>
-            <ListItem>EnchantedChestNormal</ListItem>
+            <ListItem>TrinketsChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>

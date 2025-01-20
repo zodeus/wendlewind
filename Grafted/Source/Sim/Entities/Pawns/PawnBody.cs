@@ -140,7 +140,7 @@ public class PawnBody : IExposable, IIdentityProvider
             BodyPartsDirty = false;
         }
 
-        if (EnergyPercent < .95f)
+        if (EnergyPercent < .90f)
         {
             return Mathf.Clamp(_attackSpeedModifier - ((1 - (_attackSpeedModifier * EnergyPercent)) / 2), 0, 100);
         }

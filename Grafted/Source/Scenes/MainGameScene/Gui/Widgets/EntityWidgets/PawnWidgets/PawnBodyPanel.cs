@@ -19,7 +19,7 @@ public class PawnBodyPanel : VerticalStackPanel, IUpdatable
         _gui = gui;
         _body = body;
         _socketPanels = new List<BodyPartSocketPanel>();
-        _partsPanel = new VerticalStackPanel { Padding = new Thickness(10), Spacing = 3 };
+        _partsPanel = new VerticalStackPanel { Padding = new Thickness(10), Spacing = 0 };
         _pawnSkillsPanel = new PawnSkillsPanel(_body.Pawn.Skills);
         _pawnStatsPanel = new PawnStatsPanel(_body.Pawn);
 

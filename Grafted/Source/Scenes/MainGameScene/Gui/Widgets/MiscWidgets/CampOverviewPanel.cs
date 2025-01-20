@@ -2,6 +2,7 @@ using Grafted.Scenes.MainGameScene.Gui.CombatGui;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.BodyPartPanelWidget;
+using Grafted.Sim.Entities.Items.Trinkets;
 using Grafted.Sim.LootBoxes;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
@@ -11,7 +12,6 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
     private readonly ItemContainerPanel _inventoryPanel;
     private readonly PawnEquipmentPanel _equipmentPanel;
     private readonly PawnBodyPanel _bodyPanel;
-    private readonly TrinketBar _trinketBar;
 
     public CampOverviewPanel(BaseGui gui, GameContext context)
     {
@@ -19,8 +19,7 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
         _bodyPanel = new PawnBodyPanel(gui, playerPawn.Body);
         _inventoryPanel = new ItemContainerPanel(gui,
             playerPawn.Inventory.Entities, null
-        ) { MinHeight = 700, Width = 700 };
-        _trinketBar = new TrinketBar(gui, playerPawn.Inventory.Entities);
+        ) { MinHeight = 700, Width = 680,VerticalAlignment = VerticalAlignment.Stretch};
 
         _equipmentPanel = new PawnEquipmentPanel(gui, playerPawn);
 
@@ -49,7 +48,6 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
                 new Label { Text = "  - Trinket Sniffer" },
             }
         });
-        rightColumn.Widgets.Add(new Label(BaseContent.Styles.Label.Large) { Text = "Achievements", Margin = new Thickness(0, 20, 0, 0) });
         HorizontalStackPanel grid = new()
         {
             Spacing = 20,
@@ -60,33 +58,18 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
                 _bodyPanel,
                 new VerticalStackPanel
                 {
-                    Proportions = { Proportion.Auto, Proportion.Fill },
+                    Proportions = { Proportion.Auto, Proportion.Auto, Proportion.Fill },
                     Spacing = 5,
                     Widgets =
                     {
-                        _trinketBar,
+                        new TrinketBar(gui, playerPawn.Inventory.Entities, TrinketType.Combat, item => gui.ViewEntity(item)),
+                        new TrinketBar(gui, playerPawn.Inventory.Entities, TrinketType.NonCombat, item => gui.ViewEntity(item)),
                         _inventoryPanel
                     }
                 },
                 rightColumn
             }
         };
-        rightColumn.Widgets.Add(new VerticalStackPanel
-        {
-            Widgets =
-            {
-                new Label { Text = "  - Tickled brain" },
-                new Label { Text = "  - Tis' but a scratch!" },
-                new Label { Text = "  - Just the tip" },
-                new Label { Text = "  - Two! I don't need two!" },
-                new Label { Text = "  - Noticed by a god" },
-                new Label { Text = "  - The Spicer" },
-                new Label { Text = "  - Blood Chugger" },
-                new Label { Text = "  - Rushing River" },
-                new Label { Text = "  - Vampire Wannabe" },
-                new Label { Text = "  - Oh Wow! Your body is eating you" },
-            }
-        });
         Widgets.Add(grid);
     }
 
@@ -138,7 +121,7 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
             Enabled = world.GetZone(Defs.Zones.FesterpusSwamp).IsComplete && !world.GetZone(Defs.Zones.ForgottenForest).IsComplete
         };
         forgottenForest.Click += (_, _) => { new ZoneStartWindow(Defs.Zones.ForgottenForest).ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint()); };
-        
+
         var dampCave = new Button(BaseContent.Styles.Button.Normal)
         {
             Content = new Label { Text = Defs.Zones.DampCave.Label, HorizontalAlignment = HorizontalAlignment.Center },

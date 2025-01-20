@@ -1,5 +1,6 @@
 ﻿using Grafted.Graphics.Textures;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+using Grafted.Sim.Entities.Items.Trinkets;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 
@@ -13,6 +14,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
     private PawnEquipmentPanel? _pawnEquipmentPanel;
     private readonly Dictionary<string, Image> _bodyPartImages = new();
     private readonly CombatGui.ZoneGui _gui;
+    private readonly TrinketBar? _trinketBar;
 
     public PawnCombatPanel(CombatGui.ZoneGui gui, Pawn pawn, Encounter encounter, bool isPlayer = true)
     {
@@ -23,13 +25,17 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         _gui = gui;
         if (isPlayer)
         {
+            _trinketBar = new TrinketBar(gui, pawn.Inventory.Entities, TrinketType.Combat, HandleTrinketClick)
+            {
+                VerticalAlignment = VerticalAlignment.Bottom, HorizontalAlignment = HorizontalAlignment.Right
+            };
             Widgets.Add(new VerticalStackPanel
             {
                 Proportions = { Proportion.Auto, Proportion.Fill },
                 Widgets =
                 {
                     GenerateEquipmentPanel(),
-                    new TrinketBar(gui, pawn.Inventory.Entities) { VerticalAlignment = VerticalAlignment.Bottom, HorizontalAlignment = HorizontalAlignment.Right }
+                    _trinketBar,
                 }
             });
         }
@@ -45,6 +51,18 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         Update();
     }
 
+    private void HandleTrinketClick(Item item)
+    {
+        if (item.TrinketHandler?.IsActive == true)
+        {
+            _encounter.CombatHandler?.DeActivateTrinketForPawn(item, Pawn);
+        }
+        else
+        {
+            _encounter.CombatHandler?.ActivateTrinketForPawn(item, Pawn);
+        }
+    }
+
     private Widget GenerateEquipmentPanel()
     {
         _pawnEquipmentPanel = new PawnEquipmentPanel(_gui, Pawn, (part, type) =>
@@ -53,7 +71,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
             {
                 if (Pawn.PawnType == PawnType.Player && Input.RightMouseButtonReleased && item.ItemDef.ItemType == ItemType.Potion)
                 {
-                    _encounter.CombatHandler?.QueuePotion(item, Pawn);
+                    _encounter.CombatHandler?.QueueItemForPawn(item, Pawn);
                     return;
                 }
 
@@ -70,7 +88,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         for (var i = 0; i < Pawn.Body.AllExternalParts.Count; i++)
         {
             if (Pawn.Body.AllExternalParts[i].Image is null) continue;
-            
+
             var bodyPart = Pawn.Body.AllExternalParts[i];
             var icon = bodyPart.Image!;
             Image image = new() { Background = new TextureRegion(icon), Width = panelWidth, Height = panelWidth, BorderThickness = new Thickness(2) };
@@ -116,7 +134,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         if (Pawn.PawnType == PawnType.Enemy || Pawn.Race != Defs.Races.Journeyman)
         {
             var icon = Pawn.Icon.Flip(false, true);
-            Image image = new() { Background = new TextureRegion(icon), Width = panelWidth, Height = panelWidth, BorderThickness = new Thickness(2) };
+            Image image = new() { Background = new TextureRegion(icon), Width = 360, Height = 360, BorderThickness = new Thickness(2) };
             Pawn.Died += _ => { image.Background = new ColoredRegion(new TextureRegion(icon), Color.Red); };
             image.TouchDown += (_, _) =>
             {
@@ -129,7 +147,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         }
         else
         {
-            panel.Widgets.Add(InitializeBodyPartImages(panelWidth));
+            panel.Widgets.Add(InitializeBodyPartImages(360));
         }
 
         _bloodBar = new BloodBar(Pawn) { Width = panelWidth, Height = 30 };
@@ -154,7 +172,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         _bodySummary?.Update();
         _pawnEquipmentPanel?.Update();
         _attackSpeed.Update();
-
+        _trinketBar?.Update();
         RenderBodyParts();
     }
 }

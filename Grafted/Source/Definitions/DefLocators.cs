@@ -87,13 +87,11 @@ public static partial class Defs {
         public static ItemDef ShortSword = null!;
         public static ItemDef Firewood = null!;
         public static ItemDef WoodBoard = null!;
-        public static ItemDef EndlessWaterBucket = null!;
+        public static ItemDef WeepingBucket = null!;
         public static ItemDef CookingPot = null!;
         public static ItemDef BalmyOintment = null!;
         public static ItemDef TheDreamingPowder = null!;
         public static ItemDef DreamBerry = null!;
-        public static ItemDef CowardsFlag = null!;
-        public static ItemDef EssenceShard = null!;
         public static ItemDef EncasedFire = null!;
         public static ItemDef MortarAndPestle = null!;
         public static ItemDef VialOfDuplicity = null!;
@@ -102,6 +100,7 @@ public static partial class Defs {
         public static ItemDef ShimmeringBark = null!;
         public static ItemDef SoothingVibrations = null!;
         public static ItemDef SpidersBite = null!;
+        public static ItemDef ThirdEye = null!;
     }
 }
 

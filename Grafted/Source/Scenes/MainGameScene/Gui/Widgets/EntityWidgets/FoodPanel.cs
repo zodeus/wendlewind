@@ -69,7 +69,7 @@ public sealed class FoodPanel : EntityPanelBase
     {
         if (item.ItemDef == Defs.Items.RawMeat && Core.Context.Player.HasTrinkets(Defs.Items.EncasedFire))
             return true;
-        else if (item.ItemDef == Defs.Items.RawCorn && Core.Context.Player.HasTrinkets(Defs.Items.EncasedFire, Defs.Items.CookingPot, Defs.Items.EndlessWaterBucket))
+        else if (item.ItemDef == Defs.Items.RawCorn && Core.Context.Player.HasTrinkets(Defs.Items.EncasedFire, Defs.Items.CookingPot, Defs.Items.WeepingBucket))
             return true;
         return false;
     }

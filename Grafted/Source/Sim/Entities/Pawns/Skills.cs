@@ -7,7 +7,7 @@ namespace Grafted.Sim.Entities.Pawns;
 
 public class SkillDef : Def {
     public SkillType SkillType = SkillType.None;
-    public ToolType ToolType = ToolType.Invalid;
+    public WeaponType WeaponType = WeaponType.Invalid;
     public override Type DefUiClass => typeof(SkillDefPanel);
 }
 
@@ -63,9 +63,9 @@ public class PawnSkills : IExposable, IEnumerable<Skill> {
         throw new NotSupportedException($"Skill not found: {skillDef}");
     }
 
-    public Skill? GetSkill(ToolType toolType) {
+    public Skill? GetSkill(WeaponType weaponType) {
         for (int i = 0; i < _skills.Count; i++) {
-            if (_skills[i].Def.ToolType == toolType) {
+            if (_skills[i].Def.WeaponType == weaponType) {
                 return _skills[i];
             }
         }
@@ -114,17 +114,17 @@ public class Skill : IExposable {
         new CurvePoint(3f, 20f),
         
         // 3 - 5
-        new CurvePoint(3f, 50f), 
-        new CurvePoint(5f, 50f),
-        new CurvePoint(5f, 50f),
+        new CurvePoint(3f, 80f), 
+        new CurvePoint(5f, 80f),
+        new CurvePoint(5f, 80f),
         
         // 5 - 10
-        new CurvePoint(5f, 100f),
-        new CurvePoint(10f, 100f),
+        new CurvePoint(5f, 300f),
+        new CurvePoint(10f, 300f),
         
         // 10 - 20
-        new CurvePoint(10f, 300f),
-        new CurvePoint(20f, 300f)
+        new CurvePoint(10f, 500f),
+        new CurvePoint(20f, 500f)
     };
 
     public Skill() { }

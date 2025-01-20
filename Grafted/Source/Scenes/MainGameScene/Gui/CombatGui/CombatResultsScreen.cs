@@ -19,7 +19,7 @@ public sealed class CombatResultsScreen : VerticalStackPanel
         _gameHud = new GameHud(gui, context) { HorizontalAlignment = HorizontalAlignment.Stretch };
         _pawnPanel = new LootPanel(gui, context.World.PlayerPawn, Encounter.Loot)
         {
-            Margin = new Thickness(0, 100, 0, 0)
+            Margin = new Thickness(0, 80, 0, 0)
         };
 
         _progressButton = GenerateControlButtons();
@@ -48,17 +48,6 @@ public sealed class CombatResultsScreen : VerticalStackPanel
         _progressButton.Visible = true;
     }
 
-    private Widget KillsButton()
-    {
-        ImageButton image = new(BaseContent.Styles.Button.Large)
-        {
-            Image = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Skull], Width = 76, Height = 76,
-            Padding = new Thickness(10)
-        };
-        image.TouchDown += (_, _) => { new PlayerKillsWindow(_context.DeathRecords).Show(Desktop); };
-        return image;
-    }
-
     private Widget GenerateControlButtons()
     {
         HorizontalStackPanel panel = new()
@@ -68,7 +57,6 @@ public sealed class CombatResultsScreen : VerticalStackPanel
             VerticalAlignment = VerticalAlignment.Bottom
         };
 
-        panel.Widgets.Add(KillsButton());
         if (Encounter.AtBoss)
         {
             TextButton campButton = new(BaseContent.Styles.Button.Large) { Text = "Return to camp" };

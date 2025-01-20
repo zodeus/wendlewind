@@ -1,5 +1,6 @@
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.BodyPartPanelWidget;
 using Grafted.Sim.Entities;
+using Grafted.Sim.Entities.Items.Trinkets;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
@@ -45,10 +46,11 @@ public class LootPanel : Panel, IUpdatable
                 new VerticalStackPanel
                 {
                     VerticalAlignment = VerticalAlignment.Stretch,
-                    Proportions = { Proportion.Auto, Proportion.Fill },
+                    Proportions = { Proportion.Auto, Proportion.Auto, Proportion.Fill },
                     Widgets =
                     {
-                        new TrinketBar(gui, playerPawn.Inventory.Entities),
+                        new TrinketBar(gui, playerPawn.Inventory.Entities, TrinketType.Combat, item => gui.ViewEntity(item)),
+                        new TrinketBar(gui, playerPawn.Inventory.Entities, TrinketType.NonCombat, item => gui.ViewEntity(item)),
                         _inventoryPanel
                     }
                 },

@@ -20,9 +20,9 @@
                         <ChanceToDrop>.25</ChanceToDrop>
                     </ListItem>
                     <ListItem>
-                        <Item>RawMeat</Item>
+                        <Item>VenomVial</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
+                        <ChanceToDrop>.75</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -53,9 +53,9 @@
                         <ChanceToDrop>.75</ChanceToDrop>
                     </ListItem>
                     <ListItem>
-                        <Item>RawMeat</Item>
+                        <Item>VenomVial</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
+                        <ChanceToDrop>.75</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -86,9 +86,9 @@
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                     <ListItem>
-                        <Item>RawMeat</Item>
+                        <Item>VenomVial</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>.6</ChanceToDrop>
+                        <ChanceToDrop>.75</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -120,9 +120,9 @@
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                     <ListItem>
-                        <Item>RawMeat</Item>
+                        <Item>VenomVial</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
+                        <ChanceToDrop>.75</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -163,9 +163,9 @@
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                     <ListItem>
-                        <Item>RawMeat</Item>
+                        <Item>VenomVial</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>.5</ChanceToDrop>
+                        <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>

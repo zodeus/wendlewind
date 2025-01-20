@@ -15,7 +15,7 @@ public sealed class PawnPanel : EntityPanelBase
     {
         _pawn = pawn;
         MinWidth = 1400;
-        MinHeight = 1400;
+        MinHeight = 1200;
         var pane = new HorizontalStackPanel { Spacing = 40 };
         pane.Proportions.Add(Proportion.Auto);
         pane.Proportions.Add(Proportion.Fill);

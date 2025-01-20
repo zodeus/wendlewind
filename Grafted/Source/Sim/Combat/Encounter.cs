@@ -32,8 +32,6 @@ public class Encounter
     }
 
     public bool AtBoss => Def.IsBoss;
-    public bool ShouldAttemptRetreat { get; set; }
-
 
     public EncounterState State
     {
@@ -72,6 +70,7 @@ public class Encounter
         if (playerIsAlive)
         {
             CollectLoot();
+            PlayerPawns[0].Inventory.Trinkets.ForEach(t => t.TrinketHandler?.Stop());
             Core.Context.World.RegisterKill(EnemyPawns[0]);
             if (Def.IsBoss)
             {
@@ -79,7 +78,7 @@ public class Encounter
             }
         }
 
-        LogMessage("Battle is over");
+        LogMessage($"/f[default, 48]/c[{TC.Golden}]Battle is over\n");
     }
 
     public void LogMessage(string message)

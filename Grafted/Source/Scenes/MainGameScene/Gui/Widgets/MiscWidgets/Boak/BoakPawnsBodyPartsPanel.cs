@@ -10,6 +10,7 @@ internal class BoakPawnsBodyPartsPanel : Grid
 
         var gridColum = 0;
         AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Label" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"HitPoints" }, 0, gridColum++);
         AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Blood" }, 0, gridColum++);
         AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Type" }, 0, gridColum++);
         AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Hit W." }, 0, gridColum++);
@@ -43,6 +44,10 @@ internal class BoakPawnsBodyPartsPanel : Grid
                     new Label(BaseContent.Styles.Label.Normal) { VerticalAlignment = VerticalAlignment.Center, Text = $"{def.Moniker}" }
                 }
             }, gridRow, gridColum++);
+            AddCell(new Label(BaseContent.Styles.Label.Normal)
+            {
+                Text = $"{def.BaseStats.FirstOrNull(s => s?.Def == Defs.Stats.MaxHitPoints)?.Value}", VerticalAlignment = VerticalAlignment.Center
+            }, gridRow, gridColum++);
             AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = $"{def.BloodAmount}", VerticalAlignment = VerticalAlignment.Center }, gridRow, gridColum++);
             AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = $"{def.BodyPartType}", VerticalAlignment = VerticalAlignment.Center }, gridRow, gridColum++);
             AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = $"{def.HitWeight}", VerticalAlignment = VerticalAlignment.Center }, gridRow, gridColum++);
@@ -51,12 +56,12 @@ internal class BoakPawnsBodyPartsPanel : Grid
             AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = $"{(def.IsFlesh ? "Yes" : "")}", VerticalAlignment = VerticalAlignment.Center }, gridRow, gridColum++);
             AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = $"{(def.IsOrgan ? "Yes" : "")}", VerticalAlignment = VerticalAlignment.Center }, gridRow, gridColum++);
             AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = $"{def.MobilityFraction}", VerticalAlignment = VerticalAlignment.Center }, gridRow, gridColum++);
-            
+
             AddCell(new Label(BaseContent.Styles.Label.Normal)
             {
                 Text = string.Join(", ", def.Sockets?.Select(s => s.Label) ?? Array.Empty<string>()), VerticalAlignment = VerticalAlignment.Center
             }, gridRow, gridColum++);
-            
+
             AddCell(new Label(BaseContent.Styles.Label.Normal)
             {
                 Text = string.Join(", ", def.EquipmentSlots?.Select(s => s.ToString()) ?? Array.Empty<string>()), VerticalAlignment = VerticalAlignment.Center

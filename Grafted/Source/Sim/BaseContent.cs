@@ -96,6 +96,7 @@ public static partial class BaseContent {
                 public const string Speed4x = "icon-speed-4x";
                 public const string Speed6x = "icon-speed-6x";
                 public const string AttackSpeed = "icon-attack-speed";
+                public const string Achievements = "icon-achievements";
                 public const string ArrowNeutral = "icon-arrow-neutral";
                 public const string ArrowNegative = "icon-arrow-negative";
                 public const string ArrowPositive = "icon-arrow-positive";
@@ -126,6 +127,8 @@ public static partial class BaseContent {
                 public const string IconFrame = "panel-icon-frame";
                 public const string SmallFrame = "panel-frame-small";
                 public const string MediumFrame = "panel-frame-medium";
+                public const string MediumFrameBright = "panel-frame-medium-bright";
+                public const string MediumFrameRed = "panel-frame-medium-red";
                 public const string RoundWhite24 = "panel-round-white-24";
                 public const string RoundWhite28 = "panel-round-white-28";
                 public const string RoundWhite42 = "panel-round-white-42";

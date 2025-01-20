@@ -152,7 +152,7 @@
                 <Config>DefaultEnemy</Config>
                 <PawnName>Ent</PawnName>
                 <SpawnWeight>1</SpawnWeight>
-                <BodySizeFactor>2</BodySizeFactor>
+                <BodySizeFactor>1.8</BodySizeFactor>
                 <Skills>
                     <TreebornPower>2</TreebornPower>
                 </Skills>

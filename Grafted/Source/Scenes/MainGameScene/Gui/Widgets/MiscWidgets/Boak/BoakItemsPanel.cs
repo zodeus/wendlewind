@@ -5,15 +5,15 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
 
 internal sealed class BoakItemsPanel : Panel
 {
-    public BoakItemsPanel(IReadOnlyList<ItemDef> defs, IReadOnlyList<ToolManeuverDef> toolManeuverDefs)
+    public BoakItemsPanel(IReadOnlyList<ItemDef> defs, IReadOnlyList<WeaponManeuverDef> weaponManeuverDefs)
     {
         TabPanel tabPanel = new()
         {
             ButtonStyle = BaseContent.Styles.Button.Normal
         };
         tabPanel.AddTab("Weapons", new BoakItemsWeaponPanel(
-                defs.Where(d => d.ItemType == ItemType.Equipment && d.EquipmentProperties?.EquipmentType == EquipmentType.Tool)
-                    .ToList(), toolManeuverDefs
+                defs.Where(d => d.ItemType == ItemType.Equipment && d.EquipmentProperties?.EquipmentType == EquipmentType.Weapon)
+                    .ToList(), weaponManeuverDefs
             )
         );
         tabPanel.AddTab("Armor", new BoakItemsArmorPanel(
@@ -36,7 +36,7 @@ internal sealed class BoakItemsPanel : Panel
                     .ToList()
             )
         );
-        tabPanel.AddTab("Maneuvers", new BoakItemsManeuversPanel(toolManeuverDefs));
+        tabPanel.AddTab("Maneuvers", new BoakItemsManeuversPanel(weaponManeuverDefs));
         Widgets.Add(tabPanel);
     }
 }

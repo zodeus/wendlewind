@@ -4,6 +4,7 @@ public enum FoodType {
     RawGrain,
     RawMeat,
     CookedVegetable,
+    Fungi,
     CookedMeat,
     DriedMeat,
     Meat,

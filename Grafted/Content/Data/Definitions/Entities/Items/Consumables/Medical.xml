@@ -7,25 +7,46 @@
         <StackLimit>9999</StackLimit>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
+        <Moniker>Cauterize</Moniker>
+        <Label>Cauterize</Label>
+        <StackLimit>1</StackLimit>
+        <Description>Cauterizes a severed limb (unsealed socket).</Description>
+        <TexturePath>Entities/Item/Consumables/Cauterize</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="MedicalItem">
         <Moniker>MedKit</Moniker>
         <Label>Med Kit</Label>
-        <Description>Heals a body part fully</Description>
+        <Description>Heals a body part fully.</Description>
         <TexturePath>Entities/Item/Consumables/MedKit</TexturePath>
         <MedicinalProperties>
             <HandlerClass>MedKitHandler</HandlerClass>
         </MedicinalProperties>
-    </ItemDef>
-    <ItemDef ParentName="MedicalItem">
-        <Moniker>Cauterize</Moniker>
-        <Label>Cauterize</Label>
-        <StackLimit>1</StackLimit>
-        <Description>Cauterizes a severed limb (unsealed socket)</Description>
-        <TexturePath>Entities/Item/Consumables/Cauterize</TexturePath>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>MortarAndPestle</ListItem>
+                <ListItem>TinkersToolbox</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>GoldCapMushroom</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>ArterialThreads</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>HealingRoot</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
         <Moniker>ArterialThreads</Moniker>
         <Label>Arterial Threads</Label>
-        <Description>Used to stitch arteries</Description>
+        <Description>Used to repair arteries.</Description>
         <TexturePath>Entities/Item/Consumables/ArterialThreads</TexturePath>
         <MedicinalProperties>
             <HandlerClass>ArterialThreadsHandler</HandlerClass>
@@ -34,7 +55,7 @@
     <ItemDef ParentName="MedicalItem">
         <Moniker>MendersMist</Moniker>
         <Label>Menders Mist</Label>
-        <Description>Used to heal bones and external parts, will traverse the tree until it's been fully used.</Description>
+        <Description>Used to heal bones and external parts, will traverse until it's been fully used.</Description>
         <TexturePath>Entities/Item/Consumables/MendersMist</TexturePath>
         <MedicinalProperties>
             <HandlerClass>MendersMistHandler</HandlerClass>
@@ -43,23 +64,26 @@
             <HealingValue>200</HealingValue>
         </BaseStats>
         <CraftingProperties>
-            <MinutesToMake>2880</MinutesToMake>
-            <AmountProduced>20</AmountProduced>
-            <RequiredTools>
-                <ListItem>ATap</ListItem>
-            </RequiredTools>
+            <AmountProduced>1</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>WeepingBucket</ListItem>
+                <ListItem>MortarAndPestle</ListItem>
+                <ListItem>CookingPot</ListItem>
+                <ListItem>EncasedFire</ListItem>
+                <ListItem>VialOfDuplicity</ListItem>
+            </RequiredTrinkets>
             <ResourceRequirements>
                 <ListItem>
                     <Item>GoldCapMushroom</Item>
                     <Count>1</Count>
                 </ListItem>
                 <ListItem>
-                    <Item>HealingRoot</Item>
-                    <Count>5</Count>
+                    <Item>VenomVial</Item>
+                    <Count>1</Count>
                 </ListItem>
                 <ListItem>
-                    <Item>EndlessWaterBucket</Item>
-                    <Count>10</Count>
+                    <Item>HealingRoot</Item>
+                    <Count>3</Count>
                 </ListItem>
             </ResourceRequirements>
         </CraftingProperties>
@@ -80,23 +104,22 @@
             <DurationInTicks>800</DurationInTicks>
         </MedicinalProperties>
         <CraftingProperties>
-            <MinutesToMake>2880</MinutesToMake>
-            <AmountProduced>40</AmountProduced>
-            <RequiredTools>
-                <ListItem>ATap</ListItem>
-            </RequiredTools>
+            <AmountProduced>3</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>MortarAndPestle</ListItem>
+                <ListItem>VialOfDuplicity</ListItem>
+                <ListItem>CookingPot</ListItem>
+                <ListItem>EncasedFire</ListItem>
+                <ListItem>WeepingBucket</ListItem>
+            </RequiredTrinkets>
             <ResourceRequirements>
                 <ListItem>
                     <Item>GoldCapMushroom</Item>
-                    <Count>4</Count>
+                    <Count>1</Count>
                 </ListItem>
-                <!--<ListItem>
-                    <Item>VenomVial</Item>
-                    <Count>6</Count>
-                </ListItem>-->
                 <ListItem>
-                    <Item>EndlessWaterBucket</Item>
-                    <Count>5</Count>
+                    <Item>HealingRoot</Item>
+                    <Count>1</Count>
                 </ListItem>
             </ResourceRequirements>
         </CraftingProperties>

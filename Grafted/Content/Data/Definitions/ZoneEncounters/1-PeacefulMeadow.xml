@@ -19,7 +19,7 @@
                     <ListItem>
                         <Item>RawMeat</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>.3</ChanceToDrop>
+                        <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -50,7 +50,7 @@
                     <ListItem>
                         <Item>RawMeat</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>.3</ChanceToDrop>
+                        <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -81,7 +81,7 @@
                     <ListItem>
                         <Item>RawMeat</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>.3</ChanceToDrop>
+                        <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>
@@ -107,7 +107,7 @@
                     <ListItem>
                         <Item>RawMeat</Item>
                         <Amount>1</Amount>
-                        <ChanceToDrop>.3</ChanceToDrop>
+                        <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
             </ListItem>

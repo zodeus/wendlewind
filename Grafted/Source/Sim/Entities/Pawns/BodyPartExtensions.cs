@@ -74,7 +74,7 @@ namespace Grafted.Sim.Entities.Pawns
                         < .02f => 0.00f,
                         < .05f => 0.85f,
                         < .10f => 0.90f,
-                        < .50f => 0.95f,
+                        < .50f => 0.97f,
                         < .90f => 0.99f,
                         _ => 1
                     };

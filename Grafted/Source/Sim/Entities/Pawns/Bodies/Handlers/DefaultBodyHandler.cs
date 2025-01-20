@@ -151,7 +151,7 @@ public class DefaultBodyHandler : IExposable
 
     protected virtual void HandleNutrition()
     {
-        if (Core.Context.Ticks % 30 != 0)
+        if (Core.Context.Ticks % 20 != 0)
         {
             return;
         }

@@ -99,4 +99,9 @@
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
+    <BodyEffectDef>
+        <Moniker>GoldenLips</Moniker>
+        <Label>Golden Lips</Label>
+        <Notes>Food tastes better</Notes>
+    </BodyEffectDef>
 </Definitions>
