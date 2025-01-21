@@ -36,8 +36,10 @@ public class Pawn : Entity, IExposable
     public float MaxAttackSpeed => this.GetStatValue(Defs.Stats.AttackSpeed);
     public float AttackSpeed => Body.GetAttackSpeedModifier() * this.GetStatValue(Defs.Stats.AttackSpeed) * Equipment.WeaponAttackSpeedModifier;
 
-    public void GenerateBody()
+    public void GenerateBody(float bodySizeFactor)
     {
+        Body.BodySizeFactor = bodySizeFactor;
+        Body.BloodAmount = Body.MaxBlood;
         PawnDef.Body.Generator.Generate(this);
         Body.BodyPartsDirty = true;
     }
@@ -122,7 +124,7 @@ public class Pawn : Entity, IExposable
 
             // Handle Armor
             var isPartCoveredByParentArmor = bodyPart.Type is BodyPartType.Finger or BodyPartType.Thumb;
-            var bodyPartEquipment = isPartCoveredByParentArmor ? bodyPart.Socket!.ParentPart!.Armor : bodyPart.Armor;
+            var bodyPartEquipment = isPartCoveredByParentArmor ? bodyPart.Socket?.ParentPart?.Armor : bodyPart.Armor;
             if (bodyPartEquipment != null)
             {
                 if (damage.Type.IsPhysicalDamage())

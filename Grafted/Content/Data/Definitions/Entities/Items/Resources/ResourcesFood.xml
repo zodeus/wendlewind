@@ -15,7 +15,7 @@
             <Effects>
                 <ListItem>
                     <Def>FoodPoisoning</Def>
-                    <DurationInTicks>1440</DurationInTicks>
+                    <DurationInTicks>1400</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>

@@ -11,16 +11,16 @@
         <TexturePath>Entities/Pawn/Creature/Glump/Glump</TexturePath>
     </RaceDef>
     <RaceDef ParentName="BaseMonsterRace">
-        <Moniker>LostOne</Moniker>
-        <Label>Lost One</Label>
+        <Moniker>GraveKeeper</Moniker>
+        <Label>Grave Keeper</Label>
         <Species>Ghoul</Species>
-        <TexturePath>Entities/Pawn/Creature/Ghoul/LostOne</TexturePath>
+        <TexturePath>Entities/Pawn/Creature/Ghoul/GraveKeeper</TexturePath>
     </RaceDef>
     <RaceDef ParentName="BaseMonsterRace">
-        <Moniker>Ghoul</Moniker>
-        <Label>Ghoul</Label>
+        <Moniker>FallenWatchman</Moniker>
+        <Label>Fallen Watchman</Label>
         <Species>Ghoul</Species>
-        <TexturePath>Entities/Pawn/Creature/Ghoul/Ghoul</TexturePath>
+        <TexturePath>Entities/Pawn/Creature/Ghoul/FallenWatchman</TexturePath>
     </RaceDef>
     <RaceDef ParentName="BaseMonsterRace">
         <Moniker>BlisteringToad</Moniker>

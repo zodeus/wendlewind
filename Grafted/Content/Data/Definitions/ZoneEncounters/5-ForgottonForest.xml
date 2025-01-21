@@ -19,7 +19,7 @@
         <Moniker>ForgottenForest-01</Moniker>
         <Biome>ForgottenForest</Biome>
         <PotentialLootBoxes>
-            <ListItem>EnchantedChestNormal</ListItem>
+            <ListItem>EnchantedChestDefensive</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -77,7 +77,7 @@
         <Moniker>ForgottenForest-03</Moniker>
         <Biome>ForgottenForest</Biome>
         <PotentialLootBoxes>
-            <ListItem>EnchantedChestNormal</ListItem>
+            <ListItem>EnchantedChestOffensive</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -109,7 +109,7 @@
         <Moniker>ForgottenForest-04</Moniker>
         <Biome>ForgottenForest</Biome>
         <PotentialLootBoxes>
-            <ListItem>EnchantedChestNormal</ListItem>
+            <ListItem>EnchantedChestDefensive</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>

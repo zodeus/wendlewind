@@ -110,6 +110,6 @@
         </TrinketProperties>
         <!--<Description></Description>-->
         <!--<UiClass>GrimoirePanel</UiClass>-->
-        <TexturePath>Entities/Item/Trinket/Grimoire</TexturePath>
+        <TexturePath>Entities/Item/Trinket/TinkersToolbox</TexturePath>
     </ItemDef>
 </Definitions>

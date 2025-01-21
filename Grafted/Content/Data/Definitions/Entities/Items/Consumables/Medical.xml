@@ -16,7 +16,7 @@
     <ItemDef ParentName="MedicalItem">
         <Moniker>MedKit</Moniker>
         <Label>Med Kit</Label>
-        <Description>Heals a body part fully.</Description>
+        <Description>Good for patching the meat.</Description>
         <TexturePath>Entities/Item/Consumables/MedKit</TexturePath>
         <MedicinalProperties>
             <HandlerClass>MedKitHandler</HandlerClass>
@@ -38,7 +38,7 @@
                 </ListItem>
                 <ListItem>
                     <Item>HealingRoot</Item>
-                    <Count>2</Count>
+                    <Count>1</Count>
                 </ListItem>
             </ResourceRequirements>
         </CraftingProperties>
@@ -55,7 +55,7 @@
     <ItemDef ParentName="MedicalItem">
         <Moniker>MendersMist</Moniker>
         <Label>Menders Mist</Label>
-        <Description>Used to heal bones and external parts, will traverse until it's been fully used.</Description>
+        <Description>A little spritz of this goes a long way.</Description>
         <TexturePath>Entities/Item/Consumables/MendersMist</TexturePath>
         <MedicinalProperties>
             <HandlerClass>MendersMistHandler</HandlerClass>
@@ -83,7 +83,7 @@
                 </ListItem>
                 <ListItem>
                     <Item>HealingRoot</Item>
-                    <Count>3</Count>
+                    <Count>2</Count>
                 </ListItem>
             </ResourceRequirements>
         </CraftingProperties>
@@ -91,7 +91,7 @@
     <ItemDef ParentName="MedicalItem">
         <Moniker>SurgicalSaw</Moniker>
         <Label>Surgical Saw</Label>
-        <Description>Used to sever large limbs</Description>
+        <Description>Used to sever limbs</Description>
         <TexturePath>Entities/Item/Consumables/SurgicalSaw</TexturePath>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">

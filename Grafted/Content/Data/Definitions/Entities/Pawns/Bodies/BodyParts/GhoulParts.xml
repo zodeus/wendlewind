@@ -11,24 +11,18 @@
         <HitWeight>20</HitWeight>
         <BloodAmount>50</BloodAmount>
         <BodyPartType>Head</BodyPartType>
-        <IsVital>true</IsVital>
         <IsFlesh>true</IsFlesh>
-        <BodyTexturePaths>
-            <ListItem>Entities/Pawn/Creature/Human/Parts/Head</ListItem>
-        </BodyTexturePaths>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanHead</TexturePath>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
-            <ListItem>SkullSocket</ListItem>
             <ListItem>LeftEyeSocket</ListItem>
             <ListItem>RightEyeSocket</ListItem>
-            <ListItem>NeckSocket</ListItem>
         </Sockets>
         <EquipmentSlots>
             <ListItem>HeadArmor</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <MaxHitPoints>750</MaxHitPoints>
+            <MaxHitPoints>400</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="GhoulBodyPartBase">
@@ -48,23 +42,20 @@
         <Sockets>
             <ListItem>SkinSocket</ListItem>
             <ListItem>BoneSocket</ListItem>
-            <ListItem>TorsoSocket</ListItem>
+            <ListItem>HeadSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>360</MaxHitPoints>
+            <MaxHitPoints>300</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="GhoulBodyPartBase">
         <Moniker>GhoulTorso</Moniker>
         <Label>Ghoul Torso</Label>
         <BodyPartType>Torso</BodyPartType>
-        <HitWeight>50</HitWeight>
+        <HitWeight>40</HitWeight>
         <BloodAmount>300</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <IsVital>true</IsVital>
-        <BodyTexturePaths>
-            <ListItem>Entities/Pawn/Creature/Human/Parts/Torso</ListItem>
-        </BodyTexturePaths>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanTorso</TexturePath>
         <EquipmentSlots>
             <ListItem>TorsoArmor</ListItem>
@@ -72,6 +63,7 @@
             <ListItem>PotionSlot2</ListItem>
         </EquipmentSlots>
         <Sockets>
+            <ListItem>NeckSocket</ListItem>
             <ListItem>SkinSocket</ListItem>
             <ListItem>RibCageSocket</ListItem>
             <ListItem>StomachSocket</ListItem>
@@ -81,7 +73,8 @@
             <ListItem>RightLegSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>1200</MaxHitPoints>
+            <AttackSpeedModifier>.6</AttackSpeedModifier>
+            <MaxHitPoints>800</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="GhoulBodyPartBase">
@@ -91,10 +84,6 @@
         <HitWeight>25</HitWeight>
         <BloodAmount>80</BloodAmount>
         <IsFlesh>true</IsFlesh>
-        <BodyTexturePaths>
-            <ListItem>Entities/Pawn/Creature/Human/Parts/LeftArm</ListItem>
-            <ListItem>Entities/Pawn/Creature/Human/Parts/RightArm</ListItem>
-        </BodyTexturePaths>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanArm</TexturePath>
         <EquipmentSlots>
             <ListItem>ArmArmor</ListItem>
@@ -107,7 +96,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.1</AttackSpeedModifier>
-            <MaxHitPoints>240</MaxHitPoints>
+            <MaxHitPoints>200</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="GhoulBodyPartBase">
@@ -124,10 +113,6 @@
         <BloodAmount>20</BloodAmount>
         <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Ghoul/Hand</TexturePath>
-        <BodyTexturePaths>
-            <ListItem>Entities/Pawn/Creature/Human/Parts/LeftHand</ListItem>
-            <ListItem>Entities/Pawn/Creature/Human/Parts/RightHand</ListItem>
-        </BodyTexturePaths>
         <WhiteIconTexturePath>Entities/Pawn/BodyParts/Ghoul/Hand-Icon</WhiteIconTexturePath>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
@@ -158,7 +143,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.01</AttackSpeedModifier>
-            <MaxHitPoints>24</MaxHitPoints>
+            <MaxHitPoints>100</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="GhoulBodyPartBase">
@@ -176,7 +161,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.01</AttackSpeedModifier>
-            <MaxHitPoints>27</MaxHitPoints>
+            <MaxHitPoints>100</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="GhoulBodyPartBase">
@@ -186,10 +171,6 @@
         <HitWeight>11</HitWeight>
         <BloodAmount>140</BloodAmount>
         <IsFlesh>true</IsFlesh>
-        <BodyTexturePaths>
-            <ListItem>Entities/Pawn/Creature/Human/Parts/LeftLeg</ListItem>
-            <ListItem>Entities/Pawn/Creature/Human/Parts/RightLeg</ListItem>
-        </BodyTexturePaths>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanLeg</TexturePath>
         <EquipmentSlots>
             <ListItem>LegArmor</ListItem>
@@ -201,7 +182,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.1</AttackSpeedModifier>
-            <MaxHitPoints>240</MaxHitPoints>
+            <MaxHitPoints>200</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="GhoulBodyPartBase">
@@ -211,10 +192,6 @@
         <HitWeight>7</HitWeight>
         <BloodAmount>30</BloodAmount>
         <IsFlesh>true</IsFlesh>
-        <BodyTexturePaths>
-            <ListItem>Entities/Pawn/Creature/Human/Parts/LeftFoot</ListItem>
-            <ListItem>Entities/Pawn/Creature/Human/Parts/RightFoot</ListItem>
-        </BodyTexturePaths>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanFoot</TexturePath>
         <EquipmentSlots>
             <ListItem>BuiltIn</ListItem>
@@ -226,7 +203,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.1</AttackSpeedModifier>
-            <MaxHitPoints>210</MaxHitPoints>
+            <MaxHitPoints>200</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
 </Definitions>

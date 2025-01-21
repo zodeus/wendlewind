@@ -2,7 +2,7 @@
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
-public class ItemContainerPanel : VerticalStackPanel
+public sealed class ItemContainerPanel : ScrollViewer
 {
     private readonly BaseGui _gui;
     private readonly EntityContainer _container;
@@ -16,7 +16,7 @@ public class ItemContainerPanel : VerticalStackPanel
         _container = container;
         _receivingContainer = receivingContainer;
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
-        Padding = new Thickness(30);
+        Padding = new Thickness(15, 0, 0, 0);
 
         List<ItemContainerPanelSection> sections = new()
         {
@@ -63,21 +63,18 @@ public class ItemContainerPanel : VerticalStackPanel
                 Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Resource
             }
         };
-
-
-        foreach (ItemContainerPanelSection section in sections)
+        
+        var verticalStackPanel = new VerticalStackPanel { Padding = new Thickness(0, 20, 0, 20) };
+        Content = verticalStackPanel;
+        foreach (var section in sections)
         {
-            // Proportions.Add(Proportion.Auto);
-            // Proportions.Add(Proportion.Auto);
-            // Proportions.Add(Proportion.Auto);
-
             EntityListPanel panel = new(_gui, section.Label, section.Container, section.Filter, LeftClickHandler, RightClickHandler)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Margin = new Thickness(0, 0, 0, 10)
             };
             _sections.Add(panel);
-            Widgets.Add(panel);
+            verticalStackPanel.Widgets.Add(panel);
         }
     }
 
@@ -139,7 +136,7 @@ public class ItemContainerPanel : VerticalStackPanel
 
     public void Update()
     {
-        foreach (EntityListPanel section in _sections)
+        foreach (var section in _sections)
         {
             section.Update();
         }

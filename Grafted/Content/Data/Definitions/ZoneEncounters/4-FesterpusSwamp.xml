@@ -98,7 +98,7 @@
         <Moniker>FesterpusSwamp-04</Moniker>
         <Biome>FesterpusSwamp</Biome>
         <PotentialLootBoxes>
-            <ListItem>EnchantedChestNormal</ListItem>
+            <ListItem>EnchantedChestDefensive</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>

@@ -65,6 +65,7 @@ public static partial class Defs {
         public static BiomeDef FesterpusSwamp = null!;
         public static BiomeDef ForgottenForest = null!;
         public static BiomeDef DampCave = null!;
+        public static BiomeDef Cemetery = null!;
     }
 }
 
@@ -126,7 +127,6 @@ public static partial class Defs {
         public static RaceDef TruffleBoar = null!;
         public static RaceDef BlisteringToad = null!;
         public static RaceDef Journeyman = null!;
-        public static RaceDef Ghoul = null!;
     }
 }
 

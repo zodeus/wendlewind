@@ -1,15 +1,15 @@
-namespace Grafted.Sim.Entities.Pawns.Modifiers;
+﻿namespace Grafted.Sim.Entities.Pawns.Modifiers;
 
 [UsedImplicitly]
-public class RotLung : BodyPartModifier
+public class NecrosisHandler : BodyPartModifier
 {
-    private const double DamageFactorPerTick = .011f;
+    private const double DamageFactorPerTick = .001f;
 
     public override void Tick()
     {
         BodyPart.HitPoints -= BodyPart.HitPoints * DamageFactorPerTick;
         CheckIfLostVitalPart(BodyPart);
-        base.Tick();
+        //base.Tick();
     }
 
     private void CheckIfLostVitalPart(BodyPart bodyPart)
@@ -25,22 +25,12 @@ public class RotLung : BodyPartModifier
 
     public override BodyPartModifierDef? ApplyToPart(BodyPart part)
     {
-        if (part.Type is not (BodyPartType.Head or BodyPartType.Neck))
+        if (part.IsExternal == false)
         {
             return null;
         }
 
-        var lung = part.Body?.AllExternalParts
-            .FirstOrNull(p => p?.Type == BodyPartType.Torso)?
-            .AllInternalParts.Where(p => p.Type == BodyPartType.Lung).RandomElement();
-
-        if (lung == null)
-        {
-            Log.Warning($"No lungs found while applying body part modifier {Defs.BodyPartModifiers.RotLung.Moniker}");
-            return null;
-        }
-
-        lung.TryAddModifier(this);
+        part.TryAddModifier(this);
 
         //todo raise event MODIFIER APPLIED
         return Def;

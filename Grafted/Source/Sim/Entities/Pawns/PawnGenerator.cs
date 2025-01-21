@@ -15,10 +15,9 @@ public static class PawnGenerator
         {
             pawn.Biography.Name = request.Config.PawnName;
         }
-        
-        pawn.Body.BodySizeFactor = request.BodySizeFactor;
-        GenerateBody(pawn);
-        
+
+        GenerateBody(pawn, request.BodySizeFactor);
+
         RegisterEquipment(pawn, request.Config.EquipmentItems);
         RegisterInventory(pawn, request.Config.InventoryItems);
 
@@ -71,9 +70,9 @@ public static class PawnGenerator
         }
     }
 
-    private static void GenerateBody(Pawn pawn)
+    private static void GenerateBody(Pawn pawn, float bodySizeFactor)
     {
-        pawn.GenerateBody();
+        pawn.GenerateBody(bodySizeFactor);
         // ReSharper disable once CompareOfFloatsByEqualityOperator
         if (pawn.Body.AllParts.Sum(p => p.BodyPartDef.MobilityFraction) != 1)
         {

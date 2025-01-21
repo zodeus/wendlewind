@@ -17,7 +17,7 @@ public sealed class BodyPartPanel : EntityPanelBase
 
         _modifiersPanel = new BodyPartPanelModifiersLabel(bodyPart);
 
-        VerticalStackPanel leftPanel = new() { Spacing = 5 };
+        VerticalStackPanel leftPanel = new() { Spacing = 5, MinWidth = 330 };
         leftPanel.Widgets.Add(new BodyPartPanelHealthLabel(bodyPart));
         leftPanel.Widgets.Add(_modifiersPanel);
         leftPanel.Widgets.Add(new BodyPartPanelBleedingLabel(bodyPart));
@@ -120,25 +120,55 @@ public sealed class BodyPartPanelModifiersLabel : VerticalStackPanel
         Spacing = 5;
         foreach (var modifier in bodyPart.Modifiers)
         {
-            var label = new Label()
-            {
-                Text = modifier.Label + ": " + modifier.TicksRemaining + "t",
-                Padding = new Thickness(12),
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.SimpleWhite], modifier.Def.Color),
-                TextColor = modifier.Def.Color
-            };
+            var label = CreateLabel(modifier);
             Widgets.Add(label);
-
             _labels.Add(modifier, label);
         }
+
+        bodyPart.ModifiersChanged += Test;
+    }
+
+    private static Label CreateLabel(BodyPartModifier modifier)
+    {
+        var label = new Label()
+        {
+            Text = GetLabelText(modifier),
+            Padding = new Thickness(12),
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.SimpleWhite], modifier.Def.Color),
+            TextColor = modifier.Def.Color
+        };
+        return label;
+    }
+
+    private void Test(BodyPartModifier mod, BodyPartModifierEventType type)
+    {
+        switch (type)
+        {
+            case BodyPartModifierEventType.Added:
+                var label = CreateLabel(mod);
+                Widgets.Add(label);
+                _labels.Add(mod, label);
+                break;
+            case BodyPartModifierEventType.Removed:
+                _labels[mod].RemoveFromParent();
+                _labels.Remove(mod);
+                break;
+        }
+    }
+
+    private static string GetLabelText(BodyPartModifier modifier)
+    {
+        var timeRemaining = modifier.DurationInTicks == 0 ? "\u221e" : modifier.TicksRemaining + "t";
+        return $"{modifier.Label} {timeRemaining}";
     }
 
     public void Update()
     {
-        foreach (var (modifier, label) in _labels)
+        foreach (var pair in _labels)
         {
-            label.Text = modifier.Label + ": " + modifier.TicksRemaining + "t";
+            var (modifier, label) = pair;
+            label.Text = GetLabelText(modifier);
         }
     }
 }

@@ -6,7 +6,7 @@
         <Label>Burning Acid</Label>
         <Type>Debuff</Type>
         <Description>Melts the skin away, eats at the meat</Description>
-        <HandlerClass>BurningAcid</HandlerClass>
+        <HandlerClass>BurningAcidHandler</HandlerClass>
         <Color>237, 245, 22</Color>
     </BodyPartModifierDef>
     <BodyPartModifierDef>
@@ -16,6 +16,14 @@
         <Description>This can't be good...</Description>
         <HandlerClass>RotLung</HandlerClass>
         <Color>201, 91, 0</Color>
+    </BodyPartModifierDef>
+    <BodyPartModifierDef>
+        <Moniker>Necrosis</Moniker>
+        <Label>Necrosis</Label>
+        <Type>Debuff</Type>
+        <Description>This is a flesh eating disease, it's very bad!</Description>
+        <HandlerClass>NecrosisHandler</HandlerClass>
+        <Color>99, 105, 47</Color>
     </BodyPartModifierDef>
 
     <!-- BUFFS -->

@@ -4,13 +4,19 @@ public static class BodyPartModifierGenerator
 {
     public static BodyPartModifier Generate(BodyPartModifierDef def, int duration)
     {
-        BodyPartModifier modifer = (BodyPartModifier)Activator.CreateInstance(def.HandlerClass)!;
-        modifer.Def = def;
-        modifer.Id = Core.Context.IdProvider.NextBodyPartModifierId();
-        modifer.DurationInTicks = duration;
-        modifer.Initialize();
-        return modifer;
+        BodyPartModifier modifier = (BodyPartModifier)Activator.CreateInstance(def.HandlerClass)!;
+        modifier.Def = def;
+        modifier.Id = Core.Context.IdProvider.NextBodyPartModifierId();
+        modifier.DurationInTicks = duration;
+        modifier.Initialize();
+        return modifier;
     }
+}
+
+public enum BodyPartModifierEventType
+{
+    Added,
+    Removed
 }
 
 public abstract class BodyPartModifier : IExposable, IIdentityProvider
@@ -42,7 +48,7 @@ public abstract class BodyPartModifier : IExposable, IIdentityProvider
 
     public void SpreadTo(BodyPart part)
     {
-        if (part.HasModifer(Def))
+        if (part.HasModifier(Def))
         {
             return;
         }
@@ -79,5 +85,10 @@ public abstract class BodyPartModifier : IExposable, IIdentityProvider
 
     public virtual void Expired()
     {
+    }
+
+    public virtual BodyPartModifierDef? ApplyToPart(BodyPart part)
+    {
+        return null;
     }
 }

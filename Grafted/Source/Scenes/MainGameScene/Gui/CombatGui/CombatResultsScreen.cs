@@ -15,27 +15,32 @@ public sealed class CombatResultsScreen : VerticalStackPanel
 
     public CombatResultsScreen(ZoneGui gui, GameContext context)
     {
+        Margin = new Thickness(0, 5, 0, 0);
+        Spacing = 15;
+        
         _context = context;
         _gameHud = new GameHud(gui, context) { HorizontalAlignment = HorizontalAlignment.Stretch };
         _pawnPanel = new LootPanel(gui, context.World.PlayerPawn, Encounter.Loot)
         {
+            //MaxHeight = 1200, // 1440p
+            //MaxHeight = 1600, // 1440p
             Margin = new Thickness(0, 80, 0, 0)
         };
 
         _progressButton = GenerateControlButtons();
         _progressButton.HorizontalAlignment = HorizontalAlignment.Center;
 
-        Margin = new Thickness(0, 5, 0, 0);
-        Spacing = 15;
-
         Widgets.Add(_gameHud);
         Widgets.Add(_pawnPanel);
         Widgets.Add(_progressButton);
-
-        if (Encounter.Def.PotentialLootBoxes.Any())
+        //SetProportionType(_gameHud, ProportionType.Auto);
+       // SetProportionType(_pawnPanel, ProportionType.Fill);
+       // SetProportionType(_progressButton, ProportionType.Auto);
+        if (Encounter.Def.PotentialLootBoxes.Count != 0)
         {
             var box = Encounter.Def.PotentialLootBoxes.RandomElement();
             var lootBoxPanel = new LootBoxScreen(this, context, box);
+            
             Widgets.Add(lootBoxPanel);
             _pawnPanel.Visible = false;
             _progressButton.Visible = false;

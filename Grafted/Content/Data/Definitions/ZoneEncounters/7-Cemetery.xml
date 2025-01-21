@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <EncounterDef>
+        <Moniker>Cemetery-01</Moniker>
+        <Biome>Cemetery</Biome>
+        <PotentialLootBoxes>
+            <ListItem>TrinketsChestNormal</ListItem>
+            <ListItem>EnchantedChestDefensive</ListItem>
+            <ListItem>EnchantedChestOffensive</ListItem>
+        </PotentialLootBoxes>
+        <Enemies>
+            <ListItem>
+                <Race>GraveKeeper</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Grave Keeper</PawnName>
+                <Skills>
+                    <MushroomPower>0</MushroomPower>
+                </Skills>
+                <Effects>
+                </Effects>
+                <EquipmentItems>
+                </EquipmentItems>
+                <InventoryItems>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </EncounterDef>
+    <EncounterDef>
+        <Moniker>Cemetery-02</Moniker>
+        <Biome>Cemetery</Biome>
+        <PotentialLootBoxes>
+            <ListItem>TrinketsChestNormal</ListItem>
+        </PotentialLootBoxes>
+        <Enemies>
+            <ListItem>
+                <Race>GraveKeeper</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Grave Keeper</PawnName>
+                <!--<BodySizeFactor>1.2</BodySizeFactor>-->
+                <Skills>
+                    <MushroomPower>0</MushroomPower>
+                </Skills>
+                <Effects>
+                </Effects>
+                <EquipmentItems>
+                </EquipmentItems>
+                <InventoryItems>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </EncounterDef>
+    <EncounterDef>
+        <Moniker>Cemetery-Boss</Moniker>
+        <Biome>Cemetery</Biome>
+        <IsBoss>true</IsBoss>
+        <PotentialLootBoxes>
+            <ListItem>TrinketsChestNormal</ListItem>
+        </PotentialLootBoxes>
+        <Enemies>
+            <ListItem>
+                <Race>FallenWatchman</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Fallen Watchman</PawnName>
+                <BodySizeFactor>1.2</BodySizeFactor>
+                <Skills>
+                    <MushroomPower>0</MushroomPower>
+                </Skills>
+                <Effects>
+                </Effects>
+                <EquipmentItems>
+                </EquipmentItems>
+                <InventoryItems>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </EncounterDef>
+</Definitions>

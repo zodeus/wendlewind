@@ -23,6 +23,10 @@ public sealed class PlayerAchievementsWindow : Window
                 new Label { Text = "  - Rushing River" },
                 new Label { Text = "  - Vampire Wannabe" },
                 new Label { Text = "  - Oh Wow! Your body is eating you" },
+                new Label { Text = "  - Looter" },
+                new Label { Text = "  - Fine Diner" },
+                new Label { Text = "  - Head Banger" },
+                new Label { Text = "  - One dies, the rest lives!" },
             }
         };
     }

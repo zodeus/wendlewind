@@ -102,10 +102,10 @@ public class CombatHandler
 
         foreach (var partRecord in damage.BodyParts)
         {
-            foreach (var modifer in partRecord.AppliedModifiers)
+            foreach (var modifier in partRecord.AppliedModifiers)
             {
                 Encounter.LogMessage(
-                    $"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Default}]afflicted with /c[{TC.Yellow}]{modifer}");
+                    $"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Default}]afflicted with /c[{TC.Yellow}]{modifier}");
             }
 
             if (partRecord is { WasDestroyed: true, IsVital: false })

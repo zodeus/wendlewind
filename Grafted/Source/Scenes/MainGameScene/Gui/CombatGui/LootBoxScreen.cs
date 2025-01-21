@@ -89,8 +89,7 @@ public sealed class LootBoxScreen : VerticalStackPanel
                 }
             }
         }
-
-
+        
         _openPanel.Visible = false;
         _viewPanel.Visible = true;
 
@@ -107,7 +106,7 @@ public sealed class LootBoxScreen : VerticalStackPanel
         };
         continueButton.Click += (_, _) =>
         {
-            Visible = false;
+            RemoveFromParent();
             foreach (var item in items)
             {
                 playerPawn.Inventory.TryAdd(item);

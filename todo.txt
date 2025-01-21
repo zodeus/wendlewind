@@ -1,6 +1,14 @@
-Add BodyPart (Size, HitWeight, Hit points)
+Trinkets
+	Knowledge Transfer - Non-Combat - let's you move skills XP around
+ 	Organ Insulator - Combat - Charges when an organ takes damage, enabling it prevents organ damage for a period of time
+Enchantments
+	TheDuplicator -- Duplicates a slot 	
+	
 
-Add Trinkets Bars (Combat, Interactive)
+Achievements
+ - Unlocks new items in new playthroughs, weapons, enchantments etcMich 
+
+Add BodyPart (Size, HitWeight, Hit points)
 
 Set XML values for BodyPartDef.MobilityFraction
 

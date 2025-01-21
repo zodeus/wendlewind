@@ -95,7 +95,6 @@ public class PawnBody : IExposable, IIdentityProvider
     public void Initialize()
     {
         Id = $"{Pawn.Id}-Body";
-        BloodAmount = Pawn.PawnDef.Body.MaxBlood;
         Capabilities = new PawnCapabilities(Pawn);
         Effects = new PawnBodyEffects(Pawn);
         Handler = Def.Handler;

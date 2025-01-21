@@ -19,7 +19,7 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
         _bodyPanel = new PawnBodyPanel(gui, playerPawn.Body);
         _inventoryPanel = new ItemContainerPanel(gui,
             playerPawn.Inventory.Entities, null
-        ) { MinHeight = 700, Width = 680,VerticalAlignment = VerticalAlignment.Stretch};
+        ) { MinHeight = 700, Width = 600,VerticalAlignment = VerticalAlignment.Stretch};
 
         _equipmentPanel = new PawnEquipmentPanel(gui, playerPawn);
 
@@ -62,8 +62,8 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
                     Spacing = 5,
                     Widgets =
                     {
-                        new TrinketBar(gui, playerPawn.Inventory.Entities, TrinketType.Combat, item => gui.ViewEntity(item)),
-                        new TrinketBar(gui, playerPawn.Inventory.Entities, TrinketType.NonCombat, item => gui.ViewEntity(item)),
+                        new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Combat, item => gui.ViewEntity(item)),
+                        new TrinketBar(playerPawn.Inventory.Entities, TrinketType.NonCombat, item => gui.ViewEntity(item)),
                         _inventoryPanel
                     }
                 },
@@ -129,6 +129,14 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
             Enabled = world.GetZone(Defs.Zones.ForgottenForest).IsComplete && !world.GetZone(Defs.Zones.DampCave).IsComplete
         };
         dampCave.Click += (_, _) => { new ZoneStartWindow(Defs.Zones.DampCave).ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint()); };
+    
+        var cemetery = new Button(BaseContent.Styles.Button.Normal)
+        {
+            Content = new Label { Text = Defs.Zones.Cemetery.Label, HorizontalAlignment = HorizontalAlignment.Center },
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Enabled = world.GetZone(Defs.Zones.DampCave).IsComplete && !world.GetZone(Defs.Zones.Cemetery).IsComplete
+        };
+        cemetery.Click += (_, _) => { new ZoneStartWindow(Defs.Zones.Cemetery).ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint()); };
 
         return new VerticalStackPanel
         {
@@ -154,6 +162,7 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
                 // new TextButton(BaseContent.Styles.Button.Normal) { Text = "The Alchemist Hut", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                 forgottenForest,
                 dampCave,
+                cemetery
                 // new TextButton(BaseContent.Styles.Button.Normal) { Text = "Forgemaster's Quarry", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                 // new TextButton(BaseContent.Styles.Button.Normal) { Text = "Fallow Field", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
                 // new TextButton(BaseContent.Styles.Button.Normal) { Text = "Mage Tower", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },

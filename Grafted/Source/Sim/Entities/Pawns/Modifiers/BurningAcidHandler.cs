@@ -1,7 +1,7 @@
 namespace Grafted.Sim.Entities.Pawns.Modifiers;
 
 [UsedImplicitly]
-public class BurningAcid : BodyPartModifier
+public class BurningAcidHandler : BodyPartModifier
 {
     public bool HasSpread = false;
     public bool HasPenetrated = false;
@@ -63,6 +63,16 @@ public class BurningAcid : BodyPartModifier
 
         return false;
     }
+
+    public override BodyPartModifierDef? ApplyToPart(BodyPart part)
+    {
+        if (part.Type is not BodyPartType.Skin) return null;
+
+        part.TryAddModifier(this);
+        //todo raise event MODIFIER APPLIED
+        return Def;
+    }
+
 
     public override void ExposeData()
     {

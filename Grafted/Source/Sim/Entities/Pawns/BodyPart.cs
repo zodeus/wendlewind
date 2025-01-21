@@ -7,7 +7,9 @@ namespace Grafted.Sim.Entities.Pawns;
 
 public class BodyPart : Entity
 {
-    private const float SKIN_DAMAGE_SCALER = 0.6f;
+    private const float SkinDamageScaler = 0.6f;
+
+    public event Action<BodyPartModifier, BodyPartModifierEventType>? ModifiersChanged;
     public event Action<BodyPart, List<DamagedBodyPartRecord>>? PartDamaged; //todo - actions
     public event Action<BodyPart>? HealthChanged; //todo - actions
 
@@ -293,7 +295,7 @@ public class BodyPart : Entity
             if (modifier.IsExpired)
             {
                 modifier.Expired();
-                Modifiers.Remove(modifier);
+                RemoveModifier(modifier);
             }
         }
 
@@ -375,7 +377,7 @@ public class BodyPart : Entity
         damagedParts ??= [];
         var remainingDamage = ApplyDamage(damage.TotalUnblockedDamage, damage.Type, damage.BodyPartModifiers, damagedParts, false);
         var skin = InternalParts.Where(p => p.Type == BodyPartType.Skin).FirstOrNull();
-        skin?.ApplyDamage(damage.TotalUnblockedDamage * SKIN_DAMAGE_SCALER, damage.Type, damage.BodyPartModifiers, damagedParts, false);
+        skin?.ApplyDamage(damage.TotalUnblockedDamage * SkinDamageScaler, damage.Type, damage.BodyPartModifiers, damagedParts, false);
 
         // Cascade damage to internal parts
         if (remainingDamage > 0)
@@ -420,6 +422,12 @@ public class BodyPart : Entity
 
     public void Severe()
     {
+        if (Socket == Body?.RootSocket)
+        {
+            Log.Warning($"Attempted to severe part attached to root socket Part={Socket?.AttachedPart?.Label} Pawn={Socket?.Body?.Pawn.Label}");
+            return;
+        }
+
         if (Socket != null)
         {
             Socket.Body = null; //todo not that it matters, but this should probably also set Pawn.Body.RootSocket = null as well
@@ -431,21 +439,28 @@ public class BodyPart : Entity
         IsSevered = true;
     }
 
-    public void TryAddModifier(BodyPartModifier modifer)
+    public void TryAddModifier(BodyPartModifier modifier)
     {
-        //Log.Debug($"Attempting to apply BodyPartModifier: {modifer.Label} to {this}");
-        BodyPartModifier? existingModifier = Modifiers.FirstOrNull(m => m?.Def == modifer.Def);
+        //Log.Debug($"Attempting to apply BodyPartModifier: {modifier.Label} to {this}");
+        BodyPartModifier? existingModifier = Modifiers.FirstOrNull(m => m?.Def == modifier.Def);
         if (existingModifier != null)
         {
-            existingModifier.MergeWith(modifer);
+            existingModifier.MergeWith(modifier);
             return;
         }
 
-        modifer.BodyPart = this;
-        Modifiers.Add(modifer);
+        modifier.BodyPart = this;
+        Modifiers.Add(modifier);
+        ModifiersChanged?.Invoke(modifier, BodyPartModifierEventType.Added);
     }
 
-    public bool HasModifer(BodyPartModifierDef def)
+    private void RemoveModifier(BodyPartModifier modifier)
+    {
+        Modifiers.Remove(modifier);
+        ModifiersChanged?.Invoke(modifier, BodyPartModifierEventType.Removed);
+    }
+
+    public bool HasModifier(BodyPartModifierDef def)
     {
         return Modifiers.Any(m => m.Def == def);
     }

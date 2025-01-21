@@ -32,26 +32,7 @@ public class DefaultBodyHandler : IExposable
     public virtual void Tick()
     {
         HandleNutrition();
-        if (Body.RootSocket.AttachedPart == null)
-        {
-            Body.BloodAmount = 0;
-            Body.BloodChangeLastFrame = 0;
-        }
-        else
-        {
-            var preTickBloodAmount = Body.BloodAmount;
-            var preTickBloodPercent = Body.BloodPercent;
-            DoBloodLoss();
-            if (Math.Abs(preTickBloodPercent - Body.BloodPercent) > .00001)
-            {
-                Body.BloodChangeLastFrame = Body.BloodPercent - preTickBloodPercent;
-            }
-            else
-            {
-                Body.BloodAmount = preTickBloodAmount;
-                Body.BloodChangeLastFrame = 0;
-            }
-        }
+        HandleBlood();
     }
 
     public virtual void ConsumeEnergy(float baseAmount)
@@ -134,19 +115,35 @@ public class DefaultBodyHandler : IExposable
         }
     }
 
-    protected virtual void DoBloodLoss()
+    protected virtual void HandleBlood()
     {
-        if (Body.Def.BloodType == null)
-        {
-            return;
-        }
-
         if (Body.RootSocket.AttachedPart == null)
         {
-            return;
+            Body.BloodAmount = 0;
+            Body.BloodChangeLastFrame = 0;
         }
+        else
+        {
+            if (Body.Def.BloodType == null || Body.RootSocket.AttachedPart == null)
+            {
+                return;
+            }
 
-        DoBloodLossForPart(Body.RootSocket.AttachedPart);
+            var preTickBloodAmount = Body.BloodAmount;
+            var preTickBloodPercent = Body.BloodPercent;
+
+            DoBloodLossForPart(Body.RootSocket.AttachedPart);
+
+            if (Math.Abs(preTickBloodPercent - Body.BloodPercent) > .00001)
+            {
+                Body.BloodChangeLastFrame = Body.BloodPercent - preTickBloodPercent;
+            }
+            else
+            {
+                Body.BloodAmount = preTickBloodAmount;
+                Body.BloodChangeLastFrame = 0;
+            }
+        }
     }
 
     protected virtual void HandleNutrition()

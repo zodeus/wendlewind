@@ -51,10 +51,10 @@
         <Label>Ghoul</Label>
         <Body>GhoulBody</Body>
         <BaseStats>
-            <AttackSpeed>0.5</AttackSpeed>
-            <MeleeStrength>2</MeleeStrength>
-            <Evasion>.02</Evasion>
-            <MeleeAccuracy>.85</MeleeAccuracy>
+            <AttackSpeed>1</AttackSpeed>
+            <MeleeStrength>1</MeleeStrength>
+            <Evasion>.08</Evasion>
+            <MeleeAccuracy>.90</MeleeAccuracy>
         </BaseStats>
     </PawnDef>
 </Definitions>

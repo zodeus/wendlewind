@@ -28,6 +28,13 @@ internal sealed class BodyPartPanelHealthLabel : VerticalStackPanel
     {
         ((ColoredRegion)_image.Background).Color = BodyPartColor.Get(_bodyPart);
         _label.TextColor = BodyPartColor.Get(_bodyPart);
-        _label.Text = $"{_bodyPart.HitPoints:N0}/{_bodyPart.MaxHitPoints:N0}";
+        if (_bodyPart.HitPoints < 2)
+        {
+            _label.Text = $"{_bodyPart.HitPoints:N1}/{_bodyPart.MaxHitPoints:N0}";
+        }
+        else
+        {
+            _label.Text = $"{Math.Ceiling(_bodyPart.HitPoints):N0}/{_bodyPart.MaxHitPoints:N0}";
+        }
     }
 }

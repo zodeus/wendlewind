@@ -102,7 +102,7 @@ public class RecipeCard : VerticalStackPanel,
             resourceTaken.Destroy();
         }
 
-        pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(itemToCraft));
+        pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(itemToCraft, itemToCraft.CraftingProperties.AmountProduced));
 
         return true;
     }

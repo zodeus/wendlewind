@@ -25,7 +25,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         _gui = gui;
         if (isPlayer)
         {
-            _trinketBar = new TrinketBar(gui, pawn.Inventory.Entities, TrinketType.Combat, HandleTrinketClick)
+            _trinketBar = new TrinketBar(pawn.Inventory.Entities, TrinketType.Combat, HandleTrinketClick)
             {
                 VerticalAlignment = VerticalAlignment.Bottom, HorizontalAlignment = HorizontalAlignment.Right
             };

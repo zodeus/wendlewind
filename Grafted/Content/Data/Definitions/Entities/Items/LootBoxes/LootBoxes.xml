@@ -233,27 +233,5 @@
             </ListItem>
         </Items>
     </LootBoxDef>
-    <LootBoxDef>
-        <Moniker>EnchantedChestNormal</Moniker>
-        <Label>Enchanted Chest</Label>
-        <Rarity>Normal</Rarity>
-        <Description>An assortment of magical enchantments</Description>
-        <TexturePath>Chests/EnchantedChestNormal</TexturePath>
-        <CollectionLimit>1</CollectionLimit>
-        <Items>
-            <ListItem>
-                <ItemDef>SoothingVibrations</ItemDef>
-                <Weight>40</Weight>
-            </ListItem>
-            <ListItem>
-                <ItemDef>SpidersBite</ItemDef>
-                <Weight>10</Weight>
-            </ListItem>
-            <ListItem>
-                <ItemDef>BloodBath</ItemDef>
-                <Weight>5</Weight>
-            </ListItem>
-        </Items>
-    </LootBoxDef>
 </Definitions>
 

@@ -25,12 +25,19 @@
             <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
         </EquipmentProperties>
         <WeaponProperties>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Necrosis</Def>
+                    <DurationInTicks>0</DurationInTicks>
+                    <Chance>.1</Chance>
+                </ListItem>
+            </BodyPartModifiers>
             <WeaponType>Hand</WeaponType>
             <DamageType>Flesh</DamageType>
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/GhoulishHand</TexturePath>
         <BaseStats>
-            <MeleePower>5</MeleePower>
+            <MeleePower>45</MeleePower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -41,12 +48,12 @@
             <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
         </EquipmentProperties>
         <WeaponProperties>
-            <WeaponType>Hand</WeaponType>
+            <WeaponType>Foot</WeaponType>
             <DamageType>Flesh</DamageType>
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/GhoulishFoot</TexturePath>
         <BaseStats>
-            <MeleePower>10</MeleePower>
+            <MeleePower>45</MeleePower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
