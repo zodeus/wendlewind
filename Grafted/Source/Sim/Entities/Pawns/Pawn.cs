@@ -1,5 +1,3 @@
-using Grafted.Utils.Timers;
-
 namespace Grafted.Sim.Entities.Pawns;
 
 [UsedImplicitly] // Used by EntityGenerator, referenced by EntityDef.EntityClass
@@ -120,7 +118,7 @@ public class Pawn : Entity, IExposable
                 request.Source.GetSkill(damage.WeaponType)?.Learn(1);
             }
 
-            DamageRecord damageRecord = new(damage.Tool.Label, request.WeaponManeuver.Label, damage.Type, bodyPart, damage.TotalDamage);
+            DamageRecord damageRecord = new(damage.Weapon.Label, request.WeaponManeuver.Label, damage.Type, bodyPart, damage.TotalDamage);
 
             // Handle Armor
             var isPartCoveredByParentArmor = bodyPart.Type is BodyPartType.Finger or BodyPartType.Thumb;
@@ -149,11 +147,11 @@ public class Pawn : Entity, IExposable
             }
 
             //Handle Weapon Durability
-            damage.Tool.ApplyDurabilityLoss(bodyPartEquipment);
-            if (damage.Tool.IsDestroyed)
+            damage.Weapon.ApplyDurabilityLoss(bodyPartEquipment);
+            if (damage.Weapon.IsDestroyed)
             {
-                damageRecord.DestroyedEquipment.Add(new DestroyedItemRecord(damage.Tool.ItemDef));
-                request.Source.Equipment.UnEquip(damage.Tool);
+                damageRecord.DestroyedEquipment.Add(new DestroyedItemRecord(damage.Weapon.ItemDef));
+                request.Source.Equipment.UnEquip(damage.Weapon);
             }
 
             // Apply Damage
@@ -164,7 +162,14 @@ public class Pawn : Entity, IExposable
             var enchantments = bodyPart.Equipment.Values.SelectMany(e => e?.Enchantments?.ToList() ?? []);
             foreach (var enchantment in enchantments)
             {
-                enchantment.EnchantmentHandler!.HandlePawnTakeDamageEffect(bodyPart, this, request.Source, damageRecord);
+                if (enchantment.EnchantmentHandler != null)
+                {
+                    enchantment.EnchantmentHandler.PostPawnDamageTakenEffect(bodyPart, this, request.Source, damageRecord);
+                }
+                else
+                {
+                    Log.Warning($"{enchantment.ItemDef.Moniker} has no enchant handler");
+                }
             }
 
             // Finish up
@@ -268,11 +273,12 @@ public class Pawn : Entity, IExposable
             return;
         }
 
+        var goldenLipsMultiplier = HasActiveEffect(Defs.BodyEffects.GoldenLips) ? 1.5f : 1f;
         foreach (var record in item.ItemDef.FoodProperties.Effects)
         {
             Body.Effects.TryApplyEffect(new BodyEffect
             {
-                Def = record.Def, TicksLeft = record.DurationInTicks
+                Def = record.Def, TicksLeft = (int)(record.DurationInTicks * goldenLipsMultiplier)
             });
         }
 
@@ -289,6 +295,11 @@ public class Pawn : Entity, IExposable
         {
             item.Destroy();
         }
+    }
+
+    private bool HasActiveEffect(BodyEffectDef effect)
+    {
+        return Body.Effects.Has(effect);
     }
 
     public void ResetAttackCoolDown()

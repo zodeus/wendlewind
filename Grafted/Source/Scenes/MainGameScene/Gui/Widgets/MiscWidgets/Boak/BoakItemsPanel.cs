@@ -1,7 +1,4 @@
-﻿using Grafted.Sim.Entities;
-using Grafted.Sim.LootBoxes;
-
-namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
+﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
 
 internal sealed class BoakItemsPanel : Panel
 {

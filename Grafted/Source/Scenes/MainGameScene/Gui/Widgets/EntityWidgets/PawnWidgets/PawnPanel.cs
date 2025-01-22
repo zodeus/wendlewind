@@ -1,5 +1,4 @@
-﻿using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.BodyPartPanelWidget;
-using Myra.Graphics2D.Brushes;
+﻿using Myra.Graphics2D.Brushes;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
@@ -81,6 +80,7 @@ public sealed class PawnPortraitPanel : VerticalStackPanel
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"• Circulation: n/a" });
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"• Digestion: n/a" });
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"• Mobility: {pawn.Body.Capabilities.Mobility}" });
+        Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"• Max Blood: {pawn.Body.MaxBlood}" });
 
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"Traits", Margin = new Thickness(0, 15, 0, 0) });
         foreach (var trait in pawn.Traits)

@@ -113,8 +113,7 @@
         <HorizontalProgressBarStyle Id="durability" Background="bar-frame-small-filled" Filler="bar-durability" Padding="4"/>
     </HorizontalProgressBarStyles>
     <VerticalProgressBarStyles>
-        <!--<VerticalProgressBarStyle Background="progressbar-vertical" Filler="progressbar-filled-vertical" Width="16"/>-->
-        <VerticalProgressBarStyle Background="bad-texture" Filler="bad-texture" Width="16"/>
+        <VerticalProgressBarStyle Background="bar-frame-small" Filler="vertical-bar" Padding="4" Width="16"/>
     </VerticalProgressBarStyles>
     <HorizontalSeparatorStyles>
         <HorizontalSeparatorStyle Image="separator-menu" Color="red" Thickness="5"/>

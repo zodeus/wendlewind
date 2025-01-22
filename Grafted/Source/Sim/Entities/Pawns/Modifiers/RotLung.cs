@@ -23,11 +23,11 @@ public class RotLung : BodyPartModifier
         }
     }
 
-    public override BodyPartModifierDef? ApplyToPart(BodyPart part)
+    public override bool ApplyToPart(BodyPart part)
     {
         if (part.Type is not (BodyPartType.Head or BodyPartType.Neck))
         {
-            return null;
+            return false;
         }
 
         var lung = part.Body?.AllExternalParts
@@ -37,12 +37,11 @@ public class RotLung : BodyPartModifier
         if (lung == null)
         {
             Log.Warning($"No lungs found while applying body part modifier {Defs.BodyPartModifiers.RotLung.Moniker}");
-            return null;
+            return false;
         }
 
         lung.TryAddModifier(this);
-
-        //todo raise event MODIFIER APPLIED
-        return Def;
+        
+        return true;
     }
 }

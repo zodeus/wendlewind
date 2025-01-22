@@ -42,6 +42,7 @@ public static partial class Defs {
         public static BodyPartModifierDef SoothingBalm = null!;
         public static BodyPartModifierDef PurpleRegeneration = null!;
         public static BodyPartModifierDef LifeRegeneration = null!;
+        public static BodyPartModifierDef RhinoRestoration = null!;
     }
 }
 
@@ -53,6 +54,7 @@ public static partial class Defs {
         public static BodyEffectDef SmokeyHaze = null!;
         public static BodyEffectDef Psychedelic = null!;
         public static BodyEffectDef DeathToll = null!;
+        public static BodyEffectDef GoldenLips = null!;
     }
 }
 

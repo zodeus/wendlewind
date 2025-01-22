@@ -1,5 +1,3 @@
-using Grafted.Sim.Entities.Pawns.Bodies;
-
 namespace Grafted.Sim.Entities.Pawns;
 
 public static class PawnGenerator

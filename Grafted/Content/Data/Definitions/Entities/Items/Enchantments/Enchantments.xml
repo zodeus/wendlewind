@@ -28,17 +28,14 @@
                 <ListItem>Armor</ListItem>
             </ValidEquipmentTypes>
             <HandlerClass>SpidersBiteHandler</HandlerClass>
-        </EnchantmentProperties>
-        <WeaponProperties>
-            <DamageType>Flesh</DamageType>
             <BodyPartModifiers>
                 <ListItem>
                     <Def>BurningAcid</Def>
-                    <DurationInTicks>80~240</DurationInTicks>
+                    <DurationInTicks>60~120</DurationInTicks>
                     <Chance>.2</Chance>
                 </ListItem>
             </BodyPartModifiers>
-        </WeaponProperties>
+        </EnchantmentProperties>
         <TexturePath>Entities/Item/Enchantments/SpidersBite</TexturePath>
     </ItemDef>
     <ItemDef ParentName="ItemEnchantment">
@@ -52,5 +49,42 @@
             <HandlerClass>BloodBathHandler</HandlerClass>
         </EnchantmentProperties>
         <TexturePath>Entities/Item/Enchantments/BloodBath</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="ItemEnchantment">
+        <Moniker>RhinoSkin</Moniker>
+        <Label>Rhino Skin</Label>
+        <Description>Thick and chunky.</Description>
+        <EnchantmentProperties>
+            <ValidEquipmentTypes>
+                <ListItem>Armor</ListItem>
+            </ValidEquipmentTypes>
+            <HandlerClass>RhinoSkinHandler</HandlerClass>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>RhinoRestoration</Def>
+                    <DurationInTicks>80~140</DurationInTicks>
+                    <Chance>1</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </EnchantmentProperties>
+        <TexturePath>Entities/Item/Enchantments/RhinoSkin</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="ItemEnchantment">
+        <Moniker>FesteringWounds</Moniker>
+        <Label>Festering Wounds</Label>
+        <Description>It spreads...</Description>
+        <EnchantmentProperties>
+            <ValidEquipmentTypes>
+                <ListItem>Weapon</ListItem>
+            </ValidEquipmentTypes>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Festering</Def>
+                    <DurationInTicks>120~300</DurationInTicks>
+                    <Chance>.2</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </EnchantmentProperties>
+        <TexturePath>Entities/Item/Enchantments/FesteringWounds</TexturePath>
     </ItemDef>
 </Definitions>

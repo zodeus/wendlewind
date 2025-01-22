@@ -17,7 +17,7 @@
     </BodyEffectDef>
     <BodyEffectDef>
         <Moniker>BeefedUp</Moniker>
-        <Label>Beefed Up!</Label>
+        <Label>Beefed Up</Label>
         <AffectedStats>
             <ListItem>
                 <Stat>MeleeStrength</Stat>
@@ -26,6 +26,34 @@
             <ListItem>
                 <Stat>AttackSpeed</Stat>
                 <Offset>.20</Offset>
+            </ListItem>
+        </AffectedStats>
+    </BodyEffectDef>
+    <BodyEffectDef>
+        <Moniker>BeefedUp+</Moniker>
+        <Label>Beefed Up+</Label>
+        <AffectedStats>
+            <ListItem>
+                <Stat>MeleeStrength</Stat>
+                <Offset>.30</Offset>
+            </ListItem>
+            <ListItem>
+                <Stat>AttackSpeed</Stat>
+                <Offset>.50</Offset>
+            </ListItem>
+        </AffectedStats>
+    </BodyEffectDef>
+    <BodyEffectDef>
+        <Moniker>Fishy</Moniker>
+        <Label>Fishy</Label>
+        <AffectedStats>
+            <ListItem>
+                <Stat>MeleeStrength</Stat>
+                <Offset>.30</Offset>
+            </ListItem>
+            <ListItem>
+                <Stat>Evasion</Stat>
+                <Offset>.05</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>

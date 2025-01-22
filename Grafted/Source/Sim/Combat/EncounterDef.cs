@@ -1,5 +1,4 @@
-﻿using Grafted.Graphics.Textures;
-using Grafted.Sim.Entities;
+﻿using Grafted.Sim.Entities;
 using Grafted.Sim.LootBoxes;
 
 namespace Grafted.Sim.Combat;

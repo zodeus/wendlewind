@@ -1,6 +1,4 @@
-﻿using Grafted.Sim.Entities;
-
-namespace Grafted.Sim;
+﻿namespace Grafted.Sim;
 
 public static class WorldGenerator
 {

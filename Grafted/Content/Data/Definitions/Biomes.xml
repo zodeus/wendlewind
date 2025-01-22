@@ -49,7 +49,7 @@
             <ListItem>
                 <Item>RawCorn</Item>
                 <Amount>1</Amount>
-                <ChanceToHarvest>.8</ChanceToHarvest>
+                <ChanceToHarvest>1</ChanceToHarvest>
             </ListItem>
             <ListItem>
                 <Item>GlitteringLog</Item>
@@ -77,7 +77,7 @@
             <ListItem>
                 <Item>RawCorn</Item>
                 <Amount>1</Amount>
-                <ChanceToHarvest>.3</ChanceToHarvest>
+                <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>
         </Resources>
     </BiomeDef>
@@ -94,6 +94,11 @@
             </ListItem>
             <ListItem>
                 <Item>RawCorn</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.5</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>RawMeat</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>
@@ -125,6 +130,11 @@
                 <Amount>1~2</Amount>
                 <ChanceToHarvest>.3</ChanceToHarvest>
             </ListItem>
+            <ListItem>
+                <Item>GlitteringLog</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.5</ChanceToHarvest>
+            </ListItem>
         </Resources>
     </BiomeDef>
     <BiomeDef>
@@ -139,17 +149,12 @@
                 <ChanceToHarvest>.8</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>GlitteringLog</Item>
+                <Item>ShimmeringBark</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>
             <ListItem>
                 <Item>DreamBerry</Item>
-                <Amount>1</Amount>
-                <ChanceToHarvest>.3</ChanceToHarvest>
-            </ListItem>
-            <ListItem>
-                <Item>MaeburyBulb</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.3</ChanceToHarvest>
             </ListItem>

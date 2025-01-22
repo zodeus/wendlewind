@@ -24,6 +24,53 @@
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Food">
+        <Moniker>RawFish</Moniker>
+        <Label>Raw Fish</Label>
+        <Description>Raw sprink fish.</Description>
+        <TexturePath>Entities/Item/Resource/Organic/RawFish</TexturePath>
+        <FoodProperties>
+            <FoodType>RawMeat</FoodType>
+            <Effects>
+                <ListItem>
+                    <Def>FoodPoisoning</Def>
+                    <DurationInTicks>4000</DurationInTicks>
+                </ListItem>
+            </Effects>
+        </FoodProperties>
+        <BaseStats>
+            <NutritionalValue>.10</NutritionalValue>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="Food">
+        <Moniker>CookedFish</Moniker>
+        <Label>Cooked Fish</Label>
+        <Description>It's a nicely cooked fish.</Description>
+        <TexturePath>Entities/Item/Resource/Organic/CookedFish</TexturePath>
+        <FoodProperties>
+            <FoodType>CookedMeat</FoodType>
+            <Effects>
+                <ListItem>
+                    <Def>Fishy</Def>
+                    <DurationInTicks>5000</DurationInTicks>
+                </ListItem>
+            </Effects>
+        </FoodProperties>
+        <CraftingProperties>
+            <RequiredTrinkets>
+                <ListItem>EncasedFire</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>RawFish</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+        <BaseStats>
+            <NutritionalValue>.25</NutritionalValue>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="Food">
         <Moniker>CookedMeat</Moniker>
         <Label>Cooked Meat</Label>
         <Description>Some cooked meat, a nice belly filler.</Description>
@@ -61,14 +108,14 @@
             <FoodType>DriedMeat</FoodType>
             <Effects>
                 <ListItem>
-                    <Def>BeefedUp</Def>
+                    <Def>BeefedUp+</Def>
                     <DurationInTicks>5000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
         <CraftingProperties>
             <RequiredTrinkets>
-                <ListItem>ATap</ListItem>
+                <!--<ListItem>ATap</ListItem>-->
             </RequiredTrinkets>
             <ResourceRequirements>
                 <ListItem>
@@ -78,7 +125,7 @@
             </ResourceRequirements>
         </CraftingProperties>
         <BaseStats>
-            <NutritionalValue>.3</NutritionalValue>
+            <NutritionalValue>.20</NutritionalValue>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Food">

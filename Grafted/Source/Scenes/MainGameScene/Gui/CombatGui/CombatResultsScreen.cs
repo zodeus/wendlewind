@@ -1,7 +1,5 @@
-using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Grafted.Sim.Entities;
-using Grafted.Sim.LootBoxes;
 
 namespace Grafted.Scenes.MainGameScene.Gui.CombatGui;
 
@@ -23,7 +21,6 @@ public sealed class CombatResultsScreen : VerticalStackPanel
         _pawnPanel = new LootPanel(gui, context.World.PlayerPawn, Encounter.Loot)
         {
             //MaxHeight = 1200, // 1440p
-            //MaxHeight = 1600, // 1440p
             Margin = new Thickness(0, 80, 0, 0)
         };
 

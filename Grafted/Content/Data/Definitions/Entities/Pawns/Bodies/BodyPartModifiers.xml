@@ -25,6 +25,22 @@
         <HandlerClass>NecrosisHandler</HandlerClass>
         <Color>99, 105, 47</Color>
     </BodyPartModifierDef>
+    <BodyPartModifierDef>
+        <Moniker>Festering</Moniker>
+        <Label>Festering</Label>
+        <Type>Debuff</Type>
+        <Description>This is another flesh eating disease...</Description>
+        <HandlerClass>FesteringHandler</HandlerClass>
+        <Color>188, 224, 7</Color>
+    </BodyPartModifierDef>
+   <!-- <BodyPartModifierDef>
+        <Moniker>BrainWorm</Moniker>
+        <Label>Brain Worm</Label>
+        <Type>Debuff</Type>
+        <Description></Description>
+        <HandlerClass>NecrosisHandler</HandlerClass>
+        <Color>99, 105, 47</Color>
+    </BodyPartModifierDef>-->
 
     <!-- BUFFS -->
     <BodyPartModifierDef>
@@ -50,6 +66,15 @@
         <Description>Regenerates body part health</Description>
         <HandlerClass>PurpleRegeneration</HandlerClass>
         <Color>168, 2, 214</Color>
+        <ColorPriority>2</ColorPriority>
+    </BodyPartModifierDef>
+    <BodyPartModifierDef>
+        <Moniker>RhinoRestoration</Moniker>
+        <Label>Rhino Restoration</Label>
+        <Type>Buff</Type>
+        <Description></Description>
+        <HandlerClass>RhinoRestorationHandler</HandlerClass>
+        <Color>52, 116, 153</Color>
         <ColorPriority>2</ColorPriority>
     </BodyPartModifierDef>
 </Definitions>

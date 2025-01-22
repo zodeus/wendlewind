@@ -1,13 +1,12 @@
 using System.Text.RegularExpressions;
 using Grafted.Graphics.Textures;
 using Grafted.Sim.Entities.Pawns.Modifiers;
-using SharpDX;
 
 namespace Grafted.Sim.Entities.Pawns;
 
 public class BodyPart : Entity
 {
-    private const float SkinDamageScaler = 0.6f;
+    public const float SkinDamageScaler = 0.6f;
 
     public event Action<BodyPartModifier, BodyPartModifierEventType>? ModifiersChanged;
     public event Action<BodyPart, List<DamagedBodyPartRecord>>? PartDamaged; //todo - actions
@@ -375,7 +374,7 @@ public class BodyPart : Entity
     public List<DamagedBodyPartRecord> ApplyDamageToExternalPart(Damage damage, List<DamagedBodyPartRecord>? damagedParts = null)
     {
         damagedParts ??= [];
-        var remainingDamage = ApplyDamage(damage.TotalUnblockedDamage, damage.Type, damage.BodyPartModifiers, damagedParts, false);
+         var remainingDamage = ApplyDamage(damage.TotalUnblockedDamage, damage.Type, damage.BodyPartModifiers, damagedParts, false);
         var skin = InternalParts.Where(p => p.Type == BodyPartType.Skin).FirstOrNull();
         skin?.ApplyDamage(damage.TotalUnblockedDamage * SkinDamageScaler, damage.Type, damage.BodyPartModifiers, damagedParts, false);
 

@@ -1,6 +1,6 @@
 ﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 
-internal class CombatPartyPanel : VerticalStackPanel
+internal sealed class CombatPartyPanel : VerticalStackPanel
 {
     private readonly List<PawnCombatPanel> _panels;
 
@@ -15,13 +15,12 @@ internal class CombatPartyPanel : VerticalStackPanel
             //Border = new SolidBrush(Color.Aquamarine),
             //BorderThickness = new Thickness(1),
             Spacing = 15, HorizontalAlignment = pawnAlignment,
-            Margin = new Thickness(30, 0, 30, 0),
         };
         Widgets.Add(pawnRow);
 
-        foreach (Pawn pawn in pawns)
+        foreach (var pawn in pawns)
         {
-            bool isPlayer = pawn.PawnType == PawnType.Player;
+            var isPlayer = pawn.PawnType == PawnType.Player;
             PawnCombatPanel panel = new(gui, pawn, encounter, isPlayer);
             _panels.Add(panel);
             pawnRow.Widgets.Add(panel);
@@ -30,13 +29,9 @@ internal class CombatPartyPanel : VerticalStackPanel
 
     public void Update()
     {
-        for (int i = _panels.Count - 1; i >= 0; i--)
+        for (var i = _panels.Count - 1; i >= 0; i--)
         {
-            PawnCombatPanel panel = _panels[i];
-            if (panel.Pawn.IsDead)
-            {
-            }
-
+            var panel = _panels[i];
             panel.Update();
         }
     }

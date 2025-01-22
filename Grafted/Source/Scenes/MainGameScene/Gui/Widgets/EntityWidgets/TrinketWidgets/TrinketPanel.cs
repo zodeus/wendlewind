@@ -1,5 +1,3 @@
-using Grafted.Sim.Entities;
-
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.TrinketWidgets;
 
 public sealed class TrinketPanel : EntityPanelBase

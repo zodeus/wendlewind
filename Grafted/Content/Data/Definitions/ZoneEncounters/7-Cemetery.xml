@@ -2,12 +2,27 @@
 
 <Definitions>
     <EncounterDef>
+        <Moniker>Cemetery-Shrine</Moniker>
+        <Biome>Cemetery</Biome>
+        <ShrineProperties>
+            <GodLabel>Herminor</GodLabel>
+            <PartsToRestore>4~7</PartsToRestore>
+            <TexturePath>Zones/Shrines/cemetery_shrine_1</TexturePath>
+            <RestorablePartTypes>
+                <ListItem>Thumb</ListItem>
+                <ListItem>Finger</ListItem>
+                <ListItem>Hand</ListItem>
+                <ListItem>Foot</ListItem>
+            </RestorablePartTypes>
+        </ShrineProperties>
+    </EncounterDef>
+    <EncounterDef>
         <Moniker>Cemetery-01</Moniker>
         <Biome>Cemetery</Biome>
         <PotentialLootBoxes>
             <ListItem>TrinketsChestNormal</ListItem>
-            <ListItem>EnchantedChestDefensive</ListItem>
-            <ListItem>EnchantedChestOffensive</ListItem>
+            <!--<ListItem>EnchantedChestDefensive</ListItem>
+            <ListItem>EnchantedChestOffensive</ListItem>-->
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -22,12 +37,65 @@
                 <EquipmentItems>
                 </EquipmentItems>
                 <InventoryItems>
+                    <ListItem>
+                        <Item>RawFish</Item>
+                        <Amount>1~3</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
     </EncounterDef>
     <EncounterDef>
         <Moniker>Cemetery-02</Moniker>
+        <Biome>Cemetery</Biome>
+        <PotentialLootBoxes>
+            <ListItem>EnchantedChestDefensive</ListItem>
+        </PotentialLootBoxes>
+        <Enemies>
+            <ListItem>
+                <Race>GraveKeeper</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Grave Keeper</PawnName>
+                <!--<BodySizeFactor>1.2</BodySizeFactor>-->
+                <Skills>
+                    <MushroomPower>0</MushroomPower>
+                </Skills>
+                <Effects>
+                </Effects>
+                <EquipmentItems>
+                </EquipmentItems>
+                <InventoryItems>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </EncounterDef>
+    <EncounterDef>
+        <Moniker>Cemetery-03</Moniker>
+        <Biome>Cemetery</Biome>
+        <PotentialLootBoxes>
+            <ListItem>TrinketsChestNormal</ListItem>
+        </PotentialLootBoxes>
+        <Enemies>
+            <ListItem>
+                <Race>GraveKeeper</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Grave Keeper</PawnName>
+                <!--<BodySizeFactor>1.2</BodySizeFactor>-->
+                <Skills>
+                    <MushroomPower>0</MushroomPower>
+                </Skills>
+                <Effects>
+                </Effects>
+                <EquipmentItems>
+                </EquipmentItems>
+                <InventoryItems>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </EncounterDef>
+    <EncounterDef>
+        <Moniker>Cemetery-04</Moniker>
         <Biome>Cemetery</Biome>
         <PotentialLootBoxes>
             <ListItem>TrinketsChestNormal</ListItem>

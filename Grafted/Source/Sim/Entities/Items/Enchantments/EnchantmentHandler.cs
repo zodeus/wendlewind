@@ -20,5 +20,5 @@ public abstract class EnchantmentHandler : IExposable
         return $"{Enchantment.Label}";
     }
 
-    public abstract void HandlePawnTakeDamageEffect(BodyPart bodyPart, Pawn target, Pawn source, DamageRecord damageRecord);
+    public abstract void PostPawnDamageTakenEffect(BodyPart bodyPart, Pawn target, Pawn source, DamageRecord damageRecord);
 }

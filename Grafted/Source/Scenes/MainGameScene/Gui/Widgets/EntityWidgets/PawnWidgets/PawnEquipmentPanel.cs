@@ -73,7 +73,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
             }
 
             // Try Equip
-            if (item.ItemDef.EquipmentProperties.SlotUsedToEquip == slot || (item.ItemDef.ItemType == ItemType.Potion && slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2))
+            if (item.ItemDef.EquipmentProperties?.SlotUsedToEquip == slot || (item.ItemDef.ItemType == ItemType.Potion && slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2))
             {
                 // Item that can be potentially unEquipped, if this is set it will re-add this item to the pawns inventory
                 Item? unEquippedItem;

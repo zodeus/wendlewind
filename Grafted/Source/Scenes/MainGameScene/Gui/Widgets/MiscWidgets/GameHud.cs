@@ -1,6 +1,4 @@
 ﻿using FontStashSharp.RichText;
-using Grafted.Scenes.MainGameScene.Gui.CombatGui;
-using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;

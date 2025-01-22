@@ -3,6 +3,7 @@ Trinkets
  	Organ Insulator - Combat - Charges when an organ takes damage, enabling it prevents organ damage for a period of time
 Enchantments
 	TheDuplicator -- Duplicates a slot 	
+	Magnet
 	
 
 Achievements

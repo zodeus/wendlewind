@@ -23,7 +23,11 @@
         <Items>
             <ListItem>
                 <ItemDef>SoothingVibrations</ItemDef>
-                <Weight>40</Weight>
+                <Weight>80</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>RhinoSkin</ItemDef>
+                <Weight>20</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>BloodBath</ItemDef>

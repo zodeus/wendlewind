@@ -1,6 +1,4 @@
-using Grafted.Scenes.MainGameScene.Gui.CombatGui;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
-using Myra;
 
 namespace Grafted.Scenes.MainGameScene.Gui;
 

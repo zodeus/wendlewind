@@ -75,7 +75,7 @@ namespace Grafted.Sim.Entities.Pawns
                         < .05f => 0.85f,
                         < .10f => 0.90f,
                         < .50f => 0.97f,
-                        < .90f => 0.99f,
+                        < .70f => 1f,
                         _ => 1
                     };
 
@@ -104,14 +104,19 @@ namespace Grafted.Sim.Entities.Pawns
         {
             foreach (var record in bodyPartModifiers)
             {
-                if (!Core.Random.Chance(record.Chance.RandomValue)) continue;
-
-                var mod = BodyPartModifierGenerator.Generate(record.Def, record.DurationInTicks.RandomValue);
-                if (mod.ApplyToPart(part) is { } modifierDef)
+                if (part.ApplyBodyPartModifier(record))
                 {
-                    damagedBodyPartRecord.AppliedModifiers.Add(modifierDef);
+                    damagedBodyPartRecord.AppliedModifiers.Add(record.Def);
                 }
             }
+        }
+
+        public static bool ApplyBodyPartModifier(this BodyPart part, BodyPartModifierRecord record)
+        {
+            if (!Core.Random.Chance(record.Chance.RandomValue)) return false;
+
+            var mod = BodyPartModifierGenerator.Generate(record.Def, record.DurationInTicks.RandomValue);
+            return mod.ApplyToPart(part);
         }
     }
 }

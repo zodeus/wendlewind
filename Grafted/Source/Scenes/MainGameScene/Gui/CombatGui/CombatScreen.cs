@@ -1,5 +1,4 @@
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
-using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.BodyPartPanelWidget;
 
 namespace Grafted.Scenes.MainGameScene.Gui.CombatGui;
 
@@ -12,6 +11,7 @@ public class CombatScreen : VerticalStackPanel
     private readonly CombatPartyPanel _opponentPartyPanel;
     private readonly CombatControlPanel _controlPanel;
     private readonly PawnBodyPanel _pawnBodyView;
+    private readonly PawnBodyPanel _enemyPawnBodyView;
     private ImageButton _playerQueuedPotionSlot;
     private Item? _playerQueuedPotion = null;
     private ImageButton _enemyQueuedPotionSlot;
@@ -48,14 +48,12 @@ public class CombatScreen : VerticalStackPanel
         _pawnBodyView = new PawnBodyPanel(gui, Encounter.PlayerPawns.First().Body)
         {
             GridRow = 2, GridColumn = 0, HorizontalAlignment = HorizontalAlignment.Right,
-            Width = 1200, Height = 1300,
-            Margin = new Thickness(0, 0, 30, 0),
+            Height = 1300,
         };
+        _enemyPawnBodyView = new PawnBodyPanel(gui, Encounter.EnemyPawns.First().Body);
         _combatLog = new ScrollViewer
         {
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Width = 1600,
-            VerticalAlignment = VerticalAlignment.Top,
+            VerticalAlignment = VerticalAlignment.Stretch,
             Content = new VerticalStackPanel { Padding = new Thickness(0), Spacing = 12 }
         };
 
@@ -105,20 +103,23 @@ public class CombatScreen : VerticalStackPanel
         {
             //BorderThickness = new Thickness(1),Border = new SolidBrush(Color.Orange),
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
-            GridRow = 2, GridColumn = 2,
-            Width = 1600, Height = 1300,
-            HorizontalAlignment = HorizontalAlignment.Left,
-            VerticalAlignment = VerticalAlignment.Top,
+
+            Width = 1200,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
             Padding = new Thickness(15, 15, 8, 15),
-            Margin = new Thickness(30, 0, 0, 0),
             Widgets =
             {
                 _combatLog
             }
         };
 
+        var toggleEnemyBodyPanelButton = new Button(BaseContent.Styles.Button.Icon) { Width = 32, Height = 32 };
+        toggleEnemyBodyPanelButton.Click += (_, _) => _enemyPawnBodyView.Visible = !_enemyPawnBodyView.Visible;
         Grid grid = new()
         {
+            //ShowGridLines = true,
+            GridLinesColor = Color.Red,
             HorizontalAlignment = HorizontalAlignment.Center,
             RowSpacing = 10,
             DefaultRowProportion = Proportion.Auto,
@@ -126,7 +127,13 @@ public class CombatScreen : VerticalStackPanel
             Widgets =
             {
                 _playerPartyPanel, centerColumn, _opponentPartyPanel,
-                _pawnBodyView, logPanel
+                _pawnBodyView,
+                new HorizontalStackPanel
+                {
+                    HorizontalAlignment = HorizontalAlignment.Right,
+                    GridRow = 2, GridColumn = 1, Widgets = { toggleEnemyBodyPanelButton }
+                },
+                new HorizontalStackPanel { Height = 1300, GridRow = 2, GridColumn = 2, Widgets = { _enemyPawnBodyView, logPanel } }
             }
         };
         Widgets.Add(_gameHud);
@@ -186,22 +193,27 @@ public class CombatScreen : VerticalStackPanel
         _playerPartyPanel.Update();
         _opponentPartyPanel.Update();
         _pawnBodyView.Update();
+        _enemyPawnBodyView.Update();
     }
 
     private void AddCombatLogEntry(string text, Color? color = null)
     {
-        if (((VerticalStackPanel)_combatLog.Content).Widgets.Count > 300)
+        var panel = (VerticalStackPanel)_combatLog.Content;
+        if (panel.Widgets.Count > 300)
         {
-            ((VerticalStackPanel)_combatLog.Content).Widgets.RemoveAt(0);
+            panel.Widgets.RemoveAt(panel.Widgets.Count - 1);
         }
 
-        Label label = new(BaseContent.Styles.Label.Small) { Text = text, Wrap = true, Margin = new Thickness(0, 10, 0, 0) };
+        Label label = new(BaseContent.Styles.Label.Small)
+        {
+            Width = 1400,
+            Text = text, Wrap = true, Margin = new Thickness(0, 10, 0, 0)
+        };
         if (color != null)
         {
             label.TextColor = color.Value;
         }
 
-        ((VerticalStackPanel)_combatLog.Content).Widgets.Add(label);
-        _combatLog.ScrollPosition = _combatLog.ScrollMaximum + new Point(0, 500);
+        panel.Widgets.Insert(0, label);
     }
 }

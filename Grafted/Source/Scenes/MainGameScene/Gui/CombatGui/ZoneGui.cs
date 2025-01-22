@@ -29,7 +29,7 @@ public class ZoneGui : BaseGui
 
 
         _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(context.PlayerPawn) { Width = 340 };
-        _pawnBodyEffectsWindow.Show(Desktop, new Point(10, 115));
+        _pawnBodyEffectsWindow.Show(Desktop, new Point(10, 555));
     }
 
     private void HandleZoneMessage(ScreenMessageData message)

@@ -11,6 +11,7 @@
             <RestorablePartTypes>
                 <ListItem>Thumb</ListItem>
                 <ListItem>Finger</ListItem>
+                <ListItem>Hand</ListItem>
                 <ListItem>Foot</ListItem>
             </RestorablePartTypes>
         </ShrineProperties>

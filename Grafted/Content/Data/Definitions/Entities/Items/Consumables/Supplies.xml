@@ -12,4 +12,10 @@
         <Description>Used for fixing equipment</Description>
         <TexturePath>Entities/Item/Consumables/RepairKit</TexturePath>
     </ItemDef>
+    <ItemDef ParentName="EquipmentSupplies">
+        <Moniker>EnchantmentExpander</Moniker>
+        <Label>Enchantment Expander</Label>
+        <Description>More enchants certainly makes a better item.</Description>
+        <TexturePath>Entities/Item/Consumables/EnchantmentExpander</TexturePath>
+    </ItemDef>
 </Definitions>

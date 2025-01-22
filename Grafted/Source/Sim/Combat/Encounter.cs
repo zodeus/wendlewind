@@ -70,7 +70,11 @@ public class Encounter
         if (playerIsAlive)
         {
             CollectLoot();
-            PlayerPawns[0].Inventory.Trinkets.ForEach(t => t.TrinketHandler?.Stop());
+            PlayerPawns[0].Inventory.Trinkets.ForEach(t =>
+            {
+                t.TrinketHandler?.PostCombatAction(PlayerPawns[0],EnemyPawns[0]);
+                t.TrinketHandler?.Stop();
+            });
             Core.Context.World.RegisterKill(EnemyPawns[0]);
             if (Def.IsBoss)
             {

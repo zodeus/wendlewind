@@ -15,7 +15,8 @@ public class PawnBodyPanel : VerticalStackPanel, IUpdatable
     {
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
         Padding = new Thickness(15);
-
+        Width = 850;
+        
         _gui = gui;
         _body = body;
         _socketPanels = new List<BodyPartSocketPanel>();
@@ -206,7 +207,7 @@ public class PawnBodyPanel : VerticalStackPanel, IUpdatable
         }
     }
 
-    private class BodyPartSocketPanel : HorizontalStackPanel
+    private sealed class BodyPartSocketPanel : HorizontalStackPanel
     {
         public readonly BodyPartSocket Socket;
         private readonly BaseGui _gui;

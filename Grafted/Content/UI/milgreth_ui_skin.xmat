@@ -118,6 +118,7 @@
   <TextureRegion Id="stomach-8" Left="3818" Top="196" Width="32" Height="32" />
   <TextureRegion Id="stomach-9" Left="3850" Top="196" Width="32" Height="32" />
   <NinePatchRegion Id="textfield" Left="4074" Top="152" Width="15" Height="15" NinePatchLeft="3" NinePatchTop="3" NinePatchRight="3" NinePatchBottom="3" />
+  <TextureRegion Id="vertical-bar" Left="4074" Top="167" Width="22" Height="196" />
   <TextureRegion Id="Village" Left="2464" Top="464" Width="1200" Height="800" />
   <TextureRegion Id="white" Left="532" Top="98" Width="2" Height="2" />
 </TextureAtlas>

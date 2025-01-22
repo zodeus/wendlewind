@@ -64,13 +64,12 @@ public class BurningAcidHandler : BodyPartModifier
         return false;
     }
 
-    public override BodyPartModifierDef? ApplyToPart(BodyPart part)
+    public override bool ApplyToPart(BodyPart part)
     {
-        if (part.Type is not BodyPartType.Skin) return null;
+        if (part.Type is not BodyPartType.Skin) return false;
 
         part.TryAddModifier(this);
-        //todo raise event MODIFIER APPLIED
-        return Def;
+        return true;
     }
 
 

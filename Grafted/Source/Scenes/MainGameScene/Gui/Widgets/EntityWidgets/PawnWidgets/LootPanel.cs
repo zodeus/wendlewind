@@ -1,4 +1,3 @@
-using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.BodyPartPanelWidget;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items.Trinkets;
 
