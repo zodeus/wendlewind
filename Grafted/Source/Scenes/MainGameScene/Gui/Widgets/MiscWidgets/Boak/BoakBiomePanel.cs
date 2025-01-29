@@ -7,7 +7,7 @@ internal sealed class BoakBiomePanel : VerticalStackPanel
         Spacing = 20;
         foreach (var biomeDef in defs)
         {
-            var details = new VerticalStackPanel()
+            var details = new VerticalStackPanel
             {
                 Margin = new Thickness(0, 0, 40, 0),
                 Width = 700,
@@ -35,7 +35,7 @@ internal sealed class BoakBiomePanel : VerticalStackPanel
                 }
             );
 
-            var encounters = new VerticalStackPanel { };
+            var encounters = new VerticalStackPanel();
             DefRepository<EncounterDef>.Defs
                 .Where(d => d.Biome == biomeDef).ToList()
                 .ForEach(e =>
@@ -45,7 +45,7 @@ internal sealed class BoakBiomePanel : VerticalStackPanel
                         Text = $"{e.Moniker} - {e.Enemies.FirstOrNull()?.PawnName}"
                     });
                 });
-            Widgets.Add(new HorizontalStackPanel()
+            Widgets.Add(new HorizontalStackPanel
             {
                 Spacing = 10,
                 Widgets =

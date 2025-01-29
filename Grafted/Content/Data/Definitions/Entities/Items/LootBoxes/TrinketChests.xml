@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <LootBoxDef>
+        <Moniker>TrinketsChestBasic</Moniker>
+        <Label>Basic Trinkets</Label>
+        <Description>Standard issue trinkets, the stuff you're really going to need</Description>
+        <Category>Trinkets</Category>
+        <Rarity>Basic</Rarity>
+        <TexturePath>Chests/TrinketsChestBasic</TexturePath>
+        <CollectionLimit>1</CollectionLimit>
+        <Items>
+            <ListItem>
+                <ItemDef>EncasedFire</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>100</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>WeepingBucket</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>60</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>DeathRattle</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>20</Weight>
+            </ListItem>
+        </Items>
+    </LootBoxDef>
+    <LootBoxDef>
+        <Moniker>TrinketsChestNormal</Moniker>
+        <Label>Normal Trinkets</Label>
+        <Description>A wider assortment of more interesting trinkets</Description>
+        <Category>Trinkets</Category>
+        <Rarity>Normal</Rarity>
+        <TexturePath>Chests/TrinketsChestBasic</TexturePath>
+        <CollectionLimit>1</CollectionLimit>
+        <Items>
+            <ListItem>
+                <ItemDef>CookingPot</ItemDef>
+                <Weight>100000</Weight>
+            </ListItem>
+            
+            <ListItem>
+                <ItemDef>MortarAndPestle</ItemDef>
+                <Weight>5000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>VialOfDuplicity</ItemDef>
+                <Weight>5000</Weight>
+            </ListItem>
+            
+            <ListItem>
+                <ItemDef>ThirdEye</ItemDef>
+                <Weight>3000</Weight>
+            </ListItem>
+     
+            
+            
+            <ListItem>
+                <ItemDef>Grimoire</ItemDef>
+                <Weight>1000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>HolyChalice</ItemDef>
+                <Weight>100</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>TinkersToolbox</ItemDef>
+                <Weight>100</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>SteroidInjector</ItemDef>
+                <Weight>10</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>Battery</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
+            
+        </Items>
+    </LootBoxDef>
+</Definitions>
+

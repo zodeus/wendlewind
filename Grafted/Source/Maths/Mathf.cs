@@ -23,7 +23,7 @@ public static class Mathf {
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int CeilToInt(float f) {
-        return (int) Math.Ceiling((double) f);
+        return (int) Math.Ceiling(f);
     }
 
 
@@ -46,7 +46,7 @@ public static class Mathf {
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FloorToInt(float f) {
-        return (int) Math.Floor((double) f);
+        return (int) Math.Floor(f);
     }
 
     /// <summary>Returns the result of converting a float value from degrees to radians.</summary>
@@ -150,16 +150,18 @@ public static class Mathf {
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float InverseLerp(float from, float to, float t) {
-        if (from < to) {
+        if (from < to)
+        {
             if (t < from)
                 return 0.0f;
-            else if (t > to)
+            if (t > to)
                 return 1.0f;
         }
-        else {
+        else
+        {
             if (t < to)
                 return 1.0f;
-            else if (t > from)
+            if (t > from)
                 return 0.0f;
         }
 
@@ -269,11 +271,11 @@ public static class Mathf {
     /// <param name="value">Value.</param>
     /// <param name="threshold">Threshold.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float SignThreshold(float value, float threshold) {
+    public static float SignThreshold(float value, float threshold)
+    {
         if (Math.Abs(value) >= threshold)
             return Math.Sign(value);
-        else
-            return 0;
+        return 0;
     }
 
 

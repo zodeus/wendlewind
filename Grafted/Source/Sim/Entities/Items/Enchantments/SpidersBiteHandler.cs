@@ -13,7 +13,7 @@ public class SpidersBiteHandler : EnchantmentHandler
         Bites++;
         foreach (var modifier in Enchantment.ItemDef.EnchantmentProperties!.BodyPartModifiers)
         {
-            if (skin.ApplyBodyPartModifier(modifier))
+            if (skin.ApplyBodyPartModifier(modifier, Enchantment.Label))
             {
                 damageRecord.SourceAfflictions.Add(new AfflictionRecord(randomPart, "Bitten"));
             }

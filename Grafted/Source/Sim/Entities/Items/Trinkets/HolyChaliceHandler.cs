@@ -6,9 +6,9 @@ public class HolyChaliceHandler : TrinketHandler
     public float CurrentOffing;
     public float CurrentOffingPercentage => CurrentOffing / 10000;
 
-    public override void PostCombatAction(Pawn playerPawn, Pawn enemyPawn)
+    public override void PostCombatAction(PostCombatReport postCombatReport)
     {
-        CurrentOffing = enemyPawn.Body.MaxBlood - enemyPawn.Body.BloodAmount;
+        CurrentOffing = postCombatReport.Enemy.Body.MaxBlood - postCombatReport.Enemy.Body.BloodAmount;
     }
 
     public override void Tick()

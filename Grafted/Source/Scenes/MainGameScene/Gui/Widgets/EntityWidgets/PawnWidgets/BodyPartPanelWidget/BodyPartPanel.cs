@@ -41,13 +41,13 @@ public sealed class BodyPartPanel : EntityPanelBase
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Has Bones: {bodyPart.HasBones}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Equipment Slots: {string.Join(",", bodyPart.EquipmentSlots?.Select(s => s.ToString()) ?? new List<string>())}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Equipment: {string.Join(",", bodyPart.Equipment.Values.Select(i => i?.Label))}" });
-        rightPanel.Widgets.Add(new HorizontalSeparator() { Margin = new Thickness(0, 15, 0, 15) });
+        rightPanel.Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 15, 0, 15) });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Is Bone: {bodyPart.IsBone}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Is Severed: {bodyPart.IsSevered}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Is Vital: {bodyPart.IsVital}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Ticks Since Last Hit: {bodyPart.TicksSinceLastHit}" });
 
-        rightPanel.Widgets.Add(new HorizontalSeparator() { Margin = new Thickness(0, 15, 0, 15) });
+        rightPanel.Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 15, 0, 15) });
         foreach (var baseStat in bodyPart.Def.BaseStats)
         {
             var row = new HorizontalStackPanel { Spacing = 10 };
@@ -55,6 +55,16 @@ public sealed class BodyPartPanel : EntityPanelBase
             row.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = bodyPart.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture) });
             rightPanel.Widgets.Add(row);
         }
+
+        var damageButton = new Button
+        {
+            Content = new Label
+            {
+                Text = "Damage", Margin = new Thickness(10, 10, 10, 10)
+            }
+        };
+        damageButton.Click += (s, e) => bodyPart.HitPoints -= 10;
+        rightPanel.Widgets.Add(damageButton);
 
         Widgets.Add(new HorizontalStackPanel
         {
@@ -71,14 +81,14 @@ public sealed class BodyPartPanel : EntityPanelBase
         {
             var partPanel = new BodyPartPanelPartLabel(gui, bodyPart.Socket.ParentPart);
             panel.Widgets.Add(new Label { Text = "Parent", Margin = new Thickness(0, 20, 0, 0) });
-            panel.Widgets.Add(new HorizontalSeparator() { Margin = new Thickness(0, 5, 0, 5) });
+            panel.Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 5, 0, 5) });
             panel.Widgets.Add(partPanel);
         }
 
         if (bodyPart.ExternalParts.Any())
         {
             panel.Widgets.Add(new Label { Text = "External Parts", Margin = new Thickness(0, 20, 0, 0) });
-            panel.Widgets.Add(new HorizontalSeparator() { Margin = new Thickness(0, 5, 0, 5) });
+            panel.Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 5, 0, 5) });
 
             foreach (var externalPart in bodyPart.ExternalParts)
             {
@@ -93,7 +103,7 @@ public sealed class BodyPartPanel : EntityPanelBase
         if (bodyPart.InternalParts.Any())
         {
             panel.Widgets.Add(new Label { Text = "Internal Parts", Margin = new Thickness(0, 20, 0, 0) });
-            panel.Widgets.Add(new HorizontalSeparator() { Margin = new Thickness(0, 5, 0, 5) });
+            panel.Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 5, 0, 5) });
             foreach (BodyPart internalPart in bodyPart.InternalParts)
             {
                 var partPanel = new BodyPartPanelPartLabel(gui, internalPart)
@@ -130,7 +140,7 @@ public sealed class BodyPartPanelModifiersLabel : VerticalStackPanel
 
     private static Label CreateLabel(BodyPartModifier modifier)
     {
-        var label = new Label()
+        var label = new Label
         {
             Text = GetLabelText(modifier),
             Padding = new Thickness(12),

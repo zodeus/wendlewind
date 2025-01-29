@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef ParentName="WeaponMagic">
+        <Moniker>FireStaff</Moniker>
+        <Label>Fire Staff</Label>
+        <Description></Description>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+            <MaxEnchantments>1</MaxEnchantments>
+        </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>FireStaff</WeaponType>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Burning</Def>
+                    <DurationInTicks>600</DurationInTicks>
+                    <Chance>1</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </WeaponProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Magic/FireStaff</TexturePath>
+        <BaseStats>
+            <WeaponSpeed>2</WeaponSpeed>
+            <MeleePower>0</MeleePower>
+            <MaxDurability>2000</MaxDurability>
+        </BaseStats>
+    </ItemDef>
+</Definitions>

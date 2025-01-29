@@ -9,18 +9,18 @@ internal class BoakPawnsBodyPartsPanel : Grid
         ColumnSpacing = 50;
 
         var gridColum = 0;
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Label" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"HitPoints" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Blood" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Type" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Hit W." }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"IsVital" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"IsBone" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"IsFlesh" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"IsOrgan" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Mobility %" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Sockets" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Slots" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Label" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "HitPoints" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Blood" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Type" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Hit W." }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "IsVital" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "IsBone" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "IsFlesh" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "IsOrgan" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Mobility %" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Sockets" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Slots" }, 0, gridColum++);
 
         DefaultColumnProportion = Proportion.Auto;
 

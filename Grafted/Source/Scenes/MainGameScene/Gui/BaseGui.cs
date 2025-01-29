@@ -93,8 +93,8 @@ public abstract class BaseGui : IDisposable
                 RasterizerState.CullNone
             );
             int offset = (int)_screenMessage.Font.MeasureString(_screenMessage.Text).X / 2;
-            Color colorA = _screenMessage.Color.Multiply(new Color(1f, 1f, 1f, Mathf.Lerp(0f, 1f, (float)_screenMessageTimeLeft / _screenMessage.Duration)));
-            Color colorB = _screenMessage.Color.Multiply(new Color(1f, 1f, 1f, Mathf.Lerp(0f, .6f, (float)_screenMessageTimeLeft / _screenMessage.Duration)));
+            Color colorA = _screenMessage.Color.Multiply(new Color(1f, 1f, 1f, Mathf.Lerp(0f, 1f, _screenMessageTimeLeft / _screenMessage.Duration)));
+            Color colorB = _screenMessage.Color.Multiply(new Color(1f, 1f, 1f, Mathf.Lerp(0f, .6f, _screenMessageTimeLeft / _screenMessage.Duration)));
             int xOffsetA = Core.Random.Next(-2, 2);
             int yOffsetA = Core.Random.Next(-2, 2);
             int xOffsetB = Core.Random.Next(-8, 8);

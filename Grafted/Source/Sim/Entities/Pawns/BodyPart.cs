@@ -290,10 +290,14 @@ public class BodyPart : Entity
         {
             BodyPartModifier modifier = Modifiers[index];
             modifier.Tick();
+            if (Body?.Pawn.IsDead == true)
+            {
+                return;
+            }
+
             TicksSinceLastHit++;
             if (modifier.IsExpired)
             {
-                modifier.Expired();
                 RemoveModifier(modifier);
             }
         }
@@ -332,7 +336,7 @@ public class BodyPart : Entity
         return $"{Label} ({HitPoints:0.000})";
     }
 
-    public double ApplyDamage(double damage, DamageType damageType, List<BodyPartModifierRecord> bodyPartModifiers,
+    public double ApplyDamage(double damage, DamageType damageType, string weaponManeuver, List<BodyPartModifierRecord> bodyPartModifiers,
         List<DamagedBodyPartRecord> damagedParts, bool cascade = true)
     {
         TicksSinceLastHit = 0;
@@ -361,11 +365,11 @@ public class BodyPart : Entity
             WasDestroyed = wasDestroyed,
             StoppedFunctioning = stoppedFunctioning
         };
-        this.ApplyBodyPartModifiers(bodyPartModifiers, record);
+        this.ApplyBodyPartModifiers(bodyPartModifiers, record, weaponManeuver);
         damagedParts.Add(record);
         if (remainingDamage > 0 && cascade)
         {
-            remainingDamage = this.CascadeDamageToInternalParts(remainingDamage, damageType, bodyPartModifiers, damagedParts);
+            remainingDamage = this.CascadeDamageToInternalParts(remainingDamage, damageType, weaponManeuver, bodyPartModifiers, damagedParts);
         }
 
         return remainingDamage;
@@ -374,14 +378,14 @@ public class BodyPart : Entity
     public List<DamagedBodyPartRecord> ApplyDamageToExternalPart(Damage damage, List<DamagedBodyPartRecord>? damagedParts = null)
     {
         damagedParts ??= [];
-         var remainingDamage = ApplyDamage(damage.TotalUnblockedDamage, damage.Type, damage.BodyPartModifiers, damagedParts, false);
+        var remainingDamage = ApplyDamage(damage.TotalUnblockedDamage, damage.Type, damage.WeaponManeuver, damage.BodyPartModifiers, damagedParts, false);
         var skin = InternalParts.Where(p => p.Type == BodyPartType.Skin).FirstOrNull();
-        skin?.ApplyDamage(damage.TotalUnblockedDamage * SkinDamageScaler, damage.Type, damage.BodyPartModifiers, damagedParts, false);
+        skin?.ApplyDamage(damage.TotalUnblockedDamage * SkinDamageScaler, damage.Type, damage.WeaponManeuver, damage.BodyPartModifiers, damagedParts, false);
 
         // Cascade damage to internal parts
         if (remainingDamage > 0)
         {
-            this.CascadeDamageToInternalParts(remainingDamage, damage.Type, damage.BodyPartModifiers, damagedParts);
+            this.CascadeDamageToInternalParts(remainingDamage, damage.Type, damage.WeaponManeuver, damage.BodyPartModifiers, damagedParts);
         }
 
         this.PotentiallySevereLimb();

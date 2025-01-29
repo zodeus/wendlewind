@@ -28,10 +28,12 @@ public abstract class BodyPartModifier : IExposable, IIdentityProvider
     public int Id = -1;
     public bool IsExpired;
     public int Severity = 1;
+    public string Maneuver = "undefined";
 
     public int TicksRemaining => DurationInTicks - Ticks;
 
     public string Label => Def.Label;
+
 
     public virtual void Tick()
     {
@@ -83,9 +85,6 @@ public abstract class BodyPartModifier : IExposable, IIdentityProvider
         return $"{Def.Moniker} Id: {Id}";
     }
 
-    public virtual void Expired()
-    {
-    }
 
     public virtual bool ApplyToPart(BodyPart part)
     {

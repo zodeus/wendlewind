@@ -23,7 +23,19 @@ public sealed class WeaponPanel : EntityPanelBase
         {
             Text = $"Durability: {item.Durability}/{item.MaxDurability}", Margin = new Thickness(0, 0, 0, 15)
         };
-        Widgets.Add(new Image { Background = new TextureRegion(item.Icon), Width = 64, Height = 64 });
+        Widgets.Add(new HorizontalStackPanel
+        {
+            Spacing = 10,
+            Widgets =
+            {
+                new Image { Background = new TextureRegion(item.Icon), Width = 128, Height = 128 },
+                new Label(BaseContent.Styles.Label.Normal)
+                {
+                    Text = item.Def.Description, Wrap = true, MaxWidth = 400,
+                    Margin = new Thickness(0, 10, 0, 0)
+                },
+            }
+        });
         Widgets.Add(_durabilityBar);
         Widgets.Add(_durabilityLabel);
         if (item.Def.Description != "undefined")

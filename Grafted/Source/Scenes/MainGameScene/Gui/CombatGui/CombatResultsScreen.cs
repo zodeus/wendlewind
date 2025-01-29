@@ -15,10 +15,10 @@ public sealed class CombatResultsScreen : VerticalStackPanel
     {
         Margin = new Thickness(0, 5, 0, 0);
         Spacing = 15;
-        
+
         _context = context;
         _gameHud = new GameHud(gui, context) { HorizontalAlignment = HorizontalAlignment.Stretch };
-        _pawnPanel = new LootPanel(gui, context.World.PlayerPawn, Encounter.Loot)
+        _pawnPanel = new LootPanel(gui, context.World.PlayerPawn, Encounter.CombatHandler?.Loot)
         {
             //MaxHeight = 1200, // 1440p
             Margin = new Thickness(0, 80, 0, 0)
@@ -31,13 +31,13 @@ public sealed class CombatResultsScreen : VerticalStackPanel
         Widgets.Add(_pawnPanel);
         Widgets.Add(_progressButton);
         //SetProportionType(_gameHud, ProportionType.Auto);
-       // SetProportionType(_pawnPanel, ProportionType.Fill);
-       // SetProportionType(_progressButton, ProportionType.Auto);
+        // SetProportionType(_pawnPanel, ProportionType.Fill);
+        // SetProportionType(_progressButton, ProportionType.Auto);
         if (Encounter.Def.PotentialLootBoxes.Count != 0)
         {
             var box = Encounter.Def.PotentialLootBoxes.RandomElement();
             var lootBoxPanel = new LootBoxScreen(this, context, box);
-            
+
             Widgets.Add(lootBoxPanel);
             _pawnPanel.Visible = false;
             _progressButton.Visible = false;
@@ -65,13 +65,13 @@ public sealed class CombatResultsScreen : VerticalStackPanel
             campButton.Click += (_, _) =>
             {
                 DoAutoLoot();
-                Encounter.Zone!.Exit();
+                Encounter.Zone.Exit();
             };
             panel.Widgets.Add(campButton);
         }
         else
         {
-            TextButton continueButton = new(BaseContent.Styles.Button.Large) { Text = Encounter.AtBoss? "Boss!": "Fight!" };
+            TextButton continueButton = new(BaseContent.Styles.Button.Large) { Text = Encounter.AtBoss ? "Boss!" : "Fight!" };
             continueButton.Click += (_, _) =>
             {
                 DoAutoLoot();
@@ -83,8 +83,8 @@ public sealed class CombatResultsScreen : VerticalStackPanel
         if (Encounter.AtBoss == false)
         {
             var combatConfig = DefRepository<EncounterDef>.Defs
-                .Where(d => d.Biome == Encounter.Zone!.BiomeDef)
-                .Take(new Range(Encounter.Zone!.Stage, Encounter.Zone.Stage + 1))
+                .Where(d => d.Biome == Encounter.Zone.BiomeDef)
+                .Take(new Range(Encounter.Zone.Stage, Encounter.Zone.Stage + 1))
                 .First();
             panel.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
             {
@@ -98,20 +98,23 @@ public sealed class CombatResultsScreen : VerticalStackPanel
 
     private void MoveToNextCombat()
     {
-        Encounter.Zone!.NextEncounter();
+        Encounter.Zone.NextEncounter();
     }
 
-    private bool DoAutoLoot()
+    private void DoAutoLoot()
     {
         var player = _context.PlayerPawn;
-        var items = Encounter.Loot.AsItems().ToList();
+        var items = Encounter.CombatHandler?.Loot.AsItems().ToList();
+        if (items == null)
+        {
+            return;
+        }
+
         for (var index = items.Count - 1; index >= 0; index--)
         {
             var item = items[index];
             player.Inventory.Entities.TryAdd(item);
         }
-
-        return true;
     }
 
     public void HandleInput()

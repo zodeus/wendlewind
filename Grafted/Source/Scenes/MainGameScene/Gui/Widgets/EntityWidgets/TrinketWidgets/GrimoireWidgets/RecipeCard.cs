@@ -48,7 +48,7 @@ public class RecipeCard : VerticalStackPanel,
             Spacing = 10,
             Widgets =
             {
-                new HorizontalStackPanel()
+                new HorizontalStackPanel
                 {
                     Spacing = 10,
                     Widgets =
@@ -69,7 +69,7 @@ public class RecipeCard : VerticalStackPanel,
     {
         return new VerticalStackPanel
         {
-            Widgets = { new Label() { Text = $"Amount Produced: /c[{TC.Golden}]{itemDef.CraftingProperties?.AmountProduced}" } }
+            Widgets = { new Label { Text = $"Amount Produced: /c[{TC.Golden}]{itemDef.CraftingProperties?.AmountProduced}" } }
         };
     }
 

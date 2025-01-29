@@ -6,8 +6,8 @@
         <Biome>ForgottenForest</Biome>
         <ShrineProperties>
             <GodLabel>Goddess Gaia</GodLabel>
-            <PartsToRestore>4~7</PartsToRestore>
-            <TexturePath>Zones/Shrines/forest_shrine_1</TexturePath>
+            <PartsToRestore>5~9</PartsToRestore>
+            <TexturePath>Biome/Shrines/forest_shrine_1</TexturePath>
             <RestorablePartTypes>
                 <ListItem>Thumb</ListItem>
                 <ListItem>Finger</ListItem>

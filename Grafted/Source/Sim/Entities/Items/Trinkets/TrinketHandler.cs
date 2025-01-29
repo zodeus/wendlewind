@@ -29,7 +29,7 @@ public abstract class TrinketHandler : IExposable
         return $"{Trinket.Label} Handler";
     }
 
-    public virtual DamageRecord? HandleCombat(Pawn pawn, Pawn target)
+    public virtual DamageRecord? HandleCombatAction(Pawn pawn, Pawn target)
     {
         return null;
     }
@@ -57,7 +57,7 @@ public abstract class TrinketHandler : IExposable
         DeActivate();
     }
 
-    public virtual void PostCombatAction(Pawn playerPawn, Pawn enemyPawn)
+    public virtual void PostCombatAction(PostCombatReport postCombatReport)
     {
     }
 }

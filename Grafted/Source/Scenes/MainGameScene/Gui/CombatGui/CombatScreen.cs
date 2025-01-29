@@ -13,9 +13,9 @@ public class CombatScreen : VerticalStackPanel
     private readonly PawnBodyPanel _pawnBodyView;
     private readonly PawnBodyPanel _enemyPawnBodyView;
     private ImageButton _playerQueuedPotionSlot;
-    private Item? _playerQueuedPotion = null;
+    private Item? _playerQueuedPotion;
     private ImageButton _enemyQueuedPotionSlot;
-    private Item? _enemyQueuedPotion = null;
+    private Item? _enemyQueuedPotion;
     private readonly HorizontalStackPanel _potionQueuePanel;
     private readonly Label _tickLabel;
 
@@ -25,7 +25,7 @@ public class CombatScreen : VerticalStackPanel
     {
         _context = context;
         Encounter.StateChangedAction += CombatStateChangedAction();
-        Encounter.CombatRecord.LogMessageAddedAction += message => { AddCombatLogEntry(message.Text); };
+        Encounter.CombatHandler!.CombatRecord.LogMessageAddedAction += message => { AddCombatLogEntry(message.Text); };
         _gameHud = new GameHud(gui, context)
         {
             HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -206,7 +206,7 @@ public class CombatScreen : VerticalStackPanel
 
         Label label = new(BaseContent.Styles.Label.Small)
         {
-            Width = 1400,
+            Width = 1600,
             Text = text, Wrap = true, Margin = new Thickness(0, 10, 0, 0)
         };
         if (color != null)

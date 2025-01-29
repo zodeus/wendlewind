@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <WeaponManeuverDef>
+        <Moniker>Fireball</Moniker>
+        <Label>Fireball</Label>
+        <Weapons>
+            <ListItem>FireStaff</ListItem>
+        </Weapons>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
+        <Moniker>Crackle</Moniker>
+        <Label>Crackle</Label>
+        <Weapons>
+            <ListItem>FireStaff</ListItem>
+        </Weapons>
+    </WeaponManeuverDef>
+</Definitions>

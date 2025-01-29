@@ -1,15 +1,31 @@
+Add ZoneDef (see Zone)
+
+Cloaks & Bags
+
 Trinkets
 	Knowledge Transfer - Non-Combat - let's you move skills XP around
  	Organ Insulator - Combat - Charges when an organ takes damage, enabling it prevents organ damage for a period of time
-Enchantments
-	TheDuplicator -- Duplicates a slot 	
-	Magnet
+ 	Surgical Saw
+ 	Tinkers Toolbox
+ 		Carve Wood
+ 	Blessed Something
+ 	Crucifix -- gains powers on kill
+ 	Pocket Garden - One Becomes Two
+ 	Energy Reducer
+ 	
+Enchantments	
+	Magnet -- increases chance to hit
+	Feast -- heals stuff
+	Flames -- does Burning
+	Cleave
+	BoneEater -- 
 	
+Modifiers
+	BrainWorm
+	Burning
 
 Achievements
- - Unlocks new items in new playthroughs, weapons, enchantments etcMich 
-
-Add BodyPart (Size, HitWeight, Hit points)
+ - Unlocks new items in new play throughs, weapons, enchantments etc 
 
 Set XML values for BodyPartDef.MobilityFraction
 

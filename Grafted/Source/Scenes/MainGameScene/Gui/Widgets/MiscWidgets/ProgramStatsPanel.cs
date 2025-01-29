@@ -17,7 +17,7 @@ public class ProgramStatsPanel : VerticalStackPanel {
 
     public void Update() {
         _fps.Text = $"FPS: {(int) Core.FrameCounter.AverageFramesPerSecond}";
-        _ticks.Text = $"Ticks: {(int) Core.Context.Ticks}";
+        _ticks.Text = $"Ticks: {Core.Context.Ticks}";
         _frameTime.Text = $"FT: {Core.FrameCounter.AverageFrameTime}";
     }
 }

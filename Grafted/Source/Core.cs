@@ -89,7 +89,7 @@ public class Core : Game
         base.Initialize();
         GraphicsDevice = base.GraphicsDevice;
 
-        Random = new Random();
+        Random = new Random(1);
 
         const string contentDirectory = "Content";
         if (!Directory.Exists(contentDirectory))

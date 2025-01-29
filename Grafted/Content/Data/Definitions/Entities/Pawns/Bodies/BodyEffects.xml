@@ -132,4 +132,14 @@
         <Label>Golden Lips</Label>
         <Notes>Food tastes better</Notes>
     </BodyEffectDef>
+    <BodyEffectDef>
+        <Moniker>BlackLips</Moniker>
+        <Label>Black Lips</Label>
+        <Notes/>
+    </BodyEffectDef>
+    <BodyEffectDef>
+        <Moniker>Fruiting</Moniker>
+        <Label>Fruiting</Label>
+        <Notes/>
+    </BodyEffectDef>
 </Definitions>

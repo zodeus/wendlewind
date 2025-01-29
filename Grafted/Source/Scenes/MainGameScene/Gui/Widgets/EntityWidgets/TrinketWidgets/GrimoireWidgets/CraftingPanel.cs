@@ -15,13 +15,13 @@ public sealed class CraftingPanel : HorizontalStackPanel
 
     private Widget GenerateItemList(List<ItemDef> items, RecipeCard recipeCard)
     {
-        var vPanel = new VerticalStackPanel() { Spacing = 5, Width = 210};
-        var hPanel = new HorizontalStackPanel() { Spacing = 5 };
+        var vPanel = new VerticalStackPanel { Spacing = 5, Width = 210};
+        var hPanel = new HorizontalStackPanel { Spacing = 5 };
         vPanel.Widgets.Add(hPanel);
         var itemCount = 0;
         foreach (var item in items)
         {
-            var button = new Button() { Content = new Image { Background = new TextureRegion(item.Icon), Width = 96, Height = 96 } };
+            var button = new Button { Content = new Image { Background = new TextureRegion(item.Icon), Width = 96, Height = 96 } };
             button.Click += (_, _) => recipeCard.SetItem(_pawn, item);
             button.MouseEntered += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Hand);
             button.MouseLeft += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Arrow);
@@ -30,7 +30,7 @@ public sealed class CraftingPanel : HorizontalStackPanel
 
             if (itemCount < 2) continue;
             itemCount = 0;
-            hPanel = new HorizontalStackPanel() { Spacing = 5 };
+            hPanel = new HorizontalStackPanel { Spacing = 5 };
             vPanel.Widgets.Add(hPanel);
         }
 

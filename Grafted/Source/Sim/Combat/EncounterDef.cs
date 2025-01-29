@@ -1,14 +1,21 @@
 ﻿using Grafted.Sim.Entities;
 using Grafted.Sim.LootBoxes;
 
+// ReSharper disable FieldCanBeMadeReadOnly.Global
+// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable CollectionNeverUpdated.Global
+// ReSharper disable UnassignedField.Global
+
 namespace Grafted.Sim.Combat;
 
 public class EncounterDef : Def
 {
-    public List<EncounterEnemyRecord> Enemies = new();
-    public List<LootBoxDef> PotentialLootBoxes = new();
     public BiomeDef Biome = null!;
     public ShrineProperties? ShrineProperties = null;
+
+    // Combat
+    public List<EncounterEnemyRecord> Enemies = new();
+    public List<LootBoxDef> PotentialLootBoxes = new();
     public bool IsBoss;
 }
 
@@ -29,7 +36,7 @@ public class EncounterEnemyRecord
     public RaceDef Race = null!;
     public PawnConfigDef Config = null!;
     public float SpawnWeight = 1;
-    public string PawnName = null;
+    public string PawnName = "";
     public float BodySizeFactor = 1;
     public List<ItemDef> EquipmentItems = new();
     public List<ItemDropCount> InventoryItems = new();

@@ -9,11 +9,11 @@ internal sealed class BoakItemsArmorPanel : Grid
         RowSpacing = 20;
         ColumnSpacing = 50;
 
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Label" }, 0, 0);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Physical Res" }, 0, 1);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Durability" }, 0, 2);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Slot" }, 0, 3);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Modifiers" }, 0, 4);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Label" }, 0, 0);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Physical Res" }, 0, 1);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Durability" }, 0, 2);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Slot" }, 0, 3);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Modifiers" }, 0, 4);
 
         ColumnsProportions.Add(new Proportion(ProportionType.Auto));
         ColumnsProportions.Add(new Proportion(ProportionType.Auto));

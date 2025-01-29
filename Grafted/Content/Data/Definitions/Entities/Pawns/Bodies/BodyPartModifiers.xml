@@ -2,11 +2,11 @@
 <Definitions>
     <!-- DE-BUFFS -->
     <BodyPartModifierDef>
-        <Moniker>BurningAcid</Moniker>
+        <Moniker>Acid</Moniker>
         <Label>Burning Acid</Label>
         <Type>Debuff</Type>
         <Description>Melts the skin away, eats at the meat</Description>
-        <HandlerClass>BurningAcidHandler</HandlerClass>
+        <HandlerClass>AcidHandler</HandlerClass>
         <Color>237, 245, 22</Color>
     </BodyPartModifierDef>
     <BodyPartModifierDef>
@@ -32,6 +32,22 @@
         <Description>This is another flesh eating disease...</Description>
         <HandlerClass>FesteringHandler</HandlerClass>
         <Color>188, 224, 7</Color>
+    </BodyPartModifierDef>
+    <BodyPartModifierDef>
+        <Moniker>BoneDecay</Moniker>
+        <Label>Bone Decay</Label>
+        <Type>Debuff</Type>
+        <Description></Description>
+        <HandlerClass>BoneDecayHandler</HandlerClass>
+        <Color>143, 134, 111</Color>
+    </BodyPartModifierDef>
+    <BodyPartModifierDef>
+        <Moniker>Burning</Moniker>
+        <Label>Burning</Label>
+        <Type>Debuff</Type>
+        <Description></Description>
+        <HandlerClass>BurningHandler</HandlerClass>
+        <Color>240, 108, 7</Color>
     </BodyPartModifierDef>
    <!-- <BodyPartModifierDef>
         <Moniker>BrainWorm</Moniker>
@@ -75,6 +91,15 @@
         <Description></Description>
         <HandlerClass>RhinoRestorationHandler</HandlerClass>
         <Color>52, 116, 153</Color>
+        <ColorPriority>3</ColorPriority>
+    </BodyPartModifierDef>
+    <BodyPartModifierDef>
+        <Moniker>NecrosisSerum</Moniker>
+        <Label>Necrosis Serum</Label>
+        <Type>Buff</Type>
+        <Description></Description>
+        <HandlerClass>NecrosisSerumHandler</HandlerClass>
+        <Color>62, 122, 70</Color>
         <ColorPriority>2</ColorPriority>
     </BodyPartModifierDef>
 </Definitions>

@@ -15,31 +15,19 @@ public static partial class BaseContent {
         public static string BadTexturePath = "BadTexture";
         public static Texture2D BadTexture = null!;
 
-        public static Texture2D MilgrethImage = null!;
-        public static Texture2D MilgrethTitle = null!;
-        public static Texture2D MilgrethPlay = null!;
-        public static Texture2D MilgrethPlayOver = null!;
-        public static Texture2D MilgrethQuit = null!;
-        public static Texture2D MedKit = null!;
-        public static Texture2D Cauterize = null!;
-        public static Texture2D QuestionMark = null!;
-        public static Texture2D Village = null!;
+        public static Texture2D MainMenuBackground = null!;
+        public static Texture2D MainMenuPlay = null!;
+        public static Texture2D MainMenuPlayOver = null!;
+        public static Texture2D MainMenuQuit = null!;
 
         public static void Load() {
             BadTexture = Core.Content.Load<Texture2D>(BadTexturePath);
 
             // Main Menu
-            MilgrethImage = Core.Content.Load<Texture2D>("UI/MainMenu/Milgreth");
-            MilgrethTitle = Core.Content.Load<Texture2D>("UI/MainMenu/MilgrethTitle");
-            MilgrethPlay = Core.Content.Load<Texture2D>("UI/MainMenu/Play");
-            MilgrethPlayOver = Core.Content.Load<Texture2D>("UI/MainMenu/PlayOver");
-            MilgrethQuit = Core.Content.Load<Texture2D>("UI/MainMenu/Quit");
-            MedKit = Core.Content.Load<Texture2D>("Entities/Item/Consumables/MedKit");
-            Cauterize = Core.Content.Load<Texture2D>("Entities/Item/Consumables/Cauterize");
-            QuestionMark = Core.Content.Load<Texture2D>("Entities/Item/Consumables/Cauterize");
-
-            // Village
-            Village = Core.Content.Load<Texture2D>("UI/Village/Village");
+            MainMenuBackground = Core.Content.Load<Texture2D>("UI/MainMenu/Background");
+            MainMenuPlay = Core.Content.Load<Texture2D>("UI/MainMenu/Play");
+            MainMenuPlayOver = Core.Content.Load<Texture2D>("UI/MainMenu/PlayOver");
+            MainMenuQuit = Core.Content.Load<Texture2D>("UI/MainMenu/Quit");
         }
     }
 }
@@ -79,6 +67,7 @@ public static partial class BaseContent {
             public const string Large = "large";
             public const string LargeGold = "large-gold";
             public const string Plus24 = "plus-24";
+            public const string Plus64 = "plus-64";
             public const string Minus24 = "minus-24";
             public const string Money24 = "money-24";
         }

@@ -26,8 +26,8 @@ public struct RangeFloat : IEquatable<RangeFloat> {
     */
 
     public RangeFloat(float min, float max) {
-        this.Min = min;
-        this.Max = max;
+        Min = min;
+        Max = max;
     }
 
     public float ClampToRange(float value) {

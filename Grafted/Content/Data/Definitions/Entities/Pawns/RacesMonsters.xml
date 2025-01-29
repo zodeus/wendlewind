@@ -58,4 +58,16 @@
         <Species>Mushroom</Species>
         <TexturePath>Entities/Pawn/Creature/Mushroom/GreenCap</TexturePath>
     </RaceDef>
+    <RaceDef ParentName="BaseMonsterRace">
+        <Moniker>OrcChopper</Moniker>
+        <Label>Orc Chopper</Label>
+        <Species>Orc</Species>
+        <TexturePath>Entities/Pawn/Creature/Orc/Chopper</TexturePath>
+    </RaceDef>
+    <RaceDef ParentName="BaseMonsterRace">
+        <Moniker>OrcShaman</Moniker>
+        <Label>Orc Shaman</Label>
+        <Species>Orc</Species>
+        <TexturePath>Entities/Pawn/Creature/Orc/OrcShaman</TexturePath>
+    </RaceDef>
 </Definitions>

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <LootBoxDef>
+        <Moniker>SupplyChestBasic</Moniker>
+        <Label>Supply Chest</Label>
+        <Description>Scraps for weapons and armor...</Description>
+        <Category>Crafting</Category>
+        <TexturePath>Chests/SupplyChest</TexturePath>
+        <CollectionLimit>1</CollectionLimit>
+        <Items>
+            <ListItem>
+                <ItemDef>RepairKit</ItemDef>
+                <Amount>3~5</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
+        </Items>
+    </LootBoxDef>
+    <LootBoxDef>
+        <Moniker>SupplyChestNormal</Moniker>
+        <Label>Supply Chest</Label>
+        <Description>Scraps for weapons and armor...</Description>
+        <Category>Crafting</Category>
+        <TexturePath>Chests/SupplyChest</TexturePath>
+        <CollectionLimit>2</CollectionLimit>
+        <Items>
+            <ListItem>
+                <ItemDef>RepairKit</ItemDef>
+                <Amount>3~5</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <ItemDef>EnchantmentExpander</ItemDef>
+                <Amount>1~2</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
+        </Items>
+    </LootBoxDef>
+</Definitions>
+

@@ -6,8 +6,8 @@
         <Biome>Cemetery</Biome>
         <ShrineProperties>
             <GodLabel>Herminor</GodLabel>
-            <PartsToRestore>4~7</PartsToRestore>
-            <TexturePath>Zones/Shrines/cemetery_shrine_1</TexturePath>
+            <PartsToRestore>5~8</PartsToRestore>
+            <TexturePath>Biome/Shrines/cemetery_shrine_1</TexturePath>
             <RestorablePartTypes>
                 <ListItem>Thumb</ListItem>
                 <ListItem>Finger</ListItem>
@@ -29,17 +29,13 @@
                 <Race>GraveKeeper</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>Grave Keeper</PawnName>
-                <Skills>
-                    <MushroomPower>0</MushroomPower>
-                </Skills>
-                <Effects>
-                </Effects>
-                <EquipmentItems>
-                </EquipmentItems>
+                <Skills/>
+                <Effects/>
+                <EquipmentItems/>
                 <InventoryItems>
                     <ListItem>
                         <Item>RawFish</Item>
-                        <Amount>1~3</Amount>
+                        <Amount>1~2</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>
@@ -57,15 +53,16 @@
                 <Race>GraveKeeper</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>Grave Keeper</PawnName>
-                <!--<BodySizeFactor>1.2</BodySizeFactor>-->
-                <Skills>
-                    <MushroomPower>0</MushroomPower>
-                </Skills>
-                <Effects>
-                </Effects>
-                <EquipmentItems>
-                </EquipmentItems>
+                <!--<BodySizeFactor>1</BodySizeFactor>-->
+                <Skills/>
+                <Effects/>
+                <EquipmentItems/>
                 <InventoryItems>
+                    <ListItem>
+                        <Item>RawFish</Item>
+                        <Amount>1~2</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
@@ -74,22 +71,34 @@
         <Moniker>Cemetery-03</Moniker>
         <Biome>Cemetery</Biome>
         <PotentialLootBoxes>
-            <ListItem>TrinketsChestNormal</ListItem>
+            <ListItem>EnchantedChestOffensive</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
                 <Race>GraveKeeper</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>Grave Keeper</PawnName>
-                <!--<BodySizeFactor>1.2</BodySizeFactor>-->
-                <Skills>
-                    <MushroomPower>0</MushroomPower>
-                </Skills>
-                <Effects>
-                </Effects>
+                <!--<BodySizeFactor>1</BodySizeFactor>-->
+                <Skills/>
+                <Effects/>
                 <EquipmentItems>
+                    <ListItem>LeatherVambrace</ListItem>
+                    <ListItem>LeatherVambrace</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherGorget</ListItem>
+                    <ListItem>LeatherBoot</ListItem>
+                    <ListItem>LeatherBoot</ListItem>
+                    <ListItem>LeatherGlove</ListItem>
+                    <ListItem>LeatherGlove</ListItem>
+                    <ListItem>LeatherTunic</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
+                    <ListItem>
+                        <Item>RawFish</Item>
+                        <Amount>1~2</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
@@ -98,22 +107,34 @@
         <Moniker>Cemetery-04</Moniker>
         <Biome>Cemetery</Biome>
         <PotentialLootBoxes>
-            <ListItem>TrinketsChestNormal</ListItem>
+            <ListItem>EnchantedChestDefensive</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
                 <Race>GraveKeeper</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>Grave Keeper</PawnName>
-                <!--<BodySizeFactor>1.2</BodySizeFactor>-->
-                <Skills>
-                    <MushroomPower>0</MushroomPower>
-                </Skills>
-                <Effects>
-                </Effects>
+                <!--<BodySizeFactor>1</BodySizeFactor>-->
+                <Skills/>
+                <Effects/>
                 <EquipmentItems>
+                    <ListItem>LeatherVambrace</ListItem>
+                    <ListItem>LeatherVambrace</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherGorget</ListItem>
+                    <ListItem>LeatherBoot</ListItem>
+                    <ListItem>LeatherBoot</ListItem>
+                    <ListItem>LeatherGlove</ListItem>
+                    <ListItem>LeatherGlove</ListItem>
+                    <ListItem>LeatherTunic</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
+                    <ListItem>
+                        <Item>RawFish</Item>
+                        <Amount>1~2</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
@@ -130,15 +151,27 @@
                 <Race>FallenWatchman</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>Fallen Watchman</PawnName>
-                <BodySizeFactor>1.2</BodySizeFactor>
-                <Skills>
-                    <MushroomPower>0</MushroomPower>
-                </Skills>
-                <Effects>
-                </Effects>
+                <BodySizeFactor>1.6</BodySizeFactor>
+                <Skills/>
+                <Effects/>
                 <EquipmentItems>
+                    <ListItem>LeatherVambrace</ListItem>
+                    <ListItem>LeatherVambrace</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherGreave</ListItem>
+                    <ListItem>LeatherGorget</ListItem>
+                    <ListItem>LeatherBoot</ListItem>
+                    <ListItem>LeatherBoot</ListItem>
+                    <ListItem>LeatherGlove</ListItem>
+                    <ListItem>LeatherGlove</ListItem>
+                    <ListItem>LeatherTunic</ListItem>
                 </EquipmentItems>
                 <InventoryItems>
+                    <ListItem>
+                        <Item>RawFish</Item>
+                        <Amount>1~2</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>

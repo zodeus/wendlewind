@@ -57,18 +57,14 @@
             <ResourceRequirements>
                 <ListItem>
                     <Item>GoldCapMushroom</Item>
-                    <Count>2</Count>
-                </ListItem>
-                <ListItem>
-                    <Item>HealingRoot</Item>
-                    <Count>2</Count>
-                </ListItem>
-                <ListItem>
-                    <Item>ChurniRoot</Item>
                     <Count>1</Count>
                 </ListItem>
                 <ListItem>
-                    <Item>VenomVial</Item>
+                    <Item>HealingRoot</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>ChurniRoot</Item>
                     <Count>1</Count>
                 </ListItem>
             </ResourceRequirements>

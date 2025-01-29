@@ -57,4 +57,15 @@
             <MeleeAccuracy>.90</MeleeAccuracy>
         </BaseStats>
     </PawnDef>
+    <PawnDef ParentName="BaseMonster">
+        <Moniker>Orc</Moniker>
+        <Label>Orc</Label>
+        <Body>OrcBody</Body>
+        <BaseStats>
+            <AttackSpeed>1</AttackSpeed>
+            <MeleeStrength>2</MeleeStrength>
+            <Evasion>.02</Evasion>
+            <MeleeAccuracy>.7</MeleeAccuracy>
+        </BaseStats>
+    </PawnDef>
 </Definitions>

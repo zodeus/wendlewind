@@ -16,7 +16,7 @@ public class PawnBodyPanel : VerticalStackPanel, IUpdatable
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
         Padding = new Thickness(15);
         Width = 850;
-        
+
         _gui = gui;
         _body = body;
         _socketPanels = new List<BodyPartSocketPanel>();
@@ -141,11 +141,7 @@ public class PawnBodyPanel : VerticalStackPanel, IUpdatable
                     if (buffColor != null || debuffColor != null)
                     {
                         var color = buffColor;
-                        if (color != null && debuffColor != null)
-                        {
-                            color = color.Value.Multiply(debuffColor.Value);
-                        }
-                        else if (debuffColor != null)
+                        if (debuffColor != null)
                         {
                             color = debuffColor;
                         }

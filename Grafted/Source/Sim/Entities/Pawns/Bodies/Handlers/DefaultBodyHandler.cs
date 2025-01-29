@@ -7,16 +7,11 @@ public class DefaultBodyHandler : IExposable
 
     public PawnBody Body = null!;
 
-    public virtual float RestingMultiplier => 2;
     public virtual float SeveredArteryBloodLossFactor => 1.7f;
     public virtual float SeveredLimbBloodLossFactor => 3f;
     public virtual float BloodLossThreshold => .95f;
     public virtual float ArteryBloodLossOffset => 1.15f;
-    public virtual float BloodRegenerationFactor => 1f;
-    public virtual float HealthRegenerationFactor => 0.001f;
-    public virtual int MalnutritionDamageIntervalInMinutes => 10;
-    public virtual float FoodLossPerIteration => 0.002f;
-    public virtual float FoodLossRestingFactor => 0.60f;
+    public virtual float FoodLossPerIteration => 0.0017f;
     public virtual int TicksUntilFamished => 2 * 60 * Core.TicksPerSecond; // minutes * seconds * ticks per second
     public virtual int EmptyStomachEnergyLossFactor => 2;
     public virtual float HungryThreshold => 0.85f;
@@ -44,57 +39,6 @@ public class DefaultBodyHandler : IExposable
     {
         ScribeReferences.Look(ref Body!, "Body");
         ScribeValues.Look(ref _ticksWithEmptyStomach, "TicksWithEmptyStomach");
-    }
-
-    protected virtual void Regenerate()
-    {
-        //todo fix this
-        // return;
-        // if (_ticksWithEmptyStomach > WorldTime.HoursToTicks(2) || Body.Energy < .2 || Body.BloodPercent < 0.05 || Body.IsWarm == false)
-        // {
-        //     return;
-        // }
-        //
-        // if (Body.RootSocket.AttachedPart == null)
-        // {
-        //     return;
-        // }
-        //
-        // var restingBoost = Body.Pawn.IsResting ? RestingMultiplier : 1;
-        // // stop regenerating blood when near death
-        //
-        // if (Body.BloodAmount > 100)
-        // {
-        //     Body.BloodAmount += BloodRegenerationFactor * restingBoost;
-        // }
-        //
-        // var partRegenerationFactor = HealthRegenerationFactor * restingBoost;
-        //
-        // void UpdateHealth(BodyPart bodyPart)
-        // {
-        //     if (bodyPart.IsDestroyed)
-        //     {
-        //         return;
-        //     }
-        //
-        //     bodyPart.HitPoints += bodyPart.HitPoints * partRegenerationFactor;
-        // }
-        //
-        // void DoRegeneration(BodyPart bodyPart)
-        // {
-        //     UpdateHealth(bodyPart);
-        //     foreach (var internalPart in bodyPart.InternalParts)
-        //     {
-        //         UpdateHealth(internalPart);
-        //     }
-        //
-        //     foreach (var externalPart in bodyPart.ExternalParts)
-        //     {
-        //         DoRegeneration(externalPart);
-        //     }
-        // }
-        //
-        // DoRegeneration(Body.RootSocket.AttachedPart);
     }
 
     protected virtual void TakeMalnutritionDamage()
@@ -153,7 +97,7 @@ public class DefaultBodyHandler : IExposable
             return;
         }
 
-        var foodLossAmount = (Body.Pawn.IsResting ? FoodLossRestingFactor : 1f) * FoodLossPerIteration;
+        var foodLossAmount = FoodLossPerIteration;
         Body.StomachLevel = Mathf.Clamp(Body.StomachLevel - foodLossAmount, 0, 1);
 
         if (Body.StomachLevel <= 0)

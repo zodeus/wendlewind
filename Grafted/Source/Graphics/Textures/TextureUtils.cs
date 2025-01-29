@@ -64,7 +64,7 @@ public static class TextureUtils {
         var resultTex = new Texture2D(Core.GraphicsDevice, image.Width, image.Height, false, SurfaceFormat.Color);
 
         var srcData = new Color[image.Width * image.Height];
-        image.GetData<Color>(srcData);
+        image.GetData(srcData);
 
         var destData = CreateFlatHeightmap(srcData, opaqueColor, transparentColor);
 
@@ -132,7 +132,7 @@ public static class TextureUtils {
         var resultTex = new Texture2D(Core.GraphicsDevice, image.Width, image.Height, false, SurfaceFormat.Color);
 
         var srcData = new Color[image.Width * image.Height];
-        image.GetData<Color>(srcData);
+        image.GetData(srcData);
 
         var destData = CreateNormalMap(srcData, filter, image.Width, image.Height, normalStrength, invertX, invertY);
         resultTex.SetData(destData);

@@ -29,10 +29,6 @@
             </RequiredTrinkets>
             <ResourceRequirements>
                 <ListItem>
-                    <Item>GoldCapMushroom</Item>
-                    <Count>1</Count>
-                </ListItem>
-                <ListItem>
                     <Item>ArterialThreads</Item>
                     <Count>1</Count>
                 </ListItem>
@@ -51,6 +47,18 @@
         <MedicinalProperties>
             <HandlerClass>ArterialThreadsHandler</HandlerClass>
         </MedicinalProperties>
+        <CraftingProperties>
+            <AmountProduced>3</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>TinkersToolbox</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>GlitteringLog</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
         <Moniker>MendersMist</Moniker>
@@ -67,20 +75,11 @@
             <AmountProduced>1</AmountProduced>
             <RequiredTrinkets>
                 <ListItem>WeepingBucket</ListItem>
-                <ListItem>MortarAndPestle</ListItem>
                 <ListItem>CookingPot</ListItem>
                 <ListItem>EncasedFire</ListItem>
                 <ListItem>VialOfDuplicity</ListItem>
             </RequiredTrinkets>
             <ResourceRequirements>
-                <ListItem>
-                    <Item>GoldCapMushroom</Item>
-                    <Count>1</Count>
-                </ListItem>
-                <ListItem>
-                    <Item>VenomVial</Item>
-                    <Count>1</Count>
-                </ListItem>
                 <ListItem>
                     <Item>HealingRoot</Item>
                     <Count>2</Count>
@@ -120,6 +119,69 @@
                 <ListItem>
                     <Item>HealingRoot</Item>
                     <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+    </ItemDef>
+    <ItemDef ParentName="MedicalItem">
+        <Moniker>AntiNecroticSerum</Moniker>
+        <Label>Anti Necrotic Serum</Label>
+        <Description>Put it where it hurts.</Description>
+        <TexturePath>Entities/Item/Consumables/AntiNecroticSerum</TexturePath>
+        <MedicinalProperties>
+            <HandlerClass>AntiNecroticSerumHandler</HandlerClass>
+            <DurationInTicks>3000</DurationInTicks>
+        </MedicinalProperties>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>MortarAndPestle</ListItem>
+                <ListItem>VialOfDuplicity</ListItem>
+                <ListItem>CookingPot</ListItem>
+                <ListItem>EncasedFire</ListItem>
+                <ListItem>WeepingBucket</ListItem>
+                <ListItem>TinkersToolbox</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>DeathCapMushroom</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>VenomVial</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+    </ItemDef>
+    <ItemDef ParentName="MedicalItem">
+        <Moniker>Rejuvenator</Moniker>
+        <Label>Rejuvenator</Label>
+        <Description></Description>
+        <TexturePath>Entities/Item/Consumables/Rejuvenator</TexturePath>
+        <MedicinalProperties>
+            <HandlerClass>AntiNecroticSerumHandler</HandlerClass>
+            <DurationInTicks>3000</DurationInTicks>
+        </MedicinalProperties>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>TinkersToolbox</ListItem>
+                <ListItem>VialOfDuplicity</ListItem>
+                <ListItem>ThirdEye</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>MendersMist</Item>
+                    <Count>3</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>MedKit</Item>
+                    <Count>2</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>ArterialThreads</Item>
+                    <Count>2</Count>
                 </ListItem>
             </ResourceRequirements>
         </CraftingProperties>

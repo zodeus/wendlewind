@@ -8,13 +8,12 @@ public class LifeRegenerationHandler : BodyPartModifier
 
     public override void Tick()
     {
+        base.Tick();
         if (BodyPart.HitPoints < 1 && Core.Random.Chance(ChanceToRegenerateDestroyedPart))
         {
             BodyPart.HitPoints = 1;
         }
 
         BodyPart.HitPoints += BodyPart.HitPoints * HealthRegenerationPerTick;
-
-        base.Tick();
     }
 }

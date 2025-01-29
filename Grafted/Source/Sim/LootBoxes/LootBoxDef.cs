@@ -25,6 +25,8 @@ public enum LootBoxCategory
 
 public enum LootBoxRarity
 {
+    Undefined,
+
     // Most Items
     Primitive,
     IronAge,
@@ -40,7 +42,7 @@ public enum LootBoxRarity
     Meal,
     Bounty,
     SummerHarvest,
-    
+
     //Trinkets
     Basic,
     Normal,
@@ -71,7 +73,7 @@ public class LootBoxDef : Def
 
     public Type UiClass = typeof(LootBoxPanel);
     public LootBoxCategory Category;
-    public LootBoxRarity Rarity;
+    public LootBoxRarity Rarity = LootBoxRarity.Undefined;
     public RangeInt CollectionLimit;
     public LootBoxTrapProperties? TrapProperties;
     public List<LootBoxItem> Items = [];

@@ -17,8 +17,6 @@ public class Pawn : Entity, IExposable
     public PawnType PawnType = PawnType.Invalid;
     public Zone? Zone;
 
-    public bool IsResting;
-
     public int TicksToAttack;
 
     public PawnDef PawnDef => (PawnDef)Def;
@@ -75,6 +73,13 @@ public class Pawn : Entity, IExposable
         }
 
         TicksToAttack--;
+        
+        // Check if change in attack speed should reduce attack time 
+        if (CalculateTicksToAttack() is var ticks && ticks < TicksToAttack)
+        {
+            TicksToAttack = ticks;
+        }
+
         Skills.Tick();
         Inventory.Tick();
         base.Tick();
@@ -86,10 +91,10 @@ public class Pawn : Entity, IExposable
 
         // Add trinket damages 
         response.TrinketDamages.AddRange(request.TrinketResults);
-        CheckIfKilledByDamage(response);
-        if (IsDead)
+        if (CheckIfKilledByDamage(response) is { } causeOfDeath)
         {
             DamageTaken?.Invoke(this, request, response);
+            TriggerDeath(causeOfDeath);
             return;
         }
 
@@ -166,10 +171,6 @@ public class Pawn : Entity, IExposable
                 {
                     enchantment.EnchantmentHandler.PostPawnDamageTakenEffect(bodyPart, this, request.Source, damageRecord);
                 }
-                else
-                {
-                    Log.Warning($"{enchantment.ItemDef.Moniker} has no enchant handler");
-                }
             }
 
             // Finish up
@@ -179,14 +180,15 @@ public class Pawn : Entity, IExposable
 
         DamageTaken?.Invoke(this, request, response);
 
-        CheckIfKilledByDamage(response);
+        if (CheckIfKilledByDamage(response) is { } cause)
+        {
+            TriggerDeath(cause);
+        }
     }
 
-    private bool CheckIfKilledByDamage(DamageResponse response)
+    private string? CheckIfKilledByDamage(DamageResponse response)
     {
         List<string> nonFunctionalVitalParts = [];
-        var causeOfDeath = "ERROR";
-        var died = false;
         foreach (var damageRecord in response.Damages.Concat(response.TrinketDamages))
         {
             foreach (var partRecord in damageRecord.BodyParts)
@@ -208,17 +210,12 @@ public class Pawn : Entity, IExposable
 
                 if (partRecord.BodyPart.DidPawnDieFromPartFailure())
                 {
-                    died = true;
-                    causeOfDeath = nonFunctionalVitalParts.Last();
+                    return nonFunctionalVitalParts.First();
                 }
             }
         }
 
-        if (!died) return false;
-
-        TriggerDeath(causeOfDeath);
-
-        return true;
+        return null;
     }
 
     public void TriggerDeath(string causeOfDeath)
@@ -304,6 +301,16 @@ public class Pawn : Entity, IExposable
 
     public void ResetAttackCoolDown()
     {
-        TicksToAttack = Mathf.CeilToInt(Core.TicksPerSecond / AttackSpeed);
+        TicksToAttack = CalculateTicksToAttack();
+    }
+
+    private int CalculateTicksToAttack()
+    {
+        if (AttackSpeed <= 0)
+        {
+            return 99999; 
+        }
+
+        return Mathf.CeilToInt(Core.TicksPerSecond / AttackSpeed);
     }
 }

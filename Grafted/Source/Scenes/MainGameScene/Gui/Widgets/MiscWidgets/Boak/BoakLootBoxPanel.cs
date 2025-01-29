@@ -13,7 +13,7 @@ internal sealed class BoakLootBoxPanel : Grid
         int gridColum = 0;
         foreach (var def in defs)
         {
-            var details = new VerticalStackPanel()
+            var details = new VerticalStackPanel
             {
                 Spacing = 5,
                 Margin = new Thickness(0, 0, 40, 0),
@@ -50,7 +50,7 @@ internal sealed class BoakLootBoxPanel : Grid
                 }
             );
 
-            var panel = new HorizontalStackPanel()
+            var panel = new HorizontalStackPanel
             {
                 Spacing = 10,
                 Widgets =

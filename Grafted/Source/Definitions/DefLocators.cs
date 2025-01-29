@@ -37,12 +37,14 @@ public static partial class Defs {
 public static partial class Defs {
     [DefLocator]
     public static class BodyPartModifiers {
-        public static BodyPartModifierDef BurningAcid = null!;
+        public static BodyPartModifierDef Acid = null!;
         public static BodyPartModifierDef RotLung = null!;
         public static BodyPartModifierDef SoothingBalm = null!;
         public static BodyPartModifierDef PurpleRegeneration = null!;
         public static BodyPartModifierDef LifeRegeneration = null!;
         public static BodyPartModifierDef RhinoRestoration = null!;
+        public static BodyPartModifierDef Necrosis = null!;
+        public static BodyPartModifierDef NecrosisSerum = null!;
     }
 }
 
@@ -60,7 +62,7 @@ public static partial class Defs {
 
 public static partial class Defs {
     [DefLocator]
-    public static class Zones {
+    public static class Biomes {
         public static BiomeDef PeacefulMeadow = null!;
         public static BiomeDef TheOutskirts = null!;
         public static BiomeDef GrainMill = null!;
@@ -68,6 +70,7 @@ public static partial class Defs {
         public static BiomeDef ForgottenForest = null!;
         public static BiomeDef DampCave = null!;
         public static BiomeDef Cemetery = null!;
+        public static BiomeDef Mineshaft = null!;
     }
 }
 
@@ -104,6 +107,7 @@ public static partial class Defs {
         public static ItemDef SoothingVibrations = null!;
         public static ItemDef SpidersBite = null!;
         public static ItemDef ThirdEye = null!;
+        public static ItemDef EnchantmentExpander = null!;
     }
 }
 
@@ -209,6 +213,16 @@ public static partial class Defs {
         public static BodyPartDef MushroomHand = null!;
         public static BodyPartDef MushroomLeg = null!;
         public static BodyPartDef MushroomFoot = null!;
+        
+        public static BodyPartDef OrcHead = null!;
+        public static BodyPartDef OrcNeck = null!;
+        public static BodyPartDef OrcTorso = null!;
+        public static BodyPartDef OrcArm = null!;
+        public static BodyPartDef OrcLeg = null!;
+        public static BodyPartDef OrcHand = null!;
+        public static BodyPartDef OrcThumb = null!;
+        public static BodyPartDef OrcFinger = null!;
+        public static BodyPartDef OrcFoot = null!;
         
     }
 

@@ -4,35 +4,41 @@ using Grafted.Scenes.MainGameScene;
 
 namespace Grafted.Sim;
 
-public class MainMenuScene : Scene {
+public class MainMenuScene : Scene
+{
     private Desktop _desktop = null!;
 
-    protected override void OnStart() {
-        var grid = new Grid {ShowGridLines = false};
-        grid.DefaultRowProportion = Proportion.Auto;
-        grid.ColumnsProportions.Add(Proportion.Auto);
-        grid.ColumnsProportions.Add(Proportion.Fill);
-        grid.Widgets.Add(new Image {
-            Background = new TextureRegion(TextureUtils.PreMultiply(BaseContent.Textures.MilgrethTitle)), Width = 825, Height = 242, GridRow = 0 , GridColumnSpan = 2,
-            HorizontalAlignment = HorizontalAlignment.Center
-        });
-        grid.Widgets.Add(new Image { Background = new TextureRegion(TextureUtils.PreMultiply(BaseContent.Textures.MilgrethImage)), Width = 900, Height = 900, GridRow = 1, GridColumn = 0 });
+    protected override void OnStart()
+    {
+        var grid = new Panel()
+        {
+            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Background = new TextureRegion(TextureUtils.PreMultiply(BaseContent.Textures.MainMenuBackground)), Width = 1200, Height = 1200
+        };
 
-        var buttonPanel = new VerticalStackPanel { Spacing = 20, GridRow = 1, GridColumn = 1, HorizontalAlignment = HorizontalAlignment.Left,VerticalAlignment = VerticalAlignment.Top};
-        var newGame = new Image {
-            Background = new TextureRegion(TextureUtils.PreMultiply(BaseContent.Textures.MilgrethPlay)), 
-            OverBackground = new TextureRegion(TextureUtils.PreMultiply(BaseContent.Textures.MilgrethPlayOver)), 
-            Width = 256, Height = 128
-        }; 
-        var quit = new Image {
-            Background = new TextureRegion(TextureUtils.PreMultiply(BaseContent.Textures.MilgrethQuit)), Width = 256, Height = 128
+        var buttonPanel = new VerticalStackPanel
+        {
+            Margin = new Thickness(80, 0, 0, 0),
+            Spacing = 20, VerticalAlignment = VerticalAlignment.Center
+        };
+        var newGame = new Image
+        {
+            Background = new TextureRegion(TextureUtils.PreMultiply(BaseContent.Textures.MainMenuPlay)),
+            OverBackground = new TextureRegion(TextureUtils.PreMultiply(BaseContent.Textures.MainMenuPlayOver)),
+            Width = 256, Height = 80
+        };
+        var quit = new Image
+        {
+            Background = new TextureRegion(TextureUtils.PreMultiply(BaseContent.Textures.MainMenuQuit)), Width = 256, Height = 80
         };
         newGame.TouchDown += (_, _) => Core.ChangeScene<GameScene>();
         buttonPanel.Widgets.Add(newGame);
         buttonPanel.Widgets.Add(quit);
         grid.Widgets.Add(buttonPanel);
 
-        if (DebugSettings.QuickPlay) {
+        if (DebugSettings.QuickPlay)
+        {
             Core.ChangeScene<GameScene>();
         }
 
@@ -44,12 +50,14 @@ public class MainMenuScene : Scene {
             Scene.Load<MainMenuScene>();
         }*/
 
-        _desktop = new Desktop {
+        _desktop = new Desktop
+        {
             Root = grid
         };
     }
 
-    public override void Draw(float deltaTime) {
+    public override void Draw(float deltaTime)
+    {
         _desktop.Render();
     }
 }

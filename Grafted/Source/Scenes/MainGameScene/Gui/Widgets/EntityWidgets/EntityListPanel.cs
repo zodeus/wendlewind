@@ -63,7 +63,7 @@ public class EntityListPanel : VerticalStackPanel, IUpdatable
         _leftClickAction = leftClickAction;
         _rightClickAction = rightClickAction;
         _filter = filter;
-        var itemVerticalPanel = new VerticalStackPanel() { Spacing = 5 };
+        var itemVerticalPanel = new VerticalStackPanel { Spacing = 5 };
         //Widgets.Add(new HorizontalSeparator());
         Widgets.Add(new Label( /*BaseContent.Styles.Label.Medium*/) { Text = label, TextColor = Color.DarkGoldenrod });
         Widgets.Add(new ScrollViewer { Content = itemVerticalPanel, MaxHeight = 240 });

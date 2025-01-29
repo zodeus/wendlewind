@@ -181,7 +181,7 @@ public static class Vector2Ext {
     /// <param name="vec">Vec.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Point RoundToPoint(this Vector2 vec) {
-        var roundedVec = Vector2Ext.Round(vec);
+        var roundedVec = Round(vec);
         return new Point((int) roundedVec.X, (int) roundedVec.Y);
     }
 

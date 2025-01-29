@@ -14,7 +14,7 @@ public sealed class PawnBodyEffectsWindow : Window
         _pawn = pawn;
         Title = "Effects";
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold];
-        _container = new VerticalStackPanel() { Spacing = 20 };
+        _container = new VerticalStackPanel { Spacing = 20 };
         Content = _container;
     }
 

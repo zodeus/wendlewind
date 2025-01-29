@@ -8,13 +8,13 @@ internal sealed class BoakItemsWeaponPanel : Grid
         Padding = new Thickness(16);
         RowSpacing = 20;
         ColumnSpacing = 50;
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Monkier" }, 0, 0);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Damage Type" }, 0, 1);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Damage" }, 0, 2);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Speed" }, 0, 3);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Durability" }, 0, 4);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Maneuvers" }, 0, 5);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Modifiers" }, 0, 6);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Monkier" }, 0, 0);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Damage Type" }, 0, 1);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Damage" }, 0, 2);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Speed" }, 0, 3);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Durability" }, 0, 4);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Maneuvers" }, 0, 5);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Modifiers" }, 0, 6);
 
         ColumnsProportions.Add(new Proportion(ProportionType.Auto));
         ColumnsProportions.Add(new Proportion(ProportionType.Auto));

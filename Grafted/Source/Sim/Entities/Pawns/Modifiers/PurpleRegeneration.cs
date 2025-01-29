@@ -5,6 +5,7 @@ public class PurpleRegeneration : BodyPartModifier
 {
     public override void Tick()
     {
+        base.Tick();
         // Chance to regenerate from destroyed status
         if (BodyPart.HitPoints < 1 && Core.Random.Chance(0.01f))
         {
@@ -13,14 +14,7 @@ public class PurpleRegeneration : BodyPartModifier
 
         //if (Core.Context.Ticks % 15==0)
         //{
-        BodyPart.HitPoints += BodyPart.HitPoints * .0005f;
+        BodyPart.HitPoints += BodyPart.HitPoints * .001f;
         //}
-
-        base.Tick();
-    }
-
-    public override void Expired()
-    {
-        //BodyPart.Body.Effects.TryApplyEffect(PumpDrain);
     }
 }

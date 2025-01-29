@@ -10,7 +10,7 @@ public class ItemEnchantments : IEnumerable<Item>, IExposable
 
     public void ExposeData()
     {
-        ScribeValues.Look(ref MaxEnchantments!, "MaxEnchantments");
+        ScribeValues.Look(ref MaxEnchantments, "MaxEnchantments");
         ScribeCollections.Look(ref _enchantments!, "Enchantments", LookMode.Value, LookMode.Deep);
     }
 

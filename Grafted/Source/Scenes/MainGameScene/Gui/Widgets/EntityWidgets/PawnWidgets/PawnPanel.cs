@@ -74,15 +74,15 @@ public sealed class PawnPortraitPanel : VerticalStackPanel
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"Race: {pawn.Race.Label}" });
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"Gender: {pawn.Gender}" });
 
-        Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"Capabilities", Margin = new Thickness(0, 15, 0, 0) });
+        Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = "Capabilities", Margin = new Thickness(0, 15, 0, 0) });
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"• Sight: {pawn.Body.Capabilities.Sight}" });
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"• Breathing: {pawn.Body.Capabilities.Breathing}" });
-        Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"• Circulation: n/a" });
-        Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"• Digestion: n/a" });
+        Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = "• Circulation: n/a" });
+        Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = "• Digestion: n/a" });
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"• Mobility: {pawn.Body.Capabilities.Mobility}" });
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"• Max Blood: {pawn.Body.MaxBlood}" });
 
-        Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"Traits", Margin = new Thickness(0, 15, 0, 0) });
+        Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = "Traits", Margin = new Thickness(0, 15, 0, 0) });
         foreach (var trait in pawn.Traits)
         {
             Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"• {trait.Label}" });
@@ -91,7 +91,7 @@ public sealed class PawnPortraitPanel : VerticalStackPanel
 
     public void Update()
     {
-        _attackSpeed.Text = $"AttackSpeed";
+        _attackSpeed.Text = "AttackSpeed";
         _bloodBar.Value = _pawn.Body.BloodPercent * 100;
     }
 }

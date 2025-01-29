@@ -21,7 +21,7 @@ internal sealed class ShrineScreen : VerticalStackPanel
         _maxNumberOfPartsToRestore = _shrine.PartsToRestore.RandomValue;
         HorizontalAlignment = HorizontalAlignment.Center;
 
-        _panel = new VerticalStackPanel()
+        _panel = new VerticalStackPanel
         {
             Spacing = 25,
             Width = 1600
@@ -47,7 +47,7 @@ internal sealed class ShrineScreen : VerticalStackPanel
                     Padding = new Thickness(10),
                     Widgets =
                     {
-                        new Image()
+                        new Image
                         {
                             Background = new TextureRegion(shrine.Texture),
                             Width = 600, Height = 800
@@ -153,7 +153,7 @@ internal sealed class ShrineScreen : VerticalStackPanel
         _praying = false;
         _panel.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
         {
-            Text = $"The mystery has completed"
+            Text = "The mystery has completed"
         });
         var leave = new Button(BaseContent.Styles.Button.Large)
         {

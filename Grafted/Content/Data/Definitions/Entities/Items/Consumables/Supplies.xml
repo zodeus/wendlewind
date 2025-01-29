@@ -1,21 +1,52 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <ItemDef Name="EquipmentSupplies" ParentName="ItemBase" Abstract="true">
+    <ItemDef Name="Supplies" ParentName="ItemBase" Abstract="true">
         <UiClass>ConsumablePanel</UiClass>
-        <ItemType>EquipmentSupplies</ItemType>
+        <ItemType>Supplies</ItemType>
         <StackLimit>9999</StackLimit>
     </ItemDef>
-    <ItemDef ParentName="EquipmentSupplies">
+    <ItemDef ParentName="Supplies">
         <Moniker>RepairKit</Moniker>
         <Label>Repair Kit</Label>
         <Description>Used for fixing equipment</Description>
         <TexturePath>Entities/Item/Consumables/RepairKit</TexturePath>
     </ItemDef>
-    <ItemDef ParentName="EquipmentSupplies">
+    <ItemDef ParentName="Supplies">
         <Moniker>EnchantmentExpander</Moniker>
-        <Label>Enchantment Expander</Label>
+        <Label>Expander</Label>
         <Description>More enchants certainly makes a better item.</Description>
         <TexturePath>Entities/Item/Consumables/EnchantmentExpander</TexturePath>
+        <CraftingProperties>
+            <AmountProduced>2</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>TinkersToolbox</ListItem>
+                <ListItem>ThirdEye</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>EnchantmentExpander</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>RepairKit</Item>
+                    <Count>20</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>GlitteringLog</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>RawFish</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+    </ItemDef>
+    <ItemDef ParentName="Supplies">
+        <Moniker>UpgradeCell</Moniker>
+        <Label>Upgrade Cell</Label>
+        <Description></Description>
+        <TexturePath>Entities/Item/Consumables/UpgradeCell</TexturePath>
     </ItemDef>
 </Definitions>

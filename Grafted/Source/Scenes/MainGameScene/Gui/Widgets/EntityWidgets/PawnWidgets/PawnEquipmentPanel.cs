@@ -56,6 +56,22 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
 
         if (_gui.MouseAttachment?.Data is Item item)
         {
+            if (item.Def == Defs.Items.EnchantmentExpander)
+            {
+                if (_pawn.Equipment.GetBySlot(part, slot) is { Enchantments: not null } equipmentItem)
+                {
+                    equipmentItem.Enchantments.MaxEnchantments++;    
+                    item.StackSize--;
+                    
+                    if (item.StackSize != 0) return;
+                    
+                    item.Destroy();
+                    _gui.MouseAttachment.Detach();
+                }
+
+                return;
+            }
+
             if (item.Def == Defs.Items.RepairKit)
             {
                 if (_pawn.Equipment.GetBySlot(part, slot) is { } equipmentItem && equipmentItem.Durability < equipmentItem.MaxDurability)
@@ -154,7 +170,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
             {
                 Button slotFrame = new(BaseContent.Styles.Button.Icon)
                 {
-                    Content = new HorizontalStackPanel()
+                    Content = new HorizontalStackPanel
                     {
                         Widgets =
                         {

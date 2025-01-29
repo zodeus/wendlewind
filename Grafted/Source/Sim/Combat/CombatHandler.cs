@@ -6,16 +6,21 @@ namespace Grafted.Sim.Combat;
 
 public class CombatHandler
 {
-    private readonly Encounter Encounter;
+    private readonly Encounter _encounter;
     private readonly Dictionary<Pawn, Item> _queuedItems = new();
     private readonly Dictionary<Pawn, List<Item>> _activeTrinkets = new();
-    private string? _deathMessage;
+    private double TotalDirectPlayerDamage;
+
+    public EntityContainer Loot = new();
+    public readonly CombatRecord CombatRecord = new();
+    public readonly List<BodyPart> SeveredLimbs = [];
+
     public Pawn Player { get; set; }
     public Pawn Enemy { get; set; }
 
     public CombatHandler(Encounter encounter)
     {
-        Encounter = encounter;
+        _encounter = encounter;
         Player = encounter.PlayerPawns.First();
         Enemy = encounter.EnemyPawns.First();
 
@@ -30,8 +35,8 @@ public class CombatHandler
 
     private void OnDeath(DeathEvent deathEvent)
     {
-        Encounter.LogMessage($"/f[default, 32]/c[{TC.Victim}]{deathEvent.Pawn.LabelShort} /cddied from /c[{TC.Red}]{deathEvent.Record.CauseOfDeath}\n");
-        Encounter.Zone!.Alert(
+        LogMessage($"/f[default, 32]/c[{TC.Victim}]{deathEvent.Pawn.LabelShort} /cddied from /c[{TC.Red}]{deathEvent.Record.CauseOfDeath}\n");
+        _encounter.Zone.Alert(
             new ScreenMessageData
             {
                 Text = $"{deathEvent.Pawn.LabelShort}s has died from {deathEvent.Record.CauseOfDeath}",
@@ -42,14 +47,17 @@ public class CombatHandler
         Core.Context.DeathRecords.RecordDeath(new DeathRecord
         {
             CauseOfDeath = deathEvent.Record.CauseOfDeath,
-            Ticks = Encounter.Ticks,
-            Biome = Encounter.Zone.BiomeDef,
-            PawnName = deathEvent.Pawn.LabelShort + (Encounter.AtBoss ? " (Boss)" : "")
+            TotalDamageDealt = TotalDirectPlayerDamage,
+            Ticks = _encounter.Ticks,
+            Biome = _encounter.Zone.BiomeDef,
+            PawnName = deathEvent.Pawn.LabelShort + (_encounter.AtBoss ? " (Boss)" : "")
         });
+        EndCombat();
     }
 
     private void OnDamageTaken(Pawn victim, DamageRequest request, DamageResponse response)
     {
+        var logs = new List<string>();
         var attacker = request.Source;
 
         // Record players severed body parts in order to take its equipment
@@ -59,69 +67,77 @@ public class CombatHandler
             {
                 if (damage.BodyPart.IsExternal && damage.WasSevered)
                 {
-                    Encounter.SeveredLimbs.Add(damage.BodyPart);
+                    SeveredLimbs.Add(damage.BodyPart);
                 }
             }
         }
 
+        if (victim.PawnType == PawnType.Enemy)
+        {
+            TotalDirectPlayerDamage += response.TotalDamage;
+        }
+
         foreach (var damage in response.TrinketDamages)
         {
-            LogDamage(victim, attacker, damage, TC.Purple2);
+            logs.AddRange(LogDamage(victim, attacker, damage, TC.Purple2));
         }
 
         if (response.Missed)
         {
-            Encounter.LogMessage($"/c[{TC.Attacker}]{attacker.LabelShort} /c[{TC.Blue}] missed /c[{TC.Victim}]{victim.LabelShort}.");
+            logs.Add($"/c[{TC.Attacker}]{attacker.LabelShort} /c[{TC.Blue}] missed /c[{TC.Victim}]{victim.LabelShort}.");
         }
         else if (response.Dodged)
         {
-            Encounter.LogMessage($"/c[{TC.Victim}]{victim.LabelShort} /c[{TC.Blue}] dodged attack");
+            logs.Add($"/c[{TC.Victim}]{victim.LabelShort} /c[{TC.Blue}] dodged attack");
         }
         else
         {
             foreach (var damage in response.Damages)
             {
-                LogDamage(victim, attacker, damage, TC.Item);
+                logs.AddRange(LogDamage(victim, attacker, damage, TC.Item));
             }
+        }
+
+        logs.Reverse();
+        foreach (var log in logs)
+        {
+            LogMessage(log);
         }
     }
 
-    private void LogDamage(Pawn victim, Pawn attacker, DamageRecord damage, string weaponColor)
+    private IEnumerable<string> LogDamage(Pawn victim, Pawn attacker, DamageRecord damage, string weaponColor)
     {
-        Encounter.LogMessage(
-            $"/c[{TC.Attacker}]{attacker,-20}/c[{TC.Default}]hit /c[{TC.Victim}]{victim.LabelShort}'s /c[{TC.BodyPart}]{damage.BodyPartHit.Label}" +
-            $"/c[{TC.Default}] with /c[{weaponColor}]{damage.WeaponLabel} /c[{TC.Golden}]({damage.WeaponManeuverLabel})" +
-            $"/c[{TC.Default}] for /c[{TC.Red}]{damage.ActualAmount:N0} /c[{TC.Golden}]{damage.DamageType}/c[{TC.Default}] damage," +
-            $" blocked /c[#00e6ff]{damage.AmountBlocked}"
-        );
+        yield return $"/c[{TC.Attacker}]{attacker,-20}/c[{TC.Default}]hit /c[{TC.Victim}]{victim.LabelShort}'s /c[{TC.BodyPart}]{damage.BodyPartHit.Label}" +
+                     $"/c[{TC.Default}] with /c[{weaponColor}]{damage.WeaponLabel} /c[{TC.Golden}]({damage.WeaponManeuverLabel})" +
+                     $"/c[{TC.Default}] for /c[{TC.Red}]{damage.ActualAmount:N0} /c[{TC.Golden}]{damage.DamageType}/c[{TC.Default}] damage," +
+                     $" blocked /c[#00e6ff]{damage.AmountBlocked}";
 
         foreach (var itemRecord in damage.DestroyedEquipment)
         {
-            Encounter.LogMessage($"  /c[{TC.Equipment}]{itemRecord.Def.Label} /c[{TC.Red}]destroyed");
+            yield return $"  /c[{TC.Equipment}]{itemRecord.Def.Label} /c[{TC.Red}]destroyed";
         }
 
         foreach (var partRecord in damage.BodyParts)
         {
             foreach (var modifier in partRecord.AppliedModifiers)
             {
-                Encounter.LogMessage(
-                    $"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Default}]afflicted with /c[{TC.Yellow}]{modifier}");
+                yield return $"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Default}]afflicted with /c[{TC.Yellow}]{modifier}";
             }
 
             if (partRecord is { WasDestroyed: true, IsVital: false })
             {
-                Encounter.LogMessage($"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]destroyed");
+                yield return $"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]destroyed";
             }
 
             if (partRecord is { WasDestroyed: true, IsVital: true })
             {
-                Encounter.LogMessage($"  /c[{TC.Red}]Vital part /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]destroyed");
+                yield return $"  /c[{TC.Red}]Vital part /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]destroyed";
             }
 
             if (partRecord.BodyPart.IsExternal && partRecord.WasSevered)
             {
-                Encounter.LogMessage($"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]SEVERED");
-                Encounter.Zone!.Alert(
+                yield return $"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]SEVERED";
+                _encounter.Zone.Alert(
                     new ScreenMessageData
                     {
                         Text = $"{victim.LabelShort}s {partRecord.PartType} has been severed",
@@ -134,14 +150,12 @@ public class CombatHandler
 
         foreach (var affliction in damage.SourceAfflictions)
         {
-            Encounter.LogMessage(
-                $"/c[{TC.Purple2}]{attacker}/c[{TC.Default}]'s /c[{TC.BodyPart}]{affliction.BodyPart.Label} " +
-                $"/c[{TC.Default}]has been (/c[{TC.GreenYellow}]{affliction.Label}) "
-            );
+            yield return $"/c[{TC.Purple2}]{attacker}/c[{TC.Default}]'s /c[{TC.BodyPart}]{affliction.BodyPart.Label} " +
+                         $"/c[{TC.Default}]has been (/c[{TC.GreenYellow}]{affliction.Label}) ";
         }
     }
 
-    public void DoFighting()
+    public void Tick()
     {
         Attack(Player, Enemy);
 
@@ -203,7 +217,7 @@ public class CombatHandler
 
         if (damageOptions.Any() == false)
         {
-            Encounter.LogMessage($"/c[{TC.Attacker}]{attacker.LabelShort} has no usable weapons");
+            LogMessage($"/c[{TC.Attacker}]{attacker.LabelShort} has no usable weapons");
             return;
         }
 
@@ -220,7 +234,7 @@ public class CombatHandler
         for (var index = _activeTrinkets[attacker].Count - 1; index >= 0; index--)
         {
             var trinket = _activeTrinkets[attacker][index];
-            if (trinket.TrinketHandler!.HandleCombat(attacker, victim) is { } damageRecord)
+            if (trinket.TrinketHandler!.HandleCombatAction(attacker, victim) is { } damageRecord)
             {
                 _activeTrinkets[attacker].Remove(trinket);
                 results.Add(damageRecord);
@@ -297,11 +311,11 @@ public class CombatHandler
             Def = Defs.BodyEffects.FeelingThePurple,
             TicksLeft = duration
         });
-        Encounter.LogMessage(
+        LogMessage(
             $"/c[{TC.Attacker}]{target.LabelShort} /c[{TC.Yellow}]sipped the /c[{TC.Item}]{potion.Label}"
         );
 
-        Encounter.Zone!.Alert(new ScreenMessageData
+        _encounter.Zone.Alert(new ScreenMessageData
         {
             Text = $"{target.Label} is absorbing the Purple Juice",
             Font = BaseContent.Fonts.Default.Large,
@@ -313,10 +327,10 @@ public class CombatHandler
     private void UseTheDreamingPowder(Item potion, Pawn target)
     {
         //Encounter.ActivateBuff(potion, target, Core.Random.Next(3, 6));
-        Encounter.LogMessage(
+        LogMessage(
             $"/c[{TC.Attacker}]{target.LabelShort} /c[{TC.Purple}]Released /c[{TC.Item}]{potion.Label}"
         );
-        Encounter.Zone!.Alert(new ScreenMessageData
+        _encounter.Zone.Alert(new ScreenMessageData
         {
             Text = $"{target.Label} has been transfixed",
             Font = BaseContent.Fonts.Default.Large,
@@ -333,14 +347,14 @@ public class CombatHandler
             {
                 eye.HitPoints = 0;
                 var eyeText = $"{eye.Socket?.Label.Split(" ")[0]} {eye.Type}";
-                Encounter.LogMessage(
+                LogMessage(
                     $"/c[{TC.Attacker}]{attacker.LabelShort} /c[{TC.Yellow}]burned out /c[{TC.Victim}]{target.LabelShort}'s /c[{TC.BodyPart}]{eyeText} /c[{TC.Default}]with /c[{TC.Item}]{potion.Label}"
                 );
                 break;
             }
         }
 
-        Encounter.Zone!.Alert(new ScreenMessageData
+        _encounter.Zone.Alert(new ScreenMessageData
         {
             Text = $"{target.Label} has been spiced with acid",
             Font = BaseContent.Fonts.Default.Large,
@@ -352,12 +366,12 @@ public class CombatHandler
     private void UseBloodPotion(Item potion, Pawn pawn)
     {
         pawn.Body.BloodAmount = pawn.Body.MaxBlood;
-        Encounter.LogMessage(
+        LogMessage(
             $"/c[{TC.Attacker}]{pawn.LabelShort} /c[{TC.Yellow}]Sipped a /c[{TC.Item}]{potion.Label}"
         );
         if (pawn.PawnType == PawnType.Player)
         {
-            Encounter.Zone!.Alert(new ScreenMessageData
+            _encounter.Zone.Alert(new ScreenMessageData
             {
                 Text = "Sipped a Jar of Blood. Blood is good for battle, bad for the mind",
                 Font = BaseContent.Fonts.Default.Large,
@@ -395,4 +409,114 @@ public class CombatHandler
         trinket.TrinketHandler!.DeActivate();
         _activeTrinkets[pawn].Remove(trinket);
     }
+
+    private void EndCombat()
+    {
+        var playerIsAlive = !Player.IsDead;
+        if (playerIsAlive)
+        {
+            CollectLoot();
+            Player.Inventory.Trinkets.ForEach(t =>
+            {
+                t.TrinketHandler?.PostCombatAction(new PostCombatReport
+                {
+                    Player = Player,
+                    Enemy = Enemy,
+                    TotalDirectPlayerDamage = TotalDirectPlayerDamage
+                });
+                t.TrinketHandler?.Stop();
+            });
+
+            Core.Context.World.RegisterKill(Enemy);
+            if (_encounter.Def.IsBoss)
+            {
+                _encounter.Zone.IsComplete = true;
+            }
+        }
+
+        LogMessage($"/f[default, 48]/c[{TC.Golden}]Battle is over\n");
+        _encounter.State = EncounterState.Finished;
+    }
+
+    private void LogMessage(string message)
+    {
+        CombatRecord.LogMessage(new CombatLogMessage
+        {
+            Text = message,
+        });
+    }
+
+    private void CollectLoot()
+    {
+        for (var i = Enemy.Inventory.Count() - 1; i >= 0; i--)
+        {
+            var item = Enemy.Inventory[i];
+            if (Core.Context.Player.HasTrinkets(item.ItemDef))
+            {
+                continue;
+            }
+
+            AddToLootContainer(item);
+        }
+
+        //CollectEquipment(Enemy);
+
+        foreach (var part in SeveredLimbs)
+        {
+            TakePartEquipment(part);
+        }
+
+        foreach (var resource in _encounter.Zone.BiomeDef.Resources)
+        {
+            if (Core.Random.Chance(resource.ChanceToHarvest))
+            {
+                AddToLootContainer(EntityGenerator.CreateEntity<Item>(resource.Item, resource.Amount.RandomValue));
+            }
+        }
+
+        return;
+
+        void TakePartEquipment(BodyPart part)
+        {
+            foreach (var (slot, item) in part.Equipment)
+            {
+                if (item == null || item.ItemDef.EquipmentProperties?.SlotUsedToEquip == EquipmentSlotType.BuiltIn) continue;
+
+                part.Equipment[slot] = null;
+                AddToLootContainer(item);
+            }
+
+            foreach (var externalPart in part.ExternalParts)
+            {
+                TakePartEquipment(externalPart);
+            }
+        }
+    }
+
+    private void CollectEquipment(Pawn enemy)
+    {
+        const int chanceToLootEquipment = 1;
+        foreach (var (bodyPart, slots) in enemy.Equipment.Slots)
+        {
+            foreach (var slot in slots.Where(slot => slot is not EquipmentSlotType.BuiltIn))
+            {
+                if (enemy.Equipment.UnEquip(bodyPart, slot) is { } item && Core.Random.Chance(chanceToLootEquipment))
+                {
+                    AddToLootContainer(item);
+                }
+            }
+        }
+    }
+
+    private void AddToLootContainer(Item item)
+    {
+        Loot.TryAdd(item);
+    }
+}
+
+public class PostCombatReport
+{
+    public Pawn Player { get; set; }
+    public Pawn Enemy { get; set; }
+    public double TotalDirectPlayerDamage { get; set; }
 }

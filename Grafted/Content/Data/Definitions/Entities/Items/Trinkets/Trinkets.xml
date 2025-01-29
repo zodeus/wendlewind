@@ -48,6 +48,16 @@
         <TexturePath>Entities/Item/Trinket/DeathRattle</TexturePath>
     </ItemDef>
     <ItemDef ParentName="ItemTrinket">
+        <Moniker>Battery</Moniker>
+        <Label>Battery</Label>
+        <TrinketProperties>
+            <Type>Combat</Type>
+            <HandlerClass>BatteryHandler</HandlerClass>
+        </TrinketProperties>
+        <Description>Energizer bunny?</Description>
+        <TexturePath>Entities/Item/Trinket/Battery</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="ItemTrinket">
         <Moniker>MortarAndPestle</Moniker>
         <Label>Mortar and Pestle</Label>
         <TrinketProperties>
@@ -113,5 +123,16 @@
         <!--<Description></Description>-->
         <!--<UiClass>GrimoirePanel</UiClass>-->
         <TexturePath>Entities/Item/Trinket/TinkersToolbox</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="ItemTrinket">
+        <Moniker>SteroidInjector</Moniker>
+        <Label>Steroid Injector</Label>
+        <Description>Time to get jacked.</Description>
+        <TrinketProperties>
+            <Type>NonCombat</Type>
+            <HandlerClass>SteroidInjectorHandler</HandlerClass>
+        </TrinketProperties>
+        <UiClass>SteroidInjectorPanel</UiClass>
+        <TexturePath>Entities/Item/Trinket/SteroidInjector</TexturePath>
     </ItemDef>
 </Definitions>

@@ -470,7 +470,7 @@ public struct RectangleF : IEquatable<RectangleF> {
                 return null;
         }
 
-        return new float?(num);
+        return num;
     }
 
 

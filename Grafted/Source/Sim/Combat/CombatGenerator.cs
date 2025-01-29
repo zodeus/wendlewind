@@ -1,23 +1,11 @@
 ﻿namespace Grafted.Sim.Combat;
 
-public class BodyModificationRecord
-{
-    public List<SevereLimbRequest> LimbsToSever = new();
-}
-
-public class SevereLimbRequest
-{
-    public BodyPartDef RootLimb = null!;
-    public BodyPartSocketDef Socket = null!;
-    public bool Seal = true;
-}
-
 public static class CombatGenerator
 {
     public static Encounter GenerateForZone(Pawn playerPawn, Zone zone)
     {
         Encounter encounter = new(zone);
-        encounter.AddPlayerPawn(playerPawn);
+        encounter.         AddPlayerPawn(playerPawn);
         var encounterDef = DefRepository<EncounterDef>.Defs
             .Where(d => d.Biome == zone.BiomeDef)
             .Take(new Range(zone.Stage, zone.Stage + 1))

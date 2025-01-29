@@ -57,8 +57,19 @@ public class EntityPanel : EntityPanelBase
         _entity = entity;
         MinWidth = 300;
         Spacing = 5;
-        Widgets.Add(new Image { Background = new TextureRegion(entity.Icon), Width = 128, Height = 128 });
-        Widgets.Add(new Label { Text = entity.Def.Description, Wrap = true, Margin = new Thickness(10), Font = BaseContent.Fonts.Default.Small, MaxWidth = 600});
+        Widgets.Add(new HorizontalStackPanel
+        {
+            Spacing = 10,
+            Widgets =
+            {
+                new Image { Background = new TextureRegion(entity.Icon), Width = 128, Height = 128 },
+                new Label(BaseContent.Styles.Label.Normal)
+                {
+                    Text = entity.Def.Description, Wrap = true, MaxWidth = 400,
+                    Margin = new Thickness(0, 10, 0, 0)
+                },
+            }
+        });
 
 
         foreach (BaseStat baseStat in entity.Def.BaseStats)

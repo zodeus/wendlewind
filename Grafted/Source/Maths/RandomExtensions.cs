@@ -265,7 +265,7 @@ public static class RandomExtension {
             throw new ArgumentNullException(nameof(rand));
         if (minValue > maxValue)
             throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"'{nameof(minValue)}' must be smaller than or equal to {nameof(maxValue)}.");
-        else if (minValue == maxValue)
+        if (minValue == maxValue)
             return minValue;
         uint range = maxValue - minValue;
         uint bias = uint.MaxValue - uint.MaxValue % range;
@@ -284,7 +284,7 @@ public static class RandomExtension {
     /// <param name="rand">A random number generator.</param>
     /// <returns>A 64-bit signed integer that is greater than or equal to 0 and less than MaxValue.</returns>
     public static long NextLong(this Random rand) {
-        return (long) rand.NextULong((ulong) long.MaxValue);
+        return (long) rand.NextULong(long.MaxValue);
     }
 
     /// <summary>
@@ -311,12 +311,12 @@ public static class RandomExtension {
             throw new ArgumentNullException(nameof(rand));
         if (minValue > maxValue)
             throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"'{nameof(minValue)}' must be smaller than or equal to {nameof(maxValue)}.");
-        else if (minValue == maxValue)
+        if (minValue == maxValue)
             return minValue;
-        ulong umin = minValue < 0 ? (ulong) (minValue - long.MinValue) : (ulong) minValue + (ulong) long.MaxValue + 1;
-        ulong umax = maxValue < 0 ? (ulong) (maxValue - long.MinValue) : (ulong) maxValue + (ulong) long.MaxValue + 1;
+        ulong umin = minValue < 0 ? (ulong) (minValue - long.MinValue) : (ulong) minValue + long.MaxValue + 1;
+        ulong umax = maxValue < 0 ? (ulong) (maxValue - long.MinValue) : (ulong) maxValue + long.MaxValue + 1;
         ulong result = rand.NextULong(umin, umax);
-        return result >= (ulong) long.MaxValue + 1 ? (long) (result - (ulong) long.MaxValue) - 1 : long.MaxValue + (long) result;
+        return result >= (ulong) long.MaxValue + 1 ? (long) (result - long.MaxValue) - 1 : long.MaxValue + (long) result;
     }
 
     /// <summary>
@@ -354,7 +354,7 @@ public static class RandomExtension {
             throw new ArgumentNullException(nameof(rand));
         if (minValue > maxValue)
             throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"'{nameof(minValue)}' must be smaller than or equal to {nameof(maxValue)}.");
-        else if (minValue == maxValue)
+        if (minValue == maxValue)
             return minValue;
         ulong range = maxValue - minValue;
         ulong bias = ulong.MaxValue - ulong.MaxValue % range;

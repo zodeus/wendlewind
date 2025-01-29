@@ -91,7 +91,7 @@
         <Moniker>PeacefulMeadow-04</Moniker>
         <Biome>PeacefulMeadow</Biome>
         <PotentialLootBoxes>
-            <ListItem>ToolboxPrimitive</ListItem>
+            <ListItem>SupplyChestBasic</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>

@@ -6,8 +6,8 @@
         <Biome>DampCave</Biome>
         <ShrineProperties>
             <GodLabel>God Glurmf</GodLabel>
-            <PartsToRestore>4~7</PartsToRestore>
-            <TexturePath>Zones/Shrines/cave_shrine_1</TexturePath>
+            <PartsToRestore>5~7</PartsToRestore>
+            <TexturePath>Biome/Shrines/cave_shrine_1</TexturePath>
             <RestorablePartTypes>
                 <ListItem>Thumb</ListItem>
                 <ListItem>Finger</ListItem>
@@ -48,7 +48,7 @@
         <Moniker>DampCave-02</Moniker>
         <Biome>DampCave</Biome>
         <PotentialLootBoxes>
-            <ListItem>ToolboxPrimitive</ListItem>
+            <ListItem>SupplyChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>

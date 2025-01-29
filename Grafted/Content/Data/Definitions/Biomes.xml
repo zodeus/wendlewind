@@ -4,7 +4,7 @@
     <BiomeDef>
         <Moniker>PeacefulMeadow</Moniker>
         <Label>Peaceful Meadow</Label>
-        <BackgroundTexturePath>Zones/PeacefulMeadow</BackgroundTexturePath>
+        <BackgroundTexturePath>Biome/PeacefulMeadow</BackgroundTexturePath>
         <Resources>
             <ListItem>
                 <Item>GlitteringLog</Item>
@@ -16,7 +16,7 @@
     <BiomeDef>
         <Moniker>TheOutskirts</Moniker>
         <Label>The Outskirts</Label>
-        <BackgroundTexturePath>Zones/TheOutskirts</BackgroundTexturePath>
+        <BackgroundTexturePath>Biome/TheOutskirts</BackgroundTexturePath>
         <Resources>
             <ListItem>
                 <Item>GlitteringLog</Item>
@@ -33,7 +33,7 @@
     <BiomeDef>
         <Moniker>GrainMill</Moniker>
         <Label>Grain Mill</Label>
-        <BackgroundTexturePath>Zones/GrainMill</BackgroundTexturePath>
+        <BackgroundTexturePath>Biome/GrainMill</BackgroundTexturePath>
         <BackgroundTextureTransparency>10</BackgroundTextureTransparency>
         <Resources>
             <!--            <ListItem>
@@ -61,7 +61,7 @@
     <BiomeDef>
         <Moniker>FesterpusSwamp</Moniker>
         <Label>Festerpus Swamp</Label>
-        <BackgroundTexturePath>Zones/FesterpusSwamp</BackgroundTexturePath>
+        <BackgroundTexturePath>Biome/FesterpusSwamp</BackgroundTexturePath>
         <BackgroundTextureTransparency>40</BackgroundTextureTransparency>
         <Resources>
             <ListItem>
@@ -84,7 +84,7 @@
     <BiomeDef>
         <Moniker>ForgottenForest</Moniker>
         <Label>Forgotten Forest</Label>
-        <BackgroundTexturePath>Zones/ForgottenForest</BackgroundTexturePath>
+        <BackgroundTexturePath>Biome/ForgottenForest</BackgroundTexturePath>
         <BackgroundTextureTransparency>85</BackgroundTextureTransparency>
         <Resources>
             <ListItem>
@@ -112,7 +112,7 @@
     <BiomeDef>
         <Moniker>DampCave</Moniker>
         <Label>Damp Cave</Label>
-        <BackgroundTexturePath>Zones/DampCave</BackgroundTexturePath>
+        <BackgroundTexturePath>Biome/DampCave</BackgroundTexturePath>
         <BackgroundTextureTransparency>50</BackgroundTextureTransparency>
         <Resources>
             <ListItem>
@@ -140,9 +140,14 @@
     <BiomeDef>
         <Moniker>Cemetery</Moniker>
         <Label>Cemetery</Label>
-        <BackgroundTexturePath>Zones/Cemetery</BackgroundTexturePath>
+        <BackgroundTexturePath>Biome/Cemetery</BackgroundTexturePath>
         <BackgroundTextureTransparency>30</BackgroundTextureTransparency>
         <Resources>
+            <ListItem>
+                <Item>DeathCapMushroom</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.75</ChanceToHarvest>
+            </ListItem>
             <ListItem>
                 <Item>HealingRoot</Item>
                 <Amount>1~2</Amount>
@@ -157,6 +162,34 @@
                 <Item>DreamBerry</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.3</ChanceToHarvest>
+            </ListItem>
+        </Resources>
+    </BiomeDef>
+    <BiomeDef>
+        <Moniker>Mineshaft</Moniker>
+        <Label>Mine Shafts</Label>
+        <BackgroundTexturePath>Biome/Mineshaft</BackgroundTexturePath>
+        <BackgroundTextureTransparency>30</BackgroundTextureTransparency>
+        <Resources>
+            <ListItem>
+                <Item>GoldCapMushroom</Item>
+                <Amount>1~2</Amount>
+                <ChanceToHarvest>.75</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>VenomVial</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>1</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>HealingRoot</Item>
+                <Amount>1~2</Amount>
+                <ChanceToHarvest>.8</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>ShimmeringBark</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.7</ChanceToHarvest>
             </ListItem>
         </Resources>
     </BiomeDef>

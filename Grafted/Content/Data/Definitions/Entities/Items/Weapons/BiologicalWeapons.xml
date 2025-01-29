@@ -29,7 +29,7 @@
                 <ListItem>
                     <Def>Necrosis</Def>
                     <DurationInTicks>0</DurationInTicks>
-                    <Chance>.1</Chance>
+                    <Chance>.2</Chance>
                 </ListItem>
             </BodyPartModifiers>
             <WeaponType>Hand</WeaponType>
@@ -97,7 +97,7 @@
             <DamageType>Flesh</DamageType>
             <BodyPartModifiers>
                 <ListItem>
-                    <Def>BurningAcid</Def>
+                    <Def>Acid</Def>
                     <DurationInTicks>600~900</DurationInTicks>
                     <Chance>.3</Chance>
                 </ListItem>

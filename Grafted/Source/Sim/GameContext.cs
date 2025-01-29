@@ -38,12 +38,12 @@ public class GameContext : IExposable
         {
             return;
         }
-        
+
         if (CurrentZone?.ActiveEncounter?.State != EncounterState.InProgress)
         {
             return;
         }
-        
+
 
         InternalTick();
     }
@@ -72,30 +72,25 @@ public class GameContext : IExposable
         CurrentZone!.OnStateChanged += ZoneStageChanged;
         CurrentZone.Enter(Player);
         CurrentZone.NextEncounter();
-        ChangeState(GameState.Zone);
-    }
-
-    public void ReturnToCamp()
-    {
-        CurrentZone!.OnStateChanged -= ZoneStageChanged;
-        ChangeState(GameState.Camp);
+        ChangeGameState(GameState.Zone);
     }
 
     public void Restart()
     {
         CurrentZone!.OnStateChanged -= ZoneStageChanged;
-        ChangeState(GameState.Restart);
+        ChangeGameState(GameState.Restart);
     }
 
     private void ZoneStageChanged(ZoneState zoneState)
     {
-        if (zoneState == ZoneState.Unoccupied)
-        {
-            ReturnToCamp();
-        }
+        if (zoneState != ZoneState.Exit) return;
+
+        // Return to camp
+        CurrentZone!.OnStateChanged -= ZoneStageChanged;
+        ChangeGameState(GameState.Camp);
     }
 
-    private void ChangeState(GameState value)
+    private void ChangeGameState(GameState value)
     {
         OnStateChanged?.Invoke(value);
         //Save("save.xml");
@@ -148,7 +143,7 @@ public class GameContext : IExposable
         ScribeDeep.Look(ref World!, "World");
         ScribeDeep.Look(ref IdProvider!, "IdProvider");
         ScribeDeep.Look(ref Messages!, "Messages");
-        ScribeValues.Look(ref Ticks!, "Ticks");
+        ScribeValues.Look(ref Ticks, "Ticks");
         ScribeDeep.Look(ref OminousMessageSpawner!, "OminousMessageSpawner");
         ScribeDeep.Look(ref DeathRecords!, "DeathRecords");
     }

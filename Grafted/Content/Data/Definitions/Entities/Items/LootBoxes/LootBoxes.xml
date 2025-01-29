@@ -18,10 +18,6 @@
                 <ItemDef>WoodenHammer</ItemDef>
                 <Weight>1</Weight>
             </ListItem>
-            <ListItem>
-                <ItemDef>Knife</ItemDef>
-                <Weight>1</Weight>
-            </ListItem>
         </Items>
     </LootBoxDef>
     <LootBoxDef>
@@ -42,127 +38,7 @@
                 <Weight>1</Weight>
             </ListItem>
             <ListItem>
-                <ItemDef>Mace</ItemDef>
-                <Weight>1</Weight>
-            </ListItem>
-            <ListItem>
                 <ItemDef>WarHammer</ItemDef>
-                <Weight>1</Weight>
-            </ListItem>
-        </Items>
-    </LootBoxDef>
-    <LootBoxDef>
-        <Moniker>MedicinalChest</Moniker>
-        <Label>Medicinal Chest</Label>
-        <Description>It may be primitive, but it sure is useful...</Description>
-        <Category>Medicinal</Category>
-        <Rarity>Normal</Rarity>
-        <TexturePath>Chests/MedicinalChest</TexturePath>
-        <CollectionLimit>4</CollectionLimit>
-        <Items>
-            <ListItem>
-                <ItemDef>JarOfBlood</ItemDef>
-                <Amount>1</Amount>
-                <ChanceToDrop>1</ChanceToDrop>
-            </ListItem>
-            <ListItem>
-                <ItemDef>MendersMist</ItemDef>
-                <Amount>3~5</Amount>
-                <ChanceToDrop>1</ChanceToDrop>
-            </ListItem>
-            <ListItem>
-                <ItemDef>MedKit</ItemDef>
-                <Amount>4~6</Amount>
-                <ChanceToDrop>1</ChanceToDrop>
-            </ListItem>
-            <ListItem>
-                <ItemDef>ArterialThreads</ItemDef>
-                <Amount>3~4</Amount>
-                <ChanceToDrop>1</ChanceToDrop>
-            </ListItem>
-        </Items>
-    </LootBoxDef>
-    <LootBoxDef>
-        <Moniker>ToolboxPrimitive</Moniker>
-        <Label>Primitive Toolbox</Label>
-        <Description>Scraps for weapons and armor...</Description>
-        <Category>Crafting</Category>
-        <Rarity>Primitive</Rarity>
-        <TexturePath>Chests/ToolboxPrimitive</TexturePath>
-        <CollectionLimit>1</CollectionLimit>
-        <Items>
-            <ListItem>
-                <ItemDef>RepairKit</ItemDef>
-                <Amount>3~5</Amount>
-                <ChanceToDrop>1</ChanceToDrop>
-            </ListItem>
-        </Items>
-    </LootBoxDef>
-    <LootBoxDef>
-        <Moniker>TrinketsChestBasic</Moniker>
-        <Label>Basic Trinkets</Label>
-        <Description>Standard issue trinkets, the stuff you're really going to need</Description>
-        <Category>Trinkets</Category>
-        <Rarity>Basic</Rarity>
-        <TexturePath>Chests/TrinketsChestBasic</TexturePath>
-        <CollectionLimit>1</CollectionLimit>
-        <Items>
-            <ListItem>
-                <ItemDef>EncasedFire</ItemDef>
-                <ChanceToDrop>1</ChanceToDrop>
-                <Weight>100</Weight>
-            </ListItem>
-            <ListItem>
-                <ItemDef>WeepingBucket</ItemDef>
-                <ChanceToDrop>1</ChanceToDrop>
-                <Weight>60</Weight>
-            </ListItem>
-            <ListItem>
-                <ItemDef>DeathRattle</ItemDef>
-                <ChanceToDrop>1</ChanceToDrop>
-                <Weight>20</Weight>
-            </ListItem>
-        </Items>
-    </LootBoxDef>
-    <LootBoxDef>
-        <Moniker>TrinketsChestNormal</Moniker>
-        <Label>Normal Trinkets</Label>
-        <Description>A wider assortment of more interesting trinkets</Description>
-        <Category>Trinkets</Category>
-        <Rarity>Normal</Rarity>
-        <TexturePath>Chests/TrinketsChestBasic</TexturePath>
-        <CollectionLimit>1</CollectionLimit>
-        <Items>
-            <ListItem>
-                <ItemDef>CookingPot</ItemDef>
-                <Weight>500</Weight>
-            </ListItem>
-            <ListItem>
-                <ItemDef>MortarAndPestle</ItemDef>
-                <Weight>200</Weight>
-            </ListItem>
-            <ListItem>
-                <ItemDef>VialOfDuplicity</ItemDef>
-                <Weight>200</Weight>
-            </ListItem>
-            <ListItem>
-                <ItemDef>ThirdEye</ItemDef>
-                <Weight>50</Weight>
-            </ListItem>
-            
-            
-            
-            
-            <ListItem>
-                <ItemDef>Grimoire</ItemDef>
-                <Weight>1</Weight>
-            </ListItem>
-            <ListItem>
-                <ItemDef>HolyChalice</ItemDef>
-                <Weight>1</Weight>
-            </ListItem>
-            <ListItem>
-                <ItemDef>TinkersToolbox</ItemDef>
                 <Weight>1</Weight>
             </ListItem>
         </Items>

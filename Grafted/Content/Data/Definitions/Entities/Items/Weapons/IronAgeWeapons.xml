@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <ItemDef ParentName="WeaponBlunt">
+<!--    <ItemDef ParentName="WeaponBlunt">
         <Moniker>Mace</Moniker>
         <Label>Mace</Label>
         <Description>Bash! bash! BASH! (1.5x to bones)</Description>
@@ -18,7 +18,7 @@
             <MeleePower>40</MeleePower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
-    </ItemDef>
+    </ItemDef>-->
     <ItemDef ParentName="WeaponSharp">
         <Moniker>ShortSword</Moniker>
         <Label>Short Sword</Label>
@@ -51,7 +51,7 @@
         <TexturePath>Entities/Item/Equipment/Weapon/Sharp/WarAxe</TexturePath>
         <BaseStats>
             <MeleePower>35</MeleePower>
-            <WeaponSpeed>1.1</WeaponSpeed>
+            <WeaponSpeed>1.2</WeaponSpeed>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
     </ItemDef>

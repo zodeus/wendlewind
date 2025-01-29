@@ -1,10 +1,12 @@
-﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
+﻿using Grafted.Scenes.MainGameScene.Gui.CombatGui;
+
+namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 
 internal sealed class CombatPartyPanel : VerticalStackPanel
 {
     private readonly List<PawnCombatPanel> _panels;
 
-    public CombatPartyPanel(CombatGui.ZoneGui gui, Encounter encounter, List<Pawn> pawns, HorizontalAlignment pawnAlignment)
+    public CombatPartyPanel(ZoneGui gui, Encounter encounter, List<Pawn> pawns, HorizontalAlignment pawnAlignment)
     {
         Spacing = 0;
         ShowGridLines = false;

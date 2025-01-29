@@ -58,6 +58,7 @@
         <ButtonStyle Id="plus-24" Width="24" Height="24" Background="icon-plus-24-default" OverBackground="icon-plus-24-over" PressedBackground="icon-plus-24-pressed"/>
         <ButtonStyle Id="minus-24" Width="24" Height="24" Background="icon-minus-24-default" OverBackground="icon-minus-24-over" PressedBackground="icon-minus-24-pressed"/>
         <ButtonStyle Id="money-24" Width="24" Height="24" Background="icon-money-24-default" OverBackground="icon-money-24-over" PressedBackground="icon-money-24-pressed"/>
+        <ButtonStyle Id="plus-64" Width="64" Height="64" Background="icon-plus-64-default" OverBackground="icon-plus-64-over" PressedBackground="icon-plus-64-pressed" DisabledBackground="icon-plus-64-disabled"/>
     </ButtonStyles>
     <CheckBoxStyles>
         <CheckBoxStyle>

@@ -11,7 +11,7 @@ public sealed class HolyChalicePanel : EntityPanelBase
         Width = 500;
         Height = 600;
         var chalice = (item.TrinketHandler as HolyChaliceHandler)!;
-        var panel = new HorizontalStackPanel()
+        var panel = new HorizontalStackPanel
         {
             Widgets =
             {
@@ -25,7 +25,7 @@ public sealed class HolyChalicePanel : EntityPanelBase
                     Spacing = 10,
                     Widgets =
                     {
-                        new Label() { Text = "Current Offering " },
+                        new Label { Text = "Current Offering " },
                         new HorizontalProgressBar(BaseContent.Styles.Bar.Health)
                         {
                             Value = chalice.CurrentOffingPercentage*100,

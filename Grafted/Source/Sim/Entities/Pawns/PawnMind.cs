@@ -4,7 +4,7 @@ public class PawnMind : IExposable
 {
     private Pawn _pawn;
     private float _sanity = 1f;
-    private float _power = 0f;
+    private float _power;
     private float _focus = .1f;
 
     public float Sanity

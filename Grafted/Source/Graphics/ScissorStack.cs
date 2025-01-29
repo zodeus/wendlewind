@@ -13,20 +13,20 @@ public static class ScissorStack {
         if (_scissors.Count > 0) {
             // merge scissors
             var parent = _scissors.Peek();
-            var minX = (int) Math.Max(parent.X, scissor.X);
-            var maxX = (int) Math.Min(parent.X + parent.Width, scissor.X + scissor.Width);
+            var minX = Math.Max(parent.X, scissor.X);
+            var maxX = Math.Min(parent.X + parent.Width, scissor.X + scissor.Width);
             if (maxX - minX < 1)
                 return false;
 
-            var minY = (int) Math.Max(parent.Y, scissor.Y);
-            var maxY = (int) Math.Min(parent.Y + parent.Height, scissor.Y + scissor.Height);
+            var minY = Math.Max(parent.Y, scissor.Y);
+            var maxY = Math.Min(parent.Y + parent.Height, scissor.Y + scissor.Height);
             if (maxY - minY < 1)
                 return false;
 
             scissor.X = minX;
             scissor.Y = minY;
             scissor.Width = maxX - minX;
-            scissor.Height = (int) Math.Max(1, maxY - minY);
+            scissor.Height = Math.Max(1, maxY - minY);
         }
 
         _scissors.Push(scissor);

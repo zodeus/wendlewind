@@ -19,7 +19,6 @@ public class PawnBody : IExposable, IIdentityProvider
     public bool RequiresLungs = true;
     public bool BodyPartsDirty = true;
     public float BloodChangeLastFrame;
-    public int TicksSinceLastRest;
     public DefaultBodyHandler Handler = null!;
     public BodyDef Def => Pawn.PawnDef.Body;
     public float MaxBlood => Def.MaxBlood * Pawn.Body.BodySizeFactor;
@@ -107,15 +106,13 @@ public class PawnBody : IExposable, IIdentityProvider
         foreach (BodyPart bodyPart in AllParts)
         {
             bodyPart.Tick();
+            if (Pawn.IsDead)
+            {
+                return;
+            }
         }
 
         Effects.Tick();
-
-        TicksSinceLastRest++;
-        if (Pawn.IsResting)
-        {
-            TicksSinceLastRest = 0;
-        }
 
         Handler.Tick();
 

@@ -14,7 +14,7 @@
         <TexturePath>Entities/Item/Equipment/Weapon/Blunt/WoodenStick</TexturePath>
         <BaseStats>
             <MeleePower>15</MeleePower>
-            <WeaponSpeed>1.2</WeaponSpeed>
+            <WeaponSpeed>1.3</WeaponSpeed>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
     </ItemDef>
@@ -35,7 +35,7 @@
             <MaxDurability>400</MaxDurability>
         </BaseStats>
     </ItemDef>
-    <ItemDef ParentName="WeaponSharp">
+    <!--<ItemDef ParentName="WeaponSharp">
         <Moniker>Knife</Moniker>
         <Label>Knife</Label>
         <Description>It's a simple knife</Description>
@@ -51,5 +51,5 @@
             <WeaponSpeed>1.3</WeaponSpeed>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
-    </ItemDef>
+    </ItemDef>-->
 </Definitions>

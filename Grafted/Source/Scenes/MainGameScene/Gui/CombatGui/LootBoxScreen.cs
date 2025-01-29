@@ -14,7 +14,7 @@ public sealed class LootBoxScreen : VerticalStackPanel
         var openButton = new Button(BaseContent.Styles.Button.Large)
         {
             Margin = new Thickness(0, 10, 0, 0),
-            Content = new Label() { Text = "Open" },
+            Content = new Label { Text = "Open" },
             HorizontalAlignment = HorizontalAlignment.Center
         };
         openButton.Click += (_, _) => { OpenBox(context, resultsScreen, box); };
@@ -132,7 +132,7 @@ public sealed class LootBoxScreen : VerticalStackPanel
                         Background = new TextureRegion(item.ItemDef.Icon),
                         Width = 128, Height = 128, HorizontalAlignment = HorizontalAlignment.Center
                     },
-                    new HorizontalSeparator() { Margin = new Thickness(0, 0, 0, 10) },
+                    new HorizontalSeparator { Margin = new Thickness(0, 0, 0, 10) },
                     new Label(BaseContent.Styles.Label.Medium)
                     {
                         HorizontalAlignment = HorizontalAlignment.Center,

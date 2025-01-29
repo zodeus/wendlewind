@@ -5,7 +5,7 @@
         <Moniker>GrainMill-01</Moniker>
         <Biome>GrainMill</Biome>
         <PotentialLootBoxes>
-            <ListItem>ToolboxPrimitive</ListItem>
+            <ListItem>SupplyChestBasic</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -177,13 +177,13 @@
                 <SpawnWeight>1</SpawnWeight>
                 <BodySizeFactor>1.2</BodySizeFactor>
                 <Skills>
-                    <Knives>10</Knives>
+                    <Hammers>10</Hammers>
                 </Skills>
                 <Effects>
                 </Effects>
                 <EquipmentItems>
-                    <ListItem>Knife</ListItem>
-                    <ListItem>Knife</ListItem>
+                    <ListItem>WoodenHammer</ListItem>
+                    <ListItem>WoodenHammer</ListItem>
                     <ListItem>ChainVambrace</ListItem>
                     <ListItem>ChainVambrace</ListItem>
                     <ListItem>ChainGreave</ListItem>

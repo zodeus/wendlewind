@@ -8,8 +8,8 @@ internal sealed class BoakItemsEnchantmentsPanel : Grid
         RowSpacing = 20;
         ColumnSpacing = 50;
 
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Label" }, 0, 0);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Description" }, 0, 1);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Label" }, 0, 0);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Description" }, 0, 1);
 
         ColumnsProportions.Add(new Proportion(ProportionType.Auto));
         ColumnsProportions.Add(new Proportion(ProportionType.Auto));

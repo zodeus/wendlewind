@@ -1,4 +1,5 @@
 ﻿using Grafted.Graphics.Textures;
+using Grafted.Scenes.MainGameScene.Gui.CombatGui;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Grafted.Sim.Entities.Items.Trinkets;
 
@@ -13,10 +14,10 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
     private HorizontalProgressBar _bloodBar = null!;
     private PawnEquipmentPanel? _pawnEquipmentPanel;
     private readonly Dictionary<string, Image> _bodyPartImages = new();
-    private readonly CombatGui.ZoneGui _gui;
+    private readonly ZoneGui _gui;
     private readonly TrinketBar? _trinketBar;
 
-    public PawnCombatPanel(CombatGui.ZoneGui gui, Pawn pawn, Encounter encounter, bool isPlayer = true)
+    public PawnCombatPanel(ZoneGui gui, Pawn pawn, Encounter encounter, bool isPlayer = true)
     {
         Pawn = pawn;
         ShowGridLines = false;

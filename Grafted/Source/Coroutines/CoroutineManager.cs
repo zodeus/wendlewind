@@ -23,7 +23,7 @@ public class CoroutineManager /*: GlobalManager */ {
 
         public bool IsDone;
         public CoroutineImpl? WaitForCoroutine;
-        public bool UseUnscaledDeltaTime = false;
+        public bool UseUnscaledDeltaTime;
 
 
         public void Stop() {
@@ -171,10 +171,9 @@ public class CoroutineManager /*: GlobalManager */ {
             coroutine.WaitForCoroutine = coroutine.Enumerator.Current as CoroutineImpl;
             return true;
         }
-        else {
-            // This coroutine yielded some value we don't understand. run it next frame.
-            return true;
-        }
+
+        // This coroutine yielded some value we don't understand. run it next frame.
+        return true;
     }
 
     public void Clear() {

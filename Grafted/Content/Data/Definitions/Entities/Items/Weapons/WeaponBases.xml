@@ -27,4 +27,9 @@
             <DamageType>Sharp</DamageType>
         </WeaponProperties>
     </ItemDef>
+    <ItemDef Name="WeaponMagic" ParentName="WeaponBase" Abstract="true">
+        <WeaponProperties>
+            <DamageType>Magic</DamageType>
+        </WeaponProperties>
+    </ItemDef>
 </Definitions>

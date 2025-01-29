@@ -13,8 +13,19 @@ public sealed class FoodPanel : EntityPanelBase
         Padding = new Thickness(20);
         MinWidth = 300;
         Spacing = 5;
-        Widgets.Add(new Image { Background = new TextureRegion(item.Icon), Width = 64, Height = 64 });
-        Widgets.Add(new Label("small") { Text = item.Def.Description, Wrap = true, Margin = new Thickness(0, 10, 0, 10), MaxWidth = 600 });
+        Widgets.Add(new HorizontalStackPanel
+        {
+            Spacing = 10,
+            Widgets =
+            {
+                new Image { Background = new TextureRegion(item.Icon), Width = 128, Height = 128 },
+                new Label(BaseContent.Styles.Label.Normal)
+                {
+                    Text = item.Def.Description, Wrap = true, MaxWidth = 400,
+                    Margin = new Thickness(0, 10, 0, 0)
+                },
+            }
+        });
         /*Widgets.Add(new Label("small") { Text = $"Nutritional Value: {item.GetStatValue(Defs.Stats.NutritionalValue)}", Wrap = true });
         if (item.ItemDef.FoodProperties?.Effects.Any() == true)
         {
@@ -69,7 +80,7 @@ public sealed class FoodPanel : EntityPanelBase
     {
         if (item.ItemDef == Defs.Items.RawMeat && Core.Context.Player.HasTrinkets(Defs.Items.EncasedFire))
             return true;
-        else if (item.ItemDef == Defs.Items.RawCorn && Core.Context.Player.HasTrinkets(Defs.Items.EncasedFire, Defs.Items.CookingPot, Defs.Items.WeepingBucket))
+        if (item.ItemDef == Defs.Items.RawCorn && Core.Context.Player.HasTrinkets(Defs.Items.EncasedFire, Defs.Items.CookingPot, Defs.Items.WeepingBucket))
             return true;
         return false;
     }

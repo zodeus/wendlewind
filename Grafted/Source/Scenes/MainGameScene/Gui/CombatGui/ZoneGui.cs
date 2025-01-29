@@ -64,7 +64,7 @@ public class ZoneGui : BaseGui
                 (Desktop.Root as Panel)!.Widgets.Add(_combatResultsScreen);
                 break;
             case ZoneState.Shrine:
-                _shrineScreen = new ShrineScreen(this, _context.PlayerPawn, _context.CurrentZone!.ActiveEncounter!.Def.ShrineProperties);
+                _shrineScreen = new ShrineScreen(this, _context.PlayerPawn, _context.CurrentZone!.ActiveEncounter!.Def.ShrineProperties!);
                 (Desktop.Root as Panel)!.Widgets.Add(_shrineScreen);
                 break;
         }

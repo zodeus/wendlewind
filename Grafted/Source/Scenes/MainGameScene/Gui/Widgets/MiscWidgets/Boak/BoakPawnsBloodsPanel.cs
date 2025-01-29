@@ -9,9 +9,9 @@ internal class BoakPawnsBloodsPanel : Grid
         ColumnSpacing = 50;
 
         var gridColum = 0;
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Label" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Color" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Viscosity" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Label" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Color" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Viscosity" }, 0, gridColum++);
 
         ColumnsProportions.Add(new Proportion(ProportionType.Auto));
         ColumnsProportions.Add(new Proportion(ProportionType.Auto));

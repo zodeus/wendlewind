@@ -18,7 +18,7 @@ internal sealed class ZoneStartWindow : Window
             Content = new Label(BaseContent.Styles.Label.Large) { Text = $"/c[{TC.Red}]Cancel" }
         };
         close.Click += (_, _) => Close();
-        Content = new VerticalStackPanel()
+        Content = new VerticalStackPanel
         {
             VerticalAlignment = VerticalAlignment.Top,
             Padding = new Thickness(40,0,40,0),

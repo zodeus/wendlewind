@@ -30,7 +30,7 @@
             <HandlerClass>SpidersBiteHandler</HandlerClass>
             <BodyPartModifiers>
                 <ListItem>
-                    <Def>BurningAcid</Def>
+                    <Def>Acid</Def>
                     <DurationInTicks>60~120</DurationInTicks>
                     <Chance>.2</Chance>
                 </ListItem>
@@ -86,5 +86,23 @@
             </BodyPartModifiers>
         </EnchantmentProperties>
         <TexturePath>Entities/Item/Enchantments/FesteringWounds</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="ItemEnchantment">
+        <Moniker>BoneEater</Moniker>
+        <Label>Bone Eater</Label>
+        <Description>Watch them crumble from the inside.</Description>
+        <EnchantmentProperties>
+            <ValidEquipmentTypes>
+                <ListItem>Weapon</ListItem>
+            </ValidEquipmentTypes>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>BoneDecay</Def>
+                    <DurationInTicks>0</DurationInTicks>
+                    <Chance>.1</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </EnchantmentProperties>
+        <TexturePath>Entities/Item/Enchantments/BoneEater</TexturePath>
     </ItemDef>
 </Definitions>

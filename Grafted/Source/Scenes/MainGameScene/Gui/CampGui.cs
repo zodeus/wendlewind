@@ -20,7 +20,7 @@ public class CampGui : BaseGui
                 Widgets =
                 {
                     _gameHud,
-                    new HorizontalSeparator() { Margin = new Thickness(0, 0, 0, 20) },
+                    new HorizontalSeparator { Margin = new Thickness(0, 0, 0, 20) },
                     _campOverview
                 }
             },

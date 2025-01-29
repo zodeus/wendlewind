@@ -9,9 +9,9 @@ internal class BoakPawnsBodyEffectsPanel : Grid
         ColumnSpacing = 50;
 
         var gridColum = 0;
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Label" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Notes" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Affected Stats" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Label" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Notes" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Affected Stats" }, 0, gridColum++);
 
         DefaultColumnProportion = Proportion.Auto;
 

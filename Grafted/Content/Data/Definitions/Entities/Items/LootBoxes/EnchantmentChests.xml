@@ -12,6 +12,10 @@
                 <ItemDef>SpidersBite</ItemDef>
                 <Weight>10</Weight>
             </ListItem>
+            <ListItem>
+                <ItemDef>FesteringWounds</ItemDef>
+                <Weight>100</Weight>
+            </ListItem>
         </Items>
     </LootBoxDef>
     <LootBoxDef>
@@ -27,8 +31,8 @@
             </ListItem>
             <ListItem>
                 <ItemDef>RhinoSkin</ItemDef>
-                <Weight>20</Weight>
-            </ListItem>
+                <Weight>30</Weight>
+            </ListItem> 
             <ListItem>
                 <ItemDef>BloodBath</ItemDef>
                 <Weight>5</Weight>

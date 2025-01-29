@@ -4,21 +4,17 @@ namespace Grafted.Sim.Zones;
 
 public enum ZoneState
 {
-    Map,
-    Combat,
     Shrine,
+    Combat,
     CombatResults,
-    Unoccupied
+    Exit
 }
 
 public class Zone : IExposable, IIdentityProvider
 {
     public BiomeDef BiomeDef = null!;
-    public int Stage = 0;
-
-    public float Temperature = -1;
+    public int Stage;
     public bool IsComplete;
-    public string Label => BiomeDef.Label;
     public ZoneState State { get; set; }
     public Encounter? ActiveEncounter { get; set; }
     public Player? Player { get; set; }
@@ -34,7 +30,7 @@ public class Zone : IExposable, IIdentityProvider
     {
         ScribeDefs.Look(ref BiomeDef!, "BiomeDef");
         ScribeValues.Look(ref IsComplete, "IsComplete");
-        ScribeValues.Look(ref Stage, "ZoneKills");
+        ScribeValues.Look(ref Stage, "Stage");
     }
 
     public string GetUniqueId()
@@ -50,7 +46,6 @@ public class Zone : IExposable, IIdentityProvider
     public void Enter(Player player)
     {
         Player = player;
-        ChangeState(ZoneState.Map);
     }
 
     public void NextEncounter()
@@ -92,7 +87,7 @@ public class Zone : IExposable, IIdentityProvider
     public void Exit()
     {
         Player = null;
-        ChangeState(ZoneState.Unoccupied);
+        ChangeState(ZoneState.Exit);
     }
 
     private void ChangeState(ZoneState state)

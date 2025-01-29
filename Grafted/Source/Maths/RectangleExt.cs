@@ -205,8 +205,8 @@ public static class RectangleExt {
             var maxY = (int) Mathf.MaxOf(topLeft.Y, bottomRight.Y, topRight.Y, bottomLeft.Y);
 
             rect.Location = new Point(minX, minY);
-            rect.Width = (int) (maxX - minX);
-            rect.Height = (int) (maxY - minY);
+            rect.Width = maxX - minX;
+            rect.Height = maxY - minY;
         }
     }
 
@@ -325,7 +325,7 @@ public static class RectangleExt {
                 return null;
         }
 
-        return new float?(num);
+        return num;
     }
 
     /// <summary>

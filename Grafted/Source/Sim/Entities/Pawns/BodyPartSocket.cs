@@ -29,7 +29,7 @@ public class BodyPartSocket : IExposable, IIdentityProvider {
     public BodyPartSocketDef Def = null!;
     public BodyPart? AttachedPart;
     public BodyPart? ParentPart;
-    public bool IsSealed = false;
+    public bool IsSealed;
     public int Id;
     public static int NEXT_SOCKET_ID = 1; //todo
 
@@ -79,7 +79,7 @@ public class BodyPartSocket : IExposable, IIdentityProvider {
     }
 
     public void ExposeData() {
-        ScribeValues.Look(ref Id!, "Id");
+        ScribeValues.Look(ref Id, "Id");
         ScribeDefs.Look(ref Def!, "Def");
         ScribeDeep.Look(ref AttachedPart!, "AttachedPart");
         ScribeReferences.Look(ref ParentPart!, "ParentPart");

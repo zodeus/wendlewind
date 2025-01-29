@@ -141,8 +141,8 @@ public static class DirectXmlCrossRefLoader {
             foreach (XmlNode wantedDictRef in wantedDictRefs) {
                 XmlNode xmlNode = wantedDictRef[DirectXmlToObject.DictionaryKeyName];
                 XmlNode xmlNode2 = wantedDictRef[DirectXmlToObject.DictionaryValueName];
-                object first = (!flag) ? xmlNode : ((object) TryResolveDef<K>(xmlNode.InnerText, failReportMode, debugWanterInfo));
-                object second = (!flag2) ? xmlNode2 : ((object) TryResolveDef<V>(xmlNode2.InnerText, failReportMode, debugWanterInfo));
+                object first = (!flag) ? xmlNode : TryResolveDef<K>(xmlNode.InnerText, failReportMode, debugWanterInfo);
+                object second = (!flag2) ? xmlNode2 : TryResolveDef<V>(xmlNode2.InnerText, failReportMode, debugWanterInfo);
                 makingData.Add(new Tuple<object, object>(first, second));
             }
 
@@ -259,6 +259,6 @@ public static class DirectXmlCrossRefLoader {
             item.Apply();
         }
 
-        wantedRefs.RemoveAll((WantedRef x) => resolvedRefs.Contains(x));
+        wantedRefs.RemoveAll(x => resolvedRefs.Contains(x));
     }
 }

@@ -86,7 +86,7 @@ public static class GenTypes
 
     public static IEnumerable<Type> AllTypesWithAttribute<TAttr>() where TAttr : Attribute
     {
-        return AllTypes.Where(x => AttributeExtensions.HasAttribute<TAttr>(x));
+        return AllTypes.Where(x => x.HasAttribute<TAttr>());
     }
 
     public static IEnumerable<Type> Subclasses(this Type baseType)

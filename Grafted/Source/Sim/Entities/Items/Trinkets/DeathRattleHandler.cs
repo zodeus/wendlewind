@@ -3,13 +3,13 @@ namespace Grafted.Sim.Entities.Items.Trinkets;
 [UsedImplicitly]
 public class DeathRattleHandler : TrinketHandler
 {
-    private readonly RangeFloat _damage = new(50, 150);
-    private const int ChargesRequired = 8;
-    private const int CooldownValue = 2000;
+    private readonly RangeFloat _damage = new(50, 100);
+    private const int ChargesRequired = 10;
+    private const int CooldownValue = 1000;
     private const double KillDamageMultiplier = .2; // 100 percent per kills
     private const int KillCooldownMultiplier = 100;
 
-    public override DamageRecord? HandleCombat(Pawn pawn, Pawn target)
+    public override DamageRecord? HandleCombatAction(Pawn pawn, Pawn target)
     {
         Charges++;
         if (Charges < ChargesRequired) return null;
@@ -26,7 +26,7 @@ public class DeathRattleHandler : TrinketHandler
         var minDamage = _damage.Min + (float)(_damage.Min * Kills * KillDamageMultiplier);
         var maxDamage = _damage.Max + (float)(_damage.Max * Kills * KillDamageMultiplier);
         var damage = (double)new RangeFloat(minDamage, maxDamage).RandomValue;
-        part.ApplyDamageToExternalPart(new Damage(Trinket, damage), damagedParts);
+        part.ApplyDamageToExternalPart(new Damage(Trinket, damage, "Rattle"), damagedParts);
 
         if (part.DidPawnDieFromPartFailure())
         {
@@ -45,5 +45,14 @@ public class DeathRattleHandler : TrinketHandler
         Cooldown = CooldownValue + (Kills * KillCooldownMultiplier);
         Charges = 0;
         IsActive = false;
+    }
+}
+
+[UsedImplicitly]
+public class BatteryHandler : TrinketHandler
+{
+    public override DamageRecord? HandleCombatAction(Pawn pawn, Pawn target)
+    {
+        return null;
     }
 }

@@ -9,13 +9,13 @@ public static class CombatHelpers
     {
         var pawnStrength = pawn.GetStatValue(Defs.Stats.MeleeStrength);
         var toolPower = tool.GetStatValue(Defs.Stats.MeleePower);
-        var toolManeuver = tool.ItemDef.WeaponProperties!.WeaponManeuvers.RandomElement();
+        var weaponManeuver = tool.ItemDef.WeaponProperties!.WeaponManeuvers.RandomElement();
         var skillPower = 1 + (pawn.GetSkill(tool.ItemDef.WeaponProperties!.WeaponType)?.Level * .1f ?? 0);
         var rawDamage = Mathf.RoundToInt(
             toolPower
             * pawnStrength
             * skillPower
-            * toolManeuver.DamageMultiplier.RandomValue
+            * weaponManeuver.DamageMultiplier.RandomValue
         );
         //rawDamage *= tool.GetStatValue(Defs.Stats.WeaponDamageMultiplier);
         if (rawDamage < 0)
@@ -24,16 +24,17 @@ public static class CombatHelpers
             rawDamage = 0;
         }
 
-        DamageRequest request = new(pawn, tool, toolManeuver);
-        request.RawDamages.Add(new Damage(tool, rawDamage));
+        DamageRequest request = new(pawn, tool, weaponManeuver);
+        request.RawDamages.Add(new Damage(tool, rawDamage, weaponManeuver.Label));
 
         return request;
     }
 }
 
-public class Damage(Item weapon, double amount)
+public class Damage(Item weapon, double amount, string weaponManeuver)
 {
     public readonly Item Weapon = weapon;
+    public readonly string WeaponManeuver = weaponManeuver;
     public WeaponType WeaponType => Weapon.ItemDef.WeaponProperties!.WeaponType;
     public DamageType Type => Weapon.ItemDef.WeaponProperties!.DamageType;
 
@@ -83,6 +84,7 @@ public class DamageResponse
 
     public bool Dodged;
     public bool Missed;
+    public double TotalDamage => Damages.Sum(d => d.TotalDamage) + TrinketDamages.Sum(d => d.TotalDamage);
 }
 
 public class AfflictionRecord(BodyPart bodyPart, string label)

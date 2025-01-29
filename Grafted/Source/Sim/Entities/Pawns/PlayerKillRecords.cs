@@ -9,10 +9,6 @@ public class PlayerKillRecords : IEnumerable<DeathRecord>, IExposable
 
     public IReadOnlyList<DeathRecord> List => _deathRecords;
 
-    public PlayerKillRecords()
-    {
-    }
-
     public void RecordDeath(DeathRecord deathRecord)
     {
         deathRecord.Round = _currentRound++;
@@ -41,13 +37,14 @@ public class PlayerKillRecords : IEnumerable<DeathRecord>, IExposable
     public void ExposeData()
     {
         ScribeCollections.Look(ref _deathRecords!, "DeathRecords", LookMode.Deep);
-        ScribeValues.Look(ref _currentRound!, "CurrentRound");
+        ScribeValues.Look(ref _currentRound, "CurrentRound");
     }
 }
 
 public class DeathRecord : IExposable
 {
     public string CauseOfDeath = "undefined";
+    public double TotalDamageDealt;
     public int Ticks;
     public BiomeDef Biome = null!;
     public string PawnName = "undefined";
@@ -55,10 +52,11 @@ public class DeathRecord : IExposable
 
     public void ExposeData()
     {
+        ScribeValues.Look(ref TotalDamageDealt!, "TotalDamageDealt");
         ScribeValues.Look(ref CauseOfDeath!, "CauseOfDeath");
-        ScribeValues.Look(ref Ticks!, "Ticks");
+        ScribeValues.Look(ref Ticks, "Ticks");
         ScribeValues.Look(ref PawnName!, "PawnName");
-        ScribeValues.Look(ref Round!, "Round");
+        ScribeValues.Look(ref Round, "Round");
         ScribeDefs.Look(ref Biome!, "Biome");
     }
 }

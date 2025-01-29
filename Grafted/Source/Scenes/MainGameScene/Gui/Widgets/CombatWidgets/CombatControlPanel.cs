@@ -15,7 +15,7 @@ public sealed class CombatControlPanel : VerticalStackPanel
             Content = new Label { Text = "Continue" },
             Visible = false, Margin = new Thickness(0, 10, 0, 0), HorizontalAlignment = HorizontalAlignment.Stretch,
         };
-        _continueButton.Click += (_, _) => { encounter.Zone!.CombatResults(); };
+        _continueButton.Click += (_, _) => { encounter.Zone.CombatResults(); };
 
         Widgets.Add(_continueButton);
 

@@ -9,13 +9,13 @@ internal class BoakPawnsBodiesPanel : Grid
         ColumnSpacing = 50;
 
         var gridColum = 0;
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Label" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"BoneDensity" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"BloodType" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"MaxBlood" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"MaxEnergy" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Generator" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Handler" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Label" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "BoneDensity" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "BloodType" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "MaxBlood" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "MaxEnergy" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Generator" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Handler" }, 0, gridColum++);
 
         DefaultColumnProportion = Proportion.Auto;
 

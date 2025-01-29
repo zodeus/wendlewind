@@ -24,7 +24,7 @@ namespace Grafted.Sim.Entities.Pawns
             }
         }
 
-        public static double CascadeDamageToInternalParts(this BodyPart rootPart, double damage, DamageType damageType, List<BodyPartModifierRecord> bodyPartModifiers,
+        public static double CascadeDamageToInternalParts(this BodyPart rootPart, double damage, DamageType damageType, string maneuver, List<BodyPartModifierRecord> bodyPartModifiers,
             List<DamagedBodyPartRecord> damagedParts)
         {
             var organsHit = 0;
@@ -94,28 +94,29 @@ namespace Grafted.Sim.Entities.Pawns
                         break;
                 }
 
-                remainingDamage -= internalPart.ApplyDamage(damage, damageType, bodyPartModifiers, damagedParts);
+                remainingDamage -= internalPart.ApplyDamage(damage, damageType, maneuver, bodyPartModifiers, damagedParts);
             }
 
             return remainingDamage;
         }
 
-        public static void ApplyBodyPartModifiers(this BodyPart part, List<BodyPartModifierRecord> bodyPartModifiers, DamagedBodyPartRecord damagedBodyPartRecord)
+        public static void ApplyBodyPartModifiers(this BodyPart part, List<BodyPartModifierRecord> bodyPartModifiers, DamagedBodyPartRecord damagedBodyPartRecord, string weaponManeuver)
         {
             foreach (var record in bodyPartModifiers)
             {
-                if (part.ApplyBodyPartModifier(record))
+                if (part.ApplyBodyPartModifier(record, weaponManeuver))
                 {
                     damagedBodyPartRecord.AppliedModifiers.Add(record.Def);
                 }
             }
         }
 
-        public static bool ApplyBodyPartModifier(this BodyPart part, BodyPartModifierRecord record)
+        public static bool ApplyBodyPartModifier(this BodyPart part, BodyPartModifierRecord record, string maneuver)
         {
             if (!Core.Random.Chance(record.Chance.RandomValue)) return false;
 
             var mod = BodyPartModifierGenerator.Generate(record.Def, record.DurationInTicks.RandomValue);
+            mod.Maneuver = maneuver;
             return mod.ApplyToPart(part);
         }
     }

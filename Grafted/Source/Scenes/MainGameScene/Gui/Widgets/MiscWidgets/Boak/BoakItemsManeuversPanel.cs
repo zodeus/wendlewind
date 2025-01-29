@@ -9,9 +9,9 @@ internal sealed class BoakItemsManeuversPanel : Grid
         ColumnSpacing = 50;
 
         var column = 0;
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Label" }, 0, column++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Dmg Multiplier" }, 0, column++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Weapons" }, 0, column);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Label" }, 0, column++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Dmg Multiplier" }, 0, column++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Weapons" }, 0, column);
 
         ColumnsProportions.Add(new Proportion(ProportionType.Auto));
         ColumnsProportions.Add(new Proportion(ProportionType.Auto));

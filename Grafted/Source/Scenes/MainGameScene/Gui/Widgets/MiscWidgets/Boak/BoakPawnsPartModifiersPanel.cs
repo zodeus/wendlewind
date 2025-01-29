@@ -11,11 +11,11 @@ internal class BoakPawnsPartModifiersPanel : Grid
         ColumnSpacing = 50;
 
         var gridColum = 0;
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Label" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Type" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Color" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Color Priority" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = $"Handler" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Label" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Type" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Color" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Color Priority" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Handler" }, 0, gridColum++);
 
         DefaultColumnProportion = Proportion.Auto;
 

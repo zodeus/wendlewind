@@ -33,10 +33,10 @@ public class RhinoSkinHandler : EnchantmentHandler
             damageRecord.BodyParts.First(p => Equals(p.BodyPart, bodyPart))
                 .AppliedModifiers.Add(modifier.Def);
 
-            bodyPart.ApplyBodyPartModifier(modifier);
+            bodyPart.ApplyBodyPartModifier(modifier, Enchantment.Label);
             foreach (var part in bodyPart.AllInternalParts)
             {
-                part.ApplyBodyPartModifier(modifier);
+                part.ApplyBodyPartModifier(modifier, Enchantment.Label);
             }
         }
     }

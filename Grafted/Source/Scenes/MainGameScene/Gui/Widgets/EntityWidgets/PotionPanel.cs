@@ -2,15 +2,26 @@ using Grafted.Sim.Entities;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
-public class PotionPanel : EntityPanelBase
+public sealed class PotionPanel : EntityPanelBase
 {
     public PotionPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
         Padding = new Thickness(20);
         MinWidth = 300;
         Spacing = 5;
-        Widgets.Add(new Image { Background = new TextureRegion(item.Icon), Width = 128, Height = 128 });
-        Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = item.Def.Description, Wrap = true, Margin = new Thickness(10), Width = 600 });
+        Widgets.Add(new HorizontalStackPanel
+        {
+            Spacing = 10,
+            Widgets =
+            {
+                new Image { Background = new TextureRegion(item.Icon), Width = 128, Height = 128 },
+                new Label(BaseContent.Styles.Label.Normal)
+                {
+                    Text = item.Def.Description, Wrap = true, MaxWidth = 400,
+                    Margin = new Thickness(0, 10, 0, 0)
+                },
+            }
+        });
         var potionDuration = (int)item.GetStatValue(Defs.Stats.PotionDuration);
         if (potionDuration > 0)
         {

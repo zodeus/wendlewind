@@ -76,8 +76,16 @@
         <Moniker>MushroomBody</Moniker>
         <Label>Mushroom Body</Label>
         <BoneDensity>1.5</BoneDensity>
-        <MaxBlood>10000</MaxBlood>
         <GeneratorClass>MushroomBodyGenerator</GeneratorClass>
+        <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
+    </BodyDef>
+    <BodyDef>
+        <Moniker>OrcBody</Moniker>
+        <Label>Orc Body</Label>
+        <BoneDensity>3</BoneDensity>
+        <MaxBlood>20000</MaxBlood>
+        <BloodType>ToxicSlime</BloodType>
+        <GeneratorClass>OrcBodyGenerator</GeneratorClass>
         <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
     </BodyDef>
 </Definitions>

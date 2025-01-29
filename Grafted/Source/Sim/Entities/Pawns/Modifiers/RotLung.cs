@@ -7,6 +7,7 @@ public class RotLung : BodyPartModifier
 
     public override void Tick()
     {
+        base.Tick();
         BodyPart.HitPoints -= BodyPart.HitPoints * DamageFactorPerTick;
         CheckIfLostVitalPart(BodyPart);
         base.Tick();

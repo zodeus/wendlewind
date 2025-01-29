@@ -42,7 +42,7 @@ public sealed class ItemContainerPanel : ScrollViewer
             {
                 Label = "Equipment Supplies",
                 Container = _container,
-                Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.EquipmentSupplies
+                Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Supplies
             },
             new ItemContainerPanelSection
             {

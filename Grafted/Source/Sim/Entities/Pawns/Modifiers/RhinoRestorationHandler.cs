@@ -7,14 +7,13 @@ public class RhinoRestorationHandler : BodyPartModifier
 
     public override void Tick()
     {
+        base.Tick();
         if (BodyPart.HitPoints < 1)
         {
             BodyPart.HitPoints = 1;
         }
 
         BodyPart.HitPoints += BodyPart.HitPoints * HealthPercentRestoredPerTick;
-
-        base.Tick();
     }
 
     public override bool ApplyToPart(BodyPart part)
@@ -22,10 +21,5 @@ public class RhinoRestorationHandler : BodyPartModifier
         part.TryAddModifier(this);
 
         return true;
-    }
-
-
-    public override void Expired()
-    {
     }
 }
