@@ -17,7 +17,7 @@ public class GameScene : Scene
         Core.Context = _context;
         _context.OnStateChanged += HandleOnStateChanged;
 
-        if (DebugSettings.QuickLoad && File.Exists("save.xml"))
+        if (File.Exists("save.xml"))
         {
             _context.Load("save.xml");
         }
@@ -87,7 +87,7 @@ public class GameScene : Scene
         {
             _context.TogglePause();
         }
-        
+
         if (Input.IsKeyPressed(Keys.F5))
         {
             _context.Save("save.xml");

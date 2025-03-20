@@ -69,8 +69,8 @@ public class GameHud : HorizontalStackPanel
             Content = new Image { Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Achievements], Width = 56, Height = 56, },
             Padding = new Thickness(10)
         };
+        achievements.TouchDown += (_, _) => { new PlayerAchievementsWindow().Show(Desktop); };
         leftPanel.Widgets.Add(achievements);
-        leftPanel.TouchDown += (_, _) => { new PlayerAchievementsWindow().Show(Desktop); };
 
         Button kills = new(BaseContent.Styles.Button.Large)
         {

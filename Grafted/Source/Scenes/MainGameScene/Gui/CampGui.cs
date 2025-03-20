@@ -5,7 +5,6 @@ namespace Grafted.Scenes.MainGameScene.Gui;
 public class CampGui : BaseGui
 {
     private readonly GameHud _gameHud;
-    private readonly PawnBodyEffectsWindow _pawnBodyEffectsWindow;
     private readonly CampOverviewPanel _campOverview;
 
     public CampGui(GameContext context)
@@ -26,16 +25,12 @@ public class CampGui : BaseGui
             },
             HasExternalTextInput = true
         };
-
-        _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(context.PlayerPawn) { Width = 340 };
-        _pawnBodyEffectsWindow.Show(Desktop, new Point(10, 115));
     }
 
     public override void Update(float deltaTime)
     {
         _gameHud.Update();
         _campOverview.Update();
-        _pawnBodyEffectsWindow.Update();
         base.Update(deltaTime);
     }
 

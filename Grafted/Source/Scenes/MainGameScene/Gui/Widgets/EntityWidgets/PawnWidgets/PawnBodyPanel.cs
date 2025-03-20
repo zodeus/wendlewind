@@ -2,7 +2,7 @@ using Grafted.Sim.Entities.Pawns.Modifiers;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
-public class PawnBodyPanel : VerticalStackPanel, IUpdatable
+public sealed class PawnBodyPanel : VerticalStackPanel, IUpdatable
 {
     private readonly BaseGui _gui;
     private readonly PawnBody _body;
@@ -13,37 +13,17 @@ public class PawnBodyPanel : VerticalStackPanel, IUpdatable
 
     public PawnBodyPanel(BaseGui gui, PawnBody body)
     {
-        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
-        Padding = new Thickness(15);
-        Width = 850;
-
+        Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame], new Color(255, 255, 255, 230));
         _gui = gui;
         _body = body;
         _socketPanels = new List<BodyPartSocketPanel>();
-        _partsPanel = new VerticalStackPanel { Padding = new Thickness(10), Spacing = 0 };
+        _partsPanel = new VerticalStackPanel { Padding = new Thickness(10), Spacing = 0, Width = 800 };
         _pawnSkillsPanel = new PawnSkillsPanel(_body.Pawn.Skills);
         _pawnStatsPanel = new PawnStatsPanel(_body.Pawn);
 
         Widgets.Add(new ScrollViewer
         {
-            Content = new HorizontalStackPanel
-            {
-                Spacing = 40,
-                Proportions =
-                {
-                    Proportion.Fill,
-                    Proportion.Auto
-                },
-                Widgets =
-                {
-                    _partsPanel,
-                    // new VerticalStackPanel
-                    // {
-                    //     Spacing = 20, Margin = new Thickness(0, 0, 15, 0),
-                    //     Widgets = { new PawnTraitsPanel(_body.Pawn.Traits), _pawnSkillsPanel, _pawnStatsPanel }
-                    // }
-                }
-            }
+            Content = _partsPanel
         });
         GenerateSkeleton();
     }
@@ -162,6 +142,11 @@ public class PawnBodyPanel : VerticalStackPanel, IUpdatable
 
         private void BodyPartClickHandler(BodyPart part, bool useItems = false)
         {
+            if (Input.LeftMouseButtonReleased)
+            {
+                return;
+            }
+            
             if (Input.RightMouseButtonReleased)
             {
                 return;

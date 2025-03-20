@@ -5,7 +5,6 @@ namespace Grafted.Scenes.MainGameScene.Gui.CombatGui;
 public class ZoneGui : BaseGui
 {
     private readonly GameContext _context;
-    private readonly PawnBodyEffectsWindow _pawnBodyEffectsWindow;
 
     private CombatScreen? _combatScreen;
     private ShrineScreen? _shrineScreen;
@@ -26,10 +25,6 @@ public class ZoneGui : BaseGui
         Zone.OnZoneMessage += HandleZoneMessage;
 
         HandleZoneStateChanged(Zone.State);
-
-
-        _pawnBodyEffectsWindow = new PawnBodyEffectsWindow(context.PlayerPawn) { Width = 340 };
-        _pawnBodyEffectsWindow.Show(Desktop, new Point(10, 555));
     }
 
     private void HandleZoneMessage(ScreenMessageData message)
@@ -74,7 +69,6 @@ public class ZoneGui : BaseGui
     {
         _combatScreen?.Update();
         _combatResultsScreen?.Update();
-        _pawnBodyEffectsWindow.Update();
         _shrineScreen?.Update(deltaTime);
         base.Update(deltaTime);
     }
@@ -115,13 +109,5 @@ public class ZoneGui : BaseGui
 
         _shrineScreen?.RemoveFromParent();
         _shrineScreen = null;
-
-
-        // if (advanceStage)
-        // {
-        //     Zone.Stage++;
-        // }
-        //
-        // Zone.NextEncounter();
     }
 }

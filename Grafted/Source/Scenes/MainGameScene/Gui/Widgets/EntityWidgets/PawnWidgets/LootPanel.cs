@@ -9,9 +9,15 @@ public class LootPanel : Panel, IUpdatable
     private readonly ItemContainerPanel? _otherContainerPanel;
     private readonly PawnEquipmentPanel _equipmentPanel;
     private readonly PawnBodyPanel _bodyPanel;
+    private readonly PawnBodyEffectsPanel _pawnEffectsPanel;
 
     public LootPanel(BaseGui gui, Pawn playerPawn, EntityContainer? lootContainer)
     {
+        _pawnEffectsPanel = new PawnBodyEffectsPanel(playerPawn)
+        {
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
+            Padding = new Thickness(15)
+        };
         _bodyPanel = new PawnBodyPanel(gui, playerPawn.Body);
         _inventoryPanel = new ItemContainerPanel(gui,
             playerPawn.Inventory.Entities,
@@ -50,6 +56,7 @@ public class LootPanel : Panel, IUpdatable
             HorizontalAlignment = HorizontalAlignment.Center,
             Widgets =
             {
+                _pawnEffectsPanel,
                 _bodyPanel,
                 new VerticalStackPanel
                 {
@@ -74,5 +81,6 @@ public class LootPanel : Panel, IUpdatable
         _otherContainerPanel?.Update();
         _equipmentPanel.Update();
         _inventoryPanel.Update();
+        _pawnEffectsPanel.Update();
     }
 }

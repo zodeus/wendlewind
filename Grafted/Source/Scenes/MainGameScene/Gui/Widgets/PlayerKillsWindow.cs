@@ -4,7 +4,6 @@ public sealed class PlayerKillsWindow : Window
 {
     public PlayerKillsWindow(PlayerKillRecords deathRecords)
     {
-        Title = "Kills";
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.Red];
         MinWidth = 500;
         MinHeight = 300;

@@ -1,3 +1,4 @@
+using System.IO;
 using Grafted.Graphics.Textures;
 using Grafted.Scenes.Components;
 using Grafted.Scenes.MainGameScene;
@@ -37,18 +38,11 @@ public class MainMenuScene : Scene
         buttonPanel.Widgets.Add(quit);
         grid.Widgets.Add(buttonPanel);
 
-        if (DebugSettings.QuickPlay)
+        if (DebugSettings.QuickPlay || File.Exists("save.xml"))
         {
             Core.ChangeScene<GameScene>();
+            return;
         }
-
-        /*if (File.Exists("save.xml")) {
-            Sim.Load("save.xml");
-            Scene.Load<GameScene>()
-        }
-        else {
-            Scene.Load<MainMenuScene>();
-        }*/
 
         _desktop = new Desktop
         {

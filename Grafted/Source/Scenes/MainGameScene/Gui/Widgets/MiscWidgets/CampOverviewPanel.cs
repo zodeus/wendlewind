@@ -10,10 +10,16 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
     private readonly ItemContainerPanel _inventoryPanel;
     private readonly PawnEquipmentPanel _equipmentPanel;
     private readonly PawnBodyPanel _bodyPanel;
+    private readonly PawnBodyEffectsPanel _pawnEffectsPanel;
 
     public CampOverviewPanel(BaseGui gui, GameContext context)
     {
         var playerPawn = context.PlayerPawn;
+        _pawnEffectsPanel = new PawnBodyEffectsPanel(playerPawn)
+        {
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
+            Padding = new Thickness(15)
+        };
         _bodyPanel = new PawnBodyPanel(gui, playerPawn.Body);
         _inventoryPanel = new ItemContainerPanel(gui,
             playerPawn.Inventory.Entities, null
@@ -23,7 +29,6 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
 
         VerticalStackPanel rightColumn = new()
         {
-            Visible = !playerPawn.IsDead,
             Proportions = { Proportion.Auto, Proportion.Auto, Proportion.Auto, Proportion.Auto, Proportion.Auto, Proportion.Auto, Proportion.Fill }
         };
         rightColumn.Widgets.Add(_equipmentPanel);
@@ -31,11 +36,12 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
 
         HorizontalStackPanel grid = new()
         {
-            Spacing = 20,
+            Spacing = 5,
             HorizontalAlignment = HorizontalAlignment.Center,
             Widgets =
             {
                 ZonePanel(context.World),
+                _pawnEffectsPanel,
                 _bodyPanel,
                 new VerticalStackPanel
                 {
@@ -57,6 +63,7 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
     public void Update()
     {
         _bodyPanel.Update();
+        _pawnEffectsPanel.Update();
         _equipmentPanel.Update();
         _inventoryPanel.Update();
     }
@@ -127,12 +134,28 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
         };
         mineShafts.Click += (_, _) => { new ZoneStartWindow(Defs.Biomes.Mineshaft).ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint()); };
 
+        /*var toggleButton = new Button(BaseContent.Styles.Button.Minus24)
+        {
+            Width = 24, Height = 24, HorizontalAlignment = HorizontalAlignment.Right
+        };
+        Widgets.Add(toggleButton);
+        toggleButton.Click += (_, _) =>
+        {
+            if (_partsPanel.IsPlaced)
+            {
+                _partsPanel.RemoveFromParent();
+            }
+            else
+            {
+                Widgets.Add(_partsPanel);
+            }
+        };*/
+
+        
         return new VerticalStackPanel
         {
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
             HorizontalAlignment = HorizontalAlignment.Center,
             Spacing = 10,
-            Padding = new Thickness(20),
             Widgets =
             {
                 new VerticalStackPanel
@@ -141,7 +164,7 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
                     Padding = new Thickness(15),
                     Widgets =
                     {
-                        new Label(BaseContent.Styles.Label.Large) { Text = "Village of the Damned", HorizontalAlignment = HorizontalAlignment.Center }
+                        new Label(BaseContent.Styles.Label.Large) { Text = "Journey", HorizontalAlignment = HorizontalAlignment.Center }
                     }
                 },
                 peacefulMeadow,

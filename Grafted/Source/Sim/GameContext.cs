@@ -14,7 +14,7 @@ public class GameContext : IExposable
     public PlayerKillRecords DeathRecords = null!;
     public OminousMessageSpawner OminousMessageSpawner = null!;
     public World World = null!;
-    public bool IsPaused = true;
+    public bool IsPaused = false;
     public int Ticks;
     public Player Player => World.Player;
     public Pawn PlayerPawn => World.Player.Pawn;

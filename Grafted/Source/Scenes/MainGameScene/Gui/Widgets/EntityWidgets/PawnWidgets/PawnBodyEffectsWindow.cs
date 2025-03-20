@@ -2,20 +2,33 @@
 
 public sealed class PawnBodyEffectsWindow : Window
 {
-    private readonly Pawn _pawn;
-    private Dictionary<BodyEffect, BodyEffectRow> _cachedEffects = new();
-    private readonly VerticalStackPanel _container;
-    private List<BodyEffect> _effectsToRemove = new();
+    private readonly PawnBodyEffectsPanel _panel;
 
     public PawnBodyEffectsWindow(Pawn pawn)
     {
-        TitlePanel.Visible = false; // 1440p 
-        CloseButton.Visible = false; 
-        _pawn = pawn;
+        TitlePanel.Visible = false;
+        CloseButton.Visible = false;
         Title = "Effects";
-        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold];
-        _container = new VerticalStackPanel { Spacing = 20 };
-        Content = _container;
+        _panel = new PawnBodyEffectsPanel(pawn);
+        Content = _panel;
+    }
+
+    public void Update()
+    {
+        _panel.Update();
+    }
+}
+
+public sealed class PawnBodyEffectsPanel : VerticalStackPanel
+{
+    private readonly Pawn _pawn;
+    private Dictionary<BodyEffect, BodyEffectRow> _cachedEffects = new();
+    private List<BodyEffect> _effectsToRemove = new();
+
+    public PawnBodyEffectsPanel(Pawn pawn)
+    {
+        MinWidth = 400;
+        _pawn = pawn;
     }
 
     public void Update()
@@ -28,10 +41,10 @@ public sealed class PawnBodyEffectsWindow : Window
             }
 
             _cachedEffects.Add(effect, new BodyEffectRow(effect));
-            _container.Widgets.Add(_cachedEffects[effect]);
+            Widgets.Add(_cachedEffects[effect]);
         }
 
-        foreach ((var effect, var panel) in _cachedEffects)
+        foreach (var (effect, panel) in _cachedEffects)
         {
             if (effect.IsExpired)
             {

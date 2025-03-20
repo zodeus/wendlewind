@@ -17,6 +17,8 @@ public sealed class BodyPartPanel : EntityPanelBase
 
         _modifiersPanel = new BodyPartPanelModifiersLabel(bodyPart);
 
+        var detailsButton = new Button(BaseContent.Styles.Button.Small) { Content = new Label (BaseContent.Styles.Label.Small){ Text = "Details" } };
+       
         VerticalStackPanel leftPanel = new() { Spacing = 5, MinWidth = 330 };
         leftPanel.Widgets.Add(new BodyPartPanelHealthLabel(bodyPart));
         leftPanel.Widgets.Add(_modifiersPanel);
@@ -26,10 +28,13 @@ public sealed class BodyPartPanel : EntityPanelBase
         leftPanel.Widgets.Add(new BodyPartPanelFunctionalLabel(bodyPart));
         leftPanel.Widgets.Add(new BodyPartPanelArteryLabel(bodyPart));
         leftPanel.Widgets.Add(new BodyPartPanelDestroyedLabel(bodyPart));
+        leftPanel.Widgets.Add(detailsButton);
         RegisterAttachedParts(gui, leftPanel, bodyPart);
-
-        var rightPanel = new VerticalStackPanel { Spacing = 5 };
-
+         
+            
+        var rightPanel = new VerticalStackPanel { Spacing = 5, Visible = false};
+        detailsButton.Click += (_, _) => rightPanel.Visible = !rightPanel.Visible;
+        
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = bodyPart.Def.Description, Wrap = true });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Short Label: {bodyPart.LabelShort}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Type: {bodyPart.Type}" });
@@ -46,7 +51,6 @@ public sealed class BodyPartPanel : EntityPanelBase
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Is Severed: {bodyPart.IsSevered}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Is Vital: {bodyPart.IsVital}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Ticks Since Last Hit: {bodyPart.TicksSinceLastHit}" });
-
         rightPanel.Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 15, 0, 15) });
         foreach (var baseStat in bodyPart.Def.BaseStats)
         {

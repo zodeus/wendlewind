@@ -84,11 +84,11 @@ public class CombatHandler
 
         if (response.Missed)
         {
-            logs.Add($"/c[{TC.Attacker}]{attacker.LabelShort} /c[{TC.Blue}] missed /c[{TC.Victim}]{victim.LabelShort}.");
+            logs.Add($"/c[{TC.Attacker}]{attacker.LabelShort} /c[{TC.Blue}]missed /c[{TC.Victim}]{victim.LabelShort}.");
         }
         else if (response.Dodged)
         {
-            logs.Add($"/c[{TC.Victim}]{victim.LabelShort} /c[{TC.Blue}] dodged attack");
+            logs.Add($"/c[{TC.Victim}]{victim.LabelShort} /c[{TC.Blue}]dodged attack");
         }
         else
         {
@@ -107,7 +107,7 @@ public class CombatHandler
 
     private IEnumerable<string> LogDamage(Pawn victim, Pawn attacker, DamageRecord damage, string weaponColor)
     {
-        yield return $"/c[{TC.Attacker}]{attacker,-20}/c[{TC.Default}]hit /c[{TC.Victim}]{victim.LabelShort}'s /c[{TC.BodyPart}]{damage.BodyPartHit.Label}" +
+        yield return $"/c[{TC.Attacker}]{attacker} /c[{TC.Default}]hit /c[{TC.Victim}]{victim.LabelShort}'s /c[{TC.BodyPart}]{damage.BodyPartHit.Label}" +
                      $"/c[{TC.Default}] with /c[{weaponColor}]{damage.WeaponLabel} /c[{TC.Golden}]({damage.WeaponManeuverLabel})" +
                      $"/c[{TC.Default}] for /c[{TC.Red}]{damage.ActualAmount:N0} /c[{TC.Golden}]{damage.DamageType}/c[{TC.Default}] damage," +
                      $" blocked /c[#00e6ff]{damage.AmountBlocked}";
