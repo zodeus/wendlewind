@@ -42,7 +42,7 @@ public class OminousMessageSpawner : IExposable {
             },
             new() {
                 Text = "there seems to be a strange hum in the air, curious...\nis it coming from the moons? do they speak to each other?",
-                Font = BaseContent.Fonts.Fancy.Large,
+                Font = BaseContent.Fonts.Default.Large,
                 Color = Color.DarkOrange
             }
         };

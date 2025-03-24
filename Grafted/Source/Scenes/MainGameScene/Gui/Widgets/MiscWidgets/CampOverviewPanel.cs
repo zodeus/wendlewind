@@ -1,6 +1,7 @@
 using Grafted.Scenes.MainGameScene.Gui.CombatGui;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
 using Grafted.Sim.Entities.Items.Trinkets;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
@@ -15,10 +16,9 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
     public CampOverviewPanel(BaseGui gui, GameContext context)
     {
         var playerPawn = context.PlayerPawn;
-        _pawnEffectsPanel = new PawnBodyEffectsPanel(playerPawn)
+        _pawnEffectsPanel = new PawnBodyEffectsPanel(gui, playerPawn)
         {
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
-            Padding = new Thickness(15)
+            Width = 500
         };
         _bodyPanel = new PawnBodyPanel(gui, playerPawn.Body);
         _inventoryPanel = new ItemContainerPanel(gui,
@@ -27,12 +27,10 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
 
         _equipmentPanel = new PawnEquipmentPanel(gui, playerPawn);
 
-        VerticalStackPanel rightColumn = new()
-        {
-            Proportions = { Proportion.Auto, Proportion.Auto, Proportion.Auto, Proportion.Auto, Proportion.Auto, Proportion.Auto, Proportion.Fill }
-        };
+        VerticalStackPanel rightColumn = new() { Spacing = 30 };
         rightColumn.Widgets.Add(_equipmentPanel);
-        rightColumn.Widgets.Add(new PawnSkillsPanel(playerPawn.Skills) { Margin = new Thickness(0, 50, 0, 20) });
+        rightColumn.Widgets.Add(_pawnEffectsPanel);
+        rightColumn.Widgets.Add(new PawnSkillsPanel(playerPawn.Skills));
 
         HorizontalStackPanel grid = new()
         {
@@ -40,8 +38,6 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
             HorizontalAlignment = HorizontalAlignment.Center,
             Widgets =
             {
-                ZonePanel(context.World),
-                _pawnEffectsPanel,
                 _bodyPanel,
                 new VerticalStackPanel
                 {
@@ -49,8 +45,8 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
                     Spacing = 5,
                     Widgets =
                     {
-                        new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Combat, item => gui.ViewEntity(item)),
-                        new TrinketBar(playerPawn.Inventory.Entities, TrinketType.NonCombat, item => gui.ViewEntity(item)),
+                        new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Combat, item => gui.ViewEntity(item), false),
+                        new TrinketBar(playerPawn.Inventory.Entities, TrinketType.NonCombat, item => gui.ViewEntity(item), false),
                         _inventoryPanel
                     }
                 },
@@ -66,125 +62,5 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
         _pawnEffectsPanel.Update();
         _equipmentPanel.Update();
         _inventoryPanel.Update();
-    }
-
-    private Widget ZonePanel(World world)
-    {
-        var peacefulMeadow = new Button(BaseContent.Styles.Button.Normal)
-        {
-            Content = new Label { Text = Defs.Biomes.PeacefulMeadow.Label, HorizontalAlignment = HorizontalAlignment.Center },
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Enabled = !world.GetZone(Defs.Biomes.PeacefulMeadow).IsComplete
-        };
-        peacefulMeadow.Click += (_, _) => { new ZoneStartWindow(Defs.Biomes.PeacefulMeadow).ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint()); };
-
-        var outskirts = new Button(BaseContent.Styles.Button.Normal)
-        {
-            Content = new Label { Text = Defs.Biomes.TheOutskirts.Label, HorizontalAlignment = HorizontalAlignment.Center },
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Enabled = world.GetZone(Defs.Biomes.PeacefulMeadow).IsComplete && !world.GetZone(Defs.Biomes.TheOutskirts).IsComplete
-        };
-        outskirts.Click += (_, _) => { new ZoneStartWindow(Defs.Biomes.TheOutskirts).ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint()); };
-
-        var grainMill = new Button(BaseContent.Styles.Button.Normal)
-        {
-            Content = new Label { Text = Defs.Biomes.GrainMill.Label, HorizontalAlignment = HorizontalAlignment.Center },
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Enabled = world.GetZone(Defs.Biomes.TheOutskirts).IsComplete && !world.GetZone(Defs.Biomes.GrainMill).IsComplete
-        };
-        grainMill.Click += (_, _) => { new ZoneStartWindow(Defs.Biomes.GrainMill).ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint()); };
-
-        var festerpusSwamp = new Button(BaseContent.Styles.Button.Normal)
-        {
-            Content = new Label { Text = Defs.Biomes.FesterpusSwamp.Label, HorizontalAlignment = HorizontalAlignment.Center },
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Enabled = world.GetZone(Defs.Biomes.GrainMill).IsComplete && !world.GetZone(Defs.Biomes.FesterpusSwamp).IsComplete
-        };
-        festerpusSwamp.Click += (_, _) => { new ZoneStartWindow(Defs.Biomes.FesterpusSwamp).ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint()); };
-
-        var forgottenForest = new Button(BaseContent.Styles.Button.Normal)
-        {
-            Content = new Label { Text = Defs.Biomes.ForgottenForest.Label, HorizontalAlignment = HorizontalAlignment.Center },
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Enabled = world.GetZone(Defs.Biomes.FesterpusSwamp).IsComplete && !world.GetZone(Defs.Biomes.ForgottenForest).IsComplete
-        };
-        forgottenForest.Click += (_, _) => { new ZoneStartWindow(Defs.Biomes.ForgottenForest).ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint()); };
-
-        var dampCave = new Button(BaseContent.Styles.Button.Normal)
-        {
-            Content = new Label { Text = Defs.Biomes.DampCave.Label, HorizontalAlignment = HorizontalAlignment.Center },
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Enabled = world.GetZone(Defs.Biomes.ForgottenForest).IsComplete && !world.GetZone(Defs.Biomes.DampCave).IsComplete
-        };
-        dampCave.Click += (_, _) => { new ZoneStartWindow(Defs.Biomes.DampCave).ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint()); };
-
-        var cemetery = new Button(BaseContent.Styles.Button.Normal)
-        {
-            Content = new Label { Text = Defs.Biomes.Cemetery.Label, HorizontalAlignment = HorizontalAlignment.Center },
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Enabled = world.GetZone(Defs.Biomes.DampCave).IsComplete && !world.GetZone(Defs.Biomes.Cemetery).IsComplete
-        };
-        cemetery.Click += (_, _) => { new ZoneStartWindow(Defs.Biomes.Cemetery).ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint()); };
-
-        var mineShafts = new Button(BaseContent.Styles.Button.Normal)
-        {
-            Content = new Label { Text = Defs.Biomes.Mineshaft.Label, HorizontalAlignment = HorizontalAlignment.Center },
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Enabled = world.GetZone(Defs.Biomes.Cemetery).IsComplete && !world.GetZone(Defs.Biomes.Mineshaft).IsComplete
-        };
-        mineShafts.Click += (_, _) => { new ZoneStartWindow(Defs.Biomes.Mineshaft).ShowModal(Desktop, (Screen.Center - new Vector2(200, 300)).ToPoint()); };
-
-        /*var toggleButton = new Button(BaseContent.Styles.Button.Minus24)
-        {
-            Width = 24, Height = 24, HorizontalAlignment = HorizontalAlignment.Right
-        };
-        Widgets.Add(toggleButton);
-        toggleButton.Click += (_, _) =>
-        {
-            if (_partsPanel.IsPlaced)
-            {
-                _partsPanel.RemoveFromParent();
-            }
-            else
-            {
-                Widgets.Add(_partsPanel);
-            }
-        };*/
-
-        
-        return new VerticalStackPanel
-        {
-            HorizontalAlignment = HorizontalAlignment.Center,
-            Spacing = 10,
-            Widgets =
-            {
-                new VerticalStackPanel
-                {
-                    Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
-                    Padding = new Thickness(15),
-                    Widgets =
-                    {
-                        new Label(BaseContent.Styles.Label.Large) { Text = "Journey", HorizontalAlignment = HorizontalAlignment.Center }
-                    }
-                },
-                peacefulMeadow,
-                outskirts,
-                grainMill,
-                festerpusSwamp,
-                // new TextButton(BaseContent.Styles.Button.Normal) { Text = "The Alchemist Hut", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                forgottenForest,
-                dampCave,
-                cemetery,
-                mineShafts
-                // new TextButton(BaseContent.Styles.Button.Normal) { Text = "Forgemaster's Quarry", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                // new TextButton(BaseContent.Styles.Button.Normal) { Text = "Fallow Field", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                // new TextButton(BaseContent.Styles.Button.Normal) { Text = "Mage Tower", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                // new TextButton(BaseContent.Styles.Button.Normal) { Text = "Field of Vegetables", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                // new TextButton(BaseContent.Styles.Button.Normal) { Text = "Blood Court", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                // new TextButton(BaseContent.Styles.Button.Normal) { Text = "His Rectory", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                // new TextButton(BaseContent.Styles.Button.Normal) { Text = "Scarlet Chapel", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                // new TextButton(BaseContent.Styles.Button.Normal) { Text = "Steamy Oil Vents", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-            }
-        };
     }
 }

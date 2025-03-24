@@ -60,11 +60,11 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
             {
                 if (_pawn.Equipment.GetBySlot(part, slot) is { Enchantments: not null } equipmentItem)
                 {
-                    equipmentItem.Enchantments.MaxEnchantments++;    
+                    equipmentItem.Enchantments.MaxEnchantments++;
                     item.StackSize--;
-                    
+
                     if (item.StackSize != 0) return;
-                    
+
                     item.Destroy();
                     _gui.MouseAttachment.Detach();
                 }
@@ -147,7 +147,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
 
     private class EquipmentColumn : VerticalStackPanel
     {
-        private const int CellSize = 80;
+        private readonly int _cellSize = BaseContent.IconSizes.Large;
         private readonly BodyPart _bodyPart;
         private readonly Dictionary<EquipmentSlotType, Button> _slots = new();
         private readonly Image _imageFrame;
@@ -163,7 +163,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
             Spacing = 2;
             _potionSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.PotionSlot];
             _bagSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.BagSlot];
-            _imageFrame = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.WhiteIcon), BodyPartColor.Get(bodyPart)), Width = CellSize, Height = CellSize };
+            _imageFrame = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.WhiteIcon), BodyPartColor.Get(bodyPart)), Width = _cellSize, Height = _cellSize };
             _imageFrame.TouchDown += (_, _) => gui.ViewEntity(bodyPart);
             Widgets.Add(_imageFrame);
             foreach (EquipmentSlotType slot in slots)
@@ -176,12 +176,12 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
                         {
                             new HorizontalProgressBar(BaseContent.Styles.Bar.Durability)
                             {
-                                Width = CellSize - 4, Height = 12, HorizontalAlignment = HorizontalAlignment.Center,
+                                Width = _cellSize - 4, Height = 12, HorizontalAlignment = HorizontalAlignment.Center,
                                 VerticalAlignment = VerticalAlignment.Bottom
                             }
                         }
                     },
-                    Width = CellSize, Height = CellSize
+                    Width = _cellSize, Height = _cellSize
                 };
                 _slots.Add(slot, slotFrame);
                 slotFrame.Click += (_, _) => ClickAction?.Invoke(bodyPart, slot);

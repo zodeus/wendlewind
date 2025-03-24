@@ -1,4 +1,5 @@
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
 
 namespace Grafted.Scenes.MainGameScene.Gui.CombatGui;
 
@@ -18,7 +19,7 @@ public class CombatScreen : VerticalStackPanel
     private Item? _enemyQueuedPotion;
     private readonly HorizontalStackPanel _potionQueuePanel;
     private readonly Label _tickLabel;
-    private readonly PawnBodyEffectsPanel _pawnEffectsPanel;
+    private Window? _combatLogWindow;
 
     private Encounter Encounter => _context.CurrentZone!.ActiveEncounter!;
 
@@ -43,6 +44,7 @@ public class CombatScreen : VerticalStackPanel
         };
         _controlPanel = new CombatControlPanel(Encounter)
         {
+            MinWidth = 190,
             GridRow = 2, GridColumn = 0, HorizontalAlignment = HorizontalAlignment.Stretch
         };
 
@@ -50,18 +52,17 @@ public class CombatScreen : VerticalStackPanel
         {
             Height = 1300,
         };
-        _pawnEffectsPanel = new PawnBodyEffectsPanel(Encounter.PlayerPawns.First())
-        {
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
-            Padding = new Thickness(15)
-        };
 
-        _enemyPawnBodyView = new PawnBodyPanel(gui, Encounter.EnemyPawns.First().Body);
+        _enemyPawnBodyView = new PawnBodyPanel(gui, Encounter.EnemyPawns.First().Body)
+        {
+            HorizontalAlignment = HorizontalAlignment.Left
+        };
         _combatLog = new ScrollViewer
         {
             VerticalAlignment = VerticalAlignment.Stretch,
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            Width = 1800,
+            Width = 1600,
+            Height = 600,
             Content = new VerticalStackPanel { Padding = new Thickness(0), Spacing = 12 }
         };
 
@@ -90,11 +91,31 @@ public class CombatScreen : VerticalStackPanel
         };
         _tickLabel = new Label(BaseContent.Styles.Label.Normal)
         {
-            Margin = new Thickness(0, 15, 0, 0),
+            Margin = new Thickness(0, 15, 0, 15),
             HorizontalAlignment = HorizontalAlignment.Center,
             Text = "0", TextColor = Color.DarkGoldenrod
         };
 
+        var logsButton = new Button(BaseContent.Styles.Button.Normal)
+        {
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Content = new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = "Logs"
+            }
+        };
+        logsButton.TouchDown += (_, _) =>
+        {
+            _combatLogWindow ??= new Window { Content = _combatLog };
+
+            if (_combatLogWindow?.IsPlaced == true)
+            {
+                _combatLogWindow.Close();
+                return;
+            }
+
+            _combatLogWindow!.Show(gui.Desktop, new Point(Screen.Width / 2 - 800, (Screen.Height / 2 - 220)));
+        };
         VerticalStackPanel centerColumn = new()
         {
             Spacing = 0, GridRow = 1, GridColumn = 1,
@@ -103,35 +124,23 @@ public class CombatScreen : VerticalStackPanel
             {
                 _controlPanel,
                 _potionQueuePanel,
-                _tickLabel
+                _tickLabel,
+                logsButton
             }
         };
 
-        HorizontalStackPanel logPanel = new()
+        var panel = new Panel()
         {
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
-            Visible = true,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalAlignment = VerticalAlignment.Stretch,
-            Padding = new Thickness(15, 15, 8, 15),
-            Widgets =
-            {
-                _combatLog
-            }
-        };
-
-        var togglePanelsButton = new Button(BaseContent.Styles.Button.Icon) { Width = 32, Height = 32 };
-        togglePanelsButton.Click += (_, _) =>
-        {
-            _enemyPawnBodyView.Visible = !_enemyPawnBodyView.Visible;
-            //logPanel.Visible = !logPanel.Visible;
+            Height = 1300, GridRow = 2, GridColumn = 2,
+            Widgets = { _enemyPawnBodyView }
         };
         Grid grid = new()
         {
             //ShowGridLines = true,
+            Margin = new Thickness(30, 0, 30, 30),
             GridLinesColor = Color.Red,
             HorizontalAlignment = HorizontalAlignment.Center,
-            RowSpacing = 10,
+            RowSpacing = 0,
             DefaultRowProportion = Proportion.Auto,
             DefaultColumnProportion = Proportion.Auto,
             Widgets =
@@ -141,20 +150,17 @@ public class CombatScreen : VerticalStackPanel
                 {
                     HorizontalAlignment = HorizontalAlignment.Right,
                     GridRow = 2, GridColumn = 0,
-                    Widgets = { _pawnEffectsPanel, _pawnBodyView }
+                    Widgets = { _pawnBodyView }
                 },
                 new HorizontalStackPanel
                 {
                     HorizontalAlignment = HorizontalAlignment.Right,
-                    GridRow = 2, GridColumn = 1, Widgets = { togglePanelsButton }
+                    GridRow = 2, GridColumn = 1
                 },
-                new Panel()
-                {
-                    Width = 1800, Height = 1300, GridRow = 2, GridColumn = 2,
-                    Widgets = { logPanel, _enemyPawnBodyView }
-                }
+                panel
             }
         };
+
         Widgets.Add(_gameHud);
         Widgets.Add(grid);
     }
@@ -213,7 +219,6 @@ public class CombatScreen : VerticalStackPanel
         _opponentPartyPanel.Update();
         _pawnBodyView.Update();
         _enemyPawnBodyView.Update();
-        _pawnEffectsPanel.Update();
     }
 
     private void AddCombatLogEntry(string text, Color? color = null)

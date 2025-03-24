@@ -9,21 +9,16 @@ internal sealed class CombatPartyPanel : VerticalStackPanel
     public CombatPartyPanel(ZoneGui gui, Encounter encounter, List<Pawn> pawns, HorizontalAlignment pawnAlignment)
     {
         Spacing = 0;
-        ShowGridLines = false;
         _panels = new List<PawnCombatPanel>();
         HorizontalStackPanel pawnRow = new()
         {
-            MinHeight = 380,
-            //Border = new SolidBrush(Color.Aquamarine),
-            //BorderThickness = new Thickness(1),
             Spacing = 15, HorizontalAlignment = pawnAlignment,
         };
         Widgets.Add(pawnRow);
 
         foreach (var pawn in pawns)
         {
-            var isPlayer = pawn.PawnType == PawnType.Player;
-            PawnCombatPanel panel = new(gui, pawn, encounter, isPlayer);
+            PawnCombatPanel panel = new(gui, pawn, encounter);
             _panels.Add(panel);
             pawnRow.Widgets.Add(panel);
         }

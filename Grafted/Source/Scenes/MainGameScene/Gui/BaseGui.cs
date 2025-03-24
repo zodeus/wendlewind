@@ -60,14 +60,19 @@ public abstract class BaseGui : IDisposable
     {
         if (Input.IsKeyPressed(Keys.B))
         {
-            if (Boak != null)
-            {
-                Boak.Close();
-            }
-
-            Boak = new BookOfAllKnowledgeWindow();
-            Boak.Show(Desktop, new Point(100, 100));
+            OpenBoak();
         }
+    }
+
+    public void OpenBoak()
+    {
+        if (Boak != null)
+        {
+            Boak.Close();
+        }
+
+        Boak = new BookOfAllKnowledgeWindow();
+        Boak.Show(Desktop, new Point(0, 0));
     }
 
     public virtual void Draw(SpriteBatch spriteBatch, float deltaTime)

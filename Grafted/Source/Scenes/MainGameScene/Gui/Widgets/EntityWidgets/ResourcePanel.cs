@@ -67,7 +67,7 @@ public sealed class ResourcePanel : EntityPanelBase
         {
             gui.PushScreenMessage(new ScreenMessageData
             {
-                Font = BaseContent.Fonts.Fancy.Medium,
+                Font = BaseContent.Fonts.Default.Medium,
                 Text = Defs.BodyEffects.SmokeyHaze.Description,
                 Duration = 6,
                 Color = Color.Orange
@@ -82,7 +82,7 @@ public sealed class ResourcePanel : EntityPanelBase
         {
             gui.PushScreenMessage(new ScreenMessageData
             {
-                Font = BaseContent.Fonts.Fancy.Medium,
+                Font = BaseContent.Fonts.Default.Medium,
                 Text = Defs.BodyEffects.SmokeyHaze.Description,
                 Duration = 6,
                 Color = Color.Orange

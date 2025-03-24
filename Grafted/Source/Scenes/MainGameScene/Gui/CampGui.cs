@@ -1,5 +1,3 @@
-using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
-
 namespace Grafted.Scenes.MainGameScene.Gui;
 
 public class CampGui : BaseGui

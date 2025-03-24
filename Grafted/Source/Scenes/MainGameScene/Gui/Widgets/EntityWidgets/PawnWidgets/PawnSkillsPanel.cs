@@ -5,8 +5,8 @@ public class PawnSkillsPanel : HorizontalStackPanel, IUpdatable {
 
     public PawnSkillsPanel(PawnSkills skills) {
         Spacing = 20;
-        Padding = new Thickness(15);
-        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
+        //Padding = new Thickness(15);
+        //Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
         var combatSkills = new Grid {
             RowSpacing = 15,
             ColumnSpacing = 25,

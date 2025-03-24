@@ -15,7 +15,7 @@ internal sealed class BoakPawnsCreaturesPanel : Grid
             {
                 Spacing = 5,
                 Margin = new Thickness(0, 0, 40, 0),
-                Width = 600,
+                MinWidth = 450,
                 Widgets =
                 {
                     new Label(BaseContent.Styles.Label.Large) { Text = def.Label, Margin = new Thickness(0, 0, 0, 20) },

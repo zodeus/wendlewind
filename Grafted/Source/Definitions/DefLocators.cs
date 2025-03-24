@@ -25,6 +25,11 @@ public static partial class Defs {
         public static StatDef WeaponSpeed  = null!;
         public static StatDef PotionDuration  = null!;
     }
+}public static partial class Defs {
+    [DefLocator]
+    public static class BodyStances {
+        public static BodyStanceDef Comfortable = null!;
+    }
 }
 
 public static partial class Defs {
@@ -55,7 +60,6 @@ public static partial class Defs {
         public static BodyEffectDef FeelingThePurple = null!;
         public static BodyEffectDef SmokeyHaze = null!;
         public static BodyEffectDef Psychedelic = null!;
-        public static BodyEffectDef DeathToll = null!;
         public static BodyEffectDef GoldenLips = null!;
     }
 }

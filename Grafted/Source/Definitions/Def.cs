@@ -21,7 +21,7 @@ public class Def {
         Log.Debug($"ResolveDependencies: {Moniker}");
     }
 
-    public DefPanelBase UiPanelFor(Def def, DefPanelProperties? properties = null) {
-        return (DefPanelBase) Activator.CreateInstance(DefUiClass, def, properties)!;
+    public DefPanelBase UiPanel(DefPanelProperties? properties = null) {
+        return (DefPanelBase) Activator.CreateInstance(DefUiClass, this, properties)!;
     }
 }

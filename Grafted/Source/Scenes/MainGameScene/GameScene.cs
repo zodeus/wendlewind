@@ -9,6 +9,7 @@ public class GameScene : Scene
 {
     private CampGui _campGui = null!;
     private GameContext _context = null!;
+    private GameState _currentGameState = GameState.Camp;
     private BaseGui? ActiveGui { get; set; }
 
     protected override void OnStart()
@@ -16,6 +17,8 @@ public class GameScene : Scene
         _context = new GameContext();
         Core.Context = _context;
         _context.OnStateChanged += HandleOnStateChanged;
+        //todo dispose of this
+        //Core.Instance.Window.ClientSizeChanged += (_, _) => ReloadGui();
 
         if (File.Exists("save.xml"))
         {
@@ -27,6 +30,17 @@ public class GameScene : Scene
         }
 
         StartGame();
+    }
+
+    private void ReloadGui()
+    {
+        ActiveGui?.Dispose();
+        ActiveGui = _currentGameState switch
+        {
+            GameState.Zone => new ZoneGui(_context),
+            GameState.Camp => new CampGui(_context), //todo this should only be instantiated once, but it doesn't refresh properly
+            _ => ActiveGui
+        };
     }
 
     private void StartGame()
@@ -41,24 +55,24 @@ public class GameScene : Scene
         ActiveGui?.Dispose();
         if (state == GameState.Restart)
         {
+            _currentGameState = GameState.Camp;
             QuickPlay();
             return;
         }
 
-        ActiveGui = state switch
-        {
-            GameState.Zone => new ZoneGui(_context),
-            GameState.Camp => new CampGui(_context), //todo this should only be instantiated once, but it doesn't refresh properly
-            _ => ActiveGui
-        };
+        _currentGameState = state;
+
+        ReloadGui();
     }
 
     private void QuickPlay()
     {
         Core.ClearCoroutines();
         _context.World = WorldGenerator.GenerateNewWorld(Defs.PawnConfigs.PlayerPawn);
+        _context.CurrentZone = null;
         _context.Ticks = 0;
         _context.DeathRecords.Reset();
+        ActiveGui = null;
         StartGame();
     }
 
@@ -113,6 +127,11 @@ public class GameScene : Scene
                 Duration = 3,
                 Color = Color.WhiteSmoke
             });
+        }
+
+        if (Input.IsKeyPressed(Keys.Q))
+        {
+            ActiveGui?.MouseAttachment?.Detach();
         }
 
         if (Input.IsKeyPressed(Keys.F2))

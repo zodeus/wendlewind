@@ -11,10 +11,11 @@ public sealed class LootBoxScreen : VerticalStackPanel
     public LootBoxScreen(CombatResultsScreen resultsScreen, GameContext context, LootBoxDef box)
     {
         HorizontalAlignment = HorizontalAlignment.Center;
+        Margin = new Thickness(0, 300, 0, 0);
         var openButton = new Button(BaseContent.Styles.Button.Large)
         {
             Margin = new Thickness(0, 10, 0, 0),
-            Content = new Label { Text = "Open" },
+            Content = new Label(BaseContent.Styles.Label.Large) { Text = "Open" },
             HorizontalAlignment = HorizontalAlignment.Center
         };
         openButton.Click += (_, _) => { OpenBox(context, resultsScreen, box); };
@@ -24,7 +25,7 @@ public sealed class LootBoxScreen : VerticalStackPanel
             HorizontalAlignment = HorizontalAlignment.Center,
             Widgets =
             {
-                new Label(BaseContent.Styles.Label.Medium) { Text = box.Label, HorizontalAlignment = HorizontalAlignment.Center },
+                new Label(BaseContent.Styles.Label.Large) { Text = box.Label, HorizontalAlignment = HorizontalAlignment.Center },
                 new Image { Background = new TextureRegion(box.Icon), Width = 256, Height = 256, HorizontalAlignment = HorizontalAlignment.Center },
                 openButton
             }
@@ -35,11 +36,6 @@ public sealed class LootBoxScreen : VerticalStackPanel
             HorizontalAlignment = HorizontalAlignment.Center,
         };
 
-        Widgets.Add(new Label(BaseContent.Styles.Label.Large)
-        {
-            Text = "Loot Box!", HorizontalAlignment = HorizontalAlignment.Center,
-            Margin = new Thickness(0, 100, 0, 100)
-        });
         Widgets.Add(_openPanel);
         Widgets.Add(_viewPanel);
     }
@@ -89,7 +85,7 @@ public sealed class LootBoxScreen : VerticalStackPanel
                 }
             }
         }
-        
+
         _openPanel.Visible = false;
         _viewPanel.Visible = true;
 
@@ -116,8 +112,9 @@ public sealed class LootBoxScreen : VerticalStackPanel
         };
         if (items.Count == 0)
         {
-            itemRow.Widgets.Add(new Label(BaseContent.Styles.Label.Medium){Text = "Womp, womp, the loot box is empty."});
+            itemRow.Widgets.Add(new Label(BaseContent.Styles.Label.Medium) { Text = "Womp, womp, the loot box is empty." });
         }
+
         foreach (var item in items)
         {
             itemRow.Widgets.Add(new VerticalStackPanel
@@ -133,12 +130,12 @@ public sealed class LootBoxScreen : VerticalStackPanel
                         Width = 128, Height = 128, HorizontalAlignment = HorizontalAlignment.Center
                     },
                     new HorizontalSeparator { Margin = new Thickness(0, 0, 0, 10) },
-                    new Label(BaseContent.Styles.Label.Medium)
+                    new Label(BaseContent.Styles.Label.Large)
                     {
                         HorizontalAlignment = HorizontalAlignment.Center,
                         Text = item.ItemDef.Label,
                     },
-                    new Label(BaseContent.Styles.Label.Medium)
+                    new Label(BaseContent.Styles.Label.Large)
                     {
                         HorizontalAlignment = HorizontalAlignment.Center,
                         Margin = new Thickness(0, 0, 0, 10),

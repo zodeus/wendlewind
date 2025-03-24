@@ -1,16 +1,18 @@
+using Myra.Graphics2D.Brushes;
+
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
-public sealed class PawnBodySummary : Grid
+public sealed class PawnBodySummary : Grid, IUpdatable
 {
     private readonly Dictionary<BodyPart, Image> _bodyParts;
 
     public PawnBodySummary(BaseGui gui, PawnBody body)
     {
-        //ShowGridLines = true;
+        //Border = new SolidBrush(Color.Pink);
+        //BorderThickness = new Thickness(1);
         _bodyParts = new Dictionary<BodyPart, Image>();
         ColumnSpacing = 5;
         Padding = new Thickness(6, 6, 6, 6);
-        //Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
         int gridColumn = 0;
         var partsToIgnore = new List<BodyPartType>
         {
@@ -24,7 +26,7 @@ public sealed class PawnBodySummary : Grid
                 continue;
             }
 
-            Image image = new() { Background = new ColoredRegion(new TextureRegion(part.WhiteIcon), Color.White), Width = 80, Height = 80 };
+            Image image = new() { Background = new ColoredRegion(new TextureRegion(part.WhiteIcon), Color.White), Width = BaseContent.IconSizes.Large, Height = BaseContent.IconSizes.Large };
             image.TouchDown += (_, _) => gui.ViewEntity(part);
             _bodyParts.Add(part, image);
             Widgets.Add(image);

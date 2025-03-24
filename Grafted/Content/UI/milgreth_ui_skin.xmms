@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Stylesheet TextureRegionAtlas="milgreth_ui_skin.xmat">
     <Fonts UsedSpace="0, 0, 4096, 2000">
-        <Font Id="very-small-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="16"/>
-        <Font Id="small-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="24"/>
-        <Font Id="normal-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="32"/>
-        <Font Id="medium-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="40"/>
-        <Font Id="large-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="48"/>
-        <Font Id="very-large-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="64"/>
-        <Font Id="huge-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="80"/>
+        <Font Id="very-small-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="14"/>
+        <Font Id="small-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="16"/>
+        <Font Id="normal-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="24"/>
+        <Font Id="medium-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="32"/>
+        <Font Id="large-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="40"/>
+        <Font Id="very-large-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="48"/>
+        <Font Id="huge-font" File="../Fonts/JetBrainsMono-Regular.ttf" Size="64"/>
     </Fonts>
     <LabelStyles>
         <LabelStyle Font="normal-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>

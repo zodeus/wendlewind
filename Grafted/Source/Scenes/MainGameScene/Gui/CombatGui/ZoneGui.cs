@@ -1,6 +1,4 @@
-﻿using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
-
-namespace Grafted.Scenes.MainGameScene.Gui.CombatGui;
+﻿namespace Grafted.Scenes.MainGameScene.Gui.CombatGui;
 
 public class ZoneGui : BaseGui
 {

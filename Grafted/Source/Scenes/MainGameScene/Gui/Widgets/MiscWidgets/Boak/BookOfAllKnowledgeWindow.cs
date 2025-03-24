@@ -10,8 +10,8 @@ internal class BookOfAllKnowledgeWindow : Window
     public BookOfAllKnowledgeWindow( /*BookOfAllKnowledge boak*/)
     {
         //_boak = boak;
-        Width = 2800;
-        Height = 1400;
+        Width = Screen.Width;
+        Height = Screen.Height;
         Title = "Book of all Knowledge";
         TitleFont = BaseContent.Fonts.Default.Large;
         TabPanel tabPanel = new()

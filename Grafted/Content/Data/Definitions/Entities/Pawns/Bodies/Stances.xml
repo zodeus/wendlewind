@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Definitions>
+    <BodyStanceDef>
+        <Moniker>Comfortable</Moniker>
+        <Label>You are way too comfortable, maybe try changing it up a bit?</Label>
+        <TexturePath>Entities/Pawn/BodyStances/Comfortable</TexturePath>
+        <AffectedStats>
+        </AffectedStats>
+    </BodyStanceDef>
+    <BodyStanceDef>
+        <Moniker>Defensive</Moniker>
+        <Label>Hold your ground, you might be a bit slower.</Label>
+        <TexturePath>Entities/Pawn/BodyStances/Defensive</TexturePath>
+        <AffectedStats>
+            <ListItem>
+                <Stat>AttackSpeed</Stat>
+                <Offset>-0.5</Offset>
+            </ListItem>
+            <ListItem>
+                <Stat>Evasion</Stat>
+                <Offset>0.15</Offset>
+            </ListItem>
+        </AffectedStats>
+    </BodyStanceDef>
+    <BodyStanceDef>
+        <Moniker>Melee</Moniker>
+        <Label>Hand to hand combat, don't mind if I do...</Label>
+        <TexturePath>Entities/Pawn/BodyStances/Melee</TexturePath>
+        <AffectedStats>
+            <ListItem>
+                <Stat>AttackSpeed</Stat>
+                <Offset>.5</Offset>
+            </ListItem>
+            <ListItem>
+                <Stat>Evasion</Stat>
+                <Offset>-0.1</Offset>
+            </ListItem>we
+            <ListItem>
+                <Stat>MeleeStrength</Stat>
+                <Offset>0.3</Offset>
+            </ListItem>
+            <ListItem>
+                <Stat>MeleeAccuracy</Stat>
+                <Offset>0.05</Offset>
+            </ListItem>
+        </AffectedStats>
+    </BodyStanceDef>
+    
+</Definitions>

@@ -56,7 +56,7 @@ public class Zone : IExposable, IIdentityProvider
             Alert(new ScreenMessageData
             {
                 Color = Color.LightGoldenrodYellow, Duration = 5,
-                Font = BaseContent.Fonts.Fancy.Huge,
+                Font = BaseContent.Fonts.Default.Huge,
                 Text = "BOSS FIGHT!"
             });
         }

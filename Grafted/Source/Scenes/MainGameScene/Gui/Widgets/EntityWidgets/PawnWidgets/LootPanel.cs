@@ -1,3 +1,4 @@
+using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items.Trinkets;
 
@@ -13,9 +14,8 @@ public class LootPanel : Panel, IUpdatable
 
     public LootPanel(BaseGui gui, Pawn playerPawn, EntityContainer? lootContainer)
     {
-        _pawnEffectsPanel = new PawnBodyEffectsPanel(playerPawn)
+        _pawnEffectsPanel = new PawnBodyEffectsPanel(gui, playerPawn)
         {
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
             Padding = new Thickness(15)
         };
         _bodyPanel = new PawnBodyPanel(gui, playerPawn.Body);
@@ -42,9 +42,10 @@ public class LootPanel : Panel, IUpdatable
         VerticalStackPanel rightColumn = new()
         {
             Margin = new Thickness(20, 0, 0, 0),
-            Proportions = { Proportion.Auto, Proportion.Auto, Proportion.Fill }
+            Proportions = { Proportion.Auto, Proportion.Auto, Proportion.Auto, Proportion.Fill }
         };
         rightColumn.Widgets.Add(_equipmentPanel);
+        rightColumn.Widgets.Add(_pawnEffectsPanel);
         rightColumn.Widgets.Add(new Label(BaseContent.Styles.Label.Large) { Text = "Ground Loot", Margin = new Thickness(0, 50, 0, 0), });
         if (_otherContainerPanel != null)
         {
@@ -56,7 +57,6 @@ public class LootPanel : Panel, IUpdatable
             HorizontalAlignment = HorizontalAlignment.Center,
             Widgets =
             {
-                _pawnEffectsPanel,
                 _bodyPanel,
                 new VerticalStackPanel
                 {
@@ -64,8 +64,8 @@ public class LootPanel : Panel, IUpdatable
                     Proportions = { Proportion.Auto, Proportion.Auto, Proportion.Fill },
                     Widgets =
                     {
-                        new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Combat, item => gui.ViewEntity(item)),
-                        new TrinketBar(playerPawn.Inventory.Entities, TrinketType.NonCombat, item => gui.ViewEntity(item)),
+                        new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Combat, item => gui.ViewEntity(item), false),
+                        new TrinketBar(playerPawn.Inventory.Entities, TrinketType.NonCombat, item => gui.ViewEntity(item), false),
                         _inventoryPanel
                     }
                 },

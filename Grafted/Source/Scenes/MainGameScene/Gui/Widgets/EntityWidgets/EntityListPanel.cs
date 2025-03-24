@@ -13,7 +13,7 @@ public class EntityListPanelItem : HorizontalStackPanel
         _entity = entity;
         _label = new Label { VerticalAlignment = VerticalAlignment.Center, Font = BaseContent.Fonts.Default.Normal };
         ImageButton viewEntityButton = new()
-            { Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.QuestionMark], Width = 32, Height = 32, VerticalAlignment = VerticalAlignment.Center };
+            { Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.QuestionMark], Width = BaseContent.IconSizes.Small, Height = BaseContent.IconSizes.Small, VerticalAlignment = VerticalAlignment.Center };
         viewEntityButton.TouchDown += (_, _) => { gui.ViewEntity(entity); };
         Widgets.Add(viewEntityButton);
         HorizontalStackPanel entityButton = new()
@@ -21,7 +21,7 @@ public class EntityListPanelItem : HorizontalStackPanel
             Spacing = 10,
             Widgets =
             {
-                new Image { Background = new TextureRegion(entity.Icon), Width = 48, Height = 48 },
+                new Image { Background = new TextureRegion(entity.Icon), Width = BaseContent.IconSizes.Default, Height = BaseContent.IconSizes.Default },
                 _label
             }
         };

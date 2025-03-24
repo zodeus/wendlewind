@@ -19,6 +19,7 @@ public class PawnBody : IExposable, IIdentityProvider
     public bool RequiresLungs = true;
     public bool BodyPartsDirty = true;
     public float BloodChangeLastFrame;
+    public BodyStanceDef Stance = null!;
     public DefaultBodyHandler Handler = null!;
     public BodyDef Def => Pawn.PawnDef.Body;
     public float MaxBlood => Def.MaxBlood * Pawn.Body.BodySizeFactor;
@@ -99,6 +100,7 @@ public class PawnBody : IExposable, IIdentityProvider
         Handler = Def.Handler;
         Handler.Initialize(this);
         Energy = MaxEnergy;
+        Stance = Defs.BodyStances.Comfortable;
     }
 
     public void Tick()
@@ -159,6 +161,7 @@ public class PawnBody : IExposable, IIdentityProvider
         ScribeValues.Look(ref StomachLevel, "StomachLevel");
         ScribeDeep.Look(ref Capabilities!, "Capabilities", Pawn);
         ScribeDeep.Look(ref Effects!, "Effects", Pawn);
+        ScribeDefs.Look(ref Stance!, "Stance");
         ScribeDeep.Look(ref _rootSocket!, "RootSocket");
         ScribeDeep.Look(ref Handler!, "Handler");
     }

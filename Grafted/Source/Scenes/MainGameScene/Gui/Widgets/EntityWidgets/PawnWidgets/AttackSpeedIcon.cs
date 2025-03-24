@@ -2,14 +2,14 @@
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
-public class AttackSpeedIcon : Panel
+public class AttackSpeedIcon : Panel, IUpdatable
 {
     private readonly Pawn _pawn;
     public readonly Label Label;
 
     public AttackSpeedIcon(Pawn pawn, SpriteFontBase? font = null)
     {
-        font ??= BaseContent.Fonts.Fancy.Normal;
+        font ??= BaseContent.Fonts.Default.Normal;
         _pawn = pawn;
         Label = new Label
         {
@@ -20,6 +20,7 @@ public class AttackSpeedIcon : Panel
 
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame];
         Height = 56;
+        Width = 80;
         Padding = new Thickness(6,0,6,0);
         base.VerticalAlignment = VerticalAlignment.Center;
 

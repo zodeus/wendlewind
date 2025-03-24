@@ -1,4 +1,5 @@
-﻿using Myra.Graphics2D.Brushes;
+﻿using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
+using Myra.Graphics2D.Brushes;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
@@ -13,8 +14,18 @@ public sealed class PawnPanel : EntityPanelBase
     public PawnPanel(BaseGui gui, Pawn pawn, EntityPanelProperties? properties = null) : base(gui, pawn, properties)
     {
         _pawn = pawn;
-        MinWidth = 1400;
-        MinHeight = 1200;
+        if (Core.Resolution == SupportedResolutions.Uhd)
+        {
+            MinWidth = 1400;
+            MinHeight = 1000;
+        }
+        else
+        {
+            MinWidth = 1200;
+            MinHeight = 850;    
+        }
+        MinWidth = 1000;
+        MinHeight = 850;
         var pane = new HorizontalStackPanel { Spacing = 40 };
         pane.Proportions.Add(Proportion.Auto);
         pane.Proportions.Add(Proportion.Fill);
@@ -60,7 +71,8 @@ public sealed class PawnPortraitPanel : VerticalStackPanel
                 {
                     Background = new TextureRegion(pawn.Icon),
                     HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Stretch,
-                    BorderThickness = new Thickness(1), Border = new SolidBrush(Color.Transparent)
+                    //BorderThickness = new Thickness(1), 
+                    //Border = new SolidBrush(Color.Transparent)
                 }
             }
         });

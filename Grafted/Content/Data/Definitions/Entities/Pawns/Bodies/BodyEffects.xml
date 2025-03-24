@@ -4,6 +4,7 @@
     <BodyEffectDef>
         <Moniker>FoodPoisoning</Moniker>
         <Label>Food Poisoning</Label>
+        <TexturePath>Entities/Pawn/BodyEffects/FoodPoisoning</TexturePath>
         <AffectedStats>
             <ListItem>
                 <Stat>MeleeStrength</Stat>
@@ -18,6 +19,7 @@
     <BodyEffectDef>
         <Moniker>BeefedUp</Moniker>
         <Label>Beefed Up</Label>
+        <TexturePath>Entities/Pawn/BodyEffects/BeefedUp</TexturePath>
         <AffectedStats>
             <ListItem>
                 <Stat>MeleeStrength</Stat>
@@ -32,6 +34,7 @@
     <BodyEffectDef>
         <Moniker>BeefedUp+</Moniker>
         <Label>Beefed Up+</Label>
+        <TexturePath>Entities/Pawn/BodyEffects/BeefedUpPlus</TexturePath>
         <AffectedStats>
             <ListItem>
                 <Stat>MeleeStrength</Stat>
@@ -46,6 +49,7 @@
     <BodyEffectDef>
         <Moniker>Fishy</Moniker>
         <Label>Fishy</Label>
+        <TexturePath>Entities/Pawn/BodyEffects/Fishy</TexturePath>
         <AffectedStats>
             <ListItem>
                 <Stat>MeleeStrength</Stat>
@@ -58,22 +62,9 @@
         </AffectedStats>
     </BodyEffectDef>
     <BodyEffectDef>
-        <Moniker>DeathToll</Moniker>
-        <Label>Death Toll</Label>
-        <AffectedStats>
-            <ListItem>
-                <Stat>MeleeStrength</Stat>
-                <Factor>0.20</Factor>
-            </ListItem>
-            <ListItem>
-                <Stat>AttackSpeed</Stat>
-                <Factor>.20</Factor>
-            </ListItem>
-        </AffectedStats>
-    </BodyEffectDef>
-    <BodyEffectDef>
         <Moniker>Energized</Moniker>
         <Label>Energized</Label>
+        <TexturePath>Entities/Pawn/BodyEffects/Energized</TexturePath>
         <AffectedStats>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
@@ -84,6 +75,7 @@
     <BodyEffectDef>
         <Moniker>SmokeyHaze</Moniker>
         <Label>Smokey Haze</Label>
+        <TexturePath>Entities/Pawn/BodyEffects/SmokeyHaze</TexturePath>
         <Description>You've danced in the flames of glittering wood, your skin absorbed a pungent smoke</Description>
         <AffectedStats>
             <ListItem>
@@ -99,6 +91,7 @@
     <BodyEffectDef>
         <Moniker>Psychedelic</Moniker>
         <Label>Psychedelic</Label>
+        <TexturePath>Entities/Pawn/BodyEffects/Psychedelic</TexturePath>
         <Description>You can perceive a high reality</Description>
         <Notes>Higher reality perception</Notes>
         <AffectedStats>
@@ -119,7 +112,8 @@
     <BodyEffectDef>
         <Moniker>FeelingThePurple</Moniker>
         <Label>Feeling the Purple</Label>
-        <Notes>Regenerating health</Notes>
+        <TexturePath>Entities/Pawn/BodyEffects/FeelingThePurple</TexturePath>
+        <Notes>Full body health regeneration</Notes>
         <AffectedStats>
             <ListItem>
                 <Stat>MeleeStrength</Stat>
@@ -130,6 +124,7 @@
     <BodyEffectDef>
         <Moniker>GoldenLips</Moniker>
         <Label>Golden Lips</Label>
+        <TexturePath>Entities/Pawn/BodyEffects/GoldenLips</TexturePath>
         <Notes>Food tastes better</Notes>
     </BodyEffectDef>
     <BodyEffectDef>

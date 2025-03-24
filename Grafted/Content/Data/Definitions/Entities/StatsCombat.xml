@@ -42,17 +42,17 @@
         <MaxValue>1</MaxValue>
     </StatDef>
     <StatDef>
+        <Moniker>PhysicalResistance</Moniker>
+        <Label>Physical Resistance</Label>
+        <BaseValue>0</BaseValue>
+        <MinValue>0</MinValue>
+    </StatDef>
+    <StatDef>
         <Moniker>MeleePower</Moniker>
         <Label>Melee Power</Label>
         <BaseValue>1</BaseValue>
         <MinValue>0.1</MinValue>
         <MaxValue>1000</MaxValue>
-    </StatDef>
-    <StatDef>
-        <Moniker>PhysicalResistance</Moniker>
-        <Label>Physical Resistance</Label>
-        <BaseValue>0</BaseValue>
-        <MinValue>0</MinValue>
     </StatDef>
     <StatDef>
         <Moniker>WeaponSpeed</Moniker>

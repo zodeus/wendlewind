@@ -70,7 +70,7 @@ internal sealed class BoakLootBoxPanel : Grid
             Widgets.Add(panel);
 
             gridColum++;
-            if (gridColum > 2)
+            if (gridColum > 1)
             {
                 gridColum = 0;
                 gridRow++;

@@ -45,10 +45,12 @@ public static class StatExtensions {
     }
 
     public static float GetStatValue(this Pawn pawn, StatDef stat) {
-        float value = stat.Handler.GetValue(pawn);
+        var value = stat.Handler.GetValue(pawn);
         foreach (BodyEffect effect in pawn.Body.Effects) {
             effect.ModifyIfApplicable(stat, ref value);
         }
+        
+        pawn.Body.Stance.ModifyStatIfApplicable(stat, ref value);
 
         return value;
     }
@@ -73,29 +75,29 @@ public static class StatExtensions {
 }
 
 public class DefaultStatHandler {
-    protected readonly StatDef _stat;
+    protected readonly StatDef Stat;
 
     public DefaultStatHandler(StatDef stat) {
-        _stat = stat;
+        Stat = stat;
     }
 
     public virtual float GetValue(Entity entity) {
-        float value = GetBaseValue(entity.Def);
-        if (_stat.StatFactors != null) {
+        var value = GetBaseValue(entity.Def);
+        if (Stat.StatFactors != null) {
             // Stat*stat multiplier
-            for (int i = 0; i < _stat.StatFactors.Count; i++) {
-                value *= entity.GetStatValue(_stat.StatFactors[i]);
+            for (var i = 0; i < Stat.StatFactors.Count; i++) {
+                value *= entity.GetStatValue(Stat.StatFactors[i]);
             }
         }
 
-        value = Mathf.Clamp(value, _stat.MinValue, _stat.MaxValue);
+        value = Mathf.Clamp(value, Stat.MinValue, Stat.MaxValue);
         return value;
     }
 
     protected float GetBaseValue(EntityDef def) {
-        float result = _stat.BaseValue;
-        for (int i = 0; i < def.BaseStats.Count; i++) {
-            if (def.BaseStats[i].Def != _stat) continue;
+        var result = Stat.BaseValue;
+        for (var i = 0; i < def.BaseStats.Count; i++) {
+            if (def.BaseStats[i].Def != Stat) continue;
             result = def.BaseStats[i].Value;
             break;
         }

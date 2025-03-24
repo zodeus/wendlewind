@@ -3,12 +3,12 @@ using Grafted.Sim.Entities.Items.Trinkets;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 
-public sealed class TrinketBar : VerticalStackPanel
+public sealed class TrinketBar : VerticalStackPanel, IUpdatable
 {
     private Dictionary<Item, TrinketBarCell> _trinkets = [];
     private HorizontalStackPanel _currentRow = new();
 
-    public TrinketBar(EntityContainer container, TrinketType type, Action<Item> clickAction)
+    public TrinketBar(EntityContainer container, TrinketType type, Action<Item> clickAction, bool showStatusLabel)
     {
         Widgets.Add(_currentRow);
         container.ItemAdded += CreatePanel;
@@ -30,7 +30,7 @@ public sealed class TrinketBar : VerticalStackPanel
             if (entity is not Item { ItemDef: { ItemType: ItemType.Trinket } } trinket) return;
             if (trinket.ItemDef.TrinketProperties?.Type != type) return;
 
-            var panel = new TrinketBarCell(trinket, clickAction) { VerticalAlignment = VerticalAlignment.Bottom };
+            var panel = new TrinketBarCell(trinket, clickAction, showStatusLabel) { VerticalAlignment = VerticalAlignment.Bottom };
             _trinkets[trinket] = panel;
             _currentRow.Widgets.Add(panel);
         }
@@ -51,21 +51,24 @@ public sealed class TrinketBarCell : VerticalStackPanel
     private readonly Label _label;
     private readonly Button _button;
 
-    public TrinketBarCell(Item trinket, Action<Item> clickAction)
+    public TrinketBarCell(Item trinket, Action<Item> clickAction, bool showStatusLabel)
     {
         _trinket = trinket;
         _label = new Label(BaseContent.Styles.Label.Small)
         {
-            HorizontalAlignment = HorizontalAlignment.Center, Visible = false
+            HorizontalAlignment = HorizontalAlignment.Center
         };
-        Widgets.Add(_label);
+        if (showStatusLabel)
+        {
+            Widgets.Add(_label);
+        }
 
         _button = new Button
         {
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
             Padding = new Thickness(12),
-            Width = 85,
-            Height = 85,
+            Width = BaseContent.IconSizes.Large,
+            Height = BaseContent.IconSizes.Large,
             Content = new Image
             {
                 VerticalAlignment = VerticalAlignment.Stretch, HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -98,6 +101,6 @@ public sealed class TrinketBarCell : VerticalStackPanel
             }
         }
 
-        _label.Visible = _label.Text != "";
+        //_label.Visible = _label.Text != "";
     }
 }

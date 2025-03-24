@@ -5,22 +5,21 @@ internal class BoakPawnsBodyPartsPanel : Grid
     public BoakPawnsBodyPartsPanel(IReadOnlyList<BodyPartDef> partDefs, IReadOnlyList<BodyPartSocketDef> socketDefs)
     {
         Padding = new Thickness(16);
-        RowSpacing = 20;
-        ColumnSpacing = 50;
+        RowSpacing = 0;
+        ColumnSpacing = 30;
 
         var gridColum = 0;
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Label" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "HitPoints" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Blood" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Type" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Hit W." }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "IsVital" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "IsBone" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "IsFlesh" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "IsOrgan" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Mobility %" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Sockets" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Slots" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = "Label" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = "HitPoints" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = "Blood" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = "Type" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = "Hit W." }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = "IsVital" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = "IsBone" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = "IsFlesh" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = "IsOrgan" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = "Mobility %" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = "Slots" }, 0, gridColum++);
 
         DefaultColumnProportion = Proportion.Auto;
 
@@ -56,25 +55,28 @@ internal class BoakPawnsBodyPartsPanel : Grid
             AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = $"{(def.IsFlesh ? "Yes" : "")}", VerticalAlignment = VerticalAlignment.Center }, gridRow, gridColum++);
             AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = $"{(def.IsOrgan ? "Yes" : "")}", VerticalAlignment = VerticalAlignment.Center }, gridRow, gridColum++);
             AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = $"{def.MobilityFraction}", VerticalAlignment = VerticalAlignment.Center }, gridRow, gridColum++);
-
-            AddCell(new Label(BaseContent.Styles.Label.Normal)
-            {
-                Text = string.Join(", ", def.Sockets?.Select(s => s.Label) ?? Array.Empty<string>()), VerticalAlignment = VerticalAlignment.Center
-            }, gridRow, gridColum++);
-
             AddCell(new Label(BaseContent.Styles.Label.Normal)
             {
                 Text = string.Join(", ", def.EquipmentSlots?.Select(s => s.ToString()) ?? Array.Empty<string>()), VerticalAlignment = VerticalAlignment.Center
             }, gridRow, gridColum++);
 
             gridRow++;
+
+            AddCell(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = string.Join(", ", def.Sockets?.Select(s => s.Label) ?? Array.Empty<string>()), VerticalAlignment = VerticalAlignment.Center,
+            }, gridRow, 0, 11);
+            gridRow++;
+            AddCell(new HorizontalSeparator { Margin = new Thickness(0, 0, 0, 10) }, gridRow, 0, 11);
+            gridRow++;
         }
     }
 
-    private void AddCell(Widget widget, int row, int column)
+    private void AddCell(Widget widget, int row, int column, int colSpan = 1)
     {
         SetRow(widget, row);
         SetColumn(widget, column);
+        SetColumnSpan(widget, colSpan);
         Widgets.Add(widget);
     }
 }

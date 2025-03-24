@@ -12,7 +12,7 @@ public sealed class CombatControlPanel : VerticalStackPanel
         ShowGridLines = false;
         _continueButton = new Button(BaseContent.Styles.Button.LargeGold)
         {
-            Content = new Label { Text = "Continue" },
+            Content = new Label { Text = "Continue", HorizontalAlignment = HorizontalAlignment.Center},
             Visible = false, Margin = new Thickness(0, 10, 0, 0), HorizontalAlignment = HorizontalAlignment.Stretch,
         };
         _continueButton.Click += (_, _) => { encounter.Zone.CombatResults(); };

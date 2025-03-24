@@ -14,8 +14,15 @@ using Myra;
 
 namespace Grafted;
 
+public enum SupportedResolutions
+{
+    Hd, // 2560 × 1440
+    Uhd // 3840, 2040
+}
+
 public class Core : Game
 {
+    public const SupportedResolutions Resolution = SupportedResolutions.Uhd;
     public const int TicksPerSecond = 60;
     public new static GraphicsDevice GraphicsDevice { get; private set; } = null!;
     public new static ContentManager Content { get; private set; } = null!;
@@ -62,7 +69,6 @@ public class Core : Game
             SynchronizeWithVerticalRetrace = false,
             PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8
         };
-        graphics.DeviceReset += OnGraphicsDeviceReset;
         Screen.Initialize(graphics);
         if (isFullScreen)
         {
@@ -72,12 +78,11 @@ public class Core : Game
         else
         {
             Screen.SetSize(2560, 1440);
-            //Screen.SetSize(3820, 2040);
+            //Screen.SetSize(3840, 2040);
         }
 
         Window.Title = "Grafted";
         Window.AllowUserResizing = true;
-        Window.ClientSizeChanged += OnGraphicsDeviceReset;
 
         IsMouseVisible = true;
         IsFixedTimeStep = false;
@@ -101,17 +106,13 @@ public class Core : Game
         Graphics = new GraphicsWrapper();
 
         //Scene.Load<LoadingScene>();
-        DataLoader.Load();
-
-        BaseContent.Initialize();
-        BaseContent.Fonts.Load();
-
-
-        #region GUI
 
         MyraEnvironment.Game = this;
         MyraEnvironment.DefaultAssetManager = AssetManager.CreateFileAssetManager(Path.Combine(contentDirectory, "UI"));
-        Stylesheet.Current = MyraEnvironment.DefaultAssetManager.LoadStylesheet("milgreth_ui_skin.xmms");
+        LoadStyleSheet();
+
+        DataLoader.Load();
+        BaseContent.Initialize();
 
         RichTextDefaults.FontResolver = p =>
         {
@@ -126,7 +127,8 @@ public class Core : Game
             return fontSystem.GetFont(fontSize);
         };
 
-        #endregion
+        Window.ClientSizeChanged += OnGraphicsDeviceReset;
+        //GraphicsDevice.DeviceReset += OnGraphicsDeviceReset;
 
         Scene.RegisterScene(new MainMenuScene());
         Scene.RegisterScene(new GameScene());
@@ -138,6 +140,18 @@ public class Core : Game
 
         //SoundEffect sound = MonoSoundManager.GetEffect("Content/Audio/winds.mp3");
         //sound.Play();
+    }
+
+    private static void LoadStyleSheet()
+    {
+        if (Core.Resolution == SupportedResolutions.Uhd)
+        {
+            Stylesheet.Current = MyraEnvironment.DefaultAssetManager.LoadStylesheet("milgreth_ui_skin_4k.xmms");
+        }
+        else
+        {
+            Stylesheet.Current = MyraEnvironment.DefaultAssetManager.LoadStylesheet("milgreth_ui_skin.xmms");
+        }
     }
 
     public static void ChangeScene<T>() where T : Scene => Scene.Load<T>();
@@ -184,6 +198,8 @@ public class Core : Game
 
     private void OnGraphicsDeviceReset(object? sender, EventArgs e)
     {
+        BaseContent.ReloadResolutionSensitiveAssets();
+        LoadStyleSheet();
         // coalesce reset events
         if (_graphicsDeviceChangeTimer != null)
         {
