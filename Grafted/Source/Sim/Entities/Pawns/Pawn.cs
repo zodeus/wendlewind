@@ -208,11 +208,16 @@ public class Pawn : Entity, IExposable
                     nonFunctionalVitalParts.Add($"{partRecord.PartType} stopped functioning");
                 }
 
-                if (partRecord.BodyPart.DidPawnDieFromPartFailure())
+                if (partRecord.BodyPart.DidPawnDieFromPartFailure() && nonFunctionalVitalParts.Any())
                 {
                     return nonFunctionalVitalParts.First();
                 }
             }
+        }
+
+        if (IsDead && nonFunctionalVitalParts.Count==0)
+        {
+            Log.Error("Pawn is dead but no non-functional vital parts were found");
         }
 
         return null;

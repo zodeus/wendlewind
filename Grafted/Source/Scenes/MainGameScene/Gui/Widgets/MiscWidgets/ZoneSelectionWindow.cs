@@ -15,79 +15,33 @@ public class ZoneSelectionWindow : Window
     public ZoneSelectionWindow(World world)
     {
         TitlePanel.Visible = false;
-
-        var peacefulMeadow = world.GetZone(Defs.Biomes.PeacefulMeadow);
-        var outskirts = world.GetZone(Defs.Biomes.TheOutskirts);
-        var grainMill = world.GetZone(Defs.Biomes.GrainMill);
-        var festerpusSwamp = world.GetZone(Defs.Biomes.FesterpusSwamp);
-        var forgottenForest = world.GetZone(Defs.Biomes.ForgottenForest);
-        var dampCave = world.GetZone(Defs.Biomes.DampCave);
-        var cemetery = world.GetZone(Defs.Biomes.Cemetery);
-        var mineShafts = world.GetZone(Defs.Biomes.Mineshaft);
         _zoneDisplay = new VerticalStackPanel();
-        Content = new HorizontalStackPanel()
-        {
-            Widgets =
-            {
-                new VerticalStackPanel
-                {
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    Spacing = 10,
-                    Widgets =
-                    {
-                        /*new VerticalStackPanel
-                        {
-                            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
-                            Padding = new Thickness(15),
-                            Widgets =
-                            {
-                                new Label(BaseContent.Styles.Label.Large) { Text = "Journey", HorizontalAlignment = HorizontalAlignment.Center }
-                            }
-                        },*/
-                        CreateButton(peacefulMeadow),
-                        CreateButton(outskirts, peacefulMeadow),
-                        CreateButton(grainMill, outskirts),
-                        CreateButton(festerpusSwamp, grainMill),
-                        CreateButton(forgottenForest, festerpusSwamp),
-                        CreateButton(dampCave, forgottenForest),
-                        CreateButton(cemetery, dampCave),
-                        CreateButton(mineShafts, cemetery),
+        var zoneButtonPanel = new VerticalStackPanel { HorizontalAlignment = HorizontalAlignment.Center, Spacing = 10, };
 
-                        // new TextButton(BaseContent.Styles.Button.Normal) { Text = "The Alchemist Hut", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                        // new TextButton(BaseContent.Styles.Button.Normal) { Text = "Forgemaster's Quarry", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                        // new TextButton(BaseContent.Styles.Button.Normal) { Text = "Fallow Field", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                        // new TextButton(BaseContent.Styles.Button.Normal) { Text = "Mage Tower", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                        // new TextButton(BaseContent.Styles.Button.Normal) { Text = "Field of Vegetables", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                        // new TextButton(BaseContent.Styles.Button.Normal) { Text = "Blood Court", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                        // new TextButton(BaseContent.Styles.Button.Normal) { Text = "His Rectory", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                        // new TextButton(BaseContent.Styles.Button.Normal) { Text = "Scarlet Chapel", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                        // new TextButton(BaseContent.Styles.Button.Normal) { Text = "Steamy Oil Vents", HorizontalAlignment = HorizontalAlignment.Stretch, Enabled = false },
-                    }
-                },
-                _zoneDisplay
-            }
-        };
-    }
-
-    private Button CreateButton(Zone zone, Zone? previousZone = null)
-    {
-        if (!zone.IsComplete && (previousZone == null || previousZone.IsComplete))
+        Zone? previousZone = null;
+        foreach (var zone in world.Zones)
         {
-            ShowZone(zone);
+            ShouldShowZone(zone, previousZone);
+            previousZone = zone;
         }
 
-        var button = new Button(BaseContent.Styles.Button.Normal)
-        {
-            Content = new Label { Text = zone.BiomeDef.Label, HorizontalAlignment = HorizontalAlignment.Center },
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Enabled = !zone.IsComplete && (previousZone == null || previousZone.IsComplete)
-        };
-        button.Click += (_, _) => ShowZone(zone);
-        return button;
+        // The Alchemist Hut
+        // Forgemaster's Quarry
+        // Fallow Field
+        // Mage Tower
+        // Field of Vegetables
+        // Blood Court
+        // His Rectory
+        // Scarlet Chapel
+        // Steamy Oil Vents            
+
+        Content = new HorizontalStackPanel { Widgets = { zoneButtonPanel, _zoneDisplay } };
     }
 
-    private void ShowZone(Zone zone)
+    private void ShouldShowZone(Zone zone, Zone? previousZone = null)
     {
+        if (zone.IsComplete || previousZone is { IsComplete: false }) return;
+        
         _zoneDisplay.Widgets.Clear();
         var startButton = new Button(BaseContent.Styles.Button.Large)
         {

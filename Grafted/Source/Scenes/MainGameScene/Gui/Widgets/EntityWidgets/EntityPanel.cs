@@ -72,7 +72,7 @@ public class EntityPanel : EntityPanelBase
         });
 
 
-        foreach (BaseStat baseStat in entity.Def.BaseStats)
+        foreach (var baseStat in entity.Def.BaseStats)
         {
             var row = new HorizontalStackPanel { Spacing = 10 };
             row.Widgets.Add(new Label { Text = $"{baseStat.Def.Label}:" });

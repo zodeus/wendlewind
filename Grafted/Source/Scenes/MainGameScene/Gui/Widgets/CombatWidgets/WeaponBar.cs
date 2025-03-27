@@ -12,7 +12,7 @@ public sealed class WeaponBar : HorizontalStackPanel, IUpdatable
     public WeaponBar(Pawn pawn)
     {
         _pawn = pawn;
-       Refresh(pawn.Equipment.UsableWeapons);
+        Refresh(pawn.Equipment.UsableWeapons);
     }
 
     public void Update()
@@ -29,13 +29,26 @@ public sealed class WeaponBar : HorizontalStackPanel, IUpdatable
         Widgets.Clear();
         foreach (var weapon in usableWeapons)
         {
-            var button = new Image
+            var button = new Button(BaseContent.Styles.Button.Icon)
             {
-                Background = new TextureRegion(weapon.Icon),
-                Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium
+                Content = new Image
+                {
+                    Background = new ColoredRegion(
+                        new TextureRegion(weapon.Icon),
+                        Color.White
+                    ),
+                    Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium,
+                }
+            };
+            button.TouchDown += (_, _) =>
+            {
+                weapon.UseInCombat = !weapon.UseInCombat;
+                var color = weapon.UseInCombat ? Color.White : new Color(80, 80, 80, 160);
+
+                ((ColoredRegion)button.Content.Background).Color = color;
             };
             Widgets.Add(button);
-            _weapons.Add(new(weapon, button));
+            _weapons.Add(new KeyValuePair<Item, Widget>(weapon, button));
         }
     }
 }

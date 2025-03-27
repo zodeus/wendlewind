@@ -120,7 +120,7 @@ public sealed class ResourcePanel : EntityPanelBase
 
     private static void MakePotion(Player player, Item item)
     {
-        ItemDef potionToMake = Defs.Items.BalmyOintment;
+        var potionToMake = Defs.Items.BalmyOintment;
 
         if (item.StackSize > 1)
         {

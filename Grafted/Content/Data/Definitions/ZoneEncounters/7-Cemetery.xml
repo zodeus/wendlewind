@@ -71,7 +71,7 @@
         <Moniker>Cemetery-03</Moniker>
         <Biome>Cemetery</Biome>
         <PotentialLootBoxes>
-            <ListItem>EnchantedChestOffensive</ListItem>
+            <ListItem>SupplyChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>

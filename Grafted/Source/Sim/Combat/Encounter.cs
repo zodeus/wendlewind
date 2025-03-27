@@ -1,22 +1,17 @@
 namespace Grafted.Sim.Combat;
 
-public class Encounter
+public class Encounter(Zone zone, EncounterDef def)
 {
     private EncounterState _state = EncounterState.NotStarted;
     public CombatHandler? CombatHandler { get; private set; }
     public event Action<EncounterState>? StateChangedAction;
 
-    public Zone Zone;
-    public EncounterDef Def = null!;
+    public readonly Zone Zone = zone;
+    public readonly EncounterDef Def = def;
     public int Ticks;
 
     public readonly List<Pawn> PlayerPawns = [];
     public readonly List<Pawn> EnemyPawns = [];
-
-    public Encounter(Zone zone)
-    {
-        Zone = zone;
-    }
 
     public void Initialize()
     {

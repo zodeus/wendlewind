@@ -34,7 +34,7 @@ public class GameContext : IExposable
             return;
         }
 
-        if (CurrentZone?.ActiveEncounter?.Zone?.State != ZoneState.Combat)
+        if (CurrentZone?.State != ZoneState.Combat)
         {
             return;
         }
@@ -43,7 +43,6 @@ public class GameContext : IExposable
         {
             return;
         }
-
 
         InternalTick();
     }

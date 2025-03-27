@@ -63,7 +63,7 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
         }
     }
 
-    public IEnumerable<Item> UsableWeapons => UsableItems.Where(i => i.ItemDef.EquipmentProperties.EquipmentType == EquipmentType.Weapon);
+    public IEnumerable<Item> UsableWeapons => UsableItems.Where(i => i.ItemDef.EquipmentProperties?.EquipmentType == EquipmentType.Weapon);
 
 
     public IEnumerable<KeyValuePair<BodyPart, List<EquipmentSlotType>>> Slots

@@ -2,7 +2,7 @@
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
-public sealed class ItemContainerPanel : ScrollViewer
+public sealed class ItemContainerPanel : Panel
 {
     private readonly BaseGui _gui;
     private readonly EntityContainer _container;
@@ -16,7 +16,7 @@ public sealed class ItemContainerPanel : ScrollViewer
         _container = container;
         _receivingContainer = receivingContainer;
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
-        Padding = new Thickness(15, 0, 0, 0);
+        Padding = new Thickness(15, 15,15,15);
 
         List<ItemContainerPanelSection> sections = new()
         {
@@ -64,8 +64,11 @@ public sealed class ItemContainerPanel : ScrollViewer
             }
         };
         
-        var verticalStackPanel = new VerticalStackPanel { Padding = new Thickness(0, 20, 0, 20) };
-        Content = verticalStackPanel;
+        var verticalStackPanel = new VerticalStackPanel();
+        Widgets.Add(new ScrollViewer
+        {
+            Content = verticalStackPanel
+        });
         foreach (var section in sections)
         {
             EntityListPanel panel = new(_gui, section.Label, section.Container, section.Filter, LeftClickHandler, RightClickHandler)

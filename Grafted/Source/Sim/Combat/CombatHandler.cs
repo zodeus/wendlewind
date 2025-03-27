@@ -12,11 +12,11 @@ public class CombatHandler
     private double TotalDirectPlayerDamage;
 
     public EntityContainer Loot = new();
-    public readonly CombatRecord CombatRecord = new();
     public readonly List<BodyPart> SeveredLimbs = [];
 
     public Pawn Player { get; set; }
     public Pawn Enemy { get; set; }
+    public event Action<string>? CombatLogMessageAdded;
 
     public CombatHandler(Encounter encounter)
     {
@@ -35,7 +35,9 @@ public class CombatHandler
 
     private void OnDeath(DeathEvent deathEvent)
     {
-        LogMessage($"/f[default, 32]/c[{TC.Victim}]{deathEvent.Pawn.LabelShort} /cddied from /c[{TC.Red}]{deathEvent.Record.CauseOfDeath}\n");
+        LogMessage(
+            $"/f[default, 32]/c[{TC.Victim}]{deathEvent.Pawn.LabelShort} /cddied from /c[{TC.Red}]{deathEvent.Record.CauseOfDeath}\n"
+        );
         _encounter.Zone.Alert(
             new ScreenMessageData
             {
@@ -211,6 +213,7 @@ public class CombatHandler
         var energyUsedForAttack = 0.25f;
         attacker.Body.ConsumeEnergy(energyUsedForAttack);
         var damageOptions = attacker.Equipment.UsableWeapons
+            .Where(w => w.UseInCombat)
             .Select(t => CombatHelpers.CalculateDamages(attacker, t))
             .OrderByDescending(t => t.TotalRawDamage)
             .ToList();
@@ -221,7 +224,7 @@ public class CombatHandler
             return;
         }
 
-        var damageRequest = damageOptions.First();
+        var damageRequest = damageOptions.RandomElement();
 
         damageRequest.AddTrinketResults(HandleActivatedTrinkets(attacker, victim));
 
@@ -440,10 +443,7 @@ public class CombatHandler
 
     private void LogMessage(string message)
     {
-        CombatRecord.LogMessage(new CombatLogMessage
-        {
-            Text = message,
-        });
+        CombatLogMessageAdded?.Invoke(message);
     }
 
     private void CollectLoot()

@@ -13,13 +13,13 @@ public sealed class PawnBodySummary : Grid, IUpdatable
         _bodyParts = new Dictionary<BodyPart, Image>();
         ColumnSpacing = 5;
         Padding = new Thickness(6, 6, 6, 6);
-        int gridColumn = 0;
+        var gridColumn = 0;
         var partsToIgnore = new List<BodyPartType>
         {
             BodyPartType.Finger, BodyPartType.Thumb
         };
-        int gridRow = 0;
-        foreach (BodyPart part in body.AllExternalParts)
+        var gridRow = 0;
+        foreach (var part in body.AllExternalParts)
         {
             if (partsToIgnore.Contains(part.Type))
             {
@@ -32,7 +32,7 @@ public sealed class PawnBodySummary : Grid, IUpdatable
             Widgets.Add(image);
             SetRow(image, gridRow);
             SetColumn(image, gridColumn++);
-            if (gridColumn > 5)
+            if (gridColumn > 4)
             {
                 gridColumn = 0;
                 gridRow++;
@@ -42,7 +42,7 @@ public sealed class PawnBodySummary : Grid, IUpdatable
 
     public void Update()
     {
-        foreach ((BodyPart bodyPart, Image image) in _bodyParts)
+        foreach ((var bodyPart, var image) in _bodyParts)
         {
             if (bodyPart.IsSevered)
             {
@@ -51,7 +51,7 @@ public sealed class PawnBodySummary : Grid, IUpdatable
                 continue;
             }
 
-            Color color = BodyPartColor.Get(bodyPart);
+            var color = BodyPartColor.Get(bodyPart);
             ((ColoredRegion)image.Background).Color = color;
         }
     }

@@ -108,7 +108,7 @@ public sealed class BodyPartPanel : EntityPanelBase
         {
             panel.Widgets.Add(new Label { Text = "Internal Parts", Margin = new Thickness(0, 20, 0, 0) });
             panel.Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 5, 0, 5) });
-            foreach (BodyPart internalPart in bodyPart.InternalParts)
+            foreach (var internalPart in bodyPart.InternalParts)
             {
                 var partPanel = new BodyPartPanelPartLabel(gui, internalPart)
                 {

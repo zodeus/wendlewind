@@ -19,25 +19,21 @@ public class LootPanel : Panel, IUpdatable
             Padding = new Thickness(15)
         };
         _bodyPanel = new PawnBodyPanel(gui, playerPawn.Body);
-        _inventoryPanel = new ItemContainerPanel(gui,
-            playerPawn.Inventory.Entities,
-            lootContainer
-        )
+        _inventoryPanel = new ItemContainerPanel(gui, playerPawn.Inventory.Entities, lootContainer)
         {
-            MaxHeight = 500,
+            MaxHeight = 900,
             VerticalAlignment = VerticalAlignment.Stretch,
             Visible = !playerPawn.IsDead, Width = 700
         };
 
         _equipmentPanel = new PawnEquipmentPanel(gui, playerPawn);
-        if (lootContainer != null)
+        if (lootContainer!=null)
         {
             _otherContainerPanel = new ItemContainerPanel(gui, lootContainer, playerPawn.Inventory.Entities)
             {
                 Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.Loot], VerticalAlignment = VerticalAlignment.Stretch,
             };
         }
-
 
         VerticalStackPanel rightColumn = new()
         {
@@ -46,9 +42,9 @@ public class LootPanel : Panel, IUpdatable
         };
         rightColumn.Widgets.Add(_equipmentPanel);
         rightColumn.Widgets.Add(_pawnEffectsPanel);
-        rightColumn.Widgets.Add(new Label(BaseContent.Styles.Label.Large) { Text = "Ground Loot", Margin = new Thickness(0, 50, 0, 0), });
         if (_otherContainerPanel != null)
         {
+            rightColumn.Widgets.Add(new Label(BaseContent.Styles.Label.Large) { Text = "Ground Loot", Margin = new Thickness(0, 50, 0, 0), });
             rightColumn.Widgets.Add(_otherContainerPanel);
         }
 

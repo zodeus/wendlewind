@@ -31,7 +31,7 @@ public class ConsumablePanel : EntityPanelBase {
         });
         Widgets.Add(_stackLabel);
 
-        foreach (BaseStat baseStat in item.Def.BaseStats) {
+        foreach (var baseStat in item.Def.BaseStats) {
             var row = new HorizontalStackPanel { Spacing = 10 };
             row.Widgets.Add(new Label("small") { Text = $"{baseStat.Def.Label}:" });
             row.Widgets.Add(new Label("small") { Text = item.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture) });

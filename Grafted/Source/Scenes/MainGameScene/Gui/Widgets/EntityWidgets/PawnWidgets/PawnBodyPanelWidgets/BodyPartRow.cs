@@ -32,7 +32,7 @@ internal sealed class BodyPartRow : HorizontalStackPanel
             .Concat(new List<BodyPart> { bodyPart })
             .Concat(bodyPart.AllInternalParts.Where(p => p.Type != BodyPartType.Skin && showInternalParts));
 
-        foreach (BodyPart part in parts)
+        foreach (var part in parts)
         {
             ImageCircleIcon partIcon = new(new ColoredRegion(new TextureRegion(part.WhiteIcon), BodyPartColor.Get(bodyPart)), panel =>
             {
@@ -55,7 +55,7 @@ internal sealed class BodyPartRow : HorizontalStackPanel
                 }
             });
 
-            partIcon.TouchDown += (_, _) => BodyPartClickHandler(part);
+            partIcon.TouchDown += (_, _) => BodyPartClickHandler(part, !showInternalParts);
             _parts.Add(partIcon);
             Widgets.Add(partIcon);
         }
@@ -102,7 +102,7 @@ internal sealed class BodyPartRow : HorizontalStackPanel
 
         _label.Text = $"{BodyPart.Label}";
         _label.TextColor = BodyPartColor.Get(BodyPart);
-        foreach (ImageCircleIcon image in _parts)
+        foreach (var image in _parts)
         {
             image.Update();
         }

@@ -3,6 +3,7 @@ using Grafted.Sim.Entities;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
+[UsedImplicitly]
 public sealed class WeaponPanel : EntityPanelBase
 {
     private readonly Item _item;
@@ -44,9 +45,9 @@ public sealed class WeaponPanel : EntityPanelBase
         }
         Widgets.Add(new Label("small") { Text = $"Weapon Type: {item.ItemDef.WeaponProperties?.WeaponType}" });
         Widgets.Add(new Label("small") { Text = $"Damage Type: {item.ItemDef.WeaponProperties?.DamageType}" });
-        Widgets.Add(new Label("small") { Text = $"Slot: {(item.ItemDef.EquipmentProperties.SlotUsedToEquip != null ? item.ItemDef.EquipmentProperties.SlotUsedToEquip : "n/a")}" });
+        Widgets.Add(new Label("small") { Text = $"Slot: {(item.ItemDef.EquipmentProperties?.SlotUsedToEquip != null ? item.ItemDef.EquipmentProperties.SlotUsedToEquip : "n/a")}" });
 
-        foreach (BaseStat baseStat in item.Def.BaseStats)
+        foreach (var baseStat in item.Def.BaseStats)
         {
             var row = new HorizontalStackPanel { Spacing = 10 };
             row.Widgets.Add(new Label("small") { Text = $"{baseStat.Def.Label}:" });

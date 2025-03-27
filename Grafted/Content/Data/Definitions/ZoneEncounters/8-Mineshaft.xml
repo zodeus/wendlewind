@@ -1,21 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <!--<EncounterDef>
-        <Moniker>Mineshaft-Shrine</Moniker>
-        <Biome>Mineshaft</Biome>
-        <ShrineProperties>
-            <GodLabel>Herminor</GodLabel>
-            <PartsToRestore>4~7</PartsToRestore>
-            <TexturePath>Biome/Shrines/cemetery_shrine_1</TexturePath>
-            <RestorablePartTypes>
-                <ListItem>Thumb</ListItem>
-                <ListItem>Finger</ListItem>
-                <ListItem>Hand</ListItem>
-                <ListItem>Foot</ListItem>
-            </RestorablePartTypes>
-        </ShrineProperties>
-    </EncounterDef>-->
     <EncounterDef>
         <Moniker>Mineshaft-01</Moniker>
         <Biome>Mineshaft</Biome>

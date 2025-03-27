@@ -79,9 +79,9 @@ public sealed class PawnBodyPanel : VerticalStackPanel, IUpdatable
 
     public void Update()
     {
-        for (int i = _socketPanels.Count - 1; i >= 0; i--)
+        for (var i = _socketPanels.Count - 1; i >= 0; i--)
         {
-            BodyPartSocketPanel socketPanel = _socketPanels[i];
+            var socketPanel = _socketPanels[i];
 
             socketPanel.Update();
             if (socketPanel.Socket.AttachedPart?.IsSevered == true)

@@ -14,7 +14,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
         _gui = gui;
         _pawn = pawn;
         Spacing = 2;
-        foreach ((BodyPart bodyPart, List<EquipmentSlotType> slots) in pawn.Equipment.Slots)
+        foreach ((var bodyPart, var slots) in pawn.Equipment.Slots)
         {
             if (bodyPart.Type is BodyPartType.Finger or BodyPartType.Thumb or BodyPartType.Eye)
             {
@@ -41,7 +41,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
         // UnEquip
         if (_gui.MouseAttachment == null && Input.RightMouseButtonReleased && slot != EquipmentSlotType.BuiltIn)
         {
-            Item? unEquippedItem = _pawn.Equipment.UnEquip(part, slot);
+            var unEquippedItem = _pawn.Equipment.UnEquip(part, slot);
             if (unEquippedItem != null)
             {
                 if (_pawn.Inventory.Entities.TryAdd(unEquippedItem) == false)
@@ -134,7 +134,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
 
     public void Update()
     {
-        foreach ((BodyPart? bodyPart, EquipmentColumn? widget) in _panels)
+        foreach ((var bodyPart, var widget) in _panels)
         {
             widget.Update();
             if (bodyPart.IsSevered)
@@ -166,7 +166,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
             _imageFrame = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.WhiteIcon), BodyPartColor.Get(bodyPart)), Width = _cellSize, Height = _cellSize };
             _imageFrame.TouchDown += (_, _) => gui.ViewEntity(bodyPart);
             Widgets.Add(_imageFrame);
-            foreach (EquipmentSlotType slot in slots)
+            foreach (var slot in slots)
             {
                 Button slotFrame = new(BaseContent.Styles.Button.Icon)
                 {
@@ -191,7 +191,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
 
         public void Update()
         {
-            foreach ((EquipmentSlotType slot, Button? image) in _slots)
+            foreach ((var slot, var image) in _slots)
             {
                 if (_bodyPart.Equipment[slot] is { IsDestroyed: false } item)
                 {

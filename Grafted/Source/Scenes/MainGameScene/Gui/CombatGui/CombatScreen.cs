@@ -3,9 +3,10 @@ using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBod
 
 namespace Grafted.Scenes.MainGameScene.Gui.CombatGui;
 
-public class CombatScreen : VerticalStackPanel
+public class CombatScreen : VerticalStackPanel, IDisposable
 {
     private readonly GameContext _context;
+    private readonly WorldTextHandler _worldTextHandler;
     private readonly ScrollViewer _combatLog;
     private readonly GameHud _gameHud;
     private readonly CombatPartyPanel _playerPartyPanel;
@@ -23,11 +24,14 @@ public class CombatScreen : VerticalStackPanel
 
     private Encounter Encounter => _context.CurrentZone!.ActiveEncounter!;
 
-    public CombatScreen(ZoneGui gui, GameContext context)
+    public CombatScreen(ZoneGui gui, GameContext context, WorldTextHandler worldTextHandler)
     {
         _context = context;
-        Encounter.StateChangedAction += CombatStateChangedAction();
-        Encounter.CombatHandler!.CombatRecord.LogMessageAddedAction += message => { AddCombatLogEntry(message.Text); };
+        _worldTextHandler = worldTextHandler;
+        Encounter.StateChangedAction += CombatStateChangedAction;
+        Encounter.CombatHandler!.CombatLogMessageAdded += AddCombatLogEntry;
+        Encounter.CombatHandler!.Player.DamageTaken += PrintDamage;
+        Encounter.CombatHandler!.Enemy.DamageTaken += PrintDamage;
         _gameHud = new GameHud(gui, context)
         {
             HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -165,22 +169,52 @@ public class CombatScreen : VerticalStackPanel
         Widgets.Add(grid);
     }
 
-    private Action<EncounterState> CombatStateChangedAction()
+    private void PrintDamage(Pawn target, DamageRequest request, DamageResponse response)
     {
-        return state =>
+        var position = target.PawnType == PawnType.Player ? new Vector2(Core.Random.Next(950, 1050), Core.Random.Next(200, 250)) : new Vector2(Core.Random.Next(1550, 1650), Core.Random.Next(200, 250));
+         if (response.TotalDamage <= 0)
         {
-            switch (state)
+            var damages= response.Damages.Select(d=>d.WeaponManeuverLabel).ToList();
+            damages.ForEach(d =>
             {
-                case EncounterState.InProgress:
-                    break;
-                case EncounterState.Finished:
-                    _controlPanel.ShowContinueButton();
-                    _potionQueuePanel.Visible = false;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
-            }
-        };
+                _worldTextHandler.Add(new WorldSpaceText
+                {
+                    Font = BaseContent.Fonts.Default.Normal,
+                    RenderAction = WorldSpaceText.VibratingRenderAction,
+                    Text = d,
+                    DurationInTicks = 180,
+                    Color = Color.Orange,
+                    Position = position
+                });
+            });
+            return;
+        }
+
+        
+        _worldTextHandler.Add(new WorldSpaceText
+        {
+            Font = BaseContent.Fonts.Default.Normal,
+            RenderAction = WorldSpaceText.VibratingRenderAction,
+            Text = response.TotalDamage.ToString() ?? "",
+            DurationInTicks = 180,
+            Color = Color.Red,
+            Position = position
+        });
+    }
+
+    private void CombatStateChangedAction(EncounterState state)
+    {
+        switch (state)
+        {
+            case EncounterState.InProgress:
+                break;
+            case EncounterState.Finished:
+                _controlPanel.ShowContinueButton();
+                _potionQueuePanel.Visible = false;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(state), state, null);
+        }
     }
 
     public void Update()
@@ -221,7 +255,7 @@ public class CombatScreen : VerticalStackPanel
         _enemyPawnBodyView.Update();
     }
 
-    private void AddCombatLogEntry(string text, Color? color = null)
+    private void AddCombatLogEntry(string? detailedMessage)
     {
         var panel = (VerticalStackPanel)_combatLog.Content;
         if (panel.Widgets.Count > 300)
@@ -232,13 +266,17 @@ public class CombatScreen : VerticalStackPanel
         Label label = new(BaseContent.Styles.Label.Small)
         {
             Width = 1600,
-            Text = text, Wrap = true, Margin = new Thickness(0, 10, 0, 0)
+            Text = detailedMessage, Wrap = true, Margin = new Thickness(0, 10, 0, 0)
         };
-        if (color != null)
-        {
-            label.TextColor = color.Value;
-        }
 
         panel.Widgets.Insert(0, label);
+    }
+
+    public void Dispose()
+    {
+        Encounter.StateChangedAction -= CombatStateChangedAction;
+        Encounter.CombatHandler!.CombatLogMessageAdded -= AddCombatLogEntry;
+        Encounter.CombatHandler!.Player.DamageTaken -= PrintDamage;
+        Encounter.CombatHandler!.Enemy.DamageTaken -= PrintDamage;
     }
 }

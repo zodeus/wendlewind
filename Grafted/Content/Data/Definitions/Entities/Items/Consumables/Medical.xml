@@ -88,12 +88,6 @@
         </CraftingProperties>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
-        <Moniker>SurgicalSaw</Moniker>
-        <Label>Surgical Saw</Label>
-        <Description>Used to sever limbs</Description>
-        <TexturePath>Entities/Item/Consumables/SurgicalSaw</TexturePath>
-    </ItemDef>
-    <ItemDef ParentName="MedicalItem">
         <Moniker>BalmyOintment</Moniker>
         <Label>Balmy Ointment</Label>
         <Description>Sooths the skin and meat, tingly and nice.</Description>

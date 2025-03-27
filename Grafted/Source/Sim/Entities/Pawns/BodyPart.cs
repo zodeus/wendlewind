@@ -410,15 +410,14 @@ public class BodyPart : Entity
             }
         }
 
-        if (IsFunctional) return false;
-
-        foreach (var internalPart in InternalParts.InRandomOrder())
+        foreach (var internalPart in AllInternalParts.InRandomOrder())
         {
             if (internalPart.DidPawnDieFromPartFailure())
             {
                 return true;
             }
         }
+
 
         return false;
     }

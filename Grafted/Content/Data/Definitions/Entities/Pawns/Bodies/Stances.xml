@@ -34,7 +34,7 @@
             <ListItem>
                 <Stat>Evasion</Stat>
                 <Offset>-0.1</Offset>
-            </ListItem>we
+            </ListItem>
             <ListItem>
                 <Stat>MeleeStrength</Stat>
                 <Offset>0.3</Offset>

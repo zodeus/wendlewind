@@ -63,7 +63,8 @@ public class EntityListPanel : VerticalStackPanel, IUpdatable
         _leftClickAction = leftClickAction;
         _rightClickAction = rightClickAction;
         _filter = filter;
-        var itemVerticalPanel = new VerticalStackPanel { Spacing = 5 };
+        var itemVerticalPanel = new VerticalStackPanel { Spacing = 5};
+        
         //Widgets.Add(new HorizontalSeparator());
         Widgets.Add(new Label( /*BaseContent.Styles.Label.Medium*/) { Text = label, TextColor = Color.DarkGoldenrod });
         Widgets.Add(new ScrollViewer { Content = itemVerticalPanel, MaxHeight = 240 });
@@ -71,7 +72,7 @@ public class EntityListPanel : VerticalStackPanel, IUpdatable
 
     public void Update()
     {
-        foreach (Entity entity in _container)
+        foreach (var entity in _container)
         {
             if (_filter != null && _filter(entity) == false)
             {
@@ -88,7 +89,7 @@ public class EntityListPanel : VerticalStackPanel, IUpdatable
             }
         }
 
-        foreach ((Entity item, EntityListPanelItem panel) in _items)
+        foreach ((var item, var panel) in _items)
         {
             if (item.IsDestroyed || _container.Contains(item) == false)
             {

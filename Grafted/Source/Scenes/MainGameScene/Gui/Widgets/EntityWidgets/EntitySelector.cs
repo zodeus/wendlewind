@@ -18,7 +18,7 @@ public class EntitySelector : Window {
         MouseLeft += (_, _) => Close();
         VerticalStackPanel panel = new() { Spacing = 3 };
         Content = panel;
-        foreach (Entity entity in entities) {
+        foreach (var entity in entities) {
             HorizontalStackPanel row = new() { Spacing = 10, OverBackground = new SolidBrush(new Color(20, 25, 20)) };
             row.TouchUp += (sender, args) => {
                 selectionAction(entity);

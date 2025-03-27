@@ -98,7 +98,7 @@ public class GameHud : HorizontalStackPanel
         boak.TouchDown += (_, _) => { gui.OpenBoak(); };
         leftPanel.Widgets.Add(boak);
 
-        if (context.CurrentZone == null)
+        if (gui is CampGui)
         {
             Button nextZone = new(BaseContent.Styles.Button.Large)
             {
@@ -106,7 +106,7 @@ public class GameHud : HorizontalStackPanel
                 Content = new Label(BaseContent.Styles.Label.Large)
                 {
                     VerticalAlignment = VerticalAlignment.Center,
-                    Text = "Carry On"
+                    Text = "Next Zone"
                 },
                 Padding = new Thickness(10)
             };

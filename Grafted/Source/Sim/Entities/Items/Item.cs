@@ -19,6 +19,7 @@ public class Item : Entity, IExposable
     public MedicinalHandler? MedicinalHandler => ItemDef.MedicinalProperties?.Handler;
 
     public bool CanBeDestroyed => ItemDef.ItemType == ItemType.Equipment;
+    public bool UseInCombat = true;
 
     public ItemEnchantments? Enchantments;
 
@@ -127,6 +128,7 @@ public class Item : Entity, IExposable
         ScribeValues.Look(ref _durability, "Durability");
         ScribeValues.Look(ref MaxDurability, "MaxDurability");
         ScribeValues.Look(ref StackSize, "StackSize");
+        ScribeValues.Look(ref UseInCombat, "UseInCombat");
         ScribeDeep.Look(ref Enchantments!, "Enchantments");
         ScribeDeep.Look(ref EnchantmentHandler!, "EnchantmentHandler");
         ScribeDeep.Look(ref TrinketHandler!, "TrinketHandler");

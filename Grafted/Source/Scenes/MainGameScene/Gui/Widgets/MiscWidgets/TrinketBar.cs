@@ -21,7 +21,7 @@ public sealed class TrinketBar : VerticalStackPanel, IUpdatable
 
         void CreatePanel(Entity entity)
         {
-            if (_currentRow.Widgets.Count > 6)
+            if (_currentRow.Widgets.Count > 9)
             {
                 _currentRow = new HorizontalStackPanel();
                 Widgets.Add(_currentRow);

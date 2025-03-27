@@ -16,19 +16,23 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
     public CampOverviewPanel(BaseGui gui, GameContext context)
     {
         var playerPawn = context.PlayerPawn;
-        _pawnEffectsPanel = new PawnBodyEffectsPanel(gui, playerPawn)
-        {
-            Width = 500
+        _pawnEffectsPanel = new PawnBodyEffectsPanel(gui, playerPawn) {
+            Margin = new Thickness(0, 20, 0, 20)
         };
         _bodyPanel = new PawnBodyPanel(gui, playerPawn.Body);
         _inventoryPanel = new ItemContainerPanel(gui,
             playerPawn.Inventory.Entities, null
-        ) { MinHeight = 700, MaxHeight = 1000, Width = 600, VerticalAlignment = VerticalAlignment.Stretch };
+        ) { MinHeight = 700, MaxHeight = 1200, Width = 600, VerticalAlignment = VerticalAlignment.Stretch };
 
-        _equipmentPanel = new PawnEquipmentPanel(gui, playerPawn);
+        _equipmentPanel = new PawnEquipmentPanel(gui, playerPawn)
+        {
+            Margin = new Thickness(0, 0, 0, 20)
+        };
 
-        VerticalStackPanel rightColumn = new() { Spacing = 30 };
+        VerticalStackPanel rightColumn = new() { Spacing = 0 };
         rightColumn.Widgets.Add(_equipmentPanel);
+        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Combat, item => gui.ViewEntity(item), false));
+        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory.Entities, TrinketType.NonCombat, item => gui.ViewEntity(item), false));
         rightColumn.Widgets.Add(_pawnEffectsPanel);
         rightColumn.Widgets.Add(new PawnSkillsPanel(playerPawn.Skills));
 
@@ -39,17 +43,7 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
             Widgets =
             {
                 _bodyPanel,
-                new VerticalStackPanel
-                {
-                    Proportions = { Proportion.Auto, Proportion.Auto, Proportion.Fill },
-                    Spacing = 5,
-                    Widgets =
-                    {
-                        new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Combat, item => gui.ViewEntity(item), false),
-                        new TrinketBar(playerPawn.Inventory.Entities, TrinketType.NonCombat, item => gui.ViewEntity(item), false),
-                        _inventoryPanel
-                    }
-                },
+                _inventoryPanel,
                 rightColumn
             }
         };

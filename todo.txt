@@ -1,7 +1,9 @@
 Add ZoneDef (see Zone)
 
-Cloaks & Bags
-
+Cloaks & Bags & Rings
+Stances 
+	Add skills
+	Arcane Stance
 Trinkets
 	Knowledge Transfer - Non-Combat - let's you move skills XP around
  	Organ Insulator - Combat - Charges when an organ takes damage, enabling it prevents organ damage for a period of time
@@ -23,7 +25,8 @@ Enchantments
 Modifiers
 	BrainWorm
 	Burning
-
+	BoneDecay
+	
 Achievements
  - Unlocks new items in new play throughs, weapons, enchantments etc 
 

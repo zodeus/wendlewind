@@ -4,7 +4,7 @@ namespace Grafted.Sim.Entities.Items.Trinkets;
 public class HolyChaliceHandler : TrinketHandler
 {
     public float CurrentOffing;
-    public float CurrentOffingPercentage => CurrentOffing / 10000;
+    public float CurrentOffingPercentage => CurrentOffing / 1000;
 
     public override void PostCombatAction(PostCombatReport postCombatReport)
     {

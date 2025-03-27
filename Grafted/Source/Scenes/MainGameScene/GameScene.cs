@@ -1,7 +1,6 @@
 using System.IO;
 using Grafted.Scenes.Components;
 using Grafted.Scenes.MainGameScene.Gui;
-using Grafted.Scenes.MainGameScene.Gui.CombatGui;
 
 namespace Grafted.Scenes.MainGameScene;
 
@@ -10,6 +9,7 @@ public class GameScene : Scene
     private CampGui _campGui = null!;
     private GameContext _context = null!;
     private GameState _currentGameState = GameState.Camp;
+    private WorldTextHandler _worldTextHandler;
     private BaseGui? ActiveGui { get; set; }
 
     protected override void OnStart()
@@ -17,6 +17,7 @@ public class GameScene : Scene
         _context = new GameContext();
         Core.Context = _context;
         _context.OnStateChanged += HandleOnStateChanged;
+        _worldTextHandler = new WorldTextHandler();
         //todo dispose of this
         //Core.Instance.Window.ClientSizeChanged += (_, _) => ReloadGui();
 
@@ -37,7 +38,7 @@ public class GameScene : Scene
         ActiveGui?.Dispose();
         ActiveGui = _currentGameState switch
         {
-            GameState.Zone => new ZoneGui(_context),
+            GameState.Zone => new ZoneGui(_context, _worldTextHandler),
             GameState.Camp => new CampGui(_context), //todo this should only be instantiated once, but it doesn't refresh properly
             _ => ActiveGui
         };
@@ -85,6 +86,7 @@ public class GameScene : Scene
     public override void Draw(float deltaTime)
     {
         ActiveGui?.Draw(Core.Graphics.Batcher, deltaTime);
+        _worldTextHandler.Render(Core.Graphics.Batcher,deltaTime );
     }
 
     public override void FixedUpdate()
@@ -92,6 +94,7 @@ public class GameScene : Scene
         for (int i = 0; i < DebugSettings.CombatSpeed; i++)
         {
             _context.Tick();
+            _worldTextHandler.Tick();
         }
     }
 

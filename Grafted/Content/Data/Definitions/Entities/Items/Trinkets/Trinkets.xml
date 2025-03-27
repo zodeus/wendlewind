@@ -58,6 +58,16 @@
         <TexturePath>Entities/Item/Trinket/Battery</TexturePath>
     </ItemDef>
     <ItemDef ParentName="ItemTrinket">
+        <Moniker>Forge</Moniker>
+        <Label>Forge</Label>
+        <TrinketProperties>
+            <Type>NonCombat</Type>
+        </TrinketProperties>
+        <UiClass>ForgePanel</UiClass>
+        <Description>A starmetal forge</Description>
+        <TexturePath>Entities/Item/Trinket/Forge</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="ItemTrinket">
         <Moniker>MortarAndPestle</Moniker>
         <Label>Mortar and Pestle</Label>
         <TrinketProperties>
@@ -134,5 +144,16 @@
         </TrinketProperties>
         <UiClass>SteroidInjectorPanel</UiClass>
         <TexturePath>Entities/Item/Trinket/SteroidInjector</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="ItemTrinket">
+        <Moniker>SurgicalSaw</Moniker>
+        <Label>Surgical Saw</Label>
+        <Description>Used to sever limbs.</Description>
+        <!--<TrinketProperties>
+            <Type>NonCombat</Type>
+            <HandlerClass>SteroidInjectorHandler</HandlerClass>
+        </TrinketProperties>-->
+        <!--<UiClass>SteroidInjectorPanel</UiClass>-->
+        <TexturePath>Entities/Item/Consumables/SurgicalSaw</TexturePath>
     </ItemDef>
 </Definitions>
