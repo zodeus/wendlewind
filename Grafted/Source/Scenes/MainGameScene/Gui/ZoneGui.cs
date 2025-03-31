@@ -12,6 +12,7 @@ public class ZoneGui : BaseGui
     private ShrineScreen? _shrineScreen;
     private CombatResultsScreen? _combatResultsScreen;
     private Zone Zone => _context.CurrentZone!;
+    public override WorldTextHandler WorldTextHandler => _worldTextHandler;
 
     public ZoneGui(GameContext context, WorldTextHandler worldTextHandler)
     {

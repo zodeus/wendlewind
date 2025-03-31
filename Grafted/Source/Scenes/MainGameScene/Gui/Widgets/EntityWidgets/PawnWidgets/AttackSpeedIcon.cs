@@ -41,7 +41,6 @@ public class AttackSpeedIcon : Panel, IUpdatable
         {
             Label.TextColor = Color.YellowGreen;
         }
-
         Label.Text = $"{_pawn.AttackSpeed:##.0}";
     }
 }

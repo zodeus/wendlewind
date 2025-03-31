@@ -2,11 +2,15 @@ namespace Grafted.Scenes.MainGameScene.Gui;
 
 public class CampGui : BaseGui
 {
+    private readonly WorldTextHandler _worldTextHandler;
     private readonly GameHud _gameHud;
     private readonly CampOverviewPanel _campOverview;
 
-    public CampGui(GameContext context)
+    public override WorldTextHandler WorldTextHandler => _worldTextHandler;
+    
+    public CampGui(GameContext context, WorldTextHandler worldTextHandler)
     {
+        _worldTextHandler = worldTextHandler;
         _gameHud = new GameHud(this, context) { HorizontalAlignment = HorizontalAlignment.Stretch, Margin = new Thickness(0, 5, 0, 0) };
         _campOverview = new CampOverviewPanel(this, context);
         Desktop = new Desktop

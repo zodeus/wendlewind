@@ -20,6 +20,18 @@
             <PhysicalResistance>20</PhysicalResistance>
             <MaxDurability>200</MaxDurability>
         </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>LeatherScraps</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>Thread</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
         <Moniker>LeatherVambrace</Moniker>
@@ -33,6 +45,18 @@
             <PhysicalResistance>20</PhysicalResistance>
             <MaxDurability>200</MaxDurability>
         </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>LeatherScraps</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>Thread</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
         <Moniker>LeatherGorget</Moniker>
@@ -47,6 +71,18 @@
             <PhysicalResistance>20</PhysicalResistance>
             <MaxDurability>200</MaxDurability>
         </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>LeatherScraps</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>Thread</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
         <Moniker>LeatherBoot</Moniker>
@@ -61,6 +97,18 @@
             <MaxDurability>200</MaxDurability>
             <MoveSpeed>.3</MoveSpeed>
         </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>LeatherScraps</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>Thread</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
         <Moniker>LeatherGreave</Moniker>
@@ -74,6 +122,18 @@
             <PhysicalResistance>24</PhysicalResistance>
             <MaxDurability>120</MaxDurability>
         </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>LeatherScraps</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>Thread</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
         <Moniker>LeatherTunic</Moniker>
@@ -87,6 +147,18 @@
             <PhysicalResistance>20</PhysicalResistance>
             <MaxDurability>200</MaxDurability>
         </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>LeatherScraps</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>Thread</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
         <Moniker>BucketHelmet</Moniker>
@@ -100,6 +172,14 @@
             <PhysicalResistance>25</PhysicalResistance>
             <MaxDurability>200</MaxDurability>
         </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
         <Moniker>FishBowlHelmet</Moniker>
@@ -113,5 +193,13 @@
             <PhysicalResistance>15</PhysicalResistance>
             <MaxDurability>80</MaxDurability>
         </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>VialOfDuplicity</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
     </ItemDef>
 </Definitions>

@@ -5,7 +5,7 @@
         <EntityClass>BodyPart</EntityClass>
         <UiClass>BodyPartPanel</UiClass>
     </BodyPartDef>
-    
+
     <BodyPartDef Name="GenericBodyPartBase" ParentName="BodyPartBase" Abstract="True">
     </BodyPartDef>
     <BodyPartDef ParentName="GenericBodyPartBase">
@@ -78,6 +78,7 @@
         <BloodAmount>15</BloodAmount>
         <IsVital>true</IsVital>
         <IsOrgan>true</IsOrgan>
+        <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Brain</TexturePath>
         <AdaptiveProperties>
             <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
@@ -103,6 +104,7 @@
         <BloodAmount>10</BloodAmount>
         <BodyPartType>Stomach</BodyPartType>
         <IsOrgan>true</IsOrgan>
+        <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Stomach</TexturePath>
         <AdaptiveProperties>
             <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
@@ -136,6 +138,7 @@
         <BloodAmount>10</BloodAmount>
         <IsVital>true</IsVital>
         <IsOrgan>true</IsOrgan>
+        <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Heart</TexturePath>
         <AdaptiveProperties>
             <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
@@ -150,6 +153,7 @@
         <BloodAmount>10</BloodAmount>
         <IsVital>true</IsVital>
         <IsOrgan>true</IsOrgan>
+        <IsFlesh>true</IsFlesh>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Lung</TexturePath>
         <AdaptiveProperties>
             <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">

@@ -39,7 +39,21 @@ public sealed class FoodPanel : EntityPanelBase
         {
             Content = new Label { Text = "Eat" }, Margin = new Thickness(0, 20, 0, 0)
         };
-        _eatButton.Click += (_, _) => { Core.Context.PlayerPawn.TryEat(item); };
+        _eatButton.Click += (_, _) =>
+        {
+            if (Core.Context.PlayerPawn.TryEat(item))
+            {
+                  gui.WorldTextHandler.Add(new WorldSpaceText
+                {
+                    Font = BaseContent.Fonts.Default.Medium,
+                    Color = Color.PaleGoldenrod,
+                    Text = item.Label,
+                    DurationInTicks = 120,
+                    Position = Mouse.GetState().Position.ToVector2()
+                });
+            }
+            
+        };
 
         _cookButton = new Button(BaseContent.Styles.Button.Normal)
         {

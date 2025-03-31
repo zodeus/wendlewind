@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using Grafted.Graphics.Textures;
 using Grafted.Sim.Entities.Pawns.Modifiers;
+using SharpDX.MediaFoundation;
 
 namespace Grafted.Sim.Entities.Pawns;
 
@@ -33,6 +34,7 @@ public class BodyPart : Entity
     public double HealthPercent => HitPoints / MaxHitPoints;
     public bool IsExternal => Socket?.IsExternal ?? true;
     public bool IsBone => BodyPartDef.IsBone;
+    public bool IsFlesh => BodyPartDef.IsFlesh;
     public bool IsOrgan => BodyPartDef.IsOrgan;
     public bool IsVital => BodyPartDef.IsVital;
     public new bool IsDestroyed => HitPoints <= .1f;
@@ -345,9 +347,14 @@ public class BodyPart : Entity
 
         // Do damage scale here
         var scaledDamage = damage;
-        if (damageType == DamageType.Blunt && IsBone)
+        if (damageType == DamageType.Blunt)
         {
-            scaledDamage *= 1.3f;
+            scaledDamage *= IsBone ? 1.3f : .8f;
+        }
+
+        if (damageType == DamageType.Sharp)
+        {
+            scaledDamage *= IsFlesh ? 1.3f : .8f;
         }
 
         var damageApplied = HitPoints;

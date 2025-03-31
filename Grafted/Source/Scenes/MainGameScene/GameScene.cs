@@ -39,7 +39,7 @@ public class GameScene : Scene
         ActiveGui = _currentGameState switch
         {
             GameState.Zone => new ZoneGui(_context, _worldTextHandler),
-            GameState.Camp => new CampGui(_context), //todo this should only be instantiated once, but it doesn't refresh properly
+            GameState.Camp => new CampGui(_context, _worldTextHandler), //todo this should only be instantiated once, but it doesn't refresh properly
             _ => ActiveGui
         };
     }
@@ -47,7 +47,7 @@ public class GameScene : Scene
     private void StartGame()
     {
         ActiveGui?.Dispose();
-        _campGui = new CampGui(_context);
+        _campGui = new CampGui(_context, _worldTextHandler);
         ActiveGui = _campGui;
     }
 
@@ -86,7 +86,7 @@ public class GameScene : Scene
     public override void Draw(float deltaTime)
     {
         ActiveGui?.Draw(Core.Graphics.Batcher, deltaTime);
-        _worldTextHandler.Render(Core.Graphics.Batcher,deltaTime );
+        _worldTextHandler.Render(Core.Graphics.Batcher, deltaTime);
     }
 
     public override void FixedUpdate()
@@ -147,6 +147,11 @@ public class GameScene : Scene
                 Duration = 3,
                 Color = Color.WhiteSmoke
             });
+        }
+
+        if (Input.IsKeyPressed(Keys.F12))
+        {
+            ReloadGui();
         }
     }
 }

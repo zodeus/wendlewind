@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef Name="CombatTrinket" ParentName="ItemTrinket" Abstract="true">
+        <TrinketProperties>
+            <Type>Combat</Type>
+        </TrinketProperties>
+    </ItemDef>
+    <ItemDef ParentName="CombatTrinket">
+        <Moniker>DeathRattle</Moniker>
+        <Label>Death Rattle</Label>
+        <TrinketProperties>
+            <HandlerClass>DeathRattleHandler</HandlerClass>
+        </TrinketProperties>
+        <WeaponProperties>
+            <WeaponType>Trinket</WeaponType>
+            <DamageType>Magic</DamageType>
+        </WeaponProperties>
+        <Description>What a curious little toy.</Description>
+        <TexturePath>Entities/Item/Trinket/DeathRattle</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="CombatTrinket">
+        <Moniker>Battery</Moniker>
+        <Label>Battery</Label>
+        <TrinketProperties>
+            <HandlerClass>BatteryHandler</HandlerClass>
+        </TrinketProperties>
+        <Description>Energizer bunny?</Description>
+        <TexturePath>Entities/Item/Trinket/Battery</TexturePath>
+    </ItemDef>
+</Definitions>

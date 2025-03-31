@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef Name="InteractiveTrinket" ParentName="ItemTrinket" Abstract="true">
+        <TrinketProperties>
+            <Type>Interactive</Type>
+        </TrinketProperties>
+    </ItemDef>
+    <ItemDef ParentName="InteractiveTrinket">
+        <Moniker>Forge</Moniker>
+        <Label>Forge</Label>
+        <TrinketProperties>
+        </TrinketProperties>
+        <UiClass>ForgePanel</UiClass>
+        <Description>A starmetal forge</Description>
+        <TexturePath>Entities/Item/Trinket/Forge</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="InteractiveTrinket">
+        <Moniker>HolyChalice</Moniker>
+        <Label>Holy Blood Chalice</Label>
+        <TrinketProperties>
+            <HandlerClass>HolyChaliceHandler</HandlerClass>
+        </TrinketProperties>
+        <UiClass>HolyChalicePanel</UiClass>
+        <Description>Drink in tribute to old the gods.</Description>
+        <TexturePath>Entities/Item/Trinket/HolyChalice</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="InteractiveTrinket">
+        <Moniker>Grimoire</Moniker>
+        <Label>Grimoire</Label>
+        <Description>?</Description>
+        <UiClass>GrimoirePanel</UiClass>
+        <TexturePath>Entities/Item/Trinket/Grimoire</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="InteractiveTrinket">
+        <Moniker>SteroidInjector</Moniker>
+        <Label>Steroid Injector</Label>
+        <Description>Time to get jacked.</Description>
+        <TrinketProperties>
+            <HandlerClass>SteroidInjectorHandler</HandlerClass>
+        </TrinketProperties>
+        <UiClass>SteroidInjectorPanel</UiClass>
+        <TexturePath>Entities/Item/Trinket/SteroidInjector</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="InteractiveTrinket">
+        <Moniker>SurgicalSaw</Moniker>
+        <Label>Surgical Saw</Label>
+        <Description>Used to sever limbs.</Description>
+        <!--<UiClass>SteroidInjectorPanel</UiClass>-->
+        <TexturePath>Entities/Item/Trinket/SurgicalSaw</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="InteractiveTrinket">
+        <Moniker>Disassembler</Moniker>
+        <Label>Disassembler</Label>
+        <Description>Takes things apart.</Description>
+        <UiClass>DisassemblerPanel</UiClass>
+        <TexturePath>Entities/Item/Trinket/Disassembler</TexturePath>
+    </ItemDef>
+</Definitions>

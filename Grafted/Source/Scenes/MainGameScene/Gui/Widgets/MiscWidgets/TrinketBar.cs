@@ -1,5 +1,6 @@
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items.Trinkets;
+using Myra.Graphics2D.Brushes;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 
@@ -7,6 +8,7 @@ public sealed class TrinketBar : VerticalStackPanel, IUpdatable
 {
     private Dictionary<Item, TrinketBarCell> _trinkets = [];
     private HorizontalStackPanel _currentRow = new();
+    public int TrinketsPerRow { get; set; } = 10;
 
     public TrinketBar(EntityContainer container, TrinketType type, Action<Item> clickAction, bool showStatusLabel)
     {
@@ -21,7 +23,7 @@ public sealed class TrinketBar : VerticalStackPanel, IUpdatable
 
         void CreatePanel(Entity entity)
         {
-            if (_currentRow.Widgets.Count > 9)
+            if (_currentRow.Widgets.Count >= TrinketsPerRow)
             {
                 _currentRow = new HorizontalStackPanel();
                 Widgets.Add(_currentRow);
@@ -53,6 +55,9 @@ public sealed class TrinketBarCell : VerticalStackPanel
 
     public TrinketBarCell(Item trinket, Action<Item> clickAction, bool showStatusLabel)
     {
+        //Border = new SolidBrush(Color.Blue);
+        //BorderThickness = new Thickness(1);
+        Spacing = 0;
         _trinket = trinket;
         _label = new Label(BaseContent.Styles.Label.Small)
         {
@@ -65,6 +70,9 @@ public sealed class TrinketBarCell : VerticalStackPanel
 
         _button = new Button
         {
+            
+            //Border = new SolidBrush(Color.Red),
+            //BorderThickness = new Thickness(1),
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
             Padding = new Thickness(12),
             Width = BaseContent.IconSizes.Large,

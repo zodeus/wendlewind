@@ -1,3 +1,4 @@
+using System.Net;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
 
@@ -57,7 +58,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             Height = 1300,
         };
 
-        _enemyPawnBodyView = new PawnBodyPanel(gui, Encounter.EnemyPawns.First().Body)
+        _enemyPawnBodyView = new PawnBodyPanel(gui, Encounter.EnemyPawns.First().Body, Encounter.CombatHandler)
         {
             HorizontalAlignment = HorizontalAlignment.Left
         };
@@ -171,10 +172,31 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
     private void PrintDamage(Pawn target, DamageRequest request, DamageResponse response)
     {
-        var position = target.PawnType == PawnType.Player ? new Vector2(Core.Random.Next(950, 1050), Core.Random.Next(200, 250)) : new Vector2(Core.Random.Next(1550, 1650), Core.Random.Next(200, 250));
-         if (response.TotalDamage <= 0)
+       
+
+        response.Damages.ForEach(d =>
         {
-            var damages= response.Damages.Select(d=>d.WeaponManeuverLabel).ToList();
+            if (d.AmountBlocked <= 0) return;
+            var position = target.PawnType == PawnType.Player
+                ? new Vector2(Core.Random.Next(950, 1050), Core.Random.Next(200, 250))
+                : new Vector2(Core.Random.Next(1550, 1650), Core.Random.Next(200, 250));
+            _worldTextHandler.Add(new WorldSpaceText
+            {
+                Font = BaseContent.Fonts.Default.Normal,
+                RenderAction = WorldSpaceText.VibratingRenderAction,
+                Text = d.AmountBlocked.ToString(),
+                DurationInTicks = 180,
+                Color = Color.CornflowerBlue,
+                Position = position
+            });
+        });
+
+        if (response.TotalDamage <= 0)
+        {
+            var position = target.PawnType == PawnType.Player
+                ? new Vector2(Core.Random.Next(950, 1050), Core.Random.Next(200, 250))
+                : new Vector2(Core.Random.Next(1550, 1650), Core.Random.Next(200, 250));
+            var damages = response.Damages.Select(d => d.WeaponManeuverLabel).ToList();
             damages.ForEach(d =>
             {
                 _worldTextHandler.Add(new WorldSpaceText
@@ -190,16 +212,21 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             return;
         }
 
-        
-        _worldTextHandler.Add(new WorldSpaceText
+        if (response.ActualDamage > 0)
         {
-            Font = BaseContent.Fonts.Default.Normal,
-            RenderAction = WorldSpaceText.VibratingRenderAction,
-            Text = response.TotalDamage.ToString() ?? "",
-            DurationInTicks = 180,
-            Color = Color.Red,
-            Position = position
-        });
+            var position = target.PawnType == PawnType.Player
+                ? new Vector2(Core.Random.Next(950, 1050), Core.Random.Next(200, 250))
+                : new Vector2(Core.Random.Next(1550, 1650), Core.Random.Next(200, 250));
+            _worldTextHandler.Add(new WorldSpaceText
+            {
+                Font = BaseContent.Fonts.Default.Normal,
+                RenderAction = WorldSpaceText.VibratingRenderAction,
+                Text = response.ActualDamage.ToString() ?? "",
+                DurationInTicks = 180,
+                Color = Color.Red,
+                Position = position
+            });
+        }
     }
 
     private void CombatStateChangedAction(EncounterState state)

@@ -18,7 +18,7 @@ public sealed class CombatResultsScreen : VerticalStackPanel
 
         _context = context;
         _gameHud = new GameHud(gui, context) { HorizontalAlignment = HorizontalAlignment.Stretch };
-        _pawnPanel = new LootPanel(gui, context.World.PlayerPawn, Encounter.CombatHandler?.Loot)
+        _pawnPanel = new LootPanel(gui, context.World.PlayerPawn, Encounter.CombatHandler?.Loot, DoAutoLoot)
         {
             //MaxHeight = 1200, // 1440p
             Margin = new Thickness(0, 80, 0, 0)

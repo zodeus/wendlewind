@@ -9,7 +9,7 @@ public enum GameState
 
 public class GameContext : IExposable
 {
-    public GameMessages Messages = new();
+    //public GameMessages Messages = new();
     public IdProvider IdProvider = new();
     public PlayerKillRecords DeathRecords = null!;
     public OminousMessageSpawner OminousMessageSpawner = null!;
@@ -141,7 +141,6 @@ public class GameContext : IExposable
     {
         ScribeDeep.Look(ref World!, "World");
         ScribeDeep.Look(ref IdProvider!, "IdProvider");
-        ScribeDeep.Look(ref Messages!, "Messages");
         ScribeValues.Look(ref Ticks, "Ticks");
         ScribeDeep.Look(ref OminousMessageSpawner!, "OminousMessageSpawner");
         ScribeDeep.Look(ref DeathRecords!, "DeathRecords");

@@ -11,6 +11,7 @@
         </EquipmentProperties>
         <WeaponProperties>
             <WeaponType>FireStaff</WeaponType>
+            <DamageType>Fire</DamageType>
             <BodyPartModifiers>
                 <ListItem>
                     <Def>Burning</Def>
@@ -21,7 +22,6 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Magic/FireStaff</TexturePath>
         <BaseStats>
-            <WeaponSpeed>2</WeaponSpeed>
             <MeleePower>0</MeleePower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>

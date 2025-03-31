@@ -11,7 +11,7 @@
             <AttackSpeed>1</AttackSpeed>
             <MeleeStrength>1</MeleeStrength>
             <MeleeAccuracy>.80</MeleeAccuracy>
-            <Evasion>.01</Evasion>
+            <Evasion>.02</Evasion>
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseAnimal">

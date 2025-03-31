@@ -8,7 +8,7 @@ public class AntiNecroticSerumHandler : MedicinalHandler
     public override bool ApplyToPart(Item item, BodyPart part)
     {
         var duration = item.ItemDef.MedicinalProperties!.DurationInTicks;
-        if (part.HasModifier(Defs.BodyPartModifiers.Necrosis))
+        if (part.HasModifier(Defs.BodyPartModifiers.Necrosis) && part.HasModifier(Defs.BodyPartModifiers.NecrosisSerum) == false)
         {
             part.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.NecrosisSerum, duration));
             return true;

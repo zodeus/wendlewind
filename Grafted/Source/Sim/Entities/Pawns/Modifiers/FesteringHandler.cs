@@ -10,6 +10,12 @@ public class FesteringHandler : BodyPartModifier
     public override void Tick()
     {
         base.Tick();
+
+        if (BodyPart.IsSevered)
+        {
+            return;
+        }
+
         BodyPart.HitPoints -= BodyPart.HitPoints * DamageFactorPerTick;
         if (BodyPart.HealthPercent < SpreadThreshold)
         {

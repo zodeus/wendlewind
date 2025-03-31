@@ -125,6 +125,7 @@
                 <Race>TruffleBoar</Race>
                 <Config>DefaultEnemy</Config>
                 <PawnName>Truffle Boar</PawnName>
+                <BodySizeFactor>1.3</BodySizeFactor>
                 <SpawnWeight>1</SpawnWeight>
                 <InventoryItems>
                     <ListItem>

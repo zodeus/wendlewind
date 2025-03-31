@@ -93,14 +93,14 @@ public sealed class ItemContainerPanel : Panel
             return;
         }
 
-        if (Input.IsKeyDown(Keys.LeftShift))
+        /*if (Input.IsKeyDown(Keys.LeftShift))
         {
             _receivingContainer?.TryAdd(item, 1);
         }
         else
         {
             _receivingContainer?.TryAdd(item);
-        }
+        }*/
     }
 
     private void LeftClickHandler(Entity entity)

@@ -25,11 +25,10 @@ internal sealed class BoakItemsTrinketsPanel : Grid
                 {
                     new Panel
                     {
-                        Width = 64,
                         VerticalAlignment = VerticalAlignment.Top,
                         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
                         Padding = new Thickness(4),
-                        Widgets = { new Image { Width = 64, Height = 64, Background = new TextureRegion(def.Icon) } }
+                        Widgets = { new Image { Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium, Background = new TextureRegion(def.Icon) } }
                     },
                     new Label(BaseContent.Styles.Label.Medium) { VerticalAlignment = VerticalAlignment.Center, Text = $"{def.Label}" }
                 }

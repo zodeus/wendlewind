@@ -20,6 +20,7 @@ public class ItemDef : EntityDef
     public MedicinalProperties? MedicinalProperties;
     public EnchantmentProperties? EnchantmentProperties;
     public TrinketProperties? TrinketProperties;
+    public DisassembleProperties? DisassembleProperties;
 
     public override void ResolveDependencies()
     {

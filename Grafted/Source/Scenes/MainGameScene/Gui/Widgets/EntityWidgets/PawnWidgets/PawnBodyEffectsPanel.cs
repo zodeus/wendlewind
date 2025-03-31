@@ -15,7 +15,7 @@ public sealed class PawnBodyEffectsPanel : HorizontalStackPanel, IUpdatable
     {
         _gui = gui;
         _pawn = pawn;
-        Spacing = 5;
+        Spacing = 0;
     }
 
     public void Update()

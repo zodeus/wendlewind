@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef Name="ItemTrinket" ParentName="ItemBase" Abstract="true">
+        <StackLimit>1</StackLimit>
+        <ItemType>Trinket</ItemType>
+        <UiClass>TrinketPanel</UiClass>
+    </ItemDef>
+</Definitions>

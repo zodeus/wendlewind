@@ -29,8 +29,9 @@ public sealed class BodyPartPanel : EntityPanelBase
         leftPanel.Widgets.Add(new BodyPartPanelArteryLabel(bodyPart));
         leftPanel.Widgets.Add(new BodyPartPanelDestroyedLabel(bodyPart));
         leftPanel.Widgets.Add(detailsButton);
-        RegisterAttachedParts(gui, leftPanel, bodyPart);
-         
+        
+        VerticalStackPanel centerPanel = new() { Spacing = 5, MinWidth = 330 };
+        RegisterAttachedParts(gui, centerPanel, bodyPart);
             
         var rightPanel = new VerticalStackPanel { Spacing = 5, Visible = false};
         detailsButton.Click += (_, _) => rightPanel.Visible = !rightPanel.Visible;
@@ -59,22 +60,12 @@ public sealed class BodyPartPanel : EntityPanelBase
             row.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = bodyPart.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture) });
             rightPanel.Widgets.Add(row);
         }
-
-        var damageButton = new Button
-        {
-            Content = new Label
-            {
-                Text = "Damage", Margin = new Thickness(10, 10, 10, 10)
-            }
-        };
-        damageButton.Click += (s, e) => bodyPart.HitPoints -= 10;
-        rightPanel.Widgets.Add(damageButton);
-
+        
         Widgets.Add(new HorizontalStackPanel
         {
             Spacing = 30, Widgets =
             {
-                leftPanel, rightPanel
+                leftPanel, centerPanel, rightPanel
             }
         });
     }

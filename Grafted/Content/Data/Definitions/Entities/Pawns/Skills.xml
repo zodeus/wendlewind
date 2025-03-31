@@ -36,7 +36,9 @@
         <Label>Axes</Label>
         <SkillType>Combat</SkillType>
         <WeaponType>Axe</WeaponType>
-    </SkillDef> 
+    </SkillDef>
+
+    <!-- Built-in Weapons -->
     <SkillDef>
         <Moniker>Whipping</Moniker>
         <Label>Whipping</Label>
@@ -72,5 +74,19 @@
         <Label>Mushroom Power</Label>
         <SkillType>Combat</SkillType>
         <WeaponType>MushroomCap</WeaponType>
+    </SkillDef> 
+    
+    <!-- Stances -->
+    <SkillDef>
+        <Moniker>Defense</Moniker>
+        <Label>Defense</Label>
+        <SkillType>Combat</SkillType>
+        <Stance>Defensive</Stance>
+    </SkillDef> 
+    <SkillDef>
+        <Moniker>Offense</Moniker>
+        <Label>Offense</Label>
+        <SkillType>Combat</SkillType>
+        <Stance>Offensive</Stance>
     </SkillDef> 
 </Definitions>

@@ -13,6 +13,14 @@
             <PhysicalResistance>50</PhysicalResistance>
             <MaxDurability>600</MaxDurability>
         </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
         <Moniker>ChainGorget</Moniker>
@@ -28,6 +36,14 @@
             <PhysicalResistance>50</PhysicalResistance>
             <MaxDurability>500</MaxDurability>
         </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
         <Moniker>ChainGlove</Moniker>
@@ -42,6 +58,14 @@
             <PhysicalResistance>50</PhysicalResistance>
             <MaxDurability>500</MaxDurability>
         </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
         <Moniker>ChainVambrace</Moniker>
@@ -56,6 +80,14 @@
             <PhysicalResistance>50</PhysicalResistance>
             <MaxDurability>800</MaxDurability>
         </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
         <Moniker>ChainTunic</Moniker>
@@ -70,6 +102,14 @@
             <PhysicalResistance>50</PhysicalResistance>
             <MaxDurability>800</MaxDurability>
         </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
         <Moniker>ChainGreave</Moniker>
@@ -84,6 +124,14 @@
             <PhysicalResistance>50</PhysicalResistance>
             <MaxDurability>800</MaxDurability>
         </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
     </ItemDef>
     <ItemDef ParentName="ArmorBase">
         <Moniker>ChainBoot</Moniker>
@@ -99,5 +147,13 @@
             <MaxDurability>800</MaxDurability>
             <MoveSpeed>.5</MoveSpeed>
         </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
     </ItemDef>
 </Definitions>

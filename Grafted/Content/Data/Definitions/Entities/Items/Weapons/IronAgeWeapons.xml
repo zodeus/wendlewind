@@ -33,9 +33,16 @@
         <TexturePath>Entities/Item/Equipment/Weapon/Sharp/ShortSword</TexturePath>
         <BaseStats>
             <MeleePower>30</MeleePower>
-            <WeaponSpeed>1.3</WeaponSpeed>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
     </ItemDef>
     <ItemDef ParentName="WeaponSharp">
         <Moniker>WarAxe</Moniker>
@@ -51,9 +58,20 @@
         <TexturePath>Entities/Item/Equipment/Weapon/Sharp/WarAxe</TexturePath>
         <BaseStats>
             <MeleePower>35</MeleePower>
-            <WeaponSpeed>1.2</WeaponSpeed>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>WoodBoard</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
     </ItemDef>
     <ItemDef ParentName="WeaponBlunt">
         <Moniker>WarHammer</Moniker>
@@ -69,8 +87,19 @@
         <TexturePath>Entities/Item/Equipment/Weapon/Blunt/WarHammer</TexturePath>
         <BaseStats>
             <MeleePower>30</MeleePower>
-            <WeaponSpeed>1.2</WeaponSpeed>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>WoodBoard</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
     </ItemDef>
 </Definitions>

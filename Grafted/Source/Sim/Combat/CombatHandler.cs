@@ -9,8 +9,9 @@ public class CombatHandler
     private readonly Encounter _encounter;
     private readonly Dictionary<Pawn, Item> _queuedItems = new();
     private readonly Dictionary<Pawn, List<Item>> _activeTrinkets = new();
-    private double TotalDirectPlayerDamage;
+    private double _totalDirectPlayerDamage;
 
+    public BodyPart? TargetedPart;
     public EntityContainer Loot = new();
     public readonly List<BodyPart> SeveredLimbs = [];
 
@@ -49,7 +50,7 @@ public class CombatHandler
         Core.Context.DeathRecords.RecordDeath(new DeathRecord
         {
             CauseOfDeath = deathEvent.Record.CauseOfDeath,
-            TotalDamageDealt = TotalDirectPlayerDamage,
+            TotalDamageDealt = _totalDirectPlayerDamage,
             Ticks = _encounter.Ticks,
             Biome = _encounter.Zone.BiomeDef,
             PawnName = deathEvent.Pawn.LabelShort + (_encounter.AtBoss ? " (Boss)" : "")
@@ -76,7 +77,7 @@ public class CombatHandler
 
         if (victim.PawnType == PawnType.Enemy)
         {
-            TotalDirectPlayerDamage += response.TotalDamage;
+            _totalDirectPlayerDamage += response.TotalDamage;
         }
 
         foreach (var damage in response.TrinketDamages)
@@ -210,24 +211,26 @@ public class CombatHandler
 
         attacker.ResetAttackCoolDown();
 
-        var energyUsedForAttack = 0.25f;
+        const float energyUsedForAttack = 0.25f; //todo Move somewhere cool, you know... do something with this. Make it dynamic.
         attacker.Body.ConsumeEnergy(energyUsedForAttack);
         var damageOptions = attacker.Equipment.UsableWeapons
             .Where(w => w.UseInCombat)
-            .Select(t => CombatHelpers.CalculateDamages(attacker, t))
-            .OrderByDescending(t => t.TotalRawDamage)
+            .Select(t => DamageRequest.Create(attacker, t))
             .ToList();
 
-        if (damageOptions.Any() == false)
+        if (damageOptions.Count == 0)
         {
             LogMessage($"/c[{TC.Attacker}]{attacker.LabelShort} has no usable weapons");
             return;
         }
 
         var damageRequest = damageOptions.RandomElement();
-
         damageRequest.AddTrinketResults(HandleActivatedTrinkets(attacker, victim));
-
+        if (victim.PawnType == PawnType.Enemy)
+        {
+            damageRequest.TargetedPart = TargetedPart;    
+        }
+        
         victim.TakeDamage(damageRequest);
     }
 
@@ -425,7 +428,7 @@ public class CombatHandler
                 {
                     Player = Player,
                     Enemy = Enemy,
-                    TotalDirectPlayerDamage = TotalDirectPlayerDamage
+                    TotalDirectPlayerDamage = _totalDirectPlayerDamage
                 });
                 t.TrinketHandler?.Stop();
             });

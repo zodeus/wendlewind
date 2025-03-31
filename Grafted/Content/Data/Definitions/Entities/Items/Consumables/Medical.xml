@@ -54,7 +54,7 @@
             </RequiredTrinkets>
             <ResourceRequirements>
                 <ListItem>
-                    <Item>GlitteringLog</Item>
+                    <Item>Thread</Item>
                     <Count>1</Count>
                 </ListItem>
             </ResourceRequirements>

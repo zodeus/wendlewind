@@ -4,7 +4,8 @@ public sealed class CombatControlPanel : VerticalStackPanel
 {
     private readonly Encounter _encounter;
     private readonly Button _continueButton;
-    private readonly HorizontalStackPanel _speedButtons;
+    private readonly HorizontalStackPanel _speedButtonsPanel;
+    private readonly List<TextButton> _speedButtons = [];
 
     public CombatControlPanel(Encounter encounter)
     {
@@ -12,7 +13,7 @@ public sealed class CombatControlPanel : VerticalStackPanel
         ShowGridLines = false;
         _continueButton = new Button(BaseContent.Styles.Button.LargeGold)
         {
-            Content = new Label { Text = "Continue", HorizontalAlignment = HorizontalAlignment.Center},
+            Content = new Label { Text = "Continue", HorizontalAlignment = HorizontalAlignment.Center },
             Visible = false, Margin = new Thickness(0, 10, 0, 0), HorizontalAlignment = HorizontalAlignment.Stretch,
         };
         _continueButton.Click += (_, _) => { encounter.Zone.CombatResults(); };
@@ -25,7 +26,7 @@ public sealed class CombatControlPanel : VerticalStackPanel
         };
 
         pauseButton.Click += (_, _) => { Core.Context.TogglePause(); };
-        _speedButtons = new HorizontalStackPanel
+        _speedButtonsPanel = new HorizontalStackPanel
         {
             Spacing = 3,
             Margin = new Thickness(0, 20, 0, 0),
@@ -39,23 +40,33 @@ public sealed class CombatControlPanel : VerticalStackPanel
             }
         };
 
-        Widgets.Add(_speedButtons);
+        Widgets.Add(_speedButtonsPanel);
     }
 
     private TextButton CreateSpeedButton(string label, int speed)
     {
         var button = new TextButton("small")
         {
-            Text = label
+            Text = label, TextColor = Color.LightGray
         };
+        if (DebugSettings.CombatSpeed == speed)
+        {
+            button.TextColor = Color.Goldenrod;
+        }
 
-        button.Click += (_, _) => { DebugSettings.CombatSpeed = speed; };
+        button.Click += (_, _) =>
+        {
+            _speedButtons.ForEach(b => b.TextColor = Color.LightGray);
+            button.TextColor = Color.Goldenrod;
+            DebugSettings.CombatSpeed = speed;
+        };
+        _speedButtons.Add(button);
         return button;
     }
 
     public void ShowContinueButton()
     {
-        _speedButtons.RemoveFromParent();
+        _speedButtonsPanel.RemoveFromParent();
         _continueButton.Visible = true;
     }
 }

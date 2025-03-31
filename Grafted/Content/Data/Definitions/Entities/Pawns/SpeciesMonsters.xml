@@ -11,6 +11,7 @@
             <AttackSpeed>2</AttackSpeed>
             <MeleeStrength>2</MeleeStrength>
             <MeleeAccuracy>.75</MeleeAccuracy>
+            <Evasion>.04</Evasion>
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseMonster">
@@ -31,7 +32,7 @@
         <BaseStats>
             <AttackSpeed>1</AttackSpeed>
             <MeleeStrength>1</MeleeStrength>
-            <Evasion>.01</Evasion>
+            <Evasion>.02</Evasion>
             <MeleeAccuracy>.75</MeleeAccuracy>
         </BaseStats>
     </PawnDef>
@@ -42,7 +43,7 @@
         <BaseStats>
             <AttackSpeed>1</AttackSpeed>
             <MeleeStrength>1</MeleeStrength>
-            <Evasion>.02</Evasion>
+            <Evasion>.03</Evasion>
             <MeleeAccuracy>.9</MeleeAccuracy>
         </BaseStats>
     </PawnDef>
@@ -64,7 +65,7 @@
         <BaseStats>
             <AttackSpeed>1</AttackSpeed>
             <MeleeStrength>2</MeleeStrength>
-            <Evasion>.02</Evasion>
+            <Evasion>.08</Evasion>
             <MeleeAccuracy>.7</MeleeAccuracy>
         </BaseStats>
     </PawnDef>

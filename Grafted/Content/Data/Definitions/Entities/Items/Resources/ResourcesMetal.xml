@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef Name="MetalResource" ParentName="ItemResource" Abstract="true">
+    </ItemDef>
+    <ItemDef ParentName="MetalResource">
+        <Moniker>IronNugget</Moniker>
+        <Label>Iron Nugget</Label>
+        <TexturePath>Entities/Item/Resource/Metal/IronNugget</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="MetalResource">
+        <Moniker>ChainLink</Moniker>
+        <Label>Chain Link</Label>
+        <TexturePath>Entities/Item/Resource/Metal/ChainLink</TexturePath>
+    </ItemDef>
+</Definitions>

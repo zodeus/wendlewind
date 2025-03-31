@@ -14,26 +14,30 @@
         <AffectedStats>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Offset>-0.5</Offset>
+                <Factor>-0.15</Factor>
             </ListItem>
             <ListItem>
                 <Stat>Evasion</Stat>
                 <Offset>0.15</Offset>
             </ListItem>
+            <ListItem>
+                <Stat>MeleeAccuracy</Stat>
+                <Offset>0.01</Offset>
+            </ListItem>
         </AffectedStats>
     </BodyStanceDef>
     <BodyStanceDef>
-        <Moniker>Melee</Moniker>
-        <Label>Hand to hand combat, don't mind if I do...</Label>
+        <Moniker>Offensive</Moniker>
+        <Label>...</Label>
         <TexturePath>Entities/Pawn/BodyStances/Melee</TexturePath>
         <AffectedStats>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Offset>.5</Offset>
+                <Factor>.2</Factor>
             </ListItem>
             <ListItem>
                 <Stat>Evasion</Stat>
-                <Offset>-0.1</Offset>
+                <Offset>-0.01</Offset>
             </ListItem>
             <ListItem>
                 <Stat>MeleeStrength</Stat>
@@ -41,7 +45,7 @@
             </ListItem>
             <ListItem>
                 <Stat>MeleeAccuracy</Stat>
-                <Offset>0.05</Offset>
+                <Offset>-0.02</Offset>
             </ListItem>
         </AffectedStats>
     </BodyStanceDef>

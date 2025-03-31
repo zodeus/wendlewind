@@ -1,17 +1,23 @@
-﻿using Grafted.Sim.Entities.Pawns.Modifiers;
+﻿using System.Drawing;
+using Grafted.Sim.Entities.Pawns.Modifiers;
+using Color = Microsoft.Xna.Framework.Color;
+using SolidBrush = Myra.Graphics2D.Brushes.SolidBrush;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
 
 internal sealed class BodyPartRow : HorizontalStackPanel
 {
     private readonly BaseGui _gui;
+    private readonly CombatHandler? _combatHandler;
     public BodyPart? BodyPart;
     private Label _label;
     private List<ImageCircleIcon> _parts = new();
+    private BodyPartTargetButton? _targetingButton;
 
-    public BodyPartRow(BaseGui gui)
+    public BodyPartRow(BaseGui gui, CombatHandler? combatHandler)
     {
         _gui = gui;
+        _combatHandler = combatHandler;
         Spacing = 5;
         _label = new Label(BaseContent.Styles.Label.Medium) { VerticalAlignment = VerticalAlignment.Center, TextColor = Color.Black };
     }
@@ -21,6 +27,12 @@ internal sealed class BodyPartRow : HorizontalStackPanel
         _parts.Clear();
         Widgets.Clear();
         BodyPart = bodyPart;
+        if (bodyPart.Body?.Pawn.PawnType == PawnType.Enemy)
+        {
+            _targetingButton = new BodyPartTargetButton(bodyPart, _combatHandler);
+            Widgets.Add(_targetingButton);
+        }
+
         if (showInternalParts)
         {
             Widgets.Add(_label);
@@ -47,6 +59,7 @@ internal sealed class BodyPartRow : HorizontalStackPanel
                     {
                         color = debuffColor;
                     }
+
                     panel.SetColor(color!.Value);
                 }
                 else
@@ -84,6 +97,15 @@ internal sealed class BodyPartRow : HorizontalStackPanel
             if (item.ItemDef.ItemType == ItemType.Medical && item.MedicinalHandler?.ApplyToPart(item, part) == true)
             {
                 item.StackSize--;
+                _gui.WorldTextHandler.Add(new WorldSpaceText
+                {
+                    Font = BaseContent.Fonts.Default.Medium,
+                    Color = Color.GreenYellow,
+                    Text = item.Label,
+                    DurationInTicks = 120,
+                    Speed = -2,
+                    Position = Mouse.GetState().Position.ToVector2()
+                });
                 _gui.TickGame();
                 if (item.StackSize != 0) return;
 
@@ -99,6 +121,8 @@ internal sealed class BodyPartRow : HorizontalStackPanel
         {
             return;
         }
+
+        _targetingButton?.Update();
 
         _label.Text = $"{BodyPart.Label}";
         _label.TextColor = BodyPartColor.Get(BodyPart);

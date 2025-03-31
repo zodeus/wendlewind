@@ -1,4 +1,3 @@
-using Myra.Graphics2D.Brushes;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
 
@@ -6,16 +5,18 @@ public sealed class PawnBodyPanel : VerticalStackPanel, IUpdatable
 {
     private readonly BaseGui _gui;
     private readonly PawnBody _body;
+    private readonly CombatHandler? _combatHandler;
     private readonly List<BodyPartSocketPanel> _socketPanels;
     private readonly VerticalStackPanel _partsPanel;
 
-    public PawnBodyPanel(BaseGui gui, PawnBody body)
+    public PawnBodyPanel(BaseGui gui, PawnBody body, CombatHandler? combatHandler = null)
     {
         //Border = new SolidBrush(Color.Red);
         //BorderThickness = new Thickness(1);
         Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame], new Color(255, 255, 255, 230));
         _gui = gui;
         _body = body;
+        _combatHandler = combatHandler;
         _socketPanels = new List<BodyPartSocketPanel>();
         Padding = new Thickness(15);
         _partsPanel = new VerticalStackPanel
@@ -39,7 +40,7 @@ public sealed class PawnBodyPanel : VerticalStackPanel, IUpdatable
 
     private void RegisterSocket(BodyPartSocket socket, int padding)
     {
-        BodyPartSocketPanel panel = new(socket, _gui, true)
+        BodyPartSocketPanel panel = new(socket, _gui, true, _combatHandler)
         {
             Margin = new Thickness(padding * 25, 0, 0, 0),
         };
@@ -60,7 +61,7 @@ public sealed class PawnBodyPanel : VerticalStackPanel, IUpdatable
             {
                 if (appendageSocket.IsExternal == false) continue;
 
-                BodyPartSocketPanel p = new(appendageSocket, _gui, false);
+                BodyPartSocketPanel p = new(appendageSocket, _gui, false, _combatHandler);
                 appendagesPanel.Widgets.Add(p);
                 _socketPanels.Add(p);
             }

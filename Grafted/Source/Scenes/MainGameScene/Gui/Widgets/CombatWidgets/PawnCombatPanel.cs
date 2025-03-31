@@ -2,6 +2,7 @@
 using Grafted.Scenes.MainGameScene.Gui.CombatGui;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Grafted.Sim.Entities.Items.Trinkets;
+using Myra.Graphics2D.Brushes;
 using Image = Myra.Graphics2D.UI.Image;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
@@ -50,16 +51,18 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
     {
         var trinketBar = new TrinketBar(pawn.Inventory.Entities, TrinketType.Combat, HandleTrinketClick, true)
         {
-            Height = BaseContent.IconSizes.Large + 30,
             DefaultProportion = Proportion.Auto,
-            VerticalAlignment = VerticalAlignment.Bottom, HorizontalAlignment = HorizontalAlignment.Right
+            VerticalAlignment = VerticalAlignment.Bottom, 
+            HorizontalAlignment = HorizontalAlignment.Right,
+            Height = BaseContent.IconSizes.Large + 25,
         };
         var pawnEffectsPanel = new PawnBodyEffectsPanel(_gui, Pawn)
         {
             DefaultProportion = Proportion.Fill,
             HorizontalAlignment = HorizontalAlignment.Right,
-            Padding = new Thickness(15),
-            MinHeight = 90
+            
+            // Border = new SolidBrush(Color.Red),
+            // BorderThickness = new Thickness(1),
         };
         var potionBar = new PotionBar(pawn, item => _encounter.CombatHandler?.QueueItemForPawn(item, Pawn))
         {
@@ -80,9 +83,11 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         SetProportionType(trinketBar, ProportionType.Auto);
         Widgets.Add(new VerticalStackPanel
         {
-            Width = 600,
-            //ShowGridLines = true,
-            //GridLinesColor = new Color(0.7f, 0.7f, 0.7f),
+            // Border = new SolidBrush(Color.Red),
+            // BorderThickness = new Thickness(1),
+            // ShowGridLines = true,
+            // GridLinesColor = new Color(0.7f, 0.7f, 0.7f),
+            Width = 800,
             Widgets =
             {
                 pawnEffectsPanel,
@@ -104,24 +109,6 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         {
             _encounter.CombatHandler?.ActivateTrinketForPawn(item, Pawn);
         }
-    }
-
-    private Widget GenerateEquipmentPanel()
-    {
-        // _pawnEquipmentPanel = new PawnEquipmentPanel(_gui, Pawn, (part, type) =>
-        // {
-        //     if (part.Equipment[type] is { } item)
-        //     {
-        //         if (Pawn.PawnType == PawnType.Player && Input.RightMouseButtonReleased && item.ItemDef.ItemType == ItemType.Potion)
-        //         {
-
-        //             return;
-        //         }
-        //
-        //         _gui.ViewEntity(item);
-        //     }
-        // });
-        return new Widget();
     }
 
     private Panel InitializeBodyPartImages(int panelWidth)
@@ -194,19 +181,21 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
             panel.Widgets.Add(InitializeBodyPartImages(BaseContent.IconSizes.Portrait));
         }
 
-        _bloodBar = new BloodBar(Pawn) { Width = panelWidth, Height = 30 };
+        _bloodBar = new BloodBar(Pawn) { Width = panelWidth, Height = 25 };
         panel.Widgets.Add(_bloodBar);
 
         Label namePlate = new()
         {
             Text = Pawn.LabelShort,
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
-            Padding = new Thickness(12),
-            Width = panelWidth - 24 - 32 - 5
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Padding = new Thickness(12)
         };
         var attackSpeed = new AttackSpeedIcon(Pawn);
         _updatables.Add(attackSpeed);
-        panel.Widgets.Add(new HorizontalStackPanel { Spacing = 5, Widgets = { namePlate, attackSpeed } });
+        SetProportionType(namePlate, ProportionType.Fill);
+        SetProportionType(attackSpeed, ProportionType.Auto);
+        panel.Widgets.Add(new HorizontalStackPanel { Widgets = { namePlate, attackSpeed } });
 
         return panel;
     }
@@ -228,19 +217,20 @@ internal sealed class BodyStanceBar : HorizontalStackPanel
     public BodyStanceBar(Pawn pawn)
     {
         var buttons = new List<Button>();
+        var defaultColor = new Color(80, 80, 80, 100);
         foreach (var stance in DefRepository<BodyStanceDef>.Defs)
         {
-            var button = new Button
+            var button =new Button(BaseContent.Styles.Button.Icon)
             {
                 Content = new Image
                 {
-                    Background = new ColoredRegion(new TextureRegion(stance.Texture), Color.White),
+                    Background = new ColoredRegion(new TextureRegion(stance.Texture), defaultColor),
                     Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium
                 }
             };
             button.TouchDown += (_, _) =>
             {
-                buttons.ForEach(b => ((ColoredRegion)b.Content.Background).Color = Color.White);
+                buttons.ForEach(b => ((ColoredRegion)b.Content.Background).Color = defaultColor);
                 ((ColoredRegion)button.Content.Background).Color = Color.Goldenrod;
                 pawn.Body.Stance = stance;
             };

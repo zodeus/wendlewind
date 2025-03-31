@@ -10,6 +10,7 @@ public abstract class BaseGui : IDisposable
 {
     private BookOfAllKnowledgeWindow? Boak;
     public Desktop Desktop { get; set; } = null!;
+    public abstract WorldTextHandler WorldTextHandler { get; }
 
     public MouseAttachment? MouseAttachment;
 
@@ -53,6 +54,11 @@ public abstract class BaseGui : IDisposable
 
     public virtual void ViewEntity(Entity entity, Point? position = null)
     {
+        if (position == null)
+        {
+            position = new Point(Screen.Width / 2 - 300, 200);
+        }
+
         _queuedEntityToView = new KeyValuePair<Entity, Point?>(entity, position);
     }
 

@@ -1,7 +1,7 @@
 namespace Grafted.Sim.Entities.Pawns;
 
-[UsedImplicitly] // Used by EntityGenerator, referenced by EntityDef.EntityClass
-public class Pawn : Entity, IExposable
+[UsedImplicitly]
+public class Pawn : Entity
 {
     public event Action<Pawn, DamageRequest, DamageResponse>? DamageTaken; //todo - actions
     public event Action<DeathEvent>? Died; //todo - actions
@@ -27,7 +27,6 @@ public class Pawn : Entity, IExposable
     public bool IsHungry => Body.IsHungry;
     public bool IsFamished => Body.IsFamished;
     public bool IsDead { get; private set; }
-    public bool IsIncapacitated => false; //todo Health.IsIncapacitated;
     public Gender Gender => Biography.Gender;
     public float MaxAttackSpeed => this.GetStatValue(Defs.Stats.AttackSpeed);
     public float AttackSpeed => Body.GetAttackSpeedModifier() * this.GetStatValue(Defs.Stats.AttackSpeed) * Equipment.WeaponAttackSpeedModifier;
@@ -73,7 +72,7 @@ public class Pawn : Entity, IExposable
         }
 
         TicksToAttack--;
-        
+
         // Check if change in attack speed should reduce attack time 
         if (CalculateTicksToAttack() is var ticks && ticks < TicksToAttack)
         {
@@ -89,6 +88,11 @@ public class Pawn : Entity, IExposable
     {
         DamageResponse response = new();
 
+        if (request.TargetedPart != null)
+        {
+            Log.Info(request.TargetedPart.ToString());
+        }
+
         // Add trinket damages 
         response.TrinketDamages.AddRange(request.TrinketResults);
         if (CheckIfKilledByDamage(response) is { } causeOfDeath)
@@ -98,7 +102,15 @@ public class Pawn : Entity, IExposable
             return;
         }
 
-        if (Core.Random.Chance(request.Source.ChanceToHit(this)) == false)
+        if (Core.Random.Chance(request.Source.ChanceToHit()) == false)
+        {
+            response.Missed = true;
+            DamageTaken?.Invoke(this, request, response);
+            return;
+        }
+
+        var chanceToHitTargetedPart = 0.2f;
+        if (request.TargetedPart != null && Core.Random.Chance(chanceToHitTargetedPart) == false)
         {
             response.Missed = true;
             DamageTaken?.Invoke(this, request, response);
@@ -112,15 +124,16 @@ public class Pawn : Entity, IExposable
             return;
         }
 
-        var bodyPart = Body.AllExternalParts
-            .Where(p => p.IsDestroyed == false || p.AllInternalParts.Count != 0)
-            .RandomElementByWeight(part => part.HitWeight)!;
+        var bodyPart = request.TargetedPart == null
+            ? Body.AllExternalParts.Where(p => p.IsDestroyed == false || p.AllInternalParts.Count != 0).RandomElementByWeight(part => part.HitWeight)!
+            : Body.AllExternalParts.First(p => Equals(p, request.TargetedPart));
 
         foreach (var damage in request.RawDamages)
         {
             if (request.Source.PawnType == PawnType.Player)
             {
                 request.Source.GetSkill(damage.WeaponType)?.Learn(1);
+                request.Source.GetSkill(request.Source.Body.Stance)?.Learn(0.1f);
             }
 
             DamageRecord damageRecord = new(damage.Weapon.Label, request.WeaponManeuver.Label, damage.Type, bodyPart, damage.TotalDamage);
@@ -167,10 +180,7 @@ public class Pawn : Entity, IExposable
             var enchantments = bodyPart.Equipment.Values.SelectMany(e => e?.Enchantments?.ToList() ?? []);
             foreach (var enchantment in enchantments)
             {
-                if (enchantment.EnchantmentHandler != null)
-                {
-                    enchantment.EnchantmentHandler.PostPawnDamageTakenEffect(bodyPart, this, request.Source, damageRecord);
-                }
+                enchantment.EnchantmentHandler?.PostPawnDamageTakenEffect(bodyPart, this, request.Source, damageRecord);
             }
 
             // Finish up
@@ -215,7 +225,7 @@ public class Pawn : Entity, IExposable
             }
         }
 
-        if (IsDead && nonFunctionalVitalParts.Count==0)
+        if (IsDead && nonFunctionalVitalParts.Count == 0)
         {
             Log.Error("Pawn is dead but no non-functional vital parts were found");
         }
@@ -262,17 +272,22 @@ public class Pawn : Entity, IExposable
         return Skills.GetSkill(weaponType);
     }
 
-    public float ChanceToHit(Pawn target)
+    public Skill? GetSkill(BodyStanceDef stance)
+    {
+        return Skills.GetSkill(stance);
+    }
+
+    public float ChanceToHit()
     {
         return this.GetStatValue(Defs.Stats.MeleeAccuracy) * Body.Capabilities.Sight;
     }
 
-    public void TryEat(Item? item)
+    public bool TryEat(Item? item)
     {
         if (item?.ItemDef.FoodProperties == null)
         {
             Log.Error($"failed to eat null item '{item}'");
-            return;
+            return false;
         }
 
         var goldenLipsMultiplier = HasActiveEffect(Defs.BodyEffects.GoldenLips) ? 1.5f : 1f;
@@ -286,17 +301,15 @@ public class Pawn : Entity, IExposable
 
         var nutrition = item.GetStatValue(Defs.Stats.NutritionalValue);
         Body.StomachLevel += nutrition;
-        //Body.Energy += nutrition / 3;
         Body.Energy = Body.MaxEnergy;
-        Core.Context.Messages.Push(new Message(
-            $"/c[{TC.Victim}]{Core.Context.Player.Label} /c[{TC.Default}]ate /c[{TC.Item}]{item.Label}"
-        ));
 
         item.StackSize--;
         if (item.StackSize < 1)
         {
             item.Destroy();
         }
+
+        return true;
     }
 
     private bool HasActiveEffect(BodyEffectDef effect)
@@ -313,7 +326,7 @@ public class Pawn : Entity, IExposable
     {
         if (AttackSpeed <= 0)
         {
-            return 99999; 
+            return 99999;
         }
 
         return Mathf.CeilToInt(Core.TicksPerSecond / AttackSpeed);

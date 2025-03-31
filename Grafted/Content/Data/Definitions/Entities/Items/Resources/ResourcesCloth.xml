@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef Name="ClothResource" ParentName="ItemResource" Abstract="true">
+    </ItemDef>
+    <ItemDef ParentName="ClothResource">
+        <Moniker>Thread</Moniker>
+        <Label>Thread</Label>
+        <TexturePath>Entities/Item/Resource/Cloth/Thread</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="ClothResource">
+        <Moniker>LeatherScraps</Moniker>
+        <Label>Leather Scraps</Label>
+        <TexturePath>Entities/Item/Resource/Cloth/LeatherScraps</TexturePath>
+    </ItemDef>
+</Definitions>

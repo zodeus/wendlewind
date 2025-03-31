@@ -1,11 +1,12 @@
-﻿using Grafted.Sim.Entities.Pawns.Bodies.Handlers;
+﻿using System.Diagnostics.Eventing.Reader;
+using Grafted.Sim.Entities.Pawns.Bodies.Handlers;
 
 namespace Grafted.Sim.Entities.Pawns;
 
 public class PawnBody : IExposable, IIdentityProvider
 {
     private float _bloodAmount;
-    private float _attackSpeedModifier;
+    private float _baseAttackSpeed;
     private BodyPartSocket _rootSocket = null!;
 
     public readonly Pawn Pawn;
@@ -133,17 +134,18 @@ public class PawnBody : IExposable, IIdentityProvider
     {
         if (BodyPartsDirty)
         {
-            _attackSpeedModifier = RootSocket.AttachedPart?.AttackSpeedModifier ?? 0;
-            _attackSpeedModifier *= Capabilities.Breathing;
+            _baseAttackSpeed = RootSocket.AttachedPart?.AttackSpeedModifier ?? 0;
+            _baseAttackSpeed *= Capabilities.Breathing;
             BodyPartsDirty = false;
         }
 
         if (EnergyPercent < .90f)
         {
-            return Mathf.Clamp(_attackSpeedModifier - ((1 - (_attackSpeedModifier * EnergyPercent)) / 2), 0, 100);
+            
+            return Mathf.Clamp(_baseAttackSpeed - ((1 - (_baseAttackSpeed * EnergyPercent)) / 2), 0, 100);
         }
 
-        return _attackSpeedModifier;
+        return _baseAttackSpeed;
     }
 
     public string GetUniqueId()
@@ -179,6 +181,40 @@ public class PawnBody : IExposable, IIdentityProvider
             {
                 GetParts(socket.AttachedPart, parts, externalOnly);
             }
+        }
+    }
+
+    public void ModifyStat(StatDef stat, ref float value)
+    {
+        ModifyStatByStance(stat, ref value);
+    }
+
+    private void ModifyStatByStance(StatDef stat, ref float value)
+    {
+        if (Stance.AffectedStats == null)
+        {
+            return;
+        }
+
+        foreach (var affectedStat in Stance.AffectedStats)
+        {
+            if (affectedStat.Stat != stat)
+            {
+                continue;
+            }
+
+            if (affectedStat.Factor != null)
+            {
+                value += (value * affectedStat.Factor.Value);
+            }
+
+            if (affectedStat.Offset != null)
+            {
+                value += affectedStat.Offset.Value;
+            }
+
+            value *= 1 + ((Pawn.GetSkill(Stance)?.Level ?? 1) - 1) * 0.01f;
+            return;
         }
     }
 }

@@ -29,13 +29,14 @@ public sealed class WeaponBar : HorizontalStackPanel, IUpdatable
         Widgets.Clear();
         foreach (var weapon in usableWeapons)
         {
+            var initialColor = weapon.UseInCombat ? Color.White : new Color(80, 80, 80, 160);
             var button = new Button(BaseContent.Styles.Button.Icon)
             {
                 Content = new Image
                 {
                     Background = new ColoredRegion(
                         new TextureRegion(weapon.Icon),
-                        Color.White
+                        initialColor
                     ),
                     Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium,
                 }

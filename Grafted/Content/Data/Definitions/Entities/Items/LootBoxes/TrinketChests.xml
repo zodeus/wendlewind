@@ -21,9 +21,9 @@
                 <Weight>60</Weight>
             </ListItem>
             <ListItem>
-                <ItemDef>DeathRattle</ItemDef>
+                <ItemDef>Disassembler</ItemDef>
                 <ChanceToDrop>1</ChanceToDrop>
-                <Weight>20</Weight>
+                <Weight>1</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>
@@ -36,27 +36,28 @@
         <TexturePath>Chests/TrinketsChestBasic</TexturePath>
         <CollectionLimit>1</CollectionLimit>
         <Items>
+
             <ListItem>
                 <ItemDef>CookingPot</ItemDef>
+                <Weight>1000000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>DeathRattle</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
                 <Weight>100000</Weight>
             </ListItem>
-            
+
             <ListItem>
                 <ItemDef>MortarAndPestle</ItemDef>
                 <Weight>5000</Weight>
             </ListItem>
-            <ListItem>
-                <ItemDef>VialOfDuplicity</ItemDef>
-                <Weight>5000</Weight>
-            </ListItem>
-            
+
             <ListItem>
                 <ItemDef>ThirdEye</ItemDef>
                 <Weight>3000</Weight>
             </ListItem>
-     
-            
-            
+
+
             <ListItem>
                 <ItemDef>Grimoire</ItemDef>
                 <Weight>1000</Weight>
@@ -73,11 +74,28 @@
                 <ItemDef>SteroidInjector</ItemDef>
                 <Weight>10</Weight>
             </ListItem>
+
+        </Items>
+    </LootBoxDef>
+    <LootBoxDef>
+        <Moniker>TrinketChest3</Moniker>
+        <Label>Trinkets</Label>
+        <Description>A huge assortment of trinkets</Description>
+        <Category>Trinkets</Category>
+        <Rarity>Normal</Rarity>
+        <TexturePath>Chests/TrinketsChestBasic</TexturePath>
+        <CollectionLimit>1</CollectionLimit>
+        <Items>
+
             <ListItem>
                 <ItemDef>Battery</ItemDef>
                 <Weight>1</Weight>
             </ListItem>
-            
+            <ListItem>
+                <ItemDef>SurgicalSaw</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
+
         </Items>
     </LootBoxDef>
 </Definitions>

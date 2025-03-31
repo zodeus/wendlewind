@@ -1,9 +1,23 @@
 Add ZoneDef (see Zone)
+BUG: You can sip enemy potions!!!!
 
-Cloaks & Bags & Rings
+Update body part targeting to use an event based systems for UI combat actions
+
+Cloaks
+ - Crafted and upgraded from resources
+ - Level 1 leather scraps
+
+Bags & Rings
+
+Set XML values for BodyPartDef.MobilityFraction
+
+When a body part is severed remove a chunk of blood in proportion to the part lost. Should we store blood in each part?
+
+Skill Tomes
+
 Stances 
-	Add skills
 	Arcane Stance
+	
 Trinkets
 	Knowledge Transfer - Non-Combat - let's you move skills XP around
  	Organ Insulator - Combat - Charges when an organ takes damage, enabling it prevents organ damage for a period of time
@@ -29,7 +43,3 @@ Modifiers
 	
 Achievements
  - Unlocks new items in new play throughs, weapons, enchantments etc 
-
-Set XML values for BodyPartDef.MobilityFraction
-
-When a body part is severed remove a chunk of blood in proportion to the part lost. Should we store blood in each part?

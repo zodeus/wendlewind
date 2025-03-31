@@ -3,6 +3,7 @@
 public enum TrinketType
 {
     Invalid = 0,
-    NonCombat = 1,
-    Combat = 2
+    Passive = 1,
+    Interactive = 2,
+    Combat = 3
 }

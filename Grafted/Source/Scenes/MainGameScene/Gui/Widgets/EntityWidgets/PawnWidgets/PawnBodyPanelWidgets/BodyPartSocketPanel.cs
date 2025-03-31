@@ -1,4 +1,6 @@
-﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
+﻿using Myra.Graphics2D.Brushes;
+
+namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
 
 internal sealed class BodyPartSocketPanel : HorizontalStackPanel
 {
@@ -7,16 +9,15 @@ internal sealed class BodyPartSocketPanel : HorizontalStackPanel
     private SocketLabel _socketLabel;
     private BodyPartRow _bodyPartRow;
 
-    public BodyPartSocketPanel(BodyPartSocket socket, BaseGui gui, bool showInternalParts)
+    public BodyPartSocketPanel(BodyPartSocket socket, BaseGui gui, bool showInternalParts, CombatHandler? combatHandler)
     {
         Socket = socket;
         _gui = gui;
-        Spacing = 5;
         _socketLabel = new SocketLabel(socket, showInternalParts);
         _socketLabel.TouchDown += (_, _) => BodyPartSocketClickHandler(socket);
         Widgets.Add(_socketLabel);
 
-        _bodyPartRow = new BodyPartRow(gui);
+        _bodyPartRow = new BodyPartRow(gui, combatHandler);
         if (Socket.AttachedPart != null)
         {
             _socketLabel.Visible = false;
@@ -82,14 +83,23 @@ internal sealed class SocketLabel : HorizontalStackPanel
     public SocketLabel(BodyPartSocket socket, bool showInternalParts)
     {
         _socket = socket;
+        Spacing = 5;
         _icon = new ImageCircleIcon(null);
         _label = new Label(BaseContent.Styles.Label.Medium)
         {
-            Margin = new Thickness(5, 0, 0, 0),
             Text = $"{socket.Label}",
             VerticalAlignment = VerticalAlignment.Center
         };
-        
+
+        var body = socket.Body ?? socket.ParentPart?.Body;
+        if (body?.Pawn.PawnType == PawnType.Enemy)
+        {
+            Widgets.Add(new Widget
+            {
+                Width = BaseContent.IconSizes.Small, Height = BaseContent.IconSizes.Medium
+            });
+        }
+
         if (showInternalParts == false)
         {
             Widgets.Add(_icon);

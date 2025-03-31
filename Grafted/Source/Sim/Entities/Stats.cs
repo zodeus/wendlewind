@@ -50,7 +50,7 @@ public static class StatExtensions {
             effect.ModifyIfApplicable(stat, ref value);
         }
         
-        pawn.Body.Stance.ModifyStatIfApplicable(stat, ref value);
+        pawn.Body.ModifyStat(stat, ref value);
 
         return value;
     }
@@ -74,12 +74,9 @@ public static class StatExtensions {
     }
 }
 
-public class DefaultStatHandler {
-    protected readonly StatDef Stat;
-
-    public DefaultStatHandler(StatDef stat) {
-        Stat = stat;
-    }
+public class DefaultStatHandler(StatDef stat)
+{
+    protected readonly StatDef Stat = stat;
 
     public virtual float GetValue(Entity entity) {
         var value = GetBaseValue(entity.Def);

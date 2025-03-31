@@ -15,16 +15,16 @@
                 <Amount>1</Amount>
                 <ChanceToDrop>1</ChanceToDrop>
             </ListItem>  
-            <ListItem>
-                <Item>FireStaff</Item>
-                <Amount>1</Amount>
-                <ChanceToDrop>1</ChanceToDrop>
-            </ListItem>    
-            <ListItem>
-                <Item>Forge</Item>
-                <Amount>1</Amount>
-                <ChanceToDrop>1</ChanceToDrop>
-            </ListItem>          
+<!--            <ListItem>-->
+<!--                <Item>FireStaff</Item>-->
+<!--                <Amount>1</Amount>-->
+<!--                <ChanceToDrop>1</ChanceToDrop>-->
+<!--            </ListItem>    -->
+<!--            <ListItem>-->
+<!--                <Item>Forge</Item>-->
+<!--                <Amount>1</Amount>-->
+<!--                <ChanceToDrop>1</ChanceToDrop>-->
+<!--            </ListItem>          -->
         </InventoryItems>
     </PawnConfigDef>
     <PawnConfigDef>
