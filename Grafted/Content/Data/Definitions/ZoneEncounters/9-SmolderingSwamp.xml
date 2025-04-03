@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <EncounterDef>
+        <Moniker>Smoldering-Shrine</Moniker>
+        <Biome>SmolderingSwamp</Biome>
+        <ShrineProperties>
+            <GodLabel>Herminor</GodLabel>
+            <PartsToRestore>3~5</PartsToRestore>
+            <TexturePath>Biome/Shrines/cemetery_shrine_1</TexturePath>
+            <RestorablePartTypes>
+                <ListItem>Thumb</ListItem>
+                <ListItem>Finger</ListItem>
+                <ListItem>Hand</ListItem>
+                <ListItem>Foot</ListItem>
+            </RestorablePartTypes>
+        </ShrineProperties>
+    </EncounterDef>
+    <EncounterDef>
+        <Moniker>Smoldering-01</Moniker>
+        <Biome>SmolderingSwamp</Biome>
+        <PotentialLootBoxes>
+            <ListItem>TrinketChest3</ListItem>
+        </PotentialLootBoxes>
+        <Enemies>
+            <ListItem>
+                <Race>FlamingMosquito</Race>
+                <Config>DefaultEnemy</Config>
+                <PawnName>Flaming Mosquito</PawnName>
+                <BodySizeFactor>1</BodySizeFactor>
+                <Skills/>
+                <Effects/>
+                <EquipmentItems>
+<!--                    <ListItem>FireStaff</ListItem>-->
+<!--                    <ListItem>FireStaff</ListItem>-->
+                </EquipmentItems>
+                <InventoryItems>
+                    
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </EncounterDef>
+</Definitions>

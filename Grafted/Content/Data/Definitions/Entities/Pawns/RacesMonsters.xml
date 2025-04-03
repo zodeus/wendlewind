@@ -70,4 +70,10 @@
         <Species>Orc</Species>
         <TexturePath>Entities/Pawn/Creature/Orc/OrcShaman</TexturePath>
     </RaceDef>
+    <RaceDef ParentName="BaseMonsterRace">
+        <Moniker>FlamingMosquito</Moniker>
+        <Label>Flaming Mosquito</Label>
+        <Species>Mosquito</Species>
+        <TexturePath>Entities/Pawn/Creature/Mosquito/FlamingMosquito</TexturePath>
+    </RaceDef>
 </Definitions>

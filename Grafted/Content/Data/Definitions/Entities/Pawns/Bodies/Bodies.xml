@@ -88,4 +88,13 @@
         <GeneratorClass>OrcBodyGenerator</GeneratorClass>
         <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
     </BodyDef>
+    <BodyDef>
+        <Moniker>MosquitoBody</Moniker>
+        <Label>Mosquito Body</Label>
+        <BoneDensity>8</BoneDensity>
+        <MaxBlood>20000</MaxBlood>
+        <BloodType>ToxicSlime</BloodType>
+        <GeneratorClass>MosquitoGenerator</GeneratorClass>
+        <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
+    </BodyDef>
 </Definitions>

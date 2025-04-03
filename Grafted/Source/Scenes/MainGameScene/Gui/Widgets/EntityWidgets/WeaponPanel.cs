@@ -9,6 +9,7 @@ public sealed class WeaponPanel : EntityPanelBase
     private readonly Item _item;
     private readonly Label _durabilityLabel;
     private readonly HorizontalProgressBar _durabilityBar;
+    private readonly ItemEnchantmentSocketsPanel _socketsPanel;
 
     public WeaponPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
@@ -54,16 +55,18 @@ public sealed class WeaponPanel : EntityPanelBase
             row.Widgets.Add(new Label("small") { Text = item.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture) });
             Widgets.Add(row);
         }
-        
-        Widgets.Add(new ItemEnchantmentSlotsPanel(gui, item)
+
+        _socketsPanel = new ItemEnchantmentSocketsPanel(gui, item)
         {
             Margin = new Thickness(0, 10, 0, 10)
-        });
+        };
+        Widgets.Add(_socketsPanel);
     }
 
     public override void Update()
     {
         _durabilityBar.Value = _item.Durability / _item.MaxDurability * 100;
         _durabilityLabel.Text = $"Durability: {_item.Durability}/{_item.MaxDurability}";
+        _socketsPanel.Update();
     }
 }

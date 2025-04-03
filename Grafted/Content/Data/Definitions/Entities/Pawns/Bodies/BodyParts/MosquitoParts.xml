@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartDef Name="MosquitoBodyPartBase" ParentName="BodyPartBase" Abstract="True">
+
+    </BodyPartDef>
+    <BodyPartDef ParentName="MosquitoBodyPartBase">
+        <Moniker>MosquitoHead</Moniker>
+        <Label>Head</Label>
+        <HitWeight>100</HitWeight>
+        <BloodAmount>1</BloodAmount>
+        <BodyPartType>Head</BodyPartType>
+        <IsVital>true</IsVital>
+        <IsFlesh>false</IsFlesh>
+        <IsExoskeleton>true</IsExoskeleton>
+        <TexturePath>Entities/Pawn/BodyParts/Mosquito/Head</TexturePath>
+        <Sockets>
+            <ListItem>BrainSocket</ListItem>
+            <ListItem>LeftEyeSocket</ListItem>
+            <ListItem>RightEyeSocket</ListItem>
+            <ListItem>ProboscisSocket</ListItem>
+            <ListItem>LeftAntennaSocket</ListItem>
+            <ListItem>RightAntennaSocket</ListItem>
+            <ListItem>ThoraxSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>1000</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="MosquitoBodyPartBase">
+        <Moniker>MosquitoProboscis</Moniker>
+        <Label>Proboscis</Label>
+        <BodyPartType>Proboscis</BodyPartType>
+        <HitWeight>1</HitWeight>
+        <BloodAmount>1</BloodAmount>
+        <TexturePath>Entities/Pawn/BodyParts/Mosquito/Proboscis</TexturePath>
+        <BaseStats>
+            <MaxHitPoints>300</MaxHitPoints>
+            <AttackSpeedModifier>1</AttackSpeedModifier>
+        </BaseStats>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+    </BodyPartDef>
+    <BodyPartDef ParentName="MosquitoBodyPartBase">
+        <Moniker>MosquitoAntenna</Moniker>
+        <Label>Antenna</Label>
+        <BodyPartType>Antenna</BodyPartType>
+        <HitWeight>1</HitWeight>
+        <BloodAmount>1</BloodAmount>
+        <TexturePath>Entities/Pawn/BodyParts/Mosquito/Antenna</TexturePath>
+        <BaseStats>
+            <AttackSpeedModifier>.5</AttackSpeedModifier>
+            <MaxHitPoints>200</MaxHitPoints>
+        </BaseStats>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+    </BodyPartDef>
+    <BodyPartDef ParentName="MosquitoBodyPartBase">
+        <Moniker>MosquitoThorax</Moniker>
+        <Label>Thorax</Label>
+        <BodyPartType>Thorax</BodyPartType>
+        <HitWeight>200</HitWeight>
+        <BloodAmount>1</BloodAmount>
+        <IsExoskeleton>true</IsExoskeleton>
+        <IsVital>true</IsVital>
+        <TexturePath>Entities/Pawn/BodyParts/Mosquito/Thorax</TexturePath>
+        <Sockets>
+            <ListItem>StomachSocket</ListItem>
+            <ListItem>HeartSocket</ListItem>
+            <ListItem>FrontLeftLegSocket</ListItem>
+            <ListItem>FrontRightLegSocket</ListItem>
+            <ListItem>MiddleLeftLegSocket</ListItem>
+            <ListItem>MiddleRightLegSocket</ListItem>
+            <ListItem>RearLeftLegSocket</ListItem>
+            <ListItem>RearRightLegSocket</ListItem>
+            <ListItem>AbdomenSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>2000</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="MosquitoBodyPartBase">
+        <Moniker>MosquitoAbdomen</Moniker>
+        <Label>Abdomen</Label>
+        <BodyPartType>Abdomen</BodyPartType>
+        <HitWeight>300</HitWeight>
+        <BloodAmount>1</BloodAmount>
+        <IsExoskeleton>true</IsExoskeleton>
+        <TexturePath>Entities/Pawn/BodyParts/Mosquito/Abdomen</TexturePath>
+        <Sockets>
+            <ListItem>LeftWingSocket</ListItem>
+            <ListItem>RightWingSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>2000</MaxHitPoints>
+        </BaseStats>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+    </BodyPartDef>
+    <BodyPartDef ParentName="MosquitoBodyPartBase">
+        <Moniker>MosquitoWing</Moniker>
+        <Label>Wing</Label>
+        <BodyPartType>Wing</BodyPartType>
+        <HitWeight>40</HitWeight>
+        <BloodAmount>1</BloodAmount>
+        <TexturePath>Entities/Pawn/BodyParts/Mosquito/Wing</TexturePath>
+        <BaseStats>
+            <AttackSpeedModifier>.5</AttackSpeedModifier>
+            <MaxHitPoints>1</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="MosquitoBodyPartBase">
+        <Moniker>MosquitoLeg</Moniker>
+        <Label>Leg</Label>
+        <BodyPartType>Leg</BodyPartType>
+        <HitWeight>80</HitWeight>
+        <BloodAmount>1</BloodAmount>
+        <IsBone>true</IsBone>
+        <TexturePath>Entities/Pawn/BodyParts/Mosquito/Leg</TexturePath>
+        <BaseStats>
+            <MaxHitPoints>200</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+</Definitions>

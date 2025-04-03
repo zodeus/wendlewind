@@ -22,7 +22,6 @@ public static partial class Defs {
         public static StatDef NutritionalValue = null!;
         public static StatDef Evasion = null!;
         public static StatDef AttackSpeedModifier = null!;
-        public static StatDef WeaponSpeed  = null!;
         public static StatDef PotionDuration  = null!;
     }
 }public static partial class Defs {
@@ -227,6 +226,14 @@ public static partial class Defs {
         public static BodyPartDef OrcThumb = null!;
         public static BodyPartDef OrcFinger = null!;
         public static BodyPartDef OrcFoot = null!;
+        
+        public static BodyPartDef MosquitoHead = null!;
+        public static BodyPartDef MosquitoProboscis = null!;
+        public static BodyPartDef MosquitoAntenna = null!;
+        public static BodyPartDef MosquitoThorax = null!;
+        public static BodyPartDef MosquitoWing = null!;
+        public static BodyPartDef MosquitoLeg = null!;
+        public static BodyPartDef MosquitoAbdomen = null!;
         
     }
 

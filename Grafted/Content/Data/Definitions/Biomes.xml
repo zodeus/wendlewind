@@ -193,4 +193,17 @@
             </ListItem>
         </Resources>
     </BiomeDef>
+    <BiomeDef>
+        <Moniker>SmolderingSwamp</Moniker>
+        <Label>Smoldering Swamp</Label>
+        <BackgroundTexturePath>Biome/SmolderingSwamp</BackgroundTexturePath>
+        <BackgroundTextureTransparency>50</BackgroundTextureTransparency>
+        <Resources>
+            <ListItem>
+                <Item>ShimmeringBark</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.7</ChanceToHarvest>
+            </ListItem>
+        </Resources>
+    </BiomeDef>
 </Definitions>

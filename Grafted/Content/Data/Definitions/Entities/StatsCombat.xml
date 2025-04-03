@@ -54,10 +54,4 @@
         <MinValue>0.1</MinValue>
         <MaxValue>1000</MaxValue>
     </StatDef>
-    <StatDef>
-        <Moniker>WeaponSpeed</Moniker>
-        <Label>Weapon Speed</Label>
-        <BaseValue>1</BaseValue>
-        <MinValue>0</MinValue>
-    </StatDef>
 </Definitions>

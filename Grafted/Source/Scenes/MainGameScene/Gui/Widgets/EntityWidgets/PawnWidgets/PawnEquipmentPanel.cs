@@ -62,6 +62,15 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
                 {
                     equipmentItem.Enchantments.MaxEnchantments++;
                     item.StackSize--;
+                    _gui.WorldTextHandler.Add(new WorldSpaceText
+                    {
+                        Font = BaseContent.Fonts.Default.Normal,
+                        Color = Color.Azure,
+                        Text = $"Socket added to {equipmentItem.Label}",
+                        DurationInTicks = 120,
+                        Speed = -2,
+                        Position = Mouse.GetState().Position.ToVector2()
+                    });
 
                     if (item.StackSize != 0) return;
 

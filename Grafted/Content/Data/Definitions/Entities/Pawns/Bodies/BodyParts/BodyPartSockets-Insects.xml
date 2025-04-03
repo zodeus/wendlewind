@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>ProboscisSocket</Moniker>
+        <Label>Proboscis Socket</Label>
+        <IsExternal>true</IsExternal>
+        <AllowedBodyPartTypes>
+            <ListItem>Proboscis</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>LeftAntennaSocket</Moniker>
+        <Label>Left Antenna Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>Left</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Antenna</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>RightAntennaSocket</Moniker>
+        <Label>Right Antenna Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>Right</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Antenna</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>ThoraxSocket</Moniker>
+        <Label>Thorax Socket</Label>
+        <IsExternal>true</IsExternal>
+        <AllowedBodyPartTypes>
+            <ListItem>Thorax</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>AbdomenSocket</Moniker>
+        <Label>Abdomen Socket</Label>
+        <IsExternal>true</IsExternal>
+        <AllowedBodyPartTypes>
+            <ListItem>Abdomen</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>MiddleRightLegSocket</Moniker>
+        <Label>Middle Right Leg Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>MiddleRight</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Leg</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>MiddleLeftLegSocket</Moniker>
+        <Label>Middle Left Leg Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>MiddleLeft</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Leg</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>LeftWingSocket</Moniker>
+        <Label>Left Wing Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>Left</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Wing</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>RightWingSocket</Moniker>
+        <Label>Right Wing Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>Right</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Wing</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+</Definitions>

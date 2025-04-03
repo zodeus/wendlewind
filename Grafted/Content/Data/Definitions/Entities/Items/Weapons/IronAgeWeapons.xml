@@ -14,7 +14,6 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Blunt/Mace</TexturePath>
         <BaseStats>
-            <WeaponSpeed>1</WeaponSpeed>
             <MeleePower>40</MeleePower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>

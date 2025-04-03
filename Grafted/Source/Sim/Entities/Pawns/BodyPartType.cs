@@ -24,5 +24,10 @@ public enum BodyPartType {
     Lung,
     Paw,
     Tail,
-    Hoof
+    Hoof,
+    Proboscis,
+    Antenna,
+    Thorax,
+    Abdomen,
+    Wing
 }

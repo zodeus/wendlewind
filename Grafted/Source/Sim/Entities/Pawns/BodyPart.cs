@@ -19,6 +19,7 @@ public class BodyPart : Entity
     private Texture2D? _image;
 
     public double MaxHitPoints;
+    public bool IsCracked = false;
     public BodyPartSocket? Socket;
     public List<BodyPartSocket> Sockets = new();
     public Dictionary<EquipmentSlotType, Item?> Equipment = new();
@@ -33,6 +34,7 @@ public class BodyPart : Entity
     public float HitWeight => BodyPartDef.HitWeight;
     public double HealthPercent => HitPoints / MaxHitPoints;
     public bool IsExternal => Socket?.IsExternal ?? true;
+    public bool IsExoskeleton => BodyPartDef.IsExoskeleton;
     public bool IsBone => BodyPartDef.IsBone;
     public bool IsFlesh => BodyPartDef.IsFlesh;
     public bool IsOrgan => BodyPartDef.IsOrgan;
@@ -363,6 +365,11 @@ public class BodyPart : Entity
         //var remainingDamage = damage - damageApplied;
         var remainingDamage = damage * 0.7f;
 
+        if (HealthPercent < .1 && Core.Random.Chance(0.3f))
+        {
+            IsCracked = true;
+        }
+
         var wasDestroyed = wasDestroyedBeforeDamage == false && IsDestroyed;
         var stoppedFunctioning = wasFunctional && IsFunctional == false;
 
@@ -575,6 +582,7 @@ public class BodyPart : Entity
         base.ExposeData();
         ScribeValues.Look(ref _hitPoints, "HitPoints");
         ScribeValues.Look(ref _adaptedLabel!, "AdaptedLabel");
+        ScribeValues.Look(ref _isSevered, "IsCracked");
         ScribeValues.Look(ref _isSevered, "IsSevered");
         ScribeValues.Look(ref MaxHitPoints, "MaxHitPoints");
         ScribeValues.Look(ref TicksSinceLastHit, "TicksSinceLastHit");

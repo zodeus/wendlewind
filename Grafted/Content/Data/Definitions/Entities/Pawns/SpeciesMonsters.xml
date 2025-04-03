@@ -69,4 +69,15 @@
             <MeleeAccuracy>.7</MeleeAccuracy>
         </BaseStats>
     </PawnDef>
+    <PawnDef ParentName="BaseMonster">
+        <Moniker>Mosquito</Moniker>
+        <Label>Mosquito</Label>
+        <Body>MosquitoBody</Body>
+        <BaseStats>
+            <AttackSpeed>3</AttackSpeed>
+            <MeleeStrength>2</MeleeStrength>
+            <Evasion>.3</Evasion>
+            <MeleeAccuracy>.9</MeleeAccuracy>
+        </BaseStats>
+    </PawnDef>
 </Definitions>

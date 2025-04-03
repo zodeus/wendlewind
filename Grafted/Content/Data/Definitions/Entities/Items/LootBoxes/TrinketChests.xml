@@ -95,6 +95,10 @@
                 <ItemDef>SurgicalSaw</ItemDef>
                 <Weight>1</Weight>
             </ListItem>
+            <ListItem>
+                <ItemDef>Forge</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
 
         </Items>
     </LootBoxDef>

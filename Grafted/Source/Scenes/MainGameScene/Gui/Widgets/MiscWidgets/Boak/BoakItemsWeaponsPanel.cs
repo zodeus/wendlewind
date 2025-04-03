@@ -11,7 +11,6 @@ internal sealed class BoakItemsWeaponPanel : Grid
         AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Monkier" }, 0, 0);
         AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Damage Type" }, 0, 1);
         AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Damage" }, 0, 2);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Speed" }, 0, 3);
         AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Durability" }, 0, 4);
         AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Maneuvers" }, 0, 5);
         AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Modifiers" }, 0, 6);
@@ -55,11 +54,6 @@ internal sealed class BoakItemsWeaponPanel : Grid
                 VerticalAlignment = VerticalAlignment.Center,
                 Text = $"{def.BaseStats.FirstOrNull(s => s?.Def == Defs.Stats.MeleePower)?.Value}"
             }, gridRow, 2);
-            AddCell(new Label(BaseContent.Styles.Label.Medium)
-            {
-                VerticalAlignment = VerticalAlignment.Center,
-                Text = $"{def.BaseStats.FirstOrNull(s => s?.Def == Defs.Stats.WeaponSpeed)?.Value}"
-            }, gridRow, 3);
             AddCell(new Label(BaseContent.Styles.Label.Medium)
             {
                 VerticalAlignment = VerticalAlignment.Center,

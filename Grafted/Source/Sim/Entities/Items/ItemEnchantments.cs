@@ -14,7 +14,7 @@ public class ItemEnchantments : IEnumerable<Item>, IExposable
         ScribeCollections.Look(ref _enchantments!, "Enchantments", LookMode.Value, LookMode.Deep);
     }
 
-    public Item? TryGetAtSlot(int position)
+    public Item? TryGetAtSocket(int position)
     {
         return _enchantments.Count > position ? _enchantments[position] : null;
     }

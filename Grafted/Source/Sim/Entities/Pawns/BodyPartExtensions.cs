@@ -30,6 +30,11 @@ namespace Grafted.Sim.Entities.Pawns
             var organsHit = 0;
             var remainingDamage = damage;
             var maxNumberOfOrgansToHit = new RangeInt(1, 2 + 1).RandomValue;
+            if(rootPart.IsExoskeleton && rootPart.IsCracked == false)
+            {
+                return 0;
+            }
+            
             foreach (var internalPart in rootPart.InternalParts.InRandomOrder())
             {
                 if (remainingDamage <= 0)

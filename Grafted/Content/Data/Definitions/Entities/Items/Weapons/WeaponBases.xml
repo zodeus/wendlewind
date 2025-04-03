@@ -8,9 +8,6 @@
             <EquipmentType>Weapon</EquipmentType>
         </EquipmentProperties>
         <UiClass>WeaponPanel</UiClass>
-        <BaseStats>
-            <WeaponSpeed>1</WeaponSpeed>
-        </BaseStats>
     </ItemDef>
     <ItemDef Name="WeaponFlesh" ParentName="WeaponBase" Abstract="true">
         <WeaponProperties>

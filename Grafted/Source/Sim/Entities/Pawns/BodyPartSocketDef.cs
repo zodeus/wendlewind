@@ -11,6 +11,8 @@ public enum BodyPartPosition {
     Right,
     FrontLeft,
     FrontRight,
+    MiddleLeft,
+    MiddleRight,
     RearLeft,
     RearRight,
     

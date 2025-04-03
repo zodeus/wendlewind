@@ -188,7 +188,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/TreeBranch</TexturePath>
         <BaseStats>
-            <MeleePower>48</MeleePower>
+            <MeleePower>52</MeleePower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -212,6 +212,29 @@
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/MushroomCap</TexturePath>
         <BaseStats>
             <MeleePower>50</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponMagic">
+        <Moniker>FlamingMosquitoProboscis</Moniker>
+        <Label>Flaming Proboscis</Label>
+        <Description></Description>
+        <WeaponProperties>
+            <WeaponType>FireStaff</WeaponType>
+            <DamageType>Fire</DamageType>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Burning</Def>
+                    <DurationInTicks>600</DurationInTicks>
+                    <Chance>.1</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/MushroomCap</TexturePath>
+        <BaseStats>
+            <MeleePower>10</MeleePower>
         </BaseStats>
     </ItemDef>
 </Definitions>

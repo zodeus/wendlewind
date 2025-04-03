@@ -28,8 +28,7 @@ public class Pawn : Entity
     public bool IsFamished => Body.IsFamished;
     public bool IsDead { get; private set; }
     public Gender Gender => Biography.Gender;
-    public float MaxAttackSpeed => this.GetStatValue(Defs.Stats.AttackSpeed);
-    public float AttackSpeed => Body.GetAttackSpeedModifier() * this.GetStatValue(Defs.Stats.AttackSpeed) * Equipment.WeaponAttackSpeedModifier;
+    public float AttackSpeed => Body.GetAttackSpeedModifier() * this.GetStatValue(Defs.Stats.AttackSpeed);
 
     public void GenerateBody(float bodySizeFactor)
     {

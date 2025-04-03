@@ -30,7 +30,7 @@
             <ResourceRequirements>
                 <ListItem>
                     <Item>ArterialThreads</Item>
-                    <Count>1</Count>
+                    <Count>2</Count>
                 </ListItem>
                 <ListItem>
                     <Item>HealingRoot</Item>
@@ -48,14 +48,14 @@
             <HandlerClass>ArterialThreadsHandler</HandlerClass>
         </MedicinalProperties>
         <CraftingProperties>
-            <AmountProduced>3</AmountProduced>
+            <AmountProduced>1</AmountProduced>
             <RequiredTrinkets>
                 <ListItem>TinkersToolbox</ListItem>
             </RequiredTrinkets>
             <ResourceRequirements>
                 <ListItem>
                     <Item>Thread</Item>
-                    <Count>1</Count>
+                    <Count>2</Count>
                 </ListItem>
             </ResourceRequirements>
         </CraftingProperties>
@@ -167,15 +167,15 @@
             <ResourceRequirements>
                 <ListItem>
                     <Item>MendersMist</Item>
-                    <Count>3</Count>
+                    <Count>1</Count>
                 </ListItem>
                 <ListItem>
                     <Item>MedKit</Item>
-                    <Count>2</Count>
+                    <Count>1</Count>
                 </ListItem>
                 <ListItem>
-                    <Item>ArterialThreads</Item>
-                    <Count>2</Count>
+                    <Item>BalmyOintment</Item>
+                    <Count>1</Count>
                 </ListItem>
             </ResourceRequirements>
         </CraftingProperties>

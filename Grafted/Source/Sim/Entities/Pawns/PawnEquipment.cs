@@ -77,8 +77,6 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
         }
     }
 
-    public float WeaponAttackSpeedModifier => UsableWeapons.Aggregate(1f, (x, y) => x * y.GetStatValue(Defs.Stats.WeaponSpeed));
-
     public PawnEquipment(Pawn pawn)
     {
         _pawn = pawn;

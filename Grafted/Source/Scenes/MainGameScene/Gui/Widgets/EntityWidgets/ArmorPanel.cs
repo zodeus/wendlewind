@@ -9,6 +9,7 @@ public sealed class ArmorPanel : EntityPanelBase
     private readonly Item _item;
     private readonly Label _durabilityLabel;
     private readonly HorizontalProgressBar _durabilityBar;
+    private readonly ItemEnchantmentSocketsPanel _socketsPanel;
 
     public ArmorPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
@@ -56,10 +57,11 @@ public sealed class ArmorPanel : EntityPanelBase
             Widgets.Add(row);
         }
 
-        Widgets.Add(new ItemEnchantmentSlotsPanel(gui, item)
+        _socketsPanel = new ItemEnchantmentSocketsPanel(gui, item)
         {
             Margin = new Thickness(0, 10, 0, 10)
-        });
+        };
+        Widgets.Add(_socketsPanel);
     }
 
 
@@ -67,5 +69,6 @@ public sealed class ArmorPanel : EntityPanelBase
     {
         _durabilityLabel.Text = $"Durability: {_item.Durability}/{_item.MaxDurability}";
         _durabilityBar.Value = _item.Durability / _item.MaxDurability * 100;
+        _socketsPanel.Update();
     }
 }
