@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <LootBoxDef>
+        <Moniker>EnchantedChestOffensive</Moniker>
+        <Label>Enchanted Chest</Label>
+        <Description>An assortment of magical enchantments</Description>
+        <TexturePath>Chests/EnchantedChest</TexturePath>
+        <CollectionLimit>1</CollectionLimit>
+        <Items>
+            <ListItem>
+                <ItemDef>SpidersBite</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>FesteringWounds</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>BoneEater</ItemDef>
+                <Weight>1000</Weight>
+            </ListItem>
+        </Items>
+    </LootBoxDef>
+    <LootBoxDef>
+        <Moniker>EnchantedChestDefensive</Moniker>
+        <Label>Enchanted Chest</Label>
+        <Description>An assortment of magical enchantments</Description>
+        <TexturePath>Chests/EnchantedChest</TexturePath>
+        <CollectionLimit>1</CollectionLimit>
+        <Items>
+            <ListItem>
+                <ItemDef>SoothingVibrations</ItemDef>
+                <Weight>20</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>RhinoSkin</ItemDef>
+                <Weight>15</Weight>
+            </ListItem> 
+            <ListItem>
+                <ItemDef>BloodBath</ItemDef>
+                <Weight>10</Weight>
+            </ListItem>
+        </Items>
+    </LootBoxDef>
+</Definitions>
+

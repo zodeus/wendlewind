@@ -26,14 +26,6 @@
         <DamageMultiplier>.9~1.2</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
-        <Moniker>ProboscisPoke</Moniker>
-        <Label>Proboscis Poke</Label>
-        <Weapons>
-            <ListItem>Proboscis</ListItem>
-        </Weapons>
-        <DamageMultiplier>.9~1.2</DamageMultiplier>
-    </WeaponManeuverDef>
-    <WeaponManeuverDef>
         <Moniker>PincerPinch</Moniker>
         <Label>Pincer Pinch</Label>
         <Weapons>
@@ -88,5 +80,13 @@
             <ListItem>MushroomCap</ListItem>
         </Weapons>
         <DamageMultiplier>0.9~1.2</DamageMultiplier>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
+        <Moniker>ProboscisPoke</Moniker>
+        <Label>Proboscis Poke</Label>
+        <Weapons>
+            <ListItem>Proboscis</ListItem>
+        </Weapons>
+        <DamageMultiplier>0.1~1.5</DamageMultiplier>
     </WeaponManeuverDef>
 </Definitions>

@@ -7,7 +7,7 @@ public class DamageRequest
     public readonly Pawn Source;
     public Item Weapon { get; }
     public List<Damage> RawDamages = new(1);
-    public List<DamageRecord> TrinketResults { get; private set; } = [];
+    public List<Item> Trinkets { get;  set; } = [];
     public WeaponManeuverDef WeaponManeuver { get; }
     public BodyPart? TargetedPart { get; set; }
 
@@ -18,11 +18,6 @@ public class DamageRequest
         WeaponManeuver = weaponManeuver;
         Source = source;
         Weapon = weapon;
-    }
-
-    public void AddTrinketResults(List<DamageRecord>? trinketResults)
-    {
-        TrinketResults = trinketResults ?? [];
     }
 
     public static DamageRequest Create(Pawn pawn, Item tool)

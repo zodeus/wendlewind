@@ -1,7 +1,7 @@
 ﻿namespace Grafted.Sim.Entities.Pawns.Bodies;
 
 [UsedImplicitly]
-public class MosquitoGenerator : IBodyGenerator
+public class MosquitoBodyGenerator : IBodyGenerator
 {
     public void Generate(Pawn pawn)
     {
@@ -10,11 +10,9 @@ public class MosquitoGenerator : IBodyGenerator
         head.GetSocketsFor(BodyPartType.Eye)[0].TryAttachPart(Defs.BodyParts.Eye);
         head.GetSocketsFor(BodyPartType.Eye)[1].TryAttachPart(Defs.BodyParts.Eye);
         head.GetSocketsFor(BodyPartType.Brain)[0].TryAttachPart(Defs.BodyParts.Brain);
-        var antenna1 = head.GetSocketsFor(BodyPartType.Antenna)[0].TryAttachPart(Defs.BodyParts.MosquitoAntenna);
-        var antenna2 = head.GetSocketsFor(BodyPartType.Antenna)[1].TryAttachPart(Defs.BodyParts.MosquitoAntenna);
+        head.GetSocketsFor(BodyPartType.Antenna)[0].TryAttachPart(Defs.BodyParts.MosquitoAntenna);
+        head.GetSocketsFor(BodyPartType.Antenna)[1].TryAttachPart(Defs.BodyParts.MosquitoAntenna);
         var proboscis = head.GetSocketsFor(BodyPartType.Proboscis)[0].TryAttachPart(Defs.BodyParts.MosquitoProboscis);
-        antenna1.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FlamingMosquitoProboscis")!);
-        antenna2.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FlamingMosquitoProboscis")!);
         proboscis.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FlamingMosquitoProboscis")!);
 
         // Thorax
@@ -30,7 +28,7 @@ public class MosquitoGenerator : IBodyGenerator
 
         // Abdomen
         var abdomen = thorax.GetSocketsFor(BodyPartType.Abdomen)[0].TryAttachPart(Defs.BodyParts.MosquitoAbdomen);
-        abdomen.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FlamingMosquitoProboscis")!);
+        abdomen.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("PoisonousProboscis")!);
         abdomen.GetSocketsFor(BodyPartType.Wing)[0].TryAttachPart(Defs.BodyParts.MosquitoWing);
         abdomen.GetSocketsFor(BodyPartType.Wing)[1].TryAttachPart(Defs.BodyParts.MosquitoWing);
     }

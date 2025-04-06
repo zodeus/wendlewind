@@ -20,22 +20,120 @@
         <Moniker>Smoldering-01</Moniker>
         <Biome>SmolderingSwamp</Biome>
         <PotentialLootBoxes>
-            <ListItem>TrinketChest3</ListItem>
+            <ListItem>TrinketChestCombat</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>FlamingMosquito</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>HoneyBee</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
+                <PawnName>Honey Bee</PawnName>
+                <BodySizeFactor>1</BodySizeFactor>
+                <Skills/>
+                <Effects/>
+                <EquipmentItems/>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>VenomVial</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.75</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </EncounterDef>
+    <EncounterDef>
+        <Moniker>Smoldering-02</Moniker>
+        <Biome>SmolderingSwamp</Biome>
+        <PotentialLootBoxes>
+            <ListItem>ResourceChest1</ListItem>
+        </PotentialLootBoxes>
+        <Enemies>
+            <ListItem>
+                <PawnDef>FlamingMosquito</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Flaming Mosquito</PawnName>
                 <BodySizeFactor>1</BodySizeFactor>
                 <Skills/>
                 <Effects/>
-                <EquipmentItems>
-<!--                    <ListItem>FireStaff</ListItem>-->
-<!--                    <ListItem>FireStaff</ListItem>-->
-                </EquipmentItems>
                 <InventoryItems>
-                    
+                    <ListItem>
+                        <Item>VenomVial</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.75</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </EncounterDef>
+    <EncounterDef>
+        <Moniker>Smoldering-03</Moniker>
+        <Biome>SmolderingSwamp</Biome>
+        <PotentialLootBoxes>
+            <ListItem>TrinketChest3</ListItem>
+        </PotentialLootBoxes>
+        <Enemies>
+            <ListItem>
+                <PawnDef>FlamingMosquito</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
+                <PawnName>Flaming Mosquito</PawnName>
+                <BodySizeFactor>1.5</BodySizeFactor>
+                <Skills/>
+                <Effects/>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>VenomVial</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.75</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </EncounterDef>
+    <EncounterDef>
+        <Moniker>Smoldering-04</Moniker>
+        <Biome>SmolderingSwamp</Biome>
+        <PotentialLootBoxes>
+            <ListItem>TrinketChest3</ListItem>
+        </PotentialLootBoxes>
+        <Enemies>
+            <ListItem>
+                <PawnDef>FlamingMosquito</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
+                <PawnName>Flaming Mosquito</PawnName>
+                <BodySizeFactor>2</BodySizeFactor>
+                <Skills/>
+                <Effects/>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>VenomVial</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.75</ChanceToDrop>
+                    </ListItem>
+                </InventoryItems>
+            </ListItem>
+        </Enemies>
+    </EncounterDef>
+    <EncounterDef>
+        <Moniker>Smoldering-Boss</Moniker>
+        <Biome>SmolderingSwamp</Biome>
+        <IsBoss>true</IsBoss>
+        <PotentialLootBoxes>
+            <ListItem>TrinketChest3</ListItem>
+        </PotentialLootBoxes>
+        <Enemies>
+            <ListItem>
+                <PawnDef>FlamingMosquito</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
+                <PawnName>Flaming Mosquito</PawnName>
+                <BodySizeFactor>4</BodySizeFactor>
+                <Skills/>
+                <Effects/>
+                <InventoryItems>
+                    <ListItem>
+                        <Item>VenomVial</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.75</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>

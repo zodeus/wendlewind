@@ -15,22 +15,21 @@ public class FesteringHandler : BodyPartModifier
         {
             return;
         }
-
-        BodyPart.HitPoints -= BodyPart.HitPoints * DamageFactorPerTick;
+        BodyPart.HitPoints -= BodyPart.MaxHitPoints * DamageFactorPerTick;
         if (BodyPart.HealthPercent < SpreadThreshold)
         {
             if (_hasSpread) return;
             var childPart = BodyPart.ExternalParts.InRandomOrder().FirstOrNull();
-            var parentPart = BodyPart.Socket?.ParentPart;
+            var parentPart = BodyPart.Socket?.ParentPart;   
 
             if (childPart != null && Core.Random.Chance(0.5f))
             {
-                ApplyToPart(childPart);
+                SpreadTo(childPart);
                 _hasSpread = true;
             }
             else if (parentPart != null)
             {
-                ApplyToPart(parentPart);
+                SpreadTo(parentPart);
                 _hasSpread = true;
             }
         }

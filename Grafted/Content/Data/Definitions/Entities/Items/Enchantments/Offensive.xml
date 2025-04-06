@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef ParentName="ItemEnchantment">
+        <Moniker>SpidersBite</Moniker>
+        <Label>Spiders Bite</Label>
+        <Description>Hit me once shame you, I bite you.</Description>
+        <EnchantmentProperties>
+            <ValidEquipmentTypes>
+                <ListItem>Weapon</ListItem>
+                <ListItem>Armor</ListItem>
+            </ValidEquipmentTypes>
+            <HandlerClass>SpidersBiteHandler</HandlerClass>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Acid</Def>
+                    <DurationInTicks>60~120</DurationInTicks>
+                    <Chance>.2</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </EnchantmentProperties>
+        <TexturePath>Entities/Item/Enchantments/SpidersBite</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="ItemEnchantment">
+        <Moniker>FesteringWounds</Moniker>
+        <Label>Festering Wounds</Label>
+        <Description>It spreads...</Description>
+        <EnchantmentProperties>
+            <ValidEquipmentTypes>
+                <ListItem>Weapon</ListItem>
+            </ValidEquipmentTypes>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Festering</Def>
+                    <DurationInTicks>120~300</DurationInTicks>
+                    <Chance>.2</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </EnchantmentProperties>
+        <TexturePath>Entities/Item/Enchantments/FesteringWounds</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="ItemEnchantment">
+        <Moniker>BoneEater</Moniker>
+        <Label>Bone Eater</Label>
+        <Description>Watch them crumble from the inside.</Description>
+        <EnchantmentProperties>
+            <ValidEquipmentTypes>
+                <ListItem>Weapon</ListItem>
+            </ValidEquipmentTypes>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>BoneDecay</Def>
+                    <DurationInTicks>0</DurationInTicks>
+                    <Chance>.25</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </EnchantmentProperties>
+        <TexturePath>Entities/Item/Enchantments/BoneEater</TexturePath>
+    </ItemDef>
+</Definitions>

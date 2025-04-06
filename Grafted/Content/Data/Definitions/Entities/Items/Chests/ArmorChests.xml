@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <LootBoxDef>
+        <Moniker>ArmorChestIronAge</Moniker>
+        <Label>Iron Age Armor Chest</Label>
+        <Description>Contains iron age armor</Description>
+        <Category>Armor</Category>
+        <Rarity>IronAge</Rarity>
+        <TexturePath>Chests/ArmorChestPrimitive</TexturePath>
+        <CollectionLimit>4</CollectionLimit>
+        <Items>
+            <ListItem>
+                <ItemDef>ChainHelmet</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>ChainGorget</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>ChainTunic</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>ChainVambrace</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>ChainVambrace</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>ChainGlove</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>ChainGlove</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>ChainGreave</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>ChainGreave</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>ChainBoot</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>ChainBoot</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>1</Weight>
+            </ListItem>
+        </Items>
+    </LootBoxDef>
+</Definitions>
+

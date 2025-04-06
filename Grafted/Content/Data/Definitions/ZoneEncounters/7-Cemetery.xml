@@ -20,14 +20,14 @@
         <Moniker>Cemetery-01</Moniker>
         <Biome>Cemetery</Biome>
         <PotentialLootBoxes>
-            <ListItem>TrinketsChestNormal</ListItem>
+            <ListItem>TrinketChestNormal</ListItem>
             <!--<ListItem>EnchantedChestDefensive</ListItem>
             <ListItem>EnchantedChestOffensive</ListItem>-->
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>GraveKeeper</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>GraveKeeper</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Grave Keeper</PawnName>
                 <Skills/>
                 <Effects/>
@@ -50,8 +50,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>GraveKeeper</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>GraveKeeper</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Grave Keeper</PawnName>
                 <!--<BodySizeFactor>1</BodySizeFactor>-->
                 <Skills/>
@@ -75,8 +75,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>GraveKeeper</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>GraveKeeper</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Grave Keeper</PawnName>
                 <!--<BodySizeFactor>1</BodySizeFactor>-->
                 <Skills/>
@@ -111,8 +111,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>GraveKeeper</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>GraveKeeper</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Grave Keeper</PawnName>
                 <!--<BodySizeFactor>1</BodySizeFactor>-->
                 <Skills/>
@@ -144,12 +144,12 @@
         <Biome>Cemetery</Biome>
         <IsBoss>true</IsBoss>
         <PotentialLootBoxes>
-            <ListItem>TrinketsChestNormal</ListItem>
+            <ListItem>TrinketChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>FallenWatchman</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>FallenWatchman</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Fallen Watchman</PawnName>
                 <BodySizeFactor>1.6</BodySizeFactor>
                 <Skills/>

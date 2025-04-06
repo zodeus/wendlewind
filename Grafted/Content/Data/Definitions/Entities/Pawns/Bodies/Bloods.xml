@@ -24,4 +24,10 @@
         <Color>255, 209, 0</Color>
         <Viscosity>50</Viscosity>
     </BloodDef>
+    <BloodDef>
+        <Moniker>HoneySuckle</Moniker>
+        <Label>Honey Suckle</Label>
+        <Color>255, 242, 0</Color>
+        <Viscosity>50</Viscosity>
+    </BloodDef>
 </Definitions>

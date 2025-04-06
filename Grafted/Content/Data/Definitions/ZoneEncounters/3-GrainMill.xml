@@ -9,8 +9,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>Grainer</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>Grainer</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Grain Goon</PawnName>
                 <SpawnWeight>100</SpawnWeight>
                 <BodySizeFactor>1</BodySizeFactor>
@@ -48,8 +48,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>Grainer</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>Grainer</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Grain Goon</PawnName>
                 <SpawnWeight>100</SpawnWeight>
                 <BodySizeFactor>1.1</BodySizeFactor>
@@ -84,12 +84,12 @@
         <Moniker>GrainMill-03</Moniker>
         <Biome>GrainMill</Biome>
         <PotentialLootBoxes>
-            <ListItem>TrinketsChestNormal</ListItem>
+            <ListItem>TrinketChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>Grainer</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>Grainer</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Grain Goon</PawnName>
                 <SpawnWeight>100</SpawnWeight>
                 <BodySizeFactor>1.1</BodySizeFactor>
@@ -129,8 +129,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>Grainer</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>Grainer</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Grain Goon</PawnName>
                 <SpawnWeight>100</SpawnWeight>
                 <BodySizeFactor>1.1</BodySizeFactor>
@@ -171,8 +171,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>GrainBandit</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>GrainBandit</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Henry the Hungry</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <BodySizeFactor>1.2</BodySizeFactor>

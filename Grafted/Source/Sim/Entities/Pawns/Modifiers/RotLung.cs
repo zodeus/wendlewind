@@ -26,7 +26,7 @@ public class RotLung : BodyPartModifier
 
     public override bool ApplyToPart(BodyPart part)
     {
-        if (part.Type is not (BodyPartType.Head or BodyPartType.Neck))
+        if (part.Type is not (BodyPartType.Head or BodyPartType.Neck or BodyPartType.Torso))
         {
             return false;
         }

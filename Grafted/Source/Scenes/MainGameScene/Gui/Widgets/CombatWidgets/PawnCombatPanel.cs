@@ -162,7 +162,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
             GridLinesColor = new Color(255, 0, 0, 255),
         };
         var panelWidth = 400;
-        if (Pawn.PawnType == PawnType.Enemy || Pawn.Race != Defs.Races.Journeyman)
+        if (Pawn.PawnType == PawnType.Enemy)
         {
             var icon = Pawn.Icon.Flip(false, true);
             Image image = new() { Background = new TextureRegion(icon), Width = BaseContent.IconSizes.Portrait, Height = BaseContent.IconSizes.Portrait, BorderThickness = new Thickness(2) };

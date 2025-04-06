@@ -26,6 +26,7 @@
     </ItemGroup>
     
     <ItemGroup>
+        <Content Include="bin\Debug\net8.0-windows\save.xml" />
         <Content Include="Content\Data\**">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>

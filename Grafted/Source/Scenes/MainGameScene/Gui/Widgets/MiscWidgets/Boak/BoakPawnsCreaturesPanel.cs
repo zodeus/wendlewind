@@ -2,7 +2,7 @@
 
 internal sealed class BoakPawnsCreaturesPanel : Grid
 {
-    public BoakPawnsCreaturesPanel(IReadOnlyList<RaceDef> defs)
+    public BoakPawnsCreaturesPanel(IReadOnlyList<PawnDef> defs)
     {
         RowSpacing = 30;
         ColumnSpacing = 30;
@@ -19,8 +19,8 @@ internal sealed class BoakPawnsCreaturesPanel : Grid
                 Widgets =
                 {
                     new Label(BaseContent.Styles.Label.Large) { Text = def.Label, Margin = new Thickness(0, 0, 0, 20) },
-                    new Label(BaseContent.Styles.Label.Medium) { Text = $"Species: {def.Species.Label}" },
-                    new Label(BaseContent.Styles.Label.Normal) { Text = $"{def.Species.Description}" },
+                    new Label(BaseContent.Styles.Label.Medium) { Text = $"Species: {def.Species}" },
+                    new Label(BaseContent.Styles.Label.Normal) { Text = $"{def.Description}" },
                 }
             };
 

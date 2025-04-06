@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef Name="ItemEnchantment" ParentName="ItemBase" Abstract="true">
+        <StackLimit>1</StackLimit>
+        <ItemType>Enchantment</ItemType>
+        <UiClass>ResourcePanel</UiClass>
+    </ItemDef>
+    <ItemDef ParentName="ItemEnchantment">
+        <Moniker>SoothingVibrations</Moniker>
+        <Label>Soothing Vibrations</Label>
+        <Description>When struck it vibrates with life energy.</Description>
+        <EnchantmentProperties>
+            <ValidEquipmentTypes>
+                <ListItem>Armor</ListItem>
+            </ValidEquipmentTypes>
+            <HandlerClass>SoothingVibrationsHandler</HandlerClass>
+        </EnchantmentProperties>
+        <TexturePath>Entities/Item/Enchantments/SoothingVibrations</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="ItemEnchantment">
+        <Moniker>BloodBath</Moniker>
+        <Label>Blood Bath</Label>
+        <Description>Time for the gore to pour.</Description>
+        <EnchantmentProperties>
+            <ValidEquipmentTypes>
+                <ListItem>Armor</ListItem>
+            </ValidEquipmentTypes>
+            <HandlerClass>BloodBathHandler</HandlerClass>
+        </EnchantmentProperties>
+        <TexturePath>Entities/Item/Enchantments/BloodBath</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="ItemEnchantment">
+        <Moniker>RhinoSkin</Moniker>
+        <Label>Rhino Skin</Label>
+        <Description>Thick and chunky.</Description>
+        <EnchantmentProperties>
+            <ValidEquipmentTypes>
+                <ListItem>Armor</ListItem>
+            </ValidEquipmentTypes>
+            <HandlerClass>RhinoSkinHandler</HandlerClass>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>RhinoRestoration</Def>
+                    <DurationInTicks>80~140</DurationInTicks>
+                    <Chance>1</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </EnchantmentProperties>
+        <TexturePath>Entities/Item/Enchantments/RhinoSkin</TexturePath>
+    </ItemDef>
+</Definitions>

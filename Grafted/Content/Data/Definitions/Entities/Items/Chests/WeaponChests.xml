@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <LootBoxDef>
+        <Moniker>WeaponChestPrimitive</Moniker>
+        <Label>Primitive Weapon Chest</Label>
+        <Description>Contains primitive weapons, nothin' special</Description>
+        <Category>Weapons</Category>
+        <Rarity>Primitive</Rarity>
+        <TexturePath>Chests/WeaponChestPrimitive</TexturePath>
+        <CollectionLimit>1</CollectionLimit>
+        <Items>
+            <ListItem>
+                <ItemDef>BirchRod</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>WoodenHammer</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
+        </Items>
+    </LootBoxDef>
+    <LootBoxDef>
+        <Moniker>WeaponChestIronAge</Moniker>
+        <Label>Iron Age Weapon Chest</Label>
+        <Description>Contains iron age weapons</Description>
+        <Category>Weapons</Category>
+        <Rarity>IronAge</Rarity>
+        <TexturePath>Chests/WeaponChestPrimitive</TexturePath>
+        <CollectionLimit>1</CollectionLimit>
+        <Items>
+            <ListItem>
+                <ItemDef>WarAxe</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>ShortSword</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>WarHammer</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
+        </Items>
+    </LootBoxDef>
+</Definitions>
+

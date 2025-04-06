@@ -14,8 +14,12 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
         _gui = gui;
         _pawn = pawn;
         Spacing = 2;
-        foreach ((var bodyPart, var slots) in pawn.Equipment.Slots)
+        foreach (var (bodyPart, slots) in pawn.Equipment.Slots)
         {
+            if (slots.Count ==0)
+            {
+                continue;
+            }
             if (bodyPart.Type is BodyPartType.Finger or BodyPartType.Thumb or BodyPartType.Eye)
             {
                 continue;

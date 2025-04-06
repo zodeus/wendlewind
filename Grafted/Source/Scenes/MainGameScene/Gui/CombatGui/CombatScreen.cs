@@ -31,8 +31,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         _worldTextHandler = worldTextHandler;
         Encounter.StateChangedAction += CombatStateChangedAction;
         Encounter.CombatHandler!.CombatLogMessageAdded += AddCombatLogEntry;
-        Encounter.CombatHandler!.Player.DamageTaken += PrintDamage;
-        Encounter.CombatHandler!.Enemy.DamageTaken += PrintDamage;
+        Encounter.CombatHandler!.EventOccured += PrintDamage;
         _gameHud = new GameHud(gui, context)
         {
             HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -170,63 +169,33 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         Widgets.Add(grid);
     }
 
-    private void PrintDamage(Pawn target, DamageRequest request, DamageResponse response)
+    private void PrintDamage(CombatEvent combatEvent)
     {
-       
-
-        response.Damages.ForEach(d =>
+        var color = combatEvent.Type switch
         {
-            if (d.AmountBlocked <= 0) return;
-            var position = target.PawnType == PawnType.Player
-                ? new Vector2(Core.Random.Next(950, 1050), Core.Random.Next(200, 250))
-                : new Vector2(Core.Random.Next(1550, 1650), Core.Random.Next(200, 250));
-            _worldTextHandler.Add(new WorldSpaceText
-            {
-                Font = BaseContent.Fonts.Default.Normal,
-                RenderAction = WorldSpaceText.VibratingRenderAction,
-                Text = d.AmountBlocked.ToString(),
-                DurationInTicks = 180,
-                Color = Color.CornflowerBlue,
-                Position = position
-            });
+            CombatEventType.Damage => new Color(186, 22, 0),
+            CombatEventType.Block => new Color(0, 150, 237),
+            CombatEventType.Dodge => new Color(0, 150, 237),
+            CombatEventType.Miss => Color.Orange,
+            CombatEventType.Heal => Color.GreenYellow,
+            CombatEventType.Buff => Color.GreenYellow,
+            CombatEventType.Debuff => new Color(237, 51, 0),
+            CombatEventType.Death => Color.AntiqueWhite,
+            _ => throw new ArgumentOutOfRangeException()
+        };
+
+        var position = combatEvent.Target.PawnType == PawnType.Player
+            ? new Vector2(Core.Random.Next(950, 1050), Core.Random.Next(300, 350))
+            : new Vector2(Core.Random.Next(1550, 1650), Core.Random.Next(300, 350));
+        _worldTextHandler.Add(new WorldSpaceText
+        {
+            Font = BaseContent.Fonts.Default.Normal,
+            RenderAction = WorldSpaceText.VibratingRenderAction,
+            Text = combatEvent.Text,
+            DurationInTicks = 180,
+            Color = color,
+            Position = position
         });
-
-        if (response.TotalDamage <= 0)
-        {
-            var position = target.PawnType == PawnType.Player
-                ? new Vector2(Core.Random.Next(950, 1050), Core.Random.Next(200, 250))
-                : new Vector2(Core.Random.Next(1550, 1650), Core.Random.Next(200, 250));
-            var damages = response.Damages.Select(d => d.WeaponManeuverLabel).ToList();
-            damages.ForEach(d =>
-            {
-                _worldTextHandler.Add(new WorldSpaceText
-                {
-                    Font = BaseContent.Fonts.Default.Normal,
-                    RenderAction = WorldSpaceText.VibratingRenderAction,
-                    Text = d,
-                    DurationInTicks = 180,
-                    Color = Color.Orange,
-                    Position = position
-                });
-            });
-            return;
-        }
-
-        if (response.ActualDamage > 0)
-        {
-            var position = target.PawnType == PawnType.Player
-                ? new Vector2(Core.Random.Next(950, 1050), Core.Random.Next(200, 250))
-                : new Vector2(Core.Random.Next(1550, 1650), Core.Random.Next(200, 250));
-            _worldTextHandler.Add(new WorldSpaceText
-            {
-                Font = BaseContent.Fonts.Default.Normal,
-                RenderAction = WorldSpaceText.VibratingRenderAction,
-                Text = response.ActualDamage.ToString() ?? "",
-                DurationInTicks = 180,
-                Color = Color.Red,
-                Position = position
-            });
-        }
     }
 
     private void CombatStateChangedAction(EncounterState state)
@@ -303,7 +272,6 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     {
         Encounter.StateChangedAction -= CombatStateChangedAction;
         Encounter.CombatHandler!.CombatLogMessageAdded -= AddCombatLogEntry;
-        Encounter.CombatHandler!.Player.DamageTaken -= PrintDamage;
-        Encounter.CombatHandler!.Enemy.DamageTaken -= PrintDamage;
+        Encounter.CombatHandler!.EventOccured -= PrintDamage;
     }
 }

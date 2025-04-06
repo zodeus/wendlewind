@@ -365,7 +365,7 @@ public class BodyPart : Entity
         //var remainingDamage = damage - damageApplied;
         var remainingDamage = damage * 0.7f;
 
-        if (HealthPercent < .1 && Core.Random.Chance(0.3f))
+        if (HealthPercent < .1 && Core.Random.Chance(0.3f) && IsExoskeleton)
         {
             IsCracked = true;
         }

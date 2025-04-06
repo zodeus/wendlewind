@@ -33,10 +33,10 @@ public class ShrineProperties
 
 public class EncounterEnemyRecord
 {
-    public RaceDef Race = null!;
-    public PawnConfigDef Config = null!;
+    public PawnDef PawnDef = null!;
+    public string PawnName = "undefined";
+    public PawnLoadoutDef Loadout = null!;
     public float SpawnWeight = 1;
-    public string PawnName = "";
     public float BodySizeFactor = 1;
     public List<ItemDef> EquipmentItems = new();
     public List<ItemDropCount> InventoryItems = new();

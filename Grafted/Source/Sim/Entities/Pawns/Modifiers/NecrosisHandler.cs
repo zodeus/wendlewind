@@ -26,7 +26,6 @@ public class NecrosisHandler : BodyPartModifier
             if (randomParts.Count > 0)
             {
                 var part = randomParts.RandomElement();
-                Log.Info($"Necrosis spreading to {part}");
                 SpreadTo(part);
             }
         }

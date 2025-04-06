@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <LootBoxDef>
+        <Moniker>ResourceChest1</Moniker>
+        <Label>Resource Chest</Label>
+        <Description>Very helpful.</Description>
+        <Category>Crafting</Category>
+        <TexturePath>Chests/ResourceChest</TexturePath>
+        <CollectionLimit>4</CollectionLimit>
+        <Items>
+            <ListItem>
+                <ItemDef>HealingRoot</ItemDef>
+                <Amount>4~6</Amount>
+                <Weight>10</Weight>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <ItemDef>DeathCapMushroom</ItemDef>
+                <Amount>2~3</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <ItemDef>GoldCapMushroom</ItemDef>
+                <Amount>2~3</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <ItemDef>DreamBerry</ItemDef>
+                <Amount>1~4</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <ItemDef>MaeburyBulb</ItemDef>
+                <Amount>1~4</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <ItemDef>ChurniRoot</ItemDef>
+                <Amount>1~4</Amount>
+                <ChanceToDrop>.3</ChanceToDrop>
+            </ListItem>
+        </Items>
+    </LootBoxDef>
+</Definitions>
+

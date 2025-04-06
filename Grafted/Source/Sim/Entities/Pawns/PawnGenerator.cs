@@ -4,20 +4,16 @@ public static class PawnGenerator
 {
     public static Pawn CreatePawn(PawnRequest request)
     {
-        var pawn = EntityGenerator.CreateEntity<Pawn>(request.Race.Species, true);
-        pawn.Race = request.Race;
-        pawn.PawnType = request.Config.PawnType;
+        var pawn = EntityGenerator.CreateEntity<Pawn>(request.PawnDef, true);
+        pawn.PawnType = request.PawnType;
         pawn.Initialize();
         RegisterTraits(pawn);
-        if (request.Config.PawnName != null)
-        {
-            pawn.Biography.Name = request.Config.PawnName;
-        }
+        pawn.Biography.Name = request.PawnName;
 
         GenerateBody(pawn, request.BodySizeFactor);
 
-        RegisterEquipment(pawn, request.Config.EquipmentItems);
-        RegisterInventory(pawn, request.Config.InventoryItems);
+        RegisterEquipment(pawn, request.Loadout.EquipmentItems);
+        RegisterInventory(pawn, request.Loadout.InventoryItems);
 
         return pawn;
     }
@@ -111,13 +107,18 @@ public static class PawnGenerator
 
 public struct PawnRequest
 {
-    public RaceDef Race { get; }
-    public PawnConfigDef Config { get; }
+    public string PawnName { get; }
+    public PawnDef PawnDef { get; }
+    public PawnLoadoutDef Loadout { get; }
+    public PawnType PawnType { get; set; } = PawnType.Invalid;
     public float BodySizeFactor { get; set; } = 1;
 
-    public PawnRequest(RaceDef race, PawnConfigDef config)
+    public PawnRequest(string pawnName, PawnDef pawnDef, PawnLoadoutDef loadout, PawnType pawnType, float bodySizeFactor = 1)
     {
-        Race = race;
-        Config = config;
+        PawnName = pawnName;
+        PawnDef = pawnDef;
+        Loadout = loadout;
+        PawnType = pawnType;
+        BodySizeFactor = bodySizeFactor;
     }
 }

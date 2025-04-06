@@ -9,8 +9,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>OrcChopper</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>OrcChopper</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Orc Chopper</PawnName>
                 <BodySizeFactor>1</BodySizeFactor>
                 <Skills/>
@@ -42,8 +42,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>OrcChopper</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>OrcChopper</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Orc Chopper</PawnName>
                 <BodySizeFactor>1</BodySizeFactor>
                 <Skills/>
@@ -80,8 +80,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>OrcChopper</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>OrcChopper</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Orc Chopper</PawnName>
                 <BodySizeFactor>1</BodySizeFactor>
                 <Skills/>
@@ -118,8 +118,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>OrcChopper</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>OrcChopper</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Orc Chopper</PawnName>
                 <BodySizeFactor>1</BodySizeFactor>
                 <Skills/>
@@ -153,12 +153,12 @@
         <Biome>Mineshaft</Biome>
         <IsBoss>true</IsBoss>
         <PotentialLootBoxes>
-            <ListItem>TrinketChest3</ListItem>
+            <ListItem>TrinketChestCombat</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>OrcShaman</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>OrcShaman</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Orc Shaman</PawnName>
                 <BodySizeFactor>1</BodySizeFactor>
                 <Skills/>

@@ -27,7 +27,7 @@ Trinkets
  	Blessed Something
  	Crucifix -- gains powers on kill
  	Pocket Garden - One Becomes Two
- 	Energy Reducer
+ 	Blood Thickener 
  	
 Enchantments	
 	Magnet -- increases chance to hit

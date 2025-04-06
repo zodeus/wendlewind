@@ -4,6 +4,25 @@ using Grafted.Sim.Entities.Pawns.Modifiers;
 
 namespace Grafted.Sim.Combat;
 
+public enum CombatEventType
+{
+    Damage,
+    Block,
+    Dodge,
+    Miss,
+    Heal,
+    Buff,
+    Debuff,
+    Death
+}
+
+public class CombatEvent(Pawn victim, CombatEventType damage, string s)
+{
+    public string Text { get; set; } = s;
+    public Pawn Target { get; set; } = victim;
+    public CombatEventType Type { get; set; } = damage;
+}
+
 public class CombatHandler
 {
     private readonly Encounter _encounter;
@@ -14,6 +33,7 @@ public class CombatHandler
     public BodyPart? TargetedPart;
     public EntityContainer Loot = new();
     public readonly List<BodyPart> SeveredLimbs = [];
+    public event Action<CombatEvent>? EventOccured;
 
     public Pawn Player { get; set; }
     public Pawn Enemy { get; set; }
@@ -63,6 +83,11 @@ public class CombatHandler
         var logs = new List<string>();
         var attacker = request.Source;
 
+        foreach (var trinket in Player.Inventory.Trinkets)
+        {
+            trinket.TrinketHandler?.PostAttackHandler(victim, request, response);
+        }
+
         // Record players severed body parts in order to take its equipment
         if (victim.PawnType == PawnType.Player)
         {
@@ -87,10 +112,12 @@ public class CombatHandler
 
         if (response.Missed)
         {
+            EventOccured?.Invoke(new CombatEvent(attacker, CombatEventType.Miss, $"missed"));
             logs.Add($"/c[{TC.Attacker}]{attacker.LabelShort} /c[{TC.Blue}]missed /c[{TC.Victim}]{victim.LabelShort}.");
         }
         else if (response.Dodged)
         {
+            EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Dodge, $"dodged"));
             logs.Add($"/c[{TC.Victim}]{victim.LabelShort} /c[{TC.Blue}]dodged attack");
         }
         else
@@ -115,6 +142,22 @@ public class CombatHandler
                      $"/c[{TC.Default}] for /c[{TC.Red}]{damage.ActualAmount:N0} /c[{TC.Golden}]{damage.DamageType}/c[{TC.Default}] damage," +
                      $" blocked /c[#00e6ff]{damage.AmountBlocked}";
 
+        if (damage.ActualAmount > 0)
+        {
+            EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Damage, $"{damage.ActualAmount:N0}"));
+        }
+
+        if (damage.AmountBlocked > 0)
+        {
+            EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Block, $"{damage.AmountBlocked:N0}"));
+        }
+
+        if (damage.AmountBlocked > 0)
+        {
+            EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Block, $"{damage.AmountBlocked:N0}"));
+        }
+
+
         foreach (var itemRecord in damage.DestroyedEquipment)
         {
             yield return $"  /c[{TC.Equipment}]{itemRecord.Def.Label} /c[{TC.Red}]destroyed";
@@ -124,21 +167,30 @@ public class CombatHandler
         {
             foreach (var modifier in partRecord.AppliedModifiers)
             {
+                EventOccured?.Invoke(new CombatEvent(victim, modifier.Type == BodyPartModifierType.Buff ? CombatEventType.Buff : CombatEventType.Debuff, modifier.Label));
                 yield return $"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Default}]afflicted with /c[{TC.Yellow}]{modifier}";
+            }
+
+            if (partRecord is { WasDestroyed: true } && (partRecord.IsVital || partRecord.BodyPart.IsExternal))
+            {
+                // EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Damage, $"{partRecord.PartType} destroyed"));
             }
 
             if (partRecord is { WasDestroyed: true, IsVital: false })
             {
+                //EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Damage, $"{partRecord.PartType} destroyed"));
                 yield return $"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]destroyed";
             }
 
             if (partRecord is { WasDestroyed: true, IsVital: true })
             {
+                //EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Damage, $"{partRecord.PartType} destroyed"));
                 yield return $"  /c[{TC.Red}]Vital part /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]destroyed";
             }
 
             if (partRecord.BodyPart.IsExternal && partRecord.WasSevered)
             {
+                EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Damage, $"{partRecord.PartType} severed"));
                 yield return $"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]SEVERED";
                 _encounter.Zone.Alert(
                     new ScreenMessageData
@@ -153,6 +205,7 @@ public class CombatHandler
 
         foreach (var affliction in damage.SourceAfflictions)
         {
+            EventOccured?.Invoke(new CombatEvent(attacker, CombatEventType.Debuff, $"{affliction.Label}"));
             yield return $"/c[{TC.Purple2}]{attacker}/c[{TC.Default}]'s /c[{TC.BodyPart}]{affliction.BodyPart.Label} " +
                          $"/c[{TC.Default}]has been (/c[{TC.GreenYellow}]{affliction.Label}) ";
         }
@@ -225,29 +278,21 @@ public class CombatHandler
         }
 
         var damageRequest = damageOptions.RandomElement();
-        damageRequest.AddTrinketResults(HandleActivatedTrinkets(attacker, victim));
         if (victim.PawnType == PawnType.Enemy)
         {
-            damageRequest.TargetedPart = TargetedPart;    
+            damageRequest.TargetedPart = TargetedPart;
+            damageRequest.Trinkets = GetActiveTrinkets(attacker).ToList();
         }
-        
+
         victim.TakeDamage(damageRequest);
     }
 
-    private List<DamageRecord>? HandleActivatedTrinkets(Pawn attacker, Pawn victim)
+    private IEnumerable<Item> GetActiveTrinkets(Pawn attacker)
     {
-        var results = new List<DamageRecord>();
         for (var index = _activeTrinkets[attacker].Count - 1; index >= 0; index--)
         {
-            var trinket = _activeTrinkets[attacker][index];
-            if (trinket.TrinketHandler!.HandleCombatAction(attacker, victim) is { } damageRecord)
-            {
-                _activeTrinkets[attacker].Remove(trinket);
-                results.Add(damageRecord);
-            }
+            yield return _activeTrinkets[attacker][index];
         }
-
-        return results.Count != 0 ? results : null;
     }
 
     private void HandleQueuedItem(Pawn pawn, Pawn target)

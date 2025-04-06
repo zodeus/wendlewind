@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <PawnDef Name="BaseHumanRace" ParentName="BasePawn" Abstract="true"/>
+    <PawnDef ParentName="BaseHumanRace">
+        <Moniker>Journeyman</Moniker>
+        <Label>Journeyman</Label>
+        <Species>Human</Species>
+        <Body>HumanBody</Body>
+        <BaseStats>
+            <AttackSpeed>1</AttackSpeed>
+            <MeleeStrength>1</MeleeStrength>
+            <MeleeAccuracy>.80</MeleeAccuracy>
+            <Evasion>.02</Evasion>
+        </BaseStats>
+        <TexturePath>Entities/Pawn/Creature/Human/Human1</TexturePath>
+    </PawnDef>
+    <PawnDef ParentName="BaseHumanRace">
+        <Moniker>Grainer</Moniker>
+        <Label>Grainer</Label>
+        <Species>Human</Species>
+        <Body>HumanBody</Body>
+        <BaseStats>
+            <AttackSpeed>2</AttackSpeed>
+            <MeleeStrength>2</MeleeStrength>
+            <MeleeAccuracy>.80</MeleeAccuracy>
+            <Evasion>.02</Evasion>
+        </BaseStats>
+        <TexturePath>Entities/Pawn/Creature/Human/Grainer</TexturePath>
+    </PawnDef>
+    <PawnDef ParentName="BaseHumanRace">
+        <Moniker>GrainBandit</Moniker>
+        <Label>Grain Bandit</Label>
+        <Species>Human</Species>
+        <Body>HumanBody</Body>
+        <BaseStats>
+            <AttackSpeed>2</AttackSpeed>
+            <MeleeStrength>1.5</MeleeStrength>
+            <MeleeAccuracy>.80</MeleeAccuracy>
+            <Evasion>.02</Evasion>
+        </BaseStats>
+        <TexturePath>Entities/Pawn/Creature/Human/GrainBandit</TexturePath>
+    </PawnDef>
+</Definitions>

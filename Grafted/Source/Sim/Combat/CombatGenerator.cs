@@ -8,7 +8,7 @@ public static class CombatGenerator
             .Where(d => d.Biome == zone.BiomeDef)
             .Take(new Range(zone.Stage, zone.Stage + 1))
             .First();
-        
+
         Encounter encounter = new(zone, encounterDef);
         encounter.AddPlayerPawn(playerPawn);
 
@@ -33,14 +33,13 @@ public static class CombatGenerator
         foreach (var enemyConfig in enemies)
         {
             var pawn = PawnGenerator.CreatePawn(new PawnRequest(
-                enemyConfig.Race,
-                enemyConfig.Config
-            )
-            {
-                BodySizeFactor = enemyConfig.BodySizeFactor
-            });
+                enemyConfig.PawnName,
+                enemyConfig.PawnDef,
+                enemyConfig.Loadout,
+                PawnType.Enemy,
+                enemyConfig.BodySizeFactor
+            ));
 
-            pawn.Biography.Name = enemyConfig.PawnName;
             PawnGenerator.RegisterEquipment(pawn, enemyConfig.EquipmentItems);
             PawnGenerator.RegisterInventory(pawn, enemyConfig.InventoryItems);
             PawnGenerator.RegisterSkills(pawn, enemyConfig.Skills);

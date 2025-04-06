@@ -9,7 +9,7 @@ public class DeathRattleHandler : TrinketHandler
     private const double KillDamageMultiplier = .2; // 100 percent per kills
     private const int KillCooldownMultiplier = 100;
 
-    public override DamageRecord? HandleCombatAction(Pawn pawn, Pawn target)
+    public override DamageRecord? HandleAttack(DamageRequest request, Pawn target)
     {
         Charges++;
         if (Charges < ChargesRequired) return null;
@@ -40,19 +40,16 @@ public class DeathRattleHandler : TrinketHandler
         };
     }
 
+    public override void DeActivate()
+    {
+        Charges = 0;
+        base.DeActivate();
+    }
+
     private void Reset()
     {
         Cooldown = CooldownValue + (Kills * KillCooldownMultiplier);
         Charges = 0;
         IsActive = false;
-    }
-}
-
-[UsedImplicitly]
-public class BatteryHandler : TrinketHandler
-{
-    public override DamageRecord? HandleCombatAction(Pawn pawn, Pawn target)
-    {
-        return null;
     }
 }

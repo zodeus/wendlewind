@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <PawnDef Name="BasePawn" Abstract="True">
+        <EntityClass>Pawn</EntityClass>
+        <UiClass>PawnPanel</UiClass>
+        <BaseStats>
+            <MeleeAccuracy>.85</MeleeAccuracy>
+        </BaseStats>
+    </PawnDef>
+</Definitions>

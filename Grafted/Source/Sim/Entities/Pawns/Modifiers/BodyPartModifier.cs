@@ -88,7 +88,6 @@ public abstract class BodyPartModifier : IExposable, IIdentityProvider
 
     public virtual bool ApplyToPart(BodyPart part)
     {
-        //todo raise event MODIFIER APPLIED
-        return false;
+        throw new NotImplementedException();
     }
 }

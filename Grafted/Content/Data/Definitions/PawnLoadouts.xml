@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <PawnLoadoutDef>
+        <Moniker>DefaultStarterLoadout</Moniker>
+        <EquipmentItems/>
+        <InventoryItems>
+            <ListItem>
+                <Item>Cauterize</Item>
+                <Amount>1</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
+        </InventoryItems>
+    </PawnLoadoutDef>
+    <PawnLoadoutDef>
+        <Moniker>EmptyLoadout</Moniker>
+        <EquipmentItems/>
+        <InventoryItems/>
+    </PawnLoadoutDef>
+</Definitions>

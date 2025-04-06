@@ -6,8 +6,8 @@
         <Biome>PeacefulMeadow</Biome>
         <Enemies>
             <ListItem>
-                <Race>Bunny</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>Bunny</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Bunny</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <InventoryItems>
@@ -33,8 +33,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>Bunny</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>Bunny</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Bunny</PawnName>
                 <BodySizeFactor>1.2</BodySizeFactor>
                 <SpawnWeight>1</SpawnWeight>
@@ -64,8 +64,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>Bunny</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>Bunny</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Bunny</PawnName>
                 <BodySizeFactor>1.4</BodySizeFactor>
                 <SpawnWeight>1</SpawnWeight>
@@ -95,8 +95,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>Bunny</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>Bunny</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Bunny</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <BodySizeFactor>1.6</BodySizeFactor>
@@ -122,8 +122,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>TruffleBoar</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>TruffleBoar</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Truffle Boar</PawnName>
                 <BodySizeFactor>1.3</BodySizeFactor>
                 <SpawnWeight>1</SpawnWeight>

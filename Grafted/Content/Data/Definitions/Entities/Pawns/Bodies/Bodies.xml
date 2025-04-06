@@ -86,15 +86,21 @@
         <MaxBlood>20000</MaxBlood>
         <BloodType>ToxicSlime</BloodType>
         <GeneratorClass>OrcBodyGenerator</GeneratorClass>
-        <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
     </BodyDef>
     <BodyDef>
         <Moniker>MosquitoBody</Moniker>
         <Label>Mosquito Body</Label>
         <BoneDensity>8</BoneDensity>
-        <MaxBlood>20000</MaxBlood>
+        <MaxBlood>2000</MaxBlood>
         <BloodType>ToxicSlime</BloodType>
-        <GeneratorClass>MosquitoGenerator</GeneratorClass>
-        <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
+        <GeneratorClass>MosquitoBodyGenerator</GeneratorClass>
+    </BodyDef>
+    <BodyDef>
+        <Moniker>BeeBody</Moniker>
+        <Label>Bee Body</Label>
+        <BoneDensity>8</BoneDensity>
+        <MaxBlood>20000</MaxBlood>
+        <BloodType>HoneySuckle</BloodType>
+        <GeneratorClass>BeeBodyGenerator</GeneratorClass>
     </BodyDef>
 </Definitions>

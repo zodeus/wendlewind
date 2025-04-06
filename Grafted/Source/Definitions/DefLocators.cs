@@ -33,8 +33,8 @@ public static partial class Defs {
 
 public static partial class Defs {
     [DefLocator]
-    public static class PawnConfigs {
-        public static PawnConfigDef PlayerPawn = null!;
+    public static class PawnLoadouts {
+        public static PawnLoadoutDef DefaultStarterLoadout = null!;
     }
 }
 
@@ -58,6 +58,7 @@ public static partial class Defs {
         public static BodyEffectDef BeefedUp = null!;
         public static BodyEffectDef FeelingThePurple = null!;
         public static BodyEffectDef SmokeyHaze = null!;
+        public static BodyEffectDef GoldenSmoke = null!;
         public static BodyEffectDef Psychedelic = null!;
         public static BodyEffectDef GoldenLips = null!;
     }
@@ -107,35 +108,11 @@ public static partial class Defs {
         public static ItemDef HealingRoot = null!;
         public static ItemDef GlitteringLog = null!;
         public static ItemDef ShimmeringBark = null!;
+        public static ItemDef GoldenWood = null!;
         public static ItemDef SoothingVibrations = null!;
         public static ItemDef SpidersBite = null!;
         public static ItemDef ThirdEye = null!;
         public static ItemDef EnchantmentExpander = null!;
-    }
-}
-
-public static partial class Defs {
-    [DefLocator]
-    public static class Species {
-        public static PawnDef Human = null!;
-        public static PawnDef Frog = null!;
-        public static PawnDef Rabbit = null!;
-        public static PawnDef Wolf = null!;
-        public static PawnDef Glump = null!;
-        public static PawnDef Ghoul = null!;
-        public static PawnDef Pig = null!;
-    }
-}
-
-public static partial class Defs {
-    [DefLocator]
-    public static class Races {
-        public static RaceDef Glump = null!;
-        public static RaceDef Bunny = null!;
-        public static RaceDef FieldHound = null!;
-        public static RaceDef TruffleBoar = null!;
-        public static RaceDef BlisteringToad = null!;
-        public static RaceDef Journeyman = null!;
     }
 }
 
@@ -235,6 +212,12 @@ public static partial class Defs {
         public static BodyPartDef MosquitoLeg = null!;
         public static BodyPartDef MosquitoAbdomen = null!;
         
+        public static BodyPartDef BeeHead = null!;
+        public static BodyPartDef BeeAntenna = null!;
+        public static BodyPartDef BeeThorax = null!;
+        public static BodyPartDef BeeWing = null!;
+        public static BodyPartDef BeeLeg = null!;
+        public static BodyPartDef BeeAbdomen = null!;
     }
 
     [DefLocator]

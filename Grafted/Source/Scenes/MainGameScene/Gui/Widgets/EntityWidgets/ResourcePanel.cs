@@ -93,11 +93,26 @@ public sealed class ResourcePanel : EntityPanelBase
                 TicksLeft = 4000
             });
         }
+        else if (item.ItemDef == Defs.Items.GoldenWood)
+        {
+            gui.PushScreenMessage(new ScreenMessageData
+            {
+                Font = BaseContent.Fonts.Default.Medium,
+                Text = Defs.BodyEffects.GoldenSmoke.Description,
+                Duration = 6,
+                Color = Color.Orange
+            });
+            player.Pawn.Body.Effects.TryApplyEffect(new BodyEffect
+            {
+                Def = Defs.BodyEffects.GoldenSmoke,
+                TicksLeft = 2000
+            });
+        }
     }
 
     private bool ShowBurnWood(Player player, Item item)
     {
-        if (item.ItemDef == Defs.Items.GlitteringLog || item.ItemDef == Defs.Items.ShimmeringBark)
+        if (item.ItemDef == Defs.Items.GlitteringLog || item.ItemDef == Defs.Items.ShimmeringBark || item.ItemDef == Defs.Items.GoldenWood)
         {
             return player.HasTrinkets(Defs.Items.EncasedFire);
         }

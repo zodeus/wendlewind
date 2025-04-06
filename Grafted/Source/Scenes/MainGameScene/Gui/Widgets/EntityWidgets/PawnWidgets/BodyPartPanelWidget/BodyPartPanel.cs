@@ -24,6 +24,7 @@ public sealed class BodyPartPanel : EntityPanelBase
         leftPanel.Widgets.Add(_modifiersPanel);
         leftPanel.Widgets.Add(new BodyPartPanelBleedingLabel(bodyPart));
         leftPanel.Widgets.Add(new BodyPartPanelBrokenBonesLabel(bodyPart));
+        leftPanel.Widgets.Add(new BodyPartPanelCrackedLabel(bodyPart));
         leftPanel.Widgets.Add(new BodyPartPanelMobilityLabel(bodyPart));
         leftPanel.Widgets.Add(new BodyPartPanelFunctionalLabel(bodyPart));
         leftPanel.Widgets.Add(new BodyPartPanelArteryLabel(bodyPart));

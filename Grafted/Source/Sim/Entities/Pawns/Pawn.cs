@@ -1,3 +1,5 @@
+using Grafted.Sim.Entities.Items.Trinkets;
+
 namespace Grafted.Sim.Entities.Pawns;
 
 [UsedImplicitly]
@@ -6,7 +8,6 @@ public class Pawn : Entity
     public event Action<Pawn, DamageRequest, DamageResponse>? DamageTaken; //todo - actions
     public event Action<DeathEvent>? Died; //todo - actions
 
-    public RaceDef Race = null!;
     public PawnBiography Biography = null!;
     public PawnTraits Traits = null!;
     public PawnMind Mind = null!;
@@ -20,10 +21,10 @@ public class Pawn : Entity
     public int TicksToAttack;
 
     public PawnDef PawnDef => (PawnDef)Def;
-    public string Species => PawnDef.Label;
+    public string Species => PawnDef.Species;
     public override string Label => Biography.Name;
     public override string LabelShort => Biography.Name;
-    public override Texture2D Icon => Race.Icon;
+    public override Texture2D Icon => PawnDef.Icon;
     public bool IsHungry => Body.IsHungry;
     public bool IsFamished => Body.IsFamished;
     public bool IsDead { get; private set; }
@@ -87,13 +88,21 @@ public class Pawn : Entity
     {
         DamageResponse response = new();
 
-        if (request.TargetedPart != null)
+        var isTargetingImpActive = false;
+        foreach (var trinket in request.Trinkets)
         {
-            Log.Info(request.TargetedPart.ToString());
+            if (request.TargetedPart != null && trinket.TrinketHandler is TargetingImpHandler { Charges: > 0 } handler)
+            {
+                handler.Charges--;
+                isTargetingImpActive = true;
+            }
+
+            if (trinket.TrinketHandler!.HandleAttack(request, this) is { } damageRecord)
+            {
+                response.TrinketDamages.Add(damageRecord);
+            }
         }
 
-        // Add trinket damages 
-        response.TrinketDamages.AddRange(request.TrinketResults);
         if (CheckIfKilledByDamage(response) is { } causeOfDeath)
         {
             DamageTaken?.Invoke(this, request, response);
@@ -101,7 +110,7 @@ public class Pawn : Entity
             return;
         }
 
-        if (Core.Random.Chance(request.Source.ChanceToHit()) == false)
+        if (Core.Random.Chance(request.Source.ChanceToHit()) == false && isTargetingImpActive == false)
         {
             response.Missed = true;
             DamageTaken?.Invoke(this, request, response);
@@ -109,7 +118,7 @@ public class Pawn : Entity
         }
 
         var chanceToHitTargetedPart = 0.2f;
-        if (request.TargetedPart != null && Core.Random.Chance(chanceToHitTargetedPart) == false)
+        if (request.TargetedPart != null && isTargetingImpActive == false && Core.Random.Chance(chanceToHitTargetedPart) == false)
         {
             response.Missed = true;
             DamageTaken?.Invoke(this, request, response);
@@ -249,7 +258,6 @@ public class Pawn : Entity
     public override void ExposeData()
     {
         ScribeValues.Look(ref PawnType, "PawnType");
-        ScribeDefs.Look(ref Race!, "Race");
         ScribeDeep.Look(ref Biography!, "Biography", this);
         ScribeDeep.Look(ref Traits!, "Traits", this);
         ScribeDeep.Look(ref Mind!, "Mind", this);

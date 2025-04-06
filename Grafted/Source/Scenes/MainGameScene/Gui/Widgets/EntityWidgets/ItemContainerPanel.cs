@@ -40,6 +40,12 @@ public sealed class ItemContainerPanel : Panel
             },
             new ItemContainerPanelSection
             {
+                Label = "Flammable",
+                Container = _container,
+                Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Flammable
+            },
+            new ItemContainerPanelSection
+            {
                 Label = "Equipment Supplies",
                 Container = _container,
                 Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Supplies
@@ -58,7 +64,7 @@ public sealed class ItemContainerPanel : Panel
             },
             new ItemContainerPanelSection
             {
-                Label = "Misc",
+                Label = "Resources",
                 Container = _container,
                 Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Resource
             }

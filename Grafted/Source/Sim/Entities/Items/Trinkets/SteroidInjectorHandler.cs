@@ -81,11 +81,6 @@ public class SteroidInjectorHandler : TrinketHandler
 
     public float CalculateTotalCost(BodyPart bodyPart)
     {
-        foreach (var internalPart in bodyPart.AllInternalParts)
-        {
-            Log.Info($"  {internalPart.Label}: {CalculateHpValue(internalPart)}  {CalculateCost(internalPart)}");
-        }
-
         return CalculateCost(bodyPart) + bodyPart.AllInternalParts.Sum(CalculateCost);
     }
 

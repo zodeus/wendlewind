@@ -24,8 +24,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>Treeling</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>Treeling</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Treeling</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <Skills>
@@ -47,12 +47,12 @@
         <Moniker>ForgottenForest-02</Moniker>
         <Biome>ForgottenForest</Biome>
         <PotentialLootBoxes>
-            <ListItem>TrinketsChestNormal</ListItem>
+            <ListItem>TrinketChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>Treeling</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>Treeling</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Treeling</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <BodySizeFactor>1.2</BodySizeFactor>
@@ -82,8 +82,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>Treeling</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>Treeling</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Treeling</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <BodySizeFactor>1.4</BodySizeFactor>
@@ -114,8 +114,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>Treeling</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>Treeling</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Treeling</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <BodySizeFactor>1.6</BodySizeFactor>
@@ -149,8 +149,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>Ent</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>Ent</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Ent</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <BodySizeFactor>1.8</BodySizeFactor>

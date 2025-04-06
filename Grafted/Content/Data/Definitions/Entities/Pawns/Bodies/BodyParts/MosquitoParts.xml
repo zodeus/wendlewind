@@ -8,7 +8,7 @@
         <Moniker>MosquitoHead</Moniker>
         <Label>Head</Label>
         <HitWeight>100</HitWeight>
-        <BloodAmount>1</BloodAmount>
+        <BloodAmount>80</BloodAmount>
         <BodyPartType>Head</BodyPartType>
         <IsVital>true</IsVital>
         <IsFlesh>false</IsFlesh>
@@ -31,7 +31,7 @@
         <Moniker>MosquitoProboscis</Moniker>
         <Label>Proboscis</Label>
         <BodyPartType>Proboscis</BodyPartType>
-        <HitWeight>1</HitWeight>
+        <HitWeight>10</HitWeight>
         <BloodAmount>1</BloodAmount>
         <TexturePath>Entities/Pawn/BodyParts/Mosquito/Proboscis</TexturePath>
         <BaseStats>
@@ -46,23 +46,20 @@
         <Moniker>MosquitoAntenna</Moniker>
         <Label>Antenna</Label>
         <BodyPartType>Antenna</BodyPartType>
-        <HitWeight>1</HitWeight>
+        <HitWeight>25</HitWeight>
         <BloodAmount>1</BloodAmount>
         <TexturePath>Entities/Pawn/BodyParts/Mosquito/Antenna</TexturePath>
         <BaseStats>
             <AttackSpeedModifier>.5</AttackSpeedModifier>
             <MaxHitPoints>200</MaxHitPoints>
         </BaseStats>
-        <EquipmentSlots>
-            <ListItem>BuiltIn</ListItem>
-        </EquipmentSlots>
     </BodyPartDef>
     <BodyPartDef ParentName="MosquitoBodyPartBase">
         <Moniker>MosquitoThorax</Moniker>
         <Label>Thorax</Label>
         <BodyPartType>Thorax</BodyPartType>
         <HitWeight>200</HitWeight>
-        <BloodAmount>1</BloodAmount>
+        <BloodAmount>100</BloodAmount>
         <IsExoskeleton>true</IsExoskeleton>
         <IsVital>true</IsVital>
         <TexturePath>Entities/Pawn/BodyParts/Mosquito/Thorax</TexturePath>
@@ -86,7 +83,7 @@
         <Label>Abdomen</Label>
         <BodyPartType>Abdomen</BodyPartType>
         <HitWeight>300</HitWeight>
-        <BloodAmount>1</BloodAmount>
+        <BloodAmount>100</BloodAmount>
         <IsExoskeleton>true</IsExoskeleton>
         <TexturePath>Entities/Pawn/BodyParts/Mosquito/Abdomen</TexturePath>
         <Sockets>
@@ -117,8 +114,8 @@
         <Label>Leg</Label>
         <BodyPartType>Leg</BodyPartType>
         <HitWeight>80</HitWeight>
-        <BloodAmount>1</BloodAmount>
-        <IsBone>true</IsBone>
+        <BloodAmount>40</BloodAmount>
+        <IsExoskeleton>true</IsExoskeleton>
         <TexturePath>Entities/Pawn/BodyParts/Mosquito/Leg</TexturePath>
         <BaseStats>
             <MaxHitPoints>200</MaxHitPoints>

@@ -18,13 +18,38 @@ internal sealed class BoakItemsPanel : Panel
                     .ToList()
             )
         );
+        tabPanel.AddTab("Flammable", new BoakItemsMedicalPanel(
+                defs.Where(d => d.ItemType == ItemType.Flammable)
+                    .ToList()
+            )
+        );
         tabPanel.AddTab("Medicinal", new BoakItemsMedicalPanel(
                 defs.Where(d => d.ItemType == ItemType.Medical)
                     .ToList()
             )
         );
+        tabPanel.AddTab("Resource", new BoakItemsMedicalPanel(
+                defs.Where(d => d.ItemType == ItemType.Resource)
+                    .ToList()
+            )
+        );
+        tabPanel.AddTab("Supplies", new BoakItemsMedicalPanel(
+                defs.Where(d => d.ItemType == ItemType.Supplies)
+                    .ToList()
+            )
+        );
+        tabPanel.AddTab("Food", new BoakItemsMedicalPanel(
+                defs.Where(d => d.ItemType == ItemType.Food)
+                    .ToList()
+            )
+        );
         tabPanel.AddTab("Trinkets", new BoakItemsTrinketsPanel(
                 defs.Where(d => d.ItemType == ItemType.Trinket)
+                    .ToList()
+            )
+        );
+        tabPanel.AddTab("Potion", new BoakItemsTrinketsPanel(
+                defs.Where(d => d.ItemType == ItemType.Potion)
                     .ToList()
             )
         );

@@ -4,29 +4,13 @@
     <ItemDef Name="WoodResource" ParentName="ItemResource" Abstract="true">
     </ItemDef>
     <ItemDef ParentName="WoodResource">
-        <Moniker>GlitteringLog</Moniker>
-        <Label>Glittering log</Label>
-        <Description>This log glitters with curiosity, let it burn!</Description>
-        <TexturePath>Entities/Item/Resource/Wood/GlitteringLog</TexturePath>
-    </ItemDef>
-    <ItemDef ParentName="WoodResource">
         <Moniker>OakWoodLog</Moniker>
         <Label>Oak Wood log</Label>
         <TexturePath>Entities/Item/Resource/Wood/OakWoodLog</TexturePath>
     </ItemDef>
     <ItemDef ParentName="WoodResource">
-        <Moniker>ShimmeringBark</Moniker>
-        <Label>Shimmering Bark</Label>
-        <TexturePath>Entities/Item/Resource/Wood/ShimmeringBark</TexturePath>
-    </ItemDef>
-    <ItemDef ParentName="WoodResource">
         <Moniker>WoodBoard</Moniker>
         <Label>Wooden board</Label>
         <TexturePath>Entities/Item/Resource/Wood/WoodBoard</TexturePath>
-    </ItemDef>
-    <ItemDef ParentName="WoodResource">
-        <Moniker>Firewood</Moniker>
-        <Label>Firewood</Label>
-        <TexturePath>Entities/Item/Resource/Wood/Firewood</TexturePath>
     </ItemDef>
 </Definitions>

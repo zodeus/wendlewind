@@ -83,7 +83,6 @@ public sealed class PawnPortraitPanel : VerticalStackPanel
         _attackSpeed = new Label(BaseContent.Styles.Label.Normal) { Wrap = true, TextColor = Color.LightYellow, Margin = new Thickness(0, 0, 0, 20) };
         Widgets.Add(_attackSpeed);
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"Species: {pawn.Species}" });
-        Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"Race: {pawn.Race.Label}" });
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"Gender: {pawn.Gender}" });
 
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = "Capabilities", Margin = new Thickness(0, 15, 0, 0) });

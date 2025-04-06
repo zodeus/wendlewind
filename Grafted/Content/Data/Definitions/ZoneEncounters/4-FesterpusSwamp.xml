@@ -9,8 +9,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>BlisteringToad</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>BlisteringToad</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Blistering Toad</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <InventoryItems>
@@ -24,6 +24,11 @@
                         <Amount>1</Amount>
                         <ChanceToDrop>.75</ChanceToDrop>
                     </ListItem>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
@@ -36,8 +41,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>BlisteringToad</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>BlisteringToad</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Blistering Toad</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <BodySizeFactor>1</BodySizeFactor>
@@ -57,6 +62,11 @@
                         <Amount>1</Amount>
                         <ChanceToDrop>.75</ChanceToDrop>
                     </ListItem>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
@@ -65,12 +75,12 @@
         <Moniker>FesterpusSwamp-03</Moniker>
         <Biome>FesterpusSwamp</Biome>
         <PotentialLootBoxes>
-            <ListItem>TrinketsChestNormal</ListItem>
+            <ListItem>TrinketChestCombat</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>BlisteringToad</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>BlisteringToad</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Blistering Toad</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <BodySizeFactor>1.2</BodySizeFactor>
@@ -90,6 +100,11 @@
                         <Amount>1</Amount>
                         <ChanceToDrop>.75</ChanceToDrop>
                     </ListItem>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
@@ -102,8 +117,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>BlisteringToad</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>BlisteringToad</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Blistering Toad</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <BodySizeFactor>1.3</BodySizeFactor>
@@ -124,6 +139,11 @@
                         <Amount>1</Amount>
                         <ChanceToDrop>.75</ChanceToDrop>
                     </ListItem>
+                    <ListItem>
+                        <Item>RawMeat</Item>
+                        <Amount>1</Amount>
+                        <ChanceToDrop>.5</ChanceToDrop>
+                    </ListItem>
                 </InventoryItems>
             </ListItem>
         </Enemies>
@@ -137,8 +157,8 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <Race>FrogFather</Race>
-                <Config>DefaultEnemy</Config>
+                <PawnDef>FrogFather</PawnDef>
+                <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Frog Father</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <BodySizeFactor>1.5</BodySizeFactor>
@@ -165,6 +185,11 @@
                     <ListItem>
                         <Item>VenomVial</Item>
                         <Amount>1</Amount>
+                        <ChanceToDrop>1</ChanceToDrop>
+                    </ListItem>
+                    <ListItem>
+                        <Item>RawFish</Item>
+                        <Amount>2</Amount>
                         <ChanceToDrop>1</ChanceToDrop>
                     </ListItem>
                 </InventoryItems>

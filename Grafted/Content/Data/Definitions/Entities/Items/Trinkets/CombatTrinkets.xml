@@ -28,4 +28,14 @@
         <Description>Energizer bunny?</Description>
         <TexturePath>Entities/Item/Trinket/Battery</TexturePath>
     </ItemDef>
+    <ItemDef ParentName="CombatTrinket">
+        <Moniker>TargetingImp</Moniker>
+        <Label>Targeting Imp</Label>
+        <Description></Description>
+        <UiClass>TargetingImpPanel</UiClass>
+        <TrinketProperties>
+            <HandlerClass>TargetingImpHandler</HandlerClass>
+        </TrinketProperties>
+        <TexturePath>Entities/Item/Trinket/TargetingImp</TexturePath>
+    </ItemDef>
 </Definitions>

@@ -2,6 +2,35 @@
 
 <Definitions>
     <LootBoxDef>
+        <Moniker>TrinketChestCombat</Moniker>
+        <Label>Combat Trinkets</Label>
+        <Description>The good stuff...</Description>
+        <Category>Trinkets</Category>
+        <Rarity>Basic</Rarity>
+        <TexturePath>Chests/TrinketsChestBasic</TexturePath>
+        <CollectionLimit>1</CollectionLimit>
+        <Items>
+            <ListItem>
+                <ItemDef>DeathRattle</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>100000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>TargetingImp</ItemDef>
+                <Weight>150000</Weight>
+            </ListItem>
+
+            <!--<ListItem>
+                <ItemDef>HolyChalice</ItemDef>
+                <Weight>100</Weight>
+            </ListItem>-->
+            <!--<ListItem>
+                <ItemDef>Battery</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>-->
+        </Items>
+    </LootBoxDef>
+    <LootBoxDef>
         <Moniker>TrinketsChestBasic</Moniker>
         <Label>Basic Trinkets</Label>
         <Description>Standard issue trinkets, the stuff you're really going to need</Description>
@@ -28,7 +57,7 @@
         </Items>
     </LootBoxDef>
     <LootBoxDef>
-        <Moniker>TrinketsChestNormal</Moniker>
+        <Moniker>TrinketChestNormal</Moniker>
         <Label>Normal Trinkets</Label>
         <Description>A wider assortment of more interesting trinkets</Description>
         <Category>Trinkets</Category>
@@ -36,35 +65,21 @@
         <TexturePath>Chests/TrinketsChestBasic</TexturePath>
         <CollectionLimit>1</CollectionLimit>
         <Items>
-
             <ListItem>
                 <ItemDef>CookingPot</ItemDef>
                 <Weight>1000000</Weight>
             </ListItem>
             <ListItem>
-                <ItemDef>DeathRattle</ItemDef>
-                <ChanceToDrop>1</ChanceToDrop>
-                <Weight>100000</Weight>
-            </ListItem>
-
-            <ListItem>
                 <ItemDef>MortarAndPestle</ItemDef>
                 <Weight>5000</Weight>
             </ListItem>
-
             <ListItem>
                 <ItemDef>ThirdEye</ItemDef>
                 <Weight>3000</Weight>
             </ListItem>
-
-
             <ListItem>
                 <ItemDef>Grimoire</ItemDef>
                 <Weight>1000</Weight>
-            </ListItem>
-            <ListItem>
-                <ItemDef>HolyChalice</ItemDef>
-                <Weight>100</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>TinkersToolbox</ItemDef>
@@ -74,7 +89,6 @@
                 <ItemDef>SteroidInjector</ItemDef>
                 <Weight>10</Weight>
             </ListItem>
-
         </Items>
     </LootBoxDef>
     <LootBoxDef>
@@ -86,11 +100,6 @@
         <TexturePath>Chests/TrinketsChestBasic</TexturePath>
         <CollectionLimit>1</CollectionLimit>
         <Items>
-
-            <ListItem>
-                <ItemDef>Battery</ItemDef>
-                <Weight>1</Weight>
-            </ListItem>
             <ListItem>
                 <ItemDef>SurgicalSaw</ItemDef>
                 <Weight>1</Weight>
@@ -99,7 +108,6 @@
                 <ItemDef>Forge</ItemDef>
                 <Weight>1</Weight>
             </ListItem>
-
         </Items>
     </LootBoxDef>
 </Definitions>

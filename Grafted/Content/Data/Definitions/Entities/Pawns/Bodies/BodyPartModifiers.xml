@@ -3,7 +3,7 @@
     <!-- DE-BUFFS -->
     <BodyPartModifierDef>
         <Moniker>Acid</Moniker>
-        <Label>Burning Acid</Label>
+        <Label>Acid</Label>
         <Type>Debuff</Type>
         <Description>Melts the skin away, eats at the meat</Description>
         <HandlerClass>AcidHandler</HandlerClass>
@@ -23,7 +23,7 @@
         <Type>Debuff</Type>
         <Description>This is a flesh eating disease, it's very bad!</Description>
         <HandlerClass>NecrosisHandler</HandlerClass>
-        <Color>99, 105, 47</Color>
+        <Color>193, 204, 41</Color>
     </BodyPartModifierDef>
     <BodyPartModifierDef>
         <Moniker>Festering</Moniker>

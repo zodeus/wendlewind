@@ -34,7 +34,7 @@ internal sealed class BodyPartTargetButton : Button
     public void Update()
     {
         if (_bodyPart.Type==BodyPartType.Eye) return;
-        _minimumHealthPercent = 0.2f;
+        _minimumHealthPercent = 0.25f;
         if (_isTargeting && (!Equals(_combatHandler?.TargetedPart, _bodyPart) || _bodyPart.IsSevered))
         {
             UnTarget();

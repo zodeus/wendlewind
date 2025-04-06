@@ -110,6 +110,23 @@
         </AffectedStats>
     </BodyEffectDef>
     <BodyEffectDef>
+        <Moniker>GoldenSmoke</Moniker>
+        <Label>Golden Smoke</Label>
+        <TexturePath>Entities/Pawn/BodyEffects/GoldenSmoke</TexturePath>
+        <Description>Flecks of golden glisten on your skin</Description>
+        <Notes>Higher reality perception</Notes>
+        <AffectedStats>
+            <ListItem>
+                <Stat>MeleeAccuracy</Stat>
+                <Offset>1</Offset>
+            </ListItem>
+            <ListItem>
+                <Stat>AttackSpeed</Stat>
+                <Offset>2</Offset>
+            </ListItem>
+        </AffectedStats>
+    </BodyEffectDef>
+    <BodyEffectDef>
         <Moniker>FeelingThePurple</Moniker>
         <Label>Feeling the Purple</Label>
         <TexturePath>Entities/Pawn/BodyEffects/FeelingThePurple</TexturePath>

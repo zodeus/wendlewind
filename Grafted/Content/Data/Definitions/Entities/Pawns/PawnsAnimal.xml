@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <PawnDef Name="BaseAnimal" ParentName="BasePawn" Abstract="true"/>
+    <PawnDef ParentName="BaseAnimal">
+        <Moniker>Bunny</Moniker>
+        <Label>Bunny</Label>
+        <Species>Rabbit</Species>
+        <Body>RabbitBody</Body>
+        <TexturePath>Entities/Pawn/Creature/Rabbit/Bunny</TexturePath>
+        <BaseStats>
+            <AttackSpeed>3</AttackSpeed>
+            <MeleeStrength>1</MeleeStrength>
+            <MeleeAccuracy>.6</MeleeAccuracy>
+            <Evasion>.01</Evasion>
+        </BaseStats>
+    </PawnDef>
+    <PawnDef ParentName="BaseAnimal">
+        <Moniker>TruffleBoar</Moniker>
+        <Label>Truffle Boar</Label>
+        <Species>Pig</Species>
+        <Body>PigBody</Body>
+        <BaseStats>
+            <AttackSpeed>5</AttackSpeed>
+            <MeleeStrength>1</MeleeStrength>
+            <MeleeAccuracy>.7</MeleeAccuracy>
+            <Evasion>.01</Evasion>
+        </BaseStats>
+        <TexturePath>Entities/Pawn/Creature/Pig/Boar</TexturePath>
+    </PawnDef>
+    <PawnDef ParentName="BaseAnimal">
+        <Moniker>FieldHound</Moniker>
+        <Label>Snarltooth</Label>
+        <Species>Wolf</Species>
+        <Body>WolfBody</Body>
+        <BaseStats>
+            <AttackSpeed>3</AttackSpeed>
+            <MeleeStrength>1.2</MeleeStrength>
+            <MeleeAccuracy>.9</MeleeAccuracy>
+            <Evasion>.01</Evasion>
+        </BaseStats>
+        <TexturePath>Entities/Pawn/Creature/Wolf/Wolf</TexturePath>
+    </PawnDef>
+</Definitions>

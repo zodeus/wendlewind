@@ -188,7 +188,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/TreeBranch</TexturePath>
         <BaseStats>
-            <MeleePower>52</MeleePower>
+            <MeleePower>53</MeleePower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -219,8 +219,8 @@
         <Label>Flaming Proboscis</Label>
         <Description></Description>
         <WeaponProperties>
-            <WeaponType>FireStaff</WeaponType>
-            <DamageType>Fire</DamageType>
+            <WeaponType>Proboscis</WeaponType>
+            <DamageType>Piercing</DamageType>
             <BodyPartModifiers>
                 <ListItem>
                     <Def>Burning</Def>
@@ -232,7 +232,30 @@
         <EquipmentProperties>
             <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
         </EquipmentProperties>
-        <TexturePath>Entities/Item/Equipment/Weapon/Biological/MushroomCap</TexturePath>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/FlamingProboscis</TexturePath>
+        <BaseStats>
+            <MeleePower>10</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponMagic">
+        <Moniker>PoisonousProboscis</Moniker>
+        <Label>Poisonous Proboscis</Label>
+        <Description></Description>
+        <WeaponProperties>
+            <WeaponType>Proboscis</WeaponType>
+            <DamageType>Piercing</DamageType>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Acid</Def>
+                    <DurationInTicks>800</DurationInTicks>
+                    <Chance>.2</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/PoisonousProboscis</TexturePath>
         <BaseStats>
             <MeleePower>10</MeleePower>
         </BaseStats>

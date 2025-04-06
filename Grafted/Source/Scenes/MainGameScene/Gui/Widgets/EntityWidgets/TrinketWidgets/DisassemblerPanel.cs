@@ -1,7 +1,6 @@
-using System.Runtime.CompilerServices;
 using Grafted.Sim.Entities;
 
-namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.TrinketWidgets.GrimoireWidgets;
+namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.TrinketWidgets;
 
 [UsedImplicitly]
 public sealed class DisassemblerPanel : EntityPanelBase
@@ -56,7 +55,7 @@ public sealed class DisassembleItemPanel : HorizontalStackPanel
                 Height = BaseContent.IconSizes.Small,
                 Background = new ColoredRegion(
                     Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Disassemble],
-                    Color.Olive
+                    Color.White
                 )
             }
         };
