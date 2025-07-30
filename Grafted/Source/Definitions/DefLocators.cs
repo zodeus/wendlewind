@@ -61,6 +61,7 @@ public static partial class Defs {
         public static BodyEffectDef GoldenSmoke = null!;
         public static BodyEffectDef Psychedelic = null!;
         public static BodyEffectDef GoldenLips = null!;
+        public static BodyEffectDef Fruiting = null!;
     }
 }
 

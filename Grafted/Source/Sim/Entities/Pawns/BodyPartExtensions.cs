@@ -6,7 +6,7 @@ namespace Grafted.Sim.Entities.Pawns
     {
         public static void PotentiallySevereLimb(this BodyPart part)
         {
-            if (part is { IsExternal: true, IsSevered: false, AllInternalParts: { Count: > 0 } })
+            if (part is { IsExternal: true, IsSevered: false } && part.Type != BodyPartType.Eye)
             {
                 var allInternalPartsDestroyed = true;
                 foreach (var internalPart in part.AllInternalParts)
@@ -17,7 +17,7 @@ namespace Grafted.Sim.Entities.Pawns
                     }
                 }
 
-                if (allInternalPartsDestroyed && part.Socket != null && Core.Random.Chance(.25f))
+                if (allInternalPartsDestroyed && part.Socket != null && Core.Random.Chance(.15f))
                 {
                     part.Severe();
                 }
@@ -30,11 +30,11 @@ namespace Grafted.Sim.Entities.Pawns
             var organsHit = 0;
             var remainingDamage = damage;
             var maxNumberOfOrgansToHit = new RangeInt(1, 2 + 1).RandomValue;
-            if(rootPart.IsExoskeleton && rootPart.IsCracked == false)
+            if (rootPart.IsExoskeleton && rootPart.IsCracked == false)
             {
                 return 0;
             }
-            
+
             foreach (var internalPart in rootPart.InternalParts.InRandomOrder())
             {
                 if (remainingDamage <= 0)

@@ -109,15 +109,15 @@
             <Effects>
                 <ListItem>
                     <Def>Fishy</Def>
-                    <DurationInTicks>8000</DurationInTicks>
+                    <DurationInTicks>4000</DurationInTicks>
                 </ListItem>
                 <ListItem>
                     <Def>BeefedUp</Def>
-                    <DurationInTicks>8000</DurationInTicks>
+                    <DurationInTicks>4000</DurationInTicks>
                 </ListItem>
                 <ListItem>
                     <Def>Energized</Def>
-                    <DurationInTicks>8000</DurationInTicks>
+                    <DurationInTicks>4000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
@@ -284,11 +284,11 @@
         <Description/>
         <TexturePath>Entities/Item/Resource/Organic/WondrousJam</TexturePath>
         <FoodProperties>
-            <FoodType>Fungi</FoodType>
+            <FoodType>Fruit</FoodType>
             <Effects>
                 <ListItem>
                     <Def>Fruiting</Def>
-                    <DurationInTicks>8000</DurationInTicks>
+                    <DurationInTicks>2000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>

@@ -20,7 +20,7 @@
         <Moniker>DampCave-01</Moniker>
         <Biome>DampCave</Biome>
         <PotentialLootBoxes>
-            <ListItem>TrinketChestCombat</ListItem>
+            <ListItem>TrinketChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>

@@ -90,7 +90,7 @@
         <Moniker>Eye</Moniker>
         <Label>Eye</Label>
         <BodyPartType>Eye</BodyPartType>
-        <HitWeight>.7</HitWeight>
+        <HitWeight>.5</HitWeight>
         <BloodAmount>1</BloodAmount>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Eye</TexturePath>
         <IsFlesh>true</IsFlesh>

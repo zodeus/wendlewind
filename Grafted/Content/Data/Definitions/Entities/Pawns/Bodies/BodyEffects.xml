@@ -151,7 +151,8 @@
     </BodyEffectDef>
     <BodyEffectDef>
         <Moniker>Fruiting</Moniker>
-        <Label>Fruiting</Label>
-        <Notes/>
+        <Label>Fruiting Out</Label>
+        <Notes>Energy drain decreased</Notes>
+        <TexturePath>Entities/Pawn/BodyEffects/Fruiting</TexturePath>
     </BodyEffectDef>
 </Definitions>

@@ -9,5 +9,6 @@ public enum FoodType {
     DriedMeat,
     Meat,
     Fish,
-    Berry
+    Berry,
+    Fruit
 }

@@ -31,11 +31,11 @@
         <Items>
             <ListItem>
                 <ItemDef>SoothingVibrations</ItemDef>
-                <Weight>20</Weight>
+                <Weight>80</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>RhinoSkin</ItemDef>
-                <Weight>15</Weight>
+                <Weight>50</Weight>
             </ListItem> 
             <ListItem>
                 <ItemDef>BloodBath</ItemDef>

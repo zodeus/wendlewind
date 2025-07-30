@@ -127,6 +127,11 @@ public class PawnBody : IExposable, IIdentityProvider
 
     public void ConsumeEnergy(float amount)
     {
+        if (Effects.Has(Defs.BodyEffects.Fruiting))
+        {
+            amount *= 0.5f;
+        }
+
         Handler.ConsumeEnergy(amount);
     }
 

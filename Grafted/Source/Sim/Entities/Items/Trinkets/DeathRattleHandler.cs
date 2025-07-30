@@ -3,9 +3,9 @@ namespace Grafted.Sim.Entities.Items.Trinkets;
 [UsedImplicitly]
 public class DeathRattleHandler : TrinketHandler
 {
-    private readonly RangeFloat _damage = new(50, 100);
+    private readonly RangeFloat _damage = new(100, 200);
     private const int ChargesRequired = 10;
-    private const int CooldownValue = 1000;
+    private const int CooldownValue = 1200;
     private const double KillDamageMultiplier = .2; // 100 percent per kills
     private const int KillCooldownMultiplier = 100;
 

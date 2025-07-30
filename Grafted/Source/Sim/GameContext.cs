@@ -92,8 +92,10 @@ public class GameContext : IExposable
     private void ChangeGameState(GameState value)
     {
         OnStateChanged?.Invoke(value);
-        //Save("save.xml");
-        Log.Info("Autosaving disabled");
+        if (value == GameState.Camp)
+        {
+            Save("save.xml");
+        }
     }
 
     #region Persistence
