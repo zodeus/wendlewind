@@ -1,4 +1,5 @@
 ﻿using Grafted.Sim.Entities;
+using Myra.Graphics2D.Brushes;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
@@ -160,6 +161,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
 
     private class EquipmentColumn : VerticalStackPanel
     {
+        private readonly BaseGui _gui;
         private readonly int _cellSize = BaseContent.IconSizes.Large;
         private readonly BodyPart _bodyPart;
         private readonly Dictionary<EquipmentSlotType, Button> _slots = new();
@@ -168,9 +170,11 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
         private Dictionary<ItemDef, ColoredRegion> _iconCache = new();
         private IImage _potionSlotIcon;
         private IImage _bagSlotIcon;
+        private static readonly Color CompatibleSlotHighlight = new(128, 102, 0, 100);
 
         public EquipmentColumn(BaseGui gui, BodyPart bodyPart, List<EquipmentSlotType> slots, Action<BodyPart, EquipmentSlotType>? clickAction = null)
         {
+            _gui = gui;
             _bodyPart = bodyPart;
             ClickAction = clickAction;
             Spacing = 2;
@@ -204,8 +208,38 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
 
         public void Update()
         {
+            // Check if there's an equipment item attached to the cursor
+            Item? attachedItem = _gui.MouseAttachment?.Data as Item;
+            bool hasAttachedEquipment = attachedItem?.ItemDef.EquipmentProperties != null;
+
             foreach ((var slot, var image) in _slots)
             {
+                // Determine if this slot is compatible with the attached item
+                bool isCompatibleSlot = false;
+                if (hasAttachedEquipment && attachedItem != null)
+                {
+                    if (attachedItem.ItemDef.ItemType == ItemType.Potion)
+                    {
+                        isCompatibleSlot = slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2;
+                    }
+                    else
+                    {
+                        isCompatibleSlot = attachedItem.ItemDef.EquipmentProperties?.SlotUsedToEquip == slot;
+                    }
+                }
+
+                // Apply highlight to compatible slots
+                if (isCompatibleSlot)
+                {
+                    image.BorderThickness = new Thickness(3);
+                    image.Border = new SolidBrush(CompatibleSlotHighlight);
+                }
+                else
+                {
+                    image.BorderThickness = new Thickness(0);
+                    image.Border = null;
+                }
+
                 if (_bodyPart.Equipment[slot] is { IsDestroyed: false } item)
                 {
                     if (_iconCache.ContainsKey(item.ItemDef) == false)
@@ -248,7 +282,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
             return DestroyedEquipmentColor;
         }
 
-        if (item.ItemDef.EquipmentProperties.EquipmentType == EquipmentType.Weapon && bodyPart.HasMobility == false)
+        if (item.ItemDef.EquipmentProperties?.EquipmentType == EquipmentType.Weapon && bodyPart.HasMobility == false)
         {
             return Color.Red;
         }
