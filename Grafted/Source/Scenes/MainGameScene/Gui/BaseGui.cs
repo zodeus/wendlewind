@@ -54,11 +54,6 @@ public abstract class BaseGui : IDisposable
 
     public virtual void ViewEntity(Entity entity, Point? position = null)
     {
-        if (position == null)
-        {
-            position = new Point(Screen.Width / 2 - 300, 200);
-        }
-
         _queuedEntityToView = new KeyValuePair<Entity, Point?>(entity, position);
     }
 
@@ -148,7 +143,15 @@ public abstract class BaseGui : IDisposable
         });
         _entityViewerWindow.Title = _queuedEntityToView.Value.Key.Label;
         _entityViewerWindow.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold];
-        _entityViewerWindow.Show(Desktop, _queuedEntityToView.Value.Value);
+        
+        if (_queuedEntityToView.Value.Value.HasValue)
+        {
+            _entityViewerWindow.Show(Desktop, _queuedEntityToView.Value.Value.Value);
+        }
+        else
+        {
+            _entityViewerWindow.Show(Desktop);
+        }
 
         _viewedEntity = _queuedEntityToView.Value.Key;
 

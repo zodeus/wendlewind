@@ -19,6 +19,7 @@ public sealed class PawnPanel : EntityPanelBase
         pane.Proportions.Add(Proportion.Auto);
         pane.Proportions.Add(Proportion.Fill);
         Widgets.Add(pane);
+        MinWidth = 1000;
 
         _portrait = new PawnPortraitPanel(pawn) { Width = 300 };
         pane.Widgets.Add(_portrait);

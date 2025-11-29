@@ -17,10 +17,7 @@ public sealed class PawnBodyPanel : VerticalStackPanel, IUpdatable
         _combatHandler = combatHandler;
         _socketPanels = new List<BodyPartSocketPanel>();
         Padding = new Thickness(15);
-        _partsPanel = new VerticalStackPanel
-        {
-            Spacing = 0, Width = 800
-        };
+        _partsPanel = new VerticalStackPanel();
 
         Widgets.Add(new ScrollViewer
         {

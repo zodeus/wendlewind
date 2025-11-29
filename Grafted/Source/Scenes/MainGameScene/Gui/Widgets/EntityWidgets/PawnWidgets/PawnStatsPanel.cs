@@ -13,16 +13,15 @@ public sealed class PawnStatsPanel : VerticalStackPanel, IUpdatable
         _pawn = pawn;
         Spacing = 20;
         Padding = new Thickness(15);
-        //Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.Red];
         foreach (var baseStat in pawn.Def.BaseStats)
         {
-            var label = new Label { Text = pawn.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture), Width = 400 };
+            var label = new Label { Text = pawn.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture)};
             _stats.Add(baseStat, label);
             Widgets.Add(new HorizontalStackPanel
             {
                 Widgets =
                 {
-                    new Label { Text = baseStat.Def.Label, Width = 400 },
+                    new Label { Text = baseStat.Def.Label, Width = 300},
                     label
                 }
             });
