@@ -15,7 +15,7 @@ public class PawnBodyRenderer : IDisposable
     private SpriteBatch? _spriteBatch;
     private bool _isDirty = true;
     private readonly int _renderSize;
-
+    
     /// <summary>
     /// The rendered texture containing the composited body parts.
     /// </summary>
@@ -25,6 +25,26 @@ public class PawnBodyRenderer : IDisposable
     /// Returns true if this renderer has a valid layout for the pawn's body type.
     /// </summary>
     public bool HasValidLayout => _layout != null;
+
+    /// <summary>
+    /// The native size of the layout (for coordinate conversion).
+    /// </summary>
+    public int NativeSize => _layout?.NativeSize ?? _renderSize;
+
+    /// <summary>
+    /// The render size of this renderer.
+    /// </summary>
+    public int RenderSize => _renderSize;
+
+    /// <summary>
+    /// The pawn being rendered.
+    /// </summary>
+    public Pawn Pawn => _pawn;
+
+    /// <summary>
+    /// The layout used for rendering.
+    /// </summary>
+    public IBodyPartLayout? Layout => _layout;
 
     public PawnBodyRenderer(Pawn pawn, int renderSize = 512)
     {

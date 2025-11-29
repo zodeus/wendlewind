@@ -90,19 +90,19 @@
     </SpinButtonStyles>
     <HorizontalSliderStyles>
         <!--<HorizontalSliderStyle Background="slider">-->
-        <HorizontalSliderStyle Background="bad-texture">
+        <HorizontalSliderStyle Background="bar-frame-small">
             <KnobStyle>
                 <!--<ImageStyle Image="slider-knob" OverImage="slider-knob-over" PressedImage="slider-knob-down"/>-->
-                <ImageStyle Image="bad-texture" OverImage="bad-texture" PressedImage="bad-texture"/>
+                <ImageStyle Image="icon-minus-32" OverImage="icon-minus-32" PressedImage="icon-minus-32"/>
             </KnobStyle>
         </HorizontalSliderStyle>
     </HorizontalSliderStyles>
     <VerticalSliderStyles>
         <!--<VerticalSliderStyle Background="slider-vertical">-->
-        <VerticalSliderStyle Background="bad-texture">
+        <VerticalSliderStyle Background="bar-frame-small">
             <KnobStyle>
                 <!--<ImageStyle Image="slider-knob" OverImage="slider-knob-over" PressedImage="slider-knob-down"/>-->
-                <ImageStyle Image="bad-texture" OverImage="bad-texture" PressedImage="bad-texture"/>
+                <ImageStyle Image="icon-minus-32" OverImage="icon-minus-32" PressedImage="icon-minus-32"/>
             </KnobStyle>
         </VerticalSliderStyle>
     </VerticalSliderStyles>

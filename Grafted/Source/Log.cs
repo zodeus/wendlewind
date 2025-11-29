@@ -19,7 +19,7 @@ public static class Log {
     }
 
     public static void Debug(string text) {
-        return;
-        Console.WriteLine(text);
+       
+        Console.WriteLine("Debug - " + text);
     }
 }

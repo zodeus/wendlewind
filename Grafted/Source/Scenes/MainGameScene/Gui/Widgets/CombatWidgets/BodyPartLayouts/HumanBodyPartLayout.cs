@@ -8,37 +8,24 @@ public class HumanBodyPartLayout : IBodyPartLayout
 {
     // Body part layout info: position, render order, scale, and flip options
     // Positions are in native 512x512 coordinates (centered around 256, 256)
+    // Body part positions (native coordinates)
     private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()
     {
-        // Legs (back layer) - positioned below torso, hanging from hips
-        { "Left Leg", new BodyPartLayoutData(new Vector2(270, 290), 0, 0.9f) },
-        { "Right Leg", new BodyPartLayoutData(new Vector2(150, 290), 0, 0.9f, flipHorizontal: true) },
-        
-        // Feet - at the bottom of legs
-        { "Left Foot", new BodyPartLayoutData(new Vector2(260, 420), 2, 0.5f) },
-        { "Right Foot", new BodyPartLayoutData(new Vector2(140, 420), 3, 0.5f, flipHorizontal: true) },
-        
-        { "Left Eye", new BodyPartLayoutData(new Vector2(230, 100), 31, 0.20f ) },
-        { "Right Eye", new BodyPartLayoutData(new Vector2(195, 100), 31, 0.20f,flipHorizontal: true) },
-        
-        // Head (front layer) - at the top, centered above torso
-        { "Head", new BodyPartLayoutData(new Vector2(195, 80), 30, 0.75f) },
-        
-        // Neck - connects head to torso (behind head)
-        { "Neck", new BodyPartLayoutData(new Vector2(215, 140), 9, 0.35f) },
-
-        // Torso (middle layer) - center of the body
-        { "Torso", new BodyPartLayoutData(new Vector2(180, 160), 10, 1f) },
-        
-        // Arms - attached to shoulders
-        { "Left Arm", new BodyPartLayoutData(new Vector2(320, 180), 20, 0.8f, flipHorizontal: true) },
-        { "Right Arm", new BodyPartLayoutData(new Vector2(20, 180), 21, 0.8f) },
-        
-        // Hands - at the end of arms
-        { "Left Hand", new BodyPartLayoutData(new Vector2(340, 300), 22, 0.5f, flipHorizontal: true) },
-        { "Right Hand", new BodyPartLayoutData(new Vector2(40, 300), 23, 0.5f) },
-        
+        { "Left Leg", new BodyPartLayoutData(new Vector2(214f, 288f), 0, 0.90f) },
+        { "Right Leg", new BodyPartLayoutData(new Vector2(168f, 284f), 0, 0.90f, flipHorizontal: true) },
+        { "Left Foot", new BodyPartLayoutData(new Vector2(245f, 382f), 2, 0.50f) },
+        { "Right Foot", new BodyPartLayoutData(new Vector2(186f, 380f), 3, 0.50f, flipHorizontal: true) },
+        { "Neck", new BodyPartLayoutData(new Vector2(224f, 170f), 9, 0.35f) },
+        { "Torso", new BodyPartLayoutData(new Vector2(188f, 184f), 10, 1.00f) },
+        { "Left Arm", new BodyPartLayoutData(new Vector2(263f, 183f), 20, 0.80f, flipHorizontal: true) },
+        { "Right Arm", new BodyPartLayoutData(new Vector2(126f, 182f), 21, 0.80f) },
+        { "Left Hand", new BodyPartLayoutData(new Vector2(316f, 263f), 22, 0.50f, flipHorizontal: true) },
+        { "Right Hand", new BodyPartLayoutData(new Vector2(111f, 260f), 23, 0.50f) },
+        { "Head", new BodyPartLayoutData(new Vector2(198f, 100f), 30, 0.75f) },
+        { "Left Eye", new BodyPartLayoutData(new Vector2(252f, 129f), 31, 0.20f) },
+        { "Right Eye", new BodyPartLayoutData(new Vector2(222f, 129f), 31, 0.20f, flipHorizontal: true) },
     };
+
     
     public int NativeSize => 512;
     

@@ -31,15 +31,6 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
 
         Widgets.Add(GeneratePawnPanel());
 
-        if (isPlayer == false)
-        {
-            var bodySummary = new PawnBodySummary(_gui, Pawn.Body)
-            {
-                VerticalAlignment = VerticalAlignment.Bottom, Margin = new Thickness(0, 10, 0, 0)
-            };
-            _updatables.Add(bodySummary);
-            Widgets.Add(bodySummary);
-        }
 
         Update();
     }
@@ -109,13 +100,13 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
             BorderThickness = new Thickness(2)
         };
         
-        _bodyWidget.Clicked += (_, _) =>
-        {
-            if (_gui.MouseAttachment == null)
-            {
-                _gui.ViewEntity(Pawn);
-            }
-        };
+        // _bodyWidget.Clicked += (_, _) =>
+        // {
+        //     if (_gui.MouseAttachment == null)
+        //     {
+        //         _gui.ViewEntity(Pawn);
+        //     }
+        // };
         
         return _bodyWidget;
     }
@@ -159,9 +150,6 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         {
             u.Update();
         }
-        
-        // The body widget automatically tracks body part changes
-        _bodyWidget?.Update();
     }
 }
 
