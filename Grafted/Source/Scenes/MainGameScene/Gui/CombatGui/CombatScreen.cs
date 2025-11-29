@@ -183,18 +183,16 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             _ => throw new ArgumentOutOfRangeException()
         };
 
-        var position = combatEvent.Target.PawnType == PawnType.Player
-            ? new Vector2(Core.Random.Next(950, 1050), Core.Random.Next(300, 350))
-            : new Vector2(Core.Random.Next(1550, 1650), Core.Random.Next(300, 350));
-        _worldTextHandler.Add(new WorldSpaceText
+        // Route damage text to the appropriate body widget
+        var partyPanel = combatEvent.Target.PawnType == PawnType.Player 
+            ? _playerPartyPanel 
+            : _opponentPartyPanel;
+        
+        var combatPanel = partyPanel.GetPanelForPawn(combatEvent.Target);
+        if (combatPanel?.BodyWidget != null)
         {
-            Font = BaseContent.Fonts.Default.Normal,
-            RenderAction = WorldSpaceText.VibratingRenderAction,
-            Text = combatEvent.Text,
-            DurationInTicks = 180,
-            Color = color,
-            Position = position
-        });
+            combatPanel.BodyWidget.AddDamageText(combatEvent.BodyPart, combatEvent.Text, color, 3f);
+        }
     }
 
     private void CombatStateChangedAction(EncounterState state)
@@ -212,7 +210,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         }
     }
 
-    public void Update()
+    public void Update(float deltaTime)
     {
         if (Encounter.CombatHandler?.ItemQueuedFor(Encounter.PlayerPawns[0]) is { } potion)
         {
@@ -244,8 +242,8 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
         _tickLabel.Text = $"{_context.CurrentZone?.ActiveEncounter?.Ticks}";
         _gameHud.Update();
-        _playerPartyPanel.Update();
-        _opponentPartyPanel.Update();
+        _playerPartyPanel.Update(deltaTime);
+        _opponentPartyPanel.Update(deltaTime);
         _pawnBodyView.Update();
         _enemyPawnBodyView.Update();
     }

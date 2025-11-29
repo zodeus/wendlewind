@@ -9,14 +9,17 @@ internal class PawnBodyRenderArea : Widget
 {
     private readonly PawnBodyRenderer _renderer;
     private readonly Texture2D? _fallbackIcon;
+    private readonly BodyPartDamageTextRenderer _damageTextRenderer;
 
     public PawnBodyRenderer Renderer => _renderer;
     public bool HasValidLayout => _renderer.HasValidLayout;
+    public BodyPartDamageTextRenderer DamageTextRenderer => _damageTextRenderer;
 
     public PawnBodyRenderArea(PawnBodyRenderer renderer, Texture2D? fallbackIcon)
     {
         _renderer = renderer;
         _fallbackIcon = fallbackIcon;
+        _damageTextRenderer = new BodyPartDamageTextRenderer(renderer.Layout, renderer.NativeSize);
     }
 
     public override void InternalRender(RenderContext context)
@@ -35,6 +38,10 @@ internal class PawnBodyRenderArea : Widget
             {
                 context.Draw(texture, destRect, Color.White);
             }
+            
+            // Render damage text overlay
+            var layoutScale = (float)bounds.Width / _renderer.NativeSize;
+            _damageTextRenderer.Render(context, bounds, layoutScale);
         }
         else if (_fallbackIcon != null)
         {
@@ -75,6 +82,11 @@ public class PawnBodyRenderWidget : Panel, IDisposable
     /// </summary>
     public PawnBodyRenderer Renderer => _renderer;
 
+    /// <summary>
+    /// Provides access to the damage text renderer for adding floating damage numbers.
+    /// </summary>
+    public BodyPartDamageTextRenderer DamageTextRenderer => _renderArea.DamageTextRenderer;
+
     public PawnBodyRenderWidget(Pawn pawn, int renderSize = 512)
     {
         _pawn = pawn;
@@ -95,9 +107,6 @@ public class PawnBodyRenderWidget : Panel, IDisposable
         };
         Widgets.Add(_renderArea);
         
-        // Set default appearance
-        BorderThickness = new Thickness(2);
-        Border = new SolidBrush(Color.Pink);
         
         // Create edit button in top-right corner (only if we have a valid layout)
         if (_renderer.HasValidLayout)
@@ -148,6 +157,22 @@ public class PawnBodyRenderWidget : Panel, IDisposable
     public void MarkDirty()
     {
         _renderer.MarkDirty();
+    }
+
+    /// <summary>
+    /// Updates the damage text animations. Should be called each frame.
+    /// </summary>
+    public void Update(float deltaTime)
+    {
+        _renderArea.DamageTextRenderer.Update(deltaTime);
+    }
+
+    /// <summary>
+    /// Adds a floating damage text near a body part.
+    /// </summary>
+    public void AddDamageText(BodyPart? bodyPart, string text, Color color, float duration = 2f)
+    {
+        _renderArea.DamageTextRenderer.AddDamageText(bodyPart, text, color, duration);
     }
 
     public void Dispose()

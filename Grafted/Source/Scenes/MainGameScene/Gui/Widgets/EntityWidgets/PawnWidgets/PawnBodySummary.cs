@@ -8,8 +8,6 @@ public sealed class PawnBodySummary : Grid, IUpdatable
 
     public PawnBodySummary(BaseGui gui, PawnBody body)
     {
-        //Border = new SolidBrush(Color.Pink);
-        //BorderThickness = new Thickness(1);
         _bodyParts = new Dictionary<BodyPart, Image>();
         ColumnSpacing = 5;
         Padding = new Thickness(6, 6, 6, 6);

@@ -1,5 +1,4 @@
 ﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
-
 internal sealed class CombatPartyPanel : VerticalStackPanel
 {
     private readonly List<PawnCombatPanel> _panels;
@@ -22,12 +21,20 @@ internal sealed class CombatPartyPanel : VerticalStackPanel
         }
     }
 
-    public void Update()
+    public void Update(float deltaTime)
     {
         for (var i = _panels.Count - 1; i >= 0; i--)
         {
             var panel = _panels[i];
-            panel.Update();
+            panel.Update(deltaTime);
         }
+    }
+
+    /// <summary>
+    /// Gets the combat panel for a specific pawn.
+    /// </summary>
+    public PawnCombatPanel? GetPanelForPawn(Pawn pawn)
+    {
+        return _panels.FirstOrDefault(p => p.Pawn == pawn);
     }
 }

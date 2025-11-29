@@ -14,12 +14,18 @@ public class BodyPartTransformOverride
     public Vector2 Position { get; set; }
     public float Scale { get; set; } = 1f;
     public float Rotation { get; set; } = 0f;
+    public bool FlipHorizontal { get; set; } = false;
+    public bool FlipVertical { get; set; } = false;
+    public int RenderOrder { get; set; } = 0;
     
-    public BodyPartTransformOverride(Vector2 position, float scale = 1f, float rotation = 0f)
+    public BodyPartTransformOverride(Vector2 position, float scale = 1f, float rotation = 0f, bool flipH = false, bool flipV = false, int renderOrder = 0)
     {
         Position = position;
         Scale = scale;
         Rotation = rotation;
+        FlipHorizontal = flipH;
+        FlipVertical = flipV;
+        RenderOrder = renderOrder;
     }
 }
 
@@ -33,6 +39,9 @@ public class BodyPartEditorWindow : Window
     private readonly int _renderSize;
     private readonly Dictionary<string, BodyPartTransformOverride> _overrides = new();
     
+    // Texture pixel data cache for per-pixel hit testing
+    private readonly Dictionary<Texture2D, Color[]> _texturePixelCache = new();
+    
     // Rendering
     private RenderTarget2D? _renderTarget;
     private SpriteBatch? _spriteBatch;
@@ -40,6 +49,7 @@ public class BodyPartEditorWindow : Window
     
     // Editor state
     private string? _selectedPartLabel;
+    private string? _hoveredPartLabel;
     private string? _draggedPartLabel;
     private Vector2 _dragOffset;
     private bool _isDragging;
@@ -50,8 +60,12 @@ public class BodyPartEditorWindow : Window
     private readonly Label _selectedPartLabel_UI;
     private readonly HorizontalSlider _scaleSlider;
     private readonly HorizontalSlider _rotationSlider;
+    private readonly HorizontalSlider _renderOrderSlider;
     private readonly Label _scaleValueLabel;
     private readonly Label _rotationValueLabel;
+    private readonly Label _renderOrderValueLabel;
+    private readonly Button _flipHButton;
+    private readonly Button _flipVButton;
 
     public BodyPartEditorWindow(Pawn pawn, int renderSize = 512)
     {
@@ -134,6 +148,43 @@ public class BodyPartEditorWindow : Window
         rotationPanel.Widgets.Add(_rotationValueLabel);
         rightPanel.Widgets.Add(rotationPanel);
         
+        // Render Order control
+        rightPanel.Widgets.Add(new Label { Text = "Render Order:" });
+        var renderOrderPanel = new HorizontalStackPanel { Spacing = 5 };
+        _renderOrderSlider = new HorizontalSlider
+        {
+            Minimum = 0f,
+            Maximum = 100f,
+            Value = 0f,
+            Width = 300
+        };
+        _renderOrderSlider.ValueChangedByUser += OnRenderOrderChanged;
+        _renderOrderValueLabel = new Label { Text = "0", Width = 40 };
+        renderOrderPanel.Widgets.Add(_renderOrderSlider);
+        renderOrderPanel.Widgets.Add(_renderOrderValueLabel);
+        rightPanel.Widgets.Add(renderOrderPanel);
+        
+        rightPanel.Widgets.Add(new Label { Text = "" }); // Spacer
+        
+        // Flip controls
+        rightPanel.Widgets.Add(new Label { Text = "Flip:" });
+        var flipPanel = new HorizontalStackPanel { Spacing = 10 };
+        _flipHButton = new Button(BaseContent.Styles.Button.Normal)
+        {
+            Content = new Label { Text = "Horz: Off" },
+            Width = 100
+        };
+        _flipHButton.Click += OnFlipHClicked;
+        _flipVButton = new Button(BaseContent.Styles.Button.Normal)
+        {
+            Content = new Label { Text = "Vert: Off" },
+            Width = 100
+        };
+        _flipVButton.Click += OnFlipVClicked;
+        flipPanel.Widgets.Add(_flipHButton);
+        flipPanel.Widgets.Add(_flipVButton);
+        rightPanel.Widgets.Add(flipPanel);
+        
         rightPanel.Widgets.Add(new Label { Text = "" }); // Spacer
         
         // Action buttons
@@ -172,15 +223,22 @@ public class BodyPartEditorWindow : Window
         
         foreach (var part in _pawn.Body.AllExternalParts)
         {
-            if (part.IsSevered || part.IsDestroyed) continue;
+            if (part.IsSevered) continue;
             
             var renderInfo = _layout.GetRenderInfo(part);
             if (renderInfo.HasValue)
             {
+                var info = renderInfo.Value;
+                var flipH = (info.Effects & SpriteEffects.FlipHorizontally) != 0;
+                var flipV = (info.Effects & SpriteEffects.FlipVertically) != 0;
+                
                 _overrides[part.Label] = new BodyPartTransformOverride(
-                    renderInfo.Value.Position,
-                    renderInfo.Value.Scale,
-                    0f);
+                    info.Position,
+                    info.Scale,
+                    info.Rotation,
+                    flipH,
+                    flipV,
+                    info.RenderOrder);
             }
         }
     }
@@ -209,6 +267,50 @@ public class BodyPartEditorWindow : Window
         }
     }
 
+    private void OnRenderOrderChanged(object? sender, EventArgs e)
+    {
+        var newValue = (int)_renderOrderSlider.Value;
+        _renderOrderValueLabel.Text = $"{newValue}";
+        
+        if (_selectedPartLabel != null && _overrides.TryGetValue(_selectedPartLabel, out var over))
+        {
+            over.RenderOrder = newValue;
+            _isDirty = true;
+        }
+    }
+
+    private void OnFlipHClicked(object? sender, EventArgs e)
+    {
+        if (_selectedPartLabel != null && _overrides.TryGetValue(_selectedPartLabel, out var over))
+        {
+            over.FlipHorizontal = !over.FlipHorizontal;
+            UpdateFlipButtonLabels(over);
+            _isDirty = true;
+        }
+    }
+
+    private void OnFlipVClicked(object? sender, EventArgs e)
+    {
+        if (_selectedPartLabel != null && _overrides.TryGetValue(_selectedPartLabel, out var over))
+        {
+            over.FlipVertical = !over.FlipVertical;
+            UpdateFlipButtonLabels(over);
+            _isDirty = true;
+        }
+    }
+
+    private void UpdateFlipButtonLabels(BodyPartTransformOverride? over)
+    {
+        if (_flipHButton.Content is Label hLabel)
+        {
+            hLabel.Text = over?.FlipHorizontal == true ? "Horz: ON" : "Horz: Off";
+        }
+        if (_flipVButton.Content is Label vLabel)
+        {
+            vLabel.Text = over?.FlipVertical == true ? "Vert: ON" : "Vert: Off";
+        }
+    }
+
     private void SelectPart(string? partLabel)
     {
         _selectedPartLabel = partLabel;
@@ -222,6 +324,11 @@ public class BodyPartEditorWindow : Window
             var rotationDegrees = MathHelper.ToDegrees(over.Rotation);
             _rotationSlider.Value = rotationDegrees;
             _rotationValueLabel.Text = $"{rotationDegrees:F0}°";
+            
+            _renderOrderSlider.Value = over.RenderOrder;
+            _renderOrderValueLabel.Text = $"{over.RenderOrder}";
+            
+            UpdateFlipButtonLabels(over);
         }
         else
         {
@@ -229,6 +336,9 @@ public class BodyPartEditorWindow : Window
             _scaleValueLabel.Text = "1.00";
             _rotationSlider.Value = 0f;
             _rotationValueLabel.Text = "0°";
+            _renderOrderSlider.Value = 0f;
+            _renderOrderValueLabel.Text = "0";
+            UpdateFlipButtonLabels(null);
         }
         
         _isDirty = true;
@@ -240,12 +350,26 @@ public class BodyPartEditorWindow : Window
         
         if (_layout != null)
         {
+            var screenBounds = _renderArea.LastRenderBounds;
+            var screenPos = new Point(mouseState.X, mouseState.Y);
+            
+            // Update hover state
+            string? newHoveredPart = null;
+            if (screenBounds.Contains(screenPos) && !_isDragging)
+            {
+                var nativePos = ScreenToNative(mouseState.X, mouseState.Y);
+                newHoveredPart = HitTestPart(nativePos);
+            }
+            
+            if (newHoveredPart != _hoveredPartLabel)
+            {
+                _hoveredPartLabel = newHoveredPart;
+                _isDirty = true;
+            }
+            
             // Detect mouse button press
             if (mouseState.LeftButton == ButtonState.Pressed && _previousMouseState.LeftButton == ButtonState.Released)
             {
-                var screenBounds = _renderArea.LastRenderBounds;
-                var screenPos = new Point(mouseState.X, mouseState.Y);
-                
                 if (screenBounds.Contains(screenPos))
                 {
                     var nativePos = ScreenToNative(mouseState.X, mouseState.Y);
@@ -301,34 +425,99 @@ public class BodyPartEditorWindow : Window
         if (_layout == null) return null;
         
         var parts = _pawn.Body.AllExternalParts
-            .Where(p => !p.IsSevered && !p.IsDestroyed)
+            .Where(p => !p.IsSevered)
             .Select(p => (part: p, info: _layout.GetRenderInfo(p)))
             .Where(x => x.info.HasValue)
             .Select(x => (x.part, info: x.info!.Value))
             .ToList();
         
-        // Sort by render order descending (front to back for hit testing)
-        parts.Sort((a, b) => b.info.RenderOrder.CompareTo(a.info.RenderOrder));
+        // Sort by render order descending (front to back for hit testing), using override if available
+        parts.Sort((a, b) =>
+        {
+            var orderA = _overrides.TryGetValue(a.part.Label, out var overA) ? overA.RenderOrder : a.info.RenderOrder;
+            var orderB = _overrides.TryGetValue(b.part.Label, out var overB) ? overB.RenderOrder : b.info.RenderOrder;
+            return orderB.CompareTo(orderA); // Descending for hit testing
+        });
         
         foreach (var (part, info) in parts)
         {
             var over = _overrides.GetValueOrDefault(part.Label);
             var position = over?.Position ?? info.Position;
             var scale = over?.Scale ?? info.Scale;
+            var rotation = over?.Rotation ?? info.Rotation;
+            var flipH = over?.FlipHorizontal ?? (info.Effects & SpriteEffects.FlipHorizontally) != 0;
+            var flipV = over?.FlipVertical ?? (info.Effects & SpriteEffects.FlipVertically) != 0;
             
+            // Check if point is within the scaled texture bounds first (fast rejection)
             var partBounds = new RectangleF(
                 position.X,
                 position.Y,
                 info.Texture.Width * scale,
                 info.Texture.Height * scale);
             
-            if (partBounds.Contains(nativePosition))
+            if (!partBounds.Contains(nativePosition))
+                continue;
+            
+            // Calculate the pixel coordinate within the texture
+            var localX = (nativePosition.X - position.X) / scale;
+            var localY = (nativePosition.Y - position.Y) / scale;
+            
+            // Apply rotation transform (inverse rotation to go from world to local)
+            if (rotation != 0f)
+            {
+                var centerX = info.Texture.Width / 2f;
+                var centerY = info.Texture.Height / 2f;
+                
+                // Translate to center, rotate inversely, translate back
+                var dx = localX - centerX;
+                var dy = localY - centerY;
+                var cos = (float)Math.Cos(-rotation);
+                var sin = (float)Math.Sin(-rotation);
+                localX = dx * cos - dy * sin + centerX;
+                localY = dx * sin + dy * cos + centerY;
+            }
+            
+            // Apply flip transforms
+            if (flipH)
+                localX = info.Texture.Width - 1 - localX;
+            if (flipV)
+                localY = info.Texture.Height - 1 - localY;
+            
+            var pixelX = (int)localX;
+            var pixelY = (int)localY;
+            
+            // Bounds check
+            if (pixelX < 0 || pixelX >= info.Texture.Width || pixelY < 0 || pixelY >= info.Texture.Height)
+                continue;
+            
+            // Get pixel data and check alpha
+            if (IsPixelOpaque(info.Texture, pixelX, pixelY))
             {
                 return part.Label;
             }
         }
         
         return null;
+    }
+    
+    /// <summary>
+    /// Checks if a pixel at the given texture coordinates is opaque (alpha > threshold).
+    /// </summary>
+    private bool IsPixelOpaque(Texture2D texture, int x, int y, byte alphaThreshold = 32)
+    {
+        // Get or create cached pixel data
+        if (!_texturePixelCache.TryGetValue(texture, out var pixels))
+        {
+            pixels = new Color[texture.Width * texture.Height];
+            texture.GetData(pixels);
+            _texturePixelCache[texture] = pixels;
+        }
+        
+        var index = y * texture.Width + x;
+        if (index < 0 || index >= pixels.Length)
+            return false;
+        
+        return pixels[index].A > alphaThreshold;
     }
 
     public void Render(RenderContext context, Rectangle destRect)
@@ -363,30 +552,49 @@ public class BodyPartEditorWindow : Window
             new RasterizerState { ScissorTestEnable = true });
         
         var parts = _pawn.Body.AllExternalParts
-            .Where(p => !p.IsSevered && !p.IsDestroyed)
+            .Where(p => !p.IsSevered)
             .Select(p => (part: p, info: _layout.GetRenderInfo(p)))
             .Where(x => x.info.HasValue)
             .Select(x => (x.part, info: x.info!.Value))
             .ToList();
         
-        // Sort by render order (back to front)
-        parts.Sort((a, b) => a.info.RenderOrder.CompareTo(b.info.RenderOrder));
+        // Sort by render order (back to front), using override if available
+        parts.Sort((a, b) =>
+        {
+            var orderA = _overrides.TryGetValue(a.part.Label, out var overA) ? overA.RenderOrder : a.info.RenderOrder;
+            var orderB = _overrides.TryGetValue(b.part.Label, out var overB) ? overB.RenderOrder : b.info.RenderOrder;
+            return orderA.CompareTo(orderB);
+        });
         
         // Calculate scale from native layout size to destination rect
         float scaleX = (float)destRect.Width / _layout.NativeSize;
         float scaleY = (float)destRect.Height / _layout.NativeSize;
         float layoutScale = Math.Min(scaleX, scaleY);
         
+        var destOffset = new Vector2(destRect.X, destRect.Y);
+        
         foreach (var (part, info) in parts)
         {
             var over = _overrides.GetValueOrDefault(part.Label);
             var position = over?.Position ?? info.Position;
             var partScale = over?.Scale ?? info.Scale;
-            var rotation = over?.Rotation ?? 0f;
+            var rotation = over?.Rotation ?? info.Rotation;
+            
+            // Compute sprite effects from override or original
+            var effects = SpriteEffects.None;
+            if (over != null)
+            {
+                if (over.FlipHorizontal) effects |= SpriteEffects.FlipHorizontally;
+                if (over.FlipVertical) effects |= SpriteEffects.FlipVertically;
+            }
+            else
+            {
+                effects = info.Effects;
+            }
             
             var tint = BodyPartColor.Get(part);
             
-            // Highlight selected/dragged part
+            // Highlight selected/dragged/hovered part
             if (_draggedPartLabel == part.Label)
             {
                 tint = Color.Yellow;
@@ -395,28 +603,21 @@ public class BodyPartEditorWindow : Window
             {
                 tint = Color.Lerp(tint, Color.Cyan, 0.5f);
             }
+            else if (_hoveredPartLabel == part.Label)
+            {
+                tint = Color.Lerp(tint, Color.Orange, 0.35f);
+            }
             
-            var finalScale = partScale * layoutScale;
-            var scaledPosition = position * layoutScale;
-            
-            // Calculate draw position (top-left corner of where the part should be)
-            var drawX = destRect.X + scaledPosition.X;
-            var drawY = destRect.Y + scaledPosition.Y;
-            
-            // Use origin (0,0) for top-left positioning, no rotation adjustment needed
-            // The position in the layout data is already the top-left corner
-            var drawPosition = new Vector2(drawX, drawY);
-            
-            _spriteBatch.Draw(
-                info.Texture,
-                drawPosition,
-                null,
-                tint,
-                rotation,
-                Vector2.Zero,  // Origin at top-left
-                finalScale,
-                info.Effects,  // This handles horizontal/vertical flipping
-                0f);
+            BodyPartRenderHelper.RenderBodyPart(
+                _spriteBatch, 
+                info, 
+                position: position,
+                scale: partScale,
+                rotation: rotation,
+                effects: effects,
+                layoutScale: layoutScale, 
+                tint: tint,
+                offset: destOffset);
         }
         
         _spriteBatch.End();
@@ -456,14 +657,19 @@ public class BodyPartEditorWindow : Window
         _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp);
         
         var parts = _pawn.Body.AllExternalParts
-            .Where(p => !p.IsSevered && !p.IsDestroyed)
+            .Where(p => !p.IsSevered)
             .Select(p => (part: p, info: _layout.GetRenderInfo(p)))
             .Where(x => x.info.HasValue)
             .Select(x => (x.part, info: x.info!.Value))
             .ToList();
         
-        // Sort by render order (back to front)
-        parts.Sort((a, b) => a.info.RenderOrder.CompareTo(b.info.RenderOrder));
+        // Sort by render order (back to front), using override if available
+        parts.Sort((a, b) =>
+        {
+            var orderA = _overrides.TryGetValue(a.part.Label, out var overA) ? overA.RenderOrder : a.info.RenderOrder;
+            var orderB = _overrides.TryGetValue(b.part.Label, out var overB) ? overB.RenderOrder : b.info.RenderOrder;
+            return orderA.CompareTo(orderB);
+        });
         
         float layoutScale = (float)_renderSize / _layout.NativeSize;
         
@@ -472,11 +678,23 @@ public class BodyPartEditorWindow : Window
             var over = _overrides.GetValueOrDefault(part.Label);
             var position = over?.Position ?? info.Position;
             var partScale = over?.Scale ?? info.Scale;
-            var rotation = over?.Rotation ?? 0f;
+            var rotation = over?.Rotation ?? info.Rotation;
+            
+            // Compute sprite effects from override or original
+            var effects = SpriteEffects.None;
+            if (over != null)
+            {
+                if (over.FlipHorizontal) effects |= SpriteEffects.FlipHorizontally;
+                if (over.FlipVertical) effects |= SpriteEffects.FlipVertically;
+            }
+            else
+            {
+                effects = info.Effects;
+            }
             
             var tint = BodyPartColor.Get(part);
             
-            // Highlight selected/dragged part
+            // Highlight selected/dragged/hovered part
             if (_draggedPartLabel == part.Label)
             {
                 tint = Color.Yellow;
@@ -485,24 +703,20 @@ public class BodyPartEditorWindow : Window
             {
                 tint = Color.Lerp(tint, Color.Cyan, 0.5f);
             }
+            else if (_hoveredPartLabel == part.Label)
+            {
+                tint = Color.Lerp(tint, Color.Orange, 0.35f);
+            }
             
-            var finalScale = partScale * layoutScale;
-            var scaledPosition = position * layoutScale;
-            
-            // Calculate origin for rotation (center of texture)
-            var origin = new Vector2(info.Texture.Width / 2f, info.Texture.Height / 2f);
-            var drawPosition = scaledPosition + origin * finalScale;
-            
-            _spriteBatch.Draw(
-                info.Texture,
-                drawPosition,
-                null,
-                tint,
-                rotation,
-                origin,
-                finalScale,
-                info.Effects,
-                0f);
+            BodyPartRenderHelper.RenderBodyPart(
+                _spriteBatch, 
+                info, 
+                position: position,
+                scale: partScale,
+                rotation: rotation,
+                effects: effects,
+                layoutScale: layoutScale, 
+                tint: tint);
         }
         
         _spriteBatch.End();
@@ -524,16 +738,27 @@ public class BodyPartEditorWindow : Window
         var part = _pawn.Body.AllExternalParts.FirstOrDefault(p => p.Label == _selectedPartLabel);
         if (part != null)
         {
-            var info = _layout.GetRenderInfo(part);
-            if (info.HasValue)
+            var renderInfo = _layout.GetRenderInfo(part);
+            if (renderInfo.HasValue)
             {
-                _overrides[_selectedPartLabel] = new BodyPartTransformOverride(
-                    info.Value.Position,
-                    info.Value.Scale,
-                    0f);
+                var info = renderInfo.Value;
+                var flipH = (info.Effects & SpriteEffects.FlipHorizontally) != 0;
+                var flipV = (info.Effects & SpriteEffects.FlipVertically) != 0;
                 
-                _scaleSlider.Value = info.Value.Scale;
-                _rotationSlider.Value = 0f;
+                var newOverride = new BodyPartTransformOverride(
+                    info.Position,
+                    info.Scale,
+                    info.Rotation,
+                    flipH,
+                    flipV,
+                    info.RenderOrder);
+                _overrides[_selectedPartLabel] = newOverride;
+                
+                _scaleSlider.Value = info.Scale;
+                _rotationSlider.Value = MathHelper.ToDegrees(info.Rotation);
+                _renderOrderSlider.Value = info.RenderOrder;
+                _renderOrderValueLabel.Text = $"{info.RenderOrder}";
+                UpdateFlipButtonLabels(newOverride);
                 _isDirty = true;
             }
         }
@@ -541,8 +766,6 @@ public class BodyPartEditorWindow : Window
 
     private void CopyPositionsToClipboard()
     {
-        if (_layout == null) return;
-        
         var sb = new StringBuilder();
         sb.AppendLine("// Body part positions (native coordinates)");
         sb.AppendLine("private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()");
@@ -550,36 +773,30 @@ public class BodyPartEditorWindow : Window
         
         var partInfos = new List<(string label, Vector2 position, int renderOrder, float scale, float rotation, bool flipH, bool flipV)>();
         
-        foreach (var part in _pawn.Body.AllExternalParts)
+        // Use the overrides dictionary which contains all parts we've been editing
+        foreach (var (label, over) in _overrides)
         {
-            if (part.IsSevered || part.IsDestroyed) continue;
-            
-            var renderInfo = _layout.GetRenderInfo(part);
-            if (renderInfo.HasValue)
-            {
-                var info = renderInfo.Value;
-                var over = _overrides.GetValueOrDefault(part.Label);
-                var position = over?.Position ?? info.Position;
-                var scale = over?.Scale ?? info.Scale;
-                var rotation = over?.Rotation ?? 0f;
-                
-                var flipH = (info.Effects & SpriteEffects.FlipHorizontally) != 0;
-                var flipV = (info.Effects & SpriteEffects.FlipVertically) != 0;
-                
-                partInfos.Add((part.Label, position, info.RenderOrder, scale, rotation, flipH, flipV));
-            }
+            partInfos.Add((
+                label, 
+                over.Position, 
+                over.RenderOrder, 
+                over.Scale, 
+                over.Rotation, 
+                over.FlipHorizontal, 
+                over.FlipVertical));
         }
         
         partInfos.Sort((a, b) => a.renderOrder.CompareTo(b.renderOrder));
         
         foreach (var (label, position, renderOrder, scale, rotation, flipH, flipV) in partInfos)
         {
-            var flipParams = "";
-            if (flipH) flipParams += ", flipHorizontal: true";
-            if (flipV) flipParams += ", flipVertical: true";
+            var optionalParams = "";
+            if (rotation != 0f) optionalParams += $", {rotation:F4}f";
+            else if (flipH || flipV) optionalParams += ", 0f"; // Need to include rotation if we have flip params
+            if (flipH) optionalParams += ", flipHorizontal: true";
+            if (flipV) optionalParams += ", flipVertical: true";
             
-            // Note: rotation is not part of BodyPartLayoutData currently, but we include position and scale
-            sb.AppendLine($"    {{ \"{label}\", new BodyPartLayoutData(new Vector2({position.X:F0}f, {position.Y:F0}f), {renderOrder}, {scale:F2}f{flipParams}) }},");
+            sb.AppendLine($"    {{ \"{label}\", new BodyPartLayoutData(new Vector2({position.X:F0}f, {position.Y:F0}f), {renderOrder}, {scale:F2}f{optionalParams}) }},");
         }
         
         sb.AppendLine("};");

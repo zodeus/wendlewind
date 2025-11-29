@@ -19,6 +19,8 @@ public class MouseAttachment {
     public object? Data { get; set; }
     public string? Text { get; set; } = null;
 
+    private ButtonState _previousLeftButtonState = ButtonState.Released;
+
     public MouseAttachment(BaseGui gui, Texture2D texture, Action<MouseAttachment>? leftClickAction = null, Action<MouseAttachment>? updateAction = null, Action<MouseAttachment, SpriteBatch>? renderAction = null) {
         _gui = gui;
         _texture = texture;
@@ -29,10 +31,13 @@ public class MouseAttachment {
 
     public void Update() {
         _updateAction?.Invoke(this);
-        if (Mouse.GetState().LeftButton == ButtonState.Pressed) {
+        
+        var currentLeftButtonState = Mouse.GetState().LeftButton;
+        if (currentLeftButtonState == ButtonState.Pressed && _previousLeftButtonState == ButtonState.Released) {
             Log.Debug("Attachment Clicked");
             _leftClickAction?.Invoke(this);
         }
+        _previousLeftButtonState = currentLeftButtonState;
 
         if (Keyboard.GetState().IsKeyDown(Keys.Escape)) {
             DetachInternal();

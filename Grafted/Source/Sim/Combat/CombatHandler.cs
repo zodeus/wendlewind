@@ -16,11 +16,12 @@ public enum CombatEventType
     Death
 }
 
-public class CombatEvent(Pawn victim, CombatEventType damage, string s)
+public class CombatEvent(Pawn victim, CombatEventType damage, string s, BodyPart? bodyPart = null)
 {
     public string Text { get; set; } = s;
     public Pawn Target { get; set; } = victim;
     public CombatEventType Type { get; set; } = damage;
+    public BodyPart? BodyPart { get; set; } = bodyPart;
 }
 
 public class CombatHandler
@@ -144,17 +145,12 @@ public class CombatHandler
 
         if (damage.ActualAmount > 0)
         {
-            EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Damage, $"{damage.ActualAmount:N0}"));
+            EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Damage, $"{damage.ActualAmount:N0}", damage.BodyPartHit));
         }
 
         if (damage.AmountBlocked > 0)
         {
-            EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Block, $"{damage.AmountBlocked:N0}"));
-        }
-
-        if (damage.AmountBlocked > 0)
-        {
-            EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Block, $"{damage.AmountBlocked:N0}"));
+            EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Block, $"{damage.AmountBlocked:N0}", damage.BodyPartHit));
         }
 
 
@@ -167,7 +163,7 @@ public class CombatHandler
         {
             foreach (var modifier in partRecord.AppliedModifiers)
             {
-                EventOccured?.Invoke(new CombatEvent(victim, modifier.Type == BodyPartModifierType.Buff ? CombatEventType.Buff : CombatEventType.Debuff, modifier.Label));
+                EventOccured?.Invoke(new CombatEvent(victim, modifier.Type == BodyPartModifierType.Buff ? CombatEventType.Buff : CombatEventType.Debuff, modifier.Label, partRecord.BodyPart));
                 yield return $"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Default}]afflicted with /c[{TC.Yellow}]{modifier}";
             }
 
@@ -190,7 +186,7 @@ public class CombatHandler
 
             if (partRecord.BodyPart.IsExternal && partRecord.WasSevered)
             {
-                EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Damage, $"{partRecord.PartType} severed"));
+                EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Damage, $"{partRecord.PartType} severed", partRecord.BodyPart));
                 yield return $"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]SEVERED";
                 _encounter.Zone.Alert(
                     new ScreenMessageData
@@ -205,7 +201,7 @@ public class CombatHandler
 
         foreach (var affliction in damage.SourceAfflictions)
         {
-            EventOccured?.Invoke(new CombatEvent(attacker, CombatEventType.Debuff, $"{affliction.Label}"));
+            EventOccured?.Invoke(new CombatEvent(attacker, CombatEventType.Debuff, $"{affliction.Label}", affliction.BodyPart));
             yield return $"/c[{TC.Purple2}]{attacker}/c[{TC.Default}]'s /c[{TC.BodyPart}]{affliction.BodyPart.Label} " +
                          $"/c[{TC.Default}]has been (/c[{TC.GreenYellow}]{affliction.Label}) ";
         }

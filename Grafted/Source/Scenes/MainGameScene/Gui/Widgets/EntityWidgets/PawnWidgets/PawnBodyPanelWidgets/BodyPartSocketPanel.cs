@@ -1,6 +1,4 @@
-﻿using Myra.Graphics2D.Brushes;
-
-namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
+﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
 
 internal sealed class BodyPartSocketPanel : HorizontalStackPanel
 {
@@ -30,7 +28,7 @@ internal sealed class BodyPartSocketPanel : HorizontalStackPanel
 
     private void BodyPartSocketClickHandler(BodyPartSocket socket)
     {
-        if (Mouse.GetState().RightButton == ButtonState.Released)
+        if (Mouse.GetState().RightButton == ButtonState.Pressed)
         {
             return;
         }

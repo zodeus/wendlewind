@@ -137,8 +137,8 @@ public class PawnBodyRenderer : IDisposable
         
         foreach (var part in parts)
         {
-            // Skip severed or destroyed parts
-            if (part.IsSevered || part.IsDestroyed) continue;
+            // Skip severed parts (physically removed), but keep destroyed parts (damaged but still attached)
+            if (part.IsSevered) continue;
             
             var renderInfo = _layout.GetRenderInfo(part);
             if (renderInfo.HasValue)
@@ -151,38 +151,13 @@ public class PawnBodyRenderer : IDisposable
         renderList.Sort((a, b) => a.info.RenderOrder.CompareTo(b.info.RenderOrder));
         
         // Calculate scale to fit render target
-        float scale = (float)_renderSize / _layout.NativeSize;
+        float layoutScale = (float)_renderSize / _layout.NativeSize;
         
-        // Render each part
+        // Render each part using the shared helper
         foreach (var (part, info) in renderList)
         {
             var tint = BodyPartColor.Get(part);
-            
-            // Calculate final scale (layout scale * render target scale)
-            var finalScale = info.Scale * scale;
-            
-            // Scale the position to match the render target size
-            var scaledPosition = info.Position * scale;
-            
-            // Calculate origin for proper flipping (center of texture)
-            var origin = Vector2.Zero;
-            if (info.Effects != SpriteEffects.None)
-            {
-                origin = new Vector2(info.Texture.Width / 2f, info.Texture.Height / 2f);
-                scaledPosition += origin * finalScale;
-            }
-            
-            // Draw the texture at its designated position
-            spriteBatch.Draw(
-                info.Texture,
-                scaledPosition,
-                null,
-                tint,
-                0f,
-                origin,
-                finalScale,
-                info.Effects,
-                0f);
+            BodyPartRenderHelper.RenderBodyPart(spriteBatch, info, layoutScale: layoutScale, tint: tint);
         }
     }
 

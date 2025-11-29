@@ -22,8 +22,9 @@ public class LootPanel : Panel, IUpdatable
         _inventoryPanel = new ItemContainerPanel(gui, playerPawn.Inventory.Entities, lootContainer)
         {
             MinHeight = 400,
-            Visible = !playerPawn.IsDead, Width = 720
-            
+            MaxHeight = 600,
+            Width = 720,
+            Visible = !playerPawn.IsDead
         };
 
         _equipmentPanel = new PawnEquipmentPanel(gui, playerPawn);

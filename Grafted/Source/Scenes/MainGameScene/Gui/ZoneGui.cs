@@ -73,7 +73,7 @@ public class ZoneGui : BaseGui
 
     public override void Update(float deltaTime)
     {
-        _combatScreen?.Update();
+        _combatScreen?.Update(deltaTime);
         _combatResultsScreen?.Update();
         _shrineScreen?.Update(deltaTime);
         base.Update(deltaTime);

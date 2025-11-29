@@ -16,9 +16,13 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
     private readonly ZoneGui _gui;
     private readonly List<IUpdatable> _updatables = new();
 
+    /// <summary>
+    /// Gets the body render widget for this pawn, if available.
+    /// </summary>
+    public PawnBodyRenderWidget? BodyWidget => _bodyWidget;
+
     public PawnCombatPanel(ZoneGui gui, Pawn pawn, Encounter encounter)
     {
-
         Pawn = pawn;
         _encounter = encounter;
         _gui = gui;
@@ -32,7 +36,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         Widgets.Add(GeneratePawnPanel());
 
 
-        Update();
+        Update(0f);
     }
 
     private void GeneratePlayerControls(Pawn pawn)
@@ -99,6 +103,10 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
             Height = size,
             BorderThickness = new Thickness(2)
         };
+        if (Pawn.PawnType == PawnType.Player)
+        {
+            _bodyWidget.HorizontalAlignment = HorizontalAlignment.Right;
+        }
         
         // _bodyWidget.Clicked += (_, _) =>
         // {
@@ -107,7 +115,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         //         _gui.ViewEntity(Pawn);
         //     }
         // };
-        
+
         return _bodyWidget;
     }
 
@@ -143,9 +151,10 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         return panel;
     }
 
-    public void Update()
+    public void Update(float deltaTime)
     {
         _bloodBar.Value = Pawn.Body.BloodPercent * 100;
+        _bodyWidget?.Update(deltaTime);
         foreach (var u in _updatables)
         {
             u.Update();
