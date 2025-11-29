@@ -74,7 +74,7 @@ public class BodyPartEditorWindow : Window
         _layout = BodyPartLayoutRegistry.GetLayoutFor(pawn.Body);
         
         Title = $"Body Part Editor - {pawn.Label}";
-        Width = 1000;
+        Width = 1200;
         Height = 800;
         
         // Initialize overrides from current layout
@@ -84,7 +84,7 @@ public class BodyPartEditorWindow : Window
         var mainPanel = new HorizontalStackPanel
         {
             Spacing = 10,
-            Margin = new Thickness(10)
+            Margin = new Thickness(10),
         };
         
         // Left side - render area
@@ -95,7 +95,7 @@ public class BodyPartEditorWindow : Window
             Width = _renderSize,
             Height = _renderSize,
             BorderThickness = new Thickness(2),
-            Border = new SolidBrush(Color.Yellow)
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame]
         };
         _renderArea.OnFrameUpdate = OnFrameUpdate;
         leftPanel.Widgets.Add(_renderArea);
@@ -103,11 +103,7 @@ public class BodyPartEditorWindow : Window
         mainPanel.Widgets.Add(leftPanel);
         
         // Right side - controls
-        var rightPanel = new VerticalStackPanel
-        {
-            Spacing = 10,
-            Width = 160
-        };
+        var rightPanel = new VerticalStackPanel { Spacing = 10 };
         
         // Selected part info
         rightPanel.Widgets.Add(new Label { Text = "Selected Part:" });
@@ -124,7 +120,7 @@ public class BodyPartEditorWindow : Window
             Minimum = 0.1f,
             Maximum = 2.0f,
             Value = 1.0f,
-            Width = 300
+            Width = 400
         };
         _scaleSlider.ValueChangedByUser += OnScaleChanged;
         _scaleValueLabel = new Label { Text = "1.00", Width = 40 };
@@ -140,7 +136,7 @@ public class BodyPartEditorWindow : Window
             Minimum = -180f,
             Maximum = 180f,
             Value = 0f,
-            Width = 300
+            Width = 400
         };
         _rotationSlider.ValueChangedByUser += OnRotationChanged;
         _rotationValueLabel = new Label { Text = "0°", Width = 40 };
@@ -156,7 +152,7 @@ public class BodyPartEditorWindow : Window
             Minimum = 0f,
             Maximum = 100f,
             Value = 0f,
-            Width = 300
+            Width = 400
         };
         _renderOrderSlider.ValueChangedByUser += OnRenderOrderChanged;
         _renderOrderValueLabel = new Label { Text = "0", Width = 40 };
@@ -172,13 +168,11 @@ public class BodyPartEditorWindow : Window
         _flipHButton = new Button(BaseContent.Styles.Button.Normal)
         {
             Content = new Label { Text = "Horz: Off" },
-            Width = 100
         };
         _flipHButton.Click += OnFlipHClicked;
         _flipVButton = new Button(BaseContent.Styles.Button.Normal)
         {
             Content = new Label { Text = "Vert: Off" },
-            Width = 100
         };
         _flipVButton.Click += OnFlipVClicked;
         flipPanel.Widgets.Add(_flipHButton);
@@ -191,7 +185,6 @@ public class BodyPartEditorWindow : Window
         var copyButton = new Button(BaseContent.Styles.Button.Normal)
         {
             Content = new Label { Text = "Copy to Clipboard" },
-            Width = 150
         };
         copyButton.Click += (_, _) => CopyPositionsToClipboard();
         rightPanel.Widgets.Add(copyButton);
@@ -199,7 +192,6 @@ public class BodyPartEditorWindow : Window
         var resetButton = new Button(BaseContent.Styles.Button.Normal)
         {
             Content = new Label { Text = "Reset All" },
-            Width = 150
         };
         resetButton.Click += (_, _) => ResetAll();
         rightPanel.Widgets.Add(resetButton);
@@ -207,7 +199,6 @@ public class BodyPartEditorWindow : Window
         var resetSelectedButton = new Button(BaseContent.Styles.Button.Normal)
         {
             Content = new Label { Text = "Reset Selected" },
-            Width = 150
         };
         resetSelectedButton.Click += (_, _) => ResetSelected();
         rightPanel.Widgets.Add(resetSelectedButton);
@@ -245,7 +236,9 @@ public class BodyPartEditorWindow : Window
 
     private void OnScaleChanged(object? sender, EventArgs e)
     {
-        var newValue = _scaleSlider.Value;
+        // Snap to 0.05 increments for easier control
+        var newValue = MathF.Round(_scaleSlider.Value * 20f) / 20f;
+        _scaleSlider.Value = newValue;
         _scaleValueLabel.Text = $"{newValue:F2}";
         
         if (_selectedPartLabel != null && _overrides.TryGetValue(_selectedPartLabel, out var over))
@@ -257,7 +250,9 @@ public class BodyPartEditorWindow : Window
 
     private void OnRotationChanged(object? sender, EventArgs e)
     {
-        var newValue = _rotationSlider.Value;
+        // Snap to 1 degree increments for easier control
+        var newValue = MathF.Round(_rotationSlider.Value);
+        _rotationSlider.Value = newValue;
         _rotationValueLabel.Text = $"{newValue:F0}°";
         
         if (_selectedPartLabel != null && _overrides.TryGetValue(_selectedPartLabel, out var over))
@@ -269,7 +264,9 @@ public class BodyPartEditorWindow : Window
 
     private void OnRenderOrderChanged(object? sender, EventArgs e)
     {
-        var newValue = (int)_renderOrderSlider.Value;
+        // Snap to integer increments for easier control
+        var newValue = (int)MathF.Round(_renderOrderSlider.Value);
+        _renderOrderSlider.Value = newValue;
         _renderOrderValueLabel.Text = $"{newValue}";
         
         if (_selectedPartLabel != null && _overrides.TryGetValue(_selectedPartLabel, out var over))
