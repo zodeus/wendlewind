@@ -14,7 +14,6 @@ global using Grafted.Sim.Entities.Items;
 global using Grafted.Sim.Entities.Pawns;
 global using Grafted.Sim.Persistence;
 global using Grafted.Sim.Zones;
-global using Grafted.UI;
 global using Grafted.Utils;
 global using JetBrains.Annotations;
 global using Microsoft.Xna.Framework;

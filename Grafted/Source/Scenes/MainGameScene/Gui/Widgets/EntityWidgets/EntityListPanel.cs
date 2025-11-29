@@ -28,12 +28,13 @@ public class EntityListPanelItem : HorizontalStackPanel
         Widgets.Add(entityButton);
         entityButton.TouchDown += (_, _) =>
         {
-            if (Input.LeftMouseButtonPressed)
+            Log.Debug($"TouchDown on {_entity.Label}, LeftDown={Mouse.GetState().LeftButton == ButtonState.Pressed}, RightDown={Mouse.GetState().RightButton == ButtonState.Pressed}");
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
                 leftClickAction?.Invoke(_entity);
             }
 
-            if (Input.RightMouseButtonPressed)
+            if (Mouse.GetState().RightButton == ButtonState.Pressed)
             {
                 rightClickAction?.Invoke(_entity);
             }

@@ -30,7 +30,7 @@ internal sealed class BodyPartSocketPanel : HorizontalStackPanel
 
     private void BodyPartSocketClickHandler(BodyPartSocket socket)
     {
-        if (Input.RightMouseButtonReleased)
+        if (Mouse.GetState().RightButton == ButtonState.Released)
         {
             return;
         }

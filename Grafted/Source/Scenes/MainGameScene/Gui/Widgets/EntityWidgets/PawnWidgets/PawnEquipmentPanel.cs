@@ -44,7 +44,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
     private void HandleClick(BodyPart part, EquipmentSlotType slot)
     {
         // UnEquip
-        if (_gui.MouseAttachment == null && Input.RightMouseButtonReleased && slot != EquipmentSlotType.BuiltIn)
+        if (_gui.MouseAttachment == null && Mouse.GetState().RightButton == ButtonState.Released && slot != EquipmentSlotType.BuiltIn)
         {
             var unEquippedItem = _pawn.Equipment.UnEquip(part, slot);
             if (unEquippedItem != null)

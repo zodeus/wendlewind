@@ -100,12 +100,12 @@ public class GameScene : Scene
 
     private void HandleInput()
     {
-        if (Input.IsKeyPressed(Keys.Space))
+        if (Keyboard.GetState().IsKeyDown(Keys.Space))
         {
             _context.TogglePause();
         }
 
-        if (Input.IsKeyPressed(Keys.F5))
+        if (Keyboard.GetState().IsKeyDown(Keys.F5))
         {
             _context.Save("save.xml");
             ActiveGui!.PushScreenMessage(new ScreenMessageData
@@ -117,7 +117,7 @@ public class GameScene : Scene
             });
         }
 
-        if (Input.IsKeyPressed(Keys.F9))
+        if (Keyboard.GetState().IsKeyDown(Keys.F9))
         {
             ActiveGui?.Dispose();
             ActiveGui = null;
@@ -132,12 +132,12 @@ public class GameScene : Scene
             });
         }
 
-        if (Input.IsKeyPressed(Keys.Q))
+        if (Keyboard.GetState().IsKeyDown(Keys.Q))
         {
             ActiveGui?.MouseAttachment?.Detach();
         }
 
-        if (Input.IsKeyPressed(Keys.F2))
+        if (Keyboard.GetState().IsKeyDown(Keys.F2))
         {
             QuickPlay();
             ActiveGui!.PushScreenMessage(new ScreenMessageData
@@ -149,7 +149,7 @@ public class GameScene : Scene
             });
         }
 
-        if (Input.IsKeyPressed(Keys.F12))
+        if (Keyboard.GetState().IsKeyDown(Keys.F12))
         {
             ReloadGui();
         }

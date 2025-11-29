@@ -5,7 +5,6 @@ using Grafted.Scenes.MainGameScene;
 namespace Grafted.Sim;
 
 public class GameOverScene : Scene {
-    private CameraController _cameraController = null!;
 
     protected override void OnStart() {
         Core.Schedule(2, _ => {
@@ -23,8 +22,7 @@ public class GameOverScene : Scene {
             SamplerState.PointClamp,
             DepthStencilState.None,
             RasterizerState.CullNone,
-            null,
-            Core.Scene.MainCamera.View()
+            null
         );
         spriteBatch.DrawString(BaseContent.Fonts.Default.Large, "GAME OVER", new Vector2(0, 0), Color.White);
         spriteBatch.DrawString(BaseContent.Fonts.Default.Normal, "Starting new game...", new Vector2(0, 50), Color.White);

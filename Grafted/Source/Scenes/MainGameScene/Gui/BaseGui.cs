@@ -59,7 +59,7 @@ public abstract class BaseGui : IDisposable
 
     public virtual void HandleInput()
     {
-        if (Input.IsKeyPressed(Keys.B))
+        if (Keyboard.GetState().IsKeyDown(Keys.B))
         {
             OpenBoak();
         }

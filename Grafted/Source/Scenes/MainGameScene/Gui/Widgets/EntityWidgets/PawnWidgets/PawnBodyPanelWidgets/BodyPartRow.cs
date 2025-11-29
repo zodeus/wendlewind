@@ -76,12 +76,7 @@ internal sealed class BodyPartRow : HorizontalStackPanel
 
     private void BodyPartClickHandler(BodyPart part, bool useItems = false)
     {
-        if (Input.LeftMouseButtonReleased)
-        {
-            return;
-        }
-
-        if (Input.RightMouseButtonReleased)
+        if (Mouse.GetState().LeftButton != ButtonState.Pressed)
         {
             return;
         }

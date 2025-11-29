@@ -263,7 +263,6 @@ public class Core : Game
 
         float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
         FrameCounter.Update(deltaTime);
-        Input.Update();
         Scene.Update(deltaTime);
         _fixedUpdateTimer.Update();
         _timerManager.Update(deltaTime);

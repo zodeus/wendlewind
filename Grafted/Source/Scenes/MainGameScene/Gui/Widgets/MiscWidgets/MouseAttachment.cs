@@ -29,12 +29,12 @@ public class MouseAttachment {
 
     public void Update() {
         _updateAction?.Invoke(this);
-        if (Input.LeftMouseButtonPressed) {
+        if (Mouse.GetState().LeftButton == ButtonState.Pressed) {
             Log.Debug("Attachment Clicked");
             _leftClickAction?.Invoke(this);
         }
 
-        if (Input.IsKeyPressed(Keys.Escape)) {
+        if (Keyboard.GetState().IsKeyDown(Keys.Escape)) {
             DetachInternal();
         }
     }
@@ -50,7 +50,7 @@ public class MouseAttachment {
     }
 
     public void Draw(SpriteBatch spriteBatch) {
-        Vector2 position = Input.MousePosition;
+        Vector2 position = Mouse.GetState().Position.ToVector2();
 
         spriteBatch.Draw(
             _texture,

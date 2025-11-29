@@ -3,13 +3,13 @@ using System.Reflection;
 namespace Grafted.Scenes.Components;
 
 public sealed class Camera : IDisposable {
-    static readonly Game _game;
+    static readonly Microsoft.Xna.Framework.Game _game;
     static readonly GraphicsDevice _graphicsDevice;
     static readonly GameWindow _window;
 
     static Camera() {
-        foreach (var p in typeof(Game).GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
-            if (p.GetValue(_game) is Game g)
+        foreach (var p in typeof(Microsoft.Xna.Framework.Game).GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
+            if (p.GetValue(_game) is Microsoft.Xna.Framework.Game g)
                 _game = g;
         _graphicsDevice = _game.GraphicsDevice;
         _window = _game.Window;

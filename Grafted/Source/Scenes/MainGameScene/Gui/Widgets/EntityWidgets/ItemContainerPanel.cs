@@ -117,7 +117,7 @@ public sealed class ItemContainerPanel : Panel
         }
 
         // Shift + Left-Click to delete item 
-        if (_gui.MouseAttachment == null && Input.IsKeyDown(Keys.LeftControl))
+        if (_gui.MouseAttachment == null && Keyboard.GetState().IsKeyDown(Keys.LeftShift))
         {
             if (item.CanBeDestroyed == false)
             {
@@ -134,7 +134,7 @@ public sealed class ItemContainerPanel : Panel
             item.Icon,
             updateAction: attachment =>
             {
-                if (Input.RightMouseButtonPressed) attachment.Detach();
+                if (Mouse.GetState().RightButton == ButtonState.Pressed) attachment.Detach();
             }
         )
         {

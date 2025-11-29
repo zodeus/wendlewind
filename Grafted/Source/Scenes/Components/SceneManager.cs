@@ -3,7 +3,6 @@ namespace Grafted.Scenes.Components;
 public class SceneManager
 {
     private readonly Dictionary<Type, Scene> _scenes = new();
-    public Camera MainCamera => ActiveScene!.MainCamera;
 
     public Scene? ActiveScene { get; private set; }
 
