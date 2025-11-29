@@ -10,7 +10,6 @@ public sealed class CombatControlPanel : VerticalStackPanel
     public CombatControlPanel(Encounter encounter)
     {
         _encounter = encounter;
-        ShowGridLines = false;
         _continueButton = new Button(BaseContent.Styles.Button.LargeGold)
         {
             Content = new Label { Text = "Continue", HorizontalAlignment = HorizontalAlignment.Center },

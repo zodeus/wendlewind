@@ -1,3 +1,5 @@
+using Myra.Graphics2D.Brushes;
+
 namespace Grafted.Scenes.MainGameScene.Gui;
 
 public class CampGui : BaseGui
@@ -15,7 +17,6 @@ public class CampGui : BaseGui
         _campOverview = new CampOverviewPanel(this, context);
         Desktop = new Desktop
         {
-            Scale = new Vector2(1, 1),
             Root = new VerticalStackPanel
             {
                 Widgets =
@@ -27,6 +28,7 @@ public class CampGui : BaseGui
             },
             HasExternalTextInput = true
         };
+        Core.ConfigureDesktopScaling(Desktop);
     }
 
     public override void Update(float deltaTime)

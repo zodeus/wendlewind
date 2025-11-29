@@ -21,8 +21,9 @@ public class LootPanel : Panel, IUpdatable
         _bodyPanel = new PawnBodyPanel(gui, playerPawn.Body);
         _inventoryPanel = new ItemContainerPanel(gui, playerPawn.Inventory.Entities, lootContainer)
         {
-            Height = 900,
+            MinHeight = 400,
             Visible = !playerPawn.IsDead, Width = 720
+            
         };
 
         _equipmentPanel = new PawnEquipmentPanel(gui, playerPawn);
@@ -63,7 +64,6 @@ public class LootPanel : Panel, IUpdatable
                 new VerticalStackPanel
                 {
                     VerticalAlignment = VerticalAlignment.Stretch,
-                    Proportions = { Proportion.Auto, Proportion.Auto, Proportion.Fill },
                     Widgets =
                     {
                         new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Combat, item => gui.ViewEntity(item), false) { TrinketsPerRow = 9 },

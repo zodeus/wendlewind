@@ -11,8 +11,6 @@ public sealed class PawnBodyPanel : VerticalStackPanel, IUpdatable
 
     public PawnBodyPanel(BaseGui gui, PawnBody body, CombatHandler? combatHandler = null)
     {
-        //Border = new SolidBrush(Color.Red);
-        //BorderThickness = new Thickness(1);
         Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame], new Color(255, 255, 255, 230));
         _gui = gui;
         _body = body;

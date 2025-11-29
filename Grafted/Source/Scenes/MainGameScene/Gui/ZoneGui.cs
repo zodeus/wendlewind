@@ -20,10 +20,10 @@ public class ZoneGui : BaseGui
         _worldTextHandler = worldTextHandler;
         Desktop = new Desktop
         {
-            Scale = new Vector2(1, 1),
             Root = new Panel(),
             HasExternalTextInput = true
         };
+        Core.ConfigureDesktopScaling(Desktop);
 
         Zone.OnStateChanged += HandleZoneStateChanged;
         Zone.OnZoneMessage += HandleZoneMessage;

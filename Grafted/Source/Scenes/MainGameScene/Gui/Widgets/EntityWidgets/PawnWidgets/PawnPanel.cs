@@ -14,18 +14,7 @@ public sealed class PawnPanel : EntityPanelBase
     public PawnPanel(BaseGui gui, Pawn pawn, EntityPanelProperties? properties = null) : base(gui, pawn, properties)
     {
         _pawn = pawn;
-        if (Core.Resolution == SupportedResolutions.Uhd)
-        {
-            MinWidth = 1400;
-            MinHeight = 1000;
-        }
-        else
-        {
-            MinWidth = 1200;
-            MinHeight = 850;    
-        }
-        MinWidth = 1000;
-        MinHeight = 850;
+
         var pane = new HorizontalStackPanel { Spacing = 40 };
         pane.Proportions.Add(Proportion.Auto);
         pane.Proportions.Add(Proportion.Fill);

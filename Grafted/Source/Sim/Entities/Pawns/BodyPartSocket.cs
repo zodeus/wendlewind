@@ -1,6 +1,3 @@
-using System.Net.Sockets;
-using System.Windows.Forms.VisualStyles;
-
 namespace Grafted.Sim.Entities.Pawns;
 
 public class AdaptiveBodyPartProperties

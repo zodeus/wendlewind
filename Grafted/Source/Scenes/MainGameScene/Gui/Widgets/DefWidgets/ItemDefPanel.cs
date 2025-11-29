@@ -10,7 +10,6 @@ public class ItemDefPanel : DefPanelBase {
         MinWidth = 300;
         Spacing = 5;
         var grid = new Grid {
-            //ShowGridLines = true,
             ColumnsProportions = {
                 Proportion.Fill,
                 Proportion.Auto

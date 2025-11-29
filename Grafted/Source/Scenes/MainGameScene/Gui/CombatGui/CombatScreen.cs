@@ -1,6 +1,7 @@
 using System.Net;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
+using Myra.Graphics2D.Brushes;
 
 namespace Grafted.Scenes.MainGameScene.Gui.CombatGui;
 
@@ -140,9 +141,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         };
         Grid grid = new()
         {
-            //ShowGridLines = true,
             Margin = new Thickness(30, 0, 30, 30),
-            GridLinesColor = Color.Red,
             HorizontalAlignment = HorizontalAlignment.Center,
             RowSpacing = 0,
             DefaultRowProportion = Proportion.Auto,

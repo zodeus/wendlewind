@@ -18,10 +18,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
 
     public PawnCombatPanel(ZoneGui gui, Pawn pawn, Encounter encounter)
     {
-        MinWidth = 1000;
-        MinHeight = 410;
-        //Border = new SolidBrush(Color.Red);
-        //BorderThickness = new Thickness(1);
+
         Pawn = pawn;
         _encounter = encounter;
         _gui = gui;
@@ -60,16 +57,13 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         {
             DefaultProportion = Proportion.Fill,
             HorizontalAlignment = HorizontalAlignment.Right,
-            
-            // Border = new SolidBrush(Color.Red),
-            // BorderThickness = new Thickness(1),
         };
         var potionBar = new PotionBar(pawn, item => _encounter.CombatHandler?.QueueItemForPawn(item, Pawn))
         {
             HorizontalAlignment = HorizontalAlignment.Right
         };
         var weaponBar = new WeaponBar(pawn) { HorizontalAlignment = HorizontalAlignment.Right };
-        var stanceBar = new BodyStanceBar(pawn) { HorizontalAlignment = HorizontalAlignment.Right };
+        var stanceBar = new BodyStanceBar(pawn) {HorizontalAlignment = HorizontalAlignment.Right };
 
         _updatables.Add(potionBar);
         _updatables.Add(weaponBar);
@@ -83,11 +77,6 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         SetProportionType(trinketBar, ProportionType.Auto);
         Widgets.Add(new VerticalStackPanel
         {
-            // Border = new SolidBrush(Color.Red),
-            // BorderThickness = new Thickness(1),
-            // ShowGridLines = true,
-            // GridLinesColor = new Color(0.7f, 0.7f, 0.7f),
-            Width = 800,
             Widgets =
             {
                 pawnEffectsPanel,
@@ -158,8 +147,6 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         {
             VerticalAlignment = VerticalAlignment.Bottom,
             DefaultProportion = Proportion.Auto,
-            ShowGridLines = false,
-            GridLinesColor = new Color(255, 0, 0, 255),
         };
         var panelWidth = 400;
         if (Pawn.PawnType == PawnType.Enemy)

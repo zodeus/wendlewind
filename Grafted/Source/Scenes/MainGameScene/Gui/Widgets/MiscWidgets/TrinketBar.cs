@@ -71,8 +71,6 @@ public sealed class TrinketBarCell : VerticalStackPanel
         _button = new Button
         {
             
-            //Border = new SolidBrush(Color.Red),
-            //BorderThickness = new Thickness(1),
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
             Padding = new Thickness(12),
             Width = BaseContent.IconSizes.Large,

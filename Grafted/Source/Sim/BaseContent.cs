@@ -10,14 +10,12 @@ public static partial class BaseContent
     public static void Initialize()
     {
         Fonts.Load();
-        IconSizes.Load();
         Textures.Load();
     }
 
     public static void ReloadResolutionSensitiveAssets()
     {
         Fonts.Load();
-        IconSizes.Load();
     }
 }
 
@@ -68,26 +66,6 @@ public static partial class BaseContent
         public static int Medium = 40;
         public static int Large = 48;
         public static int Portrait = 256;
-
-        public static void Load()
-        {
-            if (Core.Resolution == SupportedResolutions.Uhd)
-            {
-                Small = 32;
-                Default = 42;
-                Medium = 56;
-                Large = 80;
-                Portrait = 300;
-            }
-            else
-            {
-                Small = 28;
-                Default = 32;
-                Medium = 40;
-                Large = 48;
-                Portrait = 256;
-            }
-        }
     }
 }
 
@@ -225,32 +203,16 @@ public static partial class BaseContent
             FontSystem monoFont = new();
             monoFont.AddFont(File.ReadAllBytes("Content/Fonts/JetBrainsMono-Regular.ttf"));
 
-            if (Core.Resolution == SupportedResolutions.Uhd)
+            Default = new FontData
             {
-                Default = new FontData
-                {
-                    VerySmall = monoFont.GetFont(16),
-                    Small = monoFont.GetFont(24),
-                    Normal = monoFont.GetFont(32),
-                    Medium = monoFont.GetFont(40),
-                    Large = monoFont.GetFont(48),
-                    VeryLarge = monoFont.GetFont(64),
-                    Huge = monoFont.GetFont(80)
-                };
-            }
-            else
-            {
-                Default = new FontData
-                {
-                    VerySmall = monoFont.GetFont(14),
-                    Small = monoFont.GetFont(16),
-                    Normal = monoFont.GetFont(24),
-                    Medium = monoFont.GetFont(32),
-                    Large = monoFont.GetFont(40),
-                    VeryLarge = monoFont.GetFont(48),
-                    Huge = monoFont.GetFont(64)
-                };
-            }
+                VerySmall = monoFont.GetFont(14),
+                Small = monoFont.GetFont(16),
+                Normal = monoFont.GetFont(24),
+                Medium = monoFont.GetFont(32),
+                Large = monoFont.GetFont(40),
+                VeryLarge = monoFont.GetFont(48),
+                Huge = monoFont.GetFont(64)
+            };
         }
     }
 }

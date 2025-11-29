@@ -1,6 +1,4 @@
-﻿using Grafted.Scenes.MainGameScene.Gui.CombatGui;
-
-namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
+﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 
 internal sealed class CombatPartyPanel : VerticalStackPanel
 {

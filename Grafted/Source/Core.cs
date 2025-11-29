@@ -14,15 +14,8 @@ using Myra;
 
 namespace Grafted;
 
-public enum SupportedResolutions
-{
-    Hd, // 2560 × 1440
-    Uhd // 3840, 2040
-}
-
 public class Core : Game
 {
-    public const SupportedResolutions Resolution = SupportedResolutions.Uhd;
     public const int TicksPerSecond = 60;
     public new static GraphicsDevice GraphicsDevice { get; private set; } = null!;
     public new static ContentManager Content { get; private set; } = null!;
@@ -58,6 +51,105 @@ public class Core : Game
 
     private readonly LogicTimer _fixedUpdateTimer;
 
+    #region UI Scaling
+
+    /// <summary>
+    /// Reference resolution for UI scaling (1920x1080)
+    /// </summary>
+    public static readonly Point ReferenceResolution = new(1920, 1080);
+
+    /// <summary>
+    /// Current UI scale factor based on viewport vs reference resolution
+    /// </summary>
+    public static float UiScale { get; private set; } = 1f;
+
+    /// <summary>
+    /// Offset to center the UI when letterboxing occurs (in screen pixels)
+    /// </summary>
+    public static Point UiOffset { get; private set; } = Point.Zero;
+
+    /// <summary>
+    /// List of all active Desktop instances that need scaling updates
+    /// </summary>
+    private static readonly List<WeakReference<Desktop>> _scaledDesktops = new();
+
+    /// <summary>
+    /// Updates the UI scale based on current viewport dimensions.
+    /// Uses the smaller of X or Y ratios to ensure UI fits on screen.
+    /// Also calculates the offset needed to center the UI.
+    /// </summary>
+    private static void UpdateUiScale()
+    {
+        var viewport = GraphicsDevice.Viewport;
+        float scaleX = (float)viewport.Width / ReferenceResolution.X;
+        float scaleY = (float)viewport.Height / ReferenceResolution.Y;
+        UiScale = Math.Min(scaleX, scaleY);
+
+        // Calculate the scaled UI size
+        int scaledWidth = (int)(ReferenceResolution.X * UiScale);
+        int scaledHeight = (int)(ReferenceResolution.Y * UiScale);
+
+        // Calculate offset to center the UI (for letterboxing)
+        UiOffset = new Point(
+            (viewport.Width - scaledWidth) / 2,
+            (viewport.Height - scaledHeight) / 2
+        );
+
+        // Update all tracked desktops
+        UpdateAllDesktopScales();
+    }
+
+    /// <summary>
+    /// Updates the scale on all tracked Desktop instances
+    /// </summary>
+    private static void UpdateAllDesktopScales()
+    {
+        var scaleVector = new Vector2(UiScale, UiScale);
+        
+        // Clean up dead references and update live ones
+        _scaledDesktops.RemoveAll(weakRef => !weakRef.TryGetTarget(out _));
+        
+        foreach (var weakRef in _scaledDesktops)
+        {
+            if (weakRef.TryGetTarget(out var desktop))
+            {
+                desktop.Scale = scaleVector;
+                // Shift the bounds origin to account for centering offset
+                // Positive values shift the UI's coordinate space so it renders centered
+                desktop.BoundsFetcher = () => new Rectangle(
+                    (int)(UiOffset.X / UiScale),
+                    (int)(UiOffset.Y / UiScale),
+                    ReferenceResolution.X,
+                    ReferenceResolution.Y
+                );
+            }
+        }
+    }
+
+    /// <summary>
+    /// Configures a Desktop instance with proper UI scaling.
+    /// Call this after creating a new Desktop to enable resolution-independent UI.
+    /// The desktop will automatically update when the window is resized.
+    /// </summary>
+    /// <param name="desktop">The Desktop instance to configure</param>
+    public static void ConfigureDesktopScaling(Desktop desktop)
+    {
+        // Tell Myra to use the reference resolution as its virtual bounds
+        // The positive offset centers the UI when letterboxing occurs
+        desktop.BoundsFetcher = () => new Rectangle(
+            (int)(UiOffset.X / UiScale),
+            (int)(UiOffset.Y / UiScale),
+            ReferenceResolution.X,
+            ReferenceResolution.Y
+        );
+        
+        // Scale the rendered output to fit the actual window
+        desktop.Scale = new Vector2(UiScale, UiScale);
+        _scaledDesktops.Add(new WeakReference<Desktop>(desktop));
+    }
+
+    #endregion
+
     public Core(bool isFullScreen = false)
     {
         InactiveSleepTime = TimeSpan.Zero;
@@ -77,7 +169,7 @@ public class Core : Game
         }
         else
         {
-            Screen.SetSize(2560, 1440);
+            Screen.SetSize(ReferenceResolution.X, ReferenceResolution.Y);
             //Screen.SetSize(3840, 2040);
         }
 
@@ -128,7 +220,11 @@ public class Core : Game
         };
 
         Window.ClientSizeChanged += OnGraphicsDeviceReset;
+        Window.ClientSizeChanged += OnWindowSizeChanged;
         //GraphicsDevice.DeviceReset += OnGraphicsDeviceReset;
+
+        // Initialize UI scaling
+        UpdateUiScale();
 
         Scene.RegisterScene(new MainMenuScene());
         Scene.RegisterScene(new GameScene());
@@ -144,14 +240,7 @@ public class Core : Game
 
     private static void LoadStyleSheet()
     {
-        if (Core.Resolution == SupportedResolutions.Uhd)
-        {
-            Stylesheet.Current = MyraEnvironment.DefaultAssetManager.LoadStylesheet("milgreth_ui_skin_4k.xmms");
-        }
-        else
-        {
-            Stylesheet.Current = MyraEnvironment.DefaultAssetManager.LoadStylesheet("milgreth_ui_skin.xmms");
-        }
+        Stylesheet.Current = MyraEnvironment.DefaultAssetManager.LoadStylesheet("milgreth_ui_skin.xmms");
     }
 
     public static void ChangeScene<T>() where T : Scene => Scene.Load<T>();
@@ -213,6 +302,11 @@ public class Core : Game
                 Emitter.Emit(CoreEvent.GraphicsDeviceReset);
             });
         }
+    }
+
+    private static void OnWindowSizeChanged(object? sender, EventArgs e)
+    {
+        UpdateUiScale();
     }
 
     #region Systems access

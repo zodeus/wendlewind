@@ -34,7 +34,6 @@ public sealed class SteroidInjectorPanel : EntityPanelBase
         });
         _grid = new Grid
         {
-            // ShowGridLines = true,
             Margin = new Thickness(20, 0, 30, 0),
             RowSpacing = 5,
             ColumnSpacing = 40,

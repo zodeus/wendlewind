@@ -48,6 +48,7 @@ public class MainMenuScene : Scene
         {
             Root = grid
         };
+        Core.ConfigureDesktopScaling(_desktop);
     }
 
     public override void Draw(float deltaTime)
