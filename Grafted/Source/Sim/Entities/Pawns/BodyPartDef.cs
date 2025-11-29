@@ -16,7 +16,6 @@ public class BodyPartDef : EntityDef {
     public bool IsBone = false;
     public bool IsExoskeleton = false;
     public float MobilityFraction = 0;
-    public List<string> BodyTexturePaths = new();
     public List<BodyPartSocketDef> Sockets = new();
     public List<EquipmentSlotType>? EquipmentSlots = null;
     public AdaptiveBodyPartProperties? AdaptiveProperties;

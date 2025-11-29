@@ -10,6 +10,7 @@ public class GameScene : Scene
     private GameContext _context = null!;
     private GameState _currentGameState = GameState.Camp;
     private WorldTextHandler _worldTextHandler;
+    private KeyboardState _previousKeyboardState;
     private BaseGui? ActiveGui { get; set; }
 
     protected override void OnStart()
@@ -98,14 +99,21 @@ public class GameScene : Scene
         }
     }
 
+    private bool WasKeyJustPressed(Keys key, KeyboardState currentState)
+    {
+        return currentState.IsKeyDown(key) && _previousKeyboardState.IsKeyUp(key);
+    }
+
     private void HandleInput()
     {
-        if (Keyboard.GetState().IsKeyDown(Keys.Space))
+        var currentKeyboardState = Keyboard.GetState();
+
+        if (WasKeyJustPressed(Keys.Space, currentKeyboardState))
         {
             _context.TogglePause();
         }
 
-        if (Keyboard.GetState().IsKeyDown(Keys.F5))
+        if (WasKeyJustPressed(Keys.F5, currentKeyboardState))
         {
             _context.Save("save.xml");
             ActiveGui!.PushScreenMessage(new ScreenMessageData
@@ -117,7 +125,7 @@ public class GameScene : Scene
             });
         }
 
-        if (Keyboard.GetState().IsKeyDown(Keys.F9))
+        if (WasKeyJustPressed(Keys.F9, currentKeyboardState))
         {
             ActiveGui?.Dispose();
             ActiveGui = null;
@@ -132,12 +140,12 @@ public class GameScene : Scene
             });
         }
 
-        if (Keyboard.GetState().IsKeyDown(Keys.Q))
+        if (currentKeyboardState.IsKeyDown(Keys.Q))
         {
             ActiveGui?.MouseAttachment?.Detach();
         }
 
-        if (Keyboard.GetState().IsKeyDown(Keys.F2))
+        if (WasKeyJustPressed(Keys.F2, currentKeyboardState))
         {
             QuickPlay();
             ActiveGui!.PushScreenMessage(new ScreenMessageData
@@ -149,9 +157,11 @@ public class GameScene : Scene
             });
         }
 
-        if (Keyboard.GetState().IsKeyDown(Keys.F12))
+        if (WasKeyJustPressed(Keys.F12, currentKeyboardState))
         {
             ReloadGui();
         }
+
+        _previousKeyboardState = currentKeyboardState;
     }
 }

@@ -12,7 +12,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
     public readonly Pawn Pawn;
     private readonly Encounter _encounter;
     private HorizontalProgressBar _bloodBar = null!;
-    private readonly Dictionary<string, Image> _bodyPartImages = new();
+    private PawnBodyRenderWidget? _bodyWidget;
     private readonly ZoneGui _gui;
     private readonly List<IUpdatable> _updatables = new();
 
@@ -100,45 +100,24 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         }
     }
 
-    private Panel InitializeBodyPartImages(int panelWidth)
+    private PawnBodyRenderWidget CreateBodyWidget(int size)
     {
-        Panel panel = new();
-
-        for (var i = 0; i < Pawn.Body.AllExternalParts.Count; i++)
+        _bodyWidget = new PawnBodyRenderWidget(Pawn)
         {
-            if (Pawn.Body.AllExternalParts[i].Image is null) continue;
-
-            var bodyPart = Pawn.Body.AllExternalParts[i];
-            var icon = bodyPart.Image!;
-            Image image = new() { Background = new TextureRegion(icon), Width = panelWidth, Height = panelWidth, BorderThickness = new Thickness(2) };
-            image.TouchDown += (_, _) =>
+            Width = size,
+            Height = size,
+            BorderThickness = new Thickness(2)
+        };
+        
+        _bodyWidget.Clicked += (_, _) =>
+        {
+            if (_gui.MouseAttachment == null)
             {
-                if (_gui.MouseAttachment == null)
-                {
-                    _gui.ViewEntity(Pawn);
-                }
-            };
-            _bodyPartImages.Add(bodyPart.Label, image);
-            panel.Widgets.Add(image);
-        }
-
-        return panel;
-    }
-
-    private void RenderBodyParts()
-    {
-        foreach (var bodyPartImage in _bodyPartImages)
-        {
-            bodyPartImage.Value.Visible = false;
-        }
-
-        foreach (var bodyPart in Pawn.Body.AllExternalParts)
-        {
-            if (_bodyPartImages.TryGetValue(bodyPart.Label, out var image))
-            {
-                image.Visible = true;
+                _gui.ViewEntity(Pawn);
             }
-        }
+        };
+        
+        return _bodyWidget;
     }
 
     private Widget GeneratePawnPanel()
@@ -149,24 +128,10 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
             DefaultProportion = Proportion.Auto,
         };
         var panelWidth = 400;
-        if (Pawn.PawnType == PawnType.Enemy)
-        {
-            var icon = Pawn.Icon.Flip(false, true);
-            Image image = new() { Background = new TextureRegion(icon), Width = BaseContent.IconSizes.Portrait, Height = BaseContent.IconSizes.Portrait, BorderThickness = new Thickness(2) };
-            Pawn.Died += _ => { image.Background = new ColoredRegion(new TextureRegion(icon), Color.Red); };
-            image.TouchDown += (_, _) =>
-            {
-                if (_gui.MouseAttachment == null)
-                {
-                    _gui.ViewEntity(Pawn);
-                }
-            };
-            panel.Widgets.Add(image);
-        }
-        else
-        {
-            panel.Widgets.Add(InitializeBodyPartImages(BaseContent.IconSizes.Portrait));
-        }
+        // Use body widget for all pawns - it will fall back to icon if no layout available
+        var bodyWidget = CreateBodyWidget(BaseContent.IconSizes.Portrait);
+        
+        panel.Widgets.Add(bodyWidget);
 
         _bloodBar = new BloodBar(Pawn) { Width = panelWidth, Height = 25 };
         panel.Widgets.Add(_bloodBar);
@@ -194,8 +159,9 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         {
             u.Update();
         }
-
-        RenderBodyParts();
+        
+        // The body widget automatically tracks body part changes
+        _bodyWidget?.Update();
     }
 }
 

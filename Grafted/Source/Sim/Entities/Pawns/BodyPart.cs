@@ -45,27 +45,8 @@ public class BodyPart : Entity
 
     public bool HasEquipmentSlots => BodyPartDef.EquipmentSlots?.Count > 0;
 
-    public Texture2D? Image
-    {
-        get
-        {
-            if (_image == null)
-            {
-                string name = Label.Replace(" ", "");
-                foreach (var texturePath in BodyPartDef.BodyTexturePaths)
-                {
-                    string pathName = texturePath.Split("/").Last();
-                    if (name == pathName)
-                    {
-                        _image = TextureUtils.PreMultiply(Core.Content.Load<Texture2D>(texturePath));
-                        break;
-                    }
-                }
-            }
+    public Texture2D? Image => Icon;
 
-            return _image;
-        }
-    }
 
     public double HitPoints
     {
