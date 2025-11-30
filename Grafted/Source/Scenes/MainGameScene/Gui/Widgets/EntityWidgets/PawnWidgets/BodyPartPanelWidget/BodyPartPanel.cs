@@ -17,8 +17,6 @@ public sealed class BodyPartPanel : EntityPanelBase
 
         _modifiersPanel = new BodyPartPanelModifiersLabel(bodyPart);
 
-        var detailsButton = new Button(BaseContent.Styles.Button.Small) { Content = new Label (BaseContent.Styles.Label.Small){ Text = "Details" } };
-       
         VerticalStackPanel leftPanel = new() { Spacing = 5, MinWidth = 330 };
         leftPanel.Widgets.Add(new BodyPartPanelHealthLabel(bodyPart));
         leftPanel.Widgets.Add(_modifiersPanel);
@@ -29,14 +27,11 @@ public sealed class BodyPartPanel : EntityPanelBase
         leftPanel.Widgets.Add(new BodyPartPanelFunctionalLabel(bodyPart));
         leftPanel.Widgets.Add(new BodyPartPanelArteryLabel(bodyPart));
         leftPanel.Widgets.Add(new BodyPartPanelDestroyedLabel(bodyPart));
-        leftPanel.Widgets.Add(detailsButton);
         
         VerticalStackPanel centerPanel = new() { Spacing = 5, MinWidth = 330 };
         RegisterAttachedParts(gui, centerPanel, bodyPart);
             
-        var rightPanel = new VerticalStackPanel { Spacing = 5, Visible = false};
-        detailsButton.Click += (_, _) => rightPanel.Visible = !rightPanel.Visible;
-        
+        var rightPanel = new VerticalStackPanel { Spacing = 5, MinWidth = 450};
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = bodyPart.Def.Description, Wrap = true });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Short Label: {bodyPart.LabelShort}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Type: {bodyPart.Type}" });
@@ -46,8 +41,14 @@ public sealed class BodyPartPanel : EntityPanelBase
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Is External: {bodyPart.IsExternal}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Attached To: {bodyPart.Socket?.Label ?? "n/a"}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Has Bones: {bodyPart.HasBones}" });
-        rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Equipment Slots: {string.Join(",", bodyPart.EquipmentSlots?.Select(s => s.ToString()) ?? new List<string>())}" });
-        rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Equipment: {string.Join(",", bodyPart.Equipment.Values.Select(i => i?.Label))}" });
+        rightPanel.Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 15, 0, 15) });
+        
+        // Equipment Slots Section
+        rightPanel.Widgets.Add(new BodyPartEquipmentSlotsWidget(bodyPart));
+        
+        // Equipped Items Section
+        rightPanel.Widgets.Add(new BodyPartEquippedItemsWidget(bodyPart));
+        
         rightPanel.Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 15, 0, 15) });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Substance: {bodyPart.Substance}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Is Severed: {bodyPart.IsSevered}" });
@@ -177,5 +178,246 @@ public sealed class BodyPartPanelModifiersLabel : VerticalStackPanel
             var (modifier, label) = pair;
             label.Text = GetLabelText(modifier);
         }
+    }
+}
+
+/// <summary>
+/// Displays available equipment slots for a body part with styled badges.
+/// </summary>
+public sealed class BodyPartEquipmentSlotsWidget : VerticalStackPanel
+{
+    private static readonly Color SlotBadgeColor = new(60, 75, 90);
+    private static readonly Color SlotTextColor = new(180, 200, 220);
+    
+    public BodyPartEquipmentSlotsWidget(BodyPart bodyPart)
+    {
+        Spacing = 8;
+        
+        var headerLabel = new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = "Equipment Slots",
+            TextColor = BaseContent.Colors.Text.Golden
+        };
+        Widgets.Add(headerLabel);
+        
+        var slots = bodyPart.EquipmentSlots?.ToList() ?? [];
+        if (slots.Count == 0)
+        {
+            Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = "None",
+                TextColor = new Color(120, 120, 120)
+            });
+            return;
+        }
+        
+        var slotsContainer = new HorizontalStackPanel { Spacing = 6 };
+        foreach (var slot in slots)
+        {
+            var badge = CreateSlotBadge(slot);
+            slotsContainer.Widgets.Add(badge);
+        }
+        Widgets.Add(slotsContainer);
+    }
+    
+    private static Panel CreateSlotBadge(EquipmentSlotType slot)
+    {
+        var slotName = GetFriendlySlotName(slot);
+        var slotColor = GetSlotColor(slot);
+        var iconKey = GetSlotIconAtlasKey(slot);
+        
+        var badge = new Panel
+        {
+            Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.SimpleWhite], slotColor),
+            Padding = new Thickness(8, 4),
+        };
+        
+        var content = new HorizontalStackPanel { Spacing = 6, VerticalAlignment = VerticalAlignment.Center };
+        
+        // Add icon if available for this slot type
+        if (iconKey != null)
+        {
+            var icon = new Image
+            {
+                Background = Stylesheet.Current.Atlas[iconKey],
+                Width = 16,
+                Height = 16,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            content.Widgets.Add(icon);
+        }
+        
+        var label = new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = slotName,
+            TextColor = SlotTextColor,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        content.Widgets.Add(label);
+        
+        badge.Widgets.Add(content);
+        
+        return badge;
+    }
+    
+    private static string GetFriendlySlotName(EquipmentSlotType slot) => slot switch
+    {
+        EquipmentSlotType.HandWeapon => "Weapon",
+        EquipmentSlotType.HandArmor => "Glove",
+        EquipmentSlotType.FootWeapon => "Foot Weapon",
+        EquipmentSlotType.FootArmor => "Boot",
+        EquipmentSlotType.LegArmor => "Leg Armor",
+        EquipmentSlotType.ArmArmor => "Arm Armor",
+        EquipmentSlotType.TorsoArmor => "Torso Armor",
+        EquipmentSlotType.NeckArmor => "Neck Armor",
+        EquipmentSlotType.HeadArmor => "Helmet",
+        EquipmentSlotType.PotionSlot1 => "Potion 1",
+        EquipmentSlotType.PotionSlot2 => "Potion 2",
+        EquipmentSlotType.Bag => "Bag",
+        EquipmentSlotType.Cloak => "Cloak",
+        EquipmentSlotType.Necklace => "Necklace",
+        EquipmentSlotType.BuiltIn => "Built-In",
+        _ => slot.ToString()
+    };
+    
+    private static string? GetSlotIconAtlasKey(EquipmentSlotType slot) => slot switch
+    {
+        EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2 => BaseContent.Styles.Atlas.Icon.PotionSlot,
+        EquipmentSlotType.Bag => BaseContent.Styles.Atlas.Icon.BagSlot,
+        _ => null
+    };
+    
+    private static Color GetSlotColor(EquipmentSlotType slot) => slot switch
+    {
+        EquipmentSlotType.HandWeapon or EquipmentSlotType.FootWeapon => new Color(90, 50, 50),
+        EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2 => new Color(50, 80, 50),
+        EquipmentSlotType.BuiltIn => new Color(70, 70, 50),
+        _ => SlotBadgeColor
+    };
+}
+
+/// <summary>
+/// Displays equipped items for a body part with icons and durability bars.
+/// </summary>
+public sealed class BodyPartEquippedItemsWidget : VerticalStackPanel
+{
+    public BodyPartEquippedItemsWidget(BodyPart bodyPart)
+    {
+        Spacing = 8;
+        Margin = new Thickness(0, 10, 0, 0);
+        
+        var headerLabel = new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = "Equipped Items",
+            TextColor = BaseContent.Colors.Text.Golden
+        };
+        Widgets.Add(headerLabel);
+        
+        var equippedItems = bodyPart.Equipment.Values.Where(i => i != null).ToList();
+        if (equippedItems.Count == 0)
+        {
+            Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = "Nothing equipped",
+                TextColor = new Color(120, 120, 120)
+            });
+            return;
+        }
+        
+        foreach (var item in equippedItems)
+        {
+            if (item == null) continue;
+            var itemRow = CreateItemRow(item);
+            Widgets.Add(itemRow);
+        }
+    }
+    
+    private static HorizontalStackPanel CreateItemRow(Item item)
+    {
+        var row = new HorizontalStackPanel
+        {
+            Spacing = 10,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        
+        // Item icon with frame
+        var iconFrame = new Panel
+        {
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
+            Width = 36,
+            Height = 36
+        };
+        var icon = new Image
+        {
+            Background = new TextureRegion(item.Icon),
+            Width = 32,
+            Height = 32,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        iconFrame.Widgets.Add(icon);
+        row.Widgets.Add(iconFrame);
+        
+        // Item info column
+        var infoColumn = new VerticalStackPanel { Spacing = 2 };
+        
+        // Item name with rarity color
+        var nameLabel = new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = item.Label,
+            TextColor = GetItemRarityColor(item)
+        };
+        infoColumn.Widgets.Add(nameLabel);
+        
+        // Durability bar (if item has durability)
+        if (item.MaxDurability > 0)
+        {
+            var durabilityContainer = new HorizontalStackPanel { Spacing = 5 };
+            
+            var durabilityBar = new HorizontalProgressBar(BaseContent.Styles.Bar.Durability)
+            {
+                Width = 80,
+                Height = 8,
+                Value = (float)(item.Durability / item.MaxDurability * 100),
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            durabilityContainer.Widgets.Add(durabilityBar);
+            
+            var durabilityText = new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = $"{item.Durability:0}/{item.MaxDurability:0}",
+                TextColor = GetDurabilityColor(item),
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            durabilityContainer.Widgets.Add(durabilityText);
+            
+            infoColumn.Widgets.Add(durabilityContainer);
+        }
+        
+        row.Widgets.Add(infoColumn);
+        
+        return row;
+    }
+    
+    private static Color GetItemRarityColor(Item item)
+    {
+        // Could be extended to check item rarity/quality
+        if (item.Enchantments?.Any() == true)
+        {
+            return new Color(160, 120, 255); // Purple for enchanted
+        }
+        return Color.White;
+    }
+    
+    private static Color GetDurabilityColor(Item item)
+    {
+        var percent = item.Durability / item.MaxDurability;
+        return percent switch
+        {
+            < 0.25f => new Color(255, 80, 80),   // Red - critical
+            < 0.50f => new Color(255, 180, 80),  // Orange - low
+            < 0.75f => new Color(255, 255, 120), // Yellow - moderate
+            _ => new Color(120, 255, 120)        // Green - good
+        };
     }
 }
