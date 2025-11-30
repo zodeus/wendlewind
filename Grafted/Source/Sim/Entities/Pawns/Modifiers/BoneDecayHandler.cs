@@ -33,7 +33,7 @@ public class BoneDecayHandler : BodyPartModifier
 
     public override bool ApplyToPart(BodyPart part)
     {
-        if (part is { IsBone: false, IsExoskeleton: false })
+        if (part.Substance != SubstanceType.Bone && part.Substance != SubstanceType.Chitin)
         {
             return false;
         }

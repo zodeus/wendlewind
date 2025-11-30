@@ -10,7 +10,7 @@
         <BloodAmount>50</BloodAmount>
         <BodyPartType>Head</BodyPartType>
         <IsVital>true</IsVital>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Frog/Head</TexturePath>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
@@ -33,7 +33,7 @@
         <BodyPartType>Torso</BodyPartType>
         <HitWeight>35</HitWeight>
         <BloodAmount>300</BloodAmount>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Flesh</Substance>
         <IsVital>true</IsVital>
         <TexturePath>Entities/Pawn/BodyParts/Frog/Torso</TexturePath>
         <Sockets>
@@ -60,7 +60,7 @@
         <BodyPartType>Leg</BodyPartType>
         <HitWeight>11</HitWeight>
         <BloodAmount>140</BloodAmount>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Frog/Leg</TexturePath>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
@@ -78,7 +78,7 @@
         <BodyPartType>Foot</BodyPartType>
         <HitWeight>7</HitWeight>
         <BloodAmount>30</BloodAmount>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Frog/Foot</TexturePath>
         <Sockets>
             <ListItem>SkinSocket</ListItem>

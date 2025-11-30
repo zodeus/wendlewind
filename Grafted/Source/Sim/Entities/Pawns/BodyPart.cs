@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Grafted.Graphics.Textures;
+using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Pawns.Modifiers;
 
 namespace Grafted.Sim.Entities.Pawns;
@@ -33,13 +34,11 @@ public class BodyPart : Entity
     public float HitWeight => BodyPartDef.HitWeight;
     public double HealthPercent => HitPoints / MaxHitPoints;
     public bool IsExternal => Socket?.IsExternal ?? true;
-    public bool IsExoskeleton => BodyPartDef.IsExoskeleton;
-    public bool IsBone => BodyPartDef.IsBone;
-    public bool IsFlesh => BodyPartDef.IsFlesh;
+    public SubstanceType Substance => BodyPartDef.Substance;
     public bool IsOrgan => BodyPartDef.IsOrgan;
     public bool IsVital => BodyPartDef.IsVital;
     public new bool IsDestroyed => HitPoints <= .1f;
-    public bool IsBleeding => HealthPercent < .99 && IsBone == false; //todo coagulation 
+    public bool IsBleeding => HealthPercent < .99 && Substance == SubstanceType.Flesh; //todo coagulation
 
     public List<EquipmentSlotType>? EquipmentSlots => BodyPartDef.EquipmentSlots;
 
@@ -100,12 +99,12 @@ public class BodyPart : Entity
 
     public bool HasBones
     {
-        get { return AllInternalParts.Any(part => part.IsBone); }
+        get { return AllInternalParts.Any(part => part.Substance == SubstanceType.Bone); }
     }
 
     public bool HasBrokenBones
     {
-        get { return AllInternalParts.Any(part => part.IsBone && part.HitPoints <= 0); }
+        get { return AllInternalParts.Any(part => part.Substance == SubstanceType.Bone && part.HitPoints <= 0); }
     }
 
     public BodyPart? Skin
@@ -320,32 +319,23 @@ public class BodyPart : Entity
         return $"{Label} ({HitPoints:0.000})";
     }
 
-    public double ApplyDamage(double damage, DamageType damageType, string weaponManeuver, List<BodyPartModifierRecord> bodyPartModifiers,
-        List<DamagedBodyPartRecord> damagedParts, bool cascade = true)
+    public double ApplyDamage(DamageContext ctx, List<DamagedBodyPartRecord> damagedParts, bool cascade = true)
     {
         TicksSinceLastHit = 0;
         var wasDestroyedBeforeDamage = IsDestroyed;
         var wasFunctional = IsFunctional;
 
-        // Do damage scale here
-        var scaledDamage = damage;
-        if (damageType == DamageType.Blunt)
-        {
-            scaledDamage *= IsBone ? 1.3f : .8f;
-        }
-
-        if (damageType == DamageType.Sharp)
-        {
-            scaledDamage *= IsFlesh ? 1.3f : .8f;
-        }
+        // Apply substance modifier from weapon properties
+        var substanceModifier = ctx.GetSubstanceModifier?.Invoke(Substance) ?? 1f;
+        var scaledDamage = ctx.Amount * substanceModifier;
 
         var damageApplied = HitPoints;
         HitPoints -= scaledDamage;
         damageApplied -= HitPoints;
         //var remainingDamage = damage - damageApplied;
-        var remainingDamage = damage * 0.7f;
+        var remainingDamage = ctx.Amount * 0.7f;
 
-        if (HealthPercent < .1 && Core.Random.Chance(0.3f) && IsExoskeleton)
+        if (HealthPercent < .1 && Core.Random.Chance(0.3f) && Substance == SubstanceType.Chitin)
         {
             IsCracked = true;
         }
@@ -359,11 +349,11 @@ public class BodyPart : Entity
             WasDestroyed = wasDestroyed,
             StoppedFunctioning = stoppedFunctioning
         };
-        this.ApplyBodyPartModifiers(bodyPartModifiers, record, weaponManeuver);
+        this.ApplyBodyPartModifiers(ctx.BodyPartModifiers, record, ctx.WeaponManeuver);
         damagedParts.Add(record);
         if (remainingDamage > 0 && cascade)
         {
-            remainingDamage = this.CascadeDamageToInternalParts(remainingDamage, damageType, weaponManeuver, bodyPartModifiers, damagedParts);
+            remainingDamage = this.CascadeDamageToInternalParts(ctx.WithAmount(remainingDamage), damagedParts);
         }
 
         return remainingDamage;
@@ -372,14 +362,15 @@ public class BodyPart : Entity
     public List<DamagedBodyPartRecord> ApplyDamageToExternalPart(Damage damage, List<DamagedBodyPartRecord>? damagedParts = null)
     {
         damagedParts ??= [];
-        var remainingDamage = ApplyDamage(damage.TotalUnblockedDamage, damage.Type, damage.WeaponManeuver, damage.BodyPartModifiers, damagedParts, false);
+        var ctx = DamageContext.FromDamage(damage, damage.TotalUnblockedDamage);
+        var remainingDamage = ApplyDamage(ctx, damagedParts, cascade: false);
         var skin = InternalParts.Where(p => p.Type == BodyPartType.Skin).FirstOrNull();
-        skin?.ApplyDamage(damage.TotalUnblockedDamage * SkinDamageScaler, damage.Type, damage.WeaponManeuver, damage.BodyPartModifiers, damagedParts, false);
+        skin?.ApplyDamage(ctx.WithAmount(ctx.Amount * SkinDamageScaler), damagedParts, cascade: false);
 
         // Cascade damage to internal parts
         if (remainingDamage > 0)
         {
-            this.CascadeDamageToInternalParts(remainingDamage, damage.Type, damage.WeaponManeuver, damage.BodyPartModifiers, damagedParts);
+            this.CascadeDamageToInternalParts(ctx.WithAmount(remainingDamage), damagedParts);
         }
 
         this.PotentiallySevereLimb();

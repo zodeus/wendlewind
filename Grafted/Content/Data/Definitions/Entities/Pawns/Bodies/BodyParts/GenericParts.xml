@@ -12,7 +12,7 @@
         <Moniker>Bone</Moniker>
         <Label>Bone</Label>
         <BodyPartType>Bone</BodyPartType>
-        <IsBone>true</IsBone>
+        <Substance>Bone</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Bone</TexturePath>
         <AdaptiveProperties>
             <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
@@ -24,7 +24,7 @@
         <Moniker>Skin</Moniker>
         <Label>Skin</Label>
         <BodyPartType>Skin</BodyPartType>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Skin</TexturePath>
         <AdaptiveProperties>
             <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
@@ -36,7 +36,7 @@
         <Moniker>Artery</Moniker>
         <Label>Artery</Label>
         <BodyPartType>Artery</BodyPartType>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Artery</TexturePath>
         <AdaptiveProperties>
             <!--<HitPointScaler Class="HitPointScalerCurve">
@@ -60,7 +60,7 @@
         <Label>Skull</Label>
         <BodyPartType>Skull</BodyPartType>
         <BloodAmount>28</BloodAmount>
-        <IsBone>true</IsBone>
+        <Substance>Bone</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Skull</TexturePath>
         <Sockets>
             <ListItem>BrainSocket</ListItem>
@@ -78,7 +78,7 @@
         <BloodAmount>15</BloodAmount>
         <IsVital>true</IsVital>
         <IsOrgan>true</IsOrgan>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Brain</TexturePath>
         <AdaptiveProperties>
             <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
@@ -93,7 +93,7 @@
         <HitWeight>.5</HitWeight>
         <BloodAmount>1</BloodAmount>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Eye</TexturePath>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Flesh</Substance>
         <BaseStats>
             <MaxHitPoints>3</MaxHitPoints>
         </BaseStats>
@@ -104,7 +104,7 @@
         <BloodAmount>10</BloodAmount>
         <BodyPartType>Stomach</BodyPartType>
         <IsOrgan>true</IsOrgan>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Stomach</TexturePath>
         <AdaptiveProperties>
             <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
@@ -117,7 +117,7 @@
         <Label>Rib Cage</Label>
         <BodyPartType>RibCage</BodyPartType>
         <BloodAmount>250</BloodAmount>
-        <IsBone>true</IsBone>
+        <Substance>Bone</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Generic/RibCage</TexturePath>
         <Sockets>
             <ListItem>ArterySocket</ListItem>
@@ -138,7 +138,7 @@
         <BloodAmount>10</BloodAmount>
         <IsVital>true</IsVital>
         <IsOrgan>true</IsOrgan>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Heart</TexturePath>
         <AdaptiveProperties>
             <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
@@ -153,7 +153,7 @@
         <BloodAmount>10</BloodAmount>
         <IsVital>true</IsVital>
         <IsOrgan>true</IsOrgan>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Lung</TexturePath>
         <AdaptiveProperties>
             <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">

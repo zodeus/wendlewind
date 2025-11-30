@@ -1,4 +1,5 @@
 ﻿using Grafted.Sim.Entities;
+using Grafted.Sim.Entities.Pawns;
 using Grafted.Sim.Entities.Pawns.Modifiers;
 
 namespace Grafted.Sim.Combat;
@@ -19,6 +20,8 @@ public class Damage(Item weapon, double amount, string weaponManeuver)
 
     // TotalDamage minus the blocked amount
     public double TotalUnblockedDamage { get; private set; } = amount;
+
+    public float GetSubstanceModifier(SubstanceType substance) => Weapon.ItemDef.WeaponProperties!.GetSubstanceModifier(substance);
 
     public void Block(Item equipment)
     {

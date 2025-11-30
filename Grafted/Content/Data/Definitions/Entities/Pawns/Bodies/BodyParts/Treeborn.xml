@@ -26,7 +26,7 @@
         <BodyPartType>Torso</BodyPartType>
         <HitWeight>50</HitWeight>
         <BloodAmount>300</BloodAmount>
-        <IsFlesh>false</IsFlesh>
+        <Substance>Wood</Substance>
         <IsVital>false</IsVital>
         <TexturePath>Entities/Pawn/BodyParts/Tree/Trunk</TexturePath>
         <EquipmentSlots>
@@ -55,7 +55,7 @@
         <Label>Inner Core</Label>
         <BodyPartType>RibCage</BodyPartType>
         <BloodAmount>300</BloodAmount>
-        <IsBone>true</IsBone>
+        <Substance>Wood</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Generic/RibCage</TexturePath>
         <Sockets>
             <ListItem>ArterySocket</ListItem>
@@ -72,7 +72,7 @@
         <BodyPartType>Leg</BodyPartType>
         <HitWeight>50</HitWeight>
         <BloodAmount>80</BloodAmount>
-        <IsFlesh>false</IsFlesh>
+        <Substance>Wood</Substance>
         <MobilityFraction>.125</MobilityFraction>
         <TexturePath>Entities/Pawn/BodyParts/Tree/TreeStump</TexturePath>
         <EquipmentSlots>

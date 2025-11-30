@@ -19,7 +19,6 @@ public sealed class AttackSpeedIcon : Panel, IUpdatable
         };
 
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame];
-        Height = 56;
         Width = 80;
         Padding = new Thickness(6, 0, 6, 0);
         VerticalAlignment = VerticalAlignment.Center;

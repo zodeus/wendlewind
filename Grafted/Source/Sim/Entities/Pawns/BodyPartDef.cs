@@ -12,9 +12,7 @@ public class BodyPartDef : EntityDef {
     public float HitWeight = 0;
     public bool IsVital = false;
     public bool IsOrgan = false;
-    public bool IsFlesh = false;
-    public bool IsBone = false;
-    public bool IsExoskeleton = false;
+    public SubstanceType Substance = SubstanceType.Undefined;
     public float MobilityFraction = 0;
     public List<BodyPartSocketDef> Sockets = new();
     public List<EquipmentSlotType>? EquipmentSlots = null;

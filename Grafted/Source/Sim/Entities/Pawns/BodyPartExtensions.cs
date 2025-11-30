@@ -1,4 +1,5 @@
-﻿using Grafted.Sim.Entities.Pawns.Modifiers;
+﻿using Grafted.Sim.Combat;
+using Grafted.Sim.Entities.Pawns.Modifiers;
 
 namespace Grafted.Sim.Entities.Pawns
 {
@@ -24,13 +25,12 @@ namespace Grafted.Sim.Entities.Pawns
             }
         }
 
-        public static double CascadeDamageToInternalParts(this BodyPart rootPart, double damage, DamageType damageType, string maneuver, List<BodyPartModifierRecord> bodyPartModifiers,
-            List<DamagedBodyPartRecord> damagedParts)
+        public static double CascadeDamageToInternalParts(this BodyPart rootPart, DamageContext ctx, List<DamagedBodyPartRecord> damagedParts)
         {
             var organsHit = 0;
-            var remainingDamage = damage;
+            var remainingDamage = ctx.Amount;
             var maxNumberOfOrgansToHit = new RangeInt(1, 2 + 1).RandomValue;
-            if (rootPart.IsExoskeleton && rootPart.IsCracked == false)
+            if (rootPart.Substance == SubstanceType.Chitin && rootPart.IsCracked == false)
             {
                 return 0;
             }
@@ -99,7 +99,7 @@ namespace Grafted.Sim.Entities.Pawns
                         break;
                 }
 
-                remainingDamage -= internalPart.ApplyDamage(damage, damageType, maneuver, bodyPartModifiers, damagedParts);
+                remainingDamage -= internalPart.ApplyDamage(ctx, damagedParts);
             }
 
             return remainingDamage;

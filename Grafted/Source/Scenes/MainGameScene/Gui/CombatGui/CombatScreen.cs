@@ -55,12 +55,13 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
         _pawnBodyView = new PawnBodyPanel(gui, Encounter.PlayerPawns.First().Body)
         {
-            Height = 1300,
+            Height = 1300, MinWidth = 600
         };
 
         _enemyPawnBodyView = new PawnBodyPanel(gui, Encounter.EnemyPawns.First().Body, Encounter.CombatHandler)
         {
             HorizontalAlignment = HorizontalAlignment.Left
+            , MinWidth = 600
         };
         _combatLog = new ScrollViewer
         {
@@ -123,6 +124,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         };
         VerticalStackPanel centerColumn = new()
         {
+            Margin = new Thickness(10,0,10,0),
             Spacing = 0, GridRow = 1, GridColumn = 1,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Widgets =

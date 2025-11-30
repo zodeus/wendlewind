@@ -11,7 +11,7 @@
         <BloodAmount>0</BloodAmount>
         <BodyPartType>Head</BodyPartType>
         <IsVital>false</IsVital>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Fungus</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Mushroom/Cap</TexturePath>
         <Sockets/>
         <EquipmentSlots>
@@ -27,7 +27,7 @@
         <BodyPartType>Torso</BodyPartType>
         <HitWeight>50</HitWeight>
         <BloodAmount>0</BloodAmount>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Fungus</Substance>
         <IsVital>true</IsVital>
         <TexturePath>Entities/Pawn/BodyParts/Mushroom/Stump</TexturePath>
         <Sockets>
@@ -52,7 +52,7 @@
         <BodyPartType>Arm</BodyPartType>
         <HitWeight>20</HitWeight>
         <BloodAmount>0</BloodAmount>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Fungus</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Mushroom/Arm</TexturePath>
         <Sockets>
             <ListItem>BoneSocket</ListItem>
@@ -69,7 +69,7 @@
         <BodyPartType>Hand</BodyPartType>
         <HitWeight>10</HitWeight>
         <BloodAmount>0</BloodAmount>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Fungus</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Mushroom/Hand</TexturePath>
         <EquipmentSlots>
             <ListItem>HandArmor</ListItem>
@@ -89,7 +89,7 @@
         <BodyPartType>Leg</BodyPartType>
         <HitWeight>12</HitWeight>
         <BloodAmount>0</BloodAmount>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Fungus</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Mushroom/Leg</TexturePath>
         <Sockets>
             <ListItem>BoneSocket</ListItem>
@@ -106,7 +106,7 @@
         <BodyPartType>Foot</BodyPartType>
         <HitWeight>8</HitWeight>
         <BloodAmount>0</BloodAmount>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Fungus</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Mushroom/Foot</TexturePath>
         <Sockets>
             <ListItem>BoneSocket</ListItem>

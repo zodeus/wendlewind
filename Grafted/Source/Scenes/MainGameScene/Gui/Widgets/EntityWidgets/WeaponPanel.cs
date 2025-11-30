@@ -48,6 +48,19 @@ public sealed class WeaponPanel : EntityPanelBase
         Widgets.Add(new Label("small") { Text = $"Damage Type: {item.ItemDef.WeaponProperties?.DamageType}" });
         Widgets.Add(new Label("small") { Text = $"Slot: {(item.ItemDef.EquipmentProperties?.SlotUsedToEquip != null ? item.ItemDef.EquipmentProperties.SlotUsedToEquip : "n/a")}" });
 
+        var substanceModifiers = item.ItemDef.WeaponProperties?.SubstanceModifiers;
+        if (substanceModifiers is { Count: > 0 })
+        {
+            Widgets.Add(new Label("small") { Text = "Substance Modifiers:" });
+            foreach (var mod in substanceModifiers)
+            {
+                var modText = mod.Modifier >= 1f
+                    ? $"+{((mod.Modifier - 1f) * 100f):0}%"
+                    : $"-{((1f - mod.Modifier) * 100f):0}%";
+                Widgets.Add(new Label("small") { Text = $"  {mod.Substance}: {modText}" });
+            }
+        }
+
         foreach (var baseStat in item.Def.BaseStats)
         {
             var row = new HorizontalStackPanel { Spacing = 10 };

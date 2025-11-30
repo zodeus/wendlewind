@@ -175,6 +175,7 @@ public static partial class BaseContent
                 public const string FrameSmall = "bar-frame-small";
                 public const string Health = "bar-health";
                 public const string Neutral = "bar-neutral";
+                public const string NeutralVertical = "vertical-bar";
             }
         }
     }

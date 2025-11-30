@@ -16,7 +16,7 @@
     <ItemDef ParentName="MedicalItem">
         <Moniker>MedKit</Moniker>
         <Label>Med Kit</Label>
-        <Description>Good for patching the meat.</Description>
+        <Description>Good for patching the meat. Heals bone, flesh, skin and organs. Fully heals a single body part.</Description>
         <TexturePath>Entities/Item/Consumables/MedKit</TexturePath>
         <MedicinalProperties>
             <HandlerClass>MedKitHandler</HandlerClass>
@@ -63,7 +63,7 @@
     <ItemDef ParentName="MedicalItem">
         <Moniker>MendersMist</Moniker>
         <Label>Menders Mist</Label>
-        <Description>A little spritz of this goes a long way.</Description>
+        <Description>A little spritz of this goes a long way. Heals bone, flesh and skin. Travels through sockets.</Description>
         <TexturePath>Entities/Item/Consumables/MendersMist</TexturePath>
         <MedicinalProperties>
             <HandlerClass>MendersMistHandler</HandlerClass>

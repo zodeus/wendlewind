@@ -49,7 +49,7 @@ public sealed class BodyPartPanel : EntityPanelBase
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Equipment Slots: {string.Join(",", bodyPart.EquipmentSlots?.Select(s => s.ToString()) ?? new List<string>())}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Equipment: {string.Join(",", bodyPart.Equipment.Values.Select(i => i?.Label))}" });
         rightPanel.Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 15, 0, 15) });
-        rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Is Bone: {bodyPart.IsBone}" });
+        rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Substance: {bodyPart.Substance}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Is Severed: {bodyPart.IsSevered}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Is Cracked: {bodyPart.IsCracked}" });
         rightPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = $"Is Vital: {bodyPart.IsVital}" });
@@ -132,7 +132,7 @@ public sealed class BodyPartPanelModifiersLabel : VerticalStackPanel
             _labels.Add(modifier, label);
         }
 
-        bodyPart.ModifiersChanged += Test;
+        bodyPart.ModifiersChanged += OnModifiersChanged;
     }
 
     private static Label CreateLabel(BodyPartModifier modifier)
@@ -148,7 +148,7 @@ public sealed class BodyPartPanelModifiersLabel : VerticalStackPanel
         return label;
     }
 
-    private void Test(BodyPartModifier mod, BodyPartModifierEventType type)
+    private void OnModifiersChanged(BodyPartModifier mod, BodyPartModifierEventType type)
     {
         switch (type)
         {

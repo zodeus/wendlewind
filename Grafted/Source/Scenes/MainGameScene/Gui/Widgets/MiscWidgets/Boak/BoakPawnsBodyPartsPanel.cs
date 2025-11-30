@@ -15,8 +15,7 @@ internal class BoakPawnsBodyPartsPanel : Grid
         AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = "Type" }, 0, gridColum++);
         AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = "Hit W." }, 0, gridColum++);
         AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = "IsVital" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = "IsBone" }, 0, gridColum++);
-        AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = "IsFlesh" }, 0, gridColum++);
+        AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = "Substance" }, 0, gridColum++);
         AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = "IsOrgan" }, 0, gridColum++);
         AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = "Mobility %" }, 0, gridColum++);
         AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = "Slots" }, 0, gridColum++);
@@ -51,8 +50,7 @@ internal class BoakPawnsBodyPartsPanel : Grid
             AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = $"{def.BodyPartType}", VerticalAlignment = VerticalAlignment.Center }, gridRow, gridColum++);
             AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = $"{def.HitWeight}", VerticalAlignment = VerticalAlignment.Center }, gridRow, gridColum++);
             AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = $"{(def.IsVital ? "Yes" : "")}", VerticalAlignment = VerticalAlignment.Center }, gridRow, gridColum++);
-            AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = $"{(def.IsBone ? "Yes" : "")}", VerticalAlignment = VerticalAlignment.Center }, gridRow, gridColum++);
-            AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = $"{(def.IsFlesh ? "Yes" : "")}", VerticalAlignment = VerticalAlignment.Center }, gridRow, gridColum++);
+            AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = $"{def.Substance}", VerticalAlignment = VerticalAlignment.Center }, gridRow, gridColum++);
             AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = $"{(def.IsOrgan ? "Yes" : "")}", VerticalAlignment = VerticalAlignment.Center }, gridRow, gridColum++);
             AddCell(new Label(BaseContent.Styles.Label.Normal) { Text = $"{def.MobilityFraction}", VerticalAlignment = VerticalAlignment.Center }, gridRow, gridColum++);
             AddCell(new Label(BaseContent.Styles.Label.Normal)
@@ -65,9 +63,9 @@ internal class BoakPawnsBodyPartsPanel : Grid
             AddCell(new Label(BaseContent.Styles.Label.Small)
             {
                 Text = string.Join(", ", def.Sockets?.Select(s => s.Label) ?? Array.Empty<string>()), VerticalAlignment = VerticalAlignment.Center,
-            }, gridRow, 0, 11);
+            }, gridRow, 0, 10);
             gridRow++;
-            AddCell(new HorizontalSeparator { Margin = new Thickness(0, 0, 0, 10) }, gridRow, 0, 11);
+            AddCell(new HorizontalSeparator { Margin = new Thickness(0, 0, 0, 10) }, gridRow, 0, 10);
             gridRow++;
         }
     }

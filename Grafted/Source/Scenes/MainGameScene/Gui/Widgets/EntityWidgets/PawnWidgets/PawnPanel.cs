@@ -1,5 +1,4 @@
 ﻿using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
-using Myra.Graphics2D.Brushes;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
@@ -105,5 +104,17 @@ public class BloodBar : HorizontalProgressBar
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.FrameSmall];
         Filler = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.Neutral], color);
         Padding = new Thickness(3, 6, 3, 6);
+    }
+}
+
+public class VerticalBloodBar : VerticalProgressBar
+{
+    public VerticalBloodBar(Pawn pawn)
+    {
+        var color = pawn.PawnDef.Body.BloodType?.Color ?? Color.Black;
+        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.FrameSmall];
+        Filler = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.NeutralVertical], color);
+        Padding = new Thickness(3, 3, 3, 3);
+        Rotation = 180;
     }
 }

@@ -112,8 +112,11 @@ public sealed class PawnBodyEffectsPanel : HorizontalStackPanel, IUpdatable
             };
             button.Click += (_, _) =>
             {
-                var position = Mouse.GetState().Position;
-                EffectClicked?.Invoke(_effect, new Point(position.X, position.Y + 30));
+                // Convert screen mouse position to UI coordinate space (accounting for UI scaling)
+                var screenPos = Mouse.GetState().Position;
+                var uiX = (int)((screenPos.X - Core.UiOffset.X) / Core.UiScale);
+                var uiY = (int)((screenPos.Y - Core.UiOffset.Y) / Core.UiScale);
+                EffectClicked?.Invoke(_effect, new Point(uiX, uiY + 30));
             };
             Widgets.Add(button);
             Widgets.Add(_durationLabel);

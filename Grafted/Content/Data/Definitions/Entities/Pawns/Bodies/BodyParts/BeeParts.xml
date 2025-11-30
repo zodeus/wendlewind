@@ -11,8 +11,7 @@
         <BloodAmount>1</BloodAmount>
         <BodyPartType>Head</BodyPartType>
         <IsVital>true</IsVital>
-        <IsFlesh>false</IsFlesh>
-        <IsExoskeleton>true</IsExoskeleton>
+        <Substance>Chitin</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Bee/Head</TexturePath>
         <Sockets>
             <ListItem>BrainSocket</ListItem>
@@ -32,6 +31,7 @@
         <BodyPartType>Antenna</BodyPartType>
         <HitWeight>25</HitWeight>
         <BloodAmount>1</BloodAmount>
+        <Substance>Chitin</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Bee/Antenna</TexturePath>
         <BaseStats>
             <MaxHitPoints>1000</MaxHitPoints>
@@ -43,7 +43,7 @@
         <BodyPartType>Thorax</BodyPartType>
         <HitWeight>200</HitWeight>
         <BloodAmount>1</BloodAmount>
-        <IsExoskeleton>true</IsExoskeleton>
+        <Substance>Chitin</Substance>
         <IsVital>true</IsVital>
         <TexturePath>Entities/Pawn/BodyParts/Bee/Thorax</TexturePath>
         <Sockets>
@@ -67,7 +67,7 @@
         <BodyPartType>Abdomen</BodyPartType>
         <HitWeight>300</HitWeight>
         <BloodAmount>1</BloodAmount>
-        <IsExoskeleton>true</IsExoskeleton>
+        <Substance>Chitin</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Bee/Abdomen</TexturePath>
         <Sockets>
             <ListItem>LeftWingSocket</ListItem>
@@ -83,6 +83,7 @@
         <BodyPartType>Wing</BodyPartType>
         <HitWeight>40</HitWeight>
         <BloodAmount>1</BloodAmount>
+        <Substance>Chitin</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Bee/Wing</TexturePath>
         <BaseStats>
             <MaxHitPoints>1500</MaxHitPoints>
@@ -94,7 +95,7 @@
         <BodyPartType>Leg</BodyPartType>
         <HitWeight>80</HitWeight>
         <BloodAmount>1</BloodAmount>
-        <IsExoskeleton>true</IsExoskeleton>
+        <Substance>Chitin</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Bee/Leg</TexturePath>
         <BaseStats>
             <MaxHitPoints>800</MaxHitPoints>

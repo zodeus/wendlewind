@@ -21,6 +21,8 @@ public static class BodyPartLayoutRegistry
         _layouts.Add(new RabbitBodyPartLayout());
         _layouts.Add(new WolfBodyPartLayout());
         _layouts.Add(new FrogBodyPartLayout());
+        _layouts.Add(new TreebornBodyPartLayout());
+        _layouts.Add(new MushroomBodyPartLayout());
         
         _initialized = true;
     }

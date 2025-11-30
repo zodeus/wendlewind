@@ -23,7 +23,7 @@ public class MendersMistHandler : MedicinalHandler
         _mistAmount -= UpdateHealth(bodyPart);
         foreach (var internalPart in bodyPart.InternalParts)
         {
-            if (internalPart.IsBone || internalPart.Type is BodyPartType.Skin)
+            if (internalPart.Substance == SubstanceType.Bone || internalPart.Type is BodyPartType.Skin)
             {
                 _mistAmount -= UpdateHealth(internalPart);
             }

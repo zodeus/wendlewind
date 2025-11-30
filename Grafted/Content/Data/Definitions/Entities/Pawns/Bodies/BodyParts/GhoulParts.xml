@@ -10,7 +10,7 @@
         <Label>Head</Label>
         <HitWeight>20</HitWeight>
         <BodyPartType>Head</BodyPartType>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanHead</TexturePath>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
@@ -29,7 +29,7 @@
         <Label>Neck</Label>
         <BodyPartType>Neck</BodyPartType>
         <HitWeight>7</HitWeight>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanNeck</TexturePath>
         <EquipmentSlots>
             <ListItem>NeckArmor</ListItem>
@@ -51,7 +51,7 @@
         <BodyPartType>Torso</BodyPartType>
         <HitWeight>40</HitWeight>
         <BloodAmount>300</BloodAmount>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Flesh</Substance>
         <IsVital>true</IsVital>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanTorso</TexturePath>
         <EquipmentSlots>
@@ -79,7 +79,7 @@
         <Label>Arm</Label>
         <BodyPartType>Arm</BodyPartType>
         <HitWeight>25</HitWeight>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanArm</TexturePath>
         <EquipmentSlots>
             <ListItem>ArmArmor</ListItem>
@@ -106,7 +106,7 @@
             <ListItem>HandWeapon</ListItem>
         </EquipmentSlots>
         <HitWeight>12</HitWeight>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Ghoul/Hand</TexturePath>
         <WhiteIconTexturePath>Entities/Pawn/BodyParts/Ghoul/Hand-Icon</WhiteIconTexturePath>
         <Sockets>
@@ -128,7 +128,7 @@
         <Label>Finger</Label>
         <BodyPartType>Finger</BodyPartType>
         <HitWeight>10</HitWeight>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Ghoul/Finger</TexturePath>
         <WhiteIconTexturePath>Entities/Pawn/BodyParts/Ghoul/Finger-Icon</WhiteIconTexturePath>
         <Sockets>
@@ -145,7 +145,7 @@
         <Label>Thumb</Label>
         <BodyPartType>Thumb</BodyPartType>
         <HitWeight>10</HitWeight>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Ghoul/Thumb</TexturePath>
         <WhiteIconTexturePath>Entities/Pawn/BodyParts/Ghoul/Thumb-Icon</WhiteIconTexturePath>
         <Sockets>
@@ -162,7 +162,7 @@
         <Label>Leg</Label>
         <BodyPartType>Leg</BodyPartType>
         <HitWeight>11</HitWeight>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanLeg</TexturePath>
         <EquipmentSlots>
             <ListItem>LegArmor</ListItem>
@@ -182,7 +182,7 @@
         <Label>Foot</Label>
         <BodyPartType>Foot</BodyPartType>
         <HitWeight>7</HitWeight>
-        <IsFlesh>true</IsFlesh>
+        <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanFoot</TexturePath>
         <EquipmentSlots>
             <ListItem>BuiltIn</ListItem>

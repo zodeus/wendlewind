@@ -11,7 +11,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
 {
     public readonly Pawn Pawn;
     private readonly Encounter _encounter;
-    private HorizontalProgressBar _bloodBar = null!;
+    private VerticalProgressBar _bloodBar = null!;
     private PawnBodyRenderWidget? _bodyWidget;
     private readonly ZoneGui _gui;
     private readonly List<IUpdatable> _updatables = new();
@@ -26,7 +26,6 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         Pawn = pawn;
         _encounter = encounter;
         _gui = gui;
-
         var isPlayer = pawn.PawnType == PawnType.Player;
         if (isPlayer)
         {
@@ -34,7 +33,6 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         }
 
         Widgets.Add(GeneratePawnPanel());
-
 
         Update(0f);
     }
@@ -46,7 +44,6 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
             DefaultProportion = Proportion.Auto,
             VerticalAlignment = VerticalAlignment.Bottom, 
             HorizontalAlignment = HorizontalAlignment.Right,
-            Height = BaseContent.IconSizes.Large + 25,
         };
         var pawnEffectsPanel = new PawnBodyEffectsPanel(_gui, Pawn)
         {
@@ -57,7 +54,10 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         {
             HorizontalAlignment = HorizontalAlignment.Right
         };
-        var weaponBar = new WeaponBar(pawn) { HorizontalAlignment = HorizontalAlignment.Right };
+        var weaponBar = new WeaponBar(pawn)
+        {
+            HorizontalAlignment = HorizontalAlignment.Right,
+        };
         var stanceBar = new BodyStanceBar(pawn) {HorizontalAlignment = HorizontalAlignment.Right };
 
         _updatables.Add(potionBar);
@@ -72,6 +72,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         SetProportionType(trinketBar, ProportionType.Auto);
         Widgets.Add(new VerticalStackPanel
         {
+            MinWidth = 300,
             Widgets =
             {
                 pawnEffectsPanel,
@@ -126,14 +127,34 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
             VerticalAlignment = VerticalAlignment.Bottom,
             DefaultProportion = Proportion.Auto,
         };
-        var panelWidth = 400;
+        
         // Use body widget for all pawns - it will fall back to icon if no layout available
         var bodyWidget = CreateBodyWidget(BaseContent.IconSizes.Portrait);
         
-        panel.Widgets.Add(bodyWidget);
-
-        _bloodBar = new BloodBar(Pawn) { Width = panelWidth, Height = 25 };
-        panel.Widgets.Add(_bloodBar);
+        // Create vertical blood bar
+        _bloodBar = new VerticalBloodBar(Pawn) { Width = 16, Height = BaseContent.IconSizes.Portrait };
+        
+        // Create horizontal container for body and blood bar
+        // Player: body on left, blood bar on right
+        // Enemy: blood bar on left, body on right
+        var bodyAndBloodContainer = new HorizontalStackPanel
+        {
+            Spacing = 5,
+            VerticalAlignment = VerticalAlignment.Bottom
+        };
+        
+        if (Pawn.PawnType == PawnType.Player)
+        {
+            bodyAndBloodContainer.Widgets.Add(bodyWidget);
+            bodyAndBloodContainer.Widgets.Add(_bloodBar);
+        }
+        else
+        {
+            bodyAndBloodContainer.Widgets.Add(_bloodBar);
+            bodyAndBloodContainer.Widgets.Add(bodyWidget);
+        }
+        
+        panel.Widgets.Add(bodyAndBloodContainer);
 
         Label namePlate = new()
         {
@@ -142,7 +163,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Padding = new Thickness(12)
         };
-        var attackSpeed = new AttackSpeedIcon(Pawn);
+        var attackSpeed = new AttackSpeedIcon(Pawn){ VerticalAlignment = VerticalAlignment.Stretch};
         _updatables.Add(attackSpeed);
         SetProportionType(namePlate, ProportionType.Fill);
         SetProportionType(attackSpeed, ProportionType.Auto);

@@ -150,7 +150,13 @@ public abstract class BaseGui : IDisposable
         }
         else
         {
+            // Show first, then reposition to center based on actual size
             _entityViewerWindow.Show(Desktop);
+            _entityViewerWindow.Arrange(new Rectangle(0, 0, Core.ReferenceResolution.X, Core.ReferenceResolution.Y));
+            var windowWidth = _entityViewerWindow.ActualBounds.Width;
+            var centerX = (Core.ReferenceResolution.X - windowWidth) / 2;
+            _entityViewerWindow.Left = centerX;
+            _entityViewerWindow.Top = 100;
         }
 
         _viewedEntity = _queuedEntityToView.Value.Key;
