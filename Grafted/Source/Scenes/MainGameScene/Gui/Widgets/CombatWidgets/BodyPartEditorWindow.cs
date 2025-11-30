@@ -66,6 +66,8 @@ public class BodyPartEditorWindow : Window
     private readonly Label _renderOrderValueLabel;
     private readonly Button _flipHButton;
     private readonly Button _flipVButton;
+    private readonly Grid _partsGrid;
+    private readonly Dictionary<string, Button> _partButtons = new();
 
     public BodyPartEditorWindow(Pawn pawn, int renderSize = 512)
     {
@@ -99,6 +101,19 @@ public class BodyPartEditorWindow : Window
         };
         _renderArea.OnFrameUpdate = OnFrameUpdate;
         leftPanel.Widgets.Add(_renderArea);
+        
+        // Body parts grid below render area
+        _partsGrid = new Grid
+        {
+            RowSpacing = 2,
+            ColumnSpacing = 2,
+            DefaultColumnProportion = Proportion.Auto,
+            DefaultRowProportion = Proportion.Auto
+        };
+        leftPanel.Widgets.Add(_partsGrid);
+        
+        // Populate the parts list
+        PopulatePartsList();
         
         mainPanel.Widgets.Add(leftPanel);
         
@@ -234,6 +249,54 @@ public class BodyPartEditorWindow : Window
         }
     }
 
+    private void PopulatePartsList()
+    {
+        _partsGrid.Widgets.Clear();
+        _partButtons.Clear();
+        
+        if (_layout == null) return;
+        
+        var parts = _pawn.Body.AllExternalParts
+            .Where(p => !p.IsSevered)
+            .Select(p => (part: p, info: _layout.GetRenderInfo(p)))
+            .Where(x => x.info.HasValue)
+            .Select(x => (x.part, info: x.info!.Value))
+            .OrderBy(x => x.info.RenderOrder)
+            .ToList();
+        
+        const int columns = 3;
+        int row = 0;
+        int col = 0;
+        
+        foreach (var (part, info) in parts)
+        {
+            var button = new Button(BaseContent.Styles.Button.Small)
+            {
+                Content = new Label(BaseContent.Styles.Label.Small) { Text = part.Label, TextColor = Color.White },
+            };
+            Grid.SetRow(button, row);
+            Grid.SetColumn(button, col);
+            
+            var partLabel = part.Label; // Capture for closure
+            button.Click += (_, _) => OnPartListItemClicked(partLabel);
+            
+            _partButtons[part.Label] = button;
+            _partsGrid.Widgets.Add(button);
+            
+            col++;
+            if (col >= columns)
+            {
+                col = 0;
+                row++;
+            }
+        }
+    }
+
+    private void OnPartListItemClicked(string partLabel)
+    {
+        SelectPart(partLabel);
+    }
+
     private void OnScaleChanged(object? sender, EventArgs e)
     {
         // Snap to 0.05 increments for easier control
@@ -310,6 +373,9 @@ public class BodyPartEditorWindow : Window
 
     private void SelectPart(string? partLabel)
     {
+        // Update button highlighting
+        UpdatePartListHighlight(_selectedPartLabel, partLabel);
+        
         _selectedPartLabel = partLabel;
         _selectedPartLabel_UI.Text = partLabel ?? "(none)";
         
@@ -339,6 +405,27 @@ public class BodyPartEditorWindow : Window
         }
         
         _isDirty = true;
+    }
+
+    private void UpdatePartListHighlight(string? previousLabel, string? newLabel)
+    {
+        // Reset previous button
+        if (previousLabel != null && _partButtons.TryGetValue(previousLabel, out var prevButton))
+        {
+            if (prevButton.Content is Label prevLbl)
+            {
+                prevLbl.TextColor = Color.White;
+            }
+        }
+        
+        // Highlight new button
+        if (newLabel != null && _partButtons.TryGetValue(newLabel, out var newButton))
+        {
+            if (newButton.Content is Label newLbl)
+            {
+                newLbl.TextColor = Color.Cyan;
+            }
+        }
     }
 
     private void OnFrameUpdate()

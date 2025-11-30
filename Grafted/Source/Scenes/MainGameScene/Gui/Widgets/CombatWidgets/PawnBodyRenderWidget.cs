@@ -31,8 +31,9 @@ internal class PawnBodyRenderArea : Widget
         
         if (_renderer.HasValidLayout)
         {
-            _renderer.Render();
-            
+            // Note: Render() should be called before Myra's render pass via PreRender()
+            // to avoid render target switching during UI rendering which causes flickering.
+            // Here we just draw the already-rendered texture.
             var texture = _renderer.RenderedTexture;
             if (texture != null)
             {
@@ -157,6 +158,15 @@ public class PawnBodyRenderWidget : Panel, IDisposable
     public void MarkDirty()
     {
         _renderer.MarkDirty();
+    }
+
+    /// <summary>
+    /// Pre-renders the body to the render target. Must be called BEFORE Myra's Desktop.Render()
+    /// to avoid render target switching during UI rendering which causes flickering.
+    /// </summary>
+    public void PreRender()
+    {
+        _renderer.Render();
     }
 
     /// <summary>

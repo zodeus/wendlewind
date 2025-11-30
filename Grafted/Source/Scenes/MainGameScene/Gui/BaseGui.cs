@@ -1,5 +1,6 @@
 using FontStashSharp;
 using Grafted.Scenes.MainGameScene.Gui.Widgets;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
 using Grafted.Sim.Entities;
@@ -78,6 +79,10 @@ public abstract class BaseGui : IDisposable
 
     public virtual void Draw(SpriteBatch spriteBatch, float deltaTime)
     {
+        // Pre-render all body renderers before Myra's render pass
+        // to avoid render target switching during UI rendering which causes flickering
+        PawnBodyRenderer.PreRenderAll();
+        
         Desktop.Render();
         spriteBatch.Begin(
             SpriteSortMode.Deferred,

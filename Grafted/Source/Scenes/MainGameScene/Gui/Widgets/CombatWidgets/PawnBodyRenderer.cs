@@ -9,6 +9,21 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 /// </summary>
 public class PawnBodyRenderer : IDisposable
 {
+    // Static tracking of all active renderers for pre-rendering
+    private static readonly List<PawnBodyRenderer> _allRenderers = new();
+    
+    /// <summary>
+    /// Pre-renders all active body renderers. Must be called BEFORE Myra's Desktop.Render()
+    /// to avoid render target switching during UI rendering which causes flickering.
+    /// </summary>
+    public static void PreRenderAll()
+    {
+        foreach (var renderer in _allRenderers)
+        {
+            renderer.Render();
+        }
+    }
+    
     private readonly Pawn _pawn;
     private readonly IBodyPartLayout? _layout;
     private RenderTarget2D? _renderTarget;
@@ -60,6 +75,9 @@ public class PawnBodyRenderer : IDisposable
                 part.HealthChanged += OnPartHealthChanged;
             }
         }
+        
+        // Register for pre-rendering
+        _allRenderers.Add(this);
     }
 
     private void OnPartHealthChanged(BodyPart part)
@@ -163,6 +181,9 @@ public class PawnBodyRenderer : IDisposable
 
     public void Dispose()
     {
+        // Unregister from pre-rendering
+        _allRenderers.Remove(this);
+        
         // Unsubscribe from events
         if (_layout != null)
         {
