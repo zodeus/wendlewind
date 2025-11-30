@@ -186,7 +186,8 @@ public static partial class Defs {
         
         public static BodyPartDef TreeTrunk = null!;
         public static BodyPartDef TreeInnerCore = null!;
-        public static BodyPartDef TreeStump = null!;
+        public static BodyPartDef TreeLegStump = null!;
+        public static BodyPartDef TreeArmStump = null!;
         
         public static BodyPartDef MushroomCap = null!;
         public static BodyPartDef MushroomStump = null!;

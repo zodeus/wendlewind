@@ -37,14 +37,14 @@
             <ListItem>RibCageSocket</ListItem>
             <ListItem>LeftEyeSocket</ListItem>
             <ListItem>RightEyeSocket</ListItem>
-            <ListItem>FrontLeftLegSocket</ListItem>
-            <ListItem>FrontLeftLegSocket</ListItem>
-            <ListItem>RearLeftLegSocket</ListItem>
-            <ListItem>RearLeftLegSocket</ListItem>
-            <ListItem>FrontRightLegSocket</ListItem>
-            <ListItem>FrontRightLegSocket</ListItem>
-            <ListItem>RearRightLegSocket</ListItem>
-            <ListItem>RearRightLegSocket</ListItem>
+            <ListItem>FrontLeftLegStumpSocket</ListItem>
+            <ListItem>FrontLeftArmStumpSocket</ListItem>
+            <ListItem>RearLeftLegStumpSocket</ListItem>
+            <ListItem>RearLeftArmStumpSocket</ListItem>
+            <ListItem>FrontRightLegStumpSocket</ListItem>
+            <ListItem>FrontRightArmStumpSocket</ListItem>
+            <ListItem>RearRightLegStumpSocket</ListItem>
+            <ListItem>RearRightArmStumpSocket</ListItem>
         </Sockets>
         <BaseStats>
             <MaxHitPoints>600</MaxHitPoints>
@@ -67,8 +67,8 @@
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="TreeBodyPartBase">
-        <Moniker>TreeStump</Moniker>
-        <Label>Stump</Label>
+        <Moniker>TreeLegStump</Moniker>
+        <Label>Leg Stump</Label>
         <BodyPartType>Leg</BodyPartType>
         <HitWeight>50</HitWeight>
         <BloodAmount>80</BloodAmount>
@@ -77,6 +77,28 @@
         <TexturePath>Entities/Pawn/BodyParts/Tree/TreeStump</TexturePath>
         <EquipmentSlots>
             <ListItem>LegArmor</ListItem>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+        <Sockets>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>60</MaxHitPoints>
+            <AttackSpeedModifier>.75</AttackSpeedModifier>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="TreeBodyPartBase">
+         <Moniker>TreeArmStump</Moniker>
+        <Label>Arm Stump</Label>
+        <BodyPartType>Arm</BodyPartType>
+        <HitWeight>50</HitWeight>
+        <BloodAmount>80</BloodAmount>
+        <Substance>Wood</Substance>
+        <MobilityFraction>.125</MobilityFraction>
+        <TexturePath>Entities/Pawn/BodyParts/Tree/TreeStump</TexturePath>
+        <EquipmentSlots>
+            <ListItem>ArmArmor</ListItem>
             <ListItem>BuiltIn</ListItem>
         </EquipmentSlots>
         <Sockets>

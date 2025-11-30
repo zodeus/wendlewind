@@ -21,21 +21,21 @@ public class TreebornBodyGenerator : IBodyGenerator
         ribCage.GetSocketsFor(BodyPartType.Brain)[0].TryAttachPart(Defs.BodyParts.Brain);
 
         // Legs
-        MakeLeg(torso.GetSocketsFor(BodyPartType.Leg)[0].TryAttachPart(Defs.BodyParts.TreeStump));
-        MakeLeg(torso.GetSocketsFor(BodyPartType.Leg)[1].TryAttachPart(Defs.BodyParts.TreeStump));
-        MakeLeg(torso.GetSocketsFor(BodyPartType.Leg)[2].TryAttachPart(Defs.BodyParts.TreeStump));
-        MakeLeg(torso.GetSocketsFor(BodyPartType.Leg)[3].TryAttachPart(Defs.BodyParts.TreeStump));
-        MakeLeg(torso.GetSocketsFor(BodyPartType.Leg)[4].TryAttachPart(Defs.BodyParts.TreeStump));
-        MakeLeg(torso.GetSocketsFor(BodyPartType.Leg)[5].TryAttachPart(Defs.BodyParts.TreeStump));
-        MakeLeg(torso.GetSocketsFor(BodyPartType.Leg)[6].TryAttachPart(Defs.BodyParts.TreeStump));
-        MakeLeg(torso.GetSocketsFor(BodyPartType.Leg)[7].TryAttachPart(Defs.BodyParts.TreeStump));
+        MakeStump(torso.GetSocketsFor(BodyPartType.Leg)[0].TryAttachPart(Defs.BodyParts.TreeLegStump));
+        MakeStump(torso.GetSocketsFor(BodyPartType.Leg)[1].TryAttachPart(Defs.BodyParts.TreeLegStump));
+        MakeStump(torso.GetSocketsFor(BodyPartType.Leg)[2].TryAttachPart(Defs.BodyParts.TreeLegStump));
+        MakeStump(torso.GetSocketsFor(BodyPartType.Leg)[3].TryAttachPart(Defs.BodyParts.TreeLegStump));
+        MakeStump(torso.GetSocketsFor(BodyPartType.Arm)[0].TryAttachPart(Defs.BodyParts.TreeArmStump));
+        MakeStump(torso.GetSocketsFor(BodyPartType.Arm)[1].TryAttachPart(Defs.BodyParts.TreeArmStump));
+        MakeStump(torso.GetSocketsFor(BodyPartType.Arm)[2].TryAttachPart(Defs.BodyParts.TreeArmStump));
+        MakeStump(torso.GetSocketsFor(BodyPartType.Arm)[3].TryAttachPart(Defs.BodyParts.TreeArmStump));
     }
 
 
-    static void MakeLeg(BodyPart leg)
+    static void MakeStump(BodyPart stump)
     {
-        leg.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
-        leg.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
-        leg.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("TreeBranch")!);
+        stump.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
+        stump.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
+        stump.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("TreeBranch")!);
     }
 }

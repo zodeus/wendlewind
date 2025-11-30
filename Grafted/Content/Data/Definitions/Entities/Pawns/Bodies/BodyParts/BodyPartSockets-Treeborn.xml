@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>TreeTrunkSocket</Moniker>
+        <Label>Tree Trunk Socket</Label>
+        <IsExternal>true</IsExternal>
+        <AllowedBodyPartTypes>
+            <ListItem>Torso</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>FrontLeftLegStumpSocket</Moniker>
+        <Label>Front Left Leg Stump Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>FrontLeft</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Leg</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>FrontRightLegStumpSocket</Moniker>
+        <Label>Front Right Leg Stump Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>FrontRight</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Leg</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>RearLeftLegStumpSocket</Moniker>
+        <Label>Rear Left Leg Stump Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>RearLeft</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Leg</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>RearRightLegStumpSocket</Moniker>
+        <Label>Rear Right Leg Stump Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>RearRight</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Leg</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>FrontLeftArmStumpSocket</Moniker>
+        <Label>Front Left Arm Stump Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>FrontLeft</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Arm</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>FrontRightArmStumpSocket</Moniker>
+        <Label>Front Right Arm Stump Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>FrontRight</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Arm</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>RearLeftArmStumpSocket</Moniker>
+        <Label>Rear Left Arm Stump Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>RearLeft</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Arm</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>RearRightArmStumpSocket</Moniker>
+        <Label>Rear Right Arm Stump Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>RearRight</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Arm</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+</Definitions>

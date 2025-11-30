@@ -19,7 +19,8 @@ public static class Log {
     }
 
     public static void Debug(string text) {
-       
+
+        return;
         Console.WriteLine("Debug - " + text);
     }
 }
