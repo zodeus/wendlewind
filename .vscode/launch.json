@@ -4,9 +4,8 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        
         {
-            "name": "C#: <project-name> Debug",
+            "name": "C#: Debug",
             "type": "dotnet",
             "request": "launch",
             "projectPath": "${workspaceFolder}/Grafted/Grafted.csproj"
@@ -15,6 +14,15 @@
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach"
+        },
+        {
+            "name": "Watch with Hot Reload",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "dotnet",
+            "runtimeArgs": ["watch", "run", "--hot-reload"],
+            "cwd": "${workspaceFolder}/Grafted",
+            "console": "integratedTerminal"
         }
     ]
 }

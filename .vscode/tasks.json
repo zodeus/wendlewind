@@ -36,6 +36,23 @@
                 "${workspaceFolder}/Grafted.sln"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch-hot-reload",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "--hot-reload",
+                "--project",
+                "${workspaceFolder}/Grafted/Grafted.csproj"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/Grafted"
+            },
+            "problemMatcher": "$msCompile",
+            "isBackground": true
         }
     ]
 }
