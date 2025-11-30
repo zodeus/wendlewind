@@ -4,7 +4,7 @@
     <ItemDef Name="ItemEnchantment" ParentName="ItemBase" Abstract="true">
         <StackLimit>1</StackLimit>
         <ItemType>Enchantment</ItemType>
-        <UiClass>ResourcePanel</UiClass>
+        <UiClass>ItemEnchantmentPanel</UiClass>
     </ItemDef>
     <ItemDef ParentName="ItemEnchantment">
         <Moniker>SoothingVibrations</Moniker>
@@ -21,7 +21,7 @@
     <ItemDef ParentName="ItemEnchantment">
         <Moniker>BloodBath</Moniker>
         <Label>Blood Bath</Label>
-        <Description>Time for the gore to pour.</Description>
+        <Description>Time for the gore to pour.\n\nRestores a small amount of blood each time this takes damages</Description>
         <EnchantmentProperties>
             <ValidEquipmentTypes>
                 <ListItem>Armor</ListItem>

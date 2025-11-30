@@ -1,4 +1,5 @@
-﻿using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
+﻿using Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
@@ -38,32 +39,30 @@ public sealed class PawnPanel : EntityPanelBase
     }
 }
 
-public sealed class PawnPortraitPanel : VerticalStackPanel
+public sealed class PawnPortraitPanel : VerticalStackPanel, IDisposable
 {
     private readonly Pawn _pawn;
     private readonly Label _attackSpeed;
     private readonly HorizontalProgressBar _bloodBar;
+    private readonly PawnBodyRenderWidget _bodyRenderWidget;
 
     public PawnPortraitPanel(Pawn pawn)
     {
         _pawn = pawn;
         Spacing = 5;
 
+        _bodyRenderWidget = new PawnBodyRenderWidget(pawn, 256)
+        {
+            Width = 256,
+            Height = 256
+        };
+
         Widgets.Add(new Panel
         {
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
             Padding = new Thickness(8),
-            Width = 256, Height = 256,
-            Widgets =
-            {
-                new Image
-                {
-                    Background = new TextureRegion(pawn.Icon),
-                    HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Stretch,
-                    //BorderThickness = new Thickness(1), 
-                    //Border = new SolidBrush(Color.Transparent)
-                }
-            }
+            Width = 256 + 16, Height = 256 + 16,
+            Widgets = { _bodyRenderWidget }
         });
 
         _bloodBar = new BloodBar(pawn) { Width = 256, Height = 30 };
@@ -93,6 +92,11 @@ public sealed class PawnPortraitPanel : VerticalStackPanel
     {
         _attackSpeed.Text = "AttackSpeed";
         _bloodBar.Value = _pawn.Body.BloodPercent * 100;
+    }
+
+    public void Dispose()
+    {
+        _bodyRenderWidget.Dispose();
     }
 }
 

@@ -67,8 +67,8 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         {
             VerticalAlignment = VerticalAlignment.Stretch,
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            Width = 1600,
-            Height = 600,
+            MinWidth = 1450,
+            Height = 620,
             Content = new VerticalStackPanel { Padding = new Thickness(0), Spacing = 12 }
         };
 
@@ -120,7 +120,12 @@ public class CombatScreen : VerticalStackPanel, IDisposable
                 return;
             }
 
-            _combatLogWindow!.Show(gui.Desktop, new Point(Screen.Width / 2 - 800, (Screen.Height / 2 - 220)));
+            _combatLogWindow!.Show(gui.Desktop);
+            _combatLogWindow.Arrange(new Rectangle(0, 0, Core.ReferenceResolution.X, Core.ReferenceResolution.Y));
+            var windowWidth = _combatLogWindow.ActualBounds.Width;
+            var centerX = (Core.ReferenceResolution.X - windowWidth) / 2;
+            _combatLogWindow.Left = centerX;
+            _combatLogWindow.Top = 370;
         };
         VerticalStackPanel centerColumn = new()
         {
