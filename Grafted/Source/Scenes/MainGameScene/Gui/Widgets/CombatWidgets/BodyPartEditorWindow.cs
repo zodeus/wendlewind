@@ -2,7 +2,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayouts;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
-using Myra.Graphics2D.Brushes;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 
@@ -43,17 +42,18 @@ public class BodyPartEditorWindow : Window
     private readonly Dictionary<Texture2D, Color[]> _texturePixelCache = new();
     
     // Rendering
-    private RenderTarget2D? _renderTarget;
     private SpriteBatch? _spriteBatch;
-    private bool _isDirty = true;
     
     // Editor state
-    private string? _selectedPartLabel;
+    private readonly HashSet<string> _selectedPartLabels = new();
     private string? _hoveredPartLabel;
     private string? _draggedPartLabel;
     private Vector2 _dragOffset;
+    private Dictionary<string, Vector2> _allPartsDragOffsets = new();
     private bool _isDragging;
+    private bool _isDraggingMultiple;
     private MouseState _previousMouseState;
+    private KeyboardState _previousKeyboardState;
     
     // UI Elements
     private readonly BodyPartEditorRenderArea _renderArea;
@@ -175,10 +175,7 @@ public class BodyPartEditorWindow : Window
         renderOrderPanel.Widgets.Add(_renderOrderValueLabel);
         rightPanel.Widgets.Add(renderOrderPanel);
         
-        rightPanel.Widgets.Add(new Label { Text = "" }); // Spacer
-        
         // Flip controls
-        rightPanel.Widgets.Add(new Label { Text = "Flip:" });
         var flipPanel = new HorizontalStackPanel { Spacing = 10 };
         _flipHButton = new Button(BaseContent.Styles.Button.Normal)
         {
@@ -193,8 +190,6 @@ public class BodyPartEditorWindow : Window
         flipPanel.Widgets.Add(_flipHButton);
         flipPanel.Widgets.Add(_flipVButton);
         rightPanel.Widgets.Add(flipPanel);
-        
-        rightPanel.Widgets.Add(new Label { Text = "" }); // Spacer
         
         // Action buttons
         var copyButton = new Button(BaseContent.Styles.Button.Normal)
@@ -217,6 +212,13 @@ public class BodyPartEditorWindow : Window
         };
         resetSelectedButton.Click += (_, _) => ResetSelected();
         rightPanel.Widgets.Add(resetSelectedButton);
+        
+        var selectAllButton = new Button(BaseContent.Styles.Button.Normal)
+        {
+            Content = new Label { Text = "Select All Parts" },
+        };
+        selectAllButton.Click += (_, _) => SelectAllParts();
+        rightPanel.Widgets.Add(selectAllButton);
         
         mainPanel.Widgets.Add(rightPanel);
         
@@ -294,7 +296,20 @@ public class BodyPartEditorWindow : Window
 
     private void OnPartListItemClicked(string partLabel)
     {
-        SelectPart(partLabel);
+        var keyboardState = Keyboard.GetState();
+        var shiftHeld = keyboardState.IsKeyDown(Keys.LeftShift) || keyboardState.IsKeyDown(Keys.RightShift);
+        SelectPart(partLabel, shiftHeld);
+    }
+
+    private void SelectAllParts()
+    {
+        _selectedPartLabels.Clear();
+        foreach (var label in _partButtons.Keys)
+        {
+            _selectedPartLabels.Add(label);
+        }
+        UpdateAllButtonHighlights();
+        UpdateSelectionUI();
     }
 
     private void OnScaleChanged(object? sender, EventArgs e)
@@ -304,10 +319,12 @@ public class BodyPartEditorWindow : Window
         _scaleSlider.Value = newValue;
         _scaleValueLabel.Text = $"{newValue:F2}";
         
-        if (_selectedPartLabel != null && _overrides.TryGetValue(_selectedPartLabel, out var over))
+        foreach (var label in _selectedPartLabels)
         {
-            over.Scale = newValue;
-            _isDirty = true;
+            if (_overrides.TryGetValue(label, out var over))
+            {
+                over.Scale = newValue;
+            }
         }
     }
 
@@ -318,10 +335,12 @@ public class BodyPartEditorWindow : Window
         _rotationSlider.Value = newValue;
         _rotationValueLabel.Text = $"{newValue:F0}°";
         
-        if (_selectedPartLabel != null && _overrides.TryGetValue(_selectedPartLabel, out var over))
+        foreach (var label in _selectedPartLabels)
         {
-            over.Rotation = MathHelper.ToRadians(newValue);
-            _isDirty = true;
+            if (_overrides.TryGetValue(label, out var over))
+            {
+                over.Rotation = MathHelper.ToRadians(newValue);
+            }
         }
     }
 
@@ -332,31 +351,47 @@ public class BodyPartEditorWindow : Window
         _renderOrderSlider.Value = newValue;
         _renderOrderValueLabel.Text = $"{newValue}";
         
-        if (_selectedPartLabel != null && _overrides.TryGetValue(_selectedPartLabel, out var over))
+        foreach (var label in _selectedPartLabels)
         {
-            over.RenderOrder = newValue;
-            _isDirty = true;
+            if (_overrides.TryGetValue(label, out var over))
+            {
+                over.RenderOrder = newValue;
+            }
         }
     }
 
     private void OnFlipHClicked(object? sender, EventArgs e)
     {
-        if (_selectedPartLabel != null && _overrides.TryGetValue(_selectedPartLabel, out var over))
+        if (_selectedPartLabels.Count == 0) return;
+        
+        // Toggle based on majority state
+        var selectedOverrides = _selectedPartLabels
+            .Where(l => _overrides.ContainsKey(l))
+            .Select(l => _overrides[l])
+            .ToList();
+        var anyNotFlipped = selectedOverrides.Any(o => !o.FlipHorizontal);
+        foreach (var over in selectedOverrides)
         {
-            over.FlipHorizontal = !over.FlipHorizontal;
-            UpdateFlipButtonLabels(over);
-            _isDirty = true;
+            over.FlipHorizontal = anyNotFlipped;
         }
+        UpdateFlipButtonLabels(selectedOverrides.FirstOrDefault());
     }
 
     private void OnFlipVClicked(object? sender, EventArgs e)
     {
-        if (_selectedPartLabel != null && _overrides.TryGetValue(_selectedPartLabel, out var over))
+        if (_selectedPartLabels.Count == 0) return;
+        
+        // Toggle based on majority state
+        var selectedOverrides = _selectedPartLabels
+            .Where(l => _overrides.ContainsKey(l))
+            .Select(l => _overrides[l])
+            .ToList();
+        var anyNotFlipped = selectedOverrides.Any(o => !o.FlipVertical);
+        foreach (var over in selectedOverrides)
         {
-            over.FlipVertical = !over.FlipVertical;
-            UpdateFlipButtonLabels(over);
-            _isDirty = true;
+            over.FlipVertical = anyNotFlipped;
         }
+        UpdateFlipButtonLabels(selectedOverrides.FirstOrDefault());
     }
 
     private void UpdateFlipButtonLabels(BodyPartTransformOverride? over)
@@ -371,30 +406,54 @@ public class BodyPartEditorWindow : Window
         }
     }
 
-    private void SelectPart(string? partLabel)
+    private void SelectPart(string partLabel, bool addToSelection)
     {
-        // Update button highlighting
-        UpdatePartListHighlight(_selectedPartLabel, partLabel);
-        
-        _selectedPartLabel = partLabel;
-        _selectedPartLabel_UI.Text = partLabel ?? "(none)";
-        
-        if (partLabel != null && _overrides.TryGetValue(partLabel, out var over))
+        if (addToSelection)
         {
-            _scaleSlider.Value = over.Scale;
-            _scaleValueLabel.Text = $"{over.Scale:F2}";
-            
-            var rotationDegrees = MathHelper.ToDegrees(over.Rotation);
-            _rotationSlider.Value = rotationDegrees;
-            _rotationValueLabel.Text = $"{rotationDegrees:F0}°";
-            
-            _renderOrderSlider.Value = over.RenderOrder;
-            _renderOrderValueLabel.Text = $"{over.RenderOrder}";
-            
-            UpdateFlipButtonLabels(over);
+            // Toggle selection
+            if (_selectedPartLabels.Contains(partLabel))
+            {
+                _selectedPartLabels.Remove(partLabel);
+            }
+            else
+            {
+                _selectedPartLabels.Add(partLabel);
+            }
         }
         else
         {
+            // Clear and select single part
+            _selectedPartLabels.Clear();
+            _selectedPartLabels.Add(partLabel);
+        }
+        
+        UpdateAllButtonHighlights();
+        UpdateSelectionUI();
+    }
+
+    private void ClearSelection()
+    {
+        _selectedPartLabels.Clear();
+        UpdateAllButtonHighlights();
+        UpdateSelectionUI();
+    }
+
+    private void UpdateAllButtonHighlights()
+    {
+        foreach (var (label, button) in _partButtons)
+        {
+            if (button.Content is Label lbl)
+            {
+                lbl.TextColor = _selectedPartLabels.Contains(label) ? Color.Cyan : Color.White;
+            }
+        }
+    }
+
+    private void UpdateSelectionUI()
+    {
+        if (_selectedPartLabels.Count == 0)
+        {
+            _selectedPartLabel_UI.Text = "(none)";
             _scaleSlider.Value = 1f;
             _scaleValueLabel.Text = "1.00";
             _rotationSlider.Value = 0f;
@@ -403,28 +462,30 @@ public class BodyPartEditorWindow : Window
             _renderOrderValueLabel.Text = "0";
             UpdateFlipButtonLabels(null);
         }
-        
-        _isDirty = true;
-    }
-
-    private void UpdatePartListHighlight(string? previousLabel, string? newLabel)
-    {
-        // Reset previous button
-        if (previousLabel != null && _partButtons.TryGetValue(previousLabel, out var prevButton))
+        else if (_selectedPartLabels.Count == 1)
         {
-            if (prevButton.Content is Label prevLbl)
+            var partLabel = _selectedPartLabels.First();
+            _selectedPartLabel_UI.Text = partLabel;
+            
+            if (_overrides.TryGetValue(partLabel, out var over))
             {
-                prevLbl.TextColor = Color.White;
+                _scaleSlider.Value = over.Scale;
+                _scaleValueLabel.Text = $"{over.Scale:F2}";
+                
+                var rotationDegrees = MathHelper.ToDegrees(over.Rotation);
+                _rotationSlider.Value = rotationDegrees;
+                _rotationValueLabel.Text = $"{rotationDegrees:F0}°";
+                
+                _renderOrderSlider.Value = over.RenderOrder;
+                _renderOrderValueLabel.Text = $"{over.RenderOrder}";
+                
+                UpdateFlipButtonLabels(over);
             }
         }
-        
-        // Highlight new button
-        if (newLabel != null && _partButtons.TryGetValue(newLabel, out var newButton))
+        else
         {
-            if (newButton.Content is Label newLbl)
-            {
-                newLbl.TextColor = Color.Cyan;
-            }
+            _selectedPartLabel_UI.Text = $"({_selectedPartLabels.Count} parts)";
+            // Keep current slider values for multi-selection
         }
     }
 
@@ -448,8 +509,10 @@ public class BodyPartEditorWindow : Window
             if (newHoveredPart != _hoveredPartLabel)
             {
                 _hoveredPartLabel = newHoveredPart;
-                _isDirty = true;
             }
+            
+            var keyboardState = Keyboard.GetState();
+            var shiftHeld = keyboardState.IsKeyDown(Keys.LeftShift) || keyboardState.IsKeyDown(Keys.RightShift);
             
             // Detect mouse button press
             if (mouseState.LeftButton == ButtonState.Pressed && _previousMouseState.LeftButton == ButtonState.Released)
@@ -461,32 +524,69 @@ public class BodyPartEditorWindow : Window
                     
                     if (hitPart != null)
                     {
-                        SelectPart(hitPart);
-                        _draggedPartLabel = hitPart;
-                        _dragOffset = nativePos - _overrides[hitPart].Position;
-                        _isDragging = true;
+                        // Select part (shift adds to selection)
+                        SelectPart(hitPart, shiftHeld);
+                        
+                        // Start dragging selected parts
+                        if (_selectedPartLabels.Count > 1)
+                        {
+                            _isDraggingMultiple = true;
+                            _isDragging = true;
+                            _allPartsDragOffsets.Clear();
+                            foreach (var label in _selectedPartLabels)
+                            {
+                                if (_overrides.TryGetValue(label, out var over))
+                                {
+                                    _allPartsDragOffsets[label] = nativePos - over.Position;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            _draggedPartLabel = hitPart;
+                            _dragOffset = nativePos - _overrides[hitPart].Position;
+                            _isDragging = true;
+                            _isDraggingMultiple = false;
+                        }
                     }
                 }
             }
             
             // Handle dragging
-            if (_isDragging && _draggedPartLabel != null)
+            if (_isDragging)
             {
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
                     var nativePos = ScreenToNative(mouseState.X, mouseState.Y);
-                    var newPosition = nativePos - _dragOffset;
-                    _overrides[_draggedPartLabel].Position = newPosition;
-                    _isDirty = true;
+                    
+                    if (_isDraggingMultiple)
+                    {
+                        // Move all selected parts
+                        foreach (var (label, offset) in _allPartsDragOffsets)
+                        {
+                            if (_overrides.TryGetValue(label, out var over))
+                            {
+                                over.Position = nativePos - offset;
+                            }
+                        }
+                    }
+                    else if (_draggedPartLabel != null)
+                    {
+                        var newPosition = nativePos - _dragOffset;
+                        _overrides[_draggedPartLabel].Position = newPosition;
+                    }
                 }
                 else
                 {
-                    // Drag ended - finalize the render
+                    // Drag ended
                     _draggedPartLabel = null;
                     _isDragging = false;
-                    _isDirty = true; // Mark dirty so we get a final render with no highlight
+                    _isDraggingMultiple = false;
+                    _allPartsDragOffsets.Clear();
                 }
             }
+            
+            _previousKeyboardState = keyboardState;
         }
         
         _previousMouseState = mouseState;
@@ -679,11 +779,15 @@ public class BodyPartEditorWindow : Window
             var tint = BodyPartColor.Get(part);
             
             // Highlight selected/dragged/hovered part
-            if (_draggedPartLabel == part.Label)
+            if (_isDraggingMultiple && _selectedPartLabels.Contains(part.Label))
             {
                 tint = Color.Yellow;
             }
-            else if (_selectedPartLabel == part.Label)
+            else if (_draggedPartLabel == part.Label)
+            {
+                tint = Color.Yellow;
+            }
+            else if (_selectedPartLabels.Contains(part.Label))
             {
                 tint = Color.Lerp(tint, Color.Cyan, 0.5f);
             }
@@ -711,141 +815,40 @@ public class BodyPartEditorWindow : Window
         Core.GraphicsDevice.RasterizerState = previousRasterizerState;
     }
 
-    private void EnsureInitialized()
-    {
-        if (_renderTarget == null)
-        {
-            _renderTarget = new RenderTarget2D(
-                Core.GraphicsDevice,
-                _renderSize,
-                _renderSize,
-                false,
-                SurfaceFormat.Color,
-                DepthFormat.None,
-                0,
-                RenderTargetUsage.PreserveContents);
-        }
-
-        _spriteBatch ??= new SpriteBatch(Core.GraphicsDevice);
-    }
-
-    private void RenderToTarget()
-    {
-        if (_layout == null || _spriteBatch == null || _renderTarget == null) return;
-        
-        var previousRenderTargets = Core.GraphicsDevice.GetRenderTargets();
-        
-        Core.GraphicsDevice.SetRenderTarget(_renderTarget);
-        Core.GraphicsDevice.Clear(Color.Transparent);
-        
-        _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp);
-        
-        var parts = _pawn.Body.AllExternalParts
-            .Where(p => !p.IsSevered)
-            .Select(p => (part: p, info: _layout.GetRenderInfo(p)))
-            .Where(x => x.info.HasValue)
-            .Select(x => (x.part, info: x.info!.Value))
-            .ToList();
-        
-        // Sort by render order (back to front), using override if available
-        parts.Sort((a, b) =>
-        {
-            var orderA = _overrides.TryGetValue(a.part.Label, out var overA) ? overA.RenderOrder : a.info.RenderOrder;
-            var orderB = _overrides.TryGetValue(b.part.Label, out var overB) ? overB.RenderOrder : b.info.RenderOrder;
-            return orderA.CompareTo(orderB);
-        });
-        
-        float layoutScale = (float)_renderSize / _layout.NativeSize;
-        
-        foreach (var (part, info) in parts)
-        {
-            var over = _overrides.GetValueOrDefault(part.Label);
-            var position = over?.Position ?? info.Position;
-            var partScale = over?.Scale ?? info.Scale;
-            var rotation = over?.Rotation ?? info.Rotation;
-            
-            // Compute sprite effects from override or original
-            var effects = SpriteEffects.None;
-            if (over != null)
-            {
-                if (over.FlipHorizontal) effects |= SpriteEffects.FlipHorizontally;
-                if (over.FlipVertical) effects |= SpriteEffects.FlipVertically;
-            }
-            else
-            {
-                effects = info.Effects;
-            }
-            
-            var tint = BodyPartColor.Get(part);
-            
-            // Highlight selected/dragged/hovered part
-            if (_draggedPartLabel == part.Label)
-            {
-                tint = Color.Yellow;
-            }
-            else if (_selectedPartLabel == part.Label)
-            {
-                tint = Color.Lerp(tint, Color.Cyan, 0.5f);
-            }
-            else if (_hoveredPartLabel == part.Label)
-            {
-                tint = Color.Lerp(tint, Color.Orange, 0.35f);
-            }
-            
-            BodyPartRenderHelper.RenderBodyPart(
-                _spriteBatch, 
-                info, 
-                position: position,
-                scale: partScale,
-                rotation: rotation,
-                effects: effects,
-                layoutScale: layoutScale, 
-                tint: tint);
-        }
-        
-        _spriteBatch.End();
-        
-        Core.GraphicsDevice.SetRenderTargets(previousRenderTargets);
-    }
-
     private void ResetAll()
     {
         InitializeOverrides();
-        SelectPart(null);
-        _isDirty = true;
+        ClearSelection();
     }
 
     private void ResetSelected()
     {
-        if (_selectedPartLabel == null || _layout == null) return;
+        if (_selectedPartLabels.Count == 0 || _layout == null) return;
         
-        var part = _pawn.Body.AllExternalParts.FirstOrDefault(p => p.Label == _selectedPartLabel);
-        if (part != null)
+        foreach (var partLabel in _selectedPartLabels)
         {
-            var renderInfo = _layout.GetRenderInfo(part);
-            if (renderInfo.HasValue)
+            var part = _pawn.Body.AllExternalParts.FirstOrDefault(p => p.Label == partLabel);
+            if (part != null)
             {
-                var info = renderInfo.Value;
-                var flipH = (info.Effects & SpriteEffects.FlipHorizontally) != 0;
-                var flipV = (info.Effects & SpriteEffects.FlipVertically) != 0;
-                
-                var newOverride = new BodyPartTransformOverride(
-                    info.Position,
-                    info.Scale,
-                    info.Rotation,
-                    flipH,
-                    flipV,
-                    info.RenderOrder);
-                _overrides[_selectedPartLabel] = newOverride;
-                
-                _scaleSlider.Value = info.Scale;
-                _rotationSlider.Value = MathHelper.ToDegrees(info.Rotation);
-                _renderOrderSlider.Value = info.RenderOrder;
-                _renderOrderValueLabel.Text = $"{info.RenderOrder}";
-                UpdateFlipButtonLabels(newOverride);
-                _isDirty = true;
+                var renderInfo = _layout.GetRenderInfo(part);
+                if (renderInfo.HasValue)
+                {
+                    var info = renderInfo.Value;
+                    var flipH = (info.Effects & SpriteEffects.FlipHorizontally) != 0;
+                    var flipV = (info.Effects & SpriteEffects.FlipVertically) != 0;
+                    
+                    _overrides[partLabel] = new BodyPartTransformOverride(
+                        info.Position,
+                        info.Scale,
+                        info.Rotation,
+                        flipH,
+                        flipV,
+                        info.RenderOrder);
+                }
             }
         }
+        
+        UpdateSelectionUI();
     }
 
     private void CopyPositionsToClipboard()
