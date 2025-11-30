@@ -29,18 +29,6 @@ public class PigBodyPartLayout : IBodyPartLayout
 
     public int NativeSize => 512;
 
-    public bool SupportsBody(PawnBody body)
-    {
-        // Check if this is a pig body by looking at the torso
-        var torso = body.AllExternalParts.FirstOrDefault(p => p.Type == BodyPartType.Torso);
-        if (torso?.BodyPartDef.Moniker == "PigTorso")
-        {
-            return true;
-        }
-
-        return false;
-    }
-
     public BodyPartRenderInfo? GetRenderInfo(BodyPart part)
     {
         if (!PartLayoutMap.TryGetValue(part.Label, out var layoutData))

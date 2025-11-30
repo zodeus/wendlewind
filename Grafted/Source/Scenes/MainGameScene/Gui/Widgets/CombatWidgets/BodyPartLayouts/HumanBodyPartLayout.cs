@@ -26,22 +26,6 @@ public class HumanBodyPartLayout : IBodyPartLayout
 
     public int NativeSize => 512;
     
-    public bool SupportsBody(PawnBody body)
-    {
-        // Check if this is a humanoid body by looking at the body def or pawn def
-        var pawnDef = body.Pawn.PawnDef;
-        
-        // Check if the pawn uses human body parts
-        // We can check this by seeing if the torso is a HumanTorso
-        var torso = body.AllExternalParts.FirstOrDefault(p => p.Type == BodyPartType.Torso);
-        if (torso?.BodyPartDef.Moniker == "HumanTorso")
-        {
-            return true;
-        }
-        
-        return false;
-    }
-    
     public BodyPartRenderInfo? GetRenderInfo(BodyPart part)
     {
         if (!PartLayoutMap.TryGetValue(part.Label, out var layoutData))

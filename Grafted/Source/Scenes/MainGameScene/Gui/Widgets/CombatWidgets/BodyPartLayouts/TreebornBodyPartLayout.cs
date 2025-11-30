@@ -27,18 +27,6 @@ public class TreebornBodyPartLayout : IBodyPartLayout
 
     public int NativeSize => 512;
 
-    public bool SupportsBody(PawnBody body)
-    {
-        // Check if this is a treeborn body by looking at the torso
-        var torso = body.AllExternalParts.FirstOrDefault(p => p.Type == BodyPartType.Torso);
-        if (torso?.BodyPartDef.Moniker == "TreeTrunk")
-        {
-            return true;
-        }
-
-        return false;
-    }
-
     public BodyPartRenderInfo? GetRenderInfo(BodyPart part)
     {
         if (!PartLayoutMap.TryGetValue(part.Label, out var layoutData))

@@ -26,13 +26,6 @@ public class GhoulBodyPartLayout : IBodyPartLayout
 
     public int NativeSize => 512;
     
-    public bool SupportsBody(PawnBody body)
-    {
-        // Check if this is a ghoul body by looking at the torso
-        var torso = body.AllExternalParts.FirstOrDefault(p => p.Type == BodyPartType.Torso);
-        return torso?.BodyPartDef.Moniker == "GhoulTorso";
-    }
-    
     public BodyPartRenderInfo? GetRenderInfo(BodyPart part)
     {
         if (!PartLayoutMap.TryGetValue(part.Label, out var layoutData))

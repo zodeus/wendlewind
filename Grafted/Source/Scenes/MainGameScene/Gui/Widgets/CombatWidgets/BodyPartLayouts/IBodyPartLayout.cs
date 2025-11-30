@@ -119,6 +119,7 @@ public readonly struct BodyPartRenderInfo
 /// <summary>
 /// Interface for body-type-specific rendering layouts.
 /// Different body types (human, boar, etc.) have different body part textures and arrangements.
+/// Layouts are associated with BodyDefs via the LayoutClass property.
 /// </summary>
 public interface IBodyPartLayout
 {
@@ -133,11 +134,6 @@ public interface IBodyPartLayout
     /// <param name="part">The body part to get render info for.</param>
     /// <returns>The render info, or null if this part has no texture in this layout.</returns>
     BodyPartRenderInfo? GetRenderInfo(BodyPart part);
-    
-    /// <summary>
-    /// Returns true if this layout supports the given pawn's body type.
-    /// </summary>
-    bool SupportsBody(PawnBody body);
 }
 
 /// <summary>

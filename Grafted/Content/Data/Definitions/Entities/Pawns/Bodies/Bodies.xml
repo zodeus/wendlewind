@@ -7,7 +7,7 @@
         <MaxBlood>5000</MaxBlood>
         <BoneDensity>1</BoneDensity>
         <GeneratorClass>HumanBodyGenerator</GeneratorClass>
-        <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
+        <LayoutClass>HumanBodyPartLayout</LayoutClass>
     </BodyDef>
     <BodyDef>
         <Moniker>RabbitBody</Moniker>
@@ -16,7 +16,7 @@
         <MaxBlood>5000</MaxBlood>
         <BoneDensity>1</BoneDensity>
         <GeneratorClass>RabbitBodyGenerator</GeneratorClass>
-        <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
+        <LayoutClass>RabbitBodyPartLayout</LayoutClass>
     </BodyDef>
     <BodyDef>
         <Moniker>PigBody</Moniker>
@@ -25,7 +25,7 @@
         <BoneDensity>1</BoneDensity>
         <MaxBlood>6000</MaxBlood>
         <GeneratorClass>PigBodyGenerator</GeneratorClass>
-        <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
+        <LayoutClass>PigBodyPartLayout</LayoutClass>
     </BodyDef>
     <BodyDef>
         <Moniker>WolfBody</Moniker>
@@ -34,7 +34,7 @@
         <BoneDensity>1</BoneDensity>
         <MaxBlood>7000</MaxBlood>
         <GeneratorClass>WolfBodyGenerator</GeneratorClass>
-        <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
+        <LayoutClass>WolfBodyPartLayout</LayoutClass>
     </BodyDef>
     <BodyDef>
         <Moniker>FrogBody</Moniker>
@@ -43,7 +43,7 @@
         <BoneDensity>1</BoneDensity>
         <MaxBlood>2000</MaxBlood>
         <GeneratorClass>FrogBodyGenerator</GeneratorClass>
-        <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
+        <LayoutClass>FrogBodyPartLayout</LayoutClass>
     </BodyDef>
     <BodyDef>
         <Moniker>TreebornBody</Moniker>
@@ -52,7 +52,7 @@
         <BoneDensity>5</BoneDensity>
         <MaxBlood>20000</MaxBlood>
         <GeneratorClass>TreebornBodyGenerator</GeneratorClass>
-        <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
+        <LayoutClass>TreebornBodyPartLayout</LayoutClass>
     </BodyDef>
     <BodyDef>
         <Moniker>GhoulBody</Moniker>
@@ -62,6 +62,7 @@
         <MaxBlood>100</MaxBlood>
         <GeneratorClass>GhoulBodyGenerator</GeneratorClass>
         <HandlerClass>GhoulBodyHandler</HandlerClass>
+        <LayoutClass>GhoulBodyPartLayout</LayoutClass>
     </BodyDef>
     <BodyDef>
         <Moniker>GlumpBody</Moniker>
@@ -70,14 +71,13 @@
         <BoneDensity>1.5</BoneDensity>
         <MaxBlood>10000</MaxBlood>
         <GeneratorClass>GlumpBodyGenerator</GeneratorClass>
-        <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
     </BodyDef>
     <BodyDef>
         <Moniker>MushroomBody</Moniker>
         <Label>Mushroom Body</Label>
         <BoneDensity>1.5</BoneDensity>
         <GeneratorClass>MushroomBodyGenerator</GeneratorClass>
-        <!--<HandlerClass>HumanBodyHandler</HandlerClass>-->
+        <LayoutClass>MushroomBodyPartLayout</LayoutClass>
     </BodyDef>
     <BodyDef>
         <Moniker>OrcBody</Moniker>
