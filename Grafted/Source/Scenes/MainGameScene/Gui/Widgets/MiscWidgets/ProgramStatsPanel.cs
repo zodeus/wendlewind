@@ -1,11 +1,15 @@
+using Myra.Graphics2D.Brushes;
+
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 
-public class ProgramStatsPanel : VerticalStackPanel {
+public sealed class ProgramStatsPanel : VerticalStackPanel {
     private readonly Label _fps;
     private readonly Label _ticks;
     private readonly Label _frameTime;
 
-    public ProgramStatsPanel() {
+    public ProgramStatsPanel()
+    {
+        Width = 120;
         Spacing = 3;
         _fps = new Label(BaseContent.Styles.Label.Small);
         Widgets.Add(_fps);

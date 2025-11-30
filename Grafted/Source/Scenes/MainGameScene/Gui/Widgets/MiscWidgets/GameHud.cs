@@ -1,17 +1,17 @@
 ﻿using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+using Myra.Graphics2D.Brushes;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 
-public class GameHud : HorizontalStackPanel
+public sealed class GameHud : HorizontalStackPanel
 {
-    private Label _bloodLabel;
-    private ProgramStatsPanel _programStats;
+    private readonly Label _bloodLabel;
+    private readonly ProgramStatsPanel _programStats;
     private readonly Image _stomachGauge;
     private readonly HorizontalStackPanel _stomachOutline;
 
     private readonly Label _energyLabel;
 
-    //private MindWidget _mindWidget;
     private readonly AttackSpeedIcon _attackSpeedLabel;
     private readonly Image _bloodArrow;
 
@@ -19,12 +19,9 @@ public class GameHud : HorizontalStackPanel
     {
         var player = context.Player;
         Spacing = 50;
-        HorizontalStackPanel leftPanel = new() { Spacing = 10, Width = 600, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(10, 0, 0, 0) };
+        HorizontalStackPanel leftPanel = new() { Spacing = 10, Width = 500, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(10, 0, 0, 0) };
         HorizontalStackPanel centerPanel = new() { Spacing = 10, HorizontalAlignment = HorizontalAlignment.Center };
-        HorizontalStackPanel rightPanel = new() { Width = 300 };
-        SetProportionType(leftPanel, ProportionType.Auto);
         SetProportionType(centerPanel, ProportionType.Fill);
-        SetProportionType(rightPanel, ProportionType.Auto);
         _bloodArrow = new Image
         {
             Visible = false,
@@ -57,8 +54,11 @@ public class GameHud : HorizontalStackPanel
                 _stomachGauge
             }
         };
-        //_mindWidget = new MindWidget(Core.Context.World.PlayerPawn);
-        _programStats = new ProgramStatsPanel();
+        _programStats = new ProgramStatsPanel()
+        {
+            HorizontalAlignment = HorizontalAlignment.Right,
+        };
+        
         Button achievements = new(BaseContent.Styles.Button.Large)
         {
             Content = new Image { Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Achievements], Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium, },
@@ -178,11 +178,13 @@ public class GameHud : HorizontalStackPanel
         //     }
         // });
 
-        rightPanel.Widgets.Add(_programStats);
-
         Widgets.Add(leftPanel);
         Widgets.Add(centerPanel);
-        Widgets.Add(rightPanel);
+        Widgets.Add(new Panel()
+        {
+            Width = 500,
+            Widgets = { _programStats }
+        });
     }
 
     public void Update()

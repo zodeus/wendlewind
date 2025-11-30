@@ -22,7 +22,7 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
         _bodyPanel = new PawnBodyPanel(gui, playerPawn.Body);
         _inventoryPanel = new ItemContainerPanel(gui,
             playerPawn.Inventory.Entities, null
-        ) { MinHeight = 700, MaxHeight = 1200, Width = 600, VerticalAlignment = VerticalAlignment.Stretch };
+        ) { MinHeight = 700, MaxHeight = 700, Width = 600, VerticalAlignment = VerticalAlignment.Stretch };
 
         _equipmentPanel = new PawnEquipmentPanel(gui, playerPawn)
         {

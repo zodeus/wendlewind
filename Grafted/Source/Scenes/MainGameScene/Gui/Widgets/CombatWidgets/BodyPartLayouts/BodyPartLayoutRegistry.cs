@@ -17,6 +17,7 @@ public static class BodyPartLayoutRegistry
         
         // Register layouts in priority order (more specific first)
         _layouts.Add(new HumanBodyPartLayout());
+        _layouts.Add(new GhoulBodyPartLayout());
         _layouts.Add(new PigBodyPartLayout());
         _layouts.Add(new RabbitBodyPartLayout());
         _layouts.Add(new WolfBodyPartLayout());
