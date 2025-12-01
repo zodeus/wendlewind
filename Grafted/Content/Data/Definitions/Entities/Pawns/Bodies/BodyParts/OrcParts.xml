@@ -19,37 +19,13 @@
             <ListItem>ArterySocket</ListItem>
             <ListItem>LeftEyeSocket</ListItem>
             <ListItem>RightEyeSocket</ListItem>
-            <ListItem>NeckSocket</ListItem>
+            <ListItem>TorsoSocket</ListItem>
         </Sockets>
         <EquipmentSlots>
             <ListItem>HeadArmor</ListItem>
         </EquipmentSlots>
         <BaseStats>
             <MaxHitPoints>1200</MaxHitPoints>
-        </BaseStats>
-    </BodyPartDef>
-    <BodyPartDef ParentName="OrcBodyPartBase">
-        <Moniker>OrcNeck</Moniker>
-        <Label>Neck</Label>
-        <BodyPartType>Neck</BodyPartType>
-        <IsVital>true</IsVital>
-        <HitWeight>7</HitWeight>
-        <BloodAmount>12</BloodAmount>
-        <Substance>Flesh</Substance>
-        <TexturePath>Entities/Pawn/BodyParts/Orc/Neck</TexturePath>
-        <EquipmentSlots>
-            <ListItem>NeckArmor</ListItem>
-            <ListItem>Cloak</ListItem>
-            <ListItem>Necklace</ListItem>
-        </EquipmentSlots>
-        <Sockets>
-            <ListItem>SkinSocket</ListItem>
-            <ListItem>BoneSocket</ListItem>
-            <ListItem>ArterySocket</ListItem>
-            <ListItem>TorsoSocket</ListItem>
-        </Sockets>
-        <BaseStats>
-            <MaxHitPoints>800</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="OrcBodyPartBase">

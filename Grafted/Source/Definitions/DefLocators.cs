@@ -197,7 +197,6 @@ public static partial class Defs {
         public static BodyPartDef MushroomFoot = null!;
         
         public static BodyPartDef OrcHead = null!;
-        public static BodyPartDef OrcNeck = null!;
         public static BodyPartDef OrcTorso = null!;
         public static BodyPartDef OrcArm = null!;
         public static BodyPartDef OrcLeg = null!;

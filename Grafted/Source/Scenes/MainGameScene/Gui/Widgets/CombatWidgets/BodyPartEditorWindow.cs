@@ -133,7 +133,7 @@ public class BodyPartEditorWindow : Window
         _scaleSlider = new HorizontalSlider
         {
             Minimum = 0.1f,
-            Maximum = 2.0f,
+            Maximum = 3.0f,
             Value = 1.0f,
             Width = 400
         };

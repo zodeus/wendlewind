@@ -86,6 +86,7 @@
         <MaxBlood>20000</MaxBlood>
         <BloodType>ToxicSlime</BloodType>
         <GeneratorClass>OrcBodyGenerator</GeneratorClass>
+        <LayoutClass>OrcBodyPartLayout</LayoutClass>
     </BodyDef>
     <BodyDef>
         <Moniker>MosquitoBody</Moniker>
@@ -94,6 +95,7 @@
         <MaxBlood>2000</MaxBlood>
         <BloodType>ToxicSlime</BloodType>
         <GeneratorClass>MosquitoBodyGenerator</GeneratorClass>
+        <LayoutClass>MosquitoBodyPartLayout</LayoutClass>
     </BodyDef>
     <BodyDef>
         <Moniker>BeeBody</Moniker>
@@ -102,5 +104,6 @@
         <MaxBlood>20000</MaxBlood>
         <BloodType>HoneySuckle</BloodType>
         <GeneratorClass>BeeBodyGenerator</GeneratorClass>
+        <LayoutClass>BeeBodyPartLayout</LayoutClass>
     </BodyDef>
 </Definitions>
