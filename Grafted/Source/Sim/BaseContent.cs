@@ -206,13 +206,13 @@ public static partial class BaseContent
 
             Default = new FontData
             {
-                VerySmall = monoFont.GetFont(14),
-                Small = monoFont.GetFont(16),
+                VerySmall = monoFont.GetFont(16),
+                Small = monoFont.GetFont(18),
                 Normal = monoFont.GetFont(24),
-                Medium = monoFont.GetFont(32),
-                Large = monoFont.GetFont(40),
+                Medium = monoFont.GetFont(30),
+                Large = monoFont.GetFont(36),
                 VeryLarge = monoFont.GetFont(48),
-                Huge = monoFont.GetFont(64)
+                Huge = monoFont.GetFont(56)
             };
         }
     }

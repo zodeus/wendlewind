@@ -53,6 +53,12 @@
         </EquipmentProperties>
         <WeaponProperties>
             <WeaponType>Axe</WeaponType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Wood</Substance>
+                    <Modifier>1.4</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Sharp/WarAxe</TexturePath>
         <BaseStats>

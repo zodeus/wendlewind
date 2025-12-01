@@ -9,17 +9,17 @@ public class HumanBodyPartLayout : IBodyPartLayout
     // Body part positions (native coordinates)
     private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()
     {
-        { "Neck", new BodyPartLayoutData(new Vector2(188f, 74f), 0, 0.90f) },
-        { "Right Hand", new BodyPartLayoutData(new Vector2(126f, 285f), 0, 0.50f, 0.1963f) },
+        { "Right Hand", new BodyPartLayoutData(new Vector2(125f, 298f), 0, 0.50f, 0.3840f) },
         { "Left Foot", new BodyPartLayoutData(new Vector2(287f, 430f), 0, 0.60f, -0.0982f) },
         { "Right Foot", new BodyPartLayoutData(new Vector2(129f, 425f), 0, 0.60f, 0.1963f, flipHorizontal: true) },
-        { "Head", new BodyPartLayoutData(new Vector2(199f, 27f), 10, 0.81f, -0.0491f) },
-        { "Left Hand", new BodyPartLayoutData(new Vector2(309f, 286f), 19, 0.50f, -0.1963f, flipHorizontal: true) },
-        { "Left Arm", new BodyPartLayoutData(new Vector2(230f, 123f), 20, 1.26f, 0.4909f, flipHorizontal: true) },
-        { "Right Arm", new BodyPartLayoutData(new Vector2(105f, 122f), 21, 1.26f, -0.4909f) },
-        { "Left Eye", new BodyPartLayoutData(new Vector2(261f, 66f), 31, 0.13f) },
-        { "Right Eye", new BodyPartLayoutData(new Vector2(234f, 66f), 31, 0.13f, 0.0491f, flipHorizontal: true) },
-        { "Torso", new BodyPartLayoutData(new Vector2(160f, 119f), 50, 1.42f) },
+        { "Neck", new BodyPartLayoutData(new Vector2(201f, 115f), 4, 0.70f, 0.1047f) },
+        { "Right Arm", new BodyPartLayoutData(new Vector2(117f, 142f), 7, 1.20f, -0.4909f) },
+        { "Head", new BodyPartLayoutData(new Vector2(206f, 72f), 10, 0.65f, -0.0491f) },
+        { "Left Hand", new BodyPartLayoutData(new Vector2(306f, 302f), 19, 0.50f, -0.2793f, flipHorizontal: true) },
+        { "Left Arm", new BodyPartLayoutData(new Vector2(229f, 145f), 20, 1.20f, 0.4909f, flipHorizontal: true) },
+        { "Left Eye", new BodyPartLayoutData(new Vector2(250f, 101f), 31, 0.13f, 0.1222f, flipHorizontal: true) },
+        { "Right Eye", new BodyPartLayoutData(new Vector2(230f, 102f), 31, 0.13f, 0.0491f, flipHorizontal: true) },
+        { "Torso", new BodyPartLayoutData(new Vector2(175f, 139f), 50, 1.20f) },
         { "Left Leg", new BodyPartLayoutData(new Vector2(206f, 261f), 50, 1.40f, -0.2454f) },
         { "Right Leg", new BodyPartLayoutData(new Vector2(110f, 258f), 50, 1.40f, 0.2454f, flipHorizontal: true) },
     };

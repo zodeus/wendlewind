@@ -9,19 +9,19 @@ public class GhoulBodyPartLayout : IBodyPartLayout
     // Body part positions (native coordinates)
     private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()
     {
-        { "Neck", new BodyPartLayoutData(new Vector2(203f, 85f), 0, 0.50f) },
-        { "Right Hand", new BodyPartLayoutData(new Vector2(118f, 280f), 0, 0.50f, 0.1963f) },
         { "Left Foot", new BodyPartLayoutData(new Vector2(279f, 424f), 0, 0.60f, -0.0982f) },
-        { "Right Foot", new BodyPartLayoutData(new Vector2(122f, 428f), 0, 0.60f, 0.1963f, flipHorizontal: true) },
-        { "Head", new BodyPartLayoutData(new Vector2(192f, 22f), 10, 0.81f, -0.0491f) },
-        { "Left Leg", new BodyPartLayoutData(new Vector2(204f, 269f), 10, 1.40f, -0.2454f) },
-        { "Right Leg", new BodyPartLayoutData(new Vector2(102f, 265f), 17, 1.40f, 0.2454f, flipHorizontal: true) },
-        { "Left Hand", new BodyPartLayoutData(new Vector2(301f, 281f), 19, 0.50f, -0.1963f, flipHorizontal: true) },
-        { "Left Arm", new BodyPartLayoutData(new Vector2(222f, 118f), 20, 1.26f, 0.4909f, flipHorizontal: true) },
-        { "Right Arm", new BodyPartLayoutData(new Vector2(97f, 117f), 21, 1.26f, -0.4909f) },
-        { "Left Eye", new BodyPartLayoutData(new Vector2(253f, 61f), 31, 0.13f) },
-        { "Right Eye", new BodyPartLayoutData(new Vector2(223f, 59f), 31, 0.13f, 0.0491f, flipHorizontal: true) },
-        { "Torso", new BodyPartLayoutData(new Vector2(152f, 110f), 50, 1.42f) },
+        { "Left Leg", new BodyPartLayoutData(new Vector2(257f, 376f), 10, 0.60f, -0.2454f) },
+        { "Right Arm", new BodyPartLayoutData(new Vector2(170f, 241f), 21, 0.55f, 0.1745f) },
+        { "Torso", new BodyPartLayoutData(new Vector2(124f, 236f), 22, 1.70f) },
+        { "Right Hand", new BodyPartLayoutData(new Vector2(128f, 210f), 30, 0.65f, 1.9548f, flipHorizontal: true) },
+        { "Right Leg", new BodyPartLayoutData(new Vector2(168f, 382f), 31, 0.60f, 0.2443f) },
+        { "Right Foot", new BodyPartLayoutData(new Vector2(167f, 428f), 33, 0.60f, 0.0698f) },
+        { "Neck", new BodyPartLayoutData(new Vector2(204f, 190f), 50, 0.90f, -0.0873f) },
+        { "Head", new BodyPartLayoutData(new Vector2(200f, 167f), 50, 0.95f, -0.0491f) },
+        { "Left Arm", new BodyPartLayoutData(new Vector2(241f, 244f), 52, 0.60f, 0.0175f) },
+        { "Left Hand", new BodyPartLayoutData(new Vector2(181f, 227f), 62, 0.70f, 1.3963f, flipHorizontal: true) },
+        { "Right Eye", new BodyPartLayoutData(new Vector2(233f, 199f), 64, 0.13f, 0.0491f) },
+        { "Left Eye", new BodyPartLayoutData(new Vector2(248f, 197f), 75, 0.13f, -0.2094f) },
     };
 
     public int NativeSize => 512;

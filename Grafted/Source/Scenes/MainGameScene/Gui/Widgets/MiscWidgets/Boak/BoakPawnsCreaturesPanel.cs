@@ -1,11 +1,15 @@
 ﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
 
-internal sealed class BoakPawnsCreaturesPanel : Grid
+internal sealed class BoakPawnsCreaturesPanel : Grid, IDisposable
 {
+    private readonly List<PawnBodyRenderWidget> _renderWidgets = new();
+
     public BoakPawnsCreaturesPanel(IReadOnlyList<PawnDef> defs)
     {
         RowSpacing = 30;
         ColumnSpacing = 30;
+
+        var emptyLoadout = DefRepository<PawnLoadoutDef>.GetByMoniker("EmptyLoadout")!;
 
         int gridRow = 0;
         int gridColum = 0;
@@ -15,14 +19,30 @@ internal sealed class BoakPawnsCreaturesPanel : Grid
             {
                 Spacing = 5,
                 Margin = new Thickness(0, 0, 40, 0),
-                MinWidth = 450,
+                MinWidth = 250,
                 Widgets =
                 {
-                    new Label(BaseContent.Styles.Label.Large) { Text = def.Label, Margin = new Thickness(0, 0, 0, 20) },
-                    new Label(BaseContent.Styles.Label.Medium) { Text = $"Species: {def.Species}" },
-                    new Label(BaseContent.Styles.Label.Normal) { Text = $"{def.Description}" },
+                    new Label(BaseContent.Styles.Label.Normal) { Text = def.Label, Margin = new Thickness(0, 0, 0, 20) },
+                    new Label(BaseContent.Styles.Label.Small) { Text = $"Species: {def.Species}" },
+                    new Label(BaseContent.Styles.Label.Small) { Text = $"{def.Description}" },
                 }
             };
+
+            // Create a preview pawn to render
+            var previewPawn = PawnGenerator.CreatePawn(new PawnRequest(
+                def.Label,
+                def,
+                emptyLoadout,
+                PawnType.Enemy
+            ));
+
+            var bodyWidget = new PawnBodyRenderWidget(previewPawn, 128)
+            {
+                Width = 128,
+                Height = 128,
+                VerticalAlignment = VerticalAlignment.Top
+            };
+            _renderWidgets.Add(bodyWidget);
 
             var panel = new HorizontalStackPanel
             {
@@ -34,7 +54,7 @@ internal sealed class BoakPawnsCreaturesPanel : Grid
                         VerticalAlignment = VerticalAlignment.Top,
                         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
                         Padding = new Thickness(10),
-                        Widgets = { new Image { Width = 256, Height = 256, Background = new TextureRegion(def.Icon) } }
+                        Widgets = { bodyWidget }
                     },
                     details
                 }
@@ -44,11 +64,20 @@ internal sealed class BoakPawnsCreaturesPanel : Grid
             Widgets.Add(panel);
 
             gridColum++;
-            if (gridColum > 2)
+            if (gridColum > 3)
             {
                 gridColum = 0;
                 gridRow++;
             }
         }
+    }
+
+    public void Dispose()
+    {
+        foreach (var widget in _renderWidgets)
+        {
+            widget.Dispose();
+        }
+        _renderWidgets.Clear();
     }
 }

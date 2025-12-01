@@ -17,7 +17,7 @@
     <ItemDef Name="WeaponBlunt" ParentName="WeaponBase" Abstract="true">
         <WeaponProperties>
             <DamageType>Blunt</DamageType>
-            <SubstanceModifiers>
+            <SubstanceModifiers ListKey="Substance">
                 <ListItem>
                     <Substance>Bone</Substance>
                     <Modifier>1.3</Modifier>
@@ -25,6 +25,22 @@
                 <ListItem>
                     <Substance>Flesh</Substance>
                     <Modifier>0.8</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Fungus</Substance>
+                    <Modifier>0.8</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Wood</Substance>
+                    <Modifier>0.7</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Metal</Substance>
+                    <Modifier>0.6</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Stone</Substance>
+                    <Modifier>1.2</Modifier>
                 </ListItem>
             </SubstanceModifiers>
         </WeaponProperties>
@@ -32,7 +48,7 @@
     <ItemDef Name="WeaponSharp" ParentName="WeaponBase" Abstract="true">
         <WeaponProperties>
             <DamageType>Sharp</DamageType>
-            <SubstanceModifiers>
+            <SubstanceModifiers ListKey="Substance">
                 <ListItem>
                     <Substance>Flesh</Substance>
                     <Modifier>1.3</Modifier>
@@ -40,6 +56,22 @@
                 <ListItem>
                     <Substance>Bone</Substance>
                     <Modifier>0.8</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Fungus</Substance>
+                    <Modifier>1.4</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Wood</Substance>
+                    <Modifier>1.2</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Metal</Substance>
+                    <Modifier>0.4</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Stone</Substance>
+                    <Modifier>0.3</Modifier>
                 </ListItem>
             </SubstanceModifiers>
         </WeaponProperties>

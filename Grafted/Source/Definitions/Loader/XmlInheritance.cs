@@ -208,6 +208,8 @@ public static class XmlInheritance
         node.ResolvedXmlNode = xmlNode;
     }
 
+    private const string ListKeyAttributeName = "ListKey";
+
     private static void RecursiveNodeCopyOverwriteElements(XmlNode child, XmlNode current)
     {
         var xmlAttribute = child.Attributes[InheritAttributeName];
@@ -226,12 +228,23 @@ public static class XmlInheritance
         }
         else
         {
+            // Preserve ListKey attribute from parent if child doesn't have one
+            var parentListKey = current.Attributes?[ListKeyAttributeName]?.Value;
+            
             current.Attributes.RemoveAll();
             var attributes = child.Attributes;
             for (var i = 0; i < attributes.Count; i++)
             {
                 var node2 = (XmlAttribute)current.OwnerDocument.ImportNode(attributes[i], deep: true);
                 current.Attributes.Append(node2);
+            }
+            
+            // If parent had ListKey and child doesn't, restore it
+            if (parentListKey != null && current.Attributes[ListKeyAttributeName] == null)
+            {
+                var listKeyAttr = current.OwnerDocument.CreateAttribute(ListKeyAttributeName);
+                listKeyAttr.Value = parentListKey;
+                current.Attributes.Append(listKeyAttr);
             }
 
             var list = new List<XmlElement>();
@@ -287,11 +300,28 @@ public static class XmlInheritance
             }
             else
             {
+                // Check if parent has a ListKey attribute for keyed list merging
+                var listKeyFieldName = current.Attributes?[ListKeyAttributeName]?.Value;
+                
                 for (var j = 0; j < list.Count; j++)
                 {
                     var xmlElement = list[j];
                     if (IsListElement(xmlElement))
                     {
+                        // Check if this list uses keyed merging via ListKey attribute
+                        if (listKeyFieldName != null)
+                        {
+                            var keyNode = xmlElement[listKeyFieldName];
+                            if (keyNode != null)
+                            {
+                                var keyValue = keyNode.InnerText;
+                                var existingEntry = FindListEntryByKey(current, listKeyFieldName, keyValue);
+                                if (existingEntry != null)
+                                {
+                                    current.RemoveChild(existingEntry);
+                                }
+                            }
+                        }
                         var newChild3 = current.OwnerDocument.ImportNode(xmlElement, deep: true);
                         current.AppendChild(newChild3);
                     }
@@ -311,6 +341,20 @@ public static class XmlInheritance
                 }
             }
         }
+    }
+
+    private static XmlNode? FindListEntryByKey(XmlNode parent, string keyFieldName, string keyValue)
+    {
+        foreach (XmlNode child in parent.ChildNodes)
+        {
+            if (child.NodeType != XmlNodeType.Element) continue;
+            var keyNode = child[keyFieldName];
+            if (keyNode != null && keyNode.InnerText == keyValue)
+            {
+                return child;
+            }
+        }
+        return null;
     }
 
     private static void CheckForDuplicateNodes(XmlNode node, XmlNode root)

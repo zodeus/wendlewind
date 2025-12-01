@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+    <BodyPartSocketDef Name="TreeBodyPartSocketBase" ParentName="BodyPartSocketBase" Abstract="True">
+
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="TreeBodyPartSocketBase">
         <Moniker>TreeTrunkSocket</Moniker>
         <Label>Tree Trunk Socket</Label>
         <IsExternal>true</IsExternal>
@@ -9,7 +12,7 @@
             <ListItem>Torso</ListItem>
         </AllowedBodyPartTypes>
     </BodyPartSocketDef>
-    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+    <BodyPartSocketDef ParentName="TreeBodyPartSocketBase">
         <Moniker>FrontLeftLegStumpSocket</Moniker>
         <Label>Front Left Leg Stump Socket</Label>
         <IsExternal>true</IsExternal>
@@ -18,7 +21,7 @@
             <ListItem>Leg</ListItem>
         </AllowedBodyPartTypes>
     </BodyPartSocketDef>
-    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+    <BodyPartSocketDef ParentName="TreeBodyPartSocketBase">
         <Moniker>FrontRightLegStumpSocket</Moniker>
         <Label>Front Right Leg Stump Socket</Label>
         <IsExternal>true</IsExternal>
@@ -27,7 +30,7 @@
             <ListItem>Leg</ListItem>
         </AllowedBodyPartTypes>
     </BodyPartSocketDef>
-    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+    <BodyPartSocketDef ParentName="TreeBodyPartSocketBase">
         <Moniker>RearLeftLegStumpSocket</Moniker>
         <Label>Rear Left Leg Stump Socket</Label>
         <IsExternal>true</IsExternal>
@@ -36,7 +39,7 @@
             <ListItem>Leg</ListItem>
         </AllowedBodyPartTypes>
     </BodyPartSocketDef>
-    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+    <BodyPartSocketDef ParentName="TreeBodyPartSocketBase">
         <Moniker>RearRightLegStumpSocket</Moniker>
         <Label>Rear Right Leg Stump Socket</Label>
         <IsExternal>true</IsExternal>
@@ -45,7 +48,7 @@
             <ListItem>Leg</ListItem>
         </AllowedBodyPartTypes>
     </BodyPartSocketDef>
-    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+    <BodyPartSocketDef ParentName="TreeBodyPartSocketBase">
         <Moniker>FrontLeftArmStumpSocket</Moniker>
         <Label>Front Left Arm Stump Socket</Label>
         <IsExternal>true</IsExternal>
@@ -54,7 +57,7 @@
             <ListItem>Arm</ListItem>
         </AllowedBodyPartTypes>
     </BodyPartSocketDef>
-    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+    <BodyPartSocketDef ParentName="TreeBodyPartSocketBase">
         <Moniker>FrontRightArmStumpSocket</Moniker>
         <Label>Front Right Arm Stump Socket</Label>
         <IsExternal>true</IsExternal>
@@ -63,7 +66,7 @@
             <ListItem>Arm</ListItem>
         </AllowedBodyPartTypes>
     </BodyPartSocketDef>
-    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+    <BodyPartSocketDef ParentName="TreeBodyPartSocketBase">
         <Moniker>RearLeftArmStumpSocket</Moniker>
         <Label>Rear Left Arm Stump Socket</Label>
         <IsExternal>true</IsExternal>
@@ -72,7 +75,7 @@
             <ListItem>Arm</ListItem>
         </AllowedBodyPartTypes>
     </BodyPartSocketDef>
-    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+    <BodyPartSocketDef ParentName="TreeBodyPartSocketBase">
         <Moniker>RearRightArmStumpSocket</Moniker>
         <Label>Rear Right Arm Stump Socket</Label>
         <IsExternal>true</IsExternal>

@@ -114,6 +114,12 @@ public sealed class CombatResultsScreen : VerticalStackPanel
         {
             var item = items[index];
             player.Inventory.Entities.TryAdd(item);
+            
+            // Track trinkets to prevent duplicates from loot boxes
+            if (item.ItemDef.ItemType == ItemType.Trinket && !_context.Player.TrinketsFound.Contains(item.ItemDef))
+            {
+                _context.Player.TrinketsFound.Add(item.ItemDef);
+            }
         }
     }
 

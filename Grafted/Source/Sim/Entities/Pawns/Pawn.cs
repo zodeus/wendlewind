@@ -181,8 +181,8 @@ public class Pawn : Entity
             }
 
             // Apply Damage
-            damageRecord.ActualAmount = damage.TotalUnblockedDamage;
             damageRecord.BodyParts = bodyPart.ApplyDamageToExternalPart(damage);
+            damageRecord.ActualAmount = damageRecord.BodyParts.Sum(p => p.DamageApplied);
 
             // Handle Enchantments
             var enchantments = bodyPart.Equipment.Values.SelectMany(e => e?.Enchantments?.ToList() ?? []);

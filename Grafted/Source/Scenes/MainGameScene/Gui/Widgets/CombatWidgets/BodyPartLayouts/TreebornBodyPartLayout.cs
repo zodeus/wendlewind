@@ -23,8 +23,6 @@ public class TreebornBodyPartLayout : IBodyPartLayout
         { "Rear Left Arm Stump", new BodyPartLayoutData(new Vector2(178f, 328f), 24, 0.90f, 1.6930f) },
     };
 
-
-
     public int NativeSize => 512;
 
     public BodyPartRenderInfo? GetRenderInfo(BodyPart part)

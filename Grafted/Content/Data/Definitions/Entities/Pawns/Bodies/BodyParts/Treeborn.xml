@@ -1,19 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <BodyPartSocketDef Name="TreeBodyPartSocketBase" ParentName="BodyPartSocketBase" Abstract="True">
-
-    </BodyPartSocketDef>
-
-    <!-- Sockets -->
-    <BodyPartSocketDef ParentName="TreeBodyPartSocketBase">
-        <Moniker>TreeTrunkSocket</Moniker>
-        <Label>Tree Trunk Socket</Label>
-        <IsExternal>true</IsExternal>
-        <AllowedBodyPartTypes>
-            <ListItem>Torso</ListItem>
-        </AllowedBodyPartTypes>
-    </BodyPartSocketDef>
 
     <!-- Regular Parts -->
     <BodyPartDef Name="TreeBodyPartBase" ParentName="BodyPartBase" Abstract="True">
