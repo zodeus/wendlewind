@@ -145,11 +145,10 @@ public class Pawn : Entity
                 request.Source.GetSkill(request.Source.Body.Stance)?.Learn(0.1f);
             }
 
-            DamageRecord damageRecord = new(damage.Weapon.Label, request.WeaponManeuver.Label, damage.Type, bodyPart, damage.TotalDamage);
-
             // Handle Armor
             var isPartCoveredByParentArmor = bodyPart.Type is BodyPartType.Finger or BodyPartType.Thumb;
             var bodyPartEquipment = isPartCoveredByParentArmor ? bodyPart.Socket?.ParentPart?.Armor : bodyPart.Armor;
+            Item? destroyedArmor = null;
             if (bodyPartEquipment != null)
             {
                 if (damage.Type.IsPhysicalDamage())
@@ -161,7 +160,7 @@ public class Pawn : Entity
 
                 if (bodyPartEquipment.IsDestroyed)
                 {
-                    damageRecord.DestroyedEquipment.Add(new DestroyedItemRecord(bodyPartEquipment.ItemDef));
+                    destroyedArmor = bodyPartEquipment;
                     if (isPartCoveredByParentArmor)
                     {
                         bodyPart.Socket!.ParentPart!.UnEquip(bodyPartEquipment);
@@ -171,6 +170,15 @@ public class Pawn : Entity
                         bodyPart.UnEquip(bodyPartEquipment);
                     }
                 }
+            }
+
+            // Create damage record after blocking is calculated
+            var amountBlocked = damage.TotalDamage - damage.TotalUnblockedDamage;
+            DamageRecord damageRecord = new(damage.Weapon.Label, request.WeaponManeuver.Label, damage.Type, bodyPart, damage.TotalDamage, amountBlocked);
+            
+            if (destroyedArmor != null)
+            {
+                damageRecord.DestroyedEquipment.Add(new DestroyedItemRecord(destroyedArmor.ItemDef));
             }
 
             //Handle Weapon Durability

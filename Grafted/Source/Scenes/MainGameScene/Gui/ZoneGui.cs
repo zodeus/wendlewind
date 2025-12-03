@@ -1,4 +1,4 @@
-﻿using Grafted.Scenes.MainGameScene.Gui.CombatGui;
+using Grafted.Scenes.MainGameScene.Gui.CombatGui;
 using FontStashSharp;
 
 namespace Grafted.Scenes.MainGameScene.Gui;
@@ -87,6 +87,10 @@ public class ZoneGui : BaseGui
 
     public override void Draw(SpriteBatch spriteBatch, float deltaTime)
     {
+        // Pre-render body renderers BEFORE drawing the background to avoid
+        // backbuffer being discarded when render targets switch
+        PawnBodyRenderer.PreRenderAll();
+        
         spriteBatch.Begin(
             SpriteSortMode.Deferred,
             BlendState.NonPremultiplied,

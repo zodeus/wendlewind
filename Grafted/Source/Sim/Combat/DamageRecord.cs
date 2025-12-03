@@ -1,4 +1,4 @@
-﻿namespace Grafted.Sim.Combat;
+namespace Grafted.Sim.Combat;
 
 public class DamageRecord
 {
@@ -10,16 +10,16 @@ public class DamageRecord
     public IReadOnlyList<DamagedBodyPartRecord> BodyParts = new List<DamagedBodyPartRecord>();
     public readonly List<DestroyedItemRecord> DestroyedEquipment = [];
     public readonly double TotalDamage;
+    public readonly double AmountBlocked;
     public double ActualAmount;
 
-    public DamageRecord(string weaponLabel, string weaponManeuverLabel, DamageType damageType, BodyPart bodyPartHit, double totalDamage)
+    public DamageRecord(string weaponLabel, string weaponManeuverLabel, DamageType damageType, BodyPart bodyPartHit, double totalDamage, double amountBlocked)
     {
         WeaponLabel = weaponLabel;
         WeaponManeuverLabel = weaponManeuverLabel;
         DamageType = damageType;
         BodyPartHit = bodyPartHit;
         TotalDamage = totalDamage;
+        AmountBlocked = amountBlocked;
     }
-
-    public double AmountBlocked => TotalDamage - ActualAmount;
 }

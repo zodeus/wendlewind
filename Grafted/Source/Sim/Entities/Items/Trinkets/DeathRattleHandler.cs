@@ -33,7 +33,7 @@ public class DeathRattleHandler : TrinketHandler
             Kills++;
         }
 
-        return new DamageRecord(Trinket.Label, "Head Rattle", Trinket.ItemDef.WeaponProperties?.DamageType ?? DamageType.Invalid, part, damage)
+        return new DamageRecord(Trinket.Label, "Head Rattle", Trinket.ItemDef.WeaponProperties?.DamageType ?? DamageType.Invalid, part, damage, amountBlocked: 0)
         {
             ActualAmount = damage,
             BodyParts = damagedParts

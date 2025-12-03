@@ -82,7 +82,10 @@ public abstract class BaseGui : IDisposable
     public virtual void Draw(SpriteBatch spriteBatch, float deltaTime)
     {
         // Pre-render all body renderers before Myra's render pass
-        // to avoid render target switching during UI rendering which causes flickering
+        // to avoid render target switching during UI rendering which causes flickering.
+        // Note: ZoneGui calls this earlier (before drawing its background) to prevent
+        // backbuffer discard when targets switch. This call is a no-op in that case
+        // since renderers are already clean, but serves as safety for other GUI subclasses.
         PawnBodyRenderer.PreRenderAll();
         
         Desktop.Render();
