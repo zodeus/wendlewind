@@ -10,10 +10,16 @@
         </EquipmentProperties>
         <WeaponProperties>
             <WeaponType>Staff</WeaponType>
+            <SubstanceModifiers ListKey="Substance">
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.1</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Blunt/WoodenStick</TexturePath>
         <BaseStats>
-            <MeleePower>15</MeleePower>
+            <MeleePower>20</MeleePower>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -28,7 +34,7 @@
     <ItemDef ParentName="WeaponBlunt">
         <Moniker>WoodenHammer</Moniker>
         <Label>Wooden Hammer</Label>
-        <Description>It's a smasher! (1.5x to bones)</Description>
+        <Description>It's a smasher!</Description>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
         </EquipmentProperties>
@@ -53,7 +59,7 @@
             </Items>
         </DisassembleProperties>
     </ItemDef>
-    <!--<ItemDef ParentName="WeaponSharp">
+    <ItemDef ParentName="WeaponSharp">
         <Moniker>Knife</Moniker>
         <Label>Knife</Label>
         <Description>It's a simple knife</Description>
@@ -65,8 +71,8 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Sharp/BasicKnife</TexturePath>
         <BaseStats>
-            <MeleePower>15</MeleePower>
+            <MeleePower>25</MeleePower>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
-    </ItemDef>-->
+    </ItemDef>
 </Definitions>

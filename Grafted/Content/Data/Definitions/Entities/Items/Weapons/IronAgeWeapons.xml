@@ -28,6 +28,12 @@
         </EquipmentProperties>
         <WeaponProperties>
             <WeaponType>Sword</WeaponType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Wood</Substance>
+                    <Modifier>1.2</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Sharp/ShortSword</TexturePath>
         <BaseStats>
@@ -88,6 +94,12 @@
         </EquipmentProperties>
         <WeaponProperties>
             <WeaponType>Hammer</WeaponType>
+            <SubstanceModifiers ListKey="Substance">
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Blunt/WarHammer</TexturePath>
         <BaseStats>

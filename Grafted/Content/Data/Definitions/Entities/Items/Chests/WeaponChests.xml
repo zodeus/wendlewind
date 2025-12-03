@@ -18,6 +18,10 @@
                 <ItemDef>WoodenHammer</ItemDef>
                 <Weight>1</Weight>
             </ListItem>
+            <ListItem>
+                <ItemDef>Knife</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
         </Items>
     </LootBoxDef>
     <LootBoxDef>

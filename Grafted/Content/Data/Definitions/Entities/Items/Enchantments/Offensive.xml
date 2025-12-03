@@ -57,4 +57,22 @@
         </EnchantmentProperties>
         <TexturePath>Entities/Item/Enchantments/BoneEater</TexturePath>
     </ItemDef>
+    <ItemDef ParentName="ItemEnchantment">
+        <Moniker>EverburningStone</Moniker>
+        <Label>Everburning Stone</Label>
+        <Description>The stone never stops burning.</Description>
+        <EnchantmentProperties>
+            <ValidEquipmentTypes>
+                <ListItem>Weapon</ListItem>
+            </ValidEquipmentTypes>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Burning</Def>
+                    <DurationInTicks>60</DurationInTicks>
+                    <Chance>.75</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </EnchantmentProperties>
+        <TexturePath>Entities/Item/Enchantments/EverburningStone</TexturePath>
+    </ItemDef>
 </Definitions>

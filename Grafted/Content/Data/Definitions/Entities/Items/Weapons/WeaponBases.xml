@@ -19,10 +19,6 @@
             <DamageType>Blunt</DamageType>
             <SubstanceModifiers ListKey="Substance">
                 <ListItem>
-                    <Substance>Bone</Substance>
-                    <Modifier>1.3</Modifier>
-                </ListItem>
-                <ListItem>
                     <Substance>Flesh</Substance>
                     <Modifier>0.8</Modifier>
                 </ListItem>
@@ -32,14 +28,22 @@
                 </ListItem>
                 <ListItem>
                     <Substance>Wood</Substance>
-                    <Modifier>0.7</Modifier>
-                </ListItem>
-                <ListItem>
-                    <Substance>Metal</Substance>
                     <Modifier>0.6</Modifier>
                 </ListItem>
                 <ListItem>
+                    <Substance>Metal</Substance>
+                    <Modifier>1.2</Modifier>
+                </ListItem>
+                <ListItem>
                     <Substance>Stone</Substance>
+                    <Modifier>1.2</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.2</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Chitin</Substance>
                     <Modifier>1.2</Modifier>
                 </ListItem>
             </SubstanceModifiers>
@@ -54,16 +58,12 @@
                     <Modifier>1.3</Modifier>
                 </ListItem>
                 <ListItem>
-                    <Substance>Bone</Substance>
-                    <Modifier>0.8</Modifier>
-                </ListItem>
-                <ListItem>
                     <Substance>Fungus</Substance>
-                    <Modifier>1.4</Modifier>
+                    <Modifier>1.2</Modifier>
                 </ListItem>
                 <ListItem>
                     <Substance>Wood</Substance>
-                    <Modifier>1.2</Modifier>
+                    <Modifier>1</Modifier>
                 </ListItem>
                 <ListItem>
                     <Substance>Metal</Substance>
@@ -71,7 +71,15 @@
                 </ListItem>
                 <ListItem>
                     <Substance>Stone</Substance>
-                    <Modifier>0.3</Modifier>
+                    <Modifier>0.6</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>0.8</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Chitin</Substance>
+                    <Modifier>0.6</Modifier>
                 </ListItem>
             </SubstanceModifiers>
         </WeaponProperties>
