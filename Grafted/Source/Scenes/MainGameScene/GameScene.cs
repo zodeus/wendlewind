@@ -58,7 +58,14 @@ public class GameScene : Scene
         if (state == GameState.Restart)
         {
             _currentGameState = GameState.Camp;
-            QuickPlay();
+            RestartGame();
+            ActiveGui!.PushScreenMessage(new ScreenMessageData
+            {
+                Text = "Ahhh.... A new specimen...",
+                Font = BaseContent.Fonts.Default.Huge,
+                Duration = 3,
+                Color = Color.WhiteSmoke
+            });
             return;
         }
 
@@ -70,10 +77,22 @@ public class GameScene : Scene
     private void QuickPlay()
     {
         Core.ClearCoroutines();
-        _context.World = WorldGenerator.GenerateNewWorld();
+        _context.Reset();
+        ActiveGui = null;
+        StartGame();
+    }
+
+    private void RestartGame()
+    {
         _context.CurrentZone = null;
-        _context.Ticks = 0;
         _context.DeathRecords.Reset();
+        _context.Player.Reset();
+        _context.World.Zones.ForEach(z =>
+        { 
+            z.ActiveEncounter = null;
+            z.IsComplete = false;
+            z.Stage = 0;
+        });
         ActiveGui = null;
         StartGame();
     }
@@ -113,6 +132,11 @@ public class GameScene : Scene
             _context.TogglePause();
         }
 
+        if (currentKeyboardState.IsKeyDown(Keys.Q))
+        {
+            ActiveGui?.MouseAttachment?.Detach();
+        }
+
         if (WasKeyJustPressed(Keys.F5, currentKeyboardState))
         {
             _context.Save("save.xml");
@@ -138,11 +162,6 @@ public class GameScene : Scene
                 Duration = 3,
                 Color = Color.WhiteSmoke
             });
-        }
-
-        if (currentKeyboardState.IsKeyDown(Keys.Q))
-        {
-            ActiveGui?.MouseAttachment?.Detach();
         }
 
         if (WasKeyJustPressed(Keys.F2, currentKeyboardState))

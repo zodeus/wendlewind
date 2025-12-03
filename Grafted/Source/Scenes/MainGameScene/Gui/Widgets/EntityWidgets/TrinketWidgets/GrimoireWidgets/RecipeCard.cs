@@ -78,7 +78,7 @@ public class RecipeCard : VerticalStackPanel,
         List<Item> resourcesTaken = [];
         foreach (var resource in itemToCraft.CraftingProperties!.ResourceRequirements)
         {
-            var resourceToUse = pawn.Inventory.Entities.Take(resource);
+            var resourceToUse = pawn.Inventory.Take(resource);
 
             if (resourceToUse == null)
             {

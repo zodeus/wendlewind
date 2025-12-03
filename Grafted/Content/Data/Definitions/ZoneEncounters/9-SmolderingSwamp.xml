@@ -26,7 +26,7 @@
             <ListItem>
                 <PawnDef>HoneyBee</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Honey Bee</PawnName>
+                <PawnName>Bee (speciman #1)</PawnName>
                 <BodySizeFactor>1</BodySizeFactor>
                 <Skills/>
                 <Effects/>
@@ -51,7 +51,7 @@
             <ListItem>
                 <PawnDef>FlamingMosquito</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Flaming Mosquito</PawnName>
+                <PawnName>Mosquito (speciman #1)</PawnName>
                 <BodySizeFactor>1</BodySizeFactor>
                 <Skills/>
                 <Effects/>
@@ -75,7 +75,7 @@
             <ListItem>
                 <PawnDef>FlamingMosquito</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Flaming Mosquito</PawnName>
+                <PawnName>Mosquito (speciman #2)</PawnName>
                 <BodySizeFactor>1.5</BodySizeFactor>
                 <Skills/>
                 <Effects/>
@@ -99,7 +99,7 @@
             <ListItem>
                 <PawnDef>FlamingMosquito</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Flaming Mosquito</PawnName>
+                <PawnName>Mosquito (speciman #3)</PawnName>
                 <BodySizeFactor>2</BodySizeFactor>
                 <Skills/>
                 <Effects/>
@@ -124,7 +124,7 @@
             <ListItem>
                 <PawnDef>FlamingMosquito</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Flaming Mosquito</PawnName>
+                <PawnName>Mosquito (speciman apex #1)</PawnName>
                 <BodySizeFactor>4</BodySizeFactor>
                 <Skills/>
                 <Effects/>

@@ -106,7 +106,7 @@ public sealed class GameHud : HorizontalStackPanel
                 Content = new Label(BaseContent.Styles.Label.Large)
                 {
                     VerticalAlignment = VerticalAlignment.Center,
-                    Text = "Next Zone"
+                    Text = "Begin"
                 },
                 Padding = new Thickness(10)
             };

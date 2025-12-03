@@ -18,7 +18,7 @@ public sealed class CombatResultsScreen : VerticalStackPanel
 
         _context = context;
         _gameHud = new GameHud(gui, context) { HorizontalAlignment = HorizontalAlignment.Stretch };
-        _pawnPanel = new LootPanel(gui, context.World.PlayerPawn, Encounter.CombatHandler?.Loot, DoAutoLoot)
+        _pawnPanel = new LootPanel(gui, context.World.Player.Pawn, Encounter.CombatHandler?.Loot)
         {
             MaxHeight = 1100, // 1440p
             Margin = new Thickness(0, 80, 0, 0)
@@ -113,10 +113,10 @@ public sealed class CombatResultsScreen : VerticalStackPanel
         for (var index = items.Count - 1; index >= 0; index--)
         {
             var item = items[index];
-            player.Inventory.Entities.TryAdd(item);
+            player.Inventory.TryAdd(item);
             
             // Track trinkets to prevent duplicates from loot boxes
-            if (item.ItemDef.ItemType == ItemType.Trinket && !_context.Player.TrinketsFound.Contains(item.ItemDef))
+            if (item.ItemDef.ItemType == ItemType.Trinket && !_context.Player.HasTrinkets(item.ItemDef))
             {
                 _context.Player.TrinketsFound.Add(item.ItemDef);
             }

@@ -12,7 +12,7 @@ public class LootPanel : Panel, IUpdatable
     private readonly PawnBodyPanel _bodyPanel;
     private readonly PawnBodyEffectsPanel _pawnEffectsPanel;
 
-    public LootPanel(BaseGui gui, Pawn playerPawn, EntityContainer? lootContainer, Action doAutoLoot)
+    public LootPanel(BaseGui gui, Pawn playerPawn, EntityContainer? lootContainer)
     {
         _pawnEffectsPanel = new PawnBodyEffectsPanel(gui, playerPawn)
         {
@@ -36,12 +36,7 @@ public class LootPanel : Panel, IUpdatable
             };
         }
 
-        var lootButton = new Button(BaseContent.Styles.Button.LargeGold)
-        {
-            VerticalAlignment = VerticalAlignment.Bottom,
-            Content = new Label(BaseContent.Styles.Label.Medium) { Text = "Take Loot" }
-        };
-        lootButton.Click += (_, _) => doAutoLoot();
+        var lootTitleLabel = new Label(BaseContent.Styles.Label.Medium) { Text = "Loot" };
         VerticalStackPanel rightColumn = new()
         {
             Spacing = 15,
@@ -52,7 +47,7 @@ public class LootPanel : Panel, IUpdatable
         rightColumn.Widgets.Add(_pawnEffectsPanel);
         if (_otherContainerPanel != null)
         {
-            rightColumn.Widgets.Add(lootButton);
+            rightColumn.Widgets.Add(lootTitleLabel);
             rightColumn.Widgets.Add(_otherContainerPanel);
         }
 

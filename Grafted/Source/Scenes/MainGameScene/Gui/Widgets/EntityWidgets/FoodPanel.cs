@@ -244,6 +244,6 @@ public sealed class FoodPanel : EntityPanelBase
 
     public override void Update()
     {
-        _eatButton.Enabled = Core.Context.World.PlayerPawn.IsHungry;
+        _eatButton.Enabled = Core.Context.World.Player.Pawn.IsHungry;
     }
 }

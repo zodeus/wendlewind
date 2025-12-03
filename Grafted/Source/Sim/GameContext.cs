@@ -13,6 +13,7 @@ public class GameContext : IExposable
     public IdProvider IdProvider = new();
     public PlayerKillRecords DeathRecords = null!;
     public OminousMessageSpawner OminousMessageSpawner = null!;
+    public AchievementTracker Achievements = null!;
     public World World = null!;
     public bool IsPaused = false;
     public int Ticks;
@@ -25,6 +26,19 @@ public class GameContext : IExposable
     {
         DeathRecords = new PlayerKillRecords();
         OminousMessageSpawner = new OminousMessageSpawner();
+        Achievements = new AchievementTracker();
+    }
+
+    public void Reset()
+    {
+        World = WorldGenerator.GenerateNewWorld();
+        CurrentZone = null;
+        Ticks = 0;
+        Achievements = new AchievementTracker();
+        Achievements.Initialize();
+
+        Player.Pawn.FoodConsumed += Achievements.OnItemUsed;
+        Player.Pawn.DamageTaken += Achievements.OnPlayerDamaged;
     }
 
     public void Tick()
@@ -123,8 +137,10 @@ public class GameContext : IExposable
         }
 
         ExposeDataInternal();
-
         Scribe.Loader.FinalizeLoading();
+        
+        Player.Pawn.FoodConsumed += Achievements.OnItemUsed;
+        Player.Pawn.DamageTaken += Achievements.OnPlayerDamaged;
     }
 
 
@@ -146,6 +162,7 @@ public class GameContext : IExposable
         ScribeValues.Look(ref Ticks, "Ticks");
         ScribeDeep.Look(ref OminousMessageSpawner!, "OminousMessageSpawner");
         ScribeDeep.Look(ref DeathRecords!, "DeathRecords");
+        ScribeDeep.Look(ref Achievements!, "Achievements");
     }
 
     #endregion

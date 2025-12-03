@@ -1,4 +1,5 @@
 using Grafted.Scenes.MainGameScene.Gui;
+using Grafted.Sim.Achievements.Handlers;
 using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Pawns.Modifiers;
 
@@ -24,7 +25,7 @@ public class CombatEvent(Pawn victim, CombatEventType damage, string s, BodyPart
     public BodyPart? BodyPart { get; set; } = bodyPart;
 }
 
-public class CombatHandler
+public class CombatHandler : IDisposable
 {
     private readonly Encounter _encounter;
     private readonly Dictionary<Pawn, Item> _queuedItems = new();
@@ -53,6 +54,9 @@ public class CombatHandler
         Enemy.DamageTaken += OnDamageTaken;
         Enemy.Died += OnDeath;
         _activeTrinkets[Enemy] = [];
+
+        Player.Body.Handler.OnBloodLost += Core.Context.Achievements.OnBloodLost;
+        Enemy.Body.Handler.OnBloodLost += Core.Context.Achievements.OnBloodLost;
     }
 
     private void OnDeath(DeathEvent deathEvent)
@@ -76,6 +80,13 @@ public class CombatHandler
             Biome = _encounter.Zone.BiomeDef,
             PawnName = deathEvent.Pawn.LabelShort + (_encounter.AtBoss ? " (Boss)" : "")
         });
+
+        // Track achievement: enemy killed
+        if (deathEvent.Pawn.PawnType == PawnType.Enemy)
+        {
+            Core.Context.Achievements.OnEnemyKilled(deathEvent.Pawn);
+        }
+
         EndCombat();
     }
 
@@ -104,6 +115,7 @@ public class CombatHandler
         if (victim.PawnType == PawnType.Enemy)
         {
             _totalDirectPlayerDamage += response.TotalDamage;
+            Core.Context.Achievements.OnEnemyDamaged(Player, Enemy, request, response);
         }
 
         foreach (var damage in response.TrinketDamages)
@@ -297,6 +309,12 @@ public class CombatHandler
 
         if (item is { ItemDef: { ItemType: ItemType.Potion } } potion)
         {
+            // Track potion usage for achievements (player only)
+            if (pawn.PawnType == PawnType.Player)
+            {
+                Core.Context.Achievements.OnItemUsed(pawn, potion);
+            }
+
             if (potion.Def == Defs.Items.JarOfBlood)
             {
                 UseBloodPotion(potion, pawn);
@@ -481,6 +499,17 @@ public class CombatHandler
             }
         }
 
+        // Notify achievements of combat end
+        Core.Context.Achievements.OnCombatEnd(new AchievementCombatEndContext
+        {
+            Player = Player,
+            Enemy = Enemy,
+            PlayerWon = playerIsAlive,
+            TotalDamageDealt = _totalDirectPlayerDamage,
+            CombatTicks = _encounter.Ticks,
+            Zone = _encounter.Zone
+        });
+
         LogMessage($"/f[default, 48]/c[{TC.Golden}]Battle is over\n");
         _encounter.State = EncounterState.Finished;
     }
@@ -554,7 +583,20 @@ public class CombatHandler
 
     private void AddToLootContainer(Item item)
     {
-        Loot.TryAdd(item);
+        if (Loot.TryAdd(item))
+        {
+            Core.Context.Achievements.OnItemFound(item);
+        }
+    }
+
+    public void Dispose()
+    {
+        Player.DamageTaken -= OnDamageTaken;
+        Player.Died -= OnDeath;
+        Enemy.DamageTaken -= OnDamageTaken;
+        Enemy.Died -= OnDeath;
+        Player.Body.Handler.OnBloodLost -= Core.Context.Achievements.OnBloodLost;
+        Enemy.Body.Handler.OnBloodLost -= Core.Context.Achievements.OnBloodLost;
     }
 }
 

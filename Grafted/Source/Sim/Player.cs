@@ -7,19 +7,19 @@ public class Player : IExposable
     private Pawn _pawn = null!;
 
     public List<ItemDef> TrinketsFound = null!;
-    public string Label => "You"; //Pawn.Label;
+    public string Label => "undefined";
     public Pawn Pawn => _pawn;
 
-    public void Initialize(Pawn pawn)
+    public void Initialize()
     {
-        _pawn = pawn;
-        TrinketsFound = new List<ItemDef>();
+        Reset();
     }
 
-    public void ResetPawn(Pawn pawn)
+    public void Reset()
     {
-        _pawn.Destroy();
-        _pawn = pawn;
+        _pawn?.Destroy();
+        TrinketsFound = new List<ItemDef>();
+        _pawn = GeneratePlayerPawn();
     }
 
     public void ExposeData()
@@ -42,5 +42,14 @@ public class Player : IExposable
     public bool HasTrinkets(params ItemDef[] items)
     {
         return items.Intersect(TrinketsFound).Count() == items.Length;
+    }
+
+    private static Pawn GeneratePlayerPawn()
+    {
+        return PawnGenerator.CreatePawn(
+            new PawnRequest("Human (speciman #27)",
+            DefRepository<PawnDef>.GetByMoniker("Journeyman")!,
+            Defs.PawnLoadouts.DefaultStarterLoadout, PawnType.Player)
+        );
     }
 }

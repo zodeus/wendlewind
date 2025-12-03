@@ -14,6 +14,7 @@ public abstract class BaseGui : IDisposable
     public abstract WorldTextHandler WorldTextHandler { get; }
 
     public MouseAttachment? MouseAttachment;
+    public AchievementNotificationRenderer AchievementNotifications { get; } = new();
 
     private ScreenMessageData? _screenMessage;
     private float _screenMessageTimeLeft;
@@ -26,6 +27,7 @@ public abstract class BaseGui : IDisposable
     {
         HandleInput();
         MouseAttachment?.Update();
+        AchievementNotifications.Update(deltaTime);
         ShowEntityIfQueued();
         if (_viewedEntity?.IsDestroyed == true)
         {
@@ -39,7 +41,7 @@ public abstract class BaseGui : IDisposable
             _screenMessageTimeLeft -= deltaTime;
         }
 
-        if (Core.Context.World.PlayerPawn.IsDead && _deathWindowIsOpen == false)
+        if (Core.Context.World.Player.Pawn.IsDead && _deathWindowIsOpen == false)
         {
             ShowDeathWindow();
         }
@@ -116,6 +118,9 @@ public abstract class BaseGui : IDisposable
             spriteBatch.DrawString(_screenMessage.Font, _screenMessage.Text, new Vector2((Screen.Width / 2) - offset + xOffsetA, 400 + yOffsetA), colorA);
             spriteBatch.End();
         }
+        
+        // Draw achievement notifications on top of everything
+        AchievementNotifications.Render(spriteBatch);
     }
 
     public void PushScreenMessage(ScreenMessageData message)

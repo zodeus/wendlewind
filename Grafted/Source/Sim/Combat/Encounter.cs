@@ -1,6 +1,6 @@
 namespace Grafted.Sim.Combat;
 
-public class Encounter(Zone zone, EncounterDef def)
+public class Encounter(Zone zone, EncounterDef def) : IDisposable
 {
     private EncounterState _state = EncounterState.NotStarted;
     public CombatHandler? CombatHandler { get; private set; }
@@ -47,5 +47,10 @@ public class Encounter(Zone zone, EncounterDef def)
     {
         Ticks++;
         CombatHandler?.Tick();
+    }
+
+    public void Dispose()
+    {
+        CombatHandler?.Dispose();
     }
 }

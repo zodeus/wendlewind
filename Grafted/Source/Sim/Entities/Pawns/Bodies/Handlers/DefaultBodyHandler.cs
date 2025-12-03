@@ -2,6 +2,7 @@
 
 public class DefaultBodyHandler : IExposable
 {
+    public event Action<Pawn, float>? OnBloodLost;
     private const float FixedBloodLossFactor = .01f;
     private int _ticksWithEmptyStomach;
 
@@ -81,6 +82,7 @@ public class DefaultBodyHandler : IExposable
             if (Math.Abs(preTickBloodPercent - Body.BloodPercent) > .00001)
             {
                 Body.BloodChangeLastFrame = Body.BloodPercent - preTickBloodPercent;
+                OnBloodLost?.Invoke(Body.Pawn, preTickBloodAmount - Body.BloodAmount);
             }
             else
             {
@@ -89,7 +91,7 @@ public class DefaultBodyHandler : IExposable
             }
         }
     }
-
+ 
     protected virtual void HandleNutrition()
     {
         if (Core.Context.Ticks % 20 != 0)

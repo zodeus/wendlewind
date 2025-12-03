@@ -34,6 +34,7 @@ public sealed class PotionPanel : EntityPanelBase
             button.Click += (_, _) =>
             {
                 Core.Context.PlayerPawn.Body.BloodAmount = Core.Context.PlayerPawn.Body.MaxBlood;
+                Core.Context.Achievements.OnItemUsed(Core.Context.PlayerPawn, item);
                 item.StackSize--;
                 if (item.StackSize < 1)
                 {

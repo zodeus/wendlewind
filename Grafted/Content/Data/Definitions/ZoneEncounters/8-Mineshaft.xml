@@ -11,7 +11,7 @@
             <ListItem>
                 <PawnDef>OrcChopper</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Orc Chopper</PawnName>
+                <PawnName>Orc (speciman #1)</PawnName>
                 <BodySizeFactor>1</BodySizeFactor>
                 <Skills/>
                 <Effects/>
@@ -44,7 +44,7 @@
             <ListItem>
                 <PawnDef>OrcChopper</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Orc Chopper</PawnName>
+                <PawnName>Orc (speciman #2)</PawnName>
                 <BodySizeFactor>1</BodySizeFactor>
                 <Skills/>
                 <Effects/>
@@ -82,7 +82,7 @@
             <ListItem>
                 <PawnDef>OrcChopper</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Orc Chopper</PawnName>
+                <PawnName>Orc (speciman #3)</PawnName>
                 <BodySizeFactor>1</BodySizeFactor>
                 <Skills/>
                 <Effects/>
@@ -120,7 +120,7 @@
             <ListItem>
                 <PawnDef>OrcChopper</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Orc Chopper</PawnName>
+                <PawnName>Orc (speciman #4)</PawnName>
                 <BodySizeFactor>1</BodySizeFactor>
                 <Skills/>
                 <Effects/>
@@ -159,7 +159,7 @@
             <ListItem>
                 <PawnDef>OrcShaman</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Orc Shaman</PawnName>
+                    <PawnName>Orc (speciman apex #1)</PawnName>
                 <BodySizeFactor>1</BodySizeFactor>
                 <Skills/>
                 <Effects/>

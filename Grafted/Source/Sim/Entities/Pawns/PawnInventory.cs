@@ -44,4 +44,9 @@ public class PawnInventory : IExposable, IEnumerable<Item>
     {
         Entities.Tick();
     }
+    
+    public Item? Take(ResourceCount resource)
+    {
+        return Entities.Take(resource.Item, resource.Count);
+    }
 }

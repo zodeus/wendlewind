@@ -8,7 +8,7 @@
             <ListItem>
                 <PawnDef>Bunny</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Bunny</PawnName>
+                <PawnName>Rabbit (speciman #1)</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <InventoryItems>
                     <ListItem>
@@ -35,7 +35,7 @@
             <ListItem>
                 <PawnDef>Bunny</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Bunny</PawnName>
+                <PawnName>Rabbit (speciman #2)</PawnName>
                 <BodySizeFactor>1.2</BodySizeFactor>
                 <SpawnWeight>1</SpawnWeight>
                 <Skills>
@@ -66,7 +66,7 @@
             <ListItem>
                 <PawnDef>Bunny</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Bunny</PawnName>
+                <PawnName>Rabbit (speciman #3)</PawnName>
                 <BodySizeFactor>1.4</BodySizeFactor>
                 <SpawnWeight>1</SpawnWeight>
                 <Skills>
@@ -97,7 +97,7 @@
             <ListItem>
                 <PawnDef>Bunny</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Bunny</PawnName>
+                <PawnName>Rabbit (speciman #4)</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <BodySizeFactor>1.6</BodySizeFactor>
                 <Skills>
@@ -124,7 +124,7 @@
             <ListItem>
                 <PawnDef>TruffleBoar</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Truffle Boar</PawnName>
+                <PawnName>Pig (speciman #1)</PawnName>
                 <BodySizeFactor>1.3</BodySizeFactor>
                 <SpawnWeight>1</SpawnWeight>
                 <InventoryItems>

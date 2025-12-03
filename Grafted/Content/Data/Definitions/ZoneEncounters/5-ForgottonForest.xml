@@ -26,7 +26,7 @@
             <ListItem>
                 <PawnDef>Treeling</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Treeling</PawnName>
+                <PawnName>Ent (speciman #1)</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <Skills>
                 </Skills>
@@ -84,7 +84,7 @@
             <ListItem>
                 <PawnDef>Treeling</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Treeling</PawnName>
+                <PawnName>Ent (speciman #2)</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <BodySizeFactor>1.4</BodySizeFactor>
                 <Skills>
@@ -116,7 +116,7 @@
             <ListItem>
                 <PawnDef>Treeling</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Treeling</PawnName>
+                <PawnName>Ent (speciman #3)</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <BodySizeFactor>1.6</BodySizeFactor>
                 <Skills>
@@ -151,7 +151,7 @@
             <ListItem>
                 <PawnDef>Ent</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Ent</PawnName>
+                <PawnName>Ent (speciman apex #1)</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <BodySizeFactor>1.8</BodySizeFactor>
                 <Skills>

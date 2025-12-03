@@ -194,6 +194,7 @@ public static partial class BaseContent
             public DynamicSpriteFont Large { get; init; }
             public DynamicSpriteFont VeryLarge { get; init; }
             public DynamicSpriteFont Huge { get; init; }
+            public DynamicSpriteFont MegaHuge { get; init; }
         }
 
         public static FontData Default { get; set; }
@@ -212,7 +213,8 @@ public static partial class BaseContent
                 Medium = monoFont.GetFont(30),
                 Large = monoFont.GetFont(36),
                 VeryLarge = monoFont.GetFont(48),
-                Huge = monoFont.GetFont(56)
+                Huge = monoFont.GetFont(56),
+                MegaHuge = monoFont.GetFont(96)
             };
         }
     }

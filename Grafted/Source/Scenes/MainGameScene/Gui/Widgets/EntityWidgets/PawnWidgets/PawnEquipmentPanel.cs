@@ -49,7 +49,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
             var unEquippedItem = _pawn.Equipment.UnEquip(part, slot);
             if (unEquippedItem != null)
             {
-                if (_pawn.Inventory.Entities.TryAdd(unEquippedItem) == false)
+                if (_pawn.Inventory.TryAdd(unEquippedItem) == false)
                 {
                     //return item, failed to place in inventory
                     _pawn.Equipment.TryEquip(part, slot, unEquippedItem);

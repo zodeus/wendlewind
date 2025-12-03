@@ -5,8 +5,9 @@ namespace Grafted.Sim.Entities.Pawns;
 [UsedImplicitly]
 public class Pawn : Entity
 {
-    public event Action<Pawn, DamageRequest, DamageResponse>? DamageTaken; //todo - actions
-    public event Action<DeathEvent>? Died; //todo - actions
+    public event Action<Pawn, DamageRequest, DamageResponse>? DamageTaken; 
+    public event Action<DeathEvent>? Died;
+    public event Action<Pawn, Item>? FoodConsumed;
 
     public PawnBiography Biography = null!;
     public PawnTraits Traits = null!;
@@ -305,6 +306,8 @@ public class Pawn : Entity
                 Def = record.Def, TicksLeft = (int)(record.DurationInTicks * goldenLipsMultiplier)
             });
         }
+        
+        FoodConsumed?.Invoke(this, item);
 
         var nutrition = item.GetStatValue(Defs.Stats.NutritionalValue);
         Body.StomachLevel += nutrition;

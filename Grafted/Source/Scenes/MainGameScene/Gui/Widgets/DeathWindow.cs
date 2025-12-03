@@ -10,7 +10,7 @@ public sealed class DeathWindow : Window
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.Red];
         var button = new TextButton(BaseContent.Styles.Button.Large)
         {
-            HorizontalAlignment = HorizontalAlignment.Center, Text = "Try again"
+            HorizontalAlignment = HorizontalAlignment.Center, Text = "Restart"
         };
         button.Click += (_, _) =>
         {

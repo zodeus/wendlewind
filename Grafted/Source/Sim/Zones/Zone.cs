@@ -50,6 +50,7 @@ public class Zone : IExposable, IIdentityProvider
 
     public void NextEncounter()
     {
+        ActiveEncounter?.Dispose();
         ActiveEncounter = CombatGenerator.GenerateForZone(Player!.Pawn, this);
         if (ActiveEncounter.AtBoss)
         {

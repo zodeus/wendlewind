@@ -1,0 +1,24 @@
+namespace Grafted.Sim.Achievements.Handlers;
+
+/// <summary>
+/// Unlocks when the player loses an arm or leg
+/// </summary>
+public class TisButAScratchHandler : AchievementHandler
+{
+    public override void OnPlayerDamaged(Pawn victim, DamageRequest request, DamageResponse response)
+    {
+        if (IsUnlocked) return;
+        
+        var severedParts = response.Damages
+        .SelectMany(d => d.BodyParts)
+        .Concat(response.TrinketDamages.SelectMany(d => d.BodyParts))
+        .Where(p => (p.BodyPart.Type == BodyPartType.Arm || p.BodyPart.Type == BodyPartType.Leg) && p.WasSevered)
+        .ToList();
+        if (severedParts.Count >= Def.TargetValue)
+        {
+            Unlock();
+        }
+    }
+}
+
+

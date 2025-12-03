@@ -7,9 +7,11 @@ namespace Grafted.Definitions;
 [AttributeUsage(AttributeTargets.Class)]
 public class DefLocator : Attribute { }
 
-public static partial class Defs {
+public static partial class Defs
+{
     [DefLocator]
-    public static class Stats {
+    public static class Stats
+    {
         public static StatDef MaxHitPoints = null!;
         public static StatDef MeleePower = null!;
         public static StatDef MeleeStrength = null!;
@@ -22,11 +24,15 @@ public static partial class Defs {
         public static StatDef NutritionalValue = null!;
         public static StatDef Evasion = null!;
         public static StatDef AttackSpeedModifier = null!;
-        public static StatDef PotionDuration  = null!;
+        public static StatDef PotionDuration = null!;
     }
-}public static partial class Defs {
+}
+
+public static partial class Defs
+{
     [DefLocator]
-    public static class BodyStances {
+    public static class BodyStances
+    {
         public static BodyStanceDef Comfortable = null!;
     }
 }
@@ -81,7 +87,8 @@ public static partial class Defs {
 
 public static partial class Defs {
     [DefLocator]
-    public static class Items {
+    public static class Items
+    {
         public static ItemDef RawCorn = null!;
         public static ItemDef RawMeat = null!;
         public static ItemDef CookedCorn = null!;
@@ -114,6 +121,8 @@ public static partial class Defs {
         public static ItemDef SpidersBite = null!;
         public static ItemDef ThirdEye = null!;
         public static ItemDef EnchantmentExpander = null!;
+        public static ItemDef HeartyStew = null!;
+        public static ItemDef GoldCapMushroom = null!;
     }
 }
 
