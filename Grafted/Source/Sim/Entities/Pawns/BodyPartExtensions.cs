@@ -1,4 +1,4 @@
-﻿using Grafted.Sim.Combat;
+using Grafted.Sim.Combat;
 using Grafted.Sim.Entities.Pawns.Modifiers;
 
 namespace Grafted.Sim.Entities.Pawns
@@ -9,16 +9,11 @@ namespace Grafted.Sim.Entities.Pawns
         {
             if (part is { IsExternal: true, IsSevered: false } && part.Type != BodyPartType.Eye)
             {
-                var allInternalPartsDestroyed = true;
-                foreach (var internalPart in part.AllInternalParts)
-                {
-                    if (!internalPart.IsDestroyed)
-                    {
-                        allInternalPartsDestroyed = false;
-                    }
-                }
+                var internalParts = part.AllInternalParts;
+                var allInternalPartsDestroyed = internalParts.Count > 0 && internalParts.All(p => p.IsDestroyed);
 
-                if (allInternalPartsDestroyed && part.Socket != null && Core.Random.Chance(.15f))
+                // Sever if: the part itself is destroyed, OR all internal parts are destroyed (and there are some)
+                if (part.IsDestroyed && allInternalPartsDestroyed && part.Socket != null && Core.Random.Chance(.15f))
                 {
                     part.Severe();
                 }
