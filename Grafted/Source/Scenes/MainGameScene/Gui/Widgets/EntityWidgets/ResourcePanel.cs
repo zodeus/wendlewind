@@ -62,6 +62,7 @@ public sealed class ResourcePanel : EntityPanelBase
         {
             item.Destroy();
         }
+        Core.Context.Achievements.OnItemUsed(player.Pawn, item);
 
         if (item.ItemDef == Defs.Items.GlitteringLog)
         {
@@ -146,7 +147,9 @@ public sealed class ResourcePanel : EntityPanelBase
             item.Destroy();
         }
 
-        player.Pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(potionToMake));
+        var potion = EntityGenerator.CreateEntity<Item>(potionToMake);
+        player.Pawn.Inventory.TryAdd(potion);
+        Core.Context.Achievements.OnItemFound(potion);
     }
 
     public override void Update()

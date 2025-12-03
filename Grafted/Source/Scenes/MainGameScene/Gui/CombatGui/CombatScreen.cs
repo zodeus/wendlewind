@@ -1,14 +1,13 @@
-using System.Net;
-using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
-using Myra.Graphics2D.Brushes;
+
 
 namespace Grafted.Scenes.MainGameScene.Gui.CombatGui;
 
 public class CombatScreen : VerticalStackPanel, IDisposable
 {
+    private readonly ZoneGui _gui;
     private readonly GameContext _context;
-    private readonly WorldTextHandler _worldTextHandler;
     private readonly ScrollViewer _combatLog;
     private readonly GameHud _gameHud;
     private readonly CombatPartyPanel _playerPartyPanel;
@@ -26,10 +25,10 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
     private Encounter Encounter => _context.CurrentZone!.ActiveEncounter!;
 
-    public CombatScreen(ZoneGui gui, GameContext context, WorldTextHandler worldTextHandler)
+    public CombatScreen(ZoneGui gui, GameContext context)
     {
+        _gui = gui;
         _context = context;
-        _worldTextHandler = worldTextHandler;
         Encounter.StateChangedAction += CombatStateChangedAction;
         Encounter.CombatHandler!.CombatLogMessageAdded += AddCombatLogEntry;
         Encounter.CombatHandler!.EventOccured += PrintDamage;
@@ -209,12 +208,17 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             case EncounterState.InProgress:
                 break;
             case EncounterState.Finished:
-                _controlPanel.ShowContinueButton();
-                _potionQueuePanel.Visible = false;
+                ShowCombatSummary();
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(state), state, null);
         }
+    }
+
+    private void ShowCombatSummary()
+    {
+        var summaryWindow = new CombatSummaryWindow(Encounter, () => Encounter.Zone.CombatResults());
+        summaryWindow.ShowModal(_gui.Desktop);
     }
 
     public void Update(float deltaTime)

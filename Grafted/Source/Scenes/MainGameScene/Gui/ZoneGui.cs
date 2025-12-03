@@ -57,7 +57,7 @@ public class ZoneGui : BaseGui
         switch (state)
         {
             case ZoneState.Combat:
-                _combatScreen = new CombatScreen(this, _context, _worldTextHandler);
+                _combatScreen = new CombatScreen(this, _context);
                 (Desktop.Root as Panel)!.Widgets.Add(_combatScreen);
                 break;
             case ZoneState.CombatResults:

@@ -2,23 +2,11 @@
 
 public sealed class CombatControlPanel : VerticalStackPanel
 {
-    private readonly Encounter _encounter;
-    private readonly Button _continueButton;
     private readonly HorizontalStackPanel _speedButtonsPanel;
     private readonly List<TextButton> _speedButtons = [];
 
     public CombatControlPanel(Encounter encounter)
     {
-        _encounter = encounter;
-        _continueButton = new Button(BaseContent.Styles.Button.LargeGold)
-        {
-            Content = new Label { Text = "Continue", HorizontalAlignment = HorizontalAlignment.Center },
-            Visible = false, Margin = new Thickness(0, 10, 0, 0), HorizontalAlignment = HorizontalAlignment.Stretch,
-        };
-        _continueButton.Click += (_, _) => { encounter.Zone.CombatResults(); };
-
-        Widgets.Add(_continueButton);
-
         TextButton pauseButton = new("small")
         {
             Text = "||"
@@ -61,11 +49,5 @@ public sealed class CombatControlPanel : VerticalStackPanel
         };
         _speedButtons.Add(button);
         return button;
-    }
-
-    public void ShowContinueButton()
-    {
-        _speedButtonsPanel.RemoveFromParent();
-        _continueButton.Visible = true;
     }
 }

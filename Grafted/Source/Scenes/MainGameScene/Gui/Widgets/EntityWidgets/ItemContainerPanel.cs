@@ -10,7 +10,7 @@ public sealed class ItemContainerPanel : Panel
 
     private readonly List<EntityListPanel> _sections = new();
 
-    public ItemContainerPanel(BaseGui gui, EntityContainer container, EntityContainer? receivingContainer)
+    public ItemContainerPanel(BaseGui gui, EntityContainer container, EntityContainer? receivingContainer = null)
     {
         _gui = gui;
         _container = container;

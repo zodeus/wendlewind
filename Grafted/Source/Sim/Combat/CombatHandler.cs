@@ -30,12 +30,12 @@ public class CombatHandler : IDisposable
     private readonly Encounter _encounter;
     private readonly Dictionary<Pawn, Item> _queuedItems = new();
     private readonly Dictionary<Pawn, List<Item>> _activeTrinkets = new();
-    private double _totalDirectPlayerDamage;
 
     public BodyPart? TargetedPart;
     public EntityContainer Loot = new();
     public readonly List<BodyPart> SeveredLimbs = [];
     public event Action<CombatEvent>? EventOccured;
+    public double TotalDirectPlayerDamage { get; private set; }
 
     public Pawn Player { get; set; }
     public Pawn Enemy { get; set; }
@@ -75,7 +75,7 @@ public class CombatHandler : IDisposable
         Core.Context.DeathRecords.RecordDeath(new DeathRecord
         {
             CauseOfDeath = deathEvent.Record.CauseOfDeath,
-            TotalDamageDealt = _totalDirectPlayerDamage,
+            TotalDamageDealt = TotalDirectPlayerDamage,
             Ticks = _encounter.Ticks,
             Biome = _encounter.Zone.BiomeDef,
             PawnName = deathEvent.Pawn.LabelShort + (_encounter.AtBoss ? " (Boss)" : "")
@@ -114,7 +114,7 @@ public class CombatHandler : IDisposable
 
         if (victim.PawnType == PawnType.Enemy)
         {
-            _totalDirectPlayerDamage += response.TotalDamage;
+            TotalDirectPlayerDamage += response.TotalDamage;
             Core.Context.Achievements.OnEnemyDamaged(Player, Enemy, request, response);
         }
 
@@ -487,7 +487,7 @@ public class CombatHandler : IDisposable
                 {
                     Player = Player,
                     Enemy = Enemy,
-                    TotalDirectPlayerDamage = _totalDirectPlayerDamage
+                    TotalDirectPlayerDamage = TotalDirectPlayerDamage
                 });
                 t.TrinketHandler?.Stop();
             });
@@ -505,7 +505,7 @@ public class CombatHandler : IDisposable
             Player = Player,
             Enemy = Enemy,
             PlayerWon = playerIsAlive,
-            TotalDamageDealt = _totalDirectPlayerDamage,
+            TotalDamageDealt = TotalDirectPlayerDamage,
             CombatTicks = _encounter.Ticks,
             Zone = _encounter.Zone
         });

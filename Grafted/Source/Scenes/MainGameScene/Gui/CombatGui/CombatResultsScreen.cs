@@ -18,7 +18,7 @@ public sealed class CombatResultsScreen : VerticalStackPanel
 
         _context = context;
         _gameHud = new GameHud(gui, context) { HorizontalAlignment = HorizontalAlignment.Stretch };
-        _pawnPanel = new LootPanel(gui, context.World.Player.Pawn, Encounter.CombatHandler?.Loot)
+        _pawnPanel = new LootPanel(gui, context.World.Player.Pawn)
         {
             MaxHeight = 1100, // 1440p
             Margin = new Thickness(0, 80, 0, 0)
@@ -42,6 +42,7 @@ public sealed class CombatResultsScreen : VerticalStackPanel
             _pawnPanel.Visible = false;
             _progressButton.Visible = false;
         }
+        DoAutoLoot();
     }
 
     public void ShowResultsScreen()
@@ -64,7 +65,6 @@ public sealed class CombatResultsScreen : VerticalStackPanel
             TextButton campButton = new(BaseContent.Styles.Button.Large) { Text = "Return to camp" };
             campButton.Click += (_, _) =>
             {
-                DoAutoLoot();
                 Encounter.Zone.Exit();
             };
             panel.Widgets.Add(campButton);
@@ -74,7 +74,6 @@ public sealed class CombatResultsScreen : VerticalStackPanel
             TextButton continueButton = new(BaseContent.Styles.Button.Large) { Text = Encounter.AtBoss ? "Boss!" : "Fight!" };
             continueButton.Click += (_, _) =>
             {
-                DoAutoLoot();
                 MoveToNextCombat();
             };
             panel.Widgets.Add(continueButton);

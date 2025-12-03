@@ -127,6 +127,15 @@
         <IsHidden>true</IsHidden>
     </AchievementDef>
 
+    <AchievementDef>
+        <Moniker>WeSmokemPeacePipe</Moniker>
+        <Label>We Smoke'm Peace Pipe</Label>
+        <Description>Burn woods.</Description>
+        <Category>Consumables</Category>
+        <TargetValue>200</TargetValue>
+        <HandlerClass>WeSmokemPeacePipeHandler</HandlerClass>
+    </AchievementDef>
+
     <!-- 
     
     <AchievementDef>
