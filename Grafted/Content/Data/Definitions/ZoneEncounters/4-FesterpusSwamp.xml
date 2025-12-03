@@ -11,7 +11,7 @@
             <ListItem>
                 <PawnDef>BlisteringToad</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Frog (speciman #1)</PawnName>
+                <PawnName>Frog (specimen #1)</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <InventoryItems>
                     <ListItem>
@@ -43,7 +43,7 @@
             <ListItem>
                 <PawnDef>BlisteringToad</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Frog (speciman #2)</PawnName>
+                <PawnName>Frog (specimen #2)</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <BodySizeFactor>1</BodySizeFactor>
                 <Skills>
@@ -81,7 +81,7 @@
             <ListItem>
                 <PawnDef>BlisteringToad</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Frog (speciman #3)</PawnName>
+                <PawnName>Frog (specimen #3)</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <BodySizeFactor>1.2</BodySizeFactor>
                 <Skills>
@@ -119,7 +119,7 @@
             <ListItem>
                 <PawnDef>BlisteringToad</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Frog (speciman #4)</PawnName>
+                <PawnName>Frog (specimen #4)</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <BodySizeFactor>1.3</BodySizeFactor>
                 <Skills>
@@ -159,7 +159,7 @@
             <ListItem>
                 <PawnDef>FrogFather</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Frog (speciman apex #1)</PawnName>
+                <PawnName>Frog (specimen apex #1)</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <BodySizeFactor>1.5</BodySizeFactor>
                 <Skills>

@@ -3,7 +3,8 @@ using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
 using Grafted.Sim.Entities.Items.Trinkets;
-
+using Microsoft.Xna.Framework;  
+using Myra.Graphics2D.Brushes;
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 
 public sealed class CampOverviewPanel : Panel, IUpdatable
@@ -22,7 +23,11 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
         _bodyPanel = new PawnBodyPanel(gui, playerPawn.Body);
         _inventoryPanel = new ItemContainerPanel(gui,
             playerPawn.Inventory.Entities, null
-        ) { MinHeight = 700, MaxHeight = 700, Width = 600, VerticalAlignment = VerticalAlignment.Stretch };
+        ) { 
+            //Border = new SolidBrush(Color.White),
+            //BorderThickness = new Thickness(1),
+            MinHeight = 700, MaxHeight = 700, Width = 600, VerticalAlignment = VerticalAlignment.Stretch 
+        };
 
         _equipmentPanel = new PawnEquipmentPanel(gui, playerPawn)
         {

@@ -4,10 +4,7 @@ namespace Grafted;
 
 public static class Program {
     [STAThread]
-    private static void Main(string[] args) {
-        if (args.Contains("quick-play")) {
-            DebugSettings.QuickPlay = true;
-        }
+    private static void Main() {
         using Core game = new();
         game.Run();
     }

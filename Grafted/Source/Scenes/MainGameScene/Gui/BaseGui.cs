@@ -86,7 +86,7 @@ public abstract class BaseGui : IDisposable
         // Note: ZoneGui calls this earlier (before drawing its background) to prevent
         // backbuffer discard when targets switch. This call is a no-op in that case
         // since renderers are already clean, but serves as safety for other GUI subclasses.
-        PawnBodyRenderer.PreRenderAll();
+        PawnBodyRenderer.PreRenderAll(deltaTime);
         
         Desktop.Render();
         spriteBatch.Begin(

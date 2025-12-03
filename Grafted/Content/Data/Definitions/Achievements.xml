@@ -6,6 +6,7 @@
         <Label>First Blood</Label>
         <Description>Kill your first enemy.</Description>
         <Category>Combat</Category>
+        <BenifitDescription>Worthless</BenifitDescription>
         <HandlerClass>FirstBloodHandler</HandlerClass>
     </AchievementDef>
 
@@ -23,6 +24,7 @@
         <Label>Tis' But a Scratch!</Label>
         <Description>Lose an arm or leg.</Description>
         <Category>Combat</Category>
+        <BenifitDescription>Start with a random armor piece in your inventory.</BenifitDescription>
         <HandlerClass>TisButAScratchHandler</HandlerClass>
     </AchievementDef>
     

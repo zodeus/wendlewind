@@ -94,6 +94,7 @@ public class GameScene : Scene
             z.Stage = 0;
         });
         ActiveGui = null;
+        _context.Achievements.OnWorldRestart(_context);
         StartGame();
     }
 

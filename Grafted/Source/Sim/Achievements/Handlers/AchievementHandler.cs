@@ -58,4 +58,9 @@ public abstract class AchievementHandler
     /// Called when blood is lost
     /// </summary>
     public virtual void OnBloodLost(Pawn pawn, float bloodLost) { }
+
+    /// <summary>
+    /// Called when the world is restarted
+    /// </summary>
+    public virtual void OnWorldRestart(GameContext context) { }
 }

@@ -11,8 +11,6 @@ public sealed class PlayerAchievementsWindow : Window
     {
         Title = "Achievements";
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright];
-        MinWidth = 1000;
-        Height = 800;
         Padding = new Thickness(20);
 
         _categoriesPanel = new HorizontalStackPanel { Spacing = 20 };
@@ -69,7 +67,7 @@ public sealed class PlayerAchievementsWindow : Window
 
         foreach (var category in achievementsByCategory)
         {
-            var categoryColumn = new VerticalStackPanel { Spacing = 8 };
+            var categoryColumn = new VerticalStackPanel { Spacing = 8, MaxWidth = 400 };
 
             // Category header
             categoryColumn.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
@@ -124,8 +122,7 @@ public sealed class PlayerAchievementsWindow : Window
         {
             Text = isHidden ? "Hidden achievement" : def.Description,
             TextColor = isUnlocked ? Color.LightGray : Color.DimGray,
-            Wrap = true,
-            Width = 300
+            Wrap = true, MaxWidth = 300
         }; 
         infoPanel.Widgets.Add(description);
 
@@ -134,6 +131,17 @@ public sealed class PlayerAchievementsWindow : Window
         {
             var progressBar = CreateProgressBar((int)(progress?.CurrentValue ?? 0), (int)def.TargetValue);
             infoPanel.Widgets.Add(progressBar);
+        }
+
+        if (isUnlocked && def.BenifitDescription != "")
+        {
+            infoPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = def.BenifitDescription,
+                TextColor = Color.Gold,
+                Wrap = true,
+                MaxWidth = 250
+            });
         }
 
         panel.Widgets.Add(infoPanel);

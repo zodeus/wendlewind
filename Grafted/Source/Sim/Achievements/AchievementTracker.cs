@@ -136,7 +136,7 @@ public class AchievementTracker : IExposable
             handler.OnEnemyKilled(enemy);
         }
     }
-    
+
     public void OnBloodLost(Pawn pawn, float bloodLost)
     {
         foreach (var handler in Handlers)
@@ -145,6 +145,13 @@ public class AchievementTracker : IExposable
         }
     }
     
+    public void OnWorldRestart(GameContext context)
+    {
+        foreach (var handler in Handlers)
+        {
+            handler.OnWorldRestart(context);
+        }
+    }
     public void ExposeData()
     {
         ScribeCollections.Look(ref _progress!, "AchievementProgress", LookMode.Value, LookMode.Deep);

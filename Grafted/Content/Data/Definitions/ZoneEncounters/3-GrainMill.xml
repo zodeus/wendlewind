@@ -11,7 +11,7 @@
             <ListItem>
                 <PawnDef>Grainer</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Human (speciman #27)</PawnName>
+                <PawnName>Human (specimen #27)</PawnName>
                 <SpawnWeight>100</SpawnWeight>
                 <BodySizeFactor>1</BodySizeFactor>
                 <Skills>
@@ -50,7 +50,7 @@
             <ListItem>
                 <PawnDef>Grainer</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Human (speciman #22)</PawnName>
+                <PawnName>Human (specimen #22)</PawnName>
                 <SpawnWeight>100</SpawnWeight>
                 <BodySizeFactor>1.1</BodySizeFactor>
                 <Skills>
@@ -90,7 +90,7 @@
             <ListItem>
                 <PawnDef>Grainer</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Human (speciman #21)</PawnName>
+                <PawnName>Human (specimen #21)</PawnName>
                 <SpawnWeight>100</SpawnWeight>
                 <BodySizeFactor>1.1</BodySizeFactor>
                 <Skills>
@@ -131,7 +131,7 @@
             <ListItem>
                 <PawnDef>Grainer</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Human (speciman #46)</PawnName>
+                <PawnName>Human (specimen #46)</PawnName>
                 <SpawnWeight>100</SpawnWeight>
                 <BodySizeFactor>1.1</BodySizeFactor>
                 <Skills>
@@ -173,7 +173,7 @@
             <ListItem>
                 <PawnDef>GrainBandit</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Human (speciman apex #13)</PawnName>
+                <PawnName>Human (specimen apex #13)</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <BodySizeFactor>1.2</BodySizeFactor>
                 <Skills>

@@ -11,6 +11,9 @@ public class AchievementDef : Def
     /// <summary>Target value required to unlock (e.g., kill 10 enemies)</summary>
     public float TargetValue = 1;
 
+    /// <summary>Benefit description for the achievement</summary>
+    public string BenifitDescription = "";
+
     /// <summary>Item definition</summary>
     public ItemDef? ItemDef;
 

@@ -11,6 +11,12 @@ public class MainMenuScene : Scene
 
     protected override void OnStart()
     {
+        if (File.Exists("save.xml"))
+        {
+            Core.ChangeScene<GameScene>();
+            return;
+        }
+        
         var grid = new Panel()
         {
             VerticalAlignment = VerticalAlignment.Center,
@@ -37,12 +43,6 @@ public class MainMenuScene : Scene
         buttonPanel.Widgets.Add(newGame);
         buttonPanel.Widgets.Add(quit);
         grid.Widgets.Add(buttonPanel);
-
-        if (DebugSettings.QuickPlay || File.Exists("save.xml"))
-        {
-            Core.ChangeScene<GameScene>();
-            return;
-        }
 
         _desktop = new Desktop
         {

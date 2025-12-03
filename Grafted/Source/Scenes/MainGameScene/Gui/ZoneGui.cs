@@ -89,7 +89,7 @@ public class ZoneGui : BaseGui
     {
         // Pre-render body renderers BEFORE drawing the background to avoid
         // backbuffer being discarded when render targets switch
-        PawnBodyRenderer.PreRenderAll();
+        PawnBodyRenderer.PreRenderAll(deltaTime);
         
         spriteBatch.Begin(
             SpriteSortMode.Deferred,
@@ -104,8 +104,6 @@ public class ZoneGui : BaseGui
         );
         spriteBatch.End();
         
-
-
         base.Draw(spriteBatch, deltaTime);
     }
 

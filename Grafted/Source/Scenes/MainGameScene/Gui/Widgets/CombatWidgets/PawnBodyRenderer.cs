@@ -11,21 +11,34 @@ public class PawnBodyRenderer : IDisposable
 {
     // Static tracking of all active renderers for pre-rendering
     private static readonly List<PawnBodyRenderer> _allRenderers = new();
+    private static long _lastPreRenderFrame = -1;
     
     /// <summary>
     /// Pre-renders all active body renderers. Must be called BEFORE Myra's Desktop.Render()
     /// to avoid render target switching during UI rendering which causes flickering.
+    /// This method is idempotent within a frame - subsequent calls are no-ops.
     /// </summary>
-    public static void PreRenderAll()
+    public static void PreRenderAll(float deltaTime)
     {
+        // Prevent multiple pre-renders per frame (e.g., ZoneGui calls before background,
+        // BaseGui calls again in base.Draw). Without this check, active blood spurts
+        // would cause the second Update() to mark renderers dirty again, triggering
+        // another render target switch that discards the backbuffer (including the background).
+        var currentFrame = Core.FrameCounter.TotalFrames;
+        if (_lastPreRenderFrame == currentFrame)
+            return;
+        _lastPreRenderFrame = currentFrame;
+        
         foreach (var renderer in _allRenderers)
         {
+            renderer.Update(deltaTime);
             renderer.Render();
         }
     }
     
     private readonly Pawn _pawn;
     private readonly IBodyPartLayout? _layout;
+    private readonly BloodSpurtRenderer _bloodSpurtRenderer;
     private RenderTarget2D? _renderTarget;
     private SpriteBatch? _spriteBatch;
     private bool _isDirty = true;
@@ -66,6 +79,7 @@ public class PawnBodyRenderer : IDisposable
         _pawn = pawn;
         _renderSize = renderSize;
         _layout = BodyPartLayoutRegistry.GetLayoutFor(pawn.Body);
+        _bloodSpurtRenderer = new BloodSpurtRenderer(pawn, _layout);
         
         if (_layout != null)
         {
@@ -83,6 +97,20 @@ public class PawnBodyRenderer : IDisposable
     private void OnPartHealthChanged(BodyPart part)
     {
         _isDirty = true;
+    }
+
+    /// <summary>
+    /// Updates the blood spurt renderer. Called each frame.
+    /// </summary>
+    private void Update(float deltaTime)
+    {
+        _bloodSpurtRenderer.Update(deltaTime);
+        
+        // If there are active blood spurts, we need to continuously re-render
+        if (_bloodSpurtRenderer.HasActiveSpurts)
+        {
+            _isDirty = true;
+        }
     }
 
     /// <summary>
@@ -132,6 +160,10 @@ public class PawnBodyRenderer : IDisposable
         _spriteBatch!.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp);
         
         RenderBodyParts(_spriteBatch);
+        
+        // Render blood spurts from open, unsealed sockets
+        var layoutScale = (float)_renderSize / _layout.NativeSize;
+        _bloodSpurtRenderer.Render(_spriteBatch, layoutScale);
         
         _spriteBatch.End();
         
