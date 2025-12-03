@@ -7,20 +7,16 @@ namespace Grafted.Scenes.MainGameScene;
 public class GameScene : Scene
 {
     private CampGui _campGui = null!;
-    private GameContext _context = null!;
+    private GameContext _context = new ();
     private GameState _currentGameState = GameState.Camp;
-    private WorldTextHandler _worldTextHandler;
+    private WorldTextHandler _worldTextHandler = new();
     private KeyboardState _previousKeyboardState;
     private BaseGui? ActiveGui { get; set; }
 
     protected override void OnStart()
     {
-        _context = new GameContext();
         Core.Context = _context;
         _context.OnStateChanged += HandleOnStateChanged;
-        _worldTextHandler = new WorldTextHandler();
-        //todo dispose of this
-        //Core.Instance.Window.ClientSizeChanged += (_, _) => ReloadGui();
 
         if (File.Exists("save.xml"))
         {
@@ -55,10 +51,10 @@ public class GameScene : Scene
     private void HandleOnStateChanged(GameState state)
     {
         ActiveGui?.Dispose();
-        if (state == GameState.Restart)
+        if (state == GameState.StartOver)
         {
             _currentGameState = GameState.Camp;
-            RestartGame();
+            StartOver();
             ActiveGui!.PushScreenMessage(new ScreenMessageData
             {
                 Text = "Ahhh.... A new specimen...",
@@ -77,12 +73,12 @@ public class GameScene : Scene
     private void QuickPlay()
     {
         Core.ClearCoroutines();
-        _context.Reset();
+        _context.Prepare();
         ActiveGui = null;
         StartGame();
     }
 
-    private void RestartGame()
+    private void StartOver()
     {
         _context.CurrentZone = null;
         _context.DeathRecords.Reset();

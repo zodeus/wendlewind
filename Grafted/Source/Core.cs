@@ -170,7 +170,6 @@ public class Core : Game
         else
         {
             Screen.SetSize(ReferenceResolution.X, ReferenceResolution.Y);
-            //Screen.SetSize(3840, 2040);
         }
 
         Window.Title = "Grafted";
@@ -228,7 +227,6 @@ public class Core : Game
 
         Scene.RegisterScene(new MainMenuScene());
         Scene.RegisterScene(new GameScene());
-        Scene.RegisterScene(new GameOverScene());
         ChangeScene<MainMenuScene>();
 
         _fixedUpdateTimer.Start();

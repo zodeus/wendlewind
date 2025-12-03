@@ -4,7 +4,7 @@ public enum GameState
 {
     Camp,
     Zone,
-    Restart
+    StartOver
 }
 
 public class GameContext : IExposable
@@ -12,7 +12,6 @@ public class GameContext : IExposable
     //public GameMessages Messages = new();
     public IdProvider IdProvider = new();
     public PlayerKillRecords DeathRecords = null!;
-    public OminousMessageSpawner OminousMessageSpawner = null!;
     public AchievementTracker Achievements = null!;
     public World World = null!;
     public bool IsPaused = false;
@@ -25,11 +24,10 @@ public class GameContext : IExposable
     public GameContext()
     {
         DeathRecords = new PlayerKillRecords();
-        OminousMessageSpawner = new OminousMessageSpawner();
         Achievements = new AchievementTracker();
     }
 
-    public void Reset()
+    public void Prepare()
     {
         World = WorldGenerator.GenerateNewWorld();
         CurrentZone = null;
@@ -69,7 +67,6 @@ public class GameContext : IExposable
     private void InternalTick()
     {
         Ticks++;
-        OminousMessageSpawner.Tick();
         World.Player.Pawn.Tick();
         CurrentZone?.Tick();
     }
@@ -88,10 +85,10 @@ public class GameContext : IExposable
         ChangeGameState(GameState.Zone);
     }
 
-    public void Restart()
+    public void StartOver()
     {
         CurrentZone!.OnStateChanged -= ZoneStageChanged;
-        ChangeGameState(GameState.Restart);
+        ChangeGameState(GameState.StartOver);
     }
 
     private void ZoneStageChanged(ZoneState zoneState)
@@ -160,7 +157,6 @@ public class GameContext : IExposable
         ScribeDeep.Look(ref World!, "World");
         ScribeDeep.Look(ref IdProvider!, "IdProvider");
         ScribeValues.Look(ref Ticks, "Ticks");
-        ScribeDeep.Look(ref OminousMessageSpawner!, "OminousMessageSpawner");
         ScribeDeep.Look(ref DeathRecords!, "DeathRecords");
         ScribeDeep.Look(ref Achievements!, "Achievements");
     }

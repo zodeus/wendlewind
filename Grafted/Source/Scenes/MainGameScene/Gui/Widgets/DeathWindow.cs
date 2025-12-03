@@ -15,7 +15,7 @@ public sealed class DeathWindow : Window
         button.Click += (_, _) =>
         {
             Close();
-            Core.Context.Restart();
+            Core.Context.StartOver();
         };
         Content = new VerticalStackPanel
         {
