@@ -13,29 +13,29 @@ public class LootPanel : Panel, IUpdatable
 
     public LootPanel(BaseGui gui, Pawn playerPawn)
     {
-        _pawnEffectsPanel = new PawnBodyEffectsPanel(gui, playerPawn)
-        {
-            Padding = new Thickness(15)
-        };
+        _pawnEffectsPanel = new PawnBodyEffectsPanel(gui, playerPawn);
         _bodyPanel = new PawnBodyPanel(gui, playerPawn.Body);
         _inventoryPanel = new ItemContainerPanel(gui, playerPawn.Inventory.Entities)
         {
             MinHeight = 400,
             MaxHeight = 600,
             Width = 720,
+            VerticalAlignment = VerticalAlignment.Stretch,
             Visible = !playerPawn.IsDead
         };
 
         _equipmentPanel = new PawnEquipmentPanel(gui, playerPawn);
 
-        
         VerticalStackPanel rightColumn = new()
         {
             Spacing = 15,
             Margin = new Thickness(20, 0, 0, 0),
-            Proportions = { Proportion.Auto, Proportion.Auto, Proportion.Auto, Proportion.Fill }
+            Proportions = { Proportion.Auto, Proportion.Auto, Proportion.Auto, Proportion.Auto }
         };
         rightColumn.Widgets.Add(_equipmentPanel);
+        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Combat, item => gui.ViewEntity(item), false) { TrinketsPerRow = 9 });
+        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Passive, item => gui.ViewEntity(item), false) { TrinketsPerRow = 9 });
+        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Interactive, item => gui.ViewEntity(item), false) { TrinketsPerRow = 9 });
         rightColumn.Widgets.Add(_pawnEffectsPanel);
 
         HorizontalStackPanel grid = new()
@@ -44,17 +44,7 @@ public class LootPanel : Panel, IUpdatable
             Widgets =
             {
                 _bodyPanel,
-                new VerticalStackPanel
-                {
-                    VerticalAlignment = VerticalAlignment.Stretch,
-                    Widgets =
-                    {
-                        new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Combat, item => gui.ViewEntity(item), false) { TrinketsPerRow = 9 },
-                        new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Passive, item => gui.ViewEntity(item), false) { TrinketsPerRow = 9 },
-                        new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Interactive, item => gui.ViewEntity(item), false) { TrinketsPerRow = 9 },
-                        _inventoryPanel
-                    }
-                },
+                _inventoryPanel,
                 rightColumn
             }
         };

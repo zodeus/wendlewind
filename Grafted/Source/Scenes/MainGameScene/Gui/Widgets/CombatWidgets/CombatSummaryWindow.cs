@@ -34,9 +34,15 @@ public sealed class CombatSummaryWindow : Window
             HorizontalAlignment = HorizontalAlignment.Center
         };
 
-        AddStatRow(statsPanel, 0, "Enemy", handler.Enemy.LabelShort);
+        AddStatRow(statsPanel, 0, "Opponent", handler.Enemy.LabelShort);
         AddStatRow(statsPanel, 1, "Duration", $"{encounter.Ticks} ticks");
         AddStatRow(statsPanel, 2, "Damage Dealt", $"{handler.TotalDirectPlayerDamage:N0}");
+        
+        if (handler.CauseOfDeath != null)
+        {
+            var deathLabel = playerWon ? "Cause of Death" : "You Died From";
+            AddStatRow(statsPanel, 3, deathLabel, handler.CauseOfDeath);
+        }
 
         // Loot preview (only if won and has loot)
         Widget? lootSection = null;

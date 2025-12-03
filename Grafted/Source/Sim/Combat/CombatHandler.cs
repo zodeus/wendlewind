@@ -36,6 +36,7 @@ public class CombatHandler : IDisposable
     public readonly List<BodyPart> SeveredLimbs = [];
     public event Action<CombatEvent>? EventOccured;
     public double TotalDirectPlayerDamage { get; private set; }
+    public string? CauseOfDeath { get; private set; }
 
     public Pawn Player { get; set; }
     public Pawn Enemy { get; set; }
@@ -61,6 +62,7 @@ public class CombatHandler : IDisposable
 
     private void OnDeath(DeathEvent deathEvent)
     {
+        CauseOfDeath = deathEvent.Record.CauseOfDeath;
         LogMessage(
             $"/f[default, 32]/c[{TC.Victim}]{deathEvent.Pawn.LabelShort} /cddied from /c[{TC.Red}]{deathEvent.Record.CauseOfDeath}\n"
         );

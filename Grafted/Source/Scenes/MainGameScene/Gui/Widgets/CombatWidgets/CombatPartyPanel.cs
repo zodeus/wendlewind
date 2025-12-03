@@ -1,4 +1,5 @@
 ﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
+
 internal sealed class CombatPartyPanel : VerticalStackPanel
 {
     private readonly List<PawnCombatPanel> _panels;
@@ -9,7 +10,8 @@ internal sealed class CombatPartyPanel : VerticalStackPanel
         _panels = new List<PawnCombatPanel>();
         HorizontalStackPanel pawnRow = new()
         {
-            Spacing = 15, HorizontalAlignment = pawnAlignment,
+            Spacing = 15,
+            HorizontalAlignment = pawnAlignment
         };
         Widgets.Add(pawnRow);
 

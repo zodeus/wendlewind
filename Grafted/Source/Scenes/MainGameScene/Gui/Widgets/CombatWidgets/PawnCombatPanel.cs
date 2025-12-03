@@ -101,8 +101,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         _bodyWidget = new PawnBodyRenderWidget(Pawn)
         {
             Width = size,
-            Height = size,
-            BorderThickness = new Thickness(2)
+            Height = size
         };
         if (Pawn.PawnType == PawnType.Player)
         {
@@ -125,7 +124,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         VerticalStackPanel panel = new()
         {
             VerticalAlignment = VerticalAlignment.Bottom,
-            DefaultProportion = Proportion.Auto,
+            DefaultProportion = Proportion.Auto
         };
         
         // Use body widget for all pawns - it will fall back to icon if no layout available
@@ -140,13 +139,14 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         var bodyAndBloodContainer = new HorizontalStackPanel
         {
             Spacing = 5,
-            VerticalAlignment = VerticalAlignment.Bottom
+            VerticalAlignment = VerticalAlignment.Bottom,
         };
         
         if (Pawn.PawnType == PawnType.Player)
         {
             bodyAndBloodContainer.Widgets.Add(bodyWidget);
             bodyAndBloodContainer.Widgets.Add(_bloodBar);
+            bodyAndBloodContainer.HorizontalAlignment = HorizontalAlignment.Right;
         }
         else
         {

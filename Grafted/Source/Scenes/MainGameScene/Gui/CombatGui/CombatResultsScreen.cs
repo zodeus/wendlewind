@@ -21,7 +21,7 @@ public sealed class CombatResultsScreen : VerticalStackPanel
         _pawnPanel = new LootPanel(gui, context.World.Player.Pawn)
         {
             MaxHeight = 1100, // 1440p
-            Margin = new Thickness(0, 80, 0, 0)
+            Margin = new Thickness(0, 0, 0, 0)
         };
 
         _progressButton = GenerateControlButtons();
