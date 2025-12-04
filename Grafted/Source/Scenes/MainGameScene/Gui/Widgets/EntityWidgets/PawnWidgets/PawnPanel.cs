@@ -1,4 +1,4 @@
-﻿using Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
@@ -16,14 +16,13 @@ public sealed class PawnPanel : EntityPanelBase
         _pawn = pawn;
 
         var pane = new HorizontalStackPanel { Spacing = 40 };
-        pane.Proportions.Add(Proportion.Auto);
-        pane.Proportions.Add(Proportion.Fill);
         Widgets.Add(pane);
         MinWidth = 1000;
 
         _portrait = new PawnPortraitPanel(pawn) { Width = 300 };
         pane.Widgets.Add(_portrait);
         _tabPanel = new TabPanel();
+        StackPanel.SetProportionType(_tabPanel, ProportionType.Fill);
         pane.Widgets.Add(_tabPanel);
 
         _tabPanel.AddTab("Body", new PawnBodyPanel(gui, pawn.Body));

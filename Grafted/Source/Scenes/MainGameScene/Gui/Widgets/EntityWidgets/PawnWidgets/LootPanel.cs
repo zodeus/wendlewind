@@ -29,8 +29,7 @@ public class LootPanel : Panel, IUpdatable
         VerticalStackPanel rightColumn = new()
         {
             Spacing = 15,
-            Margin = new Thickness(20, 0, 0, 0),
-            Proportions = { Proportion.Auto, Proportion.Auto, Proportion.Auto, Proportion.Auto }
+            Margin = new Thickness(20, 0, 0, 0)
         };
         rightColumn.Widgets.Add(_equipmentPanel);
         rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Combat, item => gui.ViewEntity(item), false) { TrinketsPerRow = 9 });

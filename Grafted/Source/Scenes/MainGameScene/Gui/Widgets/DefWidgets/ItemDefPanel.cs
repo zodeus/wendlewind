@@ -1,4 +1,4 @@
-﻿using Panel = Myra.Graphics2D.UI.Panel;
+using Panel = Myra.Graphics2D.UI.Panel;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.DefWidgets;
 
@@ -17,13 +17,15 @@ public class ItemDefPanel : DefPanelBase {
         };
         Widgets.Add(grid);
         grid.Widgets.Add(GenerateDetails(resource));
-        grid.Widgets.Add(new Panel {
+        var iconPanel = new Panel {
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
             Padding = new Thickness(3),
             Widgets = { new Image { Background = new TextureRegion(resource.Icon), Width = 64, Height = 64 } },
-            VerticalAlignment = VerticalAlignment.Top,
-            GridRow = 0, GridColumn = 1
-        });
+            VerticalAlignment = VerticalAlignment.Top
+        };
+        Grid.SetRow(iconPanel, 0);
+        Grid.SetColumn(iconPanel, 1);
+        grid.Widgets.Add(iconPanel);
     }
 
     private Widget GenerateDetails(ItemDef item) {
@@ -35,7 +37,11 @@ public class ItemDefPanel : DefPanelBase {
             }
         };
         int gridRow = 0;
-        grid.Widgets.Add(new Label { Text = item.Description, GridRow = gridRow, GridColumn = 0, GridColumnSpan = 2 });
+        var descLabel = new Label { Text = item.Description };
+        Grid.SetRow(descLabel, gridRow);
+        Grid.SetColumn(descLabel, 0);
+        Grid.SetColumnSpan(descLabel, 2);
+        grid.Widgets.Add(descLabel);
         //gridRow++;
         return grid;
     }

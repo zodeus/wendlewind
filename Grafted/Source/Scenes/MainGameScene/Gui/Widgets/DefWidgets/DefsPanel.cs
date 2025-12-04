@@ -1,4 +1,4 @@
-﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.DefWidgets;
+namespace Grafted.Scenes.MainGameScene.Gui.Widgets.DefWidgets;
 
 internal class DefsPanel : Grid {
     public DefsPanel(IReadOnlyList<Def> defs, IBrush? background = null) {
@@ -8,8 +8,8 @@ internal class DefsPanel : Grid {
         int gridColum = 0;
         foreach (Def def in defs) {
             DefPanelBase panel = def.UiPanel(new DefPanelProperties { Background = background });
-            panel.GridRow = gridRow;
-            panel.GridColumn = gridColum;
+            Grid.SetRow(panel, gridRow);
+            Grid.SetColumn(panel, gridColum);
             Widgets.Add(panel);
 
             gridColum++;

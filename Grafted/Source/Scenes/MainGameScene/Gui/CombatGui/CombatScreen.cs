@@ -15,9 +15,9 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     private readonly CombatControlPanel _controlPanel;
     private readonly PawnBodyPanel _pawnBodyView;
     private readonly PawnBodyPanel _enemyPawnBodyView;
-    private ImageButton _playerQueuedPotionSlot;
+    private Button _playerQueuedPotionSlot;
     private Item? _playerQueuedPotion;
-    private ImageButton _enemyQueuedPotionSlot;
+    private Button _enemyQueuedPotionSlot;
     private Item? _enemyQueuedPotion;
     private readonly HorizontalStackPanel _potionQueuePanel;
     private readonly Label _tickLabel;
@@ -38,19 +38,21 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             Margin = new Thickness(0, 5, 0, 0)
         };
 
-        _playerPartyPanel = new CombatPartyPanel(gui, Encounter, Encounter.PlayerPawns, HorizontalAlignment.Right)
-        {
-            GridRow = 1, GridColumn = 0
-        };
-        _opponentPartyPanel = new CombatPartyPanel(gui, Encounter, Encounter.EnemyPawns, HorizontalAlignment.Left)
-        {
-            GridRow = 1, GridColumn = 2
-        };
+        _playerPartyPanel = new CombatPartyPanel(gui, Encounter, Encounter.PlayerPawns, HorizontalAlignment.Right);
+        Grid.SetRow(_playerPartyPanel, 1);
+        Grid.SetColumn(_playerPartyPanel, 0);
+        
+        _opponentPartyPanel = new CombatPartyPanel(gui, Encounter, Encounter.EnemyPawns, HorizontalAlignment.Left);
+        Grid.SetRow(_opponentPartyPanel, 1);
+        Grid.SetColumn(_opponentPartyPanel, 2);
+        
         _controlPanel = new CombatControlPanel(Encounter)
         {
             MinWidth = 190,
-            GridRow = 2, GridColumn = 0, HorizontalAlignment = HorizontalAlignment.Stretch
+            HorizontalAlignment = HorizontalAlignment.Stretch
         };
+        Grid.SetRow(_controlPanel, 2);
+        Grid.SetColumn(_controlPanel, 0);
 
         _pawnBodyView = new PawnBodyPanel(gui, Encounter.PlayerPawns.First().Body)
         {
@@ -71,29 +73,27 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             Content = new VerticalStackPanel { Padding = new Thickness(0), Spacing = 12 }
         };
 
-        _playerQueuedPotionSlot = new ImageButton(BaseContent.Styles.Button.Icon)
+        _playerQueuedPotionSlot = new Button(BaseContent.Styles.Button.Icon)
         {
             Width = 64, Height = 64
         };
         _playerQueuedPotionSlot.Click += (_, _) => Encounter.CombatHandler?.DeQueuedItemForPawn(Encounter.PlayerPawns[0]);
-        _enemyQueuedPotionSlot = new ImageButton(BaseContent.Styles.Button.Icon)
+        _enemyQueuedPotionSlot = new Button(BaseContent.Styles.Button.Icon)
         {
             Width = 64, Height = 64
         };
+        var separator = new VerticalSeparator { HorizontalAlignment = HorizontalAlignment.Center };
         _potionQueuePanel = new HorizontalStackPanel
         {
             Margin = new Thickness(5, 20, 5, 5),
-            Proportions =
-            {
-                Proportion.Auto, Proportion.Fill, Proportion.Auto
-            },
             Widgets =
             {
                 _playerQueuedPotionSlot,
-                new VerticalSeparator { HorizontalAlignment = HorizontalAlignment.Center },
+                separator,
                 _enemyQueuedPotionSlot,
             }
         };
+        SetProportionType(separator, ProportionType.Fill);
         _tickLabel = new Label(BaseContent.Styles.Label.Normal)
         {
             Margin = new Thickness(0, 15, 0, 15),
@@ -129,7 +129,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         VerticalStackPanel centerColumn = new()
         {
             Margin = new Thickness(10,0,10,0),
-            Spacing = 0, GridRow = 1, GridColumn = 1,
+            Spacing = 0,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Widgets =
             {
@@ -139,12 +139,16 @@ public class CombatScreen : VerticalStackPanel, IDisposable
                 logsButton
             }
         };
+        Grid.SetRow(centerColumn, 1);
+        Grid.SetColumn(centerColumn, 1);
 
         var panel = new Panel()
         {
-            Height = 1300, GridRow = 2, GridColumn = 2,
+            Height = 1300,
             Widgets = { _enemyPawnBodyView }
         };
+        Grid.SetRow(panel, 2);
+        Grid.SetColumn(panel, 2);
         Grid grid = new()
         {
             Margin = new Thickness(30, 0, 30, 30),
@@ -152,23 +156,28 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             RowSpacing = 0,
             DefaultRowProportion = Proportion.Auto,
             DefaultColumnProportion = Proportion.Auto,
-            Widgets =
-            {
-                _playerPartyPanel, centerColumn, _opponentPartyPanel,
-                new HorizontalStackPanel
-                {
-                    HorizontalAlignment = HorizontalAlignment.Right,
-                    GridRow = 2, GridColumn = 0,
-                    Widgets = { _pawnBodyView }
-                },
-                new HorizontalStackPanel
-                {
-                    HorizontalAlignment = HorizontalAlignment.Right,
-                    GridRow = 2, GridColumn = 1
-                },
-                panel
-            }
         };
+        var playerBodyPanel = new HorizontalStackPanel
+        {
+            HorizontalAlignment = HorizontalAlignment.Right,
+            Widgets = { _pawnBodyView }
+        };
+        Grid.SetRow(playerBodyPanel, 2);
+        Grid.SetColumn(playerBodyPanel, 0);
+        
+        var centerBodyPanel = new HorizontalStackPanel
+        {
+            HorizontalAlignment = HorizontalAlignment.Right
+        };
+        Grid.SetRow(centerBodyPanel, 2);
+        Grid.SetColumn(centerBodyPanel, 1);
+        
+        grid.Widgets.Add(_playerPartyPanel);
+        grid.Widgets.Add(centerColumn);
+        grid.Widgets.Add(_opponentPartyPanel);
+        grid.Widgets.Add(playerBodyPanel);
+        grid.Widgets.Add(centerBodyPanel);
+        grid.Widgets.Add(panel);
 
         Widgets.Add(_gameHud);
         Widgets.Add(grid);
@@ -228,13 +237,13 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             if (!Equals(_playerQueuedPotion, potion))
             {
                 _playerQueuedPotion = potion;
-                _playerQueuedPotionSlot.Image = new TextureRegion(potion.Icon);
+                _playerQueuedPotionSlot.Content = new Image { Background = new TextureRegion(potion.Icon), Width = 64, Height = 64 };
             }
         }
-        else if (_playerQueuedPotionSlot.Image != null)
+        else if (_playerQueuedPotionSlot.Content != null)
         {
             _playerQueuedPotion = null;
-            _playerQueuedPotionSlot.Image = null;
+            _playerQueuedPotionSlot.Content = null;
         }
 
         if (Encounter.CombatHandler?.ItemQueuedFor(Encounter.EnemyPawns[0]) is { } enemyPotion)
@@ -242,13 +251,13 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             if (!Equals(_enemyQueuedPotion, enemyPotion))
             {
                 _enemyQueuedPotion = enemyPotion;
-                _enemyQueuedPotionSlot.Image = new TextureRegion(enemyPotion.Icon);
+                _enemyQueuedPotionSlot.Content = new Image { Background = new TextureRegion(enemyPotion.Icon), Width = 64, Height = 64 };
             }
         }
-        else if (_enemyQueuedPotionSlot.Image != null)
+        else if (_enemyQueuedPotionSlot.Content != null)
         {
             _enemyQueuedPotion = null;
-            _enemyQueuedPotionSlot.Image = null;
+            _enemyQueuedPotionSlot.Content = null;
         }
 
         _tickLabel.Text = $"{_context.CurrentZone?.ActiveEncounter?.Ticks}";

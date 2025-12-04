@@ -22,7 +22,6 @@ public abstract class EntityPanelBase : VerticalStackPanel
         Background = properties?.Background;
         Padding = new Thickness(15);
         Header = new HorizontalStackPanel { Spacing = 20 };
-        Header.Proportions.Add(Proportion.Fill);
         Widgets.Add(Header);
         if (properties?.ShowTitle ?? false)
         {
@@ -33,12 +32,13 @@ public abstract class EntityPanelBase : VerticalStackPanel
         if (properties?.ShowCloseButton ?? false)
         {
             Header.Margin = new Thickness(0, 0, 0, 10);
-            ImageButton closeButton = new(BaseContent.Styles.Button.Small)
+            var closeButton = new Button(BaseContent.Styles.Button.Small)
             {
-                Image = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Close],
+                Content = new Image { Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Close] },
                 HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Center
             };
+            StackPanel.SetProportionType(closeButton, ProportionType.Fill);
             closeButton.Click += (_, _) => { properties.CloseButtonAction?.Invoke(); };
             Header.Widgets.Add(closeButton);
         }

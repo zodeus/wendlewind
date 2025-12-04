@@ -1,4 +1,4 @@
-﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.DefWidgets;
+namespace Grafted.Scenes.MainGameScene.Gui.Widgets.DefWidgets;
 
 public class DefPanelProperties {
     public bool ShowTitle { get; set; } = true;
@@ -15,7 +15,6 @@ public abstract class DefPanelBase : VerticalStackPanel {
         Background = properties?.Background;
         Padding = new Thickness(15);
         Header = new HorizontalStackPanel { Spacing = 20 };
-        Header.Proportions.Add(Proportion.Fill);
         Widgets.Add(Header);
         if (properties?.ShowTitle ?? false) {
             Header.Margin = new Thickness(0, 0, 0, 10);
@@ -24,11 +23,12 @@ public abstract class DefPanelBase : VerticalStackPanel {
 
         if (properties?.ShowCloseButton ?? false) {
             Header.Margin = new Thickness(0, 0, 0, 10);
-            ImageButton closeButton = new(BaseContent.Styles.Button.Small) {
-                Image = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Close],
+            var closeButton = new Button(BaseContent.Styles.Button.Small) {
+                Content = new Image { Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Close] },
                 HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Center
             };
+            StackPanel.SetProportionType(closeButton, ProportionType.Fill);
             closeButton.Click += (_, _) => {
                 properties.CloseButtonAction?.Invoke();
             };

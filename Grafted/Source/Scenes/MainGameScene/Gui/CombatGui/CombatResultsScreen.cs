@@ -62,7 +62,7 @@ public sealed class CombatResultsScreen : VerticalStackPanel
 
         if (Encounter.AtBoss)
         {
-            TextButton campButton = new(BaseContent.Styles.Button.Large) { Text = "Return to camp" };
+            var campButton = new Button(BaseContent.Styles.Button.Large) { Content = new Label { Text = "Return to camp" } };
             campButton.Click += (_, _) =>
             {
                 Encounter.Zone.Exit();
@@ -71,7 +71,7 @@ public sealed class CombatResultsScreen : VerticalStackPanel
         }
         else
         {
-            TextButton continueButton = new(BaseContent.Styles.Button.Large) { Text = Encounter.AtBoss ? "Boss!" : "Fight!" };
+            var continueButton = new Button(BaseContent.Styles.Button.Large) { Content = new Label { Text = Encounter.AtBoss ? "Boss!" : "Fight!" } };
             continueButton.Click += (_, _) =>
             {
                 MoveToNextCombat();

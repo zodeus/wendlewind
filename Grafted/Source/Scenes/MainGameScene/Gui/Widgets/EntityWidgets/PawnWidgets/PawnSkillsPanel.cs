@@ -14,9 +14,17 @@ public class PawnSkillsPanel : HorizontalStackPanel, IUpdatable {
             DefaultColumnProportion = Proportion.Auto,
             DefaultRowProportion = Proportion.Auto
         };
-        combatSkills.Widgets.Add(new Label { Text = "Skills", GridRow = 0, GridColumn = 0 });
-        combatSkills.Widgets.Add(new Label { Text = "LVL", GridRow = 0, GridColumn = 1 });
-        combatSkills.Widgets.Add(new Label { Text = "XP", GridRow = 0, GridColumn = 2, HorizontalAlignment = HorizontalAlignment.Center });
+        var skillsLabel = new Label { Text = "Skills" };
+        Grid.SetRow(skillsLabel, 0); Grid.SetColumn(skillsLabel, 0);
+        combatSkills.Widgets.Add(skillsLabel);
+        
+        var lvlLabel = new Label { Text = "LVL" };
+        Grid.SetRow(lvlLabel, 0); Grid.SetColumn(lvlLabel, 1);
+        combatSkills.Widgets.Add(lvlLabel);
+        
+        var xpLabel = new Label { Text = "XP", HorizontalAlignment = HorizontalAlignment.Center };
+        Grid.SetRow(xpLabel, 0); Grid.SetColumn(xpLabel, 2);
+        combatSkills.Widgets.Add(xpLabel);
         var gridRow = 1;
         foreach (var skill in skills.Where(skill => skill.SkillType == SkillType.Combat).OrderBy(skill => skill.Def.Label)) {
             if (skill.TotalXp == 0) {
@@ -44,15 +52,19 @@ public class PawnSkillsPanel : HorizontalStackPanel, IUpdatable {
         public SkillPanelRow(Skill skill, Grid grid, int gridRow) {
             _skill = skill;
             _level = new Label(BaseContent.Styles.Label.Medium) {
-                GridRow = gridRow, GridColumn = 1, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center
+                HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center
             };
+            Grid.SetRow(_level, gridRow); Grid.SetColumn(_level, 1);
+            
             _xp = new HorizontalProgressBar(BaseContent.Styles.Bar.Xp) {
                 Width = 100, Height = 30,
-                GridRow = gridRow, GridColumn = 2, VerticalAlignment = VerticalAlignment.Center
+                VerticalAlignment = VerticalAlignment.Center
             };
-            grid.Widgets.Add(new Label {
-                Text = skill.Def.Label, GridRow = gridRow, GridColumn = 0, VerticalAlignment = VerticalAlignment.Center
-            });
+            Grid.SetRow(_xp, gridRow); Grid.SetColumn(_xp, 2);
+            
+            var skillLabel = new Label { Text = skill.Def.Label, VerticalAlignment = VerticalAlignment.Center };
+            Grid.SetRow(skillLabel, gridRow); Grid.SetColumn(skillLabel, 0);
+            grid.Widgets.Add(skillLabel);
             grid.Widgets.Add(_level);
             grid.Widgets.Add(_xp);
         }

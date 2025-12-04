@@ -30,7 +30,7 @@ public sealed class PotionPanel : EntityPanelBase
 
         if (item.ItemDef == Defs.Items.JarOfBlood)
         {
-            TextButton button = new(BaseContent.Styles.Button.Normal) { Text = "Sip" };
+            var button = new Button(BaseContent.Styles.Button.Normal) { Content = new Label { Text = "Sip" } };
             button.Click += (_, _) =>
             {
                 Core.Context.PlayerPawn.Body.BloodAmount = Core.Context.PlayerPawn.Body.MaxBlood;

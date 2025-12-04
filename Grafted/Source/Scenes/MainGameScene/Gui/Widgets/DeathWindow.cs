@@ -1,4 +1,4 @@
-﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets;
+namespace Grafted.Scenes.MainGameScene.Gui.Widgets;
 
 public sealed class DeathWindow : Window
 {
@@ -8,9 +8,9 @@ public sealed class DeathWindow : Window
         Width = 600;
         Height = 400;
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.Red];
-        var button = new TextButton(BaseContent.Styles.Button.Large)
+        var button = new Button(BaseContent.Styles.Button.Large)
         {
-            HorizontalAlignment = HorizontalAlignment.Center, Text = "Restart"
+            HorizontalAlignment = HorizontalAlignment.Center, Content = new Label { Text = "Restart" }
         };
         button.Click += (_, _) =>
         {

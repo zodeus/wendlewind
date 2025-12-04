@@ -1,15 +1,16 @@
-﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
+namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 
 public sealed class CombatControlPanel : VerticalStackPanel
 {
     private readonly HorizontalStackPanel _speedButtonsPanel;
-    private readonly List<TextButton> _speedButtons = [];
+    private readonly List<(Button button, Label label)> _speedButtons = [];
 
     public CombatControlPanel(Encounter encounter)
     {
-        TextButton pauseButton = new("small")
+        var pauseLabel = new Label("small") { Text = "||" };
+        var pauseButton = new Button("small")
         {
-            Text = "||"
+            Content = pauseLabel
         };
 
         pauseButton.Click += (_, _) => { Core.Context.TogglePause(); };
@@ -30,24 +31,25 @@ public sealed class CombatControlPanel : VerticalStackPanel
         Widgets.Add(_speedButtonsPanel);
     }
 
-    private TextButton CreateSpeedButton(string label, int speed)
+    private Button CreateSpeedButton(string label, int speed)
     {
-        var button = new TextButton("small")
+        var buttonLabel = new Label("small") { Text = label, TextColor = Color.LightGray };
+        var button = new Button("small")
         {
-            Text = label, TextColor = Color.LightGray
+            Content = buttonLabel
         };
         if (DebugSettings.CombatSpeed == speed)
         {
-            button.TextColor = Color.Goldenrod;
+            buttonLabel.TextColor = Color.Goldenrod;
         }
 
         button.Click += (_, _) =>
         {
-            _speedButtons.ForEach(b => b.TextColor = Color.LightGray);
-            button.TextColor = Color.Goldenrod;
+            _speedButtons.ForEach(b => b.label.TextColor = Color.LightGray);
+            buttonLabel.TextColor = Color.Goldenrod;
             DebugSettings.CombatSpeed = speed;
         };
-        _speedButtons.Add(button);
+        _speedButtons.Add((button, buttonLabel));
         return button;
     }
 }
