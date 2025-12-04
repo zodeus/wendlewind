@@ -10,6 +10,7 @@ public static class WorldGenerator
         
 
         World world = new();
+        var biomeDefs = DefRepository<BiomeDef>.Defs;
         world.Initialize(player, DefRepository<BiomeDef>.Defs);
         return world;
     }

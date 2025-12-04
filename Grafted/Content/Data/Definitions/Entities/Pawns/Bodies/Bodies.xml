@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Definitions>
     <BodyDef>
         <Moniker>HumanBody</Moniker>
@@ -26,6 +26,15 @@
         <MaxBlood>6000</MaxBlood>
         <GeneratorClass>PigBodyGenerator</GeneratorClass>
         <LayoutClass>PigBodyPartLayout</LayoutClass>
+    </BodyDef>
+    <BodyDef>
+        <Moniker>HorseBody</Moniker>
+        <Label>Horse Body</Label>
+        <BloodType>AnimalBlood</BloodType>
+        <BoneDensity>1</BoneDensity>
+        <MaxBlood>10000</MaxBlood>
+        <GeneratorClass>HorseBodyGenerator</GeneratorClass>
+        <LayoutClass>HorseBodyPartLayout</LayoutClass>
     </BodyDef>
     <BodyDef>
         <Moniker>WolfBody</Moniker>

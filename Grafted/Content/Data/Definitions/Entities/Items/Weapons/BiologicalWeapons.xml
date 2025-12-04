@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
     <ItemDef ParentName="WeaponFlesh">
@@ -223,6 +223,58 @@
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Hoof</TexturePath>
         <BaseStats>
             <MeleePower>3</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>HorseTeeth</Moniker>
+        <Label>Teeth</Label>
+        <Description>Large horse teeth</Description>
+        <WeaponProperties>
+            <WeaponType>Teeth</WeaponType>
+            <DamageType>Sharp</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.3</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>0.8</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
+        <BaseStats>
+            <MeleePower>40</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>TaintedHorseHoof</Moniker>
+        <Label>Hoof</Label>
+        <Description>A tainted horse hoof</Description>
+        <WeaponProperties>
+            <WeaponType>Hoof</WeaponType>
+            <DamageType>Blunt</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.5</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.0</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Hoof</TexturePath>
+        <BaseStats>
+            <MeleePower>50</MeleePower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponBlunt">

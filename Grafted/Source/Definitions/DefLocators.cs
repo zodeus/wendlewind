@@ -74,6 +74,7 @@ public static partial class Defs {
 public static partial class Defs {
     [DefLocator]
     public static class Biomes {
+        public static BiomeDef AbandonedStables = null!;
         public static BiomeDef PeacefulMeadow = null!;
         public static BiomeDef TheOutskirts = null!;
         public static BiomeDef GrainMill = null!;
@@ -128,7 +129,8 @@ public static partial class Defs {
 
 public static partial class Defs {
     [DefLocator]
-    public static class BodyParts {
+    public static class BodyParts
+    {
         public static BodyPartDef Brain = null!;
         public static BodyPartDef Eye = null!;
         public static BodyPartDef Skin = null!;
@@ -192,19 +194,19 @@ public static partial class Defs {
         public static BodyPartDef GhoulFinger = null!;
         public static BodyPartDef GhoulLeg = null!;
         public static BodyPartDef GhoulFoot = null!;
-        
+
         public static BodyPartDef TreeTrunk = null!;
         public static BodyPartDef TreeInnerCore = null!;
         public static BodyPartDef TreeLegStump = null!;
         public static BodyPartDef TreeArmStump = null!;
-        
+
         public static BodyPartDef MushroomCap = null!;
         public static BodyPartDef MushroomStump = null!;
         public static BodyPartDef MushroomArm = null!;
         public static BodyPartDef MushroomHand = null!;
         public static BodyPartDef MushroomLeg = null!;
         public static BodyPartDef MushroomFoot = null!;
-        
+
         public static BodyPartDef OrcHead = null!;
         public static BodyPartDef OrcTorso = null!;
         public static BodyPartDef OrcArm = null!;
@@ -213,7 +215,7 @@ public static partial class Defs {
         public static BodyPartDef OrcThumb = null!;
         public static BodyPartDef OrcFinger = null!;
         public static BodyPartDef OrcFoot = null!;
-        
+
         public static BodyPartDef MosquitoHead = null!;
         public static BodyPartDef MosquitoProboscis = null!;
         public static BodyPartDef MosquitoAntenna = null!;
@@ -221,13 +223,19 @@ public static partial class Defs {
         public static BodyPartDef MosquitoWing = null!;
         public static BodyPartDef MosquitoLeg = null!;
         public static BodyPartDef MosquitoAbdomen = null!;
-        
+
         public static BodyPartDef BeeHead = null!;
         public static BodyPartDef BeeAntenna = null!;
         public static BodyPartDef BeeThorax = null!;
         public static BodyPartDef BeeWing = null!;
         public static BodyPartDef BeeLeg = null!;
         public static BodyPartDef BeeAbdomen = null!;
+        public static BodyPartDef HorseHead = null!;
+        public static BodyPartDef HorseNeck = null!;
+        public static BodyPartDef HorseTorso = null!;
+        public static BodyPartDef HorseLeg = null!;
+        public static BodyPartDef HorseHoof = null!;
+        public static BodyPartDef HorseTail = null!;
     }
 
     [DefLocator]

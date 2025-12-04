@@ -41,4 +41,17 @@
         </BaseStats>
         <TexturePath>Entities/Pawn/Creature/Wolf/Wolf</TexturePath>
     </PawnDef>
+    <PawnDef ParentName="BaseAnimal">
+        <Moniker>Horse</Moniker>
+        <Label>Horse</Label>
+        <Species>Horse</Species>
+        <Body>HorseBody</Body>
+        <BaseStats>
+            <AttackSpeed>1</AttackSpeed>
+            <MeleeStrength>1.2</MeleeStrength>
+            <MeleeAccuracy>.9</MeleeAccuracy>
+            <Evasion>.01</Evasion>
+        </BaseStats>
+        <TexturePath>Entities/Pawn/Creature/Horse/Horse</TexturePath>
+    </PawnDef>
 </Definitions>

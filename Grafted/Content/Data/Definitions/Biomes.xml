@@ -211,4 +211,17 @@
             </ListItem>
         </Resources>
     </BiomeDef>
+    <BiomeDef>
+        <Moniker>AbandonedStables</Moniker>
+        <Label>Abandoned Stables</Label>
+        <BackgroundTexturePath>Biome/AbandonedStables</BackgroundTexturePath>
+        <BackgroundTextureTransparency>30</BackgroundTextureTransparency>
+        <Resources>
+            <ListItem>
+                <Item>GlitteringLog</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.5</ChanceToHarvest>
+            </ListItem>
+        </Resources>
+    </BiomeDef>
 </Definitions>

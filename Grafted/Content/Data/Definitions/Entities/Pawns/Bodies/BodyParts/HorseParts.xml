@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartDef Name="HorseBodyPartBase" ParentName="BodyPartBase" Abstract="True">
+        
+    </BodyPartDef>
+    <BodyPartDef ParentName="HorseBodyPartBase">
+        <Moniker>HorseHead</Moniker>
+        <Label>Head</Label>
+        <HitWeight>20</HitWeight>
+        <BloodAmount>80</BloodAmount>
+        <BodyPartType>Head</BodyPartType>
+        <IsVital>true</IsVital>
+        <Substance>Flesh</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Horse/Head</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>SkullSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+            <ListItem>LeftEyeSocket</ListItem>
+            <ListItem>RightEyeSocket</ListItem>
+            <ListItem>NeckSocket</ListItem>
+        </Sockets>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <MaxHitPoints>800</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="HorseBodyPartBase">
+        <Moniker>HorseNeck</Moniker>
+        <Label>Neck</Label>
+        <BodyPartType>Neck</BodyPartType>
+        <IsVital>true</IsVital>
+        <HitWeight>10</HitWeight>
+        <BloodAmount>25</BloodAmount>
+        <Substance>Flesh</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Horse/Neck</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+            <ListItem>TorsoSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>600</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="HorseBodyPartBase">
+        <Moniker>HorseTorso</Moniker>
+        <Label>Torso</Label>
+        <BodyPartType>Torso</BodyPartType>
+        <HitWeight>30</HitWeight>
+        <BloodAmount>500</BloodAmount>
+        <Substance>Flesh</Substance>
+        <IsVital>true</IsVital>
+        <TexturePath>Entities/Pawn/BodyParts/Horse/Torso</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>RibCageSocket</ListItem>
+            <ListItem>StomachSocket</ListItem>
+            <ListItem>FrontLeftLegSocket</ListItem>
+            <ListItem>FrontRightLegSocket</ListItem>
+            <ListItem>RearLeftLegSocket</ListItem>
+            <ListItem>RearRightLegSocket</ListItem>
+            <ListItem>TailSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>2000</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="HorseBodyPartBase">
+        <Moniker>HorseLeg</Moniker>
+        <Label>Leg</Label>
+        <BodyPartType>Leg</BodyPartType>
+        <HitWeight>12</HitWeight>
+        <BloodAmount>200</BloodAmount>
+        <Substance>Flesh</Substance>
+        <MobilityFraction>.15</MobilityFraction>
+        <TexturePath>Entities/Pawn/BodyParts/Horse/Leg</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+            <ListItem>HoofSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>500</MaxHitPoints>
+            <AttackSpeedModifier>.15</AttackSpeedModifier>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="HorseBodyPartBase">
+        <Moniker>HorseHoof</Moniker>
+        <Label>Hoof</Label>
+        <BodyPartType>Hoof</BodyPartType>
+        <HitWeight>6</HitWeight>
+        <BloodAmount>40</BloodAmount>
+        <Substance>Flesh</Substance>
+        <MobilityFraction>.05</MobilityFraction>
+        <TexturePath>Entities/Pawn/BodyParts/Horse/Hoof</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+        </Sockets>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <AttackSpeedModifier>.05</AttackSpeedModifier>
+            <MaxHitPoints>200</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="HorseBodyPartBase">
+        <Moniker>HorseTail</Moniker>
+        <Label>Tail</Label>
+        <BodyPartType>Tail</BodyPartType>
+        <HitWeight>5</HitWeight>
+        <BloodAmount>40</BloodAmount>
+        <Substance>Flesh</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Horse/Tail</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <AttackSpeedModifier>.2</AttackSpeedModifier>
+            <MaxHitPoints>150</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+</Definitions>

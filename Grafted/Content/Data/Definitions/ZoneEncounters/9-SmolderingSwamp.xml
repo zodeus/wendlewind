@@ -6,7 +6,7 @@
         <Biome>SmolderingSwamp</Biome>
         <ShrineProperties>
             <GodLabel>Herminor</GodLabel>
-            <PartsToRestore>3~5</PartsToRestore>
+            <PartsToRestore>2~4</PartsToRestore>
             <TexturePath>Biome/Shrines/cemetery_shrine_1</TexturePath>
             <RestorablePartTypes>
                 <ListItem>Thumb</ListItem>
