@@ -127,6 +127,17 @@ public class AchievementTracker : IExposable
     }
 
     /// <summary>
+    /// Called when an item is disassembled
+    /// </summary>
+    public void OnItemDisassembled(Item item)
+    {
+        foreach (var handler in Handlers)
+        {
+            handler.OnItemDisassembled(item);
+        }
+    }
+
+    /// <summary>
     /// Called when an enemy is killed
     /// </summary>
     public void OnEnemyKilled(Pawn enemy)

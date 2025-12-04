@@ -93,6 +93,7 @@ public sealed class DisassembleItemPanel : HorizontalStackPanel
             Core.Context.PlayerPawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(resource.Item, resource.Count));
         }
 
+        Core.Context.Achievements.OnItemDisassembled(_item);
         _item.Destroy();
     }
 }

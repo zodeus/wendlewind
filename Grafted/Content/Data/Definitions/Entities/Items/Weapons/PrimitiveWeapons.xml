@@ -74,5 +74,13 @@
             <MeleePower>25</MeleePower>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
     </ItemDef>
 </Definitions>

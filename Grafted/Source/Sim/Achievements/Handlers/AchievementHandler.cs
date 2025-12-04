@@ -50,6 +50,11 @@ public abstract class AchievementHandler
     public virtual void OnItemFound(Item item) { }
 
     /// <summary>
+    /// Called when an item is disassembled
+    /// </summary>
+    public virtual void OnItemDisassembled(Item item) { }
+
+    /// <summary>
     /// Called when an enemy is killed
     /// </summary>
     public virtual void OnEnemyKilled(Pawn enemy) { }

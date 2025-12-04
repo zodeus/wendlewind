@@ -24,7 +24,7 @@
         <Label>Tis' But a Scratch!</Label>
         <Description>Lose an arm or leg.</Description>
         <Category>Combat</Category>
-        <BenifitDescription>Start with a random armor piece in your inventory.</BenifitDescription>
+        <BenifitDescription>Start with a random armor piece.</BenifitDescription>
         <HandlerClass>TisButAScratchHandler</HandlerClass>
     </AchievementDef>
     
@@ -50,6 +50,7 @@
         <Moniker>BloodChugger</Moniker>
         <Label>Blood Chugger</Label>
         <Description>Consume jars of blood.</Description>
+        <BenifitDescription>Your max blood is increased.</BenifitDescription>
         <Category>Consumables</Category>
         <ItemDef>JarOfBlood</ItemDef>
         <TargetValue>50</TargetValue>
@@ -57,9 +58,10 @@
     </AchievementDef>
     
     <AchievementDef>
-        <Moniker>RushingRiver</Moniker>
-        <Label>Rushing River</Label>
+        <Moniker>LetItFlow</Moniker>
+        <Label>Let It Flow</Label>
         <Description>Lose a lot of blood.</Description>
+        <BenifitDescription>Your blood thickens.</BenifitDescription>
         <Category>Survival</Category>
         <TargetValue>30000</TargetValue>
         <HandlerClass>BloodLostHandler</HandlerClass>
@@ -69,6 +71,7 @@
         <Moniker>VampireWannabe</Moniker>
         <Label>Vampire Wannabe</Label>
         <Description>Survive a fight with less than 10% blood.</Description>
+        <BenifitDescription>After combat, if the fallen has animal blood, you will drink it.</BenifitDescription>
         <Category>Survival</Category>
         <HandlerClass>VampireWannabeHandler</HandlerClass>
         <TargetValue>0.1</TargetValue>
@@ -79,6 +82,7 @@
         <Moniker>CaveDiver</Moniker>
         <Label>Cave Diver</Label>
         <Description>Explore caves.</Description>
+        <BenifitDescription>Caves are less scary, that's a good thing.</BenifitDescription>
         <Category>Exploration</Category>
         <HandlerClass>CaveDiverHandler</HandlerClass>
         <TargetValue>15</TargetValue>
@@ -138,6 +142,15 @@
         <HandlerClass>WeSmokemPeacePipeHandler</HandlerClass>
     </AchievementDef>
 
+    <AchievementDef>
+        <Moniker>TrashToTreasure</Moniker>
+        <Label>Trash to Treasure</Label>
+        <Description>One specimens trash becomes\nyour treasure.</Description>
+        <BenifitDescription>Start with a random weapon.</BenifitDescription>
+        <Category>Exploration</Category>
+        <TargetValue>20</TargetValue>
+        <HandlerClass>TrashToTreasureHandler</HandlerClass>
+    </AchievementDef>
     <!-- 
     
     <AchievementDef>
