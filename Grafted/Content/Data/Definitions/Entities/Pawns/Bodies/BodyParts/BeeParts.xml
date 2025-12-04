@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
     <BodyPartDef Name="BeeBodyPartBase" ParentName="BodyPartBase" Abstract="True">
@@ -84,6 +84,7 @@
         <HitWeight>40</HitWeight>
         <BloodAmount>1</BloodAmount>
         <Substance>Chitin</Substance>
+        <MobilityFraction>.2</MobilityFraction>
         <TexturePath>Entities/Pawn/BodyParts/Bee/Wing</TexturePath>
         <BaseStats>
             <MaxHitPoints>1500</MaxHitPoints>
@@ -96,6 +97,7 @@
         <HitWeight>80</HitWeight>
         <BloodAmount>1</BloodAmount>
         <Substance>Chitin</Substance>
+        <MobilityFraction>.1</MobilityFraction>
         <TexturePath>Entities/Pawn/BodyParts/Bee/Leg</TexturePath>
         <BaseStats>
             <MaxHitPoints>800</MaxHitPoints>

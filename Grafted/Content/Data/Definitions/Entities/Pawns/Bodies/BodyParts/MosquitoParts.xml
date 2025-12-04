@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
     <BodyPartDef Name="MosquitoBodyPartBase" ParentName="BodyPartBase" Abstract="True">
@@ -105,6 +105,7 @@
         <HitWeight>40</HitWeight>
         <BloodAmount>1</BloodAmount>
         <Substance>Chitin</Substance>
+        <MobilityFraction>.2</MobilityFraction>
         <TexturePath>Entities/Pawn/BodyParts/Mosquito/Wing</TexturePath>
         <BaseStats>
             <AttackSpeedModifier>.5</AttackSpeedModifier>
@@ -118,6 +119,7 @@
         <HitWeight>80</HitWeight>
         <BloodAmount>40</BloodAmount>
         <Substance>Chitin</Substance>
+        <MobilityFraction>.1</MobilityFraction>
         <TexturePath>Entities/Pawn/BodyParts/Mosquito/Leg</TexturePath>
         <BaseStats>
             <MaxHitPoints>200</MaxHitPoints>

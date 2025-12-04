@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
     <BodyPartDef Name="MushroomBodyPartBase" ParentName="BodyPartBase" Abstract="True">
@@ -90,6 +90,7 @@
         <HitWeight>12</HitWeight>
         <BloodAmount>0</BloodAmount>
         <Substance>Fungus</Substance>
+        <MobilityFraction>.4</MobilityFraction>
         <TexturePath>Entities/Pawn/BodyParts/Mushroom/Leg</TexturePath>
         <Sockets>
             <ListItem>BoneSocket</ListItem>
@@ -107,6 +108,7 @@
         <HitWeight>8</HitWeight>
         <BloodAmount>0</BloodAmount>
         <Substance>Fungus</Substance>
+        <MobilityFraction>.1</MobilityFraction>
         <TexturePath>Entities/Pawn/BodyParts/Mushroom/Foot</TexturePath>
         <Sockets>
             <ListItem>BoneSocket</ListItem>

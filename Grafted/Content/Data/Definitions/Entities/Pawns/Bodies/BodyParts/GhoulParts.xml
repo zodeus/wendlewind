@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
     <BodyPartDef Name="GhoulBodyPartBase" ParentName="BodyPartBase" Abstract="True">
@@ -160,6 +160,7 @@
         <BodyPartType>Leg</BodyPartType>
         <HitWeight>11</HitWeight>
         <Substance>Flesh</Substance>
+        <MobilityFraction>.4</MobilityFraction>
         <TexturePath>Entities/Pawn/BodyParts/Ghoul/Leg</TexturePath>
         <EquipmentSlots>
             <ListItem>LegArmor</ListItem>
@@ -180,7 +181,8 @@
         <BodyPartType>Foot</BodyPartType>
         <HitWeight>7</HitWeight>
         <Substance>Flesh</Substance>
-            <TexturePath>Entities/Pawn/BodyParts/Ghoul/Foot</TexturePath>
+        <MobilityFraction>.1</MobilityFraction>
+        <TexturePath>Entities/Pawn/BodyParts/Ghoul/Foot</TexturePath>
         <EquipmentSlots>
             <ListItem>BuiltIn</ListItem>
             <ListItem>FootArmor</ListItem>

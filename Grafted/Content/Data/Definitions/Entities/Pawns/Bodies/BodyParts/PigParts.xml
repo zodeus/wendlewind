@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
     <BodyPartDef Name="PigBodyPartBase" ParentName="BodyPartBase" Abstract="True">
@@ -78,6 +78,7 @@
         <HitWeight>11</HitWeight>
         <BloodAmount>140</BloodAmount>
         <Substance>Flesh</Substance>
+        <MobilityFraction>.2</MobilityFraction>
         <TexturePath>Entities/Pawn/BodyParts/Pig/Leg</TexturePath>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
@@ -96,6 +97,7 @@
         <HitWeight>7</HitWeight>
         <BloodAmount>30</BloodAmount>
         <Substance>Flesh</Substance>
+        <MobilityFraction>.05</MobilityFraction>
         <TexturePath>Entities/Pawn/BodyParts/Pig/Hoof</TexturePath>
         <Sockets>
             <ListItem>SkinSocket</ListItem>

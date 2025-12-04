@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
     <BodyPartDef Name="GlumpBodyPartBase" ParentName="BodyPartBase" Abstract="True">
@@ -142,6 +142,7 @@
         <HitWeight>11</HitWeight>
         <BloodAmount>140</BloodAmount>
         <Substance>Flesh</Substance>
+        <MobilityFraction>.4</MobilityFraction>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanLeg</TexturePath>
         <EquipmentSlots>
             <ListItem>LegArmor</ListItem>
@@ -163,6 +164,7 @@
         <HitWeight>7</HitWeight>
         <BloodAmount>30</BloodAmount>
         <Substance>Flesh</Substance>
+        <MobilityFraction>.1</MobilityFraction>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanFoot</TexturePath>
         <EquipmentSlots>
             <ListItem>BuiltIn</ListItem>
