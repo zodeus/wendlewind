@@ -4,7 +4,7 @@ namespace Grafted.Utils;
 
 public static class AttributeExtensions {
     public static bool HasAttribute<T>(this MemberInfo memberInfo) where T : Attribute {
-        return memberInfo.TryGetAttribute(out T _);
+        return memberInfo.TryGetAttribute(out T? _);
     }
 
     public static bool TryGetAttribute<T>(this MemberInfo memberInfo, out T? customAttribute) where T : Attribute {

@@ -30,7 +30,7 @@ public class SpriteSheet : IDisposable {
         return Sprites[Core.Random.Next(0, HorizontalCount - 1), Core.Random.Next(0, VerticalCount - 1)];
     }
 
-    private Sprite GetRegion(Texture2D? texture, int x, int y, int width, int height) {
+    private Sprite GetRegion(Texture2D texture, int x, int y, int width, int height) {
         return new Sprite(texture, x, y, width, height);
     }
 

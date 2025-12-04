@@ -4,7 +4,7 @@ public class Sprite {
     /// <summary>
     /// the actual Texture2D
     /// </summary>
-    public Texture2D? Texture2D;
+    public Texture2D Texture2D;
 
     /// <summary>
     /// rectangle in the Texture2D for this element
@@ -28,7 +28,7 @@ public class Sprite {
     public Vector2 Origin;
 
 
-    public Sprite(Texture2D? texture, Rectangle sourceRect, Vector2 origin) {
+    public Sprite(Texture2D texture, Rectangle sourceRect, Vector2 origin) {
         Texture2D = texture;
         SourceRect = sourceRect;
         Center = new Vector2(sourceRect.Width * 0.5f, sourceRect.Height * 0.5f);
@@ -43,11 +43,11 @@ public class Sprite {
         Uvs.Height = sourceRect.Height * inverseTexH;
     }
 
-    public Sprite(Texture2D? texture, Rectangle sourceRect) : this(texture, sourceRect, sourceRect.GetHalfSize()) { }
+    public Sprite(Texture2D texture, Rectangle sourceRect) : this(texture, sourceRect, sourceRect.GetHalfSize()) { }
 
-    public Sprite(Texture2D? texture) : this(texture, new Rectangle(0, 0, texture.Width, texture.Height)) { }
+    public Sprite(Texture2D texture) : this(texture, new Rectangle(0, 0, texture.Width, texture.Height)) { }
 
-    public Sprite(Texture2D? texture, int x, int y, int width, int height) : this(texture,
+    public Sprite(Texture2D texture, int x, int y, int width, int height) : this(texture,
         new Rectangle(x, y, width, height)) { }
 
     /// <summary>
@@ -58,7 +58,7 @@ public class Sprite {
     /// <param name="y">The y coordinate.</param>
     /// <param name="width">Width.</param>
     /// <param name="height">Height.</param>
-    public Sprite(Texture2D? texture, float x, float y, float width, float height) : this(texture, (int) x,
+    public Sprite(Texture2D texture, float x, float y, float width, float height) : this(texture, (int) x,
         (int) y, (int) width, (int) height) { }
 
     /// <summary>
@@ -105,7 +105,7 @@ public class Sprite {
         };
     }
 
-    public static implicit operator Texture2D?(Sprite tex) => tex.Texture2D;
+    public static implicit operator Texture2D(Sprite tex) => tex.Texture2D;
 
     public override string ToString() => $"{SourceRect}";
 }

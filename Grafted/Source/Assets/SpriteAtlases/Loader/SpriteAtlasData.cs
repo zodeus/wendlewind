@@ -18,7 +18,7 @@ internal class SpriteAtlasData {
     public SpriteAtlas AsSpriteAtlas(Texture2D? texture) {
         SpriteAtlas atlas = new(Names.ToArray(), AnimationNames.ToArray());
         for (int i = 0; i < atlas.Sprites.Length; i++) {
-            atlas.Sprites[i] = new Sprite(texture, SourceRects[i], Origins[i]);
+            atlas.Sprites[i] = new Sprite(texture!, SourceRects[i], Origins[i]);
         }
 
         for (int i = 0; i < atlas.SpriteAnimations.Length; i++) {

@@ -47,7 +47,7 @@ internal sealed class BoakItemsWeaponPanel : Grid
             AddCell(new Label(BaseContent.Styles.Label.Medium)
             {
                 VerticalAlignment = VerticalAlignment.Center,
-                Text = $"{def.WeaponProperties.DamageType}"
+                Text = $"{def.WeaponProperties?.DamageType}"
             }, gridRow, 1);
             AddCell(new Label(BaseContent.Styles.Label.Medium)
             {
@@ -63,13 +63,13 @@ internal sealed class BoakItemsWeaponPanel : Grid
             AddCell(new Label(BaseContent.Styles.Label.Medium)
             {
                 VerticalAlignment = VerticalAlignment.Center,
-                Text = string.Join(", ", def.WeaponProperties.BodyPartModifiers.Select(f => f.Def.Label))
+                Text = string.Join(", ", def.WeaponProperties?.BodyPartModifiers.Select(f => f.Def.Label) ?? [])
             }, gridRow, 5);
 
             AddCell(new Label(BaseContent.Styles.Label.Medium)
             {
                 VerticalAlignment = VerticalAlignment.Center,
-                Text = string.Join(", ", def.WeaponProperties.WeaponManeuvers.Select(f => f.Label))
+                Text = string.Join(", ", def.WeaponProperties?.WeaponManeuvers.Select(f => f.Label) ?? [])
             }, gridRow, 6);
 
 

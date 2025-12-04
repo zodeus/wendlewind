@@ -153,8 +153,8 @@ public sealed class ItemContainerPanel : Panel
 
     private class ItemContainerPanelSection
     {
-        public EntityContainer Container { get; set; }
+        public EntityContainer Container { get; set; } = null!;
         public Func<Entity, bool>? Filter { get; set; }
-        public string Label { get; set; }
+        public string Label { get; set; } = string.Empty;
     }
 }

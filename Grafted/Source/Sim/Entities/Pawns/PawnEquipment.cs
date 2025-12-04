@@ -15,7 +15,7 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
             {
                 foreach (Item? item in externalPart.Equipment.Values)
                 {
-                    if (item != null && item.ItemDef.EquipmentProperties.EquipmentType == EquipmentType.Armor)
+                    if (item != null && item.ItemDef.EquipmentProperties?.EquipmentType == EquipmentType.Armor)
                     {
                         yield return item;
                     }
@@ -89,7 +89,7 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
 
     public Item? TryEquip(BodyPart bodyPart, EquipmentSlotType slot, Item item)
     {
-        if (item.ItemDef.EquipmentProperties.SlotUsedToEquip == null)
+        if (item.ItemDef.EquipmentProperties?.SlotUsedToEquip == null)
         {
             Log.Error($"Tried to equip '{item}' but SlotUsedToEquip is null");
             return null;
@@ -182,6 +182,6 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
 
     public int SlotCountFor(ItemDef itemDef)
     {
-        return Slots.Sum(slot => slot.Value.Count(slotType => itemDef.EquipmentProperties.SlotUsedToEquip == slotType));
+        return Slots.Sum(slot => slot.Value.Count(slotType => itemDef.EquipmentProperties?.SlotUsedToEquip == slotType));
     }
 }

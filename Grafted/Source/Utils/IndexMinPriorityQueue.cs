@@ -84,7 +84,7 @@ public class IndexMinPriorityQueue<T> where T : IComparable<T> {
         Exchange(1, Size--);
         Sink(1);
         _qp[min] = -1;
-        _keys[_pq[Size + 1]] = default(T);
+        _keys[_pq[Size + 1]] = default!;
         _pq[Size + 1] = -1;
         return min;
     }
@@ -138,7 +138,7 @@ public class IndexMinPriorityQueue<T> where T : IComparable<T> {
         Exchange(i, Size--);
         Swim(i);
         Sink(i);
-        _keys[index] = default(T);
+        _keys[index] = default!;
         _qp[index] = -1;
     }
 

@@ -15,7 +15,7 @@ public class GamePool<T> where T : class {
 
         _count--;
         T result = _pool[_count];
-        _pool[_count] = default;
+        _pool[_count] = default!;
         return result;
     }
 

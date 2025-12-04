@@ -604,7 +604,7 @@ public class CombatHandler : IDisposable
 
 public class PostCombatReport
 {
-    public Pawn Player { get; set; }
-    public Pawn Enemy { get; set; }
+    public Pawn Player { get; set; } = null!;
+    public Pawn Enemy { get; set; } = null!;
     public double TotalDirectPlayerDamage { get; set; }
 }

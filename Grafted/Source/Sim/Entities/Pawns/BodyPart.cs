@@ -16,7 +16,6 @@ public class BodyPart : Entity
     private double _hitPoints;
     private string? _adaptedLabel;
     private bool _isSevered; // todo, this should be set by an applied health condition
-    private Texture2D? _image;
 
     public double MaxHitPoints;
     public bool IsCracked = false;
@@ -232,7 +231,7 @@ public class BodyPart : Entity
         {
             foreach (Item? item in Equipment.Values)
             {
-                if (item?.ItemDef.EquipmentProperties.EquipmentType == EquipmentType.Armor)
+                if (item?.ItemDef.EquipmentProperties?.EquipmentType == EquipmentType.Armor)
                 {
                     return item;
                 }
@@ -457,7 +456,7 @@ public class BodyPart : Entity
 
     public EquipmentSlotType? SlotFor(Item item)
     {
-        var slot = item.ItemDef.EquipmentProperties.SlotUsedToEquip;
+        var slot = item.ItemDef.EquipmentProperties?.SlotUsedToEquip;
         if (slot == null || EquipmentSlots == null) return null;
         return EquipmentSlots.Contains(slot.Value) ? slot.Value : null;
     }
@@ -479,7 +478,7 @@ public class BodyPart : Entity
             return null;
         }
 
-        var slot = item.ItemDef.EquipmentProperties.SlotUsedToEquip;
+        var slot = item.ItemDef.EquipmentProperties?.SlotUsedToEquip;
         if (slot == null) return null;
         foreach (EquipmentSlotType potentialSlot in EquipmentSlots!)
         {

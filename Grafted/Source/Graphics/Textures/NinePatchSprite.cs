@@ -18,7 +18,7 @@ public class NinePatchSprite : Sprite {
     public int PadBottom;
 
 
-    public NinePatchSprite(Texture2D? texture, Rectangle sourceRect, int left, int right, int top, int bottom) :
+    public NinePatchSprite(Texture2D texture, Rectangle sourceRect, int left, int right, int top, int bottom) :
         base(texture, sourceRect) {
         Left = left;
         Right = right;
@@ -29,7 +29,7 @@ public class NinePatchSprite : Sprite {
     }
 
 
-    public NinePatchSprite(Texture2D? texture, int left, int right, int top, int bottom) : this(texture,
+    public NinePatchSprite(Texture2D texture, int left, int right, int top, int bottom) : this(texture,
         texture.Bounds, left, right, top, bottom) { }
 
 

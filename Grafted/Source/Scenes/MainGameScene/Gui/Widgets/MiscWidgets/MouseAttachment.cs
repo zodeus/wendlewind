@@ -24,7 +24,7 @@ public class MouseAttachment {
     public MouseAttachment(BaseGui gui, Texture2D texture, Action<MouseAttachment>? leftClickAction = null, Action<MouseAttachment>? updateAction = null, Action<MouseAttachment, SpriteBatch>? renderAction = null) {
         _gui = gui;
         _texture = texture;
-        _leftClickAction = leftClickAction;
+        _leftClickAction = leftClickAction ?? (attachment => { });
         _updateAction = updateAction;
         _renderAction = renderAction;
     }

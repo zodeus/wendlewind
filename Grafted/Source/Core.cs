@@ -310,7 +310,7 @@ public class Core : Game
 
     public static ICoroutine StartCoroutine(IEnumerator enumerator)
     {
-        return Instance._coroutineManager.StartCoroutine(enumerator);
+        return Instance._coroutineManager.StartCoroutine(enumerator) ?? throw new Exception("Failed to start coroutine");
     }
 
     public static void ClearCoroutines()
