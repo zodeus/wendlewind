@@ -28,5 +28,3 @@ public class TrashToTreasureHandler : AchievementHandler
         PawnGenerator.RegisterEquipment(context.Player.Pawn, weaponDefs.InRandomOrder().Take(1).ToList());
     }
 }
-
-

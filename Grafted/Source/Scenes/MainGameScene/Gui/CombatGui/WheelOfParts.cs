@@ -18,6 +18,7 @@ internal sealed class WheelOfParts : VerticalStackPanel
     private readonly Label _resultLabel;
     private readonly int _maxSpins;
     private int _spinsUsed;
+    private List<BodyPartType>? _pendingPartTypesUpdate;
 
     public WheelOfParts(Pawn pawn, ShrineProperties shrine)
     {
@@ -128,6 +129,13 @@ internal sealed class WheelOfParts : VerticalStackPanel
         if (_wheelWidget.IsSpinning)
             return;
 
+        // Apply pending wheel update from previous spin
+        if (_pendingPartTypesUpdate != null)
+        {
+            _wheelWidget.UpdatePartTypes(_pendingPartTypesUpdate);
+            _pendingPartTypesUpdate = null;
+        }
+
         var missingParts = GetMissingPartTypes();
         if (missingParts.Count == 0)
             return;
@@ -182,8 +190,8 @@ internal sealed class WheelOfParts : VerticalStackPanel
         {
             _spinButton.Enabled = true;
             _skipButton.Enabled = true;
-            // Update the wheel with new missing parts
-            _wheelWidget.UpdatePartTypes(remainingParts);
+            // Defer wheel update until next spin so player can see what they landed on
+            _pendingPartTypesUpdate = remainingParts;
         }
         else
         {
@@ -269,7 +277,6 @@ internal sealed class WheelRenderWidget : Widget
     private float _rotation;
     private float _spinVelocity;
     private bool _isSpinning;
-    private int _selectedIndex = -1;
     private float _time; // For animated effects
     
     // Spin physics
@@ -279,13 +286,13 @@ internal sealed class WheelRenderWidget : Widget
     
     // Generated textures
     private Texture2D? _wheelTexture;
-    private Texture2D? _rimTexture;
     private Texture2D? _glowTexture;
-    private Texture2D? _runeTexture;
     private Texture2D? _centerHubTexture;
     private const int TextureSize = 512;
     private bool _texturesGenerated;
-    private readonly Random _noiseRandom = new(42); // Fixed seed for consistent patterns
+    
+    // Cached SpriteBatch to avoid allocating every frame
+    private SpriteBatch? _spriteBatch;
 
     public bool IsSpinning => _isSpinning;
 
@@ -334,11 +341,8 @@ internal sealed class WheelRenderWidget : Widget
         if (_texturesGenerated) return;
         _texturesGenerated = true;
 
-        GenerateNoiseTexture();
         GenerateGlowTexture();
-        GenerateRuneTexture();
         GenerateCenterHubTexture();
-        GenerateRimTexture();
         GenerateWheelTexture();
     }
 
@@ -347,27 +351,6 @@ internal sealed class WheelRenderWidget : Widget
         _wheelTexture?.Dispose();
         _wheelTexture = null;
         GenerateWheelTexture();
-    }
-
-    private void GenerateNoiseTexture()
-    {
-        var size = 256;
-        var data = new Color[size * size];
-        
-        for (int y = 0; y < size; y++)
-        {
-            for (int x = 0; x < size; x++)
-            {
-                // Multi-layered noise for grungy texture
-                float noise = 0;
-                noise += PerlinNoise(x * 0.02f, y * 0.02f) * 0.5f;
-                noise += PerlinNoise(x * 0.05f, y * 0.05f) * 0.3f;
-                noise += PerlinNoise(x * 0.1f, y * 0.1f) * 0.2f;
-                
-                byte n = (byte)(128 + noise * 60);
-                data[y * size + x] = new Color(n, n, n, (byte)(100 + _noiseRandom.Next(50)));
-            }
-        }
     }
 
     private void GenerateGlowTexture()
@@ -394,47 +377,6 @@ internal sealed class WheelRenderWidget : Widget
         
         _glowTexture = new Texture2D(Core.GraphicsDevice, size, size);
         _glowTexture.SetData(data);
-    }
-
-    private void GenerateRuneTexture()
-    {
-        var size = 64;
-        var data = new Color[size * size];
-        
-        // Draw arcane symbols/runes procedurally
-        var center = size / 2f;
-        
-        for (int y = 0; y < size; y++)
-        {
-            for (int x = 0; x < size; x++)
-            {
-                float dx = x - center;
-                float dy = y - center;
-                float angle = MathF.Atan2(dy, dx);
-                float dist = MathF.Sqrt(dx * dx + dy * dy) / center;
-                
-                // Create circular rune patterns
-                float pattern = 0;
-                pattern += MathF.Sin(angle * 6 + dist * 8) * 0.3f;
-                pattern += MathF.Sin(angle * 3 - dist * 4) * 0.3f;
-                
-                // Radial lines
-                float radialLine = MathF.Abs(MathF.Sin(angle * 8)) > 0.9f ? 1f : 0f;
-                pattern += radialLine * (1f - dist) * 0.4f;
-                
-                // Only show within a ring
-                float ringMask = dist > 0.3f && dist < 0.9f ? 1f : 0f;
-                pattern *= ringMask;
-                
-                byte intensity = (byte)Math.Clamp(pattern * 200 + 50, 0, 255);
-                byte alpha = (byte)(pattern > 0.3f ? 180 : 0);
-                
-                data[y * size + x] = new Color(intensity, (byte)(intensity * 0.7f), (byte)(intensity * 0.4f), alpha);
-            }
-        }
-        
-        _runeTexture = new Texture2D(Core.GraphicsDevice, size, size);
-        _runeTexture.SetData(data);
     }
 
     private void GenerateCenterHubTexture()
@@ -490,51 +432,6 @@ internal sealed class WheelRenderWidget : Widget
         _centerHubTexture.SetData(data);
     }
 
-    private void GenerateRimTexture()
-    {
-        var width = 512;
-        var height = 32;
-        var data = new Color[width * height];
-        
-        for (int y = 0; y < height; y++)
-        {
-            for (int x = 0; x < width; x++)
-            {
-                float u = x / (float)width;
-                float v = y / (float)height;
-                
-                // Metallic gold base
-                float metallic = 0.7f + 0.3f * MathF.Sin(u * MathF.PI * 32);
-                
-                // Beveled edge effect
-                float edgeFactor = 1f - MathF.Abs(v - 0.5f) * 2f;
-                edgeFactor = MathF.Pow(edgeFactor, 0.5f);
-                
-                // Add scratches/wear
-                float scratch = PerlinNoise(x * 0.1f, y * 0.3f) * 0.2f;
-                
-                // Periodic notches/studs
-                float notchPattern = MathF.Abs(MathF.Sin(u * MathF.PI * 16));
-                bool isNotch = notchPattern > 0.85f;
-                
-                float brightness = metallic * edgeFactor + scratch;
-                if (isNotch)
-                {
-                    brightness *= 1.3f;
-                }
-                
-                byte r = (byte)Math.Clamp(180 * brightness, 0, 255);
-                byte g = (byte)Math.Clamp(130 * brightness, 0, 255);
-                byte b = (byte)Math.Clamp(50 * brightness, 0, 255);
-                
-                data[y * width + x] = new Color(r, g, b, (byte)255);
-            }
-        }
-        
-        _rimTexture = new Texture2D(Core.GraphicsDevice, width, height);
-        _rimTexture.SetData(data);
-    }
-
     private void GenerateWheelTexture()
     {
         var data = new Color[TextureSize * TextureSize];
@@ -554,6 +451,13 @@ internal sealed class WheelRenderWidget : Widget
                 
                 // Outside wheel
                 if (dist > radius)
+                {
+                    data[y * TextureSize + x] = Color.Transparent;
+                    continue;
+                }
+                
+                // Skip center pixels (covered by hub, avoids angle calculation instability near origin)
+                if (dist < 20)
                 {
                     data[y * TextureSize + x] = Color.Transparent;
                     continue;
@@ -694,7 +598,6 @@ internal sealed class WheelRenderWidget : Widget
 
         _isSpinning = true;
         _spinVelocity = InitialSpinSpeed + (float)(Core.Random.NextDouble() * 4);
-        _selectedIndex = -1;
     }
 
     public override void InternalRender(RenderContext context)
@@ -732,7 +635,9 @@ internal sealed class WheelRenderWidget : Widget
 
         context.Flush();
 
-        var spriteBatch = new SpriteBatch(Core.GraphicsDevice);
+        // Use cached SpriteBatch to avoid allocations every frame
+        _spriteBatch ??= new SpriteBatch(Core.GraphicsDevice);
+        var spriteBatch = _spriteBatch;
         
         // First pass: Additive blend for glow effects
         spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.LinearClamp);
@@ -802,7 +707,6 @@ internal sealed class WheelRenderWidget : Widget
         }
         
         spriteBatch.End();
-        spriteBatch.Dispose();
     }
 
     private void DrawSegmentLabels(SpriteBatch spriteBatch, float cx, float cy, float radius)
@@ -1024,9 +928,10 @@ internal sealed class WheelRenderWidget : Widget
         
         var angle = MathF.Atan2(direction.Y, direction.X);
 
+        // Position at start point, rotate around left-center of rectangle
         spriteBatch.Draw(pixel,
-            new Rectangle((int)start.X, (int)start.Y - thickness / 2, (int)length, thickness),
-            null, color, angle, Vector2.Zero, SpriteEffects.None, 0);
+            new Rectangle((int)start.X, (int)start.Y, (int)length, thickness),
+            null, color, angle, new Vector2(0, thickness / 2f), SpriteEffects.None, 0);
     }
 
     private Texture2D? _pixelTexture;
@@ -1043,7 +948,7 @@ internal sealed class WheelRenderWidget : Widget
 
     private void DetermineSelectedSegment()
     {
-        _selectedIndex = GetCurrentPointedSegment();
-        OnSpinComplete?.Invoke(_wheelSlots[_selectedIndex]);
+        var selectedIndex = GetCurrentPointedSegment();
+        OnSpinComplete?.Invoke(_wheelSlots[selectedIndex]);
     }
 }

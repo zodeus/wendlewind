@@ -78,7 +78,6 @@
         <BenifitDescription>Not implemented.</BenifitDescription>
         <!-- <BenifitDescription>After combat, if the fallen has animal blood, you will drink it.</BenifitDescription> -->
         <Category>Survival</Category>
-        <BenifitDescription>Not implemented.</BenifitDescription>
         <HandlerClass>VampireWannabeHandler</HandlerClass>
         <TargetValue>0.1</TargetValue>
         <IsHidden>true</IsHidden>
@@ -88,9 +87,8 @@
         <Moniker>CaveDiver</Moniker>
         <Label>Cave Diver</Label>
         <Description>Explore caves.</Description>
-        <BenifitDescription>Caves are less scary, that's a good thing.</BenifitDescription>
-        <Category>Exploration</Category>
         <BenifitDescription>Not implemented.</BenifitDescription>
+        <Category>Exploration</Category>
         <HandlerClass>CaveDiverHandler</HandlerClass>
         <TargetValue>15</TargetValue>
     </AchievementDef>
