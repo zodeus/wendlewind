@@ -6,15 +6,12 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 [UsedImplicitly]
 public sealed class PawnPanel : EntityPanelBase
 {
-    private readonly Pawn _pawn;
 
     private readonly PawnPortraitPanel _portrait;
     private readonly TabPanel _tabPanel;
 
     public PawnPanel(BaseGui gui, Pawn pawn, EntityPanelProperties? properties = null) : base(gui, pawn, properties)
     {
-        _pawn = pawn;
-
         var pane = new HorizontalStackPanel { Spacing = 40 };
         Widgets.Add(pane);
         MinWidth = 1000;

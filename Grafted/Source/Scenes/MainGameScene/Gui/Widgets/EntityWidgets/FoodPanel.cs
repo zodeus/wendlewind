@@ -6,11 +6,14 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 [UsedImplicitly]
 public sealed class FoodPanel : EntityPanelBase
 {
-    private readonly Button _eatButton;
+    private readonly Button _eatButton = null!;
     private readonly Button _cookButton;
+    private readonly Label _stackSizeLabel = null!;
+    private readonly Item _item;
 
     public FoodPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
+        _item = item;
         Padding = new Thickness(20);
         MinWidth = 300;
         Spacing = 8;
@@ -101,10 +104,9 @@ public sealed class FoodPanel : EntityPanelBase
                 // Duration
                 if (effect.DurationInTicks > 0)
                 {
-                    var durationSeconds = effect.DurationInTicks / 60f;
                     effectPanel.Widgets.Add(new Label("small")
                     {
-                        Text = $"({durationSeconds:0.#}s)",
+                        Text = $"({effect.DurationInTicks:N0} ticks)",
                         TextColor = new Color(150, 150, 150)
                     });
                 }
@@ -128,18 +130,20 @@ public sealed class FoodPanel : EntityPanelBase
         // Stack info
         if (item.StackSize > 1 || item.ItemDef.StackLimit > 1)
         {
-            Widgets.Add(new Label("small")
+            _stackSizeLabel = new Label("small")
             {
                 Text = $"Stack: {item.StackSize}/{item.ItemDef.StackLimit}",
                 TextColor = new Color(150, 150, 150),
                 Margin = new Thickness(0, 5, 0, 0)
-            });
+            };
+            Widgets.Add(_stackSizeLabel);
         }
 
         // Buttons
         _eatButton = new Button(BaseContent.Styles.Button.Normal)
         {
-            Content = new Label { Text = "Eat" }, Margin = new Thickness(0, 15, 0, 0)
+            Content = new Label { Text = "Eat" },
+            Margin = new Thickness(0, 15, 0, 0)
         };
         _eatButton.Click += (_, _) =>
         {
@@ -158,7 +162,8 @@ public sealed class FoodPanel : EntityPanelBase
 
         _cookButton = new Button(BaseContent.Styles.Button.Normal)
         {
-            Content = new Label { Text = "Cook" }, Margin = new Thickness(0, 15, 0, 0),
+            Content = new Label { Text = "Cook" },
+            Margin = new Thickness(0, 15, 0, 0),
             Visible = ShowCookButton(item)
         };
         _cookButton.Click += (_, _) => { HandleCooking(item); };
@@ -245,5 +250,6 @@ public sealed class FoodPanel : EntityPanelBase
     public override void Update()
     {
         _eatButton.Enabled = Core.Context.World.Player.Pawn.IsHungry;
+        _stackSizeLabel.Text = $"Stack: {_item.StackSize}/{_item.ItemDef.StackLimit}";
     }
 }

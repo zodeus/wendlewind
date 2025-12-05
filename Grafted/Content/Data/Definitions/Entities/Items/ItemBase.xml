@@ -7,6 +7,6 @@
     <ItemDef Name="ItemResource" ParentName="ItemBase" Abstract="true">
         <ItemType>Resource</ItemType>
         <UiClass>ResourcePanel</UiClass>
-        <StackLimit>999999</StackLimit>
+        <StackLimit>99</StackLimit>
     </ItemDef>
 </Definitions>

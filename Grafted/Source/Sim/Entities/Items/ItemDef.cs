@@ -21,6 +21,7 @@ public class ItemDef : EntityDef
     public EnchantmentProperties? EnchantmentProperties;
     public TrinketProperties? TrinketProperties;
     public DisassembleProperties? DisassembleProperties;
+    public AmmoProperties? AmmoProperties;
 
     public override void ResolveDependencies()
     {

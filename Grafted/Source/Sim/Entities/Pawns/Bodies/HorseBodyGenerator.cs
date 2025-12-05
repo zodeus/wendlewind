@@ -59,3 +59,4 @@ public class HorseBodyGenerator : IBodyGenerator
         hoof.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("TaintedHorseHoof")!);
     }
 }
+

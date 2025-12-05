@@ -39,7 +39,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
 
     private void GeneratePlayerControls(Pawn pawn)
     {
-        var trinketBar = new TrinketBar(pawn.Inventory.Entities, TrinketType.Combat, HandleTrinketClick, true)
+        var trinketBar = new TrinketBar(pawn.Inventory.Entities, TrinketType.Combat)
         {
             DefaultProportion = Proportion.Auto,
             VerticalAlignment = VerticalAlignment.Bottom, 
@@ -82,18 +82,6 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
                 trinketBar,
             }
         });
-    }
-
-    private void HandleTrinketClick(Item item)
-    {
-        if (item.TrinketHandler?.IsActive == true)
-        {
-            _encounter.CombatHandler?.DeActivateTrinketForPawn(item, Pawn);
-        }
-        else
-        {
-            _encounter.CombatHandler?.ActivateTrinketForPawn(item, Pawn);
-        }
     }
 
     private PawnBodyRenderWidget CreateBodyWidget(int size)

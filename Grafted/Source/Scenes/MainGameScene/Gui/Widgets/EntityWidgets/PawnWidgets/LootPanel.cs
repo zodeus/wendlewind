@@ -32,9 +32,9 @@ public class LootPanel : Panel, IUpdatable
             Margin = new Thickness(20, 0, 0, 0)
         };
         rightColumn.Widgets.Add(_equipmentPanel);
-        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Combat, item => gui.ViewEntity(item), false) { TrinketsPerRow = 9 });
-        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Passive, item => gui.ViewEntity(item), false) { TrinketsPerRow = 9 });
-        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Interactive, item => gui.ViewEntity(item), false) { TrinketsPerRow = 9 });
+        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Combat, item => gui.ViewEntity(item)) { TrinketsPerRow = 9 });
+        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Passive, item => gui.ViewEntity(item)) { TrinketsPerRow = 9 });
+        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Interactive, item => gui.ViewEntity(item)) { TrinketsPerRow = 9 });
         rightColumn.Widgets.Add(_pawnEffectsPanel);
 
         HorizontalStackPanel grid = new()

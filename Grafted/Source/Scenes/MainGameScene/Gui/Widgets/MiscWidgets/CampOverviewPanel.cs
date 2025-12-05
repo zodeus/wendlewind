@@ -36,9 +36,9 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
 
         VerticalStackPanel rightColumn = new() { Spacing = 0 };
         rightColumn.Widgets.Add(_equipmentPanel);
-        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Combat, item => gui.ViewEntity(item), false));
-        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Passive, item => gui.ViewEntity(item), false));
-        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Interactive, item => gui.ViewEntity(item), false));
+        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Combat, item => gui.ViewEntity(item)));
+        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Passive, item => gui.ViewEntity(item)));
+        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Interactive, item => gui.ViewEntity(item)));
         rightColumn.Widgets.Add(_pawnEffectsPanel);
         rightColumn.Widgets.Add(new PawnSkillsPanel(playerPawn.Skills));
 

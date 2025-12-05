@@ -29,9 +29,7 @@ public class CombatHandler : IDisposable
 {
     private readonly Encounter _encounter;
     private readonly Dictionary<Pawn, Item> _queuedItems = new();
-    private readonly Dictionary<Pawn, List<Item>> _activeTrinkets = new();
-
-    public BodyPart? TargetedPart;
+    
     public EntityContainer Loot = new();
     public readonly List<BodyPart> SeveredLimbs = [];
     public event Action<CombatEvent>? EventOccured;
@@ -50,11 +48,9 @@ public class CombatHandler : IDisposable
 
         Player.DamageTaken += OnDamageTaken;
         Player.Died += OnDeath;
-        _activeTrinkets[Player] = [];
 
         Enemy.DamageTaken += OnDamageTaken;
         Enemy.Died += OnDeath;
-        _activeTrinkets[Enemy] = [];
 
         Player.Body.Handler.OnBloodLost += Core.Context.Achievements.OnBloodLost;
         Enemy.Body.Handler.OnBloodLost += Core.Context.Achievements.OnBloodLost;
@@ -96,11 +92,6 @@ public class CombatHandler : IDisposable
     {
         var logs = new List<string>();
         var attacker = request.Source;
-
-        foreach (var trinket in Player.Inventory.Trinkets)
-        {
-            trinket.TrinketHandler?.PostAttackHandler(victim, request, response);
-        }
 
         // Record players severed body parts in order to take its equipment
         if (victim.PawnType == PawnType.Player)
@@ -288,21 +279,8 @@ public class CombatHandler : IDisposable
         }
 
         var damageRequest = damageOptions.RandomElement();
-        if (victim.PawnType == PawnType.Enemy)
-        {
-            damageRequest.TargetedPart = TargetedPart;
-            damageRequest.Trinkets = GetActiveTrinkets(attacker).ToList();
-        }
-
+        damageRequest.TargetedPart = victim.Body.AllExternalParts.Where(p => p.IsDestroyed == false || p.AllInternalParts.Count != 0).RandomElementByWeight(part => part.HitWeight)!;
         victim.TakeDamage(damageRequest);
-    }
-
-    private IEnumerable<Item> GetActiveTrinkets(Pawn attacker)
-    {
-        for (var index = _activeTrinkets[attacker].Count - 1; index >= 0; index--)
-        {
-            yield return _activeTrinkets[attacker][index];
-        }
     }
 
     private void HandleQueuedItem(Pawn pawn, Pawn target)
@@ -446,35 +424,6 @@ public class CombatHandler : IDisposable
                 Color = Color.DarkRed
             });
         }
-    }
-
-    public void ActivateTrinketForPawn(Item trinket, Pawn pawn)
-    {
-        if (trinket.TrinketHandler == null)
-        {
-            return;
-        }
-
-        if (trinket.TrinketHandler.IsActive)
-        {
-            return;
-        }
-
-        if (trinket.TrinketHandler.Activate())
-        {
-            _activeTrinkets[pawn].Add(trinket);
-        }
-    }
-
-    public void DeActivateTrinketForPawn(Item trinket, Pawn pawn)
-    {
-        if (trinket.TrinketHandler?.IsActive == false)
-        {
-            return;
-        }
-
-        trinket.TrinketHandler!.DeActivate();
-        _activeTrinkets[pawn].Remove(trinket);
     }
 
     private void EndCombat()

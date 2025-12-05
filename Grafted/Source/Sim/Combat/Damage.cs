@@ -9,7 +9,9 @@ public class Damage(Item weapon, double amount, string weaponManeuver)
     public readonly Item Weapon = weapon;
     public readonly string WeaponManeuver = weaponManeuver;
     public WeaponType WeaponType => Weapon.ItemDef.WeaponProperties!.WeaponType;
-    public DamageType Type => Weapon.ItemDef.WeaponProperties!.DamageType;
+    public DamageType Type => Weapon.ItemDef.WeaponProperties?.DamageType
+    ?? Weapon.ItemDef.AmmoProperties?.DamageType
+    ?? DamageType.Invalid;
 
     public List<BodyPartModifierRecord> BodyPartModifiers => Weapon.ItemDef.WeaponProperties?.BodyPartModifiers
         // Join modifiers list from enchantments
@@ -21,7 +23,7 @@ public class Damage(Item weapon, double amount, string weaponManeuver)
     // TotalDamage minus the blocked amount
     public double TotalUnblockedDamage { get; private set; } = amount;
 
-    public float GetSubstanceModifier(SubstanceType substance) => Weapon.ItemDef.WeaponProperties!.GetSubstanceModifier(substance);
+    public float GetSubstanceModifier(SubstanceType substance) => Weapon.ItemDef.WeaponProperties?.GetSubstanceModifier(substance) ?? 1f;
 
     public void Block(Item equipment)
     {

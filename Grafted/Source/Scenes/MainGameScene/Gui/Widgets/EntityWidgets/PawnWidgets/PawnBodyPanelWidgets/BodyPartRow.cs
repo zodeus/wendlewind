@@ -8,16 +8,13 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.Paw
 internal sealed class BodyPartRow : HorizontalStackPanel
 {
     private readonly BaseGui _gui;
-    private readonly CombatHandler? _combatHandler;
     public BodyPart? BodyPart;
     private Label _label;
     private List<ImageCircleIcon> _parts = new();
-    private BodyPartTargetButton? _targetingButton;
 
-    public BodyPartRow(BaseGui gui, CombatHandler? combatHandler)
+    public BodyPartRow(BaseGui gui)
     {
         _gui = gui;
-        _combatHandler = combatHandler;
         Spacing = 5;
         _label = new Label(BaseContent.Styles.Label.Medium) { VerticalAlignment = VerticalAlignment.Center, TextColor = Color.Black };
     }
@@ -27,11 +24,6 @@ internal sealed class BodyPartRow : HorizontalStackPanel
         _parts.Clear();
         Widgets.Clear();
         BodyPart = bodyPart;
-        if (bodyPart.Body?.Pawn.PawnType == PawnType.Enemy)
-        {
-            _targetingButton = new BodyPartTargetButton(bodyPart, _combatHandler);
-            Widgets.Add(_targetingButton);
-        }
 
         if (showInternalParts)
         {
@@ -116,8 +108,6 @@ internal sealed class BodyPartRow : HorizontalStackPanel
         {
             return;
         }
-
-        _targetingButton?.Update();
 
         _label.Text = $"{BodyPart.Label}";
         _label.TextColor = BodyPartColor.Get(BodyPart);

@@ -37,6 +37,14 @@
                 </ListItem>
             </ResourceRequirements>
         </CraftingProperties>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>VenomVial</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
     </ItemDef>
     <ItemDef ParentName="Potion">
         <Moniker>PurpleJuice</Moniker>

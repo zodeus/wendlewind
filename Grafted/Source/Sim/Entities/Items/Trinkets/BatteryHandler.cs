@@ -3,8 +3,5 @@
 [UsedImplicitly]
 public class BatteryHandler : TrinketHandler
 {
-    public override DamageRecord? HandleAttack(DamageRequest request, Pawn target)
-    {
-        return null;
-    }
+
 }

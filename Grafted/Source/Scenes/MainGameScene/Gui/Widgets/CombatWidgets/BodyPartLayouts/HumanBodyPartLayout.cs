@@ -12,7 +12,7 @@ public class HumanBodyPartLayout : IBodyPartLayout
         { "Right Hand", new BodyPartLayoutData(new Vector2(126f, 288f), 0, 0.50f, 0.3840f) },
         { "Left Foot", new BodyPartLayoutData(new Vector2(273f, 429f), 0, 0.60f, -0.0982f) },
         { "Right Foot", new BodyPartLayoutData(new Vector2(131f, 426f), 0, 0.60f, 0.1963f, flipHorizontal: true) },
-        { "Neck", new BodyPartLayoutData(new Vector2(195f, 128f), 4, 0.70f, 0.1047f) },
+        { "Neck", new BodyPartLayoutData(new Vector2(207f, 128f), 4, 0.55f, 0.1047f) },
         { "Right Arm", new BodyPartLayoutData(new Vector2(121f, 155f), 7, 1.05f, -0.4909f) },
         { "Head", new BodyPartLayoutData(new Vector2(200f, 85f), 10, 0.65f, -0.0491f) },
         { "Left Hand", new BodyPartLayoutData(new Vector2(294f, 291f), 19, 0.50f, -0.2793f, flipHorizontal: true) },

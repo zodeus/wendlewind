@@ -6,11 +6,9 @@ public class DamageRequest
 {
     public readonly Pawn Source;
     public Item Weapon { get; }
-    public List<Damage> RawDamages = new(1);
-    public List<Item> Trinkets { get;  set; } = [];
+    public List<Damage> RawDamages = new();
     public WeaponManeuverDef WeaponManeuver { get; }
-    public BodyPart? TargetedPart { get; set; }
-
+    public BodyPart TargetedPart { get; set; } = null!;
     public double TotalRawDamage => RawDamages.Sum(damage => damage.TotalDamage);
 
     public DamageRequest(Pawn source, Item weapon, WeaponManeuverDef weaponManeuver)

@@ -30,4 +30,14 @@
         <Label>Venom Vial</Label>
         <TexturePath>Entities/Item/Resource/Organic/VenomVial</TexturePath>
     </ItemDef>
+    <ItemDef ParentName="OrganicResource">
+        <Moniker>BoneShard</Moniker>
+        <Label>Bone Shard</Label>
+        <Description>A sharp shard of bone.</Description>
+        <TexturePath>Entities/Item/Resource/Organic/BoneShard</TexturePath>
+        <AmmoProperties>
+            <DamageType>Sharp</DamageType>
+            <DamageRange>200~300</DamageRange>
+        </AmmoProperties>
+    </ItemDef>
 </Definitions>

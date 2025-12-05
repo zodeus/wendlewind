@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
     <ItemDef Name="CombatTrinket" ParentName="ItemTrinket" Abstract="true">
@@ -12,11 +12,12 @@
         <TrinketProperties>
             <HandlerClass>DeathRattleHandler</HandlerClass>
         </TrinketProperties>
+        <UiClass>DeathRattlePanel</UiClass>
         <WeaponProperties>
             <WeaponType>Trinket</WeaponType>
             <DamageType>Magic</DamageType>
         </WeaponProperties>
-        <Description>What a curious little toy.</Description>
+        <Description>When activated, hitting a body part charges this trinket.Once charged it will trigger a head rattle.</Description>
         <TexturePath>Entities/Item/Trinket/DeathRattle</TexturePath>
     </ItemDef>
     <ItemDef ParentName="CombatTrinket">
@@ -29,13 +30,13 @@
         <TexturePath>Entities/Item/Trinket/Battery</TexturePath>
     </ItemDef>
     <ItemDef ParentName="CombatTrinket">
-        <Moniker>TargetingImp</Moniker>
-        <Label>Targeting Imp</Label>
-        <Description></Description>
-        <UiClass>TargetingImpPanel</UiClass>
+        <Moniker>Slingshot</Moniker>
+        <Label>Slingshot</Label>
+        <UiClass>SlingshotPanel</UiClass>
+        <Description>A sling shot for extra attacks.</Description>
         <TrinketProperties>
-            <HandlerClass>TargetingImpHandler</HandlerClass>
+            <HandlerClass>SlingshotHandler</HandlerClass>
         </TrinketProperties>
-        <TexturePath>Entities/Item/Trinket/TargetingImp</TexturePath>
+        <TexturePath>Entities/Item/Trinket/SlingshotWood</TexturePath>
     </ItemDef>
 </Definitions>

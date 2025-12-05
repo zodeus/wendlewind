@@ -5,7 +5,7 @@ namespace Grafted.Sim.Entities.Pawns;
 [UsedImplicitly]
 public class Pawn : Entity
 {
-    public event Action<Pawn, DamageRequest, DamageResponse>? DamageTaken; 
+    public event Action<Pawn, DamageRequest, DamageResponse>? DamageTaken;
     public event Action<DeathEvent>? Died;
     public event Action<Pawn, Item>? FoodConsumed;
 
@@ -87,56 +87,22 @@ public class Pawn : Entity
 
     public void TakeDamage(DamageRequest request)
     {
+        var bodyPart = request.TargetedPart;
         DamageResponse response = new();
-
-        var isTargetingImpActive = false;
-        foreach (var trinket in request.Trinkets)
-        {
-            if (request.TargetedPart != null && trinket.TrinketHandler is TargetingImpHandler { Charges: > 0 } handler)
-            {
-                handler.Charges--;
-                isTargetingImpActive = true;
-            }
-
-            if (trinket.TrinketHandler!.HandleAttack(request, this) is { } damageRecord)
-            {
-                response.TrinketDamages.Add(damageRecord);
-            }
-        }
-
-        if (CheckIfKilledByDamage(response) is { } causeOfDeath)
-        {
-            DamageTaken?.Invoke(this, request, response);
-            TriggerDeath(causeOfDeath);
-            return;
-        }
-
-        if (Core.Random.Chance(request.Source.ChanceToHit()) == false && isTargetingImpActive == false)
+        if (Core.Random.Chance(request.Source.ChanceToHit()) == false)
         {
             response.Missed = true;
             DamageTaken?.Invoke(this, request, response);
             return;
         }
-
-        var chanceToHitTargetedPart = 0.2f;
-        if (request.TargetedPart != null && isTargetingImpActive == false && Core.Random.Chance(chanceToHitTargetedPart) == false)
-        {
-            response.Missed = true;
-            DamageTaken?.Invoke(this, request, response);
-            return;
-        }
-
+        
         if (Core.Random.Chance(this.GetStatValue(Defs.Stats.Evasion)))
         {
             response.Dodged = true;
             DamageTaken?.Invoke(this, request, response);
             return;
         }
-
-        var bodyPart = request.TargetedPart == null
-            ? Body.AllExternalParts.Where(p => p.IsDestroyed == false || p.AllInternalParts.Count != 0).RandomElementByWeight(part => part.HitWeight)!
-            : Body.AllExternalParts.First(p => Equals(p, request.TargetedPart));
-
+        
         foreach (var damage in request.RawDamages)
         {
             if (request.Source.PawnType == PawnType.Player)
@@ -175,7 +141,7 @@ public class Pawn : Entity
             // Create damage record after blocking is calculated
             var amountBlocked = damage.TotalDamage - damage.TotalUnblockedDamage;
             DamageRecord damageRecord = new(damage.Weapon.Label, request.WeaponManeuver.Label, damage.Type, bodyPart, damage.TotalDamage, amountBlocked);
-            
+
             if (destroyedArmor != null)
             {
                 damageRecord.DestroyedEquipment.Add(new DestroyedItemRecord(destroyedArmor.ItemDef));
@@ -205,11 +171,26 @@ public class Pawn : Entity
             response.Damages.Add(damageRecord);
         }
 
-        DamageTaken?.Invoke(this, request, response);
+        if (request.Source.PawnType == PawnType.Player)
+        {
+            foreach (var trinket in request.Source.Inventory.Trinkets)
+            {
+                if (trinket.TrinketHandler == null) continue;
+                var damageRecord = trinket.TrinketHandler!.PostAttackHandler(this, request, response);
+                if (damageRecord is not { })
+                {
+                    continue;
+                }
+                response.TrinketDamages.Add(damageRecord);
+            }
+        }
 
+        DamageTaken?.Invoke(this, request, response);
         if (CheckIfKilledByDamage(response) is { } cause)
         {
+            
             TriggerDeath(cause);
+            return;
         }
     }
 
@@ -311,10 +292,11 @@ public class Pawn : Entity
         {
             Body.Effects.TryApplyEffect(new BodyEffect
             {
-                Def = record.Def, TicksLeft = (int)(record.DurationInTicks * goldenLipsMultiplier)
+                Def = record.Def,
+                TicksLeft = (int)(record.DurationInTicks * goldenLipsMultiplier)
             });
         }
-        
+
         FoodConsumed?.Invoke(this, item);
 
         var nutrition = item.GetStatValue(Defs.Stats.NutritionalValue);

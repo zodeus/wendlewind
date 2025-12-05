@@ -7,7 +7,7 @@ internal sealed class BodyPartSocketPanel : HorizontalStackPanel
     private SocketLabel _socketLabel;
     private BodyPartRow _bodyPartRow;
 
-    public BodyPartSocketPanel(BodyPartSocket socket, BaseGui gui, bool showInternalParts, CombatHandler? combatHandler)
+    public BodyPartSocketPanel(BodyPartSocket socket, BaseGui gui, bool showInternalParts)
     {
         Socket = socket;
         _gui = gui;
@@ -15,7 +15,7 @@ internal sealed class BodyPartSocketPanel : HorizontalStackPanel
         _socketLabel.TouchDown += (_, _) => BodyPartSocketClickHandler(socket);
         Widgets.Add(_socketLabel);
 
-        _bodyPartRow = new BodyPartRow(gui, combatHandler);
+        _bodyPartRow = new BodyPartRow(gui);
         if (Socket.AttachedPart != null)
         {
             _socketLabel.Visible = false;

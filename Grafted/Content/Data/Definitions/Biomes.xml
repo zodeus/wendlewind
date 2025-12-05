@@ -11,6 +11,11 @@
                 <Amount>1</Amount>
                 <ChanceToHarvest>.3</ChanceToHarvest>
             </ListItem>
+            <ListItem>
+                <Item>BoneShard</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.2</ChanceToHarvest>
+            </ListItem>
         </Resources>
     </BiomeDef>
     <BiomeDef>
@@ -27,6 +32,11 @@
                 <Item>HealingRoot</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.5</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>BoneShard</Item>
+                <Amount>1~2</Amount>
+                <ChanceToHarvest>.3</ChanceToHarvest>
             </ListItem>
         </Resources>
     </BiomeDef>
@@ -55,6 +65,11 @@
                 <Item>GlitteringLog</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.3</ChanceToHarvest>
+            </ListItem>            
+            <ListItem>
+                <Item>BoneShard</Item>
+                <Amount>1~2</Amount>
+                <ChanceToHarvest>.4</ChanceToHarvest>
             </ListItem>
         </Resources>
     </BiomeDef>
@@ -78,6 +93,11 @@
                 <Item>RawCorn</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.5</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>BoneShard</Item>
+                <Amount>1~2</Amount>
+                <ChanceToHarvest>.4</ChanceToHarvest>
             </ListItem>
         </Resources>
     </BiomeDef>
@@ -163,6 +183,11 @@
                 <Amount>1</Amount>
                 <ChanceToHarvest>.3</ChanceToHarvest>
             </ListItem>
+            <ListItem>
+                <Item>BoneShard</Item>
+                <Amount>1~2</Amount>
+                <ChanceToHarvest>.4</ChanceToHarvest>
+            </ListItem>
         </Resources>
     </BiomeDef>
     <BiomeDef>
@@ -190,6 +215,11 @@
                 <Item>ShimmeringBark</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.7</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>BoneShard</Item>
+                <Amount>2~5</Amount>
+                <ChanceToHarvest>.8</ChanceToHarvest>
             </ListItem>
         </Resources>
     </BiomeDef>
@@ -221,6 +251,11 @@
                 <Item>GlitteringLog</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.5</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>BoneShard</Item>
+                <Amount>3~8</Amount>
+                <ChanceToHarvest>1</ChanceToHarvest>
             </ListItem>
         </Resources>
     </BiomeDef>
