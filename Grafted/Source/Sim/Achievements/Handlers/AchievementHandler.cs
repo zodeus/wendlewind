@@ -67,5 +67,11 @@ public abstract class AchievementHandler
     /// <summary>
     /// Called when the world is restarted
     /// </summary>
-    public virtual void OnWorldRestart(GameContext context) { }
+    public virtual void OnWorldRestart(GameContext context)
+    {
+        if (IsUnlocked == false) return;
+        if (Def.TraitDef == null) return;
+
+        context.Player.Pawn.Traits.Add(Def.TraitDef);
+    }
 }

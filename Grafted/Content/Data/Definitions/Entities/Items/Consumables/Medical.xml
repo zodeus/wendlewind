@@ -154,8 +154,7 @@
         <Description></Description>
         <TexturePath>Entities/Item/Consumables/Rejuvenator</TexturePath>
         <MedicinalProperties>
-            <HandlerClass>AntiNecroticSerumHandler</HandlerClass>
-            <DurationInTicks>3000</DurationInTicks>
+            
         </MedicinalProperties>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>

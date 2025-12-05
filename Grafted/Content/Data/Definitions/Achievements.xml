@@ -65,6 +65,7 @@
         <Category>Survival</Category>
         <TargetValue>30000</TargetValue>
         <HandlerClass>BloodLostHandler</HandlerClass>
+        <TraitDef>ThickBlooded</TraitDef>
     </AchievementDef>
 
     <AchievementDef>
@@ -152,7 +153,17 @@
         <HandlerClass>TrashToTreasureHandler</HandlerClass>
     </AchievementDef>
     <!-- 
-    
+
+    <AchievementDef>
+        <Moniker>OneArmedBandit</Moniker>
+        <Label>One Armed Bandit</Label>
+        <Description>Lose an arm.</Description>
+        <Category>Combat</Category>
+        <TargetValue>5001</TargetValue>
+        <HandlerClass>YouBloodyBitchHandler</HandlerClass>
+        <IsHidden>true</IsHidden>
+    </AchievementDef>
+
     <AchievementDef>
         <Moniker>YouBloodyBitch</Moniker>
         <Label>You Bloody Bitch</Label>

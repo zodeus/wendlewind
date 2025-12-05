@@ -43,4 +43,3 @@ public class HorseBodyPartLayout : IBodyPartLayout
         return new BodyPartRenderInfo(part.Image, layoutData);
     }
 }
-

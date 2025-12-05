@@ -17,6 +17,9 @@ public class AchievementDef : Def
     /// <summary>Item definition</summary>
     public ItemDef? ItemDef;
 
+    /// <summary>Trait definition</summary>
+    public TraitDef? TraitDef;
+
     /// <summary>Whether this achievement is hidden until unlocked</summary>
     public bool IsHidden = false;
     

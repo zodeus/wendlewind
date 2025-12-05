@@ -127,7 +127,8 @@ public static partial class Defs {
     }
 }
 
-public static partial class Defs {
+public static partial class Defs
+{
     [DefLocator]
     public static class BodyParts
     {
@@ -239,13 +240,19 @@ public static partial class Defs {
     }
 
     [DefLocator]
-    public static class BodyPartSockets {
+    public static class BodyPartSockets
+    {
         public static BodyPartSocketDef HeadSocket = null!;
         public static BodyPartSocketDef TorsoSocket = null!;
         public static BodyPartSocketDef HandSocket = null!;
-        
+
         //Treeborn
         public static BodyPartSocketDef TreeTrunkSocket = null!;
+    }
+    
+    [DefLocator]
+    public static class Traits {
+        public static TraitDef ThickBlooded = null!;
     }
 }
 

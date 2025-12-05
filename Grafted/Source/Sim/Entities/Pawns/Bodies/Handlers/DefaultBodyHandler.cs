@@ -5,20 +5,22 @@ public class DefaultBodyHandler : IExposable
     public event Action<Pawn, float>? OnBloodLost;
     private const float FixedBloodLossFactor = .01f;
     private int _ticksWithEmptyStomach;
-
     public PawnBody Body = null!;
-
     public virtual float SeveredArteryBloodLossFactor => 1.7f;
     public virtual float SeveredLimbBloodLossFactor => 3f;
     public virtual float BloodLossThreshold => .95f;
     public virtual float ArteryBloodLossOffset => 1.15f;
     public virtual float FoodLossPerIteration => 0.0017f;
-    public virtual int TicksUntilFamished => 2 * 60 * Core.TicksPerSecond; // minutes * seconds * ticks per second
+    public virtual int TicksUntilFamished => 7200;
     public virtual int EmptyStomachEnergyLossFactor => 2;
     public virtual float HungryThreshold => 0.85f;
     public virtual float MalnutritionDamageFactor => Core.Random.NextFloat(0.0001f, 0.0005f);
     public virtual bool IsFamished => _ticksWithEmptyStomach > TicksUntilFamished;
     public bool IsHungry => Body.StomachLevel < HungryThreshold;
+    public float Viscosity => Body.Def.BloodType!.Viscosity;
+
+    private float? _hasThickBloodedTrait ;
+    public float ViscosityModifier => _hasThickBloodedTrait ??= Body.Pawn.Traits.HasTrait(Defs.Traits.ThickBlooded) ? 1.2f : 1f;
 
     public virtual void Initialize(PawnBody body)
     {
@@ -119,7 +121,7 @@ public class DefaultBodyHandler : IExposable
 
     private void DoBloodLossForPart(BodyPart part)
     {
-        var bloodLossScaleFactor = FixedBloodLossFactor * (part.BloodAmount / Body.Def.BloodType!.Viscosity / Body.BodySizeFactor);
+        var bloodLossScaleFactor = FixedBloodLossFactor * (part.BloodAmount / Viscosity / Body.BodySizeFactor);
 
         if (part.HealthPercent < BloodLossThreshold)
         {

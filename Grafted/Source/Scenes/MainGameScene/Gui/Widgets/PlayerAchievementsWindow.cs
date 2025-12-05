@@ -144,6 +144,17 @@ public sealed class PlayerAchievementsWindow : Window
             });
         }
 
+        if (isUnlocked && def.TraitDef != null)
+        {
+            infoPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = $"Trait: {def.TraitDef.Label}",
+                TextColor = Color.GreenYellow,
+                Wrap = true,
+                MaxWidth = 250
+            });
+        }
+
         panel.Widgets.Add(infoPanel);
 
         return panel;

@@ -9,11 +9,17 @@ namespace Grafted.Sim.Entities.Pawns {
         public PawnTraits(Pawn pawn) { }
 
         public void Add(TraitDef trait) {
+            if (HasTrait(trait)) return;
             _traits.Add(trait);
         }
+        
+        public bool HasTrait(TraitDef trait) {
+            return _traits.Contains(trait);
+        }
 
-        public IEnumerator<TraitDef> GetEnumerator() {
-            return ((IEnumerable<TraitDef>) _traits).GetEnumerator();
+        public IEnumerator<TraitDef> GetEnumerator()
+        {
+            return ((IEnumerable<TraitDef>)_traits).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() {

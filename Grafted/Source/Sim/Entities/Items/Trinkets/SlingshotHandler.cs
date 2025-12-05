@@ -12,7 +12,7 @@ public class SlingshotHandler : TrinketHandler
     private Label _cooldownLabel = null!;
     private Label _chargesLabel = null!;
 
-    private const int CooldownValue = 100;
+    private const int CooldownValue = 180;
 
     public override void ExposeData()
     {

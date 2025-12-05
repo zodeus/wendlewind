@@ -18,5 +18,15 @@ public class TrashToTreasureHandler : AchievementHandler
             Unlock();
         }
     }
+
+    public override void OnWorldRestart(GameContext context)
+    {
+        if (!IsUnlocked) return;
+
+        var weaponDefs = DefRepository<ItemDef>.Defs.Where(d => d.EquipmentProperties?.EquipmentType == EquipmentType.Weapon).ToList();
+
+        PawnGenerator.RegisterEquipment(context.Player.Pawn, weaponDefs.InRandomOrder().Take(1).ToList());
+    }
 }
+
 

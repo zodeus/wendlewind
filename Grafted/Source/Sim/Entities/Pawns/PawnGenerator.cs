@@ -7,7 +7,6 @@ public static class PawnGenerator
         var pawn = EntityGenerator.CreateEntity<Pawn>(request.PawnDef, true);
         pawn.PawnType = request.PawnType;
         pawn.Initialize();
-        RegisterTraits(pawn);
         pawn.Biography.Name = request.PawnName;
 
         GenerateBody(pawn, request.BodySizeFactor);
@@ -31,15 +30,6 @@ public static class PawnGenerator
         foreach (Skill skill in pawn.Skills) {
             skill.Level = range.RandomValue;
         }*/
-    }
-
-    private static void RegisterTraits(Pawn pawn)
-    {
-        var numberOfTraits = new RangeInt(2, 2).RandomValue;
-        foreach (var def in DefRepository<TraitDef>.Defs.InRandomOrder().Take(numberOfTraits))
-        {
-            pawn.Traits.Add(def);
-        }
     }
 
     public static void RegisterInventory(Pawn pawn, List<ItemDropCount> items)

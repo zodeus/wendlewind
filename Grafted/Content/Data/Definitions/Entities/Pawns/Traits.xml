@@ -1,48 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Definitions>
     <TraitDef>
-        <Moniker>ImThugginIt</Moniker>
-        <Label>I'm Thuggin' It</Label>
-        <Description>Nothin' like a gold old knife fight.</Description>
+        <Moniker>ThickBlooded</Moniker>
+        <Label>Thick Blooded</Label>
+        <Description>Your blood is thicker than usual.</Description>
     </TraitDef>
-    <TraitDef>
-        <Moniker>TenderMeat</Moniker>
-        <Label>Tender Meat</Label>
-        <Description>Prefers hammers.</Description>
-    </TraitDef>
-    <TraitDef>
-        <Moniker>TheForeman</Moniker>
-        <Label>The Foreman</Label>
-        <Description>Knows how to use a fine tool.</Description>
-    </TraitDef>
-    <TraitDef>
-        <Moniker>SteadyHands</Moniker>
-        <Label>Steady Hands</Label>
-        <Description>Increases health regenerated using medicinal items.</Description>
-    </TraitDef>
-    <TraitDef>
-        <Moniker>WarHero</Moniker>
-        <Label>War Hero</Label>
-        <Description>The past haunts him...</Description>
-    </TraitDef>
-    <TraitDef>
-        <Moniker>DeepLungs</Moniker>
-        <Label>Deep Lungs</Label>
-        <Description>As long as you have one functional lung,\nyou will suffer no breathing penalties.</Description>
-    </TraitDef>
-    <TraitDef>
-        <Moniker>WineBlood</Moniker>
-        <Label>Wine Blood</Label>
-        <Description>Low blood viscosity.</Description>
-    </TraitDef>
-    <TraitDef>
-        <Moniker>FlowerBoy</Moniker>
-        <Label>Flower Boy</Label>
-        <Description>Does not eat meat.</Description>
-    </TraitDef>
-    <TraitDef>
-        <Moniker>ThickSkinned</Moniker>
-        <Label>Thick Skinned</Label>
-        <Description>Your skin is thicker...</Description>
-    </TraitDef>
+
 </Definitions>
