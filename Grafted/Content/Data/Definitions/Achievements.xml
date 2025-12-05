@@ -16,6 +16,7 @@
         <Description>Hit the brain.</Description>
         <Category>Combat</Category>
         <TargetValue>100</TargetValue>
+        <BenifitDescription>Not implemented.</BenifitDescription>
         <HandlerClass>BrainTicklerHandler</HandlerClass>
     </AchievementDef>
     
@@ -33,6 +34,7 @@
         <Label>Just the Tip</Label>
         <Description>Sever fingers and thumbs.</Description>
         <Category>Combat</Category>
+        <BenifitDescription>Not implemented.</BenifitDescription>
         <HandlerClass>JustTheTipHandler</HandlerClass>
         <TargetValue>120</TargetValue>
     </AchievementDef>
@@ -42,6 +44,7 @@
         <Label>Two! I Don't Need Two!</Label>
         <Description>Lose both eyes and survive.</Description>
         <Category>Combat</Category>
+        <BenifitDescription>Not implemented.</BenifitDescription>
         <HandlerClass>TwoIDontNeedTwoHandler</HandlerClass>
         <IsHidden>true</IsHidden>
     </AchievementDef>
@@ -72,8 +75,10 @@
         <Moniker>VampireWannabe</Moniker>
         <Label>Vampire Wannabe</Label>
         <Description>Survive a fight with less than 10% blood.</Description>
-        <BenifitDescription>After combat, if the fallen has animal blood, you will drink it.</BenifitDescription>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+        <!-- <BenifitDescription>After combat, if the fallen has animal blood, you will drink it.</BenifitDescription> -->
         <Category>Survival</Category>
+        <BenifitDescription>Not implemented.</BenifitDescription>
         <HandlerClass>VampireWannabeHandler</HandlerClass>
         <TargetValue>0.1</TargetValue>
         <IsHidden>true</IsHidden>
@@ -85,6 +90,7 @@
         <Description>Explore caves.</Description>
         <BenifitDescription>Caves are less scary, that's a good thing.</BenifitDescription>
         <Category>Exploration</Category>
+        <BenifitDescription>Not implemented.</BenifitDescription>
         <HandlerClass>CaveDiverHandler</HandlerClass>
         <TargetValue>15</TargetValue>
     </AchievementDef>
@@ -94,6 +100,7 @@
         <Label>Fine Diner</Label>
         <Description>Eat well prepared meals.</Description>
         <Category>Consumables</Category>
+        <BenifitDescription>Not implemented.</BenifitDescription>
         <HandlerClass>FineDinerHandler</HandlerClass>
         <TargetValue>99</TargetValue>
     </AchievementDef>
@@ -103,6 +110,7 @@
         <Label>Trinket Sniffer</Label>
         <Description>Find trinkets.</Description>
         <Category>Exploration</Category>
+        <BenifitDescription>Not implemented.</BenifitDescription>
         <TargetValue>42</TargetValue>
     </AchievementDef>
 
@@ -110,6 +118,7 @@
         <Moniker>Butcher</Moniker>
         <Label>Butcher</Label>
         <Description>Kill enemies.</Description>
+        <BenifitDescription>Not implemented.</BenifitDescription>
         <Category>Combat</Category>
         <TargetValue>100</TargetValue>
         <HandlerClass>EnemyKilledHandler</HandlerClass>
@@ -119,6 +128,7 @@
         <Moniker>Slayer</Moniker>
         <Label>Slayer</Label>
         <Description>Kill more enemies.</Description>
+        <BenifitDescription>Not implemented.</BenifitDescription>
         <Category>Combat</Category>
         <TargetValue>500</TargetValue>
         <HandlerClass>EnemyKilledHandler</HandlerClass>
@@ -128,6 +138,7 @@
         <Moniker>TheLopper</Moniker>
         <Label>The "Lopper"</Label>
         <Description>Sever heads, a lot of them.</Description>
+        <BenifitDescription>Not implemented.</BenifitDescription>
         <Category>Combat</Category>
         <TargetValue>9</TargetValue>
         <HandlerClass>TheLopperHandler</HandlerClass>
@@ -138,6 +149,7 @@
         <Moniker>WeSmokemPeacePipe</Moniker>
         <Label>We Smoke'm Peace Pipe</Label>
         <Description>Burn woods.</Description>
+        <BenifitDescription>Not implemented.</BenifitDescription>
         <Category>Consumables</Category>
         <TargetValue>200</TargetValue>
         <HandlerClass>WeSmokemPeacePipeHandler</HandlerClass>
@@ -158,6 +170,7 @@
         <Moniker>OneArmedBandit</Moniker>
         <Label>One Armed Bandit</Label>
         <Description>Lose an arm.</Description>
+        <BenifitDescription>Not implemented.</BenifitDescription>
         <Category>Combat</Category>
         <TargetValue>5001</TargetValue>
         <HandlerClass>YouBloodyBitchHandler</HandlerClass>
@@ -168,6 +181,7 @@
         <Moniker>YouBloodyBitch</Moniker>
         <Label>You Bloody Bitch</Label>
         <Description>Be hit by a lot of damage.</Description>
+        <BenifitDescription>Not implemented.</BenifitDescription>
         <Category>Combat</Category>
         <TargetValue>5001</TargetValue>
         <HandlerClass>YouBloodyBitchHandler</HandlerClass>
@@ -178,6 +192,7 @@
         <Moniker>TheSpicer</Moniker>
         <Label>The Spicer</Label>
         <Description>Use 10 different potions.</Description>
+        <BenifitDescription>Not implemented.</BenifitDescription>
         <Category>Consumables</Category>
         <HandlerClass>PotionUsedHandler</HandlerClass>
         <TargetValue>10</TargetValue>
@@ -187,6 +202,7 @@
         <Moniker>OhWowYourBodyIsEatingYou</Moniker>
         <Label>Oh Wow! Your Body is Eating You</Label>
         <Description>Experience severe starvation.</Description>
+        <BenifitDescription>Not implemented.</BenifitDescription>
         <Category>Survival</Category>
     </AchievementDef>
     
@@ -194,6 +210,7 @@
         <Moniker>Looter</Moniker>
         <Label>Looter</Label>
         <Description>Loot 50 items from defeated enemies.</Description>
+        <BenifitDescription>Not implemented.</BenifitDescription>
         <Category>Exploration</Category>
         <HandlerClass>ItemLootedHandler</HandlerClass>
         <TargetValue>50</TargetValue>
@@ -203,6 +220,7 @@
         <Moniker>HeadBanger</Moniker>
         <Label>Head Banger</Label>
         <Description>Sever 5 enemy heads.</Description>
+        <BenifitDescription>Not implemented.</BenifitDescription>
         <Category>Combat</Category>
         <HandlerClass>SeverBodyPartHandler</HandlerClass>
         <TargetValue>5</TargetValue>
@@ -212,6 +230,7 @@
         <Moniker>OneDiesTheRestLives</Moniker>
         <Label>One Dies, The Rest Lives!</Label>
         <Description>Win a fight after losing a vital organ.</Description>
+        <BenifitDescription>Not implemented.</BenifitDescription>
         <Category>Combat</Category>
     </AchievementDef>
     
@@ -220,6 +239,7 @@
         <Label>Tarred Blood</Label>
         <Description>Acquire the Tarred Blood trait.</Description>
         <Category>Traits</Category>
+        <BenifitDescription>Not implemented.</BenifitDescription>
     </AchievementDef>
     
     <AchievementDef>
@@ -227,6 +247,7 @@
         <Label>Synthetic Arteries</Label>
         <Description>Replace your arteries with synthetic ones.</Description>
         <Category>Traits</Category>
+        <BenifitDescription>Not implemented.</BenifitDescription>
     </AchievementDef>
     
     <AchievementDef>
@@ -234,6 +255,7 @@
         <Label>Random Bits</Label>
         <Description>Have 5 different body part types grafted.</Description>
         <Category>Traits</Category>
+        <BenifitDescription>Not implemented.</BenifitDescription>
     </AchievementDef>
     
     <AchievementDef>
@@ -241,6 +263,7 @@
         <Label>Arterial Toughness</Label>
         <Description>Increase your blood capacity.</Description>
         <Category>Traits</Category>
+        <BenifitDescription>Not implemented.</BenifitDescription>
     </AchievementDef>
     
     <AchievementDef>
@@ -248,6 +271,7 @@
         <Label>Blood Bloated</Label>
         <Description>Exceed maximum blood capacity.</Description>
         <Category>Traits</Category>
+        <BenifitDescription>Not implemented.</BenifitDescription>
     </AchievementDef>
     
     <AchievementDef>
@@ -255,6 +279,7 @@
         <Label>Carbon Weaved Ligaments</Label>
         <Description>Reinforce your ligaments with carbon fiber.</Description>
         <Category>Traits</Category>
+        <BenifitDescription>Not implemented.</BenifitDescription>
     </AchievementDef>
     
     <AchievementDef>
@@ -262,7 +287,8 @@
         <Label>Elven Grace</Label>
         <Description>Achieve supernatural agility.</Description>
         <Category>Traits</Category>
-    </AchievementDef>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+        </AchievementDef>
     
     <AchievementDef>
         <Moniker>GodTouched</Moniker>
@@ -270,6 +296,7 @@
         <Description>Receive a blessing from a deity.</Description>
         <Category>Traits</Category>
         <IsHidden>true</IsHidden>
+        <BenifitDescription>Not implemented.</BenifitDescription>
     </AchievementDef>
     
     <AchievementDef>
@@ -278,6 +305,7 @@
         <Description>Bear the permanent mark of a divine being.</Description>
         <Category>Traits</Category>
         <IsHidden>true</IsHidden>
+        <BenifitDescription>Not implemented.</BenifitDescription>
     </AchievementDef>
     
     <AchievementDef>
@@ -285,6 +313,7 @@
         <Label>Vampire Thirst</Label>
         <Description>Develop an unquenchable thirst for blood.</Description>
         <Category>Traits</Category>
+        <BenifitDescription>Not implemented.</BenifitDescription>
     </AchievementDef>
     
     
@@ -294,6 +323,7 @@
         <Description>Complete 5 zones.</Description>
         <Category>Exploration</Category>
         <TargetValue>5</TargetValue>
+        <BenifitDescription>Not implemented.</BenifitDescription>
     </AchievementDef>
     
     <AchievementDef>
@@ -302,5 +332,6 @@
         <Description>Sever 10 enemy body parts.</Description>
         <Category>Combat</Category>
         <TargetValue>10</TargetValue>
+        <BenifitDescription>Not implemented.</BenifitDescription>
     </AchievementDef> -->
 </Definitions>

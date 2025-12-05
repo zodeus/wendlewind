@@ -53,6 +53,7 @@ public static partial class BaseContent
         public static class Text
         {
             public static Color Golden = new(232, 170, 0);
+            public static Color PartTextColor = Color.GreenYellow;
         }
     }
 }

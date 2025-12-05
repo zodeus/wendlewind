@@ -75,7 +75,6 @@ public class ZoneGui : BaseGui
     {
         _combatScreen?.Update(deltaTime);
         _combatResultsScreen?.Update();
-        _shrineScreen?.Update(deltaTime);
         base.Update(deltaTime);
     }
 
