@@ -83,6 +83,7 @@ public static partial class Defs {
         public static BiomeDef DampCave = null!;
         public static BiomeDef Cemetery = null!;
         public static BiomeDef Mineshaft = null!;
+        public static BiomeDef WearbearDen = null!;
     }
 }
 
@@ -237,6 +238,14 @@ public static partial class Defs
         public static BodyPartDef HorseLeg = null!;
         public static BodyPartDef HorseHoof = null!;
         public static BodyPartDef HorseTail = null!;
+
+        public static BodyPartDef WearbearHead = null!;
+        public static BodyPartDef WearbearTorso = null!;
+        public static BodyPartDef WearbearArm = null!;
+        public static BodyPartDef WearbearHand = null!;
+        public static BodyPartDef WearbearLeg = null!;
+        public static BodyPartDef WearbearFoot = null!;
+        public static BodyPartDef WearbearTail = null!;
     }
 
     [DefLocator]

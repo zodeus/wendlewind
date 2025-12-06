@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartDef Name="WearbearBodyPartBase" ParentName="BodyPartBase" Abstract="True">
+        
+    </BodyPartDef>
+    <BodyPartDef ParentName="WearbearBodyPartBase">
+        <Moniker>WearbearHead</Moniker>
+        <Label>Head</Label>
+        <HitWeight>35</HitWeight>
+        <BloodAmount>120</BloodAmount>
+        <BodyPartType>Head</BodyPartType>
+        <IsVital>true</IsVital>
+        <Substance>Flesh</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Wearbear/Head</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>SkullSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+            <ListItem>LeftEyeSocket</ListItem>
+            <ListItem>RightEyeSocket</ListItem>
+            <ListItem>TorsoSocket</ListItem>
+        </Sockets>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <MaxHitPoints>2200</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="WearbearBodyPartBase">
+        <Moniker>WearbearTorso</Moniker>
+        <Label>Torso</Label>
+        <BodyPartType>Torso</BodyPartType>
+        <HitWeight>40</HitWeight>
+        <BloodAmount>800</BloodAmount>
+        <Substance>Flesh</Substance>
+        <IsVital>true</IsVital>
+        <TexturePath>Entities/Pawn/BodyParts/Wearbear/Torso</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>RibCageSocket</ListItem>
+            <ListItem>StomachSocket</ListItem>
+            <ListItem>LeftArmSocket</ListItem>
+            <ListItem>RightArmSocket</ListItem>
+            <ListItem>LeftLegSocket</ListItem>
+            <ListItem>RightLegSocket</ListItem>
+            <ListItem>TailSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <AttackSpeedModifier>.15</AttackSpeedModifier>
+            <MaxHitPoints>5000</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="WearbearBodyPartBase">
+        <Moniker>WearbearArm</Moniker>
+        <Label>Arm</Label>
+        <BodyPartType>Arm</BodyPartType>
+        <HitWeight>12</HitWeight>
+        <BloodAmount>180</BloodAmount>
+        <Substance>Flesh</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Wearbear/Arm</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+            <ListItem>HandSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <AttackSpeedModifier>.2</AttackSpeedModifier>
+            <MaxHitPoints>1200</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="WearbearBodyPartBase">
+        <Moniker>WearbearHand</Moniker>
+        <Label>Hand</Label>
+        <BodyPartType>Hand</BodyPartType>
+        <HitWeight>9</HitWeight>
+        <BloodAmount>50</BloodAmount>
+        <Substance>Flesh</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Wearbear/Hand</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+        </Sockets>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <AttackSpeedModifier>.25</AttackSpeedModifier>
+            <MaxHitPoints>800</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="WearbearBodyPartBase">
+        <Moniker>WearbearLeg</Moniker>
+        <Label>Leg</Label>
+        <BodyPartType>Leg</BodyPartType>
+        <HitWeight>14</HitWeight>
+        <BloodAmount>250</BloodAmount>
+        <Substance>Flesh</Substance>
+        <MobilityFraction>.35</MobilityFraction>
+        <TexturePath>Entities/Pawn/BodyParts/Wearbear/Leg</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+            <ListItem>FootSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>1400</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="WearbearBodyPartBase">
+        <Moniker>WearbearFoot</Moniker>
+        <Label>Foot</Label>
+        <BodyPartType>Foot</BodyPartType>
+        <HitWeight>9</HitWeight>
+        <BloodAmount>60</BloodAmount>
+        <Substance>Flesh</Substance>
+        <MobilityFraction>.10</MobilityFraction>
+        <TexturePath>Entities/Pawn/BodyParts/Wearbear/paw</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+        </Sockets>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <AttackSpeedModifier>.15</AttackSpeedModifier>
+            <MaxHitPoints>900</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="WearbearBodyPartBase">
+        <Moniker>WearbearTail</Moniker>
+        <Label>Tail</Label>
+        <BodyPartType>Tail</BodyPartType>
+        <HitWeight>6</HitWeight>
+        <BloodAmount>50</BloodAmount>
+        <Substance>Flesh</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Wearbear/Tail</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <AttackSpeedModifier>.1</AttackSpeedModifier>
+            <MaxHitPoints>400</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+</Definitions>
+

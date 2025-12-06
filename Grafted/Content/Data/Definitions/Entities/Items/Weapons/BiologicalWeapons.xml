@@ -372,4 +372,56 @@
             <MeleePower>10</MeleePower>
         </BaseStats>
     </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>WearbearTeeth</Moniker>
+        <Label>Savage Teeth</Label>
+        <Description>Massive crushing teeth of a wearbear</Description>
+        <WeaponProperties>
+            <WeaponType>Teeth</WeaponType>
+            <DamageType>Sharp</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.5</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.2</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
+        <BaseStats>
+            <MeleePower>100</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>WearbearClaws</Moniker>
+        <Label>Rending Claws</Label>
+        <Description>Brutal claws of a wearbear, capable of tearing through armor</Description>
+        <WeaponProperties>
+            <WeaponType>Claw</WeaponType>
+            <DamageType>Sharp</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.6</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.1</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Claw</TexturePath>
+        <BaseStats>
+            <MeleePower>90</MeleePower>
+        </BaseStats>
+    </ItemDef>
 </Definitions>

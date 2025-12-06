@@ -259,4 +259,32 @@
             </ListItem>
         </Resources>
     </BiomeDef>
+    <BiomeDef>
+        <Moniker>WearbearDen</Moniker>
+        <Label>Wearbear Den</Label>
+        <BackgroundTexturePath>Biome/ForgottenForest</BackgroundTexturePath>
+        <BackgroundTextureTransparency>70</BackgroundTextureTransparency>
+        <Resources>
+            <ListItem>
+                <Item>RawMeat</Item>
+                <Amount>2~4</Amount>
+                <ChanceToHarvest>1</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>HealingRoot</Item>
+                <Amount>1~2</Amount>
+                <ChanceToHarvest>.6</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>BoneShard</Item>
+                <Amount>4~10</Amount>
+                <ChanceToHarvest>1</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>ShimmeringBark</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.4</ChanceToHarvest>
+            </ListItem>
+        </Resources>
+    </BiomeDef>
 </Definitions>

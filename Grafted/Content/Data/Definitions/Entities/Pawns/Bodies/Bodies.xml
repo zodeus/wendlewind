@@ -115,4 +115,13 @@
         <GeneratorClass>BeeBodyGenerator</GeneratorClass>
         <LayoutClass>BeeBodyPartLayout</LayoutClass>
     </BodyDef>
+    <BodyDef>
+        <Moniker>WearbearBody</Moniker>
+        <Label>Wearbear Body</Label>
+        <BoneDensity>2</BoneDensity>
+        <MaxBlood>15000</MaxBlood>
+        <BloodType>AnimalBlood</BloodType>
+        <GeneratorClass>WearbearBodyGenerator</GeneratorClass>
+        <LayoutClass>WearbearBodyPartLayout</LayoutClass>
+    </BodyDef>
 </Definitions>

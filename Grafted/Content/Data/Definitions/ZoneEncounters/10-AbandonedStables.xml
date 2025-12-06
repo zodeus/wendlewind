@@ -84,7 +84,7 @@
         <Moniker>Stables-04</Moniker>
         <Biome>AbandonedStables</Biome>
         <PotentialLootBoxes>
-            <ListItem>TrinketChest3</ListItem>
+            <ListItem>MedicinalChest</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>

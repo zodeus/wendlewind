@@ -172,4 +172,17 @@
         </BaseStats>
         <TexturePath>Entities/Pawn/Creature/Bee/HoneyBee</TexturePath>
     </PawnDef>
+    <PawnDef ParentName="BaseMonsterRace">
+        <Moniker>Wearbear</Moniker>
+        <Label>Wearbear</Label>
+        <Species>Wearbear</Species>
+        <Body>WearbearBody</Body>
+        <BaseStats>
+            <AttackSpeed>0.8</AttackSpeed>
+            <MeleeStrength>2.5</MeleeStrength>
+            <Evasion>.02</Evasion>
+            <MeleeAccuracy>.85</MeleeAccuracy>
+        </BaseStats>
+        <TexturePath>Entities/Pawn/Creature/Wearbear/Wearbear</TexturePath>
+    </PawnDef>
 </Definitions>
