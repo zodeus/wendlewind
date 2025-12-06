@@ -237,6 +237,7 @@ public class CombatHandler : IDisposable
         {
             UseBloodPotion(p, pawn);
             pawn.Equipment.UnEquip(p);
+            Core.Context.Achievements.OnItemUsed(pawn, p);
         }
     }
 

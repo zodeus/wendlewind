@@ -6,7 +6,7 @@
         <Biome>AbandonedStables</Biome>
         <ShrineProperties>
             <GodLabel>Herminor</GodLabel>
-            <PartsToRestore>3~5</PartsToRestore>
+            <PartsToRestore>4~6</PartsToRestore>
             <TexturePath>Biome/Shrines/cemetery_shrine_1</TexturePath>
             <RestorablePartTypes>
                 <ListItem>Thumb</ListItem>
@@ -26,20 +26,11 @@
             <ListItem>
                 <PawnDef>Horse</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Feral Horse</PawnName>
+                <PawnName>Horse (specimen #1)</PawnName>
                 <BodySizeFactor>1</BodySizeFactor>
                 <Skills/>
                 <Effects/>
                 <EquipmentItems/>
-                <InventoryItems/>
-            </ListItem>
-            <ListItem>
-                <PawnDef>Horse</PawnDef>
-                <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Feral Foal</PawnName>
-                <BodySizeFactor>0.7</BodySizeFactor>
-                <Skills/>
-                <Effects/>
                 <InventoryItems/>
             </ListItem>
         </Enemies>
@@ -54,7 +45,7 @@
             <ListItem>
                 <PawnDef>Horse</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Wild Stallion</PawnName>
+                <PawnName>Horse (specimen #2)</PawnName>
                 <BodySizeFactor>1.2</BodySizeFactor>
                 <Skills/>
                 <Effects/>
@@ -72,8 +63,8 @@
             <ListItem>
                 <PawnDef>Horse</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Crazed Mare</PawnName>
-                <BodySizeFactor>1.3</BodySizeFactor>
+                <PawnName>Horse (specimen #3)</PawnName>
+                <BodySizeFactor>1.4</BodySizeFactor>
                 <Skills/>
                 <Effects/>
                 <InventoryItems/>
@@ -99,7 +90,7 @@
             <ListItem>
                 <PawnDef>Horse</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Scarred Warhorse</PawnName>
+                <PawnName>Horse (specimen #4)</PawnName>
                 <BodySizeFactor>1.5</BodySizeFactor>
                 <Skills/>
                 <Effects/>
@@ -118,7 +109,7 @@
             <ListItem>
                 <PawnDef>Horse</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Nightmare Destrier</PawnName>
+                <PawnName>Horse (specimen apex #1)</PawnName>
                 <BodySizeFactor>2.5</BodySizeFactor>
                 <Skills/>
                 <Effects/>

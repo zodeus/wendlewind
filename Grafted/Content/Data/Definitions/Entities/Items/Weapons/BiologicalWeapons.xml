@@ -248,7 +248,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
         <BaseStats>
-            <MeleePower>40</MeleePower>
+            <MeleePower>90</MeleePower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -274,7 +274,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Hoof</TexturePath>
         <BaseStats>
-            <MeleePower>50</MeleePower>
+            <MeleePower>70</MeleePower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponBlunt">
