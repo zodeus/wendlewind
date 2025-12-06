@@ -98,6 +98,7 @@ public static partial class BaseContent
             public const string Small = "small";
             public const string Normal = "normal";
             public const string Large = "large";
+            public const string Dark = "dark";
             public const string LargeGold = "large-gold";
             public const string Plus24 = "plus-24";
             public const string Plus64 = "plus-64";

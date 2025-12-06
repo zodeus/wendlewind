@@ -6,7 +6,6 @@
         <Label>Combat Trinkets</Label>
         <Description>The good stuff...</Description>
         <Category>Trinkets</Category>
-        <Rarity>Basic</Rarity>
         <TexturePath>Chests/TrinketsChestBasic</TexturePath>
         <CollectionLimit>1</CollectionLimit>
         <Items>
@@ -35,7 +34,6 @@
         <Label>Basic Trinkets</Label>
         <Description>Standard issue trinkets, the stuff you're really going to need</Description>
         <Category>Trinkets</Category>
-        <Rarity>Basic</Rarity>
         <TexturePath>Chests/TrinketsChestBasic</TexturePath>
         <CollectionLimit>1</CollectionLimit>
         <Items>
@@ -61,7 +59,6 @@
         <Label>Normal Trinkets</Label>
         <Description>A wider assortment of more interesting trinkets</Description>
         <Category>Trinkets</Category>
-        <Rarity>Normal</Rarity>
         <TexturePath>Chests/TrinketsChestBasic</TexturePath>
         <CollectionLimit>1</CollectionLimit>
         <Items>
@@ -74,12 +71,16 @@
                 <Weight>5000</Weight>
             </ListItem>
             <ListItem>
-                <ItemDef>ThirdEye</ItemDef>
-                <Weight>3000</Weight>
+                <ItemDef>VialOfDuplicity</ItemDef>
+                <Weight>5000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>Grimoire</ItemDef>
-                <Weight>1000</Weight>
+                <Weight>5000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>ThirdEye</ItemDef>
+                <Weight>3000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>TinkersToolbox</ItemDef>
@@ -96,7 +97,6 @@
         <Label>Trinkets</Label>
         <Description>A huge assortment of trinkets</Description>
         <Category>Trinkets</Category>
-        <Rarity>Normal</Rarity>
         <TexturePath>Chests/TrinketsChestBasic</TexturePath>
         <CollectionLimit>1</CollectionLimit>
         <Items>

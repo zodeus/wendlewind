@@ -44,7 +44,7 @@
         <Moniker>GrainMill-02</Moniker>
         <Biome>GrainMill</Biome>
         <PotentialLootBoxes>
-            <ListItem>ArmorChestIronAge</ListItem>
+            <ListItem>ArmorChestChain</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -167,7 +167,7 @@
         <Biome>GrainMill</Biome>
         <IsBoss>true</IsBoss>
         <PotentialLootBoxes>
-            <ListItem>ArmorChestIronAge</ListItem>
+            <ListItem>ArmorChestChain</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>

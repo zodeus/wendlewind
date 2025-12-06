@@ -26,7 +26,7 @@
             <ListItem>
                 <PawnDef>Wearbear</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Wearbear Scout</PawnName>
+                <PawnName>Wearbear (specimen #1)</PawnName>
                 <BodySizeFactor>0.9</BodySizeFactor>
                 <Skills/>
                 <Effects/>
@@ -45,7 +45,7 @@
             <ListItem>
                 <PawnDef>Wearbear</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Wearbear Hunter</PawnName>
+                <PawnName>Wearbear (specimen #2)</PawnName>
                 <BodySizeFactor>1.1</BodySizeFactor>
                 <Skills/>
                 <Effects/>
@@ -63,7 +63,7 @@
             <ListItem>
                 <PawnDef>Wearbear</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Wearbear Mauler</PawnName>
+                <PawnName>Wearbear (specimen #3)</PawnName>
                 <BodySizeFactor>1.3</BodySizeFactor>
                 <Skills/>
                 <Effects/>
@@ -90,7 +90,7 @@
             <ListItem>
                 <PawnDef>Wearbear</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Wearbear Ravager</PawnName>
+                <PawnName>Wearbear (specimen #4)</PawnName>
                 <BodySizeFactor>1.5</BodySizeFactor>
                 <Skills/>
                 <Effects/>
@@ -109,7 +109,7 @@
             <ListItem>
                 <PawnDef>Wearbear</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
-                <PawnName>Wearbear Matriarch</PawnName>
+                <PawnName>Wearbear (specimen apex #1)</PawnName>
                 <BodySizeFactor>2.8</BodySizeFactor>
                 <Skills/>
                 <Effects/>

@@ -4,6 +4,10 @@
     <EncounterDef>
         <Moniker>PeacefulMeadow-01</Moniker>
         <Biome>PeacefulMeadow</Biome>
+        <PotentialLootBoxes>
+            <ListItem>WeaponChestBasic</ListItem>
+            <ListItem>ArmorChestLeather</ListItem>
+        </PotentialLootBoxes>
         <Enemies>
             <ListItem>
                 <PawnDef>Bunny</PawnDef>
@@ -11,11 +15,6 @@
                 <PawnName>Rabbit (specimen #1)</PawnName>
                 <SpawnWeight>1</SpawnWeight>
                 <InventoryItems>
-                    <ListItem>
-                        <Item>LeatherGlove</Item>
-                        <Amount>2</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
                     <ListItem>
                         <Item>RawMeat</Item>
                         <Amount>1</Amount>
@@ -29,7 +28,7 @@
         <Moniker>PeacefulMeadow-02</Moniker>
         <Biome>PeacefulMeadow</Biome>
         <PotentialLootBoxes>
-            <ListItem>WeaponChestPrimitive</ListItem>
+            <ListItem>WeaponChestBasic</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -42,11 +41,6 @@
                     <Biting>1</Biting>
                 </Skills>
                 <InventoryItems>
-                    <ListItem>
-                        <Item>LeatherBoot</Item>
-                        <Amount>2</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
                     <ListItem>
                         <Item>RawMeat</Item>
                         <Amount>1</Amount>
@@ -73,11 +67,6 @@
                     <Biting>2</Biting>
                 </Skills>
                 <InventoryItems>
-                    <ListItem>
-                        <Item>LeatherGorget</Item>
-                        <Amount>1</Amount>
-                        <ChanceToDrop>1</ChanceToDrop>
-                    </ListItem>
                     <ListItem>
                         <Item>RawMeat</Item>
                         <Amount>1</Amount>

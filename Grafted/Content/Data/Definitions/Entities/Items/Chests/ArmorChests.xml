@@ -1,14 +1,58 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <LootBoxDef>
-        <Moniker>ArmorChestIronAge</Moniker>
-        <Label>Iron Age Armor Chest</Label>
-        <Description>Contains iron age armor</Description>
+<LootBoxDef>
+        <Moniker>ArmorChestLeather</Moniker>
+        <Label>Leather Armor</Label>
+        <Description>Contains leather armor</Description>
         <Category>Armor</Category>
-        <Rarity>IronAge</Rarity>
-        <TexturePath>Chests/ArmorChestPrimitive</TexturePath>
-        <CollectionLimit>4</CollectionLimit>
+        <TexturePath>Chests/ArmorChestBasic</TexturePath>
+        <CollectionLimit>2</CollectionLimit>
+        <Items>
+            <ListItem>
+                <ItemDef>LeatherGorget</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>LeatherTunic</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>LeatherVambrace</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>LeatherGlove</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>LeatherGlove</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>LeatherGreave</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>LeatherBoot</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>1</Weight>
+            </ListItem>
+        </Items>
+    </LootBoxDef>
+    <LootBoxDef>
+        <Moniker>ArmorChestChain</Moniker>
+        <Label>Chain Armor</Label>
+        <Description>Contains chain armor</Description>
+        <Category>Armor</Category>
+        <TexturePath>Chests/ArmorChestBasic</TexturePath>
+        <CollectionLimit>2</CollectionLimit>
         <Items>
             <ListItem>
                 <ItemDef>ChainHelmet</ItemDef>

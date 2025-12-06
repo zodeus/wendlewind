@@ -35,10 +35,7 @@ public sealed class CombatResultsScreen : VerticalStackPanel
         // SetProportionType(_progressButton, ProportionType.Auto);
         if (Encounter.Def.PotentialLootBoxes.Count != 0)
         {
-            var box = Encounter.Def.PotentialLootBoxes.RandomElement();
-            var lootBoxPanel = new LootBoxScreen(this, context, box);
-
-            Widgets.Add(lootBoxPanel);
+            Widgets.Add(new LootBoxSelectionScreen(this, context, Encounter.Def.PotentialLootBoxes));
             _pawnPanel.Visible = false;
             _progressButton.Visible = false;
         }

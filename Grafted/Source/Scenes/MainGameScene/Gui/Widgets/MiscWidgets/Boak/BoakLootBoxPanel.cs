@@ -22,7 +22,6 @@ internal sealed class BoakLootBoxPanel : Grid
                 {
                     new Label(BaseContent.Styles.Label.Large) { Text = def.Label, Margin = new Thickness(0, 0, 0, 20) },
                     new Label(BaseContent.Styles.Label.Medium) { Text = $"Category: {def.Category}" },
-                    new Label(BaseContent.Styles.Label.Medium) { Text = $"Rarity: {def.Rarity}" },
                     new Label(BaseContent.Styles.Label.Medium) { Text = $"Collection Limit: {def.CollectionLimit}" },
                     new Label(BaseContent.Styles.Label.Medium) { Text = $"Has Traps: {(def.TrapProperties != null ? "Yes" : "No")}" },
                 }

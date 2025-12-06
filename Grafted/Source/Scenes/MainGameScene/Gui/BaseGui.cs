@@ -1,6 +1,5 @@
 using FontStashSharp;
 using Grafted.Scenes.MainGameScene.Gui.Widgets;
-using Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
 using Grafted.Sim.Entities;
@@ -21,7 +20,6 @@ public abstract class BaseGui : IDisposable
     private readonly Window _entityViewerWindow = new();
     private Entity? _viewedEntity;
     private KeyValuePair<Entity, Point?>? _queuedEntityToView;
-    private bool _deathWindowIsOpen;
 
     public virtual void Update(float deltaTime)
     {
@@ -40,19 +38,6 @@ public abstract class BaseGui : IDisposable
         {
             _screenMessageTimeLeft -= deltaTime;
         }
-
-        if (Core.Context.World.Player.Pawn.IsDead && _deathWindowIsOpen == false)
-        {
-            ShowDeathWindow();
-        }
-    }
-
-    protected void ShowDeathWindow()
-    {
-        _deathWindowIsOpen = true;
-        DeathWindow window = new();
-        window.Closed += (_, _) => _deathWindowIsOpen = false;
-        window.ShowModal(Desktop);
     }
 
     public virtual void ViewEntity(Entity entity, Point? position = null)

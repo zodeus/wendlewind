@@ -23,31 +23,6 @@ public enum LootBoxCategory
     Crafting
 }
 
-public enum LootBoxRarity
-{
-    Undefined,
-
-    // Most Items
-    Primitive,
-    IronAge,
-    Curious,
-    Majestic,
-    Celestial,
-    GodBlessed,
-    Dangerous,
-
-    // Foods
-    Morsel,
-    Snack,
-    Meal,
-    Bounty,
-    SummerHarvest,
-
-    //Trinkets
-    Basic,
-    Normal,
-}
-
 public enum LootBoxCollectionType
 {
     Random,
@@ -73,7 +48,6 @@ public class LootBoxDef : Def
 
     public Type UiClass = typeof(LootBoxPanel);
     public LootBoxCategory Category;
-    public LootBoxRarity Rarity = LootBoxRarity.Undefined;
     public RangeInt CollectionLimit;
     public LootBoxTrapProperties? TrapProperties;
     public List<LootBoxItem> Items = [];

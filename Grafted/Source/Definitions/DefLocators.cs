@@ -91,6 +91,11 @@ public static partial class Defs {
     [DefLocator]
     public static class Items
     {
+        public static ItemDef WoodenHammer = null!;
+        public static ItemDef Knife = null!;
+        public static ItemDef BirchRod = null!;
+        public static ItemDef WarAxe = null!;
+
         public static ItemDef RawCorn = null!;
         public static ItemDef RawMeat = null!;
         public static ItemDef CookedCorn = null!;
@@ -125,6 +130,12 @@ public static partial class Defs {
         public static ItemDef EnchantmentExpander = null!;
         public static ItemDef HeartyStew = null!;
         public static ItemDef GoldCapMushroom = null!;
+
+        public static ItemDef LeatherGlove = null!;
+        public static ItemDef LeatherVambrace = null!;
+        public static ItemDef LeatherBoot = null!;
+        public static ItemDef BucketHelmet = null!;
+        
     }
 }
 

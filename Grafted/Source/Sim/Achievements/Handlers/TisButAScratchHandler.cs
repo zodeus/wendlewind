@@ -24,10 +24,8 @@ public class TisButAScratchHandler : AchievementHandler
     {
         if (!IsUnlocked) return;
 
-        var armorDefs = DefRepository<ItemDef>.Defs.Where(d => d.EquipmentProperties?.EquipmentType == EquipmentType.Armor).ToList();
+        var armorDefs = new List<ItemDef> { Defs.Items.LeatherGlove, Defs.Items.LeatherBoot, Defs.Items.LeatherVambrace, Defs.Items.BucketHelmet };
 
         PawnGenerator.RegisterEquipment(context.Player.Pawn, armorDefs.InRandomOrder().Take(1).ToList());
     }
 }
-
-

@@ -2,12 +2,11 @@
 
 <Definitions>
     <LootBoxDef>
-        <Moniker>WeaponChestPrimitive</Moniker>
-        <Label>Primitive Weapon Chest</Label>
-        <Description>Contains primitive weapons, nothin' special</Description>
+        <Moniker>WeaponChestBasic</Moniker>
+        <Label>Basic Weapons</Label>
+        <Description>Contains basic weapons, nothin' special</Description>
         <Category>Weapons</Category>
-        <Rarity>Primitive</Rarity>
-        <TexturePath>Chests/WeaponChestPrimitive</TexturePath>
+        <TexturePath>Chests/WeaponChestBasic</TexturePath>
         <CollectionLimit>1</CollectionLimit>
         <Items>
             <ListItem>
@@ -26,11 +25,10 @@
     </LootBoxDef>
     <LootBoxDef>
         <Moniker>WeaponChestIronAge</Moniker>
-        <Label>Iron Age Weapon Chest</Label>
+        <Label>Iron Age Weapons</Label>
         <Description>Contains iron age weapons</Description>
         <Category>Weapons</Category>
-        <Rarity>IronAge</Rarity>
-        <TexturePath>Chests/WeaponChestPrimitive</TexturePath>
+        <TexturePath>Chests/WeaponChestBasic</TexturePath>
         <CollectionLimit>1</CollectionLimit>
         <Items>
             <ListItem>

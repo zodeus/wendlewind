@@ -54,6 +54,9 @@
         <ButtonStyle Id="large-gold" Padding="14" Background="button-large-gold-default" OverBackground="button-large-gold-over" PressedBackground="button-large-gold-pressed" DisabledBackground="button-large-gold-disabled">
             <LabelStyle Font="large-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
         </ButtonStyle>
+        <ButtonStyle Id="dark" Padding="14" Background="button-dark-default" OverBackground="button-dark-over" PressedBackground="button-dark-pressed" DisabledBackground="button-dark-disabled">
+            <LabelStyle Font="large-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
+        </ButtonStyle>
         <ButtonStyle Id="icon" Padding="3" Background="button-small-default" OverBackground="button-small-over" PressedBackground="button-small-pressed" DisabledBackground="button-small-disabled"/>
         <ButtonStyle Id="plus-24" Width="24" Height="24" Background="icon-plus-24-default" OverBackground="icon-plus-24-over" PressedBackground="icon-plus-24-pressed"/>
         <ButtonStyle Id="minus-24" Width="24" Height="24" Background="icon-minus-24-default" OverBackground="icon-minus-24-over" PressedBackground="icon-minus-24-pressed"/>

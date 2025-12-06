@@ -37,7 +37,7 @@
         <Moniker>FesterpusSwamp-02</Moniker>
         <Biome>FesterpusSwamp</Biome>
         <PotentialLootBoxes>
-            <ListItem>ArmorChestIronAge</ListItem>
+            <ListItem>ArmorChestChain</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
