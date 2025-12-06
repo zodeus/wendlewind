@@ -20,7 +20,7 @@
     </BiomeDef>
     <BiomeDef>
         <Moniker>TheOutskirts</Moniker>
-        <Label>The Outskirts</Label>
+        <Label>Outskirts</Label>
         <BackgroundTexturePath>Biome/TheOutskirts</BackgroundTexturePath>
         <Resources>
             <ListItem>
@@ -37,6 +37,28 @@
                 <Item>BoneShard</Item>
                 <Amount>1~2</Amount>
                 <ChanceToHarvest>.3</ChanceToHarvest>
+            </ListItem>
+        </Resources>
+    </BiomeDef>
+    <BiomeDef>
+        <Moniker>Thicket</Moniker>
+        <Label>Thicket</Label>
+        <BackgroundTexturePath>Biome/TheOutskirts</BackgroundTexturePath>
+        <Resources>
+            <ListItem>
+                <Item>GlitteringLog</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.3</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>HealingRoot</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.4</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>BoneShard</Item>
+                <Amount>1~4</Amount>
+                <ChanceToHarvest>.35</ChanceToHarvest>
             </ListItem>
         </Resources>
     </BiomeDef>
@@ -74,9 +96,9 @@
         </Resources>
     </BiomeDef>
     <BiomeDef>
-        <Moniker>FesterpusSwamp</Moniker>
-        <Label>Festerpus Swamp</Label>
-        <BackgroundTexturePath>Biome/FesterpusSwamp</BackgroundTexturePath>
+        <Moniker>FrogPond</Moniker>
+        <Label>Frog Pond</Label>
+        <BackgroundTexturePath>Biome/FrogPond</BackgroundTexturePath>
         <BackgroundTextureTransparency>40</BackgroundTextureTransparency>
         <Resources>
             <ListItem>

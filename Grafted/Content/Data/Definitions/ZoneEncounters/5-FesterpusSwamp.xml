@@ -2,14 +2,14 @@
 
 <Definitions>
     <EncounterDef>
-        <Moniker>FesterpusSwamp-01</Moniker>
-        <Biome>FesterpusSwamp</Biome>
+        <Moniker>FrogPond-01</Moniker>
+        <Biome>FrogPond</Biome>
         <PotentialLootBoxes>
             <ListItem>MedicinalChest</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <PawnDef>BlisteringToad</PawnDef>
+                <PawnDef>Frog</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Frog (specimen #1)</PawnName>
                 <SpawnWeight>1</SpawnWeight>
@@ -34,14 +34,14 @@
         </Enemies>
     </EncounterDef>
     <EncounterDef>
-        <Moniker>FesterpusSwamp-02</Moniker>
-        <Biome>FesterpusSwamp</Biome>
+        <Moniker>FrogPond-02</Moniker>
+        <Biome>FrogPond</Biome>
         <PotentialLootBoxes>
             <ListItem>ArmorChestChain</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <PawnDef>BlisteringToad</PawnDef>
+                <PawnDef>Frog</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Frog (specimen #2)</PawnName>
                 <SpawnWeight>1</SpawnWeight>
@@ -72,14 +72,14 @@
         </Enemies>
     </EncounterDef>
     <EncounterDef>
-        <Moniker>FesterpusSwamp-03</Moniker>
-        <Biome>FesterpusSwamp</Biome>
+        <Moniker>FrogPond-03</Moniker>
+        <Biome>FrogPond</Biome>
         <PotentialLootBoxes>
             <ListItem>TrinketChestCombat</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <PawnDef>BlisteringToad</PawnDef>
+                <PawnDef>Frog</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Frog (specimen #3)</PawnName>
                 <SpawnWeight>1</SpawnWeight>
@@ -110,14 +110,14 @@
         </Enemies>
     </EncounterDef>
     <EncounterDef>
-        <Moniker>FesterpusSwamp-04</Moniker>
-        <Biome>FesterpusSwamp</Biome>
+        <Moniker>FrogPond-04</Moniker>
+        <Biome>FrogPond</Biome>
         <PotentialLootBoxes>
             <ListItem>EnchantedChestDefensive</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <PawnDef>BlisteringToad</PawnDef>
+                <PawnDef>Frog</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Frog (specimen #4)</PawnName>
                 <SpawnWeight>1</SpawnWeight>
@@ -149,15 +149,15 @@
         </Enemies>
     </EncounterDef>
     <EncounterDef>
-        <Moniker>FesterpusSwamp-Boss</Moniker>
-        <Biome>FesterpusSwamp</Biome>
+        <Moniker>FrogPond-Boss</Moniker>
+        <Biome>FrogPond</Biome>
         <IsBoss>true</IsBoss>
         <PotentialLootBoxes>
             <ListItem>WeaponChestIronAge</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <PawnDef>FrogFather</PawnDef>
+                <PawnDef>Frog</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Frog (specimen apex #1)</PawnName>
                 <SpawnWeight>1</SpawnWeight>

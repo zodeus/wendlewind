@@ -99,9 +99,9 @@
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
-        <Moniker>BlisteringToadTongue</Moniker>
-        <Label>Toad Tongue</Label>
-        <Description>Blistering Toad Tongue</Description>
+        <Moniker>FrogTongue</Moniker>
+        <Label>Frog Tongue</Label>
+        <Description>Frog Tongue</Description>
         <WeaponProperties>
             <WeaponType>Tongue</WeaponType>
             <DamageType>Flesh</DamageType>
@@ -116,7 +116,6 @@
         <EquipmentProperties>
             <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
         </EquipmentProperties>
-        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
         <BaseStats>
             <MeleePower>42</MeleePower>
         </BaseStats>

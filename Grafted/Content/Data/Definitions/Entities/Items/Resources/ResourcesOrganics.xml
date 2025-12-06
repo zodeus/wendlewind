@@ -40,4 +40,14 @@
             <DamageRange>200~300</DamageRange>
         </AmmoProperties>
     </ItemDef>
+    <ItemDef ParentName="OrganicResource">
+        <Moniker>Fang</Moniker>
+        <Label>Fang</Label>
+        <Description>A sharp fang torn from a predator's maw. Makes for deadly ammunition.</Description>
+        <TexturePath>Entities/Item/Resource/Organic/Fang</TexturePath>
+        <AmmoProperties>
+            <DamageType>Sharp</DamageType>
+            <DamageRange>250~500</DamageRange>
+        </AmmoProperties>
+    </ItemDef>
 </Definitions>

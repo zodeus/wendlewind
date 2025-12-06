@@ -14,7 +14,7 @@ public sealed class LootBoxSelectionScreen : VerticalStackPanel
     private readonly Widget _selectionPanel;
     private readonly VerticalStackPanel _lootPanel;
 
-    public LootBoxSelectionScreen(CombatResultsScreen resultsScreen, GameContext context, IReadOnlyList<LootBoxDef> lootBoxes)
+    public LootBoxSelectionScreen(CombatResultsScreen resultsScreen, GameContext context, IReadOnlyList<LootBoxDef> lootBoxes, int? maxBoxes = null)
     {
         _resultsScreen = resultsScreen;
         _context = context;
@@ -23,8 +23,19 @@ public sealed class LootBoxSelectionScreen : VerticalStackPanel
         VerticalAlignment = VerticalAlignment.Center;
         Spacing = 30;
 
-        // Selection panel - shows all chests
-        _selectionPanel = BuildSelectionPanel(lootBoxes);
+        // Filter out trinket boxes where all trinkets have been collected
+        var availableBoxes = lootBoxes.Where(box =>
+        {
+            if (box.Category != LootBoxCategory.Trinkets) return true;
+            // Exclude if player has all trinkets from this box
+            return box.Items.Any(item => !context.Player.HasTrinkets(item.ItemDef));
+        }).ToList();
+
+        // Selection panel - shuffle potential boxes and take up to maxBoxes
+        var selectedBoxes = maxBoxes.HasValue
+            ? availableBoxes.InRandomOrder().Take(maxBoxes.Value).ToList()
+            : availableBoxes;
+        _selectionPanel = BuildSelectionPanel(selectedBoxes);
         
         // Loot panel - shows items after opening (initially hidden)
         _lootPanel = new VerticalStackPanel
@@ -118,17 +129,6 @@ public sealed class LootBoxSelectionScreen : VerticalStackPanel
         {
             foreach (var boxItem in box.Items.InRandomOrder())
             {
-                if (boxItem.ItemDef.EquipmentProperties?.EquipmentType == EquipmentType.Armor)
-                {
-                    var existingArmorPieces = playerPawn.Equipment.Armor.Count(a => a.ItemDef == boxItem.ItemDef);
-                    existingArmorPieces += playerPawn.Inventory.Count(a => a.ItemDef == boxItem.ItemDef);
-                    existingArmorPieces += items.Count(a => a.ItemDef == boxItem.ItemDef);
-                    if (existingArmorPieces >= playerPawn.Equipment.SlotCountFor(boxItem.ItemDef))
-                    {
-                        continue;
-                    }
-                }
-
                 if (Core.Random.Chance(boxItem.ChanceToDrop))
                 {
                     items.Add(EntityGenerator.CreateEntity<Item>(boxItem.ItemDef, boxItem.Amount.RandomValue));

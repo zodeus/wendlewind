@@ -3,8 +3,8 @@
 <Definitions>
     <PawnDef Name="BaseAnimal" ParentName="BasePawn" Abstract="true"/>
     <PawnDef ParentName="BaseAnimal">
-        <Moniker>Bunny</Moniker>
-        <Label>Bunny</Label>
+        <Moniker>Rabbit</Moniker>
+        <Label>Rabbit</Label>
         <Species>Rabbit</Species>
         <Body>RabbitBody</Body>
         <TexturePath>Entities/Pawn/Creature/Rabbit/Bunny</TexturePath>
@@ -16,8 +16,8 @@
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseAnimal">
-        <Moniker>TruffleBoar</Moniker>
-        <Label>Truffle Boar</Label>
+        <Moniker>Boar</Moniker>
+        <Label>Boar</Label>
         <Species>Pig</Species>
         <Body>PigBody</Body>
         <BaseStats>
@@ -29,8 +29,8 @@
         <TexturePath>Entities/Pawn/Creature/Pig/Boar</TexturePath>
     </PawnDef>
     <PawnDef ParentName="BaseAnimal">
-        <Moniker>FieldHound</Moniker>
-        <Label>Snarltooth</Label>
+        <Moniker>Wolf</Moniker>
+        <Label>Wolf</Label>
         <Species>Wolf</Species>
         <Body>WolfBody</Body>
         <BaseStats>

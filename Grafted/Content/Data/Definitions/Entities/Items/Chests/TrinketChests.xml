@@ -40,12 +40,12 @@
             <ListItem>
                 <ItemDef>EncasedFire</ItemDef>
                 <ChanceToDrop>1</ChanceToDrop>
-                <Weight>100</Weight>
+                <Weight>200</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>WeepingBucket</ItemDef>
                 <ChanceToDrop>1</ChanceToDrop>
-                <Weight>60</Weight>
+                <Weight>100</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>Disassembler</ItemDef>

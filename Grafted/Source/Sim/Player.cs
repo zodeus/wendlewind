@@ -47,8 +47,8 @@ public class Player : IExposable
     private static Pawn GeneratePlayerPawn()
     {
         return PawnGenerator.CreatePawn(
-            new PawnRequest("Human (specimen #27)",
-            DefRepository<PawnDef>.GetByMoniker("Journeyman")!,
+            new PawnRequest($"Human (specimen # {Core.Random.Next(42, 42069)})",
+            DefRepository<PawnDef>.GetByMoniker("HumanA")!,
             Defs.PawnLoadouts.DefaultStarterLoadout, PawnType.Player)
         );
     }

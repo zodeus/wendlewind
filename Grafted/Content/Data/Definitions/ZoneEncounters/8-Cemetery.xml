@@ -26,7 +26,7 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <PawnDef>GraveKeeper</PawnDef>
+                <PawnDef>Ghoul</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Ghoul (specimen #1)</PawnName>
                 <Skills/>
@@ -50,7 +50,7 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <PawnDef>GraveKeeper</PawnDef>
+                <PawnDef>Ghoul</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Ghoul (specimen #2)</PawnName>
                 <!--<BodySizeFactor>1</BodySizeFactor>-->
@@ -75,7 +75,7 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <PawnDef>GraveKeeper</PawnDef>
+                <PawnDef>Ghoul</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Ghoul (specimen #3)</PawnName>
                 <!--<BodySizeFactor>1</BodySizeFactor>-->
@@ -111,7 +111,7 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <PawnDef>GraveKeeper</PawnDef>
+                <PawnDef>Ghoul</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Ghoul (specimen #4)</PawnName>
                 <!--<BodySizeFactor>1</BodySizeFactor>-->
@@ -148,7 +148,7 @@
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
-                <PawnDef>FallenWatchman</PawnDef>
+                <PawnDef>Ghoul</PawnDef>
                 <Loadout>EmptyLoadout</Loadout>
                 <PawnName>Ghoul (specimen apex #1)</PawnName>
                 <BodySizeFactor>1.6</BodySizeFactor>

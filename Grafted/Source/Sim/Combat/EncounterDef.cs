@@ -16,6 +16,7 @@ public class EncounterDef : Def
     // Combat
     public List<EncounterEnemyRecord> Enemies = new();
     public List<LootBoxDef> PotentialLootBoxes = new();
+    public int? MaxBoxes;
     public bool IsBoss;
 }
 

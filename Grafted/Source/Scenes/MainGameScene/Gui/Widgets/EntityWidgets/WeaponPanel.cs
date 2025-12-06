@@ -15,65 +15,178 @@ public sealed class WeaponPanel : EntityPanelBase
     {
         _item = item;
         Padding = new Thickness(20);
-        MinWidth = 300;
-        _durabilityBar = new HorizontalProgressBar(BaseContent.Styles.Bar.Durability)
+        MinWidth = 380;
+        Spacing = 4;
+
+        // ═══════════════════════════════════════════════════════════════════
+        // Header Section: Icon + Description
+        // ═══════════════════════════════════════════════════════════════════
+        var headerSection = new HorizontalStackPanel { Spacing = 15, Margin = new Thickness(0, 0, 0, 12) };
+
+        // Icon with frame
+        var iconFrame = new Panel
         {
-            Width = 100, Height = 20,
-            VerticalAlignment = VerticalAlignment.Bottom
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
+            Padding = new Thickness(4),
+            Width = 80, Height = 80
         };
-        _durabilityLabel = new Label("small")
+        iconFrame.Widgets.Add(new Image
         {
-            Text = $"Durability: {item.Durability}/{item.MaxDurability}", Margin = new Thickness(0, 0, 0, 15)
-        };
-        Widgets.Add(new HorizontalStackPanel
-        {
-            Spacing = 10,
-            Widgets =
-            {
-                new Image { Background = new TextureRegion(item.Icon), Width = 128, Height = 128 },
-                new Label(BaseContent.Styles.Label.Normal)
-                {
-                    Text = item.Def.Description, Wrap = true, MaxWidth = 400,
-                    Margin = new Thickness(0, 10, 0, 0)
-                },
-            }
+            Background = new TextureRegion(item.Icon),
+            Width = 72, Height = 72,
+            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Center
         });
-        Widgets.Add(_durabilityBar);
-        Widgets.Add(_durabilityLabel);
+        headerSection.Widgets.Add(iconFrame);
+
+        // Description area
+        var descArea = new VerticalStackPanel { Spacing = 6, VerticalAlignment = VerticalAlignment.Center };
         if (item.Def.Description != "undefined")
         {
-            Widgets.Add(new Label("small") { Text = item.Def.Description, Wrap = true, MaxWidth = 400 });
+            descArea.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+            {
+                Text = item.Def.Description, Wrap = true, MaxWidth = 280
+            });
         }
-        Widgets.Add(new Label("small") { Text = $"Weapon Type: {item.ItemDef.WeaponProperties?.WeaponType}" });
-        Widgets.Add(new Label("small") { Text = $"Damage Type: {item.ItemDef.WeaponProperties?.DamageType}" });
-        Widgets.Add(new Label("small") { Text = $"Slot: {(item.ItemDef.EquipmentProperties?.SlotUsedToEquip != null ? item.ItemDef.EquipmentProperties.SlotUsedToEquip : "n/a")}" });
+        headerSection.Widgets.Add(descArea);
+        Widgets.Add(headerSection);
 
+        // ═══════════════════════════════════════════════════════════════════
+        // Durability Section
+        // ═══════════════════════════════════════════════════════════════════
+        var durabilitySection = new VerticalStackPanel { Spacing = 4, Margin = new Thickness(0, 0, 0, 12) };
+
+        _durabilityBar = new HorizontalProgressBar(BaseContent.Styles.Bar.Durability)
+        {
+            Width = 160, Height = 18,
+            HorizontalAlignment = HorizontalAlignment.Left
+        };
+        durabilitySection.Widgets.Add(_durabilityBar);
+
+        _durabilityLabel = new Label("small")
+        {
+            Text = $"Durability: {item.Durability}/{item.MaxDurability}",
+            TextColor = Color.LightGray
+        };
+        durabilitySection.Widgets.Add(_durabilityLabel);
+        Widgets.Add(durabilitySection);
+
+        // ═══════════════════════════════════════════════════════════════════
+        // Weapon Properties Section
+        // ═══════════════════════════════════════════════════════════════════
+        var propsSection = new VerticalStackPanel { Spacing = 3, Margin = new Thickness(0, 0, 0, 10) };
+        propsSection.Widgets.Add(CreatePropertyRow("Weapon Type", $"{item.ItemDef.WeaponProperties?.WeaponType}", TC.Golden));
+        propsSection.Widgets.Add(CreatePropertyRow("Damage Type", $"{item.ItemDef.WeaponProperties?.DamageType}", TC.Red));
+        propsSection.Widgets.Add(CreatePropertyRow("Slot", item.ItemDef.EquipmentProperties?.SlotUsedToEquip?.ToString() ?? "n/a", TC.Blue));
+        Widgets.Add(propsSection);
+
+        // ═══════════════════════════════════════════════════════════════════
+        // Substance Modifiers Section
+        // ═══════════════════════════════════════════════════════════════════
         var substanceModifiers = item.ItemDef.WeaponProperties?.SubstanceModifiers;
         if (substanceModifiers is { Count: > 0 })
         {
-            Widgets.Add(new Label("small") { Text = "Substance Modifiers:" });
+            var modsSection = new VerticalStackPanel { Spacing = 2, Margin = new Thickness(0, 0, 0, 10) };
+            modsSection.Widgets.Add(new Label("small")
+            {
+                Text = "Substance Modifiers",
+                TextColor = BaseContent.Colors.Text.Golden,
+                Margin = new Thickness(0, 0, 0, 4)
+            });
+
+            var modsGrid = new Grid { ColumnSpacing = 12, RowSpacing = 2, Margin = new Thickness(8, 0, 0, 0) };
+            modsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+            modsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+
+            var row = 0;
             foreach (var mod in substanceModifiers)
             {
-                var modText = mod.Modifier >= 1f
+                var isPositive = mod.Modifier >= 1f;
+                var modText = isPositive
                     ? $"+{((mod.Modifier - 1f) * 100f):0}%"
                     : $"-{((1f - mod.Modifier) * 100f):0}%";
-                Widgets.Add(new Label("small") { Text = $"  {mod.Substance}: {modText}" });
+                var modColor = isPositive ? Color.LimeGreen : Color.Salmon;
+
+                var substanceLabel = new Label("small") { Text = $"{mod.Substance}:" };
+                Grid.SetRow(substanceLabel, row);
+                Grid.SetColumn(substanceLabel, 0);
+                modsGrid.Widgets.Add(substanceLabel);
+
+                var valueLabel = new Label("small") { Text = modText, TextColor = modColor };
+                Grid.SetRow(valueLabel, row);
+                Grid.SetColumn(valueLabel, 1);
+                modsGrid.Widgets.Add(valueLabel);
+
+                row++;
             }
+            modsSection.Widgets.Add(modsGrid);
+            Widgets.Add(modsSection);
         }
 
-        foreach (var baseStat in item.Def.BaseStats)
+        // ═══════════════════════════════════════════════════════════════════
+        // Stats Section
+        // ═══════════════════════════════════════════════════════════════════
+        if (item.Def.BaseStats.Count > 0)
         {
-            var row = new HorizontalStackPanel { Spacing = 10 };
-            row.Widgets.Add(new Label("small") { Text = $"{baseStat.Def.Label}:" });
-            row.Widgets.Add(new Label("small") { Text = item.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture) });
-            Widgets.Add(row);
+            var statsSection = new VerticalStackPanel { Spacing = 2, Margin = new Thickness(0, 0, 0, 10) };
+            statsSection.Widgets.Add(new Label("small")
+            {
+                Text = "Stats",
+                TextColor = BaseContent.Colors.Text.Golden,
+                Margin = new Thickness(0, 0, 0, 4)
+            });
+
+            var statsGrid = new Grid { ColumnSpacing = 12, RowSpacing = 2, Margin = new Thickness(8, 0, 0, 0) };
+            statsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+            statsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+
+            var row = 0;
+            foreach (var baseStat in item.Def.BaseStats)
+            {
+                var keyLabel = new Label("small") { Text = $"{baseStat.Def.Label}:" };
+                Grid.SetRow(keyLabel, row);
+                Grid.SetColumn(keyLabel, 0);
+                statsGrid.Widgets.Add(keyLabel);
+
+                var valueLabel = new Label("small")
+                {
+                    Text = item.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture),
+                    TextColor = Color.LightGoldenrodYellow
+                };
+                Grid.SetRow(valueLabel, row);
+                Grid.SetColumn(valueLabel, 1);
+                statsGrid.Widgets.Add(valueLabel);
+
+                row++;
+            }
+            statsSection.Widgets.Add(statsGrid);
+            Widgets.Add(statsSection);
         }
 
+        // ═══════════════════════════════════════════════════════════════════
+        // Enchantments Section
+        // ═══════════════════════════════════════════════════════════════════
         _socketsPanel = new ItemEnchantmentSocketsPanel(gui, item)
         {
-            Margin = new Thickness(0, 10, 0, 10)
+            Margin = new Thickness(0, 5, 0, 0)
         };
         Widgets.Add(_socketsPanel);
+    }
+
+    private static HorizontalStackPanel CreatePropertyRow(string key, string value, string valueColorHex)
+    {
+        // Strip the leading # if present
+        var hex = valueColorHex.StartsWith('#') ? valueColorHex[1..] : valueColorHex;
+        var color = ColorExt.HexToColor(hex);
+        return new HorizontalStackPanel
+        {
+            Spacing = 8,
+            Widgets =
+            {
+                new Label("small") { Text = $"{key}:", TextColor = Color.Gray },
+                new Label("small") { Text = value, TextColor = color }
+            }
+        };
     }
 
     public override void Update()

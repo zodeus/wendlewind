@@ -98,6 +98,17 @@ public sealed class GameHud : HorizontalStackPanel
         boak.TouchDown += (_, _) => { gui.OpenBoak(); };
         leftPanel.Widgets.Add(boak);
 
+        Button timeline = new(BaseContent.Styles.Button.Large)
+        {
+            Content = new Image
+            {
+                Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Combat], Color.SkyBlue), Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium,
+            },
+            Padding = new Thickness(10)
+        };
+        timeline.TouchDown += (_, _) => { new ZoneTimelineWindow().Show(Desktop); };
+        leftPanel.Widgets.Add(timeline);
+
         if (gui is CampGui)
         {
             Button nextZone = new(BaseContent.Styles.Button.Large)

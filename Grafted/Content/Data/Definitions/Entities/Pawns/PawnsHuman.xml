@@ -3,8 +3,8 @@
 <Definitions>
     <PawnDef Name="BaseHumanRace" ParentName="BasePawn" Abstract="true"/>
     <PawnDef ParentName="BaseHumanRace">
-        <Moniker>Journeyman</Moniker>
-        <Label>Journeyman</Label>
+        <Moniker>HumanA</Moniker>
+        <Label>Human</Label>
         <Species>Human</Species>
         <Body>HumanBody</Body>
         <BaseStats>
@@ -16,8 +16,8 @@
         <TexturePath>Entities/Pawn/Creature/Human/Human1</TexturePath>
     </PawnDef>
     <PawnDef ParentName="BaseHumanRace">
-        <Moniker>Grainer</Moniker>
-        <Label>Grainer</Label>
+        <Moniker>HumanB</Moniker>
+        <Label>Human</Label>
         <Species>Human</Species>
         <Body>HumanBody</Body>
         <BaseStats>
@@ -29,8 +29,8 @@
         <TexturePath>Entities/Pawn/Creature/Human/Grainer</TexturePath>
     </PawnDef>
     <PawnDef ParentName="BaseHumanRace">
-        <Moniker>GrainBandit</Moniker>
-        <Label>Grain Bandit</Label>
+        <Moniker>HumanC</Moniker>
+        <Label>Human</Label>
         <Species>Human</Species>
         <Body>HumanBody</Body>
         <BaseStats>

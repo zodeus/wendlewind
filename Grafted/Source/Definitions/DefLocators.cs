@@ -74,15 +74,16 @@ public static partial class Defs {
 public static partial class Defs {
     [DefLocator]
     public static class Biomes {
-        public static BiomeDef AbandonedStables = null!;
         public static BiomeDef PeacefulMeadow = null!;
         public static BiomeDef TheOutskirts = null!;
+        public static BiomeDef Thicket = null!;
         public static BiomeDef GrainMill = null!;
-        public static BiomeDef FesterpusSwamp = null!;
+        public static BiomeDef FrogPond = null!;
         public static BiomeDef ForgottenForest = null!;
         public static BiomeDef DampCave = null!;
         public static BiomeDef Cemetery = null!;
         public static BiomeDef Mineshaft = null!;
+        public static BiomeDef AbandonedStables = null!;
         public static BiomeDef WearbearDen = null!;
     }
 }
@@ -91,6 +92,7 @@ public static partial class Defs {
     [DefLocator]
     public static class Items
     {
+        public static ItemDef FishBowlHelmet = null!;
         public static ItemDef WoodenHammer = null!;
         public static ItemDef Knife = null!;
         public static ItemDef BirchRod = null!;
