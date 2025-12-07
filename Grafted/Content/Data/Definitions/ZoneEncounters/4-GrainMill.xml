@@ -4,9 +4,11 @@
     <EncounterDef>
         <Moniker>GrainMill-01</Moniker>
         <Biome>GrainMill</Biome>
+        <MaxBoxes>2</MaxBoxes>
         <PotentialLootBoxes>
             <ListItem>SupplyChestBasic</ListItem>
             <ListItem>TrinketsChestBasic</ListItem>
+            <ListItem>ArmorChestLeather</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -44,8 +46,11 @@
     <EncounterDef>
         <Moniker>GrainMill-02</Moniker>
         <Biome>GrainMill</Biome>
+        <MaxBoxes>3</MaxBoxes>
         <PotentialLootBoxes>
             <ListItem>ArmorChestChain</ListItem>
+            <ListItem>TrinketsChestBasic</ListItem>
+            <ListItem>SupplyChestBasic</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -84,8 +89,11 @@
     <EncounterDef>
         <Moniker>GrainMill-03</Moniker>
         <Biome>GrainMill</Biome>
+        <MaxBoxes>3</MaxBoxes>
         <PotentialLootBoxes>
             <ListItem>TrinketChestNormal</ListItem>
+            <ListItem>TrinketsChestBasic</ListItem>
+            <ListItem>ArmorChestChain</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -125,8 +133,11 @@
     <EncounterDef>
         <Moniker>GrainMill-04</Moniker>
         <Biome>GrainMill</Biome>
+        <MaxBoxes>3</MaxBoxes>
         <PotentialLootBoxes>
             <ListItem>WeaponChestIronAge</ListItem>
+            <ListItem>TrinketsChestBasic</ListItem>
+            <ListItem>ArmorChestChain</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -167,8 +178,12 @@
         <Moniker>GrainMill-Boss</Moniker>
         <Biome>GrainMill</Biome>
         <IsBoss>true</IsBoss>
+        <MaxBoxes>3</MaxBoxes>
         <PotentialLootBoxes>
             <ListItem>ArmorChestChain</ListItem>
+            <ListItem>TrinketsChestBasic</ListItem>
+            <ListItem>MedicinalChest</ListItem>
+            <ListItem>SupplyChestBasic</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>

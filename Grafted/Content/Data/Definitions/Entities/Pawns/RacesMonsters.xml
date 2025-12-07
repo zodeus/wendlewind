@@ -57,9 +57,9 @@
         <Species>Treeborn</Species>
         <Body>TreebornBody</Body>
         <BaseStats>
-            <AttackSpeed>1</AttackSpeed>
+            <AttackSpeed>1.5</AttackSpeed>
             <MeleeStrength>1</MeleeStrength>
-            <Evasion>.02</Evasion>
+            <Evasion>.03</Evasion>
             <MeleeAccuracy>.75</MeleeAccuracy>
         </BaseStats>
     </PawnDef>

@@ -34,7 +34,7 @@
             <ListItem>RearRightArmStumpSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>600</MaxHitPoints>
+            <MaxHitPoints>1000</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="TreeBodyPartBase">
@@ -71,7 +71,7 @@
             <ListItem>ArterySocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>60</MaxHitPoints>
+            <MaxHitPoints>100</MaxHitPoints>
             <AttackSpeedModifier>.75</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>
@@ -93,7 +93,7 @@
             <ListItem>ArterySocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>60</MaxHitPoints>
+            <MaxHitPoints>100</MaxHitPoints>
             <AttackSpeedModifier>.75</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>

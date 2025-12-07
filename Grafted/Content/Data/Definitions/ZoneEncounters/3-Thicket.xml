@@ -8,6 +8,7 @@
         <PotentialLootBoxes>
             <ListItem>WeaponChestBasic</ListItem>
             <ListItem>ArmorChestLeather</ListItem>
+            <ListItem>SupplyChestBasic</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -37,7 +38,7 @@
     <EncounterDef>
         <Moniker>Thicket-02</Moniker>
         <Biome>Thicket</Biome>
-        <MaxBoxes>1</MaxBoxes>
+        <MaxBoxes>2</MaxBoxes>
         <PotentialLootBoxes>
             <ListItem>MedicinalChest</ListItem>
             <ListItem>TrinketsChestBasic</ListItem>
@@ -70,7 +71,7 @@
     <EncounterDef>
         <Moniker>Thicket-03</Moniker>
         <Biome>Thicket</Biome>
-        <MaxBoxes>1</MaxBoxes>
+        <MaxBoxes>2</MaxBoxes>
         <PotentialLootBoxes>
             <ListItem>TrinketsChestBasic</ListItem>
             <ListItem>MedicinalChest</ListItem>
@@ -104,6 +105,7 @@
     <EncounterDef>
         <Moniker>Thicket-04</Moniker>
         <Biome>Thicket</Biome>
+        <MaxBoxes>2</MaxBoxes>
         <PotentialLootBoxes>
             <ListItem>TrinketChestCombat</ListItem>
             <ListItem>TrinketsChestBasic</ListItem>

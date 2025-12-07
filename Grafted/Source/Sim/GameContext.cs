@@ -87,7 +87,21 @@ public class GameContext : IExposable
 
     public void StartOver()
     {
-        CurrentZone!.OnStateChanged -= ZoneStageChanged;
+        CurrentZone = null;
+        DeathRecords.Reset();
+        Player.Reset();
+        World.Zones.ForEach(z =>
+        { 
+            z.ActiveEncounter = null;
+            z.IsComplete = false;
+            z.Stage = 0;
+        });
+        Achievements.OnWorldRestart(this);
+        Save();
+        if (CurrentZone != null)
+        {
+            CurrentZone.OnStateChanged -= ZoneStageChanged;
+        }
         ChangeGameState(GameState.StartOver);
     }
 
@@ -105,13 +119,13 @@ public class GameContext : IExposable
         OnStateChanged?.Invoke(value);
         if (value == GameState.Camp)
         {
-            Save("save.xml");
+            Save();
         }
     }
 
     #region Persistence
 
-    public void Save(string filePath)
+    public void Save(string filePath = "save.xml")
     {
         // Log.Warning("Save is dislabled");
         //return;

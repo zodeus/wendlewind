@@ -80,17 +80,7 @@ public class GameScene : Scene
 
     private void StartOver()
     {
-        _context.CurrentZone = null;
-        _context.DeathRecords.Reset();
-        _context.Player.Reset();
-        _context.World.Zones.ForEach(z =>
-        { 
-            z.ActiveEncounter = null;
-            z.IsComplete = false;
-            z.Stage = 0;
-        });
         ActiveGui = null;
-        _context.Achievements.OnWorldRestart(_context);
         StartGame();
     }
 
@@ -136,7 +126,7 @@ public class GameScene : Scene
 
         if (WasKeyJustPressed(Keys.F5, currentKeyboardState))
         {
-            _context.Save("save.xml");
+            _context.Save();
             ActiveGui!.PushScreenMessage(new ScreenMessageData
             {
                 Text = "Game Saved",

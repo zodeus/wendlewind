@@ -30,9 +30,6 @@ public sealed class CombatResultsScreen : VerticalStackPanel
         Widgets.Add(_gameHud);
         Widgets.Add(_pawnPanel);
         Widgets.Add(_progressButton);
-        //SetProportionType(_gameHud, ProportionType.Auto);
-        // SetProportionType(_pawnPanel, ProportionType.Fill);
-        // SetProportionType(_progressButton, ProportionType.Auto);
         if (Encounter.Def.PotentialLootBoxes.Count != 0)
         {
             Widgets.Add(new LootBoxSelectionScreen(this, context, Encounter.Def.PotentialLootBoxes, Encounter.Def.MaxBoxes));
@@ -62,6 +59,7 @@ public sealed class CombatResultsScreen : VerticalStackPanel
             var campButton = new Button(BaseContent.Styles.Button.Large) { Content = new Label { Text = "Return to camp" } };
             campButton.Click += (_, _) =>
             {
+                _context.Save();
                 Encounter.Zone.Exit();
             };
             panel.Widgets.Add(campButton);
@@ -71,6 +69,7 @@ public sealed class CombatResultsScreen : VerticalStackPanel
             var continueButton = new Button(BaseContent.Styles.Button.Large) { Content = new Label { Text = Encounter.AtBoss ? "Boss!" : "Fight!" } };
             continueButton.Click += (_, _) =>
             {
+                _context.Save();
                 MoveToNextCombat();
             };
             panel.Widgets.Add(continueButton);

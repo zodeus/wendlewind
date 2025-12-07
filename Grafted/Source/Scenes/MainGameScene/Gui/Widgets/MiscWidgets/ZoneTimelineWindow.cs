@@ -1,3 +1,4 @@
+using Grafted.Sim.LootBoxes;
 using Myra.Graphics2D.Brushes;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
@@ -76,18 +77,6 @@ public sealed class ZoneTimelineWindow : Window
             VerticalAlignment = VerticalAlignment.Center
         };
 
-        // Biome icon/preview
-        // var biomePreview = new Panel
-        // {
-        //     Width = 80,
-        //     Height = 50,
-        //     Background = new ColoredRegion(
-        //         new TextureRegion(biome.BackgroundTexture),
-        //         isCompleted ? new Color(100, 200, 100, 180) : (isCurrentBiome ? Color.White : new Color(80, 80, 80, 200))
-        //     )
-        // };
-        // headerPanel.Widgets.Add(biomePreview);
-
         // Biome name
         var biomeLabel = new Label(BaseContent.Styles.Label.Medium)
         {
@@ -139,7 +128,7 @@ public sealed class ZoneTimelineWindow : Window
         // Get the zone for this biome from World.Zones to track actual progress
         var zone = Core.Context.World.Zones.FirstOrDefault(z => z.BiomeDef == biome);
         var zoneStage = zone?.Stage ?? 0;
-        
+
         var isCurrentBiome = currentZone?.BiomeDef == biome;
         var isCurrentEncounter = isCurrentBiome && index == zoneStage;
         var isPastEncounter = index < zoneStage;
@@ -152,20 +141,20 @@ public sealed class ZoneTimelineWindow : Window
         // Node colors based on state
         Color nodeColor;
         Color borderColor;
-        if (encounter.IsBoss)
+        if (isCompleted)
         {
-            nodeColor = isCompleted ? new Color(180, 140, 60) : new Color(120, 60, 20);
-            borderColor = Color.Gold;
+            nodeColor = new Color(51, 92, 1);
+            borderColor = new Color(68, 122, 1);
+        }
+        else if (encounter.IsBoss)
+        {
+            nodeColor = new Color(18, 6, 0);
+            borderColor = new Color(66, 23, 1);
         }
         else if (isCurrentEncounter)
         {
             nodeColor = new Color(60, 100, 160);
             borderColor = Color.Cyan;
-        }
-        else if (isCompleted)
-        {
-            nodeColor = new Color(60, 120, 60);
-            borderColor = Color.LimeGreen;
         }
         else
         {
@@ -179,14 +168,22 @@ public sealed class ZoneTimelineWindow : Window
             HorizontalAlignment = HorizontalAlignment.Center
         };
 
-        // Inner content - stage number or boss icon
-        var innerContent = new Label(BaseContent.Styles.Label.Medium)
+        // Inner content - grid of chest icons or checkmark for completed
+        Widget innerContent;
+        if (isCompleted)
         {
-            Text = encounter.IsBoss ? "☠" : (index + 1).ToString(),
-            TextColor = isCompleted ? Color.White : (isCurrentEncounter ? Color.Cyan : Color.Gray),
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Center
-        };
+            innerContent = new Label(BaseContent.Styles.Label.Medium)
+            {
+                Text = "✓",
+                TextColor = Color.LimeGreen,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+        }
+        else
+        {
+            innerContent = CreateChestIconGrid(encounter.PotentialLootBoxes, isCurrentEncounter);
+        }
 
         // Border effect using a larger background panel
         var borderPanel = new Panel
@@ -196,7 +193,7 @@ public sealed class ZoneTimelineWindow : Window
             Background = new SolidBrush(borderColor),
             HorizontalAlignment = HorizontalAlignment.Center
         };
-        
+
         var innerNodePanel = new Panel
         {
             Width = NodeSize,
@@ -242,10 +239,73 @@ public sealed class ZoneTimelineWindow : Window
         {
             Width = NodeSpacing,
             Height = 4,
-            Background = new SolidBrush(isPast ? Color.LimeGreen : new Color(20, 20, 20)),
+            Background = new SolidBrush(isPast ? new Color(68, 122, 1) : new Color(20, 20, 20)),
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Thickness(0, -24, 0, 0) // Offset to align with node centers
         };
+    }
+
+    private Widget CreateChestIconGrid(List<LootBoxDef> lootBoxes, bool isCurrentEncounter)
+    {
+        if (lootBoxes.Count == 0)
+        {
+            return new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = "?",
+                TextColor = isCurrentEncounter ? Color.Cyan : Color.Gray,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+        }
+
+        // Calculate grid dimensions - prefer 2 columns for 2-4 items, 3 for more
+        var count = lootBoxes.Count;
+        var columns = count <= 2 ? count : (count <= 4 ? 2 : 3);
+        var rows = (int)Math.Ceiling((double)count / columns);
+
+        // Calculate icon size to fit within NodeSize with some padding
+        var padding = 4;
+        var availableSize = NodeSize - (padding * 2);
+        var iconSize = Math.Min(availableSize / columns, availableSize / rows) - 2;
+        iconSize = Math.Max(iconSize, 12); // Minimum icon size
+
+        var grid = new Grid
+        {
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            ColumnSpacing = 2,
+            RowSpacing = 2
+        };
+
+        // Add columns and rows
+        for (int c = 0; c < columns; c++)
+            grid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        for (int r = 0; r < rows; r++)
+            grid.RowsProportions.Add(new Proportion(ProportionType.Auto));
+
+        // Add chest icons
+        for (int i = 0; i < lootBoxes.Count; i++)
+        {
+            var box = lootBoxes[i];
+            var row = i / columns;
+            var col = i % columns;
+
+            var iconColor = isCurrentEncounter ? Color.White : new Color(150, 150, 150);
+
+            var icon = new Image
+            {
+                Background = new TextureRegion(box.Icon),
+                Width = iconSize,
+                Height = iconSize,
+                Color = iconColor
+            };
+
+            Grid.SetRow(icon, row);
+            Grid.SetColumn(icon, col);
+            grid.Widgets.Add(icon);
+        }
+
+        return grid;
     }
 }
 

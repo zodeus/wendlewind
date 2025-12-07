@@ -13,6 +13,15 @@
             <PhysicalResistance>50</PhysicalResistance>
             <MaxDurability>600</MaxDurability>
         </BaseStats>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>4</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
         <DisassembleProperties>
             <Items>
                 <ListItem>
@@ -36,6 +45,15 @@
             <PhysicalResistance>50</PhysicalResistance>
             <MaxDurability>500</MaxDurability>
         </BaseStats>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>4</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
         <DisassembleProperties>
             <Items>
                 <ListItem>
@@ -58,6 +76,15 @@
             <PhysicalResistance>50</PhysicalResistance>
             <MaxDurability>500</MaxDurability>
         </BaseStats>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
         <DisassembleProperties>
             <Items>
                 <ListItem>
@@ -80,6 +107,15 @@
             <PhysicalResistance>50</PhysicalResistance>
             <MaxDurability>800</MaxDurability>
         </BaseStats>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>3</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
         <DisassembleProperties>
             <Items>
                 <ListItem>
@@ -102,6 +138,15 @@
             <PhysicalResistance>50</PhysicalResistance>
             <MaxDurability>800</MaxDurability>
         </BaseStats>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>5</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
         <DisassembleProperties>
             <Items>
                 <ListItem>
@@ -124,6 +169,15 @@
             <PhysicalResistance>50</PhysicalResistance>
             <MaxDurability>800</MaxDurability>
         </BaseStats>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>3</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
         <DisassembleProperties>
             <Items>
                 <ListItem>
@@ -147,6 +201,15 @@
             <MaxDurability>800</MaxDurability>
             <MoveSpeed>.5</MoveSpeed>
         </BaseStats>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
         <DisassembleProperties>
             <Items>
                 <ListItem>

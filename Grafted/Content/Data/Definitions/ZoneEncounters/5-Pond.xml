@@ -4,8 +4,11 @@
     <EncounterDef>
         <Moniker>FrogPond-01</Moniker>
         <Biome>FrogPond</Biome>
+        <MaxBoxes>3</MaxBoxes>
         <PotentialLootBoxes>
-            <ListItem>MedicinalChest</ListItem>
+            <ListItem>SupplyChestBasic</ListItem>
+            <ListItem>TrinketsChestBasic</ListItem>
+            <ListItem>ArmorChestChain</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -36,8 +39,11 @@
     <EncounterDef>
         <Moniker>FrogPond-02</Moniker>
         <Biome>FrogPond</Biome>
+        <MaxBoxes>2</MaxBoxes>
         <PotentialLootBoxes>
             <ListItem>ArmorChestChain</ListItem>
+            <ListItem>TrinketsChestBasic</ListItem>
+            <ListItem>SupplyChestBasic</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -74,8 +80,12 @@
     <EncounterDef>
         <Moniker>FrogPond-03</Moniker>
         <Biome>FrogPond</Biome>
+        <MaxBoxes>2</MaxBoxes>
         <PotentialLootBoxes>
-            <ListItem>TrinketChestCombat</ListItem>
+            <ListItem>ArmorChestChain</ListItem>
+            <ListItem>TrinketsChestBasic</ListItem>
+            <ListItem>SupplyChestBasic</ListItem>
+            <ListItem>WeaponChestIronAge</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -112,8 +122,12 @@
     <EncounterDef>
         <Moniker>FrogPond-04</Moniker>
         <Biome>FrogPond</Biome>
+        <MaxBoxes>2</MaxBoxes>
         <PotentialLootBoxes>
-            <ListItem>EnchantedChestDefensive</ListItem>
+            <ListItem>ArmorChestChain</ListItem>
+            <ListItem>TrinketsChestBasic</ListItem>
+            <ListItem>SupplyChestBasic</ListItem>
+            <ListItem>WeaponChestIronAge</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -152,8 +166,10 @@
         <Moniker>FrogPond-Boss</Moniker>
         <Biome>FrogPond</Biome>
         <IsBoss>true</IsBoss>
+        <MaxBoxes>2</MaxBoxes>
         <PotentialLootBoxes>
-            <ListItem>WeaponChestIronAge</ListItem>
+            <ListItem>EnchantedChestDefensive</ListItem>
+            <ListItem>EnchantedChestOffensive</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>

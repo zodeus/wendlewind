@@ -16,5 +16,6 @@
         <Moniker>ChainLink</Moniker>
         <Label>Chain Link</Label>
         <TexturePath>Entities/Item/Resource/Metal/ChainLink</TexturePath>
+        <UiClass>ChainLinkPanel</UiClass>
     </ItemDef>
 </Definitions>

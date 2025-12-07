@@ -34,8 +34,8 @@
         <Species>Wolf</Species>
         <Body>WolfBody</Body>
         <BaseStats>
-            <AttackSpeed>3</AttackSpeed>
-            <MeleeStrength>1.2</MeleeStrength>
+            <AttackSpeed>2</AttackSpeed>
+            <MeleeStrength>1</MeleeStrength>
             <MeleeAccuracy>.9</MeleeAccuracy>
             <Evasion>.01</Evasion>
         </BaseStats>

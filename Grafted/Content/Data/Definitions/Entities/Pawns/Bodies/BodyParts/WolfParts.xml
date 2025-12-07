@@ -25,7 +25,7 @@
             <ListItem>BuiltIn</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <MaxHitPoints>600</MaxHitPoints>
+            <MaxHitPoints>400</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="WolfBodyPartBase">
@@ -71,7 +71,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.2</AttackSpeedModifier>
-            <MaxHitPoints>800</MaxHitPoints>
+            <MaxHitPoints>600</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="WolfBodyPartBase">
@@ -90,7 +90,7 @@
             <ListItem>PawSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>180</MaxHitPoints>
+            <MaxHitPoints>120</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="WolfBodyPartBase">
@@ -112,7 +112,7 @@
         </EquipmentSlots>
         <BaseStats>
             <AttackSpeedModifier>.2</AttackSpeedModifier>
-            <MaxHitPoints>120</MaxHitPoints>
+            <MaxHitPoints>80</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="WolfBodyPartBase">

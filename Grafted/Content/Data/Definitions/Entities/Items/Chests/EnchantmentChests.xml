@@ -5,7 +5,7 @@
         <Moniker>EnchantedChestOffensive</Moniker>
         <Label>Enchanted Chest</Label>
         <Description>An assortment of magical enchantments</Description>
-        <TexturePath>Chests/EnchantedChest</TexturePath>
+        <TexturePath>Chests/EnchantedChestOffensive</TexturePath>
         <CollectionLimit>1</CollectionLimit>
         <Items>
             <ListItem>
@@ -30,7 +30,7 @@
         <Moniker>EnchantedChestDefensive</Moniker>
         <Label>Enchanted Chest</Label>
         <Description>An assortment of magical enchantments</Description>
-        <TexturePath>Chests/EnchantedChest</TexturePath>
+        <TexturePath>Chests/EnchantedChestDefensive</TexturePath>
         <CollectionLimit>1</CollectionLimit>
         <Items>
             <ListItem>
@@ -48,4 +48,3 @@
         </Items>
     </LootBoxDef>
 </Definitions>
-
