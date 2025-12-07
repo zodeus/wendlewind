@@ -149,7 +149,6 @@ public sealed class ResourcePanel : EntityPanelBase
 
         var potion = EntityGenerator.CreateEntity<Item>(potionToMake);
         player.Pawn.Inventory.TryAdd(potion);
-        Core.Context.Achievements.OnItemFound(potion);
     }
 
     public override void Update()

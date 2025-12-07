@@ -27,7 +27,7 @@ public class GameContext : IExposable
         Achievements = new AchievementTracker();
     }
 
-    public void Prepare()
+    public void Initialize()
     {
         World = WorldGenerator.GenerateNewWorld();
         CurrentZone = null;
@@ -37,6 +37,7 @@ public class GameContext : IExposable
 
         Player.Pawn.FoodConsumed += Achievements.OnItemUsed;
         Player.Pawn.DamageTaken += Achievements.OnPlayerDamaged;
+        Player.Pawn.Inventory.ItemAdded += Achievements.OnItemFound;
     }
 
     public void Tick()
@@ -149,9 +150,10 @@ public class GameContext : IExposable
 
         ExposeDataInternal();
         Scribe.Loader.FinalizeLoading();
-        
+
         Player.Pawn.FoodConsumed += Achievements.OnItemUsed;
         Player.Pawn.DamageTaken += Achievements.OnPlayerDamaged;
+        Player.Pawn.Inventory.ItemAdded += Achievements.OnItemFound;
     }
 
 

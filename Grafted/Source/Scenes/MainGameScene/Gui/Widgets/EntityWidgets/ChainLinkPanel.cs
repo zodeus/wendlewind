@@ -1,18 +1,13 @@
-using Grafted.Sim.Entities;
-
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
 [UsedImplicitly]
 public sealed class ChainLinkPanel : EntityPanelBase
-{
-    private readonly Item _item;
-    private readonly Label _chainLinkCountLabel;
+{    private readonly Label _chainLinkCountLabel;
     private readonly List<ArmorCraftButton> _craftButtons = [];
     private static readonly ItemDef ChainLinkDef = DefRepository<ItemDef>.GetByMoniker("ChainLink")!;
 
     public ChainLinkPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
-        _item = item;
         Padding = new Thickness(24);
         MinWidth = 480;
         Spacing = 12;
@@ -163,16 +158,13 @@ public sealed class ChainLinkPanel : EntityPanelBase
         if (!recipe.ArmorDef.CraftingProperties!.CanCraft(pawn)) return;
 
         // Take the chain links
-        var resource = pawn.Inventory.Entities.Take(ChainLinkDef, recipe.Cost);
+        var resource = pawn.Inventory.Take(ChainLinkDef, recipe.Cost);
         resource?.Destroy();
 
         // Create the armor (use AmountProduced from CraftingProperties)
         var amountProduced = recipe.ArmorDef.CraftingProperties.AmountProduced;
         var armor = EntityGenerator.CreateEntity<Item>(recipe.ArmorDef, amountProduced);
         pawn.Inventory.TryAdd(armor);
-
-        // Notify achievements
-        Core.Context.Achievements.OnItemFound(armor);
 
         // Update UI
         UpdateCraftButtons();

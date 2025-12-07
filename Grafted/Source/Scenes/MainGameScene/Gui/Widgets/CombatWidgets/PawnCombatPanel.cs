@@ -39,7 +39,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
 
     private void GeneratePlayerControls(Pawn pawn)
     {
-        var trinketBar = new TrinketBar(pawn.Inventory.Entities, TrinketType.Combat)
+        var trinketBar = new TrinketBar(pawn.Inventory, TrinketType.Combat)
         {
             DefaultProportion = Proportion.Auto,
             VerticalAlignment = VerticalAlignment.Bottom, 

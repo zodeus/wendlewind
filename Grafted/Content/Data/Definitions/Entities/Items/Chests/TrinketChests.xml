@@ -12,7 +12,7 @@
             <ListItem>
                 <ItemDef>DeathRattle</ItemDef>
                 <ChanceToDrop>1</ChanceToDrop>
-                <Weight>100000</Weight>
+                <Weight>1</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>Slingshot</ItemDef>

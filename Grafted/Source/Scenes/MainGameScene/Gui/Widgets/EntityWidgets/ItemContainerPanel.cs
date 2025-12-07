@@ -5,15 +5,15 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 public sealed class ItemContainerPanel : Panel
 {
     private readonly BaseGui _gui;
-    private readonly EntityContainer _container;
+    private readonly PawnInventory _inventory;
     private readonly EntityContainer? _receivingContainer;
 
     private readonly List<EntityListPanel> _sections = new();
 
-    public ItemContainerPanel(BaseGui gui, EntityContainer container, EntityContainer? receivingContainer = null)
+    public ItemContainerPanel(BaseGui gui, PawnInventory inventory, EntityContainer? receivingContainer = null)
     {
         _gui = gui;
-        _container = container;
+        _inventory = inventory;
         _receivingContainer = receivingContainer;
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
         Padding = new Thickness(15, 15,15,15);
@@ -23,49 +23,49 @@ public sealed class ItemContainerPanel : Panel
             new ItemContainerPanelSection
             {
                 Label = "Medicinal",
-                Container = _container,
+                Inventory = _inventory,
                 Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Medical || entity.Def == Defs.Items.Cauterize
             },
             new ItemContainerPanelSection
             {
                 Label = "Potions",
-                Container = _container,
+                Inventory = _inventory,
                 Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Potion
             },
             new ItemContainerPanelSection
             {
                 Label = "Food",
-                Container = _container,
+                Inventory = _inventory,
                 Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Food
             },
             new ItemContainerPanelSection
             {
                 Label = "Flammable",
-                Container = _container,
+                Inventory = _inventory,
                 Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Flammable
             },
             new ItemContainerPanelSection
             {
                 Label = "Equipment Supplies",
-                Container = _container,
+                Inventory = _inventory,
                 Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Supplies
             },
             new ItemContainerPanelSection
             {
                 Label = "Equipment",
-                Container = _container,
+                Inventory = _inventory,
                 Filter = entity => ((Item)entity).ItemDef.ItemType == ItemType.Equipment
             },
             new ItemContainerPanelSection
             {
                 Label = "Enchantments",
-                Container = _container,
+                Inventory = _inventory,
                 Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Enchantment
             },
             new ItemContainerPanelSection
             {
                 Label = "Resources",
-                Container = _container,
+                Inventory = _inventory,
                 Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Resource
             }
         };
@@ -77,7 +77,7 @@ public sealed class ItemContainerPanel : Panel
         });
         foreach (var section in sections)
         {
-            EntityListPanel panel = new(_gui, section.Label, section.Container, section.Filter, LeftClickHandler, RightClickHandler)
+            EntityListPanel panel = new(_gui, section.Label, section.Inventory.ToList(), section.Filter, LeftClickHandler, RightClickHandler)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Margin = new Thickness(0, 0, 0, 10)
@@ -124,7 +124,7 @@ public sealed class ItemContainerPanel : Panel
                 return;
             }
 
-            _container.Remove(item);
+            _inventory.Remove(item);
             item.Destroy();
             return;
         }
@@ -153,7 +153,7 @@ public sealed class ItemContainerPanel : Panel
 
     private class ItemContainerPanelSection
     {
-        public EntityContainer Container { get; set; } = null!;
+        public PawnInventory Inventory { get; set; } = null!;
         public Func<Entity, bool>? Filter { get; set; }
         public string Label { get; set; } = string.Empty;
     }

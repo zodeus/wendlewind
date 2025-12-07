@@ -241,7 +241,7 @@ public sealed class SlingshotPanel : EntityPanelBase
     private void LoadAmmo(Item ammo)
     {
         // Remove from inventory
-        Core.Context.PlayerPawn.Inventory.Entities.Remove(ammo);
+        Core.Context.PlayerPawn.Inventory.Remove(ammo);
 
         // Load into slingshot, get any previously loaded ammo back
         var oldAmmo = _handler.LoadAmmo(ammo);

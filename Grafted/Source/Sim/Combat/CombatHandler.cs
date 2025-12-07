@@ -536,10 +536,7 @@ public class CombatHandler : IDisposable
 
     private void AddToLootContainer(Item item)
     {
-        if (Loot.TryAdd(item))
-        {
-            Core.Context.Achievements.OnItemFound(item);
-        }
+        Loot.TryAdd(item);
     }
 
     public void Dispose()

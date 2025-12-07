@@ -22,7 +22,7 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
         };
         _bodyPanel = new PawnBodyPanel(gui, playerPawn.Body);
         _inventoryPanel = new ItemContainerPanel(gui,
-            playerPawn.Inventory.Entities, null
+            playerPawn.Inventory, null
         ) { 
             //Border = new SolidBrush(Color.White),
             //BorderThickness = new Thickness(1),
@@ -36,9 +36,9 @@ public sealed class CampOverviewPanel : Panel, IUpdatable
 
         VerticalStackPanel rightColumn = new() { Spacing = 0 };
         rightColumn.Widgets.Add(_equipmentPanel);
-        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Combat, item => gui.ViewEntity(item)));
-        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Passive, item => gui.ViewEntity(item)));
-        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory.Entities, TrinketType.Interactive, item => gui.ViewEntity(item)));
+        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory, TrinketType.Combat, item => gui.ViewEntity(item)));
+        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory, TrinketType.Passive, item => gui.ViewEntity(item)));
+        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory, TrinketType.Interactive, item => gui.ViewEntity(item)));
         rightColumn.Widgets.Add(_pawnEffectsPanel);
         rightColumn.Widgets.Add(new PawnSkillsPanel(playerPawn.Skills));
 

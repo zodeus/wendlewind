@@ -127,6 +127,8 @@ public static partial class BaseContent
                 public const string ArrowNeutral = "icon-arrow-neutral";
                 public const string ArrowNegative = "icon-arrow-negative";
                 public const string ArrowPositive = "icon-arrow-positive";
+                public const string Checkmark = "icon-checkmark";
+                public const string X = "icon-x";
                 public const string Retreat = "icon-retreat";
                 public const string Skull = "icon-skull";
                 public const string Combat = "icon-combat";

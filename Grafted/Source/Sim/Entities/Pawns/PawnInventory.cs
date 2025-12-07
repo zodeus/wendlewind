@@ -6,28 +6,59 @@ public class PawnInventory : IExposable, IEnumerable<Item>
 {
     public Pawn Pawn;
 
-    public EntityContainer Entities;
-    public Item this[int i] => (Item)Entities[i];
+    private EntityContainer _entities;
+    
+    public event Action<Item>? ItemAdded
+    {
+        add => _entities.ItemAdded += value;
+        remove => _entities.ItemAdded -= value;
+    }
+    
+    public event Action<Item>? ItemRemoved
+    {
+        add => _entities.ItemRemoved += value;
+        remove => _entities.ItemRemoved -= value;
+    }
+    
+    public event Action<Item>? ItemStackSizeChanged
+    {
+        add => _entities.ItemStackSizeChanged += value;
+        remove => _entities.ItemStackSizeChanged -= value;
+    }
+    
+    public Item this[int i] => (Item)_entities[i];
 
-    public List<Item> Trinkets => Entities.AsItems().Where(i => i.ItemDef.ItemType == ItemType.Trinket).ToList();
-    public List<Item> Resources => Entities.AsItems().Where(i => i.ItemDef.ItemType == ItemType.Resource).ToList();
+    public List<Item> Trinkets => _entities.AsItems().Where(i => i.ItemDef.ItemType == ItemType.Trinket).ToList();
+    public List<Item> Resources => _entities.AsItems().Where(i => i.ItemDef.ItemType == ItemType.Resource).ToList();
 
     public PawnInventory(Pawn pawn)
     {
         Pawn = pawn;
-        Entities = new EntityContainer();
+        _entities = new EntityContainer();
     }
 
     public bool TryAdd(Entity? entity)
     {
-        return Entities.TryAdd(entity);
+        return _entities.TryAdd(entity);
     }
 
-    public int AmountOf(ItemDef def) => Entities.AmountOf(def);
+    public int AmountOf(ItemDef def) => _entities.AmountOf(def);
+    
+    public void Remove(Entity entity) => _entities.Remove(entity);
+    
+    public bool Contains(ResourceCount resource) => _entities.Contains(resource);
+    
+    public Item? Take(EntityDef def, int amount) => _entities.Take(def, amount);
+    
+    /// <summary>
+    /// Exposes the underlying container for widget binding (events + iteration).
+    /// Prefer using proxy methods for direct manipulation.
+    /// </summary>
+    //public EntityContainer AsEntityContainer => _entities;
 
     public IEnumerator<Item> GetEnumerator()
     {
-        return Entities.AsEnumerable().AsItems().GetEnumerator();
+        return _entities.AsEnumerable().AsItems().GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
@@ -37,16 +68,16 @@ public class PawnInventory : IExposable, IEnumerable<Item>
 
     public void ExposeData()
     {
-        ScribeDeep.Look(ref Entities!, "Entities");
+        ScribeDeep.Look(ref _entities!, "Entities");
     }
 
     public void Tick()
     {
-        Entities.Tick();
+        _entities.Tick();
     }
     
     public Item? Take(ResourceCount resource)
     {
-        return Entities.Take(resource.Item, resource.Count);
+        return _entities.Take(resource.Item, resource.Count);
     }
 }

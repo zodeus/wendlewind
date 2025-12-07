@@ -24,7 +24,7 @@ public class GameScene : Scene
         }
         else
         {
-            QuickPlay();
+            NewGame();
         }
 
         StartGame();
@@ -70,10 +70,10 @@ public class GameScene : Scene
         ReloadGui();
     }
 
-    private void QuickPlay()
+    private void NewGame()
     {
         Core.ClearCoroutines();
-        _context.Prepare();
+        _context.Initialize();
         ActiveGui = null;
         StartGame();
     }
@@ -153,7 +153,7 @@ public class GameScene : Scene
 
         if (WasKeyJustPressed(Keys.F2, currentKeyboardState))
         {
-            QuickPlay();
+            NewGame();
             ActiveGui!.PushScreenMessage(new ScreenMessageData
             {
                 Text = "New Game",

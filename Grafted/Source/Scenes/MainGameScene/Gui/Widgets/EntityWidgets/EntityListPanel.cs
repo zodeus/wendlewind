@@ -50,17 +50,17 @@ public class EntityListPanelItem : HorizontalStackPanel
 public class EntityListPanel : VerticalStackPanel, IUpdatable
 {
     private readonly BaseGui _gui;
-    private readonly EntityContainer _container;
+    private readonly List<Item> _items;
     private readonly Action<Entity>? _rightClickAction;
     private readonly Action<Entity>? _leftClickAction;
-    private readonly Dictionary<Entity, EntityListPanelItem> _items = new();
+    private readonly Dictionary<Item, EntityListPanelItem> _itemPanels = new();
 
     private Func<Entity, bool>? _filter { get; }
 
-    public EntityListPanel(BaseGui gui, string label, EntityContainer container, Func<Entity, bool>? filter = null, Action<Entity>? leftClickAction = null, Action<Entity>? rightClickAction = null)
+    public EntityListPanel(BaseGui gui, string label, List<Item> items, Func<Entity, bool>? filter = null, Action<Entity>? leftClickAction = null, Action<Entity>? rightClickAction = null)
     {
         _gui = gui;
-        _container = container;
+        _items = items;
         _leftClickAction = leftClickAction;
         _rightClickAction = rightClickAction;
         _filter = filter;
@@ -73,35 +73,35 @@ public class EntityListPanel : VerticalStackPanel, IUpdatable
 
     public void Update()
     {
-        foreach (var entity in _container)
+        foreach (var item in _items)
         {
-            if (_filter != null && _filter(entity) == false)
+            if (_filter != null && _filter(item) == false)
             {
                 continue;
             }
 
-            if (!_items.ContainsKey(entity))
+            if (!_itemPanels.ContainsKey(item))
             {
-                _items[entity] = new EntityListPanelItem(_gui, entity, _leftClickAction, _rightClickAction)
+                _itemPanels[item] = new EntityListPanelItem(_gui, item, _leftClickAction, _rightClickAction)
                 {
                     Margin = new Thickness(0, 0, 0,  5)
                 };
-                Widgets.Add(_items[entity]);
+                Widgets.Add(_itemPanels[item]);
             }
         }
 
-        foreach ((var item, var panel) in _items)
+        foreach ((var item, var panel) in _itemPanels)
         {
-            if (item.IsDestroyed || _container.Contains(item) == false)
+            if (item.IsDestroyed || _items.Contains(item) == false)
             {
                 panel.RemoveFromParent();
-                _items.Remove(item);
+                _itemPanels.Remove(item);
                 continue;
             }
 
             panel.Update();
         }
 
-        Visible = _items.Any();
+        Visible = _items.Any(item => _filter == null || _filter(item));
     }
 }

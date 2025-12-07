@@ -15,7 +15,7 @@ public class CraftingProperties
 
         foreach (var resource in ResourceRequirements)
         {
-            if (pawn.Inventory.Entities.Contains(resource) == false)
+            if (pawn.Inventory.Contains(resource) == false)
             {
                 return false;
             }

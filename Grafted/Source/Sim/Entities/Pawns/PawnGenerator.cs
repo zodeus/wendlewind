@@ -43,12 +43,12 @@ public static class PawnGenerator
                 {
                     for (var i = 0; i < amount; i++)
                     {
-                        pawn.Inventory.Entities.TryAdd(EntityGenerator.CreateEntity<Item>(dropCount.Item));
+                        pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(dropCount.Item));
                     }
                 }
                 else
                 {
-                    pawn.Inventory.Entities.TryAdd(EntityGenerator.CreateEntity<Item>(dropCount.Item, dropCount.Amount.RandomValue));
+                    pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(dropCount.Item, dropCount.Amount.RandomValue));
                 }
             }
         }

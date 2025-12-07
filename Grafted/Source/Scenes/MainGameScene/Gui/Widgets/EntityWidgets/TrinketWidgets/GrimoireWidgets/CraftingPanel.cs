@@ -1,39 +1,136 @@
-﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.TrinketWidgets.GrimoireWidgets;
+﻿using SolidBrush = Myra.Graphics2D.Brushes.SolidBrush;
 
-public sealed class CraftingPanel : HorizontalStackPanel
+namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.TrinketWidgets.GrimoireWidgets;
+
+public sealed class CraftingPanel : VerticalStackPanel
 {
     private readonly Pawn _pawn;
+    private readonly RecipeCard _recipeCard;
+    private readonly Dictionary<ItemDef, Panel> _itemButtons = new();
 
     public CraftingPanel(string buttonLabel, List<ItemDef> items, Pawn pawn)
     {
         _pawn = pawn;
-        var recipeCard = new RecipeCard(buttonLabel);
-        Widgets.Add(GenerateItemList(items, recipeCard));
-        Widgets.Add(new VerticalSeparator());
-        Widgets.Add(recipeCard);
+        _recipeCard = new RecipeCard(buttonLabel);
+        Spacing = 0;
+        
+        // Horizontal item strip at top
+        var itemStripContainer = new Panel
+        {
+            Background = new SolidBrush(new Color(15, 12, 10)),
+            Padding = new Thickness(8),
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+        };
+        itemStripContainer.Widgets.Add(GenerateItemStrip(items, _recipeCard));
+        
+        // Divider between items and recipe
+        var divider = new Panel
+        {
+            Height = 2,
+            Background = new SolidBrush(new Color(60, 50, 40)),
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+        };
+        
+        Widgets.Add(itemStripContainer);
+        Widgets.Add(divider);
+        Widgets.Add(_recipeCard);
     }
 
-    private Widget GenerateItemList(List<ItemDef> items, RecipeCard recipeCard)
+    private Widget GenerateItemStrip(List<ItemDef> items, RecipeCard recipeCard)
     {
-        var vPanel = new VerticalStackPanel { Spacing = 5, Width = 210};
-        var hPanel = new HorizontalStackPanel { Spacing = 5 };
-        vPanel.Widgets.Add(hPanel);
-        var itemCount = 0;
+        var scrollViewer = new ScrollViewer
+        {
+            MaxHeight = 90,
+        };
+        
+        // Horizontal row of items
+        var itemRow = new HorizontalStackPanel { Spacing = 6 };
+        scrollViewer.Content = itemRow;
+        
         foreach (var item in items)
         {
-            var button = new Button { Content = new Image { Background = new TextureRegion(item.Icon), Width = 96, Height = 96 } };
-            button.Click += (_, _) => recipeCard.SetItem(_pawn, item);
-            button.MouseEntered += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Hand);
-            button.MouseLeft += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Arrow);
-            hPanel.Widgets.Add(button);
-            itemCount++;
-
-            if (itemCount < 2) continue;
-            itemCount = 0;
-            hPanel = new HorizontalStackPanel { Spacing = 5 };
-            vPanel.Widgets.Add(hPanel);
+            var itemButton = CreateItemButton(item, recipeCard);
+            _itemButtons[item] = itemButton;
+            itemRow.Widgets.Add(itemButton);
         }
 
-        return vPanel;
+        return scrollViewer;
+    }
+
+    private Panel CreateItemButton(ItemDef item, RecipeCard recipeCard)
+    {
+        var canCraft = item.CraftingProperties?.CanCraft(_pawn) == true;
+        
+        // Outer frame panel
+        var framePanel = new Panel
+        {
+            Width = 72,
+            Height = 72,
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundDark64],
+            Padding = new Thickness(4),
+        };
+        
+        // Inner content panel with item icon
+        var iconPanel = new Panel
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+        };
+        
+        var itemImage = new Image
+        {
+            Background = new TextureRegion(item.Icon),
+            Width = 64,
+            Height = 64,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            Opacity = canCraft ? 1.0f : 0.5f
+        };
+        iconPanel.Widgets.Add(itemImage);
+        
+        // Craftable indicator (small green dot in corner)
+        if (canCraft)
+        {
+            var indicator = new Panel
+            {
+                Width = 10,
+                Height = 10,
+                Background = new SolidBrush(new Color(60, 200, 60)),
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Top,
+                Margin = new Thickness(0, 2, 2, 0)
+            };
+            iconPanel.Widgets.Add(indicator);
+        }
+        
+        framePanel.Widgets.Add(iconPanel);
+        
+        // Hover and click handling
+        framePanel.MouseEntered += (_, _) =>
+        {
+            Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Hand);
+            framePanel.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright];
+        };
+        
+        framePanel.MouseLeft += (_, _) =>
+        {
+            Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Arrow);
+            framePanel.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundDark64];
+        };
+        
+        framePanel.TouchDown += (_, _) =>
+        {
+            // Clear previous selection styling
+            foreach (var btn in _itemButtons.Values)
+            {
+                btn.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundDark64];
+            }
+            
+            // Apply selected styling
+            framePanel.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold];
+            recipeCard.SetItem(_pawn, item);
+        };
+        
+        return framePanel;
     }
 }
