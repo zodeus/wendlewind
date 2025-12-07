@@ -19,8 +19,11 @@
     <EncounterDef>
         <Moniker>ForgottenForest-01</Moniker>
         <Biome>ForgottenForest</Biome>
+        <MaxBoxes>2</MaxBoxes>
         <PotentialLootBoxes>
             <ListItem>EnchantedChestDefensive</ListItem>
+            <ListItem>EnchantedChestOffensive</ListItem>
+            <ListItem>TrinketChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -46,7 +49,10 @@
     <EncounterDef>
         <Moniker>ForgottenForest-02</Moniker>
         <Biome>ForgottenForest</Biome>
+        <MaxBoxes>2</MaxBoxes>
         <PotentialLootBoxes>
+            <ListItem>EnchantedChestDefensive</ListItem>
+            <ListItem>EnchantedChestOffensive</ListItem>
             <ListItem>TrinketChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
@@ -77,8 +83,11 @@
     <EncounterDef>
         <Moniker>ForgottenForest-03</Moniker>
         <Biome>ForgottenForest</Biome>
+        <MaxBoxes>2</MaxBoxes>
         <PotentialLootBoxes>
+            <ListItem>EnchantedChestDefensive</ListItem>
             <ListItem>EnchantedChestOffensive</ListItem>
+            <ListItem>TrinketChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -109,8 +118,11 @@
     <EncounterDef>
         <Moniker>ForgottenForest-04</Moniker>
         <Biome>ForgottenForest</Biome>
+        <MaxBoxes>2</MaxBoxes>
         <PotentialLootBoxes>
             <ListItem>EnchantedChestDefensive</ListItem>
+            <ListItem>EnchantedChestOffensive</ListItem>
+            <ListItem>TrinketChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -146,6 +158,8 @@
         <IsBoss>true</IsBoss>
         <PotentialLootBoxes>
             <ListItem>MedicinalChest</ListItem>
+            <ListItem>TrinketChestNormal</ListItem>
+            <ListItem>SupplyChestBasic</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>

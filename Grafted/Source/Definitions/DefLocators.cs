@@ -137,6 +137,8 @@ public static partial class Defs {
         public static ItemDef LeatherVambrace = null!;
         public static ItemDef LeatherBoot = null!;
         public static ItemDef BucketHelmet = null!;
+
+        public static ItemDef Grimoire = null!;
         
     }
 }

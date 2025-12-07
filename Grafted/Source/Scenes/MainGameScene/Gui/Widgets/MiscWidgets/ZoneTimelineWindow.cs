@@ -8,6 +8,10 @@ public sealed class ZoneTimelineWindow : Window
     private const int NodeSize = 64;
     private const int NodeSpacing = 24;
     private const int BiomeSpacing = 40;
+    private const int BiomeRowHeight = 120; // Approximate height of each biome row (header + nodes + spacing)
+
+    private readonly ScrollViewer _scrollViewer;
+    private int _currentBiomeIndex = -1;
 
     public ZoneTimelineWindow()
     {
@@ -15,7 +19,7 @@ public sealed class ZoneTimelineWindow : Window
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright];
         Padding = new Thickness(30);
 
-        var scrollViewer = new ScrollViewer
+        _scrollViewer = new ScrollViewer
         {
             Content = BuildTimeline(),
             ShowHorizontalScrollBar = true,
@@ -29,9 +33,16 @@ public sealed class ZoneTimelineWindow : Window
             Widgets =
             {
                 new HorizontalSeparator { Margin = new Thickness(0, 0, 0, 10) },
-                scrollViewer
+                _scrollViewer
             }
         };
+
+        // Scroll to current zone based on biome index
+        if (_currentBiomeIndex > 0)
+        {
+            var scrollY = _currentBiomeIndex * (BiomeRowHeight + BiomeSpacing);
+            _scrollViewer.ScrollPosition = new Point(0, Math.Max(0, scrollY - 20));
+        }
     }
 
     private Widget BuildTimeline()
@@ -50,10 +61,22 @@ public sealed class ZoneTimelineWindow : Window
 
         var currentZone = Core.Context.CurrentZone;
 
-        foreach (var biomeGroup in encountersByBiome)
+        // Find the biome to scroll to: current zone, first incomplete, or last zone
+        var targetBiome = currentZone?.BiomeDef
+            ?? Core.Context.World.Zones.FirstOrDefault(z => !z.IsComplete)?.BiomeDef
+            ?? Core.Context.World.Zones.LastOrDefault()?.BiomeDef;
+
+        for (int i = 0; i < encountersByBiome.Count; i++)
         {
+            var biomeGroup = encountersByBiome[i];
             var biomePanel = CreateBiomeRow(biomeGroup.Key, biomeGroup.ToList(), currentZone);
             mainPanel.Widgets.Add(biomePanel);
+
+            // Track the index for the target biome so we can scroll to it
+            if (biomeGroup.Key == targetBiome)
+            {
+                _currentBiomeIndex = i;
+            }
         }
 
         return mainPanel;

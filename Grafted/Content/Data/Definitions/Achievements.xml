@@ -25,6 +25,7 @@
         <Label>Tis' But a Scratch!</Label>
         <Description>Lose an arm or leg.</Description>
         <Category>Combat</Category>
+        <TargetValue>1</TargetValue>
         <BenifitDescription>Start with a random armor piece.</BenifitDescription>
         <HandlerClass>TisButAScratchHandler</HandlerClass>
     </AchievementDef>
@@ -161,6 +162,17 @@
         <Category>Exploration</Category>
         <TargetValue>20</TargetValue>
         <HandlerClass>TrashToTreasureHandler</HandlerClass>
+    </AchievementDef>
+    
+
+    <AchievementDef>
+        <Moniker>FindersKeepers</Moniker>
+        <Label>Finders Keepers</Label>
+        <Description>You find it, you keep it.</Description>
+        <BenifitDescription>Start with the grimoire.</BenifitDescription>
+        <IsHidden>true</IsHidden>
+        <Category>Exploration</Category>
+        <HandlerClass>FindersKeepersHandler</HandlerClass>
     </AchievementDef>
     <!-- 
 

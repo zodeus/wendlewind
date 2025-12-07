@@ -11,6 +11,7 @@ global using Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 global using Grafted.Sim;
 global using Grafted.Sim.Achievements;
 global using Grafted.Sim.Combat;
+global using Grafted.Sim.Entities;
 global using Grafted.Sim.Entities.Items;
 global using Grafted.Sim.Entities.Pawns;
 global using Grafted.Sim.Persistence;

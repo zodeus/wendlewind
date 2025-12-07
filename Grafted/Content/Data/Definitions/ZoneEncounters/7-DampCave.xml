@@ -19,7 +19,10 @@
     <EncounterDef>
         <Moniker>DampCave-01</Moniker>
         <Biome>DampCave</Biome>
+        <MaxBoxes>2</MaxBoxes>
         <PotentialLootBoxes>
+            <ListItem>EnchantedChestDefensive</ListItem>
+            <ListItem>EnchantedChestOffensive</ListItem>
             <ListItem>TrinketChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
@@ -47,8 +50,10 @@
     <EncounterDef>
         <Moniker>DampCave-02</Moniker>
         <Biome>DampCave</Biome>
+        <MaxBoxes>1</MaxBoxes>
         <PotentialLootBoxes>
             <ListItem>SupplyChestNormal</ListItem>
+            <ListItem>TrinketChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
             <ListItem>
@@ -76,6 +81,7 @@
     <EncounterDef>
         <Moniker>DampCave-03</Moniker>
         <Biome>DampCave</Biome>
+        <MaxBoxes>1</MaxBoxes>
         <PotentialLootBoxes>
             <ListItem>EnchantedChestDefensive</ListItem>
             <ListItem>EnchantedChestOffensive</ListItem>
@@ -106,7 +112,9 @@
     <EncounterDef>
         <Moniker>DampCave-04</Moniker>
         <Biome>DampCave</Biome>
+        <MaxBoxes>1</MaxBoxes>
         <PotentialLootBoxes>
+            <ListItem>EnchantedChestDefensive</ListItem>
             <ListItem>TrinketChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>
@@ -134,7 +142,9 @@
         <Moniker>DampCave-Boss</Moniker>
         <Biome>DampCave</Biome>
         <IsBoss>true</IsBoss>
+        <MaxBoxes>1</MaxBoxes>
         <PotentialLootBoxes>
+            <ListItem>EnchantedChestDefensive</ListItem>
             <ListItem>TrinketChestNormal</ListItem>
         </PotentialLootBoxes>
         <Enemies>

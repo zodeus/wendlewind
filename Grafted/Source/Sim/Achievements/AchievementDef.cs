@@ -9,7 +9,7 @@ namespace Grafted.Sim.Achievements;
 public class AchievementDef : Def
 {
     /// <summary>Target value required to unlock (e.g., kill 10 enemies)</summary>
-    public float TargetValue = 1;
+    public float TargetValue = 0;
 
     /// <summary>Benefit description for the achievement</summary>
     public string BenifitDescription = "";

@@ -67,6 +67,10 @@
                 <Weight>1000000</Weight>
             </ListItem>
             <ListItem>
+                <ItemDef>Grimoire</ItemDef>
+                <Weight>50000</Weight>
+            </ListItem>
+            <ListItem>
                 <ItemDef>MortarAndPestle</ItemDef>
                 <Weight>5000</Weight>
             </ListItem>
@@ -75,20 +79,16 @@
                 <Weight>5000</Weight>
             </ListItem>
             <ListItem>
-                <ItemDef>Grimoire</ItemDef>
-                <Weight>5000</Weight>
-            </ListItem>
-            <ListItem>
                 <ItemDef>ThirdEye</ItemDef>
                 <Weight>3000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>TinkersToolbox</ItemDef>
-                <Weight>100</Weight>
+                <Weight>1000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>SteroidInjector</ItemDef>
-                <Weight>10</Weight>
+                <Weight>1000</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>
@@ -111,4 +111,3 @@
         </Items>
     </LootBoxDef>
 </Definitions>
-
