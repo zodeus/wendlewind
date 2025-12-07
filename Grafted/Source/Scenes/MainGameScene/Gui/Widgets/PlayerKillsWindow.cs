@@ -120,10 +120,10 @@ public sealed class PlayerKillsWindow : Window
         {
             var isSlowKill = record.Ticks > 3000;
             var rowColor = isSlowKill ? WarningColor : ValueColor;
-            var biomeColor = GetBiomeColor(record.Biome.Label);
+            var zoneColor = GetBiomeColor(record.ZoneDef.Label);
 
             AddTableCell(tableGrid, rowIndex, 0, $"{record.Round}", SubduedColor);
-            AddTableCell(tableGrid, rowIndex, 1, record.Biome.Label, biomeColor);
+            AddTableCell(tableGrid, rowIndex, 1, record.ZoneDef.Label, zoneColor);
             AddTableCell(tableGrid, rowIndex, 2, record.PawnName, ValueColor);
             AddTableCell(tableGrid, rowIndex, 3, record.CauseOfDeath, SubduedColor);
             AddTableCell(tableGrid, rowIndex, 4, $"{record.TotalDamageDealt:N0}", HeaderColor);

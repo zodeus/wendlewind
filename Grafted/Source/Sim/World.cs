@@ -5,16 +5,16 @@ public class World : IExposable, IIdentityProvider
     public Player Player = null!;
     public int TotalKills;
     public List<Zone> Zones = [];
-    public Zone GetZone(BiomeDef biome) => Zones.First(z => z.BiomeDef == biome);
+    public Zone GetZone(ZoneDef zoneDef) => Zones.First(z => z.ZoneDef == zoneDef);
 
-    public void Initialize(Player player, IReadOnlyList<BiomeDef> biomeDefs)
+    public void Initialize(Player player, IReadOnlyList<ZoneDef> zoneDefs)
     {
         Player = player;
         TotalKills = 0;
-        foreach (var biomeDef in biomeDefs)
+        foreach (var zoneDef in zoneDefs.OrderBy(z => z.Stage))
         {
             var zone = new Zone();
-            zone.Initialize(biomeDef);
+            zone.Initialize(zoneDef);
             Zones.Add(zone);
         }
     }

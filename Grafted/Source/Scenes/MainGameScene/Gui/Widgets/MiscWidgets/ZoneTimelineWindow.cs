@@ -53,27 +53,23 @@ public sealed class ZoneTimelineWindow : Window
             Padding = new Thickness(20)
         };
 
-        // Group encounters by biome
-        var encountersByBiome = DefRepository<EncounterDef>.Defs
-            .GroupBy(e => e.Biome)
-            .OrderBy(g => DefRepository<BiomeDef>.Defs.ToList().IndexOf(g.Key))
-            .ToList();
-
+        // Get zones ordered by stage
+        var zoneDefs = DefRepository<ZoneDef>.Defs.OrderBy(z => z.Stage).ToList();
         var currentZone = Core.Context.CurrentZone;
 
-        // Find the biome to scroll to: current zone, first incomplete, or last zone
-        var targetBiome = currentZone?.BiomeDef
-            ?? Core.Context.World.Zones.FirstOrDefault(z => !z.IsComplete)?.BiomeDef
-            ?? Core.Context.World.Zones.LastOrDefault()?.BiomeDef;
+        // Find the zone to scroll to: current zone, first incomplete, or last zone
+        var targetZoneDef = currentZone?.ZoneDef
+            ?? Core.Context.World.Zones.FirstOrDefault(z => !z.IsComplete)?.ZoneDef
+            ?? Core.Context.World.Zones.LastOrDefault()?.ZoneDef;
 
-        for (int i = 0; i < encountersByBiome.Count; i++)
+        for (int i = 0; i < zoneDefs.Count; i++)
         {
-            var biomeGroup = encountersByBiome[i];
-            var biomePanel = CreateBiomeRow(biomeGroup.Key, biomeGroup.ToList(), currentZone);
-            mainPanel.Widgets.Add(biomePanel);
+            var zoneDef = zoneDefs[i];
+            var zonePanel = CreateZoneRow(zoneDef, zoneDef.Encounters, currentZone);
+            mainPanel.Widgets.Add(zonePanel);
 
-            // Track the index for the target biome so we can scroll to it
-            if (biomeGroup.Key == targetBiome)
+            // Track the index for the target zone so we can scroll to it
+            if (zoneDef == targetZoneDef)
             {
                 _currentBiomeIndex = i;
             }
@@ -82,10 +78,10 @@ public sealed class ZoneTimelineWindow : Window
         return mainPanel;
     }
 
-    private Widget CreateBiomeRow(BiomeDef biome, List<EncounterDef> encounters, Zone? currentZone)
+    private Widget CreateZoneRow(ZoneDef zoneDef, List<EncounterProperties> encounters, Zone? currentZone)
     {
-        var isCurrentBiome = currentZone?.BiomeDef == biome;
-        var zone = Core.Context.World.Zones.FirstOrDefault(z => z.BiomeDef == biome);
+        var isCurrentZone = currentZone?.ZoneDef == zoneDef;
+        var zone = Core.Context.World.Zones.FirstOrDefault(z => z.ZoneDef == zoneDef);
         var isCompleted = zone?.IsComplete ?? false;
 
         var container = new VerticalStackPanel
@@ -93,26 +89,26 @@ public sealed class ZoneTimelineWindow : Window
             Spacing = 12
         };
 
-        // Biome header with background preview
+        // Zone header with background preview
         var headerPanel = new HorizontalStackPanel
         {
             Spacing = 15,
             VerticalAlignment = VerticalAlignment.Center
         };
 
-        // Biome name
-        var biomeLabel = new Label(BaseContent.Styles.Label.Medium)
+        // Zone name
+        var zoneLabel = new Label(BaseContent.Styles.Label.Medium)
         {
-            Text = biome.Label,
-            TextColor = isCurrentBiome ? Color.Gold : (isCompleted ? Color.LimeGreen : Color.LightGray),
+            Text = zoneDef.Label,
+            TextColor = isCurrentZone ? Color.Gold : (isCompleted ? Color.LimeGreen : Color.LightGray),
             VerticalAlignment = VerticalAlignment.Center
         };
-        headerPanel.Widgets.Add(biomeLabel);
+        headerPanel.Widgets.Add(zoneLabel);
 
         // Status indicator
         var statusLabel = new Label(BaseContent.Styles.Label.Small)
         {
-            Text = isCompleted ? "✓ CLEARED" : (isCurrentBiome ? "◆ IN PROGRESS" : ""),
+            Text = isCompleted ? "✓ CLEARED" : (isCurrentZone ? "◆ IN PROGRESS" : ""),
             TextColor = isCompleted ? Color.LimeGreen : Color.Orange,
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Thickness(20, 0, 0, 0)
@@ -131,13 +127,13 @@ public sealed class ZoneTimelineWindow : Window
         for (int i = 0; i < encounters.Count; i++)
         {
             var encounter = encounters[i];
-            var encounterNode = CreateEncounterNode(encounter, i, currentZone, biome, isCompleted);
+            var encounterNode = CreateEncounterNode(encounter, i, currentZone, zoneDef, isCompleted);
             encounterRow.Widgets.Add(encounterNode);
 
             // Add connector line between nodes (except after last)
             if (i < encounters.Count - 1)
             {
-                encounterRow.Widgets.Add(CreateConnector(biome, i, isCompleted));
+                encounterRow.Widgets.Add(CreateConnector(zoneDef, i, isCompleted));
             }
         }
 
@@ -146,16 +142,16 @@ public sealed class ZoneTimelineWindow : Window
         return container;
     }
 
-    private Widget CreateEncounterNode(EncounterDef encounter, int index, Zone? currentZone, BiomeDef biome, bool biomeCompleted)
+    private Widget CreateEncounterNode(EncounterProperties encounter, int index, Zone? currentZone, ZoneDef zoneDef, bool zoneCompleted)
     {
-        // Get the zone for this biome from World.Zones to track actual progress
-        var zone = Core.Context.World.Zones.FirstOrDefault(z => z.BiomeDef == biome);
+        // Get the zone for this zoneDef from World.Zones to track actual progress
+        var zone = Core.Context.World.Zones.FirstOrDefault(z => z.ZoneDef == zoneDef);
         var zoneStage = zone?.Stage ?? 0;
 
-        var isCurrentBiome = currentZone?.BiomeDef == biome;
-        var isCurrentEncounter = isCurrentBiome && index == zoneStage;
+        var isCurrentZone = currentZone?.ZoneDef == zoneDef;
+        var isCurrentEncounter = isCurrentZone && index == zoneStage;
         var isPastEncounter = index < zoneStage;
-        var isCompleted = biomeCompleted || isPastEncounter;
+        var isCompleted = zoneCompleted || isPastEncounter;
 
         // Get enemy info
         var enemy = encounter.Enemies.FirstOrDefault();
@@ -251,12 +247,12 @@ public sealed class ZoneTimelineWindow : Window
         return nodePanel;
     }
 
-    private Widget CreateConnector(BiomeDef biome, int index, bool biomeCompleted)
+    private Widget CreateConnector(ZoneDef zoneDef, int index, bool zoneCompleted)
     {
-        // Get the zone for this biome from World.Zones to track actual progress
-        var zone = Core.Context.World.Zones.FirstOrDefault(z => z.BiomeDef == biome);
+        // Get the zone for this zoneDef from World.Zones to track actual progress
+        var zone = Core.Context.World.Zones.FirstOrDefault(z => z.ZoneDef == zoneDef);
         var zoneStage = zone?.Stage ?? 0;
-        var isPast = biomeCompleted || index < zoneStage;
+        var isPast = zoneCompleted || index < zoneStage;
 
         return new Panel
         {

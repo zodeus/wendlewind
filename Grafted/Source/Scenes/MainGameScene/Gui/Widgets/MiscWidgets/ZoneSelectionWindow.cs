@@ -47,7 +47,7 @@ public class ZoneSelectionWindow : Window
         {
             Content = new Label(BaseContent.Styles.Label.Large) { Text = $"/c[{TC.Green}]Start" }
         };
-        startButton.Click += (_, _) => { Core.Context.EnterZone(zone.BiomeDef); };
+        startButton.Click += (_, _) => { Core.Context.EnterZone(zone.ZoneDef); };
         Button close = new(BaseContent.Styles.Button.Large)
         {
             Content = new Label(BaseContent.Styles.Label.Large) { Text = $"/c[{TC.Red}]Cancel" }
@@ -57,20 +57,20 @@ public class ZoneSelectionWindow : Window
         {
             VerticalAlignment = VerticalAlignment.Top,
             Padding = new Thickness(40, 0, 40, 0),
-            Background = new ColoredRegion(new TextureRegion(zone.BiomeDef.BackgroundTexture), new Color(20, 20, 20, 20)),
+            Background = new ColoredRegion(new TextureRegion(zone.ZoneDef.BackgroundTexture), new Color(20, 20, 20, 20)),
             Spacing = 5,
             Widgets =
             {
                 new Label(BaseContent.Styles.Label.Huge)
                 {
                     TextColor = Color.DarkGoldenrod,
-                    Text = zone.BiomeDef.Label, HorizontalAlignment = HorizontalAlignment.Center
+                    Text = zone.ZoneDef.Label, HorizontalAlignment = HorizontalAlignment.Center
                 },
                 new Panel
                 {
                     Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
                     Padding = new Thickness(10),
-                    Widgets = { new Image { Width = 800, Height = 450, Background = new TextureRegion(zone.BiomeDef.BackgroundTexture) } }
+                    Widgets = { new Image { Width = 800, Height = 450, Background = new TextureRegion(zone.ZoneDef.BackgroundTexture) } }
                 },
                 new HorizontalStackPanel
                 {

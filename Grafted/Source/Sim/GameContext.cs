@@ -77,9 +77,9 @@ public class GameContext : IExposable
         IsPaused = !IsPaused;
     }
 
-    public void EnterZone(BiomeDef biome)
+    public void EnterZone(ZoneDef zoneDef)
     {
-        CurrentZone = World.Zones.First(z => z.BiomeDef == biome);
+        CurrentZone = World.Zones.First(z => z.ZoneDef == zoneDef);
         CurrentZone!.OnStateChanged += ZoneStageChanged;
         CurrentZone.Enter(Player);
         CurrentZone.NextEncounter();

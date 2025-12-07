@@ -47,20 +47,20 @@ public class EntityListPanelItem : HorizontalStackPanel
     }
 }
 
-public class EntityListPanel : VerticalStackPanel, IUpdatable
+public class InventoryListPanel : VerticalStackPanel, IUpdatable
 {
     private readonly BaseGui _gui;
-    private readonly List<Item> _items;
+    private readonly PawnInventory _inventory;
     private readonly Action<Entity>? _rightClickAction;
     private readonly Action<Entity>? _leftClickAction;
     private readonly Dictionary<Item, EntityListPanelItem> _itemPanels = new();
 
     private Func<Entity, bool>? _filter { get; }
 
-    public EntityListPanel(BaseGui gui, string label, List<Item> items, Func<Entity, bool>? filter = null, Action<Entity>? leftClickAction = null, Action<Entity>? rightClickAction = null)
+    public InventoryListPanel(BaseGui gui, string label, PawnInventory inventory, Func<Entity, bool>? filter = null, Action<Entity>? leftClickAction = null, Action<Entity>? rightClickAction = null)
     {
         _gui = gui;
-        _items = items;
+        _inventory = inventory;
         _leftClickAction = leftClickAction;
         _rightClickAction = rightClickAction;
         _filter = filter;
@@ -73,7 +73,7 @@ public class EntityListPanel : VerticalStackPanel, IUpdatable
 
     public void Update()
     {
-        foreach (var item in _items)
+        foreach (var item in _inventory)
         {
             if (_filter != null && _filter(item) == false)
             {
@@ -92,7 +92,7 @@ public class EntityListPanel : VerticalStackPanel, IUpdatable
 
         foreach ((var item, var panel) in _itemPanels)
         {
-            if (item.IsDestroyed || _items.Contains(item) == false)
+            if (item.IsDestroyed || _inventory.Contains(item) == false)
             {
                 panel.RemoveFromParent();
                 _itemPanels.Remove(item);
@@ -102,6 +102,6 @@ public class EntityListPanel : VerticalStackPanel, IUpdatable
             panel.Update();
         }
 
-        Visible = _items.Any(item => _filter == null || _filter(item));
+        Visible = _inventory.Any(item => _filter == null || _filter(item));
     }
 }

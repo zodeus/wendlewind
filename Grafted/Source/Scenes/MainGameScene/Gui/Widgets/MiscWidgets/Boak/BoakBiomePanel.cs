@@ -2,18 +2,18 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
 
 internal sealed class BoakBiomePanel : VerticalStackPanel
 {
-    public BoakBiomePanel(IReadOnlyList<BiomeDef> defs)
+    public BoakBiomePanel(IReadOnlyList<ZoneDef> defs)
     {
         Spacing = 20;
-        foreach (var biomeDef in defs)
+        foreach (var zoneDef in defs.OrderBy(z => z.Stage))
         {
             var details = new VerticalStackPanel
             {
                 Margin = new Thickness(0, 0, 40, 0),
                 Width = 700,
-                Widgets = { new Label(BaseContent.Styles.Label.Large) { Text = biomeDef.Label } }
+                Widgets = { new Label(BaseContent.Styles.Label.Large) { Text = zoneDef.Label } }
             };
-            biomeDef.Resources.ToList().ForEach(
+            zoneDef.Resources.ToList().ForEach(
                 r =>
                 {
                     details.Widgets.Add(new HorizontalStackPanel
@@ -36,15 +36,13 @@ internal sealed class BoakBiomePanel : VerticalStackPanel
             );
 
             var encounters = new VerticalStackPanel();
-            DefRepository<EncounterDef>.Defs
-                .Where(d => d.Biome == biomeDef).ToList()
-                .ForEach(e =>
+            zoneDef.Encounters.ForEach(e =>
+            {
+                encounters.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
                 {
-                    encounters.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
-                    {
-                        Text = $"{e.Moniker} - {e.Enemies.FirstOrNull()?.PawnName}"
-                    });
+                    Text = $"{e.Enemies.FirstOrNull()?.PawnName}"
                 });
+            });
             Widgets.Add(new HorizontalStackPanel
             {
                 Spacing = 10,
@@ -54,7 +52,7 @@ internal sealed class BoakBiomePanel : VerticalStackPanel
                     {
                         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
                         Padding = new Thickness(10),
-                        Widgets = { new Image { Width = 800, Height = 450, Background = new TextureRegion(biomeDef.BackgroundTexture) } }
+                        Widgets = { new Image { Width = 800, Height = 450, Background = new TextureRegion(zoneDef.BackgroundTexture) } }
                     },
                     details,
                     encounters

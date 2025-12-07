@@ -4,10 +4,7 @@ public static class CombatGenerator
 {
     public static Encounter GenerateForZone(Pawn playerPawn, Zone zone)
     {
-        var encounterDef = DefRepository<EncounterDef>.Defs
-            .Where(d => d.Biome == zone.BiomeDef)
-            .Take(new Range(zone.Stage, zone.Stage + 1))
-            .First();
+        var encounterDef = zone.ZoneDef.Encounters[zone.Stage];
 
         Encounter encounter = new(zone, encounterDef);
         encounter.AddPlayerPawn(playerPawn);

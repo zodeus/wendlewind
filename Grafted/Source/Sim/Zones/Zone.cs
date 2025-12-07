@@ -12,7 +12,7 @@ public enum ZoneState
 
 public class Zone : IExposable, IIdentityProvider
 {
-    public BiomeDef BiomeDef = null!;
+    public ZoneDef ZoneDef = null!;
     public int Stage;
     public bool IsComplete;
     public ZoneState State { get; set; }
@@ -28,19 +28,19 @@ public class Zone : IExposable, IIdentityProvider
 
     public void ExposeData()
     {
-        ScribeDefs.Look(ref BiomeDef!, "BiomeDef");
+        ScribeDefs.Look(ref ZoneDef!, "ZoneDef");
         ScribeValues.Look(ref IsComplete, "IsComplete");
         ScribeValues.Look(ref Stage, "Stage");
     }
 
     public string GetUniqueId()
     {
-        return BiomeDef.Moniker;
+        return ZoneDef.Moniker;
     }
 
-    public void Initialize(BiomeDef biomeDef)
+    public void Initialize(ZoneDef zoneDef)
     {
-        BiomeDef = biomeDef;
+        ZoneDef = zoneDef;
     }
 
     public void Enter(Player player)

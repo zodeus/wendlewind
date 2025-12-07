@@ -46,7 +46,7 @@ public class DeathRecord : IExposable
     public string CauseOfDeath = "undefined";
     public double TotalDamageDealt;
     public int Ticks;
-    public BiomeDef Biome = null!;
+    public ZoneDef ZoneDef = null!;
     public string PawnName = "undefined";
     public int Round = -1;
 
@@ -57,7 +57,7 @@ public class DeathRecord : IExposable
         ScribeValues.Look(ref Ticks, "Ticks");
         ScribeValues.Look(ref PawnName!, "PawnName");
         ScribeValues.Look(ref Round, "Round");
-        ScribeDefs.Look(ref Biome!, "Biome");
+        ScribeDefs.Look(ref ZoneDef!, "ZoneDef");
     }
 }
 

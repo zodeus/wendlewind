@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ZoneDef>
+        <Moniker>AbandonedStables</Moniker>
+        <Label>Abandoned Stables</Label>
+        <Stage>10</Stage>
+        <BackgroundTexturePath>Biome/AbandonedStables</BackgroundTexturePath>
+        <BackgroundTextureTransparency>30</BackgroundTextureTransparency>
+        <Resources>
+            <ListItem>
+                <Item>GlitteringLog</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.5</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>BoneShard</Item>
+                <Amount>3~8</Amount>
+                <ChanceToHarvest>1</ChanceToHarvest>
+            </ListItem>
+        </Resources>
+        <Encounters>
+            <ListItem>
+                <ShrineProperties>
+                    <GodLabel>Herminor</GodLabel>
+                    <PartsToRestore>4~6</PartsToRestore>
+                    <TexturePath>Biome/Shrines/cemetery_shrine_1</TexturePath>
+                    <RestorablePartTypes>
+                        <ListItem>Thumb</ListItem>
+                        <ListItem>Finger</ListItem>
+                        <ListItem>Hand</ListItem>
+                        <ListItem>Foot</ListItem>
+                    </RestorablePartTypes>
+                </ShrineProperties>
+            </ListItem>
+            <ListItem>
+                <PotentialLootBoxes>
+                    <ListItem>ResourceChest1</ListItem>
+                </PotentialLootBoxes>
+                <Enemies>
+                    <ListItem>
+                        <PawnDef>Horse</PawnDef>
+                        <Loadout>EmptyLoadout</Loadout>
+                        <PawnName>Horse (specimen #1)</PawnName>
+                        <BodySizeFactor>1</BodySizeFactor>
+                    </ListItem>
+                </Enemies>
+            </ListItem>
+            <ListItem>
+                <PotentialLootBoxes>
+                    <ListItem>ResourceChest1</ListItem>
+                </PotentialLootBoxes>
+                <Enemies>
+                    <ListItem>
+                        <PawnDef>Horse</PawnDef>
+                        <Loadout>EmptyLoadout</Loadout>
+                        <PawnName>Horse (specimen #2)</PawnName>
+                        <BodySizeFactor>1.2</BodySizeFactor>
+                    </ListItem>
+                </Enemies>
+            </ListItem>
+            <ListItem>
+                <PotentialLootBoxes>
+                    <ListItem>TrinketChestCombat</ListItem>
+                </PotentialLootBoxes>
+                <Enemies>
+                    <ListItem>
+                        <PawnDef>Horse</PawnDef>
+                        <Loadout>EmptyLoadout</Loadout>
+                        <PawnName>Horse (specimen #3)</PawnName>
+                        <BodySizeFactor>1.4</BodySizeFactor>
+                    </ListItem>
+                </Enemies>
+            </ListItem>
+            <ListItem>
+                <PotentialLootBoxes>
+                    <ListItem>MedicinalChest</ListItem>
+                </PotentialLootBoxes>
+                <Enemies>
+                    <ListItem>
+                        <PawnDef>Horse</PawnDef>
+                        <Loadout>EmptyLoadout</Loadout>
+                        <PawnName>Horse (specimen #4)</PawnName>
+                        <BodySizeFactor>1.5</BodySizeFactor>
+                    </ListItem>
+                </Enemies>
+            </ListItem>
+            <ListItem>
+                <IsBoss>true</IsBoss>
+                <PotentialLootBoxes>
+                    <ListItem>TrinketChest3</ListItem>
+                </PotentialLootBoxes>
+                <Enemies>
+                    <ListItem>
+                        <PawnDef>Horse</PawnDef>
+                        <Loadout>EmptyLoadout</Loadout>
+                        <PawnName>Horse (specimen apex #1)</PawnName>
+                        <BodySizeFactor>2.5</BodySizeFactor>
+                    </ListItem>
+                </Enemies>
+            </ListItem>
+        </Encounters>
+    </ZoneDef>
+</Definitions>

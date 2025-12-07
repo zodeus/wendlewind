@@ -189,7 +189,7 @@ public sealed class CombatSummaryWindow : Window
         };
 
         AddStatRow(finalStatsPanel, 0, "Slain by", handler.Enemy.LabelShort, Color.OrangeRed);
-        AddStatRow(finalStatsPanel, 1, "Location", encounter.Zone.BiomeDef.Label, Color.LightGray);
+        AddStatRow(finalStatsPanel, 1, "Location", encounter.Zone.ZoneDef.Label, Color.LightGray);
         AddStatRow(finalStatsPanel, 2, "Combat Duration", $"{encounter.Ticks} ticks", Color.LightGray);
         AddStatRow(finalStatsPanel, 3, "Damage Dealt", $"{handler.TotalDirectPlayerDamage:N0}", Color.Goldenrod);
 

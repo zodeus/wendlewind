@@ -98,8 +98,8 @@ public class ZoneGui : BaseGui
             RasterizerState.CullNone
         );
         spriteBatch.Draw(
-            Zone.BiomeDef.BackgroundTexture, new Rectangle(0, 0, Screen.Width, Screen.Height),
-            new Color(255, 255, 255, Zone.BiomeDef.BackgroundTextureTransparency)
+            Zone.ZoneDef.BackgroundTexture, new Rectangle(0, 0, Screen.Width, Screen.Height),
+            new Color(255, 255, 255, Zone.ZoneDef.BackgroundTextureTransparency)
         );
         spriteBatch.End();
         

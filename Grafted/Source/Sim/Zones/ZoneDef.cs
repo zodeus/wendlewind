@@ -1,12 +1,14 @@
 ﻿namespace Grafted.Sim.Zones;
 
-public class BiomeDef : Def {
+public class ZoneDef : Def {
     private Texture2D? _texture;
 
+    public int Stage;
     public string? BackgroundTexturePath;
     public int BackgroundTextureTransparency = 20;
 
     public List<BiomeResourceRecord> Resources = new();
+    public List<EncounterProperties> Encounters = new();
 
     public virtual Texture2D BackgroundTexture => _texture ??= BackgroundTexturePath != null ? Core.Content.Load<Texture2D>(BackgroundTexturePath) : BaseContent.Textures.BadTexture;
 }

@@ -8,9 +8,8 @@ using Grafted.Sim.LootBoxes;
 
 namespace Grafted.Sim.Combat;
 
-public class EncounterDef : Def
+public class EncounterProperties
 {
-    public BiomeDef Biome = null!;
     public ShrineProperties? ShrineProperties = null;
 
     // Combat

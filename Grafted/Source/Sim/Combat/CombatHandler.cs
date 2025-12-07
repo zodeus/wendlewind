@@ -75,7 +75,7 @@ public class CombatHandler : IDisposable
             CauseOfDeath = deathEvent.Record.CauseOfDeath,
             TotalDamageDealt = TotalDirectPlayerDamage,
             Ticks = _encounter.Ticks,
-            Biome = _encounter.Zone.BiomeDef,
+            ZoneDef = _encounter.Zone.ZoneDef,
             PawnName = deathEvent.Pawn.LabelShort + (_encounter.AtBoss ? " (Boss)" : "")
         });
 
@@ -492,7 +492,7 @@ public class CombatHandler : IDisposable
             TakePartEquipment(part);
         }
 
-        foreach (var resource in _encounter.Zone.BiomeDef.Resources)
+        foreach (var resource in _encounter.Zone.ZoneDef.Resources)
         {
             if (Core.Random.Chance(resource.ChanceToHarvest))
             {

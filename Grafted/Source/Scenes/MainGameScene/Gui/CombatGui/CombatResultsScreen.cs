@@ -77,10 +77,7 @@ public sealed class CombatResultsScreen : VerticalStackPanel
 
         if (Encounter.AtBoss == false)
         {
-            var combatConfig = DefRepository<EncounterDef>.Defs
-                .Where(d => d.Biome == Encounter.Zone.BiomeDef)
-                .Take(new Range(Encounter.Zone.Stage, Encounter.Zone.Stage + 1))
-                .First();
+            var combatConfig = Encounter.Zone.ZoneDef.Encounters[Encounter.Zone.Stage];
             panel.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
             {
                 VerticalAlignment = VerticalAlignment.Center,

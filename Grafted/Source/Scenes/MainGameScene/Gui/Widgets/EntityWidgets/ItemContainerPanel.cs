@@ -8,7 +8,7 @@ public sealed class ItemContainerPanel : Panel
     private readonly PawnInventory _inventory;
     private readonly EntityContainer? _receivingContainer;
 
-    private readonly List<EntityListPanel> _sections = new();
+    private readonly List<InventoryListPanel> _sections = new();
 
     public ItemContainerPanel(BaseGui gui, PawnInventory inventory, EntityContainer? receivingContainer = null)
     {
@@ -77,7 +77,7 @@ public sealed class ItemContainerPanel : Panel
         });
         foreach (var section in sections)
         {
-            EntityListPanel panel = new(_gui, section.Label, section.Inventory.ToList(), section.Filter, LeftClickHandler, RightClickHandler)
+            InventoryListPanel panel = new(_gui, section.Label, section.Inventory, section.Filter, LeftClickHandler, RightClickHandler)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Margin = new Thickness(0, 0, 0, 10)

@@ -8,7 +8,7 @@ public static class WorldGenerator
         player.Initialize();
 
         World world = new();
-        world.Initialize(player, DefRepository<BiomeDef>.Defs);
+        world.Initialize(player, DefRepository<ZoneDef>.Defs);
         return world;
     }
 }

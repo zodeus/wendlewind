@@ -19,11 +19,11 @@ internal class BookOfAllKnowledgeWindow : Window
             ButtonStyle = BaseContent.Styles.Button.Large
         };
         Content = tabPanel;
-        //tabPanel.AddTab("Biomes",  new DefsPanel(DefRepository<BiomeDef>.Defs, Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.SmallFrame]));
+        //tabPanel.AddTab("Zones",  new DefsPanel(DefRepository<ZoneDef>.Defs, Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.SmallFrame]));
         tabPanel.AddTab("Pawns", new BoakPawnPanel());
         tabPanel.AddTab("Items", new BoakItemsPanel(DefRepository<ItemDef>.Defs, DefRepository<WeaponManeuverDef>.Defs));
         tabPanel.AddTab("Stats", new BoakStatsPanel(DefRepository<StatDef>.Defs.OrderBy(d => d.Label).ToList()));
         tabPanel.AddTab("LootBoxes", new BoakLootBoxPanel(DefRepository<LootBoxDef>.Defs));
-        tabPanel.AddTab("Biomes", new BoakBiomePanel(DefRepository<BiomeDef>.Defs));
+        tabPanel.AddTab("Zones", new BoakBiomePanel(DefRepository<ZoneDef>.Defs));
     }
 }

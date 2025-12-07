@@ -73,18 +73,19 @@ public static partial class Defs {
 
 public static partial class Defs {
     [DefLocator]
-    public static class Biomes {
-        public static BiomeDef PeacefulMeadow = null!;
-        public static BiomeDef TheOutskirts = null!;
-        public static BiomeDef Thicket = null!;
-        public static BiomeDef GrainMill = null!;
-        public static BiomeDef FrogPond = null!;
-        public static BiomeDef ForgottenForest = null!;
-        public static BiomeDef DampCave = null!;
-        public static BiomeDef Cemetery = null!;
-        public static BiomeDef Mineshaft = null!;
-        public static BiomeDef AbandonedStables = null!;
-        public static BiomeDef WearbearDen = null!;
+    public static class Zones {
+        public static ZoneDef PeacefulMeadow = null!;
+        public static ZoneDef TheOutskirts = null!;
+        public static ZoneDef Thicket = null!;
+        public static ZoneDef GrainMill = null!;
+        public static ZoneDef FrogPond = null!;
+        public static ZoneDef ForgottenForest = null!;
+        public static ZoneDef DampCave = null!;
+        public static ZoneDef Mineshaft = null!;
+        public static ZoneDef AbandonedStables = null!;
+        public static ZoneDef WearbearDen = null!;
+        public static ZoneDef SmolderingSwamp = null!;
+        public static ZoneDef Cemetery = null!;
     }
 }
 
