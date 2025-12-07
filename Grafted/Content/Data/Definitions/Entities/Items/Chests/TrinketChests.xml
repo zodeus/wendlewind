@@ -67,10 +67,6 @@
                 <Weight>1000000</Weight>
             </ListItem>
             <ListItem>
-                <ItemDef>Grimoire</ItemDef>
-                <Weight>50000</Weight>
-            </ListItem>
-            <ListItem>
                 <ItemDef>MortarAndPestle</ItemDef>
                 <Weight>5000</Weight>
             </ListItem>
@@ -89,6 +85,10 @@
             <ListItem>
                 <ItemDef>SteroidInjector</ItemDef>
                 <Weight>1000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>Grimoire</ItemDef>
+                <Weight>1</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>

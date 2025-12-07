@@ -96,6 +96,11 @@ internal sealed class WheelOfParts : VerticalStackPanel
         }
     }
 
+    public void Update(float deltaTime)
+    {
+        _wheelWidget.Update(deltaTime);
+    }
+
     private List<BodyPartType> GetMissingPartTypes()
     {
         // Get all unsocketed sockets from external body parts
@@ -268,7 +273,7 @@ internal sealed class WheelRenderWidget : Widget
     public event Action<BodyPartType>? OnSpinComplete;
 
     private const int SlotCount = 16;
-    private const int BlankSlotCount = 8;
+    private const int BlankSlotCount = 6;
     private const int PartSlotCount = SlotCount - BlankSlotCount;
     
     private readonly List<BodyPartType> _uniquePartTypes = new();
@@ -279,10 +284,12 @@ internal sealed class WheelRenderWidget : Widget
     private bool _isSpinning;
     private float _time; // For animated effects
     
-    // Spin physics
-    private const float InitialSpinSpeed = 200f;
-    private const float SpinDeceleration = 0.1f;
-    private const float MinSpinSpeed = 0.010f;
+    // Spin physics - time-based for predictable duration
+    private const float SpinDuration = 3.0f; // Total spin time in seconds
+    private const float InitialSpinSpeed = 15f; // For visual effects only
+    private float _spinElapsed; // Time elapsed since spin started
+    private float _spinStartRotation;
+    private float _targetRotation;
     
     // Generated textures
     private Texture2D? _wheelTexture;
@@ -597,7 +604,44 @@ internal sealed class WheelRenderWidget : Widget
             return;
 
         _isSpinning = true;
-        _spinVelocity = InitialSpinSpeed + (float)(Core.Random.NextDouble() * 4);
+        _spinElapsed = 0f;
+        _spinStartRotation = _rotation;
+        
+        // Spin 3-5 full rotations plus a random partial rotation for variety
+        float fullRotations = 3f + (float)Core.Random.NextDouble() * 2f;
+        float totalRotation = fullRotations * MathHelper.TwoPi;
+        _targetRotation = _spinStartRotation + totalRotation;
+    }
+
+    public void Update(float deltaTime)
+    {
+        _time += deltaTime;
+
+        // Update spin physics using time-based easing
+        if (_isSpinning)
+        {
+            _spinElapsed += deltaTime;
+            float progress = Math.Clamp(_spinElapsed / SpinDuration, 0f, 1f);
+            
+            // Ease-out cubic: starts fast, slows down naturally at the end
+            float easedProgress = 1f - MathF.Pow(1f - progress, 3f);
+            
+            // Directly interpolate rotation from start to target based on eased progress
+            float totalRotation = _targetRotation - _spinStartRotation;
+            _rotation = _spinStartRotation + totalRotation * easedProgress;
+            
+            // Calculate current velocity for visual effects (derivative of ease-out cubic)
+            float velocityFactor = 3f * MathF.Pow(1f - progress, 2f);
+            _spinVelocity = (totalRotation / SpinDuration) * velocityFactor;
+
+            if (progress >= 1f)
+            {
+                _isSpinning = false;
+                _spinVelocity = 0;
+                _rotation = _targetRotation;
+                DetermineSelectedSegment();
+            }
+        }
     }
 
     public override void InternalRender(RenderContext context)
@@ -605,22 +649,6 @@ internal sealed class WheelRenderWidget : Widget
         base.InternalRender(context);
         
         GenerateTextures();
-        
-        _time += 0.016f;
-
-        // Update spin physics
-        if (_isSpinning)
-        {
-            _rotation += _spinVelocity * 0.016f;
-            _spinVelocity *= 1f - (SpinDeceleration * 0.016f);
-
-            if (_spinVelocity < MinSpinSpeed)
-            {
-                _isSpinning = false;
-                _spinVelocity = 0;
-                DetermineSelectedSegment();
-            }
-        }
 
         var bounds = ActualBounds;
         var transform = context.Transform;

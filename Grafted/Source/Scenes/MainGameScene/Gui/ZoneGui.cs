@@ -7,17 +7,19 @@ public class ZoneGui : BaseGui
 {
     private readonly GameContext _context;
     private readonly WorldTextHandler _worldTextHandler;
+    private readonly Zone _zone;
 
     private CombatScreen? _combatScreen;
     private ShrineScreen? _shrineScreen;
     private CombatResultsScreen? _combatResultsScreen;
-    private Zone Zone => _context.CurrentZone!;
+    private Zone Zone => _zone;
     public override WorldTextHandler WorldTextHandler => _worldTextHandler;
 
     public ZoneGui(GameContext context, WorldTextHandler worldTextHandler)
     {
         _context = context;
         _worldTextHandler = worldTextHandler;
+        _zone = context.CurrentZone!;
         Desktop = new Desktop
         {
             Root = new Panel(),
@@ -75,6 +77,7 @@ public class ZoneGui : BaseGui
     {
         _combatScreen?.Update(deltaTime);
         _combatResultsScreen?.Update();
+        _shrineScreen?.Update(deltaTime);
         base.Update(deltaTime);
     }
 

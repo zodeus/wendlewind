@@ -7,7 +7,7 @@
         <Description>Scraps for weapons and armor...</Description>
         <Category>Crafting</Category>
         <TexturePath>Chests/SupplyChest</TexturePath>
-        <CollectionLimit>3</CollectionLimit>
+        <CollectionLimit>2</CollectionLimit>
         <Items>
             <ListItem>
                 <ItemDef>RepairKit</ItemDef>
@@ -42,7 +42,7 @@
         <Description>Scraps for weapons and armor...</Description>
         <Category>Crafting</Category>
         <TexturePath>Chests/SupplyChest</TexturePath>
-        <CollectionLimit>2</CollectionLimit>
+        <CollectionLimit>3</CollectionLimit>
         <Items>
             <ListItem>
                 <ItemDef>RepairKit</ItemDef>
