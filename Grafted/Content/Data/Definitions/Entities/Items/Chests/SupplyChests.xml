@@ -11,7 +11,7 @@
         <Items>
             <ListItem>
                 <ItemDef>RepairKit</ItemDef>
-                <Amount>5~10</Amount>
+                <Amount>3~5</Amount>
                 <ChanceToDrop>1</ChanceToDrop>
             </ListItem>
             <ListItem>
@@ -46,7 +46,7 @@
         <Items>
             <ListItem>
                 <ItemDef>RepairKit</ItemDef>
-                <Amount>8~16</Amount>
+                <Amount>3~5</Amount>
                 <ChanceToDrop>1</ChanceToDrop>
             </ListItem>
             <ListItem>

@@ -1,12 +1,9 @@
-using Grafted.Sim.Entities;
-
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
 [UsedImplicitly]
 public sealed class ResourcePanel : EntityPanelBase
 {
     private readonly Button _makePotionButton;
-    private readonly Button _burnWoodButton;
 
     public ResourcePanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
@@ -32,93 +29,17 @@ public sealed class ResourcePanel : EntityPanelBase
         var makePotionTitle = TryGetMakePotionTitle(Core.Context.Player, item);
         _makePotionButton = new Button(BaseContent.Styles.Button.Normal)
         {
-            Content = new Label { Text = $"Make {makePotionTitle}" }, Margin = new Thickness(0, 20, 0, 0)
+            Content = new Label { Text = $"Make {makePotionTitle}" },
+            Margin = new Thickness(0, 20, 0, 0)
         };
         _makePotionButton.Click += (_, _) => MakePotion(Core.Context.Player, item);
         _makePotionButton.Visible = makePotionTitle != null;
 
-        // BURN Wood
-        _burnWoodButton = new Button(BaseContent.Styles.Button.Normal)
-        {
-            Content = new Label { Text = "Burn Wood" }, Margin = new Thickness(0, 20, 0, 0)
-        };
-        _burnWoodButton.Click += (_, _) => BurnWood(gui, Core.Context.Player, item);
-        _burnWoodButton.Visible = ShowBurnWood(Core.Context.Player, item);
-
         Widgets.Add(new HorizontalStackPanel
         {
             Spacing = 20,
-            Widgets = { _makePotionButton, _burnWoodButton }
+            Widgets = { _makePotionButton }
         });
-    }
-
-    private void BurnWood(BaseGui gui, Player player, Item item)
-    {
-        if (item.StackSize > 1)
-        {
-            item.StackSize--;
-        }
-        else
-        {
-            item.Destroy();
-        }
-        Core.Context.Achievements.OnItemUsed(player.Pawn, item);
-
-        if (item.ItemDef == Defs.Items.GlitteringLog)
-        {
-            gui.PushScreenMessage(new ScreenMessageData
-            {
-                Font = BaseContent.Fonts.Default.Medium,
-                Text = Defs.BodyEffects.SmokeyHaze.Description,
-                Duration = 6,
-                Color = Color.Orange
-            });
-            player.Pawn.Body.Effects.TryApplyEffect(new BodyEffect
-            {
-                Def = Defs.BodyEffects.SmokeyHaze,
-                TicksLeft = 4000
-            });
-        }
-        else if (item.ItemDef == Defs.Items.ShimmeringBark)
-        {
-            gui.PushScreenMessage(new ScreenMessageData
-            {
-                Font = BaseContent.Fonts.Default.Medium,
-                Text = Defs.BodyEffects.SmokeyHaze.Description,
-                Duration = 6,
-                Color = Color.Orange
-            });
-            player.Pawn.Body.Effects.TryApplyEffect(new BodyEffect
-            {
-                Def = Defs.BodyEffects.Psychedelic,
-                TicksLeft = 4000
-            });
-        }
-        else if (item.ItemDef == Defs.Items.GoldenWood)
-        {
-            gui.PushScreenMessage(new ScreenMessageData
-            {
-                Font = BaseContent.Fonts.Default.Medium,
-                Text = Defs.BodyEffects.GoldenSmoke.Description,
-                Duration = 6,
-                Color = Color.Orange
-            });
-            player.Pawn.Body.Effects.TryApplyEffect(new BodyEffect
-            {
-                Def = Defs.BodyEffects.GoldenSmoke,
-                TicksLeft = 2000
-            });
-        }
-    }
-
-    private bool ShowBurnWood(Player player, Item item)
-    {
-        if (item.ItemDef == Defs.Items.GlitteringLog || item.ItemDef == Defs.Items.ShimmeringBark || item.ItemDef == Defs.Items.GoldenWood)
-        {
-            return player.HasTrinkets(Defs.Items.EncasedFire);
-        }
-
-        return false;
     }
 
     private string? TryGetMakePotionTitle(Player player, Item item)
@@ -150,7 +71,6 @@ public sealed class ResourcePanel : EntityPanelBase
         var potion = EntityGenerator.CreateEntity<Item>(potionToMake);
         player.Pawn.Inventory.TryAdd(potion);
     }
-
     public override void Update()
     {
     }

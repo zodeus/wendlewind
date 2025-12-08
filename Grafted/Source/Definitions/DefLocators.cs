@@ -81,6 +81,7 @@ public static partial class Defs {
         public static ZoneDef FrogPond = null!;
         public static ZoneDef ForgottenForest = null!;
         public static ZoneDef DampCave = null!;
+        public static ZoneDef StoneGarden = null!;
         public static ZoneDef Mineshaft = null!;
         public static ZoneDef AbandonedStables = null!;
         public static ZoneDef WearbearDen = null!;
@@ -262,6 +263,11 @@ public static partial class Defs
         public static BodyPartDef WearbearLeg = null!;
         public static BodyPartDef WearbearFoot = null!;
         public static BodyPartDef WearbearTail = null!;
+
+        public static BodyPartDef InukshukHead = null!;
+        public static BodyPartDef InukshukTorso = null!;
+        public static BodyPartDef InukshukArm = null!;
+        public static BodyPartDef InukshukLeg = null!;
     }
 
     [DefLocator]

@@ -11,6 +11,7 @@ public class SlingshotHandler : TrinketHandler
 
     private Label _cooldownLabel = null!;
     private Label _chargesLabel = null!;
+    private Image _ammoIcon = null!;
 
     private const int CooldownValue = 180;
 
@@ -86,8 +87,19 @@ public class SlingshotHandler : TrinketHandler
             Visible = false
         };
         
+        _ammoIcon = new Image
+        {
+            Width = 12,
+            Height = 12,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            Margin = new Thickness(0, -4, -4, 0),
+            Visible = false
+        };
+        
         panel.Widgets.Add(_cooldownLabel);
         panel.Widgets.Add(_chargesLabel);
+        panel.Widgets.Add(_ammoIcon);
         
         if (button.Content is Panel content)
         {
@@ -104,17 +116,21 @@ public class SlingshotHandler : TrinketHandler
             _cooldownLabel.Text = Cooldown.ToString();
             _cooldownLabel.Visible = true;
             _chargesLabel.Visible = false;
+            _ammoIcon.Visible = false;
         }
         else if (_ammo != null)
         {
             _cooldownLabel.Visible = false;
             _chargesLabel.Text = $"+{_ammo.StackSize}";
             _chargesLabel.Visible = true;
+            _ammoIcon.Background = new TextureRegion(_ammo.Icon);
+            _ammoIcon.Visible = true;
         }
         else
         {
             _cooldownLabel.Visible = false;
             _chargesLabel.Visible = false;
+            _ammoIcon.Visible = false;
         }
     }
 }

@@ -33,7 +33,15 @@ public class GameScene : Scene
     private void ReloadGui()
     {
         ActiveGui?.Dispose();
-        ActiveGui = _currentGameState switch
+        
+        // Safety check: If we think we're in a zone but there's no current zone, fall back to camp
+        var effectiveState = _currentGameState;
+        if (effectiveState == GameState.Zone && _context.CurrentZone == null)
+        {
+            effectiveState = GameState.Camp;
+        }
+        
+        ActiveGui = effectiveState switch
         {
             GameState.Zone => new ZoneGui(_context, _worldTextHandler),
             GameState.Camp => new CampGui(_context, _worldTextHandler), //todo this should only be instantiated once, but it doesn't refresh properly

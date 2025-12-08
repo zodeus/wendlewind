@@ -62,7 +62,6 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
 
         _updatables.Add(potionBar);
         _updatables.Add(weaponBar);
-        _updatables.Add(trinketBar);
         _updatables.Add(pawnEffectsPanel);
 
         SetProportionType(pawnEffectsPanel, ProportionType.Fill);

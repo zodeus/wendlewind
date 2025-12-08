@@ -1,10 +1,8 @@
-using Grafted.Sim.Entities;
 using Grafted.Sim.Entities.Items.Trinkets;
-using Myra.Graphics2D.Brushes;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 
-public sealed class TrinketBar : VerticalStackPanel, IUpdatable
+public sealed class TrinketBar : VerticalStackPanel
 {
     private Dictionary<Item, TrinketBarCell> _trinkets = [];
     private HorizontalStackPanel _currentRow = new();
@@ -38,8 +36,9 @@ public sealed class TrinketBar : VerticalStackPanel, IUpdatable
         }
     }
 
-    public void Update()
+    override public void InternalRender(RenderContext context)
     {
+        base.InternalRender(context);
         foreach (var (item, button) in _trinkets)
         {
             button.Update();

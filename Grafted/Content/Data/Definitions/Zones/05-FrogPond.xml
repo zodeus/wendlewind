@@ -101,11 +101,10 @@
                 </Enemies>
             </ListItem>
             <ListItem>
-                <MaxBoxes>2</MaxBoxes>
+                <MaxBoxes>3</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ArmorChestChain</ListItem>
                     <ListItem>TrinketsChestBasic</ListItem>
-                    <ListItem>SupplyChestBasic</ListItem>
                     <ListItem>WeaponChestIronAge</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
@@ -139,12 +138,11 @@
                 </Enemies>
             </ListItem>
             <ListItem>
-                <MaxBoxes>2</MaxBoxes>
+                <MaxBoxes>3</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ArmorChestChain</ListItem>
                     <ListItem>TrinketsChestBasic</ListItem>
-                    <ListItem>SupplyChestBasic</ListItem>
-                    <ListItem>WeaponChestIronAge</ListItem>
+                    <ListItem>MedicinalChest</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>

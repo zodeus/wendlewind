@@ -4,7 +4,7 @@
     <ZoneDef>
         <Moniker>WearbearDen</Moniker>
         <Label>Wearbear Den</Label>
-        <Stage>12</Stage>
+        <Stage>13</Stage>
         <BackgroundTexturePath>Biome/ForgottenForest</BackgroundTexturePath>
         <BackgroundTextureTransparency>70</BackgroundTextureTransparency>
         <Resources>

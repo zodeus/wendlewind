@@ -99,7 +99,6 @@
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>MedicinalChest</ListItem>
                     <ListItem>ArmorChestLeather</ListItem>
                     <ListItem>SupplyChestBasic</ListItem>
                 </PotentialLootBoxes>

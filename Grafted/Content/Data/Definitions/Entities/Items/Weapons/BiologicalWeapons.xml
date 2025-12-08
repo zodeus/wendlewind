@@ -423,4 +423,64 @@
             <MeleePower>90</MeleePower>
         </BaseStats>
     </ItemDef>
+    <ItemDef ParentName="WeaponBlunt">
+        <Moniker>InukshukStoneFist</Moniker>
+        <Label>Stone Fist</Label>
+        <Description>A massive stone arm capable of crushing blows</Description>
+        <WeaponProperties>
+            <WeaponType>StoneFist</WeaponType>
+            <DamageType>Blunt</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.8</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.2</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Stone</Substance>
+                    <Modifier>0.5</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/TreeBranch</TexturePath>
+        <BaseStats>
+            <MeleePower>30</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponBlunt">
+        <Moniker>InukshukStoneLeg</Moniker>
+        <Label>Stone Leg</Label>
+        <Description>A heavy stone leg that delivers devastating kicks</Description>
+        <WeaponProperties>
+            <WeaponType>StoneLeg</WeaponType>
+            <DamageType>Blunt</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.6</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.0</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Stone</Substance>
+                    <Modifier>0.5</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/TreeBranch</TexturePath>
+        <BaseStats>
+            <MeleePower>40</MeleePower>
+        </BaseStats>
+    </ItemDef>
 </Definitions>

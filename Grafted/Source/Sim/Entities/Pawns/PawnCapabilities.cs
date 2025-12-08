@@ -13,6 +13,12 @@ public class PawnCapabilities : IExposable
     {
         get
         {
+            // if pawn has no eye sockets return 1
+            if (_pawn.Body.AllExternalParts.Count(p => p.Type == BodyPartType.Eye) == 0)
+            {
+                return 1;
+            }
+
             var eyes = _pawn.Body.AllExternalParts.Count(p => p.Type == BodyPartType.Eye && p.IsFunctional);
             if (_pawn.Inventory.Trinkets.Any(t => t.Def == Defs.Items.ThirdEye))
             {

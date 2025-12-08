@@ -39,5 +39,7 @@ public enum WeaponType
     Hoof,
     Branch,
     MushroomCap,
-    Trinket
+    Trinket,
+    StoneFist,
+    StoneLeg
 }

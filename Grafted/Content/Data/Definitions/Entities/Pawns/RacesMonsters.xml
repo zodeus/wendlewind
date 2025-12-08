@@ -147,4 +147,16 @@
             <MeleeAccuracy>.85</MeleeAccuracy>
         </BaseStats>
     </PawnDef>
+    <PawnDef ParentName="BaseMonsterRace">
+        <Moniker>Inukshuk</Moniker>
+        <Label>Inukshuk</Label>
+        <Species>Inukshuk</Species>
+        <Body>InukshukBody</Body>
+        <BaseStats>
+            <AttackSpeed>1</AttackSpeed>
+            <MeleeStrength>2</MeleeStrength>
+            <Evasion>.01</Evasion>
+            <MeleeAccuracy>.9</MeleeAccuracy>
+        </BaseStats>
+    </PawnDef>
 </Definitions>

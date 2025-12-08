@@ -51,9 +51,8 @@
                 </Enemies>
             </ListItem>
             <ListItem>
-                <MaxBoxes>2</MaxBoxes>
+                <MaxBoxes>1</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>MedicinalChest</ListItem>
                     <ListItem>TrinketsChestBasic</ListItem>
                     <ListItem>ArmorChestLeather</ListItem>
                 </PotentialLootBoxes>
@@ -82,7 +81,6 @@
                 <PotentialLootBoxes>
                     <ListItem>TrinketsChestBasic</ListItem>
                     <ListItem>MedicinalChest</ListItem>
-                    <ListItem>ArmorChestLeather</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>

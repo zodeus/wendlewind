@@ -3,7 +3,7 @@
 <Definitions>
     <ItemDef Name="WoodConsumable" ParentName="ItemBase" Abstract="true">
         <ItemType>Flammable</ItemType>
-        <UiClass>ResourcePanel</UiClass>
+        <UiClass>FlammablePanel</UiClass>
         <StackLimit>9999</StackLimit>
     </ItemDef>
     <ItemDef ParentName="WoodConsumable">

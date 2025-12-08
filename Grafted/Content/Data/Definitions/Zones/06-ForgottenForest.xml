@@ -171,7 +171,6 @@
             <ListItem>
                 <IsBoss>true</IsBoss>
                 <PotentialLootBoxes>
-                    <ListItem>MedicinalChest</ListItem>
                     <ListItem>TrinketChestNormal</ListItem>
                     <ListItem>SupplyChestBasic</ListItem>
                 </PotentialLootBoxes>

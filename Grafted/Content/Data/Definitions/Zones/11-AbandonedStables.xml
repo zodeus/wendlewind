@@ -4,7 +4,7 @@
     <ZoneDef>
         <Moniker>AbandonedStables</Moniker>
         <Label>Abandoned Stables</Label>
-        <Stage>10</Stage>
+        <Stage>11</Stage>
         <BackgroundTexturePath>Biome/AbandonedStables</BackgroundTexturePath>
         <BackgroundTextureTransparency>30</BackgroundTextureTransparency>
         <Resources>

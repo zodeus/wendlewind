@@ -207,6 +207,30 @@ public class RecipeCard : Panel,
         panel.Widgets.Add(yieldLabel);
         panel.Widgets.Add(amountBadge);
         
+        // Show current inventory count
+        var ownedCount = _currentPawn?.Inventory.AmountOf(itemDef) ?? 0;
+        
+        var ownedLabel = new Label(BaseContent.Styles.Label.Normal)
+        {
+            Text = "Owned:",
+            TextColor = new Color(140, 130, 120),
+            Margin = new Thickness(16, 0, 0, 0),
+        };
+        
+        var ownedBadge = new Panel
+        {
+            Background = new SolidBrush(new Color(50, 50, 70)),
+            Padding = new Thickness(10, 4, 10, 4),
+        };
+        ownedBadge.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+        {
+            Text = $"{ownedCount}",
+            TextColor = ownedCount > 0 ? new Color(180, 180, 220) : new Color(120, 120, 140),
+        });
+        
+        panel.Widgets.Add(ownedLabel);
+        panel.Widgets.Add(ownedBadge);
+        
         return panel;
     }
 

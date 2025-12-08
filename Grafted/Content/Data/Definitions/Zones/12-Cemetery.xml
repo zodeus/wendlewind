@@ -4,7 +4,7 @@
     <ZoneDef>
         <Moniker>Cemetery</Moniker>
         <Label>Cemetery</Label>
-        <Stage>11</Stage>
+        <Stage>12</Stage>
         <BackgroundTexturePath>Biome/Cemetery</BackgroundTexturePath>
         <BackgroundTextureTransparency>30</BackgroundTextureTransparency>
         <Resources>

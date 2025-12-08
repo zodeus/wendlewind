@@ -99,6 +99,10 @@
                     <Substance>Flesh</Substance>
                     <Modifier>1</Modifier>
                 </ListItem>
+                <ListItem>
+                    <Substance>Stone</Substance>
+                    <Modifier>1.4</Modifier>
+                </ListItem>
             </SubstanceModifiers>
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Blunt/WarHammer</TexturePath>

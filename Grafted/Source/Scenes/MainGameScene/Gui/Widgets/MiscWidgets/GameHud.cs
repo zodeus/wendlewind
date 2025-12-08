@@ -1,5 +1,4 @@
 ﻿using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
-using Myra.Graphics2D.Brushes;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 
@@ -87,16 +86,16 @@ public sealed class GameHud : HorizontalStackPanel
         pawn.TouchDown += (_, _) => { gui.ViewEntity(context.PlayerPawn); };
         leftPanel.Widgets.Add(pawn);
 
-        Button boak = new(BaseContent.Styles.Button.Large)
-        {
-            Content = new Image
-            {
-                Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Boak], Color.White), Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium,
-            },
-            Padding = new Thickness(10)
-        };
-        boak.TouchDown += (_, _) => { gui.OpenBoak(); };
-        leftPanel.Widgets.Add(boak);
+        // Button boak = new(BaseContent.Styles.Button.Large)
+        // {
+        //     Content = new Image
+        //     {
+        //         Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Boak], Color.White), Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium,
+        //     },
+        //     Padding = new Thickness(10)
+        // };
+        // boak.TouchDown += (_, _) => { gui.OpenBoak(); };
+        // leftPanel.Widgets.Add(boak);
 
         Button timeline = new(BaseContent.Styles.Button.Large)
         {

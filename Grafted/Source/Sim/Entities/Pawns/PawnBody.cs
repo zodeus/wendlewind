@@ -119,7 +119,7 @@ public class PawnBody : IExposable, IIdentityProvider
 
         Handler.Tick();
 
-        if (BloodAmount <= 1)
+        if (Def.BloodType != null && BloodAmount <= 1)
         {
             Pawn.TriggerDeath("Blood loss");
         }

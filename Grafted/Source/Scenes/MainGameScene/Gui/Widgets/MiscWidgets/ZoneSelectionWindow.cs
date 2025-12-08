@@ -47,7 +47,11 @@ public class ZoneSelectionWindow : Window
         {
             Content = new Label(BaseContent.Styles.Label.Large) { Text = $"/c[{TC.Green}]Start" }
         };
-        startButton.Click += (_, _) => { Core.Context.EnterZone(zone.ZoneDef); };
+        startButton.Click += (_, _) =>
+        {
+            Core.Context.Save();
+            Core.Context.EnterZone(zone.ZoneDef);
+        };
         Button close = new(BaseContent.Styles.Button.Large)
         {
             Content = new Label(BaseContent.Styles.Label.Large) { Text = $"/c[{TC.Red}]Cancel" }

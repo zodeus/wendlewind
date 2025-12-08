@@ -4,7 +4,7 @@
     <ZoneDef>
         <Moniker>SmolderingSwamp</Moniker>
         <Label>Smoldering Swamp</Label>
-        <Stage>9</Stage>
+        <Stage>10</Stage>
         <BackgroundTexturePath>Biome/SmolderingSwamp</BackgroundTexturePath>
         <BackgroundTextureTransparency>50</BackgroundTextureTransparency>
         <Resources>

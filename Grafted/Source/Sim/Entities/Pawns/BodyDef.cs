@@ -5,7 +5,7 @@ namespace Grafted.Sim.Entities.Pawns;
 
 public class BodyDef : Def {
     public BloodDef? BloodType;
-    public float MaxBlood = 5000;
+    public float MaxBlood = 0;
     public float MaxEnergy = 100;
     public float BoneDensity = 1;
     public Type GeneratorClass = typeof(IBodyGenerator);

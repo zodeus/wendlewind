@@ -124,4 +124,11 @@
         <GeneratorClass>WearbearBodyGenerator</GeneratorClass>
         <LayoutClass>WearbearBodyPartLayout</LayoutClass>
     </BodyDef>
+    <BodyDef>
+        <Moniker>InukshukBody</Moniker>
+        <Label>Inukshuk Body</Label>
+        <BoneDensity>10</BoneDensity>
+        <GeneratorClass>InukshukBodyGenerator</GeneratorClass>
+        <LayoutClass>InukshukBodyPartLayout</LayoutClass>
+    </BodyDef>
 </Definitions>

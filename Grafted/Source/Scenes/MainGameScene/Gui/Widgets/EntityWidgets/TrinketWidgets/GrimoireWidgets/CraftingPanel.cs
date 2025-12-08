@@ -66,7 +66,7 @@ public sealed class CraftingPanel : VerticalStackPanel
         {
             Width = 72,
             Height = 72,
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundDark64],
+            Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundWhite64], Color.DimGray),
             Padding = new Thickness(4),
         };
         
@@ -80,8 +80,8 @@ public sealed class CraftingPanel : VerticalStackPanel
         var itemImage = new Image
         {
             Background = new TextureRegion(item.Icon),
-            Width = 64,
-            Height = 64,
+            Width = 48,
+            Height = 48,
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
             Opacity = canCraft ? 1.0f : 0.5f
@@ -109,13 +109,13 @@ public sealed class CraftingPanel : VerticalStackPanel
         framePanel.MouseEntered += (_, _) =>
         {
             Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Hand);
-            framePanel.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright];
+            framePanel.Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundWhite64], Color.DarkGoldenrod);
         };
         
         framePanel.MouseLeft += (_, _) =>
         {
             Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Arrow);
-            framePanel.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundDark64];
+            framePanel.Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundWhite64], Color.DimGray);
         };
         
         framePanel.TouchDown += (_, _) =>

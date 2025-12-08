@@ -201,7 +201,6 @@
                 <PotentialLootBoxes>
                     <ListItem>ArmorChestChain</ListItem>
                     <ListItem>TrinketsChestBasic</ListItem>
-                    <ListItem>MedicinalChest</ListItem>
                     <ListItem>SupplyChestBasic</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
