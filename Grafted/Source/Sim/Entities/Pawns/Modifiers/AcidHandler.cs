@@ -53,25 +53,24 @@ public class AcidHandler : BodyPartModifier
 
     public override bool ApplyToPart(BodyPart part)
     {
-        if (part.IsExternal == false) return false;
+        if(part.IsExternal == false) return false;
         if (AllowedSubstances.Contains(part.Substance) == false)
         {
             return false;
         }
-
-        part.TryAddModifier(this);
-
-        // if part has internal skin apply to it as well
-        foreach (var internalPart in part.InternalParts)
+        
+        var skin = part.Skin;
+        if (skin != null)
         {
-            if (internalPart.Type == BodyPartType.Skin)
-            {
-                SpreadTo(internalPart);
-            }
+            skin.TryAddModifier(this);
         }
+        else
+        {
+            part.TryAddModifier(this);
+        }
+
         return true;
     }
-
 
     public override void ExposeData()
     {

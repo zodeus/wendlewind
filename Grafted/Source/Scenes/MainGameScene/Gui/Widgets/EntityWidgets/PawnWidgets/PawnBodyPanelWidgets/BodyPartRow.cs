@@ -44,12 +44,12 @@ internal sealed class BodyPartRow : HorizontalStackPanel
                 panel.SetColor(BodyPartColor.Get(part));
 
                 // Use small colored pips around the ring to represent all modifiers on this part
-                var pipColors = part.Modifiers
+                var pipData = part.Modifiers
                     .OrderByDescending(m => m.Def.ColorPriority)
-                    .Select(m => m.Def.Color)
+                    .Select(m => new PipData { Color = m.Def.Color, Label = m.Label })
                     .ToList();
 
-                panel.SetPips(pipColors);
+                panel.SetPips(pipData);
             })
             { Padding = new Thickness(0, 0, 0, 0) };
 
