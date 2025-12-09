@@ -6,6 +6,7 @@
         <Label>Thicket</Label>
         <Stage>3</Stage>
         <BackgroundTexturePath>Biome/TheOutskirts</BackgroundTexturePath>
+        <BiomeColor>100, 140, 80</BiomeColor>
         <Resources>
             <ListItem>
                 <Item>GlitteringLog</Item>

@@ -50,4 +50,15 @@
             <DamageRange>250~500</DamageRange>
         </AmmoProperties>
     </ItemDef>
+    <ItemDef ParentName="OrganicResource">
+        <Moniker>Rock</Moniker>
+        <Label>Rock</Label>
+        <Description>A rock.</Description>
+        <TexturePath>Entities/Item/Resource/Stone/Rock</TexturePath>
+        <AmmoProperties>
+            <DamageType>Blunt</DamageType>
+            <DamageRange>500~800</DamageRange>
+        </AmmoProperties>
+    </ItemDef>
+
 </Definitions>

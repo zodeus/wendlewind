@@ -379,34 +379,7 @@ public class BodyPart : Entity
 
         return damagedParts;
     }
-
-    public bool DidPawnDieFromPartFailure()
-    {
-        if (this is { IsVital: true, IsFunctional: false })
-        {
-            if (Body == null)
-            {
-                return true;
-            }
-
-            if (Body!.AllParts.Any(p => p.Type == Type && p.IsFunctional) == false)
-            {
-                return true;
-            }
-        }
-
-        foreach (var internalPart in AllInternalParts.InRandomOrder())
-        {
-            if (internalPart.DidPawnDieFromPartFailure())
-            {
-                return true;
-            }
-        }
-
-
-        return false;
-    }
-
+    
     public void Severe()
     {
         if (Socket == Body?.RootSocket)

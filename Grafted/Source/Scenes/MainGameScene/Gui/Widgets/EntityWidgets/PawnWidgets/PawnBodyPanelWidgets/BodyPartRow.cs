@@ -40,25 +40,18 @@ internal sealed class BodyPartRow : HorizontalStackPanel
         {
             ImageCircleIcon partIcon = new(new ColoredRegion(new TextureRegion(part.WhiteIcon), BodyPartColor.Get(bodyPart)), panel =>
             {
-                var buffColor = part.Modifiers.Where(m => m.Def.Type == BodyPartModifierType.Buff)
-                    .OrderByDescending(m => m.Def.ColorPriority).FirstOrNull()?.Def.Color;
-                var debuffColor = part.Modifiers.Where(m => m.Def.Type == BodyPartModifierType.Debuff)
-                    .OrderByDescending(m => m.Def.ColorPriority).FirstOrNull()?.Def.Color;
-                if (buffColor != null || debuffColor != null)
-                {
-                    var color = buffColor;
-                    if (debuffColor != null)
-                    {
-                        color = debuffColor;
-                    }
+                // Keep the main ring color based on the body part state
+                panel.SetColor(BodyPartColor.Get(part));
 
-                    panel.SetColor(color!.Value);
-                }
-                else
-                {
-                    panel.SetColor(BodyPartColor.Get(part));
-                }
-            });
+                // Use small colored pips around the ring to represent all modifiers on this part
+                var pipColors = part.Modifiers
+                    .OrderByDescending(m => m.Def.ColorPriority)
+                    .Select(m => m.Def.Color)
+                    .ToList();
+
+                panel.SetPips(pipColors);
+            })
+            { Padding = new Thickness(0, 0, 0, 0) };
 
             partIcon.TouchDown += (_, _) => BodyPartClickHandler(part, !showInternalParts);
             _parts.Add(partIcon);

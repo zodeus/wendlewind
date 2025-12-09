@@ -42,12 +42,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         var trinketBar = new TrinketBar(pawn.Inventory, TrinketType.Combat)
         {
             DefaultProportion = Proportion.Auto,
-            VerticalAlignment = VerticalAlignment.Bottom, 
-            HorizontalAlignment = HorizontalAlignment.Right,
-        };
-        var pawnEffectsPanel = new PawnBodyEffectsPanel(_gui, Pawn)
-        {
-            DefaultProportion = Proportion.Fill,
+            VerticalAlignment = VerticalAlignment.Bottom,
             HorizontalAlignment = HorizontalAlignment.Right,
         };
         var potionBar = new PotionBar(pawn, item => _encounter.CombatHandler?.QueueItemForPawn(item, Pawn))
@@ -62,9 +57,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
 
         _updatables.Add(potionBar);
         _updatables.Add(weaponBar);
-        _updatables.Add(pawnEffectsPanel);
 
-        SetProportionType(pawnEffectsPanel, ProportionType.Fill);
         SetProportionType(potionBar, ProportionType.Auto);
         SetProportionType(weaponBar, ProportionType.Auto);
         SetProportionType(stanceBar, ProportionType.Auto);
@@ -74,7 +67,6 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
             MinWidth = 300,
             Widgets =
             {
-                pawnEffectsPanel,
                 potionBar,
                 weaponBar,
                 stanceBar,
@@ -120,9 +112,16 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         // Create vertical blood bar
         _bloodBar = new VerticalBloodBar(Pawn) { Width = 16, Height = BaseContent.IconSizes.Portrait };
         
-        // Create horizontal container for body and blood bar
-        // Player: body on left, blood bar on right
-        // Enemy: blood bar on left, body on right
+        // Create effects panel for all pawns
+        var pawnEffectsPanel = new PawnBodyEffectsPanel(_gui, Pawn, EffectsPanelOrientation.Vertical)
+        {
+            VerticalAlignment = VerticalAlignment.Bottom,
+        };
+        _updatables.Add(pawnEffectsPanel);
+        
+        // Create horizontal container for body, blood bar, and effects
+        // Player: effects on left, body, blood bar on right
+        // Enemy: blood bar on left, body, effects on right
         var bodyAndBloodContainer = new HorizontalStackPanel
         {
             Spacing = 5,
@@ -131,6 +130,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         
         if (Pawn.PawnType == PawnType.Player)
         {
+            bodyAndBloodContainer.Widgets.Add(pawnEffectsPanel);
             bodyAndBloodContainer.Widgets.Add(bodyWidget);
             bodyAndBloodContainer.Widgets.Add(_bloodBar);
             bodyAndBloodContainer.HorizontalAlignment = HorizontalAlignment.Right;
@@ -139,6 +139,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         {
             bodyAndBloodContainer.Widgets.Add(_bloodBar);
             bodyAndBloodContainer.Widgets.Add(bodyWidget);
+            bodyAndBloodContainer.Widgets.Add(pawnEffectsPanel);
         }
         
         panel.Widgets.Add(bodyAndBloodContainer);
@@ -149,6 +150,9 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Padding = new Thickness(12)
+        };
+        namePlate.TouchDown += (_, _) => {
+            _gui.ViewEntity(Pawn);
         };
         var attackSpeed = new AttackSpeedIcon(Pawn){ VerticalAlignment = VerticalAlignment.Stretch};
         _updatables.Add(attackSpeed);

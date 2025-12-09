@@ -81,7 +81,7 @@ public class DeathRattleHandler : TrinketHandler
         var damage = (double)new RangeFloat(minDamage, maxDamage).RandomValue;
         part.ApplyDamageToExternalPart(new Damage(Trinket, damage, "Rattle"), damagedParts);
 
-        if (part.DidPawnDieFromPartFailure())
+        if (part.Body?.Pawn.IsDeadFromPartFailure() != null)
         {
             Kills++;
         }

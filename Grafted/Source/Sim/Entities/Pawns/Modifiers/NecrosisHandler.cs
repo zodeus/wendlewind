@@ -6,6 +6,10 @@ public class NecrosisHandler : BodyPartModifier
     private const double DamageFactorPerTick = .001f;
     private const int TotalTicksToSpread = 6000;
 
+    public static readonly List<SubstanceType> AllowedSubstances = [
+        SubstanceType.Flesh, SubstanceType.Bone, SubstanceType.Fungus, SubstanceType.Wood
+    ];
+
     private int _ticksToSpread;
 
     public override void Tick()
@@ -30,18 +34,7 @@ public class NecrosisHandler : BodyPartModifier
             }
         }
 
-        CheckIfLostVitalPart(BodyPart);
-    }
-
-    private void CheckIfLostVitalPart(BodyPart bodyPart)
-    {
-        if (bodyPart.IsFunctional) return;
-
-        var remainingFunctionalParts = bodyPart.Body!.AllParts.Count(p => p.Type == bodyPart.Type && p.IsFunctional);
-        if (bodyPart is { IsVital: true, IsFunctional: false } && remainingFunctionalParts <= 0)
-        {
-            bodyPart.Body.Pawn.TriggerDeath($"{bodyPart.Label} {(bodyPart.IsDestroyed ? "was destroyed" : "stopped functioning")}");
-        }
+        CheckIfLostVitalPart();
     }
 
     public override bool ApplyToPart(BodyPart part)

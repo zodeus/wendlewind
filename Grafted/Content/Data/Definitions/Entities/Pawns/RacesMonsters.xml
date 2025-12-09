@@ -28,18 +28,6 @@
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseMonsterRace">
-        <Moniker>FallenWatchman</Moniker>
-        <Label>Fallen Watchman</Label>
-        <Species>Ghoul</Species>
-        <Body>GhoulBody</Body>
-        <BaseStats>
-            <AttackSpeed>1</AttackSpeed>
-            <MeleeStrength>1</MeleeStrength>
-            <Evasion>.08</Evasion>
-            <MeleeAccuracy>.90</MeleeAccuracy>
-        </BaseStats>
-    </PawnDef>
-    <PawnDef ParentName="BaseMonsterRace">
         <Moniker>Frog</Moniker>
         <Label>Frog</Label>
         <Species>Frog</Species>
@@ -64,18 +52,6 @@
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseMonsterRace">
-        <Moniker>Ent</Moniker>
-        <Label>Ent</Label>
-        <Species>Treeborn</Species>
-        <Body>TreebornBody</Body>
-        <BaseStats>
-            <AttackSpeed>1</AttackSpeed>
-            <MeleeStrength>1</MeleeStrength>
-            <Evasion>.02</Evasion>
-            <MeleeAccuracy>.75</MeleeAccuracy>
-        </BaseStats>
-    </PawnDef>
-    <PawnDef ParentName="BaseMonsterRace">
         <Moniker>Shroomy</Moniker>
         <Label>Shroomy</Label>
         <Species>Mushroom</Species>
@@ -88,32 +64,20 @@
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseMonsterRace">
-        <Moniker>OrcChopper</Moniker>
-        <Label>Orc Chopper</Label>
+        <Moniker>Orc</Moniker>
+        <Label>Orc</Label>
         <Species>Orc</Species>
         <Body>OrcBody</Body>
         <BaseStats>
-            <AttackSpeed>1</AttackSpeed>
+            <AttackSpeed>2</AttackSpeed>
             <MeleeStrength>2</MeleeStrength>
             <Evasion>.08</Evasion>
             <MeleeAccuracy>.7</MeleeAccuracy>
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseMonsterRace">
-        <Moniker>OrcShaman</Moniker>
-        <Label>Orc Shaman</Label>
-        <Species>Orc</Species>
-        <Body>OrcBody</Body>
-        <BaseStats>
-            <AttackSpeed>1</AttackSpeed>
-            <MeleeStrength>2</MeleeStrength>
-            <Evasion>.08</Evasion>
-            <MeleeAccuracy>.7</MeleeAccuracy>
-        </BaseStats>
-    </PawnDef>
-    <PawnDef ParentName="BaseMonsterRace">
-        <Moniker>FlamingMosquito</Moniker>
-        <Label>Flaming Mosquito</Label>
+        <Moniker>Mosquito</Moniker>
+        <Label>Mosquito</Label>
         <Species>Mosquito</Species>
         <Body>MosquitoBody</Body>
         <BaseStats>

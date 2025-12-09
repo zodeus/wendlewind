@@ -7,6 +7,7 @@
         <Stage>4</Stage>
         <BackgroundTexturePath>Biome/GrainMill</BackgroundTexturePath>
         <BackgroundTextureTransparency>10</BackgroundTextureTransparency>
+        <BiomeColor>180, 160, 100</BiomeColor>
         <Resources>
             <ListItem>
                 <Item>HealingRoot</Item>

@@ -13,7 +13,7 @@ public class MosquitoBodyGenerator : IBodyGenerator
         head.GetSocketsFor(BodyPartType.Antenna)[0].TryAttachPart(Defs.BodyParts.MosquitoAntenna);
         head.GetSocketsFor(BodyPartType.Antenna)[1].TryAttachPart(Defs.BodyParts.MosquitoAntenna);
         var proboscis = head.GetSocketsFor(BodyPartType.Proboscis)[0].TryAttachPart(Defs.BodyParts.MosquitoProboscis);
-        proboscis.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FlamingMosquitoProboscis")!);
+        proboscis.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("MosquitoProboscis")!);
 
         // Thorax
         var thorax = head.GetSocketsFor(BodyPartType.Thorax)[0].TryAttachPart(Defs.BodyParts.MosquitoThorax);

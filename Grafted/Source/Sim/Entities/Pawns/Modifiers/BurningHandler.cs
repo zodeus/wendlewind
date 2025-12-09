@@ -11,6 +11,8 @@ public class BurningHandler : BodyPartModifier
     private const double PenetrationThreshold = 0.1;
     private const double SpreadThreshold = 0.3;
 
+    public static readonly List<SubstanceType> AllowedSubstances = [SubstanceType.Flesh, SubstanceType.Bone, SubstanceType.Fungus, SubstanceType.Wood];
+
     public override void Tick()
     {
         base.Tick();
@@ -53,36 +55,27 @@ public class BurningHandler : BodyPartModifier
             }
         }
 
-        CheckIfLostVitalPart(BodyPart);
-    }
-
-    private bool CheckIfLostVitalPart(BodyPart bodyPart)
-    {
-        if (bodyPart.IsFunctional) return false;
-        foreach (var internalPart in bodyPart.InternalParts.InRandomOrder())
-        {
-            if (!internalPart.IsVital) continue;
-            if (CheckIfLostVitalPart(internalPart))
-            {
-                return true;
-            }
-        }
-
-        var remainingFunctionalParts = bodyPart.Body!.AllParts.Count(p => p.Type == bodyPart.Type && p.IsFunctional);
-        if (bodyPart is { IsVital: true, IsFunctional: false } && remainingFunctionalParts <= 0)
-        {
-            bodyPart.Body.Pawn.TriggerDeath($"{bodyPart.Label} {(bodyPart.IsDestroyed ? "was destroyed" : "stopped functioning")}");
-            return true;
-        }
-
-        return false;
+        CheckIfLostVitalPart();
     }
 
     public override bool ApplyToPart(BodyPart part)
     {
-        if (part.Type is not BodyPartType.Skin) return false;
+        if(part.IsExternal == false) return false;
+        if (AllowedSubstances.Contains(part.Substance) == false)
+        {
+            return false;
+        }
+        
+        var skin = part.Skin;
+        if (skin != null)
+        {
+            skin.TryAddModifier(this);
+        }
+        else
+        {
+            part.TryAddModifier(this);
+        }
 
-        part.TryAddModifier(this);
         return true;
     }
 

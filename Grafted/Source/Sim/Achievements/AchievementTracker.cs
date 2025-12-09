@@ -108,7 +108,6 @@ public class AchievementTracker : IExposable
     /// </summary>
     public void OnItemUsed(Pawn consumer, Item item)
     {
-        Log.Info($"Item Consumed: {item.Label}");
         foreach (var handler in Handlers)
         {
             handler.OnItemUsed(consumer, item);

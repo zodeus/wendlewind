@@ -7,6 +7,7 @@
         <Stage>9</Stage>
         <BackgroundTexturePath>Biome/Mineshaft</BackgroundTexturePath>
         <BackgroundTextureTransparency>30</BackgroundTextureTransparency>
+        <BiomeColor>110, 100, 90</BiomeColor>
         <Resources>
             <ListItem>
                 <Item>GoldCapMushroom</Item>
@@ -36,12 +37,15 @@
         </Resources>
         <Encounters>
             <ListItem>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>EnchantedChestDefensive</ListItem>
+                    <ListItem>EnchantedChestOffensive</ListItem>
+                    <ListItem>WeaponChestIronAge</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>OrcChopper</PawnDef>
+                        <PawnDef>Orc</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Orc (specimen #1)</PawnName>
                         <BodySizeFactor>1</BodySizeFactor>
@@ -65,12 +69,14 @@
                 </Enemies>
             </ListItem>
             <ListItem>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>MedicinalChest</ListItem>
+                    <ListItem>EnchantedChestDefensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>OrcChopper</PawnDef>
+                        <PawnDef>Orc</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Orc (specimen #2)</PawnName>
                         <BodySizeFactor>1</BodySizeFactor>
@@ -99,12 +105,14 @@
                 </Enemies>
             </ListItem>
             <ListItem>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>EnchantedChestOffensive</ListItem>
+                    <ListItem>SupplyChestBasic</ListItem>
+                    <ListItem>EnchantedChestDefensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>OrcChopper</PawnDef>
+                        <PawnDef>Orc</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Orc (specimen #3)</PawnName>
                         <BodySizeFactor>1</BodySizeFactor>
@@ -133,12 +141,14 @@
                 </Enemies>
             </ListItem>
             <ListItem>
+                <MaxBoxes>1</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>EnchantedChestDefensive</ListItem>
+                    <ListItem>EnchantedChestOffensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>OrcChopper</PawnDef>
+                        <PawnDef>Orc</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Orc (specimen #4)</PawnName>
                         <BodySizeFactor>1</BodySizeFactor>
@@ -168,14 +178,17 @@
             </ListItem>
             <ListItem>
                 <IsBoss>true</IsBoss>
+                <MaxBoxes>3</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>TrinketChestCombat</ListItem>
+                    <ListItem>EnchantedChestDefensive</ListItem>
+                    <ListItem>EnchantedChestOffensive</ListItem>
+                    <ListItem>WeaponChestIronAge</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>OrcShaman</PawnDef>
+                        <PawnDef>Orc</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Orc (specimen apex #1)</PawnName>
+                        <PawnName>Orc (specimen shaman #1)</PawnName>
                         <BodySizeFactor>1</BodySizeFactor>
                         <EquipmentItems>
                             <ListItem>FireStaff</ListItem>

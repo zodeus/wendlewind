@@ -12,23 +12,12 @@ public class BoneDecayHandler : BodyPartModifier
             IsExpired = true;
         }
 
-        CheckIfLostVitalPart(BodyPart);
+        CheckIfLostVitalPart();
     }
 
     public override void ExposeData()
     {
         base.ExposeData();
-    }
-
-    private void CheckIfLostVitalPart(BodyPart bodyPart)
-    {
-        if (bodyPart.IsFunctional) return;
-
-        var remainingFunctionalParts = bodyPart.Body!.AllParts.Count(p => p.Type == bodyPart.Type && p.IsFunctional);
-        if (bodyPart is { IsVital: true, IsFunctional: false } && remainingFunctionalParts <= 0)
-        {
-            bodyPart.Body.Pawn.TriggerDeath($"{bodyPart.Label} {(bodyPart.IsDestroyed ? "was destroyed" : "stopped functioning")}");
-        }
     }
 
     public override bool ApplyToPart(BodyPart part)

@@ -33,7 +33,7 @@ public class ItemDef : EntityDef
 
         if (WeaponProperties.WeaponManeuvers.Count != 0)
         {
-            Log.Info($"Sequences for Def:{Moniker} have been specified by XML, skipping auto-associations");
+            Log.Debug($"Sequences for Def:{Moniker} have been specified by XML, skipping auto-associations");
             return;
         }
 

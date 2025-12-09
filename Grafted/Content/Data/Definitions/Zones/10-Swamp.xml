@@ -2,11 +2,12 @@
 
 <Definitions>
     <ZoneDef>
-        <Moniker>SmolderingSwamp</Moniker>
-        <Label>Smoldering Swamp</Label>
+        <Moniker>Swamp</Moniker>
+        <Label>Swamp</Label>
         <Stage>10</Stage>
         <BackgroundTexturePath>Biome/SmolderingSwamp</BackgroundTexturePath>
         <BackgroundTextureTransparency>50</BackgroundTextureTransparency>
+        <BiomeColor>90, 120, 90</BiomeColor>
         <Resources>
             <ListItem>
                 <Item>ShimmeringBark</Item>
@@ -35,14 +36,14 @@
             </ListItem>
             <ListItem>
                 <PotentialLootBoxes>
-                    <ListItem>TrinketChestCombat</ListItem>
+                    <ListItem>ResourceChest1</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>HoneyBee</PawnDef>
+                        <PawnDef>Mosquito</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Bee (specimen #1)</PawnName>
-                        <BodySizeFactor>1</BodySizeFactor>
+                        <PawnName>Mosquito (specimen #1)</PawnName>
+                        <BodySizeFactor>1.2</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
                                 <Item>VenomVial</Item>
@@ -59,10 +60,10 @@
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>FlamingMosquito</PawnDef>
+                        <PawnDef>Mosquito</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Mosquito (specimen #1)</PawnName>
-                        <BodySizeFactor>1</BodySizeFactor>
+                        <PawnName>Mosquito (specimen #2)</PawnName>
+                        <BodySizeFactor>1.2</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
                                 <Item>VenomVial</Item>
@@ -79,9 +80,9 @@
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>FlamingMosquito</PawnDef>
+                        <PawnDef>Mosquito</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Mosquito (specimen #2)</PawnName>
+                        <PawnName>Mosquito (specimen #3)</PawnName>
                         <BodySizeFactor>1.5</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
@@ -99,9 +100,9 @@
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>FlamingMosquito</PawnDef>
+                        <PawnDef>Mosquito</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Mosquito (specimen #3)</PawnName>
+                        <PawnName>Mosquito (specimen #4)</PawnName>
                         <BodySizeFactor>2</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
@@ -120,7 +121,7 @@
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>FlamingMosquito</PawnDef>
+                        <PawnDef>Mosquito</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Mosquito (specimen apex #1)</PawnName>
                         <BodySizeFactor>4</BodySizeFactor>

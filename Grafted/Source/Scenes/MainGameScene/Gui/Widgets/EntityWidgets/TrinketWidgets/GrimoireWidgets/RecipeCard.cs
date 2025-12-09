@@ -1,10 +1,8 @@
-﻿using Grafted.Sim.Entities;
-using SolidBrush = Myra.Graphics2D.Brushes.SolidBrush;
+﻿using SolidBrush = Myra.Graphics2D.Brushes.SolidBrush;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.TrinketWidgets.GrimoireWidgets;
 
-public class RecipeCard : Panel,
-    IUpdatable
+public class RecipeCard : Panel
 {
     private readonly string _buttonLabel;
     private readonly Panel _emptyStatePanel;
@@ -12,6 +10,7 @@ public class RecipeCard : Panel,
     
     private Pawn? _currentPawn;
     private ItemDef? _currentItem;
+    public ItemDef? CurrentItem => _currentItem;
 
     public RecipeCard(string buttonLabel)
     {
@@ -20,19 +19,19 @@ public class RecipeCard : Panel,
         HorizontalAlignment = HorizontalAlignment.Stretch;
         VerticalAlignment = VerticalAlignment.Stretch;
         Background = new SolidBrush(new Color(20, 16, 12));
-        
+
         // Empty state panel - shown when no recipe is selected
         _emptyStatePanel = CreateEmptyState();
-        
+
         // Content panel - two-column layout shown when a recipe is selected
-        _contentPanel = new HorizontalStackPanel 
-        { 
-            Spacing = 24, 
+        _contentPanel = new HorizontalStackPanel
+        {
+            Spacing = 24,
             Visible = false,
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Top,
         };
-        
+
         Widgets.Add(_emptyStatePanel);
         Widgets.Add(_contentPanel);
     }
@@ -481,5 +480,10 @@ public class RecipeCard : Panel,
 
     public void Update()
     {
+        // Refresh the display if an item is currently selected
+        if (_currentPawn != null && _currentItem != null)
+        {
+            SetItem(_currentPawn, _currentItem);
+        }
     }
 }

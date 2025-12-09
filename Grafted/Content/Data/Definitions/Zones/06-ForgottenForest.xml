@@ -7,6 +7,7 @@
         <Stage>6</Stage>
         <BackgroundTexturePath>Biome/ForgottenForest</BackgroundTexturePath>
         <BackgroundTextureTransparency>85</BackgroundTextureTransparency>
+        <BiomeColor>60, 120, 80</BiomeColor>
         <Resources>
             <ListItem>
                 <Item>GlitteringLog</Item>
@@ -176,7 +177,7 @@
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>Ent</PawnDef>
+                        <PawnDef>Treeling</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Ent (specimen apex #1)</PawnName>
                         <SpawnWeight>1</SpawnWeight>

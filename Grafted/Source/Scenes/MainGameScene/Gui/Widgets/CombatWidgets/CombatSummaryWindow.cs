@@ -48,9 +48,20 @@ public sealed class CombatSummaryWindow : Window
         AddStatRow(statsPanel, 1, "Duration", $"{encounter.Ticks} ticks");
         AddStatRow(statsPanel, 2, "Damage Dealt", $"{handler.TotalDirectPlayerDamage:N0}");
         
+        var rowIndex = 3;
         if (handler.CauseOfDeath != null)
         {
-            AddStatRow(statsPanel, 3, "Cause of Death", handler.CauseOfDeath);
+            AddStatRow(statsPanel, rowIndex++, "Cause of Death", handler.CauseOfDeath);
+        }
+        
+        if (handler.KillingWeapon != null)
+        {
+            AddStatRow(statsPanel, rowIndex++, "Killing Blow", handler.KillingWeapon);
+        }
+        
+        if (handler.KillingManeuver != null)
+        {
+            AddStatRow(statsPanel, rowIndex++, "Maneuver", handler.KillingManeuver);
         }
 
         Widget? lootSection = null;

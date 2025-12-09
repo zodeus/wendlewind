@@ -891,7 +891,6 @@ public class BodyPartEditorWindow : Window
         try
         {
             SetClipboardText(sb.ToString());
-            Log.Info("Body part positions copied to clipboard!");
         }
         catch (Exception ex)
         {

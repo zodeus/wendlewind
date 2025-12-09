@@ -121,7 +121,12 @@ public class PawnBody : IExposable, IIdentityProvider
 
         if (Def.BloodType != null && BloodAmount <= 1)
         {
-            Pawn.TriggerDeath("Blood loss");
+            Pawn.TriggerDeath(new DeathRecord
+            {
+                CauseOfDeath = "Blood loss",
+                KillingWeapon = "Blood loss",
+                KillingManeuver = "Blood loss"
+            });
         }
     }
 

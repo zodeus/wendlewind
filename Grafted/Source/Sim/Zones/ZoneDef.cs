@@ -6,6 +6,7 @@ public class ZoneDef : Def {
     public int Stage;
     public string? BackgroundTexturePath;
     public int BackgroundTextureTransparency = 20;
+    public Color BiomeColor = new(150, 150, 150);
 
     public List<BiomeResourceRecord> Resources = new();
     public List<EncounterProperties> Encounters = new();

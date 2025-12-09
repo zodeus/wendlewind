@@ -6,6 +6,7 @@
         <Label>Peaceful Meadow</Label>
         <Stage>1</Stage>
         <BackgroundTexturePath>Biome/PeacefulMeadow</BackgroundTexturePath>
+        <BiomeColor>120, 180, 90</BiomeColor>
         <Resources>
             <ListItem>
                 <Item>GlitteringLog</Item>

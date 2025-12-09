@@ -161,6 +161,7 @@ public static partial class BaseContent
                 public const string MediumFrameBright = "panel-frame-medium-bright";
                 public const string MediumFrameRed = "panel-frame-medium-red";
                 public const string RoundWhite24 = "panel-round-white-24";
+                public const string RoundWhiteFilled24 = "panel-round-white-filled-24";
                 public const string RoundWhite28 = "panel-round-white-28";
                 public const string RoundWhite42 = "panel-round-white-42";
                 public const string RoundWhite64 = "panel-round-white-64";

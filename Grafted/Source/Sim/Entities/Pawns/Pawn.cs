@@ -8,7 +8,6 @@ public class Pawn : Entity
     public event Action<Pawn, DamageRequest, DamageResponse>? DamageTaken;
     public event Action<DeathEvent>? Died;
     public event Action<Pawn, Item>? FoodConsumed;
-
     public PawnBiography Biography = null!;
     public PawnTraits Traits = null!;
     public PawnMind Mind = null!;
@@ -18,7 +17,6 @@ public class Pawn : Entity
     public PawnEquipment Equipment = null!;
     public PawnType PawnType = PawnType.Invalid;
     public Zone? Zone;
-
     public int TicksToAttack;
 
     public PawnDef PawnDef => (PawnDef)Def;
@@ -186,22 +184,21 @@ public class Pawn : Entity
         }
 
         DamageTaken?.Invoke(this, request, response);
-        if (CheckIfKilledByDamage(response) is { } cause)
+        if (CheckIfKilledByDamage(response) is DeathRecord deathRecord)
         {
-            
-            TriggerDeath(cause);
+            TriggerDeath(deathRecord);
             return;
         }
     }
 
-    private string? CheckIfKilledByDamage(DamageResponse response)
+    private DeathRecord? CheckIfKilledByDamage(DamageResponse response)
     {
         List<string> nonFunctionalVitalParts = [];
         foreach (var damageRecord in response.Damages.Concat(response.TrinketDamages))
         {
             foreach (var partRecord in damageRecord.BodyParts)
             {
-                if (!partRecord.IsVital) continue;
+                //if (!partRecord.IsVital) continue;
 
                 if (partRecord.BodyPart.IsDestroyed)
                 {
@@ -216,22 +213,19 @@ public class Pawn : Entity
                     nonFunctionalVitalParts.Add($"{partRecord.PartType} stopped functioning");
                 }
 
-                if (partRecord.BodyPart.DidPawnDieFromPartFailure() && nonFunctionalVitalParts.Any())
+                if (IsDeadFromPartFailure() is { } deathRecord && nonFunctionalVitalParts.Any())
                 {
-                    return nonFunctionalVitalParts.First();
-                }
+                    deathRecord.CauseOfDeath = $"{nonFunctionalVitalParts.First()} ({deathRecord.FailedOrgan} failed)";
+                    deathRecord.KillingWeapon = damageRecord.WeaponLabel;
+                    deathRecord.KillingManeuver = damageRecord.WeaponManeuverLabel;
+                    return deathRecord;
+                }   
             }
         }
-
-        if (IsDead && nonFunctionalVitalParts.Count == 0)
-        {
-            Log.Error("Pawn is dead but no non-functional vital parts were found");
-        }
-
         return null;
     }
 
-    public void TriggerDeath(string causeOfDeath)
+    public void TriggerDeath(DeathRecord deathRecord)
     {
         IsDead = true;
         Died?.Invoke(new DeathEvent
@@ -240,9 +234,36 @@ public class Pawn : Entity
             Record = new DeathRecord
             {
                 PawnName = Label,
-                CauseOfDeath = causeOfDeath
+                CauseOfDeath = deathRecord.CauseOfDeath,
+                KillingWeapon = deathRecord.KillingWeapon,
+                KillingManeuver = deathRecord.KillingManeuver
             }
         });
+    }
+
+    public DeathRecord? IsDeadFromPartFailure()
+    {
+        // Group vital parts by type - you're dead if ALL parts of any vital type are non-functional
+        var vitalPartsByType = Body.AllParts
+            .Where(p => p.IsVital)
+            .GroupBy(p => p.Type);
+
+        foreach (var group in vitalPartsByType)
+        {
+            var functionalCount = group.Count(p => p.IsFunctional);
+            if (functionalCount == 0)
+            {
+                return new DeathRecord
+                {
+                    FailedOrgan = group.First().Label,
+                    CauseOfDeath = $"All {group.Key} organs are non-functional",
+                    KillingWeapon = "Organ failure",
+                    KillingManeuver = "Organ failure"
+                };
+            }
+        }
+
+        return null;
     }
 
     public override void ExposeData()

@@ -55,7 +55,7 @@
         <Description>Ancient battle medicine.</Description>
         <TexturePath>Entities/Item/Consumables/PurpleJuice</TexturePath>
         <CraftingProperties>
-            <AmountProduced>2</AmountProduced>
+            <AmountProduced>1</AmountProduced>
             <RequiredTrinkets>
                 <ListItem>VialOfDuplicity</ListItem>
                 <ListItem>MortarAndPestle</ListItem>

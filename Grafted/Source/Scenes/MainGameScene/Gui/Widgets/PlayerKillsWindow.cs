@@ -11,8 +11,8 @@ public sealed class PlayerKillsWindow : Window
     public PlayerKillsWindow(PlayerKillRecords deathRecords)
     {
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright];
-        MinWidth = 700;
-        MinHeight = 400;
+        MinWidth = 1200;
+        MinHeight = 800;
         Padding = new Thickness(25);
         Content = BuildContent(deathRecords);
     }
@@ -111,8 +111,10 @@ public sealed class PlayerKillsWindow : Window
         AddTableHeader(tableGrid, 1, "Biome");
         AddTableHeader(tableGrid, 2, "Creature");
         AddTableHeader(tableGrid, 3, "Cause of Death");
-        AddTableHeader(tableGrid, 4, "Damage");
-        AddTableHeader(tableGrid, 5, "Ticks");
+        AddTableHeader(tableGrid, 4, "Weapon");
+        AddTableHeader(tableGrid, 5, "Maneuver");
+        AddTableHeader(tableGrid, 6, "Damage");
+        AddTableHeader(tableGrid, 7, "Ticks");
 
         // Data rows
         int rowIndex = 1;
@@ -120,14 +122,16 @@ public sealed class PlayerKillsWindow : Window
         {
             var isSlowKill = record.Ticks > 3000;
             var rowColor = isSlowKill ? WarningColor : ValueColor;
-            var zoneColor = GetBiomeColor(record.ZoneDef.Label);
+            var zoneColor = record.ZoneDef.BiomeColor;
 
             AddTableCell(tableGrid, rowIndex, 0, $"{record.Round}", SubduedColor);
             AddTableCell(tableGrid, rowIndex, 1, record.ZoneDef.Label, zoneColor);
             AddTableCell(tableGrid, rowIndex, 2, record.PawnName, ValueColor);
             AddTableCell(tableGrid, rowIndex, 3, record.CauseOfDeath, SubduedColor);
-            AddTableCell(tableGrid, rowIndex, 4, $"{record.TotalDamageDealt:N0}", HeaderColor);
-            AddTableCell(tableGrid, rowIndex, 5, $"{record.Ticks}", rowColor);
+            AddTableCell(tableGrid, rowIndex, 4, record.KillingWeapon ?? "—", AccentColor);
+            AddTableCell(tableGrid, rowIndex, 5, record.KillingManeuver ?? "—", AccentColor);
+            AddTableCell(tableGrid, rowIndex, 6, $"{record.TotalDamageDealt:N0}", HeaderColor);
+            AddTableCell(tableGrid, rowIndex, 7, $"{record.Ticks}", rowColor);
 
             rowIndex++;
         }
@@ -143,7 +147,7 @@ public sealed class PlayerKillsWindow : Window
                 Margin = new Thickness(0, 30, 0, 30)
             };
             Grid.SetRow(emptyLabel, 1);
-            Grid.SetColumnSpan(emptyLabel, 6);
+            Grid.SetColumnSpan(emptyLabel, 8);
             tableGrid.Widgets.Add(emptyLabel);
         }
 
@@ -173,18 +177,5 @@ public sealed class PlayerKillsWindow : Window
         Grid.SetRow(label, row);
         Grid.SetColumn(label, column);
         grid.Widgets.Add(label);
-    }
-
-    private static Color GetBiomeColor(string biomeName)
-    {
-        return biomeName.ToLowerInvariant() switch
-        {
-            "peaceful meadow" => new Color(120, 180, 90),
-            "outskirts" => new Color(160, 140, 100),
-            "forgotten forest" => new Color(60, 120, 80),
-            "dark woods" => new Color(80, 100, 70),
-            "swamp" => new Color(90, 120, 90),
-            _ => new Color(150, 150, 150)
-        };
     }
 }

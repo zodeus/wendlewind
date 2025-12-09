@@ -90,4 +90,22 @@ public abstract class BodyPartModifier : IExposable, IIdentityProvider
     {
         throw new NotImplementedException();
     }
+
+    protected virtual void CheckIfLostVitalPart()
+    {
+
+        if (BodyPart.Body == null)
+        {
+            Log.Warning($"BodyPartModifier.CheckIfLostVitalPart failed to get Body for {BodyPart}");
+            return;
+        }
+
+        if (BodyPart.Body.Pawn.IsDeadFromPartFailure() is { } deathRecord)
+        {
+            deathRecord.CauseOfDeath += $"{deathRecord.FailedOrgan} is non-functional due to {Def.Label}";
+            deathRecord.KillingWeapon = Def.Label;
+            deathRecord.KillingManeuver = "Affliction";
+            BodyPart.Body.Pawn.TriggerDeath(deathRecord);
+        }
+    }
 }

@@ -125,7 +125,6 @@ public class DefaultBodyHandler : IExposable
 
         if (part.HealthPercent < BloodLossThreshold)
         {
-            //Log.Info($"{_pawn} {part} losing {bloodLossScaleFactor * (1 - part.HealthPercent)}");
             Body.BloodAmount -= bloodLossScaleFactor * (1 - (float)part.HealthPercent);
         }
 
@@ -140,14 +139,12 @@ public class DefaultBodyHandler : IExposable
 
             if (internalPart.IsDestroyed)
             {
-                //Log.Info($"{_pawn} {internalPart} losing {bloodLossScaleFactor * severedArteryBloodLossFactor}");
                 Body.BloodAmount -= bloodLossScaleFactor * SeveredArteryBloodLossFactor;
                 // Artery is severed stop propagating bleeding
                 continuePartTraversal = false;
                 continue;
             }
 
-            //Log.Info($"{_pawn} {internalPart} losing {bloodLossScaleFactor * (1.3f - part.HealthPercent)}");
             Body.BloodAmount -= bloodLossScaleFactor * (ArteryBloodLossOffset - (float)part.HealthPercent);
         }
 
@@ -158,7 +155,6 @@ public class DefaultBodyHandler : IExposable
                 // part has been severed, start hemorrhaging
                 if (socket.IsSealed == false)
                 {
-                    //Log.Info($"{_pawn} {socket} losing {bloodLossScaleFactor * severedLimbBloodLossFactor}");
                     Body.BloodAmount -= bloodLossScaleFactor * SeveredLimbBloodLossFactor;
                 }
 

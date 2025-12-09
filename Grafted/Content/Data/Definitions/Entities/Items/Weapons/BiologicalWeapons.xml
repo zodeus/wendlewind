@@ -326,7 +326,7 @@
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponMagic">
-        <Moniker>FlamingMosquitoProboscis</Moniker>
+        <Moniker>FlamingProboscis</Moniker>
         <Label>Flaming Proboscis</Label>
         <Description></Description>
         <WeaponProperties>

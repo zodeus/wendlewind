@@ -46,14 +46,18 @@
                 </ListItem>
                 <ListItem>
                     <Item>RepairKit</Item>
-                    <Count>20</Count>
+                    <Count>8</Count>
                 </ListItem>
                 <ListItem>
                     <Item>GlitteringLog</Item>
                     <Count>1</Count>
                 </ListItem>
                 <ListItem>
-                    <Item>RawFish</Item>
+                    <Item>GoldenWood</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>IronNugget</Item>
                     <Count>2</Count>
                 </ListItem>
             </ResourceRequirements>

@@ -4,20 +4,26 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.TrinketWidgets.
 public sealed class GrimoirePanel : EntityPanelBase
 {
     private readonly TabPanel _tabs;
-    
+    private readonly PawnInventory _inventory;
+
     public GrimoirePanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
         Padding = new Thickness(12);
         //Width = 1000;
         Height = 800;
         Spacing = 0;
-        
+
+        _inventory = Core.Context.PlayerPawn.Inventory;
+        _inventory.ItemAdded += OnInventoryChanged;
+        _inventory.ItemRemoved += OnInventoryChanged;
+        _inventory.ItemStackSizeChanged += OnInventoryChanged;
+
         // Create tab panel with styled tabs at top
         _tabs = new TabPanel(tabsOnTop: true)
         {
             ButtonStyle = BaseContent.Styles.Button.Normal,
         };
-        
+
         // Gather craftable items by category
         var cooking = DefRepository<ItemDef>.Defs
             .Where(d => d is { ItemType: ItemType.Food, CraftingProperties: not null })
@@ -39,7 +45,7 @@ public sealed class GrimoirePanel : EntityPanelBase
             .Where(d => d is { ItemType: ItemType.Flammable, CraftingProperties: not null })
             .OrderBy(d => d.Label)
             .ToList();
-        
+
         // Add tabs with category-specific action verbs
         if (cooking.Count > 0)
             _tabs.AddTab($"Cooking ({cooking.Count})", new CraftingPanel("Cook", cooking, Core.Context.PlayerPawn));
@@ -51,11 +57,16 @@ public sealed class GrimoirePanel : EntityPanelBase
             _tabs.AddTab($"Supplies ({supplies.Count})", new CraftingPanel("Craft", supplies, Core.Context.PlayerPawn));
         if (flammables.Count > 0)
             _tabs.AddTab($"Flammables ({flammables.Count})", new CraftingPanel("Create", flammables, Core.Context.PlayerPawn));
-        
+
         Widgets.Add(_tabs);
     }
 
-    public override void Update()
+    private void OnInventoryChanged(Item _)
     {
+        _tabs.Update();
+    }
+
+    public override void Update()   {
+        
     }
 }

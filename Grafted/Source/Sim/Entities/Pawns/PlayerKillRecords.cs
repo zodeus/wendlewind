@@ -43,7 +43,10 @@ public class PlayerKillRecords : IEnumerable<DeathRecord>, IExposable
 
 public class DeathRecord : IExposable
 {
+    public string? FailedOrgan;
     public string CauseOfDeath = "undefined";
+    public string? KillingWeapon;
+    public string? KillingManeuver;
     public double TotalDamageDealt;
     public int Ticks;
     public ZoneDef ZoneDef = null!;
@@ -52,8 +55,11 @@ public class DeathRecord : IExposable
 
     public void ExposeData()
     {
+        ScribeValues.Look(ref FailedOrgan!, "FailedOrgan");
         ScribeValues.Look(ref TotalDamageDealt!, "TotalDamageDealt");
         ScribeValues.Look(ref CauseOfDeath!, "CauseOfDeath");
+        ScribeValues.Look(ref KillingWeapon, "KillingWeapon");
+        ScribeValues.Look(ref KillingManeuver, "KillingManeuver");
         ScribeValues.Look(ref Ticks, "Ticks");
         ScribeValues.Look(ref PawnName!, "PawnName");
         ScribeValues.Look(ref Round, "Round");

@@ -2,24 +2,101 @@
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
-public sealed class PawnBodyEffectsPanel : HorizontalStackPanel, IUpdatable
+public enum EffectsPanelOrientation
 {
+    Vertical,   // Stack vertically, overflow to new columns
+    Horizontal  // Stack horizontally, overflow to new rows
+}
+
+public sealed class PawnBodyEffectsPanel : Panel, IUpdatable
+{
+    private const int MaxItemsVertical = 5;
+    private const int MaxItemsHorizontal = 8;
+    
     private Dictionary<BodyEffect, BodyEffectRow> _cachedEffects = new();
     private List<BodyEffect> _effectsToRemove = new();
+    private StackPanel _container = null!;
 
     private Window? _effectWindow;
     private readonly BaseGui _gui;
     private readonly Pawn _pawn;
+    private readonly EffectsPanelOrientation _orientation;
 
-    public PawnBodyEffectsPanel(BaseGui gui, Pawn pawn)
+    public PawnBodyEffectsPanel(BaseGui gui, Pawn pawn, EffectsPanelOrientation orientation = EffectsPanelOrientation.Horizontal)
     {
         _gui = gui;
         _pawn = pawn;
-        Spacing = 0;
+        _orientation = orientation;
+        
+        // Create the outer container based on orientation
+        // Both need VerticalAlignment.Bottom so items grow upward and don't get clipped at top
+        if (_orientation == EffectsPanelOrientation.Vertical)
+        {
+            // Vertical: columns arranged horizontally, items stacked vertically within each column
+            _container = new HorizontalStackPanel { Spacing = 2, VerticalAlignment = VerticalAlignment.Bottom };
+        }
+        else
+        {
+            // Horizontal: rows arranged vertically, items stacked horizontally within each row
+            _container = new VerticalStackPanel { Spacing = 2, VerticalAlignment = VerticalAlignment.Bottom };
+        }
+        
+        VerticalAlignment = VerticalAlignment.Bottom;
+        Widgets.Add(_container);
+    }
+
+    private void RebuildLayout()
+    {
+        _container.Widgets.Clear();
+        
+        var effects = _cachedEffects.Values.ToList();
+        
+        if (_orientation == EffectsPanelOrientation.Vertical)
+        {
+            // Vertical orientation: columns with up to MaxItemsVertical items each
+            var columnCount = (effects.Count + MaxItemsVertical - 1) / MaxItemsVertical;
+            
+            for (int col = 0; col < columnCount; col++)
+            {
+                var column = new VerticalStackPanel { Spacing = 2, VerticalAlignment = VerticalAlignment.Bottom };
+                _container.Widgets.Add(column);
+                
+                for (int row = 0; row < MaxItemsVertical; row++)
+                {
+                    var index = col * MaxItemsVertical + row;
+                    if (index < effects.Count)
+                    {
+                        column.Widgets.Add(effects[index]);
+                    }
+                }
+            }
+        }
+        else
+        {
+            // Horizontal orientation: rows with up to MaxItemsHorizontal items each
+            var rowCount = (effects.Count + MaxItemsHorizontal - 1) / MaxItemsHorizontal;
+            
+            for (int r = 0; r < rowCount; r++)
+            {
+                var row = new HorizontalStackPanel { Spacing = 2 };
+                _container.Widgets.Add(row);
+                
+                for (int col = 0; col < MaxItemsHorizontal; col++)
+                {
+                    var index = r * MaxItemsHorizontal + col;
+                    if (index < effects.Count)
+                    {
+                        row.Widgets.Add(effects[index]);
+                    }
+                }
+            }
+        }
     }
 
     public void Update()
     {
+        var needsRebuild = false;
+        
         foreach (BodyEffect effect in _pawn.Body.Effects)
         {
             if (_cachedEffects.ContainsKey(effect))
@@ -30,7 +107,7 @@ public sealed class PawnBodyEffectsPanel : HorizontalStackPanel, IUpdatable
             var panel = new BodyEffectRow(effect);
             panel.EffectClicked += OnEffectClicked;
             _cachedEffects.Add(effect, panel);
-            Widgets.Add(_cachedEffects[effect]);
+            needsRebuild = true;
         }
 
         foreach (var (effect, panel) in _cachedEffects)
@@ -53,6 +130,12 @@ public sealed class PawnBodyEffectsPanel : HorizontalStackPanel, IUpdatable
             }
 
             _effectsToRemove.Clear();
+            needsRebuild = true;
+        }
+        
+        if (needsRebuild)
+        {
+            RebuildLayout();
         }
 
         ((PawnBodyEffectPanel?)_effectWindow?.Content)?.Update();
@@ -74,39 +157,33 @@ public sealed class PawnBodyEffectsPanel : HorizontalStackPanel, IUpdatable
         _effectWindow.Show(_gui.Desktop, position);
     }
 
-    private sealed class BodyEffectRow : VerticalStackPanel, IUpdatable
+    private sealed class BodyEffectRow : Panel, IUpdatable
     {
         private readonly BodyEffect _effect;
         private readonly Label _durationLabel;
 
         public BodyEffectRow(BodyEffect effect)
         {
-            Spacing = 0;
             _effect = effect;
             _durationLabel = new Label(BaseContent.Styles.Label.Small)
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
-                //Border = new SolidBrush(Color.Azure),
-                //BorderThickness = new Thickness(1)
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Padding = new Thickness(0, 0, 0, 2),
             };
+
             var button = new Button
             {
                 Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
                 Width = BaseContent.IconSizes.Large,
                 Height = BaseContent.IconSizes.Large,
-                Content = new VerticalStackPanel
+                Padding = new Thickness(8, 8, 8, 4),
+                Content = new Panel
                 {
-                    VerticalAlignment = VerticalAlignment.Center,
+                    Background = new TextureRegion(effect.Def.Texture),
                     Widgets =
                     {
-                        new Image
-                        {
-                            HorizontalAlignment = HorizontalAlignment.Center, 
-                            VerticalAlignment = VerticalAlignment.Center,
-                            Background = new TextureRegion(effect.Def.Texture),
-                            Height = (int)(BaseContent.IconSizes.Medium),
-                            Width = (int)(BaseContent.IconSizes.Medium)
-                        }
+                        _durationLabel
                     }
                 }
             };
@@ -118,8 +195,10 @@ public sealed class PawnBodyEffectsPanel : HorizontalStackPanel, IUpdatable
                 var uiY = (int)((screenPos.Y - Core.UiOffset.Y) / Core.UiScale);
                 EffectClicked?.Invoke(_effect, new Point(uiX, uiY + 30));
             };
+            
+            Width = BaseContent.IconSizes.Large;
+            Height = BaseContent.IconSizes.Large;
             Widgets.Add(button);
-            Widgets.Add(_durationLabel);
         }
 
         public event Action<BodyEffect, Point>? EffectClicked;

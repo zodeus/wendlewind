@@ -102,6 +102,7 @@
   <TextureRegion Id="panel-round-white-28" Left="3676" Top="106" Width="28" Height="28" />
   <TextureRegion Id="panel-round-white-42" Left="3012" Top="220" Width="42" Height="42" />
   <TextureRegion Id="panel-round-white-64" Left="3054" Top="220" Width="64" Height="64" />
+  <TextureRegion Id="panel-round-white-filled-24" Left="3118" Top="220" Width="42" Height="42" />
   <NinePatchRegion Id="panel-simple-white" Left="2948" Top="284" Width="300" Height="300" NinePatchLeft="8" NinePatchTop="7" NinePatchRight="8" NinePatchBottom="7" />
   <TextureRegion Id="Play" Left="3248" Top="516" Width="512" Height="160" />
   <TextureRegion Id="PlayOver" Left="2948" Top="676" Width="512" Height="160" />

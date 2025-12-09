@@ -7,6 +7,7 @@
         <Stage>7</Stage>
         <BackgroundTexturePath>Biome/DampCave</BackgroundTexturePath>
         <BackgroundTextureTransparency>50</BackgroundTextureTransparency>
+        <BiomeColor>100, 90, 80</BiomeColor>
         <Resources>
             <ListItem>
                 <Item>GoldCapMushroom</Item>
@@ -76,7 +77,7 @@
             <ListItem>
                 <MaxBoxes>3</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>SupplyChestNormal</ListItem>
+                    <ListItem>SupplyChestBasic</ListItem>
                     <ListItem>TrinketChestNormal</ListItem>
                     <ListItem>MedicinalChest</ListItem>
                 </PotentialLootBoxes>

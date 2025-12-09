@@ -85,7 +85,7 @@ public static partial class Defs {
         public static ZoneDef Mineshaft = null!;
         public static ZoneDef AbandonedStables = null!;
         public static ZoneDef WearbearDen = null!;
-        public static ZoneDef SmolderingSwamp = null!;
+        public static ZoneDef Swamp = null!;
         public static ZoneDef Cemetery = null!;
     }
 }
