@@ -1,28 +1,36 @@
-﻿using System.Drawing;
-using Grafted.Sim.Entities.Pawns.Modifiers;
+﻿
 using Color = Microsoft.Xna.Framework.Color;
-using SolidBrush = Myra.Graphics2D.Brushes.SolidBrush;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
 
 internal sealed class BodyPartRow : HorizontalStackPanel
 {
+    private const int MaxPartsPerRow = 7;
     private readonly BaseGui _gui;
     public BodyPart? BodyPart;
     private Label _label;
     private List<ImageCircleIcon> _parts = new();
+    private List<HorizontalStackPanel> _rows = new();
+    private VerticalStackPanel _iconContainer;
 
     public BodyPartRow(BaseGui gui)
     {
         _gui = gui;
         Spacing = 5;
-        _label = new Label(BaseContent.Styles.Label.Medium) { VerticalAlignment = VerticalAlignment.Center, TextColor = Color.Black };
+        _label = new Label(BaseContent.Styles.Label.Medium)
+        {
+            VerticalAlignment = VerticalAlignment.Top,
+            TextColor = Color.Black, Margin = new Thickness(0, 5, 0, 0)
+        };
+        _iconContainer = new VerticalStackPanel { Spacing = 5 };
     }
 
     public void SetPart(BodyPart bodyPart, bool showInternalParts)
     {
         _parts.Clear();
+        _rows.Clear();
         Widgets.Clear();
+        _iconContainer.Widgets.Clear();
         BodyPart = bodyPart;
 
         if (showInternalParts)
@@ -31,13 +39,28 @@ internal sealed class BodyPartRow : HorizontalStackPanel
             _label.TouchDown += (_, _) => BodyPartClickHandler(bodyPart, true);
         }
 
+        Widgets.Add(_iconContainer);
+
         var parts = bodyPart.AllInternalParts
             .Where(p => p.Type == BodyPartType.Skin && showInternalParts)
             .Concat(new List<BodyPart> { bodyPart })
-            .Concat(bodyPart.AllInternalParts.Where(p => p.Type != BodyPartType.Skin && showInternalParts));
+            .Concat(bodyPart.AllInternalParts.Where(p => p.Type != BodyPartType.Skin && showInternalParts))
+            .ToList();
+
+        HorizontalStackPanel? currentRow = null;
+        int partsInCurrentRow = 0;
 
         foreach (var part in parts)
         {
+            // Create a new row if needed
+            if (currentRow == null || partsInCurrentRow >= MaxPartsPerRow)
+            {
+                currentRow = new HorizontalStackPanel { Spacing = 5 };
+                _rows.Add(currentRow);
+                _iconContainer.Widgets.Add(currentRow);
+                partsInCurrentRow = 0;
+            }
+
             ImageCircleIcon partIcon = new(new ColoredRegion(new TextureRegion(part.WhiteIcon), BodyPartColor.Get(bodyPart)), panel =>
             {
                 // Keep the main ring color based on the body part state
@@ -55,7 +78,8 @@ internal sealed class BodyPartRow : HorizontalStackPanel
 
             partIcon.TouchDown += (_, _) => BodyPartClickHandler(part, !showInternalParts);
             _parts.Add(partIcon);
-            Widgets.Add(partIcon);
+            currentRow.Widgets.Add(partIcon);
+            partsInCurrentRow++;
         }
     }
 

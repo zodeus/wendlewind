@@ -159,18 +159,6 @@ public class GameScene : Scene
             });
         }
 
-        if (WasKeyJustPressed(Keys.F2, currentKeyboardState))
-        {
-            NewGame();
-            ActiveGui!.PushScreenMessage(new ScreenMessageData
-            {
-                Text = "New Game",
-                Font = BaseContent.Fonts.Default.Huge,
-                Duration = 3,
-                Color = Color.WhiteSmoke
-            });
-        }
-
         if (WasKeyJustPressed(Keys.F12, currentKeyboardState))
         {
             ReloadGui();

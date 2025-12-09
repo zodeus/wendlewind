@@ -73,4 +73,41 @@
             <ListItem>Skin</ListItem>
         </AllowedBodyPartTypes>
     </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>LiverSocket</Moniker>
+        <Label>Liver Socket</Label>
+        <AllowedBodyPartTypes>
+            <ListItem>Liver</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>LeftKidneySocket</Moniker>
+        <Label>Left Kidney Socket</Label>
+        <Position>Left</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Kidney</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>RightKidneySocket</Moniker>
+        <Label>Right Kidney Socket</Label>
+        <Position>Right</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Kidney</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>SpleenSocket</Moniker>
+        <Label>Spleen Socket</Label>
+        <AllowedBodyPartTypes>
+            <ListItem>Spleen</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>IntestinesSocket</Moniker>
+        <Label>Intestines Socket</Label>
+        <AllowedBodyPartTypes>
+            <ListItem>Intestines</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
 </Definitions>

@@ -68,6 +68,11 @@
             <ListItem>RibCageSocket</ListItem>
             <!--<ListItem>ArterySocket</ListItem>-->
             <ListItem>StomachSocket</ListItem>
+            <ListItem>LiverSocket</ListItem>
+            <ListItem>LeftKidneySocket</ListItem>
+            <ListItem>RightKidneySocket</ListItem>
+            <ListItem>SpleenSocket</ListItem>
+            <ListItem>IntestinesSocket</ListItem>
             <ListItem>LeftArmSocket</ListItem>
             <ListItem>RightArmSocket</ListItem>
             <ListItem>LeftLegSocket</ListItem>

@@ -47,6 +47,11 @@
             <ListItem>RightLungSocket</ListItem>
             <ListItem>BrainSocket</ListItem>
             <ListItem>StomachSocket</ListItem>
+            <ListItem>LiverSocket</ListItem>
+            <ListItem>LeftKidneySocket</ListItem>
+            <ListItem>RightKidneySocket</ListItem>
+            <ListItem>SpleenSocket</ListItem>
+            <ListItem>IntestinesSocket</ListItem>
         </Sockets>
         <BaseStats>
             <MaxHitPoints>800</MaxHitPoints>

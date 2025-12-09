@@ -57,6 +57,11 @@
             <ListItem>SkinSocket</ListItem>
             <ListItem>RibCageSocket</ListItem>
             <ListItem>StomachSocket</ListItem>
+            <ListItem>LiverSocket</ListItem>
+            <ListItem>LeftKidneySocket</ListItem>
+            <ListItem>RightKidneySocket</ListItem>
+            <ListItem>SpleenSocket</ListItem>
+            <ListItem>IntestinesSocket</ListItem>
             <ListItem>FrontLeftLegSocket</ListItem>
             <ListItem>FrontRightLegSocket</ListItem>
             <ListItem>RearLeftLegSocket</ListItem>

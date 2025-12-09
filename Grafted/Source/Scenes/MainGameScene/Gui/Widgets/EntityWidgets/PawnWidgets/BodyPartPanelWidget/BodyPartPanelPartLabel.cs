@@ -14,7 +14,7 @@ internal sealed class BodyPartPanelPartLabel : HorizontalStackPanel
         //Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.Red];
 
         _label = new Label(BaseContent.Styles.Label.Normal) { Text = bodyPart.Label, VerticalAlignment = VerticalAlignment.Center };
-        _image = new() { Background = new ColoredRegion(new TextureRegion(bodyPart.Icon), Color.White), Width = 64, Height = 64 };
+        _image = new() { Background = new ColoredRegion(new TextureRegion(bodyPart.Icon), Color.White), Width = 32, Height = 32 };
         TouchDown += (_, _) => gui.ViewEntity(bodyPart);
         Widgets.Add(_image);
         Widgets.Add(_label);

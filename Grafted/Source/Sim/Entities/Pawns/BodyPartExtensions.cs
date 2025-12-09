@@ -24,7 +24,7 @@ namespace Grafted.Sim.Entities.Pawns
         {
             var organsHit = 0;
             var remainingDamage = ctx.Amount;
-            var maxNumberOfOrgansToHit = new RangeInt(1, 2 + 1).RandomValue;
+            var maxNumberOfOrgansToHit = new RangeInt(1, 4).RandomValue;
             if (rootPart.Substance == SubstanceType.Chitin && rootPart.IsCracked == false)
             {
                 return 0;
@@ -51,7 +51,7 @@ namespace Grafted.Sim.Entities.Pawns
                         < .10f => 0.00f,
                         < .20f => 0.50f,
                         < .40f => 0.95f,
-                        < .80f => 0.99f,
+                        < .70f => 0.99f,
                         _ => 1
                     };
 
@@ -87,7 +87,7 @@ namespace Grafted.Sim.Entities.Pawns
 
                 switch (internalPart.IsOrgan)
                 {
-                    case true when organsHit > maxNumberOfOrgansToHit:
+                    case true when organsHit >= maxNumberOfOrgansToHit:
                         continue;
                     case true:
                         organsHit++;

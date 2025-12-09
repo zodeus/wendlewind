@@ -16,7 +16,7 @@ public sealed class ImageCircleIcon : Panel
     // Number of individual modifier pips we will render under the icon.
     // Extra modifiers beyond this are ignored for now (still visible in the detailed panel).
     private const int MaxPips = 5;
-
+    private const int IconDiameter = 38;
     private readonly ColoredRegion? _imageTexture;
     private readonly ColoredRegion _backgroundTexture;
     private readonly List<Panel> _pipWidgets = new();
@@ -29,15 +29,15 @@ public sealed class ImageCircleIcon : Panel
         var image = new Image { Background = imageTexture };
         Handler = handler;
         Padding = new Thickness(8);
-        Width = BaseContent.IconSizes.Medium;
-        Height = BaseContent.IconSizes.Medium;
+        Width = IconDiameter;
+        Height = IconDiameter;
         _backgroundTexture = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundWhite64], Color.White);
         Background = _backgroundTexture;
 
         image.VerticalAlignment = VerticalAlignment.Center;
         image.HorizontalAlignment = HorizontalAlignment.Center;
-        image.Width = BaseContent.IconSizes.Medium - 16;
-        image.Height = BaseContent.IconSizes.Medium - 16;
+        image.Width = IconDiameter - 8;
+        image.Height = IconDiameter - 8;
 
         Widgets.Add(image);
     }

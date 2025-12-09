@@ -142,7 +142,7 @@
         <TexturePath>Entities/Pawn/BodyParts/Generic/Heart</TexturePath>
         <AdaptiveProperties>
             <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
-                <Factor>0.1</Factor>
+                <Factor>0.16</Factor>
             </MaxHitPointScaler>
         </AdaptiveProperties>
     </BodyPartDef>
@@ -157,7 +157,64 @@
         <TexturePath>Entities/Pawn/BodyParts/Generic/Lung</TexturePath>
         <AdaptiveProperties>
             <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
-                <Factor>0.11</Factor>
+                <Factor>0.18</Factor>
+            </MaxHitPointScaler>
+        </AdaptiveProperties>
+    </BodyPartDef>
+    <BodyPartDef ParentName="GenericBodyPartBase">
+        <Moniker>Liver</Moniker>
+        <Label>Liver</Label>
+        <BodyPartType>Liver</BodyPartType>
+        <BloodAmount>25</BloodAmount>
+        <IsVital>true</IsVital>
+        <IsOrgan>true</IsOrgan>
+        <Substance>Flesh</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Generic/Liver</TexturePath>
+        <AdaptiveProperties>
+            <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
+                <Factor>0.22</Factor>
+            </MaxHitPointScaler>
+        </AdaptiveProperties>
+    </BodyPartDef>
+    <BodyPartDef ParentName="GenericBodyPartBase">
+        <Moniker>Kidney</Moniker>
+        <Label>Kidney</Label>
+        <BodyPartType>Kidney</BodyPartType>
+        <BloodAmount>8</BloodAmount>
+        <IsOrgan>true</IsOrgan>
+        <Substance>Flesh</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Generic/Kidney</TexturePath>
+        <AdaptiveProperties>
+            <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
+                <Factor>0.14</Factor>
+            </MaxHitPointScaler>
+        </AdaptiveProperties>
+    </BodyPartDef>
+    <BodyPartDef ParentName="GenericBodyPartBase">
+        <Moniker>Spleen</Moniker>
+        <Label>Spleen</Label>
+        <BodyPartType>Spleen</BodyPartType>
+        <BloodAmount>12</BloodAmount>
+        <IsOrgan>true</IsOrgan>
+        <Substance>Flesh</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Generic/Spleen</TexturePath>
+        <AdaptiveProperties>
+            <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
+                <Factor>0.24</Factor>
+            </MaxHitPointScaler>
+        </AdaptiveProperties>
+    </BodyPartDef>
+    <BodyPartDef ParentName="GenericBodyPartBase">
+        <Moniker>Intestines</Moniker>
+        <Label>Intestines</Label>
+        <BodyPartType>Intestines</BodyPartType>
+        <BloodAmount>35</BloodAmount>
+        <IsOrgan>true</IsOrgan>
+        <Substance>Flesh</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Generic/Intestines</TexturePath>
+        <AdaptiveProperties>
+            <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
+                <Factor>0.25</Factor>
             </MaxHitPointScaler>
         </AdaptiveProperties>
     </BodyPartDef>

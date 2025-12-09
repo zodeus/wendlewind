@@ -160,6 +160,10 @@ public static partial class Defs
         public static BodyPartDef Stomach = null!;
         public static BodyPartDef Artery = null!;
         public static BodyPartDef RibCage = null!;
+        public static BodyPartDef Spleen = null!;
+        public static BodyPartDef Kidney = null!;
+        public static BodyPartDef Liver = null!;
+        public static BodyPartDef Intestines = null!;
 
         public static BodyPartDef HumanHead = null!;
         public static BodyPartDef HumanNeck = null!;
