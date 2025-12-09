@@ -13,7 +13,6 @@
         <HitWeight>50</HitWeight>
         <BloodAmount>300</BloodAmount>
         <Substance>Flesh</Substance>
-        <IsVital>true</IsVital>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanTorso</TexturePath>
         <EquipmentSlots>
             <ListItem>PotionSlot1</ListItem>

@@ -10,7 +10,6 @@
         <HitWeight>20</HitWeight>
         <BloodAmount>80</BloodAmount>
         <BodyPartType>Head</BodyPartType>
-        <IsVital>true</IsVital>
         <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Horse/Head</TexturePath>
         <Sockets>
@@ -32,7 +31,6 @@
         <Moniker>HorseNeck</Moniker>
         <Label>Neck</Label>
         <BodyPartType>Neck</BodyPartType>
-        <IsVital>true</IsVital>
         <HitWeight>10</HitWeight>
         <BloodAmount>25</BloodAmount>
         <Substance>Flesh</Substance>
@@ -54,7 +52,6 @@
         <HitWeight>30</HitWeight>
         <BloodAmount>500</BloodAmount>
         <Substance>Flesh</Substance>
-        <IsVital>true</IsVital>
         <TexturePath>Entities/Pawn/BodyParts/Horse/Torso</TexturePath>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
@@ -131,4 +128,3 @@
         </BaseStats>
     </BodyPartDef>
 </Definitions>
-

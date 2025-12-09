@@ -10,7 +10,6 @@
         <HitWeight>35</HitWeight>
         <BloodAmount>120</BloodAmount>
         <BodyPartType>Head</BodyPartType>
-        <IsVital>true</IsVital>
         <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Wearbear/Head</TexturePath>
         <Sockets>
@@ -35,7 +34,6 @@
         <HitWeight>40</HitWeight>
         <BloodAmount>800</BloodAmount>
         <Substance>Flesh</Substance>
-        <IsVital>true</IsVital>
         <TexturePath>Entities/Pawn/BodyParts/Wearbear/Torso</TexturePath>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
@@ -152,4 +150,3 @@
         </BaseStats>
     </BodyPartDef>
 </Definitions>
-

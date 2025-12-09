@@ -9,7 +9,6 @@
         <HitWeight>15</HitWeight>
         <BloodAmount>0</BloodAmount>
         <BodyPartType>Head</BodyPartType>
-        <IsVital>true</IsVital>
         <Substance>Stone</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Inukshuk/Head</TexturePath>
         <Sockets>
@@ -31,7 +30,6 @@
         <HitWeight>40</HitWeight>
         <BloodAmount>0</BloodAmount>
         <Substance>Stone</Substance>
-        <IsVital>true</IsVital>
         <TexturePath>Entities/Pawn/BodyParts/Inukshuk/Torso</TexturePath>
         <EquipmentSlots>
             <ListItem>TorsoArmor</ListItem>

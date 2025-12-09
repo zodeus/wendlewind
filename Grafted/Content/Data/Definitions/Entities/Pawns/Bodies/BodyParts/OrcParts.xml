@@ -10,7 +10,6 @@
         <HitWeight>20</HitWeight>
         <BloodAmount>50</BloodAmount>
         <BodyPartType>Head</BodyPartType>
-        <IsVital>true</IsVital>
         <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Orc/Head</TexturePath>
         <Sockets>
@@ -35,7 +34,6 @@
         <HitWeight>50</HitWeight>
         <BloodAmount>300</BloodAmount>
         <Substance>Flesh</Substance>
-        <IsVital>true</IsVital>
         <TexturePath>Entities/Pawn/BodyParts/Orc/Torso</TexturePath>
         <EquipmentSlots>
             <ListItem>TorsoArmor</ListItem>

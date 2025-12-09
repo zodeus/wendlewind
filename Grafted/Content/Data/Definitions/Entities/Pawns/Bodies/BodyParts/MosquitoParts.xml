@@ -10,7 +10,6 @@
         <HitWeight>100</HitWeight>
         <BloodAmount>80</BloodAmount>
         <BodyPartType>Head</BodyPartType>
-        <IsVital>true</IsVital>
         <Substance>Chitin</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Mosquito/Head</TexturePath>
         <Sockets>
@@ -62,7 +61,6 @@
         <HitWeight>200</HitWeight>
         <BloodAmount>100</BloodAmount>
         <Substance>Chitin</Substance>
-        <IsVital>true</IsVital>
         <TexturePath>Entities/Pawn/BodyParts/Mosquito/Thorax</TexturePath>
         <Sockets>
             <ListItem>StomachSocket</ListItem>

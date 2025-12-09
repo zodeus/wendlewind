@@ -52,7 +52,6 @@
         <HitWeight>40</HitWeight>
         <BloodAmount>300</BloodAmount>
         <Substance>Flesh</Substance>
-        <IsVital>true</IsVital>
         <TexturePath>Entities/Pawn/BodyParts/Ghoul/Torso</TexturePath>
         <EquipmentSlots>
             <ListItem>TorsoArmor</ListItem>

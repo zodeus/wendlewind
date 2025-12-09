@@ -10,7 +10,6 @@
         <HitWeight>100</HitWeight>
         <BloodAmount>0</BloodAmount>
         <BodyPartType>Head</BodyPartType>
-        <IsVital>false</IsVital>
         <Substance>Fungus</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Mushroom/Cap</TexturePath>
         <Sockets/>
@@ -28,7 +27,6 @@
         <HitWeight>50</HitWeight>
         <BloodAmount>0</BloodAmount>
         <Substance>Fungus</Substance>
-        <IsVital>true</IsVital>
         <TexturePath>Entities/Pawn/BodyParts/Mushroom/Stump</TexturePath>
         <Sockets>
             <ListItem>HeadSocket</ListItem>

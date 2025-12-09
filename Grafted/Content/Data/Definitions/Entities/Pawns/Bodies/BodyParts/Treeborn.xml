@@ -14,7 +14,6 @@
         <HitWeight>50</HitWeight>
         <BloodAmount>300</BloodAmount>
         <Substance>Wood</Substance>
-        <IsVital>false</IsVital>
         <TexturePath>Entities/Pawn/BodyParts/Tree/Trunk</TexturePath>
         <EquipmentSlots>
             <ListItem>TorsoArmor</ListItem>
