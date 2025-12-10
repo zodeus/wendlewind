@@ -73,9 +73,21 @@
     </AchievementDef>
 
     <AchievementDef>
+        <Moniker>SweatingBlood</Moniker>
+        <Label>Sweating Blood</Label>
+        <Description>Survive a fight with less than 10% blood.</Description>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+        <!-- <BenifitDescription>After combat, if the fallen has animal blood, you will drink it.</BenifitDescription> -->
+        <Category>Survival</Category>
+        <HandlerClass>SweatingBloodHandler</HandlerClass>
+        <TargetValue>0.1</TargetValue>
+        <IsHidden>true</IsHidden>
+    </AchievementDef>
+
+    <AchievementDef>
         <Moniker>VampireWannabe</Moniker>
         <Label>Vampire Wannabe</Label>
-        <Description>Survive a fight with less than 10% blood.</Description>
+        <Description>Absorb blood.</Description>
         <BenifitDescription>Not implemented.</BenifitDescription>
         <!-- <BenifitDescription>After combat, if the fallen has animal blood, you will drink it.</BenifitDescription> -->
         <Category>Survival</Category>

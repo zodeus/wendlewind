@@ -1,5 +1,3 @@
-using Myra.Graphics2D.Brushes;
-
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
 /// <summary>
@@ -11,7 +9,7 @@ public readonly struct PipData
     public string Label { get; init; }
 }
 
-public sealed class ImageCircleIcon : Panel
+public sealed class BodyPartIcon : Panel
 {
     // Number of individual modifier pips we will render under the icon.
     // Extra modifiers beyond this are ignored for now (still visible in the detailed panel).
@@ -21,9 +19,9 @@ public sealed class ImageCircleIcon : Panel
     private readonly ColoredRegion _backgroundTexture;
     private readonly List<Panel> _pipWidgets = new();
     private Label? _tooltipLabel;
-    private event Action<ImageCircleIcon>? Handler;
+    private event Action<BodyPartIcon>? Handler;
 
-    public ImageCircleIcon(ColoredRegion? imageTexture, Action<ImageCircleIcon>? handler = null)
+    public BodyPartIcon(ColoredRegion? imageTexture, Action<BodyPartIcon>? handler = null)
     {
         _imageTexture = imageTexture;
         var image = new Image { Background = imageTexture };
@@ -93,9 +91,16 @@ public sealed class ImageCircleIcon : Panel
             Top = -20,
         };
 
+        const int maxPipsPerRow = 3;
+        
         for (var i = 0; i < pipCount; i++)
         {
             var pipData = pips[i];
+            var column = i % maxPipsPerRow;
+            var row = i / maxPipsPerRow;
+            var pipLeft = column * (pipDiameter + pipSpacing);
+            var pipTop = row * (pipDiameter + pipSpacing);
+            
             var pip = new Panel
             {
                 Width = pipDiameter,
@@ -105,19 +110,21 @@ public sealed class ImageCircleIcon : Panel
                     pipData.Color),
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top,
-                Left = i * (pipDiameter + pipSpacing),
-                Top = 0
+                Left = pipLeft,
+                Top = pipTop
             };
 
             // Add hover handlers to show/hide tooltip
             var label = pipData.Label;
-            var pipLeft = i * (pipDiameter + pipSpacing);
+            var capturedPipLeft = pipLeft;
+            var capturedPipTop = pipTop;
             pip.MouseEntered += (_, _) =>
             {
                 if (_tooltipLabel != null)
                 {
                     _tooltipLabel.Text = label;
-                    _tooltipLabel.Left = pipLeft;
+                    _tooltipLabel.Left = capturedPipLeft;
+                    _tooltipLabel.Top = capturedPipTop - 20;
                     _tooltipLabel.Visible = true;
                     _tooltipLabel.TextColor = Color.GhostWhite;
                 }

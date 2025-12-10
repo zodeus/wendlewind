@@ -35,8 +35,11 @@
                 </ShrineProperties>
             </ListItem>
             <ListItem>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>ResourceChest1</ListItem>
+                    <ListItem>ResourceChest2</ListItem>
+                    <ListItem>ArmorChestChain</ListItem>
+                    <ListItem>EnchantedChestDefensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -48,8 +51,11 @@
                 </Enemies>
             </ListItem>
             <ListItem>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>ResourceChest1</ListItem>
+                    <ListItem>ResourceChest2</ListItem>
+                    <ListItem>ArmorChestChain</ListItem>
+                    <ListItem>EnchantedChestOffensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -61,8 +67,10 @@
                 </Enemies>
             </ListItem>
             <ListItem>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>TrinketChestCombat</ListItem>
+                    <ListItem>ResourceChest2</ListItem>
+                    <ListItem>MedicinalChest</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -74,8 +82,12 @@
                 </Enemies>
             </ListItem>
             <ListItem>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>MedicinalChest</ListItem>
+                    <ListItem>ArmorChestChain</ListItem>
+                    <ListItem>ResourceChest2</ListItem>
+                    <ListItem>EnchantedChestDefensive</ListItem>
+                    <ListItem>EnchantedChestOffensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -88,8 +100,11 @@
             </ListItem>
             <ListItem>
                 <IsBoss>true</IsBoss>
+                <MaxBoxes>3</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>TrinketChest3</ListItem>
+                    <ListItem>EnchantedChestDefensive</ListItem>
+                    <ListItem>EnchantedChestOffensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>

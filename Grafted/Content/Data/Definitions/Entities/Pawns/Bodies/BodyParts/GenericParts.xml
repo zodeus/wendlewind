@@ -166,7 +166,6 @@
         <Label>Liver</Label>
         <BodyPartType>Liver</BodyPartType>
         <BloodAmount>25</BloodAmount>
-        <IsVital>true</IsVital>
         <IsOrgan>true</IsOrgan>
         <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Generic/Liver</TexturePath>

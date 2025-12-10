@@ -33,15 +33,14 @@ public sealed class PawnBodyEffectsPanel : Panel, IUpdatable
         if (_orientation == EffectsPanelOrientation.Vertical)
         {
             // Vertical: columns arranged horizontally, items stacked vertically within each column
-            _container = new HorizontalStackPanel { Spacing = 2, VerticalAlignment = VerticalAlignment.Bottom };
+            _container = new HorizontalStackPanel { Spacing = 2, VerticalAlignment = VerticalAlignment.Top };
         }
         else
         {
             // Horizontal: rows arranged vertically, items stacked horizontally within each row
-            _container = new VerticalStackPanel { Spacing = 2, VerticalAlignment = VerticalAlignment.Bottom };
+            _container = new VerticalStackPanel { Spacing = 2, VerticalAlignment = VerticalAlignment.Top };
         }
         
-        VerticalAlignment = VerticalAlignment.Bottom;
         Widgets.Add(_container);
     }
 
@@ -58,7 +57,7 @@ public sealed class PawnBodyEffectsPanel : Panel, IUpdatable
             
             for (int col = 0; col < columnCount; col++)
             {
-                var column = new VerticalStackPanel { Spacing = 2, VerticalAlignment = VerticalAlignment.Bottom };
+                var column = new VerticalStackPanel { Spacing = 2, VerticalAlignment = VerticalAlignment.Top };
                 _container.Widgets.Add(column);
                 
                 for (int row = 0; row < MaxItemsVertical; row++)
@@ -168,7 +167,7 @@ public sealed class PawnBodyEffectsPanel : Panel, IUpdatable
             _durationLabel = new Label(BaseContent.Styles.Label.Small)
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Bottom,
+                VerticalAlignment = VerticalAlignment.Top,
                 Padding = new Thickness(0, 0, 0, 2),
             };
 
@@ -177,7 +176,7 @@ public sealed class PawnBodyEffectsPanel : Panel, IUpdatable
                 Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
                 Width = BaseContent.IconSizes.Large,
                 Height = BaseContent.IconSizes.Large,
-                Padding = new Thickness(8, 8, 8, 4),
+                Padding = new Thickness(10, 10, 10, 6),
                 Content = new Panel
                 {
                     Background = new TextureRegion(effect.Def.Texture),
@@ -205,9 +204,16 @@ public sealed class PawnBodyEffectsPanel : Panel, IUpdatable
 
         public void Update()
         {
-            _durationLabel.Text = $"{_effect.TicksLeft}";
+            var ticks = _effect.TicksLeft;
+            _durationLabel.Text = FormatTicks(ticks);
+            
+            // Lerp from red (0 ticks) to green (5000+ ticks)
+            var t = Math.Clamp(ticks / 5000f, 0f, 1f);
+            _durationLabel.TextColor = Color.Lerp(Color.Red, Color.LawnGreen, t);
         }
     }
+    
+    internal static string FormatTicks(int ticks) => ticks >= 10000 ? $"{ticks / 1000}k" : ticks.ToString();
 }
 
 public sealed class PawnBodyEffectPanel : VerticalStackPanel
@@ -241,6 +247,6 @@ public sealed class PawnBodyEffectPanel : VerticalStackPanel
 
     public void Update()
     {
-        _durationLabel.Text = $"  Ticks left /c[{TC.Blue}] {_effect.TicksLeft}";
+        _durationLabel.Text = $"  Ticks left /c[{TC.Blue}] {PawnBodyEffectsPanel.FormatTicks(_effect.TicksLeft)}";
     }
 }

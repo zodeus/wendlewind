@@ -75,14 +75,14 @@ internal sealed class SocketLabel : HorizontalStackPanel
 {
     private readonly BodyPartSocket _socket;
     private readonly Label _label;
-    private readonly ImageCircleIcon _icon;
+    private readonly BodyPartIcon _icon;
 
 
     public SocketLabel(BodyPartSocket socket, bool showInternalParts)
     {
         _socket = socket;
         Spacing = 5;
-        _icon = new ImageCircleIcon(null);
+        _icon = new BodyPartIcon(null);
         _label = new Label(BaseContent.Styles.Label.Medium)
         {
             Text = $"{socket.Label}",

@@ -17,7 +17,7 @@ public sealed class SlingshotPanel : EntityPanelBase
         _handler = (SlingshotHandler)item.TrinketHandler!;
         Padding = new Thickness(20);
         Width = 400;
-        Height = 500;
+        Height = 600;
 
         // Header with icon and title
         var header = new HorizontalStackPanel
@@ -86,12 +86,14 @@ public sealed class SlingshotPanel : EntityPanelBase
         });
 
         _ammoListPanel = new VerticalStackPanel { Spacing = 5 };
-        Widgets.Add(new ScrollViewer
+        var scrollViewer = new ScrollViewer
         {
             Content = _ammoListPanel,
             MaxHeight = 200,
             VerticalAlignment = VerticalAlignment.Stretch
-        });
+        };
+        SetProportionType(scrollViewer, ProportionType.Fill);
+        Widgets.Add(scrollViewer);
 
         RefreshAmmoList();
     }

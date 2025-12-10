@@ -37,21 +37,8 @@
         </Resources>
         <Encounters>
             <ListItem>
-                <ShrineProperties>
-                    <GodLabel>Herminor</GodLabel>
-                    <PartsToRestore>2~4</PartsToRestore>
-                    <TexturePath>Biome/Shrines/cemetery_shrine_1</TexturePath>
-                    <RestorablePartTypes>
-                        <ListItem>Thumb</ListItem>
-                        <ListItem>Finger</ListItem>
-                        <ListItem>Hand</ListItem>
-                        <ListItem>Foot</ListItem>
-                    </RestorablePartTypes>
-                </ShrineProperties>
-            </ListItem>
-            <ListItem>
                 <PotentialLootBoxes>
-                    <ListItem>TrinketChestNormal</ListItem>
+                    <ListItem>TrinketChest3</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -152,7 +139,7 @@
             <ListItem>
                 <IsBoss>true</IsBoss>
                 <PotentialLootBoxes>
-                    <ListItem>TrinketChestNormal</ListItem>
+                    <ListItem>TrinketChest3</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>

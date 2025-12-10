@@ -12,7 +12,7 @@
             <ListItem>
                 <Item>ShimmeringBark</Item>
                 <Amount>1</Amount>
-                <ChanceToHarvest>.7</ChanceToHarvest>
+                <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>
             <ListItem>
                 <Item>HealingRoot</Item>
@@ -35,8 +35,12 @@
                 </ShrineProperties>
             </ListItem>
             <ListItem>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ResourceChest1</ListItem>
+                    <ListItem>EnchantedChestDefensive</ListItem>
+                    <ListItem>EnchantedChestOffensive</ListItem>
+                    <ListItem>ArmorChestChain</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -55,8 +59,11 @@
                 </Enemies>
             </ListItem>
             <ListItem>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ResourceChest1</ListItem>
+                    <ListItem>EnchantedChestDefensive</ListItem>
+                    <ListItem>EnchantedChestOffensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -75,8 +82,12 @@
                 </Enemies>
             </ListItem>
             <ListItem>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>TrinketChest3</ListItem>
+                    <ListItem>TrinketChest2</ListItem>
+                    <ListItem>EnchantedChestDefensive</ListItem>
+                    <ListItem>EnchantedChestOffensive</ListItem>
+                    <ListItem>ArmorChestChain</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -95,8 +106,12 @@
                 </Enemies>
             </ListItem>
             <ListItem>
+                <MaxBoxes>3</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>TrinketChest3</ListItem>
+                    <ListItem>TrinketChest2</ListItem>
+                    <ListItem>EnchantedChestDefensive</ListItem>
+                    <ListItem>EnchantedChestOffensive</ListItem>
+                    <ListItem>ArmorChestChain</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>

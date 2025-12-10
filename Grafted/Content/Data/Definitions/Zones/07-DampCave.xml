@@ -25,11 +25,6 @@
                 <ChanceToHarvest>.3</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>GlitteringLog</Item>
-                <Amount>1</Amount>
-                <ChanceToHarvest>.5</ChanceToHarvest>
-            </ListItem>
-            <ListItem>
                 <Item>IronNugget</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.3</ChanceToHarvest>
@@ -54,7 +49,7 @@
                 <PotentialLootBoxes>
                     <ListItem>EnchantedChestDefensive</ListItem>
                     <ListItem>EnchantedChestOffensive</ListItem>
-                    <ListItem>TrinketChestNormal</ListItem>
+                    <ListItem>TrinketChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -78,7 +73,7 @@
                 <MaxBoxes>3</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>SupplyChestBasic</ListItem>
-                    <ListItem>TrinketChestNormal</ListItem>
+                    <ListItem>TrinketChest2</ListItem>
                     <ListItem>MedicinalChest</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
@@ -129,7 +124,7 @@
                 <MaxBoxes>1</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>EnchantedChestDefensive</ListItem>
-                    <ListItem>TrinketChestNormal</ListItem>
+                    <ListItem>TrinketChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -155,7 +150,7 @@
                 <MaxBoxes>1</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>EnchantedChestDefensive</ListItem>
-                    <ListItem>TrinketChestNormal</ListItem>
+                    <ListItem>TrinketChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>

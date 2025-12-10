@@ -1,0 +1,3653 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SaveData>
+	<Context>
+		<World>
+			<Player>
+				<Pawn>
+					<PawnType>Player</PawnType>
+					<Biography>
+						<Name>Human (specimen # 30386)</Name>
+					</Biography>
+					<Traits>
+						<Traits />
+					</Traits>
+					<Mind>
+						<Sanity>1</Sanity>
+						<Focus>0.1</Focus>
+					</Mind>
+					<Body>
+						<Id>4391-Body</Id>
+						<BloodAmount>602.0632</BloodAmount>
+						<Energy>100</Energy>
+						<Temperature>32</Temperature>
+						<StomachLevel>0.93160933</StomachLevel>
+						<Capabilities />
+						<Effects>
+							<_effects>
+								<li>
+									<Def>BeefedUp</Def>
+									<TicksLeft>9816</TicksLeft>
+								</li>
+								<li>
+									<Def>SmokeyHaze</Def>
+									<TicksLeft>11996</TicksLeft>
+								</li>
+								<li>
+									<Def>Psychedelic</Def>
+									<TicksLeft>3996</TicksLeft>
+								</li>
+								<li>
+									<Def>Fishy</Def>
+									<TicksLeft>7996</TicksLeft>
+								</li>
+								<li>
+									<Def>Energized</Def>
+									<TicksLeft>11996</TicksLeft>
+								</li>
+								<li>
+									<Def>BeefedUp+</Def>
+									<TicksLeft>3996</TicksLeft>
+								</li>
+							</_effects>
+						</Effects>
+						<Stance>Offensive</Stance>
+						<RootSocket>
+							<Id>3732</Id>
+							<Def>HeadSocket</Def>
+							<AttachedPart>
+								<Id>4392</Id>
+								<Def>HumanHead</Def>
+								<InternalState>UnSpawned</InternalState>
+								<HitPoints>250</HitPoints>
+								<AdaptedLabel>Head</AdaptedLabel>
+								<MaxHitPoints>250</MaxHitPoints>
+								<TicksSinceLastHit>1200</TicksSinceLastHit>
+								<Socket>BodyPartSocket-3732</Socket>
+								<Sockets>
+									<li>
+										<Id>3733</Id>
+										<Def>SkinSocket</Def>
+										<AttachedPart>
+											<Id>4396</Id>
+											<Def>Skin</Def>
+											<InternalState>UnSpawned</InternalState>
+											<HitPoints>175</HitPoints>
+											<AdaptedLabel>Skin</AdaptedLabel>
+											<MaxHitPoints>175</MaxHitPoints>
+											<TicksSinceLastHit>1200</TicksSinceLastHit>
+											<Socket>BodyPartSocket-3733</Socket>
+											<Sockets />
+											<Modifiers />
+											<Equipment>
+												<keys />
+												<values />
+											</Equipment>
+										</AttachedPart>
+										<ParentPart>Entity_4392</ParentPart>
+										<Body>null</Body>
+										<IsSealed>True</IsSealed>
+										<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+									</li>
+									<li>
+										<Id>3734</Id>
+										<Def>SkullSocket</Def>
+										<AttachedPart>
+											<Id>4397</Id>
+											<Def>Skull</Def>
+											<InternalState>UnSpawned</InternalState>
+											<HitPoints>200</HitPoints>
+											<AdaptedLabel>Skull</AdaptedLabel>
+											<MaxHitPoints>200</MaxHitPoints>
+											<TicksSinceLastHit>1200</TicksSinceLastHit>
+											<Socket>BodyPartSocket-3734</Socket>
+											<Sockets>
+												<li>
+													<Id>3739</Id>
+													<Def>BrainSocket</Def>
+													<AttachedPart>
+														<Id>4398</Id>
+														<Def>Brain</Def>
+														<InternalState>UnSpawned</InternalState>
+														<HitPoints>30</HitPoints>
+														<AdaptedLabel>Brain</AdaptedLabel>
+														<MaxHitPoints>30</MaxHitPoints>
+														<TicksSinceLastHit>9600</TicksSinceLastHit>
+														<Socket>BodyPartSocket-3739</Socket>
+														<Sockets />
+														<Modifiers />
+														<Equipment>
+															<keys />
+															<values />
+														</Equipment>
+													</AttachedPart>
+													<ParentPart>Entity_4397</ParentPart>
+													<Body>null</Body>
+													<IsSealed>True</IsSealed>
+													<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+												</li>
+											</Sockets>
+											<Modifiers />
+											<Equipment>
+												<keys />
+												<values />
+											</Equipment>
+										</AttachedPart>
+										<ParentPart>Entity_4392</ParentPart>
+										<Body>null</Body>
+										<IsSealed>True</IsSealed>
+										<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+									</li>
+									<li>
+										<Id>3735</Id>
+										<Def>ArterySocket</Def>
+										<AttachedPart>
+											<Id>4393</Id>
+											<Def>Artery</Def>
+											<InternalState>UnSpawned</InternalState>
+											<HitPoints>20</HitPoints>
+											<AdaptedLabel>Artery</AdaptedLabel>
+											<MaxHitPoints>20</MaxHitPoints>
+											<TicksSinceLastHit>-2147474049</TicksSinceLastHit>
+											<Socket>BodyPartSocket-3735</Socket>
+											<Sockets />
+											<Modifiers />
+											<Equipment>
+												<keys />
+												<values />
+											</Equipment>
+										</AttachedPart>
+										<ParentPart>Entity_4392</ParentPart>
+										<Body>null</Body>
+										<IsSealed>True</IsSealed>
+										<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+									</li>
+									<li>
+										<Id>3736</Id>
+										<Def>LeftEyeSocket</Def>
+										<AttachedPart>
+											<Id>4394</Id>
+											<Def>Eye</Def>
+											<InternalState>UnSpawned</InternalState>
+											<HitPoints>3</HitPoints>
+											<AdaptedLabel>Left Eye</AdaptedLabel>
+											<MaxHitPoints>3</MaxHitPoints>
+											<TicksSinceLastHit>3600</TicksSinceLastHit>
+											<Socket>BodyPartSocket-3736</Socket>
+											<Sockets />
+											<Modifiers />
+											<Equipment>
+												<keys />
+												<values />
+											</Equipment>
+										</AttachedPart>
+										<ParentPart>Entity_4392</ParentPart>
+										<Body>null</Body>
+										<IsSealed>True</IsSealed>
+										<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+									</li>
+									<li>
+										<Id>3737</Id>
+										<Def>RightEyeSocket</Def>
+										<AttachedPart>
+											<Id>4395</Id>
+											<Def>Eye</Def>
+											<InternalState>UnSpawned</InternalState>
+											<HitPoints>3</HitPoints>
+											<AdaptedLabel>Right Eye</AdaptedLabel>
+											<MaxHitPoints>3</MaxHitPoints>
+											<TicksSinceLastHit>3902</TicksSinceLastHit>
+											<Socket>BodyPartSocket-3737</Socket>
+											<Sockets />
+											<Modifiers />
+											<Equipment>
+												<keys />
+												<values />
+											</Equipment>
+										</AttachedPart>
+										<ParentPart>Entity_4392</ParentPart>
+										<Body>null</Body>
+										<IsSealed>True</IsSealed>
+										<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+									</li>
+									<li>
+										<Id>3738</Id>
+										<Def>NeckSocket</Def>
+										<AttachedPart>
+											<Id>4399</Id>
+											<Def>HumanNeck</Def>
+											<InternalState>UnSpawned</InternalState>
+											<HitPoints>120</HitPoints>
+											<AdaptedLabel>Neck</AdaptedLabel>
+											<MaxHitPoints>120</MaxHitPoints>
+											<TicksSinceLastHit>3600</TicksSinceLastHit>
+											<Socket>BodyPartSocket-3738</Socket>
+											<Sockets>
+												<li>
+													<Id>3740</Id>
+													<Def>SkinSocket</Def>
+													<AttachedPart>
+														<Id>4402</Id>
+														<Def>Skin</Def>
+														<InternalState>UnSpawned</InternalState>
+														<HitPoints>84</HitPoints>
+														<AdaptedLabel>Skin</AdaptedLabel>
+														<MaxHitPoints>84</MaxHitPoints>
+														<TicksSinceLastHit>3600</TicksSinceLastHit>
+														<Socket>BodyPartSocket-3740</Socket>
+														<Sockets />
+														<Modifiers />
+														<Equipment>
+															<keys />
+															<values />
+														</Equipment>
+													</AttachedPart>
+													<ParentPart>Entity_4399</ParentPart>
+													<Body>null</Body>
+													<IsSealed>True</IsSealed>
+													<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+												</li>
+												<li>
+													<Id>3741</Id>
+													<Def>BoneSocket</Def>
+													<AttachedPart>
+														<Id>4401</Id>
+														<Def>Bone</Def>
+														<InternalState>UnSpawned</InternalState>
+														<HitPoints>102</HitPoints>
+														<AdaptedLabel>Bone</AdaptedLabel>
+														<MaxHitPoints>102</MaxHitPoints>
+														<TicksSinceLastHit>3600</TicksSinceLastHit>
+														<Socket>BodyPartSocket-3741</Socket>
+														<Sockets />
+														<Modifiers />
+														<Equipment>
+															<keys />
+															<values />
+														</Equipment>
+													</AttachedPart>
+													<ParentPart>Entity_4399</ParentPart>
+													<Body>null</Body>
+													<IsSealed>True</IsSealed>
+													<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+												</li>
+												<li>
+													<Id>3742</Id>
+													<Def>ArterySocket</Def>
+													<AttachedPart>
+														<Id>4400</Id>
+														<Def>Artery</Def>
+														<InternalState>UnSpawned</InternalState>
+														<HitPoints>9</HitPoints>
+														<AdaptedLabel>Artery</AdaptedLabel>
+														<MaxHitPoints>9</MaxHitPoints>
+														<TicksSinceLastHit>-2147472218</TicksSinceLastHit>
+														<Socket>BodyPartSocket-3742</Socket>
+														<Sockets />
+														<Modifiers />
+														<Equipment>
+															<keys />
+															<values />
+														</Equipment>
+													</AttachedPart>
+													<ParentPart>Entity_4399</ParentPart>
+													<Body>null</Body>
+													<IsSealed>True</IsSealed>
+													<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+												</li>
+												<li>
+													<Id>3743</Id>
+													<Def>TorsoSocket</Def>
+													<AttachedPart>
+														<Id>4403</Id>
+														<Def>HumanTorso</Def>
+														<InternalState>UnSpawned</InternalState>
+														<HitPoints>400</HitPoints>
+														<AdaptedLabel>Torso</AdaptedLabel>
+														<MaxHitPoints>400</MaxHitPoints>
+														<TicksSinceLastHit>654</TicksSinceLastHit>
+														<Socket>BodyPartSocket-3743</Socket>
+														<Sockets>
+															<li>
+																<Id>3744</Id>
+																<Def>SkinSocket</Def>
+																<AttachedPart>
+																	<Id>4404</Id>
+																	<Def>Skin</Def>
+																	<InternalState>UnSpawned</InternalState>
+																	<HitPoints>280</HitPoints>
+																	<AdaptedLabel>Skin</AdaptedLabel>
+																	<MaxHitPoints>280</MaxHitPoints>
+																	<TicksSinceLastHit>654</TicksSinceLastHit>
+																	<Socket>BodyPartSocket-3744</Socket>
+																	<Sockets />
+																	<Modifiers />
+																	<Equipment>
+																		<keys />
+																		<values />
+																	</Equipment>
+																</AttachedPart>
+																<ParentPart>Entity_4403</ParentPart>
+																<Body>null</Body>
+																<IsSealed>True</IsSealed>
+																<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+															</li>
+															<li>
+																<Id>3745</Id>
+																<Def>RibCageSocket</Def>
+																<AttachedPart>
+																	<Id>4411</Id>
+																	<Def>RibCage</Def>
+																	<InternalState>UnSpawned</InternalState>
+																	<HitPoints>320</HitPoints>
+																	<AdaptedLabel>Rib Cage</AdaptedLabel>
+																	<MaxHitPoints>320</MaxHitPoints>
+																	<TicksSinceLastHit>654</TicksSinceLastHit>
+																	<Socket>BodyPartSocket-3745</Socket>
+																	<Sockets>
+																		<li>
+																			<Id>3756</Id>
+																			<Def>ArterySocket</Def>
+																			<AttachedPart>
+																				<Id>4412</Id>
+																				<Def>Artery</Def>
+																				<InternalState>UnSpawned</InternalState>
+																				<HitPoints>25</HitPoints>
+																				<AdaptedLabel>Artery</AdaptedLabel>
+																				<MaxHitPoints>25</MaxHitPoints>
+																				<TicksSinceLastHit>12487</TicksSinceLastHit>
+																				<Socket>BodyPartSocket-3756</Socket>
+																				<Sockets />
+																				<Modifiers />
+																				<Equipment>
+																					<keys />
+																					<values />
+																				</Equipment>
+																			</AttachedPart>
+																			<ParentPart>Entity_4411</ParentPart>
+																			<Body>null</Body>
+																			<IsSealed>True</IsSealed>
+																			<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																		</li>
+																		<li>
+																			<Id>3757</Id>
+																			<Def>HeartSocket</Def>
+																			<AttachedPart>
+																				<Id>4413</Id>
+																				<Def>Heart</Def>
+																				<InternalState>UnSpawned</InternalState>
+																				<HitPoints>51</HitPoints>
+																				<AdaptedLabel>Heart</AdaptedLabel>
+																				<MaxHitPoints>51</MaxHitPoints>
+																				<TicksSinceLastHit>13005</TicksSinceLastHit>
+																				<Socket>BodyPartSocket-3757</Socket>
+																				<Sockets />
+																				<Modifiers />
+																				<Equipment>
+																					<keys />
+																					<values />
+																				</Equipment>
+																			</AttachedPart>
+																			<ParentPart>Entity_4411</ParentPart>
+																			<Body>null</Body>
+																			<IsSealed>True</IsSealed>
+																			<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																		</li>
+																		<li>
+																			<Id>3758</Id>
+																			<Def>LeftLungSocket</Def>
+																			<AttachedPart>
+																				<Id>4414</Id>
+																				<Def>Lung</Def>
+																				<InternalState>UnSpawned</InternalState>
+																				<HitPoints>57</HitPoints>
+																				<AdaptedLabel>Left Lung</AdaptedLabel>
+																				<MaxHitPoints>57</MaxHitPoints>
+																				<TicksSinceLastHit>13891</TicksSinceLastHit>
+																				<Socket>BodyPartSocket-3758</Socket>
+																				<Sockets />
+																				<Modifiers />
+																				<Equipment>
+																					<keys />
+																					<values />
+																				</Equipment>
+																			</AttachedPart>
+																			<ParentPart>Entity_4411</ParentPart>
+																			<Body>null</Body>
+																			<IsSealed>True</IsSealed>
+																			<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																		</li>
+																		<li>
+																			<Id>3759</Id>
+																			<Def>RightLungSocket</Def>
+																			<AttachedPart>
+																				<Id>4415</Id>
+																				<Def>Lung</Def>
+																				<InternalState>UnSpawned</InternalState>
+																				<HitPoints>57</HitPoints>
+																				<AdaptedLabel>Right Lung</AdaptedLabel>
+																				<MaxHitPoints>57</MaxHitPoints>
+																				<TicksSinceLastHit>15714</TicksSinceLastHit>
+																				<Socket>BodyPartSocket-3759</Socket>
+																				<Sockets />
+																				<Modifiers />
+																				<Equipment>
+																					<keys />
+																					<values />
+																				</Equipment>
+																			</AttachedPart>
+																			<ParentPart>Entity_4411</ParentPart>
+																			<Body>null</Body>
+																			<IsSealed>True</IsSealed>
+																			<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																		</li>
+																	</Sockets>
+																	<Modifiers />
+																	<Equipment>
+																		<keys />
+																		<values />
+																	</Equipment>
+																</AttachedPart>
+																<ParentPart>Entity_4403</ParentPart>
+																<Body>null</Body>
+																<IsSealed>True</IsSealed>
+																<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+															</li>
+															<li>
+																<Id>3746</Id>
+																<Def>StomachSocket</Def>
+																<AttachedPart>
+																	<Id>4405</Id>
+																	<Def>Stomach</Def>
+																	<InternalState>UnSpawned</InternalState>
+																	<HitPoints>80</HitPoints>
+																	<AdaptedLabel>Stomach</AdaptedLabel>
+																	<MaxHitPoints>80</MaxHitPoints>
+																	<TicksSinceLastHit>8308</TicksSinceLastHit>
+																	<Socket>BodyPartSocket-3746</Socket>
+																	<Sockets />
+																	<Modifiers />
+																	<Equipment>
+																		<keys />
+																		<values />
+																	</Equipment>
+																</AttachedPart>
+																<ParentPart>Entity_4403</ParentPart>
+																<Body>null</Body>
+																<IsSealed>True</IsSealed>
+																<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+															</li>
+															<li>
+																<Id>3747</Id>
+																<Def>LiverSocket</Def>
+																<AttachedPart>
+																	<Id>4406</Id>
+																	<Def>Liver</Def>
+																	<InternalState>UnSpawned</InternalState>
+																	<HitPoints>88</HitPoints>
+																	<AdaptedLabel>Liver</AdaptedLabel>
+																	<MaxHitPoints>88</MaxHitPoints>
+																	<TicksSinceLastHit>1132</TicksSinceLastHit>
+																	<Socket>BodyPartSocket-3747</Socket>
+																	<Sockets />
+																	<Modifiers />
+																	<Equipment>
+																		<keys />
+																		<values />
+																	</Equipment>
+																</AttachedPart>
+																<ParentPart>Entity_4403</ParentPart>
+																<Body>null</Body>
+																<IsSealed>True</IsSealed>
+																<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+															</li>
+															<li>
+																<Id>3748</Id>
+																<Def>LeftKidneySocket</Def>
+																<AttachedPart>
+																	<Id>4407</Id>
+																	<Def>Kidney</Def>
+																	<InternalState>UnSpawned</InternalState>
+																	<HitPoints>56</HitPoints>
+																	<AdaptedLabel>Left Kidney</AdaptedLabel>
+																	<MaxHitPoints>56</MaxHitPoints>
+																	<TicksSinceLastHit>3200</TicksSinceLastHit>
+																	<Socket>BodyPartSocket-3748</Socket>
+																	<Sockets />
+																	<Modifiers />
+																	<Equipment>
+																		<keys />
+																		<values />
+																	</Equipment>
+																</AttachedPart>
+																<ParentPart>Entity_4403</ParentPart>
+																<Body>null</Body>
+																<IsSealed>True</IsSealed>
+																<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+															</li>
+															<li>
+																<Id>3749</Id>
+																<Def>RightKidneySocket</Def>
+																<AttachedPart>
+																	<Id>4408</Id>
+																	<Def>Kidney</Def>
+																	<InternalState>UnSpawned</InternalState>
+																	<HitPoints>56</HitPoints>
+																	<AdaptedLabel>Right Kidney</AdaptedLabel>
+																	<MaxHitPoints>56</MaxHitPoints>
+																	<TicksSinceLastHit>1132</TicksSinceLastHit>
+																	<Socket>BodyPartSocket-3749</Socket>
+																	<Sockets />
+																	<Modifiers />
+																	<Equipment>
+																		<keys />
+																		<values />
+																	</Equipment>
+																</AttachedPart>
+																<ParentPart>Entity_4403</ParentPart>
+																<Body>null</Body>
+																<IsSealed>True</IsSealed>
+																<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+															</li>
+															<li>
+																<Id>3750</Id>
+																<Def>SpleenSocket</Def>
+																<AttachedPart>
+																	<Id>4409</Id>
+																	<Def>Spleen</Def>
+																	<InternalState>UnSpawned</InternalState>
+																	<HitPoints>96</HitPoints>
+																	<AdaptedLabel>Spleen</AdaptedLabel>
+																	<MaxHitPoints>96</MaxHitPoints>
+																	<TicksSinceLastHit>654</TicksSinceLastHit>
+																	<Socket>BodyPartSocket-3750</Socket>
+																	<Sockets />
+																	<Modifiers />
+																	<Equipment>
+																		<keys />
+																		<values />
+																	</Equipment>
+																</AttachedPart>
+																<ParentPart>Entity_4403</ParentPart>
+																<Body>null</Body>
+																<IsSealed>True</IsSealed>
+																<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+															</li>
+															<li>
+																<Id>3751</Id>
+																<Def>IntestinesSocket</Def>
+																<AttachedPart>
+																	<Id>4410</Id>
+																	<Def>Intestines</Def>
+																	<InternalState>UnSpawned</InternalState>
+																	<HitPoints>100</HitPoints>
+																	<AdaptedLabel>Intestines</AdaptedLabel>
+																	<MaxHitPoints>100</MaxHitPoints>
+																	<TicksSinceLastHit>2462</TicksSinceLastHit>
+																	<Socket>BodyPartSocket-3751</Socket>
+																	<Sockets />
+																	<Modifiers />
+																	<Equipment>
+																		<keys />
+																		<values />
+																	</Equipment>
+																</AttachedPart>
+																<ParentPart>Entity_4403</ParentPart>
+																<Body>null</Body>
+																<IsSealed>True</IsSealed>
+																<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+															</li>
+															<li>
+																<Id>3752</Id>
+																<Def>LeftArmSocket</Def>
+																<AttachedPart>
+																	<Id>4416</Id>
+																	<Def>HumanArm</Def>
+																	<InternalState>UnSpawned</InternalState>
+																	<HitPoints>80</HitPoints>
+																	<AdaptedLabel>Left Arm</AdaptedLabel>
+																	<MaxHitPoints>80</MaxHitPoints>
+																	<TicksSinceLastHit>3197</TicksSinceLastHit>
+																	<Socket>BodyPartSocket-3752</Socket>
+																	<Sockets>
+																		<li>
+																			<Id>3760</Id>
+																			<Def>SkinSocket</Def>
+																			<AttachedPart>
+																				<Id>4418</Id>
+																				<Def>Skin</Def>
+																				<InternalState>UnSpawned</InternalState>
+																				<HitPoints>56</HitPoints>
+																				<AdaptedLabel>Left Skin</AdaptedLabel>
+																				<MaxHitPoints>56</MaxHitPoints>
+																				<TicksSinceLastHit>3197</TicksSinceLastHit>
+																				<Socket>BodyPartSocket-3760</Socket>
+																				<Sockets />
+																				<Modifiers />
+																				<Equipment>
+																					<keys />
+																					<values />
+																				</Equipment>
+																			</AttachedPart>
+																			<ParentPart>Entity_4416</ParentPart>
+																			<Body>null</Body>
+																			<IsSealed>True</IsSealed>
+																			<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																		</li>
+																		<li>
+																			<Id>3761</Id>
+																			<Def>BoneSocket</Def>
+																			<AttachedPart>
+																				<Id>4419</Id>
+																				<Def>Bone</Def>
+																				<InternalState>UnSpawned</InternalState>
+																				<HitPoints>68</HitPoints>
+																				<AdaptedLabel>Left Bone</AdaptedLabel>
+																				<MaxHitPoints>68</MaxHitPoints>
+																				<TicksSinceLastHit>3197</TicksSinceLastHit>
+																				<Socket>BodyPartSocket-3761</Socket>
+																				<Sockets />
+																				<Modifiers />
+																				<Equipment>
+																					<keys />
+																					<values />
+																				</Equipment>
+																			</AttachedPart>
+																			<ParentPart>Entity_4416</ParentPart>
+																			<Body>null</Body>
+																			<IsSealed>True</IsSealed>
+																			<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																		</li>
+																		<li>
+																			<Id>3762</Id>
+																			<Def>ArterySocket</Def>
+																			<AttachedPart>
+																				<Id>4417</Id>
+																				<Def>Artery</Def>
+																				<InternalState>UnSpawned</InternalState>
+																				<HitPoints>6</HitPoints>
+																				<AdaptedLabel>Left Artery</AdaptedLabel>
+																				<MaxHitPoints>6</MaxHitPoints>
+																				<TicksSinceLastHit>3900</TicksSinceLastHit>
+																				<Socket>BodyPartSocket-3762</Socket>
+																				<Sockets />
+																				<Modifiers />
+																				<Equipment>
+																					<keys />
+																					<values />
+																				</Equipment>
+																			</AttachedPart>
+																			<ParentPart>Entity_4416</ParentPart>
+																			<Body>null</Body>
+																			<IsSealed>True</IsSealed>
+																			<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																		</li>
+																		<li>
+																			<Id>3763</Id>
+																			<Def>HandSocket</Def>
+																			<AttachedPart>
+																				<Id>4420</Id>
+																				<Def>HumanHand</Def>
+																				<InternalState>UnSpawned</InternalState>
+																				<HitPoints>50</HitPoints>
+																				<AdaptedLabel>Left Hand</AdaptedLabel>
+																				<MaxHitPoints>50</MaxHitPoints>
+																				<TicksSinceLastHit>794</TicksSinceLastHit>
+																				<Socket>BodyPartSocket-3763</Socket>
+																				<Sockets>
+																					<li>
+																						<Id>3764</Id>
+																						<Def>SkinSocket</Def>
+																						<AttachedPart>
+																							<Id>4421</Id>
+																							<Def>Skin</Def>
+																							<InternalState>UnSpawned</InternalState>
+																							<HitPoints>35</HitPoints>
+																							<AdaptedLabel>Left Skin</AdaptedLabel>
+																							<MaxHitPoints>35</MaxHitPoints>
+																							<TicksSinceLastHit>794</TicksSinceLastHit>
+																							<Socket>BodyPartSocket-3764</Socket>
+																							<Sockets />
+																							<Modifiers />
+																							<Equipment>
+																								<keys />
+																								<values />
+																							</Equipment>
+																						</AttachedPart>
+																						<ParentPart>Entity_4420</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																					<li>
+																						<Id>3765</Id>
+																						<Def>BoneSocket</Def>
+																						<AttachedPart>
+																							<Id>4422</Id>
+																							<Def>Bone</Def>
+																							<InternalState>UnSpawned</InternalState>
+																							<HitPoints>42</HitPoints>
+																							<AdaptedLabel>Left Bone</AdaptedLabel>
+																							<MaxHitPoints>42</MaxHitPoints>
+																							<TicksSinceLastHit>794</TicksSinceLastHit>
+																							<Socket>BodyPartSocket-3765</Socket>
+																							<Sockets />
+																							<Modifiers />
+																							<Equipment>
+																								<keys />
+																								<values />
+																							</Equipment>
+																						</AttachedPart>
+																						<ParentPart>Entity_4420</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																					<li>
+																						<Id>3766</Id>
+																						<Def>ArterySocket</Def>
+																						<AttachedPart>
+																							<Id>4423</Id>
+																							<Def>Artery</Def>
+																							<InternalState>UnSpawned</InternalState>
+																							<HitPoints>4</HitPoints>
+																							<AdaptedLabel>Left Artery</AdaptedLabel>
+																							<MaxHitPoints>4</MaxHitPoints>
+																							<TicksSinceLastHit>-2147470061</TicksSinceLastHit>
+																							<Socket>BodyPartSocket-3766</Socket>
+																							<Sockets />
+																							<Modifiers />
+																							<Equipment>
+																								<keys />
+																								<values />
+																							</Equipment>
+																						</AttachedPart>
+																						<ParentPart>Entity_4420</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																					<li>
+																						<Id>3767</Id>
+																						<Def>ThumbSocket</Def>
+																						<AttachedPart>
+																							<Id>6439</Id>
+																							<Def>HumanThumb</Def>
+																							<InternalState>UnSpawned</InternalState>
+																							<HitPoints>9</HitPoints>
+																							<AdaptedLabel>Left Thumb</AdaptedLabel>
+																							<MaxHitPoints>9</MaxHitPoints>
+																							<TicksSinceLastHit>954</TicksSinceLastHit>
+																							<Socket>BodyPartSocket-3767</Socket>
+																							<Sockets>
+																								<li>
+																									<Id>5426</Id>
+																									<Def>SkinSocket</Def>
+																									<AttachedPart>
+																										<Id>6440</Id>
+																										<Def>Skin</Def>
+																										<InternalState>UnSpawned</InternalState>
+																										<HitPoints>6</HitPoints>
+																										<AdaptedLabel>Left Skin</AdaptedLabel>
+																										<MaxHitPoints>6</MaxHitPoints>
+																										<TicksSinceLastHit>954</TicksSinceLastHit>
+																										<Socket>BodyPartSocket-5426</Socket>
+																										<Sockets />
+																										<Modifiers />
+																										<Equipment>
+																											<keys />
+																											<values />
+																										</Equipment>
+																									</AttachedPart>
+																									<ParentPart>Entity_6439</ParentPart>
+																									<Body>null</Body>
+																									<IsSealed>True</IsSealed>
+																									<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																								</li>
+																								<li>
+																									<Id>5427</Id>
+																									<Def>BoneSocket</Def>
+																									<AttachedPart>
+																										<Id>6441</Id>
+																										<Def>Bone</Def>
+																										<InternalState>UnSpawned</InternalState>
+																										<HitPoints>7</HitPoints>
+																										<AdaptedLabel>Left Bone</AdaptedLabel>
+																										<MaxHitPoints>7</MaxHitPoints>
+																										<TicksSinceLastHit>954</TicksSinceLastHit>
+																										<Socket>BodyPartSocket-5427</Socket>
+																										<Sockets />
+																										<Modifiers />
+																										<Equipment>
+																											<keys />
+																											<values />
+																										</Equipment>
+																									</AttachedPart>
+																									<ParentPart>Entity_6439</ParentPart>
+																									<Body>null</Body>
+																									<IsSealed>True</IsSealed>
+																									<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																								</li>
+																								<li>
+																									<Id>5428</Id>
+																									<Def>ArterySocket</Def>
+																									<AttachedPart>
+																										<Id>6442</Id>
+																										<Def>Artery</Def>
+																										<InternalState>UnSpawned</InternalState>
+																										<HitPoints>1</HitPoints>
+																										<AdaptedLabel>Left Artery</AdaptedLabel>
+																										<MaxHitPoints>1</MaxHitPoints>
+																										<TicksSinceLastHit>954</TicksSinceLastHit>
+																										<Socket>BodyPartSocket-5428</Socket>
+																										<Sockets />
+																										<Modifiers />
+																										<Equipment>
+																											<keys />
+																											<values />
+																										</Equipment>
+																									</AttachedPart>
+																									<ParentPart>Entity_6439</ParentPart>
+																									<Body>null</Body>
+																									<IsSealed>True</IsSealed>
+																									<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																								</li>
+																							</Sockets>
+																							<Modifiers />
+																							<Equipment>
+																								<keys />
+																								<values />
+																							</Equipment>
+																						</AttachedPart>
+																						<ParentPart>Entity_4420</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																					<li>
+																						<Id>3768</Id>
+																						<Def>IndexFingerSocket</Def>
+																						<AttachedPart>
+																							<Id>6693</Id>
+																							<Def>HumanFinger</Def>
+																							<InternalState>UnSpawned</InternalState>
+																							<HitPoints>8</HitPoints>
+																							<AdaptedLabel>Left Index Finger</AdaptedLabel>
+																							<MaxHitPoints>8</MaxHitPoints>
+																							<TicksSinceLastHit>1194</TicksSinceLastHit>
+																							<Socket>BodyPartSocket-3768</Socket>
+																							<Sockets>
+																								<li>
+																									<Id>5584</Id>
+																									<Def>SkinSocket</Def>
+																									<AttachedPart>
+																										<Id>6694</Id>
+																										<Def>Skin</Def>
+																										<InternalState>UnSpawned</InternalState>
+																										<HitPoints>5</HitPoints>
+																										<AdaptedLabel>Index Skin</AdaptedLabel>
+																										<MaxHitPoints>5</MaxHitPoints>
+																										<TicksSinceLastHit>1194</TicksSinceLastHit>
+																										<Socket>BodyPartSocket-5584</Socket>
+																										<Sockets />
+																										<Modifiers />
+																										<Equipment>
+																											<keys />
+																											<values />
+																										</Equipment>
+																									</AttachedPart>
+																									<ParentPart>Entity_6693</ParentPart>
+																									<Body>null</Body>
+																									<IsSealed>True</IsSealed>
+																									<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																								</li>
+																								<li>
+																									<Id>5585</Id>
+																									<Def>BoneSocket</Def>
+																									<AttachedPart>
+																										<Id>6695</Id>
+																										<Def>Bone</Def>
+																										<InternalState>UnSpawned</InternalState>
+																										<HitPoints>6</HitPoints>
+																										<AdaptedLabel>Index Bone</AdaptedLabel>
+																										<MaxHitPoints>6</MaxHitPoints>
+																										<TicksSinceLastHit>1194</TicksSinceLastHit>
+																										<Socket>BodyPartSocket-5585</Socket>
+																										<Sockets />
+																										<Modifiers />
+																										<Equipment>
+																											<keys />
+																											<values />
+																										</Equipment>
+																									</AttachedPart>
+																									<ParentPart>Entity_6693</ParentPart>
+																									<Body>null</Body>
+																									<IsSealed>True</IsSealed>
+																									<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																								</li>
+																								<li>
+																									<Id>5586</Id>
+																									<Def>ArterySocket</Def>
+																									<AttachedPart>
+																										<Id>6696</Id>
+																										<Def>Artery</Def>
+																										<InternalState>UnSpawned</InternalState>
+																										<HitPoints>1</HitPoints>
+																										<AdaptedLabel>Index Artery</AdaptedLabel>
+																										<MaxHitPoints>1</MaxHitPoints>
+																										<TicksSinceLastHit>1194</TicksSinceLastHit>
+																										<Socket>BodyPartSocket-5586</Socket>
+																										<Sockets />
+																										<Modifiers />
+																										<Equipment>
+																											<keys />
+																											<values />
+																										</Equipment>
+																									</AttachedPart>
+																									<ParentPart>Entity_6693</ParentPart>
+																									<Body>null</Body>
+																									<IsSealed>True</IsSealed>
+																									<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																								</li>
+																							</Sockets>
+																							<Modifiers />
+																							<Equipment>
+																								<keys />
+																								<values />
+																							</Equipment>
+																						</AttachedPart>
+																						<ParentPart>Entity_4420</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																					<li>
+																						<Id>3769</Id>
+																						<Def>MiddleFingerSocket</Def>
+																						<AttachedPart>
+																							<Id>4432</Id>
+																							<Def>HumanFinger</Def>
+																							<InternalState>UnSpawned</InternalState>
+																							<HitPoints>8</HitPoints>
+																							<AdaptedLabel>Left Middle Finger</AdaptedLabel>
+																							<MaxHitPoints>8</MaxHitPoints>
+																							<TicksSinceLastHit>1034</TicksSinceLastHit>
+																							<Socket>BodyPartSocket-3769</Socket>
+																							<Sockets>
+																								<li>
+																									<Id>3778</Id>
+																									<Def>SkinSocket</Def>
+																									<AttachedPart>
+																										<Id>4433</Id>
+																										<Def>Skin</Def>
+																										<InternalState>UnSpawned</InternalState>
+																										<HitPoints>5</HitPoints>
+																										<AdaptedLabel>Middle Skin</AdaptedLabel>
+																										<MaxHitPoints>5</MaxHitPoints>
+																										<TicksSinceLastHit>1034</TicksSinceLastHit>
+																										<Socket>BodyPartSocket-3778</Socket>
+																										<Sockets />
+																										<Modifiers />
+																										<Equipment>
+																											<keys />
+																											<values />
+																										</Equipment>
+																									</AttachedPart>
+																									<ParentPart>Entity_4432</ParentPart>
+																									<Body>null</Body>
+																									<IsSealed>True</IsSealed>
+																									<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																								</li>
+																								<li>
+																									<Id>3779</Id>
+																									<Def>BoneSocket</Def>
+																									<AttachedPart>
+																										<Id>4434</Id>
+																										<Def>Bone</Def>
+																										<InternalState>UnSpawned</InternalState>
+																										<HitPoints>6</HitPoints>
+																										<AdaptedLabel>Middle Bone</AdaptedLabel>
+																										<MaxHitPoints>6</MaxHitPoints>
+																										<TicksSinceLastHit>2002</TicksSinceLastHit>
+																										<Socket>BodyPartSocket-3779</Socket>
+																										<Sockets />
+																										<Modifiers />
+																										<Equipment>
+																											<keys />
+																											<values />
+																										</Equipment>
+																									</AttachedPart>
+																									<ParentPart>Entity_4432</ParentPart>
+																									<Body>null</Body>
+																									<IsSealed>True</IsSealed>
+																									<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																								</li>
+																								<li>
+																									<Id>3780</Id>
+																									<Def>ArterySocket</Def>
+																									<AttachedPart>
+																										<Id>4435</Id>
+																										<Def>Artery</Def>
+																										<InternalState>UnSpawned</InternalState>
+																										<HitPoints>1</HitPoints>
+																										<AdaptedLabel>Middle Artery</AdaptedLabel>
+																										<MaxHitPoints>1</MaxHitPoints>
+																										<TicksSinceLastHit>2002</TicksSinceLastHit>
+																										<Socket>BodyPartSocket-3780</Socket>
+																										<Sockets />
+																										<Modifiers />
+																										<Equipment>
+																											<keys />
+																											<values />
+																										</Equipment>
+																									</AttachedPart>
+																									<ParentPart>Entity_4432</ParentPart>
+																									<Body>null</Body>
+																									<IsSealed>True</IsSealed>
+																									<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																								</li>
+																							</Sockets>
+																							<Modifiers />
+																							<Equipment>
+																								<keys />
+																								<values />
+																							</Equipment>
+																						</AttachedPart>
+																						<ParentPart>Entity_4420</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																					<li>
+																						<Id>3770</Id>
+																						<Def>RingFingerSocket</Def>
+																						<AttachedPart>
+																							<Id>4436</Id>
+																							<Def>HumanFinger</Def>
+																							<InternalState>UnSpawned</InternalState>
+																							<HitPoints>8</HitPoints>
+																							<AdaptedLabel>Left Ring Finger</AdaptedLabel>
+																							<MaxHitPoints>8</MaxHitPoints>
+																							<TicksSinceLastHit>2460</TicksSinceLastHit>
+																							<Socket>BodyPartSocket-3770</Socket>
+																							<Sockets>
+																								<li>
+																									<Id>3781</Id>
+																									<Def>SkinSocket</Def>
+																									<AttachedPart>
+																										<Id>4437</Id>
+																										<Def>Skin</Def>
+																										<InternalState>UnSpawned</InternalState>
+																										<HitPoints>5</HitPoints>
+																										<AdaptedLabel>Ring Skin</AdaptedLabel>
+																										<MaxHitPoints>5</MaxHitPoints>
+																										<TicksSinceLastHit>2460</TicksSinceLastHit>
+																										<Socket>BodyPartSocket-3781</Socket>
+																										<Sockets />
+																										<Modifiers />
+																										<Equipment>
+																											<keys />
+																											<values />
+																										</Equipment>
+																									</AttachedPart>
+																									<ParentPart>Entity_4436</ParentPart>
+																									<Body>null</Body>
+																									<IsSealed>True</IsSealed>
+																									<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																								</li>
+																								<li>
+																									<Id>3782</Id>
+																									<Def>BoneSocket</Def>
+																									<AttachedPart>
+																										<Id>4438</Id>
+																										<Def>Bone</Def>
+																										<InternalState>UnSpawned</InternalState>
+																										<HitPoints>6</HitPoints>
+																										<AdaptedLabel>Ring Bone</AdaptedLabel>
+																										<MaxHitPoints>6</MaxHitPoints>
+																										<TicksSinceLastHit>2460</TicksSinceLastHit>
+																										<Socket>BodyPartSocket-3782</Socket>
+																										<Sockets />
+																										<Modifiers />
+																										<Equipment>
+																											<keys />
+																											<values />
+																										</Equipment>
+																									</AttachedPart>
+																									<ParentPart>Entity_4436</ParentPart>
+																									<Body>null</Body>
+																									<IsSealed>True</IsSealed>
+																									<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																								</li>
+																								<li>
+																									<Id>3783</Id>
+																									<Def>ArterySocket</Def>
+																									<AttachedPart>
+																										<Id>4439</Id>
+																										<Def>Artery</Def>
+																										<InternalState>UnSpawned</InternalState>
+																										<HitPoints>1</HitPoints>
+																										<AdaptedLabel>Ring Artery</AdaptedLabel>
+																										<MaxHitPoints>1</MaxHitPoints>
+																										<TicksSinceLastHit>2460</TicksSinceLastHit>
+																										<Socket>BodyPartSocket-3783</Socket>
+																										<Sockets />
+																										<Modifiers />
+																										<Equipment>
+																											<keys />
+																											<values />
+																										</Equipment>
+																									</AttachedPart>
+																									<ParentPart>Entity_4436</ParentPart>
+																									<Body>null</Body>
+																									<IsSealed>True</IsSealed>
+																									<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																								</li>
+																							</Sockets>
+																							<Modifiers />
+																							<Equipment>
+																								<keys />
+																								<values />
+																							</Equipment>
+																						</AttachedPart>
+																						<ParentPart>Entity_4420</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																					<li>
+																						<Id>3771</Id>
+																						<Def>LittleFingerSocket</Def>
+																						<AttachedPart>
+																							<Id>4440</Id>
+																							<Def>HumanFinger</Def>
+																							<InternalState>UnSpawned</InternalState>
+																							<HitPoints>8</HitPoints>
+																							<AdaptedLabel>Left Little Finger</AdaptedLabel>
+																							<MaxHitPoints>8</MaxHitPoints>
+																							<TicksSinceLastHit>2242</TicksSinceLastHit>
+																							<Socket>BodyPartSocket-3771</Socket>
+																							<Sockets>
+																								<li>
+																									<Id>3784</Id>
+																									<Def>SkinSocket</Def>
+																									<AttachedPart>
+																										<Id>4441</Id>
+																										<Def>Skin</Def>
+																										<InternalState>UnSpawned</InternalState>
+																										<HitPoints>5</HitPoints>
+																										<AdaptedLabel>Little Skin</AdaptedLabel>
+																										<MaxHitPoints>5</MaxHitPoints>
+																										<TicksSinceLastHit>2242</TicksSinceLastHit>
+																										<Socket>BodyPartSocket-3784</Socket>
+																										<Sockets />
+																										<Modifiers />
+																										<Equipment>
+																											<keys />
+																											<values />
+																										</Equipment>
+																									</AttachedPart>
+																									<ParentPart>Entity_4440</ParentPart>
+																									<Body>null</Body>
+																									<IsSealed>True</IsSealed>
+																									<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																								</li>
+																								<li>
+																									<Id>3785</Id>
+																									<Def>BoneSocket</Def>
+																									<AttachedPart>
+																										<Id>4442</Id>
+																										<Def>Bone</Def>
+																										<InternalState>UnSpawned</InternalState>
+																										<HitPoints>6</HitPoints>
+																										<AdaptedLabel>Little Bone</AdaptedLabel>
+																										<MaxHitPoints>6</MaxHitPoints>
+																										<TicksSinceLastHit>2242</TicksSinceLastHit>
+																										<Socket>BodyPartSocket-3785</Socket>
+																										<Sockets />
+																										<Modifiers />
+																										<Equipment>
+																											<keys />
+																											<values />
+																										</Equipment>
+																									</AttachedPart>
+																									<ParentPart>Entity_4440</ParentPart>
+																									<Body>null</Body>
+																									<IsSealed>True</IsSealed>
+																									<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																								</li>
+																								<li>
+																									<Id>3786</Id>
+																									<Def>ArterySocket</Def>
+																									<AttachedPart>
+																										<Id>4443</Id>
+																										<Def>Artery</Def>
+																										<InternalState>UnSpawned</InternalState>
+																										<HitPoints>1</HitPoints>
+																										<AdaptedLabel>Little Artery</AdaptedLabel>
+																										<MaxHitPoints>1</MaxHitPoints>
+																										<TicksSinceLastHit>2242</TicksSinceLastHit>
+																										<Socket>BodyPartSocket-3786</Socket>
+																										<Sockets />
+																										<Modifiers />
+																										<Equipment>
+																											<keys />
+																											<values />
+																										</Equipment>
+																									</AttachedPart>
+																									<ParentPart>Entity_4440</ParentPart>
+																									<Body>null</Body>
+																									<IsSealed>True</IsSealed>
+																									<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																								</li>
+																							</Sockets>
+																							<Modifiers />
+																							<Equipment>
+																								<keys />
+																								<values />
+																							</Equipment>
+																						</AttachedPart>
+																						<ParentPart>Entity_4420</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																				</Sockets>
+																				<Modifiers />
+																				<Equipment>
+																					<keys>
+																						<li>BuiltIn</li>
+																						<li>HandArmor</li>
+																						<li>HandWeapon</li>
+																					</keys>
+																					<values>
+																						<li>
+																							<Durability>1</Durability>
+																							<MaxDurability>1</MaxDurability>
+																							<StackSize>1</StackSize>
+																							<Enchantments IsNull="True" />
+																							<EnchantmentHandler IsNull="True" />
+																							<TrinketHandler IsNull="True" />
+																							<Id>4444</Id>
+																							<Def>FleshyHand</Def>
+																							<InternalState>UnSpawned</InternalState>
+																						</li>
+																						<li>
+																							<Durability>476</Durability>
+																							<MaxDurability>500</MaxDurability>
+																							<StackSize>1</StackSize>
+																							<UseInCombat>True</UseInCombat>
+																							<Enchantments>
+																								<MaxEnchantments>1</MaxEnchantments>
+																								<Enchantments>
+																									<keys>
+																										<li>0</li>
+																									</keys>
+																									<values>
+																										<li>
+																											<Durability>1</Durability>
+																											<MaxDurability>1</MaxDurability>
+																											<StackSize>1</StackSize>
+																											<UseInCombat>True</UseInCombat>
+																											<Enchantments IsNull="True" />
+																											<EnchantmentHandler Class="SoothingVibrationsHandler">
+																												<Def>Entity_6487</Def>
+																											</EnchantmentHandler>
+																											<TrinketHandler IsNull="True" />
+																											<Id>6487</Id>
+																											<Def>SoothingVibrations</Def>
+																											<InternalState>UnSpawned</InternalState>
+																										</li>
+																									</values>
+																								</Enchantments>
+																							</Enchantments>
+																							<EnchantmentHandler IsNull="True" />
+																							<TrinketHandler IsNull="True" />
+																							<Id>5885</Id>
+																							<Def>ChainGlove</Def>
+																							<InternalState>UnSpawned</InternalState>
+																						</li>
+																						<li>
+																							<Durability>2000</Durability>
+																							<MaxDurability>2000</MaxDurability>
+																							<StackSize>1</StackSize>
+																							<Enchantments>
+																								<MaxEnchantments>1</MaxEnchantments>
+																								<Enchantments>
+																									<keys>
+																										<li>0</li>
+																									</keys>
+																									<values>
+																										<li>
+																											<Durability>1</Durability>
+																											<MaxDurability>1</MaxDurability>
+																											<StackSize>1</StackSize>
+																											<UseInCombat>True</UseInCombat>
+																											<Enchantments IsNull="True" />
+																											<EnchantmentHandler IsNull="True" />
+																											<TrinketHandler IsNull="True" />
+																											<Id>6434</Id>
+																											<Def>EverburningStone</Def>
+																											<InternalState>UnSpawned</InternalState>
+																										</li>
+																									</values>
+																								</Enchantments>
+																							</Enchantments>
+																							<EnchantmentHandler IsNull="True" />
+																							<TrinketHandler IsNull="True" />
+																							<Id>5511</Id>
+																							<Def>WarAxe</Def>
+																							<InternalState>UnSpawned</InternalState>
+																						</li>
+																					</values>
+																				</Equipment>
+																			</AttachedPart>
+																			<ParentPart>Entity_4416</ParentPart>
+																			<Body>null</Body>
+																			<IsSealed>True</IsSealed>
+																			<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																		</li>
+																	</Sockets>
+																	<Modifiers />
+																	<Equipment>
+																		<keys>
+																			<li>ArmArmor</li>
+																			<li>Bag</li>
+																		</keys>
+																		<values>
+																			<li>
+																				<Durability>608</Durability>
+																				<MaxDurability>800</MaxDurability>
+																				<StackSize>1</StackSize>
+																				<UseInCombat>True</UseInCombat>
+																				<Enchantments>
+																					<MaxEnchantments>1</MaxEnchantments>
+																					<Enchantments>
+																						<keys>
+																							<li>0</li>
+																						</keys>
+																						<values>
+																							<li IsNull="True" />
+																						</values>
+																					</Enchantments>
+																				</Enchantments>
+																				<EnchantmentHandler IsNull="True" />
+																				<TrinketHandler IsNull="True" />
+																				<Id>5884</Id>
+																				<Def>ChainVambrace</Def>
+																				<InternalState>UnSpawned</InternalState>
+																			</li>
+																			<li IsNull="True" />
+																		</values>
+																	</Equipment>
+																</AttachedPart>
+																<ParentPart>Entity_4403</ParentPart>
+																<Body>null</Body>
+																<IsSealed>True</IsSealed>
+																<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+															</li>
+															<li>
+																<Id>3753</Id>
+																<Def>RightArmSocket</Def>
+																<AttachedPart>
+																	<Id>4445</Id>
+																	<Def>HumanArm</Def>
+																	<InternalState>UnSpawned</InternalState>
+																	<HitPoints>80</HitPoints>
+																	<AdaptedLabel>Right Arm</AdaptedLabel>
+																	<MaxHitPoints>80</MaxHitPoints>
+																	<TicksSinceLastHit>1200</TicksSinceLastHit>
+																	<Socket>BodyPartSocket-3753</Socket>
+																	<Sockets>
+																		<li>
+																			<Id>3787</Id>
+																			<Def>SkinSocket</Def>
+																			<AttachedPart>
+																				<Id>4447</Id>
+																				<Def>Skin</Def>
+																				<InternalState>UnSpawned</InternalState>
+																				<HitPoints>56</HitPoints>
+																				<AdaptedLabel>Right Skin</AdaptedLabel>
+																				<MaxHitPoints>56</MaxHitPoints>
+																				<TicksSinceLastHit>1200</TicksSinceLastHit>
+																				<Socket>BodyPartSocket-3787</Socket>
+																				<Sockets />
+																				<Modifiers />
+																				<Equipment>
+																					<keys />
+																					<values />
+																				</Equipment>
+																			</AttachedPart>
+																			<ParentPart>Entity_4445</ParentPart>
+																			<Body>null</Body>
+																			<IsSealed>True</IsSealed>
+																			<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																		</li>
+																		<li>
+																			<Id>3788</Id>
+																			<Def>BoneSocket</Def>
+																			<AttachedPart>
+																				<Id>4448</Id>
+																				<Def>Bone</Def>
+																				<InternalState>UnSpawned</InternalState>
+																				<HitPoints>68</HitPoints>
+																				<AdaptedLabel>Right Bone</AdaptedLabel>
+																				<MaxHitPoints>68</MaxHitPoints>
+																				<TicksSinceLastHit>1200</TicksSinceLastHit>
+																				<Socket>BodyPartSocket-3788</Socket>
+																				<Sockets />
+																				<Modifiers />
+																				<Equipment>
+																					<keys />
+																					<values />
+																				</Equipment>
+																			</AttachedPart>
+																			<ParentPart>Entity_4445</ParentPart>
+																			<Body>null</Body>
+																			<IsSealed>True</IsSealed>
+																			<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																		</li>
+																		<li>
+																			<Id>3789</Id>
+																			<Def>ArterySocket</Def>
+																			<AttachedPart>
+																				<Id>4446</Id>
+																				<Def>Artery</Def>
+																				<InternalState>UnSpawned</InternalState>
+																				<HitPoints>6</HitPoints>
+																				<AdaptedLabel>Right Artery</AdaptedLabel>
+																				<MaxHitPoints>6</MaxHitPoints>
+																				<TicksSinceLastHit>7213</TicksSinceLastHit>
+																				<Socket>BodyPartSocket-3789</Socket>
+																				<Sockets />
+																				<Modifiers />
+																				<Equipment>
+																					<keys />
+																					<values />
+																				</Equipment>
+																			</AttachedPart>
+																			<ParentPart>Entity_4445</ParentPart>
+																			<Body>null</Body>
+																			<IsSealed>True</IsSealed>
+																			<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																		</li>
+																		<li>
+																			<Id>3790</Id>
+																			<Def>HandSocket</Def>
+																			<AttachedPart>
+																				<Id>4449</Id>
+																				<Def>HumanHand</Def>
+																				<InternalState>UnSpawned</InternalState>
+																				<HitPoints>50</HitPoints>
+																				<AdaptedLabel>Right Hand</AdaptedLabel>
+																				<MaxHitPoints>50</MaxHitPoints>
+																				<TicksSinceLastHit>474</TicksSinceLastHit>
+																				<Socket>BodyPartSocket-3790</Socket>
+																				<Sockets>
+																					<li>
+																						<Id>3791</Id>
+																						<Def>SkinSocket</Def>
+																						<AttachedPart>
+																							<Id>4450</Id>
+																							<Def>Skin</Def>
+																							<InternalState>UnSpawned</InternalState>
+																							<HitPoints>35</HitPoints>
+																							<AdaptedLabel>Right Skin</AdaptedLabel>
+																							<MaxHitPoints>35</MaxHitPoints>
+																							<TicksSinceLastHit>474</TicksSinceLastHit>
+																							<Socket>BodyPartSocket-3791</Socket>
+																							<Sockets />
+																							<Modifiers />
+																							<Equipment>
+																								<keys />
+																								<values />
+																							</Equipment>
+																						</AttachedPart>
+																						<ParentPart>Entity_4449</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																					<li>
+																						<Id>3792</Id>
+																						<Def>BoneSocket</Def>
+																						<AttachedPart>
+																							<Id>4451</Id>
+																							<Def>Bone</Def>
+																							<InternalState>UnSpawned</InternalState>
+																							<HitPoints>42</HitPoints>
+																							<AdaptedLabel>Right Bone</AdaptedLabel>
+																							<MaxHitPoints>42</MaxHitPoints>
+																							<TicksSinceLastHit>474</TicksSinceLastHit>
+																							<Socket>BodyPartSocket-3792</Socket>
+																							<Sockets />
+																							<Modifiers />
+																							<Equipment>
+																								<keys />
+																								<values />
+																							</Equipment>
+																						</AttachedPart>
+																						<ParentPart>Entity_4449</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																					<li>
+																						<Id>3793</Id>
+																						<Def>ArterySocket</Def>
+																						<AttachedPart>
+																							<Id>4452</Id>
+																							<Def>Artery</Def>
+																							<InternalState>UnSpawned</InternalState>
+																							<HitPoints>4</HitPoints>
+																							<AdaptedLabel>Right Artery</AdaptedLabel>
+																							<MaxHitPoints>4</MaxHitPoints>
+																							<TicksSinceLastHit>4700</TicksSinceLastHit>
+																							<Socket>BodyPartSocket-3793</Socket>
+																							<Sockets />
+																							<Modifiers />
+																							<Equipment>
+																								<keys />
+																								<values />
+																							</Equipment>
+																						</AttachedPart>
+																						<ParentPart>Entity_4449</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																					<li>
+																						<Id>3794</Id>
+																						<Def>ThumbSocket</Def>
+																						<AttachedPart IsNull="True" />
+																						<ParentPart>Entity_4449</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																					<li>
+																						<Id>3795</Id>
+																						<Def>IndexFingerSocket</Def>
+																						<AttachedPart>
+																							<Id>4457</Id>
+																							<Def>HumanFinger</Def>
+																							<InternalState>UnSpawned</InternalState>
+																							<HitPoints>8</HitPoints>
+																							<AdaptedLabel>Right Index Finger</AdaptedLabel>
+																							<MaxHitPoints>8</MaxHitPoints>
+																							<TicksSinceLastHit>2580</TicksSinceLastHit>
+																							<Socket>BodyPartSocket-3795</Socket>
+																							<Sockets>
+																								<li>
+																									<Id>3802</Id>
+																									<Def>SkinSocket</Def>
+																									<AttachedPart>
+																										<Id>4458</Id>
+																										<Def>Skin</Def>
+																										<InternalState>UnSpawned</InternalState>
+																										<HitPoints>5</HitPoints>
+																										<AdaptedLabel>Index Skin</AdaptedLabel>
+																										<MaxHitPoints>5</MaxHitPoints>
+																										<TicksSinceLastHit>2580</TicksSinceLastHit>
+																										<Socket>BodyPartSocket-3802</Socket>
+																										<Sockets />
+																										<Modifiers />
+																										<Equipment>
+																											<keys />
+																											<values />
+																										</Equipment>
+																									</AttachedPart>
+																									<ParentPart>Entity_4457</ParentPart>
+																									<Body>null</Body>
+																									<IsSealed>True</IsSealed>
+																									<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																								</li>
+																								<li>
+																									<Id>3803</Id>
+																									<Def>BoneSocket</Def>
+																									<AttachedPart>
+																										<Id>4459</Id>
+																										<Def>Bone</Def>
+																										<InternalState>UnSpawned</InternalState>
+																										<HitPoints>6</HitPoints>
+																										<AdaptedLabel>Index Bone</AdaptedLabel>
+																										<MaxHitPoints>6</MaxHitPoints>
+																										<TicksSinceLastHit>2580</TicksSinceLastHit>
+																										<Socket>BodyPartSocket-3803</Socket>
+																										<Sockets />
+																										<Modifiers />
+																										<Equipment>
+																											<keys />
+																											<values />
+																										</Equipment>
+																									</AttachedPart>
+																									<ParentPart>Entity_4457</ParentPart>
+																									<Body>null</Body>
+																									<IsSealed>True</IsSealed>
+																									<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																								</li>
+																								<li>
+																									<Id>3804</Id>
+																									<Def>ArterySocket</Def>
+																									<AttachedPart>
+																										<Id>4460</Id>
+																										<Def>Artery</Def>
+																										<InternalState>UnSpawned</InternalState>
+																										<HitPoints>1</HitPoints>
+																										<AdaptedLabel>Index Artery</AdaptedLabel>
+																										<MaxHitPoints>1</MaxHitPoints>
+																										<TicksSinceLastHit>2580</TicksSinceLastHit>
+																										<Socket>BodyPartSocket-3804</Socket>
+																										<Sockets />
+																										<Modifiers />
+																										<Equipment>
+																											<keys />
+																											<values />
+																										</Equipment>
+																									</AttachedPart>
+																									<ParentPart>Entity_4457</ParentPart>
+																									<Body>null</Body>
+																									<IsSealed>True</IsSealed>
+																									<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																								</li>
+																							</Sockets>
+																							<Modifiers />
+																							<Equipment>
+																								<keys />
+																								<values />
+																							</Equipment>
+																						</AttachedPart>
+																						<ParentPart>Entity_4449</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																					<li>
+																						<Id>3796</Id>
+																						<Def>MiddleFingerSocket</Def>
+																						<AttachedPart IsNull="True" />
+																						<ParentPart>Entity_4449</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																					<li>
+																						<Id>3797</Id>
+																						<Def>RingFingerSocket</Def>
+																						<AttachedPart IsNull="True" />
+																						<ParentPart>Entity_4449</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																					<li>
+																						<Id>3798</Id>
+																						<Def>LittleFingerSocket</Def>
+																						<AttachedPart>
+																							<Id>4469</Id>
+																							<Def>HumanFinger</Def>
+																							<InternalState>UnSpawned</InternalState>
+																							<HitPoints>8</HitPoints>
+																							<AdaptedLabel>Right Little Finger</AdaptedLabel>
+																							<MaxHitPoints>8</MaxHitPoints>
+																							<TicksSinceLastHit>554</TicksSinceLastHit>
+																							<Socket>BodyPartSocket-3798</Socket>
+																							<Sockets>
+																								<li>
+																									<Id>3811</Id>
+																									<Def>SkinSocket</Def>
+																									<AttachedPart>
+																										<Id>4470</Id>
+																										<Def>Skin</Def>
+																										<InternalState>UnSpawned</InternalState>
+																										<HitPoints>5</HitPoints>
+																										<AdaptedLabel>Little Skin</AdaptedLabel>
+																										<MaxHitPoints>5</MaxHitPoints>
+																										<TicksSinceLastHit>554</TicksSinceLastHit>
+																										<Socket>BodyPartSocket-3811</Socket>
+																										<Sockets />
+																										<Modifiers />
+																										<Equipment>
+																											<keys />
+																											<values />
+																										</Equipment>
+																									</AttachedPart>
+																									<ParentPart>Entity_4469</ParentPart>
+																									<Body>null</Body>
+																									<IsSealed>True</IsSealed>
+																									<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																								</li>
+																								<li>
+																									<Id>3812</Id>
+																									<Def>BoneSocket</Def>
+																									<AttachedPart>
+																										<Id>4471</Id>
+																										<Def>Bone</Def>
+																										<InternalState>UnSpawned</InternalState>
+																										<HitPoints>6</HitPoints>
+																										<AdaptedLabel>Little Bone</AdaptedLabel>
+																										<MaxHitPoints>6</MaxHitPoints>
+																										<TicksSinceLastHit>5100</TicksSinceLastHit>
+																										<Socket>BodyPartSocket-3812</Socket>
+																										<Sockets />
+																										<Modifiers />
+																										<Equipment>
+																											<keys />
+																											<values />
+																										</Equipment>
+																									</AttachedPart>
+																									<ParentPart>Entity_4469</ParentPart>
+																									<Body>null</Body>
+																									<IsSealed>True</IsSealed>
+																									<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																								</li>
+																								<li>
+																									<Id>3813</Id>
+																									<Def>ArterySocket</Def>
+																									<AttachedPart>
+																										<Id>4472</Id>
+																										<Def>Artery</Def>
+																										<InternalState>UnSpawned</InternalState>
+																										<HitPoints>1</HitPoints>
+																										<AdaptedLabel>Little Artery</AdaptedLabel>
+																										<MaxHitPoints>1</MaxHitPoints>
+																										<TicksSinceLastHit>5100</TicksSinceLastHit>
+																										<Socket>BodyPartSocket-3813</Socket>
+																										<Sockets />
+																										<Modifiers />
+																										<Equipment>
+																											<keys />
+																											<values />
+																										</Equipment>
+																									</AttachedPart>
+																									<ParentPart>Entity_4469</ParentPart>
+																									<Body>null</Body>
+																									<IsSealed>True</IsSealed>
+																									<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																								</li>
+																							</Sockets>
+																							<Modifiers />
+																							<Equipment>
+																								<keys />
+																								<values />
+																							</Equipment>
+																						</AttachedPart>
+																						<ParentPart>Entity_4449</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																				</Sockets>
+																				<Modifiers />
+																				<Equipment>
+																					<keys>
+																						<li>BuiltIn</li>
+																						<li>HandArmor</li>
+																						<li>HandWeapon</li>
+																					</keys>
+																					<values>
+																						<li>
+																							<Durability>1</Durability>
+																							<MaxDurability>1</MaxDurability>
+																							<StackSize>1</StackSize>
+																							<Enchantments IsNull="True" />
+																							<EnchantmentHandler IsNull="True" />
+																							<TrinketHandler IsNull="True" />
+																							<Id>4473</Id>
+																							<Def>FleshyHand</Def>
+																							<InternalState>UnSpawned</InternalState>
+																						</li>
+																						<li>
+																							<Durability>234</Durability>
+																							<MaxDurability>500</MaxDurability>
+																							<StackSize>1</StackSize>
+																							<UseInCombat>True</UseInCombat>
+																							<Enchantments>
+																								<MaxEnchantments>1</MaxEnchantments>
+																								<Enchantments>
+																									<keys>
+																										<li>0</li>
+																									</keys>
+																									<values>
+																										<li>
+																											<Durability>1</Durability>
+																											<MaxDurability>1</MaxDurability>
+																											<StackSize>1</StackSize>
+																											<UseInCombat>True</UseInCombat>
+																											<Enchantments IsNull="True" />
+																											<EnchantmentHandler Class="SoothingVibrationsHandler">
+																												<Def>Entity_6874</Def>
+																											</EnchantmentHandler>
+																											<TrinketHandler IsNull="True" />
+																											<Id>6874</Id>
+																											<Def>SoothingVibrations</Def>
+																											<InternalState>UnSpawned</InternalState>
+																										</li>
+																									</values>
+																								</Enchantments>
+																							</Enchantments>
+																							<EnchantmentHandler IsNull="True" />
+																							<TrinketHandler IsNull="True" />
+																							<Id>6202</Id>
+																							<Def>ChainGlove</Def>
+																							<InternalState>UnSpawned</InternalState>
+																						</li>
+																						<li>
+																							<Durability>1507</Durability>
+																							<MaxDurability>2000</MaxDurability>
+																							<StackSize>1</StackSize>
+																							<UseInCombat>True</UseInCombat>
+																							<Enchantments>
+																								<MaxEnchantments>1</MaxEnchantments>
+																								<Enchantments>
+																									<keys>
+																										<li>0</li>
+																									</keys>
+																									<values>
+																										<li IsNull="True" />
+																									</values>
+																								</Enchantments>
+																							</Enchantments>
+																							<EnchantmentHandler IsNull="True" />
+																							<TrinketHandler IsNull="True" />
+																							<Id>6315</Id>
+																							<Def>WarHammer</Def>
+																							<InternalState>UnSpawned</InternalState>
+																						</li>
+																					</values>
+																				</Equipment>
+																			</AttachedPart>
+																			<ParentPart>Entity_4445</ParentPart>
+																			<Body>null</Body>
+																			<IsSealed>True</IsSealed>
+																			<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																		</li>
+																	</Sockets>
+																	<Modifiers />
+																	<Equipment>
+																		<keys>
+																			<li>ArmArmor</li>
+																			<li>Bag</li>
+																		</keys>
+																		<values>
+																			<li>
+																				<Durability>640</Durability>
+																				<MaxDurability>800</MaxDurability>
+																				<StackSize>1</StackSize>
+																				<UseInCombat>True</UseInCombat>
+																				<Enchantments>
+																					<MaxEnchantments>1</MaxEnchantments>
+																					<Enchantments>
+																						<keys>
+																							<li>0</li>
+																						</keys>
+																						<values>
+																							<li IsNull="True" />
+																						</values>
+																					</Enchantments>
+																				</Enchantments>
+																				<EnchantmentHandler IsNull="True" />
+																				<TrinketHandler IsNull="True" />
+																				<Id>6203</Id>
+																				<Def>ChainVambrace</Def>
+																				<InternalState>UnSpawned</InternalState>
+																			</li>
+																			<li IsNull="True" />
+																		</values>
+																	</Equipment>
+																</AttachedPart>
+																<ParentPart>Entity_4403</ParentPart>
+																<Body>null</Body>
+																<IsSealed>True</IsSealed>
+																<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+															</li>
+															<li>
+																<Id>3754</Id>
+																<Def>LeftLegSocket</Def>
+																<AttachedPart>
+																	<Id>4474</Id>
+																	<Def>HumanLeg</Def>
+																	<InternalState>UnSpawned</InternalState>
+																	<HitPoints>80</HitPoints>
+																	<AdaptedLabel>Left Leg</AdaptedLabel>
+																	<MaxHitPoints>80</MaxHitPoints>
+																	<TicksSinceLastHit>1862</TicksSinceLastHit>
+																	<Socket>BodyPartSocket-3754</Socket>
+																	<Sockets>
+																		<li>
+																			<Id>3814</Id>
+																			<Def>SkinSocket</Def>
+																			<AttachedPart>
+																				<Id>4475</Id>
+																				<Def>Skin</Def>
+																				<InternalState>UnSpawned</InternalState>
+																				<HitPoints>56</HitPoints>
+																				<AdaptedLabel>Left Skin</AdaptedLabel>
+																				<MaxHitPoints>56</MaxHitPoints>
+																				<TicksSinceLastHit>1862</TicksSinceLastHit>
+																				<Socket>BodyPartSocket-3814</Socket>
+																				<Sockets />
+																				<Modifiers />
+																				<Equipment>
+																					<keys />
+																					<values />
+																				</Equipment>
+																			</AttachedPart>
+																			<ParentPart>Entity_4474</ParentPart>
+																			<Body>null</Body>
+																			<IsSealed>True</IsSealed>
+																			<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																		</li>
+																		<li>
+																			<Id>3815</Id>
+																			<Def>BoneSocket</Def>
+																			<AttachedPart>
+																				<Id>4476</Id>
+																				<Def>Bone</Def>
+																				<InternalState>UnSpawned</InternalState>
+																				<HitPoints>68</HitPoints>
+																				<AdaptedLabel>Left Bone</AdaptedLabel>
+																				<MaxHitPoints>68</MaxHitPoints>
+																				<TicksSinceLastHit>1862</TicksSinceLastHit>
+																				<Socket>BodyPartSocket-3815</Socket>
+																				<Sockets />
+																				<Modifiers />
+																				<Equipment>
+																					<keys />
+																					<values />
+																				</Equipment>
+																			</AttachedPart>
+																			<ParentPart>Entity_4474</ParentPart>
+																			<Body>null</Body>
+																			<IsSealed>True</IsSealed>
+																			<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																		</li>
+																		<li>
+																			<Id>3816</Id>
+																			<Def>ArterySocket</Def>
+																			<AttachedPart>
+																				<Id>4477</Id>
+																				<Def>Artery</Def>
+																				<InternalState>UnSpawned</InternalState>
+																				<HitPoints>6</HitPoints>
+																				<AdaptedLabel>Left Artery</AdaptedLabel>
+																				<MaxHitPoints>6</MaxHitPoints>
+																				<TicksSinceLastHit>13339</TicksSinceLastHit>
+																				<Socket>BodyPartSocket-3816</Socket>
+																				<Sockets />
+																				<Modifiers />
+																				<Equipment>
+																					<keys />
+																					<values />
+																				</Equipment>
+																			</AttachedPart>
+																			<ParentPart>Entity_4474</ParentPart>
+																			<Body>null</Body>
+																			<IsSealed>True</IsSealed>
+																			<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																		</li>
+																		<li>
+																			<Id>3817</Id>
+																			<Def>FootSocket</Def>
+																			<AttachedPart>
+																				<Id>4478</Id>
+																				<Def>HumanFoot</Def>
+																				<InternalState>UnSpawned</InternalState>
+																				<HitPoints>70</HitPoints>
+																				<AdaptedLabel>Left Foot</AdaptedLabel>
+																				<MaxHitPoints>70</MaxHitPoints>
+																				<TicksSinceLastHit>574</TicksSinceLastHit>
+																				<Socket>BodyPartSocket-3817</Socket>
+																				<Sockets>
+																					<li>
+																						<Id>3818</Id>
+																						<Def>SkinSocket</Def>
+																						<AttachedPart>
+																							<Id>4480</Id>
+																							<Def>Skin</Def>
+																							<InternalState>UnSpawned</InternalState>
+																							<HitPoints>49</HitPoints>
+																							<AdaptedLabel>Left Skin</AdaptedLabel>
+																							<MaxHitPoints>49</MaxHitPoints>
+																							<TicksSinceLastHit>574</TicksSinceLastHit>
+																							<Socket>BodyPartSocket-3818</Socket>
+																							<Sockets />
+																							<Modifiers />
+																							<Equipment>
+																								<keys />
+																								<values />
+																							</Equipment>
+																						</AttachedPart>
+																						<ParentPart>Entity_4478</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																					<li>
+																						<Id>3819</Id>
+																						<Def>BoneSocket</Def>
+																						<AttachedPart>
+																							<Id>4481</Id>
+																							<Def>Bone</Def>
+																							<InternalState>UnSpawned</InternalState>
+																							<HitPoints>59</HitPoints>
+																							<AdaptedLabel>Left Bone</AdaptedLabel>
+																							<MaxHitPoints>59</MaxHitPoints>
+																							<TicksSinceLastHit>574</TicksSinceLastHit>
+																							<Socket>BodyPartSocket-3819</Socket>
+																							<Sockets />
+																							<Modifiers />
+																							<Equipment>
+																								<keys />
+																								<values />
+																							</Equipment>
+																						</AttachedPart>
+																						<ParentPart>Entity_4478</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																					<li>
+																						<Id>3820</Id>
+																						<Def>ArterySocket</Def>
+																						<AttachedPart>
+																							<Id>4479</Id>
+																							<Def>Artery</Def>
+																							<InternalState>UnSpawned</InternalState>
+																							<HitPoints>5</HitPoints>
+																							<AdaptedLabel>Left Artery</AdaptedLabel>
+																							<MaxHitPoints>5</MaxHitPoints>
+																							<TicksSinceLastHit>2400</TicksSinceLastHit>
+																							<Socket>BodyPartSocket-3820</Socket>
+																							<Sockets />
+																							<Modifiers />
+																							<Equipment>
+																								<keys />
+																								<values />
+																							</Equipment>
+																						</AttachedPart>
+																						<ParentPart>Entity_4478</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																				</Sockets>
+																				<Modifiers />
+																				<Equipment>
+																					<keys>
+																						<li>BuiltIn</li>
+																						<li>FootArmor</li>
+																					</keys>
+																					<values>
+																						<li>
+																							<Durability>1</Durability>
+																							<MaxDurability>1</MaxDurability>
+																							<StackSize>1</StackSize>
+																							<Enchantments IsNull="True" />
+																							<EnchantmentHandler IsNull="True" />
+																							<TrinketHandler IsNull="True" />
+																							<Id>4482</Id>
+																							<Def>FleshyFoot</Def>
+																							<InternalState>UnSpawned</InternalState>
+																						</li>
+																						<li>
+																							<Durability>706</Durability>
+																							<MaxDurability>800</MaxDurability>
+																							<StackSize>1</StackSize>
+																							<UseInCombat>True</UseInCombat>
+																							<Enchantments>
+																								<MaxEnchantments>1</MaxEnchantments>
+																								<Enchantments>
+																									<keys>
+																										<li>0</li>
+																									</keys>
+																									<values>
+																										<li>
+																											<Durability>1</Durability>
+																											<MaxDurability>1</MaxDurability>
+																											<StackSize>1</StackSize>
+																											<UseInCombat>True</UseInCombat>
+																											<Enchantments IsNull="True" />
+																											<EnchantmentHandler Class="SpidersBiteHandler">
+																												<Def>Entity_6638</Def>
+																											</EnchantmentHandler>
+																											<TrinketHandler IsNull="True" />
+																											<Id>6638</Id>
+																											<Def>SpidersBite</Def>
+																											<InternalState>UnSpawned</InternalState>
+																										</li>
+																									</values>
+																								</Enchantments>
+																							</Enchantments>
+																							<EnchantmentHandler IsNull="True" />
+																							<TrinketHandler IsNull="True" />
+																							<Id>5886</Id>
+																							<Def>ChainBoot</Def>
+																							<InternalState>UnSpawned</InternalState>
+																						</li>
+																					</values>
+																				</Equipment>
+																			</AttachedPart>
+																			<ParentPart>Entity_4474</ParentPart>
+																			<Body>null</Body>
+																			<IsSealed>True</IsSealed>
+																			<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																		</li>
+																	</Sockets>
+																	<Modifiers />
+																	<Equipment>
+																		<keys>
+																			<li>LegArmor</li>
+																		</keys>
+																		<values>
+																			<li>
+																				<Durability>716</Durability>
+																				<MaxDurability>800</MaxDurability>
+																				<StackSize>1</StackSize>
+																				<UseInCombat>True</UseInCombat>
+																				<Enchantments>
+																					<MaxEnchantments>1</MaxEnchantments>
+																					<Enchantments>
+																						<keys>
+																							<li>0</li>
+																						</keys>
+																						<values>
+																							<li IsNull="True" />
+																						</values>
+																					</Enchantments>
+																				</Enchantments>
+																				<EnchantmentHandler IsNull="True" />
+																				<TrinketHandler IsNull="True" />
+																				<Id>5753</Id>
+																				<Def>ChainGreave</Def>
+																				<InternalState>UnSpawned</InternalState>
+																			</li>
+																		</values>
+																	</Equipment>
+																</AttachedPart>
+																<ParentPart>Entity_4403</ParentPart>
+																<Body>null</Body>
+																<IsSealed>True</IsSealed>
+																<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+															</li>
+															<li>
+																<Id>3755</Id>
+																<Def>RightLegSocket</Def>
+																<AttachedPart>
+																	<Id>4483</Id>
+																	<Def>HumanLeg</Def>
+																	<InternalState>UnSpawned</InternalState>
+																	<HitPoints>80</HitPoints>
+																	<AdaptedLabel>Right Leg</AdaptedLabel>
+																	<MaxHitPoints>80</MaxHitPoints>
+																	<TicksSinceLastHit>2400</TicksSinceLastHit>
+																	<Socket>BodyPartSocket-3755</Socket>
+																	<Sockets>
+																		<li>
+																			<Id>3821</Id>
+																			<Def>SkinSocket</Def>
+																			<AttachedPart>
+																				<Id>4484</Id>
+																				<Def>Skin</Def>
+																				<InternalState>UnSpawned</InternalState>
+																				<HitPoints>56</HitPoints>
+																				<AdaptedLabel>Right Skin</AdaptedLabel>
+																				<MaxHitPoints>56</MaxHitPoints>
+																				<TicksSinceLastHit>2400</TicksSinceLastHit>
+																				<Socket>BodyPartSocket-3821</Socket>
+																				<Sockets />
+																				<Modifiers />
+																				<Equipment>
+																					<keys />
+																					<values />
+																				</Equipment>
+																			</AttachedPart>
+																			<ParentPart>Entity_4483</ParentPart>
+																			<Body>null</Body>
+																			<IsSealed>True</IsSealed>
+																			<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																		</li>
+																		<li>
+																			<Id>3822</Id>
+																			<Def>BoneSocket</Def>
+																			<AttachedPart>
+																				<Id>4485</Id>
+																				<Def>Bone</Def>
+																				<InternalState>UnSpawned</InternalState>
+																				<HitPoints>68</HitPoints>
+																				<AdaptedLabel>Right Bone</AdaptedLabel>
+																				<MaxHitPoints>68</MaxHitPoints>
+																				<TicksSinceLastHit>2400</TicksSinceLastHit>
+																				<Socket>BodyPartSocket-3822</Socket>
+																				<Sockets />
+																				<Modifiers />
+																				<Equipment>
+																					<keys />
+																					<values />
+																				</Equipment>
+																			</AttachedPart>
+																			<ParentPart>Entity_4483</ParentPart>
+																			<Body>null</Body>
+																			<IsSealed>True</IsSealed>
+																			<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																		</li>
+																		<li>
+																			<Id>3823</Id>
+																			<Def>ArterySocket</Def>
+																			<AttachedPart>
+																				<Id>4486</Id>
+																				<Def>Artery</Def>
+																				<InternalState>UnSpawned</InternalState>
+																				<HitPoints>6</HitPoints>
+																				<AdaptedLabel>Right Artery</AdaptedLabel>
+																				<MaxHitPoints>6</MaxHitPoints>
+																				<TicksSinceLastHit>10123</TicksSinceLastHit>
+																				<Socket>BodyPartSocket-3823</Socket>
+																				<Sockets />
+																				<Modifiers />
+																				<Equipment>
+																					<keys />
+																					<values />
+																				</Equipment>
+																			</AttachedPart>
+																			<ParentPart>Entity_4483</ParentPart>
+																			<Body>null</Body>
+																			<IsSealed>True</IsSealed>
+																			<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																		</li>
+																		<li>
+																			<Id>3824</Id>
+																			<Def>FootSocket</Def>
+																			<AttachedPart>
+																				<Id>4487</Id>
+																				<Def>HumanFoot</Def>
+																				<InternalState>UnSpawned</InternalState>
+																				<HitPoints>70</HitPoints>
+																				<AdaptedLabel>Right Foot</AdaptedLabel>
+																				<MaxHitPoints>70</MaxHitPoints>
+																				<TicksSinceLastHit>2821</TicksSinceLastHit>
+																				<Socket>BodyPartSocket-3824</Socket>
+																				<Sockets>
+																					<li>
+																						<Id>3825</Id>
+																						<Def>SkinSocket</Def>
+																						<AttachedPart>
+																							<Id>4489</Id>
+																							<Def>Skin</Def>
+																							<InternalState>UnSpawned</InternalState>
+																							<HitPoints>49</HitPoints>
+																							<AdaptedLabel>Right Skin</AdaptedLabel>
+																							<MaxHitPoints>49</MaxHitPoints>
+																							<TicksSinceLastHit>2821</TicksSinceLastHit>
+																							<Socket>BodyPartSocket-3825</Socket>
+																							<Sockets />
+																							<Modifiers />
+																							<Equipment>
+																								<keys />
+																								<values />
+																							</Equipment>
+																						</AttachedPart>
+																						<ParentPart>Entity_4487</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																					<li>
+																						<Id>3826</Id>
+																						<Def>BoneSocket</Def>
+																						<AttachedPart>
+																							<Id>4490</Id>
+																							<Def>Bone</Def>
+																							<InternalState>UnSpawned</InternalState>
+																							<HitPoints>59</HitPoints>
+																							<AdaptedLabel>Right Bone</AdaptedLabel>
+																							<MaxHitPoints>59</MaxHitPoints>
+																							<TicksSinceLastHit>2821</TicksSinceLastHit>
+																							<Socket>BodyPartSocket-3826</Socket>
+																							<Sockets />
+																							<Modifiers />
+																							<Equipment>
+																								<keys />
+																								<values />
+																							</Equipment>
+																						</AttachedPart>
+																						<ParentPart>Entity_4487</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																					<li>
+																						<Id>3827</Id>
+																						<Def>ArterySocket</Def>
+																						<AttachedPart>
+																							<Id>4488</Id>
+																							<Def>Artery</Def>
+																							<InternalState>UnSpawned</InternalState>
+																							<HitPoints>5</HitPoints>
+																							<AdaptedLabel>Right Artery</AdaptedLabel>
+																							<MaxHitPoints>5</MaxHitPoints>
+																							<TicksSinceLastHit>-2147474049</TicksSinceLastHit>
+																							<Socket>BodyPartSocket-3827</Socket>
+																							<Sockets />
+																							<Modifiers />
+																							<Equipment>
+																								<keys />
+																								<values />
+																							</Equipment>
+																						</AttachedPart>
+																						<ParentPart>Entity_4487</ParentPart>
+																						<Body>null</Body>
+																						<IsSealed>True</IsSealed>
+																						<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																					</li>
+																				</Sockets>
+																				<Modifiers />
+																				<Equipment>
+																					<keys>
+																						<li>BuiltIn</li>
+																						<li>FootArmor</li>
+																					</keys>
+																					<values>
+																						<li>
+																							<Durability>1</Durability>
+																							<MaxDurability>1</MaxDurability>
+																							<StackSize>1</StackSize>
+																							<Enchantments IsNull="True" />
+																							<EnchantmentHandler IsNull="True" />
+																							<TrinketHandler IsNull="True" />
+																							<Id>4491</Id>
+																							<Def>FleshyFoot</Def>
+																							<InternalState>UnSpawned</InternalState>
+																						</li>
+																						<li>
+																							<Durability>744</Durability>
+																							<MaxDurability>800</MaxDurability>
+																							<StackSize>1</StackSize>
+																							<UseInCombat>True</UseInCombat>
+																							<Enchantments>
+																								<MaxEnchantments>1</MaxEnchantments>
+																								<Enchantments>
+																									<keys>
+																										<li>0</li>
+																									</keys>
+																									<values>
+																										<li>
+																											<Durability>1</Durability>
+																											<MaxDurability>1</MaxDurability>
+																											<StackSize>1</StackSize>
+																											<UseInCombat>True</UseInCombat>
+																											<Enchantments IsNull="True" />
+																											<EnchantmentHandler Class="SpidersBiteHandler">
+																												<Def>Entity_6810</Def>
+																											</EnchantmentHandler>
+																											<TrinketHandler IsNull="True" />
+																											<Id>6810</Id>
+																											<Def>SpidersBite</Def>
+																											<InternalState>UnSpawned</InternalState>
+																										</li>
+																									</values>
+																								</Enchantments>
+																							</Enchantments>
+																							<EnchantmentHandler IsNull="True" />
+																							<TrinketHandler IsNull="True" />
+																							<Id>6015</Id>
+																							<Def>ChainBoot</Def>
+																							<InternalState>UnSpawned</InternalState>
+																						</li>
+																					</values>
+																				</Equipment>
+																			</AttachedPart>
+																			<ParentPart>Entity_4483</ParentPart>
+																			<Body>null</Body>
+																			<IsSealed>True</IsSealed>
+																			<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+																		</li>
+																	</Sockets>
+																	<Modifiers />
+																	<Equipment>
+																		<keys>
+																			<li>LegArmor</li>
+																		</keys>
+																		<values>
+																			<li>
+																				<Durability>736</Durability>
+																				<MaxDurability>800</MaxDurability>
+																				<StackSize>1</StackSize>
+																				<UseInCombat>True</UseInCombat>
+																				<Enchantments>
+																					<MaxEnchantments>1</MaxEnchantments>
+																					<Enchantments>
+																						<keys>
+																							<li>0</li>
+																						</keys>
+																						<values>
+																							<li>
+																								<Durability>1</Durability>
+																								<MaxDurability>1</MaxDurability>
+																								<StackSize>1</StackSize>
+																								<UseInCombat>True</UseInCombat>
+																								<Enchantments IsNull="True" />
+																								<EnchantmentHandler Class="BloodBathHandler">
+																									<Def>Entity_6962</Def>
+																								</EnchantmentHandler>
+																								<TrinketHandler IsNull="True" />
+																								<Id>6962</Id>
+																								<Def>BloodBath</Def>
+																								<InternalState>UnSpawned</InternalState>
+																							</li>
+																						</values>
+																					</Enchantments>
+																				</Enchantments>
+																				<EnchantmentHandler IsNull="True" />
+																				<TrinketHandler IsNull="True" />
+																				<Id>6143</Id>
+																				<Def>ChainGreave</Def>
+																				<InternalState>UnSpawned</InternalState>
+																			</li>
+																		</values>
+																	</Equipment>
+																</AttachedPart>
+																<ParentPart>Entity_4403</ParentPart>
+																<Body>null</Body>
+																<IsSealed>True</IsSealed>
+																<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+															</li>
+														</Sockets>
+														<Modifiers />
+														<Equipment>
+															<keys>
+																<li>TorsoArmor</li>
+																<li>PotionSlot1</li>
+																<li>PotionSlot2</li>
+															</keys>
+															<values>
+																<li>
+																	<Durability>381</Durability>
+																	<MaxDurability>800</MaxDurability>
+																	<StackSize>1</StackSize>
+																	<UseInCombat>True</UseInCombat>
+																	<Enchantments>
+																		<MaxEnchantments>1</MaxEnchantments>
+																		<Enchantments>
+																			<keys>
+																				<li>0</li>
+																			</keys>
+																			<values>
+																				<li IsNull="True" />
+																			</values>
+																		</Enchantments>
+																	</Enchantments>
+																	<EnchantmentHandler IsNull="True" />
+																	<TrinketHandler IsNull="True" />
+																	<Id>6016</Id>
+																	<Def>ChainTunic</Def>
+																	<InternalState>UnSpawned</InternalState>
+																</li>
+																<li>
+																	<Durability>1</Durability>
+																	<MaxDurability>1</MaxDurability>
+																	<StackSize>1</StackSize>
+																	<UseInCombat>True</UseInCombat>
+																	<Enchantments IsNull="True" />
+																	<EnchantmentHandler IsNull="True" />
+																	<TrinketHandler IsNull="True" />
+																	<Id>6917</Id>
+																	<Def>PurpleJuice</Def>
+																	<InternalState>UnSpawned</InternalState>
+																</li>
+																<li IsNull="True" />
+															</values>
+														</Equipment>
+													</AttachedPart>
+													<ParentPart>Entity_4399</ParentPart>
+													<Body>null</Body>
+													<IsSealed>True</IsSealed>
+													<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+												</li>
+											</Sockets>
+											<Modifiers />
+											<Equipment>
+												<keys>
+													<li>NeckArmor</li>
+													<li>Cloak</li>
+													<li>Necklace</li>
+												</keys>
+												<values>
+													<li>
+														<Durability>433</Durability>
+														<MaxDurability>500</MaxDurability>
+														<StackSize>1</StackSize>
+														<UseInCombat>True</UseInCombat>
+														<Enchantments>
+															<MaxEnchantments>1</MaxEnchantments>
+															<Enchantments>
+																<keys>
+																	<li>0</li>
+																</keys>
+																<values>
+																	<li IsNull="True" />
+																</values>
+															</Enchantments>
+														</Enchantments>
+														<EnchantmentHandler IsNull="True" />
+														<TrinketHandler IsNull="True" />
+														<Id>5751</Id>
+														<Def>ChainGorget</Def>
+														<InternalState>UnSpawned</InternalState>
+													</li>
+													<li IsNull="True" />
+													<li IsNull="True" />
+												</values>
+											</Equipment>
+										</AttachedPart>
+										<ParentPart>Entity_4392</ParentPart>
+										<Body>null</Body>
+										<IsSealed>True</IsSealed>
+										<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+									</li>
+								</Sockets>
+								<Modifiers />
+								<Equipment>
+									<keys>
+										<li>HeadArmor</li>
+									</keys>
+									<values>
+										<li>
+											<Durability>461</Durability>
+											<MaxDurability>600</MaxDurability>
+											<StackSize>1</StackSize>
+											<UseInCombat>True</UseInCombat>
+											<Enchantments>
+												<MaxEnchantments>1</MaxEnchantments>
+												<Enchantments>
+													<keys>
+														<li>0</li>
+													</keys>
+													<values>
+														<li IsNull="True" />
+													</values>
+												</Enchantments>
+											</Enchantments>
+											<EnchantmentHandler IsNull="True" />
+											<TrinketHandler IsNull="True" />
+											<Id>6201</Id>
+											<Def>ChainHelmet</Def>
+											<InternalState>UnSpawned</InternalState>
+										</li>
+									</values>
+								</Equipment>
+							</AttachedPart>
+							<ParentPart>null</ParentPart>
+							<Body>4391-Body</Body>
+							<IsSealed>True</IsSealed>
+							<NEXT_SOCKET_ID>5757</NEXT_SOCKET_ID>
+						</RootSocket>
+						<Handler>
+							<Body>4391-Body</Body>
+						</Handler>
+					</Body>
+					<Skills>
+						<skills>
+							<li>
+								<Def>Knives</Def>
+								<Level>4</Level>
+								<CurrentLevelXp>59</CurrentLevelXp>
+							</li>
+							<li>
+								<Def>Staves</Def>
+							</li>
+							<li>
+								<Def>Hammers</Def>
+								<Level>6</Level>
+								<CurrentLevelXp>245</CurrentLevelXp>
+							</li>
+							<li>
+								<Def>Maces</Def>
+							</li>
+							<li>
+								<Def>Swords</Def>
+								<Level>6</Level>
+								<CurrentLevelXp>33</CurrentLevelXp>
+							</li>
+							<li>
+								<Def>Axes</Def>
+								<Level>7</Level>
+								<CurrentLevelXp>46</CurrentLevelXp>
+							</li>
+							<li>
+								<Def>Whipping</Def>
+							</li>
+							<li>
+								<Def>Biting</Def>
+							</li>
+							<li>
+								<Def>Claws</Def>
+							</li>
+							<li>
+								<Def>Tonguing</Def>
+							</li>
+							<li>
+								<Def>TreebornPower</Def>
+							</li>
+							<li>
+								<Def>MushroomPower</Def>
+							</li>
+							<li>
+								<Def>Defense</Def>
+							</li>
+							<li>
+								<Def>Offense</Def>
+								<Level>4</Level>
+								<CurrentLevelXp>67.6997</CurrentLevelXp>
+							</li>
+						</skills>
+					</Skills>
+					<Inventory>
+						<Entities>
+							<Container>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>1</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>4492</Id>
+									<Def>Cauterize</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>13</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>4554</Id>
+									<Def>RepairKit</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>1</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>4802</Id>
+									<Def>EncasedFire</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>5</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>4875</Id>
+									<Def>HealingRoot</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>1</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>5088</Id>
+									<Def>WeepingBucket</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>1</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler Class="SlingshotHandler">
+										<Def>Entity_5157</Def>
+										<Ammo>
+											<Durability>1</Durability>
+											<MaxDurability>1</MaxDurability>
+											<StackSize>8</StackSize>
+											<UseInCombat>True</UseInCombat>
+											<Enchantments IsNull="True" />
+											<EnchantmentHandler IsNull="True" />
+											<TrinketHandler IsNull="True" />
+											<Id>6896</Id>
+											<Def>Rock</Def>
+											<InternalState>UnSpawned</InternalState>
+										</Ammo>
+									</TrinketHandler>
+									<Id>5157</Id>
+									<Def>Slingshot</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>1</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>5296</Id>
+									<Def>Disassembler</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>6</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>5625</Id>
+									<Def>RawCorn</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>15</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>5754</Id>
+									<Def>LeatherScraps</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>20</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>5755</Id>
+									<Def>Thread</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>4</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>6018</Id>
+									<Def>ChainLink</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>3</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>6197</Id>
+									<Def>VenomVial</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1375</Durability>
+									<MaxDurability>2000</MaxDurability>
+									<StackSize>1</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments>
+										<MaxEnchantments>1</MaxEnchantments>
+										<Enchantments>
+											<keys>
+												<li>0</li>
+											</keys>
+											<values>
+												<li IsNull="True" />
+											</values>
+										</Enchantments>
+									</Enchantments>
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>5227</Id>
+									<Def>ShortSword</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>8</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>6485</Id>
+									<Def>GlitteringLog</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>2</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>6484</Id>
+									<Def>ShimmeringBark</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>1</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>6535</Id>
+									<Def>VialOfDuplicity</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>1</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>6584</Id>
+									<Def>CookingPot</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>1</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>6692</Id>
+									<Def>ThirdEye</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>6</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>6722</Id>
+									<Def>GoldCapMushroom</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>1</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>6724</Id>
+									<Def>Grimoire</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>1</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>6775</Id>
+									<Def>PurpleJuice</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>1</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>6781</Id>
+									<Def>MendersMist</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>1</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>6838</Id>
+									<Def>MortarAndPestle</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>9</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>6893</Id>
+									<Def>BoneShard</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>5</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>6892</Id>
+									<Def>IronNugget</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>1</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>6897</Id>
+									<Def>TinkersToolbox</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>1</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>6904</Id>
+									<Def>ArterialThreads</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>2</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>6939</Id>
+									<Def>RawFish</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>4</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>6985</Id>
+									<Def>ChurniRoot</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>4</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>6986</Id>
+									<Def>DreamBerry</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>1</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>7010</Id>
+									<Def>Rock</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>2</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>7013</Id>
+									<Def>EnchantmentExpander</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+								<li Class="Item">
+									<Durability>1</Durability>
+									<MaxDurability>1</MaxDurability>
+									<StackSize>1</StackSize>
+									<UseInCombat>True</UseInCombat>
+									<Enchantments IsNull="True" />
+									<EnchantmentHandler IsNull="True" />
+									<TrinketHandler IsNull="True" />
+									<Id>7026</Id>
+									<Def>DriedMeat</Def>
+									<InternalState>UnSpawned</InternalState>
+								</li>
+							</Container>
+						</Entities>
+					</Inventory>
+					<Equipment />
+					<Zone>null</Zone>
+					<Id>4391</Id>
+					<Def>HumanA</Def>
+					<InternalState>UnSpawned</InternalState>
+				</Pawn>
+				<TrinketsFound>
+					<li>EncasedFire</li>
+					<li>WeepingBucket</li>
+					<li>Slingshot</li>
+					<li>Disassembler</li>
+					<li>VialOfDuplicity</li>
+					<li>CookingPot</li>
+					<li>ThirdEye</li>
+					<li>Grimoire</li>
+					<li>MortarAndPestle</li>
+					<li>TinkersToolbox</li>
+				</TrinketsFound>
+			</Player>
+			<TotalKills>82</TotalKills>
+			<Zones>
+				<li>
+					<ZoneDef>PeacefulMeadow</ZoneDef>
+					<IsComplete>True</IsComplete>
+					<Stage>5</Stage>
+				</li>
+				<li>
+					<ZoneDef>TheOutskirts</ZoneDef>
+					<IsComplete>True</IsComplete>
+					<Stage>5</Stage>
+				</li>
+				<li>
+					<ZoneDef>Thicket</ZoneDef>
+					<IsComplete>True</IsComplete>
+					<Stage>5</Stage>
+				</li>
+				<li>
+					<ZoneDef>GrainMill</ZoneDef>
+					<IsComplete>True</IsComplete>
+					<Stage>5</Stage>
+				</li>
+				<li>
+					<ZoneDef>FrogPond</ZoneDef>
+					<IsComplete>True</IsComplete>
+					<Stage>5</Stage>
+				</li>
+				<li>
+					<ZoneDef>ForgottenForest</ZoneDef>
+					<IsComplete>True</IsComplete>
+					<Stage>6</Stage>
+				</li>
+				<li>
+					<ZoneDef>DampCave</ZoneDef>
+					<IsComplete>True</IsComplete>
+					<Stage>6</Stage>
+				</li>
+				<li>
+					<ZoneDef>StoneGarden</ZoneDef>
+					<IsComplete>True</IsComplete>
+					<Stage>5</Stage>
+				</li>
+				<li>
+					<ZoneDef>Mineshaft</ZoneDef>
+				</li>
+				<li>
+					<ZoneDef>Swamp</ZoneDef>
+				</li>
+				<li>
+					<ZoneDef>AbandonedStables</ZoneDef>
+				</li>
+				<li>
+					<ZoneDef>Cemetery</ZoneDef>
+				</li>
+				<li>
+					<ZoneDef>WearbearDen</ZoneDef>
+				</li>
+			</Zones>
+		</World>
+		<IdProvider>
+			<NextEntityId>7033</NextEntityId>
+			<NextBodyPartModifierId>3602</NextBodyPartModifierId>
+		</IdProvider>
+		<Ticks>145487</Ticks>
+		<DeathRecords>
+			<DeathRecords>
+				<li>
+					<TotalDamageDealt>79</TotalDamageDealt>
+					<CauseOfDeath>Neck was destroyed (Heart failed)</CauseOfDeath>
+					<KillingWeapon>Knife</KillingWeapon>
+					<KillingManeuver>Stab</KillingManeuver>
+					<Ticks>541</Ticks>
+					<PawnName>Rabbit (specimen #1)</PawnName>
+					<Round>1</Round>
+					<ZoneDef>PeacefulMeadow</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>30</TotalDamageDealt>
+					<CauseOfDeath>Head was destroyed (Brain failed)</CauseOfDeath>
+					<KillingWeapon>Knife</KillingWeapon>
+					<KillingManeuver>Slash</KillingManeuver>
+					<Ticks>60</Ticks>
+					<PawnName>Rabbit (specimen #2)</PawnName>
+					<Round>2</Round>
+					<ZoneDef>PeacefulMeadow</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>324</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Heart failed)</CauseOfDeath>
+					<KillingWeapon>Knife</KillingWeapon>
+					<KillingManeuver>Slash</KillingManeuver>
+					<Ticks>606</Ticks>
+					<PawnName>Rabbit (specimen #3)</PawnName>
+					<Round>3</Round>
+					<ZoneDef>PeacefulMeadow</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>73</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Heart failed)</CauseOfDeath>
+					<KillingWeapon>Knife</KillingWeapon>
+					<KillingManeuver>Stab</KillingManeuver>
+					<Ticks>204</Ticks>
+					<PawnName>Rabbit (specimen #4)</PawnName>
+					<Round>4</Round>
+					<ZoneDef>PeacefulMeadow</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>364</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Heart failed)</CauseOfDeath>
+					<KillingWeapon>Knife</KillingWeapon>
+					<KillingManeuver>Stab</KillingManeuver>
+					<Ticks>714</Ticks>
+					<PawnName>Rabbit (specimen apex #1) (Boss)</PawnName>
+					<Round>5</Round>
+					<ZoneDef>PeacefulMeadow</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>583</TotalDamageDealt>
+					<CauseOfDeath>Neck stopped functioning (Heart failed)</CauseOfDeath>
+					<KillingWeapon>Knife</KillingWeapon>
+					<KillingManeuver>Stab</KillingManeuver>
+					<Ticks>775</Ticks>
+					<PawnName>Boar (specimen #1)</PawnName>
+					<Round>6</Round>
+					<ZoneDef>TheOutskirts</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>88</TotalDamageDealt>
+					<CauseOfDeath>Neck was destroyed (Heart failed)</CauseOfDeath>
+					<KillingWeapon>Knife</KillingWeapon>
+					<KillingManeuver>Stab</KillingManeuver>
+					<Ticks>85</Ticks>
+					<PawnName>Boar (specimen #2)</PawnName>
+					<Round>7</Round>
+					<ZoneDef>TheOutskirts</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>581</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Heart failed)</CauseOfDeath>
+					<KillingWeapon>Knife</KillingWeapon>
+					<KillingManeuver>Stab</KillingManeuver>
+					<Ticks>731</Ticks>
+					<PawnName>Boar (specimen #3)</PawnName>
+					<Round>8</Round>
+					<ZoneDef>TheOutskirts</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>800</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Heart failed)</CauseOfDeath>
+					<KillingWeapon>Knife</KillingWeapon>
+					<KillingManeuver>Stab</KillingManeuver>
+					<Ticks>1030</Ticks>
+					<PawnName>Boar (specimen #4)</PawnName>
+					<Round>9</Round>
+					<ZoneDef>TheOutskirts</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>514</TotalDamageDealt>
+					<CauseOfDeath>Head stopped functioning (Brain failed)</CauseOfDeath>
+					<KillingWeapon>Knife</KillingWeapon>
+					<KillingManeuver>Slash</KillingManeuver>
+					<Ticks>648</Ticks>
+					<PawnName>Boar (specimen apex #1) (Boss)</PawnName>
+					<Round>10</Round>
+					<ZoneDef>TheOutskirts</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>962</TotalDamageDealt>
+					<CauseOfDeath>Head was destroyed (Brain failed)</CauseOfDeath>
+					<KillingWeapon>Knife</KillingWeapon>
+					<KillingManeuver>Slash</KillingManeuver>
+					<Ticks>1218</Ticks>
+					<PawnName>Wolf (specimen #1)</PawnName>
+					<Round>11</Round>
+					<ZoneDef>Thicket</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>2227</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Heart failed)</CauseOfDeath>
+					<KillingWeapon>Short Sword</KillingWeapon>
+					<KillingManeuver>Stab</KillingManeuver>
+					<Ticks>3309</Ticks>
+					<PawnName>Wolf (specimen #2)</PawnName>
+					<Round>12</Round>
+					<ZoneDef>Thicket</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>1869.0160217285156</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Heart failed)</CauseOfDeath>
+					<KillingWeapon>Short Sword</KillingWeapon>
+					<KillingManeuver>Slash</KillingManeuver>
+					<Ticks>2247</Ticks>
+					<PawnName>Wolf (specimen #3)</PawnName>
+					<Round>13</Round>
+					<ZoneDef>Thicket</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>1463.50732421875</TotalDamageDealt>
+					<CauseOfDeath>Head was destroyed (Brain failed)</CauseOfDeath>
+					<KillingWeapon>Short Sword</KillingWeapon>
+					<KillingManeuver>Stab</KillingManeuver>
+					<Ticks>2365</Ticks>
+					<PawnName>Wolf (specimen #4)</PawnName>
+					<Round>14</Round>
+					<ZoneDef>Thicket</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>2945.513961791992</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Heart failed)</CauseOfDeath>
+					<KillingWeapon>Short Sword</KillingWeapon>
+					<KillingManeuver>Stab</KillingManeuver>
+					<Ticks>2040</Ticks>
+					<PawnName>Wolf (specimen apex #1) (Boss)</PawnName>
+					<Round>15</Round>
+					<ZoneDef>Thicket</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>1590</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Heart failed)</CauseOfDeath>
+					<KillingWeapon>War Axe</KillingWeapon>
+					<KillingManeuver>Slash</KillingManeuver>
+					<Ticks>2088</Ticks>
+					<PawnName>Human (specimen #27)</PawnName>
+					<Round>16</Round>
+					<ZoneDef>GrainMill</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>2379</TotalDamageDealt>
+					<CauseOfDeath>Head was destroyed (Brain failed)</CauseOfDeath>
+					<KillingWeapon>Short Sword</KillingWeapon>
+					<KillingManeuver>Chop</KillingManeuver>
+					<Ticks>3396</Ticks>
+					<PawnName>Human (specimen #22)</PawnName>
+					<Round>17</Round>
+					<ZoneDef>GrainMill</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>1574.6440734863281</TotalDamageDealt>
+					<CauseOfDeath>Neck stopped functioning (Heart failed)</CauseOfDeath>
+					<KillingWeapon>War Axe</KillingWeapon>
+					<KillingManeuver>Chop</KillingManeuver>
+					<Ticks>1708</Ticks>
+					<PawnName>Human (specimen #21)</PawnName>
+					<Round>18</Round>
+					<ZoneDef>GrainMill</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>2495.2216796875</TotalDamageDealt>
+					<CauseOfDeath>Head was destroyed (Brain failed)</CauseOfDeath>
+					<KillingWeapon>War Axe</KillingWeapon>
+					<KillingManeuver>Slash</KillingManeuver>
+					<Ticks>1764</Ticks>
+					<PawnName>Human (specimen #46)</PawnName>
+					<Round>19</Round>
+					<ZoneDef>GrainMill</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>4570.183532714844</TotalDamageDealt>
+					<CauseOfDeath>Head was destroyed (Brain failed)</CauseOfDeath>
+					<KillingWeapon>War Axe</KillingWeapon>
+					<KillingManeuver>Chop</KillingManeuver>
+					<Ticks>3429</Ticks>
+					<PawnName>Human (specimen apex #13) (Boss)</PawnName>
+					<Round>20</Round>
+					<ZoneDef>GrainMill</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>4224</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Heart failed)</CauseOfDeath>
+					<KillingWeapon>War Axe</KillingWeapon>
+					<KillingManeuver>Chop</KillingManeuver>
+					<Ticks>3601</Ticks>
+					<PawnName>Frog (specimen #1)</PawnName>
+					<Round>21</Round>
+					<ZoneDef>FrogPond</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>4282</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Heart failed)</CauseOfDeath>
+					<KillingWeapon>Short Sword</KillingWeapon>
+					<KillingManeuver>Stab</KillingManeuver>
+					<Ticks>3627</Ticks>
+					<PawnName>Frog (specimen #2)</PawnName>
+					<Round>22</Round>
+					<ZoneDef>FrogPond</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>4478</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Heart failed)</CauseOfDeath>
+					<KillingWeapon>Short Sword</KillingWeapon>
+					<KillingManeuver>Stab</KillingManeuver>
+					<Ticks>3423</Ticks>
+					<PawnName>Frog (specimen #3)</PawnName>
+					<Round>23</Round>
+					<ZoneDef>FrogPond</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>4691</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Heart failed)</CauseOfDeath>
+					<KillingWeapon>War Axe</KillingWeapon>
+					<KillingManeuver>Chop</KillingManeuver>
+					<Ticks>4696</Ticks>
+					<PawnName>Frog (specimen #4)</PawnName>
+					<Round>24</Round>
+					<ZoneDef>FrogPond</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>6716.536682128906</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Heart failed)</CauseOfDeath>
+					<KillingWeapon>War Axe</KillingWeapon>
+					<KillingManeuver>Chop</KillingManeuver>
+					<Ticks>5197</Ticks>
+					<PawnName>Frog (specimen apex #1) (Boss)</PawnName>
+					<Round>25</Round>
+					<ZoneDef>FrogPond</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>3435.7542419433594</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Heart failed)</CauseOfDeath>
+					<KillingWeapon>War Axe</KillingWeapon>
+					<KillingManeuver>Chop</KillingManeuver>
+					<Ticks>3110</Ticks>
+					<PawnName>Ent (specimen #1)</PawnName>
+					<Round>26</Round>
+					<ZoneDef>ForgottenForest</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>2031</TotalDamageDealt>
+					<CauseOfDeath>RibCage was destroyed (Heart failed)</CauseOfDeath>
+					<KillingWeapon>War Axe</KillingWeapon>
+					<KillingManeuver>Chop</KillingManeuver>
+					<Ticks>1182</Ticks>
+					<PawnName>Ent (specimen #2)</PawnName>
+					<Round>27</Round>
+					<ZoneDef>ForgottenForest</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>3234</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Heart failed)</CauseOfDeath>
+					<KillingWeapon>War Axe</KillingWeapon>
+					<KillingManeuver>Slash</KillingManeuver>
+					<Ticks>1015</Ticks>
+					<PawnName>Ent (specimen #3)</PawnName>
+					<Round>28</Round>
+					<ZoneDef>ForgottenForest</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>1552</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Heart failed)</CauseOfDeath>
+					<KillingWeapon>War Axe</KillingWeapon>
+					<KillingManeuver>Chop</KillingManeuver>
+					<Ticks>442</Ticks>
+					<PawnName>Ent (specimen #4)</PawnName>
+					<Round>29</Round>
+					<ZoneDef>ForgottenForest</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>5504</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Heart failed)</CauseOfDeath>
+					<KillingWeapon>War Axe</KillingWeapon>
+					<KillingManeuver>Slash</KillingManeuver>
+					<Ticks>2368</Ticks>
+					<PawnName>Ent (specimen apex #1) (Boss)</PawnName>
+					<Round>30</Round>
+					<ZoneDef>ForgottenForest</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>2629.0821990966797</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Brain failed)</CauseOfDeath>
+					<KillingWeapon>War Axe</KillingWeapon>
+					<KillingManeuver>Chop</KillingManeuver>
+					<Ticks>1121</Ticks>
+					<PawnName>Shroomy (specimen #1)</PawnName>
+					<Round>31</Round>
+					<ZoneDef>DampCave</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>1988</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Brain failed)</CauseOfDeath>
+					<KillingWeapon>War Axe</KillingWeapon>
+					<KillingManeuver>Slash</KillingManeuver>
+					<Ticks>472</Ticks>
+					<PawnName>Shroomy (specimen #2)</PawnName>
+					<Round>32</Round>
+					<ZoneDef>DampCave</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>2503</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Brain failed)</CauseOfDeath>
+					<KillingWeapon>War Axe</KillingWeapon>
+					<KillingManeuver>Slash</KillingManeuver>
+					<Ticks>658</Ticks>
+					<PawnName>Shroomy (specimen #3)</PawnName>
+					<Round>33</Round>
+					<ZoneDef>DampCave</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>2433</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Brain failed)</CauseOfDeath>
+					<KillingWeapon>War Axe</KillingWeapon>
+					<KillingManeuver>Slash</KillingManeuver>
+					<Ticks>700</Ticks>
+					<PawnName>Shroomy (specimen #4)</PawnName>
+					<Round>34</Round>
+					<ZoneDef>DampCave</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>3001</TotalDamageDealt>
+					<CauseOfDeath>Torso was destroyed (Brain failed)</CauseOfDeath>
+					<KillingWeapon>War Axe</KillingWeapon>
+					<KillingManeuver>Slash</KillingManeuver>
+					<Ticks>1132</Ticks>
+					<PawnName>Shroomy (specimen apex #1) (Boss)</PawnName>
+					<Round>35</Round>
+					<ZoneDef>DampCave</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>5208.70947265625</TotalDamageDealt>
+					<CauseOfDeath>Head was destroyed (Brain failed)</CauseOfDeath>
+					<KillingWeapon>War Hammer</KillingWeapon>
+					<KillingManeuver>Crush</KillingManeuver>
+					<Ticks>2333</Ticks>
+					<PawnName>Stone Guardian</PawnName>
+					<Round>36</Round>
+					<ZoneDef>StoneGarden</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>7039</TotalDamageDealt>
+					<CauseOfDeath>Head was destroyed (Brain failed)</CauseOfDeath>
+					<KillingWeapon>War Hammer</KillingWeapon>
+					<KillingManeuver>Whack</KillingManeuver>
+					<Ticks>1393</Ticks>
+					<PawnName>Stone Watcher</PawnName>
+					<Round>37</Round>
+					<ZoneDef>StoneGarden</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>8642</TotalDamageDealt>
+					<CauseOfDeath>Head was destroyed (Brain failed)</CauseOfDeath>
+					<KillingWeapon>War Hammer</KillingWeapon>
+					<KillingManeuver>Whack</KillingManeuver>
+					<Ticks>2243</Ticks>
+					<PawnName>Stone Sentinel</PawnName>
+					<Round>38</Round>
+					<ZoneDef>StoneGarden</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>9565</TotalDamageDealt>
+					<CauseOfDeath>Head was destroyed (Brain failed)</CauseOfDeath>
+					<KillingWeapon>War Hammer</KillingWeapon>
+					<KillingManeuver>Crush</KillingManeuver>
+					<Ticks>2415</Ticks>
+					<PawnName>Stone Warden</PawnName>
+					<Round>39</Round>
+					<ZoneDef>StoneGarden</ZoneDef>
+				</li>
+				<li>
+					<TotalDamageDealt>10654.586181640625</TotalDamageDealt>
+					<CauseOfDeath>Head was destroyed (Brain failed)</CauseOfDeath>
+					<KillingWeapon>War Hammer</KillingWeapon>
+					<KillingManeuver>Whack</KillingManeuver>
+					<Ticks>6554</Ticks>
+					<PawnName>Ancient Monolith (Boss)</PawnName>
+					<Round>40</Round>
+					<ZoneDef>StoneGarden</ZoneDef>
+				</li>
+			</DeathRecords>
+			<CurrentRound>41</CurrentRound>
+		</DeathRecords>
+		<Achievements>
+			<AchievementProgress>
+				<keys>
+					<li>FirstBlood</li>
+					<li>BrainTickler</li>
+					<li>TisButAScratch</li>
+					<li>JustTheTip</li>
+					<li>TwoIDontNeedTwo</li>
+					<li>BloodChugger</li>
+					<li>LetItFlow</li>
+					<li>VampireWannabe</li>
+					<li>CaveDiver</li>
+					<li>FineDiner</li>
+					<li>TrinketSniffer</li>
+					<li>Butcher</li>
+					<li>Slayer</li>
+					<li>TheLopper</li>
+					<li>WeSmokemPeacePipe</li>
+					<li>TrashToTreasure</li>
+					<li>FindersKeepers</li>
+				</keys>
+				<values>
+					<li>
+						<Def>FirstBlood</Def>
+						<IsUnlocked>True</IsUnlocked>
+					</li>
+					<li>
+						<Def>BrainTickler</Def>
+						<CurrentValue>15</CurrentValue>
+					</li>
+					<li>
+						<Def>TisButAScratch</Def>
+						<CurrentValue>1</CurrentValue>
+						<IsUnlocked>True</IsUnlocked>
+					</li>
+					<li>
+						<Def>JustTheTip</Def>
+						<CurrentValue>8</CurrentValue>
+					</li>
+					<li>
+						<Def>TwoIDontNeedTwo</Def>
+					</li>
+					<li>
+						<Def>BloodChugger</Def>
+						<CurrentValue>13</CurrentValue>
+					</li>
+					<li>
+						<Def>LetItFlow</Def>
+						<CurrentValue>30000</CurrentValue>
+						<IsUnlocked>True</IsUnlocked>
+					</li>
+					<li>
+						<Def>VampireWannabe</Def>
+						<CurrentValue>0.1</CurrentValue>
+						<IsUnlocked>True</IsUnlocked>
+					</li>
+					<li>
+						<Def>CaveDiver</Def>
+						<CurrentValue>5</CurrentValue>
+					</li>
+					<li>
+						<Def>FineDiner</Def>
+						<CurrentValue>4</CurrentValue>
+					</li>
+					<li>
+						<Def>TrinketSniffer</Def>
+					</li>
+					<li>
+						<Def>Butcher</Def>
+						<CurrentValue>82</CurrentValue>
+					</li>
+					<li>
+						<Def>Slayer</Def>
+						<CurrentValue>82</CurrentValue>
+					</li>
+					<li>
+						<Def>TheLopper</Def>
+					</li>
+					<li>
+						<Def>WeSmokemPeacePipe</Def>
+						<CurrentValue>36</CurrentValue>
+					</li>
+					<li>
+						<Def>TrashToTreasure</Def>
+						<CurrentValue>20</CurrentValue>
+						<IsUnlocked>True</IsUnlocked>
+					</li>
+					<li>
+						<Def>FindersKeepers</Def>
+						<IsUnlocked>True</IsUnlocked>
+					</li>
+				</values>
+			</AchievementProgress>
+		</Achievements>
+	</Context>
+</SaveData>

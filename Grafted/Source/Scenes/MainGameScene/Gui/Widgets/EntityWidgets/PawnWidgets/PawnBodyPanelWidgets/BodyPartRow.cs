@@ -9,7 +9,7 @@ internal sealed class BodyPartRow : HorizontalStackPanel
     private readonly BaseGui _gui;
     public BodyPart? BodyPart;
     private Label _label;
-    private List<ImageCircleIcon> _parts = new();
+    private List<BodyPartIcon> _parts = new();
     private List<HorizontalStackPanel> _rows = new();
     private VerticalStackPanel _iconContainer;
 
@@ -61,7 +61,7 @@ internal sealed class BodyPartRow : HorizontalStackPanel
                 partsInCurrentRow = 0;
             }
 
-            ImageCircleIcon partIcon = new(new ColoredRegion(new TextureRegion(part.WhiteIcon), BodyPartColor.Get(bodyPart)), panel =>
+            BodyPartIcon partIcon = new(new ColoredRegion(new TextureRegion(part.WhiteIcon), BodyPartColor.Get(bodyPart)), panel =>
             {
                 // Keep the main ring color based on the body part state
                 panel.SetColor(BodyPartColor.Get(part));

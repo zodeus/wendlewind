@@ -6,7 +6,7 @@
         <Label>Combat Trinkets</Label>
         <Description>The good stuff...</Description>
         <Category>Trinkets</Category>
-        <TexturePath>Chests/TrinketsChestBasic</TexturePath>
+        <TexturePath>Chests/TrinketChestCombat</TexturePath>
         <CollectionLimit>1</CollectionLimit>
         <Items>
             <ListItem>
@@ -18,48 +18,48 @@
                 <ItemDef>Slingshot</ItemDef>
                 <Weight>150000</Weight>
             </ListItem>
-
-            <!--<ListItem>
-                <ItemDef>HolyChalice</ItemDef>
-                <Weight>100</Weight>
-            </ListItem>-->
+            <ListItem>
+                <ItemDef>BoneCracker</ItemDef>
+                <Weight>150000</Weight>
+            </ListItem>
+            <!---->
             <!--<ListItem>
                 <ItemDef>Battery</ItemDef>
                 <Weight>1</Weight>
             </ListItem>-->
         </Items>
     </LootBoxDef>
-    <LootBoxDef>
-        <Moniker>TrinketsChestBasic</Moniker>
-        <Label>Basic Trinkets</Label>
+    <LootBoxDef Name="TrinketChest1">
+        <Moniker>TrinketChest1</Moniker>
+        <Label>Trinkets1</Label>
         <Description>Standard issue trinkets, the stuff you're really going to need</Description>
         <Category>Trinkets</Category>
-        <TexturePath>Chests/TrinketsChestBasic</TexturePath>
+        <TexturePath>Chests/TrinketChest1</TexturePath>
         <CollectionLimit>1</CollectionLimit>
         <Items>
             <ListItem>
                 <ItemDef>EncasedFire</ItemDef>
                 <ChanceToDrop>1</ChanceToDrop>
-                <Weight>200</Weight>
+                <Weight>20000000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>WeepingBucket</ItemDef>
                 <ChanceToDrop>1</ChanceToDrop>
-                <Weight>100</Weight>
+                <Weight>10000000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>Disassembler</ItemDef>
                 <ChanceToDrop>1</ChanceToDrop>
-                <Weight>1</Weight>
+                <Weight>1000000</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>
-    <LootBoxDef>
-        <Moniker>TrinketChestNormal</Moniker>
-        <Label>Normal Trinkets</Label>
+    <LootBoxDef Name="TrinketChest2" ParentName="TrinketChest1">
+        <Moniker>TrinketChest2</Moniker>
+        <Label>Trinkets2</Label>
         <Description>A wider assortment of more interesting trinkets</Description>
         <Category>Trinkets</Category>
-        <TexturePath>Chests/TrinketsChestBasic</TexturePath>
+        <TexturePath>Chests/TrinketChest2</TexturePath>
         <CollectionLimit>1</CollectionLimit>
         <Items>
             <ListItem>
@@ -68,45 +68,49 @@
             </ListItem>
             <ListItem>
                 <ItemDef>MortarAndPestle</ItemDef>
-                <Weight>5000</Weight>
-            </ListItem>
-            <ListItem>
-                <ItemDef>VialOfDuplicity</ItemDef>
-                <Weight>5000</Weight>
-            </ListItem>
-            <ListItem>
-                <ItemDef>ThirdEye</ItemDef>
-                <Weight>3000</Weight>
-            </ListItem>
-            <ListItem>
-                <ItemDef>TinkersToolbox</ItemDef>
-                <Weight>1000</Weight>
-            </ListItem>
-            <ListItem>
-                <ItemDef>SteroidInjector</ItemDef>
-                <Weight>1000</Weight>
+                <Weight>1000000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>Grimoire</ItemDef>
-                <Weight>1</Weight>
+                <Weight>750000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>VialOfDuplicity</ItemDef>
+                <Weight>600000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>TinkersToolbox</ItemDef>
+                <Weight>500000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>ThirdEye</ItemDef>
+                <Weight>400000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>SteroidInjector</ItemDef>
+                <Weight>400000</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>
-    <LootBoxDef>
+    <LootBoxDef ParentName="TrinketChest2">
         <Moniker>TrinketChest3</Moniker>
-        <Label>Trinkets</Label>
+        <Label>Trinkets3</Label>
         <Description>A huge assortment of trinkets</Description>
         <Category>Trinkets</Category>
-        <TexturePath>Chests/TrinketsChestBasic</TexturePath>
+        <TexturePath>Chests/TrinketChest3</TexturePath>
         <CollectionLimit>1</CollectionLimit>
         <Items>
             <ListItem>
                 <ItemDef>SurgicalSaw</ItemDef>
-                <Weight>1</Weight>
+                <Weight>100000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>Forge</ItemDef>
-                <Weight>1</Weight>
+                <Weight>100000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>HolyChalice</ItemDef>
+                <Weight>100000</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>

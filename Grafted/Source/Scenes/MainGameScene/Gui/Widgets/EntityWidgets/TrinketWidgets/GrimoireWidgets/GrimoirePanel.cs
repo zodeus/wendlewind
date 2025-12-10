@@ -56,8 +56,7 @@ public sealed class GrimoirePanel : EntityPanelBase
         if (supplies.Count > 0)
             _tabs.AddTab($"Supplies ({supplies.Count})", new CraftingPanel("Craft", supplies, Core.Context.PlayerPawn));
         if (flammables.Count > 0)
-            _tabs.AddTab($"Flammables ({flammables.Count})", new CraftingPanel("Create", flammables, Core.Context.PlayerPawn));
-
+            _tabs.AddTab($"Flammables ({flammables.Count})", new CraftingPanel("Prepare", flammables, Core.Context.PlayerPawn));
         Widgets.Add(_tabs);
     }
 

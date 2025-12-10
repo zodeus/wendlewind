@@ -64,6 +64,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         SetProportionType(trinketBar, ProportionType.Auto);
         Widgets.Add(new VerticalStackPanel
         {
+            VerticalAlignment = VerticalAlignment.Bottom,
             MinWidth = 300,
             Widgets =
             {

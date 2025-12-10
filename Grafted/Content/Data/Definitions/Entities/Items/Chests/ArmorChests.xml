@@ -27,19 +27,16 @@
             <ListItem>
                 <ItemDef>LeatherGlove</ItemDef>
                 <ChanceToDrop>1</ChanceToDrop>
-                <Amount>1</Amount>
                 <Weight>1</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>LeatherGreave</ItemDef>
                 <ChanceToDrop>.75</ChanceToDrop>
-                <Amount>1</Amount>
                 <Weight>1</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>LeatherBoot</ItemDef>
                 <ChanceToDrop>1</ChanceToDrop>
-                <Amount>1</Amount>
                 <Weight>1</Weight>
             </ListItem>
         </Items>
@@ -70,25 +67,21 @@
             <ListItem>
                 <ItemDef>ChainVambrace</ItemDef>
                 <ChanceToDrop>.75</ChanceToDrop>
-                <Amount>1</Amount>
                 <Weight>1</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>ChainGlove</ItemDef>
                 <ChanceToDrop>1</ChanceToDrop>
-                <Amount>1</Amount>
                 <Weight>1</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>ChainGreave</ItemDef>
                 <ChanceToDrop>.75</ChanceToDrop>
-                <Amount>1</Amount>
                 <Weight>1</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>ChainBoot</ItemDef>
                 <ChanceToDrop>1</ChanceToDrop>
-                <Amount>1</Amount>
                 <Weight>1</Weight>
             </ListItem>
         </Items>

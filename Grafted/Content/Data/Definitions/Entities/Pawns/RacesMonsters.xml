@@ -82,8 +82,8 @@
         <Body>MosquitoBody</Body>
         <BaseStats>
             <AttackSpeed>3</AttackSpeed>
-            <MeleeStrength>6</MeleeStrength>
-            <Evasion>.3</Evasion>
+            <MeleeStrength>4</MeleeStrength>
+            <Evasion>.2</Evasion>
             <MeleeAccuracy>.9</MeleeAccuracy>
         </BaseStats>
     </PawnDef>

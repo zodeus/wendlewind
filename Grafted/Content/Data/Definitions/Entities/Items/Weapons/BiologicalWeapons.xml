@@ -345,7 +345,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/FlamingProboscis</TexturePath>
         <BaseStats>
-            <MeleePower>10</MeleePower>
+            <MeleePower>8</MeleePower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponMagic">

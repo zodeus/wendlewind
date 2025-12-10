@@ -27,7 +27,7 @@
             <ListItem>
                 <Item>ShimmeringBark</Item>
                 <Amount>1</Amount>
-                <ChanceToHarvest>.7</ChanceToHarvest>
+                <ChanceToHarvest>.6</ChanceToHarvest>
             </ListItem>
             <ListItem>
                 <Item>BoneShard</Item>
@@ -87,8 +87,8 @@
                         <InventoryItems>
                             <ListItem>
                                 <Item>GlitteringLog</Item>
-                                <Amount>1~2</Amount>
-                                <ChanceToDrop>1</ChanceToDrop>
+                                <Amount>1</Amount>
+                                <ChanceToDrop>.7</ChanceToDrop>
                             </ListItem>
                             <ListItem>
                                 <Item>GoldCapMushroom</Item>

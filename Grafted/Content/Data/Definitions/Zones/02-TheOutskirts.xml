@@ -54,7 +54,7 @@
             <ListItem>
                 <MaxBoxes>1</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>TrinketsChestBasic</ListItem>
+                    <ListItem>TrinketChest1</ListItem>
                     <ListItem>ArmorChestLeather</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
@@ -80,7 +80,7 @@
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>TrinketsChestBasic</ListItem>
+                    <ListItem>TrinketChest1</ListItem>
                     <ListItem>MedicinalChest</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
@@ -107,7 +107,7 @@
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ArmorChestLeather</ListItem>
-                    <ListItem>TrinketsChestBasic</ListItem>
+                    <ListItem>TrinketChest1</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -133,7 +133,7 @@
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>TrinketChestCombat</ListItem>
-                    <ListItem>TrinketsChestBasic</ListItem>
+                    <ListItem>TrinketChest1</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -148,6 +148,11 @@
                             <ListItem>
                                 <Item>RawMeat</Item>
                                 <Amount>2~4</Amount>
+                                <ChanceToDrop>1</ChanceToDrop>
+                            </ListItem>
+                            <ListItem>
+                                <Item>GlitteringLog</Item>
+                                <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>

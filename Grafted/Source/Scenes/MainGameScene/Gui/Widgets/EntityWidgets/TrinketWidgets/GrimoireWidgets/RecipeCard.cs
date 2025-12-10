@@ -331,9 +331,11 @@ public class RecipeCard : Panel
         iconFrame.Widgets.Add(new Image
         {
             Background = new TextureRegion(itemCount.Item.Texture),
-            Width = 32,
-            Height = 32,
+            Width = 24,
+            Height = 24,
             Opacity = hasEnough ? 1.0f : 0.5f,
+            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Center,
         });
         
         var nameLabel = new Label(BaseContent.Styles.Label.Normal)
@@ -401,7 +403,7 @@ public class RecipeCard : Panel
         
         var iconFrame = new Panel
         {
-            Width = 36,
+            Width = 36,     
             Height = 36,
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundDark32],
             Padding = new Thickness(2),
@@ -409,9 +411,11 @@ public class RecipeCard : Panel
         iconFrame.Widgets.Add(new Image
         {
             Background = new TextureRegion(trinketDef.Texture),
-            Width = 32,
-            Height = 32,
+            Width = 24,
+            Height = 24,
             Opacity = hasTrinket ? 1.0f : 0.4f,
+            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Center,
         });
         
         var nameLabel = new Label(BaseContent.Styles.Label.Normal)

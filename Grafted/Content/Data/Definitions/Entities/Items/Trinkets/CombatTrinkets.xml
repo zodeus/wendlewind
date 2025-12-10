@@ -30,6 +30,16 @@
         <TexturePath>Entities/Item/Trinket/Battery</TexturePath>
     </ItemDef>
     <ItemDef ParentName="CombatTrinket">
+        <Moniker>BoneCracker</Moniker>
+        <Label>Bone Cracker</Label>
+        <UiClass>BoneCrackerPanel</UiClass>
+        <TrinketProperties>
+            <HandlerClass>BoneCrackerHandler</HandlerClass>
+        </TrinketProperties>
+        <Description>A bone crusher, cracks random bones.</Description>
+        <TexturePath>Entities/Item/Trinket/BoneCracker</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="CombatTrinket">
         <Moniker>Slingshot</Moniker>
         <Label>Slingshot</Label>
         <UiClass>SlingshotPanel</UiClass>

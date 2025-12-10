@@ -30,7 +30,7 @@ public class SlingshotHandler : TrinketHandler
         var randomPart = victim.Body.AllExternalParts.RandomElement();
         var damageRecord = new DamageRecord(Trinket.Label, "Fling", ammoProps.DamageType, randomPart, damage, amountBlocked: 0);
         randomPart.ApplyDamageToExternalPart(new Damage(Trinket, damage, "Fling"));
-        
+
         damageRecord.ActualAmount = damage;
         _ammo.StackSize--;
         if (_ammo.StackSize < 1)
@@ -64,7 +64,7 @@ public class SlingshotHandler : TrinketHandler
         return oldAmmo;
     }
 
-     public override void PrepareTrinketButton(Button button)
+    public override void PrepareTrinketButton(Button button)
     {
         var panel = new Panel
         {
@@ -77,7 +77,7 @@ public class SlingshotHandler : TrinketHandler
             TextColor = Color.Red,
             Visible = false
         };
-        
+
         _chargesLabel = new Label(BaseContent.Styles.Label.Small)
         {
             Margin = new Thickness(15, 20, 0, 0),
@@ -86,7 +86,7 @@ public class SlingshotHandler : TrinketHandler
             TextColor = Color.Gold,
             Visible = false
         };
-        
+
         _ammoIcon = new Image
         {
             Width = 12,
@@ -96,21 +96,21 @@ public class SlingshotHandler : TrinketHandler
             Margin = new Thickness(0, -4, -4, 0),
             Visible = false
         };
-        
+
         panel.Widgets.Add(_cooldownLabel);
         panel.Widgets.Add(_chargesLabel);
         panel.Widgets.Add(_ammoIcon);
-        
+
         if (button.Content is Panel content)
         {
             content.Widgets.Add(panel);
         }
     }
-    
+
     public override void Update(Button button)
     {
         base.Update(button);
-        
+
         if (Cooldown > 0)
         {
             _cooldownLabel.Text = Cooldown.ToString();

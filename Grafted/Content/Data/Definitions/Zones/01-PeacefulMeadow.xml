@@ -11,7 +11,7 @@
             <ListItem>
                 <Item>GlitteringLog</Item>
                 <Amount>1</Amount>
-                <ChanceToHarvest>.3</ChanceToHarvest>
+                <ChanceToHarvest>.2</ChanceToHarvest>
             </ListItem>
             <ListItem>
                 <Item>BoneShard</Item>
@@ -125,7 +125,7 @@
             <ListItem>
                 <IsBoss>true</IsBoss>
                 <PotentialLootBoxes>
-                    <ListItem>TrinketsChestBasic</ListItem>
+                    <ListItem>TrinketChest1</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>

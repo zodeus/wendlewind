@@ -22,7 +22,7 @@ internal sealed class BoakPawnsCreaturesPanel : Grid, IDisposable
                 MinWidth = 250,
                 Widgets =
                 {
-                    new Label(BaseContent.Styles.Label.Normal) { Text = def.Label, Margin = new Thickness(0, 0, 0, 20) },
+                    new Label(BaseContent.Styles.Label.Normal) { Text = def.Moniker, Margin = new Thickness(0, 0, 0, 20) },
                     new Label(BaseContent.Styles.Label.Small) { Text = $"Species: {def.Species}" },
                     new Label(BaseContent.Styles.Label.Small) { Text = $"{def.Description}" },
                 }

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef Name="AmmoBase" ParentName="ItemResource" Abstract="true">
+        <ItemType>Supplies</ItemType>
+    </ItemDef>
+    <ItemDef ParentName="AmmoBase">
+        <Moniker>BoneDart</Moniker>
+        <Label>Bone Dart</Label>
+        <Description>A dart made of bone.</Description>
+        <TexturePath>Entities/Item/Resource/Ammo/BoneDart</TexturePath>
+        <AmmoProperties>
+            <DamageType>Blunt</DamageType>
+            <DamageRange>600~900</DamageRange>
+        </AmmoProperties>
+        <CraftingProperties>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>BoneShard</Item>
+                    <Count>3</Count>
+                </ListItem>
+            </ResourceRequirements>
+            <RequiredTrinkets>
+                <ListItem>TinkersToolbox</ListItem>
+            </RequiredTrinkets>
+        </CraftingProperties>
+    </ItemDef>
+
+</Definitions>

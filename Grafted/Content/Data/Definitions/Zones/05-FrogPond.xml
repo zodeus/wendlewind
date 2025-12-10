@@ -12,7 +12,7 @@
             <ListItem>
                 <Item>GlitteringLog</Item>
                 <Amount>1</Amount>
-                <ChanceToHarvest>.4</ChanceToHarvest>
+                <ChanceToHarvest>.25</ChanceToHarvest>
             </ListItem>
             <ListItem>
                 <Item>HealingRoot</Item>
@@ -35,7 +35,7 @@
                 <MaxBoxes>3</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>SupplyChestBasic</ListItem>
-                    <ListItem>TrinketsChestBasic</ListItem>
+                    <ListItem>TrinketChest1</ListItem>
                     <ListItem>ArmorChestChain</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
@@ -68,7 +68,7 @@
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ArmorChestChain</ListItem>
-                    <ListItem>TrinketsChestBasic</ListItem>
+                    <ListItem>TrinketChest1</ListItem>
                     <ListItem>SupplyChestBasic</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
@@ -105,7 +105,7 @@
                 <MaxBoxes>3</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ArmorChestChain</ListItem>
-                    <ListItem>TrinketsChestBasic</ListItem>
+                    <ListItem>TrinketChest1</ListItem>
                     <ListItem>WeaponChestIronAge</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
@@ -142,7 +142,7 @@
                 <MaxBoxes>3</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ArmorChestChain</ListItem>
-                    <ListItem>TrinketsChestBasic</ListItem>
+                    <ListItem>TrinketChest1</ListItem>
                     <ListItem>MedicinalChest</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
@@ -193,7 +193,7 @@
                         <SpawnWeight>1</SpawnWeight>
                         <BodySizeFactor>1.5</BodySizeFactor>
                         <Skills>
-                            <Tonguing>3</Tonguing>
+                            <Tonguing>2</Tonguing>
                         </Skills>
                         <Effects>
                             <ListItem>BeefedUp</ListItem>
