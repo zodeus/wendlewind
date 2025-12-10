@@ -67,7 +67,7 @@
         <Moniker>GhoulBody</Moniker>
         <Label>Ghoul Body</Label>
         <BloodType>BlackPlasma</BloodType>
-        <BoneDensity>.85</BoneDensity>
+        <BoneDensity>1.3</BoneDensity>
         <MaxBlood>100</MaxBlood>
         <GeneratorClass>GhoulBodyGenerator</GeneratorClass>
         <HandlerClass>GhoulBodyHandler</HandlerClass>

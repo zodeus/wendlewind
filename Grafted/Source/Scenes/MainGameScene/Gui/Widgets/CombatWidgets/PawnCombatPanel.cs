@@ -1,8 +1,5 @@
-﻿using Grafted.Graphics.Textures;
-using Grafted.Scenes.MainGameScene.Gui.CombatGui;
-using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+﻿using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Grafted.Sim.Entities.Items.Trinkets;
-using Myra.Graphics2D.Brushes;
 using Image = Myra.Graphics2D.UI.Image;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;

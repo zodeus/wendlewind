@@ -1,5 +1,7 @@
 namespace Grafted.Sim.Entities.Items.Trinkets;
 
+using Grafted.Sim.Entities.Pawns.Modifiers;
+
 [UsedImplicitly]
 public class SlingshotHandler : TrinketHandler
 {
@@ -21,18 +23,22 @@ public class SlingshotHandler : TrinketHandler
         ScribeDeep.Look(ref _ammo, "Ammo");
     }
 
-    public override DamageRecord? PostAttackHandler(Pawn victim, DamageRequest request, DamageResponse response)
+    public override DamageRecord? PostAttackHandler(Pawn victim, DamageRequest _, DamageResponse __)
     {
         if (_ammo == null || !IsActive) return null;
 
         var ammoProps = AmmoProperties!;
         var damage = ammoProps.DamageRange.RandomValue;
         var randomPart = victim.Body.AllExternalParts.RandomElement();
-        var damageRecord = new DamageRecord(Trinket.Label, "Fling", ammoProps.DamageType, randomPart, damage, amountBlocked: 0);
-        randomPart.ApplyDamageToExternalPart(new Damage(Trinket, damage, "Fling"));
+        var damageRecord = new DamageRecord(Trinket.Label, "Slingshot", ammoProps.DamageType, randomPart, damage, amountBlocked: 0);
+        var damagedParts = randomPart.ApplyDamageToExternalPart(new Damage(Trinket, damage, "Slingshot"));
 
+        ApplyBodyPartModifiers(randomPart, damagedParts[0]);
+
+        damageRecord.BodyParts = damagedParts;
         damageRecord.ActualAmount = damage;
         _ammo.StackSize--;
+
         if (_ammo.StackSize < 1)
         {
             _ammo.Destroy();
@@ -42,6 +48,30 @@ public class SlingshotHandler : TrinketHandler
         DeActivate();
 
         return damageRecord;
+    }
+
+    public void ApplyBodyPartModifiers(BodyPart part, DamagedBodyPartRecord damagedBodyPartRecord)
+    {
+        foreach (var modifier in AmmoProperties!.BodyPartModifiers)
+        {
+            if (modifier.Def.HandlerClass == typeof(RotLung))
+            {
+                var lungs = part.Body?.AllParts.Where(p => p?.Type == BodyPartType.Lung);
+                if (lungs != null)
+                {
+                    foreach (var lung in lungs)
+                    {
+                        damagedBodyPartRecord.AppliedModifiers.Add(modifier.Def);
+                        lung.ApplyBodyPartModifier(modifier, "Slingshot");
+                    }
+                }
+                
+            } else
+            {
+                damagedBodyPartRecord.AppliedModifiers.Add(modifier.Def);
+                part.ApplyBodyPartModifier(modifier, "Slingshot");
+            }
+        }
     }
 
     public override void OnClick()

@@ -15,7 +15,7 @@
                 <ListItem>
                     <Def>Acid</Def>
                     <DurationInTicks>60~120</DurationInTicks>
-                    <Chance>.2</Chance>
+                    <Chance>.4</Chance>
                 </ListItem>
             </BodyPartModifiers>
         </EnchantmentProperties>
@@ -33,7 +33,7 @@
                 <ListItem>
                     <Def>Festering</Def>
                     <DurationInTicks>120~300</DurationInTicks>
-                    <Chance>.2</Chance>
+                    <Chance>.3</Chance>
                 </ListItem>
             </BodyPartModifiers>
         </EnchantmentProperties>
@@ -68,7 +68,7 @@
             <BodyPartModifiers>
                 <ListItem>
                     <Def>Burning</Def>
-                    <DurationInTicks>60</DurationInTicks>
+                    <DurationInTicks>40~120</DurationInTicks>
                     <Chance>.75</Chance>
                 </ListItem>
             </BodyPartModifiers>

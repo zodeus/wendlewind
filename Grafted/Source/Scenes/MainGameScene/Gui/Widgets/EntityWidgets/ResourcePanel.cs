@@ -1,3 +1,5 @@
+using Grafted.Sim.Entities.Items;
+
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
 [UsedImplicitly]
@@ -25,6 +27,84 @@ public sealed class ResourcePanel : EntityPanelBase
             }
         });
 
+        // AMMO PROPERTIES
+        var ammoProps = item.ItemDef.AmmoProperties;
+        if (ammoProps != null)
+        {
+            var ammoPanel = new VerticalStackPanel
+            {
+                Spacing = 5,
+                Margin = new Thickness(0, 10, 0, 0)
+            };
+
+            ammoPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+            {
+                Text = "Ammo Properties",
+                TextColor = Color.Gold
+            });
+
+            ammoPanel.Widgets.Add(new HorizontalStackPanel
+            {
+                Spacing = 10,
+                Widgets =
+                {
+                    new Label(BaseContent.Styles.Label.Small)
+                    {
+                        Text = "Damage Type:",
+                        TextColor = Color.Gray
+                    },
+                    new Label(BaseContent.Styles.Label.Small)
+                    {
+                        Text = ammoProps.DamageType.ToString(),
+                        TextColor = GetDamageTypeColor(ammoProps.DamageType)
+                    }
+                }
+            });
+
+            ammoPanel.Widgets.Add(new HorizontalStackPanel
+            {
+                Spacing = 10,
+                Widgets =
+                {
+                    new Label(BaseContent.Styles.Label.Small)
+                    {
+                        Text = "Damage:",
+                        TextColor = Color.Gray
+                    },
+                    new Label(BaseContent.Styles.Label.Small)
+                    {
+                        Text = $"{ammoProps.DamageRange.Min:F0}-{ammoProps.DamageRange.Max:F0}",
+                        TextColor = Color.LightGray
+                    }
+                }
+            });
+
+            if (ammoProps.BodyPartModifiers.Count > 0)
+            {
+                ammoPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = "Effects:",
+                    TextColor = Color.Gray,
+                    Margin = new Thickness(0, 5, 0, 0)
+                });
+
+                foreach (var modifier in ammoProps.BodyPartModifiers)
+                {
+                    var chanceText = modifier.Chance.Min < 1f
+                        ? $" ({modifier.Chance.Min * 100:F0}%)"
+                        : "";
+                    ammoPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+                    {
+                        Text = $"  • {modifier.Def.Label}{chanceText}",
+                        TextColor = Color.IndianRed,
+                        Margin = new Thickness(10, 0, 0, 0)
+                    });
+                }
+            }
+
+            Widgets.Add(ammoPanel);
+        }
+
         // MAKE POTION
         var makePotionTitle = TryGetMakePotionTitle(Core.Context.Player, item);
         _makePotionButton = new Button(BaseContent.Styles.Button.Normal)
@@ -40,6 +120,23 @@ public sealed class ResourcePanel : EntityPanelBase
             Spacing = 20,
             Widgets = { _makePotionButton }
         });
+    }
+
+    private static Color GetDamageTypeColor(DamageType damageType)
+    {
+        return damageType switch
+        {
+            DamageType.Sharp => Color.LightSteelBlue,
+            DamageType.Blunt => Color.SandyBrown,
+            DamageType.Piercing => Color.Silver,
+            DamageType.Flesh => Color.IndianRed,
+            DamageType.Fire => Color.OrangeRed,
+            DamageType.Ice => Color.LightCyan,
+            DamageType.Acid => Color.LimeGreen,
+            DamageType.Poison => Color.MediumSeaGreen,
+            DamageType.Magic => Color.MediumPurple,
+            _ => Color.Gray
+        };
     }
 
     private string? TryGetMakePotionTitle(Player player, Item item)

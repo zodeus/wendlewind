@@ -5,17 +5,19 @@ public class SpidersBiteHandler : EnchantmentHandler
 {
     public int Bites;
 
+    // Armor handler
     public override void PostPawnDamageTakenEffect(BodyPart bodyPart, Pawn pawn, Pawn target, DamageRecord damageRecord)
     {
         var randomPart = target.Body.AllExternalParts.RandomElement();
-        if (randomPart.Skin is not { } skin) return;
-
         Bites++;
+        Log.Info($"SpidersBiteHandler: Bites: {Bites}");
         foreach (var modifier in Enchantment.ItemDef.EnchantmentProperties!.BodyPartModifiers)
         {
-            if (skin.ApplyBodyPartModifier(modifier, Enchantment.Label))
+            Log.Info($"SpidersBiteHandler: Applying modifier: {modifier.Def.Label}");
+            if (randomPart.ApplyBodyPartModifier(modifier, Enchantment.Label))
             {
-                damageRecord.SourceAfflictions.Add(new AfflictionRecord(randomPart, "Bitten"));
+                Log.Info($"SpidersBiteHandler: Modifier applied: {modifier.Def.Label}");
+                damageRecord.DamageStatusEffects.Add(new DamageStatusEffect(target, Enchantment.ItemDef, $"{randomPart.Label} was bitten by {Enchantment.Label}"));
             }
         }
     }

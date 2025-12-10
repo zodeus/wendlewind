@@ -6,7 +6,7 @@ public class DamageRecord
     public readonly string WeaponManeuverLabel;
     public readonly DamageType DamageType;
     public readonly BodyPart BodyPartHit;
-    public readonly List<AfflictionRecord> SourceAfflictions = [];
+    public readonly List<DamageStatusEffect> DamageStatusEffects = [];
     public IReadOnlyList<DamagedBodyPartRecord> BodyParts = new List<DamagedBodyPartRecord>();
     public readonly List<DestroyedItemRecord> DestroyedEquipment = [];
     public readonly double TotalDamage;

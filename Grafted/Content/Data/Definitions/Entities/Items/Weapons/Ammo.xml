@@ -25,5 +25,44 @@
             </RequiredTrinkets>
         </CraftingProperties>
     </ItemDef>
+    <ItemDef ParentName="AmmoBase">
+        <Moniker>RockOfRot</Moniker>
+        <Label>Rock of Rot</Label>
+        <Description>A rock that is rotting.</Description>
+        <TexturePath>Entities/Item/Resource/Ammo/RockOfRot</TexturePath>
+        <AmmoProperties>
+            <DamageType>Magic</DamageType>
+            <DamageRange>500~800</DamageRange>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>RotLung</Def>
+                    <DurationInTicks>900~3600</DurationInTicks>
+                    <Chance>1</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </AmmoProperties>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>Rock</Item>
+                    <Count>3</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>DeathCapMushroom</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>VenomVial</Item>
+                    <Count>3</Count>
+                </ListItem>
+            </ResourceRequirements>
+            <RequiredTrinkets>
+                <ListItem>TinkersToolbox</ListItem>
+                <ListItem>MortarAndPestle</ListItem>
+                <ListItem>EncasedFire</ListItem>
+            </RequiredTrinkets>
+        </CraftingProperties>
+    </ItemDef>
 
 </Definitions>

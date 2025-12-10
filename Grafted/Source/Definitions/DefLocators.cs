@@ -141,7 +141,7 @@ public static partial class Defs {
         public static ItemDef BucketHelmet = null!;
 
         public static ItemDef Grimoire = null!;
-        
+        public static ItemDef BloodBath = null!;
     }
 }
 

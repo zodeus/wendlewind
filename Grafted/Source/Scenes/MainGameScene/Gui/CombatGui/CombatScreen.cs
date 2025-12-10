@@ -183,6 +183,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         Widgets.Add(grid);
     }
 
+    // Render events to the pawn body widget 
     private void PrintDamage(CombatEvent combatEvent)
     {
         var color = combatEvent.Type switch
@@ -194,15 +195,16 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             CombatEventType.Heal => Color.GreenYellow,
             CombatEventType.Buff => Color.GreenYellow,
             CombatEventType.Debuff => new Color(237, 51, 0),
+            CombatEventType.StatusEffect => Color.Purple,
             CombatEventType.Death => Color.AntiqueWhite,
             _ => throw new ArgumentOutOfRangeException()
         };
 
         // Route damage text to the appropriate body widget
-        var partyPanel = combatEvent.Target.PawnType == PawnType.Player 
-            ? _playerPartyPanel 
+        var partyPanel = combatEvent.Target.PawnType == PawnType.Player
+            ? _playerPartyPanel
             : _opponentPartyPanel;
-        
+
         var combatPanel = partyPanel.GetPanelForPawn(combatEvent.Target);
         if (combatPanel?.BodyWidget != null)
         {

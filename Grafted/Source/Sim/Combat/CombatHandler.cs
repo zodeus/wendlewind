@@ -14,7 +14,8 @@ public enum CombatEventType
     Heal,
     Buff,
     Debuff,
-    Death
+    Death,
+    StatusEffect
 }
 
 public class CombatEvent(Pawn victim, CombatEventType damage, string s, BodyPart? bodyPart = null)
@@ -210,11 +211,11 @@ public class CombatHandler : IDisposable
             }
         }
 
-        foreach (var affliction in damage.SourceAfflictions)
+        foreach (var statusEffect in damage.DamageStatusEffects)
         {
-            EventOccured?.Invoke(new CombatEvent(attacker, CombatEventType.Debuff, $"{affliction.Label}", affliction.BodyPart));
-            yield return $"/c[{TC.Purple2}]{attacker}/c[{TC.Default}]'s /c[{TC.BodyPart}]{affliction.BodyPart.Label} " +
-                         $"/c[{TC.Default}]has been (/c[{TC.GreenYellow}]{affliction.Label}) ";
+            EventOccured?.Invoke(new CombatEvent(statusEffect.Pawn, CombatEventType.StatusEffect, statusEffect.EffectDef.Label));
+            yield return $"/c[{TC.Purple2}]{statusEffect.Pawn}/c[{TC.Default}]'s " +
+                         $"{statusEffect.Label}";
         }
     }
 

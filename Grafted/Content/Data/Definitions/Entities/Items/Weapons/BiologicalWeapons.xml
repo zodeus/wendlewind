@@ -37,7 +37,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/GhoulishHand</TexturePath>
         <BaseStats>
-            <MeleePower>45</MeleePower>
+            <MeleePower>60</MeleePower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -53,7 +53,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/GhoulishFoot</TexturePath>
         <BaseStats>
-            <MeleePower>45</MeleePower>
+            <MeleePower>70</MeleePower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">

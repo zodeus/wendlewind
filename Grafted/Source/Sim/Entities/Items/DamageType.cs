@@ -9,6 +9,7 @@ public enum DamageType : byte {
     Fire,
     Ice,
     Acid,
+    Poison,
     Magic
 }
 

@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-
     <PawnDef Name="BaseMonsterRace" ParentName="BasePawn" Abstract="true"/>
     <PawnDef ParentName="BaseMonsterRace">
         <Moniker>Glump</Moniker>
