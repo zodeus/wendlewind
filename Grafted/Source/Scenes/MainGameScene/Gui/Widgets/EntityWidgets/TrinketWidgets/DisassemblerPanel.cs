@@ -14,51 +14,6 @@ public sealed class DisassemblerPanel : EntityPanelBase
         MinWidth = 720;
         Height = 720;
 
-        // Header
-        var header = new HorizontalStackPanel
-        {
-            Spacing = 12,
-            Margin = new Thickness(0, 0, 0, 16),
-            HorizontalAlignment = HorizontalAlignment.Center
-        };
-
-        var headerIcon = new Panel
-        {
-            Width = 40,
-            Height = 40,
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundDark32],
-            Padding = new Thickness(4)
-        };
-        headerIcon.Widgets.Add(new Image
-        {
-            Background = new ColoredRegion(
-                Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Disassemble],
-                BaseContent.Colors.Text.Golden
-            ),
-            Width = 32,
-            Height = 32,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Center
-        });
-
-        header.Widgets.Add(headerIcon);
-        header.Widgets.Add(new Label(BaseContent.Styles.Label.Large)
-        {
-            Text = "Disassembler",
-            TextColor = BaseContent.Colors.Text.Golden,
-            VerticalAlignment = VerticalAlignment.Center
-        });
-        Widgets.Add(header);
-
-        // Divider
-        Widgets.Add(new Panel
-        {
-            Height = 2,
-            Background = new SolidBrush(new Color(60, 50, 40)),
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Margin = new Thickness(0, 0, 0, 12)
-        });
-
         // Subtitle
         Widgets.Add(new Label(BaseContent.Styles.Label.Small)
         {

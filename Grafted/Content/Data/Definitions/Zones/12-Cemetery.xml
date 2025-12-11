@@ -20,11 +20,6 @@
                 <ChanceToHarvest>.8</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>ShimmeringBark</Item>
-                <Amount>1</Amount>
-                <ChanceToHarvest>.5</ChanceToHarvest>
-            </ListItem>
-            <ListItem>
                 <Item>DreamBerry</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.3</ChanceToHarvest>
@@ -34,13 +29,18 @@
                 <Amount>2~5</Amount>
                 <ChanceToHarvest>.4</ChanceToHarvest>
             </ListItem>
+            <ListItem>
+                <Item>VenomVial</Item>
+                <Amount>1~2</Amount>
+                <ChanceToHarvest>.3</ChanceToHarvest>
+            </ListItem>
         </Resources>
         <Encounters>
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ResourceChest2</ListItem>
-                    <ListItem>ArmorChestLeather</ListItem>
+                    <ListItem>ArmorChest2</ListItem>
                     <ListItem>EnchantedChestDefensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
@@ -56,6 +56,19 @@
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>
+                        <EquipmentItems>
+                            <ListItem>LeatherVambrace</ListItem>
+                            <ListItem>LeatherVambrace</ListItem>
+                            <ListItem>LeatherGreave</ListItem>
+                            <ListItem>LeatherGreave</ListItem>
+                            <ListItem>LeatherGorget</ListItem>
+                            <ListItem>LeatherBoot</ListItem>
+                            <ListItem>LeatherBoot</ListItem>
+                            <ListItem>LeatherGlove</ListItem>
+                            <ListItem>LeatherGlove</ListItem>
+                            <ListItem>LeatherTunic</ListItem>
+                            <ListItem>ChainHelmet</ListItem>
+                        </EquipmentItems>
                     </ListItem>
                 </Enemies>
             </ListItem>
@@ -63,7 +76,7 @@
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ResourceChest2</ListItem>
-                    <ListItem>SupplyChestNormal</ListItem>
+                    <ListItem>SupplyChest2</ListItem>
                     <ListItem>EnchantedChestOffensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
@@ -71,7 +84,7 @@
                         <PawnDef>Ghoul</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Ghoul (specimen #2)</PawnName>
-                        <BodySizeFactor>1.3</BodySizeFactor>
+                        <BodySizeFactor>1.2</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
                                 <Item>RawFish</Item>
@@ -79,6 +92,19 @@
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>
+                        <EquipmentItems>
+                            <ListItem>LeatherVambrace</ListItem>
+                            <ListItem>LeatherVambrace</ListItem>
+                            <ListItem>LeatherGreave</ListItem>
+                            <ListItem>LeatherGreave</ListItem>
+                            <ListItem>LeatherGorget</ListItem>
+                            <ListItem>LeatherBoot</ListItem>
+                            <ListItem>LeatherBoot</ListItem>
+                            <ListItem>LeatherGlove</ListItem>
+                            <ListItem>LeatherGlove</ListItem>
+                            <ListItem>LeatherTunic</ListItem>
+                            <ListItem>ChainHelmet</ListItem>
+                        </EquipmentItems>
                     </ListItem>
                 </Enemies>
             </ListItem>
@@ -94,7 +120,7 @@
                         <PawnDef>Ghoul</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Ghoul (specimen #3)</PawnName>
-                        <BodySizeFactor>1.5</BodySizeFactor>
+                        <BodySizeFactor>1.3</BodySizeFactor>
                         <EquipmentItems>
                             <ListItem>LeatherVambrace</ListItem>
                             <ListItem>LeatherVambrace</ListItem>
@@ -103,9 +129,10 @@
                             <ListItem>LeatherGorget</ListItem>
                             <ListItem>LeatherBoot</ListItem>
                             <ListItem>LeatherBoot</ListItem>
-                            <ListItem>LeatherGlove</ListItem>
-                            <ListItem>LeatherGlove</ListItem>
+                            <ListItem>ChainGlove</ListItem>
+                            <ListItem>ChainGlove</ListItem>
                             <ListItem>LeatherTunic</ListItem>
+                            <ListItem>ChainHelmet</ListItem>
                         </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
@@ -122,25 +149,26 @@
                 <PotentialLootBoxes>
                     <ListItem>ResourceChest2</ListItem>
                     <ListItem>TrinketChest2</ListItem>
-                    <ListItem>SupplyChestNormal</ListItem>
+                    <ListItem>SupplyChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
                         <PawnDef>Ghoul</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Ghoul (specimen #4)</PawnName>
-                        <BodySizeFactor>1.8</BodySizeFactor>
+                        <BodySizeFactor>1.5</BodySizeFactor>
                         <EquipmentItems>
-                            <ListItem>LeatherVambrace</ListItem>
-                            <ListItem>LeatherVambrace</ListItem>
+                            <ListItem>ChainVambrace</ListItem>
+                            <ListItem>ChainVambrace</ListItem>
                             <ListItem>LeatherGreave</ListItem>
                             <ListItem>LeatherGreave</ListItem>
                             <ListItem>LeatherGorget</ListItem>
                             <ListItem>LeatherBoot</ListItem>
                             <ListItem>LeatherBoot</ListItem>
-                            <ListItem>LeatherGlove</ListItem>
-                            <ListItem>LeatherGlove</ListItem>
+                        <ListItem>ChainGlove</ListItem>
+                            <ListItem>ChainGlove</ListItem>
                             <ListItem>LeatherTunic</ListItem>
+                            <ListItem>ChainHelmet</ListItem>
                         </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
@@ -162,23 +190,29 @@
                         <PawnDef>Ghoul</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Ghoul (specimen apex #1)</PawnName>
-                        <BodySizeFactor>2.2</BodySizeFactor>
+                        <BodySizeFactor>1.8</BodySizeFactor>
                         <EquipmentItems>
-                            <ListItem>LeatherVambrace</ListItem>
-                            <ListItem>LeatherVambrace</ListItem>
+                            <ListItem>ChainVambrace</ListItem>
+                            <ListItem>ChainVambrace</ListItem>
                             <ListItem>LeatherGreave</ListItem>
                             <ListItem>LeatherGreave</ListItem>
                             <ListItem>LeatherGorget</ListItem>
                             <ListItem>LeatherBoot</ListItem>
                             <ListItem>LeatherBoot</ListItem>
-                            <ListItem>LeatherGlove</ListItem>
-                            <ListItem>LeatherGlove</ListItem>
-                            <ListItem>LeatherTunic</ListItem>
+                            <ListItem>ChainGlove</ListItem>
+                            <ListItem>ChainGlove</ListItem>
+                            <ListItem>ChainTunic</ListItem>
+                            <ListItem>ChainHelmet</ListItem>
                         </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
                                 <Item>RawFish</Item>
                                 <Amount>1~2</Amount>
+                                <ChanceToDrop>1</ChanceToDrop>
+                            </ListItem>
+                            <ListItem>
+                                <Item>MedKit</Item>
+                                <Amount>2~3</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>

@@ -40,7 +40,7 @@
                     <ListItem>ResourceChest1</ListItem>
                     <ListItem>EnchantedChestDefensive</ListItem>
                     <ListItem>EnchantedChestOffensive</ListItem>
-                    <ListItem>ArmorChestChain</ListItem>
+                    <ListItem>ArmorChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -87,7 +87,6 @@
                     <ListItem>TrinketChest2</ListItem>
                     <ListItem>EnchantedChestDefensive</ListItem>
                     <ListItem>EnchantedChestOffensive</ListItem>
-                    <ListItem>ArmorChestChain</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -111,7 +110,7 @@
                     <ListItem>TrinketChest2</ListItem>
                     <ListItem>EnchantedChestDefensive</ListItem>
                     <ListItem>EnchantedChestOffensive</ListItem>
-                    <ListItem>ArmorChestChain</ListItem>
+                    <ListItem>ArmorChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>

@@ -56,7 +56,7 @@
             <ListItem>
                 <MaxBoxes>1</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>SupplyChestBasic</ListItem>
+                    <ListItem>SupplyChest1</ListItem>
                     <ListItem>EnchantedChestOffensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
@@ -138,7 +138,7 @@
                 <IsBoss>true</IsBoss>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>SupplyChestNormal</ListItem>
+                    <ListItem>SupplyChest2</ListItem>
                     <ListItem>EnchantedChestDefensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>

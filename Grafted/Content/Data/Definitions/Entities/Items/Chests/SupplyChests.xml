@@ -1,10 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-    <LootBoxDef>
-        <Moniker>SupplyChestBasic</Moniker>
+    <LootBoxDef Name="SupplyChest1">
+        <Moniker>SupplyChest1</Moniker>
         <Label>Supply Chest</Label>
-        <Description>Scraps for weapons and armor...</Description>
         <Category>Crafting</Category>
         <TexturePath>Chests/SupplyChest</TexturePath>
         <CollectionLimit>2</CollectionLimit>
@@ -26,53 +25,27 @@
             </ListItem>
             <ListItem>
                 <ItemDef>ArterialThreads</ItemDef>
-                <Amount>1~4</Amount>
-                <ChanceToDrop>.5</ChanceToDrop>
-            </ListItem>
-            <ListItem>
-                <ItemDef>JarOfBlood</ItemDef>
-                <Amount>1</Amount>
-                <ChanceToDrop>.3</ChanceToDrop>
-            </ListItem>
-        </Items>
-    </LootBoxDef>
-    <LootBoxDef>
-        <Moniker>SupplyChestNormal</Moniker>
-        <Label>Supply Chest</Label>
-        <Description>Scraps for weapons and armor...</Description>
-        <Category>Crafting</Category>
-        <TexturePath>Chests/SupplyChest</TexturePath>
-        <CollectionLimit>3</CollectionLimit>
-        <Items>
-            <ListItem>
-                <ItemDef>RepairKit</ItemDef>
-                <Amount>3~5</Amount>
-                <ChanceToDrop>1</ChanceToDrop>
-            </ListItem>
-            <ListItem>
-                <ItemDef>EnchantmentExpander</ItemDef>
-                <Amount>1~2</Amount>
-                <ChanceToDrop>.75</ChanceToDrop>
-            </ListItem>         
-            <ListItem>
-                <ItemDef>MendersMist</ItemDef>
-                <Amount>2~4</Amount>
-                <ChanceToDrop>.5</ChanceToDrop>
-            </ListItem>
-            <ListItem>
-                <ItemDef>MedKit</ItemDef>
-                <Amount>1~3</Amount>
-                <ChanceToDrop>.3</ChanceToDrop>
-            </ListItem>
-            <ListItem>
-                <ItemDef>ArterialThreads</ItemDef>
                 <Amount>2~5</Amount>
                 <ChanceToDrop>.5</ChanceToDrop>
             </ListItem>
             <ListItem>
                 <ItemDef>JarOfBlood</ItemDef>
-                <Amount>1</Amount>
+                <Amount>1~2</Amount>
                 <ChanceToDrop>.3</ChanceToDrop>
+            </ListItem>
+        </Items>
+    </LootBoxDef>
+    <LootBoxDef Name="SupplyChest2" ParentName="SupplyChest1">
+        <Moniker>SupplyChest2</Moniker>
+        <Label>Supply Chest</Label>
+        <Category>Crafting</Category>
+        <TexturePath>Chests/SupplyChest</TexturePath>
+        <CollectionLimit>3</CollectionLimit>
+        <Items>
+            <ListItem>
+                <ItemDef>EnchantmentExpander</ItemDef>
+                <Amount>1~2</Amount>
+                <ChanceToDrop>.75</ChanceToDrop>
             </ListItem>
         </Items>
     </LootBoxDef>

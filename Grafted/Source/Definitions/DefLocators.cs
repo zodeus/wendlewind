@@ -61,6 +61,7 @@ public static partial class Defs {
 public static partial class Defs {
     [DefLocator]
     public static class BodyEffects {
+        public static BodyEffectDef FoodPoisoning = null!;
         public static BodyEffectDef BeefedUp = null!;
         public static BodyEffectDef FeelingThePurple = null!;
         public static BodyEffectDef SmokeyHaze = null!;
@@ -94,6 +95,11 @@ public static partial class Defs {
     [DefLocator]
     public static class Items
     {
+        public static ItemDef TinkersToolbox = null!;
+        public static ItemDef BoneShard = null!;
+        public static ItemDef GoldenBean = null!;
+        public static ItemDef LeatherScraps = null!;
+        public static ItemDef Fang = null!;
         public static ItemDef FishBowlHelmet = null!;
         public static ItemDef WoodenHammer = null!;
         public static ItemDef Knife = null!;
@@ -253,6 +259,7 @@ public static partial class Defs
         public static BodyPartDef BeeWing = null!;
         public static BodyPartDef BeeLeg = null!;
         public static BodyPartDef BeeAbdomen = null!;
+        public static BodyPartDef BeeDrone = null!;
         public static BodyPartDef HorseHead = null!;
         public static BodyPartDef HorseNeck = null!;
         public static BodyPartDef HorseTorso = null!;
@@ -288,6 +295,7 @@ public static partial class Defs
     [DefLocator]
     public static class Traits {
         public static TraitDef ThickBlooded = null!;
+        public static TraitDef GutMicroacrobatics = null!;
     }
 }
 

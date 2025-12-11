@@ -6,7 +6,8 @@ public class BodyPartSocketDef : Def {
     public List<BodyPartType> AllowedBodyPartTypes = new();
 }
 
-public enum BodyPartPosition {
+public enum BodyPartPosition
+{
     Left,
     Right,
     FrontLeft,
@@ -15,10 +16,14 @@ public enum BodyPartPosition {
     MiddleRight,
     RearLeft,
     RearRight,
-    
+
     //Fingers
     Index,
     Middle,
     Ring,
-    Little
+    Little,
+    A,
+    B,
+    C,
+    D
 }

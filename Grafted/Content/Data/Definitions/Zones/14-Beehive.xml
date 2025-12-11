@@ -2,38 +2,35 @@
 
 <Definitions>
     <ZoneDef>
-        <Moniker>AbandonedStables</Moniker>
-        <Label>Abandoned Stables</Label>
-        <Stage>11</Stage>
-        <BackgroundTexturePath>Biome/AbandonedStables</BackgroundTexturePath>
+        <Moniker>Beehive</Moniker>
+        <Label>Beehive</Label>
+        <Stage>14</Stage>
+        <BackgroundTexturePath>Biome/Beehive</BackgroundTexturePath>
         <BackgroundTextureTransparency>30</BackgroundTextureTransparency>
-        <BiomeColor>140, 120, 90</BiomeColor>
+        <BiomeColor>200, 170, 80</BiomeColor>
         <Resources>
             <ListItem>
-                <Item>GlitteringLog</Item>
-                <Amount>1</Amount>
-                <ChanceToHarvest>.5</ChanceToHarvest>
+                <Item>DreamBerry</Item>
+                <Amount>1~2</Amount>
+                <ChanceToHarvest>.6</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>BoneShard</Item>
-                <Amount>3~8</Amount>
-                <ChanceToHarvest>1</ChanceToHarvest>
+                <Item>HealingRoot</Item>
+                <Amount>1~2</Amount>
+                <ChanceToHarvest>.7</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>GoldCapMushroom</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.4</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>ShimmeringBark</Item>
+                <Amount>1~2</Amount>
+                <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>
         </Resources>
         <Encounters>
-            <ListItem>
-                <ShrineProperties>
-                    <GodLabel>Herminor</GodLabel>
-                    <PartsToRestore>4~6</PartsToRestore>
-                    <TexturePath>Biome/Shrines/cemetery_shrine_1</TexturePath>
-                    <RestorablePartTypes>
-                        <ListItem>Thumb</ListItem>
-                        <ListItem>Finger</ListItem>
-                        <ListItem>Hand</ListItem>
-                        <ListItem>Foot</ListItem>
-                    </RestorablePartTypes>
-                </ShrineProperties>
-            </ListItem>
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
@@ -43,9 +40,9 @@
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>Horse</PawnDef>
+                        <PawnDef>HoneyBee</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Horse (specimen #1)</PawnName>
+                        <PawnName>Honey Bee (worker #1)</PawnName>
                         <BodySizeFactor>1</BodySizeFactor>
                     </ListItem>
                 </Enemies>
@@ -54,13 +51,14 @@
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ResourceChest2</ListItem>
+                    <ListItem>SupplyChest2</ListItem>
                     <ListItem>EnchantedChestOffensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>Horse</PawnDef>
+                        <PawnDef>HoneyBee</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Horse (specimen #2)</PawnName>
+                        <PawnName>Honey Bee (worker #2)</PawnName>
                         <BodySizeFactor>1.3</BodySizeFactor>
                     </ListItem>
                 </Enemies>
@@ -70,12 +68,13 @@
                 <PotentialLootBoxes>
                     <ListItem>ResourceChest2</ListItem>
                     <ListItem>MedicinalChest</ListItem>
+                    <ListItem>EnchantedChestOffensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>Horse</PawnDef>
+                        <PawnDef>HoneyBee</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Horse (specimen #3)</PawnName>
+                        <PawnName>Honey Bee (soldier #1)</PawnName>
                         <BodySizeFactor>1.5</BodySizeFactor>
                     </ListItem>
                 </Enemies>
@@ -84,15 +83,14 @@
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ArmorChest2</ListItem>
-                    <ListItem>ResourceChest2</ListItem>
+                    <ListItem>TrinketChest2</ListItem>
                     <ListItem>EnchantedChestDefensive</ListItem>
-                    <ListItem>EnchantedChestOffensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>Horse</PawnDef>
+                        <PawnDef>HoneyBee</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Horse (specimen #4)</PawnName>
+                        <PawnName>Honey Bee (soldier #2)</PawnName>
                         <BodySizeFactor>1.8</BodySizeFactor>
                     </ListItem>
                 </Enemies>
@@ -107,9 +105,9 @@
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>Horse</PawnDef>
+                        <PawnDef>HoneyBee</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Horse (specimen apex #1)</PawnName>
+                        <PawnName>Honey Bee (Queen)</PawnName>
                         <BodySizeFactor>3</BodySizeFactor>
                     </ListItem>
                 </Enemies>

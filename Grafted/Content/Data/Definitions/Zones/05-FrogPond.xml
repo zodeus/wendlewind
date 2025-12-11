@@ -34,9 +34,9 @@
             <ListItem>
                 <MaxBoxes>3</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>SupplyChestBasic</ListItem>
+                    <ListItem>SupplyChest1</ListItem>
                     <ListItem>TrinketChest1</ListItem>
-                    <ListItem>ArmorChestChain</ListItem>
+                    <ListItem>ArmorChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -67,9 +67,9 @@
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>ArmorChestChain</ListItem>
+                    <ListItem>ArmorChest2</ListItem>
                     <ListItem>TrinketChest1</ListItem>
-                    <ListItem>SupplyChestBasic</ListItem>
+                    <ListItem>SupplyChest1</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -104,7 +104,7 @@
             <ListItem>
                 <MaxBoxes>3</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>ArmorChestChain</ListItem>
+                    <ListItem>ArmorChest2</ListItem>
                     <ListItem>TrinketChest1</ListItem>
                     <ListItem>WeaponChestIronAge</ListItem>
                 </PotentialLootBoxes>
@@ -141,7 +141,7 @@
             <ListItem>
                 <MaxBoxes>3</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>ArmorChestChain</ListItem>
+                    <ListItem>ArmorChest2</ListItem>
                     <ListItem>TrinketChest1</ListItem>
                     <ListItem>MedicinalChest</ListItem>
                 </PotentialLootBoxes>

@@ -29,7 +29,7 @@
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>WeaponChestBasic</ListItem>
-                    <ListItem>ArmorChestLeather</ListItem>
+                    <ListItem>ArmorChest1</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -55,7 +55,7 @@
                 <MaxBoxes>1</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>TrinketChest1</ListItem>
-                    <ListItem>ArmorChestLeather</ListItem>
+                    <ListItem>ArmorChest1</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -106,7 +106,7 @@
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>ArmorChestLeather</ListItem>
+                    <ListItem>ArmorChest1</ListItem>
                     <ListItem>TrinketChest1</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>

@@ -20,7 +20,7 @@
             </ListItem>
             <ListItem>
                 <ItemDef>BoneCracker</ItemDef>
-                <Weight>150000</Weight>
+                <Weight>100000</Weight>
             </ListItem>
             <!---->
             <!--<ListItem>

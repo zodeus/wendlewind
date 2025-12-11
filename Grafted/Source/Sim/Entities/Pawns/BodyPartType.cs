@@ -32,6 +32,7 @@ public enum BodyPartType {
     Proboscis,
     Antenna,
     Thorax,
+    Minion,
     Abdomen,
     Wing
 }

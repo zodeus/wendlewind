@@ -18,4 +18,9 @@
         <TexturePath>Entities/Item/Resource/Metal/ChainLink</TexturePath>
         <UiClass>ChainLinkPanel</UiClass>
     </ItemDef>
+    <ItemDef ParentName="MetalResource">
+        <Moniker>GoldenBean</Moniker>
+        <Label>Golden Bean</Label>
+        <TexturePath>Entities/Item/Resource/Metal/GoldenBean</TexturePath>
+    </ItemDef>
 </Definitions>

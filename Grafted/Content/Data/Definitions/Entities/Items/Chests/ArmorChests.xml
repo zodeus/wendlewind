@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
-<LootBoxDef>
-        <Moniker>ArmorChestLeather</Moniker>
+    <LootBoxDef Name="ArmorChest1">
+        <Moniker>ArmorChest1</Moniker>
         <Label>Leather Armor</Label>
         <Description>Contains leather armor</Description>
         <Category>Armor</Category>
@@ -12,37 +12,37 @@
             <ListItem>
                 <ItemDef>LeatherGorget</ItemDef>
                 <ChanceToDrop>.5</ChanceToDrop>
-                <Weight>1</Weight>
+                <Weight>10</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>LeatherTunic</ItemDef>
                 <ChanceToDrop>.5</ChanceToDrop>
-                <Weight>1</Weight>
+                <Weight>10</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>LeatherVambrace</ItemDef>
                 <ChanceToDrop>.75</ChanceToDrop>
-                <Weight>1</Weight>
+                <Weight>10</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>LeatherGlove</ItemDef>
-                <ChanceToDrop>1</ChanceToDrop>
-                <Weight>1</Weight>
+                <ChanceToDrop>.8</ChanceToDrop>
+                <Weight>10</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>LeatherGreave</ItemDef>
                 <ChanceToDrop>.75</ChanceToDrop>
-                <Weight>1</Weight>
+                <Weight>10</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>LeatherBoot</ItemDef>
-                <ChanceToDrop>1</ChanceToDrop>
-                <Weight>1</Weight>
+                <ChanceToDrop>.8</ChanceToDrop>
+                <Weight>10</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>
-    <LootBoxDef>
-        <Moniker>ArmorChestChain</Moniker>
+    <LootBoxDef Name="ArmorChest2" ParentName="ArmorChest1">
+        <Moniker>ArmorChest2</Moniker>
         <Label>Chain Armor</Label>
         <Description>Contains chain armor</Description>
         <Category>Armor</Category>
@@ -51,38 +51,38 @@
         <Items>
             <ListItem>
                 <ItemDef>ChainHelmet</ItemDef>
-                <ChanceToDrop>1</ChanceToDrop>
-                <Weight>1</Weight>
+                <ChanceToDrop>.8</ChanceToDrop>
+                <Weight>100</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>ChainGorget</ItemDef>
-                <ChanceToDrop>.6</ChanceToDrop>
-                <Weight>1</Weight>
+                <ChanceToDrop>.5</ChanceToDrop>
+                <Weight>100</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>ChainTunic</ItemDef>
                 <ChanceToDrop>.5</ChanceToDrop>
-                <Weight>1</Weight>
+                <Weight>100</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>ChainVambrace</ItemDef>
                 <ChanceToDrop>.75</ChanceToDrop>
-                <Weight>1</Weight>
+                <Weight>100</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>ChainGlove</ItemDef>
-                <ChanceToDrop>1</ChanceToDrop>
-                <Weight>1</Weight>
+                <ChanceToDrop>.8</ChanceToDrop>
+                <Weight>100</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>ChainGreave</ItemDef>
                 <ChanceToDrop>.75</ChanceToDrop>
-                <Weight>1</Weight>
+                <Weight>100</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>ChainBoot</ItemDef>
-                <ChanceToDrop>1</ChanceToDrop>
-                <Weight>1</Weight>
+                <ChanceToDrop>.8</ChanceToDrop>
+                <Weight>100</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>

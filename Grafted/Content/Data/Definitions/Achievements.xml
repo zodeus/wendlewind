@@ -19,6 +19,16 @@
         <BenifitDescription>Not implemented.</BenifitDescription>
         <HandlerClass>BrainTicklerHandler</HandlerClass>
     </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>FingerCollector</Moniker>
+        <Label>Finger Collector</Label>
+        <Description>Collect fingers, just fingers... no thumbs, ugly little things.</Description>
+        <Category>Exploration</Category>
+        <TargetValue>16</TargetValue>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+        <HandlerClass>FingerCollectorHandler</HandlerClass>
+    </AchievementDef>
     
     <AchievementDef>
         <Moniker>TisButAScratch</Moniker>
@@ -45,9 +55,19 @@
         <Label>Two! I Don't Need Two!</Label>
         <Description>Lose both eyes and survive.</Description>
         <Category>Combat</Category>
-        <BenifitDescription>Not implemented.</BenifitDescription>
+        <TraitDef>EyeDrops</TraitDef>
         <HandlerClass>TwoIDontNeedTwoHandler</HandlerClass>
         <IsHidden>true</IsHidden>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>GarbageGremlin</Moniker>
+        <Label>Garbage Gremlin</Label>
+        <Description>Remember George? You're like him but even more disgusting.</Description>
+        <Category>Survival</Category>
+        <TargetValue>20</TargetValue>
+        <TraitDef>GutMicroacrobatics</TraitDef>
+        <HandlerClass>GarbageGremlinHandler</HandlerClass>
     </AchievementDef>
 
     <AchievementDef>
@@ -128,10 +148,20 @@
         <Moniker>Butcher</Moniker>
         <Label>Butcher</Label>
         <Description>Kill enemies.</Description>
-        <BenifitDescription>Not implemented.</BenifitDescription>
         <Category>Combat</Category>
         <TargetValue>100</TargetValue>
-        <HandlerClass>EnemyKilledHandler</HandlerClass>
+        <TraitDef>SausageFingers</TraitDef>
+        <HandlerClass>ButcherHandler</HandlerClass>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>TheExecutionersBitch</Moniker>
+        <Label>The Executioner's Bitch</Label>
+        <Description>Who likes getting hit in the neck... you do.</Description>
+        <Category>Combat</Category>
+        <TargetValue>100</TargetValue>
+        <TraitDef>LeaveMyNeckAlone</TraitDef>
+        <HandlerClass>TheExecutionersBitchHandler</HandlerClass>
     </AchievementDef>
 
     <AchievementDef>

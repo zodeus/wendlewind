@@ -173,7 +173,7 @@
                 <IsBoss>true</IsBoss>
                 <PotentialLootBoxes>
                     <ListItem>TrinketChest2</ListItem>
-                    <ListItem>SupplyChestBasic</ListItem>
+                    <ListItem>SupplyChest1</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>

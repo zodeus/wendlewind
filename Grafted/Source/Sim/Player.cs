@@ -1,6 +1,4 @@
-﻿using Grafted.Sim.Entities;
-
-namespace Grafted.Sim;
+﻿namespace Grafted.Sim;
 
 public class Player : IExposable
 {
@@ -46,10 +44,12 @@ public class Player : IExposable
 
     private static Pawn GeneratePlayerPawn()
     {
-        return PawnGenerator.CreatePawn(
-            new PawnRequest($"Human (specimen # {Core.Random.Next(42, 42069)})",
+        var pawn = PawnGenerator.CreatePawn(
+            new PawnRequest($"Human (specimen Alpha)",
             DefRepository<PawnDef>.GetByMoniker("HumanA")!,
             Defs.PawnLoadouts.DefaultStarterLoadout, PawnType.Player)
         );
+
+        return pawn;
     }
 }

@@ -85,7 +85,7 @@ public abstract class TrinketHandler : IExposable
         {
             if (Cooldown > 0)
             {
-                button.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameRed]; ;
+                button.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameRed];
                 button.Content.Background = _dimmedBackground;
             }
             else

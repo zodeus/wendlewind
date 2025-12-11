@@ -311,6 +311,11 @@ public class Pawn : Entity
         var goldenLipsMultiplier = HasActiveEffect(Defs.BodyEffects.GoldenLips) ? 1.5f : 1f;
         foreach (var record in item.ItemDef.FoodProperties.Effects)
         {
+            if (record.Def == Defs.BodyEffects.FoodPoisoning && Traits.HasTrait(Defs.Traits.GutMicroacrobatics))
+            {
+                continue;
+            }
+            
             Body.Effects.TryApplyEffect(new BodyEffect
             {
                 Def = record.Def,

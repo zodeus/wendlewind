@@ -24,8 +24,7 @@ public sealed class PawnPanel : EntityPanelBase
 
         _tabPanel.AddTab("Body", new PawnBodyPanel(gui, pawn.Body));
         _tabPanel.AddTab("Equipment", new PawnEquipmentPanel(gui, pawn));
-        _tabPanel.AddTab("Skills", new PawnSkillsPanel(pawn.Skills));
-        _tabPanel.AddTab("Stats", new PawnStatsPanel(pawn));
+        _tabPanel.AddTab("Profile", new PawnProfilePanel(pawn));
     }
 
     public override void Update()
@@ -41,6 +40,7 @@ public sealed class PawnPortraitPanel : VerticalStackPanel, IDisposable
     private readonly Label _attackSpeed;
     private readonly HorizontalProgressBar _bloodBar;
     private readonly PawnBodyRenderWidget _bodyRenderWidget;
+    private readonly PawnCapabilitiesPanel _capabilitiesPanel;
 
     public PawnPortraitPanel(Pawn pawn)
     {
@@ -68,26 +68,17 @@ public sealed class PawnPortraitPanel : VerticalStackPanel, IDisposable
         Widgets.Add(_attackSpeed);
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"Species: {pawn.Species}" });
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"Gender: {pawn.Gender}" });
-
-        Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = "Capabilities", Margin = new Thickness(0, 15, 0, 0) });
-        Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"• Sight: {pawn.Body.Capabilities.Sight}" });
-        Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"• Breathing: {pawn.Body.Capabilities.Breathing}" });
-        Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = "• Circulation: n/a" });
-        Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = "• Digestion: n/a" });
-        Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"• Mobility: {pawn.Body.Capabilities.Mobility}" });
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"• Max Blood: {pawn.Body.MaxBlood}" });
 
-        Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = "Traits", Margin = new Thickness(0, 15, 0, 0) });
-        foreach (var trait in pawn.Traits)
-        {
-            Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"• {trait.Label}" });
-        }
+        _capabilitiesPanel = new PawnCapabilitiesPanel(pawn.Body);
+        Widgets.Add(_capabilitiesPanel);
     }
 
     public void Update()
     {
         _attackSpeed.Text = "AttackSpeed";
         _bloodBar.Value = _pawn.Body.BloodPercent * 100;
+        _capabilitiesPanel.Update();
     }
 
     public void Dispose()

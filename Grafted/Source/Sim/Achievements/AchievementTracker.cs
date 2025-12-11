@@ -159,6 +159,11 @@ public class AchievementTracker : IExposable
     {
         foreach (var handler in Handlers)
         {
+            handler.RegisterTrait(context.Player.Pawn);
+        }
+        
+        foreach (var handler in Handlers)
+        {
             handler.OnWorldRestart(context);
         }
     }

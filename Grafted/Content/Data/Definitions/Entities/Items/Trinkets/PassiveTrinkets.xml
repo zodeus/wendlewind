@@ -54,4 +54,10 @@
         <Description>Opens more crafting possibilities</Description>
         <TexturePath>Entities/Item/Trinket/TinkersToolbox</TexturePath>
     </ItemDef>
+    <ItemDef ParentName="PassiveTrinket">
+        <Moniker>Monocle</Moniker>
+        <Label>Monocle</Label>
+        <Description>A monocle, useful for seeing things, critical things.</Description>
+        <TexturePath>Entities/Item/Trinket/Monocle</TexturePath>
+    </ItemDef>
 </Definitions>

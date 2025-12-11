@@ -381,7 +381,7 @@
             <SubstanceModifiers>
                 <ListItem>
                     <Substance>Flesh</Substance>
-                    <Modifier>1.5</Modifier>
+                    <Modifier>1.3</Modifier>
                 </ListItem>
                 <ListItem>
                     <Substance>Bone</Substance>
@@ -394,7 +394,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
         <BaseStats>
-            <MeleePower>100</MeleePower>
+            <MeleePower>50</MeleePower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -407,7 +407,7 @@
             <SubstanceModifiers>
                 <ListItem>
                     <Substance>Flesh</Substance>
-                    <Modifier>1.6</Modifier>
+                    <Modifier>1.4</Modifier>
                 </ListItem>
                 <ListItem>
                     <Substance>Bone</Substance>
@@ -420,7 +420,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Claw</TexturePath>
         <BaseStats>
-            <MeleePower>90</MeleePower>
+            <MeleePower>60</MeleePower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponBlunt">

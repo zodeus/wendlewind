@@ -12,6 +12,10 @@ public class BeeBodyGenerator : IBodyGenerator
         head.GetSocketsFor(BodyPartType.Brain)[0].TryAttachPart(Defs.BodyParts.Brain);
         head.GetSocketsFor(BodyPartType.Antenna)[0].TryAttachPart(Defs.BodyParts.BeeAntenna);
         head.GetSocketsFor(BodyPartType.Antenna)[1].TryAttachPart(Defs.BodyParts.BeeAntenna);
+        head.GetSocketsFor(BodyPartType.Minion)[0].TryAttachPart(Defs.BodyParts.BeeDrone);
+        head.GetSocketsFor(BodyPartType.Minion)[1].TryAttachPart(Defs.BodyParts.BeeDrone);
+        head.GetSocketsFor(BodyPartType.Minion)[2].TryAttachPart(Defs.BodyParts.BeeDrone);
+        head.GetSocketsFor(BodyPartType.Minion)[3].TryAttachPart(Defs.BodyParts.BeeDrone);
 
         // Thorax
         var thorax = head.GetSocketsFor(BodyPartType.Thorax)[0].TryAttachPart(Defs.BodyParts.BeeThorax);

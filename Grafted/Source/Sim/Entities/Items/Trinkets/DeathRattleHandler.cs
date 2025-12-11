@@ -4,10 +4,10 @@ using Myra.Graphics2D.Brushes;
 public class DeathRattleHandler : TrinketHandler
 {
     public readonly RangeFloat _damage = new(80, 160);
-    public const double KillDamageMultiplier = .2; // 100 percent per kills    
+    public const double KillDamageMultiplier = 1;
     private const int CooldownValue = 1200;
 
-    private const int KillCooldownMultiplier = 100;
+    private const int KillCooldownMultiplier = 20;
 
     public const int TotalHitsToCharge = 17;
 
@@ -16,9 +16,10 @@ public class DeathRattleHandler : TrinketHandler
     private int _hitsToCharge = 0;
 
     private int _charges;
-    
+
     private Label _cooldownLabel = null!;
     private Label _chargesLabel = null!;
+    private HorizontalProgressBar _hitProgressBar = null!;
 
     public int Charges => _charges;
     public int HitsToCharge => _hitsToCharge;
@@ -86,27 +87,30 @@ public class DeathRattleHandler : TrinketHandler
             Kills++;
         }
 
-        return new DamageRecord(Trinket.Label, "Head Rattle", Trinket.ItemDef.WeaponProperties?.DamageType ?? DamageType.Invalid, part, damage, amountBlocked: 0)
+        var damageRecord = new DamageRecord(Trinket.Label, "Head Rattle", Trinket.ItemDef.WeaponProperties?.DamageType ?? DamageType.Invalid, part, damage, amountBlocked: 0)
         {
             ActualAmount = damage,
             BodyParts = damagedParts
         };
+        damageRecord.DamageStatusEffects.Add(new DamageStatusEffect(part.Body?.Pawn ?? null!, Trinket.ItemDef, "Death Rattle"));
+        return damageRecord;
     }
 
     public override void PrepareTrinketButton(Button button)
     {
         var panel = new Panel
         {
-            VerticalAlignment = VerticalAlignment.Center,
-            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
         };
 
         _cooldownLabel = new Label(BaseContent.Styles.Label.Small)
         {
             TextColor = Color.Red,
-            Visible = false
+            Visible = false,
+            VerticalAlignment = VerticalAlignment.Center,
         };
-        
+
         _chargesLabel = new Label(BaseContent.Styles.Label.Small)
         {
             Margin = new Thickness(15, 20, 0, 0),
@@ -115,36 +119,53 @@ public class DeathRattleHandler : TrinketHandler
             TextColor = Color.Gold,
             Visible = false
         };
-        
+
+        _hitProgressBar = new HorizontalProgressBar(BaseContent.Styles.Bar.Health)
+        {
+            Height = 12,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Top,
+            Margin = new Thickness(2, 0, 2, 2),
+            Filler = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Bar.Neutral], Color.GreenYellow),
+            Value = (float)_hitsToCharge / TotalHitsToCharge * 100
+        };
+
         panel.Widgets.Add(_cooldownLabel);
         panel.Widgets.Add(_chargesLabel);
-        
+        panel.Widgets.Add(_hitProgressBar);
+
         if (button.Content is Panel content)
         {
             content.Widgets.Add(panel);
         }
     }
-    
+
     public override void Update(Button button)
     {
         base.Update(button);
-        
+
+        _hitProgressBar.Value = (float)_hitsToCharge / TotalHitsToCharge * 100;
+
         if (Cooldown > 0)
         {
             _cooldownLabel.Text = Cooldown.ToString();
             _cooldownLabel.Visible = true;
             _chargesLabel.Visible = false;
+            _hitProgressBar.Visible = false;
         }
         else if (_charges > 0)
         {
             _cooldownLabel.Visible = false;
             _chargesLabel.Text = $"+{_charges}";
             _chargesLabel.Visible = true;
+            _hitProgressBar.Visible = true;
         }
         else
         {
+            button.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameRed];
             _cooldownLabel.Visible = false;
             _chargesLabel.Visible = false;
+            _hitProgressBar.Visible = true;
         }
     }
 

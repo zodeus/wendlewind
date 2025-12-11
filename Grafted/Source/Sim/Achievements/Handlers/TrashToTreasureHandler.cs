@@ -23,7 +23,7 @@ public class TrashToTreasureHandler : AchievementHandler
     {
         if (!IsUnlocked) return;
 
-        var weaponDefs = new List<ItemDef> { Defs.Items.WoodenHammer, Defs.Items.BirchRod, Defs.Items.WarAxe, Defs.Items.Knife };
+        var weaponDefs = new List<ItemDef> { Defs.Items.WoodenHammer, Defs.Items.BirchRod, Defs.Items.Knife };
 
         PawnGenerator.RegisterEquipment(context.Player.Pawn, weaponDefs.InRandomOrder().Take(1).ToList());
     }
