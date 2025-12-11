@@ -85,7 +85,6 @@
         <Moniker>LetItFlow</Moniker>
         <Label>Let It Flow</Label>
         <Description>Lose a lot of blood.</Description>
-        <BenifitDescription>Your blood thickens.</BenifitDescription>
         <Category>Survival</Category>
         <TargetValue>30000</TargetValue>
         <HandlerClass>BloodLostHandler</HandlerClass>
