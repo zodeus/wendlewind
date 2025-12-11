@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.Eventing.Reader;
-using Grafted.Sim.Entities.Pawns.Bodies.Handlers;
+﻿using Grafted.Sim.Entities.Pawns.Bodies.Handlers;
 
 namespace Grafted.Sim.Entities.Pawns;
 

@@ -1,4 +1,3 @@
-using Grafted.Sim.LootBoxes;
 using Myra.Graphics2D.Brushes;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;

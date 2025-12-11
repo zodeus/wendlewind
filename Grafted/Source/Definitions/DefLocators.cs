@@ -1,6 +1,4 @@
 using System.Reflection;
-using Grafted.Sim.Entities;
-using Grafted.Sim.Entities.Pawns.Modifiers;
 
 namespace Grafted.Definitions;
 

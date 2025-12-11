@@ -1,5 +1,4 @@
-﻿using Grafted.Sim.Entities;
-using Myra.Graphics2D.Brushes;
+﻿using Myra.Graphics2D.Brushes;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 

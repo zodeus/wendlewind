@@ -1,6 +1,4 @@
 using System.Globalization;
-using Grafted.Sim.Entities;
-using Grafted.Sim.Entities.Pawns.Modifiers;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.BodyPartPanelWidget;
 

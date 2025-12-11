@@ -1,5 +1,5 @@
 namespace Grafted.Sim.Entities.Items.Trinkets;
-using Myra.Graphics2D.Brushes;
+
 [UsedImplicitly]
 public class DeathRattleHandler : TrinketHandler
 {

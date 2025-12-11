@@ -1,0 +1,15 @@
+namespace Grafted.Sim.Entities.Items.Enchantments;
+
+[UsedImplicitly]
+public class ElvishLeafHandler : EnchantmentHandler
+{
+    public const float HealingPerTick = 0.0002f;
+    public override void TickForPawn(Pawn pawn, BodyPart bodyPart)
+    {
+        bodyPart.HitPoints += bodyPart.MaxHitPoints * HealingPerTick;
+        foreach (var internalPart in bodyPart.AllInternalParts)
+        {
+            internalPart.HitPoints += internalPart.MaxHitPoints * HealingPerTick;
+        }
+    }
+}

@@ -1,4 +1,4 @@
-namespace Grafted.Sim.Entities.Items;
+namespace Grafted.Sim.Entities.Items.Equipment;
 
 public enum EquipmentType : byte
 {

@@ -1,5 +1,3 @@
-using Grafted.Sim.Entities;
-
 namespace Grafted.Sim.Persistence;
 
 public static class ScribeValues {

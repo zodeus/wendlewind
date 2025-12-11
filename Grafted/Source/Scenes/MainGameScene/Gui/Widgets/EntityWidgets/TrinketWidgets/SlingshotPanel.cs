@@ -1,7 +1,3 @@
-using Grafted.Sim.Entities.Items;
-using Grafted.Sim.Entities.Items.Trinkets;
-using Grafted.Sim.Entities.Pawns;
-
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.TrinketWidgets;
 
 [UsedImplicitly]

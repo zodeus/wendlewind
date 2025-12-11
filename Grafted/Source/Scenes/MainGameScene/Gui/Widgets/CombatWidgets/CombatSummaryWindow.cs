@@ -1,5 +1,3 @@
-using Grafted.Sim.Entities.Pawns;
-
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 
 public sealed class CombatSummaryWindow : Window

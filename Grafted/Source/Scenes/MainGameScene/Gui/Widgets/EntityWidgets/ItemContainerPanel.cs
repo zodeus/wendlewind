@@ -1,6 +1,4 @@
-﻿using Grafted.Sim.Entities;
-
-namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
+﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
 public sealed class ItemContainerPanel : Panel
 {

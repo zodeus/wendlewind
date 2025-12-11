@@ -1,7 +1,6 @@
 ﻿using Grafted.Graphics.Textures;
 using Grafted.Scenes.MainGameScene.Gui;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
-using Grafted.Sim.Entities;
 
 namespace Grafted.Sim.LootBoxes;
 

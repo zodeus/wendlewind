@@ -1,5 +1,4 @@
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
-using Grafted.Sim.Entities;
 
 namespace Grafted.Scenes.MainGameScene.Gui.CombatGui;
 

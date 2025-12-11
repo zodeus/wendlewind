@@ -160,7 +160,7 @@
                         <PawnDef>Wolf</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Wolf (specimen apex #1)</PawnName>
-                        <BodySizeFactor>2</BodySizeFactor>
+                        <BodySizeFactor>2.3</BodySizeFactor>
                         <EquipmentItems>
                             <ListItem>JarOfBlood</ListItem>
                             <ListItem>JarOfBlood</ListItem>

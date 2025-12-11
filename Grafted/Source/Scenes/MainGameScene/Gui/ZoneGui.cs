@@ -1,5 +1,4 @@
 using Grafted.Scenes.MainGameScene.Gui.CombatGui;
-using FontStashSharp;
 
 namespace Grafted.Scenes.MainGameScene.Gui;
 

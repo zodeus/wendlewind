@@ -9,7 +9,9 @@ public class GarbageGremlinHandler : AchievementHandler
     public override void OnItemUsed(Pawn consumer, Item item)
     {
         if (IsUnlocked) return;
-        if (item.ItemDef.FoodProperties?.Effects.Any(e => e.Def == Defs.BodyEffects.FoodPoisoning) == false) return;
+
+        var hasFoodPoisoning = item.ItemDef.FoodProperties?.Effects.Any(e => e.Def == Defs.BodyEffects.FoodPoisoning) == true;
+        if (hasFoodPoisoning == false) return;
         Progress.CurrentValue++;
         if (Progress.CurrentValue >= Def.TargetValue)
         {

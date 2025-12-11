@@ -35,7 +35,7 @@
         <Items>
             <ListItem>
                 <ItemDef>SoothingVibrations</ItemDef>
-                <Weight>80</Weight>
+                <Weight>60</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>RhinoSkin</ItemDef>
@@ -44,6 +44,10 @@
             <ListItem>
                 <ItemDef>BloodBath</ItemDef>
                 <Weight>10</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>ElvishLeaf</ItemDef>
+                <Weight>30</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>

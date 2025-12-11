@@ -17,27 +17,27 @@
             <ListItem>
                 <ItemDef>LeatherTunic</ItemDef>
                 <ChanceToDrop>.5</ChanceToDrop>
-                <Weight>10</Weight>
+                <Weight>1</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>LeatherVambrace</ItemDef>
                 <ChanceToDrop>.75</ChanceToDrop>
-                <Weight>10</Weight>
+                <Weight>1</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>LeatherGlove</ItemDef>
                 <ChanceToDrop>.8</ChanceToDrop>
-                <Weight>10</Weight>
+                <Weight>1</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>LeatherGreave</ItemDef>
                 <ChanceToDrop>.75</ChanceToDrop>
-                <Weight>10</Weight>
+                <Weight>1</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>LeatherBoot</ItemDef>
                 <ChanceToDrop>.8</ChanceToDrop>
-                <Weight>10</Weight>
+                <Weight>1</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>

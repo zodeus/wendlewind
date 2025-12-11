@@ -1,5 +1,4 @@
 using Grafted.Scenes.MainGameScene.Gui.Widgets.DefWidgets;
-using Grafted.Sim.Entities.Pawns.Modifiers;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
 

@@ -1,8 +1,4 @@
-﻿using Grafted.Sim.Entities;
-using Grafted.Sim.Entities.Pawns;
-using Grafted.Sim.Entities.Pawns.Modifiers;
-
-namespace Grafted.Sim.Combat;
+﻿namespace Grafted.Sim.Combat;
 
 public class Damage(Item weapon, double amount, string weaponManeuver)
 {

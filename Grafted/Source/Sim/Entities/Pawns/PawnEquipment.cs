@@ -184,4 +184,26 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
     {
         return Slots.Sum(slot => slot.Value.Count(slotType => itemDef.EquipmentProperties?.SlotUsedToEquip == slotType));
     }
+
+    public void Tick()
+    {
+        foreach (Item item in this)
+        {
+            var bodyPart = _pawn.Body.AllExternalParts.FirstOrDefault(p => p.Equipment.Values.Contains(item));
+            if (bodyPart == null)
+            {
+                continue;
+            }
+
+            item.EquipmentHandler?.TickForPawn(_pawn, bodyPart);
+            
+            if (item.Enchantments != null)
+            {
+                foreach (var enchantment in item.Enchantments)
+                {
+                    enchantment.EnchantmentHandler?.TickForPawn(_pawn, bodyPart);
+                }
+            }
+        }
+    }
 }

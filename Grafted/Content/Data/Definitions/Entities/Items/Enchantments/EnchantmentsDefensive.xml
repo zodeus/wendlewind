@@ -49,4 +49,16 @@
         </EnchantmentProperties>
         <TexturePath>Entities/Item/Enchantments/RhinoSkin</TexturePath>
     </ItemDef>
+    <ItemDef ParentName="ItemEnchantment">
+        <Moniker>ElvishLeaf</Moniker>
+        <Label>Elvish Leaf</Label>
+        <Description>Elvish Leaf, passivly heals</Description>
+        <EnchantmentProperties>
+            <ValidEquipmentTypes>
+                <ListItem>Armor</ListItem>
+            </ValidEquipmentTypes>
+            <HandlerClass>ElvishLeafHandler</HandlerClass>
+        </EnchantmentProperties>
+        <TexturePath>Entities/Item/Enchantments/ElvishLeaf</TexturePath>
+    </ItemDef>
 </Definitions>

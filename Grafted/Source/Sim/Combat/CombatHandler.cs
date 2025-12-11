@@ -1,7 +1,5 @@
 using Grafted.Scenes.MainGameScene.Gui;
 using Grafted.Sim.Achievements.Handlers;
-using Grafted.Sim.Entities;
-using Grafted.Sim.Entities.Pawns.Modifiers;
 
 namespace Grafted.Sim.Combat;
 

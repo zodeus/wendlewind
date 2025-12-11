@@ -1,7 +1,4 @@
 using Grafted.Scenes.MainGameScene.Gui.Widgets.DefWidgets;
-using Grafted.Sim.Entities.Items.Enchantments;
-using Grafted.Sim.Entities.Items.Medicinals;
-using Grafted.Sim.Entities.Items.Trinkets;
 
 namespace Grafted.Sim.Entities.Items;
 

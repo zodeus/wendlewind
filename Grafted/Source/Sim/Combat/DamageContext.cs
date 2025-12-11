@@ -1,6 +1,3 @@
-using Grafted.Sim.Entities.Pawns;
-using Grafted.Sim.Entities.Pawns.Modifiers;
-
 namespace Grafted.Sim.Combat;
 
 /// <summary>

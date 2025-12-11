@@ -1,5 +1,3 @@
-using Grafted.Sim.Entities.Items.Trinkets;
-
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 
 public sealed class TrinketBar : VerticalStackPanel
@@ -21,14 +19,14 @@ public sealed class TrinketBar : VerticalStackPanel
 
         void CreatePanel(Entity entity)
         {
+            if (entity is not Item { ItemDef: { ItemType: ItemType.Trinket } } trinket) return;
+            if (trinket.ItemDef.TrinketProperties?.Type != type) return;
+            
             if (_currentRow.Widgets.Count >= TrinketsPerRow)
             {
                 _currentRow = new HorizontalStackPanel();
                 Widgets.Add(_currentRow);
             }
-
-            if (entity is not Item { ItemDef: { ItemType: ItemType.Trinket } } trinket) return;
-            if (trinket.ItemDef.TrinketProperties?.Type != type) return;
 
             var panel = new TrinketBarCell(trinket, clickAction) { VerticalAlignment = VerticalAlignment.Bottom };
             _trinkets[trinket] = panel;

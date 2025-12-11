@@ -1,5 +1,3 @@
-using Grafted.Sim.Entities;
-
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
 public sealed class PotionPanel : EntityPanelBase

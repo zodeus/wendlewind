@@ -1,6 +1,3 @@
-using Grafted.Sim.Combat;
-using Grafted.Sim.Entities.Pawns.Modifiers;
-
 namespace Grafted.Sim.Entities.Pawns
 {
     public static class BodyPartExtensions

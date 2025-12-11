@@ -1,5 +1,4 @@
 using FontStashSharp;
-using Grafted.Sim.Achievements;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets;
 

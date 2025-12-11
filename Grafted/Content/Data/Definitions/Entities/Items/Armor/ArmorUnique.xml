@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Definitions>
+    <ItemDef ParentName="ArmorBase">
+        <Moniker>BlessedIronCollar</Moniker>
+        <Label>Blessed Iron Collar</Label>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>NeckArmor</SlotUsedToEquip>
+            <MaxEnchantments>3</MaxEnchantments>
+            <HandlerClass>BlessedIronCollarHandler</HandlerClass>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Unique/BlessedIronCollar</TexturePath>
+        <BaseStats>
+            <MaxDurability>66666</MaxDurability>
+        </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+</Definitions>

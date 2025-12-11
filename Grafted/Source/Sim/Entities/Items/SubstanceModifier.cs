@@ -1,5 +1,3 @@
-using Grafted.Sim.Entities.Pawns;
-
 namespace Grafted.Sim.Entities.Items;
 
 public class SubstanceModifier

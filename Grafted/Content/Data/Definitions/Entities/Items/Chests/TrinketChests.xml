@@ -31,7 +31,7 @@
     </LootBoxDef>
     <LootBoxDef Name="TrinketChest1">
         <Moniker>TrinketChest1</Moniker>
-        <Label>Trinkets1</Label>
+        <Label>Trinkets</Label>
         <Description>Standard issue trinkets, the stuff you're really going to need</Description>
         <Category>Trinkets</Category>
         <TexturePath>Chests/TrinketChest1</TexturePath>
@@ -56,7 +56,7 @@
     </LootBoxDef>
     <LootBoxDef Name="TrinketChest2" ParentName="TrinketChest1">
         <Moniker>TrinketChest2</Moniker>
-        <Label>Trinkets2</Label>
+        <Label>Trinkets</Label>
         <Description>A wider assortment of more interesting trinkets</Description>
         <Category>Trinkets</Category>
         <TexturePath>Chests/TrinketChest2</TexturePath>
@@ -89,12 +89,17 @@
             <ListItem>
                 <ItemDef>SteroidInjector</ItemDef>
                 <Weight>400000</Weight>
+            </ListItem> 
+            <ListItem>
+                <ItemDef>BlessedIronCollar</ItemDef>
+                <ChanceToDrop>1</ChanceToDrop>
+                <Weight>400000</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>
     <LootBoxDef ParentName="TrinketChest2">
         <Moniker>TrinketChest3</Moniker>
-        <Label>Trinkets3</Label>
+        <Label>Trinkets</Label>
         <Description>A huge assortment of trinkets</Description>
         <Category>Trinkets</Category>
         <TexturePath>Chests/TrinketChest3</TexturePath>

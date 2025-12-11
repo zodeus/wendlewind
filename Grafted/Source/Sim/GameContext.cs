@@ -98,7 +98,7 @@ public class GameContext : IExposable
             z.Stage = 0;
         });
         Achievements.OnWorldRestart(this);
-        Save();
+        //Save();
         if (CurrentZone != null)
         {
             CurrentZone.OnStateChanged -= ZoneStageChanged;

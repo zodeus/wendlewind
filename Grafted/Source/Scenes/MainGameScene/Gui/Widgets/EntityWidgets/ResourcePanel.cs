@@ -1,5 +1,3 @@
-using Grafted.Sim.Entities.Items;
-
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
 [UsedImplicitly]

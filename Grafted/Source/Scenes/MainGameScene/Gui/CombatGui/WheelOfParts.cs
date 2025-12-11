@@ -1,6 +1,3 @@
-using Grafted.Sim.Combat;
-using Grafted.Sim.Entities.Pawns.Bodies;
-
 namespace Grafted.Scenes.MainGameScene.Gui.CombatGui;
 
 /// <summary>

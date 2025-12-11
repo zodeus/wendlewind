@@ -1,6 +1,4 @@
-﻿using Grafted.Sim.Entities;
-
-namespace Grafted.Sim.Combat;
+﻿namespace Grafted.Sim.Combat;
 
 public class DamageRequest
 {

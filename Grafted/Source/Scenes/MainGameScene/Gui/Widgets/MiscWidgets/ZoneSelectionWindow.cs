@@ -1,6 +1,4 @@
-﻿using Grafted.Scenes.MainGameScene.Gui.CombatGui;
-
-namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
+﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 
 public class ZoneSelectionWindow : Window
 {

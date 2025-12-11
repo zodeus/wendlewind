@@ -1,5 +1,3 @@
-using Grafted.Sim.Entities.Items.Trinkets;
-
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.TrinketWidgets;
 
 [UsedImplicitly]

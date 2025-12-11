@@ -1,7 +1,3 @@
-using Grafted.Sim.Entities.Items.Enchantments;
-using Grafted.Sim.Entities.Items.Medicinals;
-using Grafted.Sim.Entities.Items.Trinkets;
-
 namespace Grafted.Sim.Entities.Items;
 
 public class Item : Entity, IExposable
@@ -13,6 +9,7 @@ public class Item : Entity, IExposable
     public int StackSize = 1;
     public EnchantmentHandler? EnchantmentHandler;
     public TrinketHandler? TrinketHandler;
+    public EquipmentHandler? EquipmentHandler;
     public override string Label => Def.Label;
     public string LabelWithStackSize => IsStackable ? $"{Def.Label} x{StackSize}" : Def.Label;
     public bool IsStackable => ItemDef.StackLimit > 1;
@@ -44,6 +41,12 @@ public class Item : Entity, IExposable
         {
             TrinketHandler = (TrinketHandler)Activator.CreateInstance(ItemDef.TrinketProperties.HandlerClass)!;
             TrinketHandler.Trinket = this;
+        }
+
+        if (ItemDef.EquipmentProperties?.HandlerClass != null)
+        {
+            EquipmentHandler = ItemDef.EquipmentProperties.Handler!;
+            EquipmentHandler.Equipment = this;
         }
 
         MaxDurability = this.GetStatValue(Defs.Stats.MaxDurability);
@@ -120,6 +123,7 @@ public class Item : Entity, IExposable
     {
         EnchantmentHandler?.Tick();
         TrinketHandler?.Tick();
+        EquipmentHandler?.Tick();
         base.Tick();
     }
 
@@ -132,6 +136,7 @@ public class Item : Entity, IExposable
         ScribeDeep.Look(ref Enchantments!, "Enchantments");
         ScribeDeep.Look(ref EnchantmentHandler!, "EnchantmentHandler");
         ScribeDeep.Look(ref TrinketHandler!, "TrinketHandler");
+        ScribeDeep.Look(ref EquipmentHandler!, "EquipmentHandler");
         base.ExposeData();
     }
 }

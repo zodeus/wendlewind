@@ -1,5 +1,4 @@
-﻿using Grafted.Sim.Entities;
-using Grafted.Sim.LootBoxes;
+﻿
 
 // ReSharper disable FieldCanBeMadeReadOnly.Global
 // ReSharper disable ClassNeverInstantiated.Global

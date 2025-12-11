@@ -9,7 +9,7 @@ public class TheExecutionersBitchHandler : AchievementHandler
 
     public override void OnPlayerDamaged(Pawn victim, DamageRequest request, DamageResponse response)
     {
-        if (IsUnlocked == false) return;
+        if (IsUnlocked == true) return;
 
         var hasNeckDamage = response.Damages
         .SelectMany(d => d.BodyParts)

@@ -1,7 +1,4 @@
-﻿using Grafted.Sim.Entities.Pawns;
-using Grafted.Sim.Entities.Pawns.Modifiers;
-
-namespace Grafted.Sim.Entities.Items;
+﻿namespace Grafted.Sim.Entities.Items;
 
 public class WeaponProperties
 {

@@ -1,6 +1,4 @@
-﻿using Grafted.Sim.Entities;
-
-namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
+﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
 
 internal sealed class BoakStatsPanel : Grid
 {

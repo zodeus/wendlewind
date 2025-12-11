@@ -53,15 +53,11 @@ public class AcidHandler : BodyPartModifier
 
     public override bool ApplyToPart(BodyPart part)
     {
-        Log.Info($"AcidHandler: Applying to part: {part.Label}");
         if(part.IsExternal == false) return false;
-        Log.Info($"AcidHandler: Part is external: {part.IsExternal}");
         if (AllowedSubstances.Contains(part.Substance) == false)
         {
-            Log.Info($"AcidHandler: Part substance not allowed: {part.Substance}");
             return false;
         }
-        Log.Info($"AcidHandler: Part substance allowed: {part.Substance}");
         var skin = part.Skin;
         if (skin != null)
         {

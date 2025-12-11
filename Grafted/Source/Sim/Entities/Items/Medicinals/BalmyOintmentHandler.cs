@@ -1,6 +1,4 @@
-﻿using Grafted.Sim.Entities.Pawns.Modifiers;
-
-namespace Grafted.Sim.Entities.Items.Medicinals;
+﻿namespace Grafted.Sim.Entities.Items.Medicinals;
 
 [UsedImplicitly]
 public class BalmyOintmentHandler : MedicinalHandler

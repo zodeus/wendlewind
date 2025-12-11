@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
+﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 
 public sealed class WeaponBar : HorizontalStackPanel, IUpdatable
 {

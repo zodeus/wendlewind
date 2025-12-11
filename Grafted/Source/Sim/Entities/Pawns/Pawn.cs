@@ -1,5 +1,3 @@
-using Grafted.Sim.Entities.Items.Trinkets;
-
 namespace Grafted.Sim.Entities.Pawns;
 
 [UsedImplicitly]
@@ -80,6 +78,7 @@ public class Pawn : Entity
 
         Skills.Tick();
         Inventory.Tick();
+        Equipment.Tick();
         base.Tick();
     }
 
@@ -99,6 +98,14 @@ public class Pawn : Entity
             response.Dodged = true;
             DamageTaken?.Invoke(this, request, response);
             return;
+        }
+
+        foreach (var equipment in bodyPart.Equipment.Values)
+        {
+            if (equipment == null) continue;
+            var earlyExit = equipment?.EquipmentHandler?.OnPreDamageTaken(request, response) ?? false;
+            DamageTaken?.Invoke(this, request, response);
+            if (earlyExit) return;
         }
         
         foreach (var damage in request.RawDamages)

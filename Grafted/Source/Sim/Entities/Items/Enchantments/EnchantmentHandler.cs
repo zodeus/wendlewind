@@ -9,6 +9,9 @@ public abstract class EnchantmentHandler : IExposable
     public virtual void Tick()
     {
     }
+    public virtual void TickForPawn(Pawn pawn, BodyPart bodyPart)
+    {
+    }
 
     public virtual void ExposeData()
     {
@@ -20,5 +23,7 @@ public abstract class EnchantmentHandler : IExposable
         return $"{Enchantment.Label}";
     }
 
-    public abstract void PostPawnDamageTakenEffect(BodyPart bodyPart, Pawn target, Pawn source, DamageRecord damageRecord);
+    public virtual void PostPawnDamageTakenEffect(BodyPart bodyPart, Pawn target, Pawn source, DamageRecord damageRecord)
+    {
+    }
 }

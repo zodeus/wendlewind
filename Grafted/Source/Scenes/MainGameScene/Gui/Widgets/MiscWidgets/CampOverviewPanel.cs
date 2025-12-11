@@ -1,10 +1,7 @@
-using Grafted.Scenes.MainGameScene.Gui.CombatGui;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
-using Grafted.Sim.Entities.Items.Trinkets;
-using Microsoft.Xna.Framework;  
-using Myra.Graphics2D.Brushes;
+
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 
 public sealed class CampOverviewPanel : Panel, IUpdatable

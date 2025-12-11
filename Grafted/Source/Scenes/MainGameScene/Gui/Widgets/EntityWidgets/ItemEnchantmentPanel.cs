@@ -1,6 +1,4 @@
 using System.Globalization;
-using Grafted.Sim.Entities;
-using Grafted.Sim.Entities.Items.Enchantments;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 

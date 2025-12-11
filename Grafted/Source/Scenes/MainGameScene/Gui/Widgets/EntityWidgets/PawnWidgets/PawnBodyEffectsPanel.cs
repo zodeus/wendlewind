@@ -1,6 +1,4 @@
-﻿using Myra.Graphics2D.Brushes;
-
-namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
 public enum EffectsPanelOrientation
 {

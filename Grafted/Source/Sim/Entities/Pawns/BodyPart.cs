@@ -1,7 +1,4 @@
 using System.Text.RegularExpressions;
-using Grafted.Graphics.Textures;
-using Grafted.Sim.Combat;
-using Grafted.Sim.Entities.Pawns.Modifiers;
 
 namespace Grafted.Sim.Entities.Pawns;
 

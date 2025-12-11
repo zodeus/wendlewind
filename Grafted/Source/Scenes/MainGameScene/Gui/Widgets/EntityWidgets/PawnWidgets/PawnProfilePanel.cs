@@ -1,5 +1,4 @@
 using System.Globalization;
-using Grafted.Sim.Entities;
 using SolidBrush = Myra.Graphics2D.Brushes.SolidBrush;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;

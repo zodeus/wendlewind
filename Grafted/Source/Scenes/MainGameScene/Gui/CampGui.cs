@@ -1,5 +1,3 @@
-using Myra.Graphics2D.Brushes;
-
 namespace Grafted.Scenes.MainGameScene.Gui;
 
 public class CampGui : BaseGui

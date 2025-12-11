@@ -1,4 +1,3 @@
-using Grafted.Sim.Entities.Items.Trinkets;
 using Myra.Graphics2D.Brushes;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.TrinketWidgets;
