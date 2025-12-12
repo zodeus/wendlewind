@@ -116,25 +116,21 @@ public sealed class LootBoxSelectionScreen : VerticalStackPanel
             if (boxItem != null)
             {
                 items.Add(EntityGenerator.CreateEntity<Item>(boxItem.ItemDef, boxItem.Amount.RandomValue));
-                if (boxItem.ItemDef.ItemType == ItemType.Trinket)
-                {
-                    _context.Player.TrinketsFound.Add(boxItem.ItemDef);
-                }
             }
         }
         else
         {
-            foreach (var boxItem in box.Items.InRandomOrder())
+            // while items.count < limit, add a random item from box.Items
+            while (items.Count < limit)
             {
-                if (Core.Random.Chance(boxItem.ChanceToDrop))
+                var boxItem = box.Items.Where(i => !items.Any(i2 => i2.Def == i.ItemDef)).RandomElementByWeight(i => i.Weight);
+                if (boxItem == null)
                 {
-                    items.Add(EntityGenerator.CreateEntity<Item>(boxItem.ItemDef, boxItem.Amount.RandomValue));
-                }
-
-                if (items.Count >= limit)
-                {
+                    Log.Error("No items left/found in box " + box.Label);
                     break;
                 }
+                if (Core.Random.Chance(boxItem.ChanceToDrop) == false) continue;
+                items.Add(EntityGenerator.CreateEntity<Item>(boxItem.ItemDef, boxItem.Amount.RandomValue));
             }
         }
 

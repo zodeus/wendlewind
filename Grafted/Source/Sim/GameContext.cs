@@ -34,10 +34,7 @@ public class GameContext : IExposable
         Ticks = 0;
         Achievements = new AchievementTracker();
         Achievements.Initialize();
-
-        Player.Pawn.FoodConsumed += Achievements.OnItemUsed;
-        Player.Pawn.DamageTaken += Achievements.OnPlayerDamaged;
-        Player.Pawn.Inventory.ItemAdded += Achievements.OnItemFound;
+        WireUpEvents();
     }
 
     public void Tick()
@@ -90,13 +87,9 @@ public class GameContext : IExposable
     {
         CurrentZone = null;
         DeathRecords.Reset();
+        World.Reset();
         Player.Reset();
-        World.Zones.ForEach(z =>
-        { 
-            z.ActiveEncounter = null;
-            z.IsComplete = false;
-            z.Stage = 0;
-        });
+        WireUpEvents();
         Achievements.OnWorldRestart(this);
         //Save();
         if (CurrentZone != null)
@@ -151,9 +144,15 @@ public class GameContext : IExposable
         ExposeDataInternal();
         Scribe.Loader.FinalizeLoading();
 
+        WireUpEvents();
+    }
+
+    private void WireUpEvents()
+    {
         Player.Pawn.FoodConsumed += Achievements.OnItemUsed;
         Player.Pawn.DamageTaken += Achievements.OnPlayerDamaged;
         Player.Pawn.Inventory.ItemAdded += Achievements.OnItemFound;
+        Player.Pawn.Inventory.ItemAdded += Player.OnItemFound;
     }
 
 

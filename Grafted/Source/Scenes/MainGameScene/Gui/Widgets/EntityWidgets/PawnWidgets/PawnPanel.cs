@@ -67,7 +67,7 @@ public sealed class PawnPortraitPanel : VerticalStackPanel, IDisposable
         Widgets.Add(_attackSpeed);
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"Species: {pawn.Species}" });
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"Gender: {pawn.Gender}" });
-        Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"• Max Blood: {pawn.Body.MaxBlood}" });
+        //Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"Max Blood: {pawn.Body.MaxBlood}" });
 
         _capabilitiesPanel = new PawnCapabilitiesPanel(pawn.Body);
         Widgets.Add(_capabilitiesPanel);

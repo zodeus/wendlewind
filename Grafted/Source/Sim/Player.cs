@@ -4,9 +4,11 @@ public class Player : IExposable
 {
     private Pawn _pawn = null!;
 
-    public List<ItemDef> TrinketsFound = null!;
+    private List<ItemDef> _trinketsFound = null!;
     public string Label => "undefined";
     public Pawn Pawn => _pawn;
+
+    public IReadOnlyList<ItemDef> TrinketsFound => _trinketsFound;
 
     public void Initialize()
     {
@@ -16,14 +18,27 @@ public class Player : IExposable
     public void Reset()
     {
         _pawn?.Destroy();
-        TrinketsFound = new List<ItemDef>();
+        _trinketsFound = new List<ItemDef>();
         _pawn = GeneratePlayerPawn();
+    }
+
+    public void OnItemFound(Item item)
+    {
+        if (HasTrinket(item.ItemDef)) {
+            Log.Warning($"Player already has trinket {item.ItemDef.Label}");
+            return;
+        }
+
+        if (item.ItemDef.ItemType == ItemType.Trinket || item.ItemDef.TrinketProperties != null)
+        {
+            _trinketsFound.Add(item.ItemDef);
+        }
     }
 
     public void ExposeData()
     {
         ScribeDeep.Look(ref _pawn!, "Pawn");
-        ScribeCollections.Look(ref TrinketsFound!, "TrinketsFound", LookMode.Def);
+        ScribeCollections.Look(ref _trinketsFound!, "TrinketsFound", LookMode.Def);
     }
 
     public IEnumerable<Entity> FindItems(Func<Item, bool> filter)
@@ -39,7 +54,12 @@ public class Player : IExposable
 
     public bool HasTrinkets(params ItemDef[] items)
     {
-        return items.Intersect(TrinketsFound).Count() == items.Length;
+        return items.Intersect(_trinketsFound).Count() == items.Length;
+    }
+
+    public bool HasTrinket(ItemDef trinket)
+    {
+        return _trinketsFound.Contains(trinket);
     }
 
     private static Pawn GeneratePlayerPawn()

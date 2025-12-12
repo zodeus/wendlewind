@@ -450,7 +450,6 @@ public class CombatHandler : IDisposable
                 t.TrinketHandler?.Stop();
             });
 
-            Core.Context.World.RegisterKill(Enemy);
             if (_encounter.Def.IsBoss)
             {
                 _encounter.Zone.IsComplete = true;

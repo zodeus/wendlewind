@@ -24,7 +24,6 @@ public class FindersKeepersHandler : AchievementHandler
 
         var grimoire = EntityGenerator.CreateEntity<Item>(Defs.Items.Grimoire);
         context.Player.Pawn.Inventory.TryAdd(grimoire);
-        context.Player.TrinketsFound.Add(Defs.Items.Grimoire);
     }
 }
 

@@ -3,8 +3,8 @@
 <Definitions>
     <LootBoxDef Name="ArmorChest1">
         <Moniker>ArmorChest1</Moniker>
-        <Label>Leather Armor</Label>
-        <Description>Contains leather armor</Description>
+        <Label>Armor</Label>
+        <Description>Contains armor</Description>
         <Category>Armor</Category>
         <TexturePath>Chests/ArmorChestBasic</TexturePath>
         <CollectionLimit>3</CollectionLimit>
@@ -43,8 +43,8 @@
     </LootBoxDef>
     <LootBoxDef Name="ArmorChest2" ParentName="ArmorChest1">
         <Moniker>ArmorChest2</Moniker>
-        <Label>Chain Armor</Label>
-        <Description>Contains chain armor</Description>
+        <Label>Armor</Label>
+        <Description>Contains armor</Description>
         <Category>Armor</Category>
         <TexturePath>Chests/ArmorChestBasic</TexturePath>
         <CollectionLimit>3</CollectionLimit>
@@ -52,37 +52,37 @@
             <ListItem>
                 <ItemDef>ChainHelmet</ItemDef>
                 <ChanceToDrop>.8</ChanceToDrop>
-                <Weight>100</Weight>
+                <Weight>1000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>ChainGorget</ItemDef>
                 <ChanceToDrop>.5</ChanceToDrop>
-                <Weight>100</Weight>
+                <Weight>1000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>ChainTunic</ItemDef>
                 <ChanceToDrop>.5</ChanceToDrop>
-                <Weight>100</Weight>
+                <Weight>1000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>ChainVambrace</ItemDef>
                 <ChanceToDrop>.75</ChanceToDrop>
-                <Weight>100</Weight>
+                <Weight>1000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>ChainGlove</ItemDef>
                 <ChanceToDrop>.8</ChanceToDrop>
-                <Weight>100</Weight>
+                <Weight>1000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>ChainGreave</ItemDef>
                 <ChanceToDrop>.75</ChanceToDrop>
-                <Weight>100</Weight>
+                <Weight>1000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>ChainBoot</ItemDef>
                 <ChanceToDrop>.8</ChanceToDrop>
-                <Weight>100</Weight>
+                <Weight>1000</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>
