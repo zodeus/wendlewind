@@ -25,10 +25,10 @@
         <TexturePath>Entities/Item/TradeTool/MortarAndPestle</TexturePath>
     </ItemDef>
     <ItemDef ParentName="PassiveTrinket">
-        <Moniker>EncasedFire</Moniker>
-        <Label>Encased Fire</Label>
-        <Description>It burns...</Description>
-        <TexturePath>Entities/Item/Trinket/EncasedFire</TexturePath>
+        <Moniker>FlameStick</Moniker>
+        <Label>Flame Stick</Label>
+        <Description>A primitive fire-starting tool.</Description>
+        <TexturePath>Entities/Item/Trinket/FlameStick</TexturePath>
     </ItemDef>
     <ItemDef ParentName="PassiveTrinket">
         <Moniker>VialOfDuplicity</Moniker>

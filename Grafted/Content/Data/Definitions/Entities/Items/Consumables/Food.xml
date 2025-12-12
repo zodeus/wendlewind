@@ -61,7 +61,7 @@
         </FoodProperties>
         <CraftingProperties>
             <RequiredTrinkets>
-                <ListItem>EncasedFire</ListItem>
+                <ListItem>FlameStick</ListItem>
             </RequiredTrinkets>
             <ResourceRequirements>
                 <ListItem>
@@ -90,7 +90,7 @@
         </FoodProperties>
         <CraftingProperties>
             <RequiredTrinkets>
-                <ListItem>EncasedFire</ListItem>
+                <ListItem>FlameStick</ListItem>
             </RequiredTrinkets>
             <ResourceRequirements>
                 <ListItem>
@@ -127,7 +127,7 @@
         </FoodProperties>
         <CraftingProperties>
             <RequiredTrinkets>
-                <ListItem>EncasedFire</ListItem>
+                <ListItem>FlameStick</ListItem>
                 <ListItem>CookingPot</ListItem>
                 <ListItem>WeepingBucket</ListItem>
             </RequiredTrinkets>
@@ -231,7 +231,7 @@
         </FoodProperties>
         <CraftingProperties>
             <RequiredTrinkets>
-                <ListItem>EncasedFire</ListItem>
+                <ListItem>FlameStick</ListItem>
                 <ListItem>WeepingBucket</ListItem>
                 <ListItem>CookingPot</ListItem>
             </RequiredTrinkets>
@@ -301,7 +301,7 @@
                 <ListItem>VialOfDuplicity</ListItem>
                 <ListItem>MortarAndPestle</ListItem>
                 <ListItem>CookingPot</ListItem>
-                <ListItem>EncasedFire</ListItem>
+                <ListItem>FlameStick</ListItem>
             </RequiredTrinkets>
             <ResourceRequirements>
                 <ListItem>

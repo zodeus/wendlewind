@@ -15,7 +15,10 @@ public class AchievementDef : Def
     public string BenifitDescription = "";
 
     /// <summary>Item definition</summary>
-    public ItemDef? ItemDef;
+    public ItemDef? ItemUsedDef;
+
+    /// <summary>Item definition of the trinket that is unlocked when the achievement is unlocked</summary>
+    public ItemDef? UnlockedTrinketDef;
 
     /// <summary>Trait definition</summary>
     public TraitDef? TraitDef;

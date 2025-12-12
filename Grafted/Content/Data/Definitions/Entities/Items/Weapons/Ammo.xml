@@ -60,7 +60,7 @@
             <RequiredTrinkets>
                 <ListItem>TinkersToolbox</ListItem>
                 <ListItem>MortarAndPestle</ListItem>
-                <ListItem>EncasedFire</ListItem>
+                <ListItem>FlameStick</ListItem>
             </RequiredTrinkets>
         </CraftingProperties>
     </ItemDef>

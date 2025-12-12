@@ -2677,7 +2677,7 @@
 									<EnchantmentHandler IsNull="True" />
 									<TrinketHandler IsNull="True" />
 									<Id>4802</Id>
-									<Def>EncasedFire</Def>
+									<Def>FlameStick</Def>
 									<InternalState>UnSpawned</InternalState>
 								</li>
 								<li Class="Item">
@@ -3074,7 +3074,7 @@
 					<InternalState>UnSpawned</InternalState>
 				</Pawn>
 				<TrinketsFound>
-					<li>EncasedFire</li>
+					<li>FlameStick</li>
 					<li>WeepingBucket</li>
 					<li>Slingshot</li>
 					<li>Disassembler</li>

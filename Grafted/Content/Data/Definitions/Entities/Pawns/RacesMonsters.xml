@@ -122,4 +122,16 @@
             <MeleeAccuracy>.9</MeleeAccuracy>
         </BaseStats>
     </PawnDef>
+    <PawnDef ParentName="BaseMonsterRace">
+        <Moniker>TinMan</Moniker>
+        <Label>Tin Man</Label>
+        <Species>TinMan</Species>
+        <Body>TinManBody</Body>
+        <BaseStats>
+            <AttackSpeed>1</AttackSpeed>
+            <MeleeStrength>1</MeleeStrength>
+            <Evasion>.01</Evasion>
+            <MeleeAccuracy>.9</MeleeAccuracy>
+        </BaseStats>   
+    </PawnDef>
 </Definitions>

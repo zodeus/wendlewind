@@ -76,6 +76,7 @@ public static partial class BaseContent
             public const string Health = "health";
             public const string Xp = "xp";
             public const string Durability = "durability";
+            public const string Achievement = "achievement";
         }
 
         public static class Label

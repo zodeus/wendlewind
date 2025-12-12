@@ -64,7 +64,7 @@ public sealed class PlayerAchievementsWindow : Window
         var progress = Core.Context.Achievements.GetProgress(def);
         var isUnlocked = progress?.IsUnlocked ?? false;
         var isHidden = def.IsHidden && !isUnlocked;
-        var hasProgress = !isUnlocked && !isHidden && def.Handler != null && def.TargetValue > 1;
+        var hasProgress = !isUnlocked && def.TargetValue > 1;
 
         var container = new VerticalStackPanel
         {
@@ -122,12 +122,15 @@ public sealed class PlayerAchievementsWindow : Window
             if (def.TraitDef != null)
                 rewards.Add($"Trait: {def.TraitDef.Label}");
 
+            if (def.UnlockedTrinketDef != null)
+                rewards.Add($"Trinket: {def.UnlockedTrinketDef.Label}");
+
             if (rewards.Count > 0)
             {
                 container.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
                 {
                     Text = string.Join("\n", rewards),
-                    TextColor = new Color(180, 200, 100),
+                    TextColor = new Color(189, 157, 42),
                     Margin = new Thickness(24, 2, 0, 0),
                     Wrap = true,
                     MaxWidth = 300
@@ -149,7 +152,7 @@ public sealed class PlayerAchievementsWindow : Window
                 Margin = new Thickness(24, 2, 0, 0)
             };
 
-            var progressBar = new HorizontalProgressBar(BaseContent.Styles.Bar.Xp)
+            var progressBar = new HorizontalProgressBar(BaseContent.Styles.Bar.Achievement)
             {
                 Width = 160,
                 Height = 18,

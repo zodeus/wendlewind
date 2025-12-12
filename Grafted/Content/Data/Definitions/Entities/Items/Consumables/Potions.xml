@@ -51,7 +51,7 @@
             <RequiredTrinkets>
                 <ListItem>VialOfDuplicity</ListItem>
                 <ListItem>MortarAndPestle</ListItem>
-                <ListItem>EncasedFire</ListItem>
+                <ListItem>FlameStick</ListItem>
                 <ListItem>CookingPot</ListItem>
             </RequiredTrinkets>
             <ResourceRequirements>

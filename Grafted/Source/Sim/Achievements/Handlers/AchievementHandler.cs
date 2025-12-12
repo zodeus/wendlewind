@@ -39,10 +39,19 @@ public abstract class AchievementHandler
     /// </summary>
     public virtual void OnEnemyDamaged(Pawn player, Pawn enemy, DamageRequest request, DamageResponse response) { }
 
-    /// <summary>
-    /// Called when food is consumed
-    /// </summary>
-    public virtual void OnItemUsed(Pawn consumer, Item item) { }
+    public virtual void OnItemUsed(Pawn consumer, Item item)
+    {
+        if (IsUnlocked) return;
+        
+        // Check if this item matches the achievement's target item
+        if (Def.ItemUsedDef == null || item.Def != Def.ItemUsedDef) return;
+        
+        Progress.CurrentValue++;
+        if (Progress.CurrentValue >= Def.TargetValue)
+        {
+            Unlock();
+        }
+    }
 
     /// <summary>
     /// Called when an item is found
@@ -69,7 +78,7 @@ public abstract class AchievementHandler
     /// </summary>
     public virtual void OnWorldRestart(GameContext context) { }
 
-        /// <summary>
+    /// <summary>
     /// Called when the world is restarted
     /// </summary>
     public virtual void RegisterTrait(Pawn pawn)
@@ -78,5 +87,13 @@ public abstract class AchievementHandler
         if (Def.TraitDef == null) return;
 
         pawn.Traits.Add(Def.TraitDef);
+    }
+
+    public virtual void RegisterTrinket(Pawn pawn)
+    {
+        if (IsUnlocked == false) return;
+        if (Def.UnlockedTrinketDef == null) return;
+
+        pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(Def.UnlockedTrinketDef));
     }
 }

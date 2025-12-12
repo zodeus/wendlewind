@@ -483,4 +483,64 @@
             <MeleePower>40</MeleePower>
         </BaseStats>
     </ItemDef>
+    <ItemDef ParentName="WeaponBlunt">
+        <Moniker>MetalFist</Moniker>
+        <Label>Metal Fist</Label>
+        <Description>A heavy metal fist that delivers crushing punches</Description>
+        <WeaponProperties>
+            <WeaponType>Hand</WeaponType>
+            <DamageType>Blunt</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.5</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.2</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Metal</Substance>
+                    <Modifier>0.5</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Pawn/BodyParts/TinMan/Hand</TexturePath>
+        <BaseStats>
+            <MeleePower>25</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponBlunt">
+        <Moniker>MetalFoot</Moniker>
+        <Label>Metal Foot</Label>
+        <Description>A heavy metal foot that delivers devastating kicks</Description>
+        <WeaponProperties>
+            <WeaponType>Foot</WeaponType>
+            <DamageType>Blunt</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.5</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.2</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Metal</Substance>
+                    <Modifier>0.5</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Pawn/BodyParts/TinMan/Foot</TexturePath>
+        <BaseStats>
+            <MeleePower>30</MeleePower>
+        </BaseStats>
+    </ItemDef>
 </Definitions>

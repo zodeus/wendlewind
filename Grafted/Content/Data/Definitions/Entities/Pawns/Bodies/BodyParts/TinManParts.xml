@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartDef Name="TinManBodyPartBase" ParentName="BodyPartBase" Abstract="True">
+        
+    </BodyPartDef>
+    <BodyPartDef ParentName="TinManBodyPartBase">
+        <Moniker>TinManHead</Moniker>
+        <Label>Head</Label>
+        <HitWeight>20</HitWeight>
+        <BloodAmount>10</BloodAmount>
+        <BodyPartType>Head</BodyPartType>
+        <Substance>Metal</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/TinMan/Head</TexturePath>
+        <Sockets>
+            <ListItem>LeftEyeSocket</ListItem>
+            <ListItem>RightEyeSocket</ListItem>
+            <ListItem>TorsoSocket</ListItem>
+        </Sockets>
+        <EquipmentSlots>
+            <ListItem>HeadArmor</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <MaxHitPoints>350</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="TinManBodyPartBase">
+        <Moniker>TinManTorso</Moniker>
+        <Label>Torso</Label>
+        <BodyPartType>Torso</BodyPartType>
+        <HitWeight>50</HitWeight>
+        <BloodAmount>50</BloodAmount>
+        <Substance>Metal</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/TinMan/Torso</TexturePath>
+        <EquipmentSlots>
+            <ListItem>TorsoArmor</ListItem>
+            <ListItem>PotionSlot1</ListItem>
+            <ListItem>PotionSlot2</ListItem>
+        </EquipmentSlots>
+        <Sockets>
+            <ListItem>LeftArmSocket</ListItem>
+            <ListItem>RightArmSocket</ListItem>
+            <ListItem>LeftLegSocket</ListItem>
+            <ListItem>RightLegSocket</ListItem>
+            <ListItem>HeartSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>500</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="TinManBodyPartBase">
+        <Moniker>TinManArm</Moniker>
+        <Label>Arm</Label>
+        <BodyPartType>Arm</BodyPartType>
+        <HitWeight>25</HitWeight>
+        <BloodAmount>15</BloodAmount>
+        <Substance>Metal</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/TinMan/Arm</TexturePath>
+        <EquipmentSlots>
+            <ListItem>ArmArmor</ListItem>
+            <ListItem>Bag</ListItem>
+        </EquipmentSlots>
+        <Sockets>
+            <ListItem>HandSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <AttackSpeedModifier>.1</AttackSpeedModifier>
+            <MaxHitPoints>120</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="TinManBodyPartBase">
+        <Moniker>TinManHand</Moniker>
+        <Label>Hand</Label>
+        <BodyPartType>Hand</BodyPartType>
+        <Description>A mechanical metal hand.</Description>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+            <ListItem>HandArmor</ListItem>
+            <ListItem>HandWeapon</ListItem>
+        </EquipmentSlots>
+        <HitWeight>12</HitWeight>
+        <BloodAmount>5</BloodAmount>
+        <Substance>Metal</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/TinMan/Hand</TexturePath>
+        <Sockets>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>80</MaxHitPoints>
+            <AttackSpeedModifier>.15</AttackSpeedModifier>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="TinManBodyPartBase">
+        <Moniker>TinManLeg</Moniker>
+        <Label>Leg</Label>
+        <BodyPartType>Leg</BodyPartType>
+        <HitWeight>11</HitWeight>
+        <BloodAmount>25</BloodAmount>
+        <Substance>Metal</Substance>
+        <MobilityFraction>.4</MobilityFraction>
+        <TexturePath>Entities/Pawn/BodyParts/TinMan/Leg</TexturePath>
+        <EquipmentSlots>
+            <ListItem>LegArmor</ListItem>
+        </EquipmentSlots>
+        <Sockets>
+            <ListItem>FootSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>120</MaxHitPoints>
+            <AttackSpeedModifier>.1</AttackSpeedModifier>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="TinManBodyPartBase">
+        <Moniker>TinManFoot</Moniker>
+        <Label>Foot</Label>
+        <BodyPartType>Foot</BodyPartType>
+        <HitWeight>8</HitWeight>
+        <BloodAmount>5</BloodAmount>
+        <Substance>Metal</Substance>
+        <MobilityFraction>.1</MobilityFraction>
+        <TexturePath>Entities/Pawn/BodyParts/TinMan/Foot</TexturePath>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+            <ListItem>FootArmor</ListItem>
+        </EquipmentSlots>
+        <Sockets>
+        </Sockets>
+        <BaseStats>
+            <AttackSpeedModifier>.1</AttackSpeedModifier>
+            <MaxHitPoints>100</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+</Definitions>

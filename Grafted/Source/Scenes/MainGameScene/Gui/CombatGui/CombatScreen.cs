@@ -235,7 +235,6 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             };
             if (combatEvent.IsCritical)
             {
-                Log.Info("Critical hit detected");
                 font = BaseContent.Fonts.Default.Normal;
                 color = Color.Red;
             }

@@ -211,7 +211,7 @@ public sealed class FlammablePanel : EntityPanelBase
             item.ItemDef == Defs.Items.ShimmeringBark ||
             item.ItemDef == Defs.Items.GoldenWood)
         {
-            return player.HasTrinkets(Defs.Items.EncasedFire);
+            return player.HasTrinkets(Defs.Items.FlameStick);
         }
 
         return false;

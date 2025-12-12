@@ -35,19 +35,19 @@
         <Items>
             <ListItem>
                 <ItemDef>SoothingVibrations</ItemDef>
-                <Weight>50</Weight>
+                <Weight>1</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>RhinoSkin</ItemDef>
-                <Weight>45</Weight>
+                <Weight>1</Weight>
             </ListItem> 
             <ListItem>
                 <ItemDef>ElvishLeaf</ItemDef>
-                <Weight>40</Weight>
+                <Weight>1</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>BloodBath</ItemDef>
-                <Weight>20</Weight>
+                <Weight>1</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>

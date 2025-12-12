@@ -126,7 +126,7 @@ public static partial class Defs {
         public static ItemDef BalmyOintment = null!;
         public static ItemDef TheDreamingPowder = null!;
         public static ItemDef DreamBerry = null!;
-        public static ItemDef EncasedFire = null!;
+        public static ItemDef FlameStick = null!;
         public static ItemDef MortarAndPestle = null!;
         public static ItemDef VialOfDuplicity = null!;
         public static ItemDef HealingRoot = null!;
@@ -278,6 +278,13 @@ public static partial class Defs
         public static BodyPartDef InukshukTorso = null!;
         public static BodyPartDef InukshukArm = null!;
         public static BodyPartDef InukshukLeg = null!;
+
+        public static BodyPartDef TinManHead = null!;
+        public static BodyPartDef TinManTorso = null!;
+        public static BodyPartDef TinManArm = null!;
+        public static BodyPartDef TinManHand = null!;
+        public static BodyPartDef TinManLeg = null!;
+        public static BodyPartDef TinManFoot = null!;
     }
 
     [DefLocator]

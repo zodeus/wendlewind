@@ -95,7 +95,7 @@ public sealed class SlingshotPanel : EntityPanelBase
         var scrollViewer = new ScrollViewer
         {
             Content = _ammoListPanel,
-            MaxHeight = 150
+            Height = 350
         };
         ammoColumn.Widgets.Add(scrollViewer);
         RefreshAmmoList();

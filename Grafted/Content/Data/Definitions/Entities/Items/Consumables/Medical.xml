@@ -76,7 +76,7 @@
             <RequiredTrinkets>
                 <ListItem>WeepingBucket</ListItem>
                 <ListItem>CookingPot</ListItem>
-                <ListItem>EncasedFire</ListItem>
+                <ListItem>FlameStick</ListItem>
                 <ListItem>VialOfDuplicity</ListItem>
             </RequiredTrinkets>
             <ResourceRequirements>
@@ -102,7 +102,7 @@
                 <ListItem>MortarAndPestle</ListItem>
                 <ListItem>VialOfDuplicity</ListItem>
                 <ListItem>CookingPot</ListItem>
-                <ListItem>EncasedFire</ListItem>
+                <ListItem>FlameStick</ListItem>
                 <ListItem>WeepingBucket</ListItem>
             </RequiredTrinkets>
             <ResourceRequirements>
@@ -132,7 +132,7 @@
                 <ListItem>MortarAndPestle</ListItem>
                 <ListItem>VialOfDuplicity</ListItem>
                 <ListItem>CookingPot</ListItem>
-                <ListItem>EncasedFire</ListItem>
+                <ListItem>FlameStick</ListItem>
                 <ListItem>WeepingBucket</ListItem>
                 <ListItem>TinkersToolbox</ListItem>
             </RequiredTrinkets>

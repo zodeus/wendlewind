@@ -61,8 +61,7 @@ public class AchievementTracker : IExposable
         progress.IsUnlocked = true;
         progress.CurrentValue = def.TargetValue;
         progress.UnlockedAt = DateTime.Now;
-        
-        Log.Info($"Achievement Unlocked: {def.Label}");
+
         AchievementUnlocked?.Invoke(def);
     }
 

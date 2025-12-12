@@ -76,9 +76,9 @@
         <Description>Consume jars of blood.</Description>
         <BenifitDescription>Your max blood is increased.</BenifitDescription>
         <Category>Consumables</Category>
-        <ItemDef>JarOfBlood</ItemDef>
+
+        <ItemUsedDef>JarOfBlood</ItemUsedDef>
         <TargetValue>50</TargetValue>
-        <HandlerClass>ItemUsedHandler</HandlerClass>
     </AchievementDef>
     
     <AchievementDef>
@@ -111,16 +111,15 @@
         <Category>Survival</Category>
         <HandlerClass>VampireWannabeHandler</HandlerClass>
         <TargetValue>100</TargetValue>
-        <!-- <IsHidden>true</IsHidden> -->
     </AchievementDef>
 
     <AchievementDef>
         <Moniker>CaveDiver</Moniker>
         <Label>Cave Diver</Label>
         <Description>Explore caves.</Description>
-        <BenifitDescription>Not implemented.</BenifitDescription>
         <Category>Exploration</Category>
         <HandlerClass>CaveDiverHandler</HandlerClass>
+        <UnlockedTrinketDef>FlameStick</UnlockedTrinketDef>
         <TargetValue>15</TargetValue>
     </AchievementDef>
 
@@ -204,18 +203,18 @@
         <HandlerClass>TrashToTreasureHandler</HandlerClass>
     </AchievementDef>
     
-
     <AchievementDef>
         <Moniker>FindersKeepers</Moniker>
         <Label>Finders Keepers</Label>
         <Description>You find it, you keep it.</Description>
         <BenifitDescription>Start with the grimoire.</BenifitDescription>
         <IsHidden>true</IsHidden>
+        <UnlockedTrinketDef>Grimoire</UnlockedTrinketDef>
         <Category>Exploration</Category>
         <HandlerClass>FindersKeepersHandler</HandlerClass>
     </AchievementDef>
-    <!-- 
 
+    <!-- 
     <AchievementDef>
         <Moniker>OneArmedBandit</Moniker>
         <Label>One Armed Bandit</Label>

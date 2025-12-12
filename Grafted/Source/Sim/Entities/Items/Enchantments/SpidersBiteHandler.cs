@@ -10,14 +10,19 @@ public class SpidersBiteHandler : EnchantmentHandler
     {
         var randomPart = target.Body.AllExternalParts.RandomElement();
         Bites++;
-        Log.Info($"SpidersBiteHandler: Bites: {Bites}");
         foreach (var modifier in Enchantment.ItemDef.EnchantmentProperties!.BodyPartModifiers)
         {
-            Log.Info($"SpidersBiteHandler: Applying modifier: {modifier.Def.Label}");
-            if (randomPart.ApplyBodyPartModifier(modifier, Enchantment.Label))
+            var modRecord = new BodyPartModifierRecord
             {
-                Log.Info($"SpidersBiteHandler: Modifier applied: {modifier.Def.Label}");
-                damageRecord.DamageStatusEffects.Add(new DamageStatusEffect(target, Enchantment.ItemDef, $"{randomPart.Label} was bitten by {Enchantment.Label}"));
+                Def = modifier.Def,
+                DurationInTicks = modifier.DurationInTicks,
+                Chance = RangeFloat.One
+            };
+            if (randomPart.ApplyBodyPartModifier(modRecord, Enchantment.Label))
+            {
+                damageRecord.DamageStatusEffects.Add(
+                    new DamageStatusEffect(target, Enchantment.ItemDef, $"/c[{TC.BodyPart}]{randomPart.Label} /c[{TC.Default}]was bitten by /c[{TC.BrightBlue}]{Enchantment.Label}")
+                );
             }
         }
     }

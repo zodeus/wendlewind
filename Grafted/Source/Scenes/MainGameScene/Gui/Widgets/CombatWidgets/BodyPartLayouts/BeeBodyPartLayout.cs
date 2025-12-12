@@ -35,7 +35,6 @@ public class BeeBodyPartLayout : IBodyPartLayout
 
     public BodyPartRenderInfo? GetRenderInfo(BodyPart part)
     {
-        //Log.Info(part.Label);
         if (!PartLayoutMap.TryGetValue(part.Label, out var layoutData))
         {
             return null;

@@ -239,9 +239,9 @@ public sealed class FoodPanel : EntityPanelBase
 
     private static bool ShowCookButton(Item item)
     {
-        if (item.ItemDef == Defs.Items.RawMeat && Core.Context.Player.HasTrinkets(Defs.Items.EncasedFire))
+        if (item.ItemDef == Defs.Items.RawMeat && Core.Context.Player.HasTrinkets(Defs.Items.FlameStick))
             return true;
-        if (item.ItemDef == Defs.Items.RawCorn && Core.Context.Player.HasTrinkets(Defs.Items.EncasedFire, Defs.Items.CookingPot, Defs.Items.WeepingBucket))
+        if (item.ItemDef == Defs.Items.RawCorn && Core.Context.Player.HasTrinkets(Defs.Items.FlameStick, Defs.Items.CookingPot, Defs.Items.WeepingBucket))
             return true;
         return false;
     }
