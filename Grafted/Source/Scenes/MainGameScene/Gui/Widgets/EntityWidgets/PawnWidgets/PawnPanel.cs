@@ -1,4 +1,5 @@
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
@@ -38,7 +39,7 @@ public sealed class PawnPortraitPanel : VerticalStackPanel, IDisposable
     private readonly Pawn _pawn;
     private readonly Label _attackSpeed;
     private readonly HorizontalProgressBar _bloodBar;
-    private readonly PawnBodyRenderWidget _bodyRenderWidget;
+    private readonly PawnRenderWidget _renderWidget;
     private readonly PawnCapabilitiesPanel _capabilitiesPanel;
 
     public PawnPortraitPanel(Pawn pawn)
@@ -46,7 +47,7 @@ public sealed class PawnPortraitPanel : VerticalStackPanel, IDisposable
         _pawn = pawn;
         Spacing = 5;
 
-        _bodyRenderWidget = new PawnBodyRenderWidget(pawn, 256)
+        _renderWidget = new PawnRenderWidget(pawn, 256)
         {
             Width = 256,
             Height = 256
@@ -57,7 +58,7 @@ public sealed class PawnPortraitPanel : VerticalStackPanel, IDisposable
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
             Padding = new Thickness(8),
             Width = 256 + 16, Height = 256 + 16,
-            Widgets = { _bodyRenderWidget }
+            Widgets = { _renderWidget }
         });
 
         _bloodBar = new BloodBar(pawn) { Width = 256, Height = 30 };
@@ -82,7 +83,7 @@ public sealed class PawnPortraitPanel : VerticalStackPanel, IDisposable
 
     public void Dispose()
     {
-        _bodyRenderWidget.Dispose();
+        _renderWidget.Dispose();
     }
 }
 

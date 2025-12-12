@@ -1,4 +1,5 @@
 using Grafted.Scenes.MainGameScene.Gui.CombatGui;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
 
 namespace Grafted.Scenes.MainGameScene.Gui;
 
@@ -90,7 +91,7 @@ public class ZoneGui : BaseGui
     {
         // Pre-render body renderers BEFORE drawing the background to avoid
         // backbuffer being discarded when render targets switch
-        PawnBodyRenderer.PreRenderAll(deltaTime);
+        PawnRenderer.PreRenderAll(deltaTime);
         
         spriteBatch.Begin(
             SpriteSortMode.Deferred,

@@ -1,16 +1,16 @@
 using Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayouts;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
-namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
+namespace Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
 
 /// <summary>
 /// Renders a pawn's body by compositing all external body part textures.
 /// Uses body-type-specific layouts to determine which textures to use.
 /// </summary>
-public class PawnBodyRenderer : IDisposable
+public class PawnRenderer : IDisposable
 {
     // Static tracking of all active renderers for pre-rendering
-    private static readonly List<PawnBodyRenderer> _allRenderers = new();
+    private static readonly List<PawnRenderer> _allRenderers = new();
     private static long _lastPreRenderFrame = -1;
     
     /// <summary>
@@ -74,7 +74,7 @@ public class PawnBodyRenderer : IDisposable
     /// </summary>
     public IBodyPartLayout? Layout => _layout;
 
-    public PawnBodyRenderer(Pawn pawn, int renderSize = 512)
+    public PawnRenderer(Pawn pawn, int renderSize = 512)
     {
         _pawn = pawn;
         _renderSize = renderSize;

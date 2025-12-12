@@ -1,4 +1,5 @@
 ﻿using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
 using Image = Myra.Graphics2D.UI.Image;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
@@ -8,14 +9,14 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
     public readonly Pawn Pawn;
     private readonly Encounter _encounter;
     private VerticalProgressBar _bloodBar = null!;
-    private PawnBodyRenderWidget? _bodyWidget;
+    private PawnRenderWidget? _bodyWidget;
     private readonly ZoneGui _gui;
     private readonly List<IUpdatable> _updatables = new();
 
     /// <summary>
     /// Gets the body render widget for this pawn, if available.
     /// </summary>
-    public PawnBodyRenderWidget? BodyWidget => _bodyWidget;
+    public PawnRenderWidget? BodyWidget => _bodyWidget;
 
     public PawnCombatPanel(ZoneGui gui, Pawn pawn, Encounter encounter)
     {
@@ -72,9 +73,9 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         });
     }
 
-    private PawnBodyRenderWidget CreateBodyWidget(int size)
+    private PawnRenderWidget CreateBodyWidget(int size)
     {
-        _bodyWidget = new PawnBodyRenderWidget(Pawn)
+        _bodyWidget = new PawnRenderWidget(Pawn)
         {
             Width = size,
             Height = size

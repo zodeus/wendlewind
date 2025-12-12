@@ -1,54 +1,5 @@
 
-namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
-
-/// <summary>
-/// Internal widget that handles the actual body rendering.
-/// </summary>
-internal class PawnBodyRenderArea : Widget
-{
-    private readonly PawnBodyRenderer _renderer;
-    private readonly Texture2D? _fallbackIcon;
-    private readonly BodyPartDamageTextRenderer _damageTextRenderer;
-
-    public PawnBodyRenderer Renderer => _renderer;
-    public bool HasValidLayout => _renderer.HasValidLayout;
-    public BodyPartDamageTextRenderer DamageTextRenderer => _damageTextRenderer;
-
-    public PawnBodyRenderArea(PawnBodyRenderer renderer, Texture2D? fallbackIcon)
-    {
-        _renderer = renderer;
-        _fallbackIcon = fallbackIcon;
-        _damageTextRenderer = new BodyPartDamageTextRenderer(renderer.Layout, renderer.NativeSize);
-    }
-
-    public override void InternalRender(RenderContext context)
-    {
-        base.InternalRender(context);
-
-        var bounds = ActualBounds;
-        var destRect = new Rectangle(bounds.X, bounds.Y, bounds.Width, bounds.Height);
-
-        if (_renderer.HasValidLayout)
-        {
-            // Note: Render() should be called before Myra's render pass via PreRender()
-            // to avoid render target switching during UI rendering which causes flickering.
-            // Here we just draw the already-rendered texture.
-            var texture = _renderer.RenderedTexture;
-            if (texture != null)
-            {
-                context.Draw(texture, destRect, Color.White);
-            }
-
-            // Render damage text overlay
-            var layoutScale = (float)bounds.Width / _renderer.NativeSize;
-            _damageTextRenderer.Render(context, bounds, layoutScale);
-        }
-        else if (_fallbackIcon != null)
-        {
-            context.Draw(_fallbackIcon, destRect, Color.White);
-        }
-    }
-}
+namespace Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
 
 /// <summary>
 /// A Myra widget that displays a rendered pawn body.
@@ -56,10 +7,10 @@ internal class PawnBodyRenderArea : Widget
 /// Falls back to the pawn's icon if no body layout is available.
 /// Includes an Edit button that opens a separate editor window.
 /// </summary>
-public class PawnBodyRenderWidget : Panel, IDisposable
+public class PawnRenderWidget : Panel, IDisposable
 {
-    private readonly PawnBodyRenderer _renderer;
-    private readonly PawnBodyRenderArea _renderArea;
+    private readonly PawnRenderer _renderer;
+    private readonly PawnRenderArea _renderArea;
     private readonly Pawn _pawn;
     private readonly Button _editorButton;
     private bool _isDisposed;
@@ -80,17 +31,17 @@ public class PawnBodyRenderWidget : Panel, IDisposable
     /// <summary>
     /// Provides access to the underlying renderer for advanced operations.
     /// </summary>
-    public PawnBodyRenderer Renderer => _renderer;
+    public PawnRenderer Renderer => _renderer;
 
     /// <summary>
     /// Provides access to the damage text renderer for adding floating damage numbers.
     /// </summary>
     public BodyPartDamageTextRenderer DamageTextRenderer => _renderArea.DamageTextRenderer;
 
-    public PawnBodyRenderWidget(Pawn pawn, int renderSize = 512)
+    public PawnRenderWidget(Pawn pawn, int renderSize = 512)
     {
         _pawn = pawn;
-        _renderer = new PawnBodyRenderer(pawn, renderSize);
+        _renderer = new PawnRenderer(pawn, renderSize);
 
         // Get fallback icon if no valid layout
         Texture2D? fallbackIcon = null;
@@ -100,7 +51,7 @@ public class PawnBodyRenderWidget : Panel, IDisposable
         }
 
         // Create the render area
-        _renderArea = new PawnBodyRenderArea(_renderer, fallbackIcon)
+        _renderArea = new PawnRenderArea(_renderer, fallbackIcon)
         {
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Stretch

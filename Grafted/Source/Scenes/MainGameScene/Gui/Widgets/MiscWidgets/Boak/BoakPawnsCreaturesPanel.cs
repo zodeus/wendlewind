@@ -1,8 +1,10 @@
-﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
+﻿using Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
+
+namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
 
 internal sealed class BoakPawnsCreaturesPanel : Grid, IDisposable
 {
-    private readonly List<PawnBodyRenderWidget> _renderWidgets = new();
+    private readonly List<PawnRenderWidget> _renderWidgets = new();
 
     public BoakPawnsCreaturesPanel(IReadOnlyList<PawnDef> defs)
     {
@@ -36,7 +38,7 @@ internal sealed class BoakPawnsCreaturesPanel : Grid, IDisposable
                 PawnType.Enemy
             ));
 
-            var bodyWidget = new PawnBodyRenderWidget(previewPawn, 128)
+            var bodyWidget = new PawnRenderWidget(previewPawn, 128)
             {
                 Width = 128,
                 Height = 128,

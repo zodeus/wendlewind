@@ -1,6 +1,6 @@
 using Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayouts;
 
-namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
+namespace Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
 
 /// <summary>
 /// Represents a single blood droplet particle.
