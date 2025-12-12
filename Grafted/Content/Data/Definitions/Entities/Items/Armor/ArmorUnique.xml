@@ -13,6 +13,9 @@
         <BaseStats>
             <MaxDurability>66666</MaxDurability>
         </BaseStats>
+        <TrinketProperties>
+            <Type>Equipment</Type>
+        </TrinketProperties>
         <DisassembleProperties>
             <Items>
                 <ListItem>

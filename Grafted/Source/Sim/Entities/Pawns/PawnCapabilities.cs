@@ -56,6 +56,25 @@ public class PawnCapabilities : IExposable
 
     public float Mobility => _pawn.Body.AllParts.Sum(p => p.HasMobility ? p.BodyPartDef.MobilityFraction : 0f);
 
+    public float Circulation {
+        get
+        {
+            var arteries = _pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Artery).ToList();
+            if (arteries.Count == 0) return 0;
+            return (float)arteries.Average(p => p.HealthPercent);
+        }
+    }
+
+    public float Digestion
+    {
+        get
+        {
+            var stomachs = _pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Stomach).ToList();
+            if (stomachs.Count == 0) return 0;
+            return (float)stomachs.Average(p => p.HealthPercent);
+        }
+    }
+
     public void ExposeData()
     {
     }

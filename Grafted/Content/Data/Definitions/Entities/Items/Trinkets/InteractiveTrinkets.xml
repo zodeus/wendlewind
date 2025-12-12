@@ -7,6 +7,37 @@
         </TrinketProperties>
     </ItemDef>
     <ItemDef ParentName="InteractiveTrinket">
+        <Moniker>Grimoire</Moniker>
+        <Label>Grimoire</Label>
+        <Description>?</Description>
+        <UiClass>GrimoirePanel</UiClass>
+        <TexturePath>Entities/Item/Trinket/Grimoire</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="InteractiveTrinket">
+        <Moniker>SteroidInjector</Moniker>
+        <Label>Steroid Injector</Label>
+        <Description>Time to get jacked.</Description>
+        <TrinketProperties>
+            <HandlerClass>SteroidInjectorHandler</HandlerClass>
+        </TrinketProperties>
+        <UiClass>SteroidInjectorPanel</UiClass>
+        <TexturePath>Entities/Item/Trinket/SteroidInjector</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="InteractiveTrinket">
+        <Moniker>Disassembler</Moniker>
+        <Label>Disassembler</Label>
+        <Description>Takes things apart.</Description>
+        <UiClass>DisassemblerPanel</UiClass>
+        <TexturePath>Entities/Item/Trinket/Disassembler</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="InteractiveTrinket">
+        <Moniker>GoldenGoose</Moniker>
+        <Label>Golden Goose</Label>
+        <Description>Takes things apart.</Description>
+        <!-- <UiClass>GoldenGoosePanel</UiClass> -->
+        <TexturePath>Entities/Item/Trinket/GoldenGoose</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="InteractiveTrinket">
         <Moniker>Forge</Moniker>
         <Label>Forge</Label>
         <TrinketProperties>
@@ -26,34 +57,10 @@
         <TexturePath>Entities/Item/Trinket/HolyChalice</TexturePath>
     </ItemDef>
     <ItemDef ParentName="InteractiveTrinket">
-        <Moniker>Grimoire</Moniker>
-        <Label>Grimoire</Label>
-        <Description>?</Description>
-        <UiClass>GrimoirePanel</UiClass>
-        <TexturePath>Entities/Item/Trinket/Grimoire</TexturePath>
-    </ItemDef>
-    <ItemDef ParentName="InteractiveTrinket">
-        <Moniker>SteroidInjector</Moniker>
-        <Label>Steroid Injector</Label>
-        <Description>Time to get jacked.</Description>
-        <TrinketProperties>
-            <HandlerClass>SteroidInjectorHandler</HandlerClass>
-        </TrinketProperties>
-        <UiClass>SteroidInjectorPanel</UiClass>
-        <TexturePath>Entities/Item/Trinket/SteroidInjector</TexturePath>
-    </ItemDef>
-    <ItemDef ParentName="InteractiveTrinket">
         <Moniker>SurgicalSaw</Moniker>
         <Label>Surgical Saw</Label>
         <Description>Used to sever limbs.</Description>
         <!--<UiClass>SteroidInjectorPanel</UiClass>-->
         <TexturePath>Entities/Item/Trinket/SurgicalSaw</TexturePath>
-    </ItemDef>
-    <ItemDef ParentName="InteractiveTrinket">
-        <Moniker>Disassembler</Moniker>
-        <Label>Disassembler</Label>
-        <Description>Takes things apart.</Description>
-        <UiClass>DisassemblerPanel</UiClass>
-        <TexturePath>Entities/Item/Trinket/Disassembler</TexturePath>
     </ItemDef>
 </Definitions>

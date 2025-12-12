@@ -10,17 +10,16 @@
         <CollectionLimit>1</CollectionLimit>
         <Items>
             <ListItem>
-                <ItemDef>DeathRattle</ItemDef>
-                <ChanceToDrop>1</ChanceToDrop>
-                <Weight>1</Weight>
-            </ListItem>
-            <ListItem>
                 <ItemDef>Slingshot</ItemDef>
                 <Weight>150000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>BoneCracker</ItemDef>
                 <Weight>100000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>DeathRattle</ItemDef>
+                <Weight>1</Weight>
             </ListItem>
             <!---->
             <!--<ListItem>
@@ -39,17 +38,14 @@
         <Items>
             <ListItem>
                 <ItemDef>EncasedFire</ItemDef>
-                <ChanceToDrop>1</ChanceToDrop>
                 <Weight>20000000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>WeepingBucket</ItemDef>
-                <ChanceToDrop>1</ChanceToDrop>
                 <Weight>10000000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>Disassembler</ItemDef>
-                <ChanceToDrop>1</ChanceToDrop>
                 <Weight>1000000</Weight>
             </ListItem>
         </Items>
@@ -62,6 +58,10 @@
         <TexturePath>Chests/TrinketChest2</TexturePath>
         <CollectionLimit>1</CollectionLimit>
         <Items>
+            <ListItem>
+                <ItemDef>GoldenGoose</ItemDef>
+                <Weight>600000</Weight>
+            </ListItem>
             <ListItem>
                 <ItemDef>CookingPot</ItemDef>
                 <Weight>1000000</Weight>
@@ -92,8 +92,7 @@
             </ListItem> 
             <ListItem>
                 <ItemDef>BlessedIronCollar</ItemDef>
-                <ChanceToDrop>1</ChanceToDrop>
-                <Weight>400000</Weight>
+                <Weight>100000</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>
@@ -106,6 +105,10 @@
         <CollectionLimit>1</CollectionLimit>
         <Items>
             <ListItem>
+                <ItemDef>GoldenGoose</ItemDef>
+                <Weight>100000</Weight>
+            </ListItem>
+            <!-- <ListItem>
                 <ItemDef>SurgicalSaw</ItemDef>
                 <Weight>100000</Weight>
             </ListItem>
@@ -116,7 +119,7 @@
             <ListItem>
                 <ItemDef>HolyChalice</ItemDef>
                 <Weight>100000</Weight>
-            </ListItem>
+            </ListItem> -->
         </Items>
     </LootBoxDef>
 </Definitions>
