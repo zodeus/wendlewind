@@ -63,7 +63,7 @@ public sealed class GameHud : HorizontalStackPanel
             Content = new Image { Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Achievements], Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium, },
             Padding = new Thickness(10)
         };
-        achievements.TouchDown += (_, _) => { new PlayerAchievementsWindow().Show(Desktop); };
+        achievements.TouchDown += (_, _) => { PlayerAchievementsWindow.Toggle(Desktop); };
         leftPanel.Widgets.Add(achievements);
 
         Button kills = new(BaseContent.Styles.Button.Large)
@@ -71,7 +71,7 @@ public sealed class GameHud : HorizontalStackPanel
             Content = new Image { Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Skull], Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium, },
             Padding = new Thickness(10)
         };
-        kills.TouchDown += (_, _) => { new PlayerKillsWindow(context.DeathRecords).Show(Desktop); };
+        kills.TouchDown += (_, _) => { PlayerKillsWindow.Toggle(Desktop, context.DeathRecords); };
         leftPanel.Widgets.Add(kills);
 
         Button pawn = new(BaseContent.Styles.Button.Large)
@@ -105,7 +105,7 @@ public sealed class GameHud : HorizontalStackPanel
             },
             Padding = new Thickness(10)
         };
-        timeline.TouchDown += (_, _) => { new ZoneTimelineWindow().Show(Desktop); };
+        timeline.TouchDown += (_, _) => { ZoneTimelineWindow.Toggle(Desktop); };
         leftPanel.Widgets.Add(timeline);
 
         if (gui is CampGui)

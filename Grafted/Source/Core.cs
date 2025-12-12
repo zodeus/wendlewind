@@ -199,6 +199,7 @@ public class Core : Game
 
         MyraEnvironment.Game = this;
         MyraEnvironment.DefaultAssetManager = AssetManager.CreateFileAssetManager(Path.Combine(contentDirectory, "UI"));
+        MyraEnvironment.EnableModalDarkening = true;
         LoadStyleSheet();
 
         DataLoader.Load();

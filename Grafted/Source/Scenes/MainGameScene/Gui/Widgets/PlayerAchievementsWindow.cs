@@ -2,10 +2,24 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets;
 
 public sealed class PlayerAchievementsWindow : Window
 {
+    private static PlayerAchievementsWindow? _instance;
+    
     private readonly ScrollViewer _scrollViewer;
     private readonly HorizontalStackPanel _categoriesPanel;
 
-    public PlayerAchievementsWindow()
+    public static void Toggle(Desktop desktop)
+    {
+        if (_instance?.IsPlaced == true)
+        {
+            _instance.Close();
+            return;
+        }
+        
+        _instance = new PlayerAchievementsWindow();
+        _instance.Show(desktop);
+    }
+    
+    private PlayerAchievementsWindow()
     {
         Title = $"Achievements /c[#b8860b]({GetUnlockedCount()}/{GetTotalCount()} Unlocked)";
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright];
@@ -18,8 +32,6 @@ public sealed class PlayerAchievementsWindow : Window
             ShowHorizontalScrollBar = true,
             ShowVerticalScrollBar = true
         };
-
-      
 
         Content = _scrollViewer;
 

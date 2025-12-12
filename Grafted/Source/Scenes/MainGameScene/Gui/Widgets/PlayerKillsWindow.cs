@@ -2,13 +2,27 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets;
 
 public sealed class PlayerKillsWindow : Window
 {
+    private static PlayerKillsWindow? _instance;
+    
     private static readonly Color HeaderColor = Color.Goldenrod;
     private static readonly Color ValueColor = Color.White;
     private static readonly Color SubduedColor = Color.Gray;
     private static readonly Color WarningColor = Color.OrangeRed;
     private static readonly Color AccentColor = new(100, 180, 100);
 
-    public PlayerKillsWindow(PlayerKillRecords deathRecords)
+    public static void Toggle(Desktop desktop, PlayerKillRecords deathRecords)
+    {
+        if (_instance?.IsPlaced == true)
+        {
+            _instance.Close();
+            return;
+        }
+        
+        _instance = new PlayerKillsWindow(deathRecords);
+        _instance.Show(desktop);
+    }
+
+    private PlayerKillsWindow(PlayerKillRecords deathRecords)
     {
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright];
         MinWidth = 1200;

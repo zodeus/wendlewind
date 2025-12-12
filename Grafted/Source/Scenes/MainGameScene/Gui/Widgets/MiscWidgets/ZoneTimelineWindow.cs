@@ -4,6 +4,8 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 
 public sealed class ZoneTimelineWindow : Window
 {
+    private static ZoneTimelineWindow? _instance;
+    
     private const int NodeSize = 64;
     private const int NodeSpacing = 24;
     private const int BiomeSpacing = 40;
@@ -12,7 +14,19 @@ public sealed class ZoneTimelineWindow : Window
     private readonly ScrollViewer _scrollViewer;
     private int _currentBiomeIndex = -1;
 
-    public ZoneTimelineWindow()
+    public static void Toggle(Desktop desktop)
+    {
+        if (_instance?.IsPlaced == true)
+        {
+            _instance.Close();
+            return;
+        }
+        
+        _instance = new ZoneTimelineWindow();
+        _instance.Show(desktop);
+    }
+
+    private ZoneTimelineWindow()
     {
         Title = "Journey Timeline";
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright];
