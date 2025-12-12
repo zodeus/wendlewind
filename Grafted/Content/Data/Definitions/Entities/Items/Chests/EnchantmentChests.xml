@@ -18,11 +18,11 @@
             </ListItem>
             <ListItem>
                 <ItemDef>BoneEater</ItemDef>
-                <Weight>1</Weight>
+                <Weight>2</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>EverburningStone</ItemDef>
-                <Weight>1</Weight>
+                <Weight>2</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>
@@ -35,19 +35,19 @@
         <Items>
             <ListItem>
                 <ItemDef>SoothingVibrations</ItemDef>
-                <Weight>60</Weight>
+                <Weight>50</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>RhinoSkin</ItemDef>
-                <Weight>50</Weight>
+                <Weight>45</Weight>
             </ListItem> 
             <ListItem>
-                <ItemDef>BloodBath</ItemDef>
-                <Weight>10</Weight>
+                <ItemDef>ElvishLeaf</ItemDef>
+                <Weight>40</Weight>
             </ListItem>
             <ListItem>
-                <ItemDef>ElvishLeaf</ItemDef>
-                <Weight>30</Weight>
+                <ItemDef>BloodBath</ItemDef>
+                <Weight>20</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>

@@ -1,5 +1,3 @@
-using FontStashSharp;
-
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 
 public class MouseAttachment {

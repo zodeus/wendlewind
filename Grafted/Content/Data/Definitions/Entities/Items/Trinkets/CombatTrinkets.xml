@@ -21,15 +21,6 @@
         <TexturePath>Entities/Item/Trinket/DeathRattle</TexturePath>
     </ItemDef>
     <ItemDef ParentName="CombatTrinket">
-        <Moniker>Battery</Moniker>
-        <Label>Battery</Label>
-        <TrinketProperties>
-            <HandlerClass>BatteryHandler</HandlerClass>
-        </TrinketProperties>
-        <Description>Energizer bunny?</Description>
-        <TexturePath>Entities/Item/Trinket/Battery</TexturePath>
-    </ItemDef>
-    <ItemDef ParentName="CombatTrinket">
         <Moniker>BoneCracker</Moniker>
         <Label>Bone Cracker</Label>
         <UiClass>BoneCrackerPanel</UiClass>
@@ -49,4 +40,15 @@
         </TrinketProperties>
         <TexturePath>Entities/Item/Trinket/SlingshotWood</TexturePath>
     </ItemDef>
+    
+    <!-- <ItemDef ParentName="CombatTrinket">
+        <Moniker>Battery</Moniker>
+        <Label>Battery</Label>
+        <TrinketProperties>
+            <HandlerClass>BatteryHandler</HandlerClass>
+        </TrinketProperties>
+        <Description>Energizer bunny?</Description>
+        <TexturePath>Entities/Item/Trinket/Battery</TexturePath>
+    </ItemDef> -->
+
 </Definitions>

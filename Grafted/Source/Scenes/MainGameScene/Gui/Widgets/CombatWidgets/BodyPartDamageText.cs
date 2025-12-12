@@ -10,6 +10,7 @@ public class BodyPartDamageText
     public string Text { get; set; } = "";
     public Color Color { get; set; } = Color.White;
     public Vector2 Position { get; set; }
+    public DynamicSpriteFont Font { get; set; } = BaseContent.Fonts.Default.Normal;
     public float TimeLeft { get; set; }
     public float Scale { get; set; } = 1f;
     public float Opacity { get; set; } = 1f;
@@ -54,7 +55,7 @@ public class BodyPartDamageTextRenderer
     /// <summary>
     /// Adds a damage text at the position of a body part.
     /// </summary>
-    public void AddDamageText(BodyPart? bodyPart, string text, Color color, float duration = 2f)
+    public void AddDamageText(BodyPart? bodyPart, string text, DynamicSpriteFont font, Color color, float duration = 2f)
     {
         Vector2 position;
         
@@ -92,6 +93,7 @@ public class BodyPartDamageTextRenderer
         
         _texts.Add(new BodyPartDamageText
         {
+            Font = font,
             Text = text,
             Color = color,
             Position = position,
@@ -162,8 +164,7 @@ public class BodyPartDamageTextRenderer
     /// <param name="layoutScale">Scale from native coordinates to widget coordinates.</param>
     public void Render(RenderContext context, Rectangle widgetBounds, float layoutScale)
     {
-        var font = BaseContent.Fonts.Default.Normal;
-        
+       
         foreach (var text in _texts)
         {
             // Convert native position to screen position
@@ -182,7 +183,7 @@ public class BodyPartDamageTextRenderer
             var color = text.Color * text.Opacity;
             
             // Draw text with outline for visibility
-            var textSize = font.MeasureString(text.Text);
+            var textSize = text.Font.MeasureString(text.Text);
             var centeredPos = screenPos - textSize / 2f;
             
             // Draw outline
@@ -192,12 +193,12 @@ public class BodyPartDamageTextRenderer
                 for (var dy = -1; dy <= 1; dy++)
                 {
                     if (dx == 0 && dy == 0) continue;
-                    context.DrawString(font, text.Text, centeredPos + new Vector2(dx, dy), outlineColor);
+                    context.DrawString(text.Font, text.Text, centeredPos + new Vector2(dx, dy), outlineColor);
                 }
             }
             
             // Draw main text
-            context.DrawString(font, text.Text, centeredPos, color);
+            context.DrawString(text.Font, text.Text, centeredPos, color);
         }
     }
     

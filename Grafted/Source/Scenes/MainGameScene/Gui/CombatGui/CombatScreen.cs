@@ -208,7 +208,38 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         var combatPanel = partyPanel.GetPanelForPawn(combatEvent.Target);
         if (combatPanel?.BodyWidget != null)
         {
-            combatPanel.BodyWidget.AddDamageText(combatEvent.BodyPart, combatEvent.Text, color, 3f);
+            // Try to extract a numeric damage value from the text for font scaling
+            var damageAmount = 0f;
+            if (combatEvent.Type == CombatEventType.Damage || combatEvent.Type == CombatEventType.Heal)
+            {
+                // Extract all digits from the text and try to parse as damage
+                var digits = new string(combatEvent.Text.Where(char.IsDigit).ToArray());
+                if (float.TryParse(digits, out var parsed))
+                {
+                    damageAmount = parsed;
+                }
+            }
+
+            var font = combatEvent.Type switch
+            {
+                CombatEventType.Damage => BaseContent.Fonts.Default.Small,
+                CombatEventType.Heal => BaseContent.Fonts.Default.Small,
+                CombatEventType.Block => BaseContent.Fonts.Default.VerySmall,
+                CombatEventType.Dodge => BaseContent.Fonts.Default.VerySmall,
+                CombatEventType.Miss => BaseContent.Fonts.Default.VerySmall,
+                CombatEventType.Buff => BaseContent.Fonts.Default.VerySmall,
+                CombatEventType.Debuff => BaseContent.Fonts.Default.VerySmall,
+                CombatEventType.Death => BaseContent.Fonts.Default.Normal,
+                CombatEventType.StatusEffect => BaseContent.Fonts.Default.VerySmall,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            if (combatEvent.IsCritical)
+            {
+                Log.Info("Critical hit detected");
+                font = BaseContent.Fonts.Default.Normal;
+                color = Color.Red;
+            }
+            combatPanel.BodyWidget.AddDamageText(combatEvent.BodyPart, combatEvent.Text, font, color, 3f);
         }
     }
 

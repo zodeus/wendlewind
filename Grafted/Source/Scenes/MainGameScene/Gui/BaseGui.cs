@@ -1,4 +1,3 @@
-using FontStashSharp;
 using Grafted.Scenes.MainGameScene.Gui.Widgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;

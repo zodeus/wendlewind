@@ -12,8 +12,9 @@ public class DamageRecord
     public readonly double TotalDamage;
     public readonly double AmountBlocked;
     public double ActualAmount;
+    public readonly bool IsCritical;
 
-    public DamageRecord(string weaponLabel, string weaponManeuverLabel, DamageType damageType, BodyPart bodyPartHit, double totalDamage, double amountBlocked)
+    public DamageRecord(string weaponLabel, string weaponManeuverLabel, DamageType damageType, BodyPart bodyPartHit, double totalDamage, double amountBlocked, bool isCritical = false)
     {
         WeaponLabel = weaponLabel;
         WeaponManeuverLabel = weaponManeuverLabel;
@@ -21,5 +22,6 @@ public class DamageRecord
         BodyPartHit = bodyPartHit;
         TotalDamage = totalDamage;
         AmountBlocked = amountBlocked;
+        IsCritical = isCritical;
     }
 }

@@ -3,6 +3,7 @@
 global using System;
 global using System.Collections.Generic;
 global using System.Linq;
+global using FontStashSharp;
 global using Grafted.Debug;
 global using Grafted.Definitions;
 global using Grafted.Maths;

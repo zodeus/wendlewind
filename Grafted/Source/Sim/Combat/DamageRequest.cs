@@ -1,4 +1,4 @@
-﻿namespace Grafted.Sim.Combat;
+namespace Grafted.Sim.Combat;
 
 public class DamageRequest
 {
@@ -28,7 +28,9 @@ public class DamageRequest
             * skillPower
             * weaponManeuver.DamageMultiplier.RandomValue
         );
-        //rawDamage *= tool.GetStatValue(Defs.Stats.WeaponDamageMultiplier);
+        
+        var (criticalDamage, isCritical) = CalculateCriticalDamage(pawn, rawDamage);
+        rawDamage = criticalDamage;
         if (rawDamage < 0)
         {
             Log.Warning("Damage was negative.");
@@ -36,8 +38,20 @@ public class DamageRequest
         }
 
         DamageRequest request = new(pawn, tool, weaponManeuver);
-        request.RawDamages.Add(new Damage(tool, rawDamage, weaponManeuver.Label));
+        request.RawDamages.Add(new Damage(tool, rawDamage, weaponManeuver.Label, isCritical));
 
         return request;
+    }
+
+    private static (int damage, bool isCritical) CalculateCriticalDamage(Pawn pawn, int rawDamage)
+    {
+        //Defs.Stats.CriticalStrikeChance
+        if (pawn.Inventory.Contains(Defs.Items.Monocle) && Core.Random.Chance(.2f))
+        {
+            var range = new RangeFloat(1.4f, 2.5f);
+            var critMultiplier = range.RandomValue;
+            return (Mathf.RoundToInt(rawDamage * critMultiplier), true);
+        }
+        return (rawDamage, false);
     }
 }

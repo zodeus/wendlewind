@@ -13,12 +13,6 @@
         <TexturePath>Entities/Item/Resource/Fluid/BucketOfWater</TexturePath>
     </ItemDef>
     <ItemDef ParentName="PassiveTrinket">
-        <Moniker>ATap</Moniker>
-        <Label>A Tap</Label>
-        <Description>A fluid tap, useful for dispensing.</Description>
-        <TexturePath>Entities/Item/Trinket/ATap</TexturePath>
-    </ItemDef>
-    <ItemDef ParentName="PassiveTrinket">
         <Moniker>CookingPot</Moniker>
         <Label>Cooking Pot</Label>
         <Description>A pot for cooking.</Description>
@@ -60,4 +54,12 @@
         <Description>A monocle, useful for seeing things, critical things.</Description>
         <TexturePath>Entities/Item/Trinket/Monocle</TexturePath>
     </ItemDef>
+
+    
+    <!-- <ItemDef ParentName="PassiveTrinket">
+        <Moniker>ATap</Moniker>
+        <Label>A Tap</Label>
+        <Description>A fluid tap, useful for dispensing.</Description>
+        <TexturePath>Entities/Item/Trinket/ATap</TexturePath>
+    </ItemDef> -->
 </Definitions>

@@ -93,6 +93,7 @@ public static partial class Defs {
     [DefLocator]
     public static class Items
     {
+        public static ItemDef Monocle = null!;
         public static ItemDef TinkersToolbox = null!;
         public static ItemDef BoneShard = null!;
         public static ItemDef GoldenBean = null!;

@@ -1,5 +1,4 @@
 using System.IO;
-using FontStashSharp;
 
 namespace Grafted.Sim;
 
@@ -211,7 +210,7 @@ public static partial class BaseContent
             Default = new FontData
             {
                 VerySmall = monoFont.GetFont(16),
-                Small = monoFont.GetFont(18),
+                Small = monoFont.GetFont(20),
                 Normal = monoFont.GetFont(24),
                 Medium = monoFont.GetFont(30),
                 Large = monoFont.GetFont(36),

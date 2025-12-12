@@ -48,6 +48,8 @@ public class PawnInventory : IExposable, IEnumerable<Item>
     
     public bool Contains(ResourceCount resource) => _entities.Contains(resource);
     
+    public bool Contains(ItemDef def) => _entities.Contains(def, 1);
+    
     public Item? Take(EntityDef def, int amount) => _entities.Take(def, amount);
     
     /// <summary>

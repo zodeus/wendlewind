@@ -16,12 +16,13 @@ public enum CombatEventType
     StatusEffect
 }
 
-public class CombatEvent(Pawn victim, CombatEventType damage, string s, BodyPart? bodyPart = null)
+public class CombatEvent(Pawn victim, CombatEventType damage, string s, BodyPart? bodyPart = null, bool isCritical = false)
 {
     public string Text { get; set; } = s;
     public Pawn Target { get; set; } = victim;
     public CombatEventType Type { get; set; } = damage;
     public BodyPart? BodyPart { get; set; } = bodyPart;
+    public bool IsCritical { get; set; } = isCritical;
 }
 
 public class CombatHandler : IDisposable
@@ -155,7 +156,7 @@ public class CombatHandler : IDisposable
 
         if (damage.ActualAmount > 0)
         {
-            EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Damage, $"{damage.ActualAmount:N0}", damage.BodyPartHit));
+            EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Damage, $"{damage.ActualAmount:N0}", damage.BodyPartHit, damage.IsCritical));
         }
 
         if (damage.AmountBlocked > 0)

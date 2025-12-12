@@ -1,3 +1,4 @@
+
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 
 /// <summary>
@@ -23,10 +24,10 @@ internal class PawnBodyRenderArea : Widget
     public override void InternalRender(RenderContext context)
     {
         base.InternalRender(context);
-        
+
         var bounds = ActualBounds;
         var destRect = new Rectangle(bounds.X, bounds.Y, bounds.Width, bounds.Height);
-        
+
         if (_renderer.HasValidLayout)
         {
             // Note: Render() should be called before Myra's render pass via PreRender()
@@ -37,7 +38,7 @@ internal class PawnBodyRenderArea : Widget
             {
                 context.Draw(texture, destRect, Color.White);
             }
-            
+
             // Render damage text overlay
             var layoutScale = (float)bounds.Width / _renderer.NativeSize;
             _damageTextRenderer.Render(context, bounds, layoutScale);
@@ -64,7 +65,7 @@ public class PawnBodyRenderWidget : Panel, IDisposable
     private bool _isDisposed;
 
     public Pawn Pawn => _pawn;
-    
+
     /// <summary>
     /// Returns true if this widget is using the composited body renderer.
     /// False means it's falling back to the pawn icon.
@@ -90,14 +91,14 @@ public class PawnBodyRenderWidget : Panel, IDisposable
     {
         _pawn = pawn;
         _renderer = new PawnBodyRenderer(pawn, renderSize);
-        
+
         // Get fallback icon if no valid layout
         Texture2D? fallbackIcon = null;
         if (!_renderer.HasValidLayout)
         {
             fallbackIcon = pawn.Icon;
         }
-        
+
         // Create the render area
         _renderArea = new PawnBodyRenderArea(_renderer, fallbackIcon)
         {
@@ -105,8 +106,8 @@ public class PawnBodyRenderWidget : Panel, IDisposable
             VerticalAlignment = VerticalAlignment.Stretch
         };
         Widgets.Add(_renderArea);
-        
-        
+
+
         // Create edit button in top-right corner (only if we have a valid layout)
         if (_renderer.HasValidLayout)
         {
@@ -117,7 +118,7 @@ public class PawnBodyRenderWidget : Panel, IDisposable
                 Spacing = 2,
                 Margin = new Thickness(2)
             };
-            
+
             _editorButton = new Button(BaseContent.Styles.Button.Small)
             {
                 Content = new Label(BaseContent.Styles.Label.Small) { Text = "Edit" },
@@ -126,14 +127,14 @@ public class PawnBodyRenderWidget : Panel, IDisposable
             };
             _editorButton.Click += OnEditButtonClick;
             controlPanel.Widgets.Add(_editorButton);
-            
+
             Widgets.Add(controlPanel);
         }
         else
         {
             _editorButton = null!;
         }
-        
+
         // Handle click events
         TouchDown += OnTouchDown;
     }
@@ -178,16 +179,16 @@ public class PawnBodyRenderWidget : Panel, IDisposable
     /// <summary>
     /// Adds a floating damage text near a body part.
     /// </summary>
-    public void AddDamageText(BodyPart? bodyPart, string text, Color color, float duration = 2f)
+    public void AddDamageText(BodyPart? bodyPart, string text, DynamicSpriteFont font, Color color, float duration = 2f)
     {
-        _renderArea.DamageTextRenderer.AddDamageText(bodyPart, text, color, duration);
+        _renderArea.DamageTextRenderer.AddDamageText(bodyPart, text, font, color, duration);
     }
 
     public void Dispose()
     {
         if (_isDisposed) return;
         _isDisposed = true;
-        
+
         TouchDown -= OnTouchDown;
         if (_editorButton != null)
         {

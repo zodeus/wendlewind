@@ -37,7 +37,7 @@
         <!-- <UiClass>GoldenGoosePanel</UiClass> -->
         <TexturePath>Entities/Item/Trinket/GoldenGoose</TexturePath>
     </ItemDef>
-    <ItemDef ParentName="InteractiveTrinket">
+    <!-- <ItemDef ParentName="InteractiveTrinket">
         <Moniker>Forge</Moniker>
         <Label>Forge</Label>
         <TrinketProperties>
@@ -55,12 +55,11 @@
         <UiClass>HolyChalicePanel</UiClass>
         <Description>Drink in tribute to old the gods.</Description>
         <TexturePath>Entities/Item/Trinket/HolyChalice</TexturePath>
-    </ItemDef>
-    <ItemDef ParentName="InteractiveTrinket">
+    </ItemDef> -->
+    <!-- <ItemDef ParentName="InteractiveTrinket">
         <Moniker>SurgicalSaw</Moniker>
         <Label>Surgical Saw</Label>
         <Description>Used to sever limbs.</Description>
-        <!--<UiClass>SteroidInjectorPanel</UiClass>-->
         <TexturePath>Entities/Item/Trinket/SurgicalSaw</TexturePath>
-    </ItemDef>
+    </ItemDef> -->
 </Definitions>

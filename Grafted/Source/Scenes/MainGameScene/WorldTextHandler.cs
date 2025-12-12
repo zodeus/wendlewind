@@ -1,6 +1,4 @@
-﻿using FontStashSharp;
-
-namespace Grafted.Scenes.MainGameScene;
+﻿namespace Grafted.Scenes.MainGameScene;
 
 public class WorldTextHandler
 {
