@@ -9,6 +9,9 @@ public enum WeatherType
     Storm,
     Snow,
     SmokeEmbers,
-    BloodRain
+    BloodRain,
+    Fireflies,
+    FallingLeaves,
+    HallowedRain
 }
 

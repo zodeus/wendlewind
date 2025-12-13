@@ -40,11 +40,6 @@ public sealed class ArmorPanel : EntityPanelBase
         });
         Widgets.Add(_durabilityBar);
         Widgets.Add(_durabilityLabel);
-        if (item.Def.Description != "undefined")
-        {
-            Widgets.Add(new Label("small") { Text = item.Def.Description, Wrap = true, MaxWidth = 400 });
-        }
-
         Widgets.Add(new Label("small") { Text = $"Equipment Type: {item.ItemDef.EquipmentProperties?.EquipmentType}" });
         Widgets.Add(new Label("small") { Text = $"Slot: {(item.ItemDef.EquipmentProperties?.SlotUsedToEquip != null ? item.ItemDef.EquipmentProperties.SlotUsedToEquip : "n/a")}" });
 

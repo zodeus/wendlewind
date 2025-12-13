@@ -36,7 +36,10 @@ public class WeatherRenderer
             { WeatherType.Storm, new StormEffect() },
             { WeatherType.Snow, new SnowEffect() },
             { WeatherType.SmokeEmbers, new SmokeEmbersEffect() },
-            { WeatherType.BloodRain, new BloodRainEffect() }
+            { WeatherType.BloodRain, new BloodRainEffect() },
+            { WeatherType.Fireflies, new FirefliesEffect() },
+            { WeatherType.FallingLeaves, new FallingLeavesEffect() },
+            { WeatherType.HallowedRain, new HallowedRainEffect() }
         };
         
         _currentEffect = _effects[WeatherType.Showers];
