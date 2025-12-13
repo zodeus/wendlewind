@@ -51,9 +51,11 @@ public sealed class PawnBodyEffectsPanel : Panel, IUpdatable
         if (_orientation == EffectsPanelOrientation.Vertical)
         {
             // Vertical orientation: columns with up to MaxItemsVertical items each
+            // Columns grow right to left (newest columns on the left)
             var columnCount = (effects.Count + MaxItemsVertical - 1) / MaxItemsVertical;
             
-            for (int col = 0; col < columnCount; col++)
+            // Iterate in reverse so columns are added right to left
+            for (int col = columnCount - 1; col >= 0; col--)
             {
                 var column = new VerticalStackPanel { Spacing = 2, VerticalAlignment = VerticalAlignment.Top };
                 _container.Widgets.Add(column);

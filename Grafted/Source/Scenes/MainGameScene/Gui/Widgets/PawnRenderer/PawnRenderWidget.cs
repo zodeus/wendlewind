@@ -1,4 +1,6 @@
 
+using Myra.Graphics2D.Brushes;
+
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
 
 /// <summary>
@@ -41,6 +43,7 @@ public class PawnRenderWidget : Panel, IDisposable
     public PawnRenderWidget(Pawn pawn, int renderSize = 512)
     {
         _pawn = pawn;
+        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold];
         _renderer = new PawnRenderer(pawn, renderSize);
 
         // Get fallback icon if no valid layout

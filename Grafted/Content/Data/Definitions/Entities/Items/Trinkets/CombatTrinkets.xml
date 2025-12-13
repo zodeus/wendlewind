@@ -41,6 +41,17 @@
         <TexturePath>Entities/Item/Trinket/SlingshotWood</TexturePath>
     </ItemDef>
     
+    <ItemDef ParentName="CombatTrinket">
+        <Moniker>BloodyBell</Moniker>
+        <Label>Bloody Bell</Label>
+        <UiClass>BloodyBellPanel</UiClass>
+        <TrinketProperties>
+            <HandlerClass>BloodyBellHandler</HandlerClass>
+        </TrinketProperties>
+        <Description>A cursed bell that tolls for blood. When activated, your next attack drains the victim's blood and restores your own.</Description>
+        <TexturePath>Entities/Item/Trinket/BloodyBell</TexturePath>
+    </ItemDef>
+    
     <!-- <ItemDef ParentName="CombatTrinket">
         <Moniker>Battery</Moniker>
         <Label>Battery</Label>

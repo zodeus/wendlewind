@@ -1,5 +1,6 @@
 using Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayouts;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer.Weather;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
 
@@ -29,9 +30,15 @@ public class PawnRenderer : IDisposable
             return;
         _lastPreRenderFrame = currentFrame;
         
+        var isPaused = Core.Context?.IsPaused ?? false;
+        
         foreach (var renderer in _allRenderers)
         {
-            renderer.Update(deltaTime);
+            // Skip updates when paused, but still render if needed
+            if (!isPaused)
+            {
+                renderer.Update(deltaTime);
+            }
             renderer.Render();
         }
     }
@@ -39,6 +46,7 @@ public class PawnRenderer : IDisposable
     private readonly Pawn _pawn;
     private readonly IBodyPartLayout? _layout;
     private readonly BloodSpurtRenderer _bloodSpurtRenderer;
+    private readonly WeatherRenderer _weatherRenderer;
     private RenderTarget2D? _renderTarget;
     private SpriteBatch? _spriteBatch;
     private bool _isDirty = true;
@@ -80,6 +88,8 @@ public class PawnRenderer : IDisposable
         _renderSize = renderSize;
         _layout = BodyPartLayoutRegistry.GetLayoutFor(pawn.Body);
         _bloodSpurtRenderer = new BloodSpurtRenderer(pawn, _layout);
+        _weatherRenderer = new WeatherRenderer();
+        _weatherRenderer.SetDimensions(renderSize, renderSize);
         
         if (_layout != null)
         {
@@ -100,14 +110,15 @@ public class PawnRenderer : IDisposable
     }
 
     /// <summary>
-    /// Updates the blood spurt renderer. Called each frame.
+    /// Updates the blood spurt and weather renderers. Called each frame.
     /// </summary>
     private void Update(float deltaTime)
     {
         _bloodSpurtRenderer.Update(deltaTime);
+        _weatherRenderer.Update(deltaTime);
         
-        // If there are active blood spurts, we need to continuously re-render
-        if (_bloodSpurtRenderer.HasActiveSpurts)
+        // If there are active blood spurts or weather effects, we need to continuously re-render
+        if (_bloodSpurtRenderer.HasActiveSpurts || _weatherRenderer.HasActiveEffects)
         {
             _isDirty = true;
         }
@@ -164,6 +175,9 @@ public class PawnRenderer : IDisposable
         // Render blood spurts from open, unsealed sockets
         var layoutScale = (float)_renderSize / _layout.NativeSize;
         _bloodSpurtRenderer.Render(_spriteBatch, layoutScale);
+        
+        // Render weather effects overlay
+        _weatherRenderer.Render(_spriteBatch, layoutScale);
         
         _spriteBatch.End();
         
