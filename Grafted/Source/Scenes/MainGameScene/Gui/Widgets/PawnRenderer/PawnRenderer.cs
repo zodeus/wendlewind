@@ -1,5 +1,6 @@
 using Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayouts;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer.Weather;
 
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;

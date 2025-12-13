@@ -9,10 +9,15 @@ public class ShowersEffect : BaseWeatherEffect
     public override int PrePopulateCount => 120;
     public override float SpawnRate => 100f;
     
+    private readonly List<Color> _colors = new()
+    {
+        new Color(150, 170, 200),
+    };
+    
     public override void SpawnParticle(bool distributeAcrossScreen)
     {
         if (!CanSpawnParticle()) return;
-        
+
         var particle = new WeatherParticle
         {
             Position = new Vector2(GetSpawnX(), GetSpawnY(distributeAcrossScreen)),
@@ -20,10 +25,10 @@ public class ShowersEffect : BaseWeatherEffect
                 16f + (float)Random.NextDouble() * 24f,
                 240f + (float)Random.NextDouble() * 80f
             ),
-            Size = 1.5f + (float)Random.NextDouble() * 1.5f,
-            Opacity = 0.6f + (float)Random.NextDouble() * 0.4f
+            Size = 0.8f + (float)Random.NextDouble() * 0.7f,
+            Opacity = 0.3f + (float)Random.NextDouble() * 0.3f
         };
-        
+
         Particles.Add(particle);
     }
     
@@ -37,7 +42,7 @@ public class ShowersEffect : BaseWeatherEffect
             var scaledSize = particle.Size * scale;
             
             // Light blue-gray rain
-            var color = new Color(150, 170, 200) * particle.Opacity;
+            var color = _colors[Random.Next(_colors.Count)] * particle.Opacity;
             
             // Rain drops are elongated vertically with slight angle
             var rainRect = new Rectangle(

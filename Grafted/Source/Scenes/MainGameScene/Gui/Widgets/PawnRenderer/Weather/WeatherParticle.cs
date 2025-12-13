@@ -9,8 +9,6 @@ public class WeatherParticle
     public Vector2 Velocity;
     public float Size;
     public float Opacity;
-    public float Rotation;
-    public float RotationSpeed;
     public float Wobble;
     public float WobblePhase;
     public bool IsEmber;

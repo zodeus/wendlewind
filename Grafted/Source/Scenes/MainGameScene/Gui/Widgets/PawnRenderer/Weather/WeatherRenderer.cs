@@ -12,7 +12,7 @@ public class WeatherRenderer
     private float _weatherTimer;
     private float _spawnAccumulator;
     private bool _hasInitialized;
-    
+    private int _currentEffectIndex;
     private const float WeatherCycleDuration = 10f;
     
     private int _width = 512;
@@ -88,19 +88,14 @@ public class WeatherRenderer
     {
         _weatherTimer = WeatherCycleDuration;
         
-        var nextType = CurrentWeather switch
+
+        _currentEffectIndex++;
+        if (_currentEffectIndex >= _effects.Count)
         {
-            WeatherType.Showers => WeatherType.Storm,
-            WeatherType.Storm => WeatherType.Snow,
-            WeatherType.Snow => WeatherType.SmokeEmbers,
-            WeatherType.SmokeEmbers => WeatherType.BloodRain,
-            WeatherType.BloodRain => WeatherType.Showers,
-            _ => WeatherType.Showers
-        };
-        nextType = WeatherType.BloodRain;
-        
+            _currentEffectIndex = 0;
+        }
         _currentEffect.Clear();
-        _currentEffect = _effects[nextType];
+        _currentEffect = _effects.Values.ElementAt(_currentEffectIndex);
         _currentEffect.SetDimensions(_width, _height);
         _spawnAccumulator = 0f;
         

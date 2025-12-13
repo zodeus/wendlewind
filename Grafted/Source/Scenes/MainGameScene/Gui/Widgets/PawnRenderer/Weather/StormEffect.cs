@@ -29,8 +29,8 @@ public class StormEffect : BaseWeatherEffect
                 64f + (float)Random.NextDouble() * 48f,
                 360f + (float)Random.NextDouble() * 120f
             ),
-            Size = 2f + (float)Random.NextDouble() * 2f,
-            Opacity = 0.7f + (float)Random.NextDouble() * 0.3f
+            Size = 1.0f + (float)Random.NextDouble() * 1.0f,
+            Opacity = 0.4f + (float)Random.NextDouble() * 0.3f
         };
         
         Particles.Add(particle);
@@ -158,7 +158,7 @@ public class StormEffect : BaseWeatherEffect
             var scaledSize = particle.Size * scale;
             
             // Brighter, more intense rain with hint of electric blue
-            var color = new Color(180, 190, 220) * particle.Opacity;
+            var color = new Color(150, 170, 200) * particle.Opacity;
             
             // Steeper angle for storm rain
             var stormRect = new Rectangle(

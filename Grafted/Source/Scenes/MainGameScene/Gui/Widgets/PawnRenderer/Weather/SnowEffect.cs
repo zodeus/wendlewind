@@ -6,8 +6,8 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer.Weather;
 public class SnowEffect : BaseWeatherEffect
 {
     public override WeatherType WeatherType => WeatherType.Snow;
-    public override int PrePopulateCount => 30;
-    public override float SpawnRate => 25f;
+    public override int PrePopulateCount => 12;
+    public override float SpawnRate => 8f;
     
     public override void SpawnParticle(bool distributeAcrossScreen)
     {
@@ -22,8 +22,6 @@ public class SnowEffect : BaseWeatherEffect
             ),
             Size = 2f + (float)Random.NextDouble() * 4f,
             Opacity = 0.6f + (float)Random.NextDouble() * 0.4f,
-            Rotation = (float)Random.NextDouble() * MathF.PI * 2,
-            RotationSpeed = -1f + (float)Random.NextDouble() * 2f,
             Wobble = 20f + (float)Random.NextDouble() * 40f,
             WobblePhase = (float)Random.NextDouble() * MathF.PI * 2
         };
@@ -38,7 +36,6 @@ public class SnowEffect : BaseWeatherEffect
         // Snowflakes wobble horizontally
         particle.WobblePhase += deltaTime * 3f;
         particle.Position.X += MathF.Sin(particle.WobblePhase) * particle.Wobble * deltaTime;
-        particle.Rotation += particle.RotationSpeed * deltaTime;
     }
     
     public override void Render(SpriteBatch spriteBatch, float scale)
