@@ -15,9 +15,23 @@ public class PawnRenderWidget : Panel, IDisposable
     private readonly PawnRenderArea _renderArea;
     private readonly Pawn _pawn;
     private readonly Button _editorButton;
+    private readonly VerticalStackPanel? _editorControlPanel;
     private bool _isDisposed;
 
     public Pawn Pawn => _pawn;
+    
+    /// <summary>
+    /// Gets or sets whether the Edit button is visible. Defaults to false.
+    /// </summary>
+    public bool ShowEditButton
+    {
+        get => _editorControlPanel?.Visible ?? false;
+        set
+        {
+            if (_editorControlPanel != null)
+                _editorControlPanel.Visible = value;
+        }
+    }
 
     /// <summary>
     /// Returns true if this widget is using the composited body renderer.
@@ -63,14 +77,16 @@ public class PawnRenderWidget : Panel, IDisposable
 
 
         // Create edit button in top-right corner (only if we have a valid layout)
+        // Hidden by default - set ShowEditButton = true to display
         if (_renderer.HasValidLayout)
         {
-            var controlPanel = new VerticalStackPanel
+            _editorControlPanel = new VerticalStackPanel
             {
                 HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Top,
                 Spacing = 2,
-                Margin = new Thickness(2)
+                Margin = new Thickness(2),
+                Visible = false
             };
 
             _editorButton = new Button(BaseContent.Styles.Button.Small)
@@ -80,13 +96,14 @@ public class PawnRenderWidget : Panel, IDisposable
                 Height = 20
             };
             _editorButton.Click += OnEditButtonClick;
-            controlPanel.Widgets.Add(_editorButton);
+            _editorControlPanel.Widgets.Add(_editorButton);
 
-            Widgets.Add(controlPanel);
+            Widgets.Add(_editorControlPanel);
         }
         else
         {
             _editorButton = null!;
+            _editorControlPanel = null;
         }
 
         // Handle click events

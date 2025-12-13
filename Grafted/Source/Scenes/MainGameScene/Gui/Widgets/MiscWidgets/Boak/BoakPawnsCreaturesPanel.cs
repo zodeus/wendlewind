@@ -42,7 +42,8 @@ internal sealed class BoakPawnsCreaturesPanel : Grid, IDisposable
             {
                 Width = 128,
                 Height = 128,
-                VerticalAlignment = VerticalAlignment.Top
+                VerticalAlignment = VerticalAlignment.Top,
+                ShowEditButton = true
             };
             _renderWidgets.Add(bodyWidget);
 

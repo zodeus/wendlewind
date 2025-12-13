@@ -50,7 +50,8 @@ public sealed class PawnPortraitPanel : VerticalStackPanel, IDisposable
         _renderWidget = new PawnRenderWidget(pawn, 256)
         {
             Width = 256,
-            Height = 256
+            Height = 256,
+            ShowEditButton = true
         };
 
         Widgets.Add(_renderWidget);

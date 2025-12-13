@@ -156,7 +156,6 @@ public class BodyPartDamageTextRenderer(IBodyPartLayout? layout, int nativeSize)
     /// <param name="layoutScale">Scale from native coordinates to widget coordinates.</param>
     public void Render(RenderContext context, Rectangle widgetBounds, float layoutScale)
     {
-       
         foreach (var text in _texts)
         {
             // Convert native position to screen position
@@ -177,6 +176,16 @@ public class BodyPartDamageTextRenderer(IBodyPartLayout? layout, int nativeSize)
             // Draw text with outline for visibility
             var textSize = text.Font.MeasureString(text.Text);
             var centeredPos = screenPos - textSize / 2f;
+
+             var yOffset = -10;
+            // Skip rendering if text is entirely outside widget bounds
+            var textBounds = new Rectangle(
+                (int)centeredPos.X, 
+                (int)centeredPos.Y + yOffset, 
+                (int)textSize.X, 
+                (int)textSize.Y);
+            if (!widgetBounds.Intersects(textBounds))
+                continue;
             
             // Draw outline
             var outlineColor = Color.Black * text.Opacity * 0.8f;

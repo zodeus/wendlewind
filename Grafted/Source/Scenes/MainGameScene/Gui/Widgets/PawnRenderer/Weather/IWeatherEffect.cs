@@ -56,3 +56,4 @@ public interface IWeatherEffect
     void Clear();
 }
 
+
