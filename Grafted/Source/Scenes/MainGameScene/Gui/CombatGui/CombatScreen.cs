@@ -222,15 +222,15 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
             var font = combatEvent.Type switch
             {
-                CombatEventType.Damage => BaseContent.Fonts.Default.Small,
-                CombatEventType.Heal => BaseContent.Fonts.Default.Small,
-                CombatEventType.Block => BaseContent.Fonts.Default.VerySmall,
-                CombatEventType.Dodge => BaseContent.Fonts.Default.VerySmall,
-                CombatEventType.Miss => BaseContent.Fonts.Default.VerySmall,
-                CombatEventType.Buff => BaseContent.Fonts.Default.VerySmall,
-                CombatEventType.Debuff => BaseContent.Fonts.Default.VerySmall,
-                CombatEventType.Death => BaseContent.Fonts.Default.Normal,
-                CombatEventType.StatusEffect => BaseContent.Fonts.Default.VerySmall,
+                CombatEventType.Damage => BaseContent.Fonts.Default.VerySmall,
+                CombatEventType.Heal => BaseContent.Fonts.Default.VerySmall,
+                CombatEventType.Block => BaseContent.Fonts.Default.Smallest,
+                CombatEventType.Dodge => BaseContent.Fonts.Default.Smallest,
+                CombatEventType.Miss => BaseContent.Fonts.Default.Smallest,
+                CombatEventType.Buff => BaseContent.Fonts.Default.Smallest,
+                CombatEventType.Debuff => BaseContent.Fonts.Default.Smallest,
+                CombatEventType.Death => BaseContent.Fonts.Default.Small,
+                CombatEventType.StatusEffect => BaseContent.Fonts.Default.Smallest,
                 _ => throw new ArgumentOutOfRangeException()
             };
             if (combatEvent.IsCritical)

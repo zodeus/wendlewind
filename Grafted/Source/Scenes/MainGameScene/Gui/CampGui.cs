@@ -17,10 +17,10 @@ public class CampGui : BaseGui
         {
             Root = new VerticalStackPanel
             {
+                Spacing = 8,
                 Widgets =
                 {
                     _gameHud,
-                    new HorizontalSeparator { Margin = new Thickness(0, 0, 0, 20) },
                     _campOverview
                 }
             },

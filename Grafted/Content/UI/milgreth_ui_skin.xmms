@@ -116,6 +116,7 @@
         <HorizontalProgressBarStyle Id="xp" Background="bar-frame-small" Filler="bar-xp" Padding="4"/>
         <HorizontalProgressBarStyle Id="achievement" Background="bar-frame-small" Filler="bar-achievement" Padding="4"/>
         <HorizontalProgressBarStyle Id="durability" Background="bar-frame-small-filled" Filler="bar-durability" Padding="4"/>
+        <HorizontalProgressBarStyle Id="energy" Background="bar-frame-small" Filler="bar-energy" Padding="2"/>
     </HorizontalProgressBarStyles>
     <VerticalProgressBarStyles>
         <VerticalProgressBarStyle Background="bar-frame-small" Filler="vertical-bar" Padding="4" Width="16"/>

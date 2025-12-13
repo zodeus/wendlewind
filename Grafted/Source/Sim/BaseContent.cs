@@ -74,6 +74,7 @@ public static partial class BaseContent
         public static class Bar
         {
             public const string Health = "health";
+            public const string Energy = "energy";
             public const string Xp = "xp";
             public const string Durability = "durability";
             public const string Achievement = "achievement";
@@ -190,6 +191,7 @@ public static partial class BaseContent
     {
         public readonly struct FontData
         {
+            public DynamicSpriteFont Smallest { get; init; }
             public DynamicSpriteFont VerySmall { get; init; }
             public DynamicSpriteFont Small { get; init; }
             public DynamicSpriteFont Normal { get; init; }
@@ -210,6 +212,7 @@ public static partial class BaseContent
 
             Default = new FontData
             {
+                Smallest = monoFont.GetFont(12),
                 VerySmall = monoFont.GetFont(16),
                 Small = monoFont.GetFont(20),
                 Normal = monoFont.GetFont(24),

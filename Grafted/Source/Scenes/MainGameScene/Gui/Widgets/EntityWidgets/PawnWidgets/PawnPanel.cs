@@ -53,13 +53,7 @@ public sealed class PawnPortraitPanel : VerticalStackPanel, IDisposable
             Height = 256
         };
 
-        Widgets.Add(new Panel
-        {
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
-            Padding = new Thickness(8),
-            Width = 256 + 16, Height = 256 + 16,
-            Widgets = { _renderWidget }
-        });
+        Widgets.Add(_renderWidget);
 
         _bloodBar = new BloodBar(pawn) { Width = 256, Height = 30 };
 

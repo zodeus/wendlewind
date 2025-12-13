@@ -1,12 +1,17 @@
 using Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayouts;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
-using Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer.Weather;
+
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
 
 /// <summary>
 /// Renders a pawn's body by compositing all external body part textures.
 /// Uses body-type-specific layouts to determine which textures to use.
+/// 
+/// Rendering is optimized using a layered caching approach:
+/// - Body parts are cached in a separate render target and only re-rendered when parts change
+/// - Dynamic effects (weather, blood) are composited on top of the cached body each frame
+/// - This avoids expensive body part re-rendering when only effects are animating
 /// </summary>
 public class PawnRenderer : IDisposable
 {
@@ -47,15 +52,24 @@ public class PawnRenderer : IDisposable
     private readonly IBodyPartLayout? _layout;
     private readonly BloodSpurtRenderer _bloodSpurtRenderer;
     private readonly WeatherRenderer _weatherRenderer;
-    private RenderTarget2D? _renderTarget;
+    
+    // Cached body layer - only re-rendered when body parts change
+    private RenderTarget2D? _bodyRenderTarget;
+    private bool _bodyDirty = true;
+    
+    // Final composite - rendered each frame when effects are active, 
+    // or just references body cache when no effects
+    private RenderTarget2D? _compositeRenderTarget;
+    private bool _hasActiveEffects;
+    
     private SpriteBatch? _spriteBatch;
-    private bool _isDirty = true;
     private readonly int _renderSize;
     
     /// <summary>
-    /// The rendered texture containing the composited body parts.
+    /// The rendered texture containing the composited body parts and effects.
+    /// Returns the composite when effects are active, otherwise returns the cached body.
     /// </summary>
-    public Texture2D? RenderedTexture => _renderTarget;
+    public Texture2D? RenderedTexture => _hasActiveEffects ? _compositeRenderTarget : _bodyRenderTarget;
     
     /// <summary>
     /// Returns true if this renderer has a valid layout for the pawn's body type.
@@ -89,7 +103,7 @@ public class PawnRenderer : IDisposable
         _layout = BodyPartLayoutRegistry.GetLayoutFor(pawn.Body);
         _bloodSpurtRenderer = new BloodSpurtRenderer(pawn, _layout);
         _weatherRenderer = new WeatherRenderer();
-        _weatherRenderer.SetDimensions(renderSize, renderSize);
+        _weatherRenderer.SetDimensions(NativeSize, NativeSize);
         
         if (_layout != null)
         {
@@ -106,7 +120,7 @@ public class PawnRenderer : IDisposable
 
     private void OnPartHealthChanged(BodyPart part)
     {
-        _isDirty = true;
+        _bodyDirty = true;
     }
 
     /// <summary>
@@ -117,21 +131,33 @@ public class PawnRenderer : IDisposable
         _bloodSpurtRenderer.Update(deltaTime);
         _weatherRenderer.Update(deltaTime);
         
-        // If there are active blood spurts or weather effects, we need to continuously re-render
-        if (_bloodSpurtRenderer.HasActiveSpurts || _weatherRenderer.HasActiveEffects)
-        {
-            _isDirty = true;
-        }
+        // Track whether effects are currently active (determines which render target to return)
+        _hasActiveEffects = _bloodSpurtRenderer.HasActiveSpurts || _weatherRenderer.HasActiveEffects;
     }
 
     /// <summary>
-    /// Ensures the render target and sprite batch are initialized.
+    /// Ensures the render targets and sprite batch are initialized.
     /// </summary>
     private void EnsureInitialized()
     {
-        if (_renderTarget == null)
+        // Body render target - caches body parts, only re-rendered when parts change
+        if (_bodyRenderTarget == null)
         {
-            _renderTarget = new RenderTarget2D(
+            _bodyRenderTarget = new RenderTarget2D(
+                Core.GraphicsDevice,
+                _renderSize,
+                _renderSize,
+                false,
+                SurfaceFormat.Color,
+                DepthFormat.None,
+                0,
+                RenderTargetUsage.PreserveContents);
+        }
+        
+        // Composite render target - used when effects need to overlay on body
+        if (_compositeRenderTarget == null)
+        {
+            _compositeRenderTarget = new RenderTarget2D(
                 Core.GraphicsDevice,
                 _renderSize,
                 _renderSize,
@@ -146,34 +172,76 @@ public class PawnRenderer : IDisposable
     }
 
     /// <summary>
-    /// Marks the renderer as needing to re-render.
+    /// Marks the body as needing to re-render (e.g., after equipment changes).
     /// </summary>
     public void MarkDirty()
     {
-        _isDirty = true;
+        _bodyDirty = true;
     }
 
     /// <summary>
-    /// Renders the body parts to the render target if dirty.
-    /// Should be called during the game's Draw phase.
+    /// Renders the pawn using a layered caching approach:
+    /// 1. Body parts are cached and only re-rendered when they change
+    /// 2. Dynamic effects are composited on top each frame (only when active)
     /// </summary>
     public void Render()
     {
-        if (!_isDirty || _layout == null) return;
+        if (_layout == null) return;
         
         EnsureInitialized();
         
         var previousRenderTargets = Core.GraphicsDevice.GetRenderTargets();
+        var layoutScale = (float)_renderSize / _layout.NativeSize;
         
-        Core.GraphicsDevice.SetRenderTarget(_renderTarget);
+        // Step 1: Render body to cache if dirty (expensive, but rare)
+        if (_bodyDirty)
+        {
+            RenderBodyToCache(previousRenderTargets, layoutScale);
+            _bodyDirty = false;
+        }
+        
+        // Step 2: If effects are active, composite body cache + effects
+        // Otherwise, RenderedTexture already points to the body cache
+        if (_hasActiveEffects)
+        {
+            RenderComposite(previousRenderTargets, layoutScale);
+        }
+    }
+    
+    /// <summary>
+    /// Renders body parts to the body cache render target.
+    /// Only called when body parts have changed.
+    /// </summary>
+    private void RenderBodyToCache(RenderTargetBinding[] previousTargets, float layoutScale)
+    {
+        Core.GraphicsDevice.SetRenderTarget(_bodyRenderTarget);
+        Core.GraphicsDevice.Clear(Color.Transparent);
+        
+        _spriteBatch!.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp);
+        RenderBodyParts(_spriteBatch);
+        _spriteBatch.End();
+        
+        Core.GraphicsDevice.SetRenderTargets(previousTargets);
+    }
+    
+    /// <summary>
+    /// Composites the cached body with dynamic effects (blood, weather).
+    /// Called each frame when effects are active.
+    /// </summary>
+    private void RenderComposite(RenderTargetBinding[] previousTargets, float layoutScale)
+    {
+        Core.GraphicsDevice.SetRenderTarget(_compositeRenderTarget);
         Core.GraphicsDevice.Clear(Color.Transparent);
         
         _spriteBatch!.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp);
         
-        RenderBodyParts(_spriteBatch);
+        // Draw cached body (single texture blit - very cheap)
+        _spriteBatch.Draw(
+            _bodyRenderTarget, 
+            new Rectangle(0, 0, _renderSize, _renderSize), 
+            Color.White);
         
         // Render blood spurts from open, unsealed sockets
-        var layoutScale = (float)_renderSize / _layout.NativeSize;
         _bloodSpurtRenderer.Render(_spriteBatch, layoutScale);
         
         // Render weather effects overlay
@@ -181,10 +249,7 @@ public class PawnRenderer : IDisposable
         
         _spriteBatch.End();
         
-        // Restore previous render targets
-        Core.GraphicsDevice.SetRenderTargets(previousRenderTargets);
-        
-        _isDirty = false;
+        Core.GraphicsDevice.SetRenderTargets(previousTargets);
     }
 
     /// <summary>
@@ -239,9 +304,11 @@ public class PawnRenderer : IDisposable
             }
         }
         
-        _renderTarget?.Dispose();
+        _bodyRenderTarget?.Dispose();
+        _compositeRenderTarget?.Dispose();
         _spriteBatch?.Dispose();
-        _renderTarget = null;
+        _bodyRenderTarget = null;
+        _compositeRenderTarget = null;
         _spriteBatch = null;
     }
 }

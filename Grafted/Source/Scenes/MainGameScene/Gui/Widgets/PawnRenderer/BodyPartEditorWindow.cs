@@ -3,7 +3,7 @@ using System.Text;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayouts;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
-namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
+namespace Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
 
 /// <summary>
 /// Data class to hold all transform overrides for a body part.

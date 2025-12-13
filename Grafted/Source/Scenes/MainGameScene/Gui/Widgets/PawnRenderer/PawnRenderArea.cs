@@ -38,7 +38,7 @@ internal class PawnRenderArea : Widget
                 context.Draw(texture, destRect, Color.White);
             }
 
-            // Render damage text overlay
+            // Render damage text overlay with clipping to keep text inside bounds
             var layoutScale = (float)bounds.Width / _renderer.NativeSize;
             _damageTextRenderer.Render(context, bounds, layoutScale);
         }

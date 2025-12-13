@@ -1,4 +1,5 @@
 ﻿using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+using SolidBrush = Myra.Graphics2D.Brushes.SolidBrush;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 
@@ -7,210 +8,344 @@ public sealed class GameHud : HorizontalStackPanel
     private readonly Label _bloodLabel;
     private readonly ProgramStatsPanel _programStats;
     private readonly Image _stomachGauge;
-    private readonly HorizontalStackPanel _stomachOutline;
-
+    private readonly Panel _stomachContainer;
     private readonly Label _energyLabel;
-
     private readonly AttackSpeedIcon _attackSpeedLabel;
     private readonly Image _bloodArrow;
+    private readonly HorizontalProgressBar _bloodBar;
+    private readonly HorizontalProgressBar _energyBar;
+
+    // Color palette for the HUD
+    private static readonly Color HudBackground = new(18, 18, 22, 230);
+    private static readonly Color HudBorder = new(180, 50, 45);
+    private static readonly Color StatDivider = new(40, 38, 35);
 
     public GameHud(BaseGui gui, GameContext context)
     {
         var player = context.Player;
-        Spacing = 50;
-        HorizontalStackPanel leftPanel = new() { Spacing = 10, Width = 500, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(10, 0, 0, 0) };
-        HorizontalStackPanel centerPanel = new() { Spacing = 10, HorizontalAlignment = HorizontalAlignment.Center };
+
+        // Main layout
+        HorizontalStackPanel leftPanel = new()
+        {
+            Spacing = 6,
+            VerticalAlignment = VerticalAlignment.Center,
+            Margin = new Thickness(12, 0, 0, 0)
+        };
+
+        Panel centerPanel = new()
+        {
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center
+        };
         SetProportionType(centerPanel, ProportionType.Fill);
+
+        // Blood arrow indicator
         _bloodArrow = new Image
         {
             Visible = false,
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.ArrowNegative],
-            Width = 48, Height = 48
-        };
-        _bloodLabel = new Label(BaseContent.Styles.Label.Medium)
-        {
-            Width = 100,
+            Width = 24,
+            Height = 24,
             VerticalAlignment = VerticalAlignment.Center
         };
-        _attackSpeedLabel = new AttackSpeedIcon(player.Pawn, BaseContent.Fonts.Default.Medium) { Height = BaseContent.IconSizes.Medium };
-        _energyLabel = new Label(BaseContent.Styles.Label.Medium)
+
+        // Blood percentage label
+        _bloodLabel = new Label
         {
-            Width = 100,
+            Font = BaseContent.Fonts.Default.Medium,
+            Width = 56,
+            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
+
+        // Blood progress bar
+        _bloodBar = new HorizontalProgressBar(BaseContent.Styles.Bar.Health)
+        {
+            Width = 80,
+            Height = 8,
+            VerticalAlignment = VerticalAlignment.Center,
+            Value = 100
+        };
+
+        // Attack speed display
+        _attackSpeedLabel = new AttackSpeedIcon(player.Pawn, BaseContent.Fonts.Default.Medium)
+        {
+            Height = 44,
+            Width = 76,
             VerticalAlignment = VerticalAlignment.Center
         };
+
+        // Energy label
+        _energyLabel = new Label
+        {
+            Font = BaseContent.Fonts.Default.Medium,
+            Width = 56,
+            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
+
+        // Energy progress bar
+        _energyBar = new HorizontalProgressBar(BaseContent.Styles.Bar.Energy)
+        {
+            Width = 80,
+            Height = 8,
+            VerticalAlignment = VerticalAlignment.Center,
+            Value = 100
+        };
+
+        // Stomach gauge
         _stomachGauge = new Image
         {
-            VerticalAlignment = VerticalAlignment.Center, Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium,
+            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Width = 32,
+            Height = 32,
             Background = new ColoredRegion(new TextureRegion(Defs.BodyParts.Stomach.Icon), Color.White)
         };
-        _stomachOutline = new HorizontalStackPanel
+
+        _stomachContainer = new Panel
         {
+            Width = 40,
+            Height = 40,
             VerticalAlignment = VerticalAlignment.Center,
-            Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium,
             Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.StomachOutline], Color.White),
-            Widgets =
-            {
-                _stomachGauge
-            }
+            Widgets = { _stomachGauge }
         };
-        _programStats = new ProgramStatsPanel()
+
+        _programStats = new ProgramStatsPanel
         {
-            HorizontalAlignment = HorizontalAlignment.Right,
+            HorizontalAlignment = HorizontalAlignment.Right
         };
-        
-        Button achievements = new(BaseContent.Styles.Button.Large)
-        {
-            Content = new Image { Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Achievements], Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium, },
-            Padding = new Thickness(10)
-        };
+
+        // === Left Panel Buttons ===
+        Button achievements = CreateHudButton(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Achievements]);
         achievements.TouchDown += (_, _) => { PlayerAchievementsWindow.Toggle(Desktop); };
-        leftPanel.Widgets.Add(achievements);
 
-        Button kills = new(BaseContent.Styles.Button.Large)
-        {
-            Content = new Image { Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Skull], Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium, },
-            Padding = new Thickness(10)
-        };
+        Button kills = CreateHudButton(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Skull]);
         kills.TouchDown += (_, _) => { PlayerKillsWindow.Toggle(Desktop, context.DeathRecords); };
-        leftPanel.Widgets.Add(kills);
 
-        Button pawn = new(BaseContent.Styles.Button.Large)
-        {
-            Content = new Image
-            {
-                Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Human], Color.DarkGoldenrod), Width = BaseContent.IconSizes.Medium,
-                Height = BaseContent.IconSizes.Medium,
-            },
-            Padding = new Thickness(10)
-        };
+        Button pawn = CreateHudButton(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Human], Color.DarkGoldenrod);
         pawn.TouchDown += (_, _) => { gui.ViewEntity(context.PlayerPawn); };
-        leftPanel.Widgets.Add(pawn);
 
-        // Button boak = new(BaseContent.Styles.Button.Large)
-        // {
-        //     Content = new Image
-        //     {
-        //         Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Boak], Color.White), Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium,
-        //     },
-        //     Padding = new Thickness(10)
-        // };
-        // boak.TouchDown += (_, _) => { gui.OpenBoak(); };
-        // leftPanel.Widgets.Add(boak);
-
-        Button timeline = new(BaseContent.Styles.Button.Large)
-        {
-            Content = new Image
-            {
-                Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Combat], Color.SkyBlue), Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium,
-            },
-            Padding = new Thickness(10)
-        };
+        Button timeline = CreateHudButton(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Combat]);
         timeline.TouchDown += (_, _) => { ZoneTimelineWindow.Toggle(Desktop); };
+
+        leftPanel.Widgets.Add(achievements);
+        leftPanel.Widgets.Add(kills);
+        leftPanel.Widgets.Add(pawn);
         leftPanel.Widgets.Add(timeline);
 
         if (gui is CampGui)
         {
-            Button nextZone = new(BaseContent.Styles.Button.Large)
+            Button nextZone = new(BaseContent.Styles.Button.LargeGold)
             {
-                VerticalAlignment = VerticalAlignment.Stretch,
-                Content = new Label(BaseContent.Styles.Label.Large)
+                VerticalAlignment = VerticalAlignment.Center,
+                Content = new Label
                 {
+                    Font = BaseContent.Fonts.Default.Medium,
+                    Text = "Begin",
                     VerticalAlignment = VerticalAlignment.Center,
-                    Text = "Begin"
+                    HorizontalAlignment = HorizontalAlignment.Center
                 },
-                Padding = new Thickness(10)
+                Padding = new Thickness(16, 8)
             };
             nextZone.TouchDown += (_, _) => { (new ZoneSelectionWindow(context.World)).ShowModal(gui.Desktop); };
             leftPanel.Widgets.Add(nextZone);
         }
+       
 
-
-        // Blood
-        centerPanel.Widgets.Add(new HorizontalStackPanel
+        // === Center Stats Panel ===
+        var statsContainer = new Panel
         {
-            Widgets =
-            {
-                new Panel
-                {
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Width = BaseContent.IconSizes.Default, Height = BaseContent.IconSizes.Default, Widgets = { _bloodArrow }
-                },
-                new Image
-                {
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Width = BaseContent.IconSizes.Large, Height = BaseContent.IconSizes.Large, Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Blood]
-                },
-                _bloodLabel
-            }
-        });
-        // Mind
-        // centerPanel.Widgets.Add(new VerticalSeparator());
-        // centerPanel.Widgets.Add(_mindWidget);
-
-        // Attack Speed
-        centerPanel.Widgets.Add(new Image
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright],
+            Padding = new Thickness(4),
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        
+        if (gui is ZoneGui)
         {
-            VerticalAlignment = VerticalAlignment.Center,
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.AttackSpeed],
-            Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium
-        });
-        centerPanel.Widgets.Add(_attackSpeedLabel);
+            statsContainer.Margin = new Thickness(180, 0, 0, 0);
+        }
 
-        // Energy
-        centerPanel.Widgets.Add(new HorizontalStackPanel()
+        var statsRow = new HorizontalStackPanel
         {
             Spacing = 0,
+            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
+
+        // Blood stat group
+        var bloodGroup = CreateStatGroup(
+            Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Blood],
+            new Color(180, 40, 40),
+            _bloodArrow,
+            _bloodLabel,
+            _bloodBar
+        );
+
+        // Attack speed group (center highlight)
+        var attackGroup = new Panel
+        {
+            
+            Padding = new Thickness(12, 8),
+            VerticalAlignment = VerticalAlignment.Stretch,
             Widgets =
             {
-                new Image
+                new HorizontalStackPanel
                 {
-                    Width = BaseContent.IconSizes.Large,
-                    Height = BaseContent.IconSizes.Large,
-                    Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Energy]
-                },
-                _energyLabel
+                    Spacing = 8,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Widgets =
+                    {
+                        new Image
+                        {
+                            Width = 36,
+                            Height = 36,
+                            VerticalAlignment = VerticalAlignment.Center,
+                            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.AttackSpeed]
+                        },
+                        _attackSpeedLabel
+                    }
+                }
             }
-        });
+        };
 
-        // Hunger
-        centerPanel.Widgets.Add(_stomachOutline);
+        // Energy stat group
+        var energyGroup = CreateStatGroup(
+            Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Energy],
+            new Color(220, 180, 40),
+            null,
+            _energyLabel,
+            _energyBar
+        );
 
-        // // Temperature
-        // centerPanel.Widgets.Add(new VerticalSeparator());
-        // centerPanel.Widgets.Add(new HorizontalStackPanel {
-        //     Widgets = {
-        //         new Image {
-        //             VerticalAlignment = VerticalAlignment.Center,
-        //             Width = 80, Height = 80, Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Thermometer]
-        //         },
-        //         _temperatureLabel,
-        //         _bodyTempIcon
-        //     }
-        // });
+        // Hunger group
+        var hungerGroup = new Panel
+        {
+            Padding = new Thickness(16, 8),
+            VerticalAlignment = VerticalAlignment.Center,
+            Widgets = { _stomachContainer }
+        };
 
+        // Add dividers between groups
+        statsRow.Widgets.Add(bloodGroup);
+        statsRow.Widgets.Add(CreateDivider());
+        statsRow.Widgets.Add(attackGroup);
+        statsRow.Widgets.Add(CreateDivider());
+        statsRow.Widgets.Add(energyGroup);
+        statsRow.Widgets.Add(CreateDivider());
+        statsRow.Widgets.Add(hungerGroup);
+
+        statsContainer.Widgets.Add(statsRow);
+        centerPanel.Widgets.Add(statsContainer);
+
+        // === Assemble main layout ===
         Widgets.Add(leftPanel);
         Widgets.Add(centerPanel);
-        Widgets.Add(new Panel()
+        Widgets.Add(new Panel
         {
-            Width = 500,
+            Width = 300,
             Widgets = { _programStats }
         });
+    }
+
+    private static Button CreateHudButton(IImage icon, Color? tint = null)
+    {
+        if (tint != null)
+        {
+            icon = new ColoredRegion((TextureRegion)icon, tint.Value);
+        }
+        return new Button(BaseContent.Styles.Button.Dark)
+        {
+            Content = new Image
+            {
+                Background = icon,
+                Width = 32,
+                Height = 32
+            },
+            Padding = new Thickness(6),
+            VerticalAlignment = VerticalAlignment.Center
+        };
+    }
+
+    private static Panel CreateStatGroup(IImage icon, Color iconTint, Image? arrow, Label valueLabel, HorizontalProgressBar bar)
+    {
+        var iconImage = new Image
+        {
+            Width = 36,
+            Height = 36,
+            VerticalAlignment = VerticalAlignment.Center,
+            Background = new ColoredRegion((TextureRegion)icon, iconTint)
+        };
+
+        var valueStack = new VerticalStackPanel
+        {
+            Spacing = 4,
+            VerticalAlignment = VerticalAlignment.Center,
+            Widgets = { valueLabel, bar }
+        };
+
+        var content = new HorizontalStackPanel
+        {
+            Spacing = 8,
+            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
+
+        if (arrow != null)
+        {
+            content.Widgets.Add(arrow);
+        }
+        content.Widgets.Add(iconImage);
+        content.Widgets.Add(valueStack);
+
+        return new Panel
+        {
+            Padding = new Thickness(16, 8),
+            VerticalAlignment = VerticalAlignment.Center,
+            Widgets = { content }
+        };
+    }
+
+    private static Panel CreateDivider()
+    {
+        return new Panel
+        {
+            Width = 1,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            Margin = new Thickness(0, 6),
+            Background = new SolidBrush(StatDivider)
+        };
     }
 
     public void Update()
     {
         Pawn player = Core.Context.PlayerPawn;
         _attackSpeedLabel.Update();
+
+        // Blood
         _bloodArrow.Visible = player.Body.BloodChangeLastFrame < 0;
-        _bloodLabel.Text = $"{Mathf.RoundToInt(player.Body.BloodPercent * 100)}%";
-        _bloodLabel.TextColor = BodyPartColor.GetBloodColor(player.Body.BloodPercent);
-        _energyLabel.Text = player.Body.EnergyPercent.ToString("P0");
-        _energyLabel.TextColor = BodyPartColor.GetStomachColor(player.Body.EnergyPercent);
+        float bloodPercent = player.Body.BloodPercent;
+        _bloodLabel.Text = $"{Mathf.RoundToInt(bloodPercent * 100)}%";
+        _bloodLabel.TextColor = BodyPartColor.GetBloodColor(bloodPercent);
+        _bloodBar.Value = bloodPercent * 100;
+
+        // Energy
+        float energyPercent = player.Body.EnergyPercent;
+        _energyLabel.Text = $"{Mathf.RoundToInt(energyPercent * 100)}%";
+        _energyLabel.TextColor = BodyPartColor.GetStomachColor(energyPercent);
+        _energyBar.Value = energyPercent * 100;
+
+        // Stomach
+        float stomachLevel = player.Body.StomachLevel;
         _stomachGauge.Background = new ColoredRegion(
-            Stylesheet.Current.Atlas["stomach-" + Mathf.RoundToInt(Mathf.Lerp(1, 16, player.Body.StomachLevel))],
-            BodyPartColor.GetStomachColor(player.Body.StomachLevel)
+            Stylesheet.Current.Atlas["stomach-" + Mathf.RoundToInt(Mathf.Lerp(1, 16, stomachLevel))],
+            BodyPartColor.GetStomachColor(stomachLevel)
         );
-        ((ColoredRegion)_stomachOutline.Background).Color = BodyPartColor.GetStomachColor(player.Body.StomachLevel);
+        ((ColoredRegion)_stomachContainer.Background).Color = BodyPartColor.GetStomachColor(stomachLevel);
+
         _programStats.Update();
     }
 }
