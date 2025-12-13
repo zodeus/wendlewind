@@ -1,5 +1,4 @@
-
-using Myra.Graphics2D.Brushes;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer.Weather;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
 
@@ -58,6 +57,7 @@ public class PawnRenderWidget : Panel, IDisposable
     {
         _pawn = pawn;
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold];
+        Padding = new Thickness(5);
         _renderer = new PawnRenderer(pawn, renderSize);
 
         // Get fallback icon if no valid layout
@@ -128,6 +128,14 @@ public class PawnRenderWidget : Panel, IDisposable
     public void MarkDirty()
     {
         _renderer.MarkDirty();
+    }
+    
+    /// <summary>
+    /// Sets the weather effect for this widget, disabling automatic weather cycling.
+    /// </summary>
+    public void SetWeather(WeatherType weatherType)
+    {
+        _renderer.SetWeather(weatherType);
     }
 
     /// <summary>

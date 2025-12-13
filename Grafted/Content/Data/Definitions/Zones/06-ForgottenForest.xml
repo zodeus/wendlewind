@@ -8,6 +8,12 @@
         <BackgroundTexturePath>Biome/ForgottenForest</BackgroundTexturePath>
         <BackgroundTextureTransparency>85</BackgroundTextureTransparency>
         <BiomeColor>60, 120, 80</BiomeColor>
+        <Weathers>
+            <ListItem>FallingLeaves</ListItem>
+            <ListItem>Fireflies</ListItem>
+            <ListItem>Showers</ListItem>
+            <ListItem>Neutral</ListItem>
+        </Weathers>
         <Resources>
             <ListItem>
                 <Item>GlitteringLog</Item>

@@ -14,10 +14,6 @@ public sealed class GameHud : HorizontalStackPanel
     private readonly Image _bloodArrow;
     private readonly HorizontalProgressBar _bloodBar;
     private readonly HorizontalProgressBar _energyBar;
-
-    // Color palette for the HUD
-    private static readonly Color HudBackground = new(18, 18, 22, 230);
-    private static readonly Color HudBorder = new(180, 50, 45);
     private static readonly Color StatDivider = new(40, 38, 35);
 
     public GameHud(BaseGui gui, GameContext context)
@@ -42,8 +38,7 @@ public sealed class GameHud : HorizontalStackPanel
         // Blood arrow indicator
         _bloodArrow = new Image
         {
-            Visible = false,
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.ArrowNegative],
+            Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.ArrowNegative], Color.DarkGray),
             Width = 24,
             Height = 24,
             VerticalAlignment = VerticalAlignment.Center
@@ -326,7 +321,14 @@ public sealed class GameHud : HorizontalStackPanel
         _attackSpeedLabel.Update();
 
         // Blood
-        _bloodArrow.Visible = player.Body.BloodChangeLastFrame < 0;
+        if (player.Body.BloodChangeLastFrame < 0)
+        {
+            _bloodArrow.Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.ArrowNegative], Color.White);
+        }
+        else
+        {
+            _bloodArrow.Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.ArrowNegative], Color.Transparent);
+        }
         float bloodPercent = player.Body.BloodPercent;
         _bloodLabel.Text = $"{Mathf.RoundToInt(bloodPercent * 100)}%";
         _bloodLabel.TextColor = BodyPartColor.GetBloodColor(bloodPercent);

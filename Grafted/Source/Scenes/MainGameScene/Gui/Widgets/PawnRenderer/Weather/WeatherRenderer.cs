@@ -39,11 +39,29 @@ public class WeatherRenderer
             { WeatherType.BloodRain, new BloodRainEffect() },
             { WeatherType.Fireflies, new FirefliesEffect() },
             { WeatherType.FallingLeaves, new FallingLeavesEffect() },
-            { WeatherType.HallowedRain, new HallowedRainEffect() }
+            { WeatherType.HallowedRain, new HallowedRainEffect() },
+            { WeatherType.AcidDrips, new AcidDripsEffect() },
+            { WeatherType.Neutral, new NeutralEffect() }
         };
         
         _currentEffect = _effects[WeatherType.Showers];
         _weatherTimer = WeatherCycleDuration;
+    }
+    
+    /// <summary>
+    /// Sets a fixed weather type, disabling automatic weather cycling.
+    /// </summary>
+    public void SetWeather(WeatherType weatherType)
+    {
+        if (_effects.TryGetValue(weatherType, out var effect))
+        {
+            _currentEffect.Clear();
+            _currentEffect = effect;
+            _currentEffect.SetDimensions(_width, _height);
+            _weatherTimer = float.MaxValue; // Disable cycling
+            _spawnAccumulator = 0f;
+            _hasInitialized = false; // Force re-initialization on next update
+        }
     }
     
     /// <summary>

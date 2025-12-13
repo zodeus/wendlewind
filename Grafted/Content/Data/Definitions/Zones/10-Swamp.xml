@@ -8,6 +8,10 @@
         <BackgroundTexturePath>Biome/SmolderingSwamp</BackgroundTexturePath>
         <BackgroundTextureTransparency>50</BackgroundTextureTransparency>
         <BiomeColor>90, 120, 90</BiomeColor>
+        <Weathers>
+            <ListItem>BloodRain</ListItem>
+            <ListItem>Storm</ListItem>
+        </Weathers>
         <Resources>
             <ListItem>
                 <Item>ShimmeringBark</Item>

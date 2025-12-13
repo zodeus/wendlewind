@@ -17,13 +17,5 @@ public class FindersKeepersHandler : AchievementHandler
             return;
         }
     }
-
-    public override void OnWorldRestart(GameContext context)
-    {
-        if (!IsUnlocked) return;
-
-        var grimoire = EntityGenerator.CreateEntity<Item>(Defs.Items.Grimoire);
-        context.Player.Pawn.Inventory.TryAdd(grimoire);
-    }
 }
 

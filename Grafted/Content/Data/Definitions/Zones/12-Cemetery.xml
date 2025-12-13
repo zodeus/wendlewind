@@ -8,6 +8,10 @@
         <BackgroundTexturePath>Biome/Cemetery</BackgroundTexturePath>
         <BackgroundTextureTransparency>30</BackgroundTextureTransparency>
         <BiomeColor>100, 90, 100</BiomeColor>
+        <Weathers>
+            <ListItem>HallowedRain</ListItem>
+            <ListItem>BloodRain</ListItem>
+        </Weathers>
         <Resources>
             <ListItem>
                 <Item>DeathCapMushroom</Item>

@@ -8,6 +8,10 @@
         <BackgroundTexturePath>Biome/ForgottenForest</BackgroundTexturePath>
         <BackgroundTextureTransparency>70</BackgroundTextureTransparency>
         <BiomeColor>80, 100, 70</BiomeColor>
+        <Weathers>
+            <ListItem>Snow</ListItem>
+            <ListItem>FallingLeaves</ListItem>
+        </Weathers>
         <Resources>
             <ListItem>
                 <Item>RawMeat</Item>

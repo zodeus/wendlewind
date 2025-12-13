@@ -8,7 +8,7 @@ namespace Grafted.Sim.Achievements;
 public class AchievementTracker : IExposable
 {
     private Dictionary<string, AchievementProgress> _progress = new();
-    
+
     public event Action<AchievementDef>? AchievementUnlocked;
 
     public IEnumerable<AchievementProgress> AllProgress => _progress.Values;
@@ -153,14 +153,19 @@ public class AchievementTracker : IExposable
             handler.OnBloodLost(pawn, bloodLost);
         }
     }
-    
+
     public void OnWorldRestart(GameContext context)
     {
         foreach (var handler in Handlers)
         {
             handler.RegisterTrait(context.Player.Pawn);
         }
-        
+
+        foreach (var handler in Handlers)
+        {
+            handler.RegisterTrinket(context.Player.Pawn);
+        }
+
         foreach (var handler in Handlers)
         {
             handler.OnWorldRestart(context);

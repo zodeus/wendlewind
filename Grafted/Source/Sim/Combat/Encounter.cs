@@ -1,6 +1,8 @@
+using Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer.Weather;
+
 namespace Grafted.Sim.Combat;
 
-public class Encounter(Zone zone, EncounterProperties def) : IDisposable
+public class Encounter(Zone zone, EncounterProperties def, WeatherType? weather = null) : IDisposable
 {
     private EncounterState _state = EncounterState.NotStarted;
     public CombatHandler? CombatHandler { get; private set; }
@@ -8,6 +10,7 @@ public class Encounter(Zone zone, EncounterProperties def) : IDisposable
 
     public readonly Zone Zone = zone;
     public readonly EncounterProperties Def = def;
+    public readonly WeatherType? Weather = weather;
     public int Ticks;
 
     public readonly List<Pawn> PlayerPawns = [];

@@ -12,6 +12,8 @@ public enum WeatherType
     BloodRain,
     Fireflies,
     FallingLeaves,
-    HallowedRain
+    HallowedRain,
+    AcidDrips,
+    Neutral
 }
 

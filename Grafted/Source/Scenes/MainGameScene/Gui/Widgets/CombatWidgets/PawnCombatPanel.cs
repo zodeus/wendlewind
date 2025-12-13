@@ -1,5 +1,6 @@
 ﻿using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer.Weather;
 using Image = Myra.Graphics2D.UI.Image;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
@@ -80,19 +81,17 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
             Width = size,
             Height = size
         };
+
         if (Pawn.PawnType == PawnType.Player)
         {
             _bodyWidget.HorizontalAlignment = HorizontalAlignment.Right;
         }
         
-        // _bodyWidget.Clicked += (_, _) =>
-        // {
-        //     if (_gui.MouseAttachment == null)
-        //     {
-        //         _gui.ViewEntity(Pawn);
-        //     }
-        // };
-
+        // Set weather from encounter if available
+        if (_encounter.Weather.HasValue)
+        {
+            _bodyWidget.SetWeather(_encounter.Weather.Value);
+        }
         return _bodyWidget;
     }
 

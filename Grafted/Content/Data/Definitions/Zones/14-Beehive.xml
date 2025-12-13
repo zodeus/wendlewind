@@ -8,6 +8,10 @@
         <BackgroundTexturePath>Biome/Beehive</BackgroundTexturePath>
         <BackgroundTextureTransparency>30</BackgroundTextureTransparency>
         <BiomeColor>200, 170, 80</BiomeColor>
+        <Weathers>
+            <ListItem>Fireflies</ListItem>
+            <ListItem>FallingLeaves</ListItem>
+        </Weathers>
         <Resources>
             <ListItem>
                 <Item>DreamBerry</Item>

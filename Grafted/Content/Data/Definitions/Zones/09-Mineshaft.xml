@@ -8,6 +8,9 @@
         <BackgroundTexturePath>Biome/Mineshaft</BackgroundTexturePath>
         <BackgroundTextureTransparency>30</BackgroundTextureTransparency>
         <BiomeColor>110, 100, 90</BiomeColor>
+        <Weathers>
+            <ListItem>SmokeEmbers</ListItem>
+        </Weathers>
         <Resources>
             <ListItem>
                 <Item>GoldCapMushroom</Item>

@@ -71,6 +71,7 @@ public abstract class BaseGui : IDisposable
         // backbuffer discard when targets switch. This call is a no-op in that case
         // since renderers are already clean, but serves as safety for other GUI subclasses.
         PawnRenderer.PreRenderAll(deltaTime);
+        WeatherPreviewWidget.PreRenderAll(deltaTime);
         
         Desktop.Render();
         spriteBatch.Begin(

@@ -8,6 +8,10 @@
         <BackgroundTexturePath>Biome/AbandonedStables</BackgroundTexturePath>
         <BackgroundTextureTransparency>30</BackgroundTextureTransparency>
         <BiomeColor>140, 120, 90</BiomeColor>
+        <Weathers>
+            <ListItem>FallingLeaves</ListItem>
+            <ListItem>Showers</ListItem>
+        </Weathers>
         <Resources>
             <ListItem>
                 <Item>GlitteringLog</Item>

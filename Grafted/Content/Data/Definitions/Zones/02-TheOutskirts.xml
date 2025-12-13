@@ -7,6 +7,10 @@
         <Stage>2</Stage>
         <BackgroundTexturePath>Biome/TheOutskirts</BackgroundTexturePath>
         <BiomeColor>160, 140, 100</BiomeColor>
+        <Weathers>
+            <ListItem>FallingLeaves</ListItem>
+            <ListItem>Neutral</ListItem>
+        </Weathers>
         <Resources>
             <ListItem>
                 <Item>GlitteringLog</Item>

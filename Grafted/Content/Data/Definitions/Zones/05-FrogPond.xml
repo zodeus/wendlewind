@@ -8,6 +8,10 @@
         <BackgroundTexturePath>Biome/FrogPond</BackgroundTexturePath>
         <BackgroundTextureTransparency>40</BackgroundTextureTransparency>
         <BiomeColor>80, 140, 120</BiomeColor>
+        <Weathers>
+            <ListItem>Showers</ListItem>
+            <ListItem>Storm</ListItem>
+        </Weathers>
         <Resources>
             <ListItem>
                 <Item>GlitteringLog</Item>

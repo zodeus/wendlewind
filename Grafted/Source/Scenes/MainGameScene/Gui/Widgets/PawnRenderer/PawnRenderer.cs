@@ -179,6 +179,14 @@ public class PawnRenderer : IDisposable
     {
         _bodyDirty = true;
     }
+    
+    /// <summary>
+    /// Sets the weather effect for this renderer, disabling automatic weather cycling.
+    /// </summary>
+    public void SetWeather(WeatherType weatherType)
+    {
+        _weatherRenderer.SetWeather(weatherType);
+    }
 
     /// <summary>
     /// Renders the pawn using a layered caching approach:
