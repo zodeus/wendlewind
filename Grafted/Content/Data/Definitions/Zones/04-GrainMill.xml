@@ -25,6 +25,11 @@
                 <ChanceToHarvest>1</ChanceToHarvest>
             </ListItem>
             <ListItem>
+                <Item>RawGrain</Item>
+                <Amount>2~5</Amount>
+                <ChanceToHarvest>.4</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
                 <Item>GlitteringLog</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.25</ChanceToHarvest>

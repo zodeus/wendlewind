@@ -14,7 +14,10 @@ public sealed class GameHud : HorizontalStackPanel
     private readonly Image _bloodArrow;
     private readonly HorizontalProgressBar _bloodBar;
     private readonly HorizontalProgressBar _energyBar;
+    private readonly CheckButton? _pausedCheckBox;
+    private readonly Label? _pausedLabel;
     private static readonly Color StatDivider = new(40, 38, 35);
+    private static readonly Color AutoStartColor = new(200, 80, 50);
 
     public GameHud(BaseGui gui, GameContext context)
     {
@@ -147,7 +150,41 @@ public sealed class GameHud : HorizontalStackPanel
             nextZone.TouchDown += (_, _) => { (new ZoneSelectionWindow(context.World)).ShowModal(gui.Desktop); };
             leftPanel.Widgets.Add(nextZone);
         }
-       
+
+        // Auto start toggle
+        _pausedCheckBox = new CheckButton
+        {
+            IsChecked = !context.IsPaused,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        _pausedCheckBox.Click += (_, _) =>
+        {
+            context.TogglePause();
+        };
+        
+        _pausedLabel = new Label
+        {
+            Font = BaseContent.Fonts.Default.Small,
+            Text = "Paused",
+            TextColor = AutoStartColor,
+            VerticalAlignment = VerticalAlignment.Center,
+            Visible = context.IsPaused
+        };
+        _pausedLabel.TouchDown += (_, _) =>
+        {
+            _pausedCheckBox.IsChecked = !_pausedCheckBox.IsChecked;
+            context.TogglePause();
+        };
+        
+        var pausedPanel = new HorizontalStackPanel
+        {
+            Spacing = 6,
+            VerticalAlignment = VerticalAlignment.Top,
+            Width = 100,
+            Widgets = { _pausedCheckBox, _pausedLabel }
+            
+        };
+        leftPanel.Widgets.Add(pausedPanel);
 
         // === Center Stats Panel ===
         var statsContainer = new Panel
@@ -160,7 +197,7 @@ public sealed class GameHud : HorizontalStackPanel
         
         if (gui is ZoneGui)
         {
-            statsContainer.Margin = new Thickness(180, 0, 0, 0);
+            statsContainer.Margin = new Thickness(80, 0, 0, 0);
         }
 
         var statsRow = new HorizontalStackPanel
@@ -319,6 +356,16 @@ public sealed class GameHud : HorizontalStackPanel
     {
         Pawn player = Core.Context.PlayerPawn;
         _attackSpeedLabel.Update();
+        
+        // Sync paused state
+        if (_pausedCheckBox != null)
+        {
+            _pausedCheckBox.IsChecked = !Core.Context.IsPaused;
+        }
+        if (_pausedLabel != null)
+        {
+            _pausedLabel.Visible = Core.Context.IsPaused;
+        }
 
         // Blood
         if (player.Body.BloodChangeLastFrame < 0)

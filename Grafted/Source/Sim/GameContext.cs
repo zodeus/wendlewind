@@ -85,6 +85,7 @@ public class GameContext : IExposable
 
     public void StartOver()
     {
+        Ticks = 0;
         CurrentZone = null;
         DeathRecords.Reset();
         World.Reset();

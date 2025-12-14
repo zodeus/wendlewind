@@ -1,59 +1,110 @@
 ﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
 
-internal sealed class BoakItemsTrinketsPanel : Grid
+internal sealed class BoakItemTrinketCard : Panel
+{
+    private const int IconSize = 96;
+
+    public BoakItemTrinketCard(ItemDef def)
+    {
+        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold];
+        Padding = new Thickness(12);
+        Width = 280;
+
+        var content = new VerticalStackPanel
+        {
+            Spacing = 8,
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
+
+        // Icon
+        var iconPanel = new Panel
+        {
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
+            Padding = new Thickness(6),
+            Widgets =
+            {
+                new Image
+                {
+                    Width = IconSize,
+                    Height = IconSize,
+                    Background = new TextureRegion(def.Icon)
+                }
+            }
+        };
+        content.Widgets.Add(iconPanel);
+
+        // Label
+        content.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
+        {
+            Text = def.Label,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            TextColor = BaseContent.Colors.Text.Golden
+        });
+
+        // Type
+        if (def.TrinketProperties?.Type != null)
+        {
+            content.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = $"{def.TrinketProperties.Type}",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                TextColor = new Color(180, 180, 180)
+            });
+        }
+
+        // Description
+        if (!string.IsNullOrEmpty(def.Description))
+        {
+            content.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = def.Description,
+                Wrap = true,
+                MaxWidth = 250,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                TextColor = new Color(200, 200, 200),
+                Margin = new Thickness(0, 4, 0, 0)
+            });
+        }
+
+        Widgets.Add(content);
+    }
+}
+
+internal sealed class BoakItemsTrinketsPanel : ScrollViewer
 {
     public BoakItemsTrinketsPanel(IReadOnlyList<ItemDef> defs)
     {
-        Padding = new Thickness(16);
-        RowSpacing = 20;
-        ColumnSpacing = 50;
+        const int cardsPerRow = 6;
+        var grid = new Grid
+        {
+            ColumnSpacing = 16,
+            RowSpacing = 16,
+            Margin = new Thickness(16)
+        };
 
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Label" }, 0, 0);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Type" }, 0, 1);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Description" }, 0, 2);
+        for (var i = 0; i < cardsPerRow; i++)
+        {
+            grid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        }
 
-        ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-        ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-
-        var gridRow = 1;
+        var row = 0;
+        var col = 0;
         foreach (var def in defs)
         {
-            AddCell(new HorizontalStackPanel
-            {
-                Spacing = 10,
-                Widgets =
-                {
-                    new Panel
-                    {
-                        VerticalAlignment = VerticalAlignment.Top,
-                        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
-                        Padding = new Thickness(4),
-                        Widgets = { new Image { Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium, Background = new TextureRegion(def.Icon) } }
-                    },
-                    new Label(BaseContent.Styles.Label.Medium) { VerticalAlignment = VerticalAlignment.Center, Text = $"{def.Label}" }
-                }
-            }, gridRow, 0);
+            var card = new BoakItemTrinketCard(def);
+            Grid.SetRow(card, row);
+            Grid.SetColumn(card, col);
+            grid.Widgets.Add(card);
 
-            AddCell(new Label(BaseContent.Styles.Label.Normal)
+            col++;
+            if (col >= cardsPerRow)
             {
-                VerticalAlignment = VerticalAlignment.Center,
-                Text = $"{def.TrinketProperties?.Type}"
-            }, gridRow, 1);
-            
-            AddCell(new Label(BaseContent.Styles.Label.Normal)
-            {
-                VerticalAlignment = VerticalAlignment.Center,
-                Text = $"{def.Description}"
-            }, gridRow, 2);
-
-            gridRow++;
+                col = 0;
+                row++;
+            }
         }
-    }
 
-    private void AddCell(Widget widget, int row, int column)
-    {
-        SetRow(widget, row);
-        SetColumn(widget, column);
-        Widgets.Add(widget);
+        Content = grid;
     }
 }

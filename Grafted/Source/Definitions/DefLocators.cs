@@ -106,7 +106,9 @@ public static partial class Defs {
         public static ItemDef WarAxe = null!;
 
         public static ItemDef RawCorn = null!;
+        public static ItemDef RawGrain = null!;
         public static ItemDef RawMeat = null!;
+        public static ItemDef RawFish = null!;
         public static ItemDef CookedCorn = null!;
         public static ItemDef CookedMeat = null!;
         public static ItemDef DriedMeat = null!;

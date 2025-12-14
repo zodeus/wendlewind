@@ -23,4 +23,9 @@
         <Label>Golden Bean</Label>
         <TexturePath>Entities/Item/Resource/Metal/GoldenBean</TexturePath>
     </ItemDef>
+    <ItemDef ParentName="MetalResource">
+        <Moniker>IntricateCog</Moniker>
+        <Label>Intricate Cog</Label>
+        <TexturePath>Entities/Item/Resource/Metal/IntricateCog</TexturePath>
+    </ItemDef>
 </Definitions>

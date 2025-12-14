@@ -1,79 +1,185 @@
-﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
+﻿using SolidBrush = Myra.Graphics2D.Brushes.SolidBrush;
 
-internal sealed class BoakItemsArmorPanel : Grid
+namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
+
+internal sealed class BoakItemsArmorPanel : ScrollViewer
 {
+    private static readonly Color HeaderBgColor = new(35, 32, 42);
+    private static readonly Color RowEvenColor = new(28, 26, 34);
+    private static readonly Color RowOddColor = new(38, 35, 46);
+    private static readonly Color AccentColor = new(232, 170, 0);
+    private static readonly Color MutedTextColor = new(160, 160, 170);
+    private static readonly Color BorderColor = new(60, 55, 70);
+
     public BoakItemsArmorPanel(IReadOnlyList<ItemDef> defs)
     {
         defs = defs.OrderBy(d => d.BaseStats.FirstOrNull(s => s?.Def == Defs.Stats.PhysicalResistance)?.Value).ToList();
-        Padding = new Thickness(16);
-        RowSpacing = 20;
-        ColumnSpacing = 50;
 
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Label" }, 0, 0);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Physical Res" }, 0, 1);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Durability" }, 0, 2);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Slot" }, 0, 3);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Modifiers" }, 0, 4);
+        var mainContainer = new VerticalStackPanel { Spacing = 0 };
 
-        ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-        ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-        ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-        ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-        ColumnsProportions.Add(new Proportion(ProportionType.Fill));
+        // Header Row
+        var headerGrid = CreateRow(isHeader: true, rowIndex: 0);
+        AddHeaderCell(headerGrid, "Item", 0);
+        AddHeaderCell(headerGrid, "Phys. Res", 1);
+        AddHeaderCell(headerGrid, "Durability", 2);
+        AddHeaderCell(headerGrid, "Slot", 3);
+        AddHeaderCell(headerGrid, "Modifiers", 4);
+        mainContainer.Widgets.Add(headerGrid);
 
-        var gridRow = 1;
+        // Divider
+        mainContainer.Widgets.Add(CreateDivider());
+
+        // Data Rows
+        var rowIndex = 0;
         foreach (var def in defs)
         {
-            AddCell(new HorizontalStackPanel
-            {
-                Spacing = 10,
-                Widgets =
-                {
-                    new Panel
-                    {
-                        Width = 64,
-                        VerticalAlignment = VerticalAlignment.Top,
-                        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
-                        Padding = new Thickness(4),
-                        Widgets = { new Image { Width = 64, Height = 64, Background = new TextureRegion(def.Icon) } }
-                    },
-                    new Label(BaseContent.Styles.Label.Medium) { VerticalAlignment = VerticalAlignment.Center, Text = $"{def.Label}" }
-                }
-            }, gridRow, 0);
+            var rowGrid = CreateRow(isHeader: false, rowIndex);
 
-            AddCell(new Label(BaseContent.Styles.Label.Medium)
+            // Item column with icon and name
+            var itemCell = new HorizontalStackPanel
             {
+                Spacing = 12,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            var iconContainer = new Panel
+            {
+                Width = 56,
+                Height = 56,
+                Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
+                Padding = new Thickness(4)
+            };
+            iconContainer.Widgets.Add(new Image
+            {
+                Width = 48,
+                Height = 48,
+                Background = new TextureRegion(def.Icon),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            });
+            itemCell.Widgets.Add(iconContainer);
+
+            itemCell.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+            {
+                Text = def.Label,
                 VerticalAlignment = VerticalAlignment.Center,
-                Text = $"{def.BaseStats.FirstOrNull(s => s?.Def == Defs.Stats.PhysicalResistance)?.Value}"
-            }, gridRow, 1);
+                TextColor = AccentColor
+            });
+            AddDataCell(rowGrid, itemCell, 0);
 
-            AddCell(new Label(BaseContent.Styles.Label.Medium)
+            // Physical Resistance
+            var physRes = def.BaseStats.FirstOrNull(s => s?.Def == Defs.Stats.PhysicalResistance)?.Value;
+            AddDataCell(rowGrid, CreateValueLabel(physRes?.ToString() ?? "—", GetResistanceColor(physRes)), 1);
+
+            // Durability
+            var durability = def.BaseStats.FirstOrNull(s => s?.Def == Defs.Stats.MaxDurability)?.Value;
+            AddDataCell(rowGrid, CreateValueLabel(durability?.ToString() ?? "—"), 2);
+
+            // Slot
+            var slotText = def.EquipmentProperties?.SlotUsedToEquip.ToString() ?? "—";
+            AddDataCell(rowGrid, CreateValueLabel(slotText, MutedTextColor), 3);
+
+            // Modifiers
+            var modifiers = def.WeaponProperties?.BodyPartModifiers.Select(f => f.Def.Label) ?? [];
+            var modText = string.Join(", ", modifiers);
+            if (string.IsNullOrEmpty(modText)) modText = "—";
+            AddDataCell(rowGrid, CreateValueLabel(modText, MutedTextColor), 4);
+
+            mainContainer.Widgets.Add(rowGrid);
+
+            // Subtle divider between rows
+            if (rowIndex < defs.Count - 1)
             {
-                VerticalAlignment = VerticalAlignment.Center,
-                Text = $"{def.BaseStats.FirstOrNull(s => s?.Def == Defs.Stats.MaxDurability)?.Value}"
-            }, gridRow, 2);
+                mainContainer.Widgets.Add(CreateRowDivider());
+            }
 
-            AddCell(new Label(BaseContent.Styles.Label.Medium)
-            {
-                VerticalAlignment = VerticalAlignment.Center,
-                Text = $"{def.EquipmentProperties?.SlotUsedToEquip}"
-            }, gridRow, 3);
-
-            AddCell(new Label(BaseContent.Styles.Label.Medium)
-            {
-                VerticalAlignment = VerticalAlignment.Center,
-                Text = string.Join(", ", def.WeaponProperties?.BodyPartModifiers.Select(f => f.Def.Label) ?? [])
-            }, gridRow, 4);
-
-
-            gridRow++;
+            rowIndex++;
         }
+
+        Content = mainContainer;
     }
 
-    private void AddCell(Widget widget, int row, int column)
+    private static Grid CreateRow(bool isHeader, int rowIndex)
     {
-        SetRow(widget, row);
-        SetColumn(widget, column);
-        Widgets.Add(widget);
+        var grid = new Grid
+        {
+            Padding = new Thickness(16, isHeader ? 14 : 10, 16, isHeader ? 14 : 10)
+        };
+
+        if (isHeader)
+        {
+            grid.Background = new SolidBrush(HeaderBgColor);
+        }
+        else
+        {
+            grid.Background = new SolidBrush(rowIndex % 2 == 0 ? RowEvenColor : RowOddColor);
+        }
+
+        grid.ColumnsProportions.Add(new Proportion(ProportionType.Pixels, 350)); // Item
+        grid.ColumnsProportions.Add(new Proportion(ProportionType.Pixels, 120)); // Phys Res
+        grid.ColumnsProportions.Add(new Proportion(ProportionType.Pixels, 100)); // Durability
+        grid.ColumnsProportions.Add(new Proportion(ProportionType.Pixels, 140)); // Slot
+        grid.ColumnsProportions.Add(new Proportion(ProportionType.Fill));        // Modifiers
+
+        return grid;
+    }
+
+    private static void AddHeaderCell(Grid grid, string text, int column)
+    {
+        var label = new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = text.ToUpperInvariant(),
+            TextColor = AccentColor,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        Grid.SetColumn(label, column);
+        grid.Widgets.Add(label);
+    }
+
+    private static void AddDataCell(Grid grid, Widget widget, int column)
+    {
+        Grid.SetColumn(widget, column);
+        grid.Widgets.Add(widget);
+    }
+
+    private static Label CreateValueLabel(string text, Color? color = null)
+    {
+        return new Label(BaseContent.Styles.Label.Normal)
+        {
+            Text = text,
+            TextColor = color ?? Color.White,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+    }
+
+    private static Panel CreateDivider()
+    {
+        return new Panel
+        {
+            Height = 2,
+            Background = new SolidBrush(AccentColor),
+            Margin = new Thickness(0)
+        };
+    }
+
+    private static Panel CreateRowDivider()
+    {
+        return new Panel
+        {
+            Height = 1,
+            Background = new SolidBrush(BorderColor),
+            Margin = new Thickness(16, 0, 16, 0)
+        };
+    }
+
+    private static Color GetResistanceColor(float? value)
+    {
+        if (value == null) return MutedTextColor;
+        return value switch
+        {
+            >= 50 => new Color(100, 220, 100),  // High - green
+            >= 25 => new Color(220, 200, 100),  // Medium - yellow
+            _ => new Color(220, 140, 100)        // Low - orange
+        };
     }
 }

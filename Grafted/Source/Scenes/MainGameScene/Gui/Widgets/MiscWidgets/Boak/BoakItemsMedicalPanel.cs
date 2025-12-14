@@ -1,70 +1,132 @@
 ﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
 
-internal sealed class BoakItemsMedicalPanel : Grid
+internal sealed class BoakItemMedicalCard : Panel
+{
+    private const int IconSize = 96;
+
+    public BoakItemMedicalCard(ItemDef def)
+    {
+        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold];
+        Padding = new Thickness(12);
+        Width = 280;
+
+        var content = new VerticalStackPanel
+        {
+            Spacing = 8,
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
+
+        // Icon
+        var iconPanel = new Panel
+        {
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
+            Padding = new Thickness(6),
+            Widgets =
+            {
+                new Image
+                {
+                    Width = IconSize,
+                    Height = IconSize,
+                    Background = new TextureRegion(def.Icon)
+                }
+            }
+        };
+        content.Widgets.Add(iconPanel);
+
+        // Label
+        content.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
+        {
+            Text = def.Label,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            TextColor = BaseContent.Colors.Text.Golden
+        });
+
+        // Stats row
+        var statsPanel = new HorizontalStackPanel
+        {
+            Spacing = 16,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Margin = new Thickness(0, 4, 0, 0)
+        };
+
+        var healingValue = def.BaseStats.FirstOrNull(s => s?.Def == Defs.Stats.HealingValue)?.Value;
+        if (healingValue != null)
+        {
+            statsPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = $"Heal: {healingValue}",
+                TextColor = new Color(100, 255, 100)
+            });
+        }
+
+        var duration = def.MedicinalProperties?.DurationInTicks;
+        if (duration != null)
+        {
+            statsPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = $"Dur: {duration}",
+                TextColor = new Color(200, 200, 100)
+            });
+        }
+
+        if (statsPanel.Widgets.Count > 0)
+        {
+            content.Widgets.Add(statsPanel);
+        }
+
+        // Description
+        if (!string.IsNullOrEmpty(def.Description))
+        {
+            content.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = def.Description,
+                Wrap = true,
+                MaxWidth = 250,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                TextColor = new Color(200, 200, 200),
+                Margin = new Thickness(0, 4, 0, 0)
+            });
+        }
+
+        Widgets.Add(content);
+    }
+}
+
+internal sealed class BoakItemsMedicalPanel : ScrollViewer
 {
     public BoakItemsMedicalPanel(IReadOnlyList<ItemDef> defs)
     {
-        //defs = defs.OrderBy(d => d.BaseStats.FirstOrNull(s => s?.Def == Defs.Stats.PhysicalResistance)?.Value).ToList();
-        Padding = new Thickness(16);
-        RowSpacing = 20;
-        ColumnSpacing = 50;
+        const int cardsPerRow = 6;
+        var grid = new Grid
+        {
+            ColumnSpacing = 16,
+            RowSpacing = 16,
+            Margin = new Thickness(16)
+        };
 
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Label" }, 0, 0);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Healing Value" }, 0, 1);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Duration" }, 0, 2);
-        AddCell(new Label(BaseContent.Styles.Label.Medium) { Text = "Description" }, 0, 3);
+        for (var i = 0; i < cardsPerRow; i++)
+        {
+            grid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        }
 
-        ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-        ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-        ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-        ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-
-        var gridRow = 1;
+        var row = 0;
+        var col = 0;
         foreach (var def in defs)
         {
-            AddCell(new HorizontalStackPanel
-            {
-                Spacing = 10,
-                Widgets =
-                {
-                    new Panel
-                    {
-                        Width = 64,
-                        VerticalAlignment = VerticalAlignment.Top,
-                        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
-                        Padding = new Thickness(4),
-                        Widgets = { new Image { Width = 64, Height = 64, Background = new TextureRegion(def.Icon) } }
-                    },
-                    new Label(BaseContent.Styles.Label.Medium) { VerticalAlignment = VerticalAlignment.Center, Text = $"{def.Label}" }
-                }
-            }, gridRow, 0);
+            var card = new BoakItemMedicalCard(def);
+            Grid.SetRow(card, row);
+            Grid.SetColumn(card, col);
+            grid.Widgets.Add(card);
 
-            AddCell(new Label(BaseContent.Styles.Label.Medium)
+            col++;
+            if (col >= cardsPerRow)
             {
-                VerticalAlignment = VerticalAlignment.Center,
-                Text = $"{def.BaseStats.FirstOrNull(s => s?.Def == Defs.Stats.HealingValue)?.Value}"
-            }, gridRow, 1);
-
-            AddCell(new Label(BaseContent.Styles.Label.Medium)
-            {
-                VerticalAlignment = VerticalAlignment.Center,
-                Text = $"{def.MedicinalProperties?.DurationInTicks}"
-            }, gridRow, 2);
-
-            AddCell(new Label(BaseContent.Styles.Label.Normal)
-            {
-                VerticalAlignment = VerticalAlignment.Center,
-                Text = $"{def.Description}"
-            }, gridRow, 3);
-
-            gridRow++;
+                col = 0;
+                row++;
+            }
         }
-    }
 
-    private void AddCell(Widget widget, int row, int column)
-    {
-        SetRow(widget, row);
-        SetColumn(widget, column);
-        Widgets.Add(widget);
+        Content = grid;
     }
 }

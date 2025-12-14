@@ -67,10 +67,6 @@
         <CollectionLimit>1</CollectionLimit>
         <Items>
             <ListItem>
-                <ItemDef>GoldenGoose</ItemDef>
-                <Weight>600000</Weight>
-            </ListItem>
-            <ListItem>
                 <ItemDef>CookingPot</ItemDef>
                 <Weight>1000000</Weight>
             </ListItem>
@@ -83,6 +79,10 @@
                 <Weight>750000</Weight>
             </ListItem>
             <ListItem>
+                <ItemDef>GoldenGoose</ItemDef>
+                <Weight>600000</Weight>
+            </ListItem>
+            <ListItem>
                 <ItemDef>TinkersToolbox</ItemDef>
                 <Weight>500000</Weight>
             </ListItem>
@@ -92,15 +92,15 @@
             </ListItem>
             <ListItem>
                 <ItemDef>SteroidInjector</ItemDef>
-                <Weight>400000</Weight>
+                <Weight>200000</Weight>
             </ListItem> 
             <ListItem>
                 <ItemDef>BlessedIronCollar</ItemDef>
-                <Weight>400000</Weight>
+                <Weight>200000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>Monocle</ItemDef>
-                <Weight>400000</Weight>
+                <Weight>200000</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>
@@ -112,14 +112,7 @@
         <TexturePath>Chests/TrinketChest3</TexturePath>
         <CollectionLimit>1</CollectionLimit>
         <Items>
-            <ListItem>
-                <ItemDef>GoldenGoose</ItemDef>
-                <Weight>100000</Weight>
-            </ListItem>
-            <!-- <ListItem>
-                <ItemDef>SurgicalSaw</ItemDef>
-                <Weight>100000</Weight>
-            </ListItem>
+            <!-- 
             <ListItem>
                 <ItemDef>Forge</ItemDef>
                 <Weight>100000</Weight>

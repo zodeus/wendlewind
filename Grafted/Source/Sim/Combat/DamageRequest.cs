@@ -48,7 +48,7 @@ public class DamageRequest
         //Defs.Stats.CriticalStrikeChance
         if (pawn.Inventory.Contains(Defs.Items.Monocle) && Core.Random.Chance(.2f))
         {
-            var range = new RangeFloat(1.4f, 2.5f);
+            var range = new RangeFloat(1.2f, 2f);
             var critMultiplier = range.RandomValue;
             return (Mathf.RoundToInt(rawDamage * critMultiplier), true);
         }
