@@ -57,6 +57,14 @@
         <HandlerClass>NecrosisHandler</HandlerClass>
         <Color>99, 105, 47</Color>
     </BodyPartModifierDef>-->
+    <BodyPartModifierDef>
+        <Moniker>Poison</Moniker>
+        <Label>Poison</Label>
+        <Type>Debuff</Type>
+        <Description>This is a poison that is eating at the flesh.</Description>
+        <HandlerClass>PoisonHandler</HandlerClass>
+        <Color>188, 224, 7</Color>
+    </BodyPartModifierDef>
 
     <!-- BUFFS -->
     <BodyPartModifierDef>

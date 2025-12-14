@@ -64,5 +64,43 @@
             </RequiredTrinkets>
         </CraftingProperties>
     </ItemDef>
+    
+    <ItemDef ParentName="AmmoBase">
+        <Moniker>PoisonDart</Moniker>
+        <Label>Poison Dart</Label>
+        <Description>A dart with a poisony substance.</Description>
+        <TexturePath>Entities/Item/Resource/Ammo/PoisonDart</TexturePath>
+        <AmmoProperties>
+            <DamageType>Poison</DamageType>
+            <DamageRange>700~1000</DamageRange>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Poison</Def>
+                    <DurationInTicks>1800~7200</DurationInTicks>
+                    <Chance>1</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </AmmoProperties>
+        <CraftingProperties>
+            <AmountProduced>3</AmountProduced>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>BoneDart</Item>
+                    <Count>3</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>VenomVial</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+            <RequiredTrinkets>
+                <ListItem>TinkersToolbox</ListItem>
+            </RequiredTrinkets>
+        </CraftingProperties>
+    </ItemDef>
 
 </Definitions>
