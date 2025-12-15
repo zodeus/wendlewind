@@ -17,14 +17,6 @@ public struct RangeFloat : IEquatable<RangeFloat> {
 
     public float RandomValue => Core.Random.NextFloat(Min, Max);
 
-    /*
-    public float TrueMin => Mathf.Min(min, max);
-
-    public float TrueMax => Mathf.Max(min, max);
-
-    public float Span => TrueMax - TrueMin;
-    */
-
     public RangeFloat(float min, float max) {
         Min = min;
         Max = max;
@@ -33,10 +25,6 @@ public struct RangeFloat : IEquatable<RangeFloat> {
     public float ClampToRange(float value) {
         return Mathf.Clamp(value, Min, Max);
     }
-
-    /*public float RandomInRangeSeeded(int seed) {
-        return Rand.RangeSeeded(min, max, seed);
-    }*/
 
     public float LerpThroughRange(float lerpPct) {
         return Mathf.Lerp(Min, Max, lerpPct);
@@ -49,14 +37,6 @@ public struct RangeFloat : IEquatable<RangeFloat> {
     public bool Includes(float f) {
         if (f >= Min) {
             return f <= Max;
-        }
-
-        return false;
-    }
-
-    public bool IncludesEpsilon(float f) {
-        if (f >= Min - 1E-05f) {
-            return f <= Max + 1E-05f;
         }
 
         return false;
@@ -105,12 +85,13 @@ public struct RangeFloat : IEquatable<RangeFloat> {
         return Min + "~" + Max;
     }
 
-    // public override int GetHashCode()
-    // {
-    // 	return Gen.HashCombineStruct(min.GetHashCode(), max);
-    // }
+    public override int GetHashCode()
+    {
+        return Hash.HashCombineInt(Min.GetHashCode(), Max.GetHashCode());
+    }
 
-    public override bool Equals(object? obj) {
+    public override bool Equals(object? obj)
+    {
         return obj is RangeFloat rangeFloat && Equals(rangeFloat);
     }
 
@@ -120,11 +101,5 @@ public struct RangeFloat : IEquatable<RangeFloat> {
         }
 
         return false;
-    }
-
-    public override int GetHashCode() {
-        unchecked {
-            return (Min.GetHashCode() * 397) ^ Max.GetHashCode();
-        }
     }
 }

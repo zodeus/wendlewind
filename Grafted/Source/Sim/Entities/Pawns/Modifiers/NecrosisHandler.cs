@@ -3,7 +3,7 @@
 [UsedImplicitly]
 public class NecrosisHandler : BodyPartModifier
 {
-    private const double DamageFactorPerTick = .001f;
+    private static RangeDouble DamageFactorPerTick = new (0.001, 0.002);
     private const int TotalTicksToSpread = 6000;
 
     public static readonly List<SubstanceType> AllowedSubstances = [
@@ -15,7 +15,7 @@ public class NecrosisHandler : BodyPartModifier
     public override void Tick()
     {
         _ticksToSpread = Math.Clamp(_ticksToSpread--, 0, TotalTicksToSpread);
-        BodyPart.HitPoints -= BodyPart.HitPoints * DamageFactorPerTick;
+        BodyPart.HitPoints -= BodyPart.HitPoints * DamageFactorPerTick.RandomValue;
         if (BodyPart.IsDestroyed && _ticksToSpread < 1)
         {
             _ticksToSpread = TotalTicksToSpread;

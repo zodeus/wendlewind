@@ -24,7 +24,7 @@
             <ListItem>BuiltIn</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <MaxHitPoints>1600</MaxHitPoints>
+            <MaxHitPoints>2000</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="HorseBodyPartBase">
@@ -42,7 +42,7 @@
             <ListItem>TorsoSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>1200</MaxHitPoints>
+            <MaxHitPoints>1500</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="HorseBodyPartBase">
@@ -69,7 +69,7 @@
             <ListItem>TailSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>4000</MaxHitPoints>
+            <MaxHitPoints>5000</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="HorseBodyPartBase">
@@ -88,7 +88,7 @@
             <ListItem>HoofSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>1000</MaxHitPoints>
+            <MaxHitPoints>1500</MaxHitPoints>
             <AttackSpeedModifier>.15</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>
@@ -111,7 +111,7 @@
         </EquipmentSlots>
         <BaseStats>
             <AttackSpeedModifier>.05</AttackSpeedModifier>
-            <MaxHitPoints>800</MaxHitPoints>
+            <MaxHitPoints>1200</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="HorseBodyPartBase">
@@ -129,7 +129,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.2</AttackSpeedModifier>
-            <MaxHitPoints>300</MaxHitPoints>
+            <MaxHitPoints>800</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
 </Definitions>

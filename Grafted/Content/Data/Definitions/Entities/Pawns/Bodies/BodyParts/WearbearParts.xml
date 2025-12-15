@@ -48,7 +48,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.15</AttackSpeedModifier>
-            <MaxHitPoints>5000</MaxHitPoints>
+            <MaxHitPoints>6000</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="WearbearBodyPartBase">
