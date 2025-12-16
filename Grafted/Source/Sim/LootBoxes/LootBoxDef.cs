@@ -30,6 +30,7 @@ public enum LootBoxCollectionType
 
 public class LootBoxTrapProperties
 {
+    public string? TrapLabel;
 }
 
 public class LootBoxItem

@@ -21,7 +21,7 @@ internal class BookOfAllKnowledgeWindow : Window
         tabPanel.AddTab("Items", new BoakItemsPanel(DefRepository<ItemDef>.Defs, DefRepository<WeaponManeuverDef>.Defs));
         tabPanel.AddTab("Stats", new BoakStatsPanel(DefRepository<StatDef>.Defs.OrderBy(d => d.Label).ToList()));
         tabPanel.AddTab("Chests", new BoakLootBoxPanel(DefRepository<LootBoxDef>.Defs));
-        tabPanel.AddTab("Zones", new BoakBiomePanel(DefRepository<ZoneDef>.Defs));
+        tabPanel.AddTab("Zones", new BoakZonePanel(DefRepository<ZoneDef>.Defs));
         tabPanel.AddTab("Weather", new BoakWeatherPanel());
     }
 }

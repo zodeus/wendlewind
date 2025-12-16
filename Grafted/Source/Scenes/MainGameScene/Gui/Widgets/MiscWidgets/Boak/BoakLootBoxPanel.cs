@@ -1,77 +1,362 @@
 ﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
 
-internal sealed class BoakLootBoxPanel : Grid
+internal sealed class BoakLootBoxCard : Panel
 {
-    public BoakLootBoxPanel(IReadOnlyList<LootBoxDef> defs)
+    private const int CardWidth = 340;
+    private const int ChestIconSize = 96;
+    private const int ItemIconSize = 36;
+
+    public BoakLootBoxCard(LootBoxDef def)
     {
-        RowSpacing = 30;
-        ColumnSpacing = 30;
+        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold];
+        Padding = new Thickness(0);
+        Width = CardWidth;
 
-        int gridRow = 0;
-        int gridColum = 0;
-        foreach (var def in defs)
+        var content = new VerticalStackPanel { Spacing = 0 };
+
+        // Header with chest icon and title
+        var header = new HorizontalStackPanel
         {
-            var details = new VerticalStackPanel
-            {
-                Spacing = 5,
-                Margin = new Thickness(0, 0, 40, 0),
-                Width = 600,
-                Widgets =
-                {
-                    new Label(BaseContent.Styles.Label.Large) { Text = def.Label, Margin = new Thickness(0, 0, 0, 20) },
-                    new Label(BaseContent.Styles.Label.Medium) { Text = $"Category: {def.Category}" },
-                    new Label(BaseContent.Styles.Label.Medium) { Text = $"Collection Limit: {def.CollectionLimit}" },
-                    new Label(BaseContent.Styles.Label.Medium) { Text = $"Has Traps: {(def.TrapProperties != null ? "Yes" : "No")}" },
-                }
-            };
+            Spacing = 14,
+            Padding = new Thickness(14),
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame]
+        };
 
-            def.Items.ToList().ForEach(
-                i =>
+        var chestIcon = new Panel
+        {
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
+            Padding = new Thickness(6),
+            Widgets =
+            {
+                new Image
                 {
-                    details.Widgets.Add(new HorizontalStackPanel
+                    Width = ChestIconSize,
+                    Height = ChestIconSize,
+                    Background = new TextureRegion(def.Icon)
+                }
+            }
+        };
+        header.Widgets.Add(chestIcon);
+
+        var headerInfo = new VerticalStackPanel
+        {
+            Spacing = 6,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+
+        headerInfo.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
+        {
+            Text = def.Label,
+            Wrap = true,
+            TextColor = BaseContent.Colors.Text.Golden
+        });
+
+        // Category badge
+        var categoryColor = def.Category switch
+        {
+            LootBoxCategory.Weapons => new Color(200, 80, 80),
+            LootBoxCategory.Armor => new Color(100, 140, 200),
+            LootBoxCategory.Edibles => new Color(180, 140, 80),
+            LootBoxCategory.Trinkets => new Color(180, 100, 180),
+            LootBoxCategory.Medicinal => new Color(100, 180, 100),
+            LootBoxCategory.Crafting => new Color(160, 160, 160),
+            _ => new Color(180, 180, 180)
+        };
+
+        headerInfo.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = def.Category.ToString().ToUpper(),
+            TextColor = categoryColor
+        });
+
+        header.Widgets.Add(headerInfo);
+        content.Widgets.Add(header);
+
+        // Body
+        var body = new VerticalStackPanel
+        {
+            Spacing = 12,
+            Padding = new Thickness(14)
+        };
+
+        // Stats row
+        var statsRow = new HorizontalStackPanel
+        {
+            Spacing = 20,
+            Margin = new Thickness(0, 0, 0, 4)
+        };
+
+        // Collection limit
+        var limitText = def.CollectionLimit.Min == def.CollectionLimit.Max
+            ? $"{def.CollectionLimit.Min}"
+            : $"{def.CollectionLimit.Min}-{def.CollectionLimit.Max}";
+
+        statsRow.Widgets.Add(new HorizontalStackPanel
+        {
+            Spacing = 6,
+            Widgets =
+            {
+                new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = "Pick:",
+                    TextColor = new Color(140, 120, 90)
+                },
+                new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = limitText,
+                    TextColor = new Color(200, 200, 200)
+                }
+            }
+        });
+
+        // Trap indicator
+        if (def.TrapProperties != null)
+        {
+            statsRow.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = "⚠ TRAPPED",
+                TextColor = new Color(220, 100, 80)
+            });
+        }
+
+        body.Widgets.Add(statsRow);
+
+        // Items section
+        if (def.Items.Count > 0)
+        {
+            var itemsSection = new VerticalStackPanel { Spacing = 6 };
+
+            itemsSection.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = $"CONTAINS ({def.Items.Count} items)",
+                TextColor = new Color(140, 120, 90),
+                Margin = new Thickness(0, 0, 0, 4)
+            });
+
+            // Items grid - show items in rows of 7
+            var currentRow = new HorizontalStackPanel { Spacing = 4 };
+            var itemCount = 0;
+            const int itemsPerRow = 7;
+
+            foreach (var item in def.Items)
+            {
+                var itemContainer = new VerticalStackPanel
+                {
+                    Spacing = 2,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                };
+
+                var iconPanel = new Panel
+                {
+                    Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
+                    Padding = new Thickness(2),
+                    Widgets =
                     {
-                        Spacing = 10,
-                        Widgets =
+                        new Image
                         {
-                            new Image
-                            {
-                                Width = 48, Height = 48, Background = new TextureRegion(i.ItemDef.Icon)
-                            },
-                            new Label(BaseContent.Styles.Label.Medium)
-                            {
-                                VerticalAlignment = VerticalAlignment.Center,
-                                Text = i.ItemDef.Label
-                            }
+                            Width = ItemIconSize,
+                            Height = ItemIconSize,
+                            Background = new TextureRegion(item.ItemDef.Icon)
                         }
+                    }
+                };
+                itemContainer.Widgets.Add(iconPanel);
+
+                // Show chance if less than 100%
+                if (item.ChanceToDrop < 1)
+                {
+                    itemContainer.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+                    {
+                        Text = $"{(int)(item.ChanceToDrop * 100)}%",
+                        TextColor = new Color(180, 160, 100),
+                        HorizontalAlignment = HorizontalAlignment.Center
                     });
                 }
-            );
-
-            var panel = new HorizontalStackPanel
-            {
-                Spacing = 10,
-                Widgets =
+                else if (item.Amount.Max > 1)
                 {
-                    new Panel
+                    var amountText = item.Amount.Min == item.Amount.Max
+                        ? $"x{item.Amount.Min}"
+                        : $"{item.Amount.Min}-{item.Amount.Max}";
+                    itemContainer.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
                     {
-                        VerticalAlignment = VerticalAlignment.Top,
-                        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
-                        Padding = new Thickness(10),
-                        Widgets = { new Image { Width = 256, Height = 256, Background = new TextureRegion(def.Icon) } }
-                    },
-                    details
+                        Text = amountText,
+                        TextColor = new Color(160, 160, 160),
+                        HorizontalAlignment = HorizontalAlignment.Center
+                    });
                 }
-            };
-            SetRow(panel, gridRow);
-            SetColumn(panel, gridColum);
-            Widgets.Add(panel);
 
-            gridColum++;
-            if (gridColum > 1)
+                currentRow.Widgets.Add(itemContainer);
+                itemCount++;
+
+                if (itemCount % itemsPerRow == 0)
+                {
+                    itemsSection.Widgets.Add(currentRow);
+                    currentRow = new HorizontalStackPanel { Spacing = 4 };
+                }
+            }
+
+            // Add remaining items
+            if (currentRow.Widgets.Count > 0)
             {
-                gridColum = 0;
-                gridRow++;
+                itemsSection.Widgets.Add(currentRow);
+            }
+
+            body.Widgets.Add(itemsSection);
+        }
+
+        // Footer stats
+        var footerStats = new HorizontalStackPanel
+        {
+            Spacing = 16,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Margin = new Thickness(0, 8, 0, 0)
+        };
+
+        footerStats.Widgets.Add(CreateStatBadge($"{def.Items.Count}", "Items", new Color(120, 180, 120)));
+
+        var guaranteedCount = def.Items.Count(i => i.ChanceToDrop >= 1);
+        if (guaranteedCount > 0 && guaranteedCount < def.Items.Count)
+        {
+            footerStats.Widgets.Add(CreateStatBadge($"{guaranteedCount}", "Guaranteed", new Color(200, 180, 80)));
+        }
+
+        body.Widgets.Add(footerStats);
+
+        content.Widgets.Add(body);
+        Widgets.Add(content);
+    }
+
+    private static Widget CreateStatBadge(string value, string label, Color valueColor)
+    {
+        return new VerticalStackPanel
+        {
+            Spacing = 2,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Widgets =
+            {
+                new Label(BaseContent.Styles.Label.Medium)
+                {
+                    Text = value,
+                    TextColor = valueColor,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                },
+                new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = label,
+                    TextColor = new Color(120, 120, 120),
+                    HorizontalAlignment = HorizontalAlignment.Center
+                }
+            }
+        };
+    }
+}
+
+internal sealed class BoakLootBoxPanel : ScrollViewer
+{
+    private const int CardsPerRow = 5;
+
+    public BoakLootBoxPanel(IReadOnlyList<LootBoxDef> defs)
+    {
+        var mainContainer = new VerticalStackPanel
+        {
+            Spacing = 24,
+            Margin = new Thickness(16)
+        };
+
+        // Group by category
+        var groupedDefs = defs
+            .GroupBy(d => d.Category)
+            .OrderBy(g => g.Key);
+
+        foreach (var group in groupedDefs)
+        {
+            var section = CreateCategorySection(group.Key, group.OrderBy(d => d.Label).ToList());
+            mainContainer.Widgets.Add(section);
+        }
+
+        Content = mainContainer;
+    }
+
+    private static Widget CreateCategorySection(LootBoxCategory category, List<LootBoxDef> defs)
+    {
+        var section = new VerticalStackPanel { Spacing = 12 };
+
+        // Category header
+        var categoryColor = category switch
+        {
+            LootBoxCategory.Weapons => new Color(200, 80, 80),
+            LootBoxCategory.Armor => new Color(100, 140, 200),
+            LootBoxCategory.Edibles => new Color(180, 140, 80),
+            LootBoxCategory.Trinkets => new Color(180, 100, 180),
+            LootBoxCategory.Medicinal => new Color(100, 180, 100),
+            LootBoxCategory.Crafting => new Color(160, 160, 160),
+            _ => new Color(180, 180, 180)
+        };
+
+        var header = new HorizontalStackPanel
+        {
+            Spacing = 12,
+            Margin = new Thickness(0, 0, 0, 4)
+        };
+
+        header.Widgets.Add(new Label(BaseContent.Styles.Label.Large)
+        {
+            Text = category.ToString().ToUpper(),
+            TextColor = categoryColor
+        });
+
+        header.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
+        {
+            Text = $"({defs.Count} chests)",
+            TextColor = new Color(120, 120, 120),
+            VerticalAlignment = VerticalAlignment.Bottom,
+            Margin = new Thickness(0, 0, 0, 2)
+        });
+
+        section.Widgets.Add(header);
+
+        // Divider line
+        section.Widgets.Add(new Panel
+        {
+            Height = 2,
+            Width = 300,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            Background = new Myra.Graphics2D.Brushes.SolidBrush(categoryColor * 0.5f)
+        });
+
+        // Cards grid
+        var grid = new Grid
+        {
+            ColumnSpacing = 16,
+            RowSpacing = 16,
+            Margin = new Thickness(0, 8, 0, 0)
+        };
+
+        for (var i = 0; i < CardsPerRow; i++)
+        {
+            grid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        }
+
+        var row = 0;
+        var col = 0;
+
+        foreach (var def in defs)
+        {
+            var card = new BoakLootBoxCard(def);
+            Grid.SetRow(card, row);
+            Grid.SetColumn(card, col);
+            grid.Widgets.Add(card);
+
+            col++;
+            if (col >= CardsPerRow)
+            {
+                col = 0;
+                row++;
             }
         }
+
+        section.Widgets.Add(grid);
+
+        return section;
     }
 }

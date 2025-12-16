@@ -8,6 +8,9 @@
         <Category>Armor</Category>
         <TexturePath>Chests/ArmorChestBasic</TexturePath>
         <CollectionLimit>3</CollectionLimit>
+        <TrapProperties>
+            <TrapLabel>Finger Biter</TrapLabel>
+        </TrapProperties>
         <Items>
             <ListItem>
                 <ItemDef>LeatherGorget</ItemDef>
