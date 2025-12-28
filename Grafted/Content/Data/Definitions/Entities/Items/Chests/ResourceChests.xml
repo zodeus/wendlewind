@@ -71,6 +71,11 @@
                 <ChanceToDrop>.7</ChanceToDrop>
             </ListItem>
             <ListItem>
+                <ItemDef>Thread</ItemDef>
+                <Amount>2~5</Amount>
+                <ChanceToDrop>.7</ChanceToDrop>
+            </ListItem>
+            <ListItem>
                 <ItemDef>IronNugget</ItemDef>
                 <Amount>1~4</Amount>
                 <ChanceToDrop>.7</ChanceToDrop>

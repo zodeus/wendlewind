@@ -359,7 +359,6 @@ public class BodyPart : Entity
     {
         damagedParts ??= [];
         var ctx = DamageContext.FromDamage(damage, damage.TotalUnblockedDamage);
-        // maybe we should move it here instead, but then it wouldn't be properly
         var remainingDamage = ApplyDamage(ctx, damagedParts, cascade: false);
         var skin = InternalParts.Where(p => p.Type == BodyPartType.Skin).FirstOrNull();
         skin?.ApplyDamage(ctx.WithAmount(ctx.Amount * SkinDamageScaler), damagedParts, cascade: false);

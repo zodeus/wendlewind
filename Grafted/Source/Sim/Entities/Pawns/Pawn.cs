@@ -100,6 +100,8 @@ public class Pawn : Entity
             return;
         }
 
+
+        // Handle Equipment Pre-Damage Taken Effects
         foreach (var equipment in bodyPart.Equipment.Values)
         {
             if (equipment == null) continue;
