@@ -17,6 +17,16 @@ internal sealed class BoakPawnsCreaturesPanel : Grid, IDisposable
         int gridColum = 0;
         foreach (var def in defs)
         {
+            // Create a preview pawn to render
+            var previewPawn = PawnGenerator.CreatePawn(new PawnRequest(
+                def.Label,
+                def,
+                emptyLoadout,
+                PawnType.Enemy
+            ));
+
+            var totalHitpoints = previewPawn.Body.HitPoints;
+
             var details = new VerticalStackPanel
             {
                 Spacing = 5,
@@ -26,17 +36,10 @@ internal sealed class BoakPawnsCreaturesPanel : Grid, IDisposable
                 {
                     new Label(BaseContent.Styles.Label.Normal) { Text = def.Moniker, Margin = new Thickness(0, 0, 0, 20) },
                     new Label(BaseContent.Styles.Label.Small) { Text = $"Species: {def.Species}" },
+                    new Label(BaseContent.Styles.Label.Small) { Text = $"Hitpoints: {totalHitpoints:N0}" },
                     new Label(BaseContent.Styles.Label.Small) { Text = $"{def.Description}" },
                 }
             };
-
-            // Create a preview pawn to render
-            var previewPawn = PawnGenerator.CreatePawn(new PawnRequest(
-                def.Label,
-                def,
-                emptyLoadout,
-                PawnType.Enemy
-            ));
 
             var bodyWidget = new PawnRenderWidget(previewPawn, 128)
             {

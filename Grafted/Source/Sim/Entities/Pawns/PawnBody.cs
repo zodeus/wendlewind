@@ -57,6 +57,9 @@ public class PawnBody : IExposable, IIdentityProvider
 
     public float EnergyPercent => Energy / MaxEnergy;
 
+    public double HitPoints => AllParts.Sum(p => p.HitPoints);
+    public double MaxHitPoints => AllParts.Sum(p => p.MaxHitPoints);
+
     public List<BodyPart> AllParts
     {
         get

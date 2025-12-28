@@ -207,8 +207,6 @@ public class Pawn : Entity
         {
             foreach (var partRecord in damageRecord.BodyParts)
             {
-                //if (!partRecord.IsVital) continue;
-
                 if (partRecord.BodyPart.IsDestroyed)
                 {
                     nonFunctionalVitalParts.Add($"{partRecord.PartType} was destroyed");
