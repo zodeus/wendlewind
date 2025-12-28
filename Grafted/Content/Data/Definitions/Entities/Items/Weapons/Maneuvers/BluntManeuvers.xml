@@ -11,7 +11,7 @@
             <ListItem>Hammer</ListItem>
             <ListItem>Branch</ListItem>
         </Weapons>
-        <DamageMultiplier>.65~1.25</DamageMultiplier>
+        <DamageMultiplier>.3~1</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>Jab</Moniker>
@@ -20,7 +20,7 @@
             <ListItem>Staff</ListItem>
             <ListItem>Branch</ListItem>
         </Weapons>
-        <DamageMultiplier>.85~1.05</DamageMultiplier>
+        <DamageMultiplier>.5~.9</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>Crush</Moniker>
@@ -30,6 +30,6 @@
             <ListItem>Mace</ListItem>
             <ListItem>Hammer</ListItem>
         </Weapons>
-        <DamageMultiplier>.8~1.5</DamageMultiplier>
+        <DamageMultiplier>.7~.8</DamageMultiplier>
     </WeaponManeuverDef>
 </Definitions>

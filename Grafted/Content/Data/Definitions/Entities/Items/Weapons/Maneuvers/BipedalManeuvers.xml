@@ -7,7 +7,7 @@
         <Weapons>
             <ListItem>Hand</ListItem>
         </Weapons>
-        <DamageMultiplier>0.5~1.7</DamageMultiplier>
+        <DamageMultiplier>0.5~1</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>Kick</Moniker>
@@ -15,6 +15,14 @@
         <Weapons>
             <ListItem>Foot</ListItem>
         </Weapons>
-        <DamageMultiplier>0.3~1.9</DamageMultiplier>
+        <DamageMultiplier>0.3~1</DamageMultiplier>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
+        <Moniker>Stomp</Moniker>
+        <Label>Stomp</Label>
+        <Weapons>
+            <ListItem>Foot</ListItem>
+        </Weapons>
+        <DamageMultiplier>0.7~0.9</DamageMultiplier>
     </WeaponManeuverDef>
 </Definitions>

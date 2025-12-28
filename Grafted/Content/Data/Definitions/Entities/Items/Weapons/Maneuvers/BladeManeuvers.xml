@@ -10,7 +10,7 @@
             <ListItem>Axe</ListItem>
             <ListItem>Sword</ListItem>
         </Weapons>
-        <DamageMultiplier>.70~1.2</DamageMultiplier>
+        <DamageMultiplier>.4~1</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>Chop</Moniker>
@@ -19,7 +19,7 @@
             <ListItem>Axe</ListItem>
             <ListItem>Sword</ListItem>
         </Weapons>
-        <DamageMultiplier>.6~1.4</DamageMultiplier>
+        <DamageMultiplier>.4~1</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>Stab</Moniker>
@@ -29,6 +29,15 @@
             <ListItem>Sword</ListItem>
             <ListItem>Dagger</ListItem>
         </Weapons>
-        <DamageMultiplier>.4~1.7</DamageMultiplier>
+        <DamageMultiplier>.7~.9</DamageMultiplier>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
+        <Moniker>Slice</Moniker>
+        <Label>Slice</Label>
+        <Weapons>
+            <ListItem>Knife</ListItem>
+            <ListItem>Dagger</ListItem>
+        </Weapons>
+        <DamageMultiplier>.4~.6</DamageMultiplier>
     </WeaponManeuverDef>
 </Definitions>

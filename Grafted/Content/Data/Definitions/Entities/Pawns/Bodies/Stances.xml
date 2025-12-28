@@ -13,16 +13,8 @@
         <TexturePath>Entities/Pawn/BodyStances/Defensive</TexturePath>
         <AffectedStats>
             <ListItem>
-                <Stat>AttackSpeed</Stat>
-                <Factor>-0.15</Factor>
-            </ListItem>
-            <ListItem>
                 <Stat>Evasion</Stat>
-                <Offset>0.15</Offset>
-            </ListItem>
-            <ListItem>
-                <Stat>MeleeAccuracy</Stat>
-                <Offset>0.01</Offset>
+                <Offset>0.13</Offset>
             </ListItem>
         </AffectedStats>
     </BodyStanceDef>
@@ -32,20 +24,8 @@
         <TexturePath>Entities/Pawn/BodyStances/Melee</TexturePath>
         <AffectedStats>
             <ListItem>
-                <Stat>AttackSpeed</Stat>
-                <Factor>.2</Factor>
-            </ListItem>
-            <ListItem>
-                <Stat>Evasion</Stat>
-                <Offset>-0.01</Offset>
-            </ListItem>
-            <ListItem>
-                <Stat>MeleeStrength</Stat>
-                <Offset>0.3</Offset>
-            </ListItem>
-            <ListItem>
                 <Stat>MeleeAccuracy</Stat>
-                <Offset>-0.02</Offset>
+                <Offset>0.11</Offset>
             </ListItem>
         </AffectedStats>
     </BodyStanceDef>

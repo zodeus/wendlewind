@@ -113,7 +113,7 @@ public class CombatHandler : IDisposable
 
         if (victim.PawnType == PawnType.Enemy)
         {
-            TotalDirectPlayerDamage += response.TotalDamage;
+            TotalDirectPlayerDamage += response.TotalDamageTaken;
             Core.Context.Achievements.OnEnemyDamaged(Player, Enemy, request, response);
         }
 

@@ -193,7 +193,7 @@ public sealed class PawnProfilePanel : ScrollViewer, IUpdatable
 
             var valueLabel = new Label(BaseContent.Styles.Label.Normal)
             {
-                Text = pawn.GetStatValue(stat.Def).ToString(CultureInfo.InvariantCulture),
+                Text = $"{pawn.GetStatValue(stat.Def):F2}",
                 TextColor = new Color(200, 180, 120),
                 HorizontalAlignment = HorizontalAlignment.Right
             };
@@ -247,7 +247,7 @@ public sealed class PawnProfilePanel : ScrollViewer, IUpdatable
 
         foreach (var (stat, label) in _statLabels)
         {
-            label.Text = _pawn.GetStatValue(stat.Def).ToString(CultureInfo.InvariantCulture);
+            label.Text = $"{_pawn.GetStatValue(stat.Def):F2}";
         }
     }
 

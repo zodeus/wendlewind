@@ -7,6 +7,5 @@ public class DamageResponse
 
     public bool Dodged;
     public bool Missed;
-    public double TotalDamage => Damages.Sum(d => d.TotalDamage) + TrinketDamages.Sum(d => d.TotalDamage);
-    public double ActualDamage => Damages.Sum(d => d.ActualAmount) + TrinketDamages.Sum(d => d.ActualAmount);
+    public double TotalDamageTaken => Damages.Sum(d => d.ActualAmount) + TrinketDamages.Sum(d => d.ActualAmount);
 }

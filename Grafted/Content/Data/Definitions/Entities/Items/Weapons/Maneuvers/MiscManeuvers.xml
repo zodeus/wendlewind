@@ -7,7 +7,7 @@
         <Weapons>
             <ListItem>Teeth</ListItem>
         </Weapons>
-        <DamageMultiplier>.8~1.2</DamageMultiplier>
+        <DamageMultiplier>.6~1</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>TailWhip</Moniker>
@@ -15,7 +15,7 @@
         <Weapons>
             <ListItem>Tail</ListItem>
         </Weapons>
-        <DamageMultiplier>.9~1.2</DamageMultiplier>
+        <DamageMultiplier>.7~1</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>Lick</Moniker>
@@ -23,7 +23,7 @@
         <Weapons>
             <ListItem>Tongue</ListItem>
         </Weapons>
-        <DamageMultiplier>.9~1.2</DamageMultiplier>
+        <DamageMultiplier>.5~.9</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>PincerPinch</Moniker>
@@ -31,7 +31,7 @@
         <Weapons>
             <ListItem>Pincer</ListItem>
         </Weapons>
-        <DamageMultiplier>.5~1.6</DamageMultiplier>
+        <DamageMultiplier>.3~1</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>PincerScratch</Moniker>
@@ -39,7 +39,7 @@
         <Weapons>
             <ListItem>Pincer</ListItem>
         </Weapons>
-        <DamageMultiplier>.9~1.1</DamageMultiplier>
+        <DamageMultiplier>.6~.8</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>HoofStomp</Moniker>
@@ -47,7 +47,7 @@
         <Weapons>
             <ListItem>Hoof</ListItem>
         </Weapons>
-        <DamageMultiplier>.5~1.3</DamageMultiplier>
+        <DamageMultiplier>.7~1</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>ClawGouge</Moniker>
@@ -55,7 +55,7 @@
         <Weapons>
             <ListItem>Claw</ListItem>
         </Weapons>
-        <DamageMultiplier>.4~1.4</DamageMultiplier>
+        <DamageMultiplier>.5~1</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>ClawScrape</Moniker>
@@ -63,7 +63,7 @@
         <Weapons>
             <ListItem>Claw</ListItem>
         </Weapons>
-        <DamageMultiplier>.9~1.1</DamageMultiplier>
+        <DamageMultiplier>.8~1</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>StumpStomp</Moniker>
@@ -71,7 +71,7 @@
         <Weapons>
             <ListItem>Branch</ListItem>
         </Weapons>
-        <DamageMultiplier>.0~1.5</DamageMultiplier>
+        <DamageMultiplier>.2~1</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>MushroomCap</Moniker>
@@ -79,7 +79,7 @@
         <Weapons>
             <ListItem>MushroomCap</ListItem>
         </Weapons>
-        <DamageMultiplier>0.9~1.2</DamageMultiplier>
+        <DamageMultiplier>0.9~1</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>ProboscisPoke</Moniker>
@@ -87,7 +87,7 @@
         <Weapons>
             <ListItem>Proboscis</ListItem>
         </Weapons>
-        <DamageMultiplier>0.1~1.5</DamageMultiplier>
+        <DamageMultiplier>0.2~1</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>StonePummel</Moniker>
@@ -95,7 +95,7 @@
         <Weapons>
             <ListItem>StoneFist</ListItem>
         </Weapons>
-        <DamageMultiplier>0.8~1.4</DamageMultiplier>
+        <DamageMultiplier>0.5~1</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>StoneSmash</Moniker>
@@ -103,7 +103,7 @@
         <Weapons>
             <ListItem>StoneFist</ListItem>
         </Weapons>
-        <DamageMultiplier>0.4~1.8</DamageMultiplier>
+        <DamageMultiplier>0.7~.9</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>StoneKick</Moniker>
@@ -111,7 +111,7 @@
         <Weapons>
             <ListItem>StoneLeg</ListItem>
         </Weapons>
-        <DamageMultiplier>0.6~1.5</DamageMultiplier>
+        <DamageMultiplier>0.6~1</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>StoneStomp</Moniker>
@@ -119,6 +119,6 @@
         <Weapons>
             <ListItem>StoneLeg</ListItem>
         </Weapons>
-        <DamageMultiplier>0.3~1.9</DamageMultiplier>
+        <DamageMultiplier>0.7~.9</DamageMultiplier>
     </WeaponManeuverDef>
 </Definitions>
