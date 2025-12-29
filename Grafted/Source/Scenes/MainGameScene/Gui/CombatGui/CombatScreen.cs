@@ -56,7 +56,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
         _pawnBodyView = new PawnBodyPanel(gui, Encounter.PlayerPawns.First().Body)
         {
-            Height = 1300, MinWidth = 600
+            Height = 1300
         };
 
         _enemyPawnBodyView = new PawnBodyPanel(gui, Encounter.EnemyPawns.First().Body)

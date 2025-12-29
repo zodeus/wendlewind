@@ -100,11 +100,10 @@ public static partial class Defs {
         public static ItemDef LeatherScraps = null!;
         public static ItemDef Fang = null!;
         public static ItemDef FishBowlHelmet = null!;
-        public static ItemDef WoodenHammer = null!;
-        public static ItemDef Knife = null!;
-        public static ItemDef BirchRod = null!;
-        public static ItemDef WarAxe = null!;
-
+        public static ItemDef StoneHammer = null!;
+        public static ItemDef BoneKnife = null!;
+        public static ItemDef BoneSpear = null!;
+        public static ItemDef WoodClub = null!;
         public static ItemDef RawCorn = null!;
         public static ItemDef RawGrain = null!;
         public static ItemDef RawMeat = null!;
@@ -120,7 +119,6 @@ public static partial class Defs {
         public static ItemDef JarOfBlood = null!;
         public static ItemDef AcidFlask = null!;
         public static ItemDef PurpleJuice = null!;
-        public static ItemDef ShortSword = null!;
         public static ItemDef Firewood = null!;
         public static ItemDef WoodBoard = null!;
         public static ItemDef WeepingBucket = null!;

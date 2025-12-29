@@ -44,7 +44,7 @@
                 <PotentialLootBoxes>
                     <ListItem>EnchantedChestDefensive</ListItem>
                     <ListItem>EnchantedChestOffensive</ListItem>
-                    <ListItem>WeaponChestIronAge</ListItem>
+                    <ListItem>WeaponChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -53,8 +53,8 @@
                         <PawnName>Orc (specimen #1)</PawnName>
                         <BodySizeFactor>1</BodySizeFactor>
                         <EquipmentItems>
-                            <ListItem>WarAxe</ListItem>
-                            <ListItem>WarAxe</ListItem>
+                            <ListItem>IronAxe</ListItem>
+                            <ListItem>IronAxe</ListItem>
                         </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
@@ -84,8 +84,8 @@
                         <PawnName>Orc (specimen #2)</PawnName>
                         <BodySizeFactor>1</BodySizeFactor>
                         <EquipmentItems>
-                            <ListItem>WarAxe</ListItem>
-                            <ListItem>WarAxe</ListItem>
+                            <ListItem>IronAxe</ListItem>
+                            <ListItem>IronAxe</ListItem>
                         </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
@@ -121,8 +121,8 @@
                         <PawnName>Orc (specimen #3)</PawnName>
                         <BodySizeFactor>1</BodySizeFactor>
                         <EquipmentItems>
-                            <ListItem>WarAxe</ListItem>
-                            <ListItem>WarAxe</ListItem>
+                            <ListItem>IronAxe</ListItem>
+                            <ListItem>IronAxe</ListItem>
                         </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
@@ -158,8 +158,8 @@
                         <PawnName>Orc (specimen #4)</PawnName>
                         <BodySizeFactor>1</BodySizeFactor>
                         <EquipmentItems>
-                            <ListItem>WarAxe</ListItem>
-                            <ListItem>WarAxe</ListItem>
+                            <ListItem>IronAxe</ListItem>
+                            <ListItem>IronAxe</ListItem>
                         </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
@@ -187,7 +187,7 @@
                 <PotentialLootBoxes>
                     <ListItem>EnchantedChestDefensive</ListItem>
                     <ListItem>EnchantedChestOffensive</ListItem>
-                    <ListItem>WeaponChestIronAge</ListItem>
+                    <ListItem>WeaponChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>

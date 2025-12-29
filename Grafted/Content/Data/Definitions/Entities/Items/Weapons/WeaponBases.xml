@@ -84,6 +84,41 @@
             </SubstanceModifiers>
         </WeaponProperties>
     </ItemDef>
+    <ItemDef Name="WeaponPiercing" ParentName="WeaponBase" Abstract="true">
+        <WeaponProperties>
+            <DamageType>Piercing</DamageType>
+            <SubstanceModifiers ListKey="Substance">
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.4</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Fungus</Substance>
+                    <Modifier>1.3</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Wood</Substance>
+                    <Modifier>0.7</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Metal</Substance>
+                    <Modifier>0.2</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Stone</Substance>
+                    <Modifier>0.4</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Chitin</Substance>
+                    <Modifier>0.3</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+    </ItemDef>
     <ItemDef Name="WeaponMagic" ParentName="WeaponBase" Abstract="true">
     </ItemDef>
 </Definitions>

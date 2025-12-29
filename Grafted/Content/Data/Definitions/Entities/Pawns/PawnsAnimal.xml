@@ -9,7 +9,7 @@
         <Body>RabbitBody</Body>
         <TexturePath>Entities/Pawn/Creature/Rabbit/Bunny</TexturePath>
         <BaseStats>
-            <AttackSpeed>3</AttackSpeed>
+            <AttackSpeed>4</AttackSpeed>
             <MeleeStrength>1</MeleeStrength>
             <MeleeAccuracy>.6</MeleeAccuracy>
             <Evasion>.01</Evasion>
@@ -21,7 +21,7 @@
         <Species>Pig</Species>
         <Body>PigBody</Body>
         <BaseStats>
-            <AttackSpeed>5</AttackSpeed>
+            <AttackSpeed>3</AttackSpeed>
             <MeleeStrength>1</MeleeStrength>
             <MeleeAccuracy>.7</MeleeAccuracy>
             <Evasion>.01</Evasion>

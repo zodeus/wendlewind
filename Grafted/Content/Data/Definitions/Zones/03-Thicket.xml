@@ -34,7 +34,7 @@
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>WeaponChestIronAge</ListItem>
+                    <ListItem>WeaponChest2</ListItem>
                     <ListItem>ArmorChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
@@ -158,7 +158,7 @@
                 <IsBoss>true</IsBoss>
                 <MaxBoxes>1</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>WeaponChestIronAge</ListItem>
+                    <ListItem>WeaponChest2</ListItem>
                     <ListItem>ArmorChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>

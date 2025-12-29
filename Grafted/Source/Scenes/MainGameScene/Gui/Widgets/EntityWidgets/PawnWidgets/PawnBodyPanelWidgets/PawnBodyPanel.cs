@@ -1,15 +1,18 @@
+using Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
 
-public sealed class PawnBodyPanel : VerticalStackPanel, IUpdatable
+public sealed class PawnBodyPanel : Panel, IUpdatable
 {
     private readonly BaseGui _gui;
     private readonly PawnBody _body;
     private readonly List<BodyPartSocketPanel> _socketPanels;
     private readonly VerticalStackPanel _partsPanel;
+    private readonly PawnCapabilitiesOverlay _capabilitiesOverlay;
 
     public PawnBodyPanel(BaseGui gui, PawnBody body)
     {
+        MinWidth = 600;
         Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame], new Color(255, 255, 255, 230));
         _gui = gui;
         _body = body;
@@ -17,10 +20,23 @@ public sealed class PawnBodyPanel : VerticalStackPanel, IUpdatable
         Padding = new Thickness(15);
         _partsPanel = new VerticalStackPanel() { Spacing = 2 };
 
+        // Main content - body parts scroll viewer
         Widgets.Add(new ScrollViewer
         {
-            Content = _partsPanel
+            Content = _partsPanel,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch
         });
+
+        // Capabilities overlay in top-right corner
+        _capabilitiesOverlay = new PawnCapabilitiesOverlay(body)
+        {
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Top,
+            Margin = new Thickness(0, 0, 5, 0)
+        };
+        Widgets.Add(_capabilitiesOverlay);
+
         GenerateSkeleton();
     }
 
@@ -84,5 +100,7 @@ public sealed class PawnBodyPanel : VerticalStackPanel, IUpdatable
                 socketPanel.RemoveFromParent();
             }
         }
+        
+        _capabilitiesOverlay.Update();
     }
 }

@@ -24,7 +24,7 @@
             <ListItem>BuiltIn</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <MaxHitPoints>150</MaxHitPoints>
+            <MaxHitPoints>16</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="PigBodyPartBase">
@@ -42,7 +42,7 @@
             <ListItem>TorsoSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>60</MaxHitPoints>
+            <MaxHitPoints>10</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="PigBodyPartBase">
@@ -70,7 +70,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.5</AttackSpeedModifier>
-            <MaxHitPoints>200</MaxHitPoints>
+            <MaxHitPoints>20</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="PigBodyPartBase">
@@ -89,7 +89,7 @@
             <ListItem>HoofSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>60</MaxHitPoints>
+            <MaxHitPoints>4</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="PigBodyPartBase">
@@ -111,7 +111,7 @@
         </EquipmentSlots>
         <BaseStats>
             <AttackSpeedModifier>.1</AttackSpeedModifier>
-            <MaxHitPoints>60</MaxHitPoints>
+            <MaxHitPoints>2</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="PigBodyPartBase">
@@ -129,7 +129,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.1</AttackSpeedModifier>
-            <MaxHitPoints>15</MaxHitPoints>
+            <MaxHitPoints>2</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
 </Definitions>

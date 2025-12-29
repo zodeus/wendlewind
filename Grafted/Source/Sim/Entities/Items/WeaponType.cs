@@ -24,6 +24,7 @@ public enum WeaponType
     Saw,
     Whip,
     Pickaxe,
+    Spear,
     Hammer,
     Mace,
     Maul,

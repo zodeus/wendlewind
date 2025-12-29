@@ -32,7 +32,7 @@
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>WeaponChestBasic</ListItem>
+                    <ListItem>WeaponChest1</ListItem>
                     <ListItem>ArmorChest1</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>

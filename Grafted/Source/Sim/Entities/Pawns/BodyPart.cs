@@ -323,13 +323,21 @@ public class BodyPart : Entity
 
         // Apply substance modifier from weapon properties
         var substanceModifier = ctx.GetSubstanceModifier?.Invoke(Substance) ?? 1f;
-        var scaledDamage = ctx.Amount * substanceModifier;
-
-        var damageApplied = HitPoints;
-        HitPoints -= scaledDamage;
-        damageApplied -= HitPoints;
-        //var remainingDamage = damage - damageApplied;
-        var remainingDamage = ctx.Amount * 0.7f;
+        
+        // Depth penetration: this layer absorbs a portion, the rest penetrates to deeper structures
+        // This ensures damage is conserved while still reaching internal parts
+        const double surfaceAbsorptionRate = 0.5; // Each layer absorbs 50%, 50% penetrates
+        var damageToAbsorb = ctx.Amount * surfaceAbsorptionRate;
+        var damageToPenetrate = ctx.Amount * (1.0 - surfaceAbsorptionRate);
+        
+        var scaledDamageToAbsorb = damageToAbsorb * substanceModifier;
+        var prevHP = HitPoints;
+        HitPoints = Math.Max(0, HitPoints - scaledDamageToAbsorb);
+        var damageApplied = prevHP - HitPoints;
+        
+        // Remaining = penetrating portion + any damage this part couldn't absorb (if destroyed)
+        var unabsorbedDamage = Math.Max(0, damageToAbsorb - damageApplied / substanceModifier);
+        var remainingDamage = damageToPenetrate + unabsorbedDamage;
 
         if (HealthPercent < .1 && Core.Random.Chance(0.3f) && Substance == SubstanceType.Chitin)
         {
@@ -360,10 +368,8 @@ public class BodyPart : Entity
         damagedParts ??= [];
         var ctx = DamageContext.FromDamage(damage, damage.TotalUnblockedDamage);
         var remainingDamage = ApplyDamage(ctx, damagedParts, cascade: false);
-        var skin = InternalParts.Where(p => p.Type == BodyPartType.Skin).FirstOrNull();
-        skin?.ApplyDamage(ctx.WithAmount(ctx.Amount * SkinDamageScaler), damagedParts, cascade: false);
     
-        // Cascade damage to internal parts
+        // Cascade damage to internal parts (skin is handled first in CascadeDamageToInternalParts)
         if (remainingDamage > 0)
         {
             this.CascadeDamageToInternalParts(ctx.WithAmount(remainingDamage), damagedParts);

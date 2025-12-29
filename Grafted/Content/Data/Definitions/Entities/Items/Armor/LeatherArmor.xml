@@ -1,14 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Definitions>
-    <ItemDef Name="ArmorBase" ParentName="ItemBase" Abstract="true">
-        <ItemType>Equipment</ItemType>
-        <StackLimit>1</StackLimit>
-        <UiClass>ArmorPanel</UiClass>
-        <EquipmentProperties>
-            <EquipmentType>Armor</EquipmentType>
-        </EquipmentProperties>
+    <ItemDef Name="LeatherArmorBase" ParentName="ArmorBase" Abstract="true">
+        <BaseStats>
+            <PhysicalResistance>10</PhysicalResistance>
+            <MaxDurability>200</MaxDurability>
+        </BaseStats>
     </ItemDef>
-    <ItemDef ParentName="ArmorBase">
+    <ItemDef ParentName="LeatherArmorBase">
+        <Moniker>LeatherHelmet</Moniker>
+        <Label>Leather Helmet</Label>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Leather/Helmet</TexturePath>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>LeatherScraps</Item>
+                    <Count>2</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>Thread</Item>
+                    <Count>3</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="LeatherArmorBase">
         <Moniker>LeatherGlove</Moniker>
         <Label>Leather Glove</Label>
         <ItemType>Equipment</ItemType>
@@ -16,10 +35,6 @@
             <SlotUsedToEquip>HandArmor</SlotUsedToEquip>
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Leather/Glove</TexturePath>
-        <BaseStats>
-            <PhysicalResistance>20</PhysicalResistance>
-            <MaxDurability>200</MaxDurability>
-        </BaseStats>
         <DisassembleProperties>
             <Items>
                 <ListItem>
@@ -33,7 +48,7 @@
             </Items>
         </DisassembleProperties>
     </ItemDef>
-    <ItemDef ParentName="ArmorBase">
+    <ItemDef ParentName="LeatherArmorBase">
         <Moniker>LeatherVambrace</Moniker>
         <Label>Leather Vambrace</Label>
         <ItemType>Equipment</ItemType>
@@ -41,24 +56,20 @@
             <SlotUsedToEquip>ArmArmor</SlotUsedToEquip>
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Leather/Vambrace</TexturePath>
-        <BaseStats>
-            <PhysicalResistance>20</PhysicalResistance>
-            <MaxDurability>200</MaxDurability>
-        </BaseStats>
         <DisassembleProperties>
             <Items>
                 <ListItem>
                     <Item>LeatherScraps</Item>
-                    <Count>1</Count>
+                    <Count>2</Count>
                 </ListItem>
                 <ListItem>
                     <Item>Thread</Item>
-                    <Count>2</Count>
+                    <Count>3</Count>
                 </ListItem>
             </Items>
         </DisassembleProperties>
     </ItemDef>
-    <ItemDef ParentName="ArmorBase">
+    <ItemDef ParentName="LeatherArmorBase">
         <Moniker>LeatherGorget</Moniker>
         <Label>Leather Gorget</Label>
         <ItemType>Equipment</ItemType>
@@ -67,10 +78,6 @@
             <SlotUsedToEquip>NeckArmor</SlotUsedToEquip>
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Leather/Gorget</TexturePath>
-        <BaseStats>
-            <PhysicalResistance>20</PhysicalResistance>
-            <MaxDurability>200</MaxDurability>
-        </BaseStats>
         <DisassembleProperties>
             <Items>
                 <ListItem>
@@ -84,7 +91,7 @@
             </Items>
         </DisassembleProperties>
     </ItemDef>
-    <ItemDef ParentName="ArmorBase">
+    <ItemDef ParentName="LeatherArmorBase">
         <Moniker>LeatherBoot</Moniker>
         <Label>Leather Boot</Label>
         <ItemType>Equipment</ItemType>
@@ -93,8 +100,6 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Leather/Boot</TexturePath>
         <BaseStats>
-            <PhysicalResistance>20</PhysicalResistance>
-            <MaxDurability>200</MaxDurability>
             <MoveSpeed>.3</MoveSpeed>
         </BaseStats>
         <DisassembleProperties>
@@ -110,7 +115,7 @@
             </Items>
         </DisassembleProperties>
     </ItemDef>
-    <ItemDef ParentName="ArmorBase">
+    <ItemDef ParentName="LeatherArmorBase">
         <Moniker>LeatherGreave</Moniker>
         <Label>Leather Greave</Label>
         <ItemType>Equipment</ItemType>
@@ -119,23 +124,23 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Leather/Greave</TexturePath>
         <BaseStats>
-            <PhysicalResistance>24</PhysicalResistance>
+            <PhysicalResistance>10</PhysicalResistance>
             <MaxDurability>120</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
             <Items>
                 <ListItem>
                     <Item>LeatherScraps</Item>
-                    <Count>1</Count>
+                    <Count>2</Count>
                 </ListItem>
                 <ListItem>
                     <Item>Thread</Item>
-                    <Count>2</Count>
+                    <Count>3</Count>
                 </ListItem>
             </Items>
         </DisassembleProperties>
     </ItemDef>
-    <ItemDef ParentName="ArmorBase">
+    <ItemDef ParentName="LeatherArmorBase">
         <Moniker>LeatherTunic</Moniker>
         <Label>Leather Tunic</Label>
         <ItemType>Equipment</ItemType>
@@ -144,60 +149,18 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Leather/Tunic</TexturePath>
         <BaseStats>
-            <PhysicalResistance>20</PhysicalResistance>
+            <PhysicalResistance>10</PhysicalResistance>
             <MaxDurability>200</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
             <Items>
                 <ListItem>
                     <Item>LeatherScraps</Item>
-                    <Count>1</Count>
+                    <Count>4</Count>
                 </ListItem>
                 <ListItem>
                     <Item>Thread</Item>
-                    <Count>2</Count>
-                </ListItem>
-            </Items>
-        </DisassembleProperties>
-    </ItemDef>
-    <ItemDef ParentName="ArmorBase">
-        <Moniker>BucketHelmet</Moniker>
-        <Label>Bucket Helmet</Label>
-        <ItemType>Equipment</ItemType>
-        <EquipmentProperties>
-            <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>
-        </EquipmentProperties>
-        <TexturePath>Entities/Item/Equipment/Armor/Tin/BucketHelmet</TexturePath>
-        <BaseStats>
-            <PhysicalResistance>25</PhysicalResistance>
-            <MaxDurability>200</MaxDurability>
-        </BaseStats>
-        <DisassembleProperties>
-            <Items>
-                <ListItem>
-                    <Item>IronNugget</Item>
-                    <Count>1</Count>
-                </ListItem>
-            </Items>
-        </DisassembleProperties>
-    </ItemDef>
-    <ItemDef ParentName="ArmorBase">
-        <Moniker>FishBowlHelmet</Moniker>
-        <Label>Fish Bowl Helmet</Label>
-        <ItemType>Equipment</ItemType>
-        <EquipmentProperties>
-            <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>
-        </EquipmentProperties>
-        <TexturePath>Entities/Item/Equipment/Armor/Misc/FishBowlHelmet</TexturePath>
-        <BaseStats>
-            <PhysicalResistance>15</PhysicalResistance>
-            <MaxDurability>80</MaxDurability>
-        </BaseStats>
-        <DisassembleProperties>
-            <Items>
-                <ListItem>
-                    <Item>VialOfDuplicity</Item>
-                    <Count>1</Count>
+                    <Count>6</Count>
                 </ListItem>
             </Items>
         </DisassembleProperties>

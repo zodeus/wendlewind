@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Definitions>
+    <ItemDef Name="ArmorBase" ParentName="ItemBase" Abstract="true">
+        <ItemType>Equipment</ItemType>
+        <StackLimit>1</StackLimit>
+        <UiClass>ArmorPanel</UiClass>
+        <EquipmentProperties>
+            <EquipmentType>Armor</EquipmentType>
+        </EquipmentProperties>
+    </ItemDef>
+    <ItemDef ParentName="ArmorBase">
+        <Moniker>BucketHelmet</Moniker>
+        <Label>Bucket Helmet</Label>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Tin/BucketHelmet</TexturePath>
+        <BaseStats>
+            <PhysicalResistance>12</PhysicalResistance>
+            <MaxDurability>200</MaxDurability>
+        </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="ArmorBase">
+        <Moniker>FishBowlHelmet</Moniker>
+        <Label>Fish Bowl Helmet</Label>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Misc/FishBowlHelmet</TexturePath>
+        <BaseStats>
+            <PhysicalResistance>10</PhysicalResistance>
+            <MaxDurability>80</MaxDurability>
+        </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>VialOfDuplicity</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+</Definitions>

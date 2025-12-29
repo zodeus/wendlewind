@@ -18,6 +18,174 @@
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
+        <Moniker>FleshyFoot</Moniker>
+        <Label>Fleshy Foot</Label>
+        <Description>A fleshy foot</Description>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Foot</WeaponType>
+            <DamageType>Flesh</DamageType>
+        </WeaponProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/HumanFoot</TexturePath>
+        <BaseStats>
+            <MeleePower>7</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>RabbitTeeth</Moniker>
+        <Label>Teeth</Label>
+        <Description>Rabbit teeth</Description>
+        <WeaponProperties>
+            <WeaponType>Teeth</WeaponType>
+            <DamageType>Sharp</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.3</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>0.8</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
+        <BaseStats>
+            <MeleePower>4</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>PigTeeth</Moniker>
+        <Label>Teeth</Label>
+        <Description>Pig teeth</Description>
+        <WeaponProperties>
+            <WeaponType>Teeth</WeaponType>
+            <DamageType>Sharp</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.3</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>0.8</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
+        <BaseStats>
+            <MeleePower>5</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>FilthyPigHoof</Moniker>
+        <Label>Hoof</Label>
+        <Description>A filthy pig hoof</Description>
+        <WeaponProperties>
+            <WeaponType>Hoof</WeaponType>
+            <DamageType>Blunt</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.3</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>0.8</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Hoof</TexturePath>
+        <BaseStats>
+            <MeleePower>6</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>WolfTeeth</Moniker>
+        <Label>Teeth</Label>
+        <Description>Wolf teeth</Description>
+        <WeaponProperties>
+            <WeaponType>Teeth</WeaponType>
+            <DamageType>Sharp</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.3</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>0.8</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
+        <BaseStats>
+            <MeleePower>8</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>WolfClaws</Moniker>
+        <Label>Claws</Label>
+        <Description>Wolf Claws</Description>
+        <WeaponProperties>
+            <WeaponType>Claw</WeaponType>
+            <DamageType>Sharp</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.3</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>0.8</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Claw</TexturePath>
+        <BaseStats>
+            <MeleePower>7</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>FrogTongue</Moniker>
+        <Label>Frog Tongue</Label>
+        <Description>Frog Tongue</Description>
+        <WeaponProperties>
+            <WeaponType>Tongue</WeaponType>
+            <DamageType>Flesh</DamageType>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Acid</Def>
+                    <DurationInTicks>600~900</DurationInTicks>
+                    <Chance>.3</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <BaseStats>
+            <MeleePower>42</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
         <Moniker>GhoulishHand</Moniker>
         <Label>Ghoulish Hand</Label>
         <Description>A ghoulish hand</Description>
@@ -54,174 +222,6 @@
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/GhoulishFoot</TexturePath>
         <BaseStats>
             <MeleePower>70</MeleePower>
-        </BaseStats>
-    </ItemDef>
-    <ItemDef ParentName="WeaponFlesh">
-        <Moniker>FleshyFoot</Moniker>
-        <Label>Fleshy Foot</Label>
-        <Description>A fleshy foot</Description>
-        <EquipmentProperties>
-            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
-        </EquipmentProperties>
-        <WeaponProperties>
-            <WeaponType>Foot</WeaponType>
-            <DamageType>Flesh</DamageType>
-        </WeaponProperties>
-        <TexturePath>Entities/Item/Equipment/Weapon/Biological/HumanFoot</TexturePath>
-        <BaseStats>
-            <MeleePower>8</MeleePower>
-        </BaseStats>
-    </ItemDef>
-    <ItemDef ParentName="WeaponFlesh">
-        <Moniker>RabbitTeeth</Moniker>
-        <Label>Teeth</Label>
-        <Description>Rabbit teeth</Description>
-        <WeaponProperties>
-            <WeaponType>Teeth</WeaponType>
-            <DamageType>Sharp</DamageType>
-            <SubstanceModifiers>
-                <ListItem>
-                    <Substance>Flesh</Substance>
-                    <Modifier>1.3</Modifier>
-                </ListItem>
-                <ListItem>
-                    <Substance>Bone</Substance>
-                    <Modifier>0.8</Modifier>
-                </ListItem>
-            </SubstanceModifiers>
-        </WeaponProperties>
-        <EquipmentProperties>
-            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
-        </EquipmentProperties>
-        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
-        <BaseStats>
-            <MeleePower>5</MeleePower>
-        </BaseStats>
-    </ItemDef>
-    <ItemDef ParentName="WeaponFlesh">
-        <Moniker>FrogTongue</Moniker>
-        <Label>Frog Tongue</Label>
-        <Description>Frog Tongue</Description>
-        <WeaponProperties>
-            <WeaponType>Tongue</WeaponType>
-            <DamageType>Flesh</DamageType>
-            <BodyPartModifiers>
-                <ListItem>
-                    <Def>Acid</Def>
-                    <DurationInTicks>600~900</DurationInTicks>
-                    <Chance>.3</Chance>
-                </ListItem>
-            </BodyPartModifiers>
-        </WeaponProperties>
-        <EquipmentProperties>
-            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
-        </EquipmentProperties>
-        <BaseStats>
-            <MeleePower>42</MeleePower>
-        </BaseStats>
-    </ItemDef>
-    <ItemDef ParentName="WeaponFlesh">
-        <Moniker>WolfTeeth</Moniker>
-        <Label>Teeth</Label>
-        <Description>Wolf teeth</Description>
-        <WeaponProperties>
-            <WeaponType>Teeth</WeaponType>
-            <DamageType>Sharp</DamageType>
-            <SubstanceModifiers>
-                <ListItem>
-                    <Substance>Flesh</Substance>
-                    <Modifier>1.3</Modifier>
-                </ListItem>
-                <ListItem>
-                    <Substance>Bone</Substance>
-                    <Modifier>0.8</Modifier>
-                </ListItem>
-            </SubstanceModifiers>
-        </WeaponProperties>
-        <EquipmentProperties>
-            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
-        </EquipmentProperties>
-        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
-        <BaseStats>
-            <MeleePower>15</MeleePower>
-        </BaseStats>
-    </ItemDef>
-    <ItemDef ParentName="WeaponFlesh">
-        <Moniker>WolfClaws</Moniker>
-        <Label>Claws</Label>
-        <Description>Wolf Claws</Description>
-        <WeaponProperties>
-            <WeaponType>Claw</WeaponType>
-            <DamageType>Sharp</DamageType>
-            <SubstanceModifiers>
-                <ListItem>
-                    <Substance>Flesh</Substance>
-                    <Modifier>1.3</Modifier>
-                </ListItem>
-                <ListItem>
-                    <Substance>Bone</Substance>
-                    <Modifier>0.8</Modifier>
-                </ListItem>
-            </SubstanceModifiers>
-        </WeaponProperties>
-        <EquipmentProperties>
-            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
-        </EquipmentProperties>
-        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Claw</TexturePath>
-        <BaseStats>
-            <MeleePower>10</MeleePower>
-        </BaseStats>
-    </ItemDef>
-    <ItemDef ParentName="WeaponFlesh">
-        <Moniker>PigTeeth</Moniker>
-        <Label>Teeth</Label>
-        <Description>Pig teeth</Description>
-        <WeaponProperties>
-            <WeaponType>Teeth</WeaponType>
-            <DamageType>Sharp</DamageType>
-            <SubstanceModifiers>
-                <ListItem>
-                    <Substance>Flesh</Substance>
-                    <Modifier>1.3</Modifier>
-                </ListItem>
-                <ListItem>
-                    <Substance>Bone</Substance>
-                    <Modifier>0.8</Modifier>
-                </ListItem>
-            </SubstanceModifiers>
-        </WeaponProperties>
-        <EquipmentProperties>
-            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
-        </EquipmentProperties>
-        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
-        <BaseStats>
-            <MeleePower>6</MeleePower>
-        </BaseStats>
-    </ItemDef>
-    <ItemDef ParentName="WeaponFlesh">
-        <Moniker>FilthyPigHoof</Moniker>
-        <Label>Hoof</Label>
-        <Description>A filthy pig hoof</Description>
-        <WeaponProperties>
-            <WeaponType>Hoof</WeaponType>
-            <DamageType>Blunt</DamageType>
-            <SubstanceModifiers>
-                <ListItem>
-                    <Substance>Bone</Substance>
-                    <Modifier>1.3</Modifier>
-                </ListItem>
-                <ListItem>
-                    <Substance>Flesh</Substance>
-                    <Modifier>0.8</Modifier>
-                </ListItem>
-            </SubstanceModifiers>
-        </WeaponProperties>
-        <EquipmentProperties>
-            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
-        </EquipmentProperties>
-        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Hoof</TexturePath>
-        <BaseStats>
-            <MeleePower>3</MeleePower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">

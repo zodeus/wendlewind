@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Definitions>
+    <ItemDef Name="ClothArmorBase" ParentName="ArmorBase" Abstract="true">
+        <BaseStats>
+            <PhysicalResistance>2</PhysicalResistance>
+            <MaxDurability>100</MaxDurability>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="ClothArmorBase">
+        <Moniker>ClothHelmet</Moniker>
+        <Label>Cloth Helmet</Label>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Cloth/Helmet</TexturePath>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>Thread</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="ClothArmorBase">
+        <Moniker>ClothGlove</Moniker>
+        <Label>Cloth Glove</Label>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Cloth/Glove</TexturePath>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>Thread</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="ClothArmorBase">
+        <Moniker>ClothVambrace</Moniker>
+        <Label>Cloth Vambrace</Label>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>ArmArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Cloth/Vambrace</TexturePath>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>Thread</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="ClothArmorBase">
+        <Moniker>ClothGorget</Moniker>
+        <Label>Cloth Gorget</Label>
+        <ItemType>Equipment</ItemType>
+        <Description>A soft wrap for your neck</Description>
+        <EquipmentProperties>
+            <SlotUsedToEquip>NeckArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Cloth/Gorget</TexturePath>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>Thread</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="ClothArmorBase">
+        <Moniker>ClothBoot</Moniker>
+        <Label>Cloth Boot</Label>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>FootArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Cloth/Boot</TexturePath>
+        <BaseStats>
+            <MoveSpeed>.2</MoveSpeed>
+        </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>Thread</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="ClothArmorBase">
+        <Moniker>ClothGreave</Moniker>
+        <Label>Cloth Greave</Label>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>LegArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Cloth/Greave</TexturePath>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>Thread</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="ClothArmorBase">
+        <Moniker>ClothTunic</Moniker>
+        <Label>Cloth Tunic</Label>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>TorsoArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Cloth/Tunic</TexturePath>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>Thread</Item>
+                    <Count>4</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+</Definitions>

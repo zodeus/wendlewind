@@ -27,16 +27,26 @@ namespace Grafted.Sim.Entities.Pawns
                 return 0;
             }
 
-            foreach (var internalPart in rootPart.InternalParts.InRandomOrder())
+            // Order internal parts so skin is always hit first, then randomize the rest
+            var internalParts = rootPart.InternalParts
+                .OrderByDescending(p => p.Type == BodyPartType.Skin)
+                .ThenBy(_ => Core.Random.Next())
+                .ToList();
+
+            foreach (var internalPart in internalParts)
             {
                 if (remainingDamage <= 0)
                 {
                     return 0;
                 }
 
+                // Skin takes reduced damage but is always hit first, does not cascade further
                 if (internalPart.Type == BodyPartType.Skin)
                 {
-                    // Skin is handled in this.ApplyDamageToExternalPart
+                    var skinDamage = remainingDamage * BodyPart.SkinDamageScaler;
+                    var skinRemainder = internalPart.ApplyDamage(ctx.WithAmount(skinDamage), damagedParts, cascade: false);
+                    // Reduce remaining damage by what skin absorbed (skinDamage - skinRemainder)
+                    remainingDamage -= skinDamage - skinRemainder;
                     continue;
                 }
 
@@ -91,7 +101,7 @@ namespace Grafted.Sim.Entities.Pawns
                         break;
                 }
 
-                remainingDamage -= internalPart.ApplyDamage(ctx, damagedParts);
+                remainingDamage = internalPart.ApplyDamage(ctx.WithAmount(remainingDamage), damagedParts);
             }
 
             return remainingDamage;

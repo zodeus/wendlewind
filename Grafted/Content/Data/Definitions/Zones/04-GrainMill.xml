@@ -59,7 +59,7 @@
                             <Hammers>1</Hammers>
                         </Skills>
                         <EquipmentItems>
-                            <ListItem>WoodenHammer</ListItem>
+                            <ListItem>StoneHammer</ListItem>
                             <ListItem>LeatherVambrace</ListItem>
                             <ListItem>LeatherVambrace</ListItem>
                             <ListItem>LeatherGreave</ListItem>
@@ -99,7 +99,7 @@
                             <Hammers>2</Hammers>
                         </Skills>
                         <EquipmentItems>
-                            <ListItem>WoodenHammer</ListItem>
+                            <ListItem>StoneHammer</ListItem>
                             <ListItem>LeatherVambrace</ListItem>
                             <ListItem>LeatherVambrace</ListItem>
                             <ListItem>LeatherGreave</ListItem>
@@ -140,7 +140,7 @@
                             <Hammers>2</Hammers>
                         </Skills>
                         <EquipmentItems>
-                            <ListItem>WoodenHammer</ListItem>
+                            <ListItem>StoneHammer</ListItem>
                             <ListItem>LeatherVambrace</ListItem>
                             <ListItem>LeatherVambrace</ListItem>
                             <ListItem>LeatherGreave</ListItem>
@@ -167,7 +167,7 @@
             <ListItem>
                 <MaxBoxes>3</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>WeaponChestIronAge</ListItem>
+                    <ListItem>WeaponChest2</ListItem>
                     <ListItem>TrinketChest1</ListItem>
                     <ListItem>ArmorChest2</ListItem>
                 </PotentialLootBoxes>
@@ -182,7 +182,7 @@
                             <Hammers>2</Hammers>
                         </Skills>
                         <EquipmentItems>
-                            <ListItem>WoodenHammer</ListItem>
+                            <ListItem>StoneHammer</ListItem>
                             <ListItem>LeatherVambrace</ListItem>
                             <ListItem>LeatherVambrace</ListItem>
                             <ListItem>LeatherGreave</ListItem>
@@ -225,8 +225,8 @@
                             <Hammers>10</Hammers>
                         </Skills>
                         <EquipmentItems>
-                            <ListItem>WoodenHammer</ListItem>
-                            <ListItem>WoodenHammer</ListItem>
+                            <ListItem>StoneHammer</ListItem>
+                            <ListItem>StoneHammer</ListItem>
                             <ListItem>ChainVambrace</ListItem>
                             <ListItem>ChainVambrace</ListItem>
                             <ListItem>ChainGreave</ListItem>

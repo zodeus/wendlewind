@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <WeaponManeuverDef>
+        <Moniker>Stab</Moniker>
+        <Label>Stab</Label>
+        <Weapons>
+            <ListItem>Knife</ListItem>
+            <ListItem>Sword</ListItem>
+            <ListItem>Dagger</ListItem>
+            <ListItem>Spear</ListItem>
+        </Weapons>
+        <DamageMultiplier>.5~1</DamageMultiplier>
+    </WeaponManeuverDef>
+</Definitions>

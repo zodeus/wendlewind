@@ -46,11 +46,12 @@ internal sealed class BoakItemsArmorPanel : ScrollViewer
             {
                 Width = 56,
                 Height = 56,
-                Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
+                Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundDark64],
                 Padding = new Thickness(4)
             };
             iconContainer.Widgets.Add(new Image
             {
+                Margin = new Thickness(6),
                 Width = 48,
                 Height = 48,
                 Background = new TextureRegion(def.Icon),

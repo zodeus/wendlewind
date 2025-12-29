@@ -2,48 +2,98 @@
 
 <Definitions>
     <ItemDef ParentName="WeaponBlunt">
-        <Moniker>BirchRod</Moniker>
-        <Label>Birch Rod</Label>
+        <Moniker>WoodClub</Moniker>
+        <Label>Wood Club</Label>
         <Description>A tool used in the service of justice (1.5x to bones)</Description>
-        <EquipmentProperties>
-            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
-        </EquipmentProperties>
-        <WeaponProperties>
-            <WeaponType>Staff</WeaponType>
-            <SubstanceModifiers ListKey="Substance">
-                <ListItem>
-                    <Substance>Flesh</Substance>
-                    <Modifier>1.1</Modifier>
-                </ListItem>
-            </SubstanceModifiers>
-        </WeaponProperties>
-        <TexturePath>Entities/Item/Equipment/Weapon/Blunt/WoodenStick</TexturePath>
-        <BaseStats>
-            <MeleePower>20</MeleePower>
-            <MaxDurability>400</MaxDurability>
-        </BaseStats>
-        <DisassembleProperties>
-            <Items>
-                <ListItem>
-                    <Item>RepairKit</Item>
-                    <Count>1</Count>
-                </ListItem>
-            </Items>
-        </DisassembleProperties>
-    </ItemDef>
-    <ItemDef ParentName="WeaponBlunt">
-        <Moniker>WoodenHammer</Moniker>
-        <Label>Wooden Hammer</Label>
-        <Description>It's a smasher!</Description>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
         </EquipmentProperties>
         <WeaponProperties>
             <WeaponType>Hammer</WeaponType>
         </WeaponProperties>
-        <TexturePath>Entities/Item/Equipment/Weapon/Blunt/WoodenHammer</TexturePath>
+        <TexturePath>Entities/Item/Equipment/Weapon/Primitive/WoodClub</TexturePath>
         <BaseStats>
-            <MeleePower>25</MeleePower>
+            <MeleePower>12</MeleePower>
+            <MaxDurability>400</MaxDurability>
+        </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>WoodBoard</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="WeaponSharp">
+        <Moniker>BoneKnife</Moniker>
+        <Label>Bone Knife</Label>
+        <Description>It's a knife made from bone</Description>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+        </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Knife</WeaponType>
+        </WeaponProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Primitive/BoneKnife</TexturePath>
+        <BaseStats>
+            <MeleePower>12</MeleePower>
+            <MaxDurability>400</MaxDurability>
+        </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>BoneShard</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>Rock</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="WeaponPiercing">
+        <Moniker>BoneSpear</Moniker>
+        <Label>Bone Spear</Label>
+        <Description>It's a spear made from bone</Description>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+        </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Spear</WeaponType>
+        </WeaponProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Primitive/BoneSpear</TexturePath>
+        <BaseStats>
+            <MeleePower>12</MeleePower>
+            <MaxDurability>400</MaxDurability>
+        </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>BoneShard</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>Rock</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="WeaponBlunt">
+        <Moniker>StoneHammer</Moniker>
+        <Label>Stone Hammer</Label>
+        <Description>It's a hammer made from stone</Description>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+        </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Hammer</WeaponType>
+        </WeaponProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Primitive/StoneHammer</TexturePath>
+        <BaseStats>
+            <MeleePower>12</MeleePower>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -53,31 +103,7 @@
                     <Count>1</Count>
                 </ListItem>
                 <ListItem>
-                    <Item>Thread</Item>
-                    <Count>1</Count>
-                </ListItem>
-            </Items>
-        </DisassembleProperties>
-    </ItemDef>
-    <ItemDef ParentName="WeaponSharp">
-        <Moniker>Knife</Moniker>
-        <Label>Knife</Label>
-        <Description>It's a simple knife</Description>
-        <EquipmentProperties>
-            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
-        </EquipmentProperties>
-        <WeaponProperties>
-            <WeaponType>Knife</WeaponType>
-        </WeaponProperties>
-        <TexturePath>Entities/Item/Equipment/Weapon/Sharp/BasicKnife</TexturePath>
-        <BaseStats>
-            <MeleePower>25</MeleePower>
-            <MaxDurability>400</MaxDurability>
-        </BaseStats>
-        <DisassembleProperties>
-            <Items>
-                <ListItem>
-                    <Item>IronNugget</Item>
+                    <Item>Rock</Item>
                     <Count>1</Count>
                 </ListItem>
             </Items>

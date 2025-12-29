@@ -37,6 +37,12 @@
         <SkillType>Combat</SkillType>
         <WeaponType>Axe</WeaponType>
     </SkillDef>
+    <SkillDef>
+        <Moniker>Spears</Moniker>
+        <Label>Spears</Label>
+        <SkillType>Combat</SkillType>
+        <WeaponType>Spear</WeaponType>
+    </SkillDef>
 
     <!-- Built-in Weapons -->
     <SkillDef>
