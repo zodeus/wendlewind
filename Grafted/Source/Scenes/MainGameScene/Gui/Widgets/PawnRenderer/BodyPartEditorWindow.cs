@@ -17,7 +17,14 @@ public class BodyPartTransformOverride
     public bool FlipVertical { get; set; } = false;
     public int RenderOrder { get; set; } = 0;
     
-    public BodyPartTransformOverride(Vector2 position, float scale = 1f, float rotation = 0f, bool flipH = false, bool flipV = false, int renderOrder = 0)
+    // Equipment attachment properties
+    public bool HasEquipmentAttachment { get; set; } = false;
+    public Vector2 EquipmentOffset { get; set; } = Vector2.Zero;
+    public float EquipmentRotation { get; set; } = 0f;
+    public float EquipmentScale { get; set; } = 1f;
+    public bool EquipmentFlipH { get; set; } = false;
+    
+    public BodyPartTransformOverride(Vector2 position, float scale = 1f, float rotation = 0f, bool flipH = false, bool flipV = false, int renderOrder = 0, EquipmentAttachmentData? equipmentAttachment = null)
     {
         Position = position;
         Scale = scale;
@@ -25,6 +32,15 @@ public class BodyPartTransformOverride
         FlipHorizontal = flipH;
         FlipVertical = flipV;
         RenderOrder = renderOrder;
+        
+        if (equipmentAttachment.HasValue)
+        {
+            HasEquipmentAttachment = true;
+            EquipmentOffset = equipmentAttachment.Value.Offset;
+            EquipmentRotation = equipmentAttachment.Value.Rotation;
+            EquipmentScale = equipmentAttachment.Value.Scale;
+            EquipmentFlipH = equipmentAttachment.Value.FlipHorizontal;
+        }
     }
 }
 
@@ -68,6 +84,19 @@ public class BodyPartEditorWindow : Window
     private readonly Button _flipVButton;
     private readonly Grid _partsGrid;
     private readonly Dictionary<string, Button> _partButtons = new();
+    
+    // Equipment attachment UI
+    private readonly Button _hasEquipmentButton;
+    private readonly HorizontalSlider _equipOffsetXSlider;
+    private readonly HorizontalSlider _equipOffsetYSlider;
+    private readonly HorizontalSlider _equipRotationSlider;
+    private readonly HorizontalSlider _equipScaleSlider;
+    private readonly Label _equipOffsetXLabel;
+    private readonly Label _equipOffsetYLabel;
+    private readonly Label _equipRotationLabel;
+    private readonly Label _equipScaleLabel;
+    private readonly Button _equipFlipHButton;
+    private readonly Panel _equipmentPanel;
 
     public BodyPartEditorWindow(Pawn pawn, int renderSize = 512)
     {
@@ -77,7 +106,7 @@ public class BodyPartEditorWindow : Window
         
         Title = $"Body Part Editor - {pawn.Label}";
         Width = 1200;
-        Height = 800;
+        Height = 1000;
         
         // Initialize overrides from current layout
         InitializeOverrides();
@@ -191,6 +220,99 @@ public class BodyPartEditorWindow : Window
         flipPanel.Widgets.Add(_flipVButton);
         rightPanel.Widgets.Add(flipPanel);
         
+        rightPanel.Widgets.Add(new Label { Text = "" }); // Spacer
+        
+        // Equipment Attachment section
+        rightPanel.Widgets.Add(new Label { Text = "Equipment Attachment:", TextColor = Color.Orange });
+        
+        _hasEquipmentButton = new Button(BaseContent.Styles.Button.Normal)
+        {
+            Content = new Label { Text = "Has Attachment: Off" },
+        };
+        _hasEquipmentButton.Click += OnHasEquipmentClicked;
+        rightPanel.Widgets.Add(_hasEquipmentButton);
+        
+        _equipmentPanel = new Panel();
+        var equipStack = new VerticalStackPanel { Spacing = 5 };
+        
+        // Equipment Offset X
+        equipStack.Widgets.Add(new Label { Text = "Offset X:" });
+        var equipOffsetXPanel = new HorizontalStackPanel { Spacing = 5 };
+        _equipOffsetXSlider = new HorizontalSlider
+        {
+            Minimum = -200f,
+            Maximum = 200f,
+            Value = 0f,
+            Width = 380
+        };
+        _equipOffsetXSlider.ValueChangedByUser += OnEquipOffsetXChanged;
+        _equipOffsetXLabel = new Label { Text = "0", Width = 50 };
+        equipOffsetXPanel.Widgets.Add(_equipOffsetXSlider);
+        equipOffsetXPanel.Widgets.Add(_equipOffsetXLabel);
+        equipStack.Widgets.Add(equipOffsetXPanel);
+        
+        // Equipment Offset Y
+        equipStack.Widgets.Add(new Label { Text = "Offset Y:" });
+        var equipOffsetYPanel = new HorizontalStackPanel { Spacing = 5 };
+        _equipOffsetYSlider = new HorizontalSlider
+        {
+            Minimum = -200f,
+            Maximum = 200f,
+            Value = 0f,
+            Width = 380
+        };
+        _equipOffsetYSlider.ValueChangedByUser += OnEquipOffsetYChanged;
+        _equipOffsetYLabel = new Label { Text = "0", Width = 50 };
+        equipOffsetYPanel.Widgets.Add(_equipOffsetYSlider);
+        equipOffsetYPanel.Widgets.Add(_equipOffsetYLabel);
+        equipStack.Widgets.Add(equipOffsetYPanel);
+        
+        // Equipment Rotation
+        equipStack.Widgets.Add(new Label { Text = "Rotation:" });
+        var equipRotPanel = new HorizontalStackPanel { Spacing = 5 };
+        _equipRotationSlider = new HorizontalSlider
+        {
+            Minimum = -180f,
+            Maximum = 180f,
+            Value = 0f,
+            Width = 380
+        };
+        _equipRotationSlider.ValueChangedByUser += OnEquipRotationChanged;
+        _equipRotationLabel = new Label { Text = "0°", Width = 50 };
+        equipRotPanel.Widgets.Add(_equipRotationSlider);
+        equipRotPanel.Widgets.Add(_equipRotationLabel);
+        equipStack.Widgets.Add(equipRotPanel);
+        
+        // Equipment Scale
+        equipStack.Widgets.Add(new Label { Text = "Scale:" });
+        var equipScalePanel = new HorizontalStackPanel { Spacing = 5 };
+        _equipScaleSlider = new HorizontalSlider
+        {
+            Minimum = 0.1f,
+            Maximum = 3.0f,
+            Value = 1f,
+            Width = 380
+        };
+        _equipScaleSlider.ValueChangedByUser += OnEquipScaleChanged;
+        _equipScaleLabel = new Label { Text = "1.00", Width = 50 };
+        equipScalePanel.Widgets.Add(_equipScaleSlider);
+        equipScalePanel.Widgets.Add(_equipScaleLabel);
+        equipStack.Widgets.Add(equipScalePanel);
+        
+        // Equipment Flip H
+        _equipFlipHButton = new Button(BaseContent.Styles.Button.Normal)
+        {
+            Content = new Label { Text = "Flip H: Off" },
+        };
+        _equipFlipHButton.Click += OnEquipFlipHClicked;
+        equipStack.Widgets.Add(_equipFlipHButton);
+        
+        _equipmentPanel.Widgets.Add(equipStack);
+        _equipmentPanel.Visible = false; // Hidden until a part with equipment is selected
+        rightPanel.Widgets.Add(_equipmentPanel);
+        
+        rightPanel.Widgets.Add(new Label { Text = "" }); // Spacer
+        
         // Action buttons
         var copyButton = new Button(BaseContent.Styles.Button.Normal)
         {
@@ -220,7 +342,15 @@ public class BodyPartEditorWindow : Window
         selectAllButton.Click += (_, _) => SelectAllParts();
         rightPanel.Widgets.Add(selectAllButton);
         
-        mainPanel.Widgets.Add(rightPanel);
+        // Wrap right panel in scroll viewer for overflow
+        var rightScrollViewer = new ScrollViewer
+        {
+            Content = rightPanel,
+            ShowHorizontalScrollBar = false,
+            ShowVerticalScrollBar = true,
+            Height = 950
+        };
+        mainPanel.Widgets.Add(rightScrollViewer);
         
         Content = mainPanel;
     }
@@ -246,7 +376,8 @@ public class BodyPartEditorWindow : Window
                     info.Rotation,
                     flipH,
                     flipV,
-                    info.RenderOrder);
+                    info.RenderOrder,
+                    info.EquipmentAttachment);
             }
         }
     }
@@ -405,6 +536,138 @@ public class BodyPartEditorWindow : Window
             vLabel.Text = over?.FlipVertical == true ? "Vert: ON" : "Vert: Off";
         }
     }
+    
+    private void OnHasEquipmentClicked(object? sender, EventArgs e)
+    {
+        if (_selectedPartLabels.Count == 0) return;
+        
+        var selectedOverrides = _selectedPartLabels
+            .Where(l => _overrides.ContainsKey(l))
+            .Select(l => _overrides[l])
+            .ToList();
+        var anyWithout = selectedOverrides.Any(o => !o.HasEquipmentAttachment);
+        foreach (var over in selectedOverrides)
+        {
+            over.HasEquipmentAttachment = anyWithout;
+            if (anyWithout && over.EquipmentScale == 0)
+            {
+                over.EquipmentScale = 1f; // Default scale
+            }
+        }
+        UpdateEquipmentUI(selectedOverrides.FirstOrDefault());
+    }
+    
+    private void OnEquipOffsetXChanged(object? sender, EventArgs e)
+    {
+        var newValue = MathF.Round(_equipOffsetXSlider.Value);
+        _equipOffsetXSlider.Value = newValue;
+        _equipOffsetXLabel.Text = $"{newValue:F0}";
+        
+        foreach (var label in _selectedPartLabels)
+        {
+            if (_overrides.TryGetValue(label, out var over))
+            {
+                over.EquipmentOffset = new Vector2(newValue, over.EquipmentOffset.Y);
+            }
+        }
+    }
+    
+    private void OnEquipOffsetYChanged(object? sender, EventArgs e)
+    {
+        var newValue = MathF.Round(_equipOffsetYSlider.Value);
+        _equipOffsetYSlider.Value = newValue;
+        _equipOffsetYLabel.Text = $"{newValue:F0}";
+        
+        foreach (var label in _selectedPartLabels)
+        {
+            if (_overrides.TryGetValue(label, out var over))
+            {
+                over.EquipmentOffset = new Vector2(over.EquipmentOffset.X, newValue);
+            }
+        }
+    }
+    
+    private void OnEquipRotationChanged(object? sender, EventArgs e)
+    {
+        var newValue = MathF.Round(_equipRotationSlider.Value);
+        _equipRotationSlider.Value = newValue;
+        _equipRotationLabel.Text = $"{newValue:F0}°";
+        
+        foreach (var label in _selectedPartLabels)
+        {
+            if (_overrides.TryGetValue(label, out var over))
+            {
+                over.EquipmentRotation = MathHelper.ToRadians(newValue);
+            }
+        }
+    }
+    
+    private void OnEquipScaleChanged(object? sender, EventArgs e)
+    {
+        var newValue = MathF.Round(_equipScaleSlider.Value * 20f) / 20f;
+        _equipScaleSlider.Value = newValue;
+        _equipScaleLabel.Text = $"{newValue:F2}";
+        
+        foreach (var label in _selectedPartLabels)
+        {
+            if (_overrides.TryGetValue(label, out var over))
+            {
+                over.EquipmentScale = newValue;
+            }
+        }
+    }
+    
+    private void OnEquipFlipHClicked(object? sender, EventArgs e)
+    {
+        if (_selectedPartLabels.Count == 0) return;
+        
+        var selectedOverrides = _selectedPartLabels
+            .Where(l => _overrides.ContainsKey(l))
+            .Select(l => _overrides[l])
+            .ToList();
+        var anyNotFlipped = selectedOverrides.Any(o => !o.EquipmentFlipH);
+        foreach (var over in selectedOverrides)
+        {
+            over.EquipmentFlipH = anyNotFlipped;
+        }
+        UpdateEquipFlipHButton(selectedOverrides.FirstOrDefault());
+    }
+    
+    private void UpdateEquipFlipHButton(BodyPartTransformOverride? over)
+    {
+        if (_equipFlipHButton.Content is Label label)
+        {
+            label.Text = over?.EquipmentFlipH == true ? "Flip H: ON" : "Flip H: Off";
+        }
+    }
+    
+    private void UpdateEquipmentUI(BodyPartTransformOverride? over)
+    {
+        if (_hasEquipmentButton.Content is Label hasLabel)
+        {
+            hasLabel.Text = over?.HasEquipmentAttachment == true ? "Has Attachment: ON" : "Has Attachment: Off";
+        }
+        
+        _equipmentPanel.Visible = over?.HasEquipmentAttachment == true;
+        
+        if (over != null && over.HasEquipmentAttachment)
+        {
+            _equipOffsetXSlider.Value = over.EquipmentOffset.X;
+            _equipOffsetXLabel.Text = $"{over.EquipmentOffset.X:F0}";
+            
+            _equipOffsetYSlider.Value = over.EquipmentOffset.Y;
+            _equipOffsetYLabel.Text = $"{over.EquipmentOffset.Y:F0}";
+            
+            var rotDegrees = MathHelper.ToDegrees(over.EquipmentRotation);
+            _equipRotationSlider.Value = rotDegrees;
+            _equipRotationLabel.Text = $"{rotDegrees:F0}°";
+            
+            _equipScaleSlider.Value = over.EquipmentScale;
+            _equipScaleLabel.Text = $"{over.EquipmentScale:F2}";
+            
+            UpdateEquipFlipHButton(over);
+        }
+    }
 
     private void SelectPart(string partLabel, bool addToSelection)
     {
@@ -461,6 +724,7 @@ public class BodyPartEditorWindow : Window
             _renderOrderSlider.Value = 0f;
             _renderOrderValueLabel.Text = "0";
             UpdateFlipButtonLabels(null);
+            UpdateEquipmentUI(null);
         }
         else if (_selectedPartLabels.Count == 1)
         {
@@ -480,12 +744,19 @@ public class BodyPartEditorWindow : Window
                 _renderOrderValueLabel.Text = $"{over.RenderOrder}";
                 
                 UpdateFlipButtonLabels(over);
+                UpdateEquipmentUI(over);
             }
         }
         else
         {
             _selectedPartLabel_UI.Text = $"({_selectedPartLabels.Count} parts)";
             // Keep current slider values for multi-selection
+            // Show equipment UI if any selected part has equipment
+            var firstWithEquip = _selectedPartLabels
+                .Where(l => _overrides.ContainsKey(l))
+                .Select(l => _overrides[l])
+                .FirstOrDefault(o => o.HasEquipmentAttachment);
+            UpdateEquipmentUI(firstWithEquip);
         }
     }
 
@@ -796,6 +1067,15 @@ public class BodyPartEditorWindow : Window
                 tint = Color.Lerp(tint, Color.Orange, 0.35f);
             }
             
+            // Render equipped weapons BEFORE the body part (so they appear behind/underneath)
+            // Build equipment attachment from override if available
+            EquipmentAttachmentData? equipAttachment = null;
+            if (over != null && over.HasEquipmentAttachment)
+            {
+                equipAttachment = new EquipmentAttachmentData(over.EquipmentOffset, over.EquipmentRotation, over.EquipmentScale, over.EquipmentFlipH);
+            }
+            BodyPartRenderHelper.RenderEquippedWeapons(_spriteBatch, part, info, position: position, scale: partScale, equipmentAttachment: equipAttachment, layoutScale: layoutScale, offset: destOffset);
+            
             BodyPartRenderHelper.RenderBodyPart(
                 _spriteBatch, 
                 info, 
@@ -814,7 +1094,7 @@ public class BodyPartEditorWindow : Window
         Core.GraphicsDevice.ScissorRectangle = previousScissor;
         Core.GraphicsDevice.RasterizerState = previousRasterizerState;
     }
-
+    
     private void ResetAll()
     {
         InitializeOverrides();
@@ -843,7 +1123,8 @@ public class BodyPartEditorWindow : Window
                         info.Rotation,
                         flipH,
                         flipV,
-                        info.RenderOrder);
+                        info.RenderOrder,
+                        info.EquipmentAttachment);
                 }
             }
         }
@@ -858,7 +1139,7 @@ public class BodyPartEditorWindow : Window
         sb.AppendLine("private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()");
         sb.AppendLine("{");
         
-        var partInfos = new List<(string label, Vector2 position, int renderOrder, float scale, float rotation, bool flipH, bool flipV)>();
+        var partInfos = new List<(string label, Vector2 position, int renderOrder, float scale, float rotation, bool flipH, bool flipV, bool hasEquip, Vector2 equipOffset, float equipRot, float equipScale, bool equipFlipH)>();
         
         // Use the overrides dictionary which contains all parts we've been editing
         foreach (var (label, over) in _overrides)
@@ -870,18 +1151,29 @@ public class BodyPartEditorWindow : Window
                 over.Scale, 
                 over.Rotation, 
                 over.FlipHorizontal, 
-                over.FlipVertical));
+                over.FlipVertical,
+                over.HasEquipmentAttachment,
+                over.EquipmentOffset,
+                over.EquipmentRotation,
+                over.EquipmentScale,
+                over.EquipmentFlipH));
         }
         
         partInfos.Sort((a, b) => a.renderOrder.CompareTo(b.renderOrder));
         
-        foreach (var (label, position, renderOrder, scale, rotation, flipH, flipV) in partInfos)
+        foreach (var (label, position, renderOrder, scale, rotation, flipH, flipV, hasEquip, equipOffset, equipRot, equipScale, equipFlipH) in partInfos)
         {
             var optionalParams = "";
             if (rotation != 0f) optionalParams += $", {rotation:F4}f";
-            else if (flipH || flipV) optionalParams += ", 0f"; // Need to include rotation if we have flip params
+            else if (flipH || flipV || hasEquip) optionalParams += ", 0f"; // Need to include rotation if we have later params
             if (flipH) optionalParams += ", flipHorizontal: true";
             if (flipV) optionalParams += ", flipVertical: true";
+            
+            if (hasEquip)
+            {
+                var equipParams = $"new EquipmentAttachmentData(new Vector2({equipOffset.X:F0}f, {equipOffset.Y:F0}f), {equipRot:F4}f, {equipScale:F2}f, {equipFlipH.ToString().ToLower()})";
+                optionalParams += $", equipmentAttachment: {equipParams}";
+            }
             
             sb.AppendLine($"    {{ \"{label}\", new BodyPartLayoutData(new Vector2({position.X:F0}f, {position.Y:F0}f), {renderOrder}, {scale:F2}f{optionalParams}) }},");
         }

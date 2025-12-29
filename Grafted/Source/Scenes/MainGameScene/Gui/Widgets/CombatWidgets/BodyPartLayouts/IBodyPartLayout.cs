@@ -1,6 +1,44 @@
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayouts;
 
 /// <summary>
+/// Data for positioning equipment attached to a body part.
+/// Offsets are relative to the body part's rendered center.
+/// </summary>
+public readonly struct EquipmentAttachmentData
+{
+    /// <summary>
+    /// Offset from the body part's rendered center to the equipment attachment point.
+    /// In native layout coordinates.
+    /// </summary>
+    public readonly Vector2 Offset;
+    
+    /// <summary>
+    /// Rotation for attached equipment (in radians).
+    /// </summary>
+    public readonly float Rotation;
+    
+    /// <summary>
+    /// Scale multiplier for attached equipment (1.0 = normal size).
+    /// </summary>
+    public readonly float Scale;
+    
+    /// <summary>
+    /// Whether to flip the equipment horizontally.
+    /// </summary>
+    public readonly bool FlipHorizontal;
+    
+    public static readonly EquipmentAttachmentData Default = new(Vector2.Zero, 0f, 1f, false);
+    
+    public EquipmentAttachmentData(Vector2 offset, float rotation = 0f, float scale = 1f, bool flipHorizontal = false)
+    {
+        Offset = offset;
+        Rotation = rotation;
+        Scale = scale;
+        FlipHorizontal = flipHorizontal;
+    }
+}
+
+/// <summary>
 /// Layout data for positioning and transforming a body part in a layout.
 /// </summary>
 public readonly struct BodyPartLayoutData
@@ -42,11 +80,17 @@ public readonly struct BodyPartLayoutData
     public readonly bool FlipVertical;
     
     /// <summary>
+    /// Equipment attachment data for this body part (for weapons, etc.).
+    /// Null means no equipment can be attached visually.
+    /// </summary>
+    public readonly EquipmentAttachmentData? EquipmentAttachment;
+    
+    /// <summary>
     /// Gets the actual scale multiplier (1f * ScaleMultiplier).
     /// </summary>
     public float Scale => 1f * ScaleMultiplier;
 
-    public BodyPartLayoutData(Vector2 position, int renderOrder, float scaleMultiplier = 1f, float rotation = 0f, bool flipHorizontal = false, bool flipVertical = false)
+    public BodyPartLayoutData(Vector2 position, int renderOrder, float scaleMultiplier = 1f, float rotation = 0f, bool flipHorizontal = false, bool flipVertical = false, EquipmentAttachmentData? equipmentAttachment = null)
     {
         Position = position;
         RenderOrder = renderOrder;
@@ -54,6 +98,7 @@ public readonly struct BodyPartLayoutData
         Rotation = rotation;
         FlipHorizontal = flipHorizontal;
         FlipVertical = flipVertical;
+        EquipmentAttachment = equipmentAttachment;
     }
 }
 
@@ -92,7 +137,13 @@ public readonly struct BodyPartRenderInfo
     /// </summary>
     public readonly SpriteEffects Effects;
     
-    public BodyPartRenderInfo(Texture2D texture, Vector2 position, int renderOrder, float scale = 1f, float rotation = 0f, SpriteEffects effects = SpriteEffects.None)
+    /// <summary>
+    /// Equipment attachment data for this body part.
+    /// Null means no equipment can be attached visually.
+    /// </summary>
+    public readonly EquipmentAttachmentData? EquipmentAttachment;
+    
+    public BodyPartRenderInfo(Texture2D texture, Vector2 position, int renderOrder, float scale = 1f, float rotation = 0f, SpriteEffects effects = SpriteEffects.None, EquipmentAttachmentData? equipmentAttachment = null)
     {
         Texture = texture;
         Position = position;
@@ -100,6 +151,7 @@ public readonly struct BodyPartRenderInfo
         Scale = scale;
         Rotation = rotation;
         Effects = effects;
+        EquipmentAttachment = equipmentAttachment;
     }
     
     public BodyPartRenderInfo(Texture2D texture, BodyPartLayoutData layoutData)
@@ -109,6 +161,7 @@ public readonly struct BodyPartRenderInfo
         RenderOrder = layoutData.RenderOrder;
         Scale = layoutData.Scale;
         Rotation = layoutData.Rotation;
+        EquipmentAttachment = layoutData.EquipmentAttachment;
         
         Effects = SpriteEffects.None;
         if (layoutData.FlipHorizontal) Effects |= SpriteEffects.FlipHorizontally;
@@ -194,6 +247,74 @@ public static class BodyPartRenderHelper
             finalScale,
             fx,
             0f);
+    }
+    
+    /// <summary>
+    /// Renders equipped weapons for a body part. Call this BEFORE RenderBodyPart to have weapons appear behind the part.
+    /// </summary>
+    /// <param name="spriteBatch">The sprite batch to render to.</param>
+    /// <param name="part">The body part to render weapons for.</param>
+    /// <param name="partInfo">The render info for the body part.</param>
+    /// <param name="position">Position override (in native coordinates), or null to use partInfo.Position.</param>
+    /// <param name="scale">Scale override, or null to use partInfo.Scale.</param>
+    /// <param name="equipmentAttachment">Equipment attachment override, or null to use partInfo.EquipmentAttachment.</param>
+    /// <param name="layoutScale">Scale factor from native to render target size.</param>
+    /// <param name="offset">Optional offset to add to the final position (in screen coordinates).</param>
+    public static void RenderEquippedWeapons(
+        SpriteBatch spriteBatch,
+        BodyPart part,
+        BodyPartRenderInfo partInfo,
+        Vector2? position = null,
+        float? scale = null,
+        EquipmentAttachmentData? equipmentAttachment = null,
+        float layoutScale = 1f,
+        Vector2? offset = null)
+    {
+        var pos = position ?? partInfo.Position;
+        var partScale = scale ?? partInfo.Scale;
+        var attachment = equipmentAttachment ?? partInfo.EquipmentAttachment ?? EquipmentAttachmentData.Default;
+        var off = offset ?? Vector2.Zero;
+        
+        foreach (var (slotType, item) in part.Equipment)
+        {
+            // Skip if no item equipped
+            if (item == null) continue;
+            
+            // Skip built-in weapons (claws, teeth, etc.)
+            if (slotType == EquipmentSlotType.BuiltIn) continue;
+            
+            // Only render weapons (HandWeapon, FootWeapon slots)
+            if (item.ItemDef.EquipmentProperties?.EquipmentType != EquipmentType.Weapon) continue;
+            
+            // Get the weapon's texture
+            var weaponTexture = item.ItemDef.Texture;
+            if (weaponTexture == null) continue;
+            
+            // Calculate the center of the body part in screen coordinates
+            var textureCenter = new Vector2(partInfo.Texture.Width / 2f, partInfo.Texture.Height / 2f);
+            var finalScale = partScale * layoutScale;
+            var partCenterScreen = pos * layoutScale + textureCenter * finalScale + off;
+            
+            // Apply the equipment attachment offset (scaled to screen coordinates)
+            var screenPosition = partCenterScreen + attachment.Offset * layoutScale;
+            var weaponRotation = attachment.Rotation;
+            var weaponScale = attachment.Scale * layoutScale;
+            var weaponEffects = attachment.FlipHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            
+            // Origin at bottom-center of weapon texture, so the grip aligns with the attachment point
+            var origin = new Vector2(weaponTexture.Width / 2f, weaponTexture.Height);
+            
+            spriteBatch.Draw(
+                weaponTexture,
+                screenPosition,
+                null,
+                Color.White,
+                weaponRotation,
+                origin,
+                weaponScale,
+                weaponEffects,
+                0f);
+        }
     }
 }
 
