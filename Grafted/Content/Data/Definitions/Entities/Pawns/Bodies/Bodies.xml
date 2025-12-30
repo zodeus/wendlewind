@@ -27,6 +27,16 @@
         <GeneratorClass>PigBodyGenerator</GeneratorClass>
         <LayoutClass>PigBodyPartLayout</LayoutClass>
     </BodyDef>
+    
+    <BodyDef>
+        <Moniker>TurtleBody</Moniker>
+        <Label>Turtle Body</Label>
+        <BloodType>ToxicSlime</BloodType>
+        <BoneDensity>2</BoneDensity>
+        <MaxBlood>3000</MaxBlood>
+        <GeneratorClass>TurtleBodyGenerator</GeneratorClass>
+        <LayoutClass>TurtleBodyPartLayout</LayoutClass>
+    </BodyDef>
     <BodyDef>
         <Moniker>HorseBody</Moniker>
         <Label>Horse Body</Label>

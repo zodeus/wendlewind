@@ -34,8 +34,8 @@
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>WeaponChest2</ListItem>
-                    <ListItem>ArmorChest2</ListItem>
+                    <ListItem>WeaponChest1</ListItem>
+                    <ListItem>ArmorChest1</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -96,7 +96,7 @@
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>TrinketChest1</ListItem>
+                    <ListItem>SupplyChest1</ListItem>
                     <ListItem>ArmorChest1</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
@@ -156,9 +156,9 @@
             </ListItem>
             <ListItem>
                 <IsBoss>true</IsBoss>
-                <MaxBoxes>1</MaxBoxes>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>WeaponChest2</ListItem>
+                    <ListItem>TrinketChest1</ListItem>
                     <ListItem>ArmorChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>

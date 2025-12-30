@@ -29,11 +29,9 @@ public abstract class BodyPartModifier : IExposable, IIdentityProvider
     public bool IsExpired;
     public int Severity = 1;
     public string Maneuver = "undefined";
-
     public int TicksRemaining => DurationInTicks - Ticks;
-
     public string Label => Def.Label;
-
+    public virtual List<SubstanceType> AllowedSubstances => [];
 
     public virtual void Tick()
     {
@@ -50,6 +48,8 @@ public abstract class BodyPartModifier : IExposable, IIdentityProvider
 
     public void SpreadTo(BodyPart part)
     {
+        if (AllowedSubstances.Contains(part.Substance) == false) return;
+        
         if (part.HasModifier(Def))
         {
             return;

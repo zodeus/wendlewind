@@ -17,7 +17,7 @@ public class LootPanel : Panel, IUpdatable
         {
             MinHeight = 400,
             MaxHeight = 600,
-            Width = 720,
+            Width = 620,
             VerticalAlignment = VerticalAlignment.Stretch,
             Visible = !playerPawn.IsDead
         };

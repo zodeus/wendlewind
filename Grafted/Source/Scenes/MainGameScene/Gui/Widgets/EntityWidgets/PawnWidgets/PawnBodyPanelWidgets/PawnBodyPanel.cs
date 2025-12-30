@@ -12,7 +12,7 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
 
     public PawnBodyPanel(BaseGui gui, PawnBody body)
     {
-        MinWidth = 600;
+        MinWidth = 670;
         Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame], new Color(255, 255, 255, 230));
         _gui = gui;
         _body = body;

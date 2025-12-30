@@ -3,68 +3,67 @@ namespace Grafted.Sim.Entities.Pawns.Modifiers;
 [UsedImplicitly]
 public class FesteringHandler : BodyPartModifier
 {
-    private const double DamageFactorPerTick = .001f;
-    private const double SpreadThreshold = .5;
+    private const double BaseDamage = 0.1;
+    private const double PenetratedDamage = 0.01;
+    private const double OrganDamage = 0.005;
+    private const double PenetrationThreshold = 0.75;
+    private const double SpreadThreshold = 0.85;
+    private bool _hasPenetrated;
     private bool _hasSpread;
-    
-    public static readonly List<SubstanceType> AllowedSubstances = [SubstanceType.Flesh, SubstanceType.Bone];
-    
+    public override List<SubstanceType> AllowedSubstances => [SubstanceType.Flesh, SubstanceType.Bone, SubstanceType.Chitin];
+
     public override void Tick()
     {
         base.Tick();
-
         if (BodyPart.IsSevered)
         {
             return;
         }
-        BodyPart.HitPoints -= BodyPart.MaxHitPoints * DamageFactorPerTick;
-        if (BodyPart.HealthPercent < SpreadThreshold)
+        var damage = BaseDamage;
+        if (BodyPart.IsOrgan)
         {
-            if (_hasSpread) return;
-            var childPart = BodyPart.ExternalParts.InRandomOrder().FirstOrNull();
-            var parentPart = BodyPart.Socket?.ParentPart;
-
-            if (childPart != null && Core.Random.Chance(0.5f))
-            {
-                SpreadTo(childPart);
-                _hasSpread = true;
-            }
-            else if (parentPart != null)
-            {
-                SpreadTo(parentPart);
-                _hasSpread = true;
-            }
+            damage = OrganDamage;
+        } else if (_hasPenetrated)
+        {
+            damage = PenetratedDamage;
         }
+
+        BodyPart.HitPoints -= damage;
+
+        this.HandleSpreading(BodyPart, SpreadThreshold, ref _hasSpread);
+        this.HandlePenetration(BodyPart, PenetrationThreshold, ref _hasPenetrated);
 
         CheckIfLostVitalPart();
     }
 
-
     public override void MergeWith(BodyPartModifier modifier)
     {
         _hasSpread = false;
+        _hasPenetrated = false;
         base.MergeWith(modifier);
     }
 
     public override void ExposeData()
     {
         ScribeValues.Look(ref _hasSpread, "HasSpread");
+        ScribeValues.Look(ref _hasPenetrated, "HasPenetrated");
         base.ExposeData();
     }
 
     public override bool ApplyToPart(BodyPart part)
     {
-        if (part.IsExternal == false)
-        {
-            return false;
-        }
+        if (part.IsExternal == false) return false;
+        if (AllowedSubstances.Contains(part.Substance) == false) return false;
 
-        if (AllowedSubstances.Contains(part.Substance) == false)
+        var skin = part.Skin;
+        if (skin != null)
         {
-            return false;
+            skin.TryAddModifier(this);
         }
-
-        part.TryAddModifier(this);
+        else
+        {
+            part.TryAddModifier(this);
+        }
 
         return true;
     }

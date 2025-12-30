@@ -11,7 +11,7 @@
         <TexturePath>Entities/Item/Resource/Ammo/BoneDart</TexturePath>
         <AmmoProperties>
             <DamageType>Blunt</DamageType>
-            <DamageRange>600~900</DamageRange>
+            <DamageRange>100~200</DamageRange>
         </AmmoProperties>
         <CraftingProperties>
             <ResourceRequirements>
@@ -32,7 +32,7 @@
         <TexturePath>Entities/Item/Resource/Ammo/RockOfRot</TexturePath>
         <AmmoProperties>
             <DamageType>Magic</DamageType>
-            <DamageRange>500~800</DamageRange>
+            <DamageRange>50~300</DamageRange>
             <BodyPartModifiers>
                 <ListItem>
                     <Def>RotLung</Def>
@@ -72,7 +72,7 @@
         <TexturePath>Entities/Item/Resource/Ammo/PoisonDart</TexturePath>
         <AmmoProperties>
             <DamageType>Poison</DamageType>
-            <DamageRange>700~1000</DamageRange>
+            <DamageRange>200~400</DamageRange>
             <BodyPartModifiers>
                 <ListItem>
                     <Def>Poison</Def>

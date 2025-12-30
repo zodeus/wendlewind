@@ -3,9 +3,13 @@ namespace Grafted.Sim.Entities.Pawns.Modifiers;
 [UsedImplicitly]
 public class AcidHandler : BodyPartModifier
 {
-    public bool HasSpread;
-    public bool HasPenetrated;
-    public static readonly List<SubstanceType> AllowedSubstances = [
+    private const double BaseDamage = 0.04f;
+    private const double PenetratedDamage = 0.06f;
+    private const double PenetrationThreshold = 0.4f;
+    private const double SpreadThreshold = 0.2f;
+    private bool _hasSpread;
+    private bool _hasPenetrated;
+    public override List<SubstanceType> AllowedSubstances => [
         SubstanceType.Flesh, SubstanceType.Bone, SubstanceType.Fungus,
         SubstanceType.Wood, SubstanceType.Stone, SubstanceType.Metal,
         SubstanceType.Chitin
@@ -20,44 +24,20 @@ public class AcidHandler : BodyPartModifier
             return;
         }
 
-        var damageMultiplier = HasSpread ? .004f : 0.001f;
-        var damage = BodyPart.HitPoints * damageMultiplier;
+        var damage = _hasSpread ? PenetratedDamage : BaseDamage;
         BodyPart.HitPoints -= damage;
-        if (HasPenetrated == false && BodyPart is { Type: BodyPartType.Skin, HealthPercent: < .2f })
-        {
-            HasPenetrated = true;
-            if (BodyPart.Socket?.ParentPart?.AllInternalParts.Count != 0)
-            {
-                foreach (var internalPart in BodyPart.Socket!.ParentPart!.AllInternalParts)
-                {
-                    SpreadTo(internalPart);
-                }
-            }
-        }
-
-        if (HasSpread == false && BodyPart is { Type: BodyPartType.Skin, HealthPercent: < .4f })
-        {
-            HasSpread = true;
-            if (BodyPart.Socket?.ParentPart != null)
-            {
-                SpreadTo(BodyPart.Socket.ParentPart);
-                foreach (var externalPart in BodyPart.ExternalParts)
-                {
-                    SpreadTo(externalPart);
-                }
-            }
-        }
+        
+        this.HandleSpreading(BodyPart, SpreadThreshold, ref _hasSpread);
+        this.HandlePenetration(BodyPart, PenetrationThreshold, ref _hasPenetrated);
 
         CheckIfLostVitalPart();
     }
-
+    
     public override bool ApplyToPart(BodyPart part)
     {
-        if(part.IsExternal == false) return false;
-        if (AllowedSubstances.Contains(part.Substance) == false)
-        {
-            return false;
-        }
+        if (part.IsExternal == false) return false;
+        if (AllowedSubstances.Contains(part.Substance) == false) return false;
+
         var skin = part.Skin;
         if (skin != null)
         {
@@ -73,7 +53,8 @@ public class AcidHandler : BodyPartModifier
 
     public override void ExposeData()
     {
-        ScribeValues.Look(ref HasSpread, "HasSpread");
+        ScribeValues.Look(ref _hasSpread, "HasSpread");
+        ScribeValues.Look(ref _hasPenetrated, "HasPenetrated");
         base.ExposeData();
     }
 }

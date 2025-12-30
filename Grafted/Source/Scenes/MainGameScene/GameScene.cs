@@ -127,6 +127,12 @@ public class GameScene : Scene
             _context.TogglePause();
         }
 
+        if (WasKeyJustPressed(Keys.F2, currentKeyboardState))
+        {
+            NewGame();
+            return;
+        }
+
         if (currentKeyboardState.IsKeyDown(Keys.Q))
         {
             ActiveGui?.MouseAttachment?.Detach();

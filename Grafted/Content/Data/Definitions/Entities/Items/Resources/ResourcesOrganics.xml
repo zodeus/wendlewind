@@ -37,7 +37,7 @@
         <TexturePath>Entities/Item/Resource/Organic/BoneShard</TexturePath>
         <AmmoProperties>
             <DamageType>Sharp</DamageType>
-            <DamageRange>200~300</DamageRange>
+            <DamageRange>25~100</DamageRange>
         </AmmoProperties>
     </ItemDef>
     <ItemDef ParentName="OrganicResource">
@@ -47,7 +47,7 @@
         <TexturePath>Entities/Item/Resource/Organic/Fang</TexturePath>
         <AmmoProperties>
             <DamageType>Sharp</DamageType>
-            <DamageRange>250~500</DamageRange>
+            <DamageRange>50~150</DamageRange>
         </AmmoProperties>
     </ItemDef>
     <ItemDef ParentName="OrganicResource">
@@ -57,7 +57,7 @@
         <TexturePath>Entities/Item/Resource/Stone/Rock</TexturePath>
         <AmmoProperties>
             <DamageType>Blunt</DamageType>
-            <DamageRange>500~800</DamageRange>
+            <DamageRange>50~150</DamageRange>
         </AmmoProperties>
     </ItemDef>
 

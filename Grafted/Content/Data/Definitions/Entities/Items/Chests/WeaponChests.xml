@@ -10,6 +10,10 @@
         <CollectionLimit>1</CollectionLimit>
         <Items>
             <ListItem>
+                <ItemDef>BoneKnife</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
                 <ItemDef>BoneSpear</ItemDef>
                 <Weight>1</Weight>
             </ListItem>
@@ -19,10 +23,6 @@
             </ListItem>
             <ListItem>
                 <ItemDef>WoodClub</ItemDef>
-                <Weight>1</Weight>
-            </ListItem>
-            <ListItem>
-                <ItemDef>BoneKnife</ItemDef>
                 <Weight>1</Weight>
             </ListItem>
         </Items>

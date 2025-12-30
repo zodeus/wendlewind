@@ -31,6 +31,9 @@
             <SlotUsedToEquip>HandArmor</SlotUsedToEquip>
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Cloth/Glove</TexturePath>
+        <BaseStats>
+            <PhysicalResistance>5</PhysicalResistance>
+        </BaseStats>
         <DisassembleProperties>
             <Items>
                 <ListItem>

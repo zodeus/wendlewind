@@ -19,11 +19,6 @@
                 <ChanceToDrop>.5</ChanceToDrop>
             </ListItem>
             <ListItem>
-                <ItemDef>MedKit</ItemDef>
-                <Amount>1~2</Amount>
-                <ChanceToDrop>.3</ChanceToDrop>
-            </ListItem>
-            <ListItem>
                 <ItemDef>ArterialThreads</ItemDef>
                 <Amount>2~5</Amount>
                 <ChanceToDrop>.5</ChanceToDrop>
@@ -43,9 +38,9 @@
         <CollectionLimit>3</CollectionLimit>
         <Items>
             <ListItem>
-                <ItemDef>EnchantmentExpander</ItemDef>
+                <ItemDef>MedKit</ItemDef>
                 <Amount>1~2</Amount>
-                <ChanceToDrop>.75</ChanceToDrop>
+                <ChanceToDrop>.3</ChanceToDrop>
             </ListItem>
         </Items>
     </LootBoxDef>

@@ -11,4 +11,5 @@ public class AchievementCombatEndContext
     public double TotalDamageDealt { get; init; }
     public int CombatTicks { get; init; }
     public Zone Zone { get; init; } = null!;
+    public string? CauseOfDeath { get; init; }
 }

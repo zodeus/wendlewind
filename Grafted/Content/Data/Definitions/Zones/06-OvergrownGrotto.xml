@@ -2,14 +2,14 @@
 
 <Definitions>
     <ZoneDef>
-        <Moniker>ForgottenForest</Moniker>
-        <Label>Forgotten Forest</Label>
+        <Moniker>OvergrownGrotto</Moniker>
+        <Label>Overgrown Grotto</Label>
         <Stage>6</Stage>
-        <BackgroundTexturePath>Biome/ForgottenForest</BackgroundTexturePath>
+        <BackgroundTexturePath>Biome/OvergrownGrotto</BackgroundTexturePath>
         <BackgroundTextureTransparency>85</BackgroundTextureTransparency>
         <BiomeColor>60, 120, 80</BiomeColor>
         <Weathers>
-            <ListItem>FallingLeaves</ListItem>
+            <ListItem>AcidDrips</ListItem>
             <ListItem>Fireflies</ListItem>
             <ListItem>Showers</ListItem>
             <ListItem>Neutral</ListItem>
@@ -21,9 +21,9 @@
                 <ChanceToHarvest>.3</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>RawCorn</Item>
-                <Amount>1</Amount>
-                <ChanceToHarvest>.5</ChanceToHarvest>
+                <Item>RawFish</Item>
+                <Amount>1~2</Amount>
+                <ChanceToHarvest>.7</ChanceToHarvest>
             </ListItem>
             <ListItem>
                 <Item>RawMeat</Item>
@@ -35,42 +35,20 @@
                 <Amount>1~2</Amount>
                 <ChanceToHarvest>.3</ChanceToHarvest>
             </ListItem>
-            <ListItem>
-                <Item>IronNugget</Item>
-                <Amount>1</Amount>
-                <ChanceToHarvest>.3</ChanceToHarvest>
-            </ListItem>
         </Resources>
         <Encounters>
             <ListItem>
-                <ShrineProperties>
-                    <GodLabel>Goddess Gaia</GodLabel>
-                    <PartsToRestore>2~4</PartsToRestore>
-                    <TexturePath>Biome/Shrines/forest_shrine_1</TexturePath>
-                    <RestorablePartTypes>
-                        <ListItem>Thumb</ListItem>
-                        <ListItem>Finger</ListItem>
-                        <ListItem>Hand</ListItem>
-                        <ListItem>Foot</ListItem>
-                    </RestorablePartTypes>
-                </ShrineProperties>
-            </ListItem>
-            <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>EnchantedChestDefensive</ListItem>
-                    <ListItem>EnchantedChestOffensive</ListItem>
+                    <ListItem>ArmorChest2</ListItem>
+                    <ListItem>WeaponChest2</ListItem>
                     <ListItem>TrinketChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>Treeling</PawnDef>
+                        <PawnDef>Turtle</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Ent (specimen #1)</PawnName>
-                        <SpawnWeight>1</SpawnWeight>
-                        <EquipmentItems>
-                            <ListItem>LeatherGreave</ListItem>
-                        </EquipmentItems>
+                        <PawnName>Turtle (specimen #1)</PawnName>
                         <InventoryItems>
                             <ListItem>
                                 <Item>ShimmeringBark</Item>
@@ -84,23 +62,16 @@
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>EnchantedChestDefensive</ListItem>
-                    <ListItem>EnchantedChestOffensive</ListItem>
-                    <ListItem>TrinketChest2</ListItem>
+                    <ListItem>ArmorChest2</ListItem>
+                    <ListItem>WeaponChest2</ListItem>
+                    <ListItem>SupplyChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>Treeling</PawnDef>
+                        <PawnDef>Turtle</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Ent (specimen #2)</PawnName>
-                        <SpawnWeight>1</SpawnWeight>
+                        <PawnName>Turtle (specimen #2)</PawnName>
                         <BodySizeFactor>1.2</BodySizeFactor>
-                        <EquipmentItems>
-                            <ListItem>LeatherGreave</ListItem>
-                            <ListItem>LeatherGreave</ListItem>
-                            <ListItem>LeatherGreave</ListItem>
-                            <ListItem>LeatherGreave</ListItem>
-                        </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
                                 <Item>ShimmeringBark</Item>
@@ -114,24 +85,16 @@
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>EnchantedChestDefensive</ListItem>
-                    <ListItem>EnchantedChestOffensive</ListItem>
+                    <ListItem>WeaponChest2</ListItem>
+                    <ListItem>ArmorChest2</ListItem>
                     <ListItem>TrinketChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>Treeling</PawnDef>
+                        <PawnDef>Turtle</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Ent (specimen #3)</PawnName>
-                        <SpawnWeight>1</SpawnWeight>
+                        <PawnName>Turtle (specimen #3)</PawnName>
                         <BodySizeFactor>1.4</BodySizeFactor>
-                        <EquipmentItems>
-                            <ListItem>LeatherTunic</ListItem>
-                            <ListItem>LeatherGreave</ListItem>
-                            <ListItem>LeatherGreave</ListItem>
-                            <ListItem>LeatherGreave</ListItem>
-                            <ListItem>LeatherGreave</ListItem>
-                        </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
                                 <Item>ShimmeringBark</Item>
@@ -147,24 +110,14 @@
                 <PotentialLootBoxes>
                     <ListItem>EnchantedChestDefensive</ListItem>
                     <ListItem>EnchantedChestOffensive</ListItem>
-                    <ListItem>TrinketChest2</ListItem>
+                    <ListItem>ArmorChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>Treeling</PawnDef>
+                        <PawnDef>Turtle</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Ent (specimen #4)</PawnName>
-                        <SpawnWeight>1</SpawnWeight>
+                        <PawnName>Turtle (specimen #4)</PawnName>
                         <BodySizeFactor>1.6</BodySizeFactor>
-                        <EquipmentItems>
-                            <ListItem>LeatherTunic</ListItem>
-                            <ListItem>ChainGreave</ListItem>
-                            <ListItem>LeatherGreave</ListItem>
-                            <ListItem>LeatherGreave</ListItem>
-                            <ListItem>LeatherGreave</ListItem>
-                            <ListItem>LeatherGreave</ListItem>
-                            <ListItem>LeatherGreave</ListItem>
-                        </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
                                 <Item>ShimmeringBark</Item>
@@ -177,31 +130,21 @@
             </ListItem>
             <ListItem>
                 <IsBoss>true</IsBoss>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>TrinketChest2</ListItem>
                     <ListItem>SupplyChest1</ListItem>
+                    <ListItem>ArmorChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>Treeling</PawnDef>
+                        <PawnDef>Turtle</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Ent (specimen apex #1)</PawnName>
-                        <SpawnWeight>1</SpawnWeight>
-                        <BodySizeFactor>1.5</BodySizeFactor>
+                        <PawnName>Turtle (specimen apex #1)</PawnName>
+                        <BodySizeFactor>2</BodySizeFactor>
                         <Skills>
                             <TreebornPower>2</TreebornPower>
                         </Skills>
-                        <EquipmentItems>
-                            <ListItem>ChainTunic</ListItem>
-                            <ListItem>ChainGreave</ListItem>
-                            <ListItem>ChainGreave</ListItem>
-                            <ListItem>ChainGreave</ListItem>
-                            <ListItem>ChainGreave</ListItem>
-                            <ListItem>LeatherGreave</ListItem>
-                            <ListItem>LeatherGreave</ListItem>
-                            <ListItem>LeatherGreave</ListItem>
-                            <ListItem>LeatherGreave</ListItem>
-                        </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
                                 <Item>ShimmeringBark</Item>

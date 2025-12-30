@@ -465,7 +465,8 @@ public class CombatHandler : IDisposable
             PlayerWon = playerIsAlive,
             TotalDamageDealt = TotalDirectPlayerDamage,
             CombatTicks = _encounter.Ticks,
-            Zone = _encounter.Zone
+            Zone = _encounter.Zone,
+            CauseOfDeath = CauseOfDeath
         });
 
         LogMessage($"/f[default, 48]/c[{TC.Golden}]Battle is over\n");

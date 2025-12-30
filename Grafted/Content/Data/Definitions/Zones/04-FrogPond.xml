@@ -4,7 +4,7 @@
     <ZoneDef>
         <Moniker>FrogPond</Moniker>
         <Label>Frog Pond</Label>
-        <Stage>5</Stage>
+        <Stage>4</Stage>
         <BackgroundTexturePath>Biome/FrogPond</BackgroundTexturePath>
         <BackgroundTextureTransparency>40</BackgroundTextureTransparency>
         <BiomeColor>80, 140, 120</BiomeColor>
@@ -24,11 +24,6 @@
                 <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>RawCorn</Item>
-                <Amount>1</Amount>
-                <ChanceToHarvest>.5</ChanceToHarvest>
-            </ListItem>
-            <ListItem>
                 <Item>BoneShard</Item>
                 <Amount>1~5</Amount>
                 <ChanceToHarvest>.4</ChanceToHarvest>
@@ -36,7 +31,7 @@
         </Resources>
         <Encounters>
             <ListItem>
-                <MaxBoxes>3</MaxBoxes>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>SupplyChest1</ListItem>
                     <ListItem>TrinketChest1</ListItem>
@@ -71,7 +66,7 @@
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>ArmorChest2</ListItem>
+                    <ListItem>ArmorChest1</ListItem>
                     <ListItem>TrinketChest1</ListItem>
                     <ListItem>SupplyChest1</ListItem>
                 </PotentialLootBoxes>
@@ -106,7 +101,7 @@
                 </Enemies>
             </ListItem>
             <ListItem>
-                <MaxBoxes>3</MaxBoxes>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ArmorChest2</ListItem>
                     <ListItem>TrinketChest1</ListItem>
@@ -143,7 +138,7 @@
                 </Enemies>
             </ListItem>
             <ListItem>
-                <MaxBoxes>3</MaxBoxes>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ArmorChest2</ListItem>
                     <ListItem>TrinketChest1</ListItem>

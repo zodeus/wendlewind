@@ -62,7 +62,6 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         _enemyPawnBodyView = new PawnBodyPanel(gui, Encounter.EnemyPawns.First().Body)
         {
             HorizontalAlignment = HorizontalAlignment.Left
-            , MinWidth = 600
         };
         _combatLog = new ScrollViewer
         {

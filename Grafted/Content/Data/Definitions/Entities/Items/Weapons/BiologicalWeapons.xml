@@ -134,7 +134,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
         <BaseStats>
-            <MeleePower>8</MeleePower>
+            <MeleePower>15</MeleePower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -160,7 +160,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Claw</TexturePath>
         <BaseStats>
-            <MeleePower>7</MeleePower>
+            <MeleePower>20</MeleePower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -173,8 +173,8 @@
             <BodyPartModifiers>
                 <ListItem>
                     <Def>Acid</Def>
-                    <DurationInTicks>600~900</DurationInTicks>
-                    <Chance>.3</Chance>
+                    <DurationInTicks>80~240</DurationInTicks>
+                    <Chance>.8</Chance>
                 </ListItem>
             </BodyPartModifiers>
         </WeaponProperties>
@@ -182,9 +182,103 @@
             <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
         </EquipmentProperties>
         <BaseStats>
-            <MeleePower>42</MeleePower>
+            <MeleePower>25</MeleePower>
         </BaseStats>
     </ItemDef>
+    <ItemDef ParentName="WeaponBlunt">
+        <Moniker>TreeBranch</Moniker>
+        <Label>Tree Branch</Label>
+        <Description>It cracks like a whip...</Description>
+        <WeaponProperties>
+            <WeaponType>Branch</WeaponType>
+            <DamageType>Blunt</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.3</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>0.8</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/TreeBranch</TexturePath>
+        <BaseStats>
+            <MeleePower>25</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>TurtleBeak</Moniker>
+        <Label>Beak</Label>
+        <Description>A hard, sharp turtle beak</Description>
+        <WeaponProperties>
+            <WeaponType>Beak</WeaponType>
+            <DamageType>Sharp</DamageType>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Acid</Def>
+                    <DurationInTicks>120~360</DurationInTicks>
+                    <Chance>.9</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.4</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.0</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
+        <BaseStats>
+            <MeleePower>30</MeleePower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponBlunt">
+        <Moniker>DirtyTurtleFlipper</Moniker>
+        <Label>Flipper</Label>
+        <Description>A dirty turtle flipper</Description>
+        <WeaponProperties>
+            <WeaponType>Flipper</WeaponType>
+            <DamageType>Blunt</DamageType>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Acid</Def>
+                    <DurationInTicks>240~720</DurationInTicks>
+                    <Chance>.5</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.0</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>0.8</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Pawn/BodyParts/Turtle/Flipper</TexturePath>
+        <BaseStats>
+            <MeleePower>35</MeleePower>
+        </BaseStats>
+    </ItemDef>
+
+
     <ItemDef ParentName="WeaponFlesh">
         <Moniker>GhoulishHand</Moniker>
         <Label>Ghoulish Hand</Label>
@@ -274,32 +368,6 @@
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Hoof</TexturePath>
         <BaseStats>
             <MeleePower>70</MeleePower>
-        </BaseStats>
-    </ItemDef>
-    <ItemDef ParentName="WeaponBlunt">
-        <Moniker>TreeBranch</Moniker>
-        <Label>Tree Branch</Label>
-        <Description>It cracks like a whip...</Description>
-        <WeaponProperties>
-            <WeaponType>Branch</WeaponType>
-            <DamageType>Blunt</DamageType>
-            <SubstanceModifiers>
-                <ListItem>
-                    <Substance>Bone</Substance>
-                    <Modifier>1.3</Modifier>
-                </ListItem>
-                <ListItem>
-                    <Substance>Flesh</Substance>
-                    <Modifier>0.8</Modifier>
-                </ListItem>
-            </SubstanceModifiers>
-        </WeaponProperties>
-        <EquipmentProperties>
-            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
-        </EquipmentProperties>
-        <TexturePath>Entities/Item/Equipment/Weapon/Biological/TreeBranch</TexturePath>
-        <BaseStats>
-            <MeleePower>53</MeleePower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">

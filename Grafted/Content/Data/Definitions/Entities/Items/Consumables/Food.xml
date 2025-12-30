@@ -24,7 +24,7 @@
         </BaseStats>
         <AmmoProperties>
             <DamageType>Blunt</DamageType>
-            <DamageRange>100~200</DamageRange>
+            <DamageRange>25~50</DamageRange>
         </AmmoProperties>
     </ItemDef>
     <ItemDef ParentName="Food">

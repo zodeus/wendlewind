@@ -71,72 +71,47 @@ public static class CollectionExtensions {
     }
 
     public static T? RandomElementByWeight<T>(this IEnumerable<T> source, Func<T, float> weightSelector) {
-        float num = 0f;
-        IList<T>? list = source as IList<T>;
-        if (list != null) {
-            for (int i = 0; i < list.Count; i++) {
-                float num2 = weightSelector(list[i]);
-                if (num2 < 0f) {
-                    Log.Error("Negative weight in selector: " + num2 + " from " + list[i]);
-                    num2 = 0f;
-                }
+        // Materialize to avoid multiple enumeration and cache weights
+        var items = source as IList<T> ?? source.ToList();
 
-                num += num2;
-            }
-
-            if (list.Count == 1 && num > 0f) {
-                return list[0];
-            }
-        }
-        else {
-            int num3 = 0;
-            foreach (T item in source) {
-                num3++;
-                float num4 = weightSelector(item);
-                if (num4 < 0f) {
-                    Log.Error("Negative weight in selector: " + num4 + " from " + item);
-                    num4 = 0f;
-                }
-
-                num += num4;
-            }
-
-            if (num3 == 1 && num > 0f) {
-                return source.First();
-            }
-        }
-
-        if (num <= 0f) {
-            Log.Error("RandomElementByWeight with totalWeight=" + num + " - use TryRandomElementByWeight.");
+        if (items.Count == 0) {
+            Log.Error("RandomElementByWeight called on empty collection - use TryRandomElementByWeight.");
             return default;
         }
 
-        float num5 = (float) Core.Random.NextDouble() * num;
-        float num6 = 0f;
-        if (list != null) {
-            for (int j = 0; j < list.Count; j++) {
-                float num7 = weightSelector(list[j]);
-                if (!(num7 <= 0f)) {
-                    num6 += num7;
-                    if (num6 >= num5) {
-                        return list[j];
-                    }
-                }
+        Span<float> weights = items.Count <= 128 
+            ? stackalloc float[items.Count] 
+            : new float[items.Count];
+        
+        float totalWeight = 0f;
+
+        for (int i = 0; i < items.Count; i++) {
+            float weight = weightSelector(items[i]);
+            if (weight < 0f) {
+                Log.Error("Negative weight in selector: " + weight + " from " + items[i]);
+                weight = 0f;
             }
+            weights[i] = weight;
+            totalWeight += weight;
         }
-        else {
-            foreach (T item2 in source) {
-                float num8 = weightSelector(item2);
-                if (!(num8 <= 0f)) {
-                    num6 += num8;
-                    if (num6 >= num5) {
-                        return item2;
-                    }
-                }
+
+        if (totalWeight <= 0f) {
+            Log.Error("RandomElementByWeight with totalWeight=" + totalWeight + " - use TryRandomElementByWeight.");
+            return default;
+        }
+
+        float randomValue = (float)Core.Random.NextDouble() * totalWeight;
+        float cumulative = 0f;
+
+        for (int i = 0; i < items.Count; i++) {
+            cumulative += weights[i];
+            if (randomValue < cumulative) {
+                return items[i];
             }
         }
 
-        return default;
+        // Floating point edge case - return last item
+        return items[^1];
     }
 
     public static V? TryGetValue<T, V>(this IDictionary<T, V?> dict, T key, V? fallback = default) {

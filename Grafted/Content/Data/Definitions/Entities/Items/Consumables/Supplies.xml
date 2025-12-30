@@ -41,10 +41,6 @@
             </RequiredTrinkets>
             <ResourceRequirements>
                 <ListItem>
-                    <Item>EnchantmentExpander</Item>
-                    <Count>1</Count>
-                </ListItem>
-                <ListItem>
                     <Item>RepairKit</Item>
                     <Count>8</Count>
                 </ListItem>

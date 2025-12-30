@@ -32,12 +32,24 @@
         <Species>Frog</Species>
         <Body>FrogBody</Body>
         <BaseStats>
-            <AttackSpeed>1.3</AttackSpeed>
+            <AttackSpeed>1.2</AttackSpeed>
             <MeleeStrength>1</MeleeStrength>
             <Evasion>.04</Evasion>
             <MeleeAccuracy>.8</MeleeAccuracy>
         </BaseStats>
     </PawnDef> 
+    <PawnDef ParentName="BaseMonsterRace">
+        <Moniker>Turtle</Moniker>
+        <Label>Turtle</Label>
+        <Species>Turtle</Species>
+        <Body>TurtleBody</Body>
+        <BaseStats>
+            <AttackSpeed>2</AttackSpeed>
+            <MeleeStrength>1</MeleeStrength>
+            <Evasion>.01</Evasion>
+            <MeleeAccuracy>.95</MeleeAccuracy>
+        </BaseStats>
+    </PawnDef>
     <PawnDef ParentName="BaseMonsterRace">
         <Moniker>Treeling</Moniker>
         <Label>Treeling</Label>

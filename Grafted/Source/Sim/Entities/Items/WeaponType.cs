@@ -42,5 +42,7 @@ public enum WeaponType
     MushroomCap,
     Trinket,
     StoneFist,
-    StoneLeg
+    StoneLeg,
+    Flipper, 
+    Beak
 }

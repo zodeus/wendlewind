@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartDef Name="TurtleBodyPartBase" ParentName="BodyPartBase" Abstract="True">
+        
+    </BodyPartDef>
+    <BodyPartDef ParentName="TurtleBodyPartBase">
+        <Moniker>TurtleHead</Moniker>
+        <Label>Head</Label>
+        <HitWeight>10</HitWeight>
+        <BloodAmount>40</BloodAmount>
+        <BodyPartType>Head</BodyPartType>
+        <Substance>Flesh</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Turtle/Head</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>SkullSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+            <ListItem>LeftEyeSocket</ListItem>
+            <ListItem>RightEyeSocket</ListItem>
+            <ListItem>NeckSocket</ListItem>
+        </Sockets>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <MaxHitPoints>500</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="TurtleBodyPartBase">
+        <Moniker>TurtleNeck</Moniker>
+        <Label>Neck</Label>
+        <BodyPartType>Neck</BodyPartType>
+        <HitWeight>7</HitWeight>
+        <BloodAmount>30</BloodAmount>
+        <Substance>Flesh</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Turtle/Neck</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+            <ListItem>TorsoSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>300</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="TurtleBodyPartBase">
+        <Moniker>TurtleTorso</Moniker>
+        <Label>Shell</Label>
+        <BodyPartType>Torso</BodyPartType>
+        <HitWeight>30</HitWeight>
+        <BloodAmount>250</BloodAmount>
+        <Substance>Chitin</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Turtle/Torso</TexturePath>
+        <Sockets>
+            <ListItem>RibCageSocket</ListItem>
+            <ListItem>StomachSocket</ListItem>
+            <ListItem>LiverSocket</ListItem>
+            <ListItem>LeftKidneySocket</ListItem>
+            <ListItem>RightKidneySocket</ListItem>
+            <ListItem>SpleenSocket</ListItem>
+            <ListItem>IntestinesSocket</ListItem>
+            <ListItem>FrontLeftLegSocket</ListItem>
+            <ListItem>FrontRightLegSocket</ListItem>
+            <ListItem>RearLeftLegSocket</ListItem>
+            <ListItem>RearRightLegSocket</ListItem>
+            <ListItem>TailSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <AttackSpeedModifier>.4</AttackSpeedModifier>
+            <MaxHitPoints>100</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="TurtleBodyPartBase">
+        <Moniker>TurtleFlipper</Moniker>
+        <Label>Flipper</Label>
+        <BodyPartType>Leg</BodyPartType>
+        <HitWeight>50</HitWeight>
+        <BloodAmount>80</BloodAmount>
+        <Substance>Flesh</Substance>
+        <MobilityFraction>.25</MobilityFraction>
+        <TexturePath>Entities/Pawn/BodyParts/Turtle/Flipper</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+        </Sockets>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <AttackSpeedModifier>.15</AttackSpeedModifier>
+            <MaxHitPoints>400</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="TurtleBodyPartBase">
+        <Moniker>TurtleLeg</Moniker>
+        <Label>Leg</Label>
+        <BodyPartType>Leg</BodyPartType>
+        <HitWeight>20</HitWeight>
+        <BloodAmount>100</BloodAmount>
+        <Substance>Flesh</Substance>
+        <MobilityFraction>.15</MobilityFraction>
+        <TexturePath>Entities/Pawn/BodyParts/Turtle/Leg</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>30</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="TurtleBodyPartBase">
+        <Moniker>TurtleTail</Moniker>
+        <Label>Tail</Label>
+        <BodyPartType>Tail</BodyPartType>
+        <HitWeight>5</HitWeight>
+        <BloodAmount>20</BloodAmount>
+        <Substance>Flesh</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Turtle/Tail</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <AttackSpeedModifier>.05</AttackSpeedModifier>
+            <MaxHitPoints>250</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+</Definitions>

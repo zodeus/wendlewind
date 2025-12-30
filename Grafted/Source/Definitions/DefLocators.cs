@@ -100,6 +100,9 @@ public static partial class Defs {
         public static ItemDef LeatherScraps = null!;
         public static ItemDef Fang = null!;
         public static ItemDef FishBowlHelmet = null!;
+        public static ItemDef ClothHelmet = null!;
+        public static ItemDef ClothTunic = null!;
+        public static ItemDef ClothGorget = null!;
         public static ItemDef StoneHammer = null!;
         public static ItemDef BoneKnife = null!;
         public static ItemDef BoneSpear = null!;
@@ -212,6 +215,13 @@ public static partial class Defs
         public static BodyPartDef PigLeg = null!;
         public static BodyPartDef PigHoof = null!;
         public static BodyPartDef PigTail = null!;
+
+        public static BodyPartDef TurtleHead = null!;
+        public static BodyPartDef TurtleNeck = null!;
+        public static BodyPartDef TurtleTorso = null!;
+        public static BodyPartDef TurtleFlipper = null!;
+        public static BodyPartDef TurtleLeg = null!;
+        public static BodyPartDef TurtleTail = null!;
 
         public static BodyPartDef GhoulHead = null!;
         public static BodyPartDef GhoulNeck = null!;

@@ -32,7 +32,7 @@
             <BodyPartModifiers>
                 <ListItem>
                     <Def>Festering</Def>
-                    <DurationInTicks>120~300</DurationInTicks>
+                    <DurationInTicks>60~240</DurationInTicks>
                     <Chance>.3</Chance>
                 </ListItem>
             </BodyPartModifiers>

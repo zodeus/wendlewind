@@ -22,7 +22,8 @@ public class PawnBody : IExposable, IIdentityProvider
     public BodyStanceDef Stance = null!;
     public DefaultBodyHandler Handler = null!;
     public BodyDef Def => Pawn.PawnDef.Body;
-    public float MaxBlood => Def.MaxBlood * Pawn.Body.BodySizeFactor;
+    public float MaxBloodBonus { get; set; }
+    public float MaxBlood => (Def.MaxBlood + MaxBloodBonus) * Pawn.Body.BodySizeFactor;
     public float MaxEnergy => Def.MaxEnergy;
     public bool IsFamished => Handler.IsFamished;
 

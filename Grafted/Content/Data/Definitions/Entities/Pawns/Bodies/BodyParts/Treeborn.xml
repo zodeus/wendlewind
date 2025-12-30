@@ -11,7 +11,7 @@
         <Moniker>TreeTrunk</Moniker>
         <Label>Trunk</Label>
         <BodyPartType>Torso</BodyPartType>
-        <HitWeight>50</HitWeight>
+        <HitWeight>100</HitWeight>
         <BloodAmount>300</BloodAmount>
         <Substance>Wood</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Tree/Trunk</TexturePath>
@@ -33,7 +33,7 @@
             <ListItem>RearRightArmStumpSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>1000</MaxHitPoints>
+            <MaxHitPoints>80</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="TreeBodyPartBase">
@@ -49,7 +49,7 @@
             <ListItem>BrainSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>300</MaxHitPoints>
+            <MaxHitPoints>30</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="TreeBodyPartBase">
@@ -70,7 +70,7 @@
             <ListItem>ArterySocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>100</MaxHitPoints>
+            <MaxHitPoints>5</MaxHitPoints>
             <AttackSpeedModifier>.75</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>
@@ -92,7 +92,7 @@
             <ListItem>ArterySocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>100</MaxHitPoints>
+            <MaxHitPoints>5</MaxHitPoints>
             <AttackSpeedModifier>.75</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>

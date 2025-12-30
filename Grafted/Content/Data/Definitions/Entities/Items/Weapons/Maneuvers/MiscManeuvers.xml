@@ -121,4 +121,28 @@
         </Weapons>
         <DamageMultiplier>0.7~.9</DamageMultiplier>
     </WeaponManeuverDef>
+    <WeaponManeuverDef> 
+        <Moniker>FlipperSlap</Moniker>
+        <Label>Flipper Slap</Label>
+        <Weapons>
+            <ListItem>Flipper</ListItem>
+        </Weapons>
+        <DamageMultiplier>0.5~1</DamageMultiplier>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
+        <Moniker>BeakPeck</Moniker>
+        <Label>Beak Peck</Label>
+        <Weapons>
+            <ListItem>Beak</ListItem>
+        </Weapons>
+        <DamageMultiplier>0.2~1</DamageMultiplier>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
+        <Moniker>BeakGouge</Moniker>
+        <Label>Beak Gouge</Label>
+        <Weapons>
+            <ListItem>Beak</ListItem>
+        </Weapons>
+        <DamageMultiplier>0.6~0.9</DamageMultiplier>
+    </WeaponManeuverDef>
 </Definitions>

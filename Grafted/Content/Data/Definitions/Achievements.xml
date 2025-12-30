@@ -76,9 +76,9 @@
         <Description>Consume jars of blood.</Description>
         <BenifitDescription>Your max blood is increased.</BenifitDescription>
         <Category>Consumables</Category>
-
         <ItemUsedDef>JarOfBlood</ItemUsedDef>
         <TargetValue>50</TargetValue>
+        <HandlerClass>BloodChuggerHandler</HandlerClass>
     </AchievementDef>
     
     <AchievementDef>
@@ -213,15 +213,25 @@
         <Category>Exploration</Category>
         <HandlerClass>FindersKeepersHandler</HandlerClass>
     </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>IveBeenJuiced</Moniker>
+        <Label>I've Been Juiced</Label>
+        <Description>Die from blood loss.</Description>
+        <BenifitDescription>Start with 2 Jars of Blood.</BenifitDescription>
+        <IsHidden>true</IsHidden>
+        <Category>Survival</Category>
+        <HandlerClass>IveBeenJuicedHandler</HandlerClass>
+    </AchievementDef>
 
     <!-- 
     <AchievementDef>
         <Moniker>OneArmedBandit</Moniker>
         <Label>One Armed Bandit</Label>
-        <Description>Lose an arm.</Description>
+        <Description>Kill 10 enemies with only one arm.</Description>
         <BenifitDescription>Not implemented.</BenifitDescription>
         <Category>Combat</Category>
-        <TargetValue>5001</TargetValue>
+        <TargetValue>10</TargetValue>
         <HandlerClass>YouBloodyBitchHandler</HandlerClass>
         <IsHidden>true</IsHidden>
     </AchievementDef>

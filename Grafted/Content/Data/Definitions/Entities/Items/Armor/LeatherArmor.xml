@@ -12,6 +12,7 @@
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>
+            <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Leather/Helmet</TexturePath>
         <DisassembleProperties>
@@ -33,8 +34,12 @@
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>HandArmor</SlotUsedToEquip>
+            <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Leather/Glove</TexturePath>
+        <BaseStats>
+            <PhysicalResistance>15</PhysicalResistance>
+        </BaseStats>
         <DisassembleProperties>
             <Items>
                 <ListItem>

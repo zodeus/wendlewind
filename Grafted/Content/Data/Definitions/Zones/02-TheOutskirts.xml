@@ -25,7 +25,7 @@
             <ListItem>
                 <Item>BoneShard</Item>
                 <Amount>1~2</Amount>
-                <ChanceToHarvest>.3</ChanceToHarvest>
+                <ChanceToHarvest>.35</ChanceToHarvest>
             </ListItem>
         </Resources>
         <Encounters>
@@ -56,7 +56,7 @@
                 </Enemies>
             </ListItem>
             <ListItem>
-                <MaxBoxes>1</MaxBoxes>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>TrinketChest1</ListItem>
                     <ListItem>ArmorChest1</ListItem>
