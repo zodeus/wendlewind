@@ -7,7 +7,6 @@ public class MapGui : BaseGui
     private readonly WorldTextHandler _worldTextHandler;
     private readonly GameHud _gameHud;
     private readonly MapPanel _mapPanel;
-
     public override WorldTextHandler WorldTextHandler => _worldTextHandler;
 
     public MapGui(GameContext context, WorldTextHandler worldTextHandler)

@@ -4,6 +4,7 @@ namespace Grafted.Sim.Zones;
 
 public enum ZoneState
 {
+    Preparation,
     Shrine,
     Combat,
     CombatResults,
@@ -46,6 +47,7 @@ public class Zone : IExposable, IIdentityProvider
     public void Enter(Player player)
     {
         Player = player;
+        State = ZoneState.Preparation;
     }
 
     public void NextEncounter()

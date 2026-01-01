@@ -43,8 +43,8 @@ public class GameScene : Scene
         
         ActiveGui = effectiveState switch
         {
+            GameState.Map => new MapGui(_context, _worldTextHandler), 
             GameState.Zone => new ZoneGui(_context, _worldTextHandler),
-            GameState.Map => new MapGui(_context, _worldTextHandler), //todo this should only be instantiated once, but it doesn't refresh properly
             _ => ActiveGui
         };
     }

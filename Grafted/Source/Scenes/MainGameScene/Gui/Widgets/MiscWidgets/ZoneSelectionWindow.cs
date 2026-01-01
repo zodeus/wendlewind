@@ -21,17 +21,7 @@ public class ZoneSelectionWindow : Window
         {
             ShouldShowZone(zone, previousZone);
             previousZone = zone;
-        }
-
-        // The Alchemist Hut
-        // Forgemaster's Quarry
-        // Fallow Field
-        // Mage Tower
-        // Field of Vegetables
-        // Blood Court
-        // His Rectory
-        // Scarlet Chapel
-        // Steamy Oil Vents            
+        }   
 
         Content = new HorizontalStackPanel { Widgets = { zoneButtonPanel, _zoneDisplay } };
     }

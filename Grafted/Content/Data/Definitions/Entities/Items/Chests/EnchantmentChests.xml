@@ -18,11 +18,11 @@
             </ListItem>
             <ListItem>
                 <ItemDef>BoneEater</ItemDef>
-                <Weight>2</Weight>
+                <Weight>1</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>EverburningStone</ItemDef>
-                <Weight>2</Weight>
+                <Weight>1</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>

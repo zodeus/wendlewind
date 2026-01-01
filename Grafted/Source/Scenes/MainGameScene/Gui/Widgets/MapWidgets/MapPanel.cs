@@ -8,7 +8,6 @@ public class MapPanel : Panel
 {
     private readonly World _world;
     private readonly List<MapNodeWidget> _nodeWidgets = new();
-    
     private const int NodesPerRow = 8;
     private static readonly Color ConnectorColor = new(70, 70, 75);
     private static readonly Color ConnectorCompletedColor = new(80, 140, 80);
@@ -122,13 +121,5 @@ public class MapPanel : Panel
                 Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.White],
                 isCompleted ? ConnectorCompletedColor : ConnectorColor)
         };
-    }
-
-    /// <summary>
-    /// Refreshes the map to reflect current zone states.
-    /// </summary>
-    public void Refresh()
-    {
-        BuildMap();
     }
 }

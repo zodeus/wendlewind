@@ -95,7 +95,6 @@
         <Moniker>SweatingBlood</Moniker>
         <Label>Sweating Blood</Label>
         <Description>Survive a fight with less than 10% blood.</Description>
-        <BenifitDescription>Not implemented.</BenifitDescription>
         <BenifitDescription>Your max blood is increased.</BenifitDescription>
         <Category>Survival</Category>
         <HandlerClass>SweatingBloodHandler</HandlerClass>

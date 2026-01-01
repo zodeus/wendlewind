@@ -79,7 +79,6 @@ public class GameContext : IExposable
         CurrentZone = World.Zones.First(z => z.ZoneDef == zoneDef);
         CurrentZone!.OnStateChanged += ZoneStageChanged;
         CurrentZone.Enter(Player);
-        CurrentZone.NextEncounter();
         ChangeGameState(GameState.Zone);
     }
 

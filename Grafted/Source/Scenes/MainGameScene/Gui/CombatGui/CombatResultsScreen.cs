@@ -4,7 +4,7 @@ namespace Grafted.Scenes.MainGameScene.Gui.CombatGui;
 
 public sealed class CombatResultsScreen : VerticalStackPanel
 {
-    private readonly LootPanel _pawnPanel;
+    private readonly PawnPreparationPanel _pawnPanel;
     private readonly GameHud _gameHud;
     private readonly GameContext _context;
     private readonly Widget _progressButton;
@@ -17,7 +17,7 @@ public sealed class CombatResultsScreen : VerticalStackPanel
 
         _context = context;
         _gameHud = new GameHud(gui, context) { HorizontalAlignment = HorizontalAlignment.Stretch };
-        _pawnPanel = new LootPanel(gui, context.World.Player.Pawn)
+        _pawnPanel = new PawnPreparationPanel(gui, context.World.Player.Pawn)
         {
             MaxHeight = 1100, // 1440p
             Margin = new Thickness(0, 0, 0, 0)
@@ -35,10 +35,9 @@ public sealed class CombatResultsScreen : VerticalStackPanel
             _pawnPanel.Visible = false;
             _progressButton.Visible = false;
         }
-        DoAutoLoot();
     }
 
-    public void ShowResultsScreen()
+    public void ShowScreen()
     {
         _pawnPanel.Visible = true;
         _progressButton.Visible = true;
@@ -90,26 +89,6 @@ public sealed class CombatResultsScreen : VerticalStackPanel
     private void MoveToNextCombat()
     {
         Encounter.Zone.NextEncounter();
-    }
-
-    private void DoAutoLoot()
-    {
-        var player = _context.PlayerPawn;
-        var items = Encounter.CombatHandler?.Loot.AsItems().ToList();
-        if (items == null)
-        {
-            return;
-        }
-
-        for (var index = items.Count - 1; index >= 0; index--)
-        {
-            var item = items[index];
-            player.Inventory.TryAdd(item);
-        }
-    }
-
-    public void HandleInput()
-    {
     }
 
     public void Update()

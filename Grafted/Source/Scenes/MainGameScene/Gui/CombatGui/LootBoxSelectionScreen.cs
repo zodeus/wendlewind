@@ -206,7 +206,7 @@ public sealed class LootBoxSelectionScreen : VerticalStackPanel
             {
                 playerPawn.Inventory.TryAdd(item);
             }
-            _resultsScreen.ShowResultsScreen();
+            _resultsScreen.ShowScreen();
         };
 
         _lootPanel.Widgets.Add(continueButton);

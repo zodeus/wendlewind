@@ -2,14 +2,14 @@ using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBod
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
-public class LootPanel : Panel, IUpdatable
+public class PawnPreparationPanel : Panel, IUpdatable
 {
     private readonly ItemContainerPanel _inventoryPanel;
     private readonly PawnEquipmentPanel _equipmentPanel;
     private readonly PawnBodyPanel _bodyPanel;
     private readonly PawnBodyEffectsPanel _pawnEffectsPanel;
 
-    public LootPanel(BaseGui gui, Pawn playerPawn)
+    public PawnPreparationPanel(BaseGui gui, Pawn playerPawn)
     {
         _pawnEffectsPanel = new PawnBodyEffectsPanel(gui, playerPawn);
         _bodyPanel = new PawnBodyPanel(gui, playerPawn.Body);
@@ -34,6 +34,8 @@ public class LootPanel : Panel, IUpdatable
         rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory, TrinketType.Passive, item => gui.ViewEntity(item)) { TrinketsPerRow = 9 });
         rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory, TrinketType.Interactive, item => gui.ViewEntity(item)) { TrinketsPerRow = 9 });
         rightColumn.Widgets.Add(_pawnEffectsPanel);
+
+        rightColumn.Widgets.Add(new PawnSkillsPanel(playerPawn.Skills));
 
         HorizontalStackPanel grid = new()
         {
