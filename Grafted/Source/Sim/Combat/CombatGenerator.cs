@@ -1,6 +1,4 @@
-﻿using Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer.Weather;
-
-namespace Grafted.Sim.Combat;
+﻿namespace Grafted.Sim.Combat;
 
 public static class CombatGenerator
 {
@@ -9,7 +7,7 @@ public static class CombatGenerator
         var encounterDef = zone.ZoneDef.Encounters[zone.Stage];
 
         // Select a random weather from zone's available weathers
-        WeatherType? weather = zone.ZoneDef.Weathers.Count > 0
+        WeatherDef? weather = zone.ZoneDef.Weathers.Count > 0
             ? zone.ZoneDef.Weathers.RandomElement()
             : null;
 

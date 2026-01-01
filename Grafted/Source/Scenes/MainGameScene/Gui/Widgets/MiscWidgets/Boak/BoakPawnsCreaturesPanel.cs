@@ -37,6 +37,7 @@ internal sealed class BoakPawnsCreaturesPanel : Grid, IDisposable
                     new Label(BaseContent.Styles.Label.Normal) { Text = def.Moniker, Margin = new Thickness(0, 0, 0, 20) },
                     new Label(BaseContent.Styles.Label.Small) { Text = $"Species: {def.Species}" },
                     new Label(BaseContent.Styles.Label.Small) { Text = $"Hitpoints: {totalHitpoints:N0}" },
+                    new Label(BaseContent.Styles.Label.Small) { Text = $"Attack Speed: {previewPawn.AttackSpeed:N2}" },
                     new Label(BaseContent.Styles.Label.Small) { Text = $"{def.Description}" },
                 }
             };

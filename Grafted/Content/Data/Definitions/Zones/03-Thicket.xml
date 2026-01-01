@@ -5,7 +5,7 @@
         <Moniker>Thicket</Moniker>
         <Label>Thicket</Label>
         <Stage>3</Stage>
-        <BackgroundTexturePath>Biome/TheOutskirts</BackgroundTexturePath>
+        <BackgroundTexturePath>Biome/Thicket</BackgroundTexturePath>
         <BiomeColor>100, 140, 80</BiomeColor>
         <Weathers>
             <ListItem>Neutral</ListItem>

@@ -19,7 +19,7 @@ public class DefaultBodyHandler : IExposable
     public bool IsHungry => Body.StomachLevel < HungryThreshold;
     public float Viscosity => Body.Def.BloodType!.Viscosity;
 
-    private float? _hasThickBloodedTrait ;
+    private float? _hasThickBloodedTrait;
     public float ViscosityModifier => _hasThickBloodedTrait ??= Body.Pawn.Traits.HasTrait(Defs.Traits.ThickBlooded) ? 1.2f : 1f;
 
     public virtual void Initialize(PawnBody body)
@@ -93,7 +93,7 @@ public class DefaultBodyHandler : IExposable
             }
         }
     }
- 
+
     protected virtual void HandleNutrition()
     {
         if (Core.Context.Ticks % 20 != 0)

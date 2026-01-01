@@ -1,6 +1,4 @@
-﻿using Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer.Weather;
-
-namespace Grafted.Sim.Zones;
+﻿namespace Grafted.Sim.Zones;
 
 public class ZoneDef : Def {
     private Texture2D? _texture;
@@ -12,7 +10,7 @@ public class ZoneDef : Def {
 
     public List<BiomeResourceRecord> Resources = new();
     public List<EncounterProperties> Encounters = new();
-    public List<WeatherType> Weathers = new();
+    public List<WeatherDef> Weathers = new();
 
     public virtual Texture2D BackgroundTexture => _texture ??= BackgroundTexturePath != null ? Core.Content.Load<Texture2D>(BackgroundTexturePath) : BaseContent.Textures.BadTexture;
 }

@@ -22,7 +22,7 @@
             <ListItem>ThoraxSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>1000</MaxHitPoints>
+            <MaxHitPoints>200</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="MosquitoBodyPartBase">
@@ -34,7 +34,7 @@
         <Substance>Chitin</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Mosquito/Proboscis</TexturePath>
         <BaseStats>
-            <MaxHitPoints>300</MaxHitPoints>
+            <MaxHitPoints>80</MaxHitPoints>
             <AttackSpeedModifier>1</AttackSpeedModifier>
         </BaseStats>
         <EquipmentSlots>
@@ -51,7 +51,7 @@
         <TexturePath>Entities/Pawn/BodyParts/Mosquito/Antenna</TexturePath>
         <BaseStats>
             <AttackSpeedModifier>.5</AttackSpeedModifier>
-            <MaxHitPoints>200</MaxHitPoints>
+            <MaxHitPoints>60</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="MosquitoBodyPartBase">
@@ -74,7 +74,7 @@
             <ListItem>AbdomenSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>2000</MaxHitPoints>
+            <MaxHitPoints>300</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="MosquitoBodyPartBase">
@@ -90,7 +90,7 @@
             <ListItem>RightWingSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>2000</MaxHitPoints>
+            <MaxHitPoints>200</MaxHitPoints>
         </BaseStats>
         <EquipmentSlots>
             <ListItem>BuiltIn</ListItem>
@@ -107,7 +107,7 @@
         <TexturePath>Entities/Pawn/BodyParts/Mosquito/Wing</TexturePath>
         <BaseStats>
             <AttackSpeedModifier>.5</AttackSpeedModifier>
-            <MaxHitPoints>1</MaxHitPoints>
+            <MaxHitPoints>20</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="MosquitoBodyPartBase">
@@ -120,7 +120,7 @@
         <MobilityFraction>.1</MobilityFraction>
         <TexturePath>Entities/Pawn/BodyParts/Mosquito/Leg</TexturePath>
         <BaseStats>
-            <MaxHitPoints>200</MaxHitPoints>
+            <MaxHitPoints>60</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
 </Definitions>

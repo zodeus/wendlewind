@@ -2,7 +2,7 @@ namespace Grafted.Sim;
 
 public enum GameState
 {
-    Camp,
+    Map,
     Zone,
     StartOver
 }
@@ -106,13 +106,13 @@ public class GameContext : IExposable
 
         // Return to camp
         CurrentZone!.OnStateChanged -= ZoneStageChanged;
-        ChangeGameState(GameState.Camp);
+        ChangeGameState(GameState.Map);
     }
 
     private void ChangeGameState(GameState value)
     {
         OnStateChanged?.Invoke(value);
-        if (value == GameState.Camp)
+        if (value == GameState.Map)
         {
             Save();
         }

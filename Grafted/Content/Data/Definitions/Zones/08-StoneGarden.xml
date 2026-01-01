@@ -14,31 +14,39 @@
         </Weathers>
         <Resources>
             <ListItem>
-                <Item>BoneShard</Item>
-                <Amount>1~2</Amount>
-                <ChanceToHarvest>.6</ChanceToHarvest>
-            </ListItem>
-            <ListItem>
                 <Item>HealingRoot</Item>
                 <Amount>1~2</Amount>
                 <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>Rock</Item>
+                <Item>IronNugget</Item>
                 <Amount>1~3</Amount>
-                <ChanceToHarvest>1</ChanceToHarvest>
+                <ChanceToHarvest>.65</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>RawFish</Item>
+                <Item>RawCorn</Item>
                 <Amount>1~3</Amount>
-                <ChanceToHarvest>.3</ChanceToHarvest>
+                <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>
         </Resources>
         <Encounters>
             <ListItem>
-                <MaxBoxes>1</MaxBoxes>
+                <ShrineProperties>
+                    <PartsToRestore>2~4</PartsToRestore>
+                    <TexturePath>Biome/Shrines/cave_shrine_1</TexturePath>
+                    <RestorablePartTypes>
+                        <ListItem>Thumb</ListItem>
+                        <ListItem>Finger</ListItem>
+                        <ListItem>Hand</ListItem>
+                        <ListItem>Foot</ListItem>
+                    </RestorablePartTypes>
+                </ShrineProperties>
+            </ListItem>
+            <ListItem>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>EnchantedChestDefensive</ListItem>
+                    <ListItem>ArmorChest2</ListItem>
+                    <ListItem>WeaponChest2</ListItem>
                     <ListItem>TrinketChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
@@ -49,8 +57,8 @@
                         <BodySizeFactor>0.9</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
-                                <Item>IronNugget</Item>
-                                <Amount>1</Amount>
+                                <Item>Rock</Item>
+                                <Amount>1~2</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>
@@ -58,10 +66,11 @@
                 </Enemies>
             </ListItem>
             <ListItem>
-                <MaxBoxes>1</MaxBoxes>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>SupplyChest1</ListItem>
-                    <ListItem>EnchantedChestOffensive</ListItem>
+                    <ListItem>ArmorChest2</ListItem>
+                    <ListItem>WeaponChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -71,14 +80,9 @@
                         <BodySizeFactor>1</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
-                                <Item>IronNugget</Item>
-                                <Amount>1</Amount>
-                                <ChanceToDrop>1</ChanceToDrop>
-                            </ListItem>
-                            <ListItem>
-                                <Item>BoneShard</Item>
+                                <Item>Rock</Item>
                                 <Amount>1~2</Amount>
-                                <ChanceToDrop>.5</ChanceToDrop>
+                                <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>
                     </ListItem>
@@ -87,8 +91,9 @@
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>EnchantedChestDefensive</ListItem>
-                    <ListItem>TrinketChest2</ListItem>
+                    <ListItem>ArmorChest2</ListItem>
+                    <ListItem>WeaponChest2</ListItem>
+                    <ListItem>EnchantedChestOffensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -98,23 +103,18 @@
                         <BodySizeFactor>1.1</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
-                                <Item>IronNugget</Item>
-                                <Amount>1</Amount>
-                                <ChanceToDrop>1</ChanceToDrop>
-                            </ListItem>
-                            <ListItem>
-                                <Item>BoneShard</Item>
+                                <Item>Rock</Item>
                                 <Amount>1~2</Amount>
-                                <ChanceToDrop>.75</ChanceToDrop>
+                                <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>
                     </ListItem>
                 </Enemies>
             </ListItem>
             <ListItem>
-                <MaxBoxes>1</MaxBoxes>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>EnchantedChestOffensive</ListItem>
+                    <ListItem>SupplyChest1</ListItem>
                     <ListItem>ResourceChest1</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
@@ -125,14 +125,9 @@
                         <BodySizeFactor>1.2</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
-                                <Item>IronNugget</Item>
-                                <Amount>1</Amount>
+                                <Item>Rock</Item>
+                                <Amount>1~2</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
-                            </ListItem>
-                            <ListItem>
-                                <Item>GlitteringLog</Item>
-                                <Amount>1</Amount>
-                                <ChanceToDrop>.5</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>
                     </ListItem>
@@ -142,8 +137,8 @@
                 <IsBoss>true</IsBoss>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>SupplyChest2</ListItem>
                     <ListItem>EnchantedChestDefensive</ListItem>
+                    <ListItem>EnchantedChestOffensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -153,18 +148,8 @@
                         <BodySizeFactor>1.4</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
-                                <Item>IronNugget</Item>
-                                <Amount>1</Amount>
-                                <ChanceToDrop>1</ChanceToDrop>
-                            </ListItem>
-                            <ListItem>
-                                <Item>ShimmeringBark</Item>
-                                <Amount>1</Amount>
-                                <ChanceToDrop>1</ChanceToDrop>
-                            </ListItem>
-                            <ListItem>
-                                <Item>GlitteringLog</Item>
-                                <Amount>1</Amount>
+                                <Item>Rock</Item>
+                                <Amount>2~4</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>

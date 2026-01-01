@@ -141,6 +141,20 @@ public static class ColorExt {
         return (h, s, l);
     }
 
+    /// <summary>
+    /// Lightens a color by the specified amount (0-1).
+    /// </summary>
+    public static Color Lighten(this Color color, float amount) {
+        return Lerp(color, Color.White, amount);
+    }
+
+    /// <summary>
+    /// Darkens a color by the specified amount (0-1).
+    /// </summary>
+    public static Color Darken(this Color color, float amount) {
+        return Lerp(color, Color.Black, amount);
+    }
+
     public static Color HslToRgb(float h, float s, float l) {
         float HueToRgb(float v1, float v2, float vH) {
             vH += (vH < 0) ? 1 : 0;

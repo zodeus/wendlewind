@@ -133,23 +133,6 @@ public sealed class GameHud : HorizontalStackPanel
         leftPanel.Widgets.Add(pawn);
         leftPanel.Widgets.Add(timeline);
 
-        if (gui is CampGui)
-        {
-            Button nextZone = new(BaseContent.Styles.Button.LargeGold)
-            {
-                VerticalAlignment = VerticalAlignment.Center,
-                Content = new Label
-                {
-                    Font = BaseContent.Fonts.Default.Medium,
-                    Text = "Begin",
-                    VerticalAlignment = VerticalAlignment.Center,
-                    HorizontalAlignment = HorizontalAlignment.Center
-                },
-                Padding = new Thickness(16, 8)
-            };
-            nextZone.TouchDown += (_, _) => { (new ZoneSelectionWindow(context.World)).ShowModal(gui.Desktop); };
-            leftPanel.Widgets.Add(nextZone);
-        }
 
         // Auto start toggle
         _pausedCheckBox = new CheckButton

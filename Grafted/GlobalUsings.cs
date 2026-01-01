@@ -9,6 +9,7 @@ global using Grafted.Definitions;
 global using Grafted.Maths;
 global using Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 global using Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
+global using Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
 global using Grafted.Sim;
 global using Grafted.Sim.LootBoxes;
 global using Grafted.Sim.Achievements;
@@ -22,6 +23,7 @@ global using Grafted.Sim.Entities.Items.Enchantments;
 global using Grafted.Sim.Entities.Items.Equipment;
 global using Grafted.Sim.Entities.Items.Medicinals;
 global using Grafted.Sim.Entities.Items.Trinkets;
+
 global using Grafted.Sim.Persistence;
 global using Grafted.Sim.Zones;
 global using Grafted.Utils;

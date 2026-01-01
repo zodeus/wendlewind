@@ -79,16 +79,12 @@
                 <Weight>750000</Weight>
             </ListItem>
             <ListItem>
-                <ItemDef>GoldenGoose</ItemDef>
-                <Weight>600000</Weight>
-            </ListItem>
-            <ListItem>
                 <ItemDef>TinkersToolbox</ItemDef>
                 <Weight>500000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>ThirdEye</ItemDef>
-                <Weight>400000</Weight>
+                <Weight>300000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>SteroidInjector</ItemDef>
@@ -96,6 +92,10 @@
             </ListItem> 
             <ListItem>
                 <ItemDef>BlessedIronCollar</ItemDef>
+                <Weight>200000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>GoldenGoose</ItemDef>
                 <Weight>200000</Weight>
             </ListItem>
             <ListItem>

@@ -1,6 +1,5 @@
 ﻿using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
-using Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer.Weather;
 using Image = Myra.Graphics2D.UI.Image;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
@@ -88,9 +87,9 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         }
         
         // Set weather from encounter if available
-        if (_encounter.Weather.HasValue)
+        if (_encounter.Weather != null)
         {
-            _bodyWidget.SetWeather(_encounter.Weather.Value);
+            _bodyWidget.SetWeather(_encounter.Weather);
         }
         return _bodyWidget;
     }

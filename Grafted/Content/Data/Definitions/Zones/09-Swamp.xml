@@ -4,8 +4,8 @@
     <ZoneDef>
         <Moniker>Swamp</Moniker>
         <Label>Swamp</Label>
-        <Stage>10</Stage>
-        <BackgroundTexturePath>Biome/SmolderingSwamp</BackgroundTexturePath>
+        <Stage>9</Stage>
+        <BackgroundTexturePath>Biome/Swamp</BackgroundTexturePath>
         <BackgroundTextureTransparency>50</BackgroundTextureTransparency>
         <BiomeColor>90, 120, 90</BiomeColor>
         <Weathers>
@@ -23,6 +23,21 @@
                 <Item>HealingRoot</Item>
                 <Amount>1~3</Amount>
                 <ChanceToHarvest>1</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>RawFish</Item>
+                <Amount>1~2</Amount>
+                <ChanceToHarvest>.4</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>GoldCapMushroom</Item>
+                <Amount>1~2</Amount>
+                <ChanceToHarvest>1</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>ChurniRoot</Item>
+                <Amount>1~2</Amount>
+                <ChanceToHarvest>.7</ChanceToHarvest>
             </ListItem>
         </Resources>
         <Encounters>
@@ -43,8 +58,7 @@
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ResourceChest1</ListItem>
-                    <ListItem>EnchantedChestDefensive</ListItem>
-                    <ListItem>EnchantedChestOffensive</ListItem>
+                    <ListItem>WeaponChest2</ListItem>
                     <ListItem>ArmorChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
@@ -68,7 +82,7 @@
                 <PotentialLootBoxes>
                     <ListItem>ResourceChest1</ListItem>
                     <ListItem>EnchantedChestDefensive</ListItem>
-                    <ListItem>EnchantedChestOffensive</ListItem>
+                    <ListItem>ArmorChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -91,7 +105,7 @@
                 <PotentialLootBoxes>
                     <ListItem>TrinketChest2</ListItem>
                     <ListItem>EnchantedChestDefensive</ListItem>
-                    <ListItem>EnchantedChestOffensive</ListItem>
+                    <ListItem>ArmorChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -110,10 +124,9 @@
                 </Enemies>
             </ListItem>
             <ListItem>
-                <MaxBoxes>3</MaxBoxes>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>TrinketChest2</ListItem>
-                    <ListItem>EnchantedChestDefensive</ListItem>
+                    <ListItem>WeaponChest2</ListItem>
                     <ListItem>EnchantedChestOffensive</ListItem>
                     <ListItem>ArmorChest2</ListItem>
                 </PotentialLootBoxes>
@@ -122,7 +135,7 @@
                         <PawnDef>Mosquito</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Mosquito (specimen #4)</PawnName>
-                        <BodySizeFactor>2</BodySizeFactor>
+                        <BodySizeFactor>1.7</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
                                 <Item>VenomVial</Item>
@@ -135,15 +148,17 @@
             </ListItem>
             <ListItem>
                 <IsBoss>true</IsBoss>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>TrinketChest3</ListItem>
+                    <ListItem>MedicinalChest</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
                         <PawnDef>Mosquito</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Mosquito (specimen apex #1)</PawnName>
-                        <BodySizeFactor>4</BodySizeFactor>
+                        <BodySizeFactor>2</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
                                 <Item>VenomVial</Item>

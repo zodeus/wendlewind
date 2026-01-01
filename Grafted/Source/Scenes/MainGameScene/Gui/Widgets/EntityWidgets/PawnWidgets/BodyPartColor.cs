@@ -23,8 +23,14 @@ public static class BodyPartColor {
 
         return Color.Lerp(LowColor, HighColor, (float)bodyPart.HealthPercent);
     }
+    
+    public static Color Get(PawnBody body) {
 
-    public static Color GetBloodColor(float value) {
+        return Color.Lerp(LowColor, HighColor, (float)body.HitPoints / (float)body.MaxHitPoints);
+    }
+
+    public static Color GetBloodColor(float value)
+    {
         return Color.Lerp(DestroyedColor, HighColor, value);
     }
 

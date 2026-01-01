@@ -28,6 +28,16 @@
                 <Amount>1~5</Amount>
                 <ChanceToHarvest>.4</ChanceToHarvest>
             </ListItem>
+            <ListItem>
+                <Item>RawFish</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.5</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>VenomVial</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.5</ChanceToHarvest>
+            </ListItem>
         </Resources>
         <Encounters>
             <ListItem>
@@ -48,16 +58,6 @@
                                 <Item>PurpleJuice</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>.25</ChanceToDrop>
-                            </ListItem>
-                            <ListItem>
-                                <Item>VenomVial</Item>
-                                <Amount>1</Amount>
-                                <ChanceToDrop>.75</ChanceToDrop>
-                            </ListItem>
-                            <ListItem>
-                                <Item>RawMeat</Item>
-                                <Amount>1</Amount>
-                                <ChanceToDrop>.5</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>
                     </ListItem>
@@ -86,16 +86,6 @@
                                 <Amount>1</Amount>
                                 <ChanceToDrop>.75</ChanceToDrop>
                             </ListItem>
-                            <ListItem>
-                                <Item>VenomVial</Item>
-                                <Amount>1</Amount>
-                                <ChanceToDrop>.75</ChanceToDrop>
-                            </ListItem>
-                            <ListItem>
-                                <Item>RawMeat</Item>
-                                <Amount>1</Amount>
-                                <ChanceToDrop>.5</ChanceToDrop>
-                            </ListItem>
                         </InventoryItems>
                     </ListItem>
                 </Enemies>
@@ -122,16 +112,6 @@
                                 <Item>BalmyOintment</Item>
                                 <Amount>2~3</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
-                            </ListItem>
-                            <ListItem>
-                                <Item>VenomVial</Item>
-                                <Amount>1</Amount>
-                                <ChanceToDrop>.75</ChanceToDrop>
-                            </ListItem>
-                            <ListItem>
-                                <Item>RawMeat</Item>
-                                <Amount>1</Amount>
-                                <ChanceToDrop>.5</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>
                     </ListItem>
@@ -162,16 +142,6 @@
                                 <Item>PurpleJuice</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
-                            </ListItem>
-                            <ListItem>
-                                <Item>VenomVial</Item>
-                                <Amount>1</Amount>
-                                <ChanceToDrop>.75</ChanceToDrop>
-                            </ListItem>
-                            <ListItem>
-                                <Item>RawMeat</Item>
-                                <Amount>1</Amount>
-                                <ChanceToDrop>.5</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>
                     </ListItem>
@@ -209,16 +179,6 @@
                             <ListItem>
                                 <Item>AcidFlask</Item>
                                 <Amount>1~2</Amount>
-                                <ChanceToDrop>1</ChanceToDrop>
-                            </ListItem>
-                            <ListItem>
-                                <Item>VenomVial</Item>
-                                <Amount>1</Amount>
-                                <ChanceToDrop>1</ChanceToDrop>
-                            </ListItem>
-                            <ListItem>
-                                <Item>RawFish</Item>
-                                <Amount>2</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>

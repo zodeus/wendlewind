@@ -18,27 +18,27 @@ internal sealed class BoakItemsPanel : Panel
                     .ToList()
             )
         );
-        tabPanel.AddTab("Flammable", new BoakItemsMedicalPanel(
+        tabPanel.AddTab("Flammable", new BoakItemsDefaultPanel(
                 defs.Where(d => d.ItemType == ItemType.Flammable)
                     .ToList()
             )
         );
-        tabPanel.AddTab("Medicinal", new BoakItemsMedicalPanel(
+        tabPanel.AddTab("Medicinal", new BoakItemsDefaultPanel(
                 defs.Where(d => d.ItemType == ItemType.Medical)
                     .ToList()
             )
         );
-        tabPanel.AddTab("Resource", new BoakItemsMedicalPanel(
+        tabPanel.AddTab("Resource", new BoakItemsDefaultPanel(
                 defs.Where(d => d.ItemType == ItemType.Resource)
                     .ToList()
             )
         );
-        tabPanel.AddTab("Supplies", new BoakItemsMedicalPanel(
+        tabPanel.AddTab("Supplies", new BoakItemsDefaultPanel(
                 defs.Where(d => d.ItemType == ItemType.Supplies)
                     .ToList()
             )
         );
-        tabPanel.AddTab("Food", new BoakItemsMedicalPanel(
+        tabPanel.AddTab("Food", new BoakItemsDefaultPanel(
                 defs.Where(d => d.ItemType == ItemType.Food)
                     .ToList()
             )

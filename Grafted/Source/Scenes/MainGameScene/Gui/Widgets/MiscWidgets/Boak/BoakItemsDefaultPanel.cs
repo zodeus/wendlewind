@@ -1,10 +1,10 @@
 ﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
 
-internal sealed class BoakItemMedicalCard : Panel
+internal sealed class BoakItemDefaultCard : Panel
 {
     private const int IconSize = 96;
 
-    public BoakItemMedicalCard(ItemDef def)
+    public BoakItemDefaultCard(ItemDef def)
     {
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold];
         Padding = new Thickness(12);
@@ -20,8 +20,6 @@ internal sealed class BoakItemMedicalCard : Panel
         var iconPanel = new Panel
         {
             HorizontalAlignment = HorizontalAlignment.Center,
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
-            Padding = new Thickness(6),
             Widgets =
             {
                 new Image
@@ -93,9 +91,9 @@ internal sealed class BoakItemMedicalCard : Panel
     }
 }
 
-internal sealed class BoakItemsMedicalPanel : ScrollViewer
+internal sealed class BoakItemsDefaultPanel : ScrollViewer
 {
-    public BoakItemsMedicalPanel(IReadOnlyList<ItemDef> defs)
+    public BoakItemsDefaultPanel(IReadOnlyList<ItemDef> defs)
     {
         const int cardsPerRow = 6;
         var grid = new Grid
@@ -114,7 +112,7 @@ internal sealed class BoakItemsMedicalPanel : ScrollViewer
         var col = 0;
         foreach (var def in defs)
         {
-            var card = new BoakItemMedicalCard(def);
+            var card = new BoakItemDefaultCard(def);
             Grid.SetRow(card, row);
             Grid.SetColumn(card, col);
             grid.Widgets.Add(card);

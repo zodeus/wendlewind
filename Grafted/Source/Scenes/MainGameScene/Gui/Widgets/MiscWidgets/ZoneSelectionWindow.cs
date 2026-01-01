@@ -39,7 +39,7 @@ public class ZoneSelectionWindow : Window
     private void ShouldShowZone(Zone zone, Zone? previousZone = null)
     {
         if (zone.IsComplete || previousZone is { IsComplete: false }) return;
-        
+
         _zoneDisplay.Widgets.Clear();
         var startButton = new Button(BaseContent.Styles.Button.Large)
         {
@@ -63,17 +63,7 @@ public class ZoneSelectionWindow : Window
             Spacing = 5,
             Widgets =
             {
-                new Label(BaseContent.Styles.Label.Huge)
-                {
-                    TextColor = Color.DarkGoldenrod,
-                    Text = zone.ZoneDef.Label, HorizontalAlignment = HorizontalAlignment.Center
-                },
-                new Panel
-                {
-                    Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
-                    Padding = new Thickness(10),
-                    Widgets = { new Image { Width = 800, Height = 450, Background = new TextureRegion(zone.ZoneDef.BackgroundTexture) } }
-                },
+                new ZoneDetailsPanel(zone),
                 new HorizontalStackPanel
                 {
                     HorizontalAlignment = HorizontalAlignment.Center,

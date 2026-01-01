@@ -29,7 +29,12 @@
                 <ChanceToHarvest>.4</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>ShimmeringBark</Item>
+                <Item>HoneyPot</Item>
+                <Amount>2~3</Amount>
+                <ChanceToHarvest>.7</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>GlitteringLog</Item>
                 <Amount>1~2</Amount>
                 <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>

@@ -56,7 +56,7 @@
         <Species>Treeborn</Species>
         <Body>TreebornBody</Body>
         <BaseStats>
-            <AttackSpeed>1.5</AttackSpeed>
+            <AttackSpeed>1</AttackSpeed>
             <MeleeStrength>1</MeleeStrength>
             <Evasion>.03</Evasion>
             <MeleeAccuracy>.75</MeleeAccuracy>
@@ -93,7 +93,7 @@
         <Body>MosquitoBody</Body>
         <BaseStats>
             <AttackSpeed>3</AttackSpeed>
-            <MeleeStrength>4</MeleeStrength>
+            <MeleeStrength>1</MeleeStrength>
             <Evasion>.2</Evasion>
             <MeleeAccuracy>.9</MeleeAccuracy>
         </BaseStats>

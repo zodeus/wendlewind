@@ -4,7 +4,7 @@
     <ZoneDef>
         <Moniker>Mineshaft</Moniker>
         <Label>Mine Shafts</Label>
-        <Stage>9</Stage>
+        <Stage>10</Stage>
         <BackgroundTexturePath>Biome/Mineshaft</BackgroundTexturePath>
         <BackgroundTextureTransparency>30</BackgroundTextureTransparency>
         <BiomeColor>110, 100, 90</BiomeColor>

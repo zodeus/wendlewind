@@ -1,4 +1,3 @@
-using Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer.Weather;
 using SolidBrush = Myra.Graphics2D.Brushes.SolidBrush;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
@@ -301,25 +300,10 @@ internal sealed class BoakZoneCard : Panel
             var weatherFlow = new HorizontalStackPanel { Spacing = 8 };
             foreach (var weather in zoneDef.Weathers)
             {
-                var weatherColor = weather switch
-                {
-                    WeatherType.Neutral => new Color(180, 180, 180),
-                    WeatherType.Showers => new Color(100, 160, 220),
-                    WeatherType.Storm => new Color(80, 100, 160),
-                    WeatherType.Snow => new Color(200, 220, 255),
-                    WeatherType.SmokeEmbers => new Color(200, 120, 80),
-                    WeatherType.BloodRain => new Color(180, 60, 60),
-                    WeatherType.Fireflies => new Color(220, 200, 100),
-                    WeatherType.FallingLeaves => new Color(180, 130, 80),
-                    WeatherType.HallowedRain => new Color(160, 140, 200),
-                    WeatherType.AcidDrips => new Color(120, 200, 80),
-                    _ => new Color(180, 180, 180)
-                };
-
                 weatherFlow.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
                 {
-                    Text = weather.ToString(),
-                    TextColor = weatherColor
+                    Text = weather.Label,
+                    TextColor = weather.DisplayColor
                 });
             }
 

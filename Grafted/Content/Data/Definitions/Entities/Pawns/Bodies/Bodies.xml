@@ -33,7 +33,7 @@
         <Label>Turtle Body</Label>
         <BloodType>ToxicSlime</BloodType>
         <BoneDensity>2</BoneDensity>
-        <MaxBlood>3000</MaxBlood>
+        <MaxBlood>4000</MaxBlood>
         <GeneratorClass>TurtleBodyGenerator</GeneratorClass>
         <LayoutClass>TurtleBodyPartLayout</LayoutClass>
     </BodyDef>
@@ -60,7 +60,7 @@
         <Label>Frog Body</Label>
         <BloodType>ToxicSlime</BloodType>
         <BoneDensity>1</BoneDensity>
-        <MaxBlood>2000</MaxBlood>
+        <MaxBlood>4000</MaxBlood>
         <GeneratorClass>FrogBodyGenerator</GeneratorClass>
         <LayoutClass>FrogBodyPartLayout</LayoutClass>
     </BodyDef>

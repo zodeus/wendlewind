@@ -137,6 +137,14 @@ public class PawnRenderWidget : Panel, IDisposable
     {
         _renderer.SetWeather(weatherType);
     }
+    
+    /// <summary>
+    /// Sets the weather effect from a WeatherDef.
+    /// </summary>
+    public void SetWeather(WeatherDef weatherDef)
+    {
+        _renderer.SetWeather(weatherDef);
+    }
 
     /// <summary>
     /// Pre-renders the body to the render target. Must be called BEFORE Myra's Desktop.Render()

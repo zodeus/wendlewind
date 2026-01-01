@@ -1,6 +1,7 @@
 namespace Grafted.Sim.Entities.Items;
 
-public enum FoodType {
+public enum FoodType
+{
     RawGrain,
     RawMeat,
     CookedVegetable,
@@ -10,5 +11,6 @@ public enum FoodType {
     Meat,
     Fish,
     Berry,
-    Fruit
+    Fruit,
+    Nectar
 }

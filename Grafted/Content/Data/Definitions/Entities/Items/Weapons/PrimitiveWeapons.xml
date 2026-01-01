@@ -81,6 +81,30 @@
             </Items>
         </DisassembleProperties>
     </ItemDef>
+    <ItemDef ParentName="WeaponSharp">
+        <Moniker>BoneAxe</Moniker>
+        <Label>Bone Axe</Label>
+        <Description>It's an axe made from bone</Description>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+        </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Axe</WeaponType>
+        </WeaponProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Primitive/BoneAxe</TexturePath>
+        <BaseStats>
+            <MeleePower>12</MeleePower>
+            <MaxDurability>400</MaxDurability>
+        </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>BoneShard</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
     <ItemDef ParentName="WeaponBlunt">
         <Moniker>StoneHammer</Moniker>
         <Label>Stone Hammer</Label>

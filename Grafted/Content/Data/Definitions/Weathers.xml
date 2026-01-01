@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <WeatherDef>
+        <Moniker>Neutral</Moniker>
+        <Label>Neutral</Label>
+        <Description>Clear skies with no weather effects.</Description>
+        <EffectType>Neutral</EffectType>
+        <DisplayColor>180, 180, 180</DisplayColor>
+    </WeatherDef>
+
+    <WeatherDef>
+        <Moniker>Showers</Moniker>
+        <Label>Showers</Label>
+        <Description>Light rain showers falling gently from the sky.</Description>
+        <EffectType>Showers</EffectType>
+        <DisplayColor>100, 160, 220</DisplayColor>
+    </WeatherDef>
+
+    <WeatherDef>
+        <Moniker>Storm</Moniker>
+        <Label>Storm</Label>
+        <Description>Heavy rain with thunder and lightning.</Description>
+        <EffectType>Storm</EffectType>
+        <DisplayColor>80, 100, 160</DisplayColor>
+    </WeatherDef>
+
+    <WeatherDef>
+        <Moniker>Snow</Moniker>
+        <Label>Snow</Label>
+        <Description>Gentle snowfall blanketing the area.</Description>
+        <EffectType>Snow</EffectType>
+        <DisplayColor>200, 220, 255</DisplayColor>
+    </WeatherDef>
+
+    <WeatherDef>
+        <Moniker>SmokeEmbers</Moniker>
+        <Label>Smoke &amp; Embers</Label>
+        <Description>Drifting smoke and glowing embers from nearby fires.</Description>
+        <EffectType>SmokeEmbers</EffectType>
+        <DisplayColor>200, 120, 80</DisplayColor>
+    </WeatherDef>
+
+    <WeatherDef>
+        <Moniker>BloodRain</Moniker>
+        <Label>Blood Rain</Label>
+        <Description>An ominous crimson rain falls from darkened skies.</Description>
+        <EffectType>BloodRain</EffectType>
+        <DisplayColor>180, 60, 60</DisplayColor>
+    </WeatherDef>
+
+    <WeatherDef>
+        <Moniker>Fireflies</Moniker>
+        <Label>Fireflies</Label>
+        <Description>Glowing fireflies dance through the twilight air.</Description>
+        <EffectType>Fireflies</EffectType>
+        <DisplayColor>220, 200, 100</DisplayColor>
+    </WeatherDef>
+
+    <WeatherDef>
+        <Moniker>FallingLeaves</Moniker>
+        <Label>Falling Leaves</Label>
+        <Description>Autumn leaves drift lazily through the breeze.</Description>
+        <EffectType>FallingLeaves</EffectType>
+        <DisplayColor>180, 130, 80</DisplayColor>
+    </WeatherDef>
+
+    <WeatherDef>
+        <Moniker>HallowedRain</Moniker>
+        <Label>Hallowed Rain</Label>
+        <Description>Ethereal purple rain with mystical properties.</Description>
+        <EffectType>HallowedRain</EffectType>
+        <DisplayColor>160, 140, 200</DisplayColor>
+    </WeatherDef>
+
+    <WeatherDef>
+        <Moniker>AcidDrips</Moniker>
+        <Label>Acid Drips</Label>
+        <Description>Corrosive acid drips from toxic formations above.</Description>
+        <EffectType>AcidDrips</EffectType>
+        <DisplayColor>120, 200, 80</DisplayColor>
+    </WeatherDef>
+</Definitions>

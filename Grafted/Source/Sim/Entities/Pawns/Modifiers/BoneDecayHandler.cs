@@ -3,9 +3,19 @@ namespace Grafted.Sim.Entities.Pawns.Modifiers;
 [UsedImplicitly]
 public class BoneDecayHandler : BodyPartModifier
 {
+    public double CurrentDamage = 0.3;
+    public const double BaseDamage = 0.3;
+    public const double EntropyRate = 0.85;
+    public const double MinimumDamage = 0.025;
     public override void Tick()
     {
-        BodyPart.HitPoints -= Math.Clamp(BodyPart.HitPoints * .001, 0.01, 0.5);
+        Ticks++;
+        BodyPart.HitPoints -= CurrentDamage;
+        if (Ticks % 30 == 0)
+        {
+
+            CurrentDamage = Math.Max(CurrentDamage * EntropyRate, MinimumDamage);
+        }
 
         if (BodyPart.IsDestroyed)
         {
@@ -18,6 +28,12 @@ public class BoneDecayHandler : BodyPartModifier
     public override void ExposeData()
     {
         base.ExposeData();
+    }
+
+    public override void MergeWith(BodyPartModifier modifier)
+    {
+        CurrentDamage = BaseDamage;
+        base.MergeWith(modifier);
     }
 
     public override bool ApplyToPart(BodyPart part)

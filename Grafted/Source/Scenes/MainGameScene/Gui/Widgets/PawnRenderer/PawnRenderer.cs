@@ -132,8 +132,8 @@ public class PawnRenderer : IDisposable
         _bloodSpurtRenderer.Update(deltaTime);
         _weatherRenderer.Update(deltaTime);
         
-        // Track whether effects are currently active (determines which render target to return)
-        _hasActiveEffects = _bloodSpurtRenderer.HasActiveSpurts || _weatherRenderer.HasActiveEffects;
+        // Always use composite render target to show health text overlay
+        _hasActiveEffects = true;
     }
 
     /// <summary>
@@ -186,6 +186,14 @@ public class PawnRenderer : IDisposable
     public void SetWeather(WeatherType weatherType)
     {
         _weatherRenderer.SetWeather(weatherType);
+    }
+    
+    /// <summary>
+    /// Sets the weather effect from a WeatherDef.
+    /// </summary>
+    public void SetWeather(WeatherDef weatherDef)
+    {
+        _weatherRenderer.SetWeather(weatherDef);
     }
 
     /// <summary>
@@ -256,9 +264,45 @@ public class PawnRenderer : IDisposable
         // Render weather effects overlay
         _weatherRenderer.Render(_spriteBatch, layoutScale);
         
+        // Render health text at top center
+        RenderHealthText(_spriteBatch);
+        
         _spriteBatch.End();
         
         Core.GraphicsDevice.SetRenderTargets(previousTargets);
+    }
+
+    /// <summary>
+    /// Renders the health text (current/max) at the top center of the render target.
+    /// </summary>
+    private void RenderHealthText(SpriteBatch spriteBatch)
+    {
+        var currentHealth = (int)Math.Ceiling(_pawn.Body.HitPoints);
+        var maxHealth = (int)_pawn.Body.MaxHitPoints;
+        var healthText = $"{currentHealth}/{maxHealth}";
+        
+        // Scale font based on render size (Medium = 30pt is baseline for 512px render target)
+        var font = _renderSize switch
+        {
+            <= 128 => BaseContent.Fonts.Default.VerySmall,
+            <= 256 => BaseContent.Fonts.Default.Small,
+            <= 384 => BaseContent.Fonts.Default.Normal,
+            _ => BaseContent.Fonts.Default.Large
+        };
+        var textSize = font.MeasureString(healthText);
+        
+        // Position at top center with padding scaled to render size
+        var x = (_renderSize - textSize.X) / 2f;
+        var y = _renderSize * 0.02f; // 2% padding from top
+        
+        // Draw shadow/outline for readability
+        var shadowOffset = Math.Max(1, _renderSize / 256);
+        var shadowColor = Color.Black * 0.8f;
+        spriteBatch.DrawString(font, healthText, new Vector2(x + shadowOffset, y + shadowOffset), shadowColor);
+        
+        // Draw main text with color based on health percentage
+        var textColor = BodyPartColor.Get(_pawn.Body);
+        spriteBatch.DrawString(font, healthText, new Vector2(x, y), textColor);
     }
 
     /// <summary>

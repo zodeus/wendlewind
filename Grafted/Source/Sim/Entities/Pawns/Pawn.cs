@@ -333,6 +333,11 @@ public class Pawn : Entity
         FoodConsumed?.Invoke(this, item);
 
         var nutrition = item.GetStatValue(Defs.Stats.NutritionalValue);
+        if (Traits.HasTrait(Defs.Traits.PotBellied))
+        {
+            // reduce nutrition by usage 25% 
+            nutrition *= 0.75f;
+        }
         Body.StomachLevel += nutrition;
         Body.Energy = Body.MaxEnergy;
 

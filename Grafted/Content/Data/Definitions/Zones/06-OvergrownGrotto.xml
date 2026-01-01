@@ -35,6 +35,11 @@
                 <Amount>1~2</Amount>
                 <ChanceToHarvest>.3</ChanceToHarvest>
             </ListItem>
+            <ListItem>
+                <Item>BoneShard</Item>
+                <Amount>2~4</Amount>
+                <ChanceToHarvest>.5</ChanceToHarvest>
+            </ListItem>
         </Resources>
         <Encounters>
             <ListItem>
@@ -51,7 +56,7 @@
                         <PawnName>Turtle (specimen #1)</PawnName>
                         <InventoryItems>
                             <ListItem>
-                                <Item>ShimmeringBark</Item>
+                                <Item>TurtleBeakPuss</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>.8</ChanceToDrop>
                             </ListItem>
@@ -74,7 +79,7 @@
                         <BodySizeFactor>1.2</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
-                                <Item>ShimmeringBark</Item>
+                                <Item>TurtleBeakPuss</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>.8</ChanceToDrop>
                             </ListItem>
@@ -97,7 +102,7 @@
                         <BodySizeFactor>1.4</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
-                                <Item>ShimmeringBark</Item>
+                                <Item>TurtleBeakPuss</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>.8</ChanceToDrop>
                             </ListItem>
@@ -120,7 +125,7 @@
                         <BodySizeFactor>1.6</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
-                                <Item>ShimmeringBark</Item>
+                                <Item>TurtleBeakPuss</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>.8</ChanceToDrop>
                             </ListItem>
@@ -147,7 +152,7 @@
                         </Skills>
                         <InventoryItems>
                             <ListItem>
-                                <Item>ShimmeringBark</Item>
+                                <Item>TurtleBeakPuss</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>

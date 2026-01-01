@@ -36,19 +36,6 @@
         </Resources>
         <Encounters>
             <ListItem>
-                <ShrineProperties>
-                    <GodLabel>God Glurmf</GodLabel>
-                    <PartsToRestore>2~4</PartsToRestore>
-                    <TexturePath>Biome/Shrines/cave_shrine_1</TexturePath>
-                    <RestorablePartTypes>
-                        <ListItem>Thumb</ListItem>
-                        <ListItem>Finger</ListItem>
-                        <ListItem>Hand</ListItem>
-                        <ListItem>Foot</ListItem>
-                    </RestorablePartTypes>
-                </ShrineProperties>
-            </ListItem>
-            <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>EnchantedChestDefensive</ListItem>

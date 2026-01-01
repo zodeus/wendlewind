@@ -24,7 +24,7 @@
             <ListItem>BuiltIn</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <MaxHitPoints>500</MaxHitPoints>
+            <MaxHitPoints>150</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="TurtleBodyPartBase">
@@ -42,7 +42,7 @@
             <ListItem>TorsoSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>300</MaxHitPoints>
+            <MaxHitPoints>80</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="TurtleBodyPartBase">
@@ -69,7 +69,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.4</AttackSpeedModifier>
-            <MaxHitPoints>100</MaxHitPoints>
+            <MaxHitPoints>210</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="TurtleBodyPartBase">
@@ -91,7 +91,7 @@
         </EquipmentSlots>
         <BaseStats>
             <AttackSpeedModifier>.15</AttackSpeedModifier>
-            <MaxHitPoints>400</MaxHitPoints>
+            <MaxHitPoints>50</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="TurtleBodyPartBase">
@@ -109,7 +109,7 @@
             <ListItem>ArterySocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>30</MaxHitPoints>
+            <MaxHitPoints>40</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="TurtleBodyPartBase">
@@ -127,7 +127,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.05</AttackSpeedModifier>
-            <MaxHitPoints>250</MaxHitPoints>
+            <MaxHitPoints>30</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
 </Definitions>

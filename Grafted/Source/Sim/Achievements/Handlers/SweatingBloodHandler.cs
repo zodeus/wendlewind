@@ -5,6 +5,7 @@ namespace Grafted.Sim.Achievements.Handlers;
 /// </summary>
 public class SweatingBloodHandler : AchievementHandler
 {
+    private const float MaxBloodBonus = 500f;
     public override void OnCombatEnd(AchievementCombatEndContext context)
     {
         if (IsUnlocked || !context.PlayerWon) return;
@@ -13,6 +14,13 @@ public class SweatingBloodHandler : AchievementHandler
         {
             Unlock();
         }
+    }
+
+    public override void OnWorldRestart(GameContext context)
+    {
+        if (!IsUnlocked) return;
+
+        context.Player.Pawn.Body.MaxBloodBonus += MaxBloodBonus;
     }
 }
 

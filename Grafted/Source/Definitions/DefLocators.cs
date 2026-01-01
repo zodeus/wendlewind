@@ -35,16 +35,20 @@ public static partial class Defs
     }
 }
 
-public static partial class Defs {
+public static partial class Defs
+{
     [DefLocator]
-    public static class PawnLoadouts {
+    public static class PawnLoadouts
+    {
         public static PawnLoadoutDef DefaultStarterLoadout = null!;
     }
 }
 
-public static partial class Defs {
+public static partial class Defs
+{
     [DefLocator]
-    public static class BodyPartModifiers {
+    public static class BodyPartModifiers
+    {
         public static BodyPartModifierDef Acid = null!;
         public static BodyPartModifierDef RotLung = null!;
         public static BodyPartModifierDef SoothingBalm = null!;
@@ -56,9 +60,11 @@ public static partial class Defs {
     }
 }
 
-public static partial class Defs {
+public static partial class Defs
+{
     [DefLocator]
-    public static class BodyEffects {
+    public static class BodyEffects
+    {
         public static BodyEffectDef FoodPoisoning = null!;
         public static BodyEffectDef BeefedUp = null!;
         public static BodyEffectDef FeelingThePurple = null!;
@@ -70,9 +76,11 @@ public static partial class Defs {
     }
 }
 
-public static partial class Defs {
+public static partial class Defs
+{
     [DefLocator]
-    public static class Zones {
+    public static class Zones
+    {
         public static ZoneDef PeacefulMeadow = null!;
         public static ZoneDef TheOutskirts = null!;
         public static ZoneDef Thicket = null!;
@@ -89,7 +97,8 @@ public static partial class Defs {
     }
 }
 
-public static partial class Defs {
+public static partial class Defs
+{
     [DefLocator]
     public static class Items
     {
@@ -106,6 +115,7 @@ public static partial class Defs {
         public static ItemDef StoneHammer = null!;
         public static ItemDef BoneKnife = null!;
         public static ItemDef BoneSpear = null!;
+        public static ItemDef BoneAxe = null!;
         public static ItemDef WoodClub = null!;
         public static ItemDef RawCorn = null!;
         public static ItemDef RawGrain = null!;
@@ -307,25 +317,47 @@ public static partial class Defs
         //Treeborn
         public static BodyPartSocketDef TreeTrunkSocket = null!;
     }
-    
+
     [DefLocator]
-    public static class Traits {
+    public static class Traits
+    {
+        public static TraitDef PotBellied = null!;
         public static TraitDef ThickBlooded = null!;
         public static TraitDef GutMicroacrobatics = null!;
     }
+
+    [DefLocator]
+    public static class Weathers
+    {
+        public static WeatherDef Neutral = null!;
+        public static WeatherDef Showers = null!;
+        public static WeatherDef Storm = null!;
+        public static WeatherDef Snow = null!;
+        public static WeatherDef SmokeEmbers = null!;
+        public static WeatherDef BloodRain = null!;
+        public static WeatherDef Fireflies = null!;
+        public static WeatherDef FallingLeaves = null!;
+        public static WeatherDef HallowedRain = null!;
+        public static WeatherDef AcidDrips = null!;
+    }
 }
 
-public static class DefsBinder {
-    public static void BindLocators() {
-        foreach (Type item in GenTypes.AllTypesWithAttribute<DefLocator>()) {
+public static class DefsBinder
+{
+    public static void BindLocators()
+    {
+        foreach (Type item in GenTypes.AllTypesWithAttribute<DefLocator>())
+        {
             BindDefsToStaticClass(item);
         }
     }
 
-    private static void BindDefsToStaticClass(IReflect type) {
+    private static void BindDefsToStaticClass(IReflect type)
+    {
         FieldInfo[] fields = type.GetFields(BindingFlags.Static | BindingFlags.Public);
-        foreach (FieldInfo fieldInfo in fields) {
-            Def def = (Def) typeof(DefRepository<>)
+        foreach (FieldInfo fieldInfo in fields)
+        {
+            Def def = (Def)typeof(DefRepository<>)
                 .MakeGenericType(fieldInfo.FieldType)
                 .GetMethod("GetByMoniker")!
                 .Invoke(null, new object[] { fieldInfo.Name, true })!;

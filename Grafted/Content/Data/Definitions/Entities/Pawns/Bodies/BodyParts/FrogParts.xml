@@ -68,7 +68,7 @@
             <ListItem>FootSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>10</MaxHitPoints>
+            <MaxHitPoints>15</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="FrogBodyPartBase">
@@ -87,7 +87,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.16</AttackSpeedModifier>
-            <MaxHitPoints>5</MaxHitPoints>
+            <MaxHitPoints>10</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
 </Definitions>

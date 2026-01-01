@@ -6,7 +6,7 @@
         <Label>Supply Chest</Label>
         <Category>Crafting</Category>
         <TexturePath>Chests/SupplyChest</TexturePath>
-        <CollectionLimit>2</CollectionLimit>
+        <CollectionLimit>3</CollectionLimit>
         <Items>
             <ListItem>
                 <ItemDef>RepairKit</ItemDef>
@@ -35,7 +35,7 @@
         <Label>Supply Chest</Label>
         <Category>Crafting</Category>
         <TexturePath>Chests/SupplyChest</TexturePath>
-        <CollectionLimit>3</CollectionLimit>
+        <CollectionLimit>4</CollectionLimit>
         <Items>
             <ListItem>
                 <ItemDef>MedKit</ItemDef>

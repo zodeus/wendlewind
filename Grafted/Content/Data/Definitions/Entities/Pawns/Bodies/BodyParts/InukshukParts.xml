@@ -6,7 +6,7 @@
     <BodyPartDef ParentName="InukshukBodyPartBase">
         <Moniker>InukshukHead</Moniker>
         <Label>Head</Label>
-        <HitWeight>15</HitWeight>
+        <HitWeight>40</HitWeight>
         <BloodAmount>0</BloodAmount>
         <BodyPartType>Head</BodyPartType>
         <Substance>Stone</Substance>
@@ -19,7 +19,7 @@
             <ListItem>HeadArmor</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <MaxHitPoints>1500</MaxHitPoints>
+            <MaxHitPoints>400</MaxHitPoints>
             <PhysicalResistance>20</PhysicalResistance>
         </BaseStats>
     </BodyPartDef>
@@ -27,7 +27,7 @@
         <Moniker>InukshukTorso</Moniker>
         <Label>Torso</Label>
         <BodyPartType>Torso</BodyPartType>
-        <HitWeight>40</HitWeight>
+        <HitWeight>30</HitWeight>
         <BloodAmount>0</BloodAmount>
         <Substance>Stone</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Inukshuk/Torso</TexturePath>
@@ -43,9 +43,9 @@
             <ListItem>RightLegSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>2000</MaxHitPoints>
+            <MaxHitPoints>400</MaxHitPoints>
             <PhysicalResistance>30</PhysicalResistance>
-            <AttackSpeedModifier>.25</AttackSpeedModifier>
+            <AttackSpeedModifier>.5</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="InukshukBodyPartBase">
@@ -66,7 +66,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.15</AttackSpeedModifier>
-            <MaxHitPoints>1000</MaxHitPoints>
+            <MaxHitPoints>150</MaxHitPoints>
             <PhysicalResistance>15</PhysicalResistance>
         </BaseStats>
     </BodyPartDef>
@@ -87,7 +87,7 @@
             <ListItem>BoneSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>1000</MaxHitPoints>
+            <MaxHitPoints>200</MaxHitPoints>
             <PhysicalResistance>15</PhysicalResistance>
             <AttackSpeedModifier>.1</AttackSpeedModifier>
         </BaseStats>

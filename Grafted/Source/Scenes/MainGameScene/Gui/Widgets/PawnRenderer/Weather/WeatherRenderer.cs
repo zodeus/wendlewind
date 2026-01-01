@@ -7,13 +7,10 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer.Weather;
 public class WeatherRenderer
 {
     private readonly Dictionary<WeatherType, IWeatherEffect> _effects;
-    private IWeatherEffect _currentEffect;
+    private IWeatherEffect? _currentEffect;
     
-    private float _weatherTimer;
     private float _spawnAccumulator;
     private bool _hasInitialized;
-    private int _currentEffectIndex;
-    private const float WeatherCycleDuration = 10f;
     
     private int _width = 512;
     private int _height = 512;
@@ -21,12 +18,12 @@ public class WeatherRenderer
     /// <summary>
     /// Current weather type being rendered.
     /// </summary>
-    public WeatherType CurrentWeather => _currentEffect.WeatherType;
+    public WeatherType? CurrentWeather => _currentEffect?.WeatherType;
     
     /// <summary>
     /// Screen flash intensity from lightning (0-1).
     /// </summary>
-    public float ScreenFlashIntensity => _currentEffect.ScreenFlashIntensity;
+    public float ScreenFlashIntensity => _currentEffect?.ScreenFlashIntensity ?? 0f;
     
     public WeatherRenderer()
     {
@@ -43,9 +40,6 @@ public class WeatherRenderer
             { WeatherType.AcidDrips, new AcidDripsEffect() },
             { WeatherType.Neutral, new NeutralEffect() }
         };
-        
-        _currentEffect = _effects[WeatherType.Showers];
-        _weatherTimer = WeatherCycleDuration;
     }
     
     /// <summary>
@@ -55,13 +49,20 @@ public class WeatherRenderer
     {
         if (_effects.TryGetValue(weatherType, out var effect))
         {
-            _currentEffect.Clear();
+            _currentEffect?.Clear();
             _currentEffect = effect;
             _currentEffect.SetDimensions(_width, _height);
-            _weatherTimer = float.MaxValue; // Disable cycling
             _spawnAccumulator = 0f;
             _hasInitialized = false; // Force re-initialization on next update
         }
+    }
+    
+    /// <summary>
+    /// Sets weather from a WeatherDef.
+    /// </summary>
+    public void SetWeather(WeatherDef weatherDef)
+    {
+        SetWeather(weatherDef.EffectType);
     }
     
     /// <summary>
@@ -90,37 +91,11 @@ public class WeatherRenderer
             PrePopulateParticles();
         }
         
-        _weatherTimer -= deltaTime;
-        
-        // Cycle to next weather type
-        if (_weatherTimer <= 0)
-        {
-            CycleToNextWeather();
-        }
-        
         // Spawn new particles
         SpawnParticles(deltaTime);
         
         // Update current effect
-        _currentEffect.Update(deltaTime);
-    }
-    
-    private void CycleToNextWeather()
-    {
-        _weatherTimer = WeatherCycleDuration;
-        
-
-        _currentEffectIndex++;
-        if (_currentEffectIndex >= _effects.Count)
-        {
-            _currentEffectIndex = 0;
-        }
-        _currentEffect.Clear();
-        _currentEffect = _effects.Values.ElementAt(_currentEffectIndex);
-        _currentEffect.SetDimensions(_width, _height);
-        _spawnAccumulator = 0f;
-        
-        PrePopulateParticles();
+        _currentEffect?.Update(deltaTime);
     }
     
     /// <summary>
@@ -129,6 +104,7 @@ public class WeatherRenderer
     /// </summary>
     private void PrePopulateParticles()
     {
+        if (_currentEffect == null) return;
         for (int i = 0; i < _currentEffect.PrePopulateCount; i++)
         {
             _currentEffect.SpawnParticle(distributeAcrossScreen: true);
@@ -137,6 +113,7 @@ public class WeatherRenderer
     
     private void SpawnParticles(float deltaTime)
     {
+        if (_currentEffect == null) return;
         _spawnAccumulator += _currentEffect.SpawnRate * deltaTime;
         
         while (_spawnAccumulator >= 1f)
@@ -151,16 +128,11 @@ public class WeatherRenderer
     /// </summary>
     public void Render(SpriteBatch spriteBatch, float scale = 1f)
     {
-        _currentEffect.Render(spriteBatch, scale);
+        _currentEffect?.Render(spriteBatch, scale);
     }
     
     /// <summary>
     /// Returns true if there are active weather effects to render.
     /// </summary>
-    public bool HasActiveEffects => _currentEffect.HasActiveEffects;
-    
-    /// <summary>
-    /// Gets the time remaining until the next weather type.
-    /// </summary>
-    public float TimeUntilNextWeather => _weatherTimer;
+    public bool HasActiveEffects => _currentEffect?.HasActiveEffects ?? false;
 }

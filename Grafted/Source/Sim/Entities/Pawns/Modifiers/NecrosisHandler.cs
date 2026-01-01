@@ -6,7 +6,7 @@ public class NecrosisHandler : BodyPartModifier
     private static RangeDouble DamageFactorPerTick = new (0.001, 0.002);
     private const int TotalTicksToSpread = 6000;
 
-    public static readonly List<SubstanceType> AllowedSubstances = [
+    public override List<SubstanceType> AllowedSubstances => [
         SubstanceType.Flesh, SubstanceType.Bone, SubstanceType.Fungus, SubstanceType.Wood
     ];
 

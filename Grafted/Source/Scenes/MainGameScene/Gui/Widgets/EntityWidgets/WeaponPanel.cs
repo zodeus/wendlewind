@@ -85,6 +85,8 @@ public sealed class WeaponPanel : EntityPanelBase
         var substanceModifiers = item.ItemDef.WeaponProperties?.SubstanceModifiers;
         if (substanceModifiers is { Count: > 0 })
         {
+            var baseMeleePower = item.GetStatValue(Defs.Stats.MeleePower);
+
             var modsSection = new VerticalStackPanel { Spacing = 2, Margin = new Thickness(0, 0, 0, 10) };
             modsSection.Widgets.Add(new Label("small")
             {
@@ -94,6 +96,7 @@ public sealed class WeaponPanel : EntityPanelBase
             });
 
             var modsGrid = new Grid { ColumnSpacing = 12, RowSpacing = 2, Margin = new Thickness(8, 0, 0, 0) };
+            modsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
             modsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
             modsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
 
@@ -115,6 +118,16 @@ public sealed class WeaponPanel : EntityPanelBase
                 Grid.SetRow(valueLabel, row);
                 Grid.SetColumn(valueLabel, 1);
                 modsGrid.Widgets.Add(valueLabel);
+
+                var actualDamage = baseMeleePower * mod.Modifier;
+                var damageLabel = new Label("small")
+                {
+                    Text = $"({actualDamage:0})",
+                    TextColor = Color.DarkGoldenrod
+                };
+                Grid.SetRow(damageLabel, row);
+                Grid.SetColumn(damageLabel, 2);
+                modsGrid.Widgets.Add(damageLabel);
 
                 row++;
             }

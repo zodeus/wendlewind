@@ -6,9 +6,9 @@ namespace Grafted.Scenes.MainGameScene;
 
 public class GameScene : Scene
 {
-    private CampGui _campGui = null!;
+    private MapGui _mapGui = null!;
     private GameContext _context = new ();
-    private GameState _currentGameState = GameState.Camp;
+    private GameState _currentGameState = GameState.Map;
     private WorldTextHandler _worldTextHandler = new();
     private KeyboardState _previousKeyboardState;
     private BaseGui? ActiveGui { get; set; }
@@ -38,13 +38,13 @@ public class GameScene : Scene
         var effectiveState = _currentGameState;
         if (effectiveState == GameState.Zone && _context.CurrentZone == null)
         {
-            effectiveState = GameState.Camp;
+            effectiveState = GameState.Map;
         }
         
         ActiveGui = effectiveState switch
         {
             GameState.Zone => new ZoneGui(_context, _worldTextHandler),
-            GameState.Camp => new CampGui(_context, _worldTextHandler), //todo this should only be instantiated once, but it doesn't refresh properly
+            GameState.Map => new MapGui(_context, _worldTextHandler), //todo this should only be instantiated once, but it doesn't refresh properly
             _ => ActiveGui
         };
     }
@@ -52,8 +52,8 @@ public class GameScene : Scene
     private void StartGame()
     {
         ActiveGui?.Dispose();
-        _campGui = new CampGui(_context, _worldTextHandler);
-        ActiveGui = _campGui;
+        _mapGui = new MapGui(_context, _worldTextHandler);
+        ActiveGui = _mapGui;
     }
 
     private void HandleOnStateChanged(GameState state)
@@ -61,7 +61,7 @@ public class GameScene : Scene
         ActiveGui?.Dispose();
         if (state == GameState.StartOver)
         {
-            _currentGameState = GameState.Camp;
+            _currentGameState = GameState.Map;
             StartOver();
             ActiveGui!.PushScreenMessage(new ScreenMessageData
             {

@@ -56,7 +56,10 @@
         <!-- <UiClass>PlagueMaskPanel</UiClass> -->
         <TexturePath>Entities/Item/Trinket/PlagueMask</TexturePath>
     </ItemDef>
-    <!-- <ItemDef ParentName="InteractiveTrinket">
+    <!-- 
+    AutoMuncher
+    
+    <ItemDef ParentName="InteractiveTrinket">
         <Moniker>Forge</Moniker>
         <Label>Forge</Label>
         <TrinketProperties>

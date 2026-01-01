@@ -25,6 +25,10 @@
                 <ItemDef>WoodClub</ItemDef>
                 <Weight>1</Weight>
             </ListItem>
+            <ListItem>
+                <ItemDef>BoneAxe</ItemDef>
+                <Weight>2</Weight>
+            </ListItem>
         </Items>
     </LootBoxDef>
     <LootBoxDef>
@@ -32,7 +36,7 @@
         <Label>Weapons</Label>
         <Description>Contains weapons</Description>
         <Category>Weapons</Category>
-        <TexturePath>Chests/WeaponChest1</TexturePath>
+        <TexturePath>Chests/WeaponChest2</TexturePath>
         <CollectionLimit>1</CollectionLimit>
         <Items>
             <ListItem>

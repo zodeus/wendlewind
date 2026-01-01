@@ -3,15 +3,15 @@ namespace Grafted.Sim.Entities.Pawns.Modifiers;
 [UsedImplicitly]
 public class BurningHandler : BodyPartModifier
 {
-    public bool HasSpread;
-    public bool HasPenetrated;
-
-    private const double BaseDamage = 0.008;
+    private bool _hasSpread;
+    private bool _hasPenetrated;
+    private const double BaseDamage = 0.08;
+    private const double SkinDamage = 0.2;
+    private const double OrganDamage = 0.003;
     private const double PenetratedDamage = 0.02;
     private const double PenetrationThreshold = 0.1;
     private const double SpreadThreshold = 0.3;
-
-    public static readonly List<SubstanceType> AllowedSubstances = [SubstanceType.Flesh, SubstanceType.Bone, SubstanceType.Fungus, SubstanceType.Wood];
+    public override List<SubstanceType> AllowedSubstances => [SubstanceType.Flesh, SubstanceType.Bone, SubstanceType.Fungus, SubstanceType.Wood, SubstanceType.Chitin];
 
     public override void Tick()
     {
@@ -22,50 +22,35 @@ public class BurningHandler : BodyPartModifier
             return;
         }
 
-        var damageMultiplier = HasPenetrated ? PenetratedDamage : BaseDamage;
-        var damage = BodyPart.HitPoints * damageMultiplier;
+        var damage = BaseDamage;
+        if (BodyPart.IsOrgan)
+        {
+            damage = OrganDamage;
+        }
+        else if (BodyPart.Type == BodyPartType.Skin)
+        {
+            damage = SkinDamage;
+        }
+        else if (_hasPenetrated)
+        {
+            damage = PenetratedDamage;
+        }
+
         BodyPart.HitPoints -= damage;
-        if (HasPenetrated == false && BodyPart is { Type: BodyPartType.Skin, HealthPercent: < PenetrationThreshold })
-        {
-            HasPenetrated = true;
-            if (BodyPart.Socket?.ParentPart?.AllInternalParts.Count != 0)
-            {
-                foreach (var internalPart in BodyPart.Socket!.ParentPart!.AllInternalParts)
-                {
-                    SpreadTo(internalPart);
-                }
-            }
-        }
 
-        if (HasSpread == false && BodyPart is { Type: BodyPartType.Skin, HealthPercent: < SpreadThreshold })
-        {
-            HasSpread = true;
-            if (BodyPart.Socket?.ParentPart != null)
-            {
-                SpreadTo(BodyPart.Socket.ParentPart);
-                if (BodyPart.Socket.ParentPart.Socket?.ParentPart is { } part)
-                {
-                    SpreadTo(part);
-                }
-
-                foreach (var externalPart in BodyPart.Socket.ParentPart.ExternalParts)
-                {
-                    SpreadTo(externalPart);
-                }
-            }
-        }
-
+        this.HandleSpreading(BodyPart, SpreadThreshold, ref _hasSpread);
+        this.HandlePenetration(BodyPart, PenetrationThreshold, ref _hasPenetrated);
         CheckIfLostVitalPart();
     }
 
     public override bool ApplyToPart(BodyPart part)
     {
-        if(part.IsExternal == false) return false;
+        if (part.IsExternal == false) return false;
         if (AllowedSubstances.Contains(part.Substance) == false)
         {
             return false;
         }
-        
+
         var skin = part.Skin;
         if (skin != null)
         {
@@ -81,15 +66,16 @@ public class BurningHandler : BodyPartModifier
 
     public override void MergeWith(BodyPartModifier modifier)
     {
-        HasSpread = false;
-        HasPenetrated = false;
+        _hasSpread = false;
+        _hasPenetrated = false;
         base.MergeWith(modifier);
     }
 
 
     public override void ExposeData()
     {
-        ScribeValues.Look(ref HasSpread, "HasSpread");
+        ScribeValues.Look(ref _hasSpread, "HasSpread");
+        ScribeValues.Look(ref _hasPenetrated, "HasPenetrated");
         base.ExposeData();
     }
 }

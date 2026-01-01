@@ -25,4 +25,9 @@
         <Label>Gut Microacrobatics</Label>
         <Description>Immune to food poisoning.</Description>
     </TraitDef>
+    <TraitDef>
+        <Moniker>PotBellied</Moniker>
+        <Label>Pot Bellied</Label>
+        <Description>You have a little more belly than usual. More room for the good stuff.</Description>
+    </TraitDef>
 </Definitions>

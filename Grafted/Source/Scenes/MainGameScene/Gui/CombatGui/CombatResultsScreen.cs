@@ -55,13 +55,13 @@ public sealed class CombatResultsScreen : VerticalStackPanel
 
         if (Encounter.AtBoss)
         {
-            var campButton = new Button(BaseContent.Styles.Button.Large) { Content = new Label { Text = "Return to camp" } };
-            campButton.Click += (_, _) =>
+            var nextZoneButton = new Button(BaseContent.Styles.Button.Large) { Content = new Label { Text = "Continue to next zone" } };
+            nextZoneButton.Click += (_, _) =>
             {
                 _context.Save();
                 Encounter.Zone.Exit();
             };
-            panel.Widgets.Add(campButton);
+            panel.Widgets.Add(nextZoneButton);
         }
         else
         {

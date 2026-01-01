@@ -37,7 +37,6 @@ public sealed class PawnPanel : EntityPanelBase
 public sealed class PawnPortraitPanel : VerticalStackPanel, IDisposable
 {
     private readonly Pawn _pawn;
-    private readonly Label _hitPoints;
     private readonly Label _attackSpeed;
     private readonly HorizontalProgressBar _bloodBar;
     private readonly PawnRenderWidget _renderWidget;
@@ -60,9 +59,7 @@ public sealed class PawnPortraitPanel : VerticalStackPanel, IDisposable
         _bloodBar = new BloodBar(pawn) { Width = 256, Height = 30 };
 
         Widgets.Add(_bloodBar);
-        _hitPoints = new Label(BaseContent.Styles.Label.Normal) { Wrap = true, TextColor = Color.LightGreen };
-        Widgets.Add(_hitPoints);
-        _attackSpeed = new Label(BaseContent.Styles.Label.Normal) { Wrap = true, TextColor = Color.LightYellow, Margin = new Thickness(0, 0, 0, 20) };
+        _attackSpeed = new Label(BaseContent.Styles.Label.Normal) { Margin = new Thickness(0, 0, 0, 20) };
         Widgets.Add(_attackSpeed);
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"Species: {pawn.Species}" });
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"Gender: {pawn.Gender}" });
@@ -74,8 +71,7 @@ public sealed class PawnPortraitPanel : VerticalStackPanel, IDisposable
 
     public void Update()
     {
-        _hitPoints.Text = $"Hitpoints: {_pawn.Body.HitPoints:F0}/{_pawn.Body.MaxHitPoints:F0}";
-        _attackSpeed.Text = "AttackSpeed";
+        _attackSpeed.Text = $"Attack Speed: {_pawn.AttackSpeed:F2}";
         _bloodBar.Value = _pawn.Body.BloodPercent * 100;
         _capabilitiesPanel.Update();
     }

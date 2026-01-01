@@ -9,7 +9,7 @@
         <TexturePath>Entities/Item/Resource/Metal/IronNugget</TexturePath>
         <AmmoProperties>
             <DamageType>Blunt</DamageType>
-            <DamageRange>700~900</DamageRange>
+            <DamageRange>120~210</DamageRange>
         </AmmoProperties>
     </ItemDef>
     <ItemDef ParentName="MetalResource">

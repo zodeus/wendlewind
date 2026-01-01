@@ -6,7 +6,7 @@
         <Label>Armor</Label>
         <Description>Contains armor</Description>
         <Category>Armor</Category>
-        <TexturePath>Chests/ArmorChestBasic</TexturePath>
+        <TexturePath>Chests/ArmorChest1</TexturePath>
         <CollectionLimit>2</CollectionLimit>
         <TrapProperties>
             <TrapLabel>Finger Biter</TrapLabel>
@@ -54,7 +54,7 @@
         <Label>Armor</Label>
         <Description>Contains armor</Description>
         <Category>Armor</Category>
-        <TexturePath>Chests/ArmorChestBasic</TexturePath>
+        <TexturePath>Chests/ArmorChest2</TexturePath>
         <CollectionLimit>2</CollectionLimit>
         <TrapProperties>
             <TrapLabel>Finger Biter</TrapLabel>
@@ -63,47 +63,47 @@
             <ListItem>
                 <ItemDef>LeatherGorget</ItemDef>
                 <ChanceToDrop>.4</ChanceToDrop>
-                <Weight>1</Weight>
+                <Weight>100</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>LeatherHelmet</ItemDef>
                 <ChanceToDrop>.25</ChanceToDrop>
-                <Weight>1</Weight>
+                <Weight>100</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>LeatherTunic</ItemDef>
                 <ChanceToDrop>.4</ChanceToDrop>
-                <Weight>1</Weight>
+                <Weight>100</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>LeatherVambrace</ItemDef>
                 <ChanceToDrop>.5</ChanceToDrop>
-                <Weight>1</Weight>
+                <Weight>100</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>LeatherGlove</ItemDef>
                 <ChanceToDrop>.8</ChanceToDrop>
-                <Weight>1</Weight>
+                <Weight>100</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>LeatherGreave</ItemDef>
                 <ChanceToDrop>.6</ChanceToDrop>
-                <Weight>1</Weight>
+                <Weight>100</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>LeatherBoot</ItemDef>
                 <ChanceToDrop>.7</ChanceToDrop>
-                <Weight>1</Weight>
+                <Weight>100</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>BucketHelmet</ItemDef>
                 <ChanceToDrop>.3</ChanceToDrop>
-                <Weight>1</Weight>
+                <Weight>100</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>FishBowlHelmet</ItemDef>
                 <ChanceToDrop>.3</ChanceToDrop>
-                <Weight>1</Weight>
+                <Weight>100</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>
@@ -112,7 +112,7 @@
         <Label>Armor</Label>
         <Description>Contains armor</Description>
         <Category>Armor</Category>
-        <TexturePath>Chests/ArmorChestBasic</TexturePath>
+        <TexturePath>Chests/ArmorChest3</TexturePath>
         <CollectionLimit>2</CollectionLimit>
         <Items>
             <ListItem>
