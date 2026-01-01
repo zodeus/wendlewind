@@ -44,8 +44,7 @@ public class ZoneDetailsPanel : VerticalStackPanel
         
         section.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
         {
-            Text = $"Opponent Species: {enemy.PawnDef.Species}",
-            TextColor = Color.White
+            Text = $"Opponent: {enemy.PawnDef.Species}"
         });
         
         // Horizontal row with pawn render and weather side by side

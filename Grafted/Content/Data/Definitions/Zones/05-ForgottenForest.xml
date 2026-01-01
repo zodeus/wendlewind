@@ -5,9 +5,7 @@
         <Moniker>ForgottenForest</Moniker>
         <Label>Forgotten Forest</Label>
         <Stage>5</Stage>
-        <BackgroundTexturePath>Biome/ForgottenForest</BackgroundTexturePath>
-        <BackgroundTextureTransparency>85</BackgroundTextureTransparency>
-        <BiomeColor>60, 120, 80</BiomeColor>
+        <ZoneColor>60, 120, 80</ZoneColor>
         <Weathers>
             <ListItem>FallingLeaves</ListItem>
             <ListItem>Fireflies</ListItem>

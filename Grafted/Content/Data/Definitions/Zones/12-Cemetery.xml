@@ -5,9 +5,7 @@
         <Moniker>Cemetery</Moniker>
         <Label>Cemetery</Label>
         <Stage>12</Stage>
-        <BackgroundTexturePath>Biome/Cemetery</BackgroundTexturePath>
-        <BackgroundTextureTransparency>30</BackgroundTextureTransparency>
-        <BiomeColor>100, 90, 100</BiomeColor>
+        <ZoneColor>100, 90, 100</ZoneColor>
         <Weathers>
             <ListItem>HallowedRain</ListItem>
             <ListItem>BloodRain</ListItem>

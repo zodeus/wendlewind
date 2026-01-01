@@ -2,15 +2,15 @@
 
 public class ZoneDef : Def {
     private Texture2D? _texture;
+    private Texture2D? _iconTexture;
 
     public int Stage;
-    public string? BackgroundTexturePath;
-    public int BackgroundTextureTransparency = 20;
-    public Color BiomeColor = new(150, 150, 150);
+    public Color ZoneColor = new(150, 150, 150);
 
     public List<BiomeResourceRecord> Resources = new();
     public List<EncounterProperties> Encounters = new();
     public List<WeatherDef> Weathers = new();
 
-    public virtual Texture2D BackgroundTexture => _texture ??= BackgroundTexturePath != null ? Core.Content.Load<Texture2D>(BackgroundTexturePath) : BaseContent.Textures.BadTexture;
+    public virtual Texture2D BackgroundTexture => _texture ??=  Core.Content.Load<Texture2D>("Zones/" + Moniker);
+    public virtual Texture2D IconTexture => _iconTexture ??= Core.Content.Load<Texture2D>("Zones/Icons/" + Moniker);
 }

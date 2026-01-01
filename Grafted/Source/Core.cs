@@ -184,7 +184,7 @@ public class Core : Game
         base.Initialize();
         GraphicsDevice = base.GraphicsDevice;
 
-        Random = new Random(1);
+        Random = new Random(384710648);
 
         const string contentDirectory = "Content";
         if (!Directory.Exists(contentDirectory))

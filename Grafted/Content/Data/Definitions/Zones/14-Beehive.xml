@@ -5,9 +5,7 @@
         <Moniker>Beehive</Moniker>
         <Label>Beehive</Label>
         <Stage>14</Stage>
-        <BackgroundTexturePath>Biome/Beehive</BackgroundTexturePath>
-        <BackgroundTextureTransparency>30</BackgroundTextureTransparency>
-        <BiomeColor>200, 170, 80</BiomeColor>
+        <ZoneColor>200, 170, 80</ZoneColor>
         <Weathers>
             <ListItem>Fireflies</ListItem>
             <ListItem>FallingLeaves</ListItem>

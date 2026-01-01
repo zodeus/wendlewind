@@ -5,9 +5,7 @@
         <Moniker>Mineshaft</Moniker>
         <Label>Mine Shafts</Label>
         <Stage>10</Stage>
-        <BackgroundTexturePath>Biome/Mineshaft</BackgroundTexturePath>
-        <BackgroundTextureTransparency>30</BackgroundTextureTransparency>
-        <BiomeColor>110, 100, 90</BiomeColor>
+        <ZoneColor>110, 100, 90</ZoneColor>
         <Weathers>
             <ListItem>SmokeEmbers</ListItem>
         </Weathers>

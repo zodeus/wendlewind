@@ -5,9 +5,7 @@
         <Moniker>OvergrownGrotto</Moniker>
         <Label>Overgrown Grotto</Label>
         <Stage>6</Stage>
-        <BackgroundTexturePath>Biome/OvergrownGrotto</BackgroundTexturePath>
-        <BackgroundTextureTransparency>85</BackgroundTextureTransparency>
-        <BiomeColor>60, 120, 80</BiomeColor>
+        <ZoneColor>60, 120, 80</ZoneColor>
         <Weathers>
             <ListItem>AcidDrips</ListItem>
             <ListItem>Fireflies</ListItem>

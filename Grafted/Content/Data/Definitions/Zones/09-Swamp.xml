@@ -5,9 +5,7 @@
         <Moniker>Swamp</Moniker>
         <Label>Swamp</Label>
         <Stage>9</Stage>
-        <BackgroundTexturePath>Biome/Swamp</BackgroundTexturePath>
-        <BackgroundTextureTransparency>50</BackgroundTextureTransparency>
-        <BiomeColor>90, 120, 90</BiomeColor>
+        <ZoneColor>90, 120, 90</ZoneColor>
         <Weathers>
             <ListItem>Showers</ListItem>
             <ListItem>BloodRain</ListItem>

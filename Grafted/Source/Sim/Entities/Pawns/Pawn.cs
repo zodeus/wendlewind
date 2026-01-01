@@ -124,11 +124,6 @@ public class Pawn : Entity
             Item? destroyedArmor = null;
             if (bodyPartEquipment != null)
             {
-                if (damage.Type.IsPhysicalDamage())
-                {
-                    bodyPartEquipment.ApplyDurabilityLoss(damage);
-                }
-
                 damage.Block(bodyPartEquipment);
 
                 if (bodyPartEquipment.IsDestroyed)

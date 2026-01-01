@@ -5,8 +5,7 @@
         <Moniker>TheOutskirts</Moniker>
         <Label>Outskirts</Label>
         <Stage>2</Stage>
-        <BackgroundTexturePath>Biome/TheOutskirts</BackgroundTexturePath>
-        <BiomeColor>160, 140, 100</BiomeColor>
+        <ZoneColor>160, 140, 100</ZoneColor>
         <Weathers>
             <ListItem>FallingLeaves</ListItem>
             <ListItem>Neutral</ListItem>

@@ -5,9 +5,7 @@
         <Moniker>BrickRoad</Moniker>
         <Label>Brick Road</Label>
         <Stage>14</Stage>
-        <BackgroundTexturePath>Biome/BrickRoad</BackgroundTexturePath>
-        <BackgroundTextureTransparency>30</BackgroundTextureTransparency>
-        <BiomeColor>200, 170, 80</BiomeColor>
+        <ZoneColor>200, 170, 80</ZoneColor>
         <Weathers>
             <ListItem>FallingLeaves</ListItem>
             <ListItem>Storm</ListItem>

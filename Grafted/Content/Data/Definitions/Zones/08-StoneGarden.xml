@@ -5,9 +5,7 @@
         <Moniker>StoneGarden</Moniker>
         <Label>Stone Garden</Label>
         <Stage>8</Stage>
-        <BackgroundTexturePath>Biome/StoneGarden</BackgroundTexturePath>
-        <BackgroundTextureTransparency>40</BackgroundTextureTransparency>
-        <BiomeColor>130, 130, 120</BiomeColor>
+        <ZoneColor>130, 130, 120</ZoneColor>
         <Weathers>
             <ListItem>Snow</ListItem>
             <ListItem>Showers</ListItem>

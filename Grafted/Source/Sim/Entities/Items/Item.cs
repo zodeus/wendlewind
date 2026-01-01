@@ -55,9 +55,9 @@ public class Item : Entity, IExposable
         base.Initialize();
     }
 
-    public void ApplyDurabilityLoss(Damage damage)
+    public void ApplyDurabilityLoss(float durabilityLoss)
     {
-        _durability -= Core.Random.Next(1, 5);
+        _durability -= durabilityLoss;
         if (_durability <= 0)
         {
             Destroy();

@@ -57,7 +57,7 @@ internal sealed class BoakZoneCard : Panel
             Height = 4,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Bottom,
-            Background = new SolidBrush(zoneDef.BiomeColor)
+            Background = new SolidBrush(zoneDef.ZoneColor)
         };
         imageContainer.Widgets.Add(colorStrip);
 

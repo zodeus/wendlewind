@@ -136,7 +136,7 @@ public sealed class PlayerKillsWindow : Window
         {
             var isSlowKill = record.Ticks > 3000;
             var rowColor = isSlowKill ? WarningColor : ValueColor;
-            var zoneColor = record.ZoneDef.BiomeColor;
+            var zoneColor = record.ZoneDef.ZoneColor;
 
             AddTableCell(tableGrid, rowIndex, 0, $"{record.Round}", SubduedColor);
             AddTableCell(tableGrid, rowIndex, 1, record.ZoneDef.Label, zoneColor);

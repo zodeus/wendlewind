@@ -5,9 +5,7 @@
         <Moniker>GrainMill</Moniker>
         <Label>Grain Mill</Label>
         <Stage>16</Stage>
-        <BackgroundTexturePath>Biome/GrainMill</BackgroundTexturePath>
-        <BackgroundTextureTransparency>10</BackgroundTextureTransparency>
-        <BiomeColor>180, 160, 100</BiomeColor>
+        <ZoneColor>180, 160, 100</ZoneColor>
         <Weathers>
             <ListItem>FallingLeaves</ListItem>
             <ListItem>Showers</ListItem>

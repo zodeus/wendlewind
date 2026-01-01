@@ -5,9 +5,7 @@
         <Moniker>AbandonedStables</Moniker>
         <Label>Abandoned Stables</Label>
         <Stage>11</Stage>
-        <BackgroundTexturePath>Biome/AbandonedStables</BackgroundTexturePath>
-        <BackgroundTextureTransparency>30</BackgroundTextureTransparency>
-        <BiomeColor>140, 120, 90</BiomeColor>
+        <ZoneColor>140, 120, 90</ZoneColor>
         <Weathers>
             <ListItem>FallingLeaves</ListItem>
             <ListItem>Showers</ListItem>

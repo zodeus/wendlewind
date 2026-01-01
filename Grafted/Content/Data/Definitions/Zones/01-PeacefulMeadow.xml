@@ -5,8 +5,7 @@
         <Moniker>PeacefulMeadow</Moniker>
         <Label>Peaceful Meadow</Label>
         <Stage>1</Stage>
-        <BackgroundTexturePath>Biome/PeacefulMeadow</BackgroundTexturePath>
-        <BiomeColor>120, 180, 90</BiomeColor>
+        <ZoneColor>120, 180, 90</ZoneColor>
         <Weathers>
             <ListItem>Neutral</ListItem>
         </Weathers>

@@ -5,9 +5,7 @@
         <Moniker>DampCave</Moniker>
         <Label>Damp Cave</Label>
         <Stage>7</Stage>
-        <BackgroundTexturePath>Biome/DampCave</BackgroundTexturePath>
-        <BackgroundTextureTransparency>50</BackgroundTextureTransparency>
-        <BiomeColor>100, 90, 80</BiomeColor>
+        <ZoneColor>100, 90, 80</ZoneColor>
         <Weathers>
             <ListItem>Fireflies</ListItem>
             <ListItem>AcidDrips</ListItem>
@@ -61,7 +59,7 @@
                 </Enemies>
             </ListItem>
             <ListItem>
-                <MaxBoxes>3</MaxBoxes>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>SupplyChest1</ListItem>
                     <ListItem>TrinketChest2</ListItem>
@@ -78,7 +76,7 @@
                         </Skills>
                         <InventoryItems>
                             <ListItem>
-                                <Item>PurpleJuice</Item>
+                                <Item>ChurniRoot</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
@@ -87,7 +85,7 @@
                 </Enemies>
             </ListItem>
             <ListItem>
-                <MaxBoxes>3</MaxBoxes>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>EnchantedChestDefensive</ListItem>
                     <ListItem>EnchantedChestOffensive</ListItem>
@@ -104,7 +102,7 @@
                         </Skills>
                         <InventoryItems>
                             <ListItem>
-                                <Item>PurpleJuice</Item>
+                                <Item>ChurniRoot</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
@@ -113,9 +111,10 @@
                 </Enemies>
             </ListItem>
             <ListItem>
-                <MaxBoxes>1</MaxBoxes>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>EnchantedChestDefensive</ListItem>
+                    <ListItem>ArmorChest2</ListItem>
                     <ListItem>TrinketChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
@@ -129,8 +128,8 @@
                         </Skills>
                         <InventoryItems>
                             <ListItem>
-                                <Item>PurpleJuice</Item>
-                                <Amount>1</Amount>
+                                <Item>ChurniRoot</Item>
+                                <Amount>1~2</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>
@@ -139,7 +138,7 @@
             </ListItem>
             <ListItem>
                 <IsBoss>true</IsBoss>
-                <MaxBoxes>1</MaxBoxes>
+                <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>EnchantedChestDefensive</ListItem>
                     <ListItem>TrinketChest2</ListItem>
@@ -153,6 +152,13 @@
                         <Skills>
                             <MushroomPower>2</MushroomPower>
                         </Skills>
+                        <InventoryItems>
+                            <ListItem>
+                                <Item>ChurniRoot</Item>
+                                <Amount>1~2</Amount>
+                                <ChanceToDrop>1</ChanceToDrop>
+                            </ListItem>
+                        </InventoryItems>
                     </ListItem>
                 </Enemies>
             </ListItem>

@@ -31,7 +31,7 @@ internal sealed class BoakPawnsCreaturesPanel : Grid, IDisposable
             {
                 Spacing = 5,
                 Margin = new Thickness(0, 0, 40, 0),
-                MinWidth = 250,
+                MinWidth = 200,
                 Widgets =
                 {
                     new Label(BaseContent.Styles.Label.Normal) { Text = def.Moniker, Margin = new Thickness(0, 0, 0, 20) },
@@ -42,10 +42,10 @@ internal sealed class BoakPawnsCreaturesPanel : Grid, IDisposable
                 }
             };
 
-            var bodyWidget = new PawnRenderWidget(previewPawn, 128)
+            var bodyWidget = new PawnRenderWidget(previewPawn, 192)
             {
-                Width = 128,
-                Height = 128,
+                Width = 192,
+                Height = 192,
                 VerticalAlignment = VerticalAlignment.Top,
                 ShowEditButton = true
             };
@@ -59,8 +59,6 @@ internal sealed class BoakPawnsCreaturesPanel : Grid, IDisposable
                     new Panel
                     {
                         VerticalAlignment = VerticalAlignment.Top,
-                        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
-                        Padding = new Thickness(10),
                         Widgets = { bodyWidget }
                     },
                     details

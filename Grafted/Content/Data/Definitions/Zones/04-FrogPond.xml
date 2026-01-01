@@ -5,9 +5,7 @@
         <Moniker>FrogPond</Moniker>
         <Label>Frog Pond</Label>
         <Stage>4</Stage>
-        <BackgroundTexturePath>Biome/FrogPond</BackgroundTexturePath>
-        <BackgroundTextureTransparency>40</BackgroundTextureTransparency>
-        <BiomeColor>80, 140, 120</BiomeColor>
+        <ZoneColor>80, 140, 120</ZoneColor>
         <Weathers>
             <ListItem>Showers</ListItem>
             <ListItem>Storm</ListItem>

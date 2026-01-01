@@ -18,28 +18,27 @@ public enum MapNodeState
 public class MapNodeWidget : Panel
 {
     private readonly Zone _zone;
-    private readonly Panel _innerCircle;
     private readonly Panel _nodeCircle;
-    
+
     public const int NodeSize = 80;
     public const int InnerSize = 70;
-    
+
     private static readonly Color LockedColor = new(50, 50, 55, 200);
     private static readonly Color CurrentBorderColor = new(232, 170, 0); // Gold// Brighter gold
     private static readonly Color CompletedTint = new(120, 120, 120);
-    
+
     public MapNodeState State { get; private set; }
 
     public MapNodeWidget(Zone zone, MapNodeState state)
     {
         _zone = zone;
         State = state;
-        
+
         var zoneDef = zone.ZoneDef;
-        
+
         // Fixed width for consistent grid layout
         Width = 120;
-        
+
         // Main vertical layout
         var container = new VerticalStackPanel
         {
@@ -53,27 +52,14 @@ public class MapNodeWidget : Panel
             Width = NodeSize,
             Height = NodeSize,
             HorizontalAlignment = HorizontalAlignment.Center,
-            Background = state == MapNodeState.Current 
+            Background = state == MapNodeState.Current
                 ? new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundElite64], CurrentBorderColor)
-                : Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundDark64]
+                : new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundWhite64], GetNodeColor())
         };
 
-        // Inner circle - shows zone texture for non-completed, solid color for completed
-        _innerCircle = new Panel
-        {
-            Width = InnerSize,
-            Height = InnerSize,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Center
-        };
-        
+
         if (state == MapNodeState.Completed)
         {
-            // Completed: solid biome color with checkmark
-            _innerCircle.Background = new ColoredRegion(
-                Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundWhite64],
-                GetNodeColor());
-            
             var stateIcon = new Image
             {
                 Background = new ColoredRegion(
@@ -84,34 +70,27 @@ public class MapNodeWidget : Panel
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center
             };
-            _innerCircle.Widgets.Add(stateIcon);
+            _nodeCircle.Widgets.Add(stateIcon);
         }
         else
         {
             // Current/Locked: show zone background texture with circular mask
             var tintColor = state == MapNodeState.Locked ? new Color(80, 80, 80) : Color.White;
-            
-           
-            //_innerCircle.Widgets.Add(circularTexture);
-            
             // Add dimming overlay for locked zones
             if (state == MapNodeState.Locked)
             {
                 var stateIcon = new Image
                 {
-                    Background = new ColoredRegion(
-                        Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.QuestionMark],
-                        new Color(120, 120, 120)),
-                    Width = 36,
-                    Height = 36,
+                    Background = new ColoredRegion(new TextureRegion(_zone.ZoneDef.IconTexture), new Color(80, 80, 80)),
+                    Width = 60,
+                    Height = 63,
                     HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(0, 0, 0, 3)
                 };
-                _innerCircle.Widgets.Add(stateIcon);
+                _nodeCircle.Widgets.Add(stateIcon);
             }
         }
-        
-        _nodeCircle.Widgets.Add(_innerCircle);
 
         // Zone label - centered in a container panel for proper centering
         var labelContainer = new Panel
@@ -149,9 +128,6 @@ public class MapNodeWidget : Panel
         _nodeCircle.Background = new ColoredRegion(
             Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundWhite64],
             Color.GreenYellow);
-        _innerCircle.Background = new ColoredRegion(
-            Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Walking],
-            Color.GreenYellow);
     }
 
     private void OnMouseLeft(object? sender, EventArgs e)
@@ -163,7 +139,6 @@ public class MapNodeWidget : Panel
         _nodeCircle.Background = new ColoredRegion(
             Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundElite64],
             CurrentBorderColor);
-        _innerCircle.Background = null;
     }
 
     private Color GetNodeColor()
@@ -171,9 +146,9 @@ public class MapNodeWidget : Panel
         return State switch
         {
             MapNodeState.Locked => LockedColor,
-            MapNodeState.Current => _zone.ZoneDef.BiomeColor,
-            MapNodeState.Completed => _zone.ZoneDef.BiomeColor.Multiply(CompletedTint),
-            _ => _zone.ZoneDef.BiomeColor
+            MapNodeState.Current => _zone.ZoneDef.ZoneColor,
+            MapNodeState.Completed => _zone.ZoneDef.ZoneColor.Multiply(CompletedTint),
+            _ => _zone.ZoneDef.ZoneColor
         };
     }
 
@@ -191,7 +166,7 @@ public class MapNodeWidget : Panel
     private void OnNodeClicked(object? sender, EventArgs e)
     {
         if (State != MapNodeState.Current) return;
-        
+
         var selectionWindow = new ZoneSelectionWindow(Core.Context.World);
         selectionWindow.ShowModal(Desktop);
     }

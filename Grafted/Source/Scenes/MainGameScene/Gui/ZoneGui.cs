@@ -108,7 +108,7 @@ public class ZoneGui : BaseGui
         );
         spriteBatch.Draw(
             Zone.ZoneDef.BackgroundTexture, new Rectangle(0, 0, Screen.Width, Screen.Height),
-            new Color(255, 255, 255, Zone.ZoneDef.BackgroundTextureTransparency)
+            new Color(255, 255, 255, 0.1f)
         );
         spriteBatch.End();
         
