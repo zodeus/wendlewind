@@ -41,25 +41,32 @@ public sealed class CombatPreparationScreen : VerticalStackPanel
             VerticalAlignment = VerticalAlignment.Bottom
         };
 
-        var continueButton = new Button(BaseContent.Styles.Button.Large) { Content = new Label { Text = _encounter.AtBoss ? "Boss!" : "Fight!" } };
+        string text = _encounter.Def.ShrineProperties != null ? "Continue to mystery" : _encounter.AtBoss ? "Boss!" : "Fight!";
+        var continueButton = new Button(BaseContent.Styles.Button.Large)
+        {
+            Content = new Label { Text = text }
+        };
         continueButton.Click += (_, _) =>
         {
             _context.Save();
-            StartCombat();
+            Continue();
         };
         panel.Widgets.Add(continueButton);
 
         var combatConfig = _encounter.Zone.ZoneDef.Encounters[_encounter.Zone.Stage];
-        panel.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
+        if (combatConfig.Enemies.Count > 1)
         {
-            VerticalAlignment = VerticalAlignment.Center,
-            Text = $"{combatConfig.Enemies.First().PawnName} up next!"
-        });
+            panel.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
+            {
+                VerticalAlignment = VerticalAlignment.Center,
+                Text = $"{combatConfig.Enemies.First().PawnName} up next!"
+            });
+        } 
 
         return panel;
     }
 
-    private void StartCombat()
+    private void Continue()
     {
         _encounter.Zone.NextEncounter();
     }

@@ -2,6 +2,8 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 
 public sealed class CombatSummaryWindow : Window
 {
+    public event Action? OnReviewRequested;
+    
     public CombatSummaryWindow(Encounter encounter, Action onContinue)
     {
         var handler = encounter.CombatHandler!;
@@ -124,11 +126,23 @@ public sealed class CombatSummaryWindow : Window
             severedSection = severedLabel;
         }
 
+        var reviewButton = new Button(BaseContent.Styles.Button.Normal)
+        {
+            Content = new Label { Text = "Review Combat", HorizontalAlignment = HorizontalAlignment.Center },
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Margin = new Thickness(0, 20, 0, 5)
+        };
+        reviewButton.Click += (_, _) =>
+        {
+            Visible = false;
+            OnReviewRequested?.Invoke();
+        };
+
         var continueButton = new Button(BaseContent.Styles.Button.LargeGold)
         {
             Content = new Label { Text = "Continue", HorizontalAlignment = HorizontalAlignment.Center },
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            Margin = new Thickness(0, 25, 0, 0)
+            Margin = new Thickness(0, 5, 0, 0)
         };
         continueButton.Click += (_, _) =>
         {
@@ -150,6 +164,7 @@ public sealed class CombatSummaryWindow : Window
         if (severedSection != null)
             content.Widgets.Add(severedSection);
             
+        content.Widgets.Add(reviewButton);
         content.Widgets.Add(continueButton);
 
         return content;

@@ -1,6 +1,5 @@
-
+using Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
-
 
 namespace Grafted.Scenes.MainGameScene.Gui.CombatGui;
 
@@ -22,6 +21,8 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     private readonly HorizontalStackPanel _potionQueuePanel;
     private readonly Label _tickLabel;
     private Window? _combatLogWindow;
+    private CombatSummaryWindow? _summaryWindow;
+    private Button? _showSummaryButton;
 
     private Encounter Encounter => _context.CurrentZone!.ActiveEncounter!;
 
@@ -125,6 +126,24 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             _combatLogWindow.Left = centerX;
             _combatLogWindow.Top = 370;
         };
+        
+        _showSummaryButton = new Button(BaseContent.Styles.Button.Normal)
+        {
+            Margin = new Thickness(0, 10, 0, 0),
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Visible = false,
+            Content = new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = "Show Summary",
+                TextColor = Color.Goldenrod
+            }
+        };
+        _showSummaryButton.Click += (_, _) =>
+        {
+            ShowSummaryWindow();
+            _showSummaryButton.Visible = false;
+        };
+        
         VerticalStackPanel centerColumn = new()
         {
             Margin = new Thickness(10,0,10,0),
@@ -135,7 +154,8 @@ public class CombatScreen : VerticalStackPanel, IDisposable
                 _controlPanel,
                 _potionQueuePanel,
                 _tickLabel,
-                logsButton
+                logsButton,
+                _showSummaryButton
             }
         };
         Grid.SetRow(centerColumn, 1);
@@ -257,8 +277,38 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
     private void ShowCombatSummary()
     {
-        var summaryWindow = new CombatSummaryWindow(Encounter, () => Encounter.Zone.CombatResults());
-        summaryWindow.ShowModal(_gui.Desktop);
+        _summaryWindow = new CombatSummaryWindow(Encounter, () => Encounter.Zone.CombatResults());
+        _summaryWindow.OnReviewRequested += OnReviewRequested;
+        _summaryWindow.Show(_gui.Desktop);
+        CenterSummaryWindow();
+    }
+
+    private void OnReviewRequested()
+    {
+        if (_showSummaryButton != null)
+        {
+            _showSummaryButton.Visible = true;
+        }
+    }
+
+    private void ShowSummaryWindow()
+    {
+        if (_summaryWindow != null)
+        {
+            _summaryWindow.Visible = true;
+            CenterSummaryWindow();
+        }
+    }
+
+    private void CenterSummaryWindow()
+    {
+        if (_summaryWindow == null) return;
+        
+        _summaryWindow.Arrange(new Rectangle(0, 0, Core.ReferenceResolution.X, Core.ReferenceResolution.Y));
+        var windowWidth = _summaryWindow.ActualBounds.Width;
+        var centerX = (Core.ReferenceResolution.X - windowWidth) / 2;
+        _summaryWindow.Left = centerX;
+        _summaryWindow.Top = 250;
     }
 
     public void Update(float deltaTime)
@@ -321,5 +371,9 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         Encounter.StateChangedAction -= CombatStateChangedAction;
         Encounter.CombatHandler!.CombatLogMessageAdded -= AddCombatLogEntry;
         Encounter.CombatHandler!.EventOccured -= PrintDamage;
+        if (_summaryWindow != null)
+        {
+            _summaryWindow.OnReviewRequested -= OnReviewRequested;
+        }
     }
 }
