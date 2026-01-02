@@ -9,14 +9,14 @@ namespace Grafted.Sim.Combat;
 
 public class EncounterProperties
 {
-    public ShrineProperties? ShrineProperties = null;
+    public MysteryProperties? MysteryProperties = null;
     public List<EncounterEnemyRecord> Enemies = new();
     public List<LootBoxDef> PotentialLootBoxes = new();
     public int? MaxBoxes;
     public bool IsBoss;
 }
 
-public class ShrineProperties
+public class MysteryProperties
 {
     private Texture2D? _texture;
 

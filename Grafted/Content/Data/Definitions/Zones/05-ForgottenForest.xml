@@ -41,14 +41,14 @@
         </Resources>
         <Encounters>
             <ListItem>
-                <ShrineProperties>
+                <MysteryProperties>
                     <PartsToRestore>2~3</PartsToRestore>
                     <RestorablePartTypes>
                         <ListItem>Thumb</ListItem>
                         <ListItem>Finger</ListItem>
                         <ListItem>Hand</ListItem>
                     </RestorablePartTypes>
-                </ShrineProperties>
+                </MysteryProperties>
                 <MaxBoxes>1</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ArmorChest2</ListItem>

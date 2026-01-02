@@ -319,8 +319,8 @@ internal sealed class BoakZoneCard : Panel
             Margin = new Thickness(0, 8, 0, 0)
         };
 
-        statsRow.Widgets.Add(CreateStatBadge($"{zoneDef.Encounters.Where(e => e.ShrineProperties != null).Count()}", "Mysteries", new Color(120, 120, 210)));
-        statsRow.Widgets.Add(CreateStatBadge($"{zoneDef.Encounters.Where(e => e.ShrineProperties == null).Count()}", "Battles", new Color(200, 120, 120)));
+        statsRow.Widgets.Add(CreateStatBadge($"{zoneDef.Encounters.Where(e => e.MysteryProperties != null).Count()}", "Mysteries", new Color(120, 120, 210)));
+        statsRow.Widgets.Add(CreateStatBadge($"{zoneDef.Encounters.Where(e => e.MysteryProperties == null).Count()}", "Battles", new Color(200, 120, 120)));
         statsRow.Widgets.Add(CreateStatBadge($"{zoneDef.Resources.Count}", "Drops", new Color(120, 200, 120)));
         statsRow.Widgets.Add(CreateStatBadge($"{lootBoxCounts.Count}", "Chests", new Color(200, 160, 80)));
 

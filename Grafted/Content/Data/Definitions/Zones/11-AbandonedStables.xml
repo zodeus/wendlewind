@@ -24,17 +24,17 @@
         </Resources>
         <Encounters>
             <ListItem>
-                <ShrineProperties>
+                <MysteryProperties>
                     <GodLabel>Herminor</GodLabel>
                     <PartsToRestore>4~6</PartsToRestore>
-                    <TexturePath>Biome/Shrines/cemetery_shrine_1</TexturePath>
+                    <TexturePath>Biome/Mysterys/cemetery_mystery_1</TexturePath>
                     <RestorablePartTypes>
                         <ListItem>Thumb</ListItem>
                         <ListItem>Finger</ListItem>
                         <ListItem>Hand</ListItem>
                         <ListItem>Foot</ListItem>
                     </RestorablePartTypes>
-                </ShrineProperties>
+                </MysteryProperties>
             </ListItem>
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>

@@ -1,15 +1,15 @@
 ﻿namespace Grafted.Scenes.MainGameScene.Gui.CombatGui;
 
-internal sealed class ShrineScreen : VerticalStackPanel
+internal sealed class MysteryScreen : VerticalStackPanel
 {
     private readonly WheelOfParts _wheel;
 
-    public ShrineScreen(ZoneGui gui, Pawn playerPawn, ShrineProperties shrine)
+    public MysteryScreen(ZoneGui gui, Pawn playerPawn, MysteryProperties shrine)
     {
         HorizontalAlignment = HorizontalAlignment.Center;
 
         _wheel = new WheelOfParts(playerPawn, shrine);
-        _wheel.OnSkipped += () => gui.LeaveShrine();
+        _wheel.OnSkipped += () => gui.LeaveMystery();
         Widgets.Add(_wheel);
     }
 

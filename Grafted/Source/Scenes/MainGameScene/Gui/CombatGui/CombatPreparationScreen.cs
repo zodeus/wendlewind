@@ -41,7 +41,7 @@ public sealed class CombatPreparationScreen : VerticalStackPanel
             VerticalAlignment = VerticalAlignment.Bottom
         };
 
-        string text = _encounter.Def.ShrineProperties != null ? "Continue to mystery" : _encounter.AtBoss ? "Boss!" : "Fight!";
+        string text = _encounter.Def.MysteryProperties != null ? "Continue to mystery" : _encounter.AtBoss ? "Boss!" : "Fight!";
         var continueButton = new Button(BaseContent.Styles.Button.Large)
         {
             Content = new Label { Text = text }

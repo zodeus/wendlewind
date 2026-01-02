@@ -8,7 +8,7 @@ internal sealed class WheelOfParts : VerticalStackPanel
 {
     public event Action? OnSkipped;
     private readonly Pawn _pawn;
-    private readonly ShrineProperties _shrine;
+    private readonly MysteryProperties _mystery;
     private readonly WheelRenderWidget _wheelWidget;
     private readonly Button _spinButton;
     private readonly Button _skipButton;
@@ -17,11 +17,11 @@ internal sealed class WheelOfParts : VerticalStackPanel
     private int _spinsUsed;
     private List<BodyPartType>? _pendingPartTypesUpdate;
 
-    public WheelOfParts(Pawn pawn, ShrineProperties shrine)
+    public WheelOfParts(Pawn pawn, MysteryProperties mystery)
     {
         _pawn = pawn;
-        _shrine = shrine;
-        _maxSpins = shrine.PartsToRestore.RandomValue;
+        _mystery = mystery;
+        _maxSpins = mystery.PartsToRestore.RandomValue;
 
         HorizontalAlignment = HorizontalAlignment.Center;
         VerticalAlignment = VerticalAlignment.Center;
@@ -106,10 +106,10 @@ internal sealed class WheelOfParts : VerticalStackPanel
             .ToList();
 
         // Get unique body part types from allowed types on those sockets
-        // Filter to only include types that the shrine can restore
+        // Filter to only include types that the mystery can restore
         var partTypes = unsocketedSockets
             .SelectMany(s => s.Def.AllowedBodyPartTypes)
-            .Where(t => _shrine.RestorablePartTypes.Contains(t))
+            .Where(t => _mystery.RestorablePartTypes.Contains(t))
             .Distinct()
             .ToList();
 
@@ -163,7 +163,7 @@ internal sealed class WheelOfParts : VerticalStackPanel
         // Check if it landed on a blank slot
         if (selectedPartType == BodyPartType.Undefined)
         {
-            _resultLabel.Text = $"{_shrine.GodLabel} looks away...\nNothing happens.";
+            _resultLabel.Text = $"{_mystery.GodLabel} looks away...\nNothing happens.";
             _resultLabel.TextColor = Color.Gray;
         }
         else
@@ -208,7 +208,7 @@ internal sealed class WheelOfParts : VerticalStackPanel
             }
             else if (_spinsUsed >= _maxSpins)
             {
-                _resultLabel.Text += $"\n\n/c[{TC.Default}]{_shrine.GodLabel}'s blessing fades...";
+                _resultLabel.Text += $"\n\n/c[{TC.Default}]{_mystery.GodLabel}'s blessing fades...";
             }
         }
     }
@@ -217,7 +217,7 @@ internal sealed class WheelOfParts : VerticalStackPanel
     {
         string? restoredPartName = null;
 
-        // Restore based on part type (matching the ShrineScreen logic)
+        // Restore based on part type (matching the MysteryScreen logic)
         switch (partType)
         {
             case BodyPartType.Finger:
@@ -255,7 +255,7 @@ internal sealed class WheelOfParts : VerticalStackPanel
         }
         else
         {
-            _resultLabel.Text = $"{_shrine.GodLabel} gazes upon the wound...\nThe restoration failed.";
+            _resultLabel.Text = $"{_mystery.GodLabel} gazes upon the wound...\nThe restoration failed.";
             _resultLabel.TextColor = Color.Crimson;
         }
     }

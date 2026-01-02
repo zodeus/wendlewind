@@ -9,7 +9,7 @@ public class ZoneGui : BaseGui
     private readonly Zone _zone;
     private CombatPreparationScreen? _combatPreparationScreen;
     private CombatScreen? _combatScreen;
-    private ShrineScreen? _shrineScreen;
+    private MysteryScreen? _shrineScreen;
     private CombatResultsScreen? _combatResultsScreen;
     private Zone Zone => _zone;
     public override WorldTextHandler WorldTextHandler => _worldTextHandler;
@@ -72,8 +72,8 @@ public class ZoneGui : BaseGui
                 _combatResultsScreen = new CombatResultsScreen(this, _context);
                 (Desktop.Root as Panel)!.Widgets.Add(_combatResultsScreen);
                 break;
-            case ZoneState.Shrine:
-                _shrineScreen = new ShrineScreen(this, _context.PlayerPawn, _context.CurrentZone!.ActiveEncounter!.Def.ShrineProperties!);
+            case ZoneState.Mystery:
+                _shrineScreen = new MysteryScreen(this, _context.PlayerPawn, _context.CurrentZone!.ActiveEncounter!.Def.MysteryProperties!);
                 (Desktop.Root as Panel)!.Widgets.Add(_shrineScreen);
                 break;
         }
@@ -121,7 +121,7 @@ public class ZoneGui : BaseGui
         Zone.OnZoneMessage -= HandleZoneMessage;
     }
 
-    public void LeaveShrine()
+    public void LeaveMystery()
     {
         Zone.Stage++;
         _combatResultsScreen = new CombatResultsScreen(this, _context);

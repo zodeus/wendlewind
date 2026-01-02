@@ -5,7 +5,7 @@ namespace Grafted.Sim.Zones;
 public enum ZoneState
 {
     Preparation,
-    Shrine,
+    Mystery,
     Combat,
     CombatResults,
     Exit
@@ -68,9 +68,9 @@ public class Zone : IExposable, IIdentityProvider
         {
             ChangeState(ZoneState.Combat);
         }
-        else if (ActiveEncounter.Def.ShrineProperties != null)
+        else if (ActiveEncounter.Def.MysteryProperties != null)
         {
-            ChangeState(ZoneState.Shrine);
+            ChangeState(ZoneState.Mystery);
         }
 
         ActiveEncounter.State = EncounterState.InProgress;

@@ -34,17 +34,17 @@
         </Resources>
         <Encounters>
             <ListItem>
-                <ShrineProperties>
+                <MysteryProperties>
                     <GodLabel>Ursoth</GodLabel>
                     <PartsToRestore>3~5</PartsToRestore>
-                    <TexturePath>Biome/Shrines/cemetery_shrine_1</TexturePath>
+                    <TexturePath>Biome/Mysterys/cemetery_mystery_1</TexturePath>
                     <RestorablePartTypes>
                         <ListItem>Thumb</ListItem>
                         <ListItem>Finger</ListItem>
                         <ListItem>Hand</ListItem>
                         <ListItem>Foot</ListItem>
                     </RestorablePartTypes>
-                </ShrineProperties>
+                </MysteryProperties>
             </ListItem>
             <ListItem>
                 <PotentialLootBoxes>

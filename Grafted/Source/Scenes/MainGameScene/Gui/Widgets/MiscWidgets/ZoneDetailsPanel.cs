@@ -40,7 +40,7 @@ public class ZoneDetailsPanel : VerticalStackPanel
     private static Widget CreateOpponentSection(ZoneDef zoneDef)
     {
         var section = new VerticalStackPanel { Spacing = 4 };
-        var enemy = zoneDef.Encounters.First(e=>e.ShrineProperties == null).Enemies.First();
+        var enemy = zoneDef.Encounters.First(e=>e.MysteryProperties == null).Enemies.First();
         
         section.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
         {

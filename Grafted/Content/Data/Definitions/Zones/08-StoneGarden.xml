@@ -34,16 +34,16 @@
         </Resources>
         <Encounters>
             <ListItem>
-                <ShrineProperties>
+                <MysteryProperties>
                     <PartsToRestore>2~4</PartsToRestore>
-                    <TexturePath>Biome/Shrines/cave_shrine_1</TexturePath>
+                    <TexturePath>Biome/Mysterys/cave_mystery_1</TexturePath>
                     <RestorablePartTypes>
                         <ListItem>Thumb</ListItem>
                         <ListItem>Finger</ListItem>
                         <ListItem>Hand</ListItem>
                         <ListItem>Foot</ListItem>
                     </RestorablePartTypes>
-                </ShrineProperties>
+                </MysteryProperties>
             </ListItem>
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
