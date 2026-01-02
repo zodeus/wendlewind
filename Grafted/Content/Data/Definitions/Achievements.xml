@@ -147,7 +147,8 @@
         <Label>Trinket Sniffer</Label>
         <Description>Find trinkets.</Description>
         <Category>Exploration</Category>
-        <BenifitDescription>Not implemented.</BenifitDescription>
+        <BenifitDescription>Start with a random trinket.</BenifitDescription>
+        <HandlerClass>TrinketSnifferHandler</HandlerClass>
         <TargetValue>42</TargetValue>
     </AchievementDef>
 

@@ -150,6 +150,12 @@ public class GameScene : Scene
             });
         }
 
+        if (WasKeyJustPressed(Keys.F6, currentKeyboardState))
+        {
+            _context.StartOver();
+            return;
+        }
+
         if (WasKeyJustPressed(Keys.F9, currentKeyboardState))
         {
             ActiveGui?.Dispose();
