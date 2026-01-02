@@ -102,6 +102,7 @@
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>FootArmor</SlotUsedToEquip>
+            <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Leather/Boot</TexturePath>
         <BaseStats>

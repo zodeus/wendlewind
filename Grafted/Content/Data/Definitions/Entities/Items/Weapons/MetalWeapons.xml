@@ -2,6 +2,61 @@
 
 <Definitions>
     <ItemDef ParentName="WeaponSharp">
+        <Moniker>IronDagger</Moniker>
+        <Label>Iron Dagger</Label>
+        <Description>Very pointy</Description>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+            <MaxEnchantments>1</MaxEnchantments>
+        </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Dagger</WeaponType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Wood</Substance>
+                    <Modifier>.4</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Metal</Substance>
+                    <Modifier>.03</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Stone</Substance>
+                    <Modifier>.03</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.2</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Chitin</Substance>
+                    <Modifier>.03</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.5</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Fungus</Substance>
+                    <Modifier>.04</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronDagger</TexturePath>
+        <BaseStats>
+            <MeleePower>25</MeleePower>
+            <MaxDurability>2000</MaxDurability>
+        </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="WeaponSharp">
         <Moniker>IronSword</Moniker>
         <Label>Iron Sword</Label>
         <Description>Very cutty</Description>
@@ -20,7 +75,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronSword</TexturePath>
         <BaseStats>
-            <MeleePower>16</MeleePower>
+            <MeleePower>25</MeleePower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -51,7 +106,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronAxe</TexturePath>
         <BaseStats>
-            <MeleePower>16</MeleePower>
+            <MeleePower>25</MeleePower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -90,7 +145,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronHammer</TexturePath>
         <BaseStats>
-            <MeleePower>16</MeleePower>
+            <MeleePower>25</MeleePower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -137,7 +192,7 @@
                     <Substance>Chitin</Substance>
                     <Modifier>1</Modifier>
                 </ListItem>
-                <ListItem>  
+                <ListItem>
                     <Substance>Metal</Substance>
                     <Modifier>1.3</Modifier>
                 </ListItem>
@@ -145,7 +200,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronMace</TexturePath>
         <BaseStats>
-            <MeleePower>16</MeleePower>
+            <MeleePower>25</MeleePower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -184,7 +239,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronClaws</TexturePath>
         <BaseStats>
-            <MeleePower>16</MeleePower>
+            <MeleePower>25</MeleePower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
         <DisassembleProperties>

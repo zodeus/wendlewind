@@ -10,8 +10,6 @@ namespace Grafted.Sim.Combat;
 public class EncounterProperties
 {
     public ShrineProperties? ShrineProperties = null;
-
-    // Combat
     public List<EncounterEnemyRecord> Enemies = new();
     public List<LootBoxDef> PotentialLootBoxes = new();
     public int? MaxBoxes;

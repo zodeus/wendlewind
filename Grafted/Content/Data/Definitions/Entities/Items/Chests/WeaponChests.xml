@@ -56,6 +56,10 @@
                 <Weight>1</Weight>
             </ListItem>
             <ListItem>
+                <ItemDef>IronDagger</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
                 <ItemDef>IronClaws</ItemDef>
                 <Weight>1</Weight>
             </ListItem>

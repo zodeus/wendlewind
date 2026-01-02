@@ -42,15 +42,19 @@
         <Encounters>
             <ListItem>
                 <ShrineProperties>
-                    <GodLabel>Goddess Gaia</GodLabel>
                     <PartsToRestore>2~3</PartsToRestore>
-                    <TexturePath>Biome/Shrines/forest_shrine_1</TexturePath>
                     <RestorablePartTypes>
                         <ListItem>Thumb</ListItem>
                         <ListItem>Finger</ListItem>
                         <ListItem>Hand</ListItem>
                     </RestorablePartTypes>
                 </ShrineProperties>
+                <MaxBoxes>1</MaxBoxes>
+                <PotentialLootBoxes>
+                    <ListItem>ArmorChest2</ListItem>
+                    <ListItem>WeaponChest2</ListItem>
+                    <ListItem>TrinketChest2</ListItem>
+                </PotentialLootBoxes>
             </ListItem>
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>

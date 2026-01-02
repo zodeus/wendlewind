@@ -85,7 +85,11 @@ public sealed class WeaponPanel : EntityPanelBase
         var substanceModifiers = item.ItemDef.WeaponProperties?.SubstanceModifiers;
         if (substanceModifiers is { Count: > 0 })
         {
-            var baseMeleePower = item.GetStatValue(Defs.Stats.MeleePower);
+            var rawMeleePower = item.GetStatValue(Defs.Stats.MeleePower);
+            var weaponType = item.ItemDef.WeaponProperties?.WeaponType;
+            var skillLevel = weaponType != null ? Core.Context?.PlayerPawn?.GetSkill(weaponType.Value)?.Level ?? 0 : 0;
+            var skillPower = 1 + (skillLevel * 0.1f);
+            var baseMeleePower = rawMeleePower * skillPower;
 
             var modsSection = new VerticalStackPanel { Spacing = 2, Margin = new Thickness(0, 0, 0, 10) };
             modsSection.Widgets.Add(new Label("small")
@@ -140,6 +144,11 @@ public sealed class WeaponPanel : EntityPanelBase
         // ═══════════════════════════════════════════════════════════════════
         if (item.Def.BaseStats.Count > 0)
         {
+            // Calculate skill power for Melee Power display
+            var statsWeaponType = item.ItemDef.WeaponProperties?.WeaponType;
+            var statsSkillLevel = statsWeaponType != null ? Core.Context?.PlayerPawn?.GetSkill(statsWeaponType.Value)?.Level ?? 0 : 0;
+            var statsSkillPower = 1 + (statsSkillLevel * 0.1f);
+
             var statsSection = new VerticalStackPanel { Spacing = 2, Margin = new Thickness(0, 0, 0, 10) };
             statsSection.Widgets.Add(new Label("small")
             {
@@ -160,9 +169,16 @@ public sealed class WeaponPanel : EntityPanelBase
                 Grid.SetColumn(keyLabel, 0);
                 statsGrid.Widgets.Add(keyLabel);
 
+                // Apply skill power multiplier to Melee Power
+                var statValue = item.GetStatValue(baseStat.Def);
+                if (baseStat.Def == Defs.Stats.MeleePower)
+                {
+                    statValue *= statsSkillPower;
+                }
+
                 var valueLabel = new Label("small")
                 {
-                    Text = item.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture),
+                    Text = $"{statValue:0}",
                     TextColor = Color.LightGoldenrodYellow
                 };
                 Grid.SetRow(valueLabel, row);
