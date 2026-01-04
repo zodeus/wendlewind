@@ -145,4 +145,20 @@
         </Weapons>
         <DamageMultiplier>0.6~0.9</DamageMultiplier>
     </WeaponManeuverDef>
+    <WeaponManeuverDef>
+        <Moniker>StingerPoke</Moniker>
+        <Label>Poke</Label>
+        <Weapons>
+            <ListItem>Stinger</ListItem>
+        </Weapons>
+        <DamageMultiplier>0.4~0.8</DamageMultiplier>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
+        <Moniker>StingerStab</Moniker>
+        <Label>Sting</Label>
+        <Weapons>
+            <ListItem>Stinger</ListItem>
+        </Weapons>
+        <DamageMultiplier>0.7~1</DamageMultiplier>
+    </WeaponManeuverDef>
 </Definitions>

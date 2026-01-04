@@ -12,14 +12,14 @@
         <Description>Used for fixing equipment</Description>
         <TexturePath>Entities/Item/Consumables/RepairKit</TexturePath>
         <CraftingProperties>
-            <AmountProduced>1</AmountProduced>
+            <AmountProduced>2</AmountProduced>
             <RequiredTrinkets>
                 <ListItem>TinkersToolbox</ListItem>
             </RequiredTrinkets>
             <ResourceRequirements>
                 <ListItem>
                     <Item>Thread</Item>
-                    <Count>2</Count>
+                    <Count>1</Count>
                 </ListItem>
                 <ListItem>
                     <Item>LeatherScraps</Item>

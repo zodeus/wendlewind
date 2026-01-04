@@ -5,6 +5,9 @@ public class World : IExposable, IIdentityProvider
     public Player Player = null!;
 
     public List<Zone> Zones = [];
+
+    public ZoneProgressTracker ProgressTracker = new();
+
     public Zone GetZone(ZoneDef zoneDef) => Zones.First(z => z.ZoneDef == zoneDef);
 
     public void Initialize(Player player, IReadOnlyList<ZoneDef> zoneDefs)
@@ -32,6 +35,7 @@ public class World : IExposable, IIdentityProvider
     {
         ScribeDeep.Look(ref Player!, "Player");
         ScribeCollections.Look(ref Zones!, "Zones", LookMode.Deep);
+        ScribeDeep.Look(ref ProgressTracker!, "ProgressTracker");
     }
 
     public string GetUniqueId()

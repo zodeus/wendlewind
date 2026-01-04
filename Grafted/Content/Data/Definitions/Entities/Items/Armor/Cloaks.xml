@@ -23,12 +23,13 @@
         <TexturePath>Entities/Item/Equipment/Armor/Cloak/Strength</TexturePath>
         <BaseStats>
             <MaxDurability>10000</MaxDurability>
-            <Strength>3.0</Strength>
+            <Strength>1.0</Strength>
         </BaseStats>
     </ItemDef>  
     <ItemDef ParentName="CloakBase">
         <Moniker>RejuvenationCloak</Moniker>
         <Label>Cloak of Rejuvenation</Label>
+        <UiClass>RejuvenationCloakPanel</UiClass>
         <EquipmentProperties>
             <HandlerClass>RejuvenationCloakHandler</HandlerClass>
         </EquipmentProperties>

@@ -72,6 +72,7 @@ public static class PawnGenerator
         foreach (var itemDef in equipment)
         {
             var item = EntityGenerator.CreateEntity<Item>(itemDef, 1);
+            var wasEquipped = false;
             foreach (var bodyPart in pawn.Body.AllExternalParts)
             {
                 if (bodyPart.EmptySlotFor(item) is not { } slot)
@@ -84,9 +85,15 @@ public static class PawnGenerator
                     slot,
                     item
                 );
+                wasEquipped = true;
                 break;
             }
-
+            if (!wasEquipped)
+            {
+                Log.Info($"{item} was not equipped on {pawn}, adding to inventory");
+                pawn.Inventory.TryAdd(item);
+            }
+            
             if (returnedItem != null)
             {
                 Log.Error($"{returnedItem} was returned while attempting to equip on {pawn} PawnGenerator.RegisterTools");

@@ -676,5 +676,192 @@
         </BaseStats>
     </ItemDef>
     
-    
+    <!-- Undead Monkey Weapons -->
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>UndeadMonkeyBite</Moniker>
+        <Label>Rotten Fangs</Label>
+        <Description>Diseased undead monkey fangs</Description>
+        <WeaponProperties>
+            <WeaponType>Teeth</WeaponType>
+            <DamageType>Sharp</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.3</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>0.7</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Necrosis</Def>
+                    <DurationInTicks>0</DurationInTicks>
+                    <Chance>.2</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Pawn/BodyParts/UndeadMonkey/Head</TexturePath>
+        <BaseStats>
+            <WeaponPower>55</WeaponPower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>UndeadMonkeyClaws</Moniker>
+        <Label>Necrotic Claws</Label>
+        <Description>Sharp claws blackened by undeath</Description>
+        <WeaponProperties>
+            <WeaponType>Claw</WeaponType>
+            <DamageType>Sharp</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.4</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>0.8</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Pawn/BodyParts/UndeadMonkey/Hand</TexturePath>
+        <BaseStats>
+            <WeaponPower>45</WeaponPower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>UndeadMonkeyKick</Moniker>
+        <Label>Decayed Foot</Label>
+        <Description>Powerful undead monkey foot</Description>
+        <WeaponProperties>
+            <WeaponType>Foot</WeaponType>
+            <DamageType>Blunt</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.2</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.0</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Pawn/BodyParts/UndeadMonkey/Foot</TexturePath>
+        <BaseStats>
+            <WeaponPower>40</WeaponPower>
+        </BaseStats>
+    </ItemDef>
+
+    <!-- Bee Weapons -->
+    <ItemDef ParentName="WeaponPiercing">
+        <Moniker>BeeDroneAttack</Moniker>
+        <Label>Drone Swarm</Label>
+        <Description>A swarm of tiny stinging drones</Description>
+        <WeaponProperties>
+            <WeaponType>Stinger</WeaponType>
+            <DamageType>Piercing</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.3</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Chitin</Substance>
+                    <Modifier>0.7</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Acid</Def>
+                    <DurationInTicks>30~90</DurationInTicks>
+                    <Chance>.15</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Pawn/BodyParts/Bee/Drone</TexturePath>
+        <BaseStats>
+            <WeaponPower>25</WeaponPower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>BeeMandibles</Moniker>
+        <Label>Mandibles</Label>
+        <Description>Powerful crushing mandibles</Description>
+        <WeaponProperties>
+            <WeaponType>Teeth</WeaponType>
+            <DamageType>Sharp</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.2</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Chitin</Substance>
+                    <Modifier>1.0</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>0.7</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Pawn/BodyParts/Bee/Head</TexturePath>
+        <BaseStats>
+            <WeaponPower>45</WeaponPower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponPiercing">
+        <Moniker>BeeStinger</Moniker>
+        <Label>Stinger</Label>
+        <Description>A venomous bee stinger</Description>
+        <WeaponProperties>
+            <WeaponType>Stinger</WeaponType>
+            <DamageType>Piercing</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.4</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Chitin</Substance>
+                    <Modifier>0.8</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>0.5</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Acid</Def>
+                    <DurationInTicks>60~180</DurationInTicks>
+                    <Chance>.25</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Pawn/BodyParts/Bee/Abdomen</TexturePath>
+        <BaseStats>
+            <WeaponPower>55</WeaponPower>
+        </BaseStats>
+    </ItemDef>
 </Definitions>

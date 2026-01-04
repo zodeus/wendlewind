@@ -99,6 +99,11 @@
                 <ItemDef>BucketHelmet</ItemDef>
                 <ChanceToDrop>.3</ChanceToDrop>
                 <Weight>40</Weight>
+            </ListItem>       
+            <ListItem>
+                <ItemDef>PlagueMask</ItemDef>
+                <ChanceToDrop>.1</ChanceToDrop>
+                <Weight>40</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>

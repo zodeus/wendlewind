@@ -38,6 +38,7 @@
         <TexturePath>Entities/Item/Equipment/Armor/Leather/Glove</TexturePath>
         <BaseStats>
             <PhysicalResistance>15</PhysicalResistance>
+            <MaxDurability>400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
             <Items>

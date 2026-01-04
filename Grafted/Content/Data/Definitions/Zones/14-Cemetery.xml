@@ -4,7 +4,7 @@
     <ZoneDef>
         <Moniker>Cemetery</Moniker>
         <Label>Cemetery</Label>
-        <Stage>12</Stage>
+        <Stage>14</Stage>
         <ZoneColor>100, 90, 100</ZoneColor>
         <Weathers>
             <ListItem>HallowedRain</ListItem>

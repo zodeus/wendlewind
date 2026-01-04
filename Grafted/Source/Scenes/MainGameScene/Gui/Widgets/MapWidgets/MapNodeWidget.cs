@@ -26,13 +26,16 @@ public class MapNodeWidget : Panel
     private static readonly Color LockedColor = new(50, 50, 55, 200);
     private static readonly Color CurrentBorderColor = new(232, 170, 0); // Gold// Brighter gold
     private static readonly Color CompletedTint = new(120, 120, 120);
+    private static readonly Color FurthestEverColor = Color.White;
 
     public MapNodeState State { get; private set; }
+    public bool IsFurthestEver { get; private set; }
 
-    public MapNodeWidget(Zone zone, MapNodeState state)
+    public MapNodeWidget(Zone zone, MapNodeState state, bool isFurthestEver = false)
     {
         _zone = zone;
         State = state;
+        IsFurthestEver = isFurthestEver;
 
         var zoneDef = zone.ZoneDef;
 
@@ -109,6 +112,24 @@ public class MapNodeWidget : Panel
         container.Widgets.Add(_nodeCircle);
         container.Widgets.Add(labelContainer);
         Widgets.Add(container);
+
+        // Add "furthest ever reached" indicator (personal best badge)
+        // Only show on locked zones to indicate "you've gotten this far before"
+        if (isFurthestEver && state == MapNodeState.Locked)
+        {
+            var furthestBadge = new Panel
+            {
+                Width = 36 ,
+                Height = 36,
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Top,
+                Margin = new Thickness(0, 0, 0, 0),
+                Background = new ColoredRegion(
+                    Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Retreat],
+                    FurthestEverColor)
+            };
+            Widgets.Add(furthestBadge);
+        }
 
         // Make interactive if current (clickable, hoverable)
         if (state == MapNodeState.Current)

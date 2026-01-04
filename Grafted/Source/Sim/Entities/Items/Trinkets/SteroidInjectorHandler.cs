@@ -40,6 +40,7 @@ public class SteroidInjectorHandler : TrinketHandler
 
     public void InjectPart(BodyPart bodyPart)
     {
+        Core.Context.Achievements.OnItemUsed(Core.Context.Player.Pawn, Trinket);
         bodyPart.MaxHitPoints += CalculateHpValue(bodyPart);
         TotalDamage -= CalculateCost(bodyPart);
         foreach (var internalPart in bodyPart.AllInternalParts)

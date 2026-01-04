@@ -48,6 +48,7 @@ public class MapPanel : Panel
             {
                 var zone = zones[i];
                 var state = DetermineNodeState(zone, ref foundCurrent);
+                var isFurthestEver = _world.ProgressTracker.IsFurthestEverReached(zone);
 
                 // Add connector before node (except for first in row)
                 if (i > rowStart)
@@ -58,7 +59,7 @@ public class MapPanel : Panel
                 }
 
                 // Add the node
-                var nodeWidget = new MapNodeWidget(zone, state);
+                var nodeWidget = new MapNodeWidget(zone, state, isFurthestEver);
                 _nodeWidgets.Add(nodeWidget);
                 rowPanel.Widgets.Add(nodeWidget);
             }

@@ -48,7 +48,7 @@ public abstract class BodyPartModifier : IExposable, IIdentityProvider
 
     public void SpreadTo(BodyPart part)
     {
-        if (AllowedSubstances.Contains(part.Substance) == false) return;
+        if (AllowedSubstances.Count > 0 && AllowedSubstances.Contains(part.Substance) == false) return;
         
         if (part.HasModifier(Def))
         {

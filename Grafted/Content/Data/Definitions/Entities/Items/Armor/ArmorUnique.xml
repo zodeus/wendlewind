@@ -38,5 +38,17 @@
         <BaseStats>
             <MaxDurability>500</MaxDurability>
         </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>LeatherScraps</Item>
+                    <Count>4</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>Thread</Item>
+                    <Count>6</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
     </ItemDef>
 </Definitions>

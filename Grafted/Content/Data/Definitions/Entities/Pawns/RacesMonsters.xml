@@ -158,4 +158,16 @@
             <Accuracy>.85</Accuracy>
         </BaseStats>   
     </PawnDef>
+    <PawnDef ParentName="BaseMonsterRace">
+        <Moniker>UndeadMonkey</Moniker>
+        <Label>Undead Monkey</Label>
+        <Species>UndeadMonkey</Species>
+        <Body>UndeadMonkeyBody</Body>
+        <BaseStats>
+            <AttackSpeed>1.8</AttackSpeed>
+            <Strength>1.2</Strength>
+            <Evasion>.12</Evasion>
+            <Accuracy>.88</Accuracy>
+        </BaseStats>   
+    </PawnDef>
 </Definitions>

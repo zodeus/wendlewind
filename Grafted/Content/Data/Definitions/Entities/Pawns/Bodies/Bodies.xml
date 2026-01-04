@@ -159,4 +159,13 @@
         <GeneratorClass>BatBodyGenerator</GeneratorClass>
         <LayoutClass>BatBodyPartLayout</LayoutClass>
     </BodyDef>
+    <BodyDef>
+        <Moniker>UndeadMonkeyBody</Moniker>
+        <Label>Undead Monkey Body</Label>
+        <BoneDensity>1.2</BoneDensity>
+        <MaxBlood>4000</MaxBlood>
+        <BloodType>BlackPlasma</BloodType>
+        <GeneratorClass>UndeadMonkeyBodyGenerator</GeneratorClass>
+        <LayoutClass>UndeadMonkeyBodyPartLayout</LayoutClass>
+    </BodyDef>
 </Definitions>

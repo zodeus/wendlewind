@@ -82,10 +82,6 @@
                 <Weight>200000</Weight>
             </ListItem>
             <ListItem>
-                <ItemDef>PlagueMask</ItemDef>
-                <Weight>200000</Weight>
-            </ListItem>
-            <ListItem>
                 <ItemDef>SteroidInjector</ItemDef>
                 <Weight>200000</Weight>
             </ListItem> 

@@ -4,7 +4,7 @@
     <ZoneDef>
         <Moniker>Beehive</Moniker>
         <Label>Beehive</Label>
-        <Stage>14</Stage>
+        <Stage>12</Stage>
         <ZoneColor>200, 170, 80</ZoneColor>
         <Weathers>
             <ListItem>Fireflies</ListItem>
@@ -42,7 +42,7 @@
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ResourceChest2</ListItem>
-                    <ListItem>ArmorChest2</ListItem>
+                    <ListItem>ArmorChest3</ListItem>
                     <ListItem>EnchantedChestDefensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
@@ -89,7 +89,7 @@
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>ArmorChest2</ListItem>
+                    <ListItem>ArmorChest3</ListItem>
                     <ListItem>TrinketChest2</ListItem>
                     <ListItem>EnchantedChestDefensive</ListItem>
                 </PotentialLootBoxes>

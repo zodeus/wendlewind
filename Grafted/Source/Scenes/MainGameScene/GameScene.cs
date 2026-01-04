@@ -6,6 +6,7 @@ namespace Grafted.Scenes.MainGameScene;
 
 public class GameScene : Scene
 {
+    private float _startOverCooldown = 3f;
     private MapGui _mapGui = null!;
     private GameContext _context = new ();
     private GameState _currentGameState = GameState.Map;
@@ -94,6 +95,11 @@ public class GameScene : Scene
 
     public override void Update(float deltaTime)
     {
+        if (_startOverCooldown > 0)
+        {
+            _startOverCooldown -= deltaTime;
+        }
+
         HandleInput();
         ActiveGui?.Update(deltaTime);
     }
@@ -150,9 +156,10 @@ public class GameScene : Scene
             });
         }
 
-        if (WasKeyJustPressed(Keys.F6, currentKeyboardState))
+        if (WasKeyJustPressed(Keys.F6, currentKeyboardState) && _startOverCooldown <= 0)
         {
             _context.StartOver();
+            _startOverCooldown = 3f;
             return;
         }
 

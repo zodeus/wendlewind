@@ -45,12 +45,16 @@
         <Moniker>BeeDrone</Moniker>
         <Label>Drone</Label>
         <BodyPartType>Minion</BodyPartType>
-        <HitWeight>1000</HitWeight>
+        <HitWeight>60</HitWeight>
         <BloodAmount>1</BloodAmount>
         <Substance>Chitin</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Bee/Drone</TexturePath>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
         <BaseStats>
-            <MaxHitPoints>2000</MaxHitPoints>
+            <MaxHitPoints>100</MaxHitPoints>
+            <AttackSpeedModifier>1</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>
 
@@ -74,8 +78,11 @@
             <ListItem>BeeDroneSocket3</ListItem>
             <ListItem>BeeDroneSocket4</ListItem>
         </Sockets>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
         <BaseStats>
-            <MaxHitPoints>2000</MaxHitPoints>
+            <MaxHitPoints>200</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="BeeBodyPartBase">
@@ -87,7 +94,8 @@
         <Substance>Chitin</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Bee/Antenna</TexturePath>
         <BaseStats>
-            <MaxHitPoints>1000</MaxHitPoints>
+            <MaxHitPoints>60</MaxHitPoints>
+            <AttackSpeedModifier>.4</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="BeeBodyPartBase">
@@ -110,7 +118,7 @@
             <ListItem>AbdomenSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>4000</MaxHitPoints>
+            <MaxHitPoints>250</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="BeeBodyPartBase">
@@ -125,8 +133,11 @@
             <ListItem>LeftWingSocket</ListItem>
             <ListItem>RightWingSocket</ListItem>
         </Sockets>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
         <BaseStats>
-            <MaxHitPoints>3000</MaxHitPoints>
+            <MaxHitPoints>100</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="BeeBodyPartBase">
@@ -139,7 +150,8 @@
         <MobilityFraction>.2</MobilityFraction>
         <TexturePath>Entities/Pawn/BodyParts/Bee/Wing</TexturePath>
         <BaseStats>
-            <MaxHitPoints>1500</MaxHitPoints>
+            <MaxHitPoints>60</MaxHitPoints>
+            <AttackSpeedModifier>.1</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="BeeBodyPartBase">
@@ -152,7 +164,7 @@
         <MobilityFraction>.1</MobilityFraction>
         <TexturePath>Entities/Pawn/BodyParts/Bee/Leg</TexturePath>
         <BaseStats>
-            <MaxHitPoints>800</MaxHitPoints>
+            <MaxHitPoints>40</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
 </Definitions>

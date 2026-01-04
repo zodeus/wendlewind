@@ -453,6 +453,7 @@ public class CombatHandler : IDisposable
             if (_encounter.Def.IsBoss)
             {
                 _encounter.Zone.IsComplete = true;
+                Core.Context.World.ProgressTracker.OnZoneCompleted(_encounter.Zone);
             }
         }
 

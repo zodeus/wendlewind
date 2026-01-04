@@ -20,6 +20,10 @@ public class DamageRequest
     {
         var pawnStrength = pawn.GetStatValue(Defs.Stats.Strength);
         var toolPower = tool.GetStatValue(Defs.Stats.WeaponPower);
+        if(tool.ItemDef.WeaponProperties!.WeaponManeuvers.Count == 0)
+        {
+            throw new Exception("No weapon maneuvers found for weapon: " + tool.ItemDef.Moniker);
+        }
         var weaponManeuver = tool.ItemDef.WeaponProperties!.WeaponManeuvers.RandomElement();
         var skillPower = 1 + (pawn.GetSkill(tool.ItemDef.WeaponProperties!.WeaponType)?.Level * .1f ?? 0);
         var rawDamage = Mathf.RoundToInt(

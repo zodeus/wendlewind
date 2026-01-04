@@ -102,6 +102,7 @@ public static partial class Defs
     [DefLocator]
     public static class Items
     {
+        public static ItemDef SteroidInjector = null!;
         public static ItemDef PlagueMask = null!;
         public static ItemDef Walnut = null!;
         public static ItemDef Monocle = null!;
@@ -163,6 +164,11 @@ public static partial class Defs
         public static ItemDef Grimoire = null!;
         public static ItemDef BloodBath = null!;
         public static ItemDef RejuvenationCloak = null!;
+        public static ItemDef StrengthCloak = null!;
+        
+        // Enchantments used as upgrade materials
+        public static ItemDef ElvishLeaf = null!;
+        public static ItemDef RhinoSkin = null!;
     }
 }
 
@@ -313,6 +319,16 @@ public static partial class Defs
         public static BodyPartDef BatTorso = null!;
         public static BodyPartDef BatWing = null!;
         public static BodyPartDef BatClaw = null!;
+
+        public static BodyPartDef UndeadMonkeyHead = null!;
+        public static BodyPartDef UndeadMonkeyTorso = null!;
+        public static BodyPartDef UndeadMonkeyArm = null!;
+        public static BodyPartDef UndeadMonkeyHand = null!;
+        public static BodyPartDef UndeadMonkeyFinger = null!;
+        public static BodyPartDef UndeadMonkeyThumb = null!;
+        public static BodyPartDef UndeadMonkeyLeg = null!;
+        public static BodyPartDef UndeadMonkeyFoot = null!;
+        public static BodyPartDef UndeadMonkeyTail = null!;
     }
 
     [DefLocator]

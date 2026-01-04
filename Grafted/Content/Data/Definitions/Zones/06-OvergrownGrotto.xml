@@ -14,7 +14,7 @@
         </Weathers>
         <Resources>
             <ListItem>
-                <Item>GlitteringLog</Item>
+                <Item>ShimmeringBark</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.3</ChanceToHarvest>
             </ListItem>

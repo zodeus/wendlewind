@@ -44,5 +44,6 @@ public enum WeaponType
     StoneFist,
     StoneLeg,
     Flipper, 
-    Beak
+    Beak,
+    Stinger
 }

@@ -29,6 +29,7 @@ public class PoisonHandler : BodyPartModifier
         // Chance to spread to adjacent arteries
         if (Core.Random.Chance(SpreadChance))
         {
+            Log.Info($"PoisonHandler: Spreading to adjacent artery");
             SpreadToAdjacentArtery();
         }
 
@@ -55,6 +56,7 @@ public class PoisonHandler : BodyPartModifier
         var externalPart = GetExternalPart();
         if (externalPart == null)
         {
+            Log.Info($"PoisonHandler: No external part found");
             return;
         }
 
