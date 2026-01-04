@@ -65,6 +65,14 @@
         <HandlerClass>PoisonHandler</HandlerClass>
         <Color>188, 224, 7</Color>
     </BodyPartModifierDef>
+    <BodyPartModifierDef>
+        <Moniker>BloodDrain</Moniker>
+        <Label>Blood Drain</Label>
+        <Type>Debuff</Type>
+        <Description>Your blood is draining extremely quickly.</Description>
+        <HandlerClass>BloodDrainHandler</HandlerClass>
+        <Color>255, 0, 0</Color>
+    </BodyPartModifierDef>
 
     <!-- BUFFS -->
     <BodyPartModifierDef>

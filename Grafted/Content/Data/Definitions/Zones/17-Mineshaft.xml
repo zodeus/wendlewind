@@ -4,7 +4,7 @@
     <ZoneDef>
         <Moniker>Mineshaft</Moniker>
         <Label>Mine Shafts</Label>
-        <Stage>10</Stage>
+        <Stage>17</Stage>
         <ZoneColor>110, 100, 90</ZoneColor>
         <Weathers>
             <ListItem>SmokeEmbers</ListItem>

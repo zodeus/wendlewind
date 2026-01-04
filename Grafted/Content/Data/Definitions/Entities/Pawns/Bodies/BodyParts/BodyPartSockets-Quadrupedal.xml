@@ -46,6 +46,24 @@
         </AllowedBodyPartTypes>
     </BodyPartSocketDef>
     <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>LeftPawSocket</Moniker>
+        <Label>Left Paw Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>Left</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Paw</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>RightPawSocket</Moniker>
+        <Label>Right Paw Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>Right</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Paw</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
         <Moniker>TailSocket</Moniker>
         <Label>Tail Socket</Label>
         <IsExternal>true</IsExternal>

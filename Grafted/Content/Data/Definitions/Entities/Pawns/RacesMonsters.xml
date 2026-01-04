@@ -146,4 +146,16 @@
             <Accuracy>.9</Accuracy>
         </BaseStats>   
     </PawnDef>
+    <PawnDef ParentName="BaseMonsterRace">
+        <Moniker>Bat</Moniker>
+        <Label>Bat</Label>
+        <Species>Bat</Species>
+        <Body>BatBody</Body>
+        <BaseStats>
+            <AttackSpeed>2.5</AttackSpeed>
+            <Strength>0.8</Strength>
+            <Evasion>.15</Evasion>
+            <Accuracy>.85</Accuracy>
+        </BaseStats>   
+    </PawnDef>
 </Definitions>

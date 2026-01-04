@@ -150,4 +150,13 @@
         <GeneratorClass>TinManBodyGenerator</GeneratorClass>
         <LayoutClass>TinManBodyPartLayout</LayoutClass>
     </BodyDef>
+    <BodyDef>
+        <Moniker>BatBody</Moniker>
+        <Label>Bat Body</Label>
+        <BoneDensity>0.5</BoneDensity>
+        <MaxBlood>2000</MaxBlood>
+        <BloodType>AnimalBlood</BloodType>
+        <GeneratorClass>BatBodyGenerator</GeneratorClass>
+        <LayoutClass>BatBodyPartLayout</LayoutClass>
+    </BodyDef>
 </Definitions>

@@ -10,6 +10,8 @@ public class RejuvenationCloakHandler : EquipmentHandler
         var parts = pawn.Body?.AllParts ?? [];
         foreach (var part in parts)
         {
+            if (part.IsSevered) { continue; }
+            if (part.HitPoints <= 0) { continue; }
             if (part.HitPoints >= part.MaxHitPoints) { continue; }
 
             part.HitPoints += RejuvenationPerTick;

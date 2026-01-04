@@ -308,6 +308,11 @@ public static partial class Defs
         public static BodyPartDef TinManHand = null!;
         public static BodyPartDef TinManLeg = null!;
         public static BodyPartDef TinManFoot = null!;
+
+        public static BodyPartDef BatHead = null!;
+        public static BodyPartDef BatTorso = null!;
+        public static BodyPartDef BatWing = null!;
+        public static BodyPartDef BatClaw = null!;
     }
 
     [DefLocator]

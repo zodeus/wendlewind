@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartDef Name="BatBodyPartBase" ParentName="BodyPartBase" Abstract="True">
+        
+    </BodyPartDef>
+    <BodyPartDef ParentName="BatBodyPartBase">
+        <Moniker>BatHead</Moniker>
+        <Label>Head</Label>
+        <HitWeight>15</HitWeight>
+        <BloodAmount>30</BloodAmount>
+        <BodyPartType>Head</BodyPartType>
+        <Substance>Flesh</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Bat/Head</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>SkullSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+            <ListItem>LeftEyeSocket</ListItem>
+            <ListItem>RightEyeSocket</ListItem>
+            <ListItem>TorsoSocket</ListItem>
+        </Sockets>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <MaxHitPoints>250</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="BatBodyPartBase">
+        <Moniker>BatTorso</Moniker>
+        <Label>Torso</Label>
+        <BodyPartType>Torso</BodyPartType>
+        <HitWeight>25</HitWeight>
+        <BloodAmount>150</BloodAmount>
+        <Substance>Flesh</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Bat/Torso</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>RibCageSocket</ListItem>
+            <ListItem>StomachSocket</ListItem>
+            <ListItem>LiverSocket</ListItem>
+            <ListItem>LeftKidneySocket</ListItem>
+            <ListItem>RightKidneySocket</ListItem>
+            <ListItem>IntestinesSocket</ListItem>
+            <ListItem>LeftWingSocket</ListItem>
+            <ListItem>RightWingSocket</ListItem>
+            <ListItem>LeftPawSocket</ListItem>
+            <ListItem>RightPawSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>300</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="BatBodyPartBase">
+        <Moniker>BatWing</Moniker>
+        <Label>Wing</Label>
+        <BodyPartType>Wing</BodyPartType>
+        <HitWeight>20</HitWeight>
+        <BloodAmount>60</BloodAmount>
+        <Substance>Flesh</Substance>
+        <MobilityFraction>.25</MobilityFraction>
+        <TexturePath>Entities/Pawn/BodyParts/Bat/Wing</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>150</MaxHitPoints>
+            <AttackSpeedModifier>.75</AttackSpeedModifier>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="BatBodyPartBase">
+        <Moniker>BatClaw</Moniker>
+        <Label>Claw</Label>
+        <BodyPartType>Paw</BodyPartType>
+        <HitWeight>10</HitWeight>
+        <BloodAmount>20</BloodAmount>
+        <Substance>Flesh</Substance>
+        <MobilityFraction>.05</MobilityFraction>
+        <TexturePath>Entities/Pawn/BodyParts/Bat/Claw</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+        </Sockets>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <AttackSpeedModifier>1</AttackSpeedModifier>
+            <MaxHitPoints>110</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+</Definitions>
