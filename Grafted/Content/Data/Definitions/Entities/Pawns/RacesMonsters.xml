@@ -9,8 +9,8 @@
         <Body>GlumpBody</Body>
         <BaseStats>
             <AttackSpeed>2</AttackSpeed>
-            <MeleeStrength>2</MeleeStrength>
-            <MeleeAccuracy>.75</MeleeAccuracy>
+            <Strength>2</Strength>
+            <Accuracy>.75</Accuracy>
             <Evasion>.04</Evasion>
         </BaseStats>
     </PawnDef>
@@ -21,9 +21,9 @@
         <Body>GhoulBody</Body>
         <BaseStats>
             <AttackSpeed>2</AttackSpeed>
-            <MeleeStrength>1</MeleeStrength>
+            <Strength>1</Strength>
             <Evasion>.08</Evasion>
-            <MeleeAccuracy>.90</MeleeAccuracy>
+            <Accuracy>.90</Accuracy>
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseMonsterRace">
@@ -33,9 +33,9 @@
         <Body>FrogBody</Body>
         <BaseStats>
             <AttackSpeed>1.2</AttackSpeed>
-            <MeleeStrength>1</MeleeStrength>
+            <Strength>1</Strength>
             <Evasion>.04</Evasion>
-            <MeleeAccuracy>.8</MeleeAccuracy>
+            <Accuracy>.8</Accuracy>
         </BaseStats>
     </PawnDef> 
     <PawnDef ParentName="BaseMonsterRace">
@@ -45,9 +45,9 @@
         <Body>TurtleBody</Body>
         <BaseStats>
             <AttackSpeed>2</AttackSpeed>
-            <MeleeStrength>1</MeleeStrength>
+            <Strength>1</Strength>
             <Evasion>.01</Evasion>
-            <MeleeAccuracy>.95</MeleeAccuracy>
+            <Accuracy>.95</Accuracy>
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseMonsterRace">
@@ -57,9 +57,9 @@
         <Body>TreebornBody</Body>
         <BaseStats>
             <AttackSpeed>1</AttackSpeed>
-            <MeleeStrength>1</MeleeStrength>
+            <Strength>1</Strength>
             <Evasion>.03</Evasion>
-            <MeleeAccuracy>.75</MeleeAccuracy>
+            <Accuracy>.75</Accuracy>
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseMonsterRace">
@@ -69,9 +69,9 @@
         <Body>MushroomBody</Body>
         <BaseStats>
             <AttackSpeed>1</AttackSpeed>
-            <MeleeStrength>1</MeleeStrength>
+            <Strength>1</Strength>
             <Evasion>.03</Evasion>
-            <MeleeAccuracy>.9</MeleeAccuracy>
+            <Accuracy>.9</Accuracy>
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseMonsterRace">
@@ -81,9 +81,9 @@
         <Body>OrcBody</Body>
         <BaseStats>
             <AttackSpeed>2</AttackSpeed>
-            <MeleeStrength>2</MeleeStrength>
+            <Strength>2</Strength>
             <Evasion>.08</Evasion>
-            <MeleeAccuracy>.7</MeleeAccuracy>
+            <Accuracy>.7</Accuracy>
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseMonsterRace">
@@ -93,9 +93,9 @@
         <Body>MosquitoBody</Body>
         <BaseStats>
             <AttackSpeed>3</AttackSpeed>
-            <MeleeStrength>1</MeleeStrength>
+            <Strength>1</Strength>
             <Evasion>.2</Evasion>
-            <MeleeAccuracy>.9</MeleeAccuracy>
+            <Accuracy>.9</Accuracy>
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseMonsterRace">
@@ -105,9 +105,9 @@
         <Body>BeeBody</Body>
         <BaseStats>
             <AttackSpeed>1</AttackSpeed>
-            <MeleeStrength>1</MeleeStrength>
+            <Strength>1</Strength>
             <Evasion>0</Evasion>
-            <MeleeAccuracy>1</MeleeAccuracy>
+            <Accuracy>1</Accuracy>
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseMonsterRace">
@@ -117,9 +117,9 @@
         <Body>WearbearBody</Body>
         <BaseStats>
             <AttackSpeed>0.8</AttackSpeed>
-            <MeleeStrength>2.5</MeleeStrength>
+            <Strength>2.5</Strength>
             <Evasion>.02</Evasion>
-            <MeleeAccuracy>.85</MeleeAccuracy>
+            <Accuracy>.85</Accuracy>
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseMonsterRace">
@@ -129,9 +129,9 @@
         <Body>InukshukBody</Body>
         <BaseStats>
             <AttackSpeed>1</AttackSpeed>
-            <MeleeStrength>2</MeleeStrength>
+            <Strength>2</Strength>
             <Evasion>.01</Evasion>
-            <MeleeAccuracy>.9</MeleeAccuracy>
+            <Accuracy>.9</Accuracy>
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseMonsterRace">
@@ -141,9 +141,9 @@
         <Body>TinManBody</Body>
         <BaseStats>
             <AttackSpeed>1</AttackSpeed>
-            <MeleeStrength>1</MeleeStrength>
+            <Strength>1</Strength>
             <Evasion>.01</Evasion>
-            <MeleeAccuracy>.9</MeleeAccuracy>
+            <Accuracy>.9</Accuracy>
         </BaseStats>   
     </PawnDef>
 </Definitions>

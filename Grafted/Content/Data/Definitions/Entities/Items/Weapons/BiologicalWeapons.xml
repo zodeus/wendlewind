@@ -14,7 +14,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/HumanHand</TexturePath>
         <BaseStats>
-            <MeleePower>5</MeleePower>
+            <WeaponPower>5</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -30,7 +30,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/HumanFoot</TexturePath>
         <BaseStats>
-            <MeleePower>7</MeleePower>
+            <WeaponPower>7</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -56,7 +56,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
         <BaseStats>
-            <MeleePower>4</MeleePower>
+            <WeaponPower>4</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -82,7 +82,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
         <BaseStats>
-            <MeleePower>5</MeleePower>
+            <WeaponPower>5</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -108,7 +108,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Hoof</TexturePath>
         <BaseStats>
-            <MeleePower>6</MeleePower>
+            <WeaponPower>6</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -134,7 +134,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
         <BaseStats>
-            <MeleePower>15</MeleePower>
+            <WeaponPower>15</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -160,7 +160,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Claw</TexturePath>
         <BaseStats>
-            <MeleePower>20</MeleePower>
+            <WeaponPower>20</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -182,7 +182,7 @@
             <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
         </EquipmentProperties>
         <BaseStats>
-            <MeleePower>25</MeleePower>
+            <WeaponPower>25</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponBlunt">
@@ -208,7 +208,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/TreeBranch</TexturePath>
         <BaseStats>
-            <MeleePower>22</MeleePower>
+            <WeaponPower>22</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -241,7 +241,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
         <BaseStats>
-            <MeleePower>30</MeleePower>
+            <WeaponPower>30</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponBlunt">
@@ -274,7 +274,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Pawn/BodyParts/Turtle/Flipper</TexturePath>
         <BaseStats>
-            <MeleePower>35</MeleePower>
+            <WeaponPower>35</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -297,7 +297,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/MushroomCap</TexturePath>
         <BaseStats>
-            <MeleePower>40</MeleePower>
+            <WeaponPower>40</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponBlunt">
@@ -327,7 +327,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/TreeBranch</TexturePath>
         <BaseStats>
-            <MeleePower>30</MeleePower>
+            <WeaponPower>30</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponBlunt">
@@ -357,7 +357,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/TreeBranch</TexturePath>
         <BaseStats>
-            <MeleePower>40</MeleePower>
+            <WeaponPower>40</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponPiercing">
@@ -380,7 +380,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/FlamingProboscis</TexturePath>
         <BaseStats>
-            <MeleePower>15</MeleePower>
+            <WeaponPower>15</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponPiercing">
@@ -403,7 +403,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/PoisonousProboscis</TexturePath>
         <BaseStats>
-            <MeleePower>20</MeleePower>
+            <WeaponPower>20</WeaponPower>
         </BaseStats>
     </ItemDef>
 
@@ -430,7 +430,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/GhoulishHand</TexturePath>
         <BaseStats>
-            <MeleePower>60</MeleePower>
+            <WeaponPower>60</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -446,7 +446,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/GhoulishFoot</TexturePath>
         <BaseStats>
-            <MeleePower>70</MeleePower>
+            <WeaponPower>70</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -472,7 +472,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
         <BaseStats>
-            <MeleePower>90</MeleePower>
+            <WeaponPower>90</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -498,7 +498,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Hoof</TexturePath>
         <BaseStats>
-            <MeleePower>70</MeleePower>
+            <WeaponPower>70</WeaponPower>
         </BaseStats>
     </ItemDef>
     
@@ -525,7 +525,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
         <BaseStats>
-            <MeleePower>25</MeleePower>
+            <WeaponPower>25</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -551,7 +551,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Claw</TexturePath>
         <BaseStats>
-            <MeleePower>30</MeleePower>
+            <WeaponPower>30</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponBlunt">
@@ -581,7 +581,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Pawn/BodyParts/TinMan/Hand</TexturePath>
         <BaseStats>
-            <MeleePower>25</MeleePower>
+            <WeaponPower>25</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponBlunt">
@@ -611,7 +611,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Pawn/BodyParts/TinMan/Foot</TexturePath>
         <BaseStats>
-            <MeleePower>30</MeleePower>
+            <WeaponPower>30</WeaponPower>
         </BaseStats>
     </ItemDef>
 </Definitions>

@@ -24,9 +24,6 @@ public static partial class BaseContent
         public static Texture2D BadTexture = null!;
 
         public static Texture2D MainMenuBackground = null!;
-        public static Texture2D MainMenuPlay = null!;
-        public static Texture2D MainMenuPlayOver = null!;
-        public static Texture2D MainMenuQuit = null!;
 
         public static void Load()
         {
@@ -34,9 +31,6 @@ public static partial class BaseContent
 
             // Main Menu
             MainMenuBackground = Core.Content.Load<Texture2D>("UI/MainMenu/Background");
-            MainMenuPlay = Core.Content.Load<Texture2D>("UI/MainMenu/Play");
-            MainMenuPlayOver = Core.Content.Load<Texture2D>("UI/MainMenu/PlayOver");
-            MainMenuQuit = Core.Content.Load<Texture2D>("UI/MainMenu/Quit");
         }
     }
 }

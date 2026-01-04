@@ -5,7 +5,7 @@
         <EntityClass>Pawn</EntityClass>
         <UiClass>PawnPanel</UiClass>
         <BaseStats>
-            <MeleeAccuracy>.85</MeleeAccuracy>
+            <Accuracy>.85</Accuracy>
         </BaseStats>
     </PawnDef>
 </Definitions>

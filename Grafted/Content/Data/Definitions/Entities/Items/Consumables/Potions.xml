@@ -5,6 +5,9 @@
         <ItemType>Potion</ItemType>
         <UiClass>PotionPanel</UiClass>
         <StackLimit>9999</StackLimit>
+        <BaseStats>
+            <MaxDurability>0</MaxDurability>
+        </BaseStats>
         <EquipmentProperties>
             <EquipmentType>Potion</EquipmentType>
         </EquipmentProperties>

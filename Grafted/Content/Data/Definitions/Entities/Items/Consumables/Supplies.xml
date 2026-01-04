@@ -59,10 +59,4 @@
             </ResourceRequirements>
         </CraftingProperties>
     </ItemDef>
-    <ItemDef ParentName="Supplies">
-        <Moniker>UpgradeCell</Moniker>
-        <Label>Upgrade Cell</Label>
-        <Description></Description>
-        <TexturePath>Entities/Item/Consumables/UpgradeCell</TexturePath>
-    </ItemDef>
 </Definitions>

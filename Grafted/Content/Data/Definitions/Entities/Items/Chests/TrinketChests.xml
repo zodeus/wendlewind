@@ -25,11 +25,6 @@
                 <ItemDef>BloodyBell</ItemDef>
                 <Weight>5</Weight>
             </ListItem>
-            <!---->
-            <!--<ListItem>
-                <ItemDef>Battery</ItemDef>
-                <Weight>1</Weight>
-            </ListItem>-->
         </Items>
     </LootBoxDef>
     <LootBoxDef Name="TrinketChest1">
@@ -46,10 +41,14 @@
             </ListItem>
             <ListItem>
                 <ItemDef>WeepingBucket</ItemDef>
-                <Weight>10000000</Weight>
+                <Weight>1000000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>Disassembler</ItemDef>
+                <Weight>1000000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>Grimoire</ItemDef>
                 <Weight>1000000</Weight>
             </ListItem>
             <ListItem>
@@ -75,16 +74,16 @@
                 <Weight>1000000</Weight>
             </ListItem>
             <ListItem>
-                <ItemDef>Grimoire</ItemDef>
-                <Weight>750000</Weight>
-            </ListItem>
-            <ListItem>
                 <ItemDef>TinkersToolbox</ItemDef>
                 <Weight>500000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>ThirdEye</ItemDef>
-                <Weight>300000</Weight>
+                <Weight>200000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>PlagueMask</ItemDef>
+                <Weight>200000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>SteroidInjector</ItemDef>

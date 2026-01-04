@@ -48,14 +48,6 @@
         <!-- <UiClass>MechanicalUmbrellaPanel</UiClass> -->
         <TexturePath>Entities/Item/Trinket/MechanicalUmbrella</TexturePath>
     </ItemDef>
-    
-    <ItemDef ParentName="InteractiveTrinket">
-        <Moniker>PlagueMask</Moniker>
-        <Label>Plague Mask</Label>
-        <Description>It's a mask, a plague mask, a gas mask.</Description>
-        <!-- <UiClass>PlagueMaskPanel</UiClass> -->
-        <TexturePath>Entities/Item/Trinket/PlagueMask</TexturePath>
-    </ItemDef>
     <!-- 
     AutoMuncher
     

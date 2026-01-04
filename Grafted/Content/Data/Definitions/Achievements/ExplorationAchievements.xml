@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Definitions>
+    <AchievementDef>
+        <Moniker>FingerCollector</Moniker>
+        <Label>Finger Collector</Label>
+        <Description>Collect fingers, just fingers... no thumbs, ugly little things</Description>
+        <Category>Exploration</Category>
+        <TargetValue>16</TargetValue>
+        <BenifitDescription>Not implemented</BenifitDescription>
+        <HandlerClass>FingerCollectorHandler</HandlerClass>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>CaveDiver</Moniker>
+        <Label>Cave Diver</Label>
+        <Description>Explore caves</Description>
+        <Category>Exploration</Category>
+        <HandlerClass>CaveDiverHandler</HandlerClass>
+        <UnlockedTrinketDef>FlameStick</UnlockedTrinketDef>
+        <TargetValue>15</TargetValue>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>TrinketSniffer</Moniker>
+        <Label>Trinket Sniffer</Label>
+        <Description>Find trinkets</Description>
+        <Category>Exploration</Category>
+        <BenifitDescription>Start with a random trinket</BenifitDescription>
+        <HandlerClass>TrinketSnifferHandler</HandlerClass>
+        <TargetValue>42</TargetValue>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>TrashToTreasure</Moniker>
+        <Label>Trash to Treasure</Label>
+        <Description>One specimens trash becomes\nyour treasure</Description>
+        <BenifitDescription>Start with a random weapon.</BenifitDescription>
+        <Category>Exploration</Category>
+        <TargetValue>10</TargetValue>
+        <HandlerClass>TrashToTreasureHandler</HandlerClass>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>FindersKeepers</Moniker>
+        <Label>Finders Keepers</Label>
+        <Description>You find it, you keep it</Description>
+        <IsHidden>true</IsHidden>
+        <UnlockedTrinketDef>Grimoire</UnlockedTrinketDef>
+        <Category>Exploration</Category>
+        <HandlerClass>FindersKeepersHandler</HandlerClass>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>Lumberjack</Moniker>
+        <Label>Lumberjack</Label>
+        <Description>Cut down trees</Description>
+        <BenifitDescription>Start with a bone axe</BenifitDescription>
+        <Category>Exploration</Category>
+        <HandlerClass>LumberjackHandler</HandlerClass>
+        <TargetValue>25</TargetValue>
+    </AchievementDef>
+</Definitions>

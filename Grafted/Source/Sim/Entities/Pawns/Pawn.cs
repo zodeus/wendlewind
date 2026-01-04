@@ -299,7 +299,7 @@ public class Pawn : Entity
 
     public float ChanceToHit()
     {
-        return this.GetStatValue(Defs.Stats.MeleeAccuracy) * Body.Capabilities.Sight;
+        return this.GetStatValue(Defs.Stats.Accuracy) * Body.Capabilities.Sight;
     }
 
     public bool TryEat(Item? item)

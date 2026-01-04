@@ -6,7 +6,6 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 [UsedImplicitly]
 public sealed class PawnPanel : EntityPanelBase
 {
-
     private readonly PawnPortraitPanel _portrait;
     private readonly TabPanel _tabPanel;
 
@@ -41,6 +40,7 @@ public sealed class PawnPortraitPanel : VerticalStackPanel, IDisposable
     private readonly HorizontalProgressBar _bloodBar;
     private readonly PawnRenderWidget _renderWidget;
     private readonly PawnCapabilitiesPanel _capabilitiesPanel;
+    private readonly PawnStatsPanel _statsPanel;
 
     public PawnPortraitPanel(Pawn pawn)
     {
@@ -61,12 +61,13 @@ public sealed class PawnPortraitPanel : VerticalStackPanel, IDisposable
         Widgets.Add(_bloodBar);
         _attackSpeed = new Label(BaseContent.Styles.Label.Normal) { Margin = new Thickness(0, 0, 0, 20) };
         Widgets.Add(_attackSpeed);
-        Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"Species: {pawn.Species}" });
-        Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"Gender: {pawn.Gender}" });
         //Widgets.Add(new Label(BaseContent.Styles.Label.Normal) { Text = $"Max Blood: {pawn.Body.MaxBlood}" });
 
         _capabilitiesPanel = new PawnCapabilitiesPanel(pawn.Body);
         Widgets.Add(_capabilitiesPanel);
+
+        _statsPanel = new PawnStatsPanel(pawn);
+        Widgets.Add(_statsPanel);
     }
 
     public void Update()
@@ -74,6 +75,7 @@ public sealed class PawnPortraitPanel : VerticalStackPanel, IDisposable
         _attackSpeed.Text = $"Attack Speed: {_pawn.AttackSpeed:F2}";
         _bloodBar.Value = _pawn.Body.BloodPercent * 100;
         _capabilitiesPanel.Update();
+        _statsPanel.Update();
     }
 
     public void Dispose()

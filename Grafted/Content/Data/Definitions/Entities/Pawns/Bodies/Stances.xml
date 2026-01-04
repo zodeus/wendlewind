@@ -24,7 +24,7 @@
         <TexturePath>Entities/Pawn/BodyStances/Melee</TexturePath>
         <AffectedStats>
             <ListItem>
-                <Stat>MeleeAccuracy</Stat>
+                <Stat>Accuracy</Stat>
                 <Offset>0.11</Offset>
             </ListItem>
         </AffectedStats>

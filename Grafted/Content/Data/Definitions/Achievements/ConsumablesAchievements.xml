@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Definitions>    
+    <AchievementDef>
+        <Moniker>BloodChugger</Moniker>
+        <Label>Blood Chugger</Label>
+        <Description>Consume jars of blood</Description>
+        <BenifitDescription>Your max blood is increased</BenifitDescription>
+        <Category>Consumables</Category>
+        <ItemUsedDef>JarOfBlood</ItemUsedDef>
+        <TargetValue>50</TargetValue>
+        <HandlerClass>BloodChuggerHandler</HandlerClass>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>FineDiner</Moniker>
+        <Label>Fine Diner</Label>
+        <Description>Eat well prepared meals</Description>
+        <Category>Consumables</Category>
+        <BenifitDescription>Not implemented</BenifitDescription>
+        <HandlerClass>FineDinerHandler</HandlerClass>
+        <TargetValue>99</TargetValue>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>YouLittlePiggy</Moniker>
+        <Label>You Little Piggy</Label>
+        <Description>Remember Piggy? I remember\npiggy... you little piggy</Description>
+        <Category>Consumables</Category>
+        <HandlerClass>YouLittlePiggyHandler</HandlerClass>
+        <TargetValue>100</TargetValue>
+        <TraitDef>PotBellied</TraitDef>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>WeSmokemPeacePipe</Moniker>
+        <Label>We Smoke'm Peace Pipe</Label>
+        <Description>Burn woods.</Description>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+        <Category>Consumables</Category>
+        <TargetValue>100</TargetValue>
+        <HandlerClass>WeSmokemPeacePipeHandler</HandlerClass>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>SquirelyPete</Moniker>
+        <Label>Squirely Pete</Label>
+        <Description>You know that loser who hangs on to shit and dies with a full inventory? You're that loser</Description>
+        <BenifitDescription>Start with some nuts</BenifitDescription>
+        <Category>Consumables</Category>
+        <TargetValue>17</TargetValue>
+        <HandlerClass>SquirelyPeteHandler</HandlerClass>
+    </AchievementDef>
+</Definitions>

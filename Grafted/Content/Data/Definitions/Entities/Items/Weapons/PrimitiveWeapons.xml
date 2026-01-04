@@ -13,7 +13,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Primitive/WoodClub</TexturePath>
         <BaseStats>
-            <MeleePower>12</MeleePower>
+            <WeaponPower>12</WeaponPower>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -37,7 +37,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Primitive/BoneKnife</TexturePath>
         <BaseStats>
-            <MeleePower>12</MeleePower>
+            <WeaponPower>12</WeaponPower>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -65,7 +65,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Primitive/BoneSpear</TexturePath>
         <BaseStats>
-            <MeleePower>12</MeleePower>
+            <WeaponPower>12</WeaponPower>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -93,7 +93,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Primitive/BoneAxe</TexturePath>
         <BaseStats>
-            <MeleePower>12</MeleePower>
+            <WeaponPower>12</WeaponPower>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -117,7 +117,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Primitive/StoneHammer</TexturePath>
         <BaseStats>
-            <MeleePower>12</MeleePower>
+            <WeaponPower>12</WeaponPower>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>

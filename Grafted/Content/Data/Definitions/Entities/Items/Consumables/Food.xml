@@ -285,7 +285,7 @@
     <ItemDef ParentName="Food">
         <Moniker>WondrousJam</Moniker>
         <Label>Wondrous Jam</Label>
-        <Description/>
+        <Description />
         <TexturePath>Entities/Item/Resource/Organic/WondrousJam</TexturePath>
         <FoodProperties>
             <FoodType>Fruit</FoodType>
@@ -318,6 +318,24 @@
                 </ListItem>
             </ResourceRequirements>
         </CraftingProperties>
+        <BaseStats>
+            <NutritionalValue>.05</NutritionalValue>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="Food">
+        <Moniker>Walnut</Moniker>
+        <Label>Walnut</Label>
+        <Description>A walnut, earthy and nutritious, a very nice snack.</Description>
+        <TexturePath>Entities/Item/Resource/Organic/Walnut</TexturePath>
+        <FoodProperties>
+            <FoodType>Nut</FoodType>
+            <Effects>
+                <ListItem>
+                    <Def>PotentiaNucis</Def>
+                    <DurationInTicks>2000</DurationInTicks>
+                </ListItem>
+            </Effects>
+        </FoodProperties>
         <BaseStats>
             <NutritionalValue>.05</NutritionalValue>
         </BaseStats>

@@ -41,9 +41,6 @@ public class Damage
         var damageBlocked = TotalDamage - TotalUnblockedDamage;
         var durabilityLossFactor = Core.Random.NextFloat(0.2f, 0.5f);
         var durabilityLoss = (float)(damageBlocked * durabilityLossFactor);
-        Log.Info($"PREVIOUS Durability loss: {Core.Random.NextFloat(1f, 5f)}");
-        Log.Info($"NEW Durability loss: {durabilityLoss}");
-        Log.Info($"damage blocked: {damageBlocked}\n\n");
 
         equipment.ApplyDurabilityLoss(durabilityLoss);
     }

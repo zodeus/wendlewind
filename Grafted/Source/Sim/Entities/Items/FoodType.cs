@@ -12,5 +12,6 @@ public enum FoodType
     Fish,
     Berry,
     Fruit,
-    Nectar
+    Nectar,
+    Nut
 }

@@ -11,11 +11,11 @@ public static partial class Defs
     public static class Stats
     {
         public static StatDef MaxHitPoints = null!;
-        public static StatDef MeleePower = null!;
-        public static StatDef MeleeStrength = null!;
+        public static StatDef WeaponPower = null!;
+        public static StatDef Strength = null!;
         public static StatDef AttackSpeed = null!;
         public static StatDef HealingValue = null!;
-        public static StatDef MeleeAccuracy = null!;
+        public static StatDef Accuracy = null!;
         public static StatDef PhysicalResistance = null!;
         public static StatDef MaxDurability = null!;
         public static StatDef MoveSpeed = null!;
@@ -102,6 +102,8 @@ public static partial class Defs
     [DefLocator]
     public static class Items
     {
+        public static ItemDef PlagueMask = null!;
+        public static ItemDef Walnut = null!;
         public static ItemDef Monocle = null!;
         public static ItemDef TinkersToolbox = null!;
         public static ItemDef BoneShard = null!;
@@ -160,6 +162,7 @@ public static partial class Defs
 
         public static ItemDef Grimoire = null!;
         public static ItemDef BloodBath = null!;
+        public static ItemDef RejuvenationCloak = null!;
     }
 }
 

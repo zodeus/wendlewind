@@ -10,6 +10,21 @@
                 <Amount>1</Amount>
                 <ChanceToDrop>1</ChanceToDrop>
             </ListItem>
+            <!-- <ListItem>
+                <Item>EvasionCloak</Item>
+                <Amount>1</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <Item>StrengthCloak</Item>
+                <Amount>1</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <Item>RejuvenationCloak</Item>
+                <Amount>1</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem> -->
         </InventoryItems>
     </PawnLoadoutDef>
     <PawnLoadoutDef>

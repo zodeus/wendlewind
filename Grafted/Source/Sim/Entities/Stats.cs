@@ -46,8 +46,14 @@ public static class StatExtensions {
 
     public static float GetStatValue(this Pawn pawn, StatDef stat) {
         var value = stat.Handler.GetValue(pawn);
-        foreach (BodyEffect effect in pawn.Body.Effects) {
+        foreach (BodyEffect effect in pawn.Body.Effects)
+        {
             effect.ModifyIfApplicable(stat, ref value);
+        }
+        
+        foreach (var equipment in pawn.Equipment.Armor)
+        {
+            value += equipment.ItemDef.BaseStats.FirstOrDefault(bs => bs.Def == stat)?.Value ?? 0f;
         }
         
         pawn.Body.ModifyStat(stat, ref value);
@@ -100,20 +106,5 @@ public class DefaultStatHandler(StatDef stat)
         }
 
         return result;
-    }
-}
-
-public class BodyStatHandler : DefaultStatHandler {
-    public BodyStatHandler(StatDef stat) : base(stat) { }
-
-    public override float GetValue(Entity entity) {
-        float value = base.GetValue(entity);
-        /*if (entity is BodyPart part) {
-            foreach (BodyEffect effect in part.Pawn.Body.Effects) {
-                effect.ModifyIfApplicable(_stat, ref value);
-            }
-        }*/
-
-        return value;
     }
 }

@@ -85,11 +85,11 @@ public sealed class WeaponPanel : EntityPanelBase
         var substanceModifiers = item.ItemDef.WeaponProperties?.SubstanceModifiers;
         if (substanceModifiers is { Count: > 0 })
         {
-            var rawMeleePower = item.GetStatValue(Defs.Stats.MeleePower);
+            var rawWeaponPower = item.GetStatValue(Defs.Stats.WeaponPower);
             var weaponType = item.ItemDef.WeaponProperties?.WeaponType;
             var skillLevel = weaponType != null ? Core.Context?.PlayerPawn?.GetSkill(weaponType.Value)?.Level ?? 0 : 0;
             var skillPower = 1 + (skillLevel * 0.1f);
-            var baseMeleePower = rawMeleePower * skillPower;
+            var baseWeaponPower = rawWeaponPower * skillPower;
 
             var modsSection = new VerticalStackPanel { Spacing = 2, Margin = new Thickness(0, 0, 0, 10) };
             modsSection.Widgets.Add(new Label("small")
@@ -123,7 +123,7 @@ public sealed class WeaponPanel : EntityPanelBase
                 Grid.SetColumn(valueLabel, 1);
                 modsGrid.Widgets.Add(valueLabel);
 
-                var actualDamage = baseMeleePower * mod.Modifier;
+                var actualDamage = baseWeaponPower * mod.Modifier;
                 var damageLabel = new Label("small")
                 {
                     Text = $"({actualDamage:0})",
@@ -144,7 +144,7 @@ public sealed class WeaponPanel : EntityPanelBase
         // ═══════════════════════════════════════════════════════════════════
         if (item.Def.BaseStats.Count > 0)
         {
-            // Calculate skill power for Melee Power display
+            // Calculate skill power for Weapon Power display
             var statsWeaponType = item.ItemDef.WeaponProperties?.WeaponType;
             var statsSkillLevel = statsWeaponType != null ? Core.Context?.PlayerPawn?.GetSkill(statsWeaponType.Value)?.Level ?? 0 : 0;
             var statsSkillPower = 1 + (statsSkillLevel * 0.1f);
@@ -169,9 +169,9 @@ public sealed class WeaponPanel : EntityPanelBase
                 Grid.SetColumn(keyLabel, 0);
                 statsGrid.Widgets.Add(keyLabel);
 
-                // Apply skill power multiplier to Melee Power
+                // Apply skill power multiplier to Weapon Power
                 var statValue = item.GetStatValue(baseStat.Def);
-                if (baseStat.Def == Defs.Stats.MeleePower)
+                if (baseStat.Def == Defs.Stats.WeaponPower)
                 {
                     statValue *= statsSkillPower;
                 }
@@ -181,6 +181,7 @@ public sealed class WeaponPanel : EntityPanelBase
                     Text = $"{statValue:0}",
                     TextColor = Color.LightGoldenrodYellow
                 };
+                
                 Grid.SetRow(valueLabel, row);
                 Grid.SetColumn(valueLabel, 1);
                 statsGrid.Widgets.Add(valueLabel);

@@ -26,4 +26,17 @@
             </Items>
         </DisassembleProperties>
     </ItemDef>
+    <ItemDef ParentName="LeatherArmorBase">
+        <Moniker>PlagueMask</Moniker>
+        <Label>Plague Mask</Label>
+        <Description>It's a mask, a plague mask, a gas mask.</Description>
+        <TexturePath>Entities/Item/Equipment/Armor/Unique/PlagueMask</TexturePath>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>
+            <MaxEnchantments>2</MaxEnchantments>
+        </EquipmentProperties>
+        <BaseStats>
+            <MaxDurability>500</MaxDurability>
+        </BaseStats>
+    </ItemDef>
 </Definitions>

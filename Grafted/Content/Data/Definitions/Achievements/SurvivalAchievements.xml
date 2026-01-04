@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Definitions>    
+    <AchievementDef>
+        <Moniker>GarbageGremlin</Moniker>
+        <Label>Garbage Gremlin</Label>
+        <Description>Remember George? You're like him but even more disgusting</Description>
+        <Category>Survival</Category>
+        <TargetValue>20</TargetValue>
+        <TraitDef>GutMicroacrobatics</TraitDef>
+        <HandlerClass>GarbageGremlinHandler</HandlerClass>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>LetItFlow</Moniker>
+        <Label>Let It Flow</Label>
+        <Description>Lose a lot of blood</Description>
+        <Category>Survival</Category>
+        <TargetValue>30000</TargetValue>
+        <HandlerClass>BloodLostHandler</HandlerClass>
+        <TraitDef>ThickBlooded</TraitDef>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>SweatingBlood</Moniker>
+        <Label>Sweating Blood</Label>
+        <Description>Survive a fight with less than 10% blood</Description>
+        <BenifitDescription>Your max blood is increased</BenifitDescription>
+        <Category>Survival</Category>
+        <HandlerClass>SweatingBloodHandler</HandlerClass>
+        <TargetValue>0.1</TargetValue>
+        <IsHidden>true</IsHidden>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>VampireWannabe</Moniker>
+        <Label>Vampire Wannabe</Label>
+        <Description>Absorb blood</Description>
+        <BenifitDescription>After combat, if the fallen has animal blood, you will drink it</BenifitDescription>
+        <Category>Survival</Category>
+        <HandlerClass>VampireWannabeHandler</HandlerClass>
+        <TargetValue>100</TargetValue>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>IveBeenJuiced</Moniker>
+        <Label>I've Been Juiced</Label>
+        <Description>Die from blood loss</Description>
+        <BenifitDescription>Start with 2 Jars of Blood</BenifitDescription>
+        <IsHidden>true</IsHidden>
+        <Category>Survival</Category>
+        <HandlerClass>IveBeenJuicedHandler</HandlerClass>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>Earthing</Moniker>
+        <Label>Earthing</Label>
+        <Description>Feel the earth between your toes</Description>
+        <BenifitDescription>Start with a pair of boots</BenifitDescription>
+        <Category>Survival</Category>
+        <TargetValue>120</TargetValue>
+        <HandlerClass>EarthingHandler</HandlerClass>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>OneArmedBandit</Moniker>
+        <Label>One Armed Bandit</Label>
+        <Description>Kill 10 enemies with only one arm</Description>
+        <BenifitDescription>Not implemented</BenifitDescription>
+        <Category>Survival</Category>
+        <TargetValue>10</TargetValue>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>WitchDoctor</Moniker>
+        <Label>Witch Doctor</Label>
+        <Description>Use medicinal items</Description>
+        <BenifitDescription>Start with a cloak of rejuvenation</BenifitDescription>
+        <Category>Survival</Category>
+        <HandlerClass>WitchDoctorHandler</HandlerClass>
+        <TargetValue>50</TargetValue>
+    </AchievementDef>
+</Definitions>

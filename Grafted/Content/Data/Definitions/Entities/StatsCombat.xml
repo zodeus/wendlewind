@@ -4,42 +4,44 @@
     <StatDef>
         <Moniker>AttackSpeed</Moniker>
         <Label>Attack Speed</Label>
-        <HandlerClass>BodyStatHandler</HandlerClass>
+        <Description>Attacks per second</Description>
         <BaseValue>1</BaseValue>
         <MinValue>0.1</MinValue>
         <MaxValue>999</MaxValue>
     </StatDef>
     <StatDef>
-        <Moniker>AttackSpeedModifier</Moniker>
-        <Label>Attack Speed Modifier</Label>
-        <HandlerClass>BodyStatHandler</HandlerClass>
-        <BaseValue>0</BaseValue>
-        <MinValue>0</MinValue>
-        <MaxValue>99</MaxValue>
-    </StatDef>
-    <StatDef>
-        <Moniker>MeleeStrength</Moniker>
-        <Label>Melee Strength</Label>
-        <HandlerClass>BodyStatHandler</HandlerClass>
+        <Moniker>Strength</Moniker>
+        <Label>Strength</Label>
+        <Description>Damage multiplier</Description>
         <BaseValue>1</BaseValue>
         <MinValue>0</MinValue>
         <MaxValue>100</MaxValue>
     </StatDef>
     <StatDef>
-        <Moniker>MeleeAccuracy</Moniker>
-        <Label>Melee Accuracy</Label>
-        <HandlerClass>BodyStatHandler</HandlerClass>
+        <Moniker>Accuracy</Moniker>
+        <Label>Accuracy</Label>
+        <Description>Hit chance</Description>
         <BaseValue>1</BaseValue>
         <MinValue>0</MinValue>
         <MaxValue>1</MaxValue>
     </StatDef>
     <StatDef>
         <Moniker>Evasion</Moniker>
-        <Label>Chance to evade</Label>
-        <HandlerClass>BodyStatHandler</HandlerClass>
+        <Label>Evasion</Label>
+        <Description>Evasion chance</Description>
         <BaseValue>0</BaseValue>
         <MinValue>0</MinValue>
         <MaxValue>1</MaxValue>
+    </StatDef>
+
+
+    
+    <StatDef>
+        <Moniker>AttackSpeedModifier</Moniker>
+        <Label>Attack Speed Modifier</Label>
+        <BaseValue>0</BaseValue>
+        <MinValue>0</MinValue>
+        <MaxValue>99</MaxValue>
     </StatDef>
     <StatDef>
         <Moniker>PhysicalResistance</Moniker>
@@ -48,8 +50,8 @@
         <MinValue>0</MinValue>
     </StatDef>
     <StatDef>
-        <Moniker>MeleePower</Moniker>
-        <Label>Melee Power</Label>
+        <Moniker>WeaponPower</Moniker>
+        <Label>Weapon Power</Label>
         <BaseValue>1</BaseValue>
         <MinValue>0.1</MinValue>
         <MaxValue>1000</MaxValue>

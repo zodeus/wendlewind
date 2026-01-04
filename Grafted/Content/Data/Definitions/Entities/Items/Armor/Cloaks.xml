@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Definitions>
+    <ItemDef Name="CloakBase" ParentName="ArmorBase" Abstract="true">
+        <Moniker>CloakBase</Moniker>
+        <EquipmentProperties>
+            <SlotUsedToEquip>Cloak</SlotUsedToEquip>
+        </EquipmentProperties>
+    </ItemDef>
+    <ItemDef ParentName="CloakBase">
+        <Moniker>EvasionCloak</Moniker>
+        <Label>Cloak of Evasion</Label>
+        <Description>A cape that increases your evasion.</Description>
+        <TexturePath>Entities/Item/Equipment/Armor/Cloak/Evasion</TexturePath>
+        <BaseStats>
+            <MaxDurability>10000</MaxDurability>
+            <Evasion>0.1</Evasion>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="CloakBase">
+        <Moniker>StrengthCloak</Moniker>
+        <Label>Cloak of Strength</Label>
+        <Description>A cloak that increases your strength.</Description>
+        <TexturePath>Entities/Item/Equipment/Armor/Cloak/Strength</TexturePath>
+        <BaseStats>
+            <MaxDurability>10000</MaxDurability>
+            <Strength>3.0</Strength>
+        </BaseStats>
+    </ItemDef>  
+    <ItemDef ParentName="CloakBase">
+        <Moniker>RejuvenationCloak</Moniker>
+        <Label>Cloak of Rejuvenation</Label>
+        <EquipmentProperties>
+            <HandlerClass>RejuvenationCloakHandler</HandlerClass>
+        </EquipmentProperties>
+        <Description>A cloak that provides rejuvenation.</Description>
+        <TexturePath>Entities/Item/Equipment/Armor/Cloak/Rejuvenation</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="CloakBase">
+        <Moniker>RageCloak</Moniker>
+        <Label>Cloak of Rage</Label>
+        <Description>A cloak that engulfs your body in flames.</Description>
+        <TexturePath>Entities/Item/Equipment/Armor/Cloak/Rage</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="CloakBase">
+        <Moniker>ThornCloak</Moniker>
+        <Label>Cloak of Thorns</Label>
+        <Description>A cloak that covers you in thorns.</Description>
+        <TexturePath>Entities/Item/Equipment/Armor/Cloak/Thorns</TexturePath>
+    </ItemDef>
+</Definitions>

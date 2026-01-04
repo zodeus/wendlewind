@@ -18,8 +18,8 @@ public class DamageRequest
 
     public static DamageRequest Create(Pawn pawn, Item tool)
     {
-        var pawnStrength = pawn.GetStatValue(Defs.Stats.MeleeStrength);
-        var toolPower = tool.GetStatValue(Defs.Stats.MeleePower);
+        var pawnStrength = pawn.GetStatValue(Defs.Stats.Strength);
+        var toolPower = tool.GetStatValue(Defs.Stats.WeaponPower);
         var weaponManeuver = tool.ItemDef.WeaponProperties!.WeaponManeuvers.RandomElement();
         var skillPower = 1 + (pawn.GetSkill(tool.ItemDef.WeaponProperties!.WeaponType)?.Level * .1f ?? 0);
         var rawDamage = Mathf.RoundToInt(

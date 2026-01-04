@@ -10,8 +10,8 @@
         <TexturePath>Entities/Pawn/Creature/Rabbit/Bunny</TexturePath>
         <BaseStats>
             <AttackSpeed>4</AttackSpeed>
-            <MeleeStrength>1</MeleeStrength>
-            <MeleeAccuracy>.6</MeleeAccuracy>
+            <Strength>1</Strength>
+            <Accuracy>.6</Accuracy>
             <Evasion>.01</Evasion>
         </BaseStats>
     </PawnDef>
@@ -22,8 +22,8 @@
         <Body>PigBody</Body>
         <BaseStats>
             <AttackSpeed>3</AttackSpeed>
-            <MeleeStrength>1</MeleeStrength>
-            <MeleeAccuracy>.7</MeleeAccuracy>
+            <Strength>1</Strength>
+            <Accuracy>.7</Accuracy>
             <Evasion>.01</Evasion>
         </BaseStats>
         <TexturePath>Entities/Pawn/Creature/Pig/Boar</TexturePath>
@@ -35,8 +35,8 @@
         <Body>WolfBody</Body>
         <BaseStats>
             <AttackSpeed>2</AttackSpeed>
-            <MeleeStrength>1</MeleeStrength>
-            <MeleeAccuracy>.9</MeleeAccuracy>
+            <Strength>1</Strength>
+            <Accuracy>.9</Accuracy>
             <Evasion>.01</Evasion>
         </BaseStats>
         <TexturePath>Entities/Pawn/Creature/Wolf/Wolf</TexturePath>
@@ -48,8 +48,8 @@
         <Body>HorseBody</Body>
         <BaseStats>
             <AttackSpeed>1</AttackSpeed>
-            <MeleeStrength>1.2</MeleeStrength>
-            <MeleeAccuracy>.9</MeleeAccuracy>
+            <Strength>1.2</Strength>
+            <Accuracy>.9</Accuracy>
             <Evasion>.01</Evasion>
         </BaseStats>
         <TexturePath>Entities/Pawn/Creature/Horse/Horse</TexturePath>

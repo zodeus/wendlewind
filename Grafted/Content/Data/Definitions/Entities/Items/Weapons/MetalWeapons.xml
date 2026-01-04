@@ -44,7 +44,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronDagger</TexturePath>
         <BaseStats>
-            <MeleePower>25</MeleePower>
+            <WeaponPower>25</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -75,7 +75,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronSword</TexturePath>
         <BaseStats>
-            <MeleePower>25</MeleePower>
+            <WeaponPower>25</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -106,7 +106,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronAxe</TexturePath>
         <BaseStats>
-            <MeleePower>25</MeleePower>
+            <WeaponPower>25</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -145,7 +145,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronHammer</TexturePath>
         <BaseStats>
-            <MeleePower>25</MeleePower>
+            <WeaponPower>25</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -200,7 +200,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronMace</TexturePath>
         <BaseStats>
-            <MeleePower>25</MeleePower>
+            <WeaponPower>25</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -239,7 +239,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronClaws</TexturePath>
         <BaseStats>
-            <MeleePower>25</MeleePower>
+            <WeaponPower>25</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
         <DisassembleProperties>

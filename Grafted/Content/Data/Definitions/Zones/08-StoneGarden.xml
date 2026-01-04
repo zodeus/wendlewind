@@ -36,7 +36,6 @@
             <ListItem>
                 <MysteryProperties>
                     <PartsToRestore>2~4</PartsToRestore>
-                    <TexturePath>Biome/Mysterys/cave_mystery_1</TexturePath>
                     <RestorablePartTypes>
                         <ListItem>Thumb</ListItem>
                         <ListItem>Finger</ListItem>

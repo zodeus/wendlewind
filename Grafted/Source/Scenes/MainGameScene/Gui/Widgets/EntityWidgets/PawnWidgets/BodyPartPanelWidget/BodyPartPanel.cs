@@ -391,9 +391,8 @@ public sealed class BodyPartEquippedItemsWidget : VerticalStackPanel
             var durabilityBar = new HorizontalProgressBar(BaseContent.Styles.Bar.Durability)
             {
                 Width = 80,
-                Height = 8,
-                Value = (float)(item.Durability / item.MaxDurability * 100),
-                VerticalAlignment = VerticalAlignment.Center
+                Height = 12,
+                Value = item.Durability / item.MaxDurability * 100f
             };
             durabilityContainer.Widgets.Add(durabilityBar);
             

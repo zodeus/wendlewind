@@ -10,7 +10,6 @@ public sealed class PawnProfilePanel : ScrollViewer, IUpdatable
 {
     private readonly Pawn _pawn;
     private readonly Dictionary<Skill, SkillRow> _skillRows = new();
-    private readonly Dictionary<BaseStat, Label> _statLabels = new();
 
     public PawnProfilePanel(Pawn pawn)
     {
@@ -35,11 +34,7 @@ public sealed class PawnProfilePanel : ScrollViewer, IUpdatable
             content.Widgets.Add(CreateSkillsSection(combatSkills));
         }
 
-        // === STATS SECTION ===
-        if (pawn.Def.BaseStats.Any())
-        {
-            content.Widgets.Add(CreateStatsSection(pawn));
-        }
+       
 
         Content = content;
         Update();
@@ -155,58 +150,7 @@ public sealed class PawnProfilePanel : ScrollViewer, IUpdatable
         return section;
     }
 
-    private Widget CreateStatsSection(Pawn pawn)
-    {
-        var section = CreateSection("Attributes");
-
-        var statsContainer = new Grid
-        {
-            ColumnSpacing = 32,
-            RowSpacing = 8,
-            DefaultRowProportion = Proportion.Auto
-        };
-        statsContainer.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-        statsContainer.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-        statsContainer.ColumnsProportions.Add(new Proportion(ProportionType.Pixels, 40));
-        statsContainer.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-        statsContainer.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-
-        var stats = pawn.Def.BaseStats.ToList();
-        var halfCount = (stats.Count + 1) / 2;
-
-        for (var i = 0; i < stats.Count; i++)
-        {
-            var stat = stats[i];
-            var isRightColumn = i >= halfCount;
-            var gridRow = isRightColumn ? i - halfCount : i;
-            var nameCol = isRightColumn ? 3 : 0;
-            var valueCol = isRightColumn ? 4 : 1;
-
-            var nameLabel = new Label(BaseContent.Styles.Label.Normal)
-            {
-                Text = stat.Def.Label,
-                TextColor = new Color(170, 165, 155)
-            };
-            Grid.SetRow(nameLabel, gridRow);
-            Grid.SetColumn(nameLabel, nameCol);
-            statsContainer.Widgets.Add(nameLabel);
-
-            var valueLabel = new Label(BaseContent.Styles.Label.Normal)
-            {
-                Text = $"{pawn.GetStatValue(stat.Def):F2}",
-                TextColor = new Color(200, 180, 120),
-                HorizontalAlignment = HorizontalAlignment.Right
-            };
-            Grid.SetRow(valueLabel, gridRow);
-            Grid.SetColumn(valueLabel, valueCol);
-            statsContainer.Widgets.Add(valueLabel);
-
-            _statLabels[stat] = valueLabel;
-        }
-
-        section.Widgets.Add(statsContainer);
-        return section;
-    }
+    
 
     private static VerticalStackPanel CreateSection(string title)
     {
@@ -243,11 +187,6 @@ public sealed class PawnProfilePanel : ScrollViewer, IUpdatable
         foreach (var (skill, row) in _skillRows)
         {
             row.Update();
-        }
-
-        foreach (var (stat, label) in _statLabels)
-        {
-            label.Text = $"{_pawn.GetStatValue(stat.Def):F2}";
         }
     }
 

@@ -217,7 +217,7 @@ public class PawnBody : IExposable, IIdentityProvider
 
             if (affectedStat.Factor != null)
             {
-                value += (value * affectedStat.Factor.Value);
+                value += value * affectedStat.Factor.Value;
             }
 
             if (affectedStat.Offset != null)

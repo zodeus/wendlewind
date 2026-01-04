@@ -16,38 +16,34 @@ public class MainMenuScene : Scene
             Core.ChangeScene<GameScene>();
             return;
         }
-        
-        var grid = new Panel()
+
+        var panel = new Panel()
         {
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center,
-            Background = new TextureRegion(TextureUtils.PreMultiply(BaseContent.Textures.MainMenuBackground)), Width = 1200, Height = 1200
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright],
+            Width = 900,
+            Height = 420,
+            Padding = new Thickness(8)
+
         };
 
-        var buttonPanel = new VerticalStackPanel
-        {
-            Margin = new Thickness(80, 0, 0, 0),
-            Spacing = 20, VerticalAlignment = VerticalAlignment.Center
-        };
-        var newGame = new Image
-        {
-            Background = new TextureRegion(TextureUtils.PreMultiply(BaseContent.Textures.MainMenuPlay)),
-            OverBackground = new TextureRegion(TextureUtils.PreMultiply(BaseContent.Textures.MainMenuPlayOver)),
-            Width = 256, Height = 80
-        };
-        var quit = new Image
-        {
-            Background = new TextureRegion(TextureUtils.PreMultiply(BaseContent.Textures.MainMenuQuit)), Width = 256, Height = 80
-        };
-        newGame.TouchDown += (_, _) => Core.ChangeScene<GameScene>();
-        buttonPanel.Widgets.Add(newGame);
-        buttonPanel.Widgets.Add(quit);
-        grid.Widgets.Add(buttonPanel);
+        panel.Widgets.Add(new Image() { Background = new TextureRegion(BaseContent.Textures.MainMenuBackground), Width = 900, Height = 420 });
 
         _desktop = new Desktop
         {
-            Root = grid
+            Root = new VerticalStackPanel
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Spacing = 20,
+                Widgets = {
+                    panel,
+                    new Label(BaseContent.Styles.Label.Normal) {Text = "Click anywhere to start", HorizontalAlignment = HorizontalAlignment.Center}
+                }
+            }
         };
+        _desktop.Root.TouchDown += (_, _) => Core.ChangeScene<GameScene>();
         Core.ConfigureDesktopScaling(_desktop);
     }
 

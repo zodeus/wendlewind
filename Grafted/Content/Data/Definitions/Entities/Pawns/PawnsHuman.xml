@@ -9,8 +9,8 @@
         <Body>HumanBody</Body>
         <BaseStats>
             <AttackSpeed>1</AttackSpeed>
-            <MeleeStrength>1</MeleeStrength>
-            <MeleeAccuracy>.80</MeleeAccuracy>
+            <Strength>1</Strength>
+            <Accuracy>.80</Accuracy>
             <Evasion>.02</Evasion>
         </BaseStats>
         <TexturePath>Entities/Pawn/Creature/Human/Human1</TexturePath>
@@ -22,8 +22,8 @@
         <Body>HumanBody</Body>
         <BaseStats>
             <AttackSpeed>2</AttackSpeed>
-            <MeleeStrength>2</MeleeStrength>
-            <MeleeAccuracy>.80</MeleeAccuracy>
+            <Strength>2</Strength>
+            <Accuracy>.80</Accuracy>
             <Evasion>.02</Evasion>
         </BaseStats>
         <TexturePath>Entities/Pawn/Creature/Human/Grainer</TexturePath>
@@ -35,8 +35,8 @@
         <Body>HumanBody</Body>
         <BaseStats>
             <AttackSpeed>2</AttackSpeed>
-            <MeleeStrength>1.5</MeleeStrength>
-            <MeleeAccuracy>.80</MeleeAccuracy>
+            <Strength>1.5</Strength>
+            <Accuracy>.80</Accuracy>
             <Evasion>.02</Evasion>
         </BaseStats>
         <TexturePath>Entities/Pawn/Creature/Human/GrainBandit</TexturePath>

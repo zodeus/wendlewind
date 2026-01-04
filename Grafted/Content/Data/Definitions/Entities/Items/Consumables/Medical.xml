@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
     <ItemDef Name="MedicalItem" ParentName="ItemBase" Abstract="true">
@@ -48,14 +48,14 @@
             <HandlerClass>ArterialThreadsHandler</HandlerClass>
         </MedicinalProperties>
         <CraftingProperties>
-            <AmountProduced>1</AmountProduced>
+            <AmountProduced>2</AmountProduced>
             <RequiredTrinkets>
                 <ListItem>TinkersToolbox</ListItem>
             </RequiredTrinkets>
             <ResourceRequirements>
                 <ListItem>
                     <Item>Thread</Item>
-                    <Count>2</Count>
+                    <Count>1</Count>
                 </ListItem>
             </ResourceRequirements>
         </CraftingProperties>
@@ -65,6 +65,7 @@
         <Label>Menders Mist</Label>
         <Description>A little spritz of this goes a long way. Heals bone, flesh and skin. Travels through sockets.</Description>
         <TexturePath>Entities/Item/Consumables/MendersMist</TexturePath>
+        <UiClass>MendersMistPanel</UiClass>
         <MedicinalProperties>
             <HandlerClass>MendersMistHandler</HandlerClass>
         </MedicinalProperties>
@@ -147,36 +148,5 @@
                 </ListItem>
             </ResourceRequirements>
         </CraftingProperties>
-    </ItemDef>
-    <ItemDef ParentName="MedicalItem">
-        <Moniker>Rejuvenator</Moniker>
-        <Label>Rejuvenator</Label>
-        <Description></Description>
-        <TexturePath>Entities/Item/Consumables/Rejuvenator</TexturePath>
-        <MedicinalProperties>
-            
-        </MedicinalProperties>
-        <!-- <CraftingProperties>
-            <AmountProduced>1</AmountProduced>
-            <RequiredTrinkets>
-                <ListItem>TinkersToolbox</ListItem>
-                <ListItem>VialOfDuplicity</ListItem>
-                <ListItem>ThirdEye</ListItem>
-            </RequiredTrinkets>
-            <ResourceRequirements>
-                <ListItem>
-                    <Item>MendersMist</Item>
-                    <Count>1</Count>
-                </ListItem>
-                <ListItem>
-                    <Item>MedKit</Item>
-                    <Count>1</Count>
-                </ListItem>
-                <ListItem>
-                    <Item>BalmyOintment</Item>
-                    <Count>1</Count>
-                </ListItem>
-            </ResourceRequirements>
-        </CraftingProperties> -->
     </ItemDef>
 </Definitions>

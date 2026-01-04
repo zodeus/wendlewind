@@ -16,6 +16,11 @@ public class RotLung : BodyPartModifier
 
     public override bool ApplyToPart(BodyPart part)
     {
+        if (part.Body?.Pawn.Inventory.Contains(Defs.Items.PlagueMask) == true)
+        {
+            return false;
+        }
+        
         if (part.Type is not (BodyPartType.Head or BodyPartType.Neck or BodyPartType.Torso) && Maneuver != ModifierManeuver)
         {
             return false;

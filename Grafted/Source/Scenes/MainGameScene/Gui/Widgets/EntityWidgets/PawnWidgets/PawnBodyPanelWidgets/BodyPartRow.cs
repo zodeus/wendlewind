@@ -100,6 +100,7 @@ internal sealed class BodyPartRow : HorizontalStackPanel
         {
             if (item.ItemDef.ItemType == ItemType.Medical && item.MedicinalHandler?.ApplyToPart(item, part) == true)
             {
+                Core.Context.Achievements.OnItemUsed(Core.Context.PlayerPawn, item);
                 item.StackSize--;
                 _gui.WorldTextHandler.Add(new WorldSpaceText
                 {

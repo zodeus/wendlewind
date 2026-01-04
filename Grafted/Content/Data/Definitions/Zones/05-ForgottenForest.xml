@@ -49,12 +49,6 @@
                         <ListItem>Hand</ListItem>
                     </RestorablePartTypes>
                 </MysteryProperties>
-                <MaxBoxes>1</MaxBoxes>
-                <PotentialLootBoxes>
-                    <ListItem>ArmorChest2</ListItem>
-                    <ListItem>WeaponChest2</ListItem>
-                    <ListItem>TrinketChest2</ListItem>
-                </PotentialLootBoxes>
             </ListItem>
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>

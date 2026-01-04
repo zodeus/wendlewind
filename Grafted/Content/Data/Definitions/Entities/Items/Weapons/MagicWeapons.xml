@@ -22,7 +22,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Magic/FireStaff</TexturePath>
         <BaseStats>
-            <MeleePower>15</MeleePower>
+            <WeaponPower>15</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
     </ItemDef>

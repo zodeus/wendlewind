@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Definitions>
+    <!-- Combat Achievements -->    
+    <AchievementDef>
+        <Moniker>FirstBlood</Moniker>
+        <Label>First Blood</Label>
+        <Description>Kill your first enemy</Description>
+        <Category>Combat</Category>
+        <BenifitDescription>Worthless</BenifitDescription>
+        <HandlerClass>FirstBloodHandler</HandlerClass>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>BrainTickler</Moniker>
+        <Label>Brain Tickler</Label>
+        <Description>Hit the brain</Description>
+        <Category>Combat</Category>
+        <TargetValue>100</TargetValue>
+        <BenifitDescription>Not implemented</BenifitDescription>
+        <HandlerClass>BrainTicklerHandler</HandlerClass>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>TisButAScratch</Moniker>
+        <Label>Tis' But a Scratch!</Label>
+        <Description>Lose an arm or leg</Description>
+        <Category>Combat</Category>
+        <TargetValue>1</TargetValue>
+        <BenifitDescription>Start with a random armor piece</BenifitDescription>
+        <HandlerClass>TisButAScratchHandler</HandlerClass>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>JustTheTip</Moniker>
+        <Label>Just the Tip</Label>
+        <Description>Sever fingers and thumbs</Description>
+        <Category>Combat</Category>
+        <BenifitDescription>Not implemented</BenifitDescription>
+        <HandlerClass>JustTheTipHandler</HandlerClass>
+        <TargetValue>120</TargetValue>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>TwoIDontNeedTwo</Moniker>
+        <Label>Two! I Don't Need Two!</Label>
+        <Description>Lose both eyes and survive</Description>
+        <Category>Combat</Category>
+        <TraitDef>EyeDrops</TraitDef>
+        <HandlerClass>TwoIDontNeedTwoHandler</HandlerClass>
+        <IsHidden>true</IsHidden>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>Butcher</Moniker>
+        <Label>Butcher</Label>
+        <Description>Kill enemies</Description>
+        <Category>Combat</Category>
+        <TargetValue>100</TargetValue>
+        <TraitDef>SausageFingers</TraitDef>
+        <HandlerClass>ButcherHandler</HandlerClass>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>TheExecutionersBitch</Moniker>
+        <Label>The Executioner's Bitch</Label>
+        <Description>Who likes getting hit in the neck... you do</Description>
+        <Category>Combat</Category>
+        <TargetValue>100</TargetValue>
+        <TraitDef>LeaveMyNeckAlone</TraitDef>
+        <HandlerClass>TheExecutionersBitchHandler</HandlerClass>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>BunnyBopper</Moniker>
+        <Label>Bunny Bopper</Label>
+        <Description>Kill them bunnies.</Description>
+        <BenifitDescription>Start with a random armor piece</BenifitDescription>
+        <Category>Combat</Category>
+        <HandlerClass>BunnyBopperHandler</HandlerClass>
+        <TargetValue>16</TargetValue>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>Slayer</Moniker>
+        <Label>Slayer</Label>
+        <Description>Kill more enemies</Description>
+        <BenifitDescription>Not implemented</BenifitDescription>
+        <Category>Combat</Category>
+        <TargetValue>500</TargetValue>
+        <HandlerClass>EnemyKilledHandler</HandlerClass>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>TheLopper</Moniker>
+        <Label>The "Lopper"</Label>
+        <Description>Sever heads, a lot of them</Description>
+        <BenifitDescription>Not implemented</BenifitDescription>
+        <Category>Combat</Category>
+        <TargetValue>9</TargetValue>
+        <HandlerClass>TheLopperHandler</HandlerClass>
+        <IsHidden>true</IsHidden>
+    </AchievementDef>
+</Definitions>

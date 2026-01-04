@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Definitions>    
+    <!-- 
+
+    <AchievementDef>
+        <Moniker>YouBloodyBitch</Moniker>
+        <Label>You Bloody Bitch</Label>
+        <Description>Be hit by a lot of damage.</Description>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+        <Category>Combat</Category>
+        <TargetValue>5001</TargetValue>
+        <HandlerClass>YouBloodyBitchHandler</HandlerClass>
+        <IsHidden>true</IsHidden>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>TheSpicer</Moniker>
+        <Label>The Spicer</Label>
+        <Description>Use 10 different potions.</Description>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+        <Category>Consumables</Category>
+        <HandlerClass>PotionUsedHandler</HandlerClass>
+        <TargetValue>10</TargetValue>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>OhWowYourBodyIsEatingYou</Moniker>
+        <Label>Oh Wow! Your Body is Eating You</Label>
+        <Description>Experience severe starvation.</Description>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+        <Category>Survival</Category>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>Looter</Moniker>
+        <Label>Looter</Label>
+        <Description>Loot 50 items from defeated enemies.</Description>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+        <Category>Exploration</Category>
+        <HandlerClass>ItemLootedHandler</HandlerClass>
+        <TargetValue>50</TargetValue>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>HeadBanger</Moniker>
+        <Label>Head Banger</Label>
+        <Description>Sever 5 enemy heads.</Description>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+        <Category>Combat</Category>
+        <HandlerClass>SeverBodyPartHandler</HandlerClass>
+        <TargetValue>5</TargetValue>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>OneDiesTheRestLives</Moniker>
+        <Label>One Dies, The Rest Lives!</Label>
+        <Description>Win a fight after losing a vital organ.</Description>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+        <Category>Combat</Category>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>TarredBlood</Moniker>
+        <Label>Tarred Blood</Label>
+        <Description>Acquire the Tarred Blood trait.</Description>
+        <Category>Traits</Category>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>SyntheticArteries</Moniker>
+        <Label>Synthetic Arteries</Label>
+        <Description>Replace your arteries with synthetic ones.</Description>
+        <Category>Traits</Category>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>RandomBits</Moniker>
+        <Label>Random Bits</Label>
+        <Description>Have 5 different body part types grafted.</Description>
+        <Category>Traits</Category>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>ArterialToughness</Moniker>
+        <Label>Arterial Toughness</Label>
+        <Description>Increase your blood capacity.</Description>
+        <Category>Traits</Category>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>BloodBloated</Moniker>
+        <Label>Blood Bloated</Label>
+        <Description>Exceed maximum blood capacity.</Description>
+        <Category>Traits</Category>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>CarbonWeavedLigaments</Moniker>
+        <Label>Carbon Weaved Ligaments</Label>
+        <Description>Reinforce your ligaments with carbon fiber.</Description>
+        <Category>Traits</Category>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>ElvenGrace</Moniker>
+        <Label>Elven Grace</Label>
+        <Description>Achieve supernatural agility.</Description>
+        <Category>Traits</Category>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+        </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>GodTouched</Moniker>
+        <Label>God Touched</Label>
+        <Description>Receive a blessing from a deity.</Description>
+        <Category>Traits</Category>
+        <IsHidden>true</IsHidden>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>MarkedByAGod</Moniker>
+        <Label>Marked by a God</Label>
+        <Description>Bear the permanent mark of a divine being.</Description>
+        <Category>Traits</Category>
+        <IsHidden>true</IsHidden>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>VampireThirst</Moniker>
+        <Label>Vampire Thirst</Label>
+        <Description>Develop an unquenchable thirst for blood.</Description>
+        <Category>Traits</Category>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+    </AchievementDef>
+    
+    
+    <AchievementDef>
+        <Moniker>ZoneExplorer</Moniker>
+        <Label>Zone Explorer</Label>
+        <Description>Complete 5 zones.</Description>
+        <Category>Exploration</Category>
+        <TargetValue>5</TargetValue>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+    </AchievementDef>
+    
+    <AchievementDef>
+        <Moniker>Dismemberer</Moniker>
+        <Label>Dismemberer</Label>
+        <Description>Sever 10 enemy body parts.</Description>
+        <Category>Combat</Category>
+        <TargetValue>10</TargetValue>
+        <BenifitDescription>Not implemented.</BenifitDescription>
+    </AchievementDef> -->
+</Definitions>

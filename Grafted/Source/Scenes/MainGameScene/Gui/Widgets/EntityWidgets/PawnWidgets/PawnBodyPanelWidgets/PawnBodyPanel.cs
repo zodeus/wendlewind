@@ -38,6 +38,7 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
         Widgets.Add(_capabilitiesOverlay);
 
         GenerateSkeleton();
+        Update();
     }
 
     private void GenerateSkeleton()

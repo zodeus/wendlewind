@@ -20,7 +20,7 @@ internal sealed class BoakItemsWeaponPanel : Panel
 
     public BoakItemsWeaponPanel(IReadOnlyList<ItemDef> defs, IReadOnlyList<WeaponManeuverDef> toolManeuverDefs)
     {
-        _allDefs = defs.OrderBy(d => d.BaseStats.FirstOrNull(s => s?.Def == Defs.Stats.MeleePower)?.Value).ToList();
+        _allDefs = defs.OrderBy(d => d.BaseStats.FirstOrNull(s => s?.Def == Defs.Stats.WeaponPower)?.Value).ToList();
 
         var rootContainer = new VerticalStackPanel { Spacing = 0 };
 
@@ -179,7 +179,7 @@ internal sealed class BoakItemsWeaponPanel : Panel
             AddDataCell(rowGrid, damageTypeContainer, 1);
 
             // Damage
-            var damage = def.BaseStats.FirstOrNull(s => s?.Def == Defs.Stats.MeleePower)?.Value;
+            var damage = def.BaseStats.FirstOrNull(s => s?.Def == Defs.Stats.WeaponPower)?.Value;
             AddDataCell(rowGrid, CreateValueLabel(damage?.ToString() ?? "—", GetDamageColor(damage)), 2);
 
             // Durability

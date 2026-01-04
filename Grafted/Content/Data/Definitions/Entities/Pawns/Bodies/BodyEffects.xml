@@ -7,7 +7,7 @@
         <TexturePath>Entities/Pawn/BodyEffects/FoodPoisoning</TexturePath>
         <AffectedStats>
             <ListItem>
-                <Stat>MeleeStrength</Stat>
+                <Stat>Strength</Stat>
                 <Factor>-.10</Factor>
             </ListItem>
             <ListItem>
@@ -22,7 +22,7 @@
         <TexturePath>Entities/Pawn/BodyEffects/BeefedUp</TexturePath>
         <AffectedStats>
             <ListItem>
-                <Stat>MeleeStrength</Stat>
+                <Stat>Strength</Stat>
                 <Offset>.15</Offset>
             </ListItem>
             <ListItem>
@@ -37,7 +37,7 @@
         <TexturePath>Entities/Pawn/BodyEffects/BeefedUpPlus</TexturePath>
         <AffectedStats>
             <ListItem>
-                <Stat>MeleeStrength</Stat>
+                <Stat>Strength</Stat>
                 <Offset>.30</Offset>
             </ListItem>
             <ListItem>
@@ -52,7 +52,7 @@
         <TexturePath>Entities/Pawn/BodyEffects/Fishy</TexturePath>
         <AffectedStats>
             <ListItem>
-                <Stat>MeleeStrength</Stat>
+                <Stat>Strength</Stat>
                 <Offset>.30</Offset>
             </ListItem>
             <ListItem>
@@ -79,7 +79,7 @@
         <Description>You've danced in the flames of glittering wood, your skin absorbed a pungent smoke</Description>
         <AffectedStats>
             <ListItem>
-                <Stat>MeleeAccuracy</Stat>
+                <Stat>Accuracy</Stat>
                 <Offset>.05</Offset>
             </ListItem>
             <ListItem>
@@ -96,7 +96,7 @@
         <Notes>Higher reality perception</Notes>
         <AffectedStats>
             <ListItem>
-                <Stat>MeleeAccuracy</Stat>
+                <Stat>Accuracy</Stat>
                 <Offset>.075</Offset>
             </ListItem>
             <ListItem>
@@ -117,7 +117,7 @@
         <Notes>Higher reality perception</Notes>
         <AffectedStats>
             <ListItem>
-                <Stat>MeleeAccuracy</Stat>
+                <Stat>Accuracy</Stat>
                 <Offset>1</Offset>
             </ListItem>
             <ListItem>
@@ -133,7 +133,7 @@
         <Notes>Full body health regeneration</Notes>
         <AffectedStats>
             <ListItem>
-                <Stat>MeleeStrength</Stat>
+                <Stat>Strength</Stat>
                 <Factor>0.20</Factor>
             </ListItem>
         </AffectedStats>
@@ -154,5 +154,29 @@
         <Label>Fruiting Out</Label>
         <Notes>Energy drain decreased</Notes>
         <TexturePath>Entities/Pawn/BodyEffects/Fruiting</TexturePath>
+    </BodyEffectDef>
+    <BodyEffectDef>
+        <Moniker>PotentiaNucis</Moniker>
+        <Label>Potentia Nucis</Label>
+        <Notes>Extreme power flow through your veins</Notes>
+        <TexturePath>Entities/Pawn/BodyEffects/PotentiaNucis</TexturePath>
+        <AffectedStats>
+            <ListItem>
+                <Stat>Accuracy</Stat>
+                <Offset>.075</Offset>
+            </ListItem>
+            <ListItem>
+                <Stat>Evasion</Stat>
+                <Offset>.04</Offset>
+            </ListItem>
+            <ListItem>
+                <Stat>AttackSpeed</Stat>
+                <Offset>2</Offset>
+            </ListItem>
+            <ListItem>
+                <Stat>Strength</Stat>
+                <Factor>0.30</Factor>
+            </ListItem>
+        </AffectedStats>
     </BodyEffectDef>
 </Definitions>

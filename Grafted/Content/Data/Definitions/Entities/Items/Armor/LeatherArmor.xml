@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Definitions>
     <ItemDef Name="LeatherArmorBase" ParentName="ArmorBase" Abstract="true">
+        <ItemType>Equipment</ItemType>
         <BaseStats>
             <PhysicalResistance>10</PhysicalResistance>
             <MaxDurability>200</MaxDurability>
@@ -9,7 +10,6 @@
     <ItemDef ParentName="LeatherArmorBase">
         <Moniker>LeatherHelmet</Moniker>
         <Label>Leather Helmet</Label>
-        <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>
@@ -31,7 +31,6 @@
     <ItemDef ParentName="LeatherArmorBase">
         <Moniker>LeatherGlove</Moniker>
         <Label>Leather Glove</Label>
-        <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>HandArmor</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>
@@ -56,7 +55,6 @@
     <ItemDef ParentName="LeatherArmorBase">
         <Moniker>LeatherVambrace</Moniker>
         <Label>Leather Vambrace</Label>
-        <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>ArmArmor</SlotUsedToEquip>
         </EquipmentProperties>
@@ -77,7 +75,6 @@
     <ItemDef ParentName="LeatherArmorBase">
         <Moniker>LeatherGorget</Moniker>
         <Label>Leather Gorget</Label>
-        <ItemType>Equipment</ItemType>
         <Description>Fits snuggly around your neck</Description>
         <EquipmentProperties>
             <SlotUsedToEquip>NeckArmor</SlotUsedToEquip>
@@ -99,7 +96,6 @@
     <ItemDef ParentName="LeatherArmorBase">
         <Moniker>LeatherBoot</Moniker>
         <Label>Leather Boot</Label>
-        <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>FootArmor</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>
@@ -124,7 +120,6 @@
     <ItemDef ParentName="LeatherArmorBase">
         <Moniker>LeatherGreave</Moniker>
         <Label>Leather Greave</Label>
-        <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>LegArmor</SlotUsedToEquip>
         </EquipmentProperties>
@@ -149,7 +144,6 @@
     <ItemDef ParentName="LeatherArmorBase">
         <Moniker>LeatherTunic</Moniker>
         <Label>Leather Tunic</Label>
-        <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>TorsoArmor</SlotUsedToEquip>
         </EquipmentProperties>

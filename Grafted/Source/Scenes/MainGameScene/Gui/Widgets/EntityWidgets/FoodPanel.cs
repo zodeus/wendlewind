@@ -182,11 +182,6 @@ public sealed class FoodPanel : EntityPanelBase
             FoodType.CookedVegetable => "Cooked Vegetable",
             FoodType.CookedMeat => "Cooked Meat",
             FoodType.DriedMeat => "Dried Meat",
-            FoodType.Fungi => "Fungi",
-            FoodType.Meat => "Meat",
-            FoodType.Fish => "Fish",
-            FoodType.Berry => "Berry",
-            FoodType.Fruit => "Fruit",
             _ => foodType.ToString()
         };
     }

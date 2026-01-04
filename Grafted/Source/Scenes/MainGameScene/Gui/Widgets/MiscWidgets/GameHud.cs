@@ -125,13 +125,9 @@ public sealed class GameHud : HorizontalStackPanel
         Button pawn = CreateHudButton(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Human], Color.DarkGoldenrod);
         pawn.TouchDown += (_, _) => { gui.ViewEntity(context.PlayerPawn); };
 
-        Button timeline = CreateHudButton(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Combat]);
-        timeline.TouchDown += (_, _) => { ZoneTimelineWindow.Toggle(Desktop); };
-
         leftPanel.Widgets.Add(achievements);
         leftPanel.Widgets.Add(kills);
         leftPanel.Widgets.Add(pawn);
-        leftPanel.Widgets.Add(timeline);
 
 
         // Auto start toggle
@@ -159,7 +155,7 @@ public sealed class GameHud : HorizontalStackPanel
             context.TogglePause();
         };
         
-        var pausedPanel = new HorizontalStackPanel
+        var pausedPanel = new VerticalStackPanel
         {
             Spacing = 6,
             VerticalAlignment = VerticalAlignment.Top,
@@ -277,8 +273,8 @@ public sealed class GameHud : HorizontalStackPanel
             Content = new Image
             {
                 Background = icon,
-                Width = 32,
-                Height = 32
+                Width = 48,
+                Height = 48
             },
             Padding = new Thickness(6),
             VerticalAlignment = VerticalAlignment.Center
