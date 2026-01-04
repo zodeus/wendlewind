@@ -53,7 +53,7 @@
                         <SpawnWeight>1</SpawnWeight>
                         <InventoryItems>
                             <ListItem>
-                                <Item>PurpleJuice</Item>
+                                <Item>SpicedChurni</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>.25</ChanceToDrop>
                             </ListItem>
@@ -80,7 +80,7 @@
                         </Skills>
                         <InventoryItems>
                             <ListItem>
-                                <Item>PurpleJuice</Item>
+                                <Item>SpicedChurni</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>.75</ChanceToDrop>
                             </ListItem>
@@ -137,7 +137,7 @@
                         </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
-                                <Item>PurpleJuice</Item>
+                                <Item>SpicedChurni</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>

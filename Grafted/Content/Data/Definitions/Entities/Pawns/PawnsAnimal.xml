@@ -7,7 +7,6 @@
         <Label>Rabbit</Label>
         <Species>Rabbit</Species>
         <Body>RabbitBody</Body>
-        <TexturePath>Entities/Pawn/Creature/Rabbit/Bunny</TexturePath>
         <BaseStats>
             <AttackSpeed>4</AttackSpeed>
             <Strength>1</Strength>
@@ -26,7 +25,6 @@
             <Accuracy>.7</Accuracy>
             <Evasion>.01</Evasion>
         </BaseStats>
-        <TexturePath>Entities/Pawn/Creature/Pig/Boar</TexturePath>
     </PawnDef>
     <PawnDef ParentName="BaseAnimal">
         <Moniker>Wolf</Moniker>
@@ -39,7 +37,6 @@
             <Accuracy>.9</Accuracy>
             <Evasion>.01</Evasion>
         </BaseStats>
-        <TexturePath>Entities/Pawn/Creature/Wolf/Wolf</TexturePath>
     </PawnDef>
     <PawnDef ParentName="BaseAnimal">
         <Moniker>Horse</Moniker>
@@ -52,6 +49,5 @@
             <Accuracy>.9</Accuracy>
             <Evasion>.01</Evasion>
         </BaseStats>
-        <TexturePath>Entities/Pawn/Creature/Horse/Horse</TexturePath>
     </PawnDef>
 </Definitions>

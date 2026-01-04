@@ -217,6 +217,15 @@ public sealed class DisassembleItemCard : Panel
             outputSection.Widgets.Add(CreateResourceOutput(resource));
         }
 
+        // Show enchantments that will be returned
+        if (_item.Enchantments != null)
+        {
+            foreach (var enchantment in _item.Enchantments)
+            {
+                outputSection.Widgets.Add(CreateEnchantmentOutput(enchantment));
+            }
+        }
+
         mainLayout.Widgets.Add(outputSection);
 
         // Spacer to push button to right
@@ -285,6 +294,46 @@ public sealed class DisassembleItemCard : Panel
         return container;
     }
 
+    private static Widget CreateEnchantmentOutput(Item enchantment)
+    {
+        var container = new VerticalStackPanel
+        {
+            Spacing = 2,
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
+
+        var iconFrame = new Panel
+        {
+            Width = 48,
+            Height = 48,
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundDark64],
+            Padding = new Thickness(4),
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
+
+        iconFrame.Widgets.Add(new Image
+        {
+            Background = new TextureRegion(enchantment.Icon),
+            Width = 40,
+            Height = 40,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center
+        });
+
+        container.Widgets.Add(iconFrame);
+
+        container.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = enchantment.Label,
+            TextColor = new Color(180, 140, 255),
+            HorizontalAlignment = HorizontalAlignment.Center,
+            MaxWidth = 60,
+            Wrap = true
+        });
+
+        return container;
+    }
+
     private Button CreateDisassembleButton()
     {
         var button = new Button(BaseContent.Styles.Button.Dark)
@@ -339,6 +388,15 @@ public sealed class DisassembleItemCard : Panel
             Core.Context.PlayerPawn.Inventory.TryAdd(
                 EntityGenerator.CreateEntity<Item>(resource.Item, resource.Count)
             );
+        }
+
+        // Return enchantments to inventory
+        if (_item.Enchantments != null)
+        {
+            foreach (var enchantment in _item.Enchantments)
+            {
+                Core.Context.PlayerPawn.Inventory.TryAdd(enchantment);
+            }
         }
 
         Core.Context.Achievements.OnItemDisassembled(_item);

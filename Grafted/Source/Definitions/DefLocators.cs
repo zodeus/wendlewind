@@ -133,7 +133,7 @@ public static partial class Defs
         public static ItemDef RepairKit = null!;
         public static ItemDef JarOfBlood = null!;
         public static ItemDef AcidFlask = null!;
-        public static ItemDef PurpleJuice = null!;
+        public static ItemDef SpicedChurni = null!;
         public static ItemDef Firewood = null!;
         public static ItemDef WoodBoard = null!;
         public static ItemDef WeepingBucket = null!;

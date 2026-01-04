@@ -251,7 +251,7 @@ public class CombatHandler : IDisposable
     {
         if (ItemQueuedFor(Enemy) != null || !Core.Random.Chance(0.01f)) return;
 
-        var usablePotions = new List<ItemDef> { Defs.Items.AcidFlask, Defs.Items.PurpleJuice };
+        var usablePotions = new List<ItemDef> { Defs.Items.AcidFlask, Defs.Items.SpicedChurni };
         foreach (var potionDef in usablePotions)
         {
             if (Enemy.Equipment.PotionByDef(potionDef) is { } potion)
@@ -314,9 +314,9 @@ public class CombatHandler : IDisposable
                 pawn.Equipment.UnEquip(potion);
             }
 
-            if (potion.Def == Defs.Items.PurpleJuice)
+            if (potion.Def == Defs.Items.SpicedChurni)
             {
-                UsePurpleJuice(potion, pawn);
+                UseSpicedChurni(potion, pawn);
                 pawn.Equipment.UnEquip(potion);
             }
 
@@ -352,7 +352,7 @@ public class CombatHandler : IDisposable
         return _queuedItems.ContainsKey(pawn) ? _queuedItems[pawn] : null;
     }
 
-    private void UsePurpleJuice(Item potion, Pawn target)
+    private void UseSpicedChurni(Item potion, Pawn target)
     {
         var duration = (int)potion.GetStatValue(Defs.Stats.PotionDuration);
         target.Body.AllParts.ForEach(p => p.TryAddModifier(

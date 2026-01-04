@@ -13,7 +13,6 @@
             <Accuracy>.80</Accuracy>
             <Evasion>.02</Evasion>
         </BaseStats>
-        <TexturePath>Entities/Pawn/Creature/Human/Human1</TexturePath>
     </PawnDef>
     <PawnDef ParentName="BaseHumanRace">
         <Moniker>HumanB</Moniker>
@@ -26,7 +25,6 @@
             <Accuracy>.80</Accuracy>
             <Evasion>.02</Evasion>
         </BaseStats>
-        <TexturePath>Entities/Pawn/Creature/Human/Grainer</TexturePath>
     </PawnDef>
     <PawnDef ParentName="BaseHumanRace">
         <Moniker>HumanC</Moniker>
@@ -39,6 +37,5 @@
             <Accuracy>.80</Accuracy>
             <Evasion>.02</Evasion>
         </BaseStats>
-        <TexturePath>Entities/Pawn/Creature/Human/GrainBandit</TexturePath>
     </PawnDef>
 </Definitions>

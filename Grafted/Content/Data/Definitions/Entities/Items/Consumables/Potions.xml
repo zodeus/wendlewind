@@ -42,13 +42,13 @@
         </CraftingProperties>
     </ItemDef>
     <ItemDef ParentName="Potion">
-        <Moniker>PurpleJuice</Moniker>
-        <Label>Purple Juice</Label>
+        <Moniker>SpicedChurni</Moniker>
+        <Label>Spiced Churni</Label>
         <BaseStats>
             <PotionDuration>1200</PotionDuration>
         </BaseStats>
-        <Description>Ancient battle medicine.</Description>
-        <TexturePath>Entities/Item/Consumables/PurpleJuice</TexturePath>
+        <Description>A warm hug for your body.</Description>
+        <TexturePath>Entities/Item/Consumables/SpicedChurni</TexturePath>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
             <RequiredTrinkets>
