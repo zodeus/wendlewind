@@ -58,7 +58,7 @@ public sealed class SlingshotPanel : EntityPanelBase
         var ammoColumn = new VerticalStackPanel
         {
             Spacing = 6,
-            Width = 300
+            Width = 320
         };
 
         // Loaded ammo section

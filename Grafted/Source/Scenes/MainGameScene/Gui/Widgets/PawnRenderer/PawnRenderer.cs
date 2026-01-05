@@ -335,7 +335,7 @@ public class PawnRenderer : IDisposable
         // Calculate scale to fit render target
         float layoutScale = (float)_renderSize / _layout.NativeSize;
         
-        // Render each part and its equipped weapons (weapons render just behind the part)
+        // Render each part and its equipped weapons/armor
         foreach (var (part, info) in renderList)
         {
             // Render equipped weapons BEFORE the body part (so they appear behind/underneath)
@@ -343,6 +343,9 @@ public class PawnRenderer : IDisposable
             
             var tint = BodyPartColor.Get(part);
             BodyPartRenderHelper.RenderBodyPart(spriteBatch, info, layoutScale: layoutScale, tint: tint);
+            
+            // Render equipped armor AFTER the body part (so it appears on top)
+            BodyPartRenderHelper.RenderEquippedArmor(spriteBatch, part, info, layoutScale: layoutScale);
         }
     }
 

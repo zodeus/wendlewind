@@ -3,7 +3,7 @@ namespace Grafted.Sim.Entities.Items.Trinkets;
 [UsedImplicitly]
 public class SteroidInjectorHandler : TrinketHandler
 {
-    public double TotalDamage;
+    public double FuelLevel;
 
     private static readonly SimpleCurve CostCurve =
     [
@@ -34,19 +34,24 @@ public class SteroidInjectorHandler : TrinketHandler
 
     public override void PostCombatAction(PostCombatReport postCombatReport)
     {
-        var range = new RangeFloat(0.8f, 1.2f);
-        TotalDamage = postCombatReport.TotalDirectPlayerDamage;
+        FuelLevel = postCombatReport.TotalDirectPlayerDamage;
     }
 
     public void InjectPart(BodyPart bodyPart)
     {
-        Core.Context.Achievements.OnItemUsed(Core.Context.Player.Pawn, Trinket);
-        bodyPart.MaxHitPoints += CalculateHpValue(bodyPart);
-        TotalDamage -= CalculateCost(bodyPart);
+        var cost = CalculateTotalCost(bodyPart);
+        FuelLevel -= cost;
+        InjectPartInternal(bodyPart);
         foreach (var internalPart in bodyPart.AllInternalParts)
         {
-            InjectPart(internalPart);
+            InjectPartInternal(internalPart);
         }
+        Core.Context.Achievements.OnItemUsed(Core.Context.Player.Pawn, Trinket, new { Amount = cost, BodyPart = bodyPart });
+    }
+
+    private void InjectPartInternal(BodyPart bodyPart)
+    {
+        bodyPart.MaxHitPoints += CalculateHpValue(bodyPart);
     }
 
     private static float CalculateHpValue(BodyPart bodyPart)
@@ -87,7 +92,7 @@ public class SteroidInjectorHandler : TrinketHandler
 
     public bool HasFuelFor(BodyPart bodyPart)
     {
-        return CalculateTotalCost(bodyPart) <= TotalDamage;
+        return CalculateTotalCost(bodyPart) <= FuelLevel;
     }
 
     public override void Tick()
@@ -96,7 +101,7 @@ public class SteroidInjectorHandler : TrinketHandler
 
     public override void ExposeData()
     {
-        ScribeValues.Look(ref TotalDamage, "TotalDamage");
+        ScribeValues.Look(ref FuelLevel, "FuelLevel");
         base.ExposeData();
     }
 }

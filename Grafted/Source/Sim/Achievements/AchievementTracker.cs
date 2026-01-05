@@ -1,3 +1,4 @@
+using System.Xml.Serialization;
 using Grafted.Sim.Achievements.Handlers;
 
 namespace Grafted.Sim.Achievements;
@@ -105,11 +106,11 @@ public class AchievementTracker : IExposable
     /// <summary>
     /// Called when food is consumed
     /// </summary>
-    public void OnItemUsed(Pawn consumer, Item item)
+    public void OnItemUsed(Pawn consumer, Item item, dynamic? data = null)
     {
         foreach (var handler in Handlers)
         {
-            handler.OnItemUsed(consumer, item);
+            handler.OnItemUsed(consumer, item, data);
         }
     }
 

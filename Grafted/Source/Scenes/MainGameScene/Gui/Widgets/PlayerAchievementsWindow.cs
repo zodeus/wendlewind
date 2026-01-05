@@ -175,7 +175,7 @@ public sealed class PlayerAchievementsWindow : Window
             // Overlay text showing current/target
             progressContainer.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
             {
-                Text = $"{current}/{target}",
+                Text = $"{current:N0}/{target:N0}",
                 TextColor = Color.White,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center

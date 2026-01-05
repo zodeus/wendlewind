@@ -50,4 +50,14 @@
         <TargetValue>17</TargetValue>
         <HandlerClass>SquirelyPeteHandler</HandlerClass>
     </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>MuscleManTandyRavage</Moniker>
+        <Label>Muscle Man Tandy Ravage</Label>
+        <Description>Eat a lot of food to bulk up like Randy Ravage</Description>
+        <Category>Consumables</Category>
+        <HandlerClass>MuscleManTandyRavageHandler</HandlerClass>
+        <BenifitDescription>Substantial increase in physical durability</BenifitDescription>
+        <TargetValue>9000</TargetValue>
+    </AchievementDef>
 </Definitions>

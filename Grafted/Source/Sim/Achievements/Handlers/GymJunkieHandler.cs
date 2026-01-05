@@ -7,7 +7,7 @@ namespace Grafted.Sim.Achievements.Handlers;
 [UsedImplicitly]
 public class GymJunkieHandler : AchievementHandler
 {
-    public override void OnItemUsed(Pawn consumer, Item item)
+    public override void OnItemUsed(Pawn consumer, Item item, dynamic? data = null)
     {
         if (IsUnlocked) return;
 

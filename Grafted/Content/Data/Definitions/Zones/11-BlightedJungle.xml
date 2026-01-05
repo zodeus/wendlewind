@@ -35,6 +35,26 @@
         </Resources>
         <Encounters>
             <ListItem>
+                <MysteryProperties>
+                    <PartsToRestore>1~5</PartsToRestore>
+                    <RestorablePartTypes>
+                        <ListItem>Thumb</ListItem>
+                        <ListItem>Finger</ListItem>
+                        <ListItem>Hand</ListItem>
+                        <ListItem>Foot</ListItem>
+                        <ListItem>Leg</ListItem>
+                    </RestorablePartTypes> 
+                    <OptionalRewards>
+                        <ListItem>WitchDoctorHelmet</ListItem>
+                        <ListItem>WitchDoctorTunic</ListItem>
+                        <ListItem>WitchDoctorVambrace</ListItem>
+                        <ListItem>WitchDoctorGlove</ListItem>
+                        <ListItem>WitchDoctorBoot</ListItem>
+                    </OptionalRewards>
+                    <OptionalRewardsCount>2</OptionalRewardsCount>
+                </MysteryProperties>
+            </ListItem>
+            <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ResourceChest1</ListItem>

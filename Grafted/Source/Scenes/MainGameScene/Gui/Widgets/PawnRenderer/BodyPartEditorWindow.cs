@@ -1086,6 +1086,17 @@ public class BodyPartEditorWindow : Window
                 layoutScale: layoutScale, 
                 tint: tint,
                 offset: destOffset);
+            
+            // Render equipped armor AFTER the body part (so it appears on top)
+            BodyPartRenderHelper.RenderEquippedArmor(
+                _spriteBatch, 
+                part, 
+                info, 
+                position: position,
+                scale: partScale,
+                equipmentAttachment: equipAttachment,
+                layoutScale: layoutScale,
+                offset: destOffset);
         }
         
         _spriteBatch.End();

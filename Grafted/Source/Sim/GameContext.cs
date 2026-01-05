@@ -149,11 +149,12 @@ public class GameContext : IExposable
 
     private void WireUpEvents()
     {
-        Player.Pawn.FoodConsumed += Achievements.OnItemUsed;
+        Player.Pawn.FoodConsumed += (p, i) => Achievements.OnItemUsed(p, i, null);
         Player.Pawn.DamageTaken += Achievements.OnPlayerDamaged;
         Player.Pawn.Inventory.ItemAdded += Achievements.OnItemFound;
         Player.Pawn.Inventory.ItemAdded += Player.OnItemFound;
     }
+
 
 
     public void ExposeData()

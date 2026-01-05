@@ -39,7 +39,7 @@ public abstract class AchievementHandler
     /// </summary>
     public virtual void OnEnemyDamaged(Pawn player, Pawn enemy, DamageRequest request, DamageResponse response) { }
 
-    public virtual void OnItemUsed(Pawn consumer, Item item)
+    public virtual void OnItemUsed(Pawn consumer, Item item, dynamic? data = null)
     {
         if (IsUnlocked) return;
         

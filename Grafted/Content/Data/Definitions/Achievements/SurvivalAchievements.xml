@@ -87,6 +87,6 @@
         <BenifitDescription>Start with the strength cloak</BenifitDescription>
         <Category>Survival</Category>
         <HandlerClass>GymJunkieHandler</HandlerClass>
-        <TargetValue>50</TargetValue>
+        <TargetValue>5</TargetValue>
     </AchievementDef>
 </Definitions>

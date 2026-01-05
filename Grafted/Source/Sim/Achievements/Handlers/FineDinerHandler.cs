@@ -7,7 +7,7 @@ public class FineDinerHandler : AchievementHandler
 {
     private static readonly HashSet<ItemDef> FineFoods = [Defs.Items.HeartyStew, Defs.Items.GoldCapMushroom];
 
-    public override void OnItemUsed(Pawn consumer, Item item)
+    public override void OnItemUsed(Pawn consumer, Item item, dynamic? data = null)
     {
         if (IsUnlocked) return;
 

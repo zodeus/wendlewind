@@ -174,7 +174,7 @@ public sealed class GoldenGoosePanel : EntityPanelBase
         var beansCount = _handler.BeansToGenerate;
         _beansPreviewLabel.Text = beansCount switch
         {
-            0 => "None (goose is too hungry!)",
+            0 => "None (goose hungry!)",
             1 => "1 Golden Bean",
             _ => $"{beansCount} Golden Beans"
         };

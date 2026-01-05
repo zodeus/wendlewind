@@ -5,7 +5,7 @@ namespace Grafted.Sim.Achievements.Handlers;
 /// </summary>
 public class WeSmokemPeacePipeHandler : AchievementHandler
 {
-    public override void OnItemUsed(Pawn consumer, Item item)
+    public override void OnItemUsed(Pawn consumer, Item item, dynamic? data = null)
     {
         if (IsUnlocked) return;
 

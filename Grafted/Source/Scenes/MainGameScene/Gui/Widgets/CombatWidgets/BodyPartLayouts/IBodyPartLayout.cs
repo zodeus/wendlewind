@@ -27,14 +27,26 @@ public readonly struct EquipmentAttachmentData
     /// </summary>
     public readonly bool FlipHorizontal;
     
-    public static readonly EquipmentAttachmentData Default = new(Vector2.Zero, 0f, 1f, false);
+    /// <summary>
+    /// Whether to render weapons at this attachment point.
+    /// </summary>
+    public readonly bool RenderWeapons;
     
-    public EquipmentAttachmentData(Vector2 offset, float rotation = 0f, float scale = 1f, bool flipHorizontal = false)
+    /// <summary>
+    /// Whether to render armor at this attachment point.
+    /// </summary>
+    public readonly bool RenderArmor;
+    
+    public static readonly EquipmentAttachmentData Default = new(Vector2.Zero, 0f, 1f, false, true, true);
+    
+    public EquipmentAttachmentData(Vector2 offset, float rotation = 0f, float scale = 1f, bool flipHorizontal = false, bool renderWeapons = true, bool renderArmor = true)
     {
         Offset = offset;
         Rotation = rotation;
         Scale = scale;
         FlipHorizontal = flipHorizontal;
+        RenderWeapons = renderWeapons;
+        RenderArmor = renderArmor;
     }
 }
 
@@ -270,9 +282,13 @@ public static class BodyPartRenderHelper
         float layoutScale = 1f,
         Vector2? offset = null)
     {
+        var attachment = equipmentAttachment ?? partInfo.EquipmentAttachment ?? EquipmentAttachmentData.Default;
+        
+        // Don't render weapons if disabled for this attachment
+        if (!attachment.RenderWeapons) return;
+        
         var pos = position ?? partInfo.Position;
         var partScale = scale ?? partInfo.Scale;
-        var attachment = equipmentAttachment ?? partInfo.EquipmentAttachment ?? EquipmentAttachmentData.Default;
         var off = offset ?? Vector2.Zero;
         
         foreach (var (slotType, item) in part.Equipment)
@@ -313,6 +329,78 @@ public static class BodyPartRenderHelper
                 origin,
                 weaponScale,
                 weaponEffects,
+                0f);
+        }
+    }
+    
+    /// <summary>
+    /// Renders equipped armor for a body part. Call this AFTER RenderBodyPart to have armor appear on top of the part.
+    /// </summary>
+    /// <param name="spriteBatch">The sprite batch to render to.</param>
+    /// <param name="part">The body part to render armor for.</param>
+    /// <param name="partInfo">The render info for the body part.</param>
+    /// <param name="position">Position override (in native coordinates), or null to use partInfo.Position.</param>
+    /// <param name="scale">Scale override, or null to use partInfo.Scale.</param>
+    /// <param name="equipmentAttachment">Equipment attachment override, or null to use partInfo.EquipmentAttachment.</param>
+    /// <param name="layoutScale">Scale factor from native to render target size.</param>
+    /// <param name="offset">Optional offset to add to the final position (in screen coordinates).</param>
+    public static void RenderEquippedArmor(
+        SpriteBatch spriteBatch,
+        BodyPart part,
+        BodyPartRenderInfo partInfo,
+        Vector2? position = null,
+        float? scale = null,
+        EquipmentAttachmentData? equipmentAttachment = null,
+        float layoutScale = 1f,
+        Vector2? offset = null)
+    {
+        var attachment = equipmentAttachment ?? partInfo.EquipmentAttachment;
+        
+        // Don't render armor if no equipment attachment is defined or armor rendering is disabled
+        if (attachment == null || !attachment.Value.RenderArmor) return;
+        
+        var pos = position ?? partInfo.Position;
+        var partScale = scale ?? partInfo.Scale;
+        var off = offset ?? Vector2.Zero;
+        
+        foreach (var (slotType, item) in part.Equipment)
+        {
+            // Skip if no item equipped
+            if (item == null) continue;
+            
+            // Skip built-in equipment (claws, teeth, etc.)
+            if (slotType == EquipmentSlotType.BuiltIn) continue;
+            
+            // Only render armor
+            if (item.ItemDef.EquipmentProperties?.EquipmentType != EquipmentType.Armor) continue;
+            
+            // Get the armor's texture
+            var armorTexture = item.ItemDef.Texture;
+            if (armorTexture == null) continue;
+            
+            // Calculate the center of the body part in screen coordinates
+            var textureCenter = new Vector2(partInfo.Texture.Width / 2f, partInfo.Texture.Height / 2f);
+            var finalScale = partScale * layoutScale;
+            var partCenterScreen = pos * layoutScale + textureCenter * finalScale + off;
+            
+            // Apply the equipment attachment offset (scaled to screen coordinates)
+            var screenPosition = partCenterScreen + attachment.Value.Offset * layoutScale;
+            var armorRotation = attachment.Value.Rotation;
+            var armorScale = attachment.Value.Scale * layoutScale;
+            var armorEffects = attachment.Value.FlipHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            
+            // Calculate armor origin (center of armor texture)
+            var armorOrigin = new Vector2(armorTexture.Width / 2f, armorTexture.Height / 2f);
+            
+            spriteBatch.Draw(
+                armorTexture,
+                screenPosition,
+                null,
+                Color.White,
+                armorRotation,
+                armorOrigin,
+                armorScale,
+                armorEffects,
                 0f);
         }
     }

@@ -31,7 +31,7 @@ public sealed class SteroidInjectorPanel : EntityPanelBase
         MinWidth = 520;
         
         Injector = (item.TrinketHandler as SteroidInjectorHandler)!;
-        _maxFuelSeen = Math.Max(Injector.TotalDamage, 1000);
+        _maxFuelSeen = Math.Max(Injector.FuelLevel, 1000);
 
         // === UNIFIED HEADER WITH FUEL GAUGE ===
         var header = new HorizontalStackPanel
@@ -178,11 +178,11 @@ public sealed class SteroidInjectorPanel : EntityPanelBase
     private void RefreshAll()
     {
         // Update fuel display
-        _fuelValueLabel.Text = $"{Injector.TotalDamage:N0}";
+        _fuelValueLabel.Text = $"{Injector.FuelLevel:N0}";
         
         // Track max fuel seen for bar scaling
-        if (Injector.TotalDamage > _maxFuelSeen)
-            _maxFuelSeen = Injector.TotalDamage;
+        if (Injector.FuelLevel > _maxFuelSeen)
+            _maxFuelSeen = Injector.FuelLevel;
         
         
         // Update all part rows
