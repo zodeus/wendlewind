@@ -8,7 +8,6 @@ public class RotLung : BodyPartModifier
 
     public override void Tick()
     {
-        base.Tick();
         BodyPart.HitPoints -= BodyPart.HitPoints * DamageFactorPerTick;
         CheckIfLostVitalPart();
         base.Tick();
@@ -16,7 +15,7 @@ public class RotLung : BodyPartModifier
 
     public override bool ApplyToPart(BodyPart part)
     {
-        if (part.Body?.Pawn.Inventory.Contains(Defs.Items.PlagueMask) == true)
+        if (part.Body?.Pawn.Equipment.Armor.Any(i => i.ItemDef == Defs.Items.PlagueMask) == true)
         {
             return false;
         }

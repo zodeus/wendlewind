@@ -193,6 +193,65 @@ public sealed class WeaponPanel : EntityPanelBase
         }
 
         // ═══════════════════════════════════════════════════════════════════
+        // Modifiers Section
+        // ═══════════════════════════════════════════════════════════════════
+        var bodyPartModifiers = (item.ItemDef.WeaponProperties?.BodyPartModifiers ?? [])
+            .Concat(item.Enchantments?
+                .Where(e => e.ItemDef.EnchantmentProperties != null)
+                .SelectMany(e => e.ItemDef.EnchantmentProperties!.BodyPartModifiers) ?? [])
+            .ToList();
+        if (bodyPartModifiers.Count > 0)
+        {
+            var modsSection = new VerticalStackPanel { Spacing = 2, Margin = new Thickness(0, 0, 0, 10) };
+            modsSection.Widgets.Add(new Label("small")
+            {
+                Text = "Modifiers",
+                TextColor = BaseContent.Colors.Text.Golden,
+                Margin = new Thickness(0, 0, 0, 4)
+            });
+
+            var modsGrid = new Grid { ColumnSpacing = 12, RowSpacing = 2, Margin = new Thickness(8, 0, 0, 0) };
+            modsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto)); // Modifier name
+            modsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto)); // Chance
+            modsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto)); // Duration
+
+            var row = 0;
+            foreach (var mod in bodyPartModifiers)
+            {
+                // Modifier name with color
+                var nameLabel = new Label("small") { Text = mod.Def.Label, TextColor = mod.Def.Color };
+                Grid.SetRow(nameLabel, row);
+                Grid.SetColumn(nameLabel, 0);
+                modsGrid.Widgets.Add(nameLabel);
+
+                // Chance
+                var chanceText = mod.Chance.Min == mod.Chance.Max
+                    ? $"{mod.Chance.Min * 100:0}%"
+                    : $"{mod.Chance.Min * 100:0}-{mod.Chance.Max * 100:0}%";
+                var chanceLabel = new Label("small") { Text = chanceText, TextColor = Color.LightGray };
+                Grid.SetRow(chanceLabel, row);
+                Grid.SetColumn(chanceLabel, 1);
+                modsGrid.Widgets.Add(chanceLabel);
+
+                // Duration in seconds (60 ticks per second)
+                if (mod.DurationInTicks.Min > 0 || mod.DurationInTicks.Max > 0)
+                {
+                    var durationSeconds = mod.DurationInTicks.Min == mod.DurationInTicks.Max
+                        ? $"{mod.DurationInTicks.Min / 60f:0.#}s"
+                        : $"{mod.DurationInTicks.Min / 60f:0.#}-{mod.DurationInTicks.Max / 60f:0.#}s";
+                    var durationLabel = new Label("small") { Text = durationSeconds, TextColor = Color.DarkGray };
+                    Grid.SetRow(durationLabel, row);
+                    Grid.SetColumn(durationLabel, 2);
+                    modsGrid.Widgets.Add(durationLabel);
+                }
+
+                row++;
+            }
+            modsSection.Widgets.Add(modsGrid);
+            Widgets.Add(modsSection);
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
         // Enchantments Section
         // ═══════════════════════════════════════════════════════════════════
         _socketsPanel = new ItemEnchantmentSocketsPanel(gui, item)

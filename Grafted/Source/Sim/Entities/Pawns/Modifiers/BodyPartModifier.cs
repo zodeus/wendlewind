@@ -46,7 +46,7 @@ public abstract class BodyPartModifier : IExposable, IIdentityProvider
     {
     }
 
-    public void SpreadTo(BodyPart part)
+    public virtual void SpreadTo(BodyPart part)
     {
         if (AllowedSubstances.Count > 0 && AllowedSubstances.Contains(part.Substance) == false) return;
         
@@ -56,7 +56,8 @@ public abstract class BodyPartModifier : IExposable, IIdentityProvider
         }
 
         var ticksRemaining = DurationInTicks - Ticks;
-        part.TryAddModifier(BodyPartModifierGenerator.Generate(Def, ticksRemaining));
+        var spreadDuration = Math.Max(ticksRemaining, 3); // Minimum 3 ticks to prevent cascade
+        part.TryAddModifier(BodyPartModifierGenerator.Generate(Def, spreadDuration));
     }
 
     public virtual void MergeWith(BodyPartModifier modifier)

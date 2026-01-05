@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartDef Name="GameBoxBodyPartBase" ParentName="BodyPartBase" Abstract="True">
+        
+    </BodyPartDef>
+    <BodyPartDef ParentName="GameBoxBodyPartBase">
+        <Moniker>GameBoxHead</Moniker>
+        <Label>Head</Label>
+        <HitWeight>20</HitWeight>
+        <BloodAmount>5</BloodAmount>
+        <BodyPartType>Head</BodyPartType>
+        <Substance>Metal</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/GameBox/Head</TexturePath>
+        <Sockets>
+            <ListItem>TorsoSocket</ListItem>
+        </Sockets>
+        <EquipmentSlots>
+            <ListItem>HeadArmor</ListItem>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <MaxHitPoints>300</MaxHitPoints>
+            <AttackSpeedModifier>2</AttackSpeedModifier>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="GameBoxBodyPartBase">
+        <Moniker>GameBoxTorso</Moniker>
+        <Label>Torso</Label>
+        <BodyPartType>Torso</BodyPartType>
+        <HitWeight>50</HitWeight>
+        <BloodAmount>30</BloodAmount>
+        <Substance>Metal</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/GameBox/Torso</TexturePath>
+        <EquipmentSlots>
+            <ListItem>TorsoArmor</ListItem>
+            <ListItem>PotionSlot1</ListItem>
+            <ListItem>PotionSlot2</ListItem>
+        </EquipmentSlots>
+        <Sockets>
+            <ListItem>SkullSocket</ListItem>
+            <ListItem>LeftArmSocket</ListItem>
+            <ListItem>RightArmSocket</ListItem>
+            <ListItem>LeftLegSocket</ListItem>
+            <ListItem>RightLegSocket</ListItem>
+            <ListItem>MiscSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>800</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="GameBoxBodyPartBase">
+        <Moniker>GameBoxControls</Moniker>
+        <Label>Controls</Label>
+        <BodyPartType>Misc</BodyPartType>
+        <Description>A control panel with buttons and joysticks.</Description>
+        <HitWeight>15</HitWeight>
+        <BloodAmount>0</BloodAmount>
+        <Substance>Metal</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/GameBox/Controls</TexturePath>
+        <Sockets>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>600</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="GameBoxBodyPartBase">
+        <Moniker>GameBoxArm</Moniker>
+        <Label>Arm</Label>
+        <BodyPartType>Arm</BodyPartType>
+        <HitWeight>25</HitWeight>
+        <BloodAmount>10</BloodAmount>
+        <Substance>Metal</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/GameBox/Arm</TexturePath>
+        <EquipmentSlots>
+            <ListItem>ArmArmor</ListItem>
+            <ListItem>Bag</ListItem>
+        </EquipmentSlots>
+        <Sockets>
+            <ListItem>HandSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <AttackSpeedModifier>.5</AttackSpeedModifier>
+            <MaxHitPoints>200</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="GameBoxBodyPartBase">
+        <Moniker>GameBoxHand</Moniker>
+        <Label>Hand</Label>
+        <BodyPartType>Hand</BodyPartType>
+        <Description>A mechanical joystick-like hand.</Description>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+            <ListItem>HandArmor</ListItem>
+            <ListItem>HandWeapon</ListItem>
+        </EquipmentSlots>
+        <HitWeight>12</HitWeight>
+        <BloodAmount>0</BloodAmount>
+        <Substance>Metal</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/GameBox/Hand</TexturePath>
+        <Sockets>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>100</MaxHitPoints>
+            <AttackSpeedModifier>1</AttackSpeedModifier>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="GameBoxBodyPartBase">
+        <Moniker>GameBoxLeg</Moniker>
+        <Label>Leg</Label>
+        <BodyPartType>Leg</BodyPartType>
+        <HitWeight>11</HitWeight>
+        <BloodAmount>10</BloodAmount>
+        <Substance>Metal</Substance>
+        <MobilityFraction>.5</MobilityFraction>
+        <TexturePath>Entities/Pawn/BodyParts/GameBox/Leg</TexturePath>
+        <EquipmentSlots>
+            <ListItem>LegArmor</ListItem>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+        <Sockets>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>150</MaxHitPoints>
+            <AttackSpeedModifier>.5</AttackSpeedModifier>
+        </BaseStats>
+    </BodyPartDef>
+</Definitions>

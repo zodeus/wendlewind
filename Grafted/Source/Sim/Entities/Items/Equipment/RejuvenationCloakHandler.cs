@@ -47,7 +47,8 @@ public class RejuvenationCloakHandler : EquipmentHandler
         RejuvenationCloakUpgradeLevel.Level2 =>
         [
             new ResourceCount(Defs.Items.ElvishLeaf, 1),
-            new ResourceCount(Defs.Items.RhinoSkin, 1)
+            new ResourceCount(Defs.Items.RhinoSkin, 1),
+            new ResourceCount(Defs.Items.GoldenBean, 2)
         ],
         _ => []
     };

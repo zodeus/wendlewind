@@ -17,7 +17,6 @@ public class AcidHandler : BodyPartModifier
 
     public override void Tick()
     {
-        base.Tick();
         if (BodyPart.Modifiers.Any(m => m.Def == Defs.BodyPartModifiers.SoothingBalm))
         {
             IsExpired = true;
@@ -31,6 +30,7 @@ public class AcidHandler : BodyPartModifier
         this.HandlePenetration(BodyPart, PenetrationThreshold, ref _hasPenetrated);
 
         CheckIfLostVitalPart();
+        base.Tick();
     }
     
     public override bool ApplyToPart(BodyPart part)

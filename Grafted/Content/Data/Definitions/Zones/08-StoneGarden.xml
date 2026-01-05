@@ -41,7 +41,15 @@
                         <ListItem>Finger</ListItem>
                         <ListItem>Hand</ListItem>
                         <ListItem>Foot</ListItem>
-                    </RestorablePartTypes>
+                    </RestorablePartTypes> 
+                    <OptionalRewards>
+                        <ListItem>WitchDoctorHelmet</ListItem>
+                        <ListItem>WitchDoctorTunic</ListItem>
+                        <ListItem>WitchDoctorVambrace</ListItem>
+                        <ListItem>WitchDoctorGlove</ListItem>
+                        <ListItem>WitchDoctorBoot</ListItem>
+                    </OptionalRewards>
+                    <OptionalRewardsCount>2</OptionalRewardsCount>
                 </MysteryProperties>
             </ListItem>
             <ListItem>

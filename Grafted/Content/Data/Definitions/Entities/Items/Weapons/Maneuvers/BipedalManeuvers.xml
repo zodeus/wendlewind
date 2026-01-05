@@ -25,4 +25,12 @@
         </Weapons>
         <DamageMultiplier>0.7~0.9</DamageMultiplier>
     </WeaponManeuverDef>
+    <WeaponManeuverDef>
+        <Moniker>Headbutt</Moniker>
+        <Label>Headbutt</Label>
+        <Weapons>
+            <ListItem>Head</ListItem>
+        </Weapons>
+        <DamageMultiplier>0.5~1</DamageMultiplier>
+    </WeaponManeuverDef>
 </Definitions>

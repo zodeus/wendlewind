@@ -9,7 +9,6 @@ public class BloodDrainHandler : BodyPartModifier
 
     public override void Tick()
     {
-        base.Tick();
         
         if (BodyPart.IsSevered || BodyPart.Body == null)
         {
@@ -18,6 +17,7 @@ public class BloodDrainHandler : BodyPartModifier
         
         // Drain blood from the pawn
         BodyPart.Body.BloodAmount -= BloodDrainPerTick;
+        base.Tick();
     }
 
     public override bool ApplyToPart(BodyPart part)

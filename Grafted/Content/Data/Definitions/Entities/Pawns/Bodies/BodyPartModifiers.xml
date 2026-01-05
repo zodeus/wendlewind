@@ -73,6 +73,14 @@
         <HandlerClass>BloodDrainHandler</HandlerClass>
         <Color>255, 0, 0</Color>
     </BodyPartModifierDef>
+    <BodyPartModifierDef>
+        <Moniker>Electrofied</Moniker>
+        <Label>Electrofied</Label>
+        <Type>Debuff</Type>
+        <Description>Your meat is electrified.</Description>
+        <HandlerClass>ElectrofiedHandler</HandlerClass>
+        <Color>208, 247, 246</Color>
+    </BodyPartModifierDef>
 
     <!-- BUFFS -->
     <BodyPartModifierDef>

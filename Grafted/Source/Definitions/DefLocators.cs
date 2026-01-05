@@ -329,6 +329,13 @@ public static partial class Defs
         public static BodyPartDef UndeadMonkeyLeg = null!;
         public static BodyPartDef UndeadMonkeyFoot = null!;
         public static BodyPartDef UndeadMonkeyTail = null!;
+
+        public static BodyPartDef GameBoxHead = null!;
+        public static BodyPartDef GameBoxTorso = null!;
+        public static BodyPartDef GameBoxControls = null!;
+        public static BodyPartDef GameBoxArm = null!;
+        public static BodyPartDef GameBoxHand = null!;
+        public static BodyPartDef GameBoxLeg = null!;
     }
 
     [DefLocator]

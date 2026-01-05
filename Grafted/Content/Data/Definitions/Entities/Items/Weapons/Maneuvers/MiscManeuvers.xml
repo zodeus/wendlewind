@@ -161,4 +161,20 @@
         </Weapons>
         <DamageMultiplier>0.7~1</DamageMultiplier>
     </WeaponManeuverDef>
+    <WeaponManeuverDef>
+        <Moniker>GameBoxOverdrive</Moniker>
+        <Label>GameBox Overdrive</Label>
+        <Weapons>
+            <ListItem>GameBox</ListItem>
+        </Weapons>
+        <DamageMultiplier>0.8~2</DamageMultiplier>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
+        <Moniker>GameBoxPlayMusic</Moniker>
+        <Label>GameBox Play Music</Label>
+        <Weapons>
+            <ListItem>GameBox</ListItem>
+        </Weapons>
+        <DamageMultiplier>0.5~1</DamageMultiplier>
+    </WeaponManeuverDef>
 </Definitions>

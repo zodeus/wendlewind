@@ -9,6 +9,7 @@ public sealed class RejuvenationCloakPanel : EntityPanelBase
     private readonly HorizontalProgressBar _durabilityBar;
     private readonly VerticalStackPanel _upgradeSection;
     private readonly Label _bonusLabel;
+    private readonly Label _upgradeLevelLabel;
 
     // Color palette
     private static readonly Color HealingColor = new(120, 220, 160);
@@ -89,7 +90,17 @@ public sealed class RejuvenationCloakPanel : EntityPanelBase
         // ═══════════════════════════════════════════════════════════════════
         var propsSection = new VerticalStackPanel { Spacing = 3, Margin = new Thickness(0, 0, 0, 10) };
         propsSection.Widgets.Add(CreatePropertyRow("Slot", item.ItemDef.EquipmentProperties?.SlotUsedToEquip?.ToString() ?? "n/a", Color.CornflowerBlue));
-        propsSection.Widgets.Add(CreatePropertyRow("Upgrade Level", $"{(int)_handler.UpgradeLevel} / 2", GoldColor));
+        
+        _upgradeLevelLabel = new Label("small") { Text = $"{(int)_handler.UpgradeLevel} / 2", TextColor = GoldColor };
+        propsSection.Widgets.Add(new HorizontalStackPanel
+        {
+            Spacing = 8,
+            Widgets =
+            {
+                new Label("small") { Text = "Upgrade Level:", TextColor = GrayColor },
+                _upgradeLevelLabel
+            }
+        });
         Widgets.Add(propsSection);
 
         // ═══════════════════════════════════════════════════════════════════
@@ -122,6 +133,7 @@ public sealed class RejuvenationCloakPanel : EntityPanelBase
     private void RefreshUpgradeSection()
     {
         _upgradeSection.Widgets.Clear();
+        _upgradeLevelLabel.Text = $"{(int)_handler.UpgradeLevel} / 2";
 
         // Section header
         _upgradeSection.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)

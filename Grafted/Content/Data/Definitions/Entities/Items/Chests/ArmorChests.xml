@@ -150,6 +150,42 @@
                 <ChanceToDrop>.8</ChanceToDrop>
                 <Weight>1000</Weight>
             </ListItem>
+
+            <ListItem>
+                <ItemDef>WitchDoctorHelmet</ItemDef>
+                <ChanceToDrop>.8</ChanceToDrop>
+                <Weight>1000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>WitchDoctorGorget</ItemDef>
+                <ChanceToDrop>.5</ChanceToDrop>
+                <Weight>1000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>WitchDoctorTunic</ItemDef>
+                <ChanceToDrop>.5</ChanceToDrop>
+                <Weight>1000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>WitchDoctorVambrace</ItemDef>
+                <ChanceToDrop>.75</ChanceToDrop>
+                <Weight>1000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>WitchDoctorGlove</ItemDef>
+                <ChanceToDrop>.8</ChanceToDrop>
+                <Weight>1000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>WitchDoctorGreave</ItemDef>
+                <ChanceToDrop>.75</ChanceToDrop>
+                <Weight>1000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>WitchDoctorBoot</ItemDef>
+                <ChanceToDrop>.8</ChanceToDrop>
+                <Weight>1000</Weight>
+            </ListItem>
         </Items>
     </LootBoxDef>
 </Definitions>

@@ -22,8 +22,9 @@ internal sealed class BoakItemsArmorPanel : ScrollViewer
         AddHeaderCell(headerGrid, "Item", 0);
         AddHeaderCell(headerGrid, "Phys. Res", 1);
         AddHeaderCell(headerGrid, "Durability", 2);
-        AddHeaderCell(headerGrid, "Slot", 3);
-        AddHeaderCell(headerGrid, "Modifiers", 4);
+        AddHeaderCell(headerGrid, "Max Ench", 3);
+        AddHeaderCell(headerGrid, "Slot", 4);
+        AddHeaderCell(headerGrid, "Modifiers", 5);
         mainContainer.Widgets.Add(headerGrid);
 
         // Divider
@@ -76,15 +77,19 @@ internal sealed class BoakItemsArmorPanel : ScrollViewer
             var durability = def.BaseStats.FirstOrNull(s => s?.Def == Defs.Stats.MaxDurability)?.Value;
             AddDataCell(rowGrid, CreateValueLabel(durability?.ToString() ?? "—"), 2);
 
+            // Max Enchantments
+            var maxEnchantments = def.EquipmentProperties?.MaxEnchantments ?? 0;
+            AddDataCell(rowGrid, CreateValueLabel(maxEnchantments > 0 ? maxEnchantments.ToString() : "—", MutedTextColor), 3);
+
             // Slot
             var slotText = def.EquipmentProperties?.SlotUsedToEquip.ToString() ?? "—";
-            AddDataCell(rowGrid, CreateValueLabel(slotText, MutedTextColor), 3);
+            AddDataCell(rowGrid, CreateValueLabel(slotText, MutedTextColor), 4);
 
             // Modifiers
             var modifiers = def.WeaponProperties?.BodyPartModifiers.Select(f => f.Def.Label) ?? [];
             var modText = string.Join(", ", modifiers);
             if (string.IsNullOrEmpty(modText)) modText = "—";
-            AddDataCell(rowGrid, CreateValueLabel(modText, MutedTextColor), 4);
+            AddDataCell(rowGrid, CreateValueLabel(modText, MutedTextColor), 5);
 
             mainContainer.Widgets.Add(rowGrid);
 
@@ -119,6 +124,7 @@ internal sealed class BoakItemsArmorPanel : ScrollViewer
         grid.ColumnsProportions.Add(new Proportion(ProportionType.Pixels, 350)); // Item
         grid.ColumnsProportions.Add(new Proportion(ProportionType.Pixels, 120)); // Phys Res
         grid.ColumnsProportions.Add(new Proportion(ProportionType.Pixels, 100)); // Durability
+        grid.ColumnsProportions.Add(new Proportion(ProportionType.Pixels, 90));  // Max Ench
         grid.ColumnsProportions.Add(new Proportion(ProportionType.Pixels, 140)); // Slot
         grid.ColumnsProportions.Add(new Proportion(ProportionType.Fill));        // Modifiers
 

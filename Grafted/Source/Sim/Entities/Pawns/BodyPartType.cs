@@ -1,6 +1,7 @@
 namespace Grafted.Sim.Entities.Pawns;
 
-public enum BodyPartType {
+public enum BodyPartType
+{
     Undefined,
     Head,
     Artery,
@@ -34,5 +35,6 @@ public enum BodyPartType {
     Thorax,
     Minion,
     Abdomen,
-    Wing
+    Wing,
+    Misc
 }

@@ -14,7 +14,7 @@ public sealed class ItemContainerPanel : Panel
         _inventory = inventory;
         _receivingContainer = receivingContainer;
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
-        Padding = new Thickness(15, 15,15,15);
+        Padding = new Thickness(15, 15, 15, 15);
 
         List<ItemContainerPanelSection> sections = new()
         {
@@ -67,10 +67,11 @@ public sealed class ItemContainerPanel : Panel
                 Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Resource
             }
         };
-        
+
         var verticalStackPanel = new VerticalStackPanel();
         Widgets.Add(new ScrollViewer
         {
+            ScrollMultiplier = 40,
             Content = verticalStackPanel
         });
         foreach (var section in sections)

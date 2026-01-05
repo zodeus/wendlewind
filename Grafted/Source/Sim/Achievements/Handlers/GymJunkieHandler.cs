@@ -23,8 +23,6 @@ public class GymJunkieHandler : AchievementHandler
     {
         if (!IsUnlocked) return;
 
-        // Start with the strength cloak
-        Log.Info("Gym Junkie achievement unlocked, giving strength cloak");
         PawnGenerator.RegisterEquipment(context.Player.Pawn, [Defs.Items.StrengthCloak]);
     }
 }

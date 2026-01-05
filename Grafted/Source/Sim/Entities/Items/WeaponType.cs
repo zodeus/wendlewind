@@ -8,8 +8,11 @@ public enum WeaponType
     //Human
     Hand,
     Foot,
+    Head,
 
     //Other
+
+    GameBox,
 
     Misc,
     Trade,

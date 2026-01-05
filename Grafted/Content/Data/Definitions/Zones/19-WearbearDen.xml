@@ -4,7 +4,7 @@
     <ZoneDef>
         <Moniker>WearbearDen</Moniker>
         <Label>Wearbear Den</Label>
-        <Stage>13</Stage>
+        <Stage>19</Stage>
         <ZoneColor>80, 100, 70</ZoneColor>
         <Weathers>
             <ListItem>Snow</ListItem>
@@ -35,9 +35,7 @@
         <Encounters>
             <ListItem>
                 <MysteryProperties>
-                    <GodLabel>Ursoth</GodLabel>
                     <PartsToRestore>3~5</PartsToRestore>
-                    <TexturePath>Biome/Mysterys/cemetery_mystery_1</TexturePath>
                     <RestorablePartTypes>
                         <ListItem>Thumb</ListItem>
                         <ListItem>Finger</ListItem>

@@ -77,14 +77,14 @@ public sealed class ItemEnchantmentPanel : EntityPanelBase
                 // Modifier name with type-based coloring
                 var modifierColor = modifier.Def.Type switch
                 {
-                    Grafted.Sim.Entities.Pawns.Modifiers.BodyPartModifierType.Buff => new Color(100, 200, 100),
-                    Grafted.Sim.Entities.Pawns.Modifiers.BodyPartModifierType.Debuff => new Color(200, 100, 100),
+                    BodyPartModifierType.Buff => new Color(100, 200, 100),
+                    BodyPartModifierType.Debuff => new Color(200, 100, 100),
                     _ => new Color(200, 200, 200)
                 };
 
                 modifierPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
                 {
-                    Text = $"• {modifier.Def.Label}",
+                    Text = $"{modifier.Def.Label}",
                     TextColor = modifierColor
                 });
 
@@ -103,13 +103,31 @@ public sealed class ItemEnchantmentPanel : EntityPanelBase
                 var chanceValue = modifier.Chance.Min;
                 var chanceText = chanceValue >= 1f
                     ? "Always applies"
-                    : $"Chance: {(chanceValue * 100f):0}%";
+                    : $"Chance: {chanceValue * 100f:0}%";
 
                 modifierPanel.Widgets.Add(new Label("small")
                 {
                     Text = $"   {chanceText}",
                     TextColor = new Color(150, 150, 150)
                 });
+
+                // Allowed substances info
+                var handlerInstance = (BodyPartModifier)Activator.CreateInstance(modifier.Def.HandlerClass)!;
+                if (handlerInstance.AllowedSubstances.Count > 0)
+                {
+                    var substancesText = string.Join(", ", handlerInstance.AllowedSubstances);
+                    modifierPanel.Widgets.Add(new Label("small")
+                    {
+                        Text = $"   Affects: {substancesText}",
+                        TextColor = new Color(180, 140, 100)
+                    });
+                } else {
+                    modifierPanel.Widgets.Add(new Label("small")
+                    {
+                        Text = $"   Affects: All substances",
+                        TextColor = new Color(180, 140, 100)
+                    });
+                }
 
                 Widgets.Add(modifierPanel);
             }

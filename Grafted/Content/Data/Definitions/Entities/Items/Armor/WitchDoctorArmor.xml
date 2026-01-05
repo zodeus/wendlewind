@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Definitions>
+    <ItemDef Name="WitchDoctorArmorBase" ParentName="ArmorBase" Abstract="true">
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <MaxEnchantments>2</MaxEnchantments>
+        </EquipmentProperties>
+        <BaseStats>
+            <PhysicalResistance>30</PhysicalResistance>
+            <MaxDurability>2000</MaxDurability>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WitchDoctorArmorBase">
+        <Moniker>WitchDoctorHelmet</Moniker>
+        <Label>Witch Doctor Helmet</Label>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/WitchDoctor/Helmet</TexturePath>
+        <!-- <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>4</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties> -->
+    </ItemDef>
+    <ItemDef ParentName="WitchDoctorArmorBase">
+        <Moniker>WitchDoctorGorget</Moniker>
+        <Label>Witch Doctor Gorget</Label>
+        <ItemType>Equipment</ItemType>
+        <Description>Fits snuggly around your neck</Description>
+        <EquipmentProperties>
+            <SlotUsedToEquip>NeckArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/WitchDoctor/Gorget</TexturePath>
+        <!-- <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>4</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties> -->
+    </ItemDef>
+    <ItemDef ParentName="WitchDoctorArmorBase">
+        <Moniker>WitchDoctorGlove</Moniker>
+        <Label>Witch Doctor Glove</Label>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/WitchDoctor/Glove</TexturePath>
+        <BaseStats>
+            <MaxDurability>3000</MaxDurability>
+        </BaseStats>
+        <!-- <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties> -->
+    </ItemDef>
+    <ItemDef ParentName="WitchDoctorArmorBase">
+        <Moniker>WitchDoctorVambrace</Moniker>
+        <Label>Witch Doctor Vambrace</Label>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>ArmArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/WitchDoctor/Vambrace</TexturePath>
+        <!-- <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>3</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties> -->
+    </ItemDef>
+    <ItemDef ParentName="WitchDoctorArmorBase">
+        <Moniker>WitchDoctorTunic</Moniker>
+        <Label>Witch Doctor Tunic</Label>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>TorsoArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/WitchDoctor/Tunic</TexturePath>
+        <!-- <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>5</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties> -->
+    </ItemDef>
+    <ItemDef ParentName="WitchDoctorArmorBase">
+        <Moniker>WitchDoctorGreave</Moniker>
+        <Label>Witch Doctor Greave</Label>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>LegArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/WitchDoctor/Greave</TexturePath>
+        <!-- <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>3</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties> -->
+    </ItemDef>
+    <ItemDef ParentName="WitchDoctorArmorBase">
+        <Moniker>WitchDoctorBoot</Moniker>
+        <Label>Witch Doctor Boot</Label>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>FootArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/WitchDoctor/Boot</TexturePath>
+        <BaseStats>
+            <MoveSpeed>.5</MoveSpeed>
+        </BaseStats>
+        <!-- <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>ChainLink</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties> -->
+    </ItemDef>
+</Definitions>

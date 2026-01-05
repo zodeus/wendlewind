@@ -170,4 +170,16 @@
             <Accuracy>.88</Accuracy>
         </BaseStats>   
     </PawnDef>
+    <PawnDef ParentName="BaseMonsterRace">
+        <Moniker>GameBox</Moniker>
+        <Label>Game Box</Label>
+        <Species>GameBox</Species>
+        <Body>GameBoxBody</Body>
+        <BaseStats>
+            <AttackSpeed>1</AttackSpeed>
+            <Strength>1</Strength>
+            <Evasion>.02</Evasion>
+            <Accuracy>.85</Accuracy>
+        </BaseStats>   
+    </PawnDef>
 </Definitions>

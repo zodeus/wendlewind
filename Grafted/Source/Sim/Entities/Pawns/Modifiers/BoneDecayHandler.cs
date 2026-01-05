@@ -7,6 +7,8 @@ public class BoneDecayHandler : BodyPartModifier
     public const double BaseDamage = 0.3;
     public const double EntropyRate = 0.85;
     public const double MinimumDamage = 0.025;
+    public override List<SubstanceType> AllowedSubstances => [SubstanceType.Bone, SubstanceType.Chitin];
+
     public override void Tick()
     {
         Ticks++;
@@ -38,7 +40,7 @@ public class BoneDecayHandler : BodyPartModifier
 
     public override bool ApplyToPart(BodyPart part)
     {
-        if (part.Substance != SubstanceType.Bone && part.Substance != SubstanceType.Chitin)
+        if (AllowedSubstances.Contains(part.Substance) == false)
         {
             return false;
         }

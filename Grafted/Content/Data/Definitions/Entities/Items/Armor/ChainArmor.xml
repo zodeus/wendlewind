@@ -1,18 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Definitions>
-    <ItemDef ParentName="ArmorBase">
+    <ItemDef Name="ChainArmorBase" ParentName="ArmorBase" Abstract="true">
+        <ItemType>Equipment</ItemType>
+        <BaseStats>
+            <PhysicalResistance>50</PhysicalResistance>
+            <MaxDurability>2000</MaxDurability>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="ChainArmorBase">
         <Moniker>ChainHelmet</Moniker>
         <Label>Chain Helmet</Label>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>
-            <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Chain/Helmet</TexturePath>
-        <BaseStats>
-            <PhysicalResistance>50</PhysicalResistance>
-            <MaxDurability>600</MaxDurability>
-        </BaseStats>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
             <ResourceRequirements>
@@ -31,20 +33,15 @@
             </Items>
         </DisassembleProperties>
     </ItemDef>
-    <ItemDef ParentName="ArmorBase">
+    <ItemDef ParentName="ChainArmorBase">
         <Moniker>ChainGorget</Moniker>
         <Label>Chain Gorget</Label>
         <ItemType>Equipment</ItemType>
         <Description>Fits snuggly around your neck</Description>
         <EquipmentProperties>
             <SlotUsedToEquip>NeckArmor</SlotUsedToEquip>
-            <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Chain/Gorget</TexturePath>
-        <BaseStats>
-            <PhysicalResistance>50</PhysicalResistance>
-            <MaxDurability>500</MaxDurability>
-        </BaseStats>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
             <ResourceRequirements>
@@ -63,18 +60,16 @@
             </Items>
         </DisassembleProperties>
     </ItemDef>
-    <ItemDef ParentName="ArmorBase">
+    <ItemDef ParentName="ChainArmorBase">
         <Moniker>ChainGlove</Moniker>
         <Label>Chain Glove</Label>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>HandArmor</SlotUsedToEquip>
-            <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Chain/Glove</TexturePath>
         <BaseStats>
-            <PhysicalResistance>50</PhysicalResistance>
-            <MaxDurability>500</MaxDurability>
+            <MaxDurability>3000</MaxDurability>
         </BaseStats>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
@@ -94,19 +89,14 @@
             </Items>
         </DisassembleProperties>
     </ItemDef>
-    <ItemDef ParentName="ArmorBase">
+    <ItemDef ParentName="ChainArmorBase">
         <Moniker>ChainVambrace</Moniker>
         <Label>Chain Vambrace</Label>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>ArmArmor</SlotUsedToEquip>
-            <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Chain/Vambrace</TexturePath>
-        <BaseStats>
-            <PhysicalResistance>50</PhysicalResistance>
-            <MaxDurability>800</MaxDurability>
-        </BaseStats>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
             <ResourceRequirements>
@@ -125,19 +115,14 @@
             </Items>
         </DisassembleProperties>
     </ItemDef>
-    <ItemDef ParentName="ArmorBase">
+    <ItemDef ParentName="ChainArmorBase">
         <Moniker>ChainTunic</Moniker>
         <Label>Chain Tunic</Label>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>TorsoArmor</SlotUsedToEquip>
-            <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Chain/Tunic</TexturePath>
-        <BaseStats>
-            <PhysicalResistance>50</PhysicalResistance>
-            <MaxDurability>800</MaxDurability>
-        </BaseStats>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
             <ResourceRequirements>
@@ -156,19 +141,14 @@
             </Items>
         </DisassembleProperties>
     </ItemDef>
-    <ItemDef ParentName="ArmorBase">
+    <ItemDef ParentName="ChainArmorBase">
         <Moniker>ChainGreave</Moniker>
         <Label>Chain Greave</Label>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>LegArmor</SlotUsedToEquip>
-            <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Chain/Greave</TexturePath>
-        <BaseStats>
-            <PhysicalResistance>50</PhysicalResistance>
-            <MaxDurability>800</MaxDurability>
-        </BaseStats>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
             <ResourceRequirements>
@@ -187,18 +167,15 @@
             </Items>
         </DisassembleProperties>
     </ItemDef>
-    <ItemDef ParentName="ArmorBase">
+    <ItemDef ParentName="ChainArmorBase">
         <Moniker>ChainBoot</Moniker>
         <Label>Chain Boot</Label>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>FootArmor</SlotUsedToEquip>
-            <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Chain/Boot</TexturePath>
         <BaseStats>
-            <PhysicalResistance>50</PhysicalResistance>
-            <MaxDurability>800</MaxDurability>
             <MoveSpeed>.5</MoveSpeed>
         </BaseStats>
         <CraftingProperties>

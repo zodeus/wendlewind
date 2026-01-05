@@ -8,7 +8,6 @@ public class PoisonHandler : BodyPartModifier
 
     public override void Tick()
     {
-        base.Tick();
 
         var externalPart = GetExternalPart();
         if (externalPart == null)
@@ -34,6 +33,7 @@ public class PoisonHandler : BodyPartModifier
         }
 
         CheckIfLostVitalPart();
+        base.Tick();
     }
 
     private BodyPart? GetExternalPart()

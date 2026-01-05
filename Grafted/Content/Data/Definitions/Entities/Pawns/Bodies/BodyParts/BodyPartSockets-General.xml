@@ -4,6 +4,14 @@
     <BodyPartSocketDef Name="BodyPartSocketBase" Abstract="True"/>
 
     <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>MiscSocket</Moniker>
+        <Label>Misc Socket</Label>
+        <IsExternal>true</IsExternal>
+        <AllowedBodyPartTypes>
+            <ListItem>Misc</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
         <Moniker>HeadSocket</Moniker>
         <Label>Head Socket</Label>
         <IsExternal>true</IsExternal>

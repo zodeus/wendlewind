@@ -168,4 +168,13 @@
         <GeneratorClass>UndeadMonkeyBodyGenerator</GeneratorClass>
         <LayoutClass>UndeadMonkeyBodyPartLayout</LayoutClass>
     </BodyDef>
+    <BodyDef>
+        <Moniker>GameBoxBody</Moniker>
+        <Label>Game Box Body</Label>
+        <BoneDensity>10</BoneDensity>
+        <MaxBlood>500</MaxBlood>
+        <BloodType>Oil</BloodType>
+        <GeneratorClass>GameBoxBodyGenerator</GeneratorClass>
+        <LayoutClass>GameBoxBodyPartLayout</LayoutClass>
+    </BodyDef>
 </Definitions>

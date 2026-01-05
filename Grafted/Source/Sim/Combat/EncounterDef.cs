@@ -16,18 +16,6 @@ public class EncounterProperties
     public bool IsBoss;
 }
 
-public class MysteryProperties
-{
-    private Texture2D? _texture;
-
-    public RangeInt PartsToRestore;
-    public List<BodyPartType> RestorablePartTypes = [];
-
-    public string? TexturePath;
-    public virtual Texture2D Texture => _texture ??= TexturePath != null ? Core.Content.Load<Texture2D>(TexturePath) : BaseContent.Textures.BadTexture;
-    public string GodLabel = "";
-}
-
 public class EncounterEnemyRecord
 {
     public PawnDef PawnDef = null!;

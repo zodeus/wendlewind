@@ -43,6 +43,13 @@
             <ListItem>
                 <MysteryProperties>
                     <PartsToRestore>2~3</PartsToRestore>
+                    <OptionalRewards>
+                        <ListItem>EverburningStone</ListItem>
+                        <ListItem>BoneEater</ListItem>
+                        <ListItem>ElvishLeaf</ListItem>
+                        <ListItem>SoothingVibrations</ListItem>
+                    </OptionalRewards>
+                    <OptionalRewardsCount>1</OptionalRewardsCount>
                     <RestorablePartTypes>
                         <ListItem>Thumb</ListItem>
                         <ListItem>Finger</ListItem>

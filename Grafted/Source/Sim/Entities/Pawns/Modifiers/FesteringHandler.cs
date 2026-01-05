@@ -14,7 +14,6 @@ public class FesteringHandler : BodyPartModifier
 
     public override void Tick()
     {
-        base.Tick();
         if (BodyPart.IsSevered)
         {
             return;
@@ -34,6 +33,7 @@ public class FesteringHandler : BodyPartModifier
         this.HandlePenetration(BodyPart, PenetrationThreshold, ref _hasPenetrated);
 
         CheckIfLostVitalPart();
+        base.Tick();
     }
 
     public override void MergeWith(BodyPartModifier modifier)

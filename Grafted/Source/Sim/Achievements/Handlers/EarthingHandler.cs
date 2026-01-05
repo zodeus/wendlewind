@@ -34,12 +34,11 @@ public class EarthingHandler : AchievementHandler
 
         // Start with a pair of leather boots
         var pawn = context.Player.Pawn;
-        var feet = pawn.Body.AllExternalParts.Where(p => p.Type == BodyPartType.Foot).ToList();
+        var feetCount = pawn.Body.AllExternalParts.Where(p => p.Type == BodyPartType.Foot).ToList().Count;
 
-        foreach (var foot in feet)
+        for (var i = 0; i < feetCount; i++)
         {
-            var boot = EntityGenerator.CreateEntity<Item>(Defs.Items.LeatherBoot);
-            pawn.Equipment.TryEquip(foot, EquipmentSlotType.FootArmor, boot);
+            PawnGenerator.RegisterEquipment(pawn, [Defs.Items.LeatherBoot]);
         }
     }
 }

@@ -864,4 +864,145 @@
             <WeaponPower>55</WeaponPower>
         </BaseStats>
     </ItemDef>
+
+    <!-- GameBox Weapons -->
+    <ItemDef ParentName="WeaponBlunt">
+        <Moniker>GameBoxScreen</Moniker>
+        <Label>The Screen</Label>
+        <Description>A heavy metal screen slams into targets</Description>
+        <WeaponProperties>
+            <WeaponType>Head</WeaponType>
+            <DamageType>Blunt</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.6</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.3</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Metal</Substance>
+                    <Modifier>0.4</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Pawn/BodyParts/GameBox/Head</TexturePath>
+        <BaseStats>
+            <WeaponPower>50</WeaponPower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponMagic">
+        <Moniker>GameBoxDefense</Moniker>
+        <Label>GameBox Defense</Label>
+        <Description>A GameBox defense system</Description>
+        <WeaponProperties>
+            <WeaponType>GameBox</WeaponType>
+            <DamageType>Magic</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.5</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.2</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Metal</Substance>
+                    <Modifier>0.5</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Electrofied</Def>
+                    <DurationInTicks>10~60</DurationInTicks>
+                    <Chance>.9</Chance>
+                </ListItem>
+                <ListItem>
+                    <Def>RotLung</Def>
+                    <DurationInTicks>120~360</DurationInTicks>
+                    <Chance>1</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Pawn/BodyParts/GameBox/Controls</TexturePath>
+        <BaseStats>
+            <WeaponPower>28</WeaponPower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponBlunt">
+        <Moniker>GameBoxFoot</Moniker>
+        <Label>GameBox Foot</Label>
+        <Description>A GameBox foot that delivers crushing kicks</Description>
+        <WeaponProperties>
+            <WeaponType>Foot</WeaponType>
+            <DamageType>Blunt</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.6</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.3</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Metal</Substance>
+                    <Modifier>0.5</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Pawn/BodyParts/GameBox/Leg</TexturePath>
+        <BaseStats>
+            <WeaponPower>32</WeaponPower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponBlunt">
+        <Moniker>GameBoxFist</Moniker>
+        <Label>GameBox Fist</Label>
+        <Description>A GameBox fist that delivers precise strikes</Description>
+        <WeaponProperties>
+            <WeaponType>Hand</WeaponType>
+            <DamageType>Blunt</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.6</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.3</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Metal</Substance>
+                    <Modifier>0.5</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Electrofied</Def>
+                    <DurationInTicks>5~30</DurationInTicks>
+                    <Chance>.8</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Pawn/BodyParts/GameBox/Hand</TexturePath>
+        <BaseStats>
+            <WeaponPower>32</WeaponPower>
+        </BaseStats>
+    </ItemDef>
 </Definitions>
