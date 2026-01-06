@@ -74,7 +74,7 @@ public sealed class LootBoxSelectionScreen : VerticalStackPanel
         };
 
         // Use Button with LargeGold style for proper hover/pressed states
-        var chestButton = new Button(BaseContent.Styles.Button.Dark)
+        var chestButton = new CursorButton(BaseContent.Styles.Button.Dark)
         {
             Padding = new Thickness(16),
             Content = new Image
@@ -193,7 +193,7 @@ public sealed class LootBoxSelectionScreen : VerticalStackPanel
         _lootPanel.Widgets.Add(itemRow);
 
         // Continue button
-        var continueButton = new Button(BaseContent.Styles.Button.Large)
+        var continueButton = new CursorButton(BaseContent.Styles.Button.Large)
         {
             Content = new Label { Text = "Continue" },
             HorizontalAlignment = HorizontalAlignment.Center,

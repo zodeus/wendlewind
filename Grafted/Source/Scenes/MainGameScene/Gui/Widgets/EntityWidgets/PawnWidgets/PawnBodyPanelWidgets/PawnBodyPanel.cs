@@ -191,7 +191,7 @@ internal sealed class MedicalItemsBar : HorizontalStackPanel, IUpdatable
     }
 }
 
-internal sealed class MedicalItemButton : Button
+internal sealed class MedicalItemButton : CursorButton
 {
     private readonly BaseGui _gui;
     private readonly Item _item;

@@ -3,7 +3,7 @@
 public sealed class TabPanel : VerticalStackPanel
 {
     private readonly HorizontalStackPanel _tabButtonsPanel;
-    private readonly List<Button> _tabButtons = [];
+    private readonly List<CursorButton> _tabButtons = [];
 
     //private readonly Dictionary<string, Widget> _tabs = new();
     private ScrollViewer _activeTab = new();
@@ -35,10 +35,10 @@ public sealed class TabPanel : VerticalStackPanel
             row.Widgets.Add(new Image { Background = icon, Width = 48, Height = 48 });
         }
 
-        Button? label = null;
+        CursorButton? label = null;
         if (labelText != null)
         {
-            label = new Button(ButtonStyle) { Content = new Label(LabelStyle) { Text = labelText } };
+            label = new CursorButton(ButtonStyle) { Content = new Label(LabelStyle) { Text = labelText } };
   
             _tabButtons.Add(label);
             row.Widgets.Add(label);

@@ -110,7 +110,7 @@ public sealed class ChainLinkPanel : EntityPanelBase
         };
 
         // Armor icon button
-        var button = new Button(BaseContent.Styles.Button.Dark)
+        var button = new CursorButton(BaseContent.Styles.Button.Dark)
         {
             Padding = new Thickness(8),
             Content = new Image
@@ -144,8 +144,6 @@ public sealed class ChainLinkPanel : EntityPanelBase
         var craftButton = new ArmorCraftButton(container, button, recipe);
 
         button.Click += (_, _) => CraftArmor(craftButton);
-        button.MouseEntered += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Hand);
-        button.MouseLeft += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Arrow);
 
         return craftButton;
     }
@@ -206,5 +204,5 @@ public sealed class ChainLinkPanel : EntityPanelBase
 
     private record ArmorRecipe(ItemDef ArmorDef, int Cost);
 
-    private record ArmorCraftButton(Widget Container, Button Button, ArmorRecipe Recipe);
+    private record ArmorCraftButton(Widget Container, CursorButton Button, ArmorRecipe Recipe);
 }

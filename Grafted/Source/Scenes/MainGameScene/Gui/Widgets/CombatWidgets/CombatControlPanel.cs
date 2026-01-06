@@ -3,12 +3,12 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 public sealed class CombatControlPanel : VerticalStackPanel
 {
     private readonly HorizontalStackPanel _speedButtonsPanel;
-    private readonly List<(Button button, Label label)> _speedButtons = [];
+    private readonly List<(CursorButton button, Label label)> _speedButtons = [];
 
     public CombatControlPanel(Encounter encounter)
     {
         var pauseLabel = new Label("small") { Text = "||" };
-        var pauseButton = new Button("small")
+        var pauseButton = new CursorButton("small")
         {
             Content = pauseLabel
         };
@@ -31,10 +31,10 @@ public sealed class CombatControlPanel : VerticalStackPanel
         Widgets.Add(_speedButtonsPanel);
     }
 
-    private Button CreateSpeedButton(string label, int speed)
+    private CursorButton CreateSpeedButton(string label, int speed)
     {
         var buttonLabel = new Label("small") { Text = label, TextColor = Color.LightGray };
-        var button = new Button("small")
+        var button = new CursorButton("small")
         {
             Content = buttonLabel
         };

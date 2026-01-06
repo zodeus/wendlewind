@@ -80,13 +80,13 @@ public class BodyPartEditorWindow : Window
     private readonly Label _scaleValueLabel;
     private readonly Label _rotationValueLabel;
     private readonly Label _renderOrderValueLabel;
-    private readonly Button _flipHButton;
-    private readonly Button _flipVButton;
+    private readonly CursorButton _flipHButton;
+    private readonly CursorButton _flipVButton;
     private readonly Grid _partsGrid;
-    private readonly Dictionary<string, Button> _partButtons = new();
+    private readonly Dictionary<string, CursorButton> _partButtons = new();
     
     // Equipment attachment UI
-    private readonly Button _hasEquipmentButton;
+    private readonly CursorButton _hasEquipmentButton;
     private readonly HorizontalSlider _equipOffsetXSlider;
     private readonly HorizontalSlider _equipOffsetYSlider;
     private readonly HorizontalSlider _equipRotationSlider;
@@ -95,7 +95,7 @@ public class BodyPartEditorWindow : Window
     private readonly Label _equipOffsetYLabel;
     private readonly Label _equipRotationLabel;
     private readonly Label _equipScaleLabel;
-    private readonly Button _equipFlipHButton;
+    private readonly CursorButton _equipFlipHButton;
     private readonly Panel _equipmentPanel;
 
     public BodyPartEditorWindow(Pawn pawn, int renderSize = 512)
@@ -206,12 +206,12 @@ public class BodyPartEditorWindow : Window
         
         // Flip controls
         var flipPanel = new HorizontalStackPanel { Spacing = 10 };
-        _flipHButton = new Button(BaseContent.Styles.Button.Normal)
+        _flipHButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Content = new Label { Text = "Horz: Off" },
         };
         _flipHButton.Click += OnFlipHClicked;
-        _flipVButton = new Button(BaseContent.Styles.Button.Normal)
+        _flipVButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Content = new Label { Text = "Vert: Off" },
         };
@@ -225,7 +225,7 @@ public class BodyPartEditorWindow : Window
         // Equipment Attachment section
         rightPanel.Widgets.Add(new Label { Text = "Equipment Attachment:", TextColor = Color.Orange });
         
-        _hasEquipmentButton = new Button(BaseContent.Styles.Button.Normal)
+        _hasEquipmentButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Content = new Label { Text = "Has Attachment: Off" },
         };
@@ -300,7 +300,7 @@ public class BodyPartEditorWindow : Window
         equipStack.Widgets.Add(equipScalePanel);
         
         // Equipment Flip H
-        _equipFlipHButton = new Button(BaseContent.Styles.Button.Normal)
+        _equipFlipHButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Content = new Label { Text = "Flip H: Off" },
         };
@@ -314,28 +314,28 @@ public class BodyPartEditorWindow : Window
         rightPanel.Widgets.Add(new Label { Text = "" }); // Spacer
         
         // Action buttons
-        var copyButton = new Button(BaseContent.Styles.Button.Normal)
+        var copyButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Content = new Label { Text = "Copy to Clipboard" },
         };
         copyButton.Click += (_, _) => CopyPositionsToClipboard();
         rightPanel.Widgets.Add(copyButton);
         
-        var resetButton = new Button(BaseContent.Styles.Button.Normal)
+        var resetButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Content = new Label { Text = "Reset All" },
         };
         resetButton.Click += (_, _) => ResetAll();
         rightPanel.Widgets.Add(resetButton);
         
-        var resetSelectedButton = new Button(BaseContent.Styles.Button.Normal)
+        var resetSelectedButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Content = new Label { Text = "Reset Selected" },
         };
         resetSelectedButton.Click += (_, _) => ResetSelected();
         rightPanel.Widgets.Add(resetSelectedButton);
         
-        var selectAllButton = new Button(BaseContent.Styles.Button.Normal)
+        var selectAllButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Content = new Label { Text = "Select All Parts" },
         };
@@ -403,7 +403,7 @@ public class BodyPartEditorWindow : Window
         
         foreach (var (part, info) in parts)
         {
-            var button = new Button(BaseContent.Styles.Button.Small)
+            var button = new CursorButton(BaseContent.Styles.Button.Small)
             {
                 Content = new Label(BaseContent.Styles.Label.Small) { Text = part.Label, TextColor = Color.White },
             };

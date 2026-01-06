@@ -53,7 +53,7 @@ public sealed class SelectionPopup<T>
 
         foreach (var item in itemList)
         {
-            var itemButton = new Button(BaseContent.Styles.Button.Dark)
+            var itemButton = new CursorButton(BaseContent.Styles.Button.Dark)
             {
                 Content = new Image
                 {

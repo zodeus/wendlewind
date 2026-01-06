@@ -243,13 +243,11 @@ public sealed class DisassembleItemCard : Panel
         MouseEntered += (_, _) =>
         {
             Background = _hoverBackground;
-            Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Hand);
         };
 
         MouseLeft += (_, _) =>
         {
             Background = _defaultBackground;
-            Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Arrow);
         };
     }
 
@@ -334,9 +332,9 @@ public sealed class DisassembleItemCard : Panel
         return container;
     }
 
-    private Button CreateDisassembleButton()
+    private CursorButton CreateDisassembleButton()
     {
-        var button = new Button(BaseContent.Styles.Button.Dark)
+        var button = new CursorButton(BaseContent.Styles.Button.Dark)
         {
             VerticalAlignment = VerticalAlignment.Center,
             Padding = new Thickness(12, 8, 12, 8)
@@ -371,11 +369,6 @@ public sealed class DisassembleItemCard : Panel
         {
             Disassemble();
             _redraw();
-        };
-
-        button.MouseEntered += (_, _) =>
-        {
-            Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Hand);
         };
 
         return button;

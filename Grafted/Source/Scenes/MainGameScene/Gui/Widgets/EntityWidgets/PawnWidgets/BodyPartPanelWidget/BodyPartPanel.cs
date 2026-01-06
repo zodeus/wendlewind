@@ -26,22 +26,6 @@ public sealed class BodyPartPanel : EntityPanelBase
         leftPanel.Widgets.Add(new BodyPartPanelArteryLabel(bodyPart));
         leftPanel.Widgets.Add(new BodyPartPanelDestroyedLabel(bodyPart));
         
-        // Sever button - only show if part can be severed
-        var canSever = bodyPart.Socket != null && bodyPart.Socket != bodyPart.Body?.RootSocket && !bodyPart.IsSevered;
-        var severButton = new Button(BaseContent.Styles.Button.Normal)
-        {
-            Content = new Label { Text = "Sever Part", TextColor = new Color(255, 100, 100) },
-            Margin = new Thickness(0, 15, 0, 0),
-            Enabled = canSever
-        };
-        severButton.Click += (_, _) =>
-        {
-            bodyPart.Severe();
-            severButton.Enabled = false;
-            ((Label)severButton.Content).Text = "Severed";
-        };
-        leftPanel.Widgets.Add(severButton);
-        
         VerticalStackPanel centerPanel = new() { Spacing = 5, MinWidth = 330 };
         RegisterAttachedParts(gui, centerPanel, bodyPart);
             

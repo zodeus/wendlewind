@@ -19,6 +19,8 @@ public class EntityListPanelItem : HorizontalStackPanel
                 _label
             }
         };
+        entityButton.MouseEntered += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Hand);
+        entityButton.MouseLeft += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Arrow);
         Widgets.Add(entityButton);
         entityButton.TouchDown += (_, _) =>
         {

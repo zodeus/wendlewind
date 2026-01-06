@@ -13,7 +13,7 @@ public sealed class BoneCrackerPanel : EntityPanelBase
     private readonly HorizontalProgressBar _progressBar;
     private readonly Label _progressLabel;
     private readonly VerticalStackPanel _partsContainer;
-    private readonly Button _breakBoneButton;
+    private readonly CursorButton _breakBoneButton;
     private readonly Label _buttonLabel;
 
     public BoneCrackerPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
@@ -159,7 +159,7 @@ public sealed class BoneCrackerPanel : EntityPanelBase
             HorizontalAlignment = HorizontalAlignment.Center
         };
         
-        _breakBoneButton = new Button(BaseContent.Styles.Button.Normal)
+        _breakBoneButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Content = _buttonLabel,
             HorizontalAlignment = HorizontalAlignment.Stretch,

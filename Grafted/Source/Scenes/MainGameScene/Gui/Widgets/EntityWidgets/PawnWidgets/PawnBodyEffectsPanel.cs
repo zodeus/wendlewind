@@ -171,7 +171,7 @@ public sealed class PawnBodyEffectsPanel : Panel, IUpdatable
                 Padding = new Thickness(0, 0, 0, 2),
             };
 
-            var button = new Button
+            var button = new CursorButton
             {
                 Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
                 Width = BaseContent.IconSizes.Large,

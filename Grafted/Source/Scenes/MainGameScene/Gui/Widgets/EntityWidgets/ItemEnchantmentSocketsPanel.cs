@@ -21,9 +21,9 @@ internal sealed class ItemEnchantmentSocketsPanel : HorizontalStackPanel
         }
     }
 
-    private Button GenerateSocket(int index)
+    private CursorButton GenerateSocket(int index)
     {
-        var socket = new Button
+        var socket = new CursorButton
         {
             //Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
             Padding = new Thickness(8),
@@ -65,7 +65,7 @@ internal sealed class ItemEnchantmentSocketsPanel : HorizontalStackPanel
         return socket;
     }
 
-    private void ShowEnchantmentSelectionPopup(int socketIndex, Button socketButton)
+    private void ShowEnchantmentSelectionPopup(int socketIndex, CursorButton socketButton)
     {
         if (_selectionPopup.IsOpen) return;
 
@@ -86,7 +86,7 @@ internal sealed class ItemEnchantmentSocketsPanel : HorizontalStackPanel
             e => SocketEnchantmentFromInventory(socketIndex, e, socketButton));
     }
 
-    private void SocketEnchantmentFromInventory(int socketIndex, Item enchantment, Button socketButton)
+    private void SocketEnchantmentFromInventory(int socketIndex, Item enchantment, CursorButton socketButton)
     {
         enchantment.EjectFromContainer();
         _item.Enchantments!.TryAdd(enchantment, socketIndex);

@@ -47,7 +47,7 @@ public sealed class TrinketBar : VerticalStackPanel
 public sealed class TrinketBarCell : VerticalStackPanel
 {
     private readonly Item _trinket;
-    private readonly Button _button;
+    private readonly CursorButton _button;
     private Window? _tooltipWindow;
     private Label? _tooltipTitle;
     private Label? _tooltipDescription;
@@ -56,7 +56,7 @@ public sealed class TrinketBarCell : VerticalStackPanel
     {
         Spacing = 0;
         _trinket = trinket;
-        _button = new Button
+        _button = new CursorButton
         {
             
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],

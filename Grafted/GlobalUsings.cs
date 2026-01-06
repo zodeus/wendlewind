@@ -7,6 +7,7 @@ global using FontStashSharp;
 global using Grafted.Debug;
 global using Grafted.Definitions;
 global using Grafted.Maths;
+global using Grafted.Scenes.MainGameScene.Gui.Widgets;
 global using Grafted.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 global using Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 global using Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;

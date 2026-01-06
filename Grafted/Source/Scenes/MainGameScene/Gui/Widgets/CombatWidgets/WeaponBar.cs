@@ -28,7 +28,7 @@ public sealed class WeaponBar : HorizontalStackPanel, IUpdatable
         foreach (var weapon in usableWeapons)
         {
             var initialColor = weapon.UseInCombat ? Color.White : new Color(80, 80, 80, 160);
-            var button = new Button(BaseContent.Styles.Button.Icon)
+            var button = new CursorButton(BaseContent.Styles.Button.Icon)
             {
                 Content = new Image
                 {

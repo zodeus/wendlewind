@@ -210,7 +210,7 @@ public class SlingshotHandler : TrinketHandler
         return oldAmmo;
     }
 
-    public override void PrepareTrinketButton(Button button)
+    public override void PrepareTrinketButton(CursorButton button)
     {
         var panel = new Panel
         {
@@ -255,7 +255,7 @@ public class SlingshotHandler : TrinketHandler
         _buttonContent = button.Content;
     }
 
-    public override void Update(Button button)
+    public override void Update(CursorButton button)
     {
         // Handle upgrade level texture changes
         if (_buttonContent != null)

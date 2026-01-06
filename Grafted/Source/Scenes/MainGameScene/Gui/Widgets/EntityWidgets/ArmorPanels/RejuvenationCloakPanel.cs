@@ -201,7 +201,7 @@ public sealed class RejuvenationCloakPanel : EntityPanelBase
         }
 
         // Upgrade button
-        var upgradeButton = new Button(BaseContent.Styles.Button.Normal)
+        var upgradeButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Content = new Label
             {

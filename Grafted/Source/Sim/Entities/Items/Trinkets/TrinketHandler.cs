@@ -68,7 +68,7 @@ public abstract class TrinketHandler : IExposable
     /// <summary>
     /// Called by the update the trinket's UI.
     /// </summary>
-    public virtual void Update(Button button)
+    public virtual void Update(CursorButton button)
     {
         if (_dimmedBackground == null)
         {
@@ -95,7 +95,7 @@ public abstract class TrinketHandler : IExposable
         }
     }
     
-    public virtual void PrepareTrinketButton(Button button)
+    public virtual void PrepareTrinketButton(CursorButton button)
     {
     }
 }

@@ -3,7 +3,7 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 [UsedImplicitly]
 public sealed class ResourcePanel : EntityPanelBase
 {
-    private readonly Button _makePotionButton;
+    private readonly CursorButton _makePotionButton;
 
     public ResourcePanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
@@ -105,7 +105,7 @@ public sealed class ResourcePanel : EntityPanelBase
 
         // MAKE POTION
         var makePotionTitle = TryGetMakePotionTitle(Core.Context.Player, item);
-        _makePotionButton = new Button(BaseContent.Styles.Button.Normal)
+        _makePotionButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Content = new Label { Text = $"Make {makePotionTitle}" },
             Margin = new Thickness(0, 20, 0, 0)

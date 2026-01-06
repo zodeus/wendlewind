@@ -72,7 +72,7 @@ public class GoldenGooseHandler : TrinketHandler
         return _foodList[item.ItemDef];
     }
 
-    public override void PrepareTrinketButton(Button button)
+    public override void PrepareTrinketButton(CursorButton button)
     {
         var panel = new Panel
         {
@@ -100,7 +100,7 @@ public class GoldenGooseHandler : TrinketHandler
         }
     }
     
-    public override void Update(Button button)
+    public override void Update(CursorButton button)
     {
         base.Update(button);
         

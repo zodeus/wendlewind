@@ -88,6 +88,8 @@ internal sealed class SocketLabel : HorizontalStackPanel
             Text = $"{socket.Label}",
             VerticalAlignment = VerticalAlignment.Center
         };
+        _label.MouseEntered += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Hand);
+        _label.MouseLeft += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Arrow);
 
         var body = socket.Body ?? socket.ParentPart?.Body;
         if (body?.Pawn.PawnType == PawnType.Enemy)

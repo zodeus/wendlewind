@@ -10,8 +10,8 @@ internal sealed class WheelOfParts : VerticalStackPanel
     private readonly Pawn _pawn;
     private readonly MysteryProperties _mystery;
     private readonly WheelRenderWidget _wheelWidget;
-    private readonly Button _spinButton;
-    private readonly Button _skipButton;
+    private readonly CursorButton _spinButton;
+    private readonly CursorButton _skipButton;
     private readonly Label _resultLabel;
     private readonly int _maxSpins;
     private int _spinsUsed;
@@ -55,7 +55,7 @@ internal sealed class WheelOfParts : VerticalStackPanel
             Margin = new Thickness(0, 10, 0, 0)
         };
 
-        _spinButton = new Button(BaseContent.Styles.Button.LargeGold)
+        _spinButton = new CursorButton(BaseContent.Styles.Button.LargeGold)
         {
             Content = new Label(BaseContent.Styles.Label.Large) { Text = "Spin!" },
             Width = 200,
@@ -64,7 +64,7 @@ internal sealed class WheelOfParts : VerticalStackPanel
         _spinButton.Click += OnSpinClicked;
         buttonsPanel.Widgets.Add(_spinButton);
 
-        _skipButton = new Button(BaseContent.Styles.Button.Large)
+        _skipButton = new CursorButton(BaseContent.Styles.Button.Large)
         {
             Content = new Label(BaseContent.Styles.Label.Large) { Text = "Leave" },
             Width = 200

@@ -106,7 +106,7 @@ internal sealed class MysteryScreen : VerticalStackPanel
         Widgets.Add(itemRow);
 
         // Continue button
-        var continueButton = new Button(BaseContent.Styles.Button.LargeGold)
+        var continueButton = new CursorButton(BaseContent.Styles.Button.LargeGold)
         {
             Content = new Label(BaseContent.Styles.Label.Large) { Text = "Accept Gift" },
             HorizontalAlignment = HorizontalAlignment.Center,
@@ -142,7 +142,7 @@ internal sealed class MysteryScreen : VerticalStackPanel
             TextColor = new Color(140, 140, 140)
         });
 
-        var button = new Button(BaseContent.Styles.Button.Large)
+        var button = new CursorButton(BaseContent.Styles.Button.Large)
         {
             Content = new Label(BaseContent.Styles.Label.Large) { Text = "Leave" },
             HorizontalAlignment = HorizontalAlignment.Center,

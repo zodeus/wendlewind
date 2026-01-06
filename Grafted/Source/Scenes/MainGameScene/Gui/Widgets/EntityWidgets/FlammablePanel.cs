@@ -117,7 +117,7 @@ public sealed class FlammablePanel : EntityPanelBase
             Padding = new Thickness(2)
         };
 
-        var button = new Button(BaseContent.Styles.Button.Normal)
+        var button = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Content = new HorizontalStackPanel
             {

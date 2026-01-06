@@ -31,7 +31,7 @@ public class ZoneSelectionWindow : Window
         if (zone.IsComplete || previousZone is { IsComplete: false }) return;
 
         _zoneDisplay.Widgets.Clear();
-        var startButton = new Button(BaseContent.Styles.Button.Large)
+        var startButton = new CursorButton(BaseContent.Styles.Button.Large)
         {
             Content = new Label(BaseContent.Styles.Label.Large) { Text = $"/c[{TC.Green}]Start" }
         };
@@ -39,8 +39,10 @@ public class ZoneSelectionWindow : Window
         {
             Core.Context.Save();
             Core.Context.EnterZone(zone.ZoneDef);
+            // Set cursor to arrow, button OnLeave event doesn't get a chance to fire
+            Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Arrow);
         };
-        Button close = new(BaseContent.Styles.Button.Large)
+        CursorButton close = new(BaseContent.Styles.Button.Large)
         {
             Content = new Label(BaseContent.Styles.Label.Large) { Text = $"/c[{TC.Red}]Cancel" }
         };

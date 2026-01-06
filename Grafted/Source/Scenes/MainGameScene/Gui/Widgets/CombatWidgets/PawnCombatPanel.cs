@@ -174,11 +174,11 @@ internal sealed class BodyStanceBar : HorizontalStackPanel
 {
     public BodyStanceBar(Pawn pawn)
     {
-        var buttons = new List<Button>();
+        var buttons = new List<CursorButton>();
         var defaultColor = new Color(80, 80, 80, 100);
         foreach (var stance in DefRepository<BodyStanceDef>.Defs)
         {
-            var button =new Button(BaseContent.Styles.Button.Icon)
+            var button = new CursorButton(BaseContent.Styles.Button.Icon)
             {
                 Content = new Image
                 {

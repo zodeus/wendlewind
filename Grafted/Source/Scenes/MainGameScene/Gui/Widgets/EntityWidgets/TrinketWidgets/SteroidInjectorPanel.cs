@@ -208,7 +208,7 @@ public sealed class SteroidInjectorPanel : EntityPanelBase
     {
         private readonly SteroidInjectorPanel _panel;
         private readonly BodyPart _bodyPart;
-        private readonly Button _injectButton;
+        private readonly CursorButton _injectButton;
         private readonly Label _costLabel;
         private readonly Label _boostLabel;
         private readonly Label _hpLabel;
@@ -235,7 +235,7 @@ public sealed class SteroidInjectorPanel : EntityPanelBase
             ColumnsProportions.Add(new Proportion(ProportionType.Pixels, 140)); // HP Bar
 
             // === Inject Button ===
-            _injectButton = new Button(BaseContent.Styles.Button.Plus64)
+            _injectButton = new CursorButton(BaseContent.Styles.Button.Plus64)
             {
                 Width = 40,
                 Height = 40,

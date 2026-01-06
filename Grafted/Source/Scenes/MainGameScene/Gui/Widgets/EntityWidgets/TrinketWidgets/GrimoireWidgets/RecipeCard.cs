@@ -243,7 +243,7 @@ public class RecipeCard : Panel
             HorizontalAlignment = HorizontalAlignment.Stretch,
         };
         
-        var button = new Button(canCraft ? BaseContent.Styles.Button.LargeGold : BaseContent.Styles.Button.Large)
+        var button = new CursorButton(canCraft ? BaseContent.Styles.Button.LargeGold : BaseContent.Styles.Button.Large)
         {
             Enabled = canCraft,
             HorizontalAlignment = HorizontalAlignment.Stretch,

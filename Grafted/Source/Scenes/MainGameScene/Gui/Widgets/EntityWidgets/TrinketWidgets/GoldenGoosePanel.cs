@@ -221,7 +221,7 @@ public sealed class GoldenGoosePanel : EntityPanelBase
         };
         
         // Feed button first (like SlingshotPanel)
-        var feedButton = new Button(BaseContent.Styles.Button.Normal)
+        var feedButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             VerticalAlignment = VerticalAlignment.Center,
             Content = new Label(BaseContent.Styles.Label.Small) { Text = "Feed" }

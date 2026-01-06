@@ -222,7 +222,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
         private readonly Pawn _pawn;
         private readonly int _cellSize = BaseContent.IconSizes.Large;
         private readonly BodyPart _bodyPart;
-        private readonly Dictionary<EquipmentSlotType, Button> _slots = new();
+        private readonly Dictionary<EquipmentSlotType, CursorButton> _slots = new();
         private readonly Image _imageFrame;
         private event Action<BodyPart, EquipmentSlotType>? ClickAction;
         private Dictionary<ItemDef, ColoredRegion> _iconCache = new();
@@ -240,10 +240,12 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
             _bagSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.BagSlot];
             _imageFrame = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.WhiteIcon), BodyPartColor.Get(bodyPart)), Width = _cellSize, Height = _cellSize };
             _imageFrame.TouchDown += (_, _) => gui.ViewEntity(bodyPart);
+            _imageFrame.MouseEntered += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Hand);
+            _imageFrame.MouseLeft += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Arrow);
             Widgets.Add(_imageFrame);
             foreach (var slot in slots)
             {
-                Button slotFrame = new(BaseContent.Styles.Button.Icon)
+                CursorButton slotFrame = new(BaseContent.Styles.Button.Icon)
                 {
                     Content = new HorizontalStackPanel
                     {

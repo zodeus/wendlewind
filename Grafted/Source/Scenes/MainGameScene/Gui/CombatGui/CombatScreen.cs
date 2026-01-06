@@ -14,15 +14,15 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     private readonly CombatControlPanel _controlPanel;
     private readonly PawnBodyPanel _pawnBodyView;
     private readonly PawnBodyPanel _enemyPawnBodyView;
-    private Button _playerQueuedPotionSlot;
+    private CursorButton _playerQueuedPotionSlot;
     private Item? _playerQueuedPotion;
-    private Button _enemyQueuedPotionSlot;
+    private CursorButton _enemyQueuedPotionSlot;
     private Item? _enemyQueuedPotion;
     private readonly HorizontalStackPanel _potionQueuePanel;
     private readonly Label _tickLabel;
     private Window? _combatLogWindow;
     private CombatSummaryWindow? _summaryWindow;
-    private Button? _showSummaryButton;
+    private CursorButton? _showSummaryButton;
 
     private Encounter Encounter => _context.CurrentZone!.ActiveEncounter!;
 
@@ -73,12 +73,12 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             Content = new VerticalStackPanel { Padding = new Thickness(0), Spacing = 12 }
         };
 
-        _playerQueuedPotionSlot = new Button(BaseContent.Styles.Button.Icon)
+        _playerQueuedPotionSlot = new CursorButton(BaseContent.Styles.Button.Icon)
         {
             Width = 64, Height = 64
         };
         _playerQueuedPotionSlot.Click += (_, _) => Encounter.CombatHandler?.DeQueuedItemForPawn(Encounter.PlayerPawns[0]);
-        _enemyQueuedPotionSlot = new Button(BaseContent.Styles.Button.Icon)
+        _enemyQueuedPotionSlot = new CursorButton(BaseContent.Styles.Button.Icon)
         {
             Width = 64, Height = 64
         };
@@ -101,7 +101,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             Text = "0", TextColor = Color.DarkGoldenrod
         };
 
-        var logsButton = new Button(BaseContent.Styles.Button.Normal)
+        var logsButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             HorizontalAlignment = HorizontalAlignment.Center,
             Content = new Label(BaseContent.Styles.Label.Small)
@@ -127,7 +127,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             _combatLogWindow.Top = 370;
         };
         
-        _showSummaryButton = new Button(BaseContent.Styles.Button.Normal)
+        _showSummaryButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Margin = new Thickness(0, 10, 0, 0),
             HorizontalAlignment = HorizontalAlignment.Center,

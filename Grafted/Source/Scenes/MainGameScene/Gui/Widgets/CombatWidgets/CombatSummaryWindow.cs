@@ -82,7 +82,7 @@ public sealed class CombatSummaryWindow : Window
             
             foreach (var item in handler.Loot.Take(8))
             {
-                var itemIcon = new Button(BaseContent.Styles.Button.Icon)
+                var itemIcon = new CursorButton(BaseContent.Styles.Button.Icon)
                 {
                     Content = new Image
                     {
@@ -126,7 +126,7 @@ public sealed class CombatSummaryWindow : Window
             severedSection = severedLabel;
         }
 
-        var reviewButton = new Button(BaseContent.Styles.Button.Normal)
+        var reviewButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Content = new Label { Text = "Review Combat", HorizontalAlignment = HorizontalAlignment.Center },
             HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -138,7 +138,7 @@ public sealed class CombatSummaryWindow : Window
             OnReviewRequested?.Invoke();
         };
 
-        var continueButton = new Button(BaseContent.Styles.Button.LargeGold)
+        var continueButton = new CursorButton(BaseContent.Styles.Button.LargeGold)
         {
             Content = new Label { Text = "Continue", HorizontalAlignment = HorizontalAlignment.Center },
             HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -290,7 +290,7 @@ public sealed class CombatSummaryWindow : Window
         }
 
         // Restart button
-        var restartButton = new Button(BaseContent.Styles.Button.Large)
+        var restartButton = new CursorButton(BaseContent.Styles.Button.Large)
         {
             Content = new Label { Text = "Try Again", HorizontalAlignment = HorizontalAlignment.Center },
             HorizontalAlignment = HorizontalAlignment.Stretch,

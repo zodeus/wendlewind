@@ -92,7 +92,7 @@ public sealed class ZoneControls : Panel
             _ => ("Fight!", BaseContent.Styles.Button.Dark, onContinue, (Color?)null)
         };
 
-        var button = new Button(buttonStyle)
+        var button = new CursorButton(buttonStyle)
         {
             Content = new Label(BaseContent.Styles.Label.Medium)
             {

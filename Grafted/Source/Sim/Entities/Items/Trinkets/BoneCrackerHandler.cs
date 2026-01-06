@@ -129,7 +129,7 @@ public class BoneCrackerHandler : TrinketHandler
         }
     }
 
-    public override void PrepareTrinketButton(Button button)
+    public override void PrepareTrinketButton(CursorButton button)
     {
         var panel = new Panel
         {
@@ -164,7 +164,7 @@ public class BoneCrackerHandler : TrinketHandler
         }
     }
 
-    public override void Update(Button button)
+    public override void Update(CursorButton button)
     {
         base.Update(button);
 

@@ -23,7 +23,7 @@ public abstract class DefPanelBase : VerticalStackPanel {
 
         if (properties?.ShowCloseButton ?? false) {
             Header.Margin = new Thickness(0, 0, 0, 10);
-            var closeButton = new Button(BaseContent.Styles.Button.Small) {
+            var closeButton = new CursorButton(BaseContent.Styles.Button.Small) {
                 Content = new Image { Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Close] },
                 HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Center

@@ -116,13 +116,13 @@ public sealed class GameHud : HorizontalStackPanel
         };
 
         // === Left Panel Buttons ===
-        Button achievements = CreateHudButton(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Achievements]);
+        CursorButton achievements = CreateHudButton(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Achievements]);
         achievements.TouchDown += (_, _) => { PlayerAchievementsWindow.Toggle(Desktop); };
 
-        Button kills = CreateHudButton(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Skull]);
+        CursorButton kills = CreateHudButton(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Skull]);
         kills.TouchDown += (_, _) => { PlayerKillsWindow.Toggle(Desktop, context.DeathRecords); };
 
-        Button pawn = CreateHudButton(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Human], Color.DarkGoldenrod);
+        CursorButton pawn = CreateHudButton(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Human], Color.DarkGoldenrod);
         pawn.TouchDown += (_, _) => { gui.ViewEntity(context.PlayerPawn); };
 
         leftPanel.Widgets.Add(achievements);
@@ -262,13 +262,13 @@ public sealed class GameHud : HorizontalStackPanel
         });
     }
 
-    private static Button CreateHudButton(IImage icon, Color? tint = null)
+    private static CursorButton CreateHudButton(IImage icon, Color? tint = null)
     {
         if (tint != null)
         {
             icon = new ColoredRegion((TextureRegion)icon, tint.Value);
         }
-        return new Button(BaseContent.Styles.Button.Dark)
+        return new CursorButton(BaseContent.Styles.Button.Dark)
         {
             Content = new Image
             {

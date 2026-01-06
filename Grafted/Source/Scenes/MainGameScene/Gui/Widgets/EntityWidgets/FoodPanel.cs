@@ -5,8 +5,8 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 [UsedImplicitly]
 public sealed class FoodPanel : EntityPanelBase
 {
-    private readonly Button _eatButton = null!;
-    private readonly Button _cookButton;
+    private readonly CursorButton _eatButton = null!;
+    private readonly CursorButton _cookButton;
     private readonly Label _stackSizeLabel = null!;
     private readonly Item _item;
 
@@ -139,7 +139,7 @@ public sealed class FoodPanel : EntityPanelBase
         }
 
         // Buttons
-        _eatButton = new Button(BaseContent.Styles.Button.Normal)
+        _eatButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Content = new Label { Text = "Eat" },
             Margin = new Thickness(0, 15, 0, 0)
@@ -159,7 +159,7 @@ public sealed class FoodPanel : EntityPanelBase
             }
         };
 
-        _cookButton = new Button(BaseContent.Styles.Button.Normal)
+        _cookButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Content = new Label { Text = "Cook" },
             Margin = new Thickness(0, 15, 0, 0),

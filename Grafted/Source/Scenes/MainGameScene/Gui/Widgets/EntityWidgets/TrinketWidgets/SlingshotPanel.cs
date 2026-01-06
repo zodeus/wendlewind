@@ -143,7 +143,7 @@ public sealed class SlingshotPanel : EntityPanelBase
                 }
             });
 
-            var unloadButton = new Button(BaseContent.Styles.Button.Normal)
+            var unloadButton = new CursorButton(BaseContent.Styles.Button.Normal)
             {
                 Content = new Label(BaseContent.Styles.Label.Small) { Text = "Unload", TextColor = Color.IndianRed },
                 VerticalAlignment = VerticalAlignment.Center
@@ -174,7 +174,7 @@ public sealed class SlingshotPanel : EntityPanelBase
                 Margin = new Thickness(0, 2, 0, 2)
             };
 
-            var loadButton = new Button(BaseContent.Styles.Button.Normal)
+            var loadButton = new CursorButton(BaseContent.Styles.Button.Normal)
             {
                 VerticalAlignment = VerticalAlignment.Center,
                 Content = new Label(BaseContent.Styles.Label.Small) { Text = "Load" }
@@ -357,7 +357,7 @@ public sealed class SlingshotPanel : EntityPanelBase
         }
 
         // Upgrade button
-        var upgradeButton = new Button(BaseContent.Styles.Button.Normal)
+        var upgradeButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Content = new Label
             {

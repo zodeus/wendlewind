@@ -8,7 +8,7 @@ public sealed class PotionBar : HorizontalStackPanel, IUpdatable
     {
         foreach (var potion in pawn.Equipment.Potions)
         {
-            var button = new Button
+            var button = new CursorButton
             {
                 Content = new Image
                 {

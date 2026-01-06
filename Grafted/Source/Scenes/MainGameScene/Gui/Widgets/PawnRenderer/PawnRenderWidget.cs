@@ -13,7 +13,7 @@ public class PawnRenderWidget : Panel, IDisposable
     private readonly PawnRenderer _renderer;
     private readonly PawnRenderArea _renderArea;
     private readonly Pawn _pawn;
-    private readonly Button _editorButton;
+    private readonly CursorButton _editorButton;
     private readonly VerticalStackPanel? _editorControlPanel;
     private bool _isDisposed;
 
@@ -89,7 +89,7 @@ public class PawnRenderWidget : Panel, IDisposable
                 Visible = false
             };
 
-            _editorButton = new Button(BaseContent.Styles.Button.Small)
+            _editorButton = new CursorButton(BaseContent.Styles.Button.Small)
             {
                 Content = new Label(BaseContent.Styles.Label.Small) { Text = "Edit" },
                 Width = 50,
