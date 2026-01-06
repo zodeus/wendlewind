@@ -39,6 +39,7 @@ public class ZoneGui : BaseGui
 
     private void HandleZoneStateChanged(ZoneState state)
     {
+        MouseAttachment?.Detach();
         ClearScreenMessage();
 
         _combatPreparationScreen?.RemoveFromParent();
