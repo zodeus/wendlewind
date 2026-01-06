@@ -105,7 +105,7 @@ public sealed class WeaponPanel : EntityPanelBase
             modsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
 
             var row = 0;
-            foreach (var mod in substanceModifiers)
+            foreach (var mod in substanceModifiers.OrderBy(m => m.Substance.ToString()))
             {
                 var isPositive = mod.Modifier >= 1f;
                 var modText = isPositive

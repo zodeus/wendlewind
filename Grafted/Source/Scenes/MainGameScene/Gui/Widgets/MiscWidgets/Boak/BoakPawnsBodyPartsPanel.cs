@@ -77,9 +77,9 @@ internal class BoakPawnsBodyPartsPanel : VerticalStackPanel
             grid.Widgets.Add(label);
         }
 
-        // Data rows
+        // Data rows - ordered by Substance name
         int row = 1;
-        foreach (var def in parts)
+        foreach (var def in parts.OrderBy(p => p.Substance.ToString()))
         {
             int col = 0;
 
