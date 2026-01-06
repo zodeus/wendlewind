@@ -86,7 +86,7 @@ public sealed class ZoneControls : Panel
     {
         var (buttonText, buttonStyle, buttonAction, labelColor) = (isZoneComplete, isMystery, isBoss) switch
         {
-            (true, _, _) => ("Continue", BaseContent.Styles.Button.Large, onExit!, (Color?)null),
+            (true, _, _) => ("Leave Zone", BaseContent.Styles.Button.Large, onExit!, (Color?)null),
             (_, true, _) => ("Continue", BaseContent.Styles.Button.Large, onContinue, (Color?)MysteryColor),
             (_, _, true) => ("Boss!", BaseContent.Styles.Button.LargeGold, onContinue, (Color?)BossColor),
             _ => ("Fight!", BaseContent.Styles.Button.Dark, onContinue, (Color?)null)

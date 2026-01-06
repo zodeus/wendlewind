@@ -151,7 +151,7 @@ public sealed class GoldenGoosePanel : EntityPanelBase
             Margin = new Thickness(0, 12, 0, 0)
         };
         Widgets.Add(hintLabel);
-
+        RefreshFoodList();
         RefreshDisplay();
     }
     
@@ -179,9 +179,6 @@ public sealed class GoldenGoosePanel : EntityPanelBase
             _ => $"{beansCount} Golden Beans"
         };
         _beansPreviewLabel.TextColor = _handler!.GetHungerColor();
-        
-        // Refresh food list
-        RefreshFoodList();
     }
     
     private void RefreshFoodList()
@@ -245,7 +242,7 @@ public sealed class GoldenGoosePanel : EntityPanelBase
                 Core.Context.PlayerPawn.Inventory.Remove(capturedFood);
                 capturedFood.Destroy();
             }
-            
+            RefreshFoodList();
             RefreshDisplay();
         };
         

@@ -43,7 +43,7 @@ public class SlingshotHandler : TrinketHandler
     ];
 
     public static List<ResourceCount> GoldUpgradeCost = [
-        new(Defs.Items.GoldenBean, 10),
+        new(Defs.Items.GoldenBean, 5),
         new(Defs.Items.Fang, 1),
         new(Defs.Items.LeatherScraps, 6)
     ];

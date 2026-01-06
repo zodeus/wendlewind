@@ -40,7 +40,7 @@ public sealed class ItemContainerPanel : Panel
             },
             new ItemContainerPanelSection
             {
-                Label = "Equipment Supplies",
+                Label = "Supplies",
                 Inventory = inventory,
                 Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Supplies
             },

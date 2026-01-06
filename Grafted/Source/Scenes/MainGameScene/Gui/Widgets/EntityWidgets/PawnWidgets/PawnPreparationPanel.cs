@@ -1,4 +1,5 @@
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnPreparationPanelWidgets;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
@@ -8,6 +9,9 @@ public class PawnPreparationPanel : Panel, IUpdatable
     private readonly PawnEquipmentPanel _equipmentPanel;
     private readonly PawnBodyPanel _bodyPanel;
     private readonly PawnBodyEffectsPanel _pawnEffectsPanel;
+    private readonly SupplyItemsBar _supplyItemsBar;
+    private readonly FoodItemsBar _foodItemsBar;
+    private readonly FlammableItemsBar _flammableItemsBar;
     private Panel _controlsPanel;
 
     public PawnPreparationPanel(BaseGui gui, Pawn playerPawn)
@@ -47,6 +51,17 @@ public class PawnPreparationPanel : Panel, IUpdatable
         centerColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory, TrinketType.Passive, item => gui.ViewEntity(item)) { TrinketsPerRow = 9 });
         centerColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory, TrinketType.Interactive, item => gui.ViewEntity(item)) { TrinketsPerRow = 9 });
         centerColumn.Widgets.Add(_pawnEffectsPanel);
+
+        // Supply, food and flammable bars above zone controls
+        _supplyItemsBar = new SupplyItemsBar(gui, playerPawn.Inventory);
+        _foodItemsBar = new FoodItemsBar(gui, playerPawn);
+        _flammableItemsBar = new FlammableItemsBar(gui, Core.Context.Player);
+        var consumableBarsContainer = new HorizontalStackPanel { Spacing = 12 };
+        consumableBarsContainer.Widgets.Add(_supplyItemsBar);
+        consumableBarsContainer.Widgets.Add(_foodItemsBar);
+        consumableBarsContainer.Widgets.Add(_flammableItemsBar);
+        centerColumn.Widgets.Add(consumableBarsContainer);
+
         centerColumn.Widgets.Add(_controlsPanel);
 
         HorizontalStackPanel grid = new()
@@ -76,5 +91,8 @@ public class PawnPreparationPanel : Panel, IUpdatable
         _equipmentPanel.Update();
         _inventoryPanel.Update();
         _pawnEffectsPanel.Update();
+        _supplyItemsBar.Update();
+        _foodItemsBar.Update();
+        _flammableItemsBar.Update();
     }
 }

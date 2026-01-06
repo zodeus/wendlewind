@@ -107,8 +107,8 @@ public sealed class TrinketBarCell : VerticalStackPanel
 
         _tooltipWindow = new Window
         {
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
-            Padding = new Thickness(12, 0, 12, 10),
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
+            Padding = new Thickness(10,3,10,10),
             Content = content
         };
         _tooltipWindow.TitlePanel.Visible = false;
