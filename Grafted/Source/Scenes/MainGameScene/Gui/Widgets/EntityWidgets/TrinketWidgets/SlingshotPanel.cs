@@ -382,6 +382,33 @@ public sealed class SlingshotPanel : EntityPanelBase
 
     private void LoadAmmo(Item ammo)
     {
+        // Check if we should stack with existing loaded ammo of the same type
+        if (_handler.Ammo != null && _handler.Ammo.Def == ammo.Def)
+        {
+            // Stack the ammo - add to existing loaded ammo
+            var currentAmmo = _handler.Ammo;
+            var stackLimit = currentAmmo.ItemDef.StackLimit;
+            var spaceAvailable = stackLimit - currentAmmo.StackSize;
+            
+            if (spaceAvailable > 0)
+            {
+                var amountToTransfer = Math.Min(ammo.StackSize, spaceAvailable);
+                currentAmmo.StackSize += amountToTransfer;
+                ammo.StackSize -= amountToTransfer;
+                
+                // If the inventory ammo is depleted, remove it
+                if (ammo.StackSize <= 0)
+                {
+                    Core.Context.PlayerPawn.Inventory.Remove(ammo);
+                    ammo.Destroy();
+                }
+            }
+            
+            RefreshLoadedAmmoDisplay();
+            RefreshAmmoList();
+            return;
+        }
+        
         // Remove from inventory
         Core.Context.PlayerPawn.Inventory.Remove(ammo);
 
