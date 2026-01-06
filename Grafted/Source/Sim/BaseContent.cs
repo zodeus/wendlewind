@@ -57,6 +57,8 @@ public static partial class BaseContent
         public static int Default = 32;
         public static int Medium = 40;
         public static int Large = 48;
+        public static int ExtraLarge = 64;
+        public static int Huge = 128;
         public static int Portrait = 256;
     }
 }

@@ -306,6 +306,13 @@ public class Core : Game
         UpdateUiScale();
     }
 
+    public static Point ScreenToUi(Point screenPos)
+    {
+        return new Point(
+            (int)((screenPos.X - UiOffset.X) / UiScale),
+            (int)((screenPos.Y - UiOffset.Y) / UiScale)
+        );
+    }
     #region Systems access
 
     public static ICoroutine StartCoroutine(IEnumerator enumerator)

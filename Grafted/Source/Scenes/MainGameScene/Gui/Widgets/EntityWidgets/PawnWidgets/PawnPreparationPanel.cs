@@ -8,15 +8,16 @@ public class PawnPreparationPanel : Panel, IUpdatable
     private readonly PawnEquipmentPanel _equipmentPanel;
     private readonly PawnBodyPanel _bodyPanel;
     private readonly PawnBodyEffectsPanel _pawnEffectsPanel;
+    private Panel _controlsPanel;
 
     public PawnPreparationPanel(BaseGui gui, Pawn playerPawn)
     {
         VerticalAlignment = VerticalAlignment.Stretch;
         HorizontalAlignment = HorizontalAlignment.Stretch;
         _pawnEffectsPanel = new PawnBodyEffectsPanel(gui, playerPawn);
-        _bodyPanel = new PawnBodyPanel(gui, playerPawn.Body)
+        _bodyPanel = new PawnBodyPanel(gui, playerPawn.Body, playerPawn.Inventory)
         {
-            Height = 700,
+            Height = 740,
         };
         _inventoryPanel = new ItemContainerPanel(gui, playerPawn.Inventory)
         {
@@ -26,14 +27,16 @@ public class PawnPreparationPanel : Panel, IUpdatable
         };
 
         _equipmentPanel = new PawnEquipmentPanel(gui, playerPawn);
+        _controlsPanel = new Panel();
 
         VerticalStackPanel centerColumn = new()
         {
             Spacing = 15,
             Margin = new Thickness(20, 0, 0, 0)
         };
-        
-        centerColumn.Widgets.Add(new HorizontalStackPanel {
+
+        centerColumn.Widgets.Add(new HorizontalStackPanel
+        {
             Spacing = 15,
             Widgets = {
                 _equipmentPanel,
@@ -44,6 +47,7 @@ public class PawnPreparationPanel : Panel, IUpdatable
         centerColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory, TrinketType.Passive, item => gui.ViewEntity(item)) { TrinketsPerRow = 9 });
         centerColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory, TrinketType.Interactive, item => gui.ViewEntity(item)) { TrinketsPerRow = 9 });
         centerColumn.Widgets.Add(_pawnEffectsPanel);
+        centerColumn.Widgets.Add(_controlsPanel);
 
         HorizontalStackPanel grid = new()
         {
@@ -61,6 +65,11 @@ public class PawnPreparationPanel : Panel, IUpdatable
         Widgets.Add(grid);
     }
 
+    public void SetControls(Widget control)
+    {
+        _controlsPanel.Widgets.Add(control);
+    }
+    
     public void Update()
     {
         _bodyPanel.Update();

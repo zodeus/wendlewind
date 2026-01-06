@@ -7,8 +7,7 @@ public sealed class CombatPreparationScreen : VerticalStackPanel
     private readonly PawnPreparationPanel _pawnPanel;
     private readonly GameHud _gameHud;
     private readonly GameContext _context;
-    private readonly Widget _progressButton;
-    private Encounter _encounter;
+    private readonly Encounter _encounter;
 
     public CombatPreparationScreen(ZoneGui gui, GameContext context)
     {
@@ -19,56 +18,33 @@ public sealed class CombatPreparationScreen : VerticalStackPanel
         _encounter = CombatGenerator.GenerateForZone(context.PlayerPawn, context.CurrentZone!);
         _gameHud = new GameHud(gui, context) { HorizontalAlignment = HorizontalAlignment.Stretch };
         _pawnPanel = new PawnPreparationPanel(gui, context.World.Player.Pawn);
-
-        _progressButton = GenerateControlButtons();
-        _progressButton.HorizontalAlignment = HorizontalAlignment.Center;
+        _pawnPanel.SetControls(CreateZoneControls());
 
         Widgets.Add(_gameHud);
         Widgets.Add(_pawnPanel);
-        Widgets.Add(_progressButton);
 
         SetProportionType(_gameHud, ProportionType.Auto);
         SetProportionType(_pawnPanel, ProportionType.Fill);
-        SetProportionType(_progressButton, ProportionType.Auto);
     }
 
-    private Widget GenerateControlButtons()
+    private Widget CreateZoneControls()
     {
-        HorizontalStackPanel panel = new()
+        var controlsWrapper = new Panel
         {
-            Spacing = 10,
+            Margin = new Thickness(0, 0, 0, 20),
             HorizontalAlignment = HorizontalAlignment.Left,
-            VerticalAlignment = VerticalAlignment.Bottom,
-            Margin = new Thickness(0, 0, 0, 20)
+            VerticalAlignment = VerticalAlignment.Bottom
         };
 
-        string text = _encounter.Def.MysteryProperties != null ? "Continue to mystery" : _encounter.AtBoss ? "Boss!" : "Fight!";
-        var continueButton = new Button(BaseContent.Styles.Button.Large)
-        {
-            Content = new Label { Text = text }
-        };
-        continueButton.Click += (_, _) =>
-        {
-            _context.Save();
-            Continue();
-        };
-        panel.Widgets.Add(continueButton);
+        var zoneControls = new ZoneControls(_encounter, Continue);
+        controlsWrapper.Widgets.Add(zoneControls);
 
-        var combatConfig = _encounter.Zone.ZoneDef.Encounters[_encounter.Zone.Stage];
-        if (combatConfig.Enemies.Count > 1)
-        {
-            panel.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
-            {
-                VerticalAlignment = VerticalAlignment.Center,
-                Text = $"{combatConfig.Enemies.First().PawnName} up next!"
-            });
-        }
-
-        return panel;
+        return controlsWrapper;
     }
 
     private void Continue()
     {
+        _context.Save();
         _encounter.Zone.NextEncounter();
     }
 

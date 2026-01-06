@@ -8,13 +8,13 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
     private readonly Pawn _pawn;
     private readonly Dictionary<BodyPart, EquipmentColumn> _panels = new();
     private static readonly Color DestroyedEquipmentColor = new(255, 0, 0, 15);
-    private Window? _equipmentPopup;
-    private const int PopupCloseDistance = 10;
+    private readonly SelectionPopup<Item> _selectionPopup;
 
     public PawnEquipmentPanel(BaseGui gui, Pawn pawn, Action<BodyPart, EquipmentSlotType>? clickAction = null)
     {
         _gui = gui;
         _pawn = pawn;
+        _selectionPopup = new SelectionPopup<Item>(gui.Desktop);
         Spacing = 2;
         foreach (var (bodyPart, slots) in pawn.Equipment.Slots)
         {
@@ -157,71 +157,17 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
 
     private void ShowEquipmentSelectionPopup(BodyPart part, EquipmentSlotType slot)
     {
-        // Don't open another popup if one is already open
-        if (_equipmentPopup?.IsPlaced == true)
-        {
-            return;
-        }
+        if (_selectionPopup.IsOpen) return;
 
         // Find available items in inventory that can be equipped to this slot
         var availableItems = _pawn.Inventory
             .Where(i => i.ItemDef.EquipmentProperties?.SlotUsedToEquip == slot ||
-                       (i.ItemDef.ItemType == ItemType.Potion && slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2))
-            .ToList();
+                       (i.ItemDef.ItemType == ItemType.Potion && slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2));
 
-        if (availableItems.Count == 0)
-        {
-            return;
-        }
-
-        _equipmentPopup = new Window
-        {
-            Title = null,
-            Background = null,
-            Padding = new Thickness(0)
-        };
-        _equipmentPopup.TitlePanel.Visible = false;
-
-        var itemList = new VerticalStackPanel { Spacing = 4 };
-        var scrollViewer = new ScrollViewer
-        {
-            Content = itemList,
-            MaxHeight = 300,
-        };
-
-        foreach (var availableItem in availableItems)
-        {
-            var itemButton = new Button(BaseContent.Styles.Button.Dark)
-            {
-                Content = new Image
-            {
-                Background = new TextureRegion(availableItem.Icon),
-                Width = BaseContent.IconSizes.Default,
-                Height = BaseContent.IconSizes.Default
-            }
-            };
-
-            var capturedItem = availableItem;
-            itemButton.Click += (_, _) =>
-            {
-                EquipItemFromInventory(part, slot, capturedItem);
-                CloseEquipmentPopup();
-            };
-
-            itemList.Widgets.Add(itemButton);
-        }
-
-        _equipmentPopup.Content = scrollViewer;
-        // get scaled position of mouse
-        var mousePos = Mouse.GetState().Position;
-        var scaledPos = new Point((int)(mousePos.X / Core.UiScale), (int)(mousePos.Y / Core.UiScale));
-        _equipmentPopup.Show(_gui.Desktop, scaledPos);
-    }
-
-    private void CloseEquipmentPopup()
-    {
-        _equipmentPopup?.Close();
-        _equipmentPopup = null;
+        _selectionPopup.Show(
+            availableItems,
+            i => i.Icon,
+            i => EquipItemFromInventory(part, slot, i));
     }
 
     private void EquipItemFromInventory(BodyPart part, EquipmentSlotType slot, Item item)
@@ -257,36 +203,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
 
     public void Update()
     {
-        // Check if mouse is too far from equipment popup and close it
-        if (_equipmentPopup?.IsPlaced == true)
-        {
-            var mousePos = Mouse.GetState().Position;
-            var scaledMousePos = new Vector2(mousePos.X / Core.UiScale, mousePos.Y / Core.UiScale);
-            
-            // Combine Left/Top (screen position) with content bounds dimensions
-            // Add buffer for button styling/borders not reflected in logical bounds
-            var contentBounds = _equipmentPopup.Content?.Bounds ?? _equipmentPopup.Bounds;
-            const int styleBuffer = 20;
-            var popupBounds = new Rectangle(
-                _equipmentPopup.Left,
-                _equipmentPopup.Top,
-                contentBounds.Width + styleBuffer,
-                contentBounds.Height + styleBuffer
-            );
-
-            // Calculate distance from mouse to popup bounds (expanded by close distance)
-            var expandedBounds = new Rectangle(
-                popupBounds.X - PopupCloseDistance,
-                popupBounds.Y - PopupCloseDistance,
-                popupBounds.Width + PopupCloseDistance * 2,
-                popupBounds.Height + PopupCloseDistance * 2
-            );
-            
-            if (!expandedBounds.Contains((int)scaledMousePos.X, (int)scaledMousePos.Y))
-            {
-                CloseEquipmentPopup();
-            }
-        }
+        _selectionPopup.Update();
 
         foreach ((var bodyPart, var widget) in _panels)
         {
@@ -365,8 +282,8 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
 
                 if (hasAvailableEquipment)
                 {                    
-                    image.Content.BorderThickness = new Thickness(1);
-                    image.Content.Border = new SolidBrush(Color.DarkRed);
+                    image.Content.BorderThickness = new Thickness(2);
+                    image.Content.Border = new SolidBrush(Color.DarkGoldenrod);
                 }
                 else
                 {
