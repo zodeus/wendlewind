@@ -4,12 +4,10 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.Bod
 
 public sealed class BodyPartPanel : EntityPanelBase
 {
-    private readonly BodyPart _bodyPart;
     private readonly BodyPartPanelModifiersLabel _modifiersPanel;
 
     public BodyPartPanel(BaseGui gui, BodyPart bodyPart, EntityPanelProperties? properties = null) : base(gui, bodyPart, properties)
     {
-        _bodyPart = bodyPart;
         Padding = new Thickness(20);
         MinWidth = 300;
 
