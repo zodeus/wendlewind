@@ -11,42 +11,53 @@ public class PawnPreparationPanel : Panel, IUpdatable
 
     public PawnPreparationPanel(BaseGui gui, Pawn playerPawn)
     {
+        VerticalAlignment = VerticalAlignment.Stretch;
+        HorizontalAlignment = HorizontalAlignment.Stretch;
         _pawnEffectsPanel = new PawnBodyEffectsPanel(gui, playerPawn);
-        _bodyPanel = new PawnBodyPanel(gui, playerPawn.Body);
+        _bodyPanel = new PawnBodyPanel(gui, playerPawn.Body)
+        {
+            Height = 700,
+        };
         _inventoryPanel = new ItemContainerPanel(gui, playerPawn.Inventory)
         {
-            MinHeight = 400,
-            MaxHeight = 600,
-            Width = 620,
+            Width = 400,
             VerticalAlignment = VerticalAlignment.Stretch,
             Visible = !playerPawn.IsDead
         };
 
         _equipmentPanel = new PawnEquipmentPanel(gui, playerPawn);
 
-        VerticalStackPanel rightColumn = new()
+        VerticalStackPanel centerColumn = new()
         {
             Spacing = 15,
             Margin = new Thickness(20, 0, 0, 0)
         };
-        rightColumn.Widgets.Add(_equipmentPanel);
-        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory, TrinketType.Combat, item => gui.ViewEntity(item)) { TrinketsPerRow = 9 });
-        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory, TrinketType.Passive, item => gui.ViewEntity(item)) { TrinketsPerRow = 9 });
-        rightColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory, TrinketType.Interactive, item => gui.ViewEntity(item)) { TrinketsPerRow = 9 });
-        rightColumn.Widgets.Add(_pawnEffectsPanel);
-
-        rightColumn.Widgets.Add(new PawnSkillsPanel(playerPawn.Skills));
+        
+        centerColumn.Widgets.Add(new HorizontalStackPanel {
+            Spacing = 15,
+            Widgets = {
+                _equipmentPanel,
+                new PawnSkillsPanel(playerPawn.Skills)
+            }
+        });
+        centerColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory, TrinketType.Combat, item => gui.ViewEntity(item)) { TrinketsPerRow = 9 });
+        centerColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory, TrinketType.Passive, item => gui.ViewEntity(item)) { TrinketsPerRow = 9 });
+        centerColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory, TrinketType.Interactive, item => gui.ViewEntity(item)) { TrinketsPerRow = 9 });
+        centerColumn.Widgets.Add(_pawnEffectsPanel);
 
         HorizontalStackPanel grid = new()
         {
-            HorizontalAlignment = HorizontalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
             Widgets =
             {
                 _bodyPanel,
+                centerColumn,
                 _inventoryPanel,
-                rightColumn
             }
         };
+        HorizontalStackPanel.SetProportionType(_bodyPanel, ProportionType.Auto);
+        HorizontalStackPanel.SetProportionType(centerColumn, ProportionType.Fill);
+        HorizontalStackPanel.SetProportionType(_inventoryPanel, ProportionType.Auto);
         Widgets.Add(grid);
     }
 

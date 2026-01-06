@@ -1,5 +1,3 @@
-using Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
-
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
 
 public sealed class PawnBodyPanel : Panel, IUpdatable
@@ -13,7 +11,7 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
     public PawnBodyPanel(BaseGui gui, PawnBody body)
     {
         MinWidth = 670;
-        Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame], new Color(255, 255, 255, 230));
+        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
         _gui = gui;
         _body = body;
         _socketPanels = new List<BodyPartSocketPanel>();

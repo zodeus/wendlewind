@@ -8,6 +8,8 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
     private readonly Pawn _pawn;
     private readonly Dictionary<BodyPart, EquipmentColumn> _panels = new();
     private static readonly Color DestroyedEquipmentColor = new(255, 0, 0, 15);
+    private Window? _equipmentPopup;
+    private const int PopupCloseDistance = 10;
 
     public PawnEquipmentPanel(BaseGui gui, Pawn pawn, Action<BodyPart, EquipmentSlotType>? clickAction = null)
     {
@@ -16,7 +18,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
         Spacing = 2;
         foreach (var (bodyPart, slots) in pawn.Equipment.Slots)
         {
-            if (slots.Count ==0)
+            if (slots.Count == 0)
             {
                 continue;
             }
@@ -25,7 +27,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
                 continue;
             }
 
-            EquipmentColumn partPanel = new(gui, bodyPart, slots, (part, type) =>
+            EquipmentColumn partPanel = new(gui, pawn, bodyPart, slots, (part, type) =>
             {
                 if (clickAction != null)
                 {
@@ -139,14 +141,153 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
             return;
         }
 
+        // View equipped item if slot has one
         if (part.Equipment[slot] != null)
         {
             _gui.ViewEntity(part.Equipment[slot]!);
+            return;
+        }
+
+        // Show equipment selection popup for empty slots
+        if (slot != EquipmentSlotType.BuiltIn)
+        {
+            ShowEquipmentSelectionPopup(part, slot);
+        }
+    }
+
+    private void ShowEquipmentSelectionPopup(BodyPart part, EquipmentSlotType slot)
+    {
+        // Don't open another popup if one is already open
+        if (_equipmentPopup?.IsPlaced == true)
+        {
+            return;
+        }
+
+        // Find available items in inventory that can be equipped to this slot
+        var availableItems = _pawn.Inventory
+            .Where(i => i.ItemDef.EquipmentProperties?.SlotUsedToEquip == slot ||
+                       (i.ItemDef.ItemType == ItemType.Potion && slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2))
+            .ToList();
+
+        if (availableItems.Count == 0)
+        {
+            return;
+        }
+
+        _equipmentPopup = new Window
+        {
+            Title = null,
+            Background = null,
+            Padding = new Thickness(0)
+        };
+        _equipmentPopup.TitlePanel.Visible = false;
+
+        var itemList = new VerticalStackPanel { Spacing = 4 };
+        var scrollViewer = new ScrollViewer
+        {
+            Content = itemList,
+            MaxHeight = 300,
+        };
+
+        foreach (var availableItem in availableItems)
+        {
+            var itemButton = new Button(BaseContent.Styles.Button.Dark)
+            {
+                Content = new Image
+            {
+                Background = new TextureRegion(availableItem.Icon),
+                Width = BaseContent.IconSizes.Default,
+                Height = BaseContent.IconSizes.Default
+            }
+            };
+
+            var capturedItem = availableItem;
+            itemButton.Click += (_, _) =>
+            {
+                EquipItemFromInventory(part, slot, capturedItem);
+                CloseEquipmentPopup();
+            };
+
+            itemList.Widgets.Add(itemButton);
+        }
+
+        _equipmentPopup.Content = scrollViewer;
+        // get scaled position of mouse
+        var mousePos = Mouse.GetState().Position;
+        var scaledPos = new Point((int)(mousePos.X / Core.UiScale), (int)(mousePos.Y / Core.UiScale));
+        _equipmentPopup.Show(_gui.Desktop, scaledPos);
+    }
+
+    private void CloseEquipmentPopup()
+    {
+        _equipmentPopup?.Close();
+        _equipmentPopup = null;
+    }
+
+    private void EquipItemFromInventory(BodyPart part, EquipmentSlotType slot, Item item)
+    {
+        Item? unEquippedItem;
+
+        if (item.ItemDef.ItemType == ItemType.Potion)
+        {
+            Item potion;
+            if (item.StackSize > 1)
+            {
+                item.StackSize--;
+                potion = EntityGenerator.CreateEntity<Item>(item.ItemDef, 1);
+            }
+            else
+            {
+                potion = item;
+                item.EjectFromContainer();
+            }
+            unEquippedItem = _pawn.Equipment.TryEquip(part, slot, potion);
+        }
+        else
+        {
+            item.EjectFromContainer();
+            unEquippedItem = _pawn.Equipment.TryEquip(part, slot, item);
+        }
+
+        if (unEquippedItem != null)
+        {
+            _pawn.Inventory.TryAdd(unEquippedItem);
         }
     }
 
     public void Update()
     {
+        // Check if mouse is too far from equipment popup and close it
+        if (_equipmentPopup?.IsPlaced == true)
+        {
+            var mousePos = Mouse.GetState().Position;
+            var scaledMousePos = new Vector2(mousePos.X / Core.UiScale, mousePos.Y / Core.UiScale);
+            
+            // Combine Left/Top (screen position) with content bounds dimensions
+            // Add buffer for button styling/borders not reflected in logical bounds
+            var contentBounds = _equipmentPopup.Content?.Bounds ?? _equipmentPopup.Bounds;
+            const int styleBuffer = 20;
+            var popupBounds = new Rectangle(
+                _equipmentPopup.Left,
+                _equipmentPopup.Top,
+                contentBounds.Width + styleBuffer,
+                contentBounds.Height + styleBuffer
+            );
+
+            // Calculate distance from mouse to popup bounds (expanded by close distance)
+            var expandedBounds = new Rectangle(
+                popupBounds.X - PopupCloseDistance,
+                popupBounds.Y - PopupCloseDistance,
+                popupBounds.Width + PopupCloseDistance * 2,
+                popupBounds.Height + PopupCloseDistance * 2
+            );
+            
+            if (!expandedBounds.Contains((int)scaledMousePos.X, (int)scaledMousePos.Y))
+            {
+                CloseEquipmentPopup();
+            }
+        }
+
         foreach ((var bodyPart, var widget) in _panels)
         {
             widget.Update();
@@ -161,6 +302,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
     private class EquipmentColumn : VerticalStackPanel
     {
         private readonly BaseGui _gui;
+        private readonly Pawn _pawn;
         private readonly int _cellSize = BaseContent.IconSizes.Large;
         private readonly BodyPart _bodyPart;
         private readonly Dictionary<EquipmentSlotType, Button> _slots = new();
@@ -169,11 +311,11 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
         private Dictionary<ItemDef, ColoredRegion> _iconCache = new();
         private IImage _potionSlotIcon;
         private IImage _bagSlotIcon;
-        private static readonly Color CompatibleSlotHighlight = new(128, 102, 0, 100);
 
-        public EquipmentColumn(BaseGui gui, BodyPart bodyPart, List<EquipmentSlotType> slots, Action<BodyPart, EquipmentSlotType>? clickAction = null)
+        public EquipmentColumn(BaseGui gui, Pawn pawn, BodyPart bodyPart, List<EquipmentSlotType> slots, Action<BodyPart, EquipmentSlotType>? clickAction = null)
         {
             _gui = gui;
+            _pawn = pawn;
             _bodyPart = bodyPart;
             ClickAction = clickAction;
             Spacing = 2;
@@ -197,7 +339,8 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
                             }
                         }
                     },
-                    Width = _cellSize, Height = _cellSize
+                    Width = _cellSize,
+                    Height = _cellSize
                 };
                 _slots.Add(slot, slotFrame);
                 slotFrame.TouchDown += (_, _) => ClickAction?.Invoke(bodyPart, slot);
@@ -207,36 +350,28 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
 
         public void Update()
         {
-            // Check if there's an equipment item attached to the cursor
-            Item? attachedItem = _gui.MouseAttachment?.Data as Item;
-            bool hasAttachedEquipment = attachedItem?.ItemDef.EquipmentProperties != null;
-
             foreach ((var slot, var image) in _slots)
             {
-                // Determine if this slot is compatible with the attached item
-                bool isCompatibleSlot = false;
-                if (hasAttachedEquipment && attachedItem != null)
+                bool isSlotEmpty = _bodyPart.Equipment[slot] == null;
+
+                // Check if there's an available item in inventory for this empty slot
+                bool hasAvailableEquipment = false;
+                if (isSlotEmpty)
                 {
-                    if (attachedItem.ItemDef.ItemType == ItemType.Potion)
-                    {
-                        isCompatibleSlot = slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2;
-                    }
-                    else
-                    {
-                        isCompatibleSlot = attachedItem.ItemDef.EquipmentProperties?.SlotUsedToEquip == slot;
-                    }
+                    hasAvailableEquipment = _pawn.Inventory.Any(i =>
+                        i.ItemDef.EquipmentProperties?.SlotUsedToEquip == slot ||
+                        (i.ItemDef.ItemType == ItemType.Potion && slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2));
                 }
 
-                // Apply highlight to compatible slots
-                if (isCompatibleSlot)
-                {
-                    image.BorderThickness = new Thickness(3);
-                    image.Border = new SolidBrush(CompatibleSlotHighlight);
+                if (hasAvailableEquipment)
+                {                    
+                    image.Content.BorderThickness = new Thickness(1);
+                    image.Content.Border = new SolidBrush(Color.DarkRed);
                 }
                 else
                 {
-                    image.BorderThickness = new Thickness(0);
-                    image.Border = null;
+                    image.Content.BorderThickness = new Thickness(0);
+                    image.Content.Border = null;
                 }
 
                 if (_bodyPart.Equipment[slot] is { IsDestroyed: false } item)

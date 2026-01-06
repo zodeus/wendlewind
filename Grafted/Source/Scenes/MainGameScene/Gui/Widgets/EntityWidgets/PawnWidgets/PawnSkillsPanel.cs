@@ -1,40 +1,30 @@
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
-public class PawnSkillsPanel : HorizontalStackPanel, IUpdatable {
+public class PawnSkillsPanel : Panel, IUpdatable {
     private readonly Dictionary<Skill, SkillPanelRow> _skillList = new();
 
     public PawnSkillsPanel(PawnSkills skills) {
-        Spacing = 20;
-        Padding = new Thickness(15);
+        Padding = new Thickness(10);
         HorizontalAlignment = HorizontalAlignment.Left;
+        VerticalAlignment = VerticalAlignment.Top;
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
-        var combatSkills = new Grid {
-            RowSpacing = 15,
-            ColumnSpacing = 25,
-            DefaultColumnProportion = Proportion.Auto,
-            DefaultRowProportion = Proportion.Auto
-        };
-        var skillsLabel = new Label { Text = "Skills" };
-        Grid.SetRow(skillsLabel, 0); Grid.SetColumn(skillsLabel, 0);
-        combatSkills.Widgets.Add(skillsLabel);
-        
-        var lvlLabel = new Label { Text = "LVL" };
-        Grid.SetRow(lvlLabel, 0); Grid.SetColumn(lvlLabel, 1);
-        combatSkills.Widgets.Add(lvlLabel);
-        
-        var xpLabel = new Label { Text = "XP", HorizontalAlignment = HorizontalAlignment.Center };
-        Grid.SetRow(xpLabel, 0); Grid.SetColumn(xpLabel, 2);
-        combatSkills.Widgets.Add(xpLabel);
-        var gridRow = 1;
-        foreach (var skill in skills.Where(skill => skill.SkillType == SkillType.Combat).OrderBy(skill => skill.Def.Label)) {
-            if (skill.TotalXp == 0) {
+
+        var container = new VerticalStackPanel { Spacing = 4 };
+
+        container.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = "+10% damage per level", TextColor = new Color(100, 100, 100) });
+        foreach (var skill in skills.Where(skill => skill.SkillType == SkillType.Combat).OrderBy(skill => skill.Def.Label))
+        {
+            if (skill.TotalXp == 0)
+            {
                 continue;
             }
 
-            _skillList[skill] = new SkillPanelRow(skill, combatSkills, gridRow++);
+            var row = new SkillPanelRow(skill);
+            _skillList[skill] = row;
+            container.Widgets.Add(row);
         }
 
-        Widgets.Add(combatSkills);
+        Widgets.Add(container);
         Update();
     }
 
@@ -44,35 +34,54 @@ public class PawnSkillsPanel : HorizontalStackPanel, IUpdatable {
         }
     }
 
-    private class SkillPanelRow {
+    private class SkillPanelRow : HorizontalStackPanel {
         private readonly Skill _skill;
-        private readonly Label _level;
-        private readonly HorizontalProgressBar _xp;
+        private readonly Label _levelLabel;
+        private readonly HorizontalProgressBar _xpBar;
+        private static readonly Color LevelBgColor = new(20, 20, 25, 200);
 
-        public SkillPanelRow(Skill skill, Grid grid, int gridRow) {
+        public SkillPanelRow(Skill skill) {
             _skill = skill;
-            _level = new Label(BaseContent.Styles.Label.Medium) {
-                HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center
-            };
-            Grid.SetRow(_level, gridRow); Grid.SetColumn(_level, 1);
-            
-            _xp = new HorizontalProgressBar(BaseContent.Styles.Bar.Xp) {
-                Width = 100, Height = 30,
+            Spacing = 6;
+            VerticalAlignment = VerticalAlignment.Center;
+
+            // Skill name label
+            var skillLabel = new Label(BaseContent.Styles.Label.Small) {
+                Text = skill.Def.Label,
+                Width = 90,
                 VerticalAlignment = VerticalAlignment.Center
             };
-            Grid.SetRow(_xp, gridRow); Grid.SetColumn(_xp, 2);
-            
-            var skillLabel = new Label { Text = skill.Def.Label, VerticalAlignment = VerticalAlignment.Center };
-            Grid.SetRow(skillLabel, gridRow); Grid.SetColumn(skillLabel, 0);
-            grid.Widgets.Add(skillLabel);
-            grid.Widgets.Add(_level);
-            grid.Widgets.Add(_xp);
+
+            // Level display with background
+            var levelPanel = new Panel {
+                Width = 40,
+                Height = 18,
+                Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            _levelLabel = new Label(BaseContent.Styles.Label.Small) {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            levelPanel.Widgets.Add(_levelLabel);
+
+            // Compact XP bar
+            _xpBar = new HorizontalProgressBar(BaseContent.Styles.Bar.Xp) {
+                Width = 60,
+                Height = 16,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            Widgets.Add(skillLabel);
+            Widgets.Add(levelPanel);
+            Widgets.Add(_xpBar);
         }
 
         public void Update() {
-            _level.Text = _skill.Level.ToString();
-            _level.TextColor = Color.Lerp(Color.DarkRed, Color.YellowGreen, _skill.Level / 10f);
-            _xp.Value = _skill.CurrentLevelXp / _skill.XpRequiredForLevelUp * 100;
+            _levelLabel.Text = _skill.Level.ToString();
+            _levelLabel.TextColor = Color.Lerp(new Color(180, 80, 80), new Color(120, 200, 80), _skill.Level / 10f);
+            _xpBar.Value = _skill.CurrentLevelXp / _skill.XpRequiredForLevelUp * 100;
         }
     }
 }

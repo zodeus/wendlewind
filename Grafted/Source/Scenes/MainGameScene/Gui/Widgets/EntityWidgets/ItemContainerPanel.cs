@@ -3,17 +3,13 @@
 public sealed class ItemContainerPanel : Panel
 {
     private readonly BaseGui _gui;
-    private readonly PawnInventory _inventory;
-    private readonly EntityContainer? _receivingContainer;
 
     private readonly List<InventoryListPanel> _sections = new();
 
-    public ItemContainerPanel(BaseGui gui, PawnInventory inventory, EntityContainer? receivingContainer = null)
+    public ItemContainerPanel(BaseGui gui, PawnInventory inventory)
     {
         _gui = gui;
-        _inventory = inventory;
-        _receivingContainer = receivingContainer;
-        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
+        Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame], new Color(100, 100, 100, 220));
         Padding = new Thickness(15, 15, 15, 15);
 
         List<ItemContainerPanelSection> sections = new()
@@ -21,49 +17,49 @@ public sealed class ItemContainerPanel : Panel
             new ItemContainerPanelSection
             {
                 Label = "Medicinal",
-                Inventory = _inventory,
+                Inventory = inventory,
                 Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Medical || entity.Def == Defs.Items.Cauterize
             },
             new ItemContainerPanelSection
             {
                 Label = "Potions",
-                Inventory = _inventory,
+                Inventory = inventory,
                 Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Potion
             },
             new ItemContainerPanelSection
             {
                 Label = "Food",
-                Inventory = _inventory,
+                Inventory = inventory,
                 Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Food
             },
             new ItemContainerPanelSection
             {
                 Label = "Flammable",
-                Inventory = _inventory,
+                Inventory = inventory,
                 Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Flammable
             },
             new ItemContainerPanelSection
             {
                 Label = "Equipment Supplies",
-                Inventory = _inventory,
+                Inventory = inventory,
                 Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Supplies
             },
             new ItemContainerPanelSection
             {
                 Label = "Equipment",
-                Inventory = _inventory,
+                Inventory = inventory,
                 Filter = entity => ((Item)entity).ItemDef.ItemType == ItemType.Equipment
             },
             new ItemContainerPanelSection
             {
                 Label = "Enchantments",
-                Inventory = _inventory,
+                Inventory = inventory,
                 Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Enchantment
             },
             new ItemContainerPanelSection
             {
                 Label = "Resources",
-                Inventory = _inventory,
+                Inventory = inventory,
                 Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Resource
             }
         };
@@ -76,7 +72,7 @@ public sealed class ItemContainerPanel : Panel
         });
         foreach (var section in sections)
         {
-            InventoryListPanel panel = new(_gui, section.Label, section.Inventory, section.Filter, LeftClickHandler, RightClickHandler)
+            InventoryListPanel panel = new(_gui, section.Label, section.Inventory, section.Filter)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Margin = new Thickness(0, 0, 0, 10)
@@ -84,62 +80,6 @@ public sealed class ItemContainerPanel : Panel
             _sections.Add(panel);
             verticalStackPanel.Widgets.Add(panel);
         }
-    }
-
-    private void RightClickHandler(Entity entity)
-    {
-        if (entity is not Item item)
-        {
-            return;
-        }
-
-        if (item.Def.Moniker == "Cauterize")
-        {
-            return;
-        }
-
-        /*if (Input.IsKeyDown(Keys.LeftShift))
-        {
-            _receivingContainer?.TryAdd(item, 1);
-        }
-        else
-        {
-            _receivingContainer?.TryAdd(item);
-        }*/
-    }
-
-    private void LeftClickHandler(Entity entity)
-    {
-        if (entity is not Item item)
-        {
-            return;
-        }
-
-        // Shift + Left-Click to delete item 
-        if (_gui.MouseAttachment == null && Keyboard.GetState().IsKeyDown(Keys.LeftShift))
-        {
-            if (item.CanBeDestroyed == false)
-            {
-                return;
-            }
-
-            _inventory.Remove(item);
-            item.Destroy();
-            return;
-        }
-
-        _gui.MouseAttachment = new MouseAttachment(
-            _gui,
-            item.Icon,
-            updateAction: attachment =>
-            {
-                if (Mouse.GetState().RightButton == ButtonState.Pressed) attachment.Detach();
-            }
-        )
-        {
-            IconSize = new Size(40, 40),
-            Data = item,
-        };
     }
 
     public void Update()

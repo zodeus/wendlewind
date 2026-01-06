@@ -35,6 +35,7 @@ global using Myra.Graphics2D;
 global using Myra.Graphics2D.TextureAtlases;
 global using Myra.Graphics2D.UI;
 global using Myra.Graphics2D.UI.Styles;
+global using Myra.Graphics2D.Brushes;
 global using HorizontalAlignment = Myra.Graphics2D.UI.HorizontalAlignment;
 global using Keys = Microsoft.Xna.Framework.Input.Keys;
 global using Label = Myra.Graphics2D.UI.Label;

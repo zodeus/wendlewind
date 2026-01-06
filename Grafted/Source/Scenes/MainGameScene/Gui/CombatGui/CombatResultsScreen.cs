@@ -17,11 +17,7 @@ public sealed class CombatResultsScreen : VerticalStackPanel
 
         _context = context;
         _gameHud = new GameHud(gui, context) { HorizontalAlignment = HorizontalAlignment.Stretch };
-        _pawnPanel = new PawnPreparationPanel(gui, context.World.Player.Pawn)
-        {
-            MaxHeight = 1100, // 1440p
-            Margin = new Thickness(0, 0, 0, 0)
-        };
+        _pawnPanel = new PawnPreparationPanel(gui, context.World.Player.Pawn);
 
         _progressButton = GenerateControlButtons();
         _progressButton.HorizontalAlignment = HorizontalAlignment.Center;

@@ -18,11 +18,7 @@ public sealed class CombatPreparationScreen : VerticalStackPanel
         _context = context;
         _encounter = CombatGenerator.GenerateForZone(context.PlayerPawn, context.CurrentZone!);
         _gameHud = new GameHud(gui, context) { HorizontalAlignment = HorizontalAlignment.Stretch };
-        _pawnPanel = new PawnPreparationPanel(gui, context.World.Player.Pawn)
-        {
-            MaxHeight = 1100, // 1440p
-            Margin = new Thickness(0, 0, 0, 0)
-        };
+        _pawnPanel = new PawnPreparationPanel(gui, context.World.Player.Pawn);
 
         _progressButton = GenerateControlButtons();
         _progressButton.HorizontalAlignment = HorizontalAlignment.Center;
@@ -30,6 +26,10 @@ public sealed class CombatPreparationScreen : VerticalStackPanel
         Widgets.Add(_gameHud);
         Widgets.Add(_pawnPanel);
         Widgets.Add(_progressButton);
+
+        SetProportionType(_gameHud, ProportionType.Auto);
+        SetProportionType(_pawnPanel, ProportionType.Fill);
+        SetProportionType(_progressButton, ProportionType.Auto);
     }
 
     private Widget GenerateControlButtons()
@@ -38,7 +38,8 @@ public sealed class CombatPreparationScreen : VerticalStackPanel
         {
             Spacing = 10,
             HorizontalAlignment = HorizontalAlignment.Left,
-            VerticalAlignment = VerticalAlignment.Bottom
+            VerticalAlignment = VerticalAlignment.Bottom,
+            Margin = new Thickness(0, 0, 0, 20)
         };
 
         string text = _encounter.Def.MysteryProperties != null ? "Continue to mystery" : _encounter.AtBoss ? "Boss!" : "Fight!";
@@ -61,7 +62,7 @@ public sealed class CombatPreparationScreen : VerticalStackPanel
                 VerticalAlignment = VerticalAlignment.Center,
                 Text = $"{combatConfig.Enemies.First().PawnName} up next!"
             });
-        } 
+        }
 
         return panel;
     }

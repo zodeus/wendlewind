@@ -5,15 +5,11 @@ public class EntityListPanelItem : HorizontalStackPanel
     private readonly Entity _entity;
     private readonly Label _label;
 
-    public EntityListPanelItem(BaseGui gui, Entity entity, Action<Entity>? leftClickAction = null, Action<Entity>? rightClickAction = null)
+    public EntityListPanelItem(BaseGui gui, Entity entity)
     {
         Spacing = 10;
         _entity = entity;
         _label = new Label { VerticalAlignment = VerticalAlignment.Center, Font = BaseContent.Fonts.Default.Normal };
-        var viewEntityButton = new Button()
-            { Content = new Image { Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.QuestionMark], Width = BaseContent.IconSizes.Small, Height = BaseContent.IconSizes.Small }, VerticalAlignment = VerticalAlignment.Center };
-        viewEntityButton.TouchDown += (_, _) => { gui.ViewEntity(entity); };
-        Widgets.Add(viewEntityButton);
         HorizontalStackPanel entityButton = new()
         {
             Spacing = 10,
@@ -26,15 +22,9 @@ public class EntityListPanelItem : HorizontalStackPanel
         Widgets.Add(entityButton);
         entityButton.TouchDown += (_, _) =>
         {
-            Log.Debug($"TouchDown on {_entity.Label}, LeftDown={Mouse.GetState().LeftButton == ButtonState.Pressed}, RightDown={Mouse.GetState().RightButton == ButtonState.Pressed}");
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
-                leftClickAction?.Invoke(_entity);
-            }
-
-            if (Mouse.GetState().RightButton == ButtonState.Pressed)
-            {
-                rightClickAction?.Invoke(_entity);
+                gui.ViewEntity(entity);
             }
         };
     }
@@ -49,18 +39,14 @@ public class InventoryListPanel : VerticalStackPanel, IUpdatable
 {
     private readonly BaseGui _gui;
     private readonly PawnInventory _inventory;
-    private readonly Action<Entity>? _rightClickAction;
-    private readonly Action<Entity>? _leftClickAction;
     private readonly Dictionary<Item, EntityListPanelItem> _itemPanels = new();
 
     private Func<Entity, bool>? _filter { get; }
 
-    public InventoryListPanel(BaseGui gui, string label, PawnInventory inventory, Func<Entity, bool>? filter = null, Action<Entity>? leftClickAction = null, Action<Entity>? rightClickAction = null)
+    public InventoryListPanel(BaseGui gui, string label, PawnInventory inventory, Func<Entity, bool>? filter = null)
     {
         _gui = gui;
         _inventory = inventory;
-        _leftClickAction = leftClickAction;
-        _rightClickAction = rightClickAction;
         _filter = filter;
         var itemVerticalPanel = new VerticalStackPanel { Spacing = 5};
         
@@ -80,7 +66,7 @@ public class InventoryListPanel : VerticalStackPanel, IUpdatable
 
             if (!_itemPanels.ContainsKey(item))
             {
-                _itemPanels[item] = new EntityListPanelItem(_gui, item, _leftClickAction, _rightClickAction)
+                _itemPanels[item] = new EntityListPanelItem(_gui, item)
                 {
                     Margin = new Thickness(0, 0, 0,  5)
                 };
