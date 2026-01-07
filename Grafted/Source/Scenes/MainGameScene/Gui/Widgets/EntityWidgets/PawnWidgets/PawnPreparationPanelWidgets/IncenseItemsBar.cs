@@ -1,14 +1,14 @@
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnPreparationPanelWidgets;
 
-internal sealed class FlammableItemsBar : HorizontalStackPanel, IUpdatable
+internal sealed class IncenseItemsBar : HorizontalStackPanel, IUpdatable
 {
     private readonly BaseGui _gui;
     private readonly PawnInventory _inventory;
     private readonly Player _player;
-    private readonly Dictionary<Item, FlammableItemButton> _itemButtons = new();
+    private readonly Dictionary<Item, IncenseItemButton> _itemButtons = new();
     private readonly HorizontalStackPanel _itemsContainer;
 
-    public FlammableItemsBar(BaseGui gui, Player player)
+    public IncenseItemsBar(BaseGui gui, Player player)
     {
         _gui = gui;
         _player = player;
@@ -22,28 +22,28 @@ internal sealed class FlammableItemsBar : HorizontalStackPanel, IUpdatable
 
     public void Update()
     {
-        // Get all flammable items that can be burned from inventory
-        var flammableItems = _inventory
-            .Where(item => item.ItemDef.ItemType == ItemType.Flammable && CanBurnItem(item))
+        // Get all incense items that can be burned from inventory
+        var incenseItems = _inventory
+            .Where(item => item.ItemDef.ItemType == ItemType.Incense && CanBurnItem(item))
             .OrderBy(item => item.Label)
             .ToList();
 
         // Remove buttons for items no longer in inventory
         foreach (var (item, button) in _itemButtons.ToList())
         {
-            if (item.IsDestroyed || !flammableItems.Contains(item))
+            if (item.IsDestroyed || !incenseItems.Contains(item))
             {
                 button.RemoveFromParent();
                 _itemButtons.Remove(item);
             }
         }
 
-        // Add or update buttons for flammable items
-        foreach (var item in flammableItems)
+        // Add or update buttons for incense items
+        foreach (var item in incenseItems)
         {
             if (!_itemButtons.ContainsKey(item))
             {
-                var button = new FlammableItemButton(_gui, _player, item);
+                var button = new IncenseItemButton(_gui, _player, item);
                 _itemButtons[item] = button;
                 _itemsContainer.Widgets.Add(button);
             }
@@ -53,20 +53,20 @@ internal sealed class FlammableItemsBar : HorizontalStackPanel, IUpdatable
             }
         }
 
-        // Hide the bar if no flammable items
-        Visible = flammableItems.Count > 0;
+        // Hide the bar if no incense items
+        Visible = incenseItems.Count > 0;
     }
 
     private bool CanBurnItem(Item item)
     {
-        // Only specific flammable items can be burned
-        return item.ItemDef == Defs.Items.GlitteringLog ||
-               item.ItemDef == Defs.Items.ShimmeringBark ||
-               item.ItemDef == Defs.Items.GoldenWood;
+        // Only specific incense items can be burned
+        return item.ItemDef == Defs.Items.MullinStick ||
+               item.ItemDef == Defs.Items.ShadeWood ||
+               item.ItemDef == Defs.Items.DippedMullinStick;
     }
 }
 
-internal sealed class FlammableItemButton : CursorButton
+internal sealed class IncenseItemButton : CursorButton
 {
     private readonly BaseGui _gui;
     private readonly Player _player;
@@ -76,7 +76,7 @@ internal sealed class FlammableItemButton : CursorButton
     private Window? _tooltipWindow;
     private Label? _tooltipLabel;
 
-    public FlammableItemButton(BaseGui gui, Player player, Item item) : base(BaseContent.Styles.Button.Icon)
+    public IncenseItemButton(BaseGui gui, Player player, Item item) : base(BaseContent.Styles.Button.Icon)
     {
         _gui = gui;
         _player = player;
@@ -187,7 +187,7 @@ internal sealed class FlammableItemButton : CursorButton
 
         Core.Context.Achievements.OnItemUsed(_player.Pawn, _item);
 
-        if (_item.ItemDef == Defs.Items.GlitteringLog)
+        if (_item.ItemDef == Defs.Items.MullinStick)
         {
             _gui.PushScreenMessage(new ScreenMessageData
             {
@@ -202,7 +202,7 @@ internal sealed class FlammableItemButton : CursorButton
                 TicksLeft = 4000
             });
         }
-        else if (_item.ItemDef == Defs.Items.ShimmeringBark)
+        else if (_item.ItemDef == Defs.Items.ShadeWood)
         {
             _gui.PushScreenMessage(new ScreenMessageData
             {
@@ -217,7 +217,7 @@ internal sealed class FlammableItemButton : CursorButton
                 TicksLeft = 4000
             });
         }
-        else if (_item.ItemDef == Defs.Items.GoldenWood)
+        else if (_item.ItemDef == Defs.Items.DippedMullinStick)
         {
             _gui.PushScreenMessage(new ScreenMessageData
             {

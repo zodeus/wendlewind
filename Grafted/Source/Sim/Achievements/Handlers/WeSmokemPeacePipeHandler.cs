@@ -9,7 +9,7 @@ public class WeSmokemPeacePipeHandler : AchievementHandler
     {
         if (IsUnlocked) return;
 
-        if (item.ItemDef.ItemType != ItemType.Flammable) return;
+        if (item.ItemDef.ItemType != ItemType.Incense) return;
 
         Progress.CurrentValue++;
         if (Progress.CurrentValue >= Def.TargetValue)

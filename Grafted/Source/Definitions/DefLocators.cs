@@ -135,8 +135,6 @@ public static partial class Defs
         public static ItemDef JarOfBlood = null!;
         public static ItemDef AcidFlask = null!;
         public static ItemDef SpicedChurni = null!;
-        public static ItemDef Firewood = null!;
-        public static ItemDef WoodBoard = null!;
         public static ItemDef WeepingBucket = null!;
         public static ItemDef CookingPot = null!;
         public static ItemDef BalmyOintment = null!;
@@ -146,9 +144,9 @@ public static partial class Defs
         public static ItemDef MortarAndPestle = null!;
         public static ItemDef VialOfDuplicity = null!;
         public static ItemDef HealingRoot = null!;
-        public static ItemDef GlitteringLog = null!;
-        public static ItemDef ShimmeringBark = null!;
-        public static ItemDef GoldenWood = null!;
+        public static ItemDef MullinStick = null!;
+        public static ItemDef ShadeWood = null!;
+        public static ItemDef DippedMullinStick = null!;
         public static ItemDef SoothingVibrations = null!;
         public static ItemDef SpidersBite = null!;
         public static ItemDef ThirdEye = null!;

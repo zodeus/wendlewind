@@ -34,9 +34,9 @@ public sealed class ItemContainerPanel : Panel
             },
             new ItemContainerPanelSection
             {
-                Label = "Flammable",
+                Label = "Incense",
                 Inventory = inventory,
-                Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Flammable
+                Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Incense
             },
             new ItemContainerPanelSection
             {

@@ -4,7 +4,7 @@ public enum ItemType : byte {
     Equipment,
     Resource,
     Supplies,
-    Flammable,
+    Incense,
     Food,
     Potion,
     Medical,

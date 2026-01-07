@@ -13,7 +13,7 @@
         </Weathers>
         <Resources>
             <ListItem>
-                <Item>ShimmeringBark</Item>
+                <Item>ShadeWood</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>

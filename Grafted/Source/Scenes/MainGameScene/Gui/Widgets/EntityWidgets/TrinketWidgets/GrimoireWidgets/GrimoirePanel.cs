@@ -41,8 +41,8 @@ public sealed class GrimoirePanel : EntityPanelBase
             .Where(d => d is { ItemType: ItemType.Supplies, CraftingProperties: not null })
             .OrderBy(d => d.Label)
             .ToList();
-        var flammables = DefRepository<ItemDef>.Defs
-            .Where(d => d is { ItemType: ItemType.Flammable, CraftingProperties: not null })
+        var incense = DefRepository<ItemDef>.Defs
+            .Where(d => d is { ItemType: ItemType.Incense, CraftingProperties: not null })
             .OrderBy(d => d.Label)
             .ToList();
 
@@ -55,8 +55,8 @@ public sealed class GrimoirePanel : EntityPanelBase
             _tabs.AddTab($"Medicinal ({medicinal.Count})", new CraftingPanel("Prepare", medicinal, Core.Context.PlayerPawn));
         if (supplies.Count > 0)
             _tabs.AddTab($"Supplies ({supplies.Count})", new CraftingPanel("Craft", supplies, Core.Context.PlayerPawn));
-        if (flammables.Count > 0)
-            _tabs.AddTab($"Flammables ({flammables.Count})", new CraftingPanel("Prepare", flammables, Core.Context.PlayerPawn));
+        if (incense.Count > 0)
+            _tabs.AddTab($"Incense ({incense.Count})", new CraftingPanel("Prepare", incense, Core.Context.PlayerPawn));
         Widgets.Add(_tabs);
     }
 

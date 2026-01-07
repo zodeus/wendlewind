@@ -3,14 +3,14 @@ using SolidBrush = Myra.Graphics2D.Brushes.SolidBrush;
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
 [UsedImplicitly]
-public sealed class FlammablePanel : EntityPanelBase
+public sealed class IncensePanel : EntityPanelBase
 {
     private static readonly Color EmberOrange = new(255, 140, 50);
     private static readonly Color AshGray = new(180, 170, 160);
     private static readonly Color WarmGlow = new(255, 200, 120);
     private static readonly Color DeepEmber = new(180, 80, 30);
 
-    public FlammablePanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
+    public IncensePanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
         Padding = new Thickness(24);
         MinWidth = 420;
@@ -158,7 +158,7 @@ public sealed class FlammablePanel : EntityPanelBase
         }
         Core.Context.Achievements.OnItemUsed(player.Pawn, item);
 
-        if (item.ItemDef == Defs.Items.GlitteringLog)
+        if (item.ItemDef == Defs.Items.MullinStick)
         {
             gui.PushScreenMessage(new ScreenMessageData
             {
@@ -173,7 +173,7 @@ public sealed class FlammablePanel : EntityPanelBase
                 TicksLeft = 4000
             });
         }
-        else if (item.ItemDef == Defs.Items.ShimmeringBark)
+        else if (item.ItemDef == Defs.Items.ShadeWood)
         {
             gui.PushScreenMessage(new ScreenMessageData
             {
@@ -188,7 +188,7 @@ public sealed class FlammablePanel : EntityPanelBase
                 TicksLeft = 4000
             });
         }
-        else if (item.ItemDef == Defs.Items.GoldenWood)
+        else if (item.ItemDef == Defs.Items.DippedMullinStick)
         {
             gui.PushScreenMessage(new ScreenMessageData
             {
@@ -207,9 +207,9 @@ public sealed class FlammablePanel : EntityPanelBase
 
     private bool ShowBurnWood(Player player, Item item)
     {
-        if (item.ItemDef == Defs.Items.GlitteringLog ||
-            item.ItemDef == Defs.Items.ShimmeringBark ||
-            item.ItemDef == Defs.Items.GoldenWood)
+        if (item.ItemDef == Defs.Items.MullinStick ||
+            item.ItemDef == Defs.Items.ShadeWood ||
+            item.ItemDef == Defs.Items.DippedMullinStick)
         {
             return player.HasTrinkets(Defs.Items.FlameStick);
         }
@@ -221,4 +221,3 @@ public sealed class FlammablePanel : EntityPanelBase
     {
     }
 }
-

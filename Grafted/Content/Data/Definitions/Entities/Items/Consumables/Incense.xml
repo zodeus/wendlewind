@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef Name="IncenseConsumable" ParentName="ItemBase" Abstract="true">
+        <ItemType>Incense</ItemType>
+        <UiClass>IncensePanel</UiClass>
+        <StackLimit>9999</StackLimit>
+    </ItemDef>
+    <ItemDef ParentName="IncenseConsumable">
+        <Moniker>MullinStick</Moniker>
+        <Label>Mullin Stick</Label>
+        <Description>A stick of Mullin wood, it's smell is calming and soothing.</Description>
+        <TexturePath>Entities/Item/Consumables/Incense/MullinStick</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="IncenseConsumable">
+        <Moniker>ShadeWood</Moniker>
+        <Label>Shade Wood</Label>
+        <Description>A stick of Shade wood, it's smell is mysterious and alluring.</Description>
+        <TexturePath>Entities/Item/Consumables/Incense/ShadeWood</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="IncenseConsumable">
+        <Moniker>DippedMullinStick</Moniker>
+        <Label>Dipped Mullin Stick</Label>
+        <Description>A stick of Mullin wood, dipped in a golden substance, it's smell is calming and soothing and exhilirating.</Description>
+        <TexturePath>Entities/Item/Consumables/Incense/DippedMullinStick</TexturePath>
+        <CraftingProperties>
+            <AmountProduced>2</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>TinkersToolbox</ListItem>
+                <ListItem>MortarAndPestle</ListItem>
+                <ListItem>WeepingBucket</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>GoldCapMushroom</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>MullinStick</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+    </ItemDef>
+    <ItemDef ParentName="IncenseConsumable">
+        <Moniker>WitchWood</Moniker>
+        <Label>Witch Wood</Label>
+        <Description>A stick of Witch wood, aromatic and invigorating.</Description>
+        <TexturePath>Entities/Item/Consumables/Incense/WitchWood</TexturePath>
+    </ItemDef>
+</Definitions>

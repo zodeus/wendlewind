@@ -28,7 +28,7 @@
                 <ChanceToHarvest>.4</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>GlitteringLog</Item>
+                <Item>MullinStick</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.25</ChanceToHarvest>
             </ListItem>
@@ -154,7 +154,7 @@
                         </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
-                                <Item>GlitteringLog</Item>
+                                <Item>MullinStick</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>

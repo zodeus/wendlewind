@@ -14,7 +14,7 @@
         </Weathers>
         <Resources>
             <ListItem>
-                <Item>GlitteringLog</Item>
+                <Item>MullinStick</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.3</ChanceToHarvest>
             </ListItem>
@@ -75,7 +75,7 @@
                         </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
-                                <Item>ShimmeringBark</Item>
+                                <Item>ShadeWood</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>.8</ChanceToDrop>
                             </ListItem>
@@ -105,7 +105,7 @@
                         </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
-                                <Item>ShimmeringBark</Item>
+                                <Item>ShadeWood</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>.8</ChanceToDrop>
                             </ListItem>
@@ -136,7 +136,7 @@
                         </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
-                                <Item>ShimmeringBark</Item>
+                                <Item>ShadeWood</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>.8</ChanceToDrop>
                             </ListItem>
@@ -168,7 +168,7 @@
                         </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
-                                <Item>ShimmeringBark</Item>
+                                <Item>ShadeWood</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>.8</ChanceToDrop>
                             </ListItem>
@@ -203,7 +203,7 @@
                         </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
-                                <Item>ShimmeringBark</Item>
+                                <Item>ShadeWood</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>

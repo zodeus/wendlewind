@@ -96,11 +96,7 @@
         <AffectedStats>
             <ListItem>
                 <Stat>Accuracy</Stat>
-                <Offset>.075</Offset>
-            </ListItem>
-            <ListItem>
-                <Stat>Evasion</Stat>
-                <Offset>.03</Offset>
+                <Offset>.01</Offset>
             </ListItem>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
@@ -116,11 +112,15 @@
         <AffectedStats>
             <ListItem>
                 <Stat>Accuracy</Stat>
-                <Offset>1</Offset>
+                <Offset>.05</Offset>
+            </ListItem>
+            <ListItem>
+                <Stat>Evasion</Stat>
+                <Offset>.02</Offset>
             </ListItem>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Offset>2</Offset>
+                <Offset>1</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>

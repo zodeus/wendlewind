@@ -18,8 +18,8 @@ internal sealed class BoakItemsPanel : Panel
                     .ToList()
             )
         );
-        tabPanel.AddTab("Flammable", new BoakItemsDefaultPanel(
-                defs.Where(d => d.ItemType == ItemType.Flammable)
+        tabPanel.AddTab("Incense", new BoakItemsDefaultPanel(
+                defs.Where(d => d.ItemType == ItemType.Incense)
                     .ToList()
             )
         );

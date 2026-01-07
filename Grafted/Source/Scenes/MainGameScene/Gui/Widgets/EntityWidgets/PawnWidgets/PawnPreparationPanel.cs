@@ -11,7 +11,7 @@ public class PawnPreparationPanel : Panel, IUpdatable
     private readonly PawnBodyEffectsPanel _pawnEffectsPanel;
     private readonly SupplyItemsBar _supplyItemsBar;
     private readonly FoodItemsBar _foodItemsBar;
-    private readonly FlammableItemsBar _flammableItemsBar;
+    private readonly IncenseItemsBar _incenseItemsBar;
     private Panel _controlsPanel;
 
     public PawnPreparationPanel(BaseGui gui, Pawn playerPawn)
@@ -52,14 +52,14 @@ public class PawnPreparationPanel : Panel, IUpdatable
         centerColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory, TrinketType.Interactive, item => gui.ViewEntity(item)) { TrinketsPerRow = 9 });
         centerColumn.Widgets.Add(_pawnEffectsPanel);
 
-        // Supply, food and flammable bars above zone controls
+        // Supply, food and incense bars above zone controls
         _supplyItemsBar = new SupplyItemsBar(gui, playerPawn.Inventory);
         _foodItemsBar = new FoodItemsBar(gui, playerPawn);
-        _flammableItemsBar = new FlammableItemsBar(gui, Core.Context.Player);
+        _incenseItemsBar = new IncenseItemsBar(gui, Core.Context.Player);
         var consumableBarsContainer = new HorizontalStackPanel { Spacing = 12 };
         consumableBarsContainer.Widgets.Add(_supplyItemsBar);
         consumableBarsContainer.Widgets.Add(_foodItemsBar);
-        consumableBarsContainer.Widgets.Add(_flammableItemsBar);
+        consumableBarsContainer.Widgets.Add(_incenseItemsBar);
         centerColumn.Widgets.Add(consumableBarsContainer);
 
         centerColumn.Widgets.Add(_controlsPanel);
@@ -93,6 +93,6 @@ public class PawnPreparationPanel : Panel, IUpdatable
         _pawnEffectsPanel.Update();
         _supplyItemsBar.Update();
         _foodItemsBar.Update();
-        _flammableItemsBar.Update();
+        _incenseItemsBar.Update();
     }
 }
