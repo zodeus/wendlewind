@@ -24,7 +24,8 @@
             <ListItem>BuiltIn</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <MaxHitPoints>2000</MaxHitPoints>
+            <MaxHitPoints>600</MaxHitPoints>
+            <AttackSpeedModifier>1</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="HorseBodyPartBase">
@@ -42,7 +43,7 @@
             <ListItem>TorsoSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>1500</MaxHitPoints>
+            <MaxHitPoints>400</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="HorseBodyPartBase">
@@ -69,7 +70,7 @@
             <ListItem>TailSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>5000</MaxHitPoints>
+            <MaxHitPoints>800</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="HorseBodyPartBase">
@@ -88,8 +89,8 @@
             <ListItem>HoofSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>1500</MaxHitPoints>
-            <AttackSpeedModifier>.15</AttackSpeedModifier>
+            <MaxHitPoints>120</MaxHitPoints>
+            <AttackSpeedModifier>.5</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="HorseBodyPartBase">
@@ -110,8 +111,8 @@
             <ListItem>BuiltIn</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <AttackSpeedModifier>.05</AttackSpeedModifier>
-            <MaxHitPoints>1200</MaxHitPoints>
+            <AttackSpeedModifier>1</AttackSpeedModifier>
+            <MaxHitPoints>80</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="HorseBodyPartBase">
@@ -128,8 +129,8 @@
             <ListItem>ArterySocket</ListItem>
         </Sockets>
         <BaseStats>
-            <AttackSpeedModifier>.2</AttackSpeedModifier>
-            <MaxHitPoints>800</MaxHitPoints>
+            <AttackSpeedModifier>2</AttackSpeedModifier>
+            <MaxHitPoints>100</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
 </Definitions>

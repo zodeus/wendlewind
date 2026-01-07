@@ -41,8 +41,9 @@
         <Moniker>HorseBody</Moniker>
         <Label>Horse Body</Label>
         <BloodType>AnimalBlood</BloodType>
-        <BoneDensity>1</BoneDensity>
-        <MaxBlood>10000</MaxBlood>
+        <BoneDensity>3</BoneDensity>
+        <MaxBlood>12000</MaxBlood>
+        <HandlerClass>RegeneratingEyesBodyHandler</HandlerClass>
         <GeneratorClass>HorseBodyGenerator</GeneratorClass>
         <LayoutClass>HorseBodyPartLayout</LayoutClass>
     </BodyDef>

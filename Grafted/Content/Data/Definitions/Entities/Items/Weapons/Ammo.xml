@@ -8,7 +8,7 @@
         <Moniker>BoneDart</Moniker>
         <Label>Bone Dart</Label>
         <Description>A dart made of bone.</Description>
-        <TexturePath>Entities/Item/Resource/Ammo/BoneDart</TexturePath>
+        <TexturePath>Entities/Item/Supplies/Ammo/BoneDart</TexturePath>
         <AmmoProperties>
             <DamageType>Blunt</DamageType>
             <DamageRange>100~200</DamageRange>
@@ -29,7 +29,7 @@
         <Moniker>RockOfRot</Moniker>
         <Label>Rock of Rot</Label>
         <Description>A rock that is rotting.</Description>
-        <TexturePath>Entities/Item/Resource/Ammo/RockOfRot</TexturePath>
+        <TexturePath>Entities/Item/Supplies/Ammo/RockOfRot</TexturePath>
         <AmmoProperties>
             <DamageType>Magic</DamageType>
             <DamageRange>50~300</DamageRange>
@@ -69,7 +69,7 @@
         <Moniker>PoisonDart</Moniker>
         <Label>Poison Dart</Label>
         <Description>A dart with a poisony substance.</Description>
-        <TexturePath>Entities/Item/Resource/Ammo/PoisonDart</TexturePath>
+        <TexturePath>Entities/Item/Supplies/Ammo/PoisonDart</TexturePath>
         <AmmoProperties>
             <DamageType>Poison</DamageType>
             <DamageRange>200~400</DamageRange>

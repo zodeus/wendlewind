@@ -66,11 +66,7 @@ public static partial class Defs
     public static class BodyEffects
     {
         public static BodyEffectDef FoodPoisoning = null!;
-        public static BodyEffectDef BeefedUp = null!;
         public static BodyEffectDef FeelingThePurple = null!;
-        public static BodyEffectDef SmokeyHaze = null!;
-        public static BodyEffectDef GoldenSmoke = null!;
-        public static BodyEffectDef Psychedelic = null!;
         public static BodyEffectDef GoldenLips = null!;
         public static BodyEffectDef Fruiting = null!;
     }
@@ -138,7 +134,6 @@ public static partial class Defs
         public static ItemDef WeepingBucket = null!;
         public static ItemDef CookingPot = null!;
         public static ItemDef BalmyOintment = null!;
-        public static ItemDef TheDreamingPowder = null!;
         public static ItemDef DreamBerry = null!;
         public static ItemDef FlameStick = null!;
         public static ItemDef MortarAndPestle = null!;

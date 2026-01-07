@@ -53,6 +53,11 @@
                                 <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
+                            <ListItem>
+                                <Item>Ichor</Item>
+                                <Amount>1</Amount>
+                                <ChanceToDrop>.5</ChanceToDrop>
+                            </ListItem>
                         </InventoryItems>
                     </ListItem>
                 </Enemies>
@@ -75,6 +80,11 @@
                                 <Item>RawMeat</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
+                            </ListItem>
+                            <ListItem>
+                                <Item>Ichor</Item>
+                                <Amount>1</Amount>
+                                <ChanceToDrop>.6</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>
                     </ListItem>
@@ -99,6 +109,11 @@
                                 <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
+                            <ListItem>
+                                <Item>Ichor</Item>
+                                <Amount>1</Amount>
+                                <ChanceToDrop>.7</ChanceToDrop>
+                            </ListItem>
                         </InventoryItems>
                     </ListItem>
                 </Enemies>
@@ -122,6 +137,11 @@
                                 <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
+                            <ListItem>
+                                <Item>Ichor</Item>
+                                <Amount>1</Amount>
+                                <ChanceToDrop>.9</ChanceToDrop>
+                            </ListItem>
                         </InventoryItems>
                     </ListItem>
                 </Enemies>
@@ -144,6 +164,11 @@
                         <InventoryItems>
                             <ListItem>
                                 <Item>RawMeat</Item>
+                                <Amount>1</Amount>
+                                <ChanceToDrop>1</ChanceToDrop>
+                            </ListItem>
+                            <ListItem>
+                                <Item>Ichor</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>

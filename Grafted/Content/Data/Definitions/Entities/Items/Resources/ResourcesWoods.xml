@@ -4,11 +4,6 @@
     <ItemDef Name="WoodResource" ParentName="ItemResource" Abstract="true">
     </ItemDef>
     <ItemDef ParentName="WoodResource">
-        <Moniker>OakWoodLog</Moniker>
-        <Label>Oak Wood log</Label>
-        <TexturePath>Entities/Item/Resource/Wood/OakWoodLog</TexturePath>
-    </ItemDef>
-    <ItemDef ParentName="WoodResource">
         <Moniker>WoodBoard</Moniker>
         <Label>Wooden board</Label>
         <TexturePath>Entities/Item/Resource/Wood/WoodBoard</TexturePath>

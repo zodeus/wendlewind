@@ -16,13 +16,13 @@
         <Moniker>JarOfBlood</Moniker>
         <Label>Jar of Blood</Label>
         <Description>Can be sipped during combat to replenish lost blood.</Description>
-        <TexturePath>Entities/Item/Consumables/JarOfBlood</TexturePath>
+        <TexturePath>Entities/Item/Potion/JarOfBlood</TexturePath>
     </ItemDef>
     <ItemDef ParentName="Potion">
         <Moniker>AcidFlask</Moniker>
         <Label>Acid Flask</Label>
         <Description>Has a chance to blind opponent.</Description>
-        <TexturePath>Entities/Item/Consumables/AcidFlask</TexturePath>
+        <TexturePath>Entities/Item/Potion/AcidFlask</TexturePath>
         <CraftingProperties>
             <AmountProduced>2</AmountProduced>
             <RequiredTrinkets>
@@ -48,7 +48,7 @@
             <PotionDuration>1200</PotionDuration>
         </BaseStats>
         <Description>A warm hug for your body.</Description>
-        <TexturePath>Entities/Item/Consumables/SpicedChurni</TexturePath>
+        <TexturePath>Entities/Item/Potion/SpicedChurni</TexturePath>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
             <RequiredTrinkets>
@@ -72,11 +72,5 @@
                 </ListItem>
             </ResourceRequirements>
         </CraftingProperties>
-    </ItemDef>
-    <ItemDef ParentName="Potion">
-        <Moniker>TheDreamingPowder</Moniker>
-        <Label>The Dreaming Powder</Label>
-        <Description>Sleep well my friend</Description>
-        <TexturePath>Entities/Item/Potion/TheDreamingPowder</TexturePath>
     </ItemDef>
 </Definitions>

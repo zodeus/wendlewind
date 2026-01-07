@@ -5,9 +5,8 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 [UsedImplicitly]
 public sealed class IncensePanel : EntityPanelBase
 {
-    private static readonly Color EmberOrange = new(255, 140, 50);
-    private static readonly Color AshGray = new(180, 170, 160);
     private static readonly Color WarmGlow = new(255, 200, 120);
+    private static readonly Color AshGray = new(180, 170, 160);
     private static readonly Color DeepEmber = new(180, 80, 30);
 
     public IncensePanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
@@ -80,141 +79,49 @@ public sealed class IncensePanel : EntityPanelBase
         Widgets.Add(headerSection);
 
         // ═══════════════════════════════════════════════════════════════════
-        // Divider
+        // Effect Info Section (if has incense properties)
         // ═══════════════════════════════════════════════════════════════════
-        Widgets.Add(new Panel
+        var incenseProps = item.ItemDef.IncenseProperties;
+        if (incenseProps?.Effect != null)
         {
-            Height = 2,
-            Background = new SolidBrush(new Color(80, 60, 40)),
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Margin = new Thickness(0, 4, 0, 12)
-        });
-
-        // ═══════════════════════════════════════════════════════════════════
-        // Actions Section
-        // ═══════════════════════════════════════════════════════════════════
-        var actionsPanel = new HorizontalStackPanel { Spacing = 16 };
-
-        // Burn Wood Button - fire themed
-        if (ShowBurnWood(Core.Context.Player, item))
-        {
-            var burnButton = CreateFireThemedButton("Burn Wood", () => BurnWood(gui, Core.Context.Player, item));
-            actionsPanel.Widgets.Add(burnButton);
-        }
-
-        if (actionsPanel.Widgets.Count > 0)
-        {
-            Widgets.Add(actionsPanel);
-        }
-    }
-
-    private Panel CreateFireThemedButton(string text, Action onClick)
-    {
-        // Outer glow container
-        var buttonContainer = new Panel
-        {
-            Background = new SolidBrush(DeepEmber),
-            Padding = new Thickness(2)
-        };
-
-        var button = new CursorButton(BaseContent.Styles.Button.Normal)
-        {
-            Content = new HorizontalStackPanel
+            Widgets.Add(new Panel
             {
-                Spacing = 8,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                Widgets =
+                Height = 2,
+                Background = new SolidBrush(new Color(80, 60, 40)),
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                Margin = new Thickness(0, 4, 0, 12)
+            });
+
+            var effectSection = new VerticalStackPanel { Spacing = 4 };
+            effectSection.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = "When Burned:",
+                TextColor = AshGray
+            });
+            effectSection.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+            {
+                Text = incenseProps.Effect.Def.Label,
+                TextColor = WarmGlow
+            });
+            if (!string.IsNullOrEmpty(incenseProps.Effect.Def.Description))
+            {
+                effectSection.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
                 {
-                    new Label(BaseContent.Styles.Label.Normal)
-                    {
-                        Text = "🔥",
-                        VerticalAlignment = VerticalAlignment.Center
-                    },
-                    new Label(BaseContent.Styles.Label.Normal)
-                    {
-                        Text = text,
-                        TextColor = EmberOrange,
-                        VerticalAlignment = VerticalAlignment.Center
-                    }
-                }
-            },
-            Padding = new Thickness(16, 8)
-        };
-        button.Click += (_, _) => onClick();
-
-        buttonContainer.Widgets.Add(button);
-        return buttonContainer;
-    }
-
-    private void BurnWood(BaseGui gui, Player player, Item item)
-    {
-        if (item.StackSize > 1)
-        {
-            item.StackSize--;
-        }
-        else
-        {
-            item.Destroy();
-        }
-        Core.Context.Achievements.OnItemUsed(player.Pawn, item);
-
-        if (item.ItemDef == Defs.Items.MullinStick)
-        {
-            gui.PushScreenMessage(new ScreenMessageData
+                    Text = incenseProps.Effect.Def.Description,
+                    TextColor = AshGray,
+                    Wrap = true,
+                    MaxWidth = 350
+                });
+            }
+            var durationSeconds = incenseProps.Effect.DurationInTicks / 60f;
+            effectSection.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
             {
-                Font = BaseContent.Fonts.Default.Medium,
-                Text = Defs.BodyEffects.SmokeyHaze.Description,
-                Duration = 6,
-                Color = Color.Orange
+                Text = $"Duration: {durationSeconds:0.#}s",
+                TextColor = Color.DarkGray,
+                Margin = new Thickness(0, 4, 0, 0)
             });
-            player.Pawn.Body.Effects.TryApplyEffect(new BodyEffect
-            {
-                Def = Defs.BodyEffects.SmokeyHaze,
-                TicksLeft = 4000
-            });
+            Widgets.Add(effectSection);
         }
-        else if (item.ItemDef == Defs.Items.ShadeWood)
-        {
-            gui.PushScreenMessage(new ScreenMessageData
-            {
-                Font = BaseContent.Fonts.Default.Medium,
-                Text = Defs.BodyEffects.SmokeyHaze.Description,
-                Duration = 6,
-                Color = Color.Orange
-            });
-            player.Pawn.Body.Effects.TryApplyEffect(new BodyEffect
-            {
-                Def = Defs.BodyEffects.Psychedelic,
-                TicksLeft = 4000
-            });
-        }
-        else if (item.ItemDef == Defs.Items.DippedMullinStick)
-        {
-            gui.PushScreenMessage(new ScreenMessageData
-            {
-                Font = BaseContent.Fonts.Default.Medium,
-                Text = Defs.BodyEffects.GoldenSmoke.Description,
-                Duration = 6,
-                Color = Color.Orange
-            });
-            player.Pawn.Body.Effects.TryApplyEffect(new BodyEffect
-            {
-                Def = Defs.BodyEffects.GoldenSmoke,
-                TicksLeft = 2000
-            });
-        }
-    }
-
-    private bool ShowBurnWood(Player player, Item item)
-    {
-        if (item.ItemDef == Defs.Items.MullinStick ||
-            item.ItemDef == Defs.Items.ShadeWood ||
-            item.ItemDef == Defs.Items.DippedMullinStick)
-        {
-            return player.HasTrinkets(Defs.Items.FlameStick);
-        }
-
-        return false;
     }
 
     public override void Update()

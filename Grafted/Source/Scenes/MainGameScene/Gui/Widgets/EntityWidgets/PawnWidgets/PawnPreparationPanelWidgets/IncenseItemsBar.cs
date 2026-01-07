@@ -59,10 +59,8 @@ internal sealed class IncenseItemsBar : HorizontalStackPanel, IUpdatable
 
     private bool CanBurnItem(Item item)
     {
-        // Only specific incense items can be burned
-        return item.ItemDef == Defs.Items.MullinStick ||
-               item.ItemDef == Defs.Items.ShadeWood ||
-               item.ItemDef == Defs.Items.DippedMullinStick;
+        // Only incense items with defined effects can be burned
+        return item.ItemDef.IncenseProperties?.Effect != null;
     }
 }
 
@@ -176,6 +174,9 @@ internal sealed class IncenseItemButton : CursorButton
 
     private void BurnItem()
     {
+        var incenseProps = _item.ItemDef.IncenseProperties;
+        if (incenseProps?.Effect == null) return;
+
         if (_item.StackSize > 1)
         {
             _item.StackSize--;
@@ -187,51 +188,19 @@ internal sealed class IncenseItemButton : CursorButton
 
         Core.Context.Achievements.OnItemUsed(_player.Pawn, _item);
 
-        if (_item.ItemDef == Defs.Items.MullinStick)
+        _gui.PushScreenMessage(new ScreenMessageData
         {
-            _gui.PushScreenMessage(new ScreenMessageData
-            {
-                Font = BaseContent.Fonts.Default.Medium,
-                Text = Defs.BodyEffects.SmokeyHaze.Description,
-                Duration = 6,
-                Color = Color.Orange
-            });
-            _player.Pawn.Body.Effects.TryApplyEffect(new BodyEffect
-            {
-                Def = Defs.BodyEffects.SmokeyHaze,
-                TicksLeft = 4000
-            });
-        }
-        else if (_item.ItemDef == Defs.Items.ShadeWood)
+            Font = BaseContent.Fonts.Default.Medium,
+            Text = incenseProps.Effect.Def.Description,
+            Duration = 6,
+            Color = Color.Orange
+        });
+
+        _player.Pawn.Body.Effects.TryApplyEffect(new BodyEffect
         {
-            _gui.PushScreenMessage(new ScreenMessageData
-            {
-                Font = BaseContent.Fonts.Default.Medium,
-                Text = Defs.BodyEffects.SmokeyHaze.Description,
-                Duration = 6,
-                Color = Color.Orange
-            });
-            _player.Pawn.Body.Effects.TryApplyEffect(new BodyEffect
-            {
-                Def = Defs.BodyEffects.Psychedelic,
-                TicksLeft = 4000
-            });
-        }
-        else if (_item.ItemDef == Defs.Items.DippedMullinStick)
-        {
-            _gui.PushScreenMessage(new ScreenMessageData
-            {
-                Font = BaseContent.Fonts.Default.Medium,
-                Text = Defs.BodyEffects.GoldenSmoke.Description,
-                Duration = 6,
-                Color = Color.Orange
-            });
-            _player.Pawn.Body.Effects.TryApplyEffect(new BodyEffect
-            {
-                Def = Defs.BodyEffects.GoldenSmoke,
-                TicksLeft = 2000
-            });
-        }
+            Def = incenseProps.Effect.Def,
+            TicksLeft = incenseProps.Effect.DurationInTicks
+        });
     }
 
     public void Update()

@@ -20,6 +20,7 @@ public class ItemDef : EntityDef
     public DisassembleProperties? DisassembleProperties;
     public AmmoProperties? AmmoProperties;
     public UpgradeProperties? UpgradeProperties;
+    public IncenseProperties? IncenseProperties;
 
     public override void ResolveDependencies()
     {

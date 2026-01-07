@@ -65,4 +65,18 @@
         <Label>Turtle Beak Puss</Label>
         <TexturePath>Entities/Item/Resource/Organic/TurtleBeakPuss</TexturePath>
     </ItemDef>
+    <ItemDef ParentName="OrganicResource">
+        <Moniker>Ichor</Moniker>
+        <Label>Ichor</Label>
+        <TexturePath>Entities/Item/Resource/Organic/Ichor</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="OrganicResource">  
+        <Moniker>HorseTooth</Moniker>
+        <Label>Horse Tooth</Label>
+        <TexturePath>Entities/Item/Resource/Organic/HorseTooth</TexturePath>
+        <AmmoProperties>
+            <DamageType>Sharp</DamageType>
+            <DamageRange>300~400</DamageRange>
+        </AmmoProperties>
+    </ItemDef>
 </Definitions>

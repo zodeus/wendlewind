@@ -320,12 +320,6 @@ public class CombatHandler : IDisposable
                 pawn.Equipment.UnEquip(potion);
             }
 
-            if (potion.Def == Defs.Items.TheDreamingPowder)
-            {
-                UseTheDreamingPowder(potion, target);
-                pawn.Equipment.UnEquip(potion);
-            }
-
             potion.Destroy();
         }
     }
@@ -373,21 +367,6 @@ public class CombatHandler : IDisposable
             Font = BaseContent.Fonts.Default.Large,
             Duration = 8,
             Color = Color.GreenYellow
-        });
-    }
-
-    private void UseTheDreamingPowder(Item potion, Pawn target)
-    {
-        //Encounter.ActivateBuff(potion, target, Core.Random.Next(3, 6));
-        LogMessage(
-            $"/c[{TC.Attacker}]{target.LabelShort} /c[{TC.Purple}]Released /c[{TC.Item}]{potion.Label}"
-        );
-        _encounter.Zone.Alert(new ScreenMessageData
-        {
-            Text = $"{target.Label} has been transfixed",
-            Font = BaseContent.Fonts.Default.Large,
-            Duration = 8,
-            Color = Color.MediumPurple
         });
     }
 

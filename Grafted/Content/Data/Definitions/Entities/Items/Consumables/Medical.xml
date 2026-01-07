@@ -11,13 +11,13 @@
         <Label>Cauterize</Label>
         <StackLimit>1</StackLimit>
         <Description>Cauterizes a severed limb (unsealed socket).</Description>
-        <TexturePath>Entities/Item/Consumables/Cauterize</TexturePath>
+        <TexturePath>Entities/Item/Medical/Cauterize</TexturePath>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
         <Moniker>MedKit</Moniker>
         <Label>Med Kit</Label>
         <Description>Good for patching the meat. Heals bone, flesh, skin and organs. Fully heals a single body part.</Description>
-        <TexturePath>Entities/Item/Consumables/MedKit</TexturePath>
+        <TexturePath>Entities/Item/Medical/MedKit</TexturePath>
         <MedicinalProperties>
             <HandlerClass>MedKitHandler</HandlerClass>
         </MedicinalProperties>
@@ -43,7 +43,7 @@
         <Moniker>ArterialThreads</Moniker>
         <Label>Arterial Threads</Label>
         <Description>Used to repair arteries.</Description>
-        <TexturePath>Entities/Item/Consumables/ArterialThreads</TexturePath>
+        <TexturePath>Entities/Item/Medical/ArterialThreads</TexturePath>
         <MedicinalProperties>
             <HandlerClass>ArterialThreadsHandler</HandlerClass>
         </MedicinalProperties>
@@ -64,7 +64,7 @@
         <Moniker>MendersMist</Moniker>
         <Label>Menders Mist</Label>
         <Description>A little spritz of this goes a long way. Heals bone, flesh and skin. Travels through sockets.</Description>
-        <TexturePath>Entities/Item/Consumables/MendersMist</TexturePath>
+        <TexturePath>Entities/Item/Medical/MendersMist</TexturePath>
         <UiClass>MendersMistPanel</UiClass>
         <MedicinalProperties>
             <HandlerClass>MendersMistHandler</HandlerClass>
@@ -92,7 +92,7 @@
         <Moniker>BalmyOintment</Moniker>
         <Label>Balmy Ointment</Label>
         <Description>Sooths the skin and meat, tingly and nice.</Description>
-        <TexturePath>Entities/Item/Consumables/BalmyOintment</TexturePath>
+        <TexturePath>Entities/Item/Medical/BalmyOintment</TexturePath>
         <MedicinalProperties>
             <HandlerClass>BalmyOintmentHandler</HandlerClass>
             <DurationInTicks>800</DurationInTicks>
@@ -122,7 +122,7 @@
         <Moniker>AntiNecroticSerum</Moniker>
         <Label>Anti Necrotic Serum</Label>
         <Description>Put it where it hurts.</Description>
-        <TexturePath>Entities/Item/Consumables/AntiNecroticSerum</TexturePath>
+        <TexturePath>Entities/Item/Medical/AntiNecroticSerum</TexturePath>
         <MedicinalProperties>
             <HandlerClass>AntiNecroticSerumHandler</HandlerClass>
             <DurationInTicks>3000</DurationInTicks>
@@ -144,6 +144,40 @@
                 </ListItem>
                 <ListItem>
                     <Item>VenomVial</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+    </ItemDef>
+    <ItemDef ParentName="MedicalItem">
+        <Moniker>MendersMix</Moniker>
+        <Label>Menders Mix</Label>
+        <Description>A supreme blend of healing herbs and minerals.</Description>
+        <TexturePath>Entities/Item/Medical/MendersMix</TexturePath>
+        <MedicinalProperties>
+            <HandlerClass>MendersMixHandler</HandlerClass>
+            <DurationInTicks>300</DurationInTicks>
+        </MedicinalProperties>
+        <BaseStats>
+            <HealingValue>500</HealingValue>
+        </BaseStats>
+        <CraftingProperties>
+            <AmountProduced>2</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>SteroidInjector</ListItem>
+                <ListItem>ThirdEye</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>MendersMist</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>BalmyOintment</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>GoldCapMushroom</Item>
                     <Count>1</Count>
                 </ListItem>
             </ResourceRequirements>

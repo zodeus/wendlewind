@@ -527,13 +527,25 @@
                     <Modifier>0.8</Modifier>
                 </ListItem>
             </SubstanceModifiers>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Necrosis</Def>
+                    <DurationInTicks>0</DurationInTicks>
+                    <Chance>.05</Chance>
+                </ListItem>
+                <ListItem>
+                    <Def>Festering</Def>
+                    <DurationInTicks>300~600</DurationInTicks>
+                    <Chance>.25</Chance>
+                </ListItem>
+            </BodyPartModifiers>
         </WeaponProperties>
         <EquipmentProperties>
             <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
         <BaseStats>
-            <WeaponPower>90</WeaponPower>
+            <WeaponPower>80</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
@@ -559,7 +571,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Biological/Hoof</TexturePath>
         <BaseStats>
-            <WeaponPower>70</WeaponPower>
+            <WeaponPower>100</WeaponPower>
         </BaseStats>
     </ItemDef>
     

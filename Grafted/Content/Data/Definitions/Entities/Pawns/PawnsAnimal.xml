@@ -45,8 +45,8 @@
         <Body>HorseBody</Body>
         <BaseStats>
             <AttackSpeed>1</AttackSpeed>
-            <Strength>1.2</Strength>
-            <Accuracy>.9</Accuracy>
+            <Strength>1</Strength>
+            <Accuracy>.93</Accuracy>
             <Evasion>.01</Evasion>
         </BaseStats>
     </PawnDef>

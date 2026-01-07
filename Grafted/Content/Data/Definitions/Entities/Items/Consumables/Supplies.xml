@@ -10,7 +10,7 @@
         <Moniker>RepairKit</Moniker>
         <Label>Repair Kit</Label>
         <Description>Used for fixing equipment</Description>
-        <TexturePath>Entities/Item/Consumables/RepairKit</TexturePath>
+        <TexturePath>Entities/Item/Supplies/RepairKit</TexturePath>
         <CraftingProperties>
             <AmountProduced>2</AmountProduced>
             <RequiredTrinkets>
@@ -32,7 +32,7 @@
         <Moniker>EnchantmentExpander</Moniker>
         <Label>Expander</Label>
         <Description>More enchants certainly makes a better item.</Description>
-        <TexturePath>Entities/Item/Consumables/EnchantmentExpander</TexturePath>
+        <TexturePath>Entities/Item/Supplies/EnchantmentExpander</TexturePath>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
             <RequiredTrinkets>

@@ -10,19 +10,37 @@
         <Moniker>MullinStick</Moniker>
         <Label>Mullin Stick</Label>
         <Description>A stick of Mullin wood, it's smell is calming and soothing.</Description>
-        <TexturePath>Entities/Item/Consumables/Incense/MullinStick</TexturePath>
+        <TexturePath>Entities/Item/Incense/MullinStick</TexturePath>
+        <IncenseProperties>
+            <Effect>
+                <Def>Mulled</Def>
+                <DurationInTicks>4000</DurationInTicks>
+            </Effect>
+        </IncenseProperties>
     </ItemDef>
     <ItemDef ParentName="IncenseConsumable">
         <Moniker>ShadeWood</Moniker>
         <Label>Shade Wood</Label>
         <Description>A stick of Shade wood, it's smell is mysterious and alluring.</Description>
-        <TexturePath>Entities/Item/Consumables/Incense/ShadeWood</TexturePath>
+        <TexturePath>Entities/Item/Incense/ShadeWood</TexturePath>
+        <IncenseProperties>
+            <Effect>
+                <Def>Shaded</Def>
+                <DurationInTicks>4000</DurationInTicks>
+            </Effect>
+        </IncenseProperties>
     </ItemDef>
     <ItemDef ParentName="IncenseConsumable">
         <Moniker>DippedMullinStick</Moniker>
         <Label>Dipped Mullin Stick</Label>
         <Description>A stick of Mullin wood, dipped in a golden substance, it's smell is calming and soothing and exhilirating.</Description>
-        <TexturePath>Entities/Item/Consumables/Incense/DippedMullinStick</TexturePath>
+        <TexturePath>Entities/Item/Incense/DippedMullinStick</TexturePath>
+        <IncenseProperties>
+            <Effect>
+                <Def>WellMulled</Def>
+                <DurationInTicks>2000</DurationInTicks>
+            </Effect>
+        </IncenseProperties>
         <CraftingProperties>
             <AmountProduced>2</AmountProduced>
             <RequiredTrinkets>
@@ -46,6 +64,6 @@
         <Moniker>WitchWood</Moniker>
         <Label>Witch Wood</Label>
         <Description>A stick of Witch wood, aromatic and invigorating.</Description>
-        <TexturePath>Entities/Item/Consumables/Incense/WitchWood</TexturePath>
+        <TexturePath>Entities/Item/Incense/WitchWood</TexturePath>
     </ItemDef>
 </Definitions>

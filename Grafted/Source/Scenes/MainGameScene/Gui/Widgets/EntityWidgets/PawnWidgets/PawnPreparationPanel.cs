@@ -58,9 +58,9 @@ public class PawnPreparationPanel : Panel, IUpdatable
         _incenseItemsBar = new IncenseItemsBar(gui, Core.Context.Player);
         var consumableBarsContainer = new HorizontalStackPanel { Spacing = 12 };
         consumableBarsContainer.Widgets.Add(_supplyItemsBar);
-        consumableBarsContainer.Widgets.Add(_foodItemsBar);
         consumableBarsContainer.Widgets.Add(_incenseItemsBar);
         centerColumn.Widgets.Add(consumableBarsContainer);
+        centerColumn.Widgets.Add(_foodItemsBar);
 
         centerColumn.Widgets.Add(_controlsPanel);
 

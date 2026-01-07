@@ -35,9 +35,9 @@
         <Moniker>WeSmokemPeacePipe</Moniker>
         <Label>We Smoke'm Peace Pipe</Label>
         <Description>Burn woods.</Description>
-        <BenifitDescription>Not implemented.</BenifitDescription>
         <Category>Consumables</Category>
         <TargetValue>100</TargetValue>
+        <UnlockedTrinketDef>MortarAndPestle</UnlockedTrinketDef>
         <HandlerClass>WeSmokemPeacePipeHandler</HandlerClass>
     </AchievementDef>
     

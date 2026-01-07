@@ -8,7 +8,15 @@ internal sealed class MysteryScreen : VerticalStackPanel
     {
         HorizontalAlignment = HorizontalAlignment.Center;
 
-        if (playerPawn.Body.AllExternalParts.Any(p => p.Sockets.Any(s => s.AttachedPart == null)) == false)
+        // Check if there are any missing parts that this mystery can actually restore
+        var restorablePartTypes = playerPawn.Body.AllExternalParts
+            .SelectMany(p => p.Sockets.Where(s => s.AttachedPart == null))
+            .SelectMany(s => s.Def.AllowedBodyPartTypes)
+            .Where(t => shrine.RestorablePartTypes.Contains(t))
+            .Distinct()
+            .ToList();
+
+        if (restorablePartTypes.Count == 0)
         {
             ShowOptionalRewards(gui, playerPawn, shrine);
             return;

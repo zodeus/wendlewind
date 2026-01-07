@@ -73,9 +73,9 @@
         </AffectedStats>
     </BodyEffectDef>
     <BodyEffectDef>
-        <Moniker>SmokeyHaze</Moniker>
+        <Moniker>Mulled</Moniker>
         <Label>Smokey Haze</Label>
-        <TexturePath>Entities/Pawn/BodyEffects/SmokeyHaze</TexturePath>
+        <TexturePath>Entities/Pawn/BodyEffects/Mulled</TexturePath>
         <Description>You've danced in the flames of glittering wood, your skin absorbed a pungent smoke</Description>
         <AffectedStats>
             <ListItem>
@@ -89,9 +89,9 @@
         </AffectedStats>
     </BodyEffectDef>
     <BodyEffectDef>
-        <Moniker>Psychedelic</Moniker>
-        <Label>Psychedelic</Label>
-        <TexturePath>Entities/Pawn/BodyEffects/Psychedelic</TexturePath>
+        <Moniker>Shaded</Moniker>
+        <Label>Shaded</Label>
+        <TexturePath>Entities/Pawn/BodyEffects/Shaded</TexturePath>
         <Description>You can perceive a high reality</Description>
         <AffectedStats>
             <ListItem>
@@ -105,9 +105,9 @@
         </AffectedStats>
     </BodyEffectDef>
     <BodyEffectDef>
-        <Moniker>GoldenSmoke</Moniker>
+        <Moniker>WellMulled</Moniker>
         <Label>Golden Smoke</Label>
-        <TexturePath>Entities/Pawn/BodyEffects/GoldenSmoke</TexturePath>
+        <TexturePath>Entities/Pawn/BodyEffects/WellMulled</TexturePath>
         <Description>Flecks of golden glisten on your skin</Description>
         <AffectedStats>
             <ListItem>

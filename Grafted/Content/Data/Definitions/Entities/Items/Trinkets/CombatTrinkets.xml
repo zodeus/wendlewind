@@ -53,7 +53,8 @@
                 </Upgrade>
                 <Upgrade Level="3" Bonus="Fully Automatic">
                     <RequiredTrinkets>TinkersToolbox, Monocle</RequiredTrinkets>
-                    <GoldenBean>50</GoldenBean>
+                    <GoldenBean>4</GoldenBean>
+                    <Fuse>2</Fuse>
                 </Upgrade>
             </Upgrades>
         </UpgradeProperties>
