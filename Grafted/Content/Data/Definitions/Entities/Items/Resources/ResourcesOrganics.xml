@@ -61,15 +61,6 @@
         </AmmoProperties>
     </ItemDef>
     <ItemDef ParentName="OrganicResource">
-        <Moniker>HoneyPot</Moniker>
-        <Label>Honey Pot</Label>
-        <TexturePath>Entities/Item/Resource/Organic/HoneyPot</TexturePath>
-        <FoodProperties>
-            <FoodType>Nectar</FoodType>
-            
-        </FoodProperties>
-    </ItemDef>
-    <ItemDef ParentName="OrganicResource">
         <Moniker>TurtleBeakPuss</Moniker>
         <Label>Turtle Beak Puss</Label>
         <TexturePath>Entities/Item/Resource/Organic/TurtleBeakPuss</TexturePath>

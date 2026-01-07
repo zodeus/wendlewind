@@ -50,7 +50,7 @@
                     <ListItem>
                         <PawnDef>Mosquito</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Mosquito (specimen #1)</PawnName>
+                        <PawnName>Mosquito #1</PawnName>
                         <BodySizeFactor>1.2</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
@@ -73,7 +73,7 @@
                     <ListItem>
                         <PawnDef>Mosquito</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Mosquito (specimen #2)</PawnName>
+                        <PawnName>Mosquito #2</PawnName>
                         <BodySizeFactor>1.2</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
@@ -96,7 +96,7 @@
                     <ListItem>
                         <PawnDef>Mosquito</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Mosquito (specimen #3)</PawnName>
+                        <PawnName>Mosquito #3</PawnName>
                         <BodySizeFactor>1.5</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
@@ -119,7 +119,7 @@
                     <ListItem>
                         <PawnDef>Mosquito</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Mosquito (specimen #4)</PawnName>
+                        <PawnName>Mosquito #4</PawnName>
                         <BodySizeFactor>1.7</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
@@ -142,7 +142,7 @@
                     <ListItem>
                         <PawnDef>Mosquito</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Mosquito (specimen apex #1)</PawnName>
+                        <PawnName>Mosquito #5 (boss)</PawnName>
                         <BodySizeFactor>2</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>

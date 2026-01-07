@@ -28,7 +28,12 @@ public static class XmlInheritance
         ResolvedNodes = new Dictionary<XmlNode, XmlInheritanceNode>();
         UnresolvedNodes = new List<XmlInheritanceNode>();
         NodesByName = new Dictionary<string, List<XmlInheritanceNode>>();
-        AllowDuplicateNodesFieldNames = new HashSet<string>();
+        AllowDuplicateNodesFieldNames = new HashSet<string>
+        {
+            // Register field names that allow duplicate child nodes with custom names
+            // This enables <Upgrade> instead of <ListItem> for upgrade definitions
+            "Upgrades"
+        };
         TempUsedNodeNames = new HashSet<string>();
     }
 

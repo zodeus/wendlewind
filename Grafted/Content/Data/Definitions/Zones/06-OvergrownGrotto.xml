@@ -51,7 +51,7 @@
                     <ListItem>
                         <PawnDef>Turtle</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Turtle (specimen #1)</PawnName>
+                        <PawnName>Turtle #1</PawnName>
                         <InventoryItems>
                             <ListItem>
                                 <Item>TurtleBeakPuss</Item>
@@ -73,7 +73,7 @@
                     <ListItem>
                         <PawnDef>Turtle</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Turtle (specimen #2)</PawnName>
+                        <PawnName>Turtle #2</PawnName>
                         <BodySizeFactor>1.2</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
@@ -96,7 +96,7 @@
                     <ListItem>
                         <PawnDef>Turtle</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Turtle (specimen #3)</PawnName>
+                        <PawnName>Turtle #3</PawnName>
                         <BodySizeFactor>1.4</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
@@ -119,7 +119,7 @@
                     <ListItem>
                         <PawnDef>Turtle</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Turtle (specimen #4)</PawnName>
+                        <PawnName>Turtle #4</PawnName>
                         <BodySizeFactor>1.6</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
@@ -143,7 +143,7 @@
                     <ListItem>
                         <PawnDef>Turtle</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Turtle (specimen apex #1)</PawnName>
+                        <PawnName>Turtle #5 (boss)</PawnName>
                         <BodySizeFactor>2</BodySizeFactor>
                         <Skills>
                             <TreebornPower>2</TreebornPower>

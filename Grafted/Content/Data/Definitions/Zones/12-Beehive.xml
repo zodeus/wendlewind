@@ -49,7 +49,7 @@
                     <ListItem>
                         <PawnDef>HoneyBee</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Honey Bee (worker #1)</PawnName>
+                        <PawnName>Honey Bee #1</PawnName>
                         <BodySizeFactor>1</BodySizeFactor>
                     </ListItem>
                 </Enemies>
@@ -65,7 +65,7 @@
                     <ListItem>
                         <PawnDef>HoneyBee</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Honey Bee (worker #2)</PawnName>
+                        <PawnName>Honey Bee #2</PawnName>
                         <BodySizeFactor>1.3</BodySizeFactor>
                     </ListItem>
                 </Enemies>
@@ -81,7 +81,7 @@
                     <ListItem>
                         <PawnDef>HoneyBee</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Honey Bee (soldier #1)</PawnName>
+                        <PawnName>Honey Bee #3</PawnName>
                         <BodySizeFactor>1.5</BodySizeFactor>
                     </ListItem>
                 </Enemies>
@@ -97,7 +97,7 @@
                     <ListItem>
                         <PawnDef>HoneyBee</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Honey Bee (soldier #2)</PawnName>
+                        <PawnName>Honey Bee #4</PawnName>
                         <BodySizeFactor>1.8</BodySizeFactor>
                     </ListItem>
                 </Enemies>
@@ -114,7 +114,7 @@
                     <ListItem>
                         <PawnDef>HoneyBee</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Honey Bee (Queen)</PawnName>
+                        <PawnName>Honey Bee #5 (boss)</PawnName>
                         <BodySizeFactor>3</BodySizeFactor>
                     </ListItem>
                 </Enemies>

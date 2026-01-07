@@ -11,7 +11,7 @@ public class MuscleManTandyRavageHandler : AchievementHandler
 
     public override void OnItemUsed(Pawn consumer, Item item, dynamic? data = null)
     {
-        if (IsUnlocked) return;
+        if (IsUnlocked || data == null) return;
 
         var amount = (float)(data?.Amount ?? 0);
         var bodyPart = (BodyPart)data?.BodyPart!;

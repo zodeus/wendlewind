@@ -31,6 +31,18 @@
         <EquipmentProperties>
             <HandlerClass>RejuvenationCloakHandler</HandlerClass>
         </EquipmentProperties>
+        <UpgradeProperties>
+            <Upgrades>
+                <Upgrade Level="1" Bonus="+100% Healing">
+                    <ElvishLeaf>1</ElvishLeaf>
+                </Upgrade>
+                <Upgrade Level="2" Bonus="+200% Healing">
+                    <ElvishLeaf>1</ElvishLeaf>
+                    <RhinoSkin>1</RhinoSkin>
+                    <GoldenBean>2</GoldenBean>
+                </Upgrade>
+            </Upgrades>
+        </UpgradeProperties>
         <Description>A cloak that provides rejuvenation.</Description>
         <TexturePath>Entities/Item/Equipment/Armor/Cloak/Rejuvenation</TexturePath>
     </ItemDef>

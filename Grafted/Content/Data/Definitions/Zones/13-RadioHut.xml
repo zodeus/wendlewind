@@ -39,7 +39,7 @@
                     <ListItem>
                         <PawnDef>GameBox</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>GameBox (version 1.0)</PawnName>
+                        <PawnName>GameBox v1</PawnName>
                         <BodySizeFactor>1</BodySizeFactor>
                     </ListItem>
                 </Enemies>
@@ -55,7 +55,7 @@
                     <ListItem>
                         <PawnDef>GameBox</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>GameBox (version 2.0)</PawnName>
+                        <PawnName>GameBox v2</PawnName>
                         <BodySizeFactor>1.3</BodySizeFactor>
                     </ListItem>
                 </Enemies>
@@ -71,7 +71,7 @@
                     <ListItem>
                         <PawnDef>GameBox</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>GameBox (version 3.0)</PawnName>
+                        <PawnName>GameBox v3</PawnName>
                         <BodySizeFactor>1.5</BodySizeFactor>
                     </ListItem>
                 </Enemies>
@@ -87,7 +87,7 @@
                     <ListItem>
                         <PawnDef>GameBox</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>GameBox (version 4.0)</PawnName>
+                        <PawnName>GameBox v4</PawnName>
                         <BodySizeFactor>1.8</BodySizeFactor>
                     </ListItem>
                 </Enemies>
@@ -105,7 +105,7 @@
                     <ListItem>
                         <PawnDef>GameBox</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>GameBox (production model)</PawnName>
+                        <PawnName>GameBox v5 (boss)</PawnName>
                         <BodySizeFactor>3</BodySizeFactor>
                     </ListItem>
                 </Enemies>

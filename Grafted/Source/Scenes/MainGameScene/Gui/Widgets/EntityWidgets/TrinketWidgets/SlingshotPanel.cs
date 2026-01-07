@@ -7,12 +7,18 @@ public sealed class SlingshotPanel : EntityPanelBase
     private readonly VerticalStackPanel _ammoListPanel;
     private readonly HorizontalStackPanel _loadedAmmoPanel;
     private readonly Label _loadedAmmoLabel;
-    private readonly VerticalStackPanel _upgradeSection;
+    private readonly ItemUpgradePanel _upgradePanel;
     private readonly Image _headerIcon;
+    private readonly PawnInventory _inventory;
 
     public SlingshotPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
         _handler = (SlingshotHandler)item.TrinketHandler!;
+        
+        _inventory = Core.Context.PlayerPawn.Inventory;
+        _inventory.ItemAdded += OnInventoryChanged;
+        _inventory.ItemRemoved += OnInventoryChanged;
+        _inventory.ItemStackSizeChanged += OnInventoryChanged;
         Padding = new Thickness(16);
         Height = 600;
 
@@ -100,15 +106,22 @@ public sealed class SlingshotPanel : EntityPanelBase
         ammoColumn.Widgets.Add(scrollViewer);
         RefreshAmmoList();
 
-        // RIGHT COLUMN: Upgrades
-        _upgradeSection = new VerticalStackPanel { Spacing = 6, Width = 210 };
+        // RIGHT COLUMN: Upgrades using the generic ItemUpgradePanel
+        _upgradePanel = new ItemUpgradePanel(item, _handler, RefreshHeaderIcon)
+        {
+            Width = 210
+        };
 
         mainContent.Widgets.Add(ammoColumn);
         mainContent.Widgets.Add(new VerticalSeparator());
-        mainContent.Widgets.Add(_upgradeSection);
+        mainContent.Widgets.Add(_upgradePanel);
 
         Widgets.Add(mainContent);
-        RefreshUpgradeSection();
+    }
+    
+    private void RefreshHeaderIcon()
+    {
+        _headerIcon.Background = new TextureRegion(_handler.CurrentTexture);
     }
 
     private void RefreshLoadedAmmoDisplay()
@@ -148,7 +161,11 @@ public sealed class SlingshotPanel : EntityPanelBase
                 Content = new Label(BaseContent.Styles.Label.Small) { Text = "Unload", TextColor = Color.IndianRed },
                 VerticalAlignment = VerticalAlignment.Center
             };
-            unloadButton.TouchDown += (_, _) => UnloadAmmo();
+            unloadButton.TouchDown += (_, _) =>
+            {
+                UnloadAmmo();
+                _upgradePanel.Refresh();
+            };
             _loadedAmmoPanel.Widgets.Add(unloadButton);
         }
         else
@@ -184,6 +201,7 @@ public sealed class SlingshotPanel : EntityPanelBase
             loadButton.TouchDown += (_, _) =>
             {
                 LoadAmmo(capturedItem);
+                _upgradePanel.Refresh();
             };
 
             var ammoProps = item.ItemDef.AmmoProperties;
@@ -231,153 +249,6 @@ public sealed class SlingshotPanel : EntityPanelBase
                 TextColor = Color.Gray
             });
         }
-    }
-
-    private void RefreshUpgradeSection()
-    {
-        _upgradeSection.Widgets.Clear();
-        
-        // Update header icon to reflect current upgrade level
-        _headerIcon.Background = new TextureRegion(_handler.CurrentTexture);
-        
-        // Section header
-        _upgradeSection.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
-        {
-            Text = "Upgrades",
-            TextColor = Color.DarkGoldenrod,
-        });
-        
-        // Show current bonuses if upgraded
-        if (_handler.UpgradeLevel != SlingshotUpgradeLevel.None)
-        {
-            var bonusRow = new HorizontalStackPanel { Spacing = 8 };
-            
-            if (_handler.UpgradeLevel >= SlingshotUpgradeLevel.Bone)
-            {
-                var damagePercent = (int)((SlingshotHandler.BoneDamageMultiplier - 1f) * 100);
-                bonusRow.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-                {
-                    Text = $"+{damagePercent}% Dmg",
-                    TextColor = Color.LightGreen
-                });
-            }
-
-            if (_handler.UpgradeLevel >= SlingshotUpgradeLevel.Gold)
-            {
-                var cooldownPercent = (int)((1f - SlingshotHandler.GoldCooldownMultiplier) * 100);
-                bonusRow.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-                {
-                    Text = $"-{cooldownPercent}% CD",
-                    TextColor = Color.LightGreen
-                });
-            }
-            
-            _upgradeSection.Widgets.Add(bonusRow);
-        }
-        
-        var nextUpgrade = _handler.NextUpgrade;
-        if (nextUpgrade == null)
-        {
-            _upgradeSection.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-            {
-                Text = "Fully upgraded!",
-                TextColor = Color.Gold
-            });
-            return;
-        }
-
-        var inventory = Core.Context.PlayerPawn.Inventory;
-        var upgradeCost = _handler.GetUpgradeCost(nextUpgrade.Value);
-        var canUpgrade = _handler.CanUpgrade(inventory);
-
-        _upgradeSection.Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 4, 0, 4) });
-
-        // Next upgrade header with bonus
-        var bonusText = nextUpgrade.Value switch
-        {
-            SlingshotUpgradeLevel.Bone => $"+{(int)((SlingshotHandler.BoneDamageMultiplier - 1f) * 100)}% Dmg",
-            SlingshotUpgradeLevel.Gold => $"-{(int)((1f - SlingshotHandler.GoldCooldownMultiplier) * 100)}% CD",
-            _ => ""
-        };
-        
-        _upgradeSection.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-        {
-            Text = $"{nextUpgrade.Value}: {bonusText}",
-            TextColor = Color.Gold,
-        });
-
-        // Required trinkets (compact inline)
-        foreach (var trinketDef in SlingshotHandler.RequiredTrinkets)
-        {
-            var hasTrinket = inventory.Trinkets.Any(t => t.Def == trinketDef);
-            var trinketRow = new HorizontalStackPanel { Spacing = 6 };
-
-            trinketRow.Widgets.Add(new Image
-            {
-                Background = new TextureRegion(trinketDef.Texture),
-                Width = 20, Height = 20,
-                Opacity = hasTrinket ? 1.0f : 0.4f,
-                VerticalAlignment = VerticalAlignment.Center
-            });
-
-            trinketRow.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-            {
-                Text = trinketDef.Label,
-                TextColor = hasTrinket ? Color.LightGreen : Color.IndianRed,
-                VerticalAlignment = VerticalAlignment.Center
-            });
-
-            _upgradeSection.Widgets.Add(trinketRow);
-        }
-
-        // Resource costs (compact)
-        foreach (var cost in upgradeCost)
-        {
-            var hasEnough = inventory.AmountOf(cost.Item) >= cost.Count;
-            var currentAmount = inventory.AmountOf(cost.Item);
-
-            var costRow = new HorizontalStackPanel { Spacing = 6 };
-
-            costRow.Widgets.Add(new Image
-            {
-                Background = new TextureRegion(cost.Item.Texture),
-                Width = 20, Height = 20,
-                Opacity = hasEnough ? 1.0f : 0.5f,
-                VerticalAlignment = VerticalAlignment.Center
-            });
-
-            costRow.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-            {
-                Text = $"{cost.Item.Label} {currentAmount}/{cost.Count}",
-                TextColor = hasEnough ? Color.LightGreen : Color.IndianRed,
-                VerticalAlignment = VerticalAlignment.Center
-            });
-
-            _upgradeSection.Widgets.Add(costRow);
-        }
-
-        // Upgrade button
-        var upgradeButton = new CursorButton(BaseContent.Styles.Button.Normal)
-        {
-            Content = new Label
-            {
-                Text = canUpgrade ? "Upgrade" : "Missing",
-                TextColor = canUpgrade ? Color.Gold : Color.Gray
-            },
-            Enabled = canUpgrade,
-            Margin = new Thickness(0, 6, 0, 0),
-            HorizontalAlignment = HorizontalAlignment.Stretch
-        };
-
-        upgradeButton.TouchDown += (_, _) =>
-        {
-            if (_handler.TryUpgrade(inventory))
-            {
-                RefreshUpgradeSection();
-            }
-        };
-
-        _upgradeSection.Widgets.Add(upgradeButton);
     }
 
     private void LoadAmmo(Item ammo)
@@ -437,32 +308,14 @@ public sealed class SlingshotPanel : EntityPanelBase
         RefreshAmmoList();
     }
 
-    private static HorizontalStackPanel MakeStatRow(string label, int width, Widget valueWidget)
+    private void OnInventoryChanged(Item _)
     {
-        return new HorizontalStackPanel
-        {
-            Spacing = 10,
-            Margin = new Thickness(0, 5, 0, 0),
-            Widgets =
-            {
-                new Label(BaseContent.Styles.Label.Normal)
-                {
-                    Text = $"{label}:",
-                    TextColor = Color.Gray,
-                    Width = width
-                },
-                valueWidget
-            }
-        };
-    }
-
-    public override void Update()
-    {
-        // Refresh displays in case inventory changed externally
+        Log.Debug($"Inventory changed: {_}");
         RefreshLoadedAmmoDisplay();
         RefreshAmmoList();
-        RefreshUpgradeSection();
     }
+
+    public override void Update() { }
 
     private static Color GetDamageTypeColor(DamageType damageType)
     {

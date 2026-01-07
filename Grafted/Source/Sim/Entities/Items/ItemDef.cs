@@ -19,6 +19,7 @@ public class ItemDef : EntityDef
     public TrinketProperties? TrinketProperties;
     public DisassembleProperties? DisassembleProperties;
     public AmmoProperties? AmmoProperties;
+    public UpgradeProperties? UpgradeProperties;
 
     public override void ResolveDependencies()
     {

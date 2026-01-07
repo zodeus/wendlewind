@@ -63,7 +63,7 @@
                     <ListItem>
                         <PawnDef>Inukshuk</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Stone Guardian</PawnName>
+                        <PawnName>Inukshuk #1</PawnName>
                         <BodySizeFactor>0.9</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
@@ -86,7 +86,7 @@
                     <ListItem>
                         <PawnDef>Inukshuk</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Stone Watcher</PawnName>
+                        <PawnName>Inukshuk #2</PawnName>
                         <BodySizeFactor>1</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
@@ -109,7 +109,7 @@
                     <ListItem>
                         <PawnDef>Inukshuk</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Stone Sentinel</PawnName>
+                        <PawnName>Inukshuk #3</PawnName>
                         <BodySizeFactor>1.1</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
@@ -131,7 +131,7 @@
                     <ListItem>
                         <PawnDef>Inukshuk</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Stone Warden</PawnName>
+                        <PawnName>Inukshuk #4</PawnName>
                         <BodySizeFactor>1.2</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
@@ -154,7 +154,7 @@
                     <ListItem>
                         <PawnDef>Inukshuk</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Ancient Monolith</PawnName>
+                        <PawnName>Inukshuk #5 (boss)</PawnName>
                         <BodySizeFactor>1.4</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>

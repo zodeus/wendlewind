@@ -34,7 +34,7 @@
         <Description>More enchants certainly makes a better item.</Description>
         <TexturePath>Entities/Item/Consumables/EnchantmentExpander</TexturePath>
         <CraftingProperties>
-            <AmountProduced>2</AmountProduced>
+            <AmountProduced>1</AmountProduced>
             <RequiredTrinkets>
                 <ListItem>TinkersToolbox</ListItem>
                 <ListItem>ThirdEye</ListItem>

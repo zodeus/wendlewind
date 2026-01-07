@@ -340,4 +340,22 @@
             <NutritionalValue>.05</NutritionalValue>
         </BaseStats>
     </ItemDef>
+    
+    <ItemDef ParentName="OrganicResource">
+        <Moniker>HoneyPot</Moniker>
+        <Label>Honey Pot</Label>
+        <TexturePath>Entities/Item/Resource/Organic/HoneyPot</TexturePath>
+        <FoodProperties>
+            <FoodType>Nectar</FoodType>
+            <Effects>
+                <ListItem>
+                    <Def>Buzzin</Def>
+                    <DurationInTicks>1000</DurationInTicks>
+                </ListItem>
+            </Effects>
+        </FoodProperties>
+        <BaseStats>
+            <NutritionalValue>.05</NutritionalValue>
+        </BaseStats>
+    </ItemDef>
 </Definitions>

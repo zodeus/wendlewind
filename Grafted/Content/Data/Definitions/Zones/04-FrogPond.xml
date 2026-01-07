@@ -49,7 +49,7 @@
                     <ListItem>
                         <PawnDef>Frog</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Frog (specimen #1)</PawnName>
+                        <PawnName>Frog #1</PawnName>
                         <SpawnWeight>1</SpawnWeight>
                         <InventoryItems>
                             <ListItem>
@@ -72,7 +72,7 @@
                     <ListItem>
                         <PawnDef>Frog</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Frog (specimen #2)</PawnName>
+                        <PawnName>Frog #2</PawnName>
                         <SpawnWeight>1</SpawnWeight>
                         <BodySizeFactor>1</BodySizeFactor>
                         <Skills>
@@ -99,7 +99,7 @@
                     <ListItem>
                         <PawnDef>Frog</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Frog (specimen #3)</PawnName>
+                        <PawnName>Frog #3</PawnName>
                         <SpawnWeight>1</SpawnWeight>
                         <BodySizeFactor>1.2</BodySizeFactor>
                         <Skills>
@@ -126,7 +126,7 @@
                     <ListItem>
                         <PawnDef>Frog</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Frog (specimen #4)</PawnName>
+                        <PawnName>Frog #4</PawnName>
                         <SpawnWeight>1</SpawnWeight>
                         <BodySizeFactor>1.3</BodySizeFactor>
                         <Skills>
@@ -156,7 +156,7 @@
                     <ListItem>
                         <PawnDef>Frog</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Frog (specimen apex #1)</PawnName>
+                        <PawnName>Frog #5 (boss)</PawnName>
                         <SpawnWeight>1</SpawnWeight>
                         <BodySizeFactor>1.5</BodySizeFactor>
                         <Skills>

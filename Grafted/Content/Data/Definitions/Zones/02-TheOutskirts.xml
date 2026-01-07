@@ -38,7 +38,7 @@
                     <ListItem>
                         <PawnDef>Boar</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Boar (specimen #1)</PawnName>
+                        <PawnName>Boar #1</PawnName>
                         <BodySizeFactor>1.1</BodySizeFactor>
                         <SpawnWeight>1</SpawnWeight>
                         <Skills>
@@ -64,7 +64,7 @@
                     <ListItem>
                         <PawnDef>Boar</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Boar (specimen #2)</PawnName>
+                        <PawnName>Boar #2</PawnName>
                         <SpawnWeight>20</SpawnWeight>
                         <BodySizeFactor>1.2</BodySizeFactor>
                         <Skills>
@@ -90,7 +90,7 @@
                     <ListItem>
                         <PawnDef>Boar</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Boar (specimen #3)</PawnName>
+                        <PawnName>Boar #3</PawnName>
                         <SpawnWeight>15</SpawnWeight>
                         <BodySizeFactor>1.3</BodySizeFactor>
                         <Skills>
@@ -116,7 +116,7 @@
                     <ListItem>
                         <PawnDef>Boar</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Boar (specimen #4)</PawnName>
+                        <PawnName>Boar #4</PawnName>
                         <BodySizeFactor>1.4</BodySizeFactor>
                         <Skills>
                             <Biting>3</Biting>
@@ -142,7 +142,7 @@
                     <ListItem>
                         <PawnDef>Boar</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Boar (specimen apex #1)</PawnName>
+                        <PawnName>Boar #5 (boss)</PawnName>
                         <BodySizeFactor>2</BodySizeFactor>
                         <EquipmentItems>
                             <ListItem>JarOfBlood</ListItem>

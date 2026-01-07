@@ -38,6 +38,25 @@
         <TrinketProperties>
             <HandlerClass>SlingshotHandler</HandlerClass>
         </TrinketProperties>
+        <UpgradeProperties>
+            <Upgrades>
+                <Upgrade Level="1" Bonus="+50% Dmg">
+                    <RequiredTrinkets>TinkersToolbox</RequiredTrinkets>
+                    <BoneShard>10</BoneShard>
+                    <LeatherScraps>4</LeatherScraps>
+                </Upgrade>
+                <Upgrade Level="2" Bonus="-30% CD">
+                    <RequiredTrinkets>TinkersToolbox</RequiredTrinkets>
+                    <GoldenBean>5</GoldenBean>
+                    <Fang>1</Fang>
+                    <LeatherScraps>6</LeatherScraps>
+                </Upgrade>
+                <Upgrade Level="3" Bonus="Fully Automatic">
+                    <RequiredTrinkets>TinkersToolbox, Monocle</RequiredTrinkets>
+                    <GoldenBean>50</GoldenBean>
+                </Upgrade>
+            </Upgrades>
+        </UpgradeProperties>
         <TexturePath>Entities/Item/Trinket/SlingshotWood</TexturePath>
     </ItemDef>
     

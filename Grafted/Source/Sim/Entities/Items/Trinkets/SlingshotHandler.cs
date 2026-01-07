@@ -4,127 +4,40 @@ using Grafted.Sim.Entities.Pawns;
 using Grafted.Sim.Entities.Pawns.Modifiers;
 using Grafted.Graphics.Textures;
 
-public enum SlingshotUpgradeLevel
-{
-    None,
-    Bone,
-    Gold
-}
-
 [UsedImplicitly]
-public class SlingshotHandler : TrinketHandler
+public class SlingshotHandler : TrinketHandler, IUpgradableHandler
 {
     private static string _boneTexturePath = "Entities/Item/Trinket/SlingshotBone";
     private static string _goldTexturePath = "Entities/Item/Trinket/SlingshotGold";
     private static Texture2D _boneTexture = null!;
     private static Texture2D _goldTexture = null!;
     private Item? _ammo;
-    private SlingshotUpgradeLevel _upgradeLevel = SlingshotUpgradeLevel.None;
+    private int _upgradeLevel;
 
     private Label _cooldownLabel = null!;
     private Label _chargesLabel = null!;
     private Image _ammoIcon = null!;
     private Widget? _buttonContent;
-    private SlingshotUpgradeLevel _lastRenderedUpgradeLevel = SlingshotUpgradeLevel.None;
+    private int _lastRenderedUpgradeLevel = -1;
     private ColoredRegion? _dimmedTexture;
     private const int CooldownValue = 180;
 
     public const float BoneDamageMultiplier = 1.5f;
     public const float GoldCooldownMultiplier = 0.7f;
     public Item? Ammo => _ammo;
-    public SlingshotUpgradeLevel UpgradeLevel => _upgradeLevel;
+    public int UpgradeLevel => _upgradeLevel;
+    public UpgradeProperties? UpgradeProperties => Trinket.ItemDef.UpgradeProperties;
+    void IUpgradableHandler.SetUpgradeLevel(int level) => _upgradeLevel = level;
     public AmmoProperties? AmmoProperties => _ammo?.ItemDef.AmmoProperties;
     public static Texture2D BoneTexture => _boneTexture ??= TextureUtils.PreMultiply(Core.Content.Load<Texture2D>(_boneTexturePath)!)!;
     public static Texture2D GoldTexture => _goldTexture ??= TextureUtils.PreMultiply(Core.Content.Load<Texture2D>(_goldTexturePath)!)!;
 
-    public static List<ResourceCount> BoneUpgradeCost = [
-        new(Defs.Items.BoneShard, 10),
-        new(Defs.Items.LeatherScraps, 4)
-    ];
-
-    public static List<ResourceCount> GoldUpgradeCost = [
-        new(Defs.Items.GoldenBean, 5),
-        new(Defs.Items.Fang, 1),
-        new(Defs.Items.LeatherScraps, 6)
-    ];
-
-    public static List<ItemDef> RequiredTrinkets = [
-        Defs.Items.TinkersToolbox
-    ];
-
     public Texture2D CurrentTexture => _upgradeLevel switch
     {
-        SlingshotUpgradeLevel.Bone => BoneTexture,
-        SlingshotUpgradeLevel.Gold => GoldTexture,
+        1 => BoneTexture,
+        2 => GoldTexture,
         _ => Trinket.Icon
     };
-
-    public SlingshotUpgradeLevel? NextUpgrade => _upgradeLevel switch
-    {
-        SlingshotUpgradeLevel.None => SlingshotUpgradeLevel.Bone,
-        SlingshotUpgradeLevel.Bone => SlingshotUpgradeLevel.Gold,
-        _ => null
-    };
-
-    public List<ResourceCount> GetUpgradeCost(SlingshotUpgradeLevel level) => level switch
-    {
-        SlingshotUpgradeLevel.Bone => BoneUpgradeCost,
-        SlingshotUpgradeLevel.Gold => GoldUpgradeCost,
-        _ => []
-    };
-
-    public bool CanUpgrade(PawnInventory inventory)
-    {
-        var next = NextUpgrade;
-        if (next == null) return false;
-
-        // Check required trinkets
-        foreach (var trinketDef in RequiredTrinkets)
-        {
-            if (!inventory.Trinkets.Any(t => t.Def == trinketDef))
-                return false;
-        }
-
-        // Check resource costs
-        var costs = GetUpgradeCost(next.Value);
-        foreach (var cost in costs)
-        {
-            if (inventory.AmountOf(cost.Item) < cost.Count)
-                return false;
-        }
-
-        return true;
-    }
-
-    public bool TryUpgrade(PawnInventory inventory)
-    {
-        var next = NextUpgrade;
-        if (next == null || !CanUpgrade(inventory)) return false;
-
-        var costs = GetUpgradeCost(next.Value);
-        
-        // Deduct resources
-        List<Item> takenResources = [];
-        foreach (var cost in costs)
-        {
-            var taken = inventory.Take(cost);
-            if (taken == null)
-            {
-                // Rollback if something fails
-                foreach (var item in takenResources)
-                    inventory.TryAdd(item);
-                return false;
-            }
-            takenResources.Add(taken);
-        }
-
-        // Destroy taken resources
-        foreach (var item in takenResources)
-            item.Destroy();
-
-        _upgradeLevel = next.Value;
-        return true;
-    }
 
     public override void ExposeData()
     {
@@ -139,7 +52,8 @@ public class SlingshotHandler : TrinketHandler
 
         var ammoProps = AmmoProperties!;
         var damage = ammoProps.DamageRange.RandomValue;
-        if(_upgradeLevel == SlingshotUpgradeLevel.Bone || _upgradeLevel == SlingshotUpgradeLevel.Gold)
+        // Level 1+ (Bone) gives damage bonus
+        if (_upgradeLevel >= 1)
         {
             damage *= BoneDamageMultiplier;
         }
@@ -159,7 +73,8 @@ public class SlingshotHandler : TrinketHandler
             _ammo.Destroy();
             _ammo = null;
         }
-        Cooldown = _upgradeLevel == SlingshotUpgradeLevel.Gold ? (int)(CooldownValue * GoldCooldownMultiplier) : CooldownValue;
+        // Level 2 (Gold) gives cooldown reduction
+        Cooldown = _upgradeLevel >= 2 ? (int)(CooldownValue * GoldCooldownMultiplier) : CooldownValue;
         DeActivate();
 
         return damageRecord;

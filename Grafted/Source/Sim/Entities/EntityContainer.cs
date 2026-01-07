@@ -60,6 +60,7 @@ public partial class EntityContainer : IEnumerable<Entity>, IExposable
 
         if (entity is Item item)
         {
+            item.StackSizeChanged -= OnItemStackSizeChanged;
             ItemRemoved?.Invoke(item);
         }
     }
@@ -96,6 +97,10 @@ public partial class EntityContainer : IEnumerable<Entity>, IExposable
             {
                 entity.EjectedFromContainer += OnContainerEject;
                 entity.Destroyed += OnEntityDestroyed;
+                if (entity is Item item)
+                {
+                    item.StackSizeChanged += OnItemStackSizeChanged;
+                }
             }
         }
     }
@@ -119,7 +124,7 @@ public partial class EntityContainer
                 item.EjectFromContainer();
                 item.Destroy();
 
-                ItemStackSizeChanged?.Invoke(mergeItem);
+                // Note: ItemStackSizeChanged will be fired by the item's StackSizeChanged event
                 return true;
             }
         }
@@ -127,10 +132,16 @@ public partial class EntityContainer
         item.EjectFromContainer();
         item.EjectedFromContainer += OnContainerEject;
         item.Destroyed += OnEntityDestroyed;
+        item.StackSizeChanged += OnItemStackSizeChanged;
 
         _list.Add(item);
         ItemAdded?.Invoke(item);
         return true;
+    }
+    
+    private void OnItemStackSizeChanged(Item item)
+    {
+        ItemStackSizeChanged?.Invoke(item);
     }
 
     public bool TryAdd(Item item, int amount)
@@ -200,7 +211,7 @@ public partial class EntityContainer
         }
 
         var splitItem = item.SplitStack(amount);
-        ItemStackSizeChanged?.Invoke(item);
+        // Note: ItemStackSizeChanged is fired automatically via item.StackSizeChanged event
 
         return splitItem;
     }

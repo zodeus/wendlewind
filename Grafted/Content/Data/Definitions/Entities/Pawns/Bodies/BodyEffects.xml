@@ -93,7 +93,6 @@
         <Label>Psychedelic</Label>
         <TexturePath>Entities/Pawn/BodyEffects/Psychedelic</TexturePath>
         <Description>You can perceive a high reality</Description>
-        <Notes>Higher reality perception</Notes>
         <AffectedStats>
             <ListItem>
                 <Stat>Accuracy</Stat>
@@ -114,7 +113,6 @@
         <Label>Golden Smoke</Label>
         <TexturePath>Entities/Pawn/BodyEffects/GoldenSmoke</TexturePath>
         <Description>Flecks of golden glisten on your skin</Description>
-        <Notes>Higher reality perception</Notes>
         <AffectedStats>
             <ListItem>
                 <Stat>Accuracy</Stat>
@@ -130,7 +128,6 @@
         <Moniker>FeelingThePurple</Moniker>
         <Label>Feeling the Purple</Label>
         <TexturePath>Entities/Pawn/BodyEffects/FeelingThePurple</TexturePath>
-        <Notes>Full body health regeneration</Notes>
         <AffectedStats>
             <ListItem>
                 <Stat>Strength</Stat>
@@ -158,7 +155,6 @@
     <BodyEffectDef>
         <Moniker>PotentiaNucis</Moniker>
         <Label>Potentia Nucis</Label>
-        <Notes>Extreme power flow through your veins</Notes>
         <TexturePath>Entities/Pawn/BodyEffects/PotentiaNucis</TexturePath>
         <AffectedStats>
             <ListItem>
@@ -176,6 +172,21 @@
             <ListItem>
                 <Stat>Strength</Stat>
                 <Factor>0.30</Factor>
+            </ListItem>
+        </AffectedStats>
+    </BodyEffectDef>
+    <BodyEffectDef>
+        <Moniker>Buzzin</Moniker>
+        <Label>Buzzin</Label>
+        <TexturePath>Entities/Pawn/BodyEffects/Buzzin</TexturePath>
+        <AffectedStats>
+            <ListItem>
+                <Stat>AttackSpeed</Stat>
+                <Offset>1</Offset>
+            </ListItem>
+            <ListItem>
+                <Stat>Strength</Stat>
+                <Factor>0.5</Factor>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>

@@ -7,7 +7,7 @@ public sealed class RejuvenationCloakPanel : EntityPanelBase
     private readonly RejuvenationCloakHandler _handler;
     private readonly Label _durabilityLabel;
     private readonly HorizontalProgressBar _durabilityBar;
-    private readonly VerticalStackPanel _upgradeSection;
+    private readonly ItemUpgradePanel _upgradePanel;
     private readonly Label _bonusLabel;
     private readonly Label _upgradeLevelLabel;
 
@@ -91,7 +91,7 @@ public sealed class RejuvenationCloakPanel : EntityPanelBase
         var propsSection = new VerticalStackPanel { Spacing = 3, Margin = new Thickness(0, 0, 0, 10) };
         propsSection.Widgets.Add(CreatePropertyRow("Slot", item.ItemDef.EquipmentProperties?.SlotUsedToEquip?.ToString() ?? "n/a", Color.CornflowerBlue));
         
-        _upgradeLevelLabel = new Label("small") { Text = $"{(int)_handler.UpgradeLevel} / 2", TextColor = GoldColor };
+        _upgradeLevelLabel = new Label("small") { Text = $"{_handler.UpgradeLevel} / 2", TextColor = GoldColor };
         propsSection.Widgets.Add(new HorizontalStackPanel
         {
             Spacing = 8,
@@ -104,15 +104,20 @@ public sealed class RejuvenationCloakPanel : EntityPanelBase
         Widgets.Add(propsSection);
 
         // ═══════════════════════════════════════════════════════════════════
-        // Upgrade Section
+        // Upgrade Section using ItemUpgradePanel
         // ═══════════════════════════════════════════════════════════════════
         Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 4, 0, 8) });
 
-        _upgradeSection = new VerticalStackPanel { Spacing = 6 };
-        Widgets.Add(_upgradeSection);
+        _upgradePanel = new ItemUpgradePanel(item, _handler, OnUpgradeComplete);
+        Widgets.Add(_upgradePanel);
 
-        RefreshUpgradeSection();
         UpdateBonusLabel();
+    }
+    
+    private void OnUpgradeComplete()
+    {
+        UpdateBonusLabel();
+        _upgradeLevelLabel.Text = $"{_handler.UpgradeLevel} / 2";
     }
 
     private void UpdateBonusLabel()
@@ -128,101 +133,6 @@ public sealed class RejuvenationCloakPanel : EntityPanelBase
             _bonusLabel.Text = "Healing: Base rate";
             _bonusLabel.TextColor = GrayColor;
         }
-    }
-
-    private void RefreshUpgradeSection()
-    {
-        _upgradeSection.Widgets.Clear();
-        _upgradeLevelLabel.Text = $"{(int)_handler.UpgradeLevel} / 2";
-
-        // Section header
-        _upgradeSection.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
-        {
-            Text = "Upgrades",
-            TextColor = GoldColor
-        });
-
-        var nextUpgrade = _handler.NextUpgrade;
-        if (nextUpgrade == null)
-        {
-            _upgradeSection.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-            {
-                Text = "Fully upgraded!",
-                TextColor = GoldColor,
-                Margin = new Thickness(0, 4, 0, 0)
-            });
-            return;
-        }
-
-        var inventory = Core.Context.PlayerPawn.Inventory;
-        var upgradeCost = _handler.GetUpgradeCost(nextUpgrade.Value);
-        var canUpgrade = _handler.CanUpgrade(inventory);
-
-        // Next upgrade header with bonus
-        var levelNum = (int)nextUpgrade.Value;
-        var bonusText = nextUpgrade.Value switch
-        {
-            RejuvenationCloakUpgradeLevel.Level1 => $"+{(int)((RejuvenationCloakHandler.Level1BonusMultiplier - 1f) * 100)}% Healing",
-            RejuvenationCloakUpgradeLevel.Level2 => $"+{(int)((RejuvenationCloakHandler.Level2BonusMultiplier - 1f) * 100)}% Healing",
-            _ => ""
-        };
-
-        _upgradeSection.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-        {
-            Text = $"Level {levelNum}: {bonusText}",
-            TextColor = GoldColor,
-            Margin = new Thickness(0, 4, 0, 4)
-        });
-
-        // Resource costs
-        foreach (var cost in upgradeCost)
-        {
-            var hasEnough = inventory.AmountOf(cost.Item) >= cost.Count;
-            var currentAmount = inventory.AmountOf(cost.Item);
-
-            var costRow = new HorizontalStackPanel { Spacing = 8 };
-
-            costRow.Widgets.Add(new Image
-            {
-                Background = new TextureRegion(cost.Item.Texture),
-                Width = 24, Height = 24,
-                Opacity = hasEnough ? 1.0f : 0.5f,
-                VerticalAlignment = VerticalAlignment.Center
-            });
-
-            costRow.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
-            {
-                Text = $"{cost.Item.Label} {currentAmount}/{cost.Count}",
-                TextColor = hasEnough ? Color.LightGreen : Color.IndianRed,
-                VerticalAlignment = VerticalAlignment.Center
-            });
-
-            _upgradeSection.Widgets.Add(costRow);
-        }
-
-        // Upgrade button
-        var upgradeButton = new CursorButton(BaseContent.Styles.Button.Normal)
-        {
-            Content = new Label
-            {
-                Text = canUpgrade ? "Upgrade" : "Missing Materials",
-                TextColor = canUpgrade ? GoldColor : GrayColor
-            },
-            Enabled = canUpgrade,
-            Margin = new Thickness(0, 8, 0, 0),
-            HorizontalAlignment = HorizontalAlignment.Stretch
-        };
-
-        upgradeButton.TouchDown += (_, _) =>
-        {
-            if (_handler.TryUpgrade(inventory))
-            {
-                RefreshUpgradeSection();
-                UpdateBonusLabel();
-            }
-        };
-
-        _upgradeSection.Widgets.Add(upgradeButton);
     }
 
     private static HorizontalStackPanel CreatePropertyRow(string key, string value, Color valueColor)
@@ -242,6 +152,5 @@ public sealed class RejuvenationCloakPanel : EntityPanelBase
     {
         _durabilityBar.Value = _item.Durability / _item.MaxDurability * 100;
         _durabilityLabel.Text = $"Durability: {_item.Durability:F0}/{_item.MaxDurability:F0}";
-        RefreshUpgradeSection();
     }
 }

@@ -6,7 +6,20 @@ public class Item : Entity, IExposable
     private float _durability;
     public float MaxDurability;
     public float Durability => _durability;
-    public int StackSize = 1;
+    
+    private int _stackSize = 1;
+    public int StackSize
+    {
+        get => _stackSize;
+        set
+        {
+            if (_stackSize == value) return;
+            _stackSize = value;
+            StackSizeChanged?.Invoke(this);
+        }
+    }
+    public event Action<Item>? StackSizeChanged;
+    
     public EnchantmentHandler? EnchantmentHandler;
     public TrinketHandler? TrinketHandler;
     public EquipmentHandler? EquipmentHandler;
@@ -131,7 +144,7 @@ public class Item : Entity, IExposable
     {
         ScribeValues.Look(ref _durability, "Durability");
         ScribeValues.Look(ref MaxDurability, "MaxDurability");
-        ScribeValues.Look(ref StackSize, "StackSize");
+        ScribeValues.Look(ref _stackSize, "StackSize");
         ScribeValues.Look(ref UseInCombat, "UseInCombat");
         ScribeDeep.Look(ref Enchantments!, "Enchantments");
         ScribeDeep.Look(ref EnchantmentHandler!, "EnchantmentHandler");

@@ -44,7 +44,7 @@
                     <ListItem>
                         <PawnDef>Shroomy</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Shroomy (specimen #1)</PawnName>
+                        <PawnName>Shroomy #1</PawnName>
                         <Skills>
                             <MushroomPower>0</MushroomPower>
                         </Skills>
@@ -69,7 +69,7 @@
                     <ListItem>
                         <PawnDef>Shroomy</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Shroomy (specimen #2)</PawnName>
+                        <PawnName>Shroomy #2</PawnName>
                         <BodySizeFactor>1</BodySizeFactor>
                         <Skills>
                             <MushroomPower>1</MushroomPower>
@@ -95,7 +95,7 @@
                     <ListItem>
                         <PawnDef>Shroomy</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Shroomy (specimen #3)</PawnName>
+                        <PawnName>Shroomy #3</PawnName>
                         <BodySizeFactor>1.1</BodySizeFactor>
                         <Skills>
                             <MushroomPower>1</MushroomPower>
@@ -121,7 +121,7 @@
                     <ListItem>
                         <PawnDef>Shroomy</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Shroomy (specimen #4)</PawnName>
+                        <PawnName>Shroomy #4</PawnName>
                         <BodySizeFactor>1.2</BodySizeFactor>
                         <Skills>
                             <MushroomPower>2</MushroomPower>
@@ -147,7 +147,7 @@
                     <ListItem>
                         <PawnDef>Shroomy</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Shroomy (specimen apex #1)</PawnName>
+                        <PawnName>Shroomy #5 (boss)</PawnName>
                         <BodySizeFactor>1.3</BodySizeFactor>
                         <Skills>
                             <MushroomPower>2</MushroomPower>

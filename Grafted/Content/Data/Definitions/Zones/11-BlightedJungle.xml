@@ -65,7 +65,7 @@
                     <ListItem>
                         <PawnDef>UndeadMonkey</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Undead Monkey (specimen #1)</PawnName>
+                        <PawnName>Undead Monkey #1</PawnName>
                         <BodySizeFactor>1</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
@@ -88,7 +88,7 @@
                     <ListItem>
                         <PawnDef>UndeadMonkey</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Undead Monkey (specimen #2)</PawnName>
+                        <PawnName>Undead Monkey #2</PawnName>
                         <BodySizeFactor>1.15</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
@@ -111,7 +111,7 @@
                     <ListItem>
                         <PawnDef>UndeadMonkey</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Undead Monkey (specimen #3)</PawnName>
+                        <PawnName>Undead Monkey #3</PawnName>
                         <BodySizeFactor>1.35</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
@@ -134,7 +134,7 @@
                     <ListItem>
                         <PawnDef>UndeadMonkey</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Undead Monkey (specimen #4)</PawnName>
+                        <PawnName>Undead Monkey #4</PawnName>
                         <BodySizeFactor>1.55</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
@@ -159,7 +159,7 @@
                     <ListItem>
                         <PawnDef>UndeadMonkey</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Undead Monkey (specimen apex #1)</PawnName>
+                        <PawnName>Undead Monkey #5 (boss)</PawnName>
                         <BodySizeFactor>1.85</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>

@@ -68,7 +68,7 @@
                     <ListItem>
                         <PawnDef>Treeling</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Ent (specimen #1)</PawnName>
+                        <PawnName>Ent #1</PawnName>
                         <SpawnWeight>1</SpawnWeight>
                         <EquipmentItems>
                             <ListItem>LeatherGreave</ListItem>
@@ -94,7 +94,7 @@
                     <ListItem>
                         <PawnDef>Treeling</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Ent (specimen #2)</PawnName>
+                        <PawnName>Ent #2</PawnName>
                         <SpawnWeight>1</SpawnWeight>
                         <BodySizeFactor>1.2</BodySizeFactor>
                         <EquipmentItems>
@@ -124,7 +124,7 @@
                     <ListItem>
                         <PawnDef>Treeling</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Ent (specimen #3)</PawnName>
+                        <PawnName>Ent #3</PawnName>
                         <SpawnWeight>1</SpawnWeight>
                         <BodySizeFactor>1.4</BodySizeFactor>
                         <EquipmentItems>
@@ -155,7 +155,7 @@
                     <ListItem>
                         <PawnDef>Treeling</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Ent (specimen #4)</PawnName>
+                        <PawnName>Ent #4</PawnName>
                         <SpawnWeight>1</SpawnWeight>
                         <BodySizeFactor>1.6</BodySizeFactor>
                         <EquipmentItems>
@@ -187,7 +187,7 @@
                     <ListItem>
                         <PawnDef>Treeling</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Ent (specimen apex #1)</PawnName>
+                        <PawnName>Ent #5 (boss)</PawnName>
                         <SpawnWeight>1</SpawnWeight>
                         <BodySizeFactor>2</BodySizeFactor>
                         <Skills>

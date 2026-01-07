@@ -45,7 +45,7 @@
                     <ListItem>
                         <PawnDef>Bat</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Bat (specimen #1)</PawnName>
+                        <PawnName>Bat #1</PawnName>
                         <BodySizeFactor>1</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
@@ -68,7 +68,7 @@
                     <ListItem>
                         <PawnDef>Bat</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Bat (specimen #2)</PawnName>
+                        <PawnName>Bat #2</PawnName>
                         <BodySizeFactor>1.2</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
@@ -91,7 +91,7 @@
                     <ListItem>
                         <PawnDef>Bat</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Bat (specimen #3)</PawnName>
+                        <PawnName>Bat #3</PawnName>
                         <BodySizeFactor>1.5</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
@@ -114,7 +114,7 @@
                     <ListItem>
                         <PawnDef>Bat</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Bat (specimen #4)</PawnName>
+                        <PawnName>Bat #4</PawnName>
                         <BodySizeFactor>1.7</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
@@ -139,7 +139,7 @@
                     <ListItem>
                         <PawnDef>Bat</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Bat (specimen apex #1)</PawnName>
+                        <PawnName>Bat #5 (boss)</PawnName>
                         <BodySizeFactor>2</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>

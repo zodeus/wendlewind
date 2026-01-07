@@ -22,7 +22,7 @@ internal sealed class SupplyItemsBar : HorizontalStackPanel, IUpdatable
     {
         // Get all supply items from inventory
         var supplyItems = _inventory
-            .Where(item => item.ItemDef.ItemType == ItemType.Supplies)
+            .Where(item => item.ItemDef.ItemType == ItemType.Supplies && item.ItemDef.AmmoProperties == null)
             .OrderBy(item => item.Label)
             .ToList();
 

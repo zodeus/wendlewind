@@ -33,7 +33,7 @@
                     <ListItem>
                         <PawnDef>Rabbit</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Rabbit (specimen #1)</PawnName>
+                        <PawnName>Rabbit #1</PawnName>
                         <SpawnWeight>1</SpawnWeight>
                         <InventoryItems>
                             <ListItem>
@@ -56,7 +56,7 @@
                     <ListItem>
                         <PawnDef>Rabbit</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Rabbit (specimen #2)</PawnName>
+                        <PawnName>Rabbit #2</PawnName>
                         <BodySizeFactor>1.2</BodySizeFactor>
                         <SpawnWeight>1</SpawnWeight>
                         <Skills>
@@ -82,7 +82,7 @@
                     <ListItem>
                         <PawnDef>Rabbit</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Rabbit (specimen #3)</PawnName>
+                        <PawnName>Rabbit #3</PawnName>
                         <BodySizeFactor>1.4</BodySizeFactor>
                         <SpawnWeight>1</SpawnWeight>
                         <Skills>
@@ -108,7 +108,7 @@
                     <ListItem>
                         <PawnDef>Rabbit</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Rabbit (specimen #4)</PawnName>
+                        <PawnName>Rabbit #4</PawnName>
                         <SpawnWeight>1</SpawnWeight>
                         <BodySizeFactor>1.6</BodySizeFactor>
                         <Skills>
@@ -133,7 +133,7 @@
                     <ListItem>
                         <PawnDef>Rabbit</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Rabbit (specimen apex #1)</PawnName>
+                        <PawnName>Rabbit #5 (boss)</PawnName>
                         <BodySizeFactor>2.5</BodySizeFactor>
                         <SpawnWeight>1</SpawnWeight>
                         <InventoryItems>
