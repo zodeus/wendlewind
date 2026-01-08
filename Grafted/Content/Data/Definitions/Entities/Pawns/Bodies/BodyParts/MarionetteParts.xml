@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartDef Name="MarionetteBodyPartBase" ParentName="BodyPartBase" Abstract="True">
+        
+    </BodyPartDef>
+    <BodyPartDef ParentName="MarionetteBodyPartBase">
+        <Moniker>MarionetteHead</Moniker>
+        <Label>Head</Label>
+        <HitWeight>20</HitWeight>
+        <BloodAmount>0</BloodAmount>
+        <BodyPartType>Head</BodyPartType>
+        <Substance>Wood</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Marionette/Head</TexturePath>
+        <Sockets>
+            <ListItem>LeftEyeSocket</ListItem>
+            <ListItem>RightEyeSocket</ListItem>
+            <ListItem>TorsoSocket</ListItem>
+        </Sockets>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <MaxHitPoints>1200</MaxHitPoints>
+            <AttackSpeedModifier>1</AttackSpeedModifier>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="MarionetteBodyPartBase">
+        <Moniker>MarionetteTorso</Moniker>
+        <Label>Torso</Label>
+        <BodyPartType>Torso</BodyPartType>
+        <HitWeight>50</HitWeight>
+        <BloodAmount>0</BloodAmount>
+        <Substance>Wood</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Marionette/Torso</TexturePath>
+        <Sockets>
+            <ListItem>HeartSocket</ListItem>
+            <ListItem>LeftArmSocket</ListItem>
+            <ListItem>RightArmSocket</ListItem>
+            <ListItem>LeftLegSocket</ListItem>
+            <ListItem>RightLegSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>2000</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="MarionetteBodyPartBase">
+        <Moniker>MarionetteArm</Moniker>
+        <Label>Arm</Label>
+        <BodyPartType>Arm</BodyPartType>
+        <HitWeight>25</HitWeight>
+        <BloodAmount>0</BloodAmount>
+        <Substance>Wood</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Marionette/Arm</TexturePath>
+        <Sockets>
+            <ListItem>HandSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <AttackSpeedModifier>.15</AttackSpeedModifier>
+            <MaxHitPoints>300</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="MarionetteBodyPartBase">
+        <Moniker>MarionetteHand</Moniker>
+        <Label>Hand</Label>
+        <BodyPartType>Hand</BodyPartType>
+        <Description>A wooden puppet hand with razor-sharp joints.</Description>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+        <HitWeight>12</HitWeight>
+        <BloodAmount>0</BloodAmount>
+        <Substance>Wood</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Marionette/Hand</TexturePath>
+        <BaseStats>
+            <MaxHitPoints>200</MaxHitPoints>
+            <AttackSpeedModifier>.2</AttackSpeedModifier>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="MarionetteBodyPartBase">
+        <Moniker>MarionetteLeg</Moniker>
+        <Label>Leg</Label>
+        <BodyPartType>Leg</BodyPartType>
+        <HitWeight>15</HitWeight>
+        <BloodAmount>0</BloodAmount>
+        <Substance>Wood</Substance>
+        <MobilityFraction>.35</MobilityFraction>
+        <TexturePath>Entities/Pawn/BodyParts/Marionette/Leg</TexturePath>
+        <Sockets>
+            <ListItem>FootSocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>180</MaxHitPoints>
+            <AttackSpeedModifier>.1</AttackSpeedModifier>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="MarionetteBodyPartBase">
+        <Moniker>MarionetteFoot</Moniker>
+        <Label>Foot</Label>
+        <BodyPartType>Foot</BodyPartType>
+        <HitWeight>8</HitWeight>
+        <BloodAmount>0</BloodAmount>
+        <Substance>Wood</Substance>
+        <MobilityFraction>.15</MobilityFraction>
+        <TexturePath>Entities/Pawn/BodyParts/Marionette/Foot</TexturePath>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <AttackSpeedModifier>.15</AttackSpeedModifier>
+            <MaxHitPoints>100</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+</Definitions>

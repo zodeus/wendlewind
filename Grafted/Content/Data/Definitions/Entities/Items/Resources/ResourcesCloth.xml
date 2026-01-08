@@ -13,4 +13,9 @@
         <Label>Leather Scraps</Label>
         <TexturePath>Entities/Item/Resource/Cloth/LeatherScraps</TexturePath>
     </ItemDef>
+    <ItemDef ParentName="ClothResource">
+        <Moniker>Cloth</Moniker>
+        <Label>Cloth</Label>
+        <TexturePath>Entities/Item/Resource/Cloth/Cloth</TexturePath>
+    </ItemDef>
 </Definitions>

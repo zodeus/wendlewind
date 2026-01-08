@@ -1,6 +1,6 @@
 namespace Grafted.Sim.Entities.Items.Equipment;
 
-public class RejuvenationCloakHandler : EquipmentHandler, IUpgradableHandler
+public class RejuvenationCloakHandler : EquipmentHandler, IUpgradableHandler, ICloakHandler
 {
     private const float BaseRejuvenationPerTick = 0.01f;
     public const float Level1BonusMultiplier = 2f;
@@ -26,9 +26,20 @@ public class RejuvenationCloakHandler : EquipmentHandler, IUpgradableHandler
         _ => 0f
     };
 
-    public override void TickForPawn(Pawn pawn, BodyPart bodyPart)
+    // ICloakHandler implementation
+    public Color BonusColor => new(120, 220, 160);
+    public string BonusLabel => "Healing";
+
+    public string GetBonusDisplayText()
     {
-        base.Tick();
+        var bonus = CurrentBonusPercent;
+        return bonus > 0 
+            ? $"{BonusLabel}: {BaseRejuvenationPerTick*Level1BonusMultiplier:F2}/t" 
+            : $"{BonusLabel}: {BaseRejuvenationPerTick:F2}/t";
+    }
+
+    public override void Tick(Pawn pawn, BodyPart bodyPart)
+    {
         var parts = pawn.Body?.AllParts ?? [];
         foreach (var part in parts)
         {

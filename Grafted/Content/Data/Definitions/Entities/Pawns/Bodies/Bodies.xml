@@ -178,4 +178,13 @@
         <GeneratorClass>GameBoxBodyGenerator</GeneratorClass>
         <LayoutClass>GameBoxBodyPartLayout</LayoutClass>
     </BodyDef>
+    <BodyDef>
+        <Moniker>MarionetteBody</Moniker>
+        <Label>Marionette Body</Label>
+        <BoneDensity>4</BoneDensity>
+        <MaxBlood>8000</MaxBlood>
+        <BloodType>Sap</BloodType>
+        <GeneratorClass>MarionetteBodyGenerator</GeneratorClass>
+        <LayoutClass>MarionetteBodyPartLayout</LayoutClass>
+    </BodyDef>
 </Definitions>

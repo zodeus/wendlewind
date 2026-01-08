@@ -17,9 +17,8 @@ public class BlessedIronCollarHandler : EquipmentHandler
         return false;
     }
 
-    public override void TickForPawn(Pawn pawn, BodyPart bodyPart)
+    public override void Tick(Pawn pawn, BodyPart bodyPart)
     {
-        base.Tick();
         bodyPart.HitPoints -= bodyPart.MaxHitPoints * NegativeNeckDrainPerTick;
         if (bodyPart.Skin != null )
         {

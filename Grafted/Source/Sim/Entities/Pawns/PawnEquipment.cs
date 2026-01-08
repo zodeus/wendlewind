@@ -195,7 +195,7 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
                 continue;
             }
 
-            item.EquipmentHandler?.TickForPawn(_pawn, bodyPart);
+            item.EquipmentHandler?.Tick(_pawn, bodyPart);
             
             if (item.Enchantments != null)
             {

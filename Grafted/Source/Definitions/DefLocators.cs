@@ -87,7 +87,8 @@ public static partial class Defs
         public static ZoneDef StoneGarden = null!;
         public static ZoneDef Mineshaft = null!;
         public static ZoneDef AbandonedStables = null!;
-        public static ZoneDef WearbearDen = null!;
+        public static ZoneDef TheTheatre = null!;
+        public static ZoneDef BearDen = null!;
         public static ZoneDef Swamp = null!;
         public static ZoneDef Cemetery = null!;
     }
@@ -144,7 +145,7 @@ public static partial class Defs
         public static ItemDef DippedMullinStick = null!;
         public static ItemDef SoothingVibrations = null!;
         public static ItemDef SpidersBite = null!;
-        public static ItemDef ThirdEye = null!;
+        public static ItemDef MechanicalEye = null!;
         public static ItemDef EnchantmentExpander = null!;
         public static ItemDef HeartyStew = null!;
         public static ItemDef GoldCapMushroom = null!;
@@ -329,6 +330,13 @@ public static partial class Defs
         public static BodyPartDef GameBoxArm = null!;
         public static BodyPartDef GameBoxHand = null!;
         public static BodyPartDef GameBoxLeg = null!;
+
+        public static BodyPartDef MarionetteHead = null!;
+        public static BodyPartDef MarionetteTorso = null!;
+        public static BodyPartDef MarionetteArm = null!;
+        public static BodyPartDef MarionetteHand = null!;
+        public static BodyPartDef MarionetteLeg = null!;
+        public static BodyPartDef MarionetteFoot = null!;
     }
 
     [DefLocator]

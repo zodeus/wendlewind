@@ -53,11 +53,10 @@ public static class StatExtensions {
         
         foreach (var equipment in pawn.Equipment.Armor)
         {
-            value += equipment.ItemDef.BaseStats.FirstOrDefault(bs => bs.Def == stat)?.Value ?? 0f;
+            equipment.EquipmentHandler?.ModifyStat(pawn, stat, ref value);
         }
         
         pawn.Body.ModifyStat(stat, ref value);
-
         return value;
     }
 

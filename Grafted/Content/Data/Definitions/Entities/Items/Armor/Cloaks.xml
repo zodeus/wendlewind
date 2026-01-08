@@ -19,15 +19,28 @@
         <Moniker>StrengthCloak</Moniker>
         <Label>Cloak of Strength</Label>
         <Description>A cloak that increases your strength.</Description>
+        <UiClass>CloakPanel</UiClass>
+        <EquipmentProperties>
+            <HandlerClass>StrengthCloakHandler</HandlerClass>
+        </EquipmentProperties>
+        <UpgradeProperties>
+            <Upgrades>
+                <Upgrade Level="1" Bonus="+1 Strength">
+                    <ElvishLeaf>1</ElvishLeaf>
+                </Upgrade>
+                <Upgrade Level="2" Bonus="+2 Strength">
+                    <ElvishLeaf>1</ElvishLeaf>
+                    <RhinoSkin>1</RhinoSkin>
+                    <GoldenBean>2</GoldenBean>
+                </Upgrade>
+            </Upgrades>
+        </UpgradeProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Cloak/Strength</TexturePath>
-        <BaseStats>
-            <Strength>1.0</Strength>
-        </BaseStats>
     </ItemDef>  
     <ItemDef ParentName="CloakBase">
         <Moniker>RejuvenationCloak</Moniker>
         <Label>Cloak of Rejuvenation</Label>
-        <UiClass>RejuvenationCloakPanel</UiClass>
+        <UiClass>CloakPanel</UiClass>
         <EquipmentProperties>
             <HandlerClass>RejuvenationCloakHandler</HandlerClass>
         </EquipmentProperties>

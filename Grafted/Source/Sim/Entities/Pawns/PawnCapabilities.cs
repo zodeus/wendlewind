@@ -20,7 +20,7 @@ public class PawnCapabilities : IExposable
             }
 
             var eyes = _pawn.Body.AllExternalParts.Count(p => p.Type == BodyPartType.Eye && p.IsFunctional);
-            if (_pawn.Inventory.Trinkets.Any(t => t.Def == Defs.Items.ThirdEye))
+            if (_pawn.Inventory.Trinkets.Any(t => t.Def == Defs.Items.MechanicalEye))
             {
                 eyes += 1;
             }

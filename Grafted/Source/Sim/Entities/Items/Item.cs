@@ -136,7 +136,6 @@ public class Item : Entity, IExposable
     {
         EnchantmentHandler?.Tick();
         TrinketHandler?.Tick();
-        EquipmentHandler?.Tick();
         base.Tick();
     }
 

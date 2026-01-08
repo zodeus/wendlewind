@@ -1017,4 +1017,73 @@
             <WeaponPower>32</WeaponPower>
         </BaseStats>
     </ItemDef>
+
+    <!-- Marionette Weapons -->
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>MarionetteTeeth</Moniker>
+        <Label>Wooden Jaws</Label>
+        <Description>A hinged wooden jaw with sharpened teeth</Description>
+        <WeaponProperties>
+            <WeaponType>Teeth</WeaponType>
+            <DamageType>Sharp</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.4</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>0.9</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Wood</Substance>
+                    <Modifier>0.7</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Festering</Def>
+                    <DurationInTicks>300~600</DurationInTicks>
+                    <Chance>.15</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Pawn/BodyParts/Marionette/Head</TexturePath>
+        <BaseStats>
+            <WeaponPower>70</WeaponPower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>MarionetteClaws</Moniker>
+        <Label>Puppet Claws</Label>
+        <Description>Razor-sharp jointed wooden fingers that slice and entangle</Description>
+        <WeaponProperties>
+            <WeaponType>Claw</WeaponType>
+            <DamageType>Sharp</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.5</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.0</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Wood</Substance>
+                    <Modifier>0.6</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Pawn/BodyParts/Marionette/Hand</TexturePath>
+        <BaseStats>
+            <WeaponPower>90</WeaponPower>
+        </BaseStats>
+    </ItemDef>
 </Definitions>

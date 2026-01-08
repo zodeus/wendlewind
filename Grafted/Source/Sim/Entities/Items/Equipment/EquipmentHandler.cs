@@ -6,12 +6,13 @@ public abstract class EquipmentHandler : IExposable
 
     public string Label => Equipment.Label;
 
-    public virtual void Tick()
+    public virtual void Tick(Pawn pawn, BodyPart bodyPart)
     {
     }
 
-    public virtual void TickForPawn(Pawn pawn, BodyPart bodyPart)
+    public virtual void ModifyStat(Pawn pawn, StatDef stat, ref float value)
     {
+        
     }
     
     public virtual bool OnPreDamageTaken(DamageRequest request, DamageResponse response)

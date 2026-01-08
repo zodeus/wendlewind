@@ -37,10 +37,10 @@
         <TexturePath>Entities/Item/Trinket/VialOfDuplicity</TexturePath>
     </ItemDef>
     <ItemDef ParentName="PassiveTrinket">
-        <Moniker>ThirdEye</Moniker>
-        <Label>Third Eye</Label>
+        <Moniker>MechanicalEye</Moniker>
+        <Label>Mechanical Eye</Label>
         <Description>Never lose your way again.</Description>
-        <TexturePath>Entities/Item/Trinket/ThirdEye</TexturePath>
+        <TexturePath>Entities/Item/Trinket/MechanicalEye</TexturePath>
     </ItemDef>
     <ItemDef ParentName="PassiveTrinket">
         <Moniker>TinkersToolbox</Moniker>

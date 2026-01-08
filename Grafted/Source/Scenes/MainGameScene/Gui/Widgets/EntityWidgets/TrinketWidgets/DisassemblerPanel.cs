@@ -10,6 +10,7 @@ public sealed class DisassemblerPanel : EntityPanelBase
         Padding = new Thickness(20);
         MinWidth = 720;
         Height = 720;
+        Background = new ColoredRegion(new TextureRegion(_.Icon), new Color(20, 20, 20, 120));
 
         // Subtitle
         Widgets.Add(new Label(BaseContent.Styles.Label.Small)

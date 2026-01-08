@@ -37,7 +37,7 @@
             <AmountProduced>1</AmountProduced>
             <RequiredTrinkets>
                 <ListItem>TinkersToolbox</ListItem>
-                <ListItem>ThirdEye</ListItem>
+                <ListItem>MechanicalEye</ListItem>
             </RequiredTrinkets>
             <ResourceRequirements>
                 <ListItem>

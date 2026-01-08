@@ -2,34 +2,44 @@
 
 <Definitions>
     <ZoneDef>
-        <Moniker>RadioHut</Moniker>
-        <Label>Radio Hut</Label>
-        <Stage>13</Stage>
-        <ZoneColor>60, 180, 160</ZoneColor>
+        <Moniker>TheTheatre</Moniker>
+        <Label>The Theatre</Label>
+        <Stage>15</Stage>
+        <ZoneColor>120, 60, 70</ZoneColor>
         <Weathers>
             <ListItem>Fireflies</ListItem>
-            <ListItem>Showers</ListItem>
+            <ListItem>SmokeEmbers</ListItem>
         </Weathers>
         <Resources>
             <ListItem>
-                <Item>DreamBerry</Item>
+                <Item>MullinStick</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.6</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>HealingRoot</Item>
                 <Amount>1~2</Amount>
-                <ChanceToHarvest>.5</ChanceToHarvest>
+                <ChanceToHarvest>.7</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>DeathCapMushroom</Item>
+                <Item>GoldCapMushroom</Item>
                 <Amount>1~2</Amount>
+                <ChanceToHarvest>.8</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>BoneShard</Item>
+                <Amount>2~4</Amount>
                 <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>VenomVial</Item>
+                <Item>LeatherScraps</Item>
                 <Amount>1~3</Amount>
-                <ChanceToHarvest>.5</ChanceToHarvest>
+                <ChanceToHarvest>.4</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>IronNugget</Item>
+                <Item>RawCorn</Item>
                 <Amount>1~3</Amount>
-                <ChanceToHarvest>.5</ChanceToHarvest>
+                <ChanceToHarvest>.6</ChanceToHarvest>
             </ListItem>
         </Resources>
         <Encounters>
@@ -42,38 +52,20 @@
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>GameBox</PawnDef>
+                        <PawnDef>Marionette</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>GameBox v1</PawnName>
+                        <PawnName>Marionette, Act I</PawnName>
                         <BodySizeFactor>1</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
-                                <Item>Fuse</Item>
+                                <Item>ShadeWood</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
-                        </InventoryItems>
-                    </ListItem>
-                </Enemies>
-            </ListItem>
-            <ListItem>
-                <MaxBoxes>2</MaxBoxes>
-                <PotentialLootBoxes>
-                    <ListItem>ResourceChest2</ListItem>
-                    <ListItem>SupplyChest2</ListItem>
-                    <ListItem>WeaponChest2</ListItem>
-                </PotentialLootBoxes>
-                <Enemies>
-                    <ListItem>
-                        <PawnDef>GameBox</PawnDef>
-                        <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>GameBox v2</PawnName>
-                        <BodySizeFactor>1.3</BodySizeFactor>
-                        <InventoryItems>
                             <ListItem>
-                                <Item>Fuse</Item>
+                                <Item>Thread</Item>
                                 <Amount>1</Amount>
-                                <ChanceToDrop>1</ChanceToDrop>
+                                <ChanceToDrop>.5</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>
                     </ListItem>
@@ -88,15 +80,20 @@
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>GameBox</PawnDef>
+                        <PawnDef>Marionette</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>GameBox v3</PawnName>
-                        <BodySizeFactor>1.5</BodySizeFactor>    
+                        <PawnName>Marionette, Act II</PawnName>
+                        <BodySizeFactor>1.25</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
-                                <Item>Fuse</Item>
-                                <Amount>1~2</Amount>
+                                <Item>ShadeWood</Item>
+                                <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
+                            </ListItem>
+                            <ListItem>
+                                <Item>Thread</Item>
+                                <Amount>1~2</Amount>
+                                <ChanceToDrop>.5</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>
                     </ListItem>
@@ -106,20 +103,53 @@
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ArmorChest3</ListItem>
-                    <ListItem>TrinketChest3</ListItem>
-                    <ListItem>EnchantedChestDefensive</ListItem>
+                    <ListItem>MedicinalChest</ListItem>
+                    <ListItem>EnchantedChestOffensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>GameBox</PawnDef>
+                        <PawnDef>Marionette</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>GameBox v4</PawnName>
+                        <PawnName>Marionette, Act III</PawnName>
+                        <BodySizeFactor>1.5</BodySizeFactor>
+                        <InventoryItems>
+                            <ListItem>
+                                <Item>ShadeWood</Item>
+                                <Amount>1</Amount>
+                                <ChanceToDrop>1</ChanceToDrop>
+                            </ListItem>
+                            <ListItem>
+                                <Item>Thread</Item>
+                                <Amount>1~2</Amount>
+                                <ChanceToDrop>.5</ChanceToDrop>
+                            </ListItem>
+                        </InventoryItems>
+                    </ListItem>
+                </Enemies>
+            </ListItem>
+            <ListItem>
+                <MaxBoxes>2</MaxBoxes>
+                <PotentialLootBoxes>
+                    <ListItem>ArmorChest3</ListItem>
+                    <ListItem>EnchantedChestDefensive</ListItem>
+                    <ListItem>EnchantedChestOffensive</ListItem>
+                </PotentialLootBoxes>
+                <Enemies>
+                    <ListItem>
+                        <PawnDef>Marionette</PawnDef>
+                        <Loadout>EmptyLoadout</Loadout>
+                        <PawnName>Marionette, Act IV</PawnName>
                         <BodySizeFactor>1.8</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
-                                <Item>Fuse</Item>
-                                <Amount>1~2</Amount>
+                                <Item>ShadeWood</Item>
+                                <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
+                            </ListItem>
+                            <ListItem>
+                                <Item>Thread</Item>
+                                <Amount>1~3</Amount>
+                                <ChanceToDrop>.5</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>
                     </ListItem>
@@ -130,20 +160,24 @@
                 <MaxBoxes>3</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>TrinketChest3</ListItem>
-                    <ListItem>ArmorChest3</ListItem>
                     <ListItem>EnchantedChestDefensive</ListItem>
                     <ListItem>EnchantedChestOffensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>GameBox</PawnDef>
+                        <PawnDef>Marionette</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>GameBox v5 (boss)</PawnName>
-                        <BodySizeFactor>3</BodySizeFactor>
+                        <PawnName>Marionette, Act V (boss)</PawnName>
+                        <BodySizeFactor>2.5</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
-                                <Item>Fuse</Item>
-                                <Amount>2~3</Amount>
+                                <Item>ShadeWood</Item>
+                                <Amount>1~3</Amount>
+                                <ChanceToDrop>1</ChanceToDrop>
+                            </ListItem>
+                            <ListItem>
+                                <Item>Thread</Item>
+                                <Amount>2~4</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>

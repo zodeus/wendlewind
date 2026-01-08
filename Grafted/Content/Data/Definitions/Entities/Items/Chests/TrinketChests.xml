@@ -78,7 +78,7 @@
                 <Weight>500000</Weight>
             </ListItem>
             <ListItem>
-                <ItemDef>ThirdEye</ItemDef>
+                <ItemDef>MechanicalEye</ItemDef>
                 <Weight>200000</Weight>
             </ListItem>
             <ListItem>

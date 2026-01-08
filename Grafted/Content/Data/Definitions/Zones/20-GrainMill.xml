@@ -4,7 +4,7 @@
     <ZoneDef>
         <Moniker>GrainMill</Moniker>
         <Label>Grain Mill</Label>
-        <Stage>16</Stage>
+        <Stage>20</Stage>
         <ZoneColor>180, 160, 100</ZoneColor>
         <Weathers>
             <ListItem>FallingLeaves</ListItem>
