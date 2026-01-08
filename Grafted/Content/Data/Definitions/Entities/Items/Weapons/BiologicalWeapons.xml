@@ -575,58 +575,6 @@
         </BaseStats>
     </ItemDef>
     
-    <ItemDef ParentName="WeaponFlesh">
-        <Moniker>WearbearTeeth</Moniker>
-        <Label>Savage Teeth</Label>
-        <Description>Massive crushing teeth of a wearbear</Description>
-        <WeaponProperties>
-            <WeaponType>Teeth</WeaponType>
-            <DamageType>Sharp</DamageType>
-            <SubstanceModifiers>
-                <ListItem>
-                    <Substance>Flesh</Substance>
-                    <Modifier>1.3</Modifier>
-                </ListItem>
-                <ListItem>
-                    <Substance>Bone</Substance>
-                    <Modifier>1.2</Modifier>
-                </ListItem>
-            </SubstanceModifiers>
-        </WeaponProperties>
-        <EquipmentProperties>
-            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
-        </EquipmentProperties>
-        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
-        <BaseStats>
-            <WeaponPower>25</WeaponPower>
-        </BaseStats>
-    </ItemDef>
-    <ItemDef ParentName="WeaponFlesh">
-        <Moniker>WearbearClaws</Moniker>
-        <Label>Rending Claws</Label>
-        <Description>Brutal claws of a wearbear, capable of tearing through armor</Description>
-        <WeaponProperties>
-            <WeaponType>Claw</WeaponType>
-            <DamageType>Sharp</DamageType>
-            <SubstanceModifiers>
-                <ListItem>
-                    <Substance>Flesh</Substance>
-                    <Modifier>1.4</Modifier>
-                </ListItem>
-                <ListItem>
-                    <Substance>Bone</Substance>
-                    <Modifier>1.1</Modifier>
-                </ListItem>
-            </SubstanceModifiers>
-        </WeaponProperties>
-        <EquipmentProperties>
-            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
-        </EquipmentProperties>
-        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Claw</TexturePath>
-        <BaseStats>
-            <WeaponPower>30</WeaponPower>
-        </BaseStats>
-    </ItemDef>
     <ItemDef ParentName="WeaponBlunt">
         <Moniker>MetalFist</Moniker>
         <Label>Metal Fist</Label>
@@ -648,13 +596,25 @@
                     <Modifier>0.5</Modifier>
                 </ListItem>
             </SubstanceModifiers>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Electrofied</Def>
+                    <DurationInTicks>240~720</DurationInTicks>
+                    <Chance>.8</Chance>
+                </ListItem>
+                <ListItem>
+                    <Def>Burning</Def>
+                    <DurationInTicks>120~360</DurationInTicks>
+                    <Chance>.7</Chance>
+                </ListItem>
+            </BodyPartModifiers>
         </WeaponProperties>
         <EquipmentProperties>
             <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
         </EquipmentProperties>
         <TexturePath>Entities/Pawn/BodyParts/TinMan/Hand</TexturePath>
         <BaseStats>
-            <WeaponPower>25</WeaponPower>
+            <WeaponPower>50</WeaponPower>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WeaponBlunt">
@@ -678,19 +638,26 @@
                     <Modifier>0.5</Modifier>
                 </ListItem>
             </SubstanceModifiers>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Electrofied</Def>
+                    <DurationInTicks>240~720</DurationInTicks>
+                    <Chance>.8</Chance>
+                </ListItem>
+            </BodyPartModifiers>
         </WeaponProperties>
         <EquipmentProperties>
             <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
         </EquipmentProperties>
         <TexturePath>Entities/Pawn/BodyParts/TinMan/Foot</TexturePath>
         <BaseStats>
-            <WeaponPower>30</WeaponPower>
+            <WeaponPower>60</WeaponPower>
         </BaseStats>
     </ItemDef>
     
     <!-- Undead Monkey Weapons -->
     <ItemDef ParentName="WeaponFlesh">
-        <Moniker>UndeadMonkeyBite</Moniker>
+        <Moniker>UndeadMonkeyTeeth</Moniker>
         <Label>Rotten Fangs</Label>
         <Description>Diseased undead monkey fangs</Description>
         <WeaponProperties>
@@ -1084,6 +1051,73 @@
         <TexturePath>Entities/Pawn/BodyParts/Marionette/Hand</TexturePath>
         <BaseStats>
             <WeaponPower>90</WeaponPower>
+        </BaseStats>
+    </ItemDef>
+
+    
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>WearbearTeeth</Moniker>
+        <Label>Savage Teeth</Label>
+        <Description>Massive crushing teeth of a wearbear</Description>
+        <WeaponProperties>
+            <WeaponType>Teeth</WeaponType>
+            <DamageType>Sharp</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.3</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.2</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>BoneDecay</Def>
+                    <Chance>.05</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Teeth</TexturePath>
+        <BaseStats>
+            <WeaponPower>50</WeaponPower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>WearbearClaws</Moniker>
+        <Label>Rending Claws</Label>
+        <Description>Brutal claws of a wearbear, capable of tearing through armor</Description>
+        <WeaponProperties>
+            <WeaponType>Claw</WeaponType>
+            <DamageType>Sharp</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.4</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.1</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>BloodDrain</Def>
+                    <DurationInTicks>120~800</DurationInTicks>
+                    <Chance>.1</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/Claw</TexturePath>
+        <BaseStats>
+            <WeaponPower>60</WeaponPower>
         </BaseStats>
     </ItemDef>
 </Definitions>

@@ -220,7 +220,28 @@ internal sealed class WheelOfParts : VerticalStackPanel
         var partDef = DefRepository<BodyPartDef>.Defs.FirstOrDefault(d => d.BodyPartType == partType);
         if (partDef != null)
         {
-            socket.TryAttachPart(partDef);
+            switch (partType)
+            {
+                case BodyPartType.Arm:
+                    HumanBodyGenerator.MakeArm(socket.ParentPart!);
+                    break;
+                case BodyPartType.Leg:
+                    HumanBodyGenerator.MakeLeg(socket.ParentPart!);
+                    break;
+                case BodyPartType.Thumb:
+                    HumanBodyGenerator.MakeFingerForSocket(socket, Defs.BodyParts.HumanThumb);
+                    break;
+                case BodyPartType.Finger:
+                    HumanBodyGenerator.MakeFingerForSocket(socket, Defs.BodyParts.HumanFinger);
+                    break;
+                case BodyPartType.Hand:
+                    HumanBodyGenerator.MakeHandForSocket(socket);
+                    break;
+                case BodyPartType.Foot:
+                    HumanBodyGenerator.MakeFootForSocket(socket);
+                    break;
+            }
+            
             restoredPartName = socket.AttachedPart?.Label;
         }
         // Show the result

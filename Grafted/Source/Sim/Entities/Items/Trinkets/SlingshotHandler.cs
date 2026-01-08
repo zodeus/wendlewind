@@ -13,6 +13,7 @@ public class SlingshotHandler : TrinketHandler, IUpgradableHandler
     private static Texture2D _goldTexture = null!;
     private Item? _ammo;
     private int _upgradeLevel;
+    private bool _isAutomatic;
 
     private Label _cooldownLabel = null!;
     private Label _chargesLabel = null!;
@@ -26,6 +27,11 @@ public class SlingshotHandler : TrinketHandler, IUpgradableHandler
     public const float GoldCooldownMultiplier = 0.7f;
     public Item? Ammo => _ammo;
     public int UpgradeLevel => _upgradeLevel;
+    public bool IsAutomatic
+    {
+        get => _isAutomatic;
+        set => _isAutomatic = value;
+    }
     public UpgradeProperties? UpgradeProperties => Trinket.ItemDef.UpgradeProperties;
     void IUpgradableHandler.SetUpgradeLevel(int level) => _upgradeLevel = level;
     public AmmoProperties? AmmoProperties => _ammo?.ItemDef.AmmoProperties;
@@ -44,6 +50,17 @@ public class SlingshotHandler : TrinketHandler, IUpgradableHandler
         base.ExposeData();
         ScribeDeep.Look(ref _ammo, "Ammo");
         ScribeValues.Look(ref _upgradeLevel, "UpgradeLevel");
+        ScribeValues.Look(ref _isAutomatic, "IsAutomatic");
+    }
+    
+    public override void Tick()
+    {
+        base.Tick();
+        // Auto-activate if automatic mode is enabled, at level 3+, and ready to fire
+        if (_isAutomatic && _upgradeLevel >= 3 && _ammo != null && Cooldown <= 0 && !IsActive)
+        {
+            Activate();
+        }
     }
 
     public override DamageRecord? PostAttackHandler(Pawn victim, DamageRequest _, DamageResponse __)

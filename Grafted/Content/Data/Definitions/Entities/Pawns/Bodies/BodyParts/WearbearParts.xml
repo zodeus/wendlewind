@@ -24,7 +24,8 @@
             <ListItem>BuiltIn</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <MaxHitPoints>2200</MaxHitPoints>
+            <MaxHitPoints>500</MaxHitPoints>
+            <AttackSpeedModifier>1</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="WearbearBodyPartBase">
@@ -47,8 +48,7 @@
             <ListItem>TailSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <AttackSpeedModifier>.15</AttackSpeedModifier>
-            <MaxHitPoints>6000</MaxHitPoints>
+            <MaxHitPoints>700</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="WearbearBodyPartBase">
@@ -66,8 +66,8 @@
             <ListItem>HandSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <AttackSpeedModifier>.2</AttackSpeedModifier>
-            <MaxHitPoints>1200</MaxHitPoints>
+            <AttackSpeedModifier>.5</AttackSpeedModifier>
+            <MaxHitPoints>200</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="WearbearBodyPartBase">
@@ -87,8 +87,8 @@
             <ListItem>BuiltIn</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <AttackSpeedModifier>.25</AttackSpeedModifier>
-            <MaxHitPoints>800</MaxHitPoints>
+            <AttackSpeedModifier>1</AttackSpeedModifier>
+            <MaxHitPoints>100</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="WearbearBodyPartBase">
@@ -98,7 +98,7 @@
         <HitWeight>14</HitWeight>
         <BloodAmount>250</BloodAmount>
         <Substance>Flesh</Substance>
-        <MobilityFraction>.35</MobilityFraction>
+        <MobilityFraction>.5</MobilityFraction>
         <TexturePath>Entities/Pawn/BodyParts/Wearbear/Leg</TexturePath>
         <Sockets>
             <ListItem>SkinSocket</ListItem>
@@ -107,7 +107,7 @@
             <ListItem>FootSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>1400</MaxHitPoints>
+            <MaxHitPoints>200</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="WearbearBodyPartBase">
@@ -128,8 +128,8 @@
             <ListItem>BuiltIn</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <AttackSpeedModifier>.15</AttackSpeedModifier>
-            <MaxHitPoints>900</MaxHitPoints>
+            <AttackSpeedModifier>1</AttackSpeedModifier>
+            <MaxHitPoints>100</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="WearbearBodyPartBase">
@@ -146,8 +146,8 @@
             <ListItem>ArterySocket</ListItem>
         </Sockets>
         <BaseStats>
-            <AttackSpeedModifier>.1</AttackSpeedModifier>
-            <MaxHitPoints>400</MaxHitPoints>
+            <AttackSpeedModifier>3</AttackSpeedModifier>
+            <MaxHitPoints>300</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
 </Definitions>

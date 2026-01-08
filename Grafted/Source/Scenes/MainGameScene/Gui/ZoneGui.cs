@@ -1,4 +1,5 @@
 using Grafted.Scenes.MainGameScene.Gui.CombatGui;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.DevConsole;
 
 namespace Grafted.Scenes.MainGameScene.Gui;
 
@@ -25,6 +26,7 @@ public class ZoneGui : BaseGui
             HasExternalTextInput = true
         };
         Core.ConfigureDesktopScaling(Desktop);
+        InitializeConsole();
 
         Zone.OnStateChanged += HandleZoneStateChanged;
         Zone.OnZoneMessage += HandleZoneMessage;
@@ -78,6 +80,9 @@ public class ZoneGui : BaseGui
                 (Desktop.Root as Panel)!.Widgets.Add(_shrineScreen);
                 break;
         }
+        
+        // Ensure console stays on top
+        BringConsoleToFront();
     }
 
     public override void Update(float deltaTime)
@@ -120,6 +125,7 @@ public class ZoneGui : BaseGui
     {
         Zone.OnStateChanged -= HandleZoneStateChanged;
         Zone.OnZoneMessage -= HandleZoneMessage;
+        base.Dispose();
     }
 
     public void LeaveMystery()
@@ -130,5 +136,8 @@ public class ZoneGui : BaseGui
 
         _shrineScreen?.RemoveFromParent();
         _shrineScreen = null;
+        
+        // Ensure console stays on top
+        BringConsoleToFront();
     }
 }

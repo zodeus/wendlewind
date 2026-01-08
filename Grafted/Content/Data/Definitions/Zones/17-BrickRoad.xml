@@ -4,7 +4,7 @@
     <ZoneDef>
         <Moniker>BrickRoad</Moniker>
         <Label>Brick Road</Label>
-        <Stage>19</Stage>
+        <Stage>17</Stage>
         <ZoneColor>200, 170, 80</ZoneColor>
         <Weathers>
             <ListItem>FallingLeaves</ListItem>
@@ -34,6 +34,23 @@
             </ListItem>
         </Resources>
         <Encounters>
+            <ListItem>
+                <MysteryProperties>
+                    <PartsToRestore>2~3</PartsToRestore>
+                    <OptionalRewards>
+                        <ListItem>EverburningStone</ListItem>
+                        <ListItem>BoneEater</ListItem>
+                        <ListItem>ElvishLeaf</ListItem>
+                        <ListItem>SoothingVibrations</ListItem>
+                    </OptionalRewards>
+                    <OptionalRewardsCount>1</OptionalRewardsCount>
+                    <RestorablePartTypes>
+                        <ListItem>Thumb</ListItem>
+                        <ListItem>Finger</ListItem>
+                        <ListItem>Hand</ListItem>
+                    </RestorablePartTypes>
+                </MysteryProperties>
+            </ListItem>
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>

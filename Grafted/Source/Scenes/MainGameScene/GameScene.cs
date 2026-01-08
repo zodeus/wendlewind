@@ -128,6 +128,21 @@ public class GameScene : Scene
     {
         var currentKeyboardState = Keyboard.GetState();
 
+        // Toggle developer console with ~ key
+        if (WasKeyJustPressed(Keys.OemTilde, currentKeyboardState))
+        {
+            ActiveGui?.ToggleConsole();
+            _previousKeyboardState = currentKeyboardState;
+            return;
+        }
+
+        // When console is open, don't process other game inputs
+        if (ActiveGui?.IsConsoleOpen == true)
+        {
+            _previousKeyboardState = currentKeyboardState;
+            return;
+        }
+
         if (WasKeyJustPressed(Keys.Space, currentKeyboardState))
         {
             _context.TogglePause();
@@ -137,11 +152,6 @@ public class GameScene : Scene
         {
             NewGame();
             return;
-        }
-
-        if (currentKeyboardState.IsKeyDown(Keys.Q))
-        {
-            ActiveGui?.MouseAttachment?.Detach();
         }
 
         if (WasKeyJustPressed(Keys.F5, currentKeyboardState))

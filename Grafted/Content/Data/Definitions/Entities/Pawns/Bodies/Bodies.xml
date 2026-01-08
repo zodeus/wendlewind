@@ -132,6 +132,7 @@
         <BoneDensity>2</BoneDensity>
         <MaxBlood>15000</MaxBlood>
         <BloodType>AnimalBlood</BloodType>
+        <HandlerClass>WearbearBodyHandler</HandlerClass>
         <GeneratorClass>WearbearBodyGenerator</GeneratorClass>
         <LayoutClass>WearbearBodyPartLayout</LayoutClass>
     </BodyDef>
@@ -184,6 +185,7 @@
         <BoneDensity>4</BoneDensity>
         <MaxBlood>8000</MaxBlood>
         <BloodType>Sap</BloodType>
+        <HandlerClass>RegeneratingEyesBodyHandler</HandlerClass>
         <GeneratorClass>MarionetteBodyGenerator</GeneratorClass>
         <LayoutClass>MarionetteBodyPartLayout</LayoutClass>
     </BodyDef>

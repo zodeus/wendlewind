@@ -26,12 +26,13 @@
         <UpgradeProperties>
             <Upgrades>
                 <Upgrade Level="1" Bonus="+1 Strength">
-                    <ElvishLeaf>1</ElvishLeaf>
+                    <BloodBath>1</BloodBath>
                 </Upgrade>
                 <Upgrade Level="2" Bonus="+2 Strength">
-                    <ElvishLeaf>1</ElvishLeaf>
+                    <BloodBath>1</BloodBath>
                     <RhinoSkin>1</RhinoSkin>
-                    <GoldenBean>2</GoldenBean>
+                    <Fuse>1</Fuse>
+                    <GoldenBean>3</GoldenBean>
                 </Upgrade>
             </Upgrades>
         </UpgradeProperties>
@@ -52,7 +53,8 @@
                 <Upgrade Level="2" Bonus="+200% Healing">
                     <ElvishLeaf>1</ElvishLeaf>
                     <RhinoSkin>1</RhinoSkin>
-                    <GoldenBean>2</GoldenBean>
+                    <Fuse>1</Fuse>
+                    <GoldenBean>3</GoldenBean>
                 </Upgrade>
             </Upgrades>
         </UpgradeProperties>

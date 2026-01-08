@@ -13,15 +13,13 @@
         <Substance>Metal</Substance>
         <TexturePath>Entities/Pawn/BodyParts/TinMan/Head</TexturePath>
         <Sockets>
-            <ListItem>LeftEyeSocket</ListItem>
-            <ListItem>RightEyeSocket</ListItem>
             <ListItem>TorsoSocket</ListItem>
         </Sockets>
         <EquipmentSlots>
             <ListItem>HeadArmor</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <MaxHitPoints>350</MaxHitPoints>
+            <MaxHitPoints>1400</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="TinManBodyPartBase">
@@ -45,7 +43,7 @@
             <ListItem>HeartSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>500</MaxHitPoints>
+            <MaxHitPoints>2000</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="TinManBodyPartBase">
@@ -64,8 +62,8 @@
             <ListItem>HandSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <AttackSpeedModifier>.1</AttackSpeedModifier>
-            <MaxHitPoints>120</MaxHitPoints>
+            <AttackSpeedModifier>3</AttackSpeedModifier>
+            <MaxHitPoints>300</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="TinManBodyPartBase">
@@ -85,8 +83,8 @@
         <Sockets>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>80</MaxHitPoints>
-            <AttackSpeedModifier>.15</AttackSpeedModifier>
+            <MaxHitPoints>300</MaxHitPoints>
+            <AttackSpeedModifier>2</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="TinManBodyPartBase">
@@ -105,8 +103,8 @@
             <ListItem>FootSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>120</MaxHitPoints>
-            <AttackSpeedModifier>.1</AttackSpeedModifier>
+            <MaxHitPoints>400</MaxHitPoints>
+            <AttackSpeedModifier>2</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="TinManBodyPartBase">
@@ -125,8 +123,8 @@
         <Sockets>
         </Sockets>
         <BaseStats>
-            <AttackSpeedModifier>.1</AttackSpeedModifier>
-            <MaxHitPoints>100</MaxHitPoints>
+            <AttackSpeedModifier>1</AttackSpeedModifier>
+            <MaxHitPoints>200</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
 </Definitions>

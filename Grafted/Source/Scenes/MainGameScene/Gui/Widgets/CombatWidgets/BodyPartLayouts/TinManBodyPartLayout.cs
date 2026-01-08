@@ -19,8 +19,6 @@ public class TinManBodyPartLayout : IBodyPartLayout
         { "Head", new BodyPartLayoutData(new Vector2(193f, 133f), 54, 0.80f, -0.0491f) },
         { "Right Hand", new BodyPartLayoutData(new Vector2(283f, 335f), 62, 0.50f, 0.2793f) },
         { "Left Hand", new BodyPartLayoutData(new Vector2(140f, 323f), 69, 0.50f, 0.0524f, flipHorizontal: true) },
-        { "Left Eye", new BodyPartLayoutData(new Vector2(244f, 177f), 72, 0.13f, 0.1222f) },
-        { "Right Eye", new BodyPartLayoutData(new Vector2(212f, 177f), 83, 0.13f, 0.0491f) },
     };
 
     public int NativeSize => 512;

@@ -32,10 +32,7 @@ public class RejuvenationCloakHandler : EquipmentHandler, IUpgradableHandler, IC
 
     public string GetBonusDisplayText()
     {
-        var bonus = CurrentBonusPercent;
-        return bonus > 0 
-            ? $"{BonusLabel}: {BaseRejuvenationPerTick*Level1BonusMultiplier:F2}/t" 
-            : $"{BonusLabel}: {BaseRejuvenationPerTick:F2}/t";
+        return $"{BonusLabel}: {RejuvenationPerTick:F2}/t";
     }
 
     public override void Tick(Pawn pawn, BodyPart bodyPart)

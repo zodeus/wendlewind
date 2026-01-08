@@ -10,6 +10,8 @@ public sealed class SlingshotPanel : EntityPanelBase
     private readonly ItemUpgradePanel _upgradePanel;
     private readonly Image _headerIcon;
     private readonly PawnInventory _inventory;
+    private readonly CursorButton _autoFireToggle;
+    private readonly Label _autoFireLabel;
 
     public SlingshotPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
@@ -52,6 +54,36 @@ public sealed class SlingshotPanel : EntityPanelBase
             Widgets = { _headerIcon, headerInfo }
         };
         Widgets.Add(header);
+        
+        // Auto-fire toggle row
+        _autoFireLabel = new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = _handler.IsAutomatic ? "AUTO" : "MANUAL",
+            TextColor = _handler.IsAutomatic ? Color.LimeGreen : Color.Gray,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        
+        _autoFireToggle = new CursorButton(BaseContent.Styles.Button.Normal)
+        {
+            Content = new HorizontalStackPanel
+            {
+                Spacing = 6,
+                Widgets =
+                {
+                    new Label(BaseContent.Styles.Label.Small)
+                    {
+                        Text = "Full-Auto:",
+                        TextColor = Color.White,
+                        VerticalAlignment = VerticalAlignment.Center
+                    },
+                    _autoFireLabel
+                }
+            },
+            Margin = new Thickness(0, 0, 0, 8),
+            Visible = _handler.UpgradeLevel >= 3
+        };
+        _autoFireToggle.TouchDown += (_, _) => ToggleAutoFire();
+        Widgets.Add(_autoFireToggle);
 
         // Two-column layout for Ammo (left) and Upgrades (right)
         var mainContent = new HorizontalStackPanel
@@ -122,6 +154,7 @@ public sealed class SlingshotPanel : EntityPanelBase
     private void RefreshHeaderIcon()
     {
         _headerIcon.Background = new TextureRegion(_handler.CurrentTexture);
+        _autoFireToggle.Visible = _handler.UpgradeLevel >= 3;
     }
 
     private void RefreshLoadedAmmoDisplay()
@@ -316,6 +349,13 @@ public sealed class SlingshotPanel : EntityPanelBase
     }
 
     public override void Update() { }
+
+    private void ToggleAutoFire()
+    {
+        _handler.IsAutomatic = !_handler.IsAutomatic;
+        _autoFireLabel.Text = _handler.IsAutomatic ? "AUTO" : "MANUAL";
+        _autoFireLabel.TextColor = _handler.IsAutomatic ? Color.LimeGreen : Color.Gray;
+    }
 
     private static Color GetDamageTypeColor(DamageType damageType)
     {

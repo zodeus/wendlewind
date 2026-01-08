@@ -48,7 +48,7 @@ public class HumanBodyGenerator : IBodyGenerator
         MakeLeg(torso.GetSocketsFor(BodyPartType.Leg)[1].TryAttachPart(Defs.BodyParts.HumanLeg));
     }
 
-    static void MakeArm(BodyPart arm)
+    public static void MakeArm(BodyPart arm)
     {
         arm.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
         arm.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
@@ -79,7 +79,7 @@ public class HumanBodyGenerator : IBodyGenerator
         finger.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
     }
 
-    static void MakeLeg(BodyPart leg)
+    public static void MakeLeg(BodyPart leg)
     {
         leg.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
         leg.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);

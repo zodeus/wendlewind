@@ -5,20 +5,20 @@ public class ElectrofiedHandler : BodyPartModifier
 {
     private bool _hasSpread;
     private bool _hasPenetrated;
-    private const double BaseDamage = 0.3;
-    private const double PenetratedDamage = 0.005;
+    private double _baseDamage = 0.3;
+    private double _penetratedDamage = 0.1;
     private const double OrganDamage = 0.01;
-    private const double ArteryDamage = 0.005;
+    private const double ArteryDamage = 0.01;
     private const double EyeDamage = 0.003;
     private const double PenetrationThreshold = 0.75;
-    private const double SpreadThreshold = 0.8;
+    private const double SpreadThreshold = 0.85;
 
     public override List<SubstanceType> AllowedSubstances =>
         [SubstanceType.Flesh, SubstanceType.Metal, SubstanceType.Bone, SubstanceType.Chitin, SubstanceType.Fungus, SubstanceType.Wood];
 
     public override void Tick()
     {
-        var damage = BaseDamage;
+        var damage = _baseDamage;
         if (BodyPart.IsOrgan)
         {
             damage = OrganDamage;
@@ -33,7 +33,7 @@ public class ElectrofiedHandler : BodyPartModifier
         }
         else if (_hasPenetrated)
         {
-            damage = PenetratedDamage;
+            damage = _penetratedDamage;
         }
 
         BodyPart.HitPoints -= damage;
@@ -69,17 +69,16 @@ public class ElectrofiedHandler : BodyPartModifier
     {
         _hasSpread = false;
         _hasPenetrated = false;
-        base.MergeWith(modifier);
+        _baseDamage *= 1.2;
+        _penetratedDamage *= 1.2;
+        DurationInTicks += Core.Random.Next(0, modifier.DurationInTicks);
+        Log.Info($"ElectrofiedHandler: BodyPart {BodyPart.Label} Merging with {modifier.Label}, base damage: {_baseDamage}, penetrated damage: {_penetratedDamage}");
     }
 
     public override void SpreadTo(BodyPart part)
     {
         base.SpreadTo(part);
-        _hasSpread = Core.Random.Chance(0.92f);
-        if (_hasSpread == false)
-        {
-            Log.Info($"ElectrofiedHandler: SUPER SPREAD: Spreading to {part.Label}");
-        }
+        _hasSpread = Core.Random.Chance(0.9f);
     }
 
     public override void ExposeData()

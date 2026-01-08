@@ -52,13 +52,16 @@ public static class BodyPartModifierExtensions
         if (hasPenetrated) return;
         if (bodyPart.HealthPercent > penetrationThreshold) return;
 
-        if(bodyPart.Type == BodyPartType.Skin && bodyPart.Socket?.ParentPart != null) {
+        var rootPart = bodyPart;
+        if (rootPart.Type == BodyPartType.Skin && bodyPart.Socket?.ParentPart != null)
+        {
             modifier.SpreadTo(bodyPart.Socket.ParentPart);
+            rootPart = bodyPart.Socket.ParentPart;
         }
 
-        if (bodyPart.InternalParts.Any())
+        if (rootPart.InternalParts.Any())
         {
-            foreach (var internalPart in bodyPart.InternalParts)
+            foreach (var internalPart in rootPart.InternalParts)
             {
                 modifier.SpreadTo(internalPart);
             }

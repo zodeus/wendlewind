@@ -138,7 +138,6 @@
                     <ListItem>ResourceChest2</ListItem>
                     <ListItem>TrinketChest3</ListItem>
                     <ListItem>EnchantedChestDefensive</ListItem>
-                    <ListItem>EnchantedChestOffensive</ListItem>
                 </PotentialLootBoxes>
                 <MaxBoxes>3</MaxBoxes>
                 <Enemies>

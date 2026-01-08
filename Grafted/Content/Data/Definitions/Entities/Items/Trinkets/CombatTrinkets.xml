@@ -45,13 +45,13 @@
                     <BoneShard>10</BoneShard>
                     <LeatherScraps>4</LeatherScraps>
                 </Upgrade>
-                <Upgrade Level="2" Bonus="-30% CD">
+                <Upgrade Level="2" Bonus="+50% Dmg&#10;-30% CD">
                     <RequiredTrinkets>TinkersToolbox</RequiredTrinkets>
                     <GoldenBean>5</GoldenBean>
                     <Fang>1</Fang>
                     <LeatherScraps>6</LeatherScraps>
                 </Upgrade>
-                <Upgrade Level="3" Bonus="Fully Automatic">
+                <Upgrade Level="3" Bonus="+50% Dmg&#10;-30% CD&#10;Fully Automatic">
                     <RequiredTrinkets>TinkersToolbox, Monocle</RequiredTrinkets>
                     <GoldenBean>4</GoldenBean>
                     <Fuse>2</Fuse>

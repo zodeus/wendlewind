@@ -1,3 +1,4 @@
+using Grafted.Scenes.MainGameScene.Gui.Widgets.DevConsole;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.MapWidgets;
 
 namespace Grafted.Scenes.MainGameScene.Gui;
@@ -29,7 +30,8 @@ public class MapGui : BaseGui
             Margin = new Thickness(10, 50, 10, 10)
         };
 
-        Desktop.Root = new VerticalStackPanel
+        var rootPanel = new Panel();
+        rootPanel.Widgets.Add(new VerticalStackPanel
         {
             Spacing = 8,
             Widgets =
@@ -37,18 +39,16 @@ public class MapGui : BaseGui
                 _gameHud,
                 _mapPanel
             }
-        };
+        });
+        Desktop.Root = rootPanel;
 
         Core.ConfigureDesktopScaling(Desktop);
+        InitializeConsole();
     }
 
     public override void Update(float deltaTime)
     {
         _gameHud.Update();
         base.Update(deltaTime);
-    }
-
-    public override void Dispose()
-    {
     }
 }

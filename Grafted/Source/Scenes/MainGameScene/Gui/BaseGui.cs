@@ -1,8 +1,6 @@
-using Grafted.Scenes.MainGameScene.Gui.Widgets;
+using Grafted.Scenes.MainGameScene.Gui.Widgets.DevConsole;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
-using Grafted.Scenes.MainGameScene.Gui.Widgets.MapWidgets;
 using Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets.Boak;
-using Grafted.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
 
 namespace Grafted.Scenes.MainGameScene.Gui;
 
@@ -15,6 +13,12 @@ public abstract class BaseGui : IDisposable
     public MouseAttachment? MouseAttachment;
     public AchievementNotificationRenderer AchievementNotifications { get; } = new();
 
+    // Developer console
+    protected DevConsole? Console;
+
+    // Text input handler for Myra
+    private EventHandler<TextInputEventArgs>? _textInputHandler;
+
     private ScreenMessageData? _screenMessage;
     private float _screenMessageTimeLeft;
     private readonly Window _entityViewerWindow = new();
@@ -24,6 +28,7 @@ public abstract class BaseGui : IDisposable
     public virtual void Update(float deltaTime)
     {
         HandleInput();
+        Console?.UpdateInput();
         MouseAttachment?.Update();
         AchievementNotifications.Update(deltaTime);
         ShowEntityIfQueued();
@@ -47,9 +52,75 @@ public abstract class BaseGui : IDisposable
 
     public virtual void HandleInput()
     {
+        // Don't process other input when console is open
+        if (IsConsoleOpen) return;
+
         if (Keyboard.GetState().IsKeyDown(Keys.B))
         {
             OpenBoak();
+        }
+    }
+
+    /// <summary>
+    /// Returns true if the console is currently open and capturing input.
+    /// </summary>
+    public bool IsConsoleOpen => Console?.IsOpen == true;
+
+    /// <summary>
+    /// Toggles the developer console visibility.
+    /// </summary>
+    public void ToggleConsole()
+    {
+        Console?.Toggle();
+    }
+
+    /// <summary>
+    /// Initializes the developer console and adds it to the Desktop.
+    /// Call this after Desktop.Root is set.
+    /// </summary>
+    protected void InitializeConsole()
+    {
+        // Hook up text input for Myra (required when HasExternalTextInput = true)
+        _textInputHandler = (_, e) => Desktop.OnChar(e.Character);
+        Core.Instance.Window.TextInput += _textInputHandler;
+
+        Console = new DevConsole(Desktop);
+        Console.OnClose += () => Desktop.FocusedKeyboardWidget = null;
+
+        // Add console to desktop - it will be on top of other widgets
+        if (Desktop.Root is not Panel panel)
+        {
+            Log.Error("Desktop.Root is not a Panel");
+            return;
+        }
+        panel.Widgets.Add(Console);
+    }
+
+    /// <summary>
+    /// Brings the console to the front of the widget stack.
+    /// Call this after adding other widgets to the Desktop.Root panel.
+    /// </summary>
+    protected void BringConsoleToFront()
+    {
+        if (Console == null || Desktop.Root is not Panel panel) return;
+        
+        // Remove and re-add to move to end of widget list (renders on top)
+        if (panel.Widgets.Contains(Console))
+        {
+            panel.Widgets.Remove(Console);
+            panel.Widgets.Add(Console);
+        }
+    }
+
+    /// <summary>
+    /// Cleans up text input handler. Call this in Dispose().
+    /// </summary>
+    protected void CleanupTextInput()
+    {
+        if (_textInputHandler != null)
+        {
+            Core.Instance.Window.TextInput -= _textInputHandler;
+            _textInputHandler = null;
         }
     }
 
@@ -73,7 +144,7 @@ public abstract class BaseGui : IDisposable
         // since renderers are already clean, but serves as safety for other GUI subclasses.
         PawnRenderer.PreRenderAll(deltaTime);
         WeatherPreviewWidget.PreRenderAll(deltaTime);
-        
+
         Desktop.Render();
         spriteBatch.Begin(
             SpriteSortMode.Deferred,
@@ -107,7 +178,7 @@ public abstract class BaseGui : IDisposable
             spriteBatch.DrawString(_screenMessage.Font, _screenMessage.Text, new Vector2((Screen.Width / 2) - offset + xOffsetA, 400 + yOffsetA), colorA);
             spriteBatch.End();
         }
-        
+
         // Draw achievement notifications on top of everything
         AchievementNotifications.Render(spriteBatch);
     }
@@ -138,11 +209,13 @@ public abstract class BaseGui : IDisposable
 
         _entityViewerWindow.Content = _queuedEntityToView.Value.Key.UiPanel(this, new EntityPanelProperties
         {
-            ShowTitle = false, ShowCloseButton = false, Background = null
+            ShowTitle = false,
+            ShowCloseButton = false,
+            Background = null
         });
         _entityViewerWindow.Title = _queuedEntityToView.Value.Key.Label;
         _entityViewerWindow.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold];
-        
+
         if (_queuedEntityToView.Value.Value.HasValue)
         {
             _entityViewerWindow.Show(Desktop, _queuedEntityToView.Value.Value.Value);
@@ -174,7 +247,10 @@ public abstract class BaseGui : IDisposable
         gui._screenMessageTimeLeft = _screenMessageTimeLeft;
     }
 
-    public abstract void Dispose();
+    public virtual void Dispose()
+    {
+        CleanupTextInput();
+    }
 
     public void TickGame()
     {

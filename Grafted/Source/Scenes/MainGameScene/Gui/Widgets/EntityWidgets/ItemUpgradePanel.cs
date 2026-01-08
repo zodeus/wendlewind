@@ -57,12 +57,6 @@ public class ItemUpgradePanel : VerticalStackPanel
         var nextUpgrade = upgradeProps.GetNextUpgrade(_handler.UpgradeLevel);
         if (nextUpgrade == null)
         {
-            Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-            {
-                Text = "Fully upgraded!",
-                TextColor = GoldColor,
-                Margin = new Thickness(0, 4, 0, 0)
-            });
             return;
         }
 
