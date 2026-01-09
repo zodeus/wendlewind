@@ -6,28 +6,31 @@
     <ItemDef ParentName="OrganicResource">
         <Moniker>HealingRoot</Moniker>
         <Label>Healing Root</Label>
-        <Description>Toot, toot, it's a healing root... Grind it, water it, sip it. Tastes like dandelions, but feels like a warm hug.</Description>
+        <Description>Toot, toot, it's a healing root... Grind it, water it, sip it. A crimson root that glows with a warm light.</Description>
         <TexturePath>Entities/Item/Resource/Organic/HealingRoot</TexturePath>
     </ItemDef>
     <ItemDef ParentName="OrganicResource">
-        <Moniker>ChurniRoot</Moniker>
-        <Label>Churni Root</Label>
-        <TexturePath>Entities/Item/Resource/Organic/ChurniRoot</TexturePath>
+        <Moniker>NettleLeaf</Moniker>
+        <Label>Nettle Leaf</Label>
+        <Description>A leaf from the nettle plant. It's sharp and stinging to the touch.</Description>
+        <TexturePath>Entities/Item/Resource/Organic/NettleLeaf</TexturePath>
     </ItemDef>
     <ItemDef ParentName="OrganicResource">
-        <Moniker>DreamBerry</Moniker>
-        <Label>Dream Berry</Label>
+        <Moniker>ElderBerry</Moniker>
+        <Label>Elder Berry</Label>
         <Description>I dreamed I was a butterfly, flitting around in the sky; then I awoke. Now I wonder: Am I a man who dreamt of being a butterfly, or am I a butterfly dreaming that I am a man?</Description>
-        <TexturePath>Entities/Item/Resource/Organic/DreamBerry</TexturePath>
+        <TexturePath>Entities/Item/Resource/Organic/ElderBerry</TexturePath>
     </ItemDef>
     <ItemDef ParentName="OrganicResource">
-        <Moniker>MaeburyBulb</Moniker>
-        <Label>Maebury Bulb</Label>
-        <TexturePath>Entities/Item/Resource/Organic/MaeburyBulb</TexturePath>
+        <Moniker>PlantBulb</Moniker>
+        <Label>Plant Bulb</Label>
+        <Description>A bulb from a plant. Green and juicy, plump and ripe.</Description>
+        <TexturePath>Entities/Item/Resource/Organic/PlantBulb</TexturePath>
     </ItemDef>
     <ItemDef ParentName="OrganicResource">
         <Moniker>VenomVial</Moniker>
         <Label>Venom Vial</Label>
+        <Description>Venomous liquid sealed in a vial.</Description>
         <TexturePath>Entities/Item/Resource/Organic/VenomVial</TexturePath>
     </ItemDef>
     <ItemDef ParentName="OrganicResource">
@@ -69,11 +72,13 @@
     <ItemDef ParentName="OrganicResource">
         <Moniker>Ichor</Moniker>
         <Label>Ichor</Label>
+        <Description>A viscous, black liquid. It's sticky and thick.</Description>
         <TexturePath>Entities/Item/Resource/Organic/Ichor</TexturePath>
     </ItemDef>
     <ItemDef ParentName="OrganicResource">  
         <Moniker>HorseTooth</Moniker>
         <Label>Horse Tooth</Label>
+        <Description>A sharp tooth from a horse. It's long and curved, perfect munition.</Description>
         <TexturePath>Entities/Item/Resource/Organic/HorseTooth</TexturePath>
         <AmmoProperties>
             <DamageType>Sharp</DamageType>

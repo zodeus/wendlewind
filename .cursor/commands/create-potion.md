@@ -170,9 +170,9 @@ Add before `</Definitions>`:
 | Resource | Moniker | Theme/Use |
 |----------|---------|-----------|
 | Healing Root | HealingRoot | Healing, restoration |
-| Churni Root | ChurniRoot | Base ingredient, regeneration |
-| Dream Berry | DreamBerry | Mental effects, visions |
-| Maebury Bulb | MaeburyBulb | Growth, nature |
+| Churni Root | NettleLeaf | Base ingredient, regeneration |
+| Dream Berry | ElderBerry | Mental effects, visions |
+| Maebury Bulb | PlantBulb | Growth, nature |
 | Venom Vial | VenomVial | Poison, acid, damage |
 | Bone Shard | BoneShard | Strength, body modification |
 | Fang | Fang | Offensive, predatory |

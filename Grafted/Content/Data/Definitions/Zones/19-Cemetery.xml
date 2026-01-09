@@ -12,7 +12,7 @@
         </Weathers>
         <Resources>
             <ListItem>
-                <Item>DeathCapMushroom</Item>
+                <Item>InkyCapMushroom</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.75</ChanceToHarvest>
             </ListItem>
@@ -22,7 +22,7 @@
                 <ChanceToHarvest>.8</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>DreamBerry</Item>
+                <Item>ElderBerry</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.3</ChanceToHarvest>
             </ListItem>

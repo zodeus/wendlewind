@@ -41,7 +41,7 @@
                     <Count>1</Count>
                 </ListItem>
                 <ListItem>
-                    <Item>ChurniRoot</Item>
+                    <Item>NettleLeaf</Item>
                     <Count>1</Count>
                 </ListItem>
             </ResourceRequirements>
@@ -76,7 +76,7 @@
                     <Count>1</Count>
                 </ListItem>
                 <ListItem>
-                    <Item>ChurniRoot</Item>
+                    <Item>NettleLeaf</Item>
                     <Count>1</Count>
                 </ListItem>
             </ResourceRequirements>
@@ -175,6 +175,41 @@
                 </ListItem>
                 <ListItem>
                     <Item>ShadeWood</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+    </ItemDef>
+    <ItemDef ParentName="Potion">
+        <Moniker>StrengthPotion</Moniker>
+        <Label>Strength Potion</Label>
+        <BaseStats>
+            <PotionDuration>1800</PotionDuration>
+        </BaseStats>
+        <Description>A deep amber elixir that swirls with golden essence. Grants tremendous physical power to those who drink it.</Description>
+        <TexturePath>Entities/Item/Potion/StrengthPotion</TexturePath>
+        <PotionProperties>
+            <HandlerClass>StrengthPotionHandler</HandlerClass>
+        </PotionProperties>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>VialOfDuplicity</ListItem>
+                <ListItem>MortarAndPestle</ListItem>
+                <ListItem>FlameStick</ListItem>
+                <ListItem>CookingPot</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>GoldenBean</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>BalmyOintment</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>Ichor</Item>
                     <Count>1</Count>
                 </ListItem>
             </ResourceRequirements>

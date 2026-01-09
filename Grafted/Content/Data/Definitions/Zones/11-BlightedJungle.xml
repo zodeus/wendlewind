@@ -13,7 +13,7 @@
         </Weathers>
         <Resources>
             <ListItem>
-                <Item>DeathCapMushroom</Item>
+                <Item>InkyCapMushroom</Item>
                 <Amount>1~2</Amount>
                 <ChanceToHarvest>.7</ChanceToHarvest>
             </ListItem>

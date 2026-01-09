@@ -202,4 +202,16 @@
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
+    <BodyEffectDef>
+        <Moniker>Strengthened</Moniker>
+        <Label>Strengthened</Label>
+        <Description>Raw power courses through your muscles.</Description>
+        <TexturePath>Entities/Pawn/BodyEffects/Strengthened</TexturePath>
+        <AffectedStats>
+            <ListItem>
+                <Stat>Strength</Stat>
+                <Offset>2</Offset>
+            </ListItem>
+        </AffectedStats>
+    </BodyEffectDef>
 </Definitions>

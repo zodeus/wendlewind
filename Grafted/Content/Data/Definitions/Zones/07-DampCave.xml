@@ -17,7 +17,7 @@
                 <ChanceToHarvest>1</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>ChurniRoot</Item>
+                <Item>NettleLeaf</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>
@@ -50,7 +50,7 @@
                         </Skills>
                         <InventoryItems>
                             <ListItem>
-                                <Item>SpicedChurni</Item>
+                                <Item>InkyCapMushroom</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
@@ -76,7 +76,7 @@
                         </Skills>
                         <InventoryItems>
                             <ListItem>
-                                <Item>ChurniRoot</Item>
+                                <Item>InkyCapMushroom</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
@@ -102,7 +102,7 @@
                         </Skills>
                         <InventoryItems>
                             <ListItem>
-                                <Item>ChurniRoot</Item>
+                                <Item>InkyCapMushroom</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
@@ -128,8 +128,8 @@
                         </Skills>
                         <InventoryItems>
                             <ListItem>
-                                <Item>ChurniRoot</Item>
-                                <Amount>1~2</Amount>
+                                <Item>InkyCapMushroom</Item>
+                                <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>
@@ -154,8 +154,8 @@
                         </Skills>
                         <InventoryItems>
                             <ListItem>
-                                <Item>ChurniRoot</Item>
-                                <Amount>1~2</Amount>
+                                <Item>InkyCapMushroom</Item>
+                                <Amount>2~3</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>

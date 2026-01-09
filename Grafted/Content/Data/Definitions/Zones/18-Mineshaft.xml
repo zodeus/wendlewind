@@ -166,7 +166,7 @@
                                 <ChanceToDrop>.75</ChanceToDrop>
                             </ListItem>
                             <ListItem>
-                                <Item>DeathCapMushroom</Item>
+                                <Item>InkyCapMushroom</Item>
                                 <Amount>1~2</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
@@ -204,7 +204,7 @@
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
                             <ListItem>
-                                <Item>DeathCapMushroom</Item>
+                                <Item>InkyCapMushroom</Item>
                                 <Amount>1~2</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>

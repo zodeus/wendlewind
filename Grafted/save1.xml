@@ -2859,7 +2859,7 @@
 									<TrinketHandler IsNull="True" />
 									<EquipmentHandler IsNull="True" />
 									<Id>238069</Id>
-									<Def>ChurniRoot</Def>
+									<Def>NettleLeaf</Def>
 									<InternalState>UnSpawned</InternalState>
 								</li>
 								<li Class="Item">
@@ -2937,7 +2937,7 @@
 									<TrinketHandler IsNull="True" />
 									<EquipmentHandler IsNull="True" />
 									<Id>246062</Id>
-									<Def>DreamBerry</Def>
+									<Def>ElderBerry</Def>
 									<InternalState>UnSpawned</InternalState>
 								</li>
 								<li Class="Item">
@@ -3153,7 +3153,7 @@
 									<TrinketHandler IsNull="True" />
 									<EquipmentHandler IsNull="True" />
 									<Id>260695</Id>
-									<Def>MaeburyBulb</Def>
+									<Def>PlantBulb</Def>
 									<InternalState>UnSpawned</InternalState>
 								</li>
 								<li Class="Item">

@@ -12,7 +12,7 @@
         </Weathers>
         <Resources>
             <ListItem>
-                <Item>DreamBerry</Item>
+                <Item>ElderBerry</Item>
                 <Amount>1~2</Amount>
                 <ChanceToHarvest>.6</ChanceToHarvest>
             </ListItem>

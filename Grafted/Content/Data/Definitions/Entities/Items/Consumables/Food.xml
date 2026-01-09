@@ -265,10 +265,10 @@
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Food">
-        <Moniker>DeathCapMushroom</Moniker>
-        <Label>Death Cap Mushroom</Label>
+        <Moniker>InkyCapMushroom</Moniker>
+        <Label>Inky Cap Mushroom</Label>
         <Description>Probably not a good idea to taste this one...</Description>
-        <TexturePath>Entities/Item/Resource/Organic/DeathCapMushroom</TexturePath>
+        <TexturePath>Entities/Item/Resource/Organic/InkyCapMushroom</TexturePath>
         <FoodProperties>
             <FoodType>Fungi</FoodType>
             <Effects>
@@ -305,11 +305,11 @@
             </RequiredTrinkets>
             <ResourceRequirements>
                 <ListItem>
-                    <Item>DreamBerry</Item>
+                    <Item>ElderBerry</Item>
                     <Count>1</Count>
                 </ListItem>
                 <ListItem>
-                    <Item>MaeburyBulb</Item>
+                    <Item>PlantBulb</Item>
                     <Count>1</Count>
                 </ListItem>
                 <ListItem>
@@ -344,6 +344,7 @@
     <ItemDef ParentName="OrganicResource">
         <Moniker>HoneyPot</Moniker>
         <Label>Honey Pot</Label>
+        <Description>A pot filled with honey. It's sweet and sticky.</Description>
         <TexturePath>Entities/Item/Resource/Organic/HoneyPot</TexturePath>
         <FoodProperties>
             <FoodType>Nectar</FoodType>

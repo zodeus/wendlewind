@@ -13,22 +13,17 @@
         </Weathers>
         <Resources>
             <ListItem>
-                <Item>HealingRoot</Item>
-                <Amount>1~2</Amount>
-                <ChanceToHarvest>.5</ChanceToHarvest>
-            </ListItem>
-            <ListItem>
-                <Item>BoneShard</Item>
-                <Amount>3~6</Amount>
+                <Item>Ichor</Item>
+                <Amount>1</Amount>
                 <ChanceToHarvest>.8</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>GoldCapMushroom</Item>
+                <Item>InkyCapMushroom</Item>
                 <Amount>1</Amount>
-                <ChanceToHarvest>.3</ChanceToHarvest>
+                <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>ShadeWood</Item>
+                <Item>MullinStick</Item>
                 <Amount>1~2</Amount>
                 <ChanceToHarvest>.4</ChanceToHarvest>
             </ListItem>
@@ -65,7 +60,7 @@
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>Hydra</PawnDef>
+                        <PawnDef>Orc</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Hydra #1</PawnName>
                         <BodySizeFactor>0.8</BodySizeFactor>

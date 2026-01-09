@@ -17,19 +17,9 @@
                 <ChanceToHarvest>.6</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>HealingRoot</Item>
-                <Amount>1~2</Amount>
-                <ChanceToHarvest>.7</ChanceToHarvest>
-            </ListItem>
-            <ListItem>
                 <Item>GoldCapMushroom</Item>
                 <Amount>1~2</Amount>
                 <ChanceToHarvest>.8</ChanceToHarvest>
-            </ListItem>
-            <ListItem>
-                <Item>BoneShard</Item>
-                <Amount>2~4</Amount>
-                <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>
             <ListItem>
                 <Item>LeatherScraps</Item>

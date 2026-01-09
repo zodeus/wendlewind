@@ -73,6 +73,7 @@ public static partial class Defs
         public static BodyEffectDef GoldenLips = null!;
         public static BodyEffectDef Fruiting = null!;
         public static BodyEffectDef BlackenedSmoke = null!;
+        public static BodyEffectDef Strengthened = null!;
     }
 }
 
@@ -140,7 +141,7 @@ public static partial class Defs
         public static ItemDef WeepingBucket = null!;
         public static ItemDef CookingPot = null!;
         public static ItemDef BalmyOintment = null!;
-        public static ItemDef DreamBerry = null!;
+        public static ItemDef ElderBerry = null!;
         public static ItemDef FlameStick = null!;
         public static ItemDef MortarAndPestle = null!;
         public static ItemDef VialOfDuplicity = null!;
