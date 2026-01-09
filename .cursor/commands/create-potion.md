@@ -288,3 +288,4 @@ Copy-Item "[generated-image-path]" "Grafted/Content/Textures/Entities/Pawn/BodyE
 - [ ] CraftingProperties defined with appropriate trinkets and resources
 - [ ] Icon matches the game's art style
 - [ ] GetEffectDescription() returns meaningful text
+- [ ] Veryify build
