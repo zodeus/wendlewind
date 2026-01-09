@@ -133,8 +133,9 @@ public class PawnBody : IExposable, IIdentityProvider
         }
     }
 
-    public void ConsumeEnergy(float amount)
+    public void ConsumeEnergyFromAttack()
     {
+        float amount = 0.25f; //todo Move somewhere cool, you know... do something with this. Make it dynamic.
         if (Effects.Has(Defs.BodyEffects.Fruiting))
         {
             amount *= 0.5f;
@@ -199,6 +200,7 @@ public class PawnBody : IExposable, IIdentityProvider
     public void ModifyStat(StatDef stat, ref float value)
     {
         ModifyStatByStance(stat, ref value);
+        Handler.ModifyStat(stat, ref value);
     }
 
     private void ModifyStatByStance(StatDef stat, ref float value)

@@ -30,17 +30,6 @@
         </Resources>
         <Encounters>
             <ListItem>
-                <MysteryProperties>
-                    <PartsToRestore>3~5</PartsToRestore>
-                    <RestorablePartTypes>
-                        <ListItem>Thumb</ListItem>
-                        <ListItem>Finger</ListItem>
-                        <ListItem>Hand</ListItem>
-                        <ListItem>Foot</ListItem>
-                    </RestorablePartTypes>
-                </MysteryProperties>
-            </ListItem>
-            <ListItem>
                 <PotentialLootBoxes>
                     <ListItem>SupplyChest2</ListItem>
                     <ListItem>WeaponChest2</ListItem>

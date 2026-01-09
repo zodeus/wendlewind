@@ -15,14 +15,20 @@
     <ItemDef ParentName="Potion">
         <Moniker>JarOfBlood</Moniker>
         <Label>Jar of Blood</Label>
-        <Description>Can be sipped during combat to replenish lost blood.</Description>
+        <Description>A crimson elixir that restores vitality.</Description>
         <TexturePath>Entities/Item/Potion/JarOfBlood</TexturePath>
+        <PotionProperties>
+            <HandlerClass>JarOfBloodHandler</HandlerClass>
+        </PotionProperties>
     </ItemDef>
     <ItemDef ParentName="Potion">
         <Moniker>AcidFlask</Moniker>
         <Label>Acid Flask</Label>
-        <Description>Has a chance to blind opponent.</Description>
+        <Description>Corrosive liquid sealed in fragile glass.</Description>
         <TexturePath>Entities/Item/Potion/AcidFlask</TexturePath>
+        <PotionProperties>
+            <HandlerClass>AcidFlaskHandler</HandlerClass>
+        </PotionProperties>
         <CraftingProperties>
             <AmountProduced>2</AmountProduced>
             <RequiredTrinkets>
@@ -47,8 +53,11 @@
         <BaseStats>
             <PotionDuration>1200</PotionDuration>
         </BaseStats>
-        <Description>A warm hug for your body.</Description>
+        <Description>A warm, tingling brew infused with purple essence.</Description>
         <TexturePath>Entities/Item/Potion/SpicedChurni</TexturePath>
+        <PotionProperties>
+            <HandlerClass>SpicedChurniHandler</HandlerClass>
+        </PotionProperties>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
             <RequiredTrinkets>
@@ -68,6 +77,104 @@
                 </ListItem>
                 <ListItem>
                     <Item>ChurniRoot</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+    </ItemDef>
+    <ItemDef ParentName="Potion">
+        <Moniker>PussBomb</Moniker>
+        <Label>Puss Bomb</Label>
+        <Description>A putrid, festering sphere of infection. Splatters the target with vile pus that causes their flesh to rot.</Description>
+        <TexturePath>Entities/Item/Potion/PussBomb</TexturePath>
+        <PotionProperties>
+            <HandlerClass>PussBombHandler</HandlerClass>
+        </PotionProperties>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>VialOfDuplicity</ListItem>
+                <ListItem>FlameStick</ListItem>
+                <ListItem>CookingPot</ListItem>
+                <ListItem>MortarAndPestle</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>BeakPuss</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>Ichor</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>HorseTooth</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+    </ItemDef>
+    <ItemDef ParentName="Potion">
+        <Moniker>Fleshify</Moniker>
+        <Label>Fleshify</Label>
+        <Description>A viscous, pink elixir that pulses with an unsettling vitality. Permanently transforms all non-flesh body parts into soft, living flesh.</Description>
+        <TexturePath>Entities/Item/Potion/Fleshify</TexturePath>
+        <PotionProperties>
+            <HandlerClass>FleshifyHandler</HandlerClass>
+        </PotionProperties>
+        <CraftingProperties>    
+            <AmountProduced>1</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>VialOfDuplicity</ListItem>
+                <ListItem>MortarAndPestle</ListItem>
+                <ListItem>FlameStick</ListItem>
+                <ListItem>CookingPot</ListItem>
+                <ListItem>TinkersToolbox</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>Ichor</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>HorseTooth</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>BoneShard</Item>
+                    <Count>5</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+    </ItemDef>
+    <ItemDef ParentName="Potion">
+        <Moniker>BlackenedSmoke</Moniker>
+        <Label>Blackened Smoke</Label>
+        <BaseStats>
+            <PotionDuration>1800</PotionDuration>
+        </BaseStats>
+        <Description>A flask of concentrated black smoke that swirls with malevolent intent. Reduces the target's accuracy and coats their lungs with a suffocating affliction.</Description>
+        <TexturePath>Entities/Item/Potion/BlackenedSmoke</TexturePath>
+        <PotionProperties>
+            <HandlerClass>BlackenedSmokeHandler</HandlerClass>
+        </PotionProperties>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>VialOfDuplicity</ListItem>
+                <ListItem>MortarAndPestle</ListItem>
+                <ListItem>FlameStick</ListItem>
+                <ListItem>CookingPot</ListItem>
+                <ListItem>TinkersToolbox</ListItem>
+                <ListItem>MechanicalEye</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>Ichor</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>ShadeWood</Item>
                     <Count>1</Count>
                 </ListItem>
             </ResourceRequirements>

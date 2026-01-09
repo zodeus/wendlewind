@@ -2,44 +2,48 @@
 
 <Definitions>
     <ZoneDef>
-        <Moniker>BrickRoad</Moniker>
-        <Label>Brick Road</Label>
+        <Moniker>SnakePit</Moniker>
+        <Label>Snake Pit</Label>
         <Stage>17</Stage>
-        <ZoneColor>200, 170, 80</ZoneColor>
+        <ZoneColor>60, 90, 50</ZoneColor>
         <Weathers>
-            <ListItem>FallingLeaves</ListItem>
             <ListItem>Storm</ListItem>
             <ListItem>Showers</ListItem>
+            <ListItem>Neutral</ListItem>
         </Weathers>
         <Resources>
             <ListItem>
-                <Item>DreamBerry</Item>
-                <Amount>1~2</Amount>
-                <ChanceToHarvest>.6</ChanceToHarvest>
-            </ListItem>
-            <ListItem>
                 <Item>HealingRoot</Item>
                 <Amount>1~2</Amount>
-                <ChanceToHarvest>.7</ChanceToHarvest>
+                <ChanceToHarvest>.5</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>BoneShard</Item>
+                <Amount>3~6</Amount>
+                <ChanceToHarvest>.8</ChanceToHarvest>
             </ListItem>
             <ListItem>
                 <Item>GoldCapMushroom</Item>
                 <Amount>1</Amount>
-                <ChanceToHarvest>.4</ChanceToHarvest>
+                <ChanceToHarvest>.3</ChanceToHarvest>
             </ListItem>
             <ListItem>
                 <Item>ShadeWood</Item>
                 <Amount>1~2</Amount>
-                <ChanceToHarvest>.5</ChanceToHarvest>
+                <ChanceToHarvest>.4</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>RawFish</Item>
+                <Amount>1~2</Amount>
+                <ChanceToHarvest>.7</ChanceToHarvest>
             </ListItem>
         </Resources>
         <Encounters>
             <ListItem>
                 <MysteryProperties>
-                    <PartsToRestore>2~3</PartsToRestore>
+                    <PartsToRestore>2~4</PartsToRestore>
                     <OptionalRewards>
-                        <ListItem>EverburningStone</ListItem>
-                        <ListItem>BoneEater</ListItem>
+                        <ListItem>AcidFlask</ListItem>
                         <ListItem>ElvishLeaf</ListItem>
                         <ListItem>SoothingVibrations</ListItem>
                     </OptionalRewards>
@@ -48,6 +52,7 @@
                         <ListItem>Thumb</ListItem>
                         <ListItem>Finger</ListItem>
                         <ListItem>Hand</ListItem>
+                        <ListItem>Foot</ListItem>
                     </RestorablePartTypes>
                 </MysteryProperties>
             </ListItem>
@@ -55,15 +60,22 @@
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ResourceChest2</ListItem>
-                    <ListItem>ArmorChest2</ListItem>
+                    <ListItem>ArmorChest3</ListItem>
                     <ListItem>EnchantedChestDefensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>TinMan</PawnDef>
+                        <PawnDef>Hydra</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Tin Man (model #1)</PawnName>
-                        <BodySizeFactor>1</BodySizeFactor>
+                        <PawnName>Hydra #1</PawnName>
+                        <BodySizeFactor>0.8</BodySizeFactor>
+                        <InventoryItems>
+                            <ListItem>
+                                <Item>RawMeat</Item>
+                                <Amount>2~3</Amount>
+                                <ChanceToDrop>1</ChanceToDrop>
+                            </ListItem>
+                        </InventoryItems>
                     </ListItem>
                 </Enemies>
             </ListItem>
@@ -76,9 +88,25 @@
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>TinMan</PawnDef>
+                        <PawnDef>Hydra</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Tin Man (model #2)</PawnName>
+                        <PawnName>Hydra #2</PawnName>
+                        <BodySizeFactor>1.0</BodySizeFactor>
+                    </ListItem>
+                </Enemies>
+            </ListItem>
+            <ListItem>
+                <MaxBoxes>2</MaxBoxes>
+                <PotentialLootBoxes>
+                    <ListItem>ArmorChest3</ListItem>
+                    <ListItem>MedicinalChest</ListItem>
+                    <ListItem>EnchantedChestOffensive</ListItem>
+                </PotentialLootBoxes>
+                <Enemies>
+                    <ListItem>
+                        <PawnDef>Hydra</PawnDef>
+                        <Loadout>EmptyLoadout</Loadout>
+                        <PawnName>Hydra #3</PawnName>
                         <BodySizeFactor>1.3</BodySizeFactor>
                     </ListItem>
                 </Enemies>
@@ -86,32 +114,16 @@
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>ResourceChest2</ListItem>
-                    <ListItem>MedicinalChest</ListItem>
-                    <ListItem>EnchantedChestOffensive</ListItem>
-                </PotentialLootBoxes>
-                <Enemies>
-                    <ListItem>
-                        <PawnDef>TinMan</PawnDef>
-                        <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Tin Man (model #3)</PawnName>
-                        <BodySizeFactor>1.5</BodySizeFactor>
-                    </ListItem>
-                </Enemies>
-            </ListItem>
-            <ListItem>
-                <MaxBoxes>2</MaxBoxes>
-                <PotentialLootBoxes>
-                    <ListItem>ArmorChest2</ListItem>
                     <ListItem>TrinketChest2</ListItem>
+                    <ListItem>WeaponChest2</ListItem>
                     <ListItem>EnchantedChestDefensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>TinMan</PawnDef>
+                        <PawnDef>Hydra</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Tin Man (model #4)</PawnName>
-                        <BodySizeFactor>1.8</BodySizeFactor>
+                        <PawnName>Hydra #4</PawnName>
+                        <BodySizeFactor>1.6</BodySizeFactor>
                     </ListItem>
                 </Enemies>
             </ListItem>
@@ -125,10 +137,10 @@
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>TinMan</PawnDef>
+                        <PawnDef>Hydra</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Tin Man (model #5)</PawnName>
-                        <BodySizeFactor>3</BodySizeFactor>
+                        <PawnName>Hydra #5 (boss)</PawnName>
+                        <BodySizeFactor>2</BodySizeFactor>
                     </ListItem>
                 </Enemies>
             </ListItem>

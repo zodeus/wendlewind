@@ -51,12 +51,15 @@ public static partial class Defs
     {
         public static BodyPartModifierDef Acid = null!;
         public static BodyPartModifierDef RotLung = null!;
+        public static BodyPartModifierDef BlackLung = null!;
         public static BodyPartModifierDef SoothingBalm = null!;
         public static BodyPartModifierDef PurpleRegeneration = null!;
         public static BodyPartModifierDef LifeRegeneration = null!;
         public static BodyPartModifierDef RhinoRestoration = null!;
         public static BodyPartModifierDef Necrosis = null!;
         public static BodyPartModifierDef NecrosisSerum = null!;
+        public static BodyPartModifierDef Festering = null!;
+        public static BodyPartModifierDef BloodDrain = null!;
     }
 }
 
@@ -69,6 +72,7 @@ public static partial class Defs
         public static BodyEffectDef FeelingThePurple = null!;
         public static BodyEffectDef GoldenLips = null!;
         public static BodyEffectDef Fruiting = null!;
+        public static BodyEffectDef BlackenedSmoke = null!;
     }
 }
 
@@ -132,6 +136,7 @@ public static partial class Defs
         public static ItemDef JarOfBlood = null!;
         public static ItemDef AcidFlask = null!;
         public static ItemDef SpicedChurni = null!;
+        public static ItemDef PussBomb = null!;
         public static ItemDef WeepingBucket = null!;
         public static ItemDef CookingPot = null!;
         public static ItemDef BalmyOintment = null!;
@@ -163,6 +168,14 @@ public static partial class Defs
         // Enchantments used as upgrade materials
         public static ItemDef ElvishLeaf = null!;
         public static ItemDef RhinoSkin = null!;
+        
+        // Resources
+        public static ItemDef Fuse = null!;
+        public static ItemDef IronNugget = null!;
+        public static ItemDef VenomVial = null!;
+        
+        // Trinkets
+        public static ItemDef PerforationTrap = null!;
     }
 }
 
@@ -337,6 +350,11 @@ public static partial class Defs
         public static BodyPartDef MarionetteHand = null!;
         public static BodyPartDef MarionetteLeg = null!;
         public static BodyPartDef MarionetteFoot = null!;
+
+        public static BodyPartDef HydraHeadOne = null!;
+        public static BodyPartDef HydraHeadTwo = null!;
+        public static BodyPartDef HydraHeadThree = null!;
+        public static BodyPartDef HydraTorso = null!;
     }
 
     [DefLocator]

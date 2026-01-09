@@ -23,6 +23,7 @@ global using Grafted.Sim.Entities.Pawns.Modifiers;
 global using Grafted.Sim.Entities.Items.Enchantments;
 global using Grafted.Sim.Entities.Items.Equipment;
 global using Grafted.Sim.Entities.Items.Medicinals;
+global using Grafted.Sim.Entities.Items.Potions;
 global using Grafted.Sim.Entities.Items.Trinkets;
 
 global using Grafted.Sim.Persistence;

@@ -61,9 +61,10 @@
         </AmmoProperties>
     </ItemDef>
     <ItemDef ParentName="OrganicResource">
-        <Moniker>TurtleBeakPuss</Moniker>
-        <Label>Turtle Beak Puss</Label>
-        <TexturePath>Entities/Item/Resource/Organic/TurtleBeakPuss</TexturePath>
+        <Moniker>BeakPuss</Moniker>
+        <Label>Beak Puss</Label>
+        <Description>The puss of a beak-like creature. It stinks.</Description>
+        <TexturePath>Entities/Item/Resource/Organic/BeakPuss</TexturePath>
     </ItemDef>
     <ItemDef ParentName="OrganicResource">
         <Moniker>Ichor</Moniker>

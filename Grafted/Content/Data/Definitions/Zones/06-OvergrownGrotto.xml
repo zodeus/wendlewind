@@ -54,7 +54,7 @@
                         <PawnName>Turtle #1</PawnName>
                         <InventoryItems>
                             <ListItem>
-                                <Item>TurtleBeakPuss</Item>
+                                <Item>BeakPuss</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>.8</ChanceToDrop>
                             </ListItem>
@@ -77,7 +77,7 @@
                         <BodySizeFactor>1.2</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
-                                <Item>TurtleBeakPuss</Item>
+                                <Item>BeakPuss</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>.8</ChanceToDrop>
                             </ListItem>
@@ -100,7 +100,7 @@
                         <BodySizeFactor>1.4</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
-                                <Item>TurtleBeakPuss</Item>
+                                <Item>BeakPuss</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>.8</ChanceToDrop>
                             </ListItem>
@@ -123,7 +123,7 @@
                         <BodySizeFactor>1.6</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
-                                <Item>TurtleBeakPuss</Item>
+                                <Item>BeakPuss</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>.8</ChanceToDrop>
                             </ListItem>
@@ -150,7 +150,7 @@
                         </Skills>
                         <InventoryItems>
                             <ListItem>
-                                <Item>TurtleBeakPuss</Item>
+                                <Item>BeakPuss</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>

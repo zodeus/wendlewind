@@ -81,5 +81,31 @@
         <Description>Energizer bunny?</Description>
         <TexturePath>Entities/Item/Trinket/Battery</TexturePath>
     </ItemDef> -->
+    
+    <ItemDef ParentName="CombatTrinket">
+        <Moniker>PerforationTrap</Moniker>
+        <Label>Perforation Trap</Label>
+        <UiClass>PerforationTrapPanel</UiClass>
+        <TrinketProperties>
+            <HandlerClass>PerforationTrapHandler</HandlerClass>
+        </TrinketProperties>
+        <Description>A cruel trap that can be armed with a fuse. When triggered during combat, it perforates the opponent with countless tiny needles, causing blood to drain from all exposed flesh.</Description>
+        <TexturePath>Entities/Item/Trinket/PerforationTrap</TexturePath>
+        <UpgradeProperties>
+            <Upgrades>
+                <Upgrade Level="1" Bonus="Timed Fuse&#10;(Set fuse 5-2000)">
+                    <RequiredTrinkets>TinkersToolbox</RequiredTrinkets>
+                    <Fuse>2</Fuse>
+                    <IronNugget>3</IronNugget>
+                </Upgrade>
+                <Upgrade Level="2" Bonus="Timed Fuse&#10;+50% Duration">
+                    <RequiredTrinkets>TinkersToolbox</RequiredTrinkets>
+                    <Fuse>3</Fuse>
+                    <GoldenBean>2</GoldenBean>
+                    <VenomVial>1</VenomVial>
+                </Upgrade>
+            </Upgrades>
+        </UpgradeProperties>
+    </ItemDef>
 
 </Definitions>

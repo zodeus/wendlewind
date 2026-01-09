@@ -13,6 +13,7 @@ public class BodyPart : Entity
     private double _hitPoints;
     private string? _adaptedLabel;
     private bool _isSevered; // todo, this should be set by an applied health condition
+    private SubstanceType? _substanceOverride;
 
     public double MaxHitPoints;
     public bool IsCracked = false;
@@ -30,7 +31,7 @@ public class BodyPart : Entity
     public float HitWeight => BodyPartDef.HitWeight;
     public double HealthPercent => HitPoints / MaxHitPoints;
     public bool IsExternal => Socket?.IsExternal ?? true;
-    public SubstanceType Substance => BodyPartDef.Substance;
+    public SubstanceType Substance => _substanceOverride ?? BodyPartDef.Substance;
     public bool IsOrgan => BodyPartDef.IsOrgan;
     public bool IsVital => BodyPartDef.IsVital;
     public new bool IsDestroyed => HitPoints <= .1f;
@@ -427,6 +428,27 @@ public class BodyPart : Entity
         return Modifiers.Any(m => m.Def == def);
     }
 
+    /// <summary>
+    /// Sets an override for the body part's substance type.
+    /// </summary>
+    public void SetSubstanceOverride(SubstanceType substance)
+    {
+        _substanceOverride = substance;
+    }
+
+    /// <summary>
+    /// Clears any substance override, returning to the default from the definition.
+    /// </summary>
+    public void ClearSubstanceOverride()
+    {
+        _substanceOverride = null;
+    }
+
+    /// <summary>
+    /// Returns true if the substance is currently overridden from its default.
+    /// </summary>
+    public bool HasSubstanceOverride => _substanceOverride.HasValue;
+
     #region Equipment
 
     public EquipmentSlotType? SlotFor(Item item)
@@ -530,6 +552,7 @@ public class BodyPart : Entity
         ScribeValues.Look(ref _adaptedLabel!, "AdaptedLabel");
         ScribeValues.Look(ref _isSevered, "IsCracked");
         ScribeValues.Look(ref _isSevered, "IsSevered");
+        ScribeValues.Look(ref _substanceOverride, "SubstanceOverride");
         ScribeValues.Look(ref MaxHitPoints, "MaxHitPoints");
         ScribeValues.Look(ref TicksSinceLastHit, "TicksSinceLastHit");
         ScribeReferences.Look(ref Socket!, "Socket");

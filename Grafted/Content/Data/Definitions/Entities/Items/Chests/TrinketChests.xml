@@ -18,12 +18,16 @@
                 <Weight>1000</Weight>
             </ListItem>
             <ListItem>
-                <ItemDef>DeathRattle</ItemDef>
-                <Weight>1</Weight>
+                <ItemDef>PerforationTrap</ItemDef>
+                <Weight>1000</Weight>
             </ListItem>
             <ListItem>
                 <ItemDef>BloodyBell</ItemDef>
                 <Weight>5</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>DeathRattle</ItemDef>
+                <Weight>1</Weight>
             </ListItem>
         </Items>
     </LootBoxDef>

@@ -194,4 +194,16 @@
             <Accuracy>.92</Accuracy>
         </BaseStats>   
     </PawnDef>
+    <PawnDef ParentName="BaseMonsterRace">
+        <Moniker>Hydra</Moniker>
+        <Label>Hydra</Label>
+        <Species>Hydra</Species>
+        <Body>HydraBody</Body>
+        <BaseStats>
+            <AttackSpeed>2</AttackSpeed>
+            <Strength>1</Strength>
+            <Evasion>.03</Evasion>
+            <Accuracy>.88</Accuracy>
+        </BaseStats>   
+    </PawnDef>
 </Definitions>

@@ -58,6 +58,9 @@ public class PawnRenderer : IDisposable
     private RenderTarget2D? _bodyRenderTarget;
     private bool _bodyDirty = true;
     
+    // Track subscribed parts to detect when new parts are added
+    private HashSet<BodyPart> _subscribedParts = new();
+    
     // Final composite - rendered each frame when effects are active, 
     // or just references body cache when no effects
     private RenderTarget2D? _compositeRenderTarget;
@@ -109,10 +112,7 @@ public class PawnRenderer : IDisposable
         if (_layout != null)
         {
             // Subscribe to body part changes to mark dirty
-            foreach (var part in _pawn.Body.AllExternalParts)
-            {
-                part.HealthChanged += OnPartHealthChanged;
-            }
+            SubscribeToNewParts();
         }
         
         // Register for pre-rendering
@@ -123,6 +123,22 @@ public class PawnRenderer : IDisposable
     {
         _bodyDirty = true;
     }
+    
+    /// <summary>
+    /// Subscribes to HealthChanged events for any new parts that haven't been subscribed to yet.
+    /// Marks the body dirty if new parts are found.
+    /// </summary>
+    private void SubscribeToNewParts()
+    {
+        foreach (var part in _pawn.Body.AllExternalParts)
+        {
+            if (_subscribedParts.Add(part))
+            {
+                part.HealthChanged += OnPartHealthChanged;
+                _bodyDirty = true;
+            }
+        }
+    }
 
     /// <summary>
     /// Updates the blood spurt and weather renderers. Called each frame.
@@ -131,6 +147,12 @@ public class PawnRenderer : IDisposable
     {
         _bloodSpurtRenderer.Update(deltaTime);
         _weatherRenderer.Update(deltaTime);
+        
+        // Check for new parts (e.g., Hydra head regeneration) and subscribe to them
+        if (_layout != null)
+        {
+            SubscribeToNewParts();
+        }
         
         // Always use composite render target to show health text overlay
         _hasActiveEffects = true;
@@ -354,14 +376,12 @@ public class PawnRenderer : IDisposable
         // Unregister from pre-rendering
         _allRenderers.Remove(this);
         
-        // Unsubscribe from events
-        if (_layout != null)
+        // Unsubscribe from all tracked parts
+        foreach (var part in _subscribedParts)
         {
-            foreach (var part in _pawn.Body.AllExternalParts)
-            {
-                part.HealthChanged -= OnPartHealthChanged;
-            }
+            part.HealthChanged -= OnPartHealthChanged;
         }
+        _subscribedParts.Clear();
         
         _bodyRenderTarget?.Dispose();
         _compositeRenderTarget?.Dispose();

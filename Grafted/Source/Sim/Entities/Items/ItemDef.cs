@@ -1,4 +1,5 @@
 using Grafted.Scenes.MainGameScene.Gui.Widgets.DefWidgets;
+using Grafted.Sim.Entities.Items.Potions;
 
 namespace Grafted.Sim.Entities.Items;
 
@@ -21,6 +22,7 @@ public class ItemDef : EntityDef
     public AmmoProperties? AmmoProperties;
     public UpgradeProperties? UpgradeProperties;
     public IncenseProperties? IncenseProperties;
+    public PotionProperties? PotionProperties;
 
     public override void ResolveDependencies()
     {

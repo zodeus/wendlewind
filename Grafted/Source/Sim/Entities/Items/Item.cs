@@ -23,6 +23,7 @@ public class Item : Entity, IExposable
     public EnchantmentHandler? EnchantmentHandler;
     public TrinketHandler? TrinketHandler;
     public EquipmentHandler? EquipmentHandler;
+    public PotionHandler? PotionHandler;
     public override string Label => Def.Label;
     public string LabelWithStackSize => IsStackable ? $"{Def.Label} x{StackSize}" : Def.Label;
     public bool IsStackable => ItemDef.StackLimit > 1;
@@ -60,6 +61,15 @@ public class Item : Entity, IExposable
         {
             EquipmentHandler = ItemDef.EquipmentProperties.Handler!;
             EquipmentHandler.Equipment = this;
+        }
+
+        if (ItemDef.PotionProperties?.HandlerClass != null)
+        {
+            PotionHandler = ItemDef.PotionProperties.CreateHandler();
+            if (PotionHandler != null)
+            {
+                PotionHandler.Potion = this;
+            }
         }
 
         MaxDurability = this.GetStatValue(Defs.Stats.MaxDurability);
@@ -149,6 +159,7 @@ public class Item : Entity, IExposable
         ScribeDeep.Look(ref EnchantmentHandler!, "EnchantmentHandler");
         ScribeDeep.Look(ref TrinketHandler!, "TrinketHandler");
         ScribeDeep.Look(ref EquipmentHandler!, "EquipmentHandler");
+        ScribeDeep.Look(ref PotionHandler!, "PotionHandler");
         base.ExposeData();
     }
 }

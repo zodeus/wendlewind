@@ -59,12 +59,9 @@ public static class BodyPartModifierExtensions
             rootPart = bodyPart.Socket.ParentPart;
         }
 
-        if (rootPart.InternalParts.Any())
+        foreach (var internalPart in rootPart.InternalParts)
         {
-            foreach (var internalPart in rootPart.InternalParts)
-            {
-                modifier.SpreadTo(internalPart);
-            }
+            modifier.SpreadTo(internalPart);
         }
 
         hasPenetrated = true;

@@ -53,7 +53,7 @@ public class LootBoxDef : Def
     public List<LootBoxItem> Items = [];
     public string? TexturePath;
 
-    public virtual Texture2D Texture => _texture ??= TexturePath != null ? Core.Content.Load<Texture2D>(TexturePath) : BaseContent.Textures.BadTexture;
+    public virtual Texture2D Texture => _texture ??= TexturePath != null ? TextureUtils.PreMultiply(Core.Content.Load<Texture2D>(TexturePath))! : BaseContent.Textures.BadTexture;
     public virtual Texture2D Icon => _iconTexture ??= TexturePath != null ? TextureUtils.PreMultiply(Texture)! : BaseContent.Textures.BadTexture;
 
     public LootBoxPanelBase UiPanelFor(BaseGui gui, Entity entity, EntityPanelProperties? properties = null)

@@ -2817,7 +2817,7 @@
 									<TrinketHandler IsNull="True" />
 									<EquipmentHandler IsNull="True" />
 									<Id>237762</Id>
-									<Def>TurtleBeakPuss</Def>
+									<Def>BeakPuss</Def>
 									<InternalState>UnSpawned</InternalState>
 								</li>
 								<li Class="Item">

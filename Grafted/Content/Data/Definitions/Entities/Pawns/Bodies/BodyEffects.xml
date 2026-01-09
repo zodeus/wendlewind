@@ -190,4 +190,16 @@
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
+    <BodyEffectDef>
+        <Moniker>BlackenedSmoke</Moniker>
+        <Label>Blackened Smoke</Label>
+        <Description>Acrid smoke clouds your senses, making it harder to land strikes.</Description>
+        <TexturePath>Entities/Pawn/BodyEffects/BlackenedSmoke</TexturePath>
+        <AffectedStats>
+            <ListItem>
+                <Stat>Accuracy</Stat>
+                <Factor>-0.25</Factor>
+            </ListItem>
+        </AffectedStats>
+    </BodyEffectDef>
 </Definitions>

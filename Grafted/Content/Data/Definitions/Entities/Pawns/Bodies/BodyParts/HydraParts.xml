@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartDef Name="HydraBodyPartBase" ParentName="BodyPartBase" Abstract="True">
+    </BodyPartDef>
+    
+    <!-- Head One (Center/Primary) -->
+    <BodyPartDef ParentName="HydraBodyPartBase">
+        <Moniker>HydraHeadOne</Moniker>
+        <Label>Head</Label>
+        <HitWeight>25</HitWeight>
+        <BloodAmount>15</BloodAmount>
+        <BodyPartType>Head</BodyPartType>
+        <Substance>Flesh</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Hydra/HeadOne</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+        </Sockets>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+            <ListItem>HeadArmor</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <MaxHitPoints>80</MaxHitPoints>
+            <AttackSpeedModifier>1</AttackSpeedModifier>
+        </BaseStats>
+    </BodyPartDef>
+    
+    <!-- Head Two (Left) -->
+    <BodyPartDef ParentName="HydraBodyPartBase">
+        <Moniker>HydraHeadTwo</Moniker>
+        <Label>Head</Label>
+        <HitWeight>25</HitWeight>
+        <BloodAmount>15</BloodAmount>
+        <BodyPartType>Head</BodyPartType>
+        <Substance>Flesh</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Hydra/HeadTwo</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+        </Sockets>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+            <ListItem>HeadArmor</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <MaxHitPoints>60</MaxHitPoints>
+            <AttackSpeedModifier>2</AttackSpeedModifier>
+        </BaseStats>
+    </BodyPartDef>
+    
+    <!-- Head Three (Right) -->
+    <BodyPartDef ParentName="HydraBodyPartBase">
+        <Moniker>HydraHeadThree</Moniker>
+        <Label>Head</Label>
+        <HitWeight>25</HitWeight>
+        <BloodAmount>15</BloodAmount>
+        <BodyPartType>Head</BodyPartType>
+        <Substance>Flesh</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Hydra/HeadThree</TexturePath>
+        <Sockets>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+        </Sockets>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+            <ListItem>HeadArmor</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <MaxHitPoints>40</MaxHitPoints>
+            <AttackSpeedModifier>4</AttackSpeedModifier>
+        </BaseStats>
+    </BodyPartDef>
+    
+    <!-- Torso (Root) -->
+    <BodyPartDef ParentName="HydraBodyPartBase">
+        <Moniker>HydraTorso</Moniker>
+        <Label>Torso</Label>
+        <BodyPartType>Torso</BodyPartType>
+        <HitWeight>50</HitWeight>
+        <BloodAmount>60</BloodAmount>
+        <Substance>Flesh</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Hydra/Torso</TexturePath>
+        <EquipmentSlots>
+            <ListItem>TorsoArmor</ListItem>
+            <ListItem>PotionSlot1</ListItem>
+            <ListItem>PotionSlot2</ListItem>
+        </EquipmentSlots>
+        <Sockets>
+            <ListItem>CenterHeadSocket</ListItem>
+            <ListItem>LeftHeadSocket</ListItem>
+            <ListItem>RightHeadSocket</ListItem>
+            <ListItem>HeartSocket</ListItem>
+            <ListItem>IntestinesSocket</ListItem>
+            <ListItem>SkinSocket</ListItem>
+            <ListItem>BoneSocket</ListItem>
+            <ListItem>ArterySocket</ListItem>
+        </Sockets>
+        <BaseStats>
+            <MaxHitPoints>1000</MaxHitPoints>
+        </BaseStats>
+    </BodyPartDef>
+</Definitions>

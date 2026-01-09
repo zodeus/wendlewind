@@ -189,4 +189,14 @@
         <GeneratorClass>MarionetteBodyGenerator</GeneratorClass>
         <LayoutClass>MarionetteBodyPartLayout</LayoutClass>
     </BodyDef>
+    <BodyDef>
+        <Moniker>HydraBody</Moniker>
+        <Label>Hydra Body</Label>
+        <BoneDensity>10</BoneDensity>
+        <MaxBlood>12000</MaxBlood>
+        <BloodType>ToxicSlime</BloodType>
+        <HandlerClass>HydraBodyHandler</HandlerClass>
+        <GeneratorClass>HydraBodyGenerator</GeneratorClass>
+        <LayoutClass>HydraBodyPartLayout</LayoutClass>
+    </BodyDef>
 </Definitions>

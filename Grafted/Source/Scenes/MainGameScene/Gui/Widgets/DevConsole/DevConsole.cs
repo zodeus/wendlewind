@@ -59,7 +59,7 @@ public sealed class DevConsole : Panel
         _logScroll = new ScrollViewer
         {
             Content = _logPanel,
-            Height = ConsoleHeight - 100,
+            Height = ConsoleHeight - 130,
             ShowHorizontalScrollBar = false,
             ShowVerticalScrollBar = true
         };

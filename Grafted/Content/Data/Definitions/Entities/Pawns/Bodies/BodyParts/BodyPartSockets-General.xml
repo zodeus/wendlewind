@@ -53,4 +53,30 @@
             <ListItem>Torso</ListItem>
         </AllowedBodyPartTypes>
     </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>LeftHeadSocket</Moniker>
+        <Label>Left Head Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>Left</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Head</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>RightHeadSocket</Moniker>
+        <Label>Right Head Socket</Label>
+        <IsExternal>true</IsExternal>
+        <Position>Right</Position>
+        <AllowedBodyPartTypes>
+            <ListItem>Head</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>CenterHeadSocket</Moniker>
+        <Label>Center Head Socket</Label>
+        <IsExternal>true</IsExternal>
+        <AllowedBodyPartTypes>
+            <ListItem>Head</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
 </Definitions>

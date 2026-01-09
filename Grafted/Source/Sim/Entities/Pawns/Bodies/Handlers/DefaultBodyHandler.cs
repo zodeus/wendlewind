@@ -33,6 +33,10 @@ public class DefaultBodyHandler : IExposable
         HandleBlood();
     }
 
+    public virtual void ModifyStat(StatDef stat, ref float value)
+    {
+    }
+
     public virtual void ConsumeEnergy(float baseAmount)
     {
         Body.Energy -= _ticksWithEmptyStomach > 0 ? baseAmount * EmptyStomachEnergyLossFactor : baseAmount;

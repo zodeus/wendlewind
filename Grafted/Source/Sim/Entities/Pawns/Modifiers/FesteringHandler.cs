@@ -3,9 +3,10 @@ namespace Grafted.Sim.Entities.Pawns.Modifiers;
 [UsedImplicitly]
 public class FesteringHandler : BodyPartModifier
 {
-    private const double BaseDamage = 0.1;
-    private const double PenetratedDamage = 0.01;
+    private const double BaseDamage = 0.05;
+    private const double PenetratedDamage = 0.15;
     private const double OrganDamage = 0.005;
+    private const double ArteryDamage = 0.007;
     private const double PenetrationThreshold = 0.75;
     private const double SpreadThreshold = 0.85;
     private bool _hasPenetrated;
@@ -22,6 +23,9 @@ public class FesteringHandler : BodyPartModifier
         if (BodyPart.IsOrgan)
         {
             damage = OrganDamage;
+        } else if (BodyPart.Type == BodyPartType.Artery)
+        {
+            damage = ArteryDamage;
         } else if (_hasPenetrated)
         {
             damage = PenetratedDamage;

@@ -4,6 +4,7 @@ internal sealed class BodyPartSocketPanel : HorizontalStackPanel
 {
     public readonly BodyPartSocket Socket;
     private readonly BaseGui _gui;
+    private readonly bool _showInternalParts;
     private SocketLabel _socketLabel;
     private BodyPartRow _bodyPartRow;
 
@@ -11,6 +12,7 @@ internal sealed class BodyPartSocketPanel : HorizontalStackPanel
     {
         Socket = socket;
         _gui = gui;
+        _showInternalParts = showInternalParts;
         _socketLabel = new SocketLabel(socket, showInternalParts);
         _socketLabel.TouchDown += (_, _) => BodyPartSocketClickHandler(socket);
         Widgets.Add(_socketLabel);
@@ -58,9 +60,16 @@ internal sealed class BodyPartSocketPanel : HorizontalStackPanel
         {
             _socketLabel.Visible = false;
             _bodyPartRow.Visible = true;
+            _bodyPartRow.SetPart(Socket.AttachedPart, _showInternalParts);
+        }
+        
+        // Handle case where the attached part changed (e.g., head regrew)
+        if (Socket.AttachedPart != null && _bodyPartRow.BodyPart != Socket.AttachedPart)
+        {
+            _bodyPartRow.SetPart(Socket.AttachedPart, _showInternalParts);
         }
 
-        if (Socket.AttachedPart?.IsSevered == true || (Socket.ParentPart?.IsSevered == true))
+        if (Socket.AttachedPart?.IsSevered == true || (Socket.ParentPart?.IsSevered == true)) 
         {
             _socketLabel.Visible = false;
             _bodyPartRow.Visible = false;

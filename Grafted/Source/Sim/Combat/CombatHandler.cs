@@ -228,22 +228,35 @@ public class CombatHandler : IDisposable
 
         Attack(Enemy, Player);
 
-        UseBloodPotionIfNeeded(Player);
-        UseBloodPotionIfNeeded(Enemy);
+        AutoConsumePotions(Player);
+        AutoConsumePotions(Enemy);
 
         AutoQueueEnemyPotions();
 
         Enemy.Tick();
     }
 
-    private void UseBloodPotionIfNeeded(Pawn pawn)
+    private void AutoConsumePotions(Pawn pawn)
     {
-        if (pawn.Body.BloodPercent < .1f && pawn.Equipment.PotionByDef(Defs.Items.JarOfBlood) is { } p)
+        foreach (var potion in pawn.Equipment.Potions.ToList())
         {
-            UseBloodPotion(p, pawn);
-            pawn.Equipment.UnEquip(p);
-            Core.Context.Achievements.OnItemUsed(pawn, p);
-            p.Destroy();
+            if (potion.PotionHandler?.TryAutoUse(pawn) is not { } result) 
+                continue;
+            
+            LogMessage(result.Message);
+            if (result.AlertMessage != null && pawn.PawnType == PawnType.Player)
+            {
+                _encounter.Zone.Alert(new ScreenMessageData
+                {
+                    Text = result.AlertMessage,
+                    Font = BaseContent.Fonts.Default.Large,
+                    Duration = 8,
+                    Color = result.AlertColor
+                });
+            }
+            pawn.Equipment.UnEquip(potion);
+            Core.Context.Achievements.OnItemUsed(pawn, potion);
+            potion.Destroy();
         }
     }
 
@@ -271,9 +284,6 @@ public class CombatHandler : IDisposable
         HandleQueuedItem(attacker, victim);
 
         attacker.ResetAttackCoolDown();
-
-        const float energyUsedForAttack = 0.25f; //todo Move somewhere cool, you know... do something with this. Make it dynamic.
-        attacker.Body.ConsumeEnergy(energyUsedForAttack);
         var damageOptions = attacker.Equipment.UsableWeapons
             .Where(w => w.UseInCombat)
             .Select(t => DamageRequest.Create(attacker, t))
@@ -288,6 +298,8 @@ public class CombatHandler : IDisposable
         var damageRequest = damageOptions.RandomElement();
         damageRequest.TargetedPart = victim.Body.AllExternalParts.Where(p => p.IsDestroyed == false || p.AllInternalParts.Count != 0).RandomElementByWeight(part => part.HitWeight)!;
         victim.TakeDamage(damageRequest);
+        
+        attacker.Body.ConsumeEnergyFromAttack();
     }
 
     private void HandleQueuedItem(Pawn pawn, Pawn target)
@@ -302,24 +314,30 @@ public class CombatHandler : IDisposable
                 Core.Context.Achievements.OnItemUsed(pawn, potion);
             }
 
-            if (potion.Def == Defs.Items.JarOfBlood)
+            // Use the potion handler if available
+            if (potion.PotionHandler != null)
             {
-                UseBloodPotion(potion, pawn);
-                pawn.Equipment.UnEquip(potion);
+                var result = potion.PotionHandler.UseInCombat(pawn, target);
+                LogMessage(result.Message);
+                
+                if (result.AlertMessage != null)
+                {
+                    _encounter.Zone.Alert(new ScreenMessageData
+                    {
+                        Text = result.AlertMessage,
+                        Font = BaseContent.Fonts.Default.Large,
+                        Duration = 8,
+                        Color = result.AlertColor
+                    });
+                }
+            }
+            else
+            {
+                // Fallback for potions without handlers
+                LogMessage($"/c[{TC.Attacker}]{pawn.LabelShort} /c[{TC.Yellow}]used /c[{TC.Item}]{potion.Label}");
             }
 
-            if (potion.Def == Defs.Items.AcidFlask)
-            {
-                UseAcidFlask(potion, pawn, target);
-                pawn.Equipment.UnEquip(potion);
-            }
-
-            if (potion.Def == Defs.Items.SpicedChurni)
-            {
-                UseSpicedChurni(potion, pawn);
-                pawn.Equipment.UnEquip(potion);
-            }
-
+            pawn.Equipment.UnEquip(potion);
             potion.Destroy();
         }
     }
@@ -344,72 +362,6 @@ public class CombatHandler : IDisposable
     public Item? ItemQueuedFor(Pawn pawn)
     {
         return _queuedItems.ContainsKey(pawn) ? _queuedItems[pawn] : null;
-    }
-
-    private void UseSpicedChurni(Item potion, Pawn target)
-    {
-        var duration = (int)potion.GetStatValue(Defs.Stats.PotionDuration);
-        target.Body.AllParts.ForEach(p => p.TryAddModifier(
-            BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.PurpleRegeneration, duration)
-        ));
-        target.Body.Effects.TryApplyEffect(new BodyEffect
-        {
-            Def = Defs.BodyEffects.FeelingThePurple,
-            TicksLeft = duration
-        });
-        LogMessage(
-            $"/c[{TC.Attacker}]{target.LabelShort} /c[{TC.Yellow}]sipped the /c[{TC.Item}]{potion.Label}"
-        );
-
-        _encounter.Zone.Alert(new ScreenMessageData
-        {
-            Text = $"{target.Label} is absorbing the Purple Juice",
-            Font = BaseContent.Fonts.Default.Large,
-            Duration = 8,
-            Color = Color.GreenYellow
-        });
-    }
-
-    private void UseAcidFlask(Item potion, Pawn attacker, Pawn target)
-    {
-        foreach (var eye in target.Body.AllExternalParts.Where(part => part.Type == BodyPartType.Eye).InRandomOrder())
-        {
-            if (Core.Random.Chance(1))
-            {
-                eye.HitPoints = 0;
-                var eyeText = $"{eye.Socket?.Label.Split(" ")[0]} {eye.Type}";
-                LogMessage(
-                    $"/c[{TC.Attacker}]{attacker.LabelShort} /c[{TC.Yellow}]burned out /c[{TC.Victim}]{target.LabelShort}'s /c[{TC.BodyPart}]{eyeText} /c[{TC.Default}]with /c[{TC.Item}]{potion.Label}"
-                );
-                break;
-            }
-        }
-
-        _encounter.Zone.Alert(new ScreenMessageData
-        {
-            Text = $"{target.Label} has been spiced with acid",
-            Font = BaseContent.Fonts.Default.Large,
-            Duration = 8,
-            Color = Color.YellowGreen
-        });
-    }
-
-    private void UseBloodPotion(Item potion, Pawn pawn)
-    {
-        pawn.Body.BloodAmount = pawn.Body.MaxBlood;
-        LogMessage(
-            $"/c[{TC.Attacker}]{pawn.LabelShort} /c[{TC.Yellow}]Sipped a /c[{TC.Item}]{potion.Label}"
-        );
-        if (pawn.PawnType == PawnType.Player)
-        {
-            _encounter.Zone.Alert(new ScreenMessageData
-            {
-                Text = "Sipped a Jar of Blood. Blood is good for battle, bad for the mind",
-                Font = BaseContent.Fonts.Default.Large,
-                Duration = 8,
-                Color = Color.DarkRed
-            });
-        }
     }
 
     private void EndCombat()
