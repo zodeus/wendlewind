@@ -13,11 +13,18 @@ internal sealed class BodyPartSocketPanel : HorizontalStackPanel
         Socket = socket;
         _gui = gui;
         _showInternalParts = showInternalParts;
-        _socketLabel = new SocketLabel(socket, showInternalParts);
+        _socketLabel = new SocketLabel(socket, showInternalParts)
+        {
+            Height = 40
+        };
         _socketLabel.TouchDown += (_, _) => BodyPartSocketClickHandler(socket);
         Widgets.Add(_socketLabel);
 
-        _bodyPartRow = new BodyPartRow(gui);
+        _bodyPartRow = new BodyPartRow(gui)
+        {
+            VerticalAlignment = VerticalAlignment.Center,
+            Height = 40
+        };
         if (Socket.AttachedPart != null)
         {
             _socketLabel.Visible = false;
@@ -101,13 +108,6 @@ internal sealed class SocketLabel : HorizontalStackPanel
         _label.MouseLeft += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Arrow);
 
         var body = socket.Body ?? socket.ParentPart?.Body;
-        if (body?.Pawn.PawnType == PawnType.Enemy)
-        {
-            Widgets.Add(new Widget
-            {
-                Width = BaseContent.IconSizes.Small, Height = BaseContent.IconSizes.Medium
-            });
-        }
 
         if (showInternalParts == false)
         {

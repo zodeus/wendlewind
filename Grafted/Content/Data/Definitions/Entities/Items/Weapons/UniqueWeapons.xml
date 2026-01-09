@@ -4,7 +4,7 @@
     <ItemDef ParentName="WeaponPiercing">
         <Moniker>BloodSuckler</Moniker>
         <Label>Blood Suckler</Label>
-        <Description>A vampiric blade that hungers for kindred blood.\n\nOn hit: If the victim's blood type matches yours, restores a portion of your blood.\nIf blood is full, heals random damaged body parts instead.</Description>
+        <Description>A vampiric blade that hungers for kindred blood. The crimson edge whispers promises of vitality to those who share its thirst.</Description>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <MaxEnchantments>2</MaxEnchantments>
@@ -37,16 +37,57 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Unique/BloodSuckler</TexturePath>
         <BaseStats>
-            <WeaponPower>30</WeaponPower>
-            <MaxDurability>2500</MaxDurability>
+            <WeaponPower>50</WeaponPower>
+            <MaxDurability>5000</MaxDurability>
         </BaseStats>
-        <DisassembleProperties>
-            <Items>
+    </ItemDef>
+    
+    <ItemDef ParentName="WeaponBlunt">
+        <Moniker>StrangeWitheredTwig</Moniker>
+        <Label>Strange Withered Twig</Label>
+        <Description>A gnarled, ancient twig that pulses with sickly energy. Something long dead stirs within its twisted core.</Description>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+            <MaxEnchantments>3</MaxEnchantments>
+        </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Wand</WeaponType>
+            <HandlerClass>StrangeWitheredTwigHandler</HandlerClass>
+            <SubstanceModifiers ListKey="Substance">
                 <ListItem>
-                    <Item>IronNugget</Item>
-                    <Count>3</Count>
+                    <Substance>Flesh</Substance>
+                    <Modifier>0</Modifier>
                 </ListItem>
-            </Items>
-        </DisassembleProperties>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>0</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Metal</Substance>
+                    <Modifier>0</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Stone</Substance>
+                    <Modifier>0</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Chitin</Substance>
+                    <Modifier>0</Modifier>
+                </ListItem> 
+                <ListItem>
+                    <Substance>Fungus</Substance>
+                    <Modifier>0</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Wood</Substance>
+                    <Modifier>0</Modifier>
+                </ListItem>              
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Unique/StrangeWitheredTwig</TexturePath>
+        <BaseStats>
+            <WeaponPower>0</WeaponPower>
+            <MaxDurability>1500</MaxDurability>
+        </BaseStats>
     </ItemDef>
 </Definitions>

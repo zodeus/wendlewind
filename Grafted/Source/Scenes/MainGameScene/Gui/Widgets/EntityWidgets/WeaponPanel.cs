@@ -1,4 +1,5 @@
 using System.Globalization;
+using Grafted.Sim.Entities.Items.Weapons;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
@@ -9,19 +10,30 @@ public sealed class WeaponPanel : EntityPanelBase
     private readonly Label _durabilityLabel;
     private readonly HorizontalProgressBar _durabilityBar;
     private readonly ItemEnchantmentSocketsPanel _socketsPanel;
+    private readonly Widget? _customInfoWidget;
+    private readonly WeaponHandler? _weaponHandler;
 
     public WeaponPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
         _item = item;
+        _weaponHandler = item.WeaponHandler;
         Padding = new Thickness(20);
-        MinWidth = 380;
+        MinWidth = 580;
         Spacing = 4;
 
         // ═══════════════════════════════════════════════════════════════════
-        // Header Section: Icon + Description
+        // Main Two-Column Layout
         // ═══════════════════════════════════════════════════════════════════
-        var headerSection = new HorizontalStackPanel { Spacing = 15, Margin = new Thickness(0, 0, 0, 12) };
-
+        var mainLayout = new HorizontalStackPanel { Spacing = 20 };
+        
+        // ─────────────────────────────────────────────────────────────────────
+        // LEFT COLUMN: Icon + Sockets, Description, Info Widget
+        // ─────────────────────────────────────────────────────────────────────
+        var leftColumn = new VerticalStackPanel { Spacing = 10, MinWidth = 300 };
+        
+        // Icon row: Icon + Enchantment Sockets
+        var iconRow = new HorizontalStackPanel { Spacing = 12, VerticalAlignment = VerticalAlignment.Center };
+        
         // Icon with frame
         var iconFrame = new Panel
         {
@@ -36,28 +48,51 @@ public sealed class WeaponPanel : EntityPanelBase
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center
         });
-        headerSection.Widgets.Add(iconFrame);
+        iconRow.Widgets.Add(iconFrame);
+        
+        // Enchantment sockets next to icon
+        _socketsPanel = new ItemEnchantmentSocketsPanel(gui, item)
+        {
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        iconRow.Widgets.Add(_socketsPanel);
+        
+        leftColumn.Widgets.Add(iconRow);
 
-        // Description area
-        var descArea = new VerticalStackPanel { Spacing = 6, VerticalAlignment = VerticalAlignment.Center };
+        // Description (always shown for flavor text)
         if (item.Def.Description != "undefined")
         {
-            descArea.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+            leftColumn.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
             {
-                Text = item.Def.Description, Wrap = true, MaxWidth = 280
+                Text = item.Def.Description, 
+                Wrap = true, 
+                MaxWidth = 280,
+                TextColor = Color.LightGray
             });
         }
-        headerSection.Widgets.Add(descArea);
-        Widgets.Add(headerSection);
-
-        // ═══════════════════════════════════════════════════════════════════
+        
+        // Custom info widget from handler (mechanics, stats, settings)
+        _customInfoWidget = _weaponHandler?.CreateInfoWidget(gui);
+        if (_customInfoWidget != null)
+        {
+            leftColumn.Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 4, 0, 4) });
+            leftColumn.Widgets.Add(_customInfoWidget);
+        }
+        
+        mainLayout.Widgets.Add(leftColumn);
+        mainLayout.Widgets.Add(new VerticalSeparator());
+        
+        // ─────────────────────────────────────────────────────────────────────
+        // RIGHT COLUMN: Stats, Properties, Modifiers
+        // ─────────────────────────────────────────────────────────────────────
+        var rightColumn = new VerticalStackPanel { Spacing = 8 };
+        
         // Durability Section
-        // ═══════════════════════════════════════════════════════════════════
-        var durabilitySection = new VerticalStackPanel { Spacing = 4, Margin = new Thickness(0, 0, 0, 12) };
+        var durabilitySection = new VerticalStackPanel { Spacing = 2 };
 
         _durabilityBar = new HorizontalProgressBar(BaseContent.Styles.Bar.Durability)
         {
-            Width = 160, Height = 18,
+            Width = 140, Height = 14,
             HorizontalAlignment = HorizontalAlignment.Left
         };
         durabilitySection.Widgets.Add(_durabilityBar);
@@ -68,20 +103,16 @@ public sealed class WeaponPanel : EntityPanelBase
             TextColor = Color.LightGray
         };
         durabilitySection.Widgets.Add(_durabilityLabel);
-        Widgets.Add(durabilitySection);
+        rightColumn.Widgets.Add(durabilitySection);
 
-        // ═══════════════════════════════════════════════════════════════════
         // Weapon Properties Section
-        // ═══════════════════════════════════════════════════════════════════
-        var propsSection = new VerticalStackPanel { Spacing = 3, Margin = new Thickness(0, 0, 0, 10) };
-        propsSection.Widgets.Add(CreatePropertyRow("Weapon Type", $"{item.ItemDef.WeaponProperties?.WeaponType}", TC.Golden));
-        propsSection.Widgets.Add(CreatePropertyRow("Damage Type", $"{item.ItemDef.WeaponProperties?.DamageType}", TC.Red));
+        var propsSection = new VerticalStackPanel { Spacing = 2 };
+        propsSection.Widgets.Add(CreatePropertyRow("Type", $"{item.ItemDef.WeaponProperties?.WeaponType}", TC.Golden));
+        propsSection.Widgets.Add(CreatePropertyRow("Damage", $"{item.ItemDef.WeaponProperties?.DamageType}", TC.Red));
         propsSection.Widgets.Add(CreatePropertyRow("Slot", item.ItemDef.EquipmentProperties?.SlotUsedToEquip?.ToString() ?? "n/a", TC.Blue));
-        Widgets.Add(propsSection);
+        rightColumn.Widgets.Add(propsSection);
 
-        // ═══════════════════════════════════════════════════════════════════
         // Substance Modifiers Section
-        // ═══════════════════════════════════════════════════════════════════
         var substanceModifiers = item.ItemDef.WeaponProperties?.SubstanceModifiers;
         if (substanceModifiers is { Count: > 0 })
         {
@@ -91,15 +122,15 @@ public sealed class WeaponPanel : EntityPanelBase
             var skillPower = 1 + (skillLevel * 0.1f);
             var baseWeaponPower = rawWeaponPower * skillPower;
 
-            var modsSection = new VerticalStackPanel { Spacing = 2, Margin = new Thickness(0, 0, 0, 10) };
+            var modsSection = new VerticalStackPanel { Spacing = 2 };
             modsSection.Widgets.Add(new Label("small")
             {
                 Text = "Substance Modifiers",
                 TextColor = BaseContent.Colors.Text.Golden,
-                Margin = new Thickness(0, 0, 0, 4)
+                Margin = new Thickness(0, 0, 0, 2)
             });
 
-            var modsGrid = new Grid { ColumnSpacing = 12, RowSpacing = 2, Margin = new Thickness(8, 0, 0, 0) };
+            var modsGrid = new Grid { ColumnSpacing = 8, RowSpacing = 1, Margin = new Thickness(4, 0, 0, 0) };
             modsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
             modsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
             modsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
@@ -136,28 +167,25 @@ public sealed class WeaponPanel : EntityPanelBase
                 row++;
             }
             modsSection.Widgets.Add(modsGrid);
-            Widgets.Add(modsSection);
+            rightColumn.Widgets.Add(modsSection);
         }
 
-        // ═══════════════════════════════════════════════════════════════════
         // Stats Section
-        // ═══════════════════════════════════════════════════════════════════
         if (item.Def.BaseStats.Count > 0)
         {
-            // Calculate skill power for Weapon Power display
             var statsWeaponType = item.ItemDef.WeaponProperties?.WeaponType;
             var statsSkillLevel = statsWeaponType != null ? Core.Context?.PlayerPawn?.GetSkill(statsWeaponType.Value)?.Level ?? 0 : 0;
             var statsSkillPower = 1 + (statsSkillLevel * 0.1f);
 
-            var statsSection = new VerticalStackPanel { Spacing = 2, Margin = new Thickness(0, 0, 0, 10) };
+            var statsSection = new VerticalStackPanel { Spacing = 2 };
             statsSection.Widgets.Add(new Label("small")
             {
                 Text = "Stats",
                 TextColor = BaseContent.Colors.Text.Golden,
-                Margin = new Thickness(0, 0, 0, 4)
+                Margin = new Thickness(0, 0, 0, 2)
             });
 
-            var statsGrid = new Grid { ColumnSpacing = 12, RowSpacing = 2, Margin = new Thickness(8, 0, 0, 0) };
+            var statsGrid = new Grid { ColumnSpacing = 8, RowSpacing = 1, Margin = new Thickness(4, 0, 0, 0) };
             statsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
             statsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
 
@@ -169,7 +197,6 @@ public sealed class WeaponPanel : EntityPanelBase
                 Grid.SetColumn(keyLabel, 0);
                 statsGrid.Widgets.Add(keyLabel);
 
-                // Apply skill power multiplier to Weapon Power
                 var statValue = item.GetStatValue(baseStat.Def);
                 if (baseStat.Def == Defs.Stats.WeaponPower)
                 {
@@ -189,12 +216,10 @@ public sealed class WeaponPanel : EntityPanelBase
                 row++;
             }
             statsSection.Widgets.Add(statsGrid);
-            Widgets.Add(statsSection);
+            rightColumn.Widgets.Add(statsSection);
         }
 
-        // ═══════════════════════════════════════════════════════════════════
-        // Modifiers Section
-        // ═══════════════════════════════════════════════════════════════════
+        // Modifiers Section (body part modifiers from weapon + enchantments)
         var bodyPartModifiers = (item.ItemDef.WeaponProperties?.BodyPartModifiers ?? [])
             .Concat(item.Enchantments?
                 .Where(e => e.ItemDef.EnchantmentProperties != null)
@@ -202,29 +227,27 @@ public sealed class WeaponPanel : EntityPanelBase
             .ToList();
         if (bodyPartModifiers.Count > 0)
         {
-            var modsSection = new VerticalStackPanel { Spacing = 2, Margin = new Thickness(0, 0, 0, 10) };
+            var modsSection = new VerticalStackPanel { Spacing = 2 };
             modsSection.Widgets.Add(new Label("small")
             {
-                Text = "Modifiers",
+                Text = "Effects",
                 TextColor = BaseContent.Colors.Text.Golden,
-                Margin = new Thickness(0, 0, 0, 4)
+                Margin = new Thickness(0, 0, 0, 2)
             });
 
-            var modsGrid = new Grid { ColumnSpacing = 12, RowSpacing = 2, Margin = new Thickness(8, 0, 0, 0) };
-            modsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto)); // Modifier name
-            modsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto)); // Chance
-            modsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto)); // Duration
+            var modsGrid = new Grid { ColumnSpacing = 8, RowSpacing = 1, Margin = new Thickness(4, 0, 0, 0) };
+            modsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+            modsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+            modsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
 
             var row = 0;
             foreach (var mod in bodyPartModifiers)
             {
-                // Modifier name with color
                 var nameLabel = new Label("small") { Text = mod.Def.Label, TextColor = mod.Def.Color };
                 Grid.SetRow(nameLabel, row);
                 Grid.SetColumn(nameLabel, 0);
                 modsGrid.Widgets.Add(nameLabel);
 
-                // Chance
                 var chanceText = mod.Chance.Min == mod.Chance.Max
                     ? $"{mod.Chance.Min * 100:0}%"
                     : $"{mod.Chance.Min * 100:0}-{mod.Chance.Max * 100:0}%";
@@ -233,7 +256,6 @@ public sealed class WeaponPanel : EntityPanelBase
                 Grid.SetColumn(chanceLabel, 1);
                 modsGrid.Widgets.Add(chanceLabel);
 
-                // Duration in seconds (60 ticks per second)
                 if (mod.DurationInTicks.Min > 0 || mod.DurationInTicks.Max > 0)
                 {
                     var durationSeconds = mod.DurationInTicks.Min == mod.DurationInTicks.Max
@@ -248,17 +270,11 @@ public sealed class WeaponPanel : EntityPanelBase
                 row++;
             }
             modsSection.Widgets.Add(modsGrid);
-            Widgets.Add(modsSection);
+            rightColumn.Widgets.Add(modsSection);
         }
-
-        // ═══════════════════════════════════════════════════════════════════
-        // Enchantments Section
-        // ═══════════════════════════════════════════════════════════════════
-        _socketsPanel = new ItemEnchantmentSocketsPanel(gui, item)
-        {
-            Margin = new Thickness(0, 5, 0, 0)
-        };
-        Widgets.Add(_socketsPanel);
+        
+        mainLayout.Widgets.Add(rightColumn);
+        Widgets.Add(mainLayout);
     }
 
     private static HorizontalStackPanel CreatePropertyRow(string key, string value, string valueColorHex)
@@ -282,5 +298,11 @@ public sealed class WeaponPanel : EntityPanelBase
         _durabilityBar.Value = _item.Durability / _item.MaxDurability * 100;
         _durabilityLabel.Text = $"Durability: {_item.Durability}/{_item.MaxDurability}";
         _socketsPanel.Update();
+        
+        // Update custom info widget if present
+        if (_customInfoWidget != null)
+        {
+            _weaponHandler?.UpdateInfoWidget(_customInfoWidget);
+        }
     }
 }

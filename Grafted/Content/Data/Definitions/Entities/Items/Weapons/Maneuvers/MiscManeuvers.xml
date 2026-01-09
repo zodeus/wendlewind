@@ -177,4 +177,12 @@
         </Weapons>
         <DamageMultiplier>0.5~1</DamageMultiplier>
     </WeaponManeuverDef>
+    <WeaponManeuverDef>
+        <Moniker>WandCast</Moniker>
+        <Label>Wand Cast</Label>
+        <Weapons>
+            <ListItem>Wand</ListItem>
+        </Weapons>
+        <DamageMultiplier>0.5~1</DamageMultiplier>
+    </WeaponManeuverDef>
 </Definitions>

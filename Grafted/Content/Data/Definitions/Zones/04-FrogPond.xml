@@ -55,7 +55,7 @@
                             <ListItem>
                                 <Item>RawFish</Item>
                                 <Amount>1</Amount>
-                                <ChanceToHarvest>1</ChanceToHarvest>
+                                <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>
                     </ListItem>
@@ -87,7 +87,7 @@
                             <ListItem>
                                 <Item>RawFish</Item>
                                 <Amount>1</Amount>
-                                <ChanceToHarvest>1</ChanceToHarvest>
+                                <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>
                     </ListItem>
@@ -119,7 +119,7 @@
                             <ListItem>
                                 <Item>RawFish</Item>
                                 <Amount>1</Amount>
-                                <ChanceToHarvest>1</ChanceToHarvest>
+                                <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>
                     </ListItem>
@@ -154,7 +154,7 @@
                             <ListItem>
                                 <Item>RawFish</Item>
                                 <Amount>1</Amount>
-                                <ChanceToHarvest>1</ChanceToHarvest>
+                                <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>
                     </ListItem>
@@ -197,7 +197,7 @@
                             <ListItem>
                                 <Item>RawFish</Item>
                                 <Amount>1</Amount>
-                                <ChanceToHarvest>1</ChanceToHarvest>
+                                <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>
                     </ListItem>

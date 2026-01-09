@@ -46,7 +46,8 @@ public enum WeaponType
     Trinket,
     StoneFist,
     StoneLeg,
-    Flipper, 
+    Flipper,
     Beak,
-    Stinger
+    Stinger,
+    Wand
 }

@@ -9,6 +9,7 @@ public sealed class SelectionPopup<T>
     private readonly Desktop _desktop;
     private Window? _popup;
     private const int PopupCloseDistance = 10;
+    private const int MaxItemsPerColumn = 4;
 
     public bool IsOpen => _popup?.IsPlaced == true;
 
@@ -44,15 +45,19 @@ public sealed class SelectionPopup<T>
         };
         _popup.TitlePanel.Visible = false;
 
-        var itemPanel = new VerticalStackPanel { Spacing = 4 };
-        var scrollViewer = new ScrollViewer
-        {
-            Content = itemPanel,
-            MaxHeight = 300,
-        };
+        var columnsPanel = new HorizontalStackPanel { Spacing = 0 };
+        VerticalStackPanel? currentColumn = null;
 
-        foreach (var item in itemList)
+        for (int i = 0; i < itemList.Count; i++)
         {
+            // Start a new column every MaxItemsPerColumn items
+            if (i % MaxItemsPerColumn == 0)
+            {
+                currentColumn = new VerticalStackPanel { Spacing = 0 };
+                columnsPanel.Widgets.Add(currentColumn);
+            }
+
+            var item = itemList[i];
             var itemButton = new CursorButton(BaseContent.Styles.Button.Dark)
             {
                 Content = new Image
@@ -70,10 +75,10 @@ public sealed class SelectionPopup<T>
                 Close();
             };
 
-            itemPanel.Widgets.Add(itemButton);
+            currentColumn!.Widgets.Add(itemButton);
         }
 
-        _popup.Content = scrollViewer;
+        _popup.Content = columnsPanel;
         var uiPos = Core.ScreenToUi(Mouse.GetState().Position);
         _popup.Show(_desktop, uiPos);
     }

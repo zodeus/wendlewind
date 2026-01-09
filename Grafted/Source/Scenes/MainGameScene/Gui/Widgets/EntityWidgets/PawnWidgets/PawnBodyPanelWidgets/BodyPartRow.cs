@@ -19,12 +19,11 @@ internal sealed class BodyPartRow : HorizontalStackPanel
         Spacing = 5;
         _label = new Label(BaseContent.Styles.Label.Medium)
         {
-            VerticalAlignment = VerticalAlignment.Top,
-            TextColor = Color.Black, Margin = new Thickness(0, 5, 0, 0)
+            VerticalAlignment = VerticalAlignment.Center
         };
         _label.MouseEntered += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Hand);
         _label.MouseLeft += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Arrow);
-        _iconContainer = new VerticalStackPanel { Spacing = 5 };
+        _iconContainer = new VerticalStackPanel { Spacing = 5, VerticalAlignment = VerticalAlignment.Center };
     }
 
     public void SetPart(BodyPart bodyPart, bool showInternalParts)
@@ -75,8 +74,7 @@ internal sealed class BodyPartRow : HorizontalStackPanel
                     .ToList();
 
                 panel.SetPips(pipData);
-            })
-            { Padding = new Thickness(0, 0, 0, 0) };
+            });
             partIcon.MouseEntered += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Hand);
             partIcon.MouseLeft += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Arrow);
 

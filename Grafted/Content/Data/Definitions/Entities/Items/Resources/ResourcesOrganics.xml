@@ -97,4 +97,10 @@
         <Description>A hard, scaly skin from a serpent. It's tough and durable.</Description>
         <TexturePath>Entities/Item/Resource/Organic/SerpentScale</TexturePath>
     </ItemDef>
+    <ItemDef ParentName="OrganicResource">
+        <Moniker>Twig</Moniker>
+        <Label>Twig</Label>
+        <Description>A small branch from a tree. It's small and flexible, perfect for a practicing wizard.</Description>
+        <TexturePath>Entities/Item/Resource/Wood/Twig</TexturePath>
+    </ItemDef>
 </Definitions>

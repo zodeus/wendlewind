@@ -55,7 +55,7 @@
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>Wearbear</PawnDef>
+                        <PawnDef>Hydra</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Hydra #1</PawnName>
                         <BodySizeFactor>0.8</BodySizeFactor>

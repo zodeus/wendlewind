@@ -1,3 +1,5 @@
+using Grafted.Scenes.MainGameScene.Gui;
+
 namespace Grafted.Sim.Entities.Items.Weapons;
 
 /// <summary>
@@ -13,6 +15,11 @@ public class BloodSucklerHandler : WeaponHandler
     private const float HealthRestoreMax = 30f;
     private const int MinPartsToHeal = 3;
     private const int MaxPartsToHeal = 6;
+    
+    // Tracking stats
+    private float _totalBloodDrained;
+    private float _totalHealthRestored;
+    private int _successfulDrains;
 
     public override void OnHit(Pawn attacker, Pawn victim, DamageRequest request, DamageRecord damageRecord)
     {
@@ -37,11 +44,14 @@ public class BloodSucklerHandler : WeaponHandler
         }
 
         // Blood types match - check if we need blood or health
+        _successfulDrains++;
+        
         if (attacker.Body.BloodPercent < 0.92f)
         {
             // Restore blood
             var bloodToRestore = attacker.Body.MaxBlood * BloodRestorePercent;
             attacker.Body.BloodAmount += bloodToRestore;
+            _totalBloodDrained += bloodToRestore;
             
             damageRecord.DamageStatusEffects.Add(new DamageStatusEffect(
                 attacker, 
@@ -85,11 +95,73 @@ public class BloodSucklerHandler : WeaponHandler
 
             if (actualHeal > 0)
             {
+                _totalHealthRestored += (float)actualHeal;
                 damageRecord.DamageStatusEffects.Add(new DamageStatusEffect(
                     pawn, 
                     Weapon.ItemDef, 
                     $"Blood Suckler healed {part.Label} for {actualHeal:N1}"));
             }
         }
+    }
+
+    public override Widget CreateInfoWidget(BaseGui gui)
+    {
+        var infoPanel = new VerticalStackPanel { Spacing = 6, VerticalAlignment = VerticalAlignment.Top };
+        
+        // Unique mechanic explanation
+        var mechanicPanel = new VerticalStackPanel { Spacing = 3 };
+        mechanicPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = "Vampiric Effect",
+            TextColor = Color.Crimson
+        });
+        mechanicPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = $"Drains {BloodRestorePercent * 100:0}% blood (matching blood)",
+            TextColor = Color.IndianRed,
+            Wrap = true
+        });
+        mechanicPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = $"When full, heals {MinPartsToHeal}-{MaxPartsToHeal} body parts",
+            TextColor = Color.IndianRed,
+            Wrap = true
+        });
+        infoPanel.Widgets.Add(mechanicPanel);
+        
+        // Stats section
+        infoPanel.Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 4, 0, 4) });
+        var statsGrid = new Grid { ColumnSpacing = 10, RowSpacing = 1 };
+        statsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        statsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        
+        AddStatRow(statsGrid, 0, "Drains", $"{_successfulDrains}", Color.Salmon);
+        AddStatRow(statsGrid, 1, "Blood", $"{_totalBloodDrained:N0}", Color.DarkRed);
+        AddStatRow(statsGrid, 2, "Healed", $"{_totalHealthRestored:N0}", Color.LimeGreen);
+        
+        infoPanel.Widgets.Add(statsGrid);
+        
+        return infoPanel;
+    }
+    
+    private static void AddStatRow(Grid grid, int row, string label, string value, Color valueColor)
+    {
+        var keyLabel = new Label(BaseContent.Styles.Label.Small) { Text = $"{label}:", TextColor = Color.Gray };
+        Grid.SetRow(keyLabel, row);
+        Grid.SetColumn(keyLabel, 0);
+        grid.Widgets.Add(keyLabel);
+        
+        var valueLabel = new Label(BaseContent.Styles.Label.Small) { Text = value, TextColor = valueColor };
+        Grid.SetRow(valueLabel, row);
+        Grid.SetColumn(valueLabel, 1);
+        grid.Widgets.Add(valueLabel);
+    }
+
+    public override void ExposeData()
+    {
+        base.ExposeData();
+        ScribeValues.Look(ref _totalBloodDrained, "TotalBloodDrained");
+        ScribeValues.Look(ref _totalHealthRestored, "TotalHealthRestored");
+        ScribeValues.Look(ref _successfulDrains, "SuccessfulDrains");
     }
 }
