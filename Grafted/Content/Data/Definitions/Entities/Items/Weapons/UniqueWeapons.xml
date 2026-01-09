@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef ParentName="WeaponPiercing">
+        <Moniker>BloodSuckler</Moniker>
+        <Label>Blood Suckler</Label>
+        <Description>A vampiric blade that hungers for kindred blood.\n\nOn hit: If the victim's blood type matches yours, restores a portion of your blood.\nIf blood is full, heals random damaged body parts instead.</Description>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+            <MaxEnchantments>2</MaxEnchantments>
+        </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Dagger</WeaponType>
+            <HandlerClass>BloodSucklerHandler</HandlerClass>
+            <SubstanceModifiers ListKey="Substance">
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.5</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.2</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Metal</Substance>
+                    <Modifier>0.3</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Stone</Substance>
+                    <Modifier>0.3</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Chitin</Substance>
+                    <Modifier>0.5</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Unique/BloodSuckler</TexturePath>
+        <BaseStats>
+            <WeaponPower>30</WeaponPower>
+            <MaxDurability>2500</MaxDurability>
+        </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>3</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+</Definitions>

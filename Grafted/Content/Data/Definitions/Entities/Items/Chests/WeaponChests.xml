@@ -65,4 +65,18 @@
             </ListItem>
         </Items>
     </LootBoxDef>
+    <LootBoxDef>
+        <Moniker>WeaponChest3</Moniker>
+        <Label>Weapons</Label>
+        <Description>Contains weapons</Description>
+        <Category>Weapons</Category>
+        <TexturePath>Chests/WeaponChest3</TexturePath>
+        <CollectionLimit>1</CollectionLimit>
+        <Items>
+            <ListItem>
+                <ItemDef>BloodSuckler</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
+        </Items>
+    </LootBoxDef>
 </Definitions>

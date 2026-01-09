@@ -168,6 +168,9 @@ public class Pawn : Entity
                 enchantment.EnchantmentHandler?.PostPawnDamageTakenEffect(bodyPart, this, request.Source, damageRecord);
             }
 
+            // Handle Weapon Handler (unique weapon effects)
+            damage.Weapon.WeaponHandler?.OnHit(request.Source, this, request, damageRecord);
+
             // Finish up
             Body.BodyPartsDirty = true;
             response.Damages.Add(damageRecord);

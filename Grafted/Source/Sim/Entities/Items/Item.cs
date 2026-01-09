@@ -1,3 +1,5 @@
+using Grafted.Sim.Entities.Items.Weapons;
+
 namespace Grafted.Sim.Entities.Items;
 
 public class Item : Entity, IExposable
@@ -24,6 +26,7 @@ public class Item : Entity, IExposable
     public TrinketHandler? TrinketHandler;
     public EquipmentHandler? EquipmentHandler;
     public PotionHandler? PotionHandler;
+    public WeaponHandler? WeaponHandler;
     public override string Label => Def.Label;
     public string LabelWithStackSize => IsStackable ? $"{Def.Label} x{StackSize}" : Def.Label;
     public bool IsStackable => ItemDef.StackLimit > 1;
@@ -69,6 +72,15 @@ public class Item : Entity, IExposable
             if (PotionHandler != null)
             {
                 PotionHandler.Potion = this;
+            }
+        }
+
+        if (ItemDef.WeaponProperties?.HandlerClass != null)
+        {
+            WeaponHandler = ItemDef.WeaponProperties.CreateHandler();
+            if (WeaponHandler != null)
+            {
+                WeaponHandler.Weapon = this;
             }
         }
 
@@ -146,6 +158,7 @@ public class Item : Entity, IExposable
     {
         EnchantmentHandler?.Tick();
         TrinketHandler?.Tick();
+        WeaponHandler?.Tick();
         base.Tick();
     }
 
@@ -160,6 +173,7 @@ public class Item : Entity, IExposable
         ScribeDeep.Look(ref TrinketHandler!, "TrinketHandler");
         ScribeDeep.Look(ref EquipmentHandler!, "EquipmentHandler");
         ScribeDeep.Look(ref PotionHandler!, "PotionHandler");
+        ScribeDeep.Look(ref WeaponHandler!, "WeaponHandler");
         base.ExposeData();
     }
 }

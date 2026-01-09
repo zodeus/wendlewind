@@ -55,7 +55,7 @@
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>Orc</PawnDef>
+                        <PawnDef>Wearbear</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Hydra #1</PawnName>
                         <BodySizeFactor>0.8</BodySizeFactor>
@@ -134,7 +134,7 @@
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>TrinketChest3</ListItem>
-                    <ListItem>WeaponChest2</ListItem>
+                    <ListItem>WeaponChest3</ListItem>
                     <ListItem>EnchantedChestDefensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>

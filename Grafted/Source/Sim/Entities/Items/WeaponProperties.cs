@@ -1,4 +1,6 @@
-﻿namespace Grafted.Sim.Entities.Items;
+﻿using Grafted.Sim.Entities.Items.Weapons;
+
+namespace Grafted.Sim.Entities.Items;
 
 public class WeaponProperties
 {
@@ -8,6 +10,14 @@ public class WeaponProperties
     public List<BodyPartModifierRecord> BodyPartModifiers = new();
     public List<WeaponManeuverDef> WeaponManeuvers = new();
     public List<SubstanceModifier> SubstanceModifiers = new();
+    
+    [UsedImplicitly] public Type? HandlerClass;
+
+    public WeaponHandler? CreateHandler()
+    {
+        if (HandlerClass == null) return null;
+        return (WeaponHandler)Activator.CreateInstance(HandlerClass)!;
+    }
 
     public float GetSubstanceModifier(SubstanceType substance)
     {
