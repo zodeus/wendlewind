@@ -12,7 +12,7 @@ public class SpicedChurniHandler : PotionHandler
     
     public override PotionUseResult UseInCombat(Pawn user, Pawn? target = null)
     {
-        var actualTarget = target ?? user;
+        var actualTarget = user;
         var duration = GetDuration();
 
         // Apply regeneration to all body parts

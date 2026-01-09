@@ -137,41 +137,68 @@ Add before `</Definitions>`:
 <ItemDef ParentName="Potion">
     <Moniker>[PotionName]</Moniker>
     <Label>[Potion Display Name]</Label>
+    <BaseStats>
+        <PotionDuration>1200</PotionDuration>  <!-- Duration in ticks (60 ticks = 1 second), adjust as needed -->
+    </BaseStats>
     <Description>[Flavorful description of the potion]</Description>
     <TexturePath>Entities/Item/Potion/[PotionName]</TexturePath>
     <PotionProperties>
         <HandlerClass>[PotionName]Handler</HandlerClass>
     </PotionProperties>
+    <CraftingProperties>
+        <AmountProduced>1</AmountProduced>
+        <RequiredTrinkets>
+            <ListItem>VialOfDuplicity</ListItem>
+            <ListItem>MortarAndPestle</ListItem>
+            <ListItem>FlameStick</ListItem>
+            <ListItem>CookingPot</ListItem>
+            <!-- Add more trinkets for complex potions: TinkersToolbox, MechanicalEye -->
+        </RequiredTrinkets>
+        <ResourceRequirements>
+            <ListItem>
+                <Item>[ResourceMoniker]</Item>
+                <Count>1</Count>
+            </ListItem>
+            <!-- Add 2-3 resources thematically appropriate to the potion -->
+        </ResourceRequirements>
+    </CraftingProperties>
 </ItemDef>
 ```
 
-### Optional XML Elements
+### Available Resources for Crafting
 
-**For timed effects (add BaseStats):**
-```xml
-<BaseStats>
-    <PotionDuration>1200</PotionDuration>  <!-- Duration in ticks (60 ticks = 1 second) -->
-</BaseStats>
-```
+| Resource | Moniker | Theme/Use |
+|----------|---------|-----------|
+| Healing Root | HealingRoot | Healing, restoration |
+| Churni Root | ChurniRoot | Base ingredient, regeneration |
+| Dream Berry | DreamBerry | Mental effects, visions |
+| Maebury Bulb | MaeburyBulb | Growth, nature |
+| Venom Vial | VenomVial | Poison, acid, damage |
+| Bone Shard | BoneShard | Strength, body modification |
+| Fang | Fang | Offensive, predatory |
+| Rock | Rock | Earth, defense |
+| Beak Puss | BeakPuss | Infection, festering |
+| Ichor | Ichor | Dark magic, transformation |
+| Horse Tooth | HorseTooth | Strength, endurance |
+| Golden Bean | GoldenBean | Power, energy, gold-themed |
+| Shade Wood | ShadeWood | Shadow, stealth, debuffs |
 
-**For craftable potions (add CraftingProperties):**
-```xml
-<CraftingProperties>
-    <AmountProduced>1</AmountProduced>
-    <RequiredTrinkets>
-        <ListItem>MortarAndPestle</ListItem>
-        <ListItem>VialOfDuplicity</ListItem>
-        <!-- Add more required trinkets -->
-    </RequiredTrinkets>
-    <ResourceRequirements>
-        <ListItem>
-            <Item>[ResourceMoniker]</Item>
-            <Count>1</Count>
-        </ListItem>
-        <!-- Add more resources -->
-    </ResourceRequirements>
-</CraftingProperties>
-```
+### Available Trinkets (Required Tools)
+
+| Trinket | Moniker | Complexity |
+|---------|---------|------------|
+| Vial of Duplicity | VialOfDuplicity | Basic (always required) |
+| Mortar and Pestle | MortarAndPestle | Basic (grinding) |
+| Flame Stick | FlameStick | Basic (heating) |
+| Cooking Pot | CookingPot | Basic (brewing) |
+| Tinker's Toolbox | TinkersToolbox | Advanced |
+| Mechanical Eye | MechanicalEye | Advanced |
+
+### Crafting Complexity Guidelines
+
+- **Simple potions**: 2 trinkets, 2 resources
+- **Standard potions**: 4 trinkets, 2-3 resources  
+- **Complex potions**: 5-6 trinkets, 3+ resources
 
 ---
 
@@ -196,6 +223,10 @@ Parameters:
 ### Step 3d: Save Icon
 ```powershell
 Copy-Item "[generated-image-path]" "Grafted/Content/Textures/Entities/Item/Potion/[PotionName].png" -Force
+```
+### Step 3e: If BodyEffect was created Copy Icon to  
+```powershell
+Copy-Item "[generated-image-path]" "Grafted/Content/Textures/Entities/Pawn/BodyEffects/[BodyEffectName].png" -Force
 ```
 
 ### Icon Prompt Ideas by Effect Type
@@ -254,5 +285,6 @@ Copy-Item "[generated-image-path]" "Grafted/Content/Textures/Entities/Item/Potio
 - [ ] XML definition added to Potions.xml
 - [ ] HandlerClass in XML matches the class name (without namespace)
 - [ ] TexturePath matches the icon location
+- [ ] CraftingProperties defined with appropriate trinkets and resources
 - [ ] Icon matches the game's art style
 - [ ] GetEffectDescription() returns meaningful text
