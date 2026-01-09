@@ -230,8 +230,9 @@ internal sealed class BoakZoneCard : Panel
         // Lootboxes section
         var lootBoxCounts = zoneDef.Encounters
             .SelectMany(e => e.PotentialLootBoxes)
-            .GroupBy(lb => lb)
-            .ToDictionary(g => g.Key, g => g.Count());
+            .GroupBy(lb => lb.Label)
+            .Select(g => (Label: g.Key, Count: g.Count()))
+            .ToList();
 
         if (lootBoxCounts.Count > 0)
         {
@@ -244,41 +245,15 @@ internal sealed class BoakZoneCard : Panel
                 Margin = new Thickness(0, 0, 0, 2)
             });
 
-            var lootFlow = new HorizontalStackPanel { Spacing = 8 };
+            var lootFlow = new VerticalStackPanel { Spacing = 4 };
 
-            foreach (var (lootBox, count) in lootBoxCounts)
+            foreach (var (label, count) in lootBoxCounts)
             {
-                var chestCard = new VerticalStackPanel
+                lootFlow.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
                 {
-                    Spacing = 2,
-                    HorizontalAlignment = HorizontalAlignment.Center
-                };
-
-                var lootIcon = new Panel
-                {
-                    Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
-                    Padding = new Thickness(3),
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    Widgets =
-                    {
-                        new Image
-                        {
-                            Width = 44,
-                            Height = 44,
-                            Background = new TextureRegion(lootBox.Icon)
-                        }
-                    }
-                };
-                chestCard.Widgets.Add(lootIcon);
-
-                chestCard.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-                {
-                    Text = $"x{count}",
-                    TextColor = new Color(180, 160, 120),
-                    HorizontalAlignment = HorizontalAlignment.Center
+                    Text = $"• {label} x{count}",
+                    TextColor = new Color(200, 200, 200)
                 });
-
-                lootFlow.Widgets.Add(chestCard);
             }
 
             lootSection.Widgets.Add(lootFlow);

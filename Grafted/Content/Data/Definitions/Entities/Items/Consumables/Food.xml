@@ -297,6 +297,7 @@
             </Effects>
         </FoodProperties>
         <CraftingProperties>
+            <AmountProduced>2</AmountProduced>
             <RequiredTrinkets>
                 <ListItem>VialOfDuplicity</ListItem>
                 <ListItem>MortarAndPestle</ListItem>
@@ -309,7 +310,7 @@
                     <Count>1</Count>
                 </ListItem>
                 <ListItem>
-                    <Item>PlantBulb</Item>
+                    <Item>HoneyPot</Item>
                     <Count>1</Count>
                 </ListItem>
                 <ListItem>

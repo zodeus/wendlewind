@@ -85,4 +85,16 @@
             <DamageRange>300~400</DamageRange>
         </AmmoProperties>
     </ItemDef>
+    <ItemDef ParentName="OrganicResource">
+        <Moniker>SnakeOil</Moniker>
+        <Label>Snake Oil</Label>
+        <Description>A thick, oily liquid extracted from a snake's body.</Description>
+        <TexturePath>Entities/Item/Resource/Organic/SnakeOil</TexturePath>
+    </ItemDef>
+    <ItemDef ParentName="OrganicResource">
+        <Moniker>SerpentScale</Moniker>
+        <Label>Serpent Scale</Label>
+        <Description>A hard, scaly skin from a serpent. It's tough and durable.</Description>
+        <TexturePath>Entities/Item/Resource/Organic/SerpentScale</TexturePath>
+    </ItemDef>
 </Definitions>

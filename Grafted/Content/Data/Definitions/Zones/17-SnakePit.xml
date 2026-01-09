@@ -13,11 +13,6 @@
         </Weathers>
         <Resources>
             <ListItem>
-                <Item>Ichor</Item>
-                <Amount>1</Amount>
-                <ChanceToHarvest>.8</ChanceToHarvest>
-            </ListItem>
-            <ListItem>
                 <Item>InkyCapMushroom</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.5</ChanceToHarvest>
@@ -66,9 +61,14 @@
                         <BodySizeFactor>0.8</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
-                                <Item>RawMeat</Item>
-                                <Amount>2~3</Amount>
-                                <ChanceToDrop>1</ChanceToDrop>
+                                <Item>SnakeOil</Item>
+                                <Amount>1</Amount>
+                                <ChanceToDrop>.8</ChanceToDrop>
+                            </ListItem>
+                            <ListItem>
+                                <Item>SerpentScale</Item>
+                                <Amount>1</Amount>
+                                <ChanceToDrop>.8</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>
                     </ListItem>
@@ -87,6 +87,18 @@
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Hydra #2</PawnName>
                         <BodySizeFactor>1.0</BodySizeFactor>
+                        <InventoryItems>
+                            <ListItem>
+                                <Item>SnakeOil</Item>
+                                <Amount>1</Amount>
+                                <ChanceToDrop>.8</ChanceToDrop>
+                            </ListItem>
+                            <ListItem>
+                                <Item>SerpentScale</Item>
+                                <Amount>1</Amount>
+                                <ChanceToDrop>.8</ChanceToDrop>
+                            </ListItem>
+                        </InventoryItems>
                     </ListItem>
                 </Enemies>
             </ListItem>
@@ -103,13 +115,25 @@
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Hydra #3</PawnName>
                         <BodySizeFactor>1.3</BodySizeFactor>
+                        <InventoryItems>
+                            <ListItem>
+                                <Item>SnakeOil</Item>
+                                <Amount>1</Amount>
+                                <ChanceToDrop>.8</ChanceToDrop>
+                            </ListItem>
+                            <ListItem>
+                                <Item>SerpentScale</Item>
+                                <Amount>1</Amount>
+                                <ChanceToDrop>.8</ChanceToDrop>
+                            </ListItem>
+                        </InventoryItems>
                     </ListItem>
                 </Enemies>
             </ListItem>
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>TrinketChest2</ListItem>
+                    <ListItem>TrinketChest3</ListItem>
                     <ListItem>WeaponChest2</ListItem>
                     <ListItem>EnchantedChestDefensive</ListItem>
                 </PotentialLootBoxes>
@@ -119,6 +143,18 @@
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Hydra #4</PawnName>
                         <BodySizeFactor>1.6</BodySizeFactor>
+                        <InventoryItems>
+                            <ListItem>
+                                <Item>SnakeOil</Item>
+                                <Amount>1</Amount>
+                                <ChanceToDrop>.8</ChanceToDrop>
+                            </ListItem>
+                            <ListItem>
+                                <Item>SerpentScale</Item>
+                                <Amount>1</Amount>
+                                <ChanceToDrop>.8</ChanceToDrop>
+                            </ListItem>
+                        </InventoryItems>
                     </ListItem>
                 </Enemies>
             </ListItem>
@@ -136,6 +172,18 @@
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Hydra #5 (boss)</PawnName>
                         <BodySizeFactor>2</BodySizeFactor>
+                        <InventoryItems>
+                            <ListItem>
+                                <Item>SnakeOil</Item>
+                                <Amount>1</Amount>
+                                <ChanceToDrop>.8</ChanceToDrop>
+                            </ListItem>
+                            <ListItem>
+                                <Item>SerpentScale</Item>
+                                <Amount>1</Amount>
+                                <ChanceToDrop>.8</ChanceToDrop>
+                            </ListItem>
+                        </InventoryItems>
                     </ListItem>
                 </Enemies>
             </ListItem>
