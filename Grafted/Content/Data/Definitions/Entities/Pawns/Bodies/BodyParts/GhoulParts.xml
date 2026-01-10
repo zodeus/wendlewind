@@ -21,7 +21,7 @@
             <ListItem>HeadArmor</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <MaxHitPoints>2000</MaxHitPoints>
+            <MaxHitPoints>400</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="GhoulBodyPartBase">
@@ -42,7 +42,7 @@
             <ListItem>HeadSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>1500</MaxHitPoints>
+            <MaxHitPoints>200</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="GhoulBodyPartBase">
@@ -69,8 +69,7 @@
             <ListItem>RightLegSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <AttackSpeedModifier>.6</AttackSpeedModifier>
-            <MaxHitPoints>3000</MaxHitPoints>
+            <MaxHitPoints>800</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="GhoulBodyPartBase">
@@ -90,8 +89,8 @@
             <ListItem>HandSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <AttackSpeedModifier>.1</AttackSpeedModifier>
-            <MaxHitPoints>1000</MaxHitPoints>
+            <AttackSpeedModifier>1</AttackSpeedModifier>
+            <MaxHitPoints>300</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="GhoulBodyPartBase">
@@ -117,8 +116,8 @@
             <ListItem>LittleFingerSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>800</MaxHitPoints>
-            <AttackSpeedModifier>.1</AttackSpeedModifier>
+            <MaxHitPoints>200</MaxHitPoints>
+            <AttackSpeedModifier>.5</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="GhoulBodyPartBase">
@@ -134,7 +133,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.01</AttackSpeedModifier>
-            <MaxHitPoints>200</MaxHitPoints>
+            <MaxHitPoints>20</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="GhoulBodyPartBase">
@@ -150,7 +149,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.01</AttackSpeedModifier>
-            <MaxHitPoints>250</MaxHitPoints>
+            <MaxHitPoints>30</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="GhoulBodyPartBase">
@@ -170,8 +169,8 @@
             <ListItem>FootSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <AttackSpeedModifier>.1</AttackSpeedModifier>
-            <MaxHitPoints>1000</MaxHitPoints>
+            <AttackSpeedModifier>.5</AttackSpeedModifier>
+            <MaxHitPoints>200</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="GhoulBodyPartBase">
@@ -191,8 +190,8 @@
             <ListItem>BoneSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <AttackSpeedModifier>.1</AttackSpeedModifier>
-            <MaxHitPoints>800</MaxHitPoints>
+            <AttackSpeedModifier>.5</AttackSpeedModifier>
+            <MaxHitPoints>150</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
 </Definitions>

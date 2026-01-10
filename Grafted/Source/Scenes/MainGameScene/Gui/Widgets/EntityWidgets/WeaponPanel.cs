@@ -7,16 +7,25 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 public sealed class WeaponPanel : EntityPanelBase
 {
     private readonly Item _item;
+    private readonly BaseGui _gui;
     private readonly Label _durabilityLabel;
     private readonly HorizontalProgressBar _durabilityBar;
     private readonly ItemEnchantmentSocketsPanel _socketsPanel;
-    private readonly Widget? _customInfoWidget;
+    private readonly VerticalStackPanel _leftColumn;
+    private readonly VerticalStackPanel? _infoWidgetContainer;
+    private Widget? _customInfoWidget;
     private readonly WeaponHandler? _weaponHandler;
+    private readonly IUpgradableHandler? _upgradableHandler;
+    private readonly ItemUpgradePanel? _upgradePanel;
+    private readonly VerticalStackPanel _rightColumn;
+    private VerticalStackPanel? _effectsSection;
 
     public WeaponPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
         _item = item;
+        _gui = gui;
         _weaponHandler = item.WeaponHandler;
+        _upgradableHandler = _weaponHandler as IUpgradableHandler;
         Padding = new Thickness(20);
         MinWidth = 580;
         Spacing = 4;
@@ -29,7 +38,7 @@ public sealed class WeaponPanel : EntityPanelBase
         // ─────────────────────────────────────────────────────────────────────
         // LEFT COLUMN: Icon + Sockets, Description, Info Widget
         // ─────────────────────────────────────────────────────────────────────
-        var leftColumn = new VerticalStackPanel { Spacing = 10, MinWidth = 300 };
+        _leftColumn = new VerticalStackPanel { Spacing = 10, MinWidth = 300 };
         
         // Icon row: Icon + Enchantment Sockets
         var iconRow = new HorizontalStackPanel { Spacing = 12, VerticalAlignment = VerticalAlignment.Center };
@@ -57,12 +66,12 @@ public sealed class WeaponPanel : EntityPanelBase
         };
         iconRow.Widgets.Add(_socketsPanel);
         
-        leftColumn.Widgets.Add(iconRow);
+        _leftColumn.Widgets.Add(iconRow);
 
         // Description (always shown for flavor text)
         if (item.Def.Description != "undefined")
         {
-            leftColumn.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            _leftColumn.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
             {
                 Text = item.Def.Description, 
                 Wrap = true, 
@@ -72,20 +81,37 @@ public sealed class WeaponPanel : EntityPanelBase
         }
         
         // Custom info widget from handler (mechanics, stats, settings)
+        // Use a container so we can easily rebuild on upgrade
         _customInfoWidget = _weaponHandler?.CreateInfoWidget(gui);
         if (_customInfoWidget != null)
         {
-            leftColumn.Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 4, 0, 4) });
-            leftColumn.Widgets.Add(_customInfoWidget);
+            _leftColumn.Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 4, 0, 4) });
+            _infoWidgetContainer = new VerticalStackPanel();
+            _infoWidgetContainer.Widgets.Add(_customInfoWidget);
+            _leftColumn.Widgets.Add(_infoWidgetContainer);
         }
         
-        mainLayout.Widgets.Add(leftColumn);
+        // Upgrade panel (if handler supports upgrades)
+        if (_upgradableHandler != null)
+        {
+            _leftColumn.Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 6, 0, 6) });
+            _upgradePanel = new ItemUpgradePanel(item, _upgradableHandler, OnUpgradeComplete);
+            _leftColumn.Widgets.Add(_upgradePanel);
+        }
+        
+        mainLayout.Widgets.Add(_leftColumn);
         mainLayout.Widgets.Add(new VerticalSeparator());
         
         // ─────────────────────────────────────────────────────────────────────
         // RIGHT COLUMN: Stats, Properties, Modifiers
         // ─────────────────────────────────────────────────────────────────────
-        var rightColumn = new VerticalStackPanel { Spacing = 8 };
+        _rightColumn = new VerticalStackPanel { Spacing = 8 };
+        
+        // Subscribe to enchantment changes
+        if (item.Enchantments != null)
+        {
+            item.Enchantments.EnchantmentChanged += RebuildEffectsSection;
+        }
         
         // Durability Section
         var durabilitySection = new VerticalStackPanel { Spacing = 2 };
@@ -103,14 +129,14 @@ public sealed class WeaponPanel : EntityPanelBase
             TextColor = Color.LightGray
         };
         durabilitySection.Widgets.Add(_durabilityLabel);
-        rightColumn.Widgets.Add(durabilitySection);
+        _rightColumn.Widgets.Add(durabilitySection);
 
         // Weapon Properties Section
         var propsSection = new VerticalStackPanel { Spacing = 2 };
         propsSection.Widgets.Add(CreatePropertyRow("Type", $"{item.ItemDef.WeaponProperties?.WeaponType}", TC.Golden));
         propsSection.Widgets.Add(CreatePropertyRow("Damage", $"{item.ItemDef.WeaponProperties?.DamageType}", TC.Red));
         propsSection.Widgets.Add(CreatePropertyRow("Slot", item.ItemDef.EquipmentProperties?.SlotUsedToEquip?.ToString() ?? "n/a", TC.Blue));
-        rightColumn.Widgets.Add(propsSection);
+        _rightColumn.Widgets.Add(propsSection);
 
         // Substance Modifiers Section
         var substanceModifiers = item.ItemDef.WeaponProperties?.SubstanceModifiers;
@@ -167,7 +193,7 @@ public sealed class WeaponPanel : EntityPanelBase
                 row++;
             }
             modsSection.Widgets.Add(modsGrid);
-            rightColumn.Widgets.Add(modsSection);
+            _rightColumn.Widgets.Add(modsSection);
         }
 
         // Stats Section
@@ -216,19 +242,28 @@ public sealed class WeaponPanel : EntityPanelBase
                 row++;
             }
             statsSection.Widgets.Add(statsGrid);
-            rightColumn.Widgets.Add(statsSection);
+            _rightColumn.Widgets.Add(statsSection);
         }
 
         // Modifiers Section (body part modifiers from weapon + enchantments)
-        var bodyPartModifiers = (item.ItemDef.WeaponProperties?.BodyPartModifiers ?? [])
-            .Concat(item.Enchantments?
+        BuildEffectsSection();
+        
+        mainLayout.Widgets.Add(_rightColumn);
+        Widgets.Add(mainLayout);
+    }
+
+    private void BuildEffectsSection()
+    {
+        var bodyPartModifiers = (_item.ItemDef.WeaponProperties?.BodyPartModifiers ?? [])
+            .Concat(_item.Enchantments?
                 .Where(e => e.ItemDef.EnchantmentProperties != null)
                 .SelectMany(e => e.ItemDef.EnchantmentProperties!.BodyPartModifiers) ?? [])
             .ToList();
+        
         if (bodyPartModifiers.Count > 0)
         {
-            var modsSection = new VerticalStackPanel { Spacing = 2 };
-            modsSection.Widgets.Add(new Label("small")
+            _effectsSection = new VerticalStackPanel { Spacing = 2 };
+            _effectsSection.Widgets.Add(new Label("small")
             {
                 Text = "Effects",
                 TextColor = BaseContent.Colors.Text.Golden,
@@ -269,12 +304,22 @@ public sealed class WeaponPanel : EntityPanelBase
 
                 row++;
             }
-            modsSection.Widgets.Add(modsGrid);
-            rightColumn.Widgets.Add(modsSection);
+            _effectsSection.Widgets.Add(modsGrid);
+            _rightColumn.Widgets.Add(_effectsSection);
+        }
+    }
+
+    private void RebuildEffectsSection()
+    {
+        // Remove old effects section if it exists
+        if (_effectsSection != null)
+        {
+            _rightColumn.Widgets.Remove(_effectsSection);
+            _effectsSection = null;
         }
         
-        mainLayout.Widgets.Add(rightColumn);
-        Widgets.Add(mainLayout);
+        // Build new effects section
+        BuildEffectsSection();
     }
 
     private static HorizontalStackPanel CreatePropertyRow(string key, string value, string valueColorHex)
@@ -291,6 +336,23 @@ public sealed class WeaponPanel : EntityPanelBase
                 new Label("small") { Text = value, TextColor = color }
             }
         };
+    }
+
+    private void OnUpgradeComplete()
+    {
+        // Rebuild the custom info widget to reflect new upgrade level values
+        if (_infoWidgetContainer != null && _weaponHandler != null)
+        {
+            _infoWidgetContainer.Widgets.Clear();
+            _customInfoWidget = _weaponHandler.CreateInfoWidget(_gui);
+            if (_customInfoWidget != null)
+            {
+                _infoWidgetContainer.Widgets.Add(_customInfoWidget);
+            }
+        }
+        
+        // Refresh the upgrade panel to show next level's costs
+        _upgradePanel?.Refresh();
     }
 
     public override void Update()

@@ -5,6 +5,8 @@ namespace Grafted.Sim.Entities.Items;
 public class ItemEnchantments : IEnumerable<Item>, IExposable
 {
     public int MaxEnchantments;
+    
+    public event Action? EnchantmentChanged;
 
     private Dictionary<int, Item?> _enchantments = null!;
 
@@ -22,6 +24,7 @@ public class ItemEnchantments : IEnumerable<Item>, IExposable
     public void TryAdd(Item enchantment, int position = 0)
     {
         _enchantments[position] = enchantment;
+        EnchantmentChanged?.Invoke();
     }
 
     public void Initialize()

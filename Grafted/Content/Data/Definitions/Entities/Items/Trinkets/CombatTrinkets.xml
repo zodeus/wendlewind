@@ -95,14 +95,13 @@
             <Upgrades>
                 <Upgrade Level="1" Bonus="Timed Fuse&#10;(Set fuse 5-2000)">
                     <RequiredTrinkets>TinkersToolbox</RequiredTrinkets>
-                    <Fuse>2</Fuse>
-                    <IronNugget>3</IronNugget>
+                    <ChainLink>3</ChainLink>
+                    <IronNugget>4</IronNugget>
                 </Upgrade>
                 <Upgrade Level="2" Bonus="Timed Fuse&#10;+50% Duration">
                     <RequiredTrinkets>TinkersToolbox</RequiredTrinkets>
-                    <Fuse>3</Fuse>
+                    <ChainLink>4</ChainLink>
                     <GoldenBean>2</GoldenBean>
-                    <VenomVial>1</VenomVial>
                 </Upgrade>
             </Upgrades>
         </UpgradeProperties>

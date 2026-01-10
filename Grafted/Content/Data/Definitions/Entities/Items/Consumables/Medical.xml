@@ -181,7 +181,7 @@
                 </ListItem>
                 <ListItem>
                     <Item>HealingRoot</Item>
-                    <Count>5</Count>
+                    <Count>2</Count>
                 </ListItem>
             </ResourceRequirements>
         </CraftingProperties>

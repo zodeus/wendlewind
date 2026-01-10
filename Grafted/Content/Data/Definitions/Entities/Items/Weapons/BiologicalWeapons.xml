@@ -469,47 +469,6 @@
     </ItemDef>
 
 
-
-
-    <ItemDef ParentName="WeaponFlesh">
-        <Moniker>GhoulishHand</Moniker>
-        <Label>Ghoulish Hand</Label>
-        <Description>A ghoulish hand</Description>
-        <EquipmentProperties>
-            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
-        </EquipmentProperties>
-        <WeaponProperties>
-            <BodyPartModifiers>
-                <ListItem>
-                    <Def>Necrosis</Def>
-                    <DurationInTicks>0</DurationInTicks>
-                    <Chance>.2</Chance>
-                </ListItem>
-            </BodyPartModifiers>
-            <WeaponType>Hand</WeaponType>
-            <DamageType>Flesh</DamageType>
-        </WeaponProperties>
-        <TexturePath>Entities/Item/Equipment/Weapon/Biological/GhoulishHand</TexturePath>
-        <BaseStats>
-            <WeaponPower>60</WeaponPower>
-        </BaseStats>
-    </ItemDef>
-    <ItemDef ParentName="WeaponFlesh">
-        <Moniker>GhoulishFoot</Moniker>
-        <Label>Ghoulish Foot</Label>
-        <Description>A ghoulish foot</Description>
-        <EquipmentProperties>
-            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
-        </EquipmentProperties>
-        <WeaponProperties>
-            <WeaponType>Foot</WeaponType>
-            <DamageType>Flesh</DamageType>
-        </WeaponProperties>
-        <TexturePath>Entities/Item/Equipment/Weapon/Biological/GhoulishFoot</TexturePath>
-        <BaseStats>
-            <WeaponPower>70</WeaponPower>
-        </BaseStats>
-    </ItemDef>
     <ItemDef ParentName="WeaponFlesh">
         <Moniker>HorseTeeth</Moniker>
         <Label>Teeth</Label>
@@ -1146,6 +1105,46 @@
         <TexturePath>Entities/Pawn/BodyParts/Hydra/HeadOne</TexturePath>
         <BaseStats>
             <WeaponPower>30</WeaponPower>
+        </BaseStats>
+    </ItemDef>
+
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>GhoulishHand</Moniker>
+        <Label>Ghoulish Hand</Label>
+        <Description>A ghoulish hand</Description>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <WeaponProperties>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>PoppingPustules</Def>
+                    <DurationInTicks>60~120</DurationInTicks>
+                    <Chance>.02</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+            <WeaponType>Hand</WeaponType>
+            <DamageType>Flesh</DamageType>
+        </WeaponProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/GhoulishHand</TexturePath>
+        <BaseStats>
+            <WeaponPower>60</WeaponPower>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponFlesh">
+        <Moniker>GhoulishFoot</Moniker>
+        <Label>Ghoulish Foot</Label>
+        <Description>A ghoulish foot</Description>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Foot</WeaponType>
+            <DamageType>Flesh</DamageType>
+        </WeaponProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Biological/GhoulishFoot</TexturePath>
+        <BaseStats>
+            <WeaponPower>70</WeaponPower>
         </BaseStats>
     </ItemDef>
 </Definitions>

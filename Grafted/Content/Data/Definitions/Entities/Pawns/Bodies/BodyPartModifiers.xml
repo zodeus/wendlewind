@@ -82,6 +82,14 @@
         <Color>208, 247, 246</Color>
     </BodyPartModifierDef>
     <BodyPartModifierDef>
+        <Moniker>PoppingPustules</Moniker>
+        <Label>Popping Pustules</Label>
+        <Type>Debuff</Type>
+        <Description>Festering boils that swell with infectious pus. When they pop, they spray nearby tissue with corrosive discharge.</Description>
+        <HandlerClass>PoppingPustulesHandler</HandlerClass>
+        <Color>186, 156, 82</Color>
+    </BodyPartModifierDef>
+    <BodyPartModifierDef>
         <Moniker>BlackLung</Moniker>
         <Label>Black Lung</Label>
         <Type>Debuff</Type>

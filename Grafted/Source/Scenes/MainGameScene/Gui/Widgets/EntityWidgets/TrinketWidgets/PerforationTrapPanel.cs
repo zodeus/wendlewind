@@ -247,7 +247,7 @@ public sealed class PerforationTrapPanel : EntityPanelBase
         if (_handler.IsSet)
         {
             // Can't unset during combat
-            if (Core.Context.CurrentZone?.ActiveEncounter?.CombatHandler != null)
+            if (Core.Context.CurrentZone?.ActiveEncounter?.State == EncounterState.InProgress)
             {
                 return;
             }
@@ -313,7 +313,7 @@ public sealed class PerforationTrapPanel : EntityPanelBase
         _fuseValueLabel.Text = $"{_handler.CustomFuseTime} ticks";
 
         // Button state
-        var inCombat = Core.Context.CurrentZone?.ActiveEncounter?.CombatHandler != null;
+        var inCombat = Core.Context.CurrentZone?.ActiveEncounter?.State == EncounterState.InProgress;
         var canSetTrap = _handler.CanSetTrap();
 
         if (_handler.IsSet)

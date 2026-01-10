@@ -79,7 +79,7 @@
         <Label>Ghoul Body</Label>
         <BloodType>BlackPlasma</BloodType>
         <BoneDensity>1.3</BoneDensity>
-        <MaxBlood>100</MaxBlood>
+        <MaxBlood>20000</MaxBlood>
         <GeneratorClass>GhoulBodyGenerator</GeneratorClass>
         <HandlerClass>GhoulBodyHandler</HandlerClass>
         <LayoutClass>GhoulBodyPartLayout</LayoutClass>

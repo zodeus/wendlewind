@@ -60,6 +60,8 @@ public static partial class Defs
         public static BodyPartModifierDef NecrosisSerum = null!;
         public static BodyPartModifierDef Festering = null!;
         public static BodyPartModifierDef BloodDrain = null!;
+        public static BodyPartModifierDef PoppingPustules = null!;
+        public static BodyPartModifierDef Burning = null!;
     }
 }
 

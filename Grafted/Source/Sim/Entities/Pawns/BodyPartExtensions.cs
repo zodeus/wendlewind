@@ -56,9 +56,12 @@ namespace Grafted.Sim.Entities.Pawns
                     var chanceToMiss = internalPart.Socket?.ParentPart?.HealthPercent switch
                     {
                         < .10f => 0.00f,
-                        < .20f => 0.50f,
-                        < .40f => 0.95f,
-                        < .70f => 0.99f,
+                        < .20f => 0.30f,
+                        < .40f => 0.50f,
+                        < .60f => 0.70f,
+                        < .80f => 0.85f,
+                        < .90f => 0.95f,
+                        < .99f => 0.99f,
                         _ => 1
                     };
 

@@ -13,12 +13,12 @@
         <Resources>
             <ListItem>
                 <Item>NettleLeaf</Item>
-                <Amount>1</Amount>
+                <Amount>1~2</Amount>
                 <ChanceToHarvest>.75</ChanceToHarvest>
             </ListItem>
             <ListItem>
                 <Item>HealingRoot</Item>
-                <Amount>1~2</Amount>
+                <Amount>2~4</Amount>
                 <ChanceToHarvest>.8</ChanceToHarvest>
             </ListItem>
             <ListItem>

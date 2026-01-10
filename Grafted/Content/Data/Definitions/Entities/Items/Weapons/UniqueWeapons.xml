@@ -84,6 +84,25 @@
                 </ListItem>              
             </SubstanceModifiers>
         </WeaponProperties>
+        <UpgradeProperties>
+            <Upgrades>
+                <Upgrade Level="1" Bonus="More Afflictions">
+                    <BeakPuss>2</BeakPuss>
+                    <Ichor>1</Ichor>
+                    <Cloth>1</Cloth>
+                </Upgrade>
+                <Upgrade Level="2" Bonus="More Afflictions&#10;Duration Increased">
+                    <Fuse>1</Fuse>
+                    <GoldenBean>2</GoldenBean>
+                    <SerpentScale>2</SerpentScale>
+                </Upgrade>
+                <Upgrade Level="3" Bonus="More Afflictions&#10;Duration Increased&#10;Adds Burning and Acid">
+                    <EverburningStone>1</EverburningStone>
+                    <AcidFlask>2</AcidFlask>
+                    <HorseTooth>2</HorseTooth>
+                </Upgrade>
+            </Upgrades>
+        </UpgradeProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Unique/StrangeWitheredTwig</TexturePath>
         <BaseStats>
             <WeaponPower>0</WeaponPower>
