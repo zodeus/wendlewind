@@ -2,7 +2,7 @@
 
 <Definitions>
     <ItemDef Name="MedicalItem" ParentName="ItemBase" Abstract="true">
-        <UiClass>ConsumablePanel</UiClass>
+        <UiClass>MedicinalPanel</UiClass>
         <ItemType>Medical</ItemType>
         <StackLimit>9999</StackLimit>
     </ItemDef>
@@ -65,7 +65,6 @@
         <Label>Menders Mist</Label>
         <Description>A little spritz of this goes a long way. Heals bone, flesh and skin. Travels through sockets.</Description>
         <TexturePath>Entities/Item/Medical/MendersMist</TexturePath>
-        <UiClass>MendersMistPanel</UiClass>
         <MedicinalProperties>
             <HandlerClass>MendersMistHandler</HandlerClass>
         </MedicinalProperties>
@@ -183,6 +182,72 @@
                 <ListItem>
                     <Item>HealingRoot</Item>
                     <Count>5</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+    </ItemDef>
+    <ItemDef ParentName="MedicalItem">
+        <Moniker>BoneCleanse</Moniker>
+        <Label>Bone Cleanse</Label>
+        <Description>A potent skeletal purifier. Cleanses all bones of impurities and restores structural integrity.</Description>
+        <TexturePath>Entities/Item/Medical/BoneCleanse</TexturePath>
+        <MedicinalProperties>
+            <HandlerClass>BoneCleanseHandler</HandlerClass>
+        </MedicinalProperties>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>MortarAndPestle</ListItem>
+                <ListItem>VialOfDuplicity</ListItem>
+                <ListItem>CookingPot</ListItem>
+                <ListItem>FlameStick</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>BoneShard</Item>
+                    <Count>2</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>HealingRoot</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+    </ItemDef>
+    <ItemDef ParentName="MedicalItem">
+        <Moniker>StrengthenBones</Moniker>
+        <Label>Strengthen Bones</Label>
+        <Description>A fortifying bone elixir. Permanently increases skeletal density and fully restores bone integrity.</Description>
+        <TexturePath>Entities/Item/Medical/StrengthenBones</TexturePath>
+        <MedicinalProperties>
+            <HandlerClass>StrengthenBonesHandler</HandlerClass>
+        </MedicinalProperties>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>MortarAndPestle</ListItem>
+                <ListItem>VialOfDuplicity</ListItem>
+                <ListItem>CookingPot</ListItem>
+                <ListItem>FlameStick</ListItem>
+                <ListItem>SteroidInjector</ListItem>
+                <ListItem>TinkersToolbox</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>MendersMist</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>MendersMix</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>BoneCleanse</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>BalmyOintment</Item>
+                    <Count>1</Count>
                 </ListItem>
             </ResourceRequirements>
         </CraftingProperties>

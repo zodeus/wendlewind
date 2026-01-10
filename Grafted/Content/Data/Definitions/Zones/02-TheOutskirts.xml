@@ -133,10 +133,9 @@
             </ListItem>
             <ListItem>
                 <IsBoss>true</IsBoss>
-                <MaxBoxes>2</MaxBoxes>
+                <MaxBoxes>1</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>TrinketChestCombat</ListItem>
-                    <ListItem>TrinketChest1</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>

@@ -45,7 +45,6 @@ public class BloodSucklerHandler : WeaponHandler
 
         // Blood types match - check if we need blood or health
         _successfulDrains++;
-        
         if (attacker.Body.BloodPercent < 0.92f)
         {
             // Restore blood
@@ -69,7 +68,7 @@ public class BloodSucklerHandler : WeaponHandler
     {
         // Find all damaged parts (health < max)
         var damagedParts = pawn.Body.AllParts
-            .Where(p => p.HealthPercent < 0.99 && !p.IsDestroyed)
+            .Where(p => p.HealthPercent < 0.99)
             .ToList();
 
         if (damagedParts.Count == 0)
@@ -97,8 +96,8 @@ public class BloodSucklerHandler : WeaponHandler
             {
                 _totalHealthRestored += (float)actualHeal;
                 damageRecord.DamageStatusEffects.Add(new DamageStatusEffect(
-                    pawn, 
-                    Weapon.ItemDef, 
+                    pawn,
+                    Weapon.ItemDef,
                     $"Blood Suckler healed {part.Label} for {actualHeal:N1}"));
             }
         }

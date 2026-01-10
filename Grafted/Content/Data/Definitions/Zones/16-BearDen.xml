@@ -149,9 +149,7 @@
             <ListItem>
                 <IsBoss>true</IsBoss>
                 <PotentialLootBoxes>
-                    <ListItem>ResourceChest2</ListItem>
-                    <ListItem>TrinketChest3</ListItem>
-                    <ListItem>EnchantedChestDefensive</ListItem>
+                    <ListItem>TrinketChestCombat</ListItem>
                 </PotentialLootBoxes>
                 <MaxBoxes>3</MaxBoxes>
                 <Enemies>

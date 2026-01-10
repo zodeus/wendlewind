@@ -4,7 +4,7 @@
     <ZoneDef>
         <Moniker>Cemetery</Moniker>
         <Label>Cemetery</Label>
-        <Stage>19</Stage>
+        <Stage>18</Stage>
         <ZoneColor>100, 90, 100</ZoneColor>
         <Weathers>
             <ListItem>HallowedRain</ListItem>
@@ -12,7 +12,7 @@
         </Weathers>
         <Resources>
             <ListItem>
-                <Item>InkyCapMushroom</Item>
+                <Item>NettleLeaf</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.75</ChanceToHarvest>
             </ListItem>
@@ -22,19 +22,19 @@
                 <ChanceToHarvest>.8</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>ElderBerry</Item>
+                <Item>PlantBulb</Item>
                 <Amount>1</Amount>
-                <ChanceToHarvest>.3</ChanceToHarvest>
+                <ChanceToHarvest>.4</ChanceToHarvest>
             </ListItem>
             <ListItem>
                 <Item>BoneShard</Item>
                 <Amount>2~5</Amount>
-                <ChanceToHarvest>.4</ChanceToHarvest>
+                <ChanceToHarvest>.6</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>VenomVial</Item>
+                <Item>RawCorn</Item>
                 <Amount>1~2</Amount>
-                <ChanceToHarvest>.3</ChanceToHarvest>
+                <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>
         </Resources>
         <Encounters>
@@ -42,18 +42,18 @@
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ResourceChest2</ListItem>
-                    <ListItem>ArmorChest2</ListItem>
+                    <ListItem>ArmorChest3</ListItem>
                     <ListItem>EnchantedChestDefensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
                         <PawnDef>Ghoul</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Ghoul (specimen #1)</PawnName>
+                        <PawnName>Ghoul #1</PawnName>
                         <BodySizeFactor>1</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
-                                <Item>RawFish</Item>
+                                <Item>Ichor</Item>
                                 <Amount>1~2</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
@@ -85,11 +85,11 @@
                     <ListItem>
                         <PawnDef>Ghoul</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Ghoul (specimen #2)</PawnName>
+                        <PawnName>Ghoul #2</PawnName>
                         <BodySizeFactor>1.2</BodySizeFactor>
                         <InventoryItems>
                             <ListItem>
-                                <Item>RawFish</Item>
+                                <Item>Ichor</Item>
                                 <Amount>1~2</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
@@ -121,7 +121,7 @@
                     <ListItem>
                         <PawnDef>Ghoul</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Ghoul (specimen #3)</PawnName>
+                        <PawnName>Ghoul #3</PawnName>
                         <BodySizeFactor>1.3</BodySizeFactor>
                         <EquipmentItems>
                             <ListItem>LeatherVambrace</ListItem>
@@ -138,7 +138,7 @@
                         </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
-                                <Item>RawFish</Item>
+                                <Item>Ichor</Item>
                                 <Amount>1~2</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
@@ -150,14 +150,14 @@
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>ResourceChest2</ListItem>
-                    <ListItem>TrinketChest2</ListItem>
+                    <ListItem>ArmorChest3</ListItem>
                     <ListItem>SupplyChest2</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
                         <PawnDef>Ghoul</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Ghoul (specimen #4)</PawnName>
+                        <PawnName>Ghoul #4</PawnName>
                         <BodySizeFactor>1.5</BodySizeFactor>
                         <EquipmentItems>
                             <ListItem>ChainVambrace</ListItem>
@@ -167,14 +167,14 @@
                             <ListItem>LeatherGorget</ListItem>
                             <ListItem>LeatherBoot</ListItem>
                             <ListItem>LeatherBoot</ListItem>
-                        <ListItem>ChainGlove</ListItem>
+                            <ListItem>ChainGlove</ListItem>
                             <ListItem>ChainGlove</ListItem>
                             <ListItem>LeatherTunic</ListItem>
                             <ListItem>ChainHelmet</ListItem>
                         </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
-                                <Item>RawFish</Item>
+                                <Item>Ichor</Item>
                                 <Amount>1~2</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
@@ -184,14 +184,17 @@
             </ListItem>
             <ListItem>
                 <IsBoss>true</IsBoss>
+                <MaxBoxes>3</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>TrinketChestCombat</ListItem>
+                    <ListItem>TrinketChest3</ListItem>
+                    <ListItem>EnchantedChestDefensive</ListItem>
+                    <ListItem>EnchantedChestOffensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
                         <PawnDef>Ghoul</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
-                        <PawnName>Ghoul (specimen apex #1)</PawnName>
+                        <PawnName>Ghoul #5 (boss)</PawnName>
                         <BodySizeFactor>1.8</BodySizeFactor>
                         <EquipmentItems>
                             <ListItem>ChainVambrace</ListItem>
@@ -208,13 +211,8 @@
                         </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
-                                <Item>RawFish</Item>
+                                <Item>Ichor</Item>
                                 <Amount>1~2</Amount>
-                                <ChanceToDrop>1</ChanceToDrop>
-                            </ListItem>
-                            <ListItem>
-                                <Item>MedKit</Item>
-                                <Amount>2~3</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>
                         </InventoryItems>

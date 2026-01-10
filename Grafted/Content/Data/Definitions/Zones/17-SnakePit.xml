@@ -134,7 +134,7 @@
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
                     <ListItem>TrinketChest3</ListItem>
-                    <ListItem>WeaponChest3</ListItem>
+                    <ListItem>TrinketChest3</ListItem>
                     <ListItem>EnchantedChestDefensive</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
@@ -160,11 +160,9 @@
             </ListItem>
             <ListItem>
                 <IsBoss>true</IsBoss>
-                <MaxBoxes>3</MaxBoxes>
+                <MaxBoxes>1</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>TrinketChest3</ListItem>
-                    <ListItem>EnchantedChestDefensive</ListItem>
-                    <ListItem>EnchantedChestOffensive</ListItem>
+                    <ListItem>WeaponChest3</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>

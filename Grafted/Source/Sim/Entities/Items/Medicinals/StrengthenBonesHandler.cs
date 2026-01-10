@@ -1,23 +1,42 @@
-﻿namespace Grafted.Sim.Entities.Items.Medicinals;
+namespace Grafted.Sim.Entities.Items.Medicinals;
 
+/// <summary>
+/// Handler for StrengthenBones - increases the max HP of all bones by 3%
+/// and fully heals them, regardless of which part is clicked.
+/// </summary>
 [UsedImplicitly]
-public class AntiNecroticSerumHandler : MedicinalHandler
+public class StrengthenBonesHandler : MedicinalHandler
 {
-    private static readonly Color NecrosisColor = new(80, 60, 80);       // Dark purple for necrosis
-    private static readonly Color SerumColor = new(100, 180, 220);       // Light blue for the serum
-    private static readonly Color WarningColor = new(200, 120, 80);      // Orange for warnings
-    private static readonly Color SuccessColor = new(130, 200, 130);     // Green for success
+    private const double MaxHpIncreasePercent = 0.05; // 5% increase
+
+    private static readonly Color BoneColor = new(200, 200, 210);           // Light grayish-blue for bone
+    private static readonly Color StrengthColor = new(220, 180, 100);       // Golden for strengthening effect
+    private static readonly Color HealColor = new(130, 200, 130);           // Green for healing
+    private static readonly Color BoostColor = new(180, 140, 220);          // Purple for max HP boost
 
     public override bool ApplyToPart(Item item, BodyPart part)
     {
-        var duration = item.ItemDef.MedicinalProperties!.DurationInTicks;
-        if (part.HasModifier(Defs.BodyPartModifiers.Necrosis) && part.HasModifier(Defs.BodyPartModifiers.NecrosisSerum) == false)
+        var body = part.Body;
+        if (body == null) return false;
+
+        // Find all bone parts in the entire body
+        var boneParts = body.AllParts
+            .Where(p => p.Substance == SubstanceType.Bone)
+            .ToList();
+
+        if (boneParts.Count == 0) return false;
+
+        foreach (var bonePart in boneParts)
         {
-            part.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.NecrosisSerum, duration));
-            return true;
+            // Increase max HP by 5%
+            var hpIncrease = bonePart.MaxHitPoints * MaxHpIncreasePercent;
+            bonePart.MaxHitPoints += hpIncrease;
+
+            // Fully heal the bone
+            bonePart.HitPoints = bonePart.MaxHitPoints;
         }
 
-        return false;
+        return true;
     }
 
     public override Widget? GetInfoPanel(Item item)
@@ -78,14 +97,6 @@ public class AntiNecroticSerumHandler : MedicinalHandler
             });
         }
 
-        // Duration info
-        var duration = item.ItemDef.MedicinalProperties!.DurationInTicks;
-        panel.Widgets.Add(new Label("small")
-        {
-            Text = $"Duration: {duration} ticks",
-            TextColor = SerumColor
-        });
-
         // How It Works section
         panel.Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 12, 0, 8) });
 
@@ -105,39 +116,59 @@ public class AntiNecroticSerumHandler : MedicinalHandler
 
         var infoContent = new VerticalStackPanel { Spacing = 8 };
 
-        // Step 1: Targets necrosis
-        infoContent.Widgets.Add(CreateInfoRow("1.", "Apply to necrotic body part", NecrosisColor));
+        // Step 1: Target any part
+        infoContent.Widgets.Add(CreateInfoRow("1.", "Apply to any body part", BoneColor));
 
-        // Visual showing necrosis → cured
-        var visualRow = new HorizontalStackPanel
+        // Visual showing effect scope
+        var visualContainer = new Panel
         {
-            Spacing = 8,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            Margin = new Thickness(0, 4, 0, 4)
+            Background = new SolidBrush(new Color(35, 35, 40)),
+            Padding = new Thickness(10),
+            Margin = new Thickness(10, 4, 10, 4)
         };
-        visualRow.Widgets.Add(CreateStatusBox("Necrosis", NecrosisColor));
-        visualRow.Widgets.Add(new Label("small") { Text = "→", TextColor = SerumColor, VerticalAlignment = VerticalAlignment.Center });
-        visualRow.Widgets.Add(CreateStatusBox("Treating", SerumColor));
-        visualRow.Widgets.Add(new Label("small") { Text = "→", TextColor = SuccessColor, VerticalAlignment = VerticalAlignment.Center });
-        visualRow.Widgets.Add(CreateStatusBox("Cured", SuccessColor));
-        infoContent.Widgets.Add(visualRow);
 
-        // Step 2: Treatment period
-        infoContent.Widgets.Add(CreateInfoRow("2.", "Treatment takes time to complete", SerumColor));
+        var visualContent = new VerticalStackPanel { Spacing = 6, HorizontalAlignment = HorizontalAlignment.Center };
 
-        // Step 3: Cures necrosis
-        infoContent.Widgets.Add(CreateInfoRow("3.", "Cures necrosis when treatment ends", SuccessColor));
+        visualContent.Widgets.Add(new Label("small")
+        {
+            Text = "Strengthens ALL Bones:",
+            TextColor = StrengthColor,
+            HorizontalAlignment = HorizontalAlignment.Center
+        });
+
+        // Show bone representation
+        var boneRow = new HorizontalStackPanel { Spacing = 4, HorizontalAlignment = HorizontalAlignment.Center };
+        boneRow.Widgets.Add(CreatePartBox("Skull", BoneColor));
+        boneRow.Widgets.Add(CreatePartBox("Spine", BoneColor));
+        boneRow.Widgets.Add(CreatePartBox("Ribs", BoneColor));
+        boneRow.Widgets.Add(CreatePartBox("Limbs", BoneColor));
+        visualContent.Widgets.Add(boneRow);
+
+        visualContainer.Widgets.Add(visualContent);
+        infoContent.Widgets.Add(visualContainer);
+
+        // Step 2: Boost max HP
+        infoContent.Widgets.Add(CreateInfoRow("2.", $"Increases bone max HP by {MaxHpIncreasePercent * 100}%", BoostColor));
+
+        // Step 3: Full heal
+        infoContent.Widgets.Add(CreateInfoRow("3.", "Fully heals all bones to new max", HealColor));
 
         infoContainer.Widgets.Add(infoContent);
         panel.Widgets.Add(infoContainer);
 
-        // Requirements note
-        panel.Widgets.Add(new Label("small")
+        // Notes
+        var notePanel = new Panel
         {
-            Text = "⚠ Only works on parts with active necrosis",
-            TextColor = WarningColor,
+            Background = new SolidBrush(new Color(30, 30, 35)),
+            Padding = new Thickness(10)
+        };
+        notePanel.Widgets.Add(new Label("small")
+        {
+            Text = "✓ Permanent max HP increase\n✓ Works on entire skeleton\n✓ Click anywhere - affects all bones\n✗ Does not affect flesh, organs, or skin",
+            TextColor = new Color(150, 150, 150),
             Wrap = true
         });
+        panel.Widgets.Add(notePanel);
 
         return panel;
     }
@@ -164,19 +195,20 @@ public class AntiNecroticSerumHandler : MedicinalHandler
         };
     }
 
-    private static Widget CreateStatusBox(string label, Color color)
+    private static Widget CreatePartBox(string label, Color color)
     {
         return new Panel
         {
             Background = new SolidBrush(color),
-            Padding = new Thickness(8, 4),
+            Padding = new Thickness(4, 2),
             Widgets =
             {
                 new Label("small")
                 {
                     Text = label,
                     TextColor = Color.White,
-                    HorizontalAlignment = HorizontalAlignment.Center
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Scale = new Vector2(0.8f, 0.8f)
                 }
             }
         };
