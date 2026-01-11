@@ -52,16 +52,7 @@ internal sealed class BoakLootBoxCard : Panel
         });
 
         // Category badge
-        var categoryColor = def.Category switch
-        {
-            LootBoxCategory.Weapons => new Color(200, 80, 80),
-            LootBoxCategory.Armor => new Color(100, 140, 200),
-            LootBoxCategory.Edibles => new Color(180, 140, 80),
-            LootBoxCategory.Trinkets => new Color(180, 100, 180),
-            LootBoxCategory.Medicinal => new Color(100, 180, 100),
-            LootBoxCategory.Crafting => new Color(160, 160, 160),
-            _ => new Color(180, 180, 180)
-        };
+        var categoryColor = GetCategoryColor(def.Category);
 
         headerInfo.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
         {
@@ -226,6 +217,22 @@ internal sealed class BoakLootBoxCard : Panel
         Widgets.Add(content);
     }
 
+    public static Color GetCategoryColor(LootBoxCategory category)
+    {
+        return category switch
+        {
+            LootBoxCategory.Weapons => new Color(200, 80, 80),
+            LootBoxCategory.Armor => new Color(100, 140, 200),
+            LootBoxCategory.Food => new Color(180, 140, 80),
+            LootBoxCategory.Trinkets => new Color(180, 100, 180),
+            LootBoxCategory.Medicinal => new Color(100, 180, 100),
+            LootBoxCategory.Resources => new Color(200, 50, 50),
+            LootBoxCategory.Supplies => new Color(50, 200, 50),
+            LootBoxCategory.Potions => new Color(50, 50, 200),
+            LootBoxCategory.Enchantments => new Color(200, 50, 200),
+            _ => new Color(180, 180, 180)
+        };
+    }
     private static Widget CreateStatBadge(string value, string label, Color valueColor)
     {
         return new VerticalStackPanel
@@ -282,17 +289,6 @@ internal sealed class BoakLootBoxPanel : ScrollViewer
         var section = new VerticalStackPanel { Spacing = 12 };
 
         // Category header
-        var categoryColor = category switch
-        {
-            LootBoxCategory.Weapons => new Color(200, 80, 80),
-            LootBoxCategory.Armor => new Color(100, 140, 200),
-            LootBoxCategory.Edibles => new Color(180, 140, 80),
-            LootBoxCategory.Trinkets => new Color(180, 100, 180),
-            LootBoxCategory.Medicinal => new Color(100, 180, 100),
-            LootBoxCategory.Crafting => new Color(160, 160, 160),
-            _ => new Color(180, 180, 180)
-        };
-
         var header = new HorizontalStackPanel
         {
             Spacing = 12,
@@ -302,7 +298,7 @@ internal sealed class BoakLootBoxPanel : ScrollViewer
         header.Widgets.Add(new Label(BaseContent.Styles.Label.Large)
         {
             Text = category.ToString().ToUpper(),
-            TextColor = categoryColor
+            TextColor = BoakLootBoxCard.GetCategoryColor(category)
         });
 
         header.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
@@ -321,7 +317,7 @@ internal sealed class BoakLootBoxPanel : ScrollViewer
             Height = 2,
             Width = 300,
             HorizontalAlignment = HorizontalAlignment.Left,
-            Background = new Myra.Graphics2D.Brushes.SolidBrush(categoryColor * 0.5f)
+            Background = new Myra.Graphics2D.Brushes.SolidBrush(BoakLootBoxCard.GetCategoryColor(category) * 0.5f)
         });
 
         // Cards grid

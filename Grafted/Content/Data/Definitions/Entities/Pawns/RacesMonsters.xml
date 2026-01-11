@@ -75,18 +75,6 @@
         </BaseStats>
     </PawnDef>
     <PawnDef ParentName="BaseMonsterRace">
-        <Moniker>Orc</Moniker>
-        <Label>Orc</Label>
-        <Species>Orc</Species>
-        <Body>OrcBody</Body>
-        <BaseStats>
-            <AttackSpeed>2</AttackSpeed>
-            <Strength>2</Strength>
-            <Evasion>.08</Evasion>
-            <Accuracy>.7</Accuracy>
-        </BaseStats>
-    </PawnDef>
-    <PawnDef ParentName="BaseMonsterRace">
         <Moniker>Mosquito</Moniker>
         <Label>Mosquito</Label>
         <Species>Mosquito</Species>
@@ -205,5 +193,29 @@
             <Evasion>.03</Evasion>
             <Accuracy>.88</Accuracy>
         </BaseStats>   
+    </PawnDef>
+    <PawnDef ParentName="BaseMonsterRace">
+        <Moniker>RustyDoll</Moniker>
+        <Label>Rusty Doll</Label>
+        <Species>RustyDoll</Species>
+        <Body>RustyDollBody</Body>
+        <BaseStats>
+            <AttackSpeed>1</AttackSpeed>
+            <Strength>1</Strength>
+            <Evasion>.05</Evasion>
+            <Accuracy>.85</Accuracy>
+        </BaseStats>   
+    </PawnDef>
+    <PawnDef ParentName="BaseMonsterRace">
+        <Moniker>Orc</Moniker>
+        <Label>Orc</Label>
+        <Species>Orc</Species>
+        <Body>OrcBody</Body>
+        <BaseStats>
+            <AttackSpeed>1</AttackSpeed>
+            <Strength>3</Strength>
+            <Evasion>.08</Evasion>
+            <Accuracy>.7</Accuracy>
+        </BaseStats>
     </PawnDef>
 </Definitions>

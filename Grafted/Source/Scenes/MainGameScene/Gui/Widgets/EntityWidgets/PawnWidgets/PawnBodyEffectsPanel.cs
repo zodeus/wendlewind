@@ -139,7 +139,6 @@ public sealed class PawnBodyEffectsPanel : Panel, IUpdatable
     {
         private readonly BodyEffect _effect;
         private readonly Label _durationLabel;
-        private Window? _tooltipWindow;
         private PawnBodyEffectTooltip? _tooltipContent;
 
         public BodyEffectRow(BodyEffect effect)
@@ -167,55 +166,15 @@ public sealed class PawnBodyEffectsPanel : Panel, IUpdatable
                     }
                 }
             };
-            button.MouseEntered += (_, _) => ShowTooltip();
-            button.MouseLeft += (_, _) => HideTooltip();
+            button.WithTooltip(() =>
+            {
+                _tooltipContent ??= new PawnBodyEffectTooltip(_effect);
+                return _tooltipContent;
+            });
 
             Width = BaseContent.IconSizes.Large;
             Height = BaseContent.IconSizes.Large;
             Widgets.Add(button);
-        }
-
-        private void EnsureTooltipCreated()
-        {
-            if (_tooltipWindow != null) return;
-
-            _tooltipContent = new PawnBodyEffectTooltip(_effect);
-
-            _tooltipWindow = new Window
-            {
-                Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
-                Margin = new Thickness(0),
-                Padding = new Thickness(10, 3, 10, 10),
-                Content = _tooltipContent
-            };
-            _tooltipWindow.TitlePanel.Visible = false;
-        }
-
-        private void ShowTooltip()
-        {
-            if (Desktop == null) return;
-
-            EnsureTooltipCreated();
-
-            // Position tooltip near the mouse
-            var screenPos = Mouse.GetState().Position;
-            var uiX = (int)((screenPos.X - Core.UiOffset.X) / Core.UiScale);
-            var uiY = (int)((screenPos.Y - Core.UiOffset.Y) / Core.UiScale);
-
-            if (!_tooltipWindow!.IsPlaced)
-            {
-                _tooltipWindow.Show(Desktop, new Point(uiX + 15, uiY + 15));
-            }
-            else
-            {
-                _tooltipWindow.Left = uiX + 15;
-                _tooltipWindow.Top = uiY + 15;
-            }
-        }
-
-        private void HideTooltip()
-        {
-            _tooltipWindow?.Close();
         }
 
         public void Update()
@@ -227,16 +186,7 @@ public sealed class PawnBodyEffectsPanel : Panel, IUpdatable
             var t = Math.Clamp(ticks / 5000f, 0f, 1f);
             _durationLabel.TextColor = Color.Lerp(Color.Red, Color.LawnGreen, t);
 
-            // Update tooltip position while hovering
-            if (_tooltipWindow?.IsPlaced == true)
-            {
-                var screenPos = Mouse.GetState().Position;
-                var uiX = (int)((screenPos.X - Core.UiOffset.X) / Core.UiScale);
-                var uiY = (int)((screenPos.Y - Core.UiOffset.Y) / Core.UiScale);
-
-                _tooltipWindow.Left = uiX + 15;
-                _tooltipWindow.Top = uiY + 15;
-            }
+            TooltipHelper.UpdatePosition();
 
             // Update tooltip content
             _tooltipContent?.Update();

@@ -86,6 +86,23 @@
             </MaxHitPointScaler>
         </AdaptiveProperties>
     </BodyPartDef>
+    
+    <BodyPartDef ParentName="GenericBodyPartBase">
+        <Moniker>Cpu</Moniker>
+        <Label>CPU</Label>
+        <BodyPartType>Cpu</BodyPartType>
+        <Description>A central processing unit that controls the device's functions.</Description>
+        <BloodAmount>0</BloodAmount>
+        <IsVital>true</IsVital>
+        <IsOrgan>true</IsOrgan>
+        <Substance>Metal</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/Generic/Cpu</TexturePath>
+        <AdaptiveProperties>
+            <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
+                <Factor>0.15</Factor>
+            </MaxHitPointScaler>
+        </AdaptiveProperties>
+    </BodyPartDef>
     <BodyPartDef ParentName="GenericBodyPartBase">
         <Moniker>Eye</Moniker>
         <Label>Eye</Label>

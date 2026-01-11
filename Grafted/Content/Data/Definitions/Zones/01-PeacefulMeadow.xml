@@ -77,6 +77,7 @@
                 <PotentialLootBoxes>
                     <ListItem>WeaponChest1</ListItem>
                     <ListItem>SupplyChest1</ListItem>
+                    <ListItem>FoodChest1</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
@@ -103,6 +104,7 @@
                 <PotentialLootBoxes>
                     <ListItem>ArmorChest1</ListItem>
                     <ListItem>SupplyChest1</ListItem>
+                    <ListItem>ResourceChest1</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>

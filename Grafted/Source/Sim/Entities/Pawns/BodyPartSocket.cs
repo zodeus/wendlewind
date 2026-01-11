@@ -67,6 +67,7 @@ public class BodyPartSocket : IExposable, IIdentityProvider
     {
         if (CanSocket(bodyPart.Type) == false)
         {
+            Log.Error($"Cannot socket part {bodyPart.Label} to {Label} because it is not allowed");
             throw new NotImplementedException();
         }
 

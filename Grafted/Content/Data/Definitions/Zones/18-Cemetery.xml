@@ -41,7 +41,7 @@
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>ResourceChest2</ListItem>
+                    <ListItem>PotionChest1</ListItem>
                     <ListItem>ArmorChest3</ListItem>
                     <ListItem>EnchantedChestDefensive</ListItem>
                 </PotentialLootBoxes>
@@ -149,7 +149,7 @@
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>ResourceChest2</ListItem>
+                    <ListItem>FoodChest2</ListItem>
                     <ListItem>ArmorChest3</ListItem>
                     <ListItem>SupplyChest2</ListItem>
                 </PotentialLootBoxes>

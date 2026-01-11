@@ -65,8 +65,6 @@ internal sealed class FoodItemButton : CursorButton
     private readonly Item _item;
     private readonly Label _stackLabel;
     private readonly Image _iconImage;
-    private Window? _tooltipWindow;
-    private Label? _tooltipLabel;
     private Color _enabledColor = Color.White;
     private Color _disabledColor = new Color(180, 40, 40);
 
@@ -102,57 +100,8 @@ internal sealed class FoodItemButton : CursorButton
         Height = BaseContent.IconSizes.Large + 8;
 
         Click += OnClick;
-        MouseEntered += (_, _) => ShowTooltip();
-        MouseLeft += (_, _) => HideTooltip();
+        this.WithDynamicTooltip(() => _item.Label);
         Update();
-    }
-
-    private void EnsureTooltipCreated()
-    {
-        if (_tooltipWindow != null) return;
-
-        _tooltipLabel = new Label(BaseContent.Styles.Label.Small)
-        {
-            TextColor = Color.White
-        };
-
-        _tooltipWindow = new Window
-        {
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
-            Margin = new Thickness(0),
-            Padding = new Thickness(10,3,10,10),
-            Content = _tooltipLabel
-        };
-        _tooltipWindow.TitlePanel.Visible = false;
-    }
-
-    private void ShowTooltip()
-    {
-        if (Desktop == null) return;
-
-        EnsureTooltipCreated();
-
-        _tooltipLabel!.Text = _item.Label;
-
-        // Position tooltip near the mouse
-        var screenPos = Mouse.GetState().Position;
-        var uiX = (int)((screenPos.X - Core.UiOffset.X) / Core.UiScale);
-        var uiY = (int)((screenPos.Y - Core.UiOffset.Y) / Core.UiScale);
-
-        if (!_tooltipWindow!.IsPlaced)
-        {
-            _tooltipWindow.Show(Desktop, new Point(uiX + 15, uiY + 15));
-        }
-        else
-        {
-            _tooltipWindow.Left = uiX + 15;
-            _tooltipWindow.Top = uiY + 15;
-        }
-    }
-
-    private void HideTooltip()
-    {
-        _tooltipWindow?.Close();
     }
 
     private void OnClick(object? sender, EventArgs e)
@@ -179,16 +128,6 @@ internal sealed class FoodItemButton : CursorButton
         Enabled = _pawn.IsHungry;
         // Tint icon when disabled
         ((ColoredRegion)_iconImage.Background).Color = Enabled ? _enabledColor : _disabledColor;
-
-        // Update tooltip position while hovering
-        if (_tooltipWindow?.IsPlaced == true)
-        {
-            var screenPos = Mouse.GetState().Position;
-            var uiX = (int)((screenPos.X - Core.UiOffset.X) / Core.UiScale);
-            var uiY = (int)((screenPos.Y - Core.UiOffset.Y) / Core.UiScale);
-
-            _tooltipWindow.Left = uiX + 15;
-            _tooltipWindow.Top = uiY + 15;
-        }
+        TooltipHelper.UpdatePosition();
     }
 }

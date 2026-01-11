@@ -66,7 +66,7 @@
                 <PotentialLootBoxes>
                     <ListItem>ArmorChest1</ListItem>
                     <ListItem>TrinketChest1</ListItem>
-                    <ListItem>SupplyChest1</ListItem>
+                    <ListItem>FoodChest1</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>

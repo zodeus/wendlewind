@@ -49,6 +49,9 @@ public static class CombatGenerator
             ApplyBodyModifications(pawn, enemyConfig.BodyModifications);
             ApplyEffects(pawn, enemyConfig.Effects);
 
+            // Ensure enemies spawn with full stomachs
+            pawn.Body.StomachLevel = 1;
+
             encounter.AddEnemyPawn(pawn);
         }
     }

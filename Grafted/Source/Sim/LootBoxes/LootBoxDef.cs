@@ -16,10 +16,13 @@ public enum LootBoxCategory
 {
     Weapons,
     Armor,
-    Edibles,
+    Food,
+    Supplies,
     Trinkets,
     Medicinal,
-    Crafting
+    Enchantments,
+    Resources,
+    Potions,
 }
 
 public enum LootBoxCollectionType

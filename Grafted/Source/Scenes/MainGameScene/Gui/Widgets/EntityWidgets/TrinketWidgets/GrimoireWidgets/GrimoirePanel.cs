@@ -5,6 +5,7 @@ public sealed class GrimoirePanel : EntityPanelBase
 {
     private readonly TabPanel _tabs;
     private readonly PawnInventory _inventory;
+    private readonly List<CraftingPanel> _craftingPanels = [];
 
     public GrimoirePanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
@@ -48,21 +49,41 @@ public sealed class GrimoirePanel : EntityPanelBase
 
         // Add tabs with category-specific action verbs
         if (cooking.Count > 0)
-            _tabs.AddTab($"Cooking ({cooking.Count})", new CraftingPanel("Cook", cooking, Core.Context.PlayerPawn));
+            AddCraftingTab($"Cooking ({cooking.Count})", "Cook", cooking);
         if (potions.Count > 0)
-            _tabs.AddTab($"Potions ({potions.Count})", new CraftingPanel("Brew", potions, Core.Context.PlayerPawn));
+            AddCraftingTab($"Potions ({potions.Count})", "Brew", potions);
         if (medicinal.Count > 0)
-            _tabs.AddTab($"Medicinal ({medicinal.Count})", new CraftingPanel("Prepare", medicinal, Core.Context.PlayerPawn));
+            AddCraftingTab($"Medicinal ({medicinal.Count})", "Prepare", medicinal);
         if (supplies.Count > 0)
-            _tabs.AddTab($"Supplies ({supplies.Count})", new CraftingPanel("Craft", supplies, Core.Context.PlayerPawn));
+            AddCraftingTab($"Supplies ({supplies.Count})", "Craft", supplies);
         if (incense.Count > 0)
-            _tabs.AddTab($"Incense ({incense.Count})", new CraftingPanel("Prepare", incense, Core.Context.PlayerPawn));
+            AddCraftingTab($"Incense ({incense.Count})", "Prepare", incense);
+        
         Widgets.Add(_tabs);
+        
+        // Initialize tab indicators
+        UpdateTabIndicators();
+    }
+
+    private void AddCraftingTab(string tabLabel, string buttonLabel, List<ItemDef> items)
+    {
+        var panel = new CraftingPanel(buttonLabel, items, Core.Context.PlayerPawn);
+        _craftingPanels.Add(panel);
+        _tabs.AddTab(tabLabel, panel);
     }
 
     private void OnInventoryChanged(Item _)
     {
         _tabs.Update();
+        UpdateTabIndicators();
+    }
+
+    private void UpdateTabIndicators()
+    {
+        for (var i = 0; i < _craftingPanels.Count; i++)
+        {
+            _tabs.SetTabIndicator(i, _craftingPanels[i].HasCraftableRecipe);
+        }
     }
 
     public override void Update()   {

@@ -79,7 +79,7 @@ public static class DevConsoleCommands
         {
             return args[0].ToLowerInvariant() switch
             {
-                "create-entity" or "spawn" or "give" => 
+                "create-entity" or "spawn" or "give" =>
                     "/create-entity <moniker> [count]\n" +
                     "  Creates an item and adds it to player inventory.\n" +
                     "  Examples:\n" +
@@ -141,11 +141,11 @@ public static class DevConsoleCommands
                 .Where(d => d.Moniker.Contains(moniker, StringComparison.OrdinalIgnoreCase))
                 .Take(5)
                 .Select(d => d.Moniker);
-            
-            var suggestionText = suggestions.Any() 
-                ? $"\nDid you mean: {string.Join(", ", suggestions)}?" 
+
+            var suggestionText = suggestions.Any()
+                ? $"\nDid you mean: {string.Join(", ", suggestions)}?"
                 : "\nType /list-items to see available items.";
-            
+
             return $"Item not found: {moniker}{suggestionText}";
         }
 
@@ -167,7 +167,7 @@ public static class DevConsoleCommands
     {
         var filter = args.Length > 0 ? args[0] : null;
         var items = DefRepository<ItemDef>.Defs
-            .Where(d => filter == null || 
+            .Where(d => filter == null ||
                         d.Moniker.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
                         d.Label.Contains(filter, StringComparison.OrdinalIgnoreCase))
             .OrderBy(d => d.Moniker)
@@ -175,8 +175,8 @@ public static class DevConsoleCommands
             .ToList();
 
         if (items.Count == 0)
-            return filter != null 
-                ? $"No items matching '{filter}'" 
+            return filter != null
+                ? $"No items matching '{filter}'"
                 : "No items found.";
 
         var sb = new StringBuilder();
@@ -185,7 +185,7 @@ public static class DevConsoleCommands
         {
             sb.AppendLine($"  {item.Moniker} - {item.Label}");
         }
-        
+
         if (DefRepository<ItemDef>.Defs.Count > 30 && filter == null)
             sb.AppendLine($"  ... and {DefRepository<ItemDef>.Defs.Count - 30} more. Use /list-items <filter>");
 
@@ -196,7 +196,7 @@ public static class DevConsoleCommands
     {
         var filter = args.Length > 0 ? args[0] : null;
         var pawns = DefRepository<PawnDef>.Defs
-            .Where(d => filter == null || 
+            .Where(d => filter == null ||
                         d.Moniker.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
                         d.Label.Contains(filter, StringComparison.OrdinalIgnoreCase))
             .OrderBy(d => d.Moniker)
@@ -204,8 +204,8 @@ public static class DevConsoleCommands
             .ToList();
 
         if (pawns.Count == 0)
-            return filter != null 
-                ? $"No pawns matching '{filter}'" 
+            return filter != null
+                ? $"No pawns matching '{filter}'"
                 : "No pawns found.";
 
         var sb = new StringBuilder();
@@ -222,15 +222,15 @@ public static class DevConsoleCommands
     {
         var filter = args.Length > 0 ? args[0] : null;
         var zones = DefRepository<ZoneDef>.Defs
-            .Where(d => filter == null || 
+            .Where(d => filter == null ||
                         d.Moniker.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
                         d.Label.Contains(filter, StringComparison.OrdinalIgnoreCase))
             .OrderBy(d => d.Stage)
             .ToList();
 
         if (zones.Count == 0)
-            return filter != null 
-                ? $"No zones matching '{filter}'" 
+            return filter != null
+                ? $"No zones matching '{filter}'"
                 : "No zones found.";
 
         var sb = new StringBuilder();
@@ -308,7 +308,7 @@ public static class DevConsoleCommands
         var sb = new StringBuilder();
         sb.AppendLine($"Player: {player.LabelShort}");
         sb.AppendLine($"  Blood: {player.Body.BloodAmount:F0}/{player.Body.MaxBlood:F0}");
-        
+
         var stats = new[]
         {
             Defs.Stats.MaxHitPoints,
@@ -336,9 +336,13 @@ public static class DevConsoleCommands
         if (args.Length < 1)
             return "Usage: /tp <zone-moniker>\nType /list-zones to see available zones.";
 
+        var context = Core.Context;
+        if (context == null)
+            return "Error: No game context available.";
+
         var moniker = args[0];
         var zoneDef = DefRepository<ZoneDef>.GetByMoniker(moniker, raiseError: false);
-        
+
         if (zoneDef == null)
         {
             zoneDef = DefRepository<ZoneDef>.Defs
@@ -352,7 +356,16 @@ public static class DevConsoleCommands
             return $"Zone not found: {moniker}\nAvailable: {string.Join(", ", zones)}...";
         }
 
-        Core.Context?.EnterZone(zoneDef);
+        // Check if the zone exists in the current world
+        var zone = context.World.Zones.FirstOrDefault(z => z.ZoneDef == zoneDef);
+        if (zone == null)
+        {
+            var availableZones = context.World.Zones.Take(10).Select(z => z.ZoneDef.Moniker);
+            return $"Zone '{zoneDef.Label}' is not in this world.\nAvailable: {string.Join(", ", availableZones)}...";
+        }
+        zone.IsComplete = false;
+        zone.Stage = 0;
+        context.EnterZone(zoneDef);
         return $"Teleporting to {zoneDef.Label}...";
     }
 }

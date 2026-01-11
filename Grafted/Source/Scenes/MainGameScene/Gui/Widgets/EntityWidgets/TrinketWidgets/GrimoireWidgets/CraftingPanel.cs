@@ -8,6 +8,11 @@ public sealed class CraftingPanel : VerticalStackPanel, IUpdatable
     private readonly RecipeCard _recipeCard;
     private readonly List<ItemDef> _items;
     private readonly Dictionary<ItemDef, Panel> _itemButtons = new();
+    
+    /// <summary>
+    /// Returns true if any recipe in this panel can be crafted with current inventory
+    /// </summary>
+    public bool HasCraftableRecipe => _items.Any(item => item.CraftingProperties?.CanCraft(_pawn) == true);
 
     public CraftingPanel(string buttonLabel, List<ItemDef> items, Pawn pawn)
     {

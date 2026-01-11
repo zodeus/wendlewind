@@ -77,6 +77,10 @@
                 <ItemDef>BloodSuckler</ItemDef>
                 <Weight>1</Weight>
             </ListItem>
+            <ListItem>
+                <ItemDef>StrangeWitheredTwig</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
         </Items>
     </LootBoxDef>
 </Definitions>

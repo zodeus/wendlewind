@@ -31,6 +31,12 @@ internal sealed class BodyPartSocketPanel : HorizontalStackPanel
             _bodyPartRow.Visible = true;
             _bodyPartRow.SetPart(Socket.AttachedPart, showInternalParts);
         }
+        else
+        {
+            // Socket is empty - hide the body part row, show socket label
+            _socketLabel.Visible = true;
+            _bodyPartRow.Visible = false;
+        }
 
         Widgets.Add(_bodyPartRow);
     }

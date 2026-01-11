@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartDef Name="RustyDollBodyPartBase" ParentName="BodyPartBase" Abstract="True">
+
+    </BodyPartDef>
+    <BodyPartDef ParentName="RustyDollBodyPartBase">
+        <Moniker>RustyDollCore</Moniker>
+        <Label>Rusty Doll</Label>
+        <BodyPartType>Torso</BodyPartType>
+        <HitWeight>65</HitWeight>
+        <BloodAmount>0</BloodAmount>
+        <Substance>Metal</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/RustyDoll/Torso</TexturePath>
+        <Sockets>
+            <ListItem>SkullSocket</ListItem>
+            <ListItem>MinionSocket1</ListItem>
+            <ListItem>MinionSocket2</ListItem>
+            <ListItem>MinionSocket3</ListItem>
+            <ListItem>MinionSocket4</ListItem>
+            <ListItem>MinionSocket5</ListItem>
+            <ListItem>MinionSocket6</ListItem>
+            <ListItem>MinionSocket7</ListItem>
+            <ListItem>MinionSocket8</ListItem>
+        </Sockets>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <MaxHitPoints>400</MaxHitPoints>
+            <AttackSpeedModifier>.5</AttackSpeedModifier>
+        </BaseStats>
+    </BodyPartDef>
+    <BodyPartDef ParentName="RustyDollBodyPartBase">
+        <Moniker>RustyDollMinion</Moniker>
+        <Label>Rusty Doll</Label>
+        <BodyPartType>Minion</BodyPartType>
+        <HitWeight>65</HitWeight>
+        <BloodAmount>0</BloodAmount>
+        <Substance>Metal</Substance>
+        <TexturePath>Entities/Pawn/BodyParts/RustyDoll/Torso</TexturePath>
+        <Sockets>
+            <ListItem>SkullSocket</ListItem>
+        </Sockets>
+        <EquipmentSlots>
+            <ListItem>BuiltIn</ListItem>
+        </EquipmentSlots>
+        <BaseStats>
+            <MaxHitPoints>50</MaxHitPoints>
+            <AttackSpeedModifier>1</AttackSpeedModifier>
+        </BaseStats>
+    </BodyPartDef>
+</Definitions>

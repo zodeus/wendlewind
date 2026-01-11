@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <LootBoxDef Name="PotionChest1">
+        <Moniker>PotionChest1</Moniker>
+        <Label>Potion Chest</Label>
+        <Category>Potions</Category>
+        <TexturePath>Chests/PotionChest1</TexturePath>
+        <CollectionLimit>3</CollectionLimit>
+        <Items>
+            <ListItem>
+                <ItemDef>JarOfBlood</ItemDef>
+                <Amount>1</Amount>
+                <ChanceToDrop>.8</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <ItemDef>AcidFlask</ItemDef>
+                <Amount>1</Amount>
+                <ChanceToDrop>.5</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <ItemDef>SpicedChurni</ItemDef>
+                <Amount>1</Amount>
+                <ChanceToDrop>.4</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <ItemDef>StrengthPotion</ItemDef>
+                <Amount>1</Amount>
+                <ChanceToDrop>.1</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <ItemDef>PussBomb</ItemDef>
+                <Amount>1</Amount>
+                <ChanceToDrop>.2</ChanceToDrop>
+            </ListItem>
+        </Items>
+    </LootBoxDef>
+    <LootBoxDef Name="PotionChest2" ParentName="PotionChest1">
+        <Moniker>PotionChest2</Moniker>
+        <Label>Potion Chest</Label>
+        <Category>Potions</Category>
+        <TexturePath>Chests/PotionChest1</TexturePath>
+        <CollectionLimit>4</CollectionLimit>
+        <Items>
+            <ListItem>
+                <ItemDef>BlackenedSmoke</ItemDef>
+                <Amount>1~2</Amount>
+                <ChanceToDrop>.3</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <ItemDef>Fleshify</ItemDef>
+                <Amount>1</Amount>
+                <ChanceToDrop>.2</ChanceToDrop>
+            </ListItem>
+        </Items>
+    </LootBoxDef>
+</Definitions>

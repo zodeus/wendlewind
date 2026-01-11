@@ -84,20 +84,7 @@ public static partial class Defs
     [DefLocator]
     public static class Zones
     {
-        public static ZoneDef PeacefulMeadow = null!;
-        public static ZoneDef TheOutskirts = null!;
-        public static ZoneDef Thicket = null!;
-        public static ZoneDef GrainMill = null!;
-        public static ZoneDef FrogPond = null!;
-        public static ZoneDef ForgottenForest = null!;
         public static ZoneDef DampCave = null!;
-        public static ZoneDef StoneGarden = null!;
-        public static ZoneDef Mineshaft = null!;
-        public static ZoneDef AbandonedStables = null!;
-        public static ZoneDef TheTheatre = null!;
-        public static ZoneDef BearDen = null!;
-        public static ZoneDef Swamp = null!;
-        public static ZoneDef Cemetery = null!;
     }
 }
 
@@ -346,6 +333,7 @@ public static partial class Defs
         public static BodyPartDef GameBoxArm = null!;
         public static BodyPartDef GameBoxHand = null!;
         public static BodyPartDef GameBoxLeg = null!;
+        public static BodyPartDef Cpu = null!;
 
         public static BodyPartDef MarionetteHead = null!;
         public static BodyPartDef MarionetteTorso = null!;
@@ -358,6 +346,9 @@ public static partial class Defs
         public static BodyPartDef HydraHeadTwo = null!;
         public static BodyPartDef HydraHeadThree = null!;
         public static BodyPartDef HydraTorso = null!;
+
+        public static BodyPartDef RustyDollCore = null!;
+        public static BodyPartDef RustyDollMinion = null!;
     }
 
     [DefLocator]

@@ -4,42 +4,6 @@
     <BodyPartDef Name="BeeBodyPartBase" ParentName="BodyPartBase" Abstract="True">
 
     </BodyPartDef>
-    <BodyPartSocketDef ParentName="BodyPartSocketBase">
-        <Moniker>BeeDroneSocket1</Moniker>
-        <Label>Drone Socket</Label>
-        <IsExternal>true</IsExternal>
-        <Position>A</Position>
-        <AllowedBodyPartTypes>
-            <ListItem>Minion</ListItem>
-        </AllowedBodyPartTypes>
-    </BodyPartSocketDef>
-    <BodyPartSocketDef ParentName="BodyPartSocketBase">
-        <Moniker>BeeDroneSocket2</Moniker>
-        <Label>Drone Socket</Label>
-        <IsExternal>true</IsExternal>
-        <Position>B</Position>
-        <AllowedBodyPartTypes>
-            <ListItem>Minion</ListItem>
-        </AllowedBodyPartTypes>
-    </BodyPartSocketDef>
-    <BodyPartSocketDef ParentName="BodyPartSocketBase">
-        <Moniker>BeeDroneSocket3</Moniker>
-        <Label>Drone Socket</Label>
-        <IsExternal>true</IsExternal>
-        <Position>C</Position>
-        <AllowedBodyPartTypes>
-            <ListItem>Minion</ListItem>
-        </AllowedBodyPartTypes>
-    </BodyPartSocketDef>
-    <BodyPartSocketDef ParentName="BodyPartSocketBase">
-        <Moniker>BeeDroneSocket4</Moniker>
-        <Label>Drone Socket</Label>
-        <IsExternal>true</IsExternal>
-        <Position>D</Position>
-        <AllowedBodyPartTypes>
-            <ListItem>Minion</ListItem>
-        </AllowedBodyPartTypes>
-    </BodyPartSocketDef>
 
     <BodyPartDef ParentName="BeeBodyPartBase">
         <Moniker>BeeDrone</Moniker>
@@ -73,10 +37,10 @@
             <ListItem>LeftAntennaSocket</ListItem>
             <ListItem>RightAntennaSocket</ListItem>
             <ListItem>ThoraxSocket</ListItem>
-            <ListItem>BeeDroneSocket1</ListItem>
-            <ListItem>BeeDroneSocket2</ListItem>
-            <ListItem>BeeDroneSocket3</ListItem>
-            <ListItem>BeeDroneSocket4</ListItem>
+            <ListItem>MinionSocket1</ListItem>
+            <ListItem>MinionSocket2</ListItem>
+            <ListItem>MinionSocket3</ListItem>
+            <ListItem>MinionSocket4</ListItem>
         </Sockets>
         <EquipmentSlots>
             <ListItem>BuiltIn</ListItem>

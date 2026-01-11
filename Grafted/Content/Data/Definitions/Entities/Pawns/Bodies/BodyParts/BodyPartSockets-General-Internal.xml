@@ -57,6 +57,7 @@
         <Label>Brain Socket</Label>
         <AllowedBodyPartTypes>
             <ListItem>Brain</ListItem>
+            <ListItem>Cpu</ListItem>
         </AllowedBodyPartTypes>
     </BodyPartSocketDef>
     <BodyPartSocketDef ParentName="BodyPartSocketBase">

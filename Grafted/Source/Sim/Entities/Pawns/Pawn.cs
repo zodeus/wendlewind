@@ -364,6 +364,10 @@ public class Pawn : Entity
         {
             return 99999;
         }
+        if (AttackSpeed > Core.TicksPerSecond) {
+            Log.Warning($"{Label} has attack speed greater than {Core.TicksPerSecond}, setting to 1");
+            return 1;
+        }
 
         return Mathf.CeilToInt(Core.TicksPerSecond / AttackSpeed);
     }

@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <BodyPartSocketDef Name="MinionSocketBase" ParentName="BodyPartSocketBase" Abstract="True">
+        <AllowedBodyPartTypes>
+            <ListItem>Minion</ListItem>
+        </AllowedBodyPartTypes>
+        <IsExternal>true</IsExternal>
+    </BodyPartSocketDef>
+
+    <BodyPartSocketDef ParentName="MinionSocketBase">
+        <Moniker>MinionSocket1</Moniker>
+        <Label>Minion Socket 1</Label>
+        <Position>M1</Position>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="MinionSocketBase">
+        <Moniker>MinionSocket2</Moniker>
+        <Label>Minion Socket 2</Label>
+        <Position>M2</Position>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="MinionSocketBase">
+        <Moniker>MinionSocket3</Moniker>
+        <Label>Minion Socket 3</Label>
+        <Position>M3</Position>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="MinionSocketBase">
+        <Moniker>MinionSocket4</Moniker>
+        <Label>Minion Socket 4</Label>
+        <Position>M4</Position>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="MinionSocketBase">
+        <Moniker>MinionSocket5</Moniker>
+        <Label>Minion Socket 5</Label>
+        <Position>M5</Position>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="MinionSocketBase">
+        <Moniker>MinionSocket6</Moniker>
+        <Label>Minion Socket 6</Label>
+        <Position>M6</Position>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="MinionSocketBase">
+        <Moniker>MinionSocket7</Moniker>
+        <Label>Minion Socket 7</Label>
+        <Position>M7</Position>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="MinionSocketBase">
+        <Moniker>MinionSocket8</Moniker>
+        <Label>Minion Socket 8</Label>
+        <Position>M8</Position>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="MinionSocketBase">
+        <Moniker>MinionSocket9</Moniker>
+        <Label>Minion Socket 9</Label>
+        <Position>M9</Position>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="MinionSocketBase">
+        <Moniker>MinionSocket10</Moniker>
+        <Label>Minion Socket 10</Label>
+        <Position>M10</Position>
+    </BodyPartSocketDef>
+</Definitions>

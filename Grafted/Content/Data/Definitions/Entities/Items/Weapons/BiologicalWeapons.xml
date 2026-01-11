@@ -1147,4 +1147,36 @@
             <WeaponPower>70</WeaponPower>
         </BaseStats>
     </ItemDef>
+
+    <!-- RustyDoll Weapons -->
+    <ItemDef ParentName="WeaponBlunt">
+        <Moniker>RustyDollMouth</Moniker>
+        <Label>Rusty Mouth</Label>
+        <Description>A corroded metal mouth that delivers crushing force</Description>
+        <WeaponProperties>
+            <WeaponType>RustyDoll</WeaponType>
+            <DamageType>Magic</DamageType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.4</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.2</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Metal</Substance>
+                    <Modifier>0.6</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <EquipmentProperties>
+            <SlotUsedToEquip>BuiltIn</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Pawn/BodyParts/RustyDoll/Torso</TexturePath>
+        <BaseStats>
+            <WeaponPower>65</WeaponPower>
+        </BaseStats>
+    </ItemDef>
 </Definitions>

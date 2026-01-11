@@ -13,7 +13,7 @@ public class GameBoxBodyGenerator : IBodyGenerator
         var skull = torso.GetSocketsFor(BodyPartType.Skull)[0].TryAttachPart(Defs.BodyParts.Skull);
         
         // Brain is the only organic part - housed inside the metal torso
-        skull.GetSocketsFor(BodyPartType.Brain)[0].TryAttachPart(Defs.BodyParts.Brain);
+        skull.GetSocketsFor(BodyPartType.Brain)[0].TryAttachPart(Defs.BodyParts.Cpu);
 
         // Misc
         var controls =torso.GetSocketsFor(BodyPartType.Misc)[0].TryAttachPart(Defs.BodyParts.GameBoxControls);

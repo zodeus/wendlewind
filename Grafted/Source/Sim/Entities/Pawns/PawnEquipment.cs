@@ -24,6 +24,23 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
         }
     }
 
+    public IEnumerable<(Item, BodyPart)> Weapons
+    {
+        get
+        {
+            foreach (BodyPart externalPart in _pawn.Body.AllExternalParts)
+            {
+                foreach (Item? item in externalPart.Equipment.Values)
+                {
+                    if (item != null && item.ItemDef.EquipmentProperties?.EquipmentType == EquipmentType.Weapon)
+                    {
+                        yield return (item, externalPart);
+                    }
+                }
+            }
+        }
+    }
+
     public IEnumerable<Item> Potions
     {
         get

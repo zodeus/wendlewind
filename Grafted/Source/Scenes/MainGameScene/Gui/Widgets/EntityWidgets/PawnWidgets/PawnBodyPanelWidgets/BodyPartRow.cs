@@ -17,10 +17,7 @@ internal sealed class BodyPartRow : HorizontalStackPanel
     {
         _gui = gui;
         Spacing = 5;
-        _label = new Label(BaseContent.Styles.Label.Medium)
-        {
-            VerticalAlignment = VerticalAlignment.Center
-        };
+        _label = new Label(BaseContent.Styles.Label.Medium) { VerticalAlignment = VerticalAlignment.Center };
         _label.MouseEntered += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Hand);
         _label.MouseLeft += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Arrow);
         _iconContainer = new VerticalStackPanel { Spacing = 5, VerticalAlignment = VerticalAlignment.Center };

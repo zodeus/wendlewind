@@ -195,6 +195,7 @@ public sealed class DevConsole : Panel
         catch (Exception ex)
         {
             LogError($"Error: {ex.Message}");
+            LogError($"Error stack trace: {ex.StackTrace}");
         }
 
         _inputField.Text = "";

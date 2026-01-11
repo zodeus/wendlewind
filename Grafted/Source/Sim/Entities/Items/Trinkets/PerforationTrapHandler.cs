@@ -57,6 +57,9 @@ public class PerforationTrapHandler : TrinketHandler, IUpgradableHandler
     {
         if (_isSet) return false;
         
+        // Can't set trap during combat
+        if (Core.Context.CurrentZone?.ActiveEncounter?.CombatHandler != null) return false;
+        
         var inventory = Core.Context.PlayerPawn.Inventory;
         return TrapCosts.All(cost => inventory.AmountOf(cost.Item) >= cost.Count);
     }

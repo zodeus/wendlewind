@@ -1,11 +1,14 @@
-﻿namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
+﻿using SolidBrush = Myra.Graphics2D.Brushes.SolidBrush;
+
+namespace Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 
 public sealed class TabPanel : VerticalStackPanel
 {
     private readonly HorizontalStackPanel _tabButtonsPanel;
     private readonly List<CursorButton> _tabButtons = [];
+    private readonly List<Widget> _tabContents = [];
+    private readonly List<Panel> _tabIndicators = [];
 
-    //private readonly Dictionary<string, Widget> _tabs = new();
     private ScrollViewer _activeTab = new();
     public string ButtonStyle { get; set; } = BaseContent.Styles.Button.Large;
     private static string LabelStyle => BaseContent.Styles.Label.Normal;
@@ -27,8 +30,10 @@ public sealed class TabPanel : VerticalStackPanel
         }
     }
 
-    public void AddTab(string? labelText, Widget widget, IBrush? icon = null)
+    public void AddTab(string? labelText, Widget widget, IBrush? icon = null, Func<bool>? hasIndicator = null)
     {
+        _tabContents.Add(widget);
+        
         HorizontalStackPanel row = new();
         if (icon != null)
         {
@@ -36,12 +41,37 @@ public sealed class TabPanel : VerticalStackPanel
         }
 
         CursorButton? label = null;
+        Panel? indicator = null;
+        
         if (labelText != null)
         {
+            // Container for button + indicator
+            var buttonContainer = new Panel();
+            
             label = new CursorButton(ButtonStyle) { Content = new Label(LabelStyle) { Text = labelText } };
-  
+            buttonContainer.Widgets.Add(label);
+            
+            // Add indicator dot (initially hidden)
+            indicator = new Panel
+            {
+                Width = 10,
+                Height = 10,
+                Background = new SolidBrush(new Color(60, 200, 60)),
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Top,
+                Margin = new Thickness(0, 2, 2, 0),
+                Visible = false
+            };
+            buttonContainer.Widgets.Add(indicator);
+            _tabIndicators.Add(indicator);
+            
             _tabButtons.Add(label);
-            row.Widgets.Add(label);
+            row.Widgets.Add(buttonContainer);
+        }
+        else
+        {
+            // No label, add a placeholder indicator
+            _tabIndicators.Add(null!);
         }
 
         if (widget is IUpdatable updateable)
@@ -77,11 +107,28 @@ public sealed class TabPanel : VerticalStackPanel
         _activeTab.Content = widget;
     }
 
+    /// <summary>
+    /// Updates all tab contents (not just the active one)
+    /// </summary>
     public void Update()
     {
-        if (_activeTab.Content is IUpdatable updateable)
+        foreach (var content in _tabContents)
         {
-            updateable.Update();
+            if (content is IUpdatable updateable)
+            {
+                updateable.Update();
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Sets indicator visibility for a specific tab index
+    /// </summary>
+    public void SetTabIndicator(int tabIndex, bool visible)
+    {
+        if (tabIndex >= 0 && tabIndex < _tabIndicators.Count && _tabIndicators[tabIndex] != null)
+        {
+            _tabIndicators[tabIndex].Visible = visible;
         }
     }
 }

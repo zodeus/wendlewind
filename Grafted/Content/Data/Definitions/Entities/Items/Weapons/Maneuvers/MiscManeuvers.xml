@@ -185,4 +185,13 @@
         </Weapons>
         <DamageMultiplier>0.5~1</DamageMultiplier>
     </WeaponManeuverDef>
+
+    <WeaponManeuverDef> 
+        <Moniker>RustyDollMouth</Moniker>
+        <Label>Sing</Label>
+        <Weapons>
+            <ListItem>RustyDoll</ListItem>
+        </Weapons>
+        <DamageMultiplier>0.5~1</DamageMultiplier>
+    </WeaponManeuverDef>
 </Definitions>

@@ -171,6 +171,8 @@ public class BloodSpurtRenderer
                 if (socket.IsSealed) continue;
                 // Skip internal organ sockets (they don't spurt blood outward)
                 if (!socket.IsExternal) continue;
+                // Skip minion sockets (they don't bleed)
+                if (socket.Def.AllowedBodyPartTypes.Contains(BodyPartType.Minion)) continue;
                 
                 activeSocketIds.Add(socket.Id);
                 

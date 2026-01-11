@@ -61,8 +61,6 @@ internal sealed class SupplyItemButton : CursorButton
     private readonly BaseGui _gui;
     private readonly Item _item;
     private readonly Label _stackLabel;
-    private Window? _tooltipWindow;
-    private Label? _tooltipLabel;
 
     public SupplyItemButton(BaseGui gui, Item item) : base(BaseContent.Styles.Button.Icon)
     {
@@ -94,56 +92,7 @@ internal sealed class SupplyItemButton : CursorButton
         Height = BaseContent.IconSizes.Large + 8;
 
         Click += OnClick;
-        MouseEntered += (_, _) => ShowTooltip();
-        MouseLeft += (_, _) => HideTooltip();
-    }
-
-    private void EnsureTooltipCreated()
-    {
-        if (_tooltipWindow != null) return;
-
-        _tooltipLabel = new Label(BaseContent.Styles.Label.Small)
-        {
-            TextColor = Color.White
-        };
-
-        _tooltipWindow = new Window
-        {
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
-            Margin = new Thickness(0),
-            Padding = new Thickness(10, 3, 10, 10),
-            Content = _tooltipLabel
-        };
-        _tooltipWindow.TitlePanel.Visible = false;
-    }
-
-    private void ShowTooltip()
-    {
-        if (Desktop == null) return;
-
-        EnsureTooltipCreated();
-
-        _tooltipLabel!.Text = _item.Label;
-
-        // Position tooltip near the mouse
-        var screenPos = Mouse.GetState().Position;
-        var uiX = (int)((screenPos.X - Core.UiOffset.X) / Core.UiScale);
-        var uiY = (int)((screenPos.Y - Core.UiOffset.Y) / Core.UiScale);
-
-        if (!_tooltipWindow!.IsPlaced)
-        {
-            _tooltipWindow.Show(Desktop, new Point(uiX + 15, uiY + 15));
-        }
-        else
-        {
-            _tooltipWindow.Left = uiX + 15;
-            _tooltipWindow.Top = uiY + 15;
-        }
-    }
-
-    private void HideTooltip()
-    {
-        _tooltipWindow?.Close();
+        this.WithDynamicTooltip(() => _item.Label);
     }
 
     private void OnClick(object? sender, EventArgs e)
@@ -167,16 +116,6 @@ internal sealed class SupplyItemButton : CursorButton
     public void Update()
     {
         _stackLabel.Text = _item.StackSize > 1 ? _item.StackSize.ToString() : "";
-
-        // Update tooltip position while hovering
-        if (_tooltipWindow?.IsPlaced == true)
-        {
-            var screenPos = Mouse.GetState().Position;
-            var uiX = (int)((screenPos.X - Core.UiOffset.X) / Core.UiScale);
-            var uiY = (int)((screenPos.Y - Core.UiOffset.Y) / Core.UiScale);
-
-            _tooltipWindow.Left = uiX + 15;
-            _tooltipWindow.Top = uiY + 15;
-        }
+        TooltipHelper.UpdatePosition();
     }
 }

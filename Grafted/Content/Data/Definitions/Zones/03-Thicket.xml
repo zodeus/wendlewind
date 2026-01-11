@@ -95,7 +95,7 @@
             <ListItem>
                 <MaxBoxes>2</MaxBoxes>
                 <PotentialLootBoxes>
-                    <ListItem>SupplyChest1</ListItem>
+                    <ListItem>ResourceChest1</ListItem>
                     <ListItem>ArmorChest1</ListItem>
                 </PotentialLootBoxes>
                 <Enemies>

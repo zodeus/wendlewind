@@ -36,5 +36,6 @@ public enum BodyPartType
     Minion,
     Abdomen,
     Wing,
-    Misc
+    Misc,
+    Cpu
 }

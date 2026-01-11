@@ -4,7 +4,7 @@
     <ZoneDef>
         <Moniker>BrickRoad</Moniker>
         <Label>Brick Road</Label>
-        <Stage>19</Stage>
+        <Stage>21</Stage>
         <ZoneColor>200, 170, 80</ZoneColor>
         <Weathers>
             <ListItem>FallingLeaves</ListItem>

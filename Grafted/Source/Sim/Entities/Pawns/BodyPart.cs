@@ -12,6 +12,7 @@ public class BodyPart : Entity
 
     private double _hitPoints;
     private string? _adaptedLabel;
+    private string? _internalLabel;
     private bool _isSevered; // todo, this should be set by an applied health condition
     private SubstanceType? _substanceOverride;
 
@@ -25,6 +26,13 @@ public class BodyPart : Entity
     public BodyPartDef BodyPartDef => (BodyPartDef)Def;
 
     public override string Label => _adaptedLabel ?? "failed to adapt label";
+    
+    /// <summary>
+    /// Returns a unique identifier for this body part instance, combining the Def.Moniker with position info.
+    /// Unlike Label, this is guaranteed to be unique across all parts in a body.
+    /// </summary>
+    public string InternalLabel => _internalLabel ??= GenerateInternalLabel();
+    
     public Texture2D WhiteIcon => BodyPartDef.WhiteIcon;
     public BodyPartType Type => BodyPartDef.BodyPartType;
     public float BloodAmount => BodyPartDef.BloodAmount;
@@ -324,18 +332,18 @@ public class BodyPart : Entity
 
         // Apply substance modifier from weapon properties
         var substanceModifier = ctx.GetSubstanceModifier?.Invoke(Substance) ?? 1f;
-        
+
         // Depth penetration: this layer absorbs a portion, the rest penetrates to deeper structures
         // This ensures damage is conserved while still reaching internal parts
         const double surfaceAbsorptionRate = 0.5; // Each layer absorbs 50%, 50% penetrates
         var damageToAbsorb = ctx.Amount * surfaceAbsorptionRate;
         var damageToPenetrate = ctx.Amount * (1.0 - surfaceAbsorptionRate);
-        
+
         var scaledDamageToAbsorb = damageToAbsorb * substanceModifier;
         var prevHP = HitPoints;
         HitPoints = Math.Max(0, HitPoints - scaledDamageToAbsorb);
         var damageApplied = prevHP - HitPoints;
-        
+
         // Remaining = penetrating portion + any damage this part couldn't absorb (if destroyed)
         var unabsorbedDamage = Math.Max(0, damageToAbsorb - damageApplied / substanceModifier);
         var remainingDamage = damageToPenetrate + unabsorbedDamage;
@@ -369,7 +377,7 @@ public class BodyPart : Entity
         damagedParts ??= [];
         var ctx = DamageContext.FromDamage(damage, damage.TotalUnblockedDamage);
         var remainingDamage = ApplyDamage(ctx, damagedParts, cascade: false);
-    
+
         // Cascade damage to internal parts (skin is handled first in CascadeDamageToInternalParts)
         if (remainingDamage > 0)
         {
@@ -382,7 +390,7 @@ public class BodyPart : Entity
 
         return damagedParts;
     }
-    
+
     public void Severe()
     {
         if (Socket == Body?.RootSocket)
@@ -540,9 +548,33 @@ public class BodyPart : Entity
             label += Socket?.ParentPart?.Position == null ? "" : string.Join(" ", Regex.Split(Socket?.ParentPart?.Position.ToString()!, @"(?<!^)(?=[A-Z])")) + " ";
         }
 
-        label += Position == null ? "" : string.Join(" ", Regex.Split(Position.ToString()!, @"(?<!^)(?=[A-Z])")) + " ";
+
+        label += Position == null || IsMinionPosition(Position.Value) ? "" : string.Join(" ", Regex.Split(Position.ToString()!, @"(?<!^)(?=[A-Z])")) + " ";
         label += BodyPartDef.Label;
         return label;
+    }
+    
+    private string GenerateInternalLabel()
+    {
+        var moniker = BodyPartDef.Moniker;
+        
+        // Append position for disambiguation if available
+        if (Position != null)
+        {
+            moniker += "_" + Position.Value;
+        }
+        // Fallback: use socket def moniker for further disambiguation
+        else if (Socket?.Def.Moniker != null)
+        {
+            moniker += "_" + Socket.Def.Moniker;
+        }
+         
+        return moniker;
+    }
+
+    private bool IsMinionPosition(BodyPartPosition position)
+    {
+        return position is BodyPartPosition.M1 or BodyPartPosition.M2 or BodyPartPosition.M3 or BodyPartPosition.M4 or BodyPartPosition.M5 or BodyPartPosition.M6 or BodyPartPosition.M7 or BodyPartPosition.M8 or BodyPartPosition.M9 or BodyPartPosition.M10;
     }
 
     public override void ExposeData()

@@ -59,8 +59,6 @@ public class BodyPartEditorWindow : Window
     
     // Rendering
     private SpriteBatch? _spriteBatch;
-    
-    // Editor state
     private readonly HashSet<string> _selectedPartLabels = new();
     private string? _hoveredPartLabel;
     private string? _draggedPartLabel;
@@ -370,7 +368,7 @@ public class BodyPartEditorWindow : Window
                 var flipH = (info.Effects & SpriteEffects.FlipHorizontally) != 0;
                 var flipV = (info.Effects & SpriteEffects.FlipVertically) != 0;
                 
-                _overrides[part.Label] = new BodyPartTransformOverride(
+                _overrides[part.InternalLabel] = new BodyPartTransformOverride(
                     info.Position,
                     info.Scale,
                     info.Rotation,
@@ -405,15 +403,16 @@ public class BodyPartEditorWindow : Window
         {
             var button = new CursorButton(BaseContent.Styles.Button.Small)
             {
+                // Show Label for display, but use Moniker for keying
                 Content = new Label(BaseContent.Styles.Label.Small) { Text = part.Label, TextColor = Color.White },
             };
             Grid.SetRow(button, row);
             Grid.SetColumn(button, col);
             
-            var partLabel = part.Label; // Capture for closure
+            var partLabel = part.InternalLabel; // Capture for closure
             button.Click += (_, _) => OnPartListItemClicked(partLabel);
             
-            _partButtons[part.Label] = button;
+            _partButtons[part.InternalLabel] = button;
             _partsGrid.Widgets.Add(button);
             
             col++;
@@ -497,8 +496,8 @@ public class BodyPartEditorWindow : Window
         
         // Toggle based on majority state
         var selectedOverrides = _selectedPartLabels
-            .Where(l => _overrides.ContainsKey(l))
-            .Select(l => _overrides[l])
+            .Where(label => _overrides.ContainsKey(label))
+            .Select(label => _overrides[label])
             .ToList();
         var anyNotFlipped = selectedOverrides.Any(o => !o.FlipHorizontal);
         foreach (var over in selectedOverrides)
@@ -514,8 +513,8 @@ public class BodyPartEditorWindow : Window
         
         // Toggle based on majority state
         var selectedOverrides = _selectedPartLabels
-            .Where(l => _overrides.ContainsKey(l))
-            .Select(l => _overrides[l])
+            .Where(label => _overrides.ContainsKey(label))
+            .Select(label => _overrides[label])
             .ToList();
         var anyNotFlipped = selectedOverrides.Any(o => !o.FlipVertical);
         foreach (var over in selectedOverrides)
@@ -542,8 +541,8 @@ public class BodyPartEditorWindow : Window
         if (_selectedPartLabels.Count == 0) return;
         
         var selectedOverrides = _selectedPartLabels
-            .Where(l => _overrides.ContainsKey(l))
-            .Select(l => _overrides[l])
+            .Where(label => _overrides.ContainsKey(label))
+            .Select(label => _overrides[label])
             .ToList();
         var anyWithout = selectedOverrides.Any(o => !o.HasEquipmentAttachment);
         foreach (var over in selectedOverrides)
@@ -622,8 +621,8 @@ public class BodyPartEditorWindow : Window
         if (_selectedPartLabels.Count == 0) return;
         
         var selectedOverrides = _selectedPartLabels
-            .Where(l => _overrides.ContainsKey(l))
-            .Select(l => _overrides[l])
+            .Where(label => _overrides.ContainsKey(label))
+            .Select(label => _overrides[label])
             .ToList();
         var anyNotFlipped = selectedOverrides.Any(o => !o.EquipmentFlipH);
         foreach (var over in selectedOverrides)
@@ -753,8 +752,8 @@ public class BodyPartEditorWindow : Window
             // Keep current slider values for multi-selection
             // Show equipment UI if any selected part has equipment
             var firstWithEquip = _selectedPartLabels
-                .Where(l => _overrides.ContainsKey(l))
-                .Select(l => _overrides[l])
+                .Where(label => _overrides.ContainsKey(label))
+                .Select(label => _overrides[label])
                 .FirstOrDefault(o => o.HasEquipmentAttachment);
             UpdateEquipmentUI(firstWithEquip);
         }
@@ -889,14 +888,14 @@ public class BodyPartEditorWindow : Window
         // Sort by render order descending (front to back for hit testing), using override if available
         parts.Sort((a, b) =>
         {
-            var orderA = _overrides.TryGetValue(a.part.Label, out var overA) ? overA.RenderOrder : a.info.RenderOrder;
-            var orderB = _overrides.TryGetValue(b.part.Label, out var overB) ? overB.RenderOrder : b.info.RenderOrder;
+            var orderA = _overrides.TryGetValue(a.part.InternalLabel, out var overA) ? overA.RenderOrder : a.info.RenderOrder;
+            var orderB = _overrides.TryGetValue(b.part.InternalLabel, out var overB) ? overB.RenderOrder : b.info.RenderOrder;
             return orderB.CompareTo(orderA); // Descending for hit testing
         });
         
         foreach (var (part, info) in parts)
         {
-            var over = _overrides.GetValueOrDefault(part.Label);
+            var over = _overrides.GetValueOrDefault(part.InternalLabel);
             var position = over?.Position ?? info.Position;
             var scale = over?.Scale ?? info.Scale;
             var rotation = over?.Rotation ?? info.Rotation;
@@ -948,7 +947,7 @@ public class BodyPartEditorWindow : Window
             // Get pixel data and check alpha
             if (IsPixelOpaque(info.Texture, pixelX, pixelY))
             {
-                return part.Label;
+                return part.InternalLabel;
             }
         }
         
@@ -1016,8 +1015,8 @@ public class BodyPartEditorWindow : Window
         // Sort by render order (back to front), using override if available
         parts.Sort((a, b) =>
         {
-            var orderA = _overrides.TryGetValue(a.part.Label, out var overA) ? overA.RenderOrder : a.info.RenderOrder;
-            var orderB = _overrides.TryGetValue(b.part.Label, out var overB) ? overB.RenderOrder : b.info.RenderOrder;
+            var orderA = _overrides.TryGetValue(a.part.InternalLabel, out var overA) ? overA.RenderOrder : a.info.RenderOrder;
+            var orderB = _overrides.TryGetValue(b.part.InternalLabel, out var overB) ? overB.RenderOrder : b.info.RenderOrder;
             return orderA.CompareTo(orderB);
         });
         
@@ -1030,7 +1029,7 @@ public class BodyPartEditorWindow : Window
         
         foreach (var (part, info) in parts)
         {
-            var over = _overrides.GetValueOrDefault(part.Label);
+            var over = _overrides.GetValueOrDefault(part.InternalLabel);
             var position = over?.Position ?? info.Position;
             var partScale = over?.Scale ?? info.Scale;
             var rotation = over?.Rotation ?? info.Rotation;
@@ -1050,19 +1049,19 @@ public class BodyPartEditorWindow : Window
             var tint = BodyPartColor.Get(part);
             
             // Highlight selected/dragged/hovered part
-            if (_isDraggingMultiple && _selectedPartLabels.Contains(part.Label))
+            if (_isDraggingMultiple && _selectedPartLabels.Contains(part.InternalLabel))
             {
                 tint = Color.Yellow;
             }
-            else if (_draggedPartLabel == part.Label)
+            else if (_draggedPartLabel == part.InternalLabel)
             {
                 tint = Color.Yellow;
             }
-            else if (_selectedPartLabels.Contains(part.Label))
+            else if (_selectedPartLabels.Contains(part.InternalLabel))
             {
                 tint = Color.Lerp(tint, Color.Cyan, 0.5f);
             }
-            else if (_hoveredPartLabel == part.Label)
+            else if (_hoveredPartLabel == part.InternalLabel)
             {
                 tint = Color.Lerp(tint, Color.Orange, 0.35f);
             }
@@ -1116,9 +1115,9 @@ public class BodyPartEditorWindow : Window
     {
         if (_selectedPartLabels.Count == 0 || _layout == null) return;
         
-        foreach (var partLabel in _selectedPartLabels)
+        foreach (var internalLabel in _selectedPartLabels)
         {
-            var part = _pawn.Body.AllExternalParts.FirstOrDefault(p => p.Label == partLabel);
+            var part = _pawn.Body.AllExternalParts.FirstOrDefault(p => p.InternalLabel == internalLabel);
             if (part != null)
             {
                 var renderInfo = _layout.GetRenderInfo(part);
@@ -1128,7 +1127,7 @@ public class BodyPartEditorWindow : Window
                     var flipH = (info.Effects & SpriteEffects.FlipHorizontally) != 0;
                     var flipV = (info.Effects & SpriteEffects.FlipVertically) != 0;
                     
-                    _overrides[partLabel] = new BodyPartTransformOverride(
+                    _overrides[internalLabel] = new BodyPartTransformOverride(
                         info.Position,
                         info.Scale,
                         info.Rotation,
@@ -1146,17 +1145,17 @@ public class BodyPartEditorWindow : Window
     private void CopyPositionsToClipboard()
     {
         var sb = new StringBuilder();
-        sb.AppendLine("// Body part positions (native coordinates)");
+        sb.AppendLine("// Body part positions (native coordinates) - keyed by Moniker");
         sb.AppendLine("private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()");
         sb.AppendLine("{");
         
-        var partInfos = new List<(string label, Vector2 position, int renderOrder, float scale, float rotation, bool flipH, bool flipV, bool hasEquip, Vector2 equipOffset, float equipRot, float equipScale, bool equipFlipH)>();
+        var partInfos = new List<(string internalLabel, Vector2 position, int renderOrder, float scale, float rotation, bool flipH, bool flipV, bool hasEquip, Vector2 equipOffset, float equipRot, float equipScale, bool equipFlipH)>();
         
-        // Use the overrides dictionary which contains all parts we've been editing
-        foreach (var (label, over) in _overrides)
+        // Use the overrides dictionary which contains all parts we've been editing (keyed by Moniker)
+        foreach (var (internalLabel, over) in _overrides)
         {
             partInfos.Add((
-                label, 
+                internalLabel, 
                 over.Position, 
                 over.RenderOrder, 
                 over.Scale, 
@@ -1172,7 +1171,7 @@ public class BodyPartEditorWindow : Window
         
         partInfos.Sort((a, b) => a.renderOrder.CompareTo(b.renderOrder));
         
-        foreach (var (label, position, renderOrder, scale, rotation, flipH, flipV, hasEquip, equipOffset, equipRot, equipScale, equipFlipH) in partInfos)
+        foreach (var (internalLabel, position, renderOrder, scale, rotation, flipH, flipV, hasEquip, equipOffset, equipRot, equipScale, equipFlipH) in partInfos)
         {
             var optionalParams = "";
             if (rotation != 0f) optionalParams += $", {rotation:F4}f";
@@ -1186,7 +1185,7 @@ public class BodyPartEditorWindow : Window
                 optionalParams += $", equipmentAttachment: {equipParams}";
             }
             
-            sb.AppendLine($"    {{ \"{label}\", new BodyPartLayoutData(new Vector2({position.X:F0}f, {position.Y:F0}f), {renderOrder}, {scale:F2}f{optionalParams}) }},");
+            sb.AppendLine($"    {{ \"{internalLabel}\", new BodyPartLayoutData(new Vector2({position.X:F0}f, {position.Y:F0}f), {renderOrder}, {scale:F2}f{optionalParams}) }},");
         }
         
         sb.AppendLine("};");

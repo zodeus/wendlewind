@@ -5,25 +5,10 @@
         <Moniker>ResourceChest1</Moniker>
         <Label>Resource Chest</Label>
         <Description>Very helpful.</Description>
-        <Category>Crafting</Category>
+        <Category>Resources</Category>
         <TexturePath>Chests/ResourceChest</TexturePath>
         <CollectionLimit>3</CollectionLimit>
         <Items>
-            <ListItem>
-                <ItemDef>RawMeat</ItemDef>
-                <Amount>2~5</Amount>
-                <ChanceToDrop>.7</ChanceToDrop>
-            </ListItem>
-            <ListItem>
-                <ItemDef>RawFish</ItemDef>
-                <Amount>1~3</Amount>
-                <ChanceToDrop>.6</ChanceToDrop>
-            </ListItem>
-            <ListItem>
-                <ItemDef>RawCorn</ItemDef>
-                <Amount>1~4</Amount>
-                <ChanceToDrop>.6</ChanceToDrop>
-            </ListItem>
             <ListItem>
                 <ItemDef>HealingRoot</ItemDef>
                 <Amount>4~8</Amount>
@@ -35,13 +20,38 @@
                 <Amount>1~4</Amount>
                 <ChanceToDrop>.3</ChanceToDrop>
             </ListItem>
+            <ListItem>
+                <ItemDef>IronNugget</ItemDef>
+                <Amount>1~4</Amount>
+                <ChanceToDrop>.7</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <ItemDef>Twig</ItemDef>
+                <Amount>1~2</Amount>
+                <ChanceToDrop>.5</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <ItemDef>Rock</ItemDef>
+                <Amount>1~2</Amount>
+                <ChanceToDrop>.5</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <ItemDef>BeakPuss</ItemDef>
+                <Amount>1~2</Amount>
+                <ChanceToDrop>.5</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <ItemDef>ElderBerry</ItemDef>
+                <Amount>1~4</Amount>
+                <ChanceToDrop>.7</ChanceToDrop>
+            </ListItem>
         </Items>
     </LootBoxDef>
     <LootBoxDef Name="ResourceChest2" ParentName="ResourceChest1">
         <Moniker>ResourceChest2</Moniker>
         <Label>Resource Chest</Label>
         <Description>Very helpful.</Description>
-        <Category>Crafting</Category>
+        <Category>Resources</Category>
         <TexturePath>Chests/ResourceChest</TexturePath>
         <CollectionLimit>4</CollectionLimit>
         <Items>
@@ -51,34 +61,19 @@
                 <ChanceToDrop>.8</ChanceToDrop>
             </ListItem>
             <ListItem>
-                <ItemDef>InkyCapMushroom</ItemDef>
-                <Amount>1~3</Amount>
-                <ChanceToDrop>.75</ChanceToDrop>
+                <ItemDef>SnakeOil</ItemDef>
+                <Amount>1~2</Amount>
+                <ChanceToDrop>.5</ChanceToDrop>
             </ListItem>
             <ListItem>
-                <ItemDef>GoldCapMushroom</ItemDef>
-                <Amount>1~3</Amount>
-                <ChanceToDrop>.7</ChanceToDrop>
+                <ItemDef>SerpentScale</ItemDef>
+                <Amount>1~2</Amount>
+                <ChanceToDrop>.5</ChanceToDrop>
             </ListItem>
             <ListItem>
-                <ItemDef>ElderBerry</ItemDef>
-                <Amount>1~4</Amount>
-                <ChanceToDrop>.7</ChanceToDrop>
-            </ListItem>
-            <ListItem>
-                <ItemDef>BoneShard</ItemDef>
-                <Amount>2~6</Amount>
-                <ChanceToDrop>.7</ChanceToDrop>
-            </ListItem>
-            <ListItem>
-                <ItemDef>Thread</ItemDef>
-                <Amount>2~5</Amount>
-                <ChanceToDrop>.7</ChanceToDrop>
-            </ListItem>
-            <ListItem>
-                <ItemDef>IronNugget</ItemDef>
-                <Amount>1~4</Amount>
-                <ChanceToDrop>.7</ChanceToDrop>
+                <ItemDef>Ichor</ItemDef>
+                <Amount>1~2</Amount>
+                <ChanceToDrop>.5</ChanceToDrop>
             </ListItem>
         </Items>
     </LootBoxDef>

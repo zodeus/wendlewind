@@ -4,7 +4,7 @@
     <LootBoxDef Name="SupplyChest1">
         <Moniker>SupplyChest1</Moniker>
         <Label>Supply Chest</Label>
-        <Category>Crafting</Category>
+        <Category>Supplies</Category>
         <TexturePath>Chests/SupplyChest</TexturePath>
         <CollectionLimit>3</CollectionLimit>
         <Items>
@@ -14,33 +14,48 @@
                 <ChanceToDrop>1</ChanceToDrop>
             </ListItem>
             <ListItem>
-                <ItemDef>MendersMist</ItemDef>
-                <Amount>1~3</Amount>
-                <ChanceToDrop>.5</ChanceToDrop>
-            </ListItem>
-            <ListItem>
-                <ItemDef>ArterialThreads</ItemDef>
+                <ItemDef>Thread</ItemDef>
                 <Amount>2~5</Amount>
+                <ChanceToDrop>.7</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <ItemDef>VenomVial</ItemDef>
+                <Amount>1~2</Amount>
                 <ChanceToDrop>.5</ChanceToDrop>
             </ListItem>
             <ListItem>
-                <ItemDef>JarOfBlood</ItemDef>
+                <ItemDef>LeatherScraps</ItemDef>
                 <Amount>1~2</Amount>
-                <ChanceToDrop>.3</ChanceToDrop>
+                <ChanceToDrop>.5</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <ItemDef>BoneShard</ItemDef>
+                <Amount>2~6</Amount>
+                <ChanceToDrop>.7</ChanceToDrop>
             </ListItem>
         </Items>
     </LootBoxDef>
     <LootBoxDef Name="SupplyChest2" ParentName="SupplyChest1">
         <Moniker>SupplyChest2</Moniker>
         <Label>Supply Chest</Label>
-        <Category>Crafting</Category>
+        <Category>Supplies</Category>
         <TexturePath>Chests/SupplyChest</TexturePath>
         <CollectionLimit>4</CollectionLimit>
         <Items>
             <ListItem>
-                <ItemDef>MedKit</ItemDef>
+                <ItemDef>HorseTooth</ItemDef>
                 <Amount>1~2</Amount>
-                <ChanceToDrop>.3</ChanceToDrop>
+                <ChanceToDrop>.5</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <ItemDef>Fang</ItemDef>
+                <Amount>1~2</Amount>
+                <ChanceToDrop>.5</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <ItemDef>Ichor</ItemDef>
+                <Amount>1~2</Amount>
+                <ChanceToDrop>.5</ChanceToDrop>
             </ListItem>
         </Items>
     </LootBoxDef>

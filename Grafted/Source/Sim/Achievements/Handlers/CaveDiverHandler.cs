@@ -5,7 +5,7 @@ namespace Grafted.Sim.Achievements.Handlers;
 /// </summary>
 public class CaveDiverHandler : AchievementHandler
 {
-    private static readonly HashSet<ZoneDef> CaveZones = [Defs.Zones.DampCave, Defs.Zones.Mineshaft];
+    private static readonly HashSet<ZoneDef> CaveZones = [Defs.Zones.DampCave];
 
     public override void OnCombatEnd(AchievementCombatEndContext context)
     {

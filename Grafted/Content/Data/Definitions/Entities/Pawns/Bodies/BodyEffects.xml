@@ -144,6 +144,7 @@
     <BodyEffectDef>
         <Moniker>BlackLips</Moniker>
         <Label>Black Lips</Label>
+        <TexturePath>Entities/Pawn/BodyEffects/BlackLips</TexturePath>
         <Notes/>
     </BodyEffectDef>
     <BodyEffectDef>

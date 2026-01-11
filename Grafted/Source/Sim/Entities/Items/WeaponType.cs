@@ -13,6 +13,7 @@ public enum WeaponType
     //Other
 
     GameBox,
+    RustyDoll,
 
     Misc,
     Trade,
