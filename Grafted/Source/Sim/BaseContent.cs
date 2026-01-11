@@ -95,6 +95,7 @@ public static partial class BaseContent
             public const string Large = "large";
             public const string Dark = "dark";
             public const string LargeGold = "large-gold";
+            public const string GreenGold = "green-gold";
             public const string Plus24 = "plus-24";
             public const string Plus64 = "plus-64";
             public const string Minus24 = "minus-24";
@@ -166,6 +167,7 @@ public static partial class BaseContent
                 public const string Red = "panel-red";
                 public const string Loot = "panel-loot";
                 public const string DeepGold = "panel-deep-gold";
+                public const string GreenGold = "panel-green-gold";
                 public const string SimpleWhite = "panel-simple-white";
                 public const string FancyDark = "panel-bar-fancy-dark";
             }

@@ -33,7 +33,7 @@ public class OrcBodyHandler : RegeneratingEyesBodyHandler
         {
             Body.Energy = Body.MaxEnergy;
         } 
-        CheckForDestroyedParts();
+        CheckForDamagedParts();
         ProcessTimers();
     }
 
@@ -45,12 +45,12 @@ public class OrcBodyHandler : RegeneratingEyesBodyHandler
         }
     }
 
-    private void CheckForDestroyedParts()
+    private void CheckForDamagedParts()
     {
         foreach (var part in Body.AllExternalParts)
         {
             // Check if part is destroyed and we haven't already started a timer for it
-            if (part.IsDestroyed && !_partsWithActiveTimers.Contains(part.Id))
+            if (part.HealthPercent < 0.2f && !_partsWithActiveTimers.Contains(part.Id))
             {
                 StartRegenerationTimer(part);
             }

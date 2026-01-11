@@ -33,7 +33,7 @@
     <TextBoxStyles>
         <TextBoxStyle Background="textfield" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f" Font="normal-font" Cursor="input-cursor" Selection="selection" Padding="10, 6, 10, 6"/>
     </TextBoxStyles>
-    <ScrollViewerStyles>
+<ScrollViewerStyles>
         <ScrollViewerStyle HorizontalScrollBackground="scroll-frame" HorizontalScrollKnob="scroll-handle-horizontal" VerticalScrollBackground="scroll-frame"
                            VerticalScrollKnob="scroll-handle-vertical"/>
     </ScrollViewerStyles>
@@ -55,6 +55,9 @@
             <LabelStyle Font="large-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
         </ButtonStyle>
         <ButtonStyle Id="dark" Padding="14" Background="button-dark-default" OverBackground="button-dark-over" PressedBackground="button-dark-pressed" DisabledBackground="button-dark-disabled">
+            <LabelStyle Font="large-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
+        </ButtonStyle>
+        <ButtonStyle Id="green-gold" Padding="8" Background="button-green-gold-default" OverBackground="button-green-gold-over" PressedBackground="button-green-gold-pressed" DisabledBackground="button-green-gold-disabled">
             <LabelStyle Font="large-font" TextColor="#b3b3b3" DisabledTextColor="#4f4f4f"/>
         </ButtonStyle>
         <ButtonStyle Id="icon" Padding="3" Background="button-small-default" OverBackground="button-small-over" PressedBackground="button-small-pressed" DisabledBackground="button-small-disabled"/>

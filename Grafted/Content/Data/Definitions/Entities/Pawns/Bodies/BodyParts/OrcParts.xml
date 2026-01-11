@@ -24,7 +24,7 @@
             <ListItem>HeadArmor</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <MaxHitPoints>200</MaxHitPoints>
+            <MaxHitPoints>400</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="OrcBodyPartBase">
@@ -56,7 +56,7 @@
             <ListItem>RightLegSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>400</MaxHitPoints>
+            <MaxHitPoints>600</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="OrcBodyPartBase">
@@ -79,7 +79,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>0.5</AttackSpeedModifier>
-            <MaxHitPoints>80</MaxHitPoints>
+            <MaxHitPoints>300</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="OrcBodyPartBase">
@@ -106,7 +106,7 @@
             <ListItem>LittleFingerSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>50</MaxHitPoints>
+            <MaxHitPoints>200</MaxHitPoints>
             <AttackSpeedModifier>0.5</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>

@@ -103,4 +103,10 @@
         <Description>A small branch from a tree. It's small and flexible, perfect for a practicing wizard.</Description>
         <TexturePath>Entities/Item/Resource/Wood/Twig</TexturePath>
     </ItemDef>
+    <ItemDef ParentName="OrganicResource">
+        <Moniker>BlackPowder</Moniker>
+        <Label>Black Powder</Label>
+        <Description>A volatile explosive ingredient. Handle with care.</Description>
+        <TexturePath>Entities/Item/Resource/Organic/BlackPowder</TexturePath>
+    </ItemDef>
 </Definitions>

@@ -30,6 +30,11 @@
                 <Amount>1~2</Amount>
                 <ChanceToHarvest>.6</ChanceToHarvest>
             </ListItem>
+            <ListItem>
+                <Item>BlackPowder</Item>
+                <Amount>1~2</Amount>
+                <ChanceToHarvest>.5</ChanceToHarvest>
+            </ListItem>
         </Resources>
         <Encounters>
             <ListItem>

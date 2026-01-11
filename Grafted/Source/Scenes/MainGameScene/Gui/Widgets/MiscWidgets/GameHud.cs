@@ -28,15 +28,23 @@ public sealed class GameHud : HorizontalStackPanel
         {
             Spacing = 6,
             VerticalAlignment = VerticalAlignment.Center,
-            Margin = new Thickness(12, 0, 0, 0)
+            Margin = new Thickness(12, 0, 0, 0),
+            Width = 620,
         };
 
-        Panel centerPanel = new()
+        HorizontalStackPanel centerPanel = new()
         {
             HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Center
+            VerticalAlignment = VerticalAlignment.Center,
+            Width = 600
         };
-        SetProportionType(centerPanel, ProportionType.Fill);
+
+        HorizontalStackPanel rightPanel = new()
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Center,
+
+        };
 
         // Blood arrow indicator
         _bloodArrow = new Image
@@ -168,8 +176,8 @@ public sealed class GameHud : HorizontalStackPanel
         // === Center Stats Panel ===
         var statsContainer = new Panel
         {
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright],
-            Padding = new Thickness(4),
+            //Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright],
+            //Padding = new Thickness(4),
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center
         };
@@ -252,14 +260,21 @@ public sealed class GameHud : HorizontalStackPanel
         statsContainer.Widgets.Add(statsRow);
         centerPanel.Widgets.Add(statsContainer);
 
+        var achievementsBar = new AchievementBar()
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        rightPanel.Widgets.Add(achievementsBar);
+        rightPanel.Widgets.Add(_programStats);
+        SetProportionType(rightPanel, ProportionType.Fill);
+        SetProportionType(achievementsBar, ProportionType.Fill);
+        SetProportionType(_programStats, ProportionType.Auto);
+
         // === Assemble main layout ===
         Widgets.Add(leftPanel);
         Widgets.Add(centerPanel);
-        Widgets.Add(new Panel
-        {
-            Width = 300,
-            Widgets = { _programStats }
-        });
+        Widgets.Add(rightPanel);
     }
 
     private static CursorButton CreateHudButton(IImage icon, Color? tint = null)

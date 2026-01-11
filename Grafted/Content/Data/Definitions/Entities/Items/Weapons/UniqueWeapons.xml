@@ -88,18 +88,18 @@
             <Upgrades>
                 <Upgrade Level="1" Bonus="More Afflictions">
                     <BeakPuss>2</BeakPuss>
-                    <Ichor>1</Ichor>
-                    <Cloth>1</Cloth>
+                    <Cloth>2</Cloth>
+                    <Ichor>3</Ichor>
                 </Upgrade>
                 <Upgrade Level="2" Bonus="More Afflictions&#10;Duration Increased">
                     <Fuse>1</Fuse>
-                    <GoldenBean>2</GoldenBean>
-                    <SerpentScale>2</SerpentScale>
+                    <GoldenBean>5</GoldenBean>
+                    <SerpentScale>3</SerpentScale>
                 </Upgrade>
                 <Upgrade Level="3" Bonus="More Afflictions&#10;Duration Increased&#10;Adds Burning and Acid">
                     <EverburningStone>1</EverburningStone>
                     <AcidFlask>2</AcidFlask>
-                    <HorseTooth>2</HorseTooth>
+                    <BlackPowder>2</BlackPowder>
                 </Upgrade>
             </Upgrades>
         </UpgradeProperties>

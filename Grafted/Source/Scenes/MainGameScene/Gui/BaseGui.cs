@@ -11,7 +11,6 @@ public abstract class BaseGui : IDisposable
     public abstract WorldTextHandler WorldTextHandler { get; }
 
     public MouseAttachment? MouseAttachment;
-    public AchievementNotificationRenderer AchievementNotifications { get; } = new();
 
     // Developer console
     protected DevConsole? Console;
@@ -30,7 +29,6 @@ public abstract class BaseGui : IDisposable
         HandleInput();
         Console?.UpdateInput();
         MouseAttachment?.Update();
-        AchievementNotifications.Update(deltaTime);
         ShowEntityIfQueued();
         if (_viewedEntity?.IsDestroyed == true)
         {
@@ -178,9 +176,6 @@ public abstract class BaseGui : IDisposable
             spriteBatch.DrawString(_screenMessage.Font, _screenMessage.Text, new Vector2((Screen.Width / 2) - offset + xOffsetA, 400 + yOffsetA), colorA);
             spriteBatch.End();
         }
-
-        // Draw achievement notifications on top of everything
-        AchievementNotifications.Render(spriteBatch);
     }
 
     public void PushScreenMessage(ScreenMessageData message)
