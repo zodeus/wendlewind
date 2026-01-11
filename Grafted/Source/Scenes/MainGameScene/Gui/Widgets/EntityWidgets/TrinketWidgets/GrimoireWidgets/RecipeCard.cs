@@ -1,4 +1,4 @@
-﻿using SolidBrush = Myra.Graphics2D.Brushes.SolidBrush;
+using SolidBrush = Myra.Graphics2D.Brushes.SolidBrush;
 
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.TrinketWidgets.GrimoireWidgets;
 
@@ -7,7 +7,7 @@ public class RecipeCard : Panel
     private readonly string _buttonLabel;
     private readonly Panel _emptyStatePanel;
     private readonly HorizontalStackPanel _contentPanel;
-    
+
     private Pawn? _currentPawn;
     private ItemDef? _currentItem;
     public ItemDef? CurrentItem => _currentItem;
@@ -43,32 +43,32 @@ public class RecipeCard : Panel
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Stretch,
         };
-        
+
         var content = new VerticalStackPanel
         {
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
             Spacing = 16,
         };
-        
+
         var iconLabel = new Label(BaseContent.Styles.Label.Huge)
         {
             Text = "?",
             TextColor = new Color(80, 70, 60),
             HorizontalAlignment = HorizontalAlignment.Center,
         };
-        
+
         var hintLabel = new Label(BaseContent.Styles.Label.Normal)
         {
             Text = "Select a recipe to view details",
             TextColor = new Color(120, 100, 80),
             HorizontalAlignment = HorizontalAlignment.Center,
         };
-        
+
         content.Widgets.Add(iconLabel);
         content.Widgets.Add(hintLabel);
         panel.Widgets.Add(content);
-        
+
         return panel;
     }
 
@@ -76,9 +76,9 @@ public class RecipeCard : Panel
     {
         _currentPawn = pawn;
         _currentItem = itemDef;
-        
+
         ClearCard();
-        
+
         _emptyStatePanel.Visible = false;
         _contentPanel.Visible = true;
 
@@ -89,9 +89,9 @@ public class RecipeCard : Panel
             Width = 300,
             Height = 320, // Fixed height so button position is consistent
         };
-        
+
         leftColumn.Widgets.Add(CreateHeaderSection(itemDef));
-        
+
         if (!string.IsNullOrEmpty(itemDef.Description))
         {
             leftColumn.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
@@ -102,31 +102,31 @@ public class RecipeCard : Panel
                 MaxWidth = 280,
             });
         }
-        
+
         leftColumn.Widgets.Add(CreateAmountSection(itemDef));
-        
+
         // Spacer to push button to bottom of fixed-height column
         var spacer = new Panel { Height = 1 };
         VerticalStackPanel.SetProportionType(spacer, ProportionType.Fill);
         leftColumn.Widgets.Add(spacer);
-        
+
         // Button always at bottom of left column
         leftColumn.Widgets.Add(CreateCraftButton(pawn, itemDef));
-        
+
         // RIGHT COLUMN: Requirements (can be any height)
         var rightColumn = new VerticalStackPanel
         {
             Spacing = 16,
             Width = 420,
         };
-        
+
         rightColumn.Widgets.Add(CreateIngredientsSection(pawn, itemDef));
-        
+
         if (itemDef.CraftingProperties?.RequiredTrinkets?.Count > 0)
         {
             rightColumn.Widgets.Add(CreateTrinketsSection(pawn, itemDef));
         }
-        
+
         // Vertical divider
         var divider = new Panel
         {
@@ -134,7 +134,7 @@ public class RecipeCard : Panel
             Background = new SolidBrush(new Color(50, 45, 40)),
             VerticalAlignment = VerticalAlignment.Stretch,
         };
-        
+
         _contentPanel.Widgets.Add(leftColumn);
         _contentPanel.Widgets.Add(divider);
         _contentPanel.Widgets.Add(rightColumn);
@@ -146,7 +146,7 @@ public class RecipeCard : Panel
         {
             Spacing = 12,
         };
-        
+
         var iconFrame = new Panel
         {
             Width = 72,
@@ -162,7 +162,7 @@ public class RecipeCard : Panel
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
         });
-        
+
         var nameLabel = new Label(BaseContent.Styles.Label.Large)
         {
             Text = itemDef.Label,
@@ -171,10 +171,10 @@ public class RecipeCard : Panel
             Wrap = true,
             MaxWidth = 200,
         };
-        
+
         header.Widgets.Add(iconFrame);
         header.Widgets.Add(nameLabel);
-        
+
         return header;
     }
 
@@ -185,13 +185,13 @@ public class RecipeCard : Panel
             Spacing = 8,
             Margin = new Thickness(0, 8, 0, 0),
         };
-        
+
         var yieldLabel = new Label(BaseContent.Styles.Label.Normal)
         {
             Text = "Yield:",
             TextColor = new Color(140, 130, 120),
         };
-        
+
         var amountBadge = new Panel
         {
             Background = new SolidBrush(new Color(40, 70, 40)),
@@ -202,20 +202,20 @@ public class RecipeCard : Panel
             Text = $"×{itemDef.CraftingProperties?.AmountProduced ?? 1}",
             TextColor = new Color(140, 230, 140),
         });
-        
+
         panel.Widgets.Add(yieldLabel);
         panel.Widgets.Add(amountBadge);
-        
+
         // Show current inventory count
         var ownedCount = _currentPawn?.Inventory.AmountOf(itemDef) ?? 0;
-        
+
         var ownedLabel = new Label(BaseContent.Styles.Label.Normal)
         {
             Text = "Owned:",
             TextColor = new Color(140, 130, 120),
             Margin = new Thickness(16, 0, 0, 0),
         };
-        
+
         var ownedBadge = new Panel
         {
             Background = new SolidBrush(new Color(50, 50, 70)),
@@ -226,44 +226,44 @@ public class RecipeCard : Panel
             Text = $"{ownedCount}",
             TextColor = ownedCount > 0 ? new Color(180, 180, 220) : new Color(120, 120, 140),
         });
-        
+
         panel.Widgets.Add(ownedLabel);
         panel.Widgets.Add(ownedBadge);
-        
+
         return panel;
     }
 
     private Widget CreateCraftButton(Pawn pawn, ItemDef itemDef)
     {
         var canCraft = itemDef.CraftingProperties?.CanCraft(pawn) == true;
-        
+
         var container = new VerticalStackPanel
         {
             Spacing = 6,
             HorizontalAlignment = HorizontalAlignment.Stretch,
         };
-        
+
         var button = new CursorButton(canCraft ? BaseContent.Styles.Button.LargeGold : BaseContent.Styles.Button.Large)
         {
             Enabled = canCraft,
             HorizontalAlignment = HorizontalAlignment.Stretch,
         };
-        
+
         button.Content = new Label(BaseContent.Styles.Label.Medium)
         {
             Text = _buttonLabel,
             TextColor = canCraft ? BaseContent.Colors.Text.Golden : new Color(80, 80, 80),
             HorizontalAlignment = HorizontalAlignment.Center,
         };
-        
+
         button.Click += (_, _) =>
         {
-            if (_currentPawn != null && _currentItem != null && CraftItem(_currentPawn, _currentItem))
+            if (_currentPawn != null && _currentItem != null && CraftItem(_currentPawn, _currentItem, 1))
             {
                 SetItem(_currentPawn, _currentItem);
             }
         };
-        
+
         if (!canCraft)
         {
             container.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
@@ -273,23 +273,59 @@ public class RecipeCard : Panel
                 HorizontalAlignment = HorizontalAlignment.Center,
             });
         }
-        
+
         container.Widgets.Add(button);
-        
+
+        // Add bulk crafting buttons if requirements are met
+        if (canCraft)
+        {
+            var craftingIncrements = new[] { 2, 3, 5, 6, 8, 10 };
+            var multiRow = new HorizontalStackPanel { Spacing = 6 };
+
+            foreach (var increment in craftingIncrements)
+            {
+                var amount = increment; // Capture for closure
+                var incrementButton = new CursorButton(BaseContent.Styles.Button.LargeGold)
+                {
+                    Content = new Label(BaseContent.Styles.Label.Small)
+                    {
+                        Text = $"×{amount}",
+                        TextColor = new Color(200, 200, 200),
+                    },
+                    Enabled = itemDef.CraftingProperties?.CanCraft(pawn, amount) == true,
+                };
+
+                incrementButton.Click += (_, _) =>
+                {
+                    if (_currentPawn != null && _currentItem != null && CraftItem(_currentPawn, _currentItem, amount))
+                    {
+                        SetItem(_currentPawn, _currentItem);
+                    }
+                };
+
+                multiRow.Widgets.Add(incrementButton);
+            }
+
+            if (multiRow.Widgets.Count > 0)
+            {
+                container.Widgets.Add(multiRow);
+            }
+        }
+
         return container;
     }
 
     private Widget CreateIngredientsSection(Pawn pawn, ItemDef itemDef)
     {
         var section = new VerticalStackPanel { Spacing = 8 };
-        
+
         section.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
         {
             Text = "Ingredients",
             TextColor = BaseContent.Colors.Text.Golden,
             Margin = new Thickness(0, 0, 0, 4),
         });
-        
+
         var requirements = itemDef.CraftingProperties?.ResourceRequirements ?? [];
         if (requirements.Count == 0)
         {
@@ -306,7 +342,7 @@ public class RecipeCard : Panel
                 section.Widgets.Add(CreateIngredientRow(pawn, itemCount));
             }
         }
-        
+
         return section;
     }
 
@@ -314,13 +350,13 @@ public class RecipeCard : Panel
     {
         var hasEnough = pawn.Inventory.AmountOf(itemCount.Item) >= itemCount.Count;
         var currentAmount = pawn.Inventory.AmountOf(itemCount.Item);
-        
+
         var row = new HorizontalStackPanel
         {
             Spacing = 10,
             HorizontalAlignment = HorizontalAlignment.Stretch,
         };
-        
+
         var iconFrame = new Panel
         {
             Width = 36,
@@ -337,14 +373,14 @@ public class RecipeCard : Panel
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center,
         });
-        
+
         var nameLabel = new Label(BaseContent.Styles.Label.Normal)
         {
             Text = itemCount.Item.Label,
             TextColor = hasEnough ? new Color(200, 200, 200) : new Color(160, 90, 90),
             VerticalAlignment = VerticalAlignment.Center,
         };
-        
+
         var countColor = hasEnough ? $"/c[{TC.Green}]" : $"/c[{TC.Red}]";
         var countLabel = new Label(BaseContent.Styles.Label.Normal)
         {
@@ -352,58 +388,58 @@ public class RecipeCard : Panel
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Right,
         };
-        
+
         var statusIcon = new Image
         {
-            Background = Stylesheet.Current.Atlas[hasEnough 
-                ? BaseContent.Styles.Atlas.Icon.Checkmark 
+            Background = Stylesheet.Current.Atlas[hasEnough
+                ? BaseContent.Styles.Atlas.Icon.Checkmark
                 : BaseContent.Styles.Atlas.Icon.X],
             Width = 18,
             Height = 18,
             VerticalAlignment = VerticalAlignment.Center,
         };
-        
+
         row.Widgets.Add(iconFrame);
         row.Widgets.Add(nameLabel);
         HorizontalStackPanel.SetProportionType(nameLabel, ProportionType.Fill);
         row.Widgets.Add(countLabel);
         row.Widgets.Add(statusIcon);
-        
+
         return row;
     }
 
     private Widget CreateTrinketsSection(Pawn pawn, ItemDef itemDef)
     {
         var section = new VerticalStackPanel { Spacing = 8 };
-        
+
         section.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
         {
             Text = "Required Trinkets",
             TextColor = BaseContent.Colors.Text.Golden,
             Margin = new Thickness(0, 0, 0, 4),
         });
-        
+
         foreach (var trinket in itemDef.CraftingProperties?.RequiredTrinkets ?? [])
         {
             section.Widgets.Add(CreateTrinketRow(pawn, trinket));
         }
-        
+
         return section;
     }
 
     private Widget CreateTrinketRow(Pawn pawn, ItemDef trinketDef)
     {
         var hasTrinket = pawn.Inventory.Trinkets.Any(t => t.Def == trinketDef);
-        
+
         var row = new HorizontalStackPanel
         {
             Spacing = 10,
             HorizontalAlignment = HorizontalAlignment.Stretch,
         };
-        
+
         var iconFrame = new Panel
         {
-            Width = 36,     
+            Width = 36,
             Height = 36,
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundDark32],
             Padding = new Thickness(2),
@@ -417,38 +453,39 @@ public class RecipeCard : Panel
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center,
         });
-        
+
         var nameLabel = new Label(BaseContent.Styles.Label.Normal)
         {
             Text = trinketDef.Label,
             TextColor = hasTrinket ? new Color(140, 230, 140) : new Color(160, 90, 90),
             VerticalAlignment = VerticalAlignment.Center,
         };
-        
+
         var statusIcon = new Image
         {
-            Background = Stylesheet.Current.Atlas[hasTrinket 
-                ? BaseContent.Styles.Atlas.Icon.Checkmark 
+            Background = Stylesheet.Current.Atlas[hasTrinket
+                ? BaseContent.Styles.Atlas.Icon.Checkmark
                 : BaseContent.Styles.Atlas.Icon.X],
             Width = 18,
             Height = 18,
             VerticalAlignment = VerticalAlignment.Center,
         };
-        
+
         row.Widgets.Add(iconFrame);
         row.Widgets.Add(nameLabel);
         HorizontalStackPanel.SetProportionType(nameLabel, ProportionType.Fill);
         row.Widgets.Add(statusIcon);
-        
+
         return row;
     }
 
-    private bool CraftItem(Pawn pawn, ItemDef itemToCraft)
+    private bool CraftItem(Pawn pawn, ItemDef itemToCraft, int times = 1)
     {
         List<Item> resourcesTaken = [];
         foreach (var resource in itemToCraft.CraftingProperties!.ResourceRequirements)
         {
-            var resourceToUse = pawn.Inventory.Take(resource);
+            var scaledResource = new ResourceCount { Item = resource.Item, Count = resource.Count * times };
+            var resourceToUse = pawn.Inventory.Take(scaledResource);
 
             if (resourceToUse == null)
             {
@@ -461,7 +498,7 @@ public class RecipeCard : Panel
             }
 
             resourcesTaken.Add(resourceToUse);
-            if (resourceToUse.StackSize < resource.Count)
+            if (resourceToUse.StackSize < scaledResource.Count)
             {
                 return false;
             }
@@ -472,7 +509,7 @@ public class RecipeCard : Panel
             resourceTaken.Destroy();
         }
 
-        pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(itemToCraft, itemToCraft.CraftingProperties.AmountProduced));
+        pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(itemToCraft, itemToCraft.CraftingProperties.AmountProduced * times));
 
         return true;
     }

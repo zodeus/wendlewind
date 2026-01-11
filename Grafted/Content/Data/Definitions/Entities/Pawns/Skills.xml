@@ -1,47 +1,62 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
     <SkillDef>
         <Moniker>Knives</Moniker>
         <Label>Knives</Label>
         <SkillType>Combat</SkillType>
-        <WeaponType>Knife</WeaponType>
+        <WeaponTypes>
+            <ListItem>Knife</ListItem>
+        </WeaponTypes>
     </SkillDef>
     <SkillDef>
         <Moniker>Staves</Moniker>
         <Label>Staves</Label>
         <SkillType>Combat</SkillType>
-        <WeaponType>Staff</WeaponType>
+        <WeaponTypes>
+            <ListItem>Staff</ListItem>
+            <ListItem>FireStaff</ListItem>
+        </WeaponTypes>
     </SkillDef> 
     <SkillDef>
         <Moniker>Hammers</Moniker>
         <Label>Hammers</Label>
         <SkillType>Combat</SkillType>
-        <WeaponType>Hammer</WeaponType>
+        <WeaponTypes>
+            <ListItem>Hammer</ListItem>
+        </WeaponTypes>
     </SkillDef> 
     <SkillDef>
         <Moniker>Maces</Moniker>
         <Label>Maces</Label>
         <SkillType>Combat</SkillType>
-        <WeaponType>Mace</WeaponType>
+        <WeaponTypes>
+            <ListItem>Mace</ListItem>
+        </WeaponTypes>
     </SkillDef> 
     <SkillDef>
         <Moniker>Swords</Moniker>
         <Label>Swords</Label>
         <SkillType>Combat</SkillType>
-        <WeaponType>Sword</WeaponType>
+        <WeaponTypes>
+            <ListItem>Sword</ListItem>
+        </WeaponTypes>
     </SkillDef> 
     <SkillDef>
         <Moniker>Axes</Moniker>
         <Label>Axes</Label>
         <SkillType>Combat</SkillType>
-        <WeaponType>Axe</WeaponType>
+        <WeaponTypes>
+            <ListItem>Axe</ListItem>
+        </WeaponTypes>
     </SkillDef>
     <SkillDef>
         <Moniker>Spears</Moniker>
         <Label>Spears</Label>
         <SkillType>Combat</SkillType>
-        <WeaponType>Spear</WeaponType>
+        <WeaponTypes>
+            <ListItem>Spear</ListItem>
+        </WeaponTypes>
     </SkillDef>
 
     <!-- Built-in Weapons -->
@@ -49,37 +64,49 @@
         <Moniker>Whipping</Moniker>
         <Label>Whipping</Label>
         <SkillType>Combat</SkillType>
-        <WeaponType>Whip</WeaponType>
+        <WeaponTypes>
+            <ListItem>Whip</ListItem>
+        </WeaponTypes>
     </SkillDef> 
     <SkillDef>
         <Moniker>Biting</Moniker>
         <Label>Biting</Label>
         <SkillType>Combat</SkillType>
-        <WeaponType>Teeth</WeaponType>
+        <WeaponTypes>
+            <ListItem>Teeth</ListItem>
+        </WeaponTypes>
     </SkillDef> 
     <SkillDef>
         <Moniker>Claws</Moniker>
         <Label>Claws</Label>
         <SkillType>Combat</SkillType>
-        <WeaponType>Claw</WeaponType>
+        <WeaponTypes>
+            <ListItem>Claw</ListItem>
+        </WeaponTypes>
     </SkillDef> 
     <SkillDef>
         <Moniker>Tonguing</Moniker>
         <Label>Tonguing</Label>
         <SkillType>Combat</SkillType>
-        <WeaponType>Tongue</WeaponType>
+        <WeaponTypes>
+            <ListItem>Tongue</ListItem>
+        </WeaponTypes>
     </SkillDef> 
     <SkillDef>
         <Moniker>TreebornPower</Moniker>
         <Label>Treeborn Power</Label>
         <SkillType>Combat</SkillType>
-        <WeaponType>Branch</WeaponType>
+        <WeaponTypes>
+            <ListItem>Branch</ListItem>
+        </WeaponTypes>
     </SkillDef> 
     <SkillDef>
         <Moniker>MushroomPower</Moniker>
         <Label>Mushroom Power</Label>
         <SkillType>Combat</SkillType>
-        <WeaponType>MushroomCap</WeaponType>
+        <WeaponTypes>
+            <ListItem>MushroomCap</ListItem>
+        </WeaponTypes>
     </SkillDef> 
     
     <!-- Stances -->

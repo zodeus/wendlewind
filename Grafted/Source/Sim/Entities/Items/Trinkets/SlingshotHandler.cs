@@ -80,6 +80,12 @@ public class SlingshotHandler : TrinketHandler, IUpgradableHandler
         var damagedParts = randomPart.ApplyDamageToExternalPart(new Damage(Trinket, damage, "Slingshot"));
 
         ApplyBodyPartModifiers(randomPart, damagedParts[0]);
+        
+        // Handle explosive ammo - apply splash damage to attached parts and parent
+        if (ammoProps.IsExplosive && ammoProps.SplashDamageRange.Max > 0)
+        {
+            ApplyExplosiveSplashDamage(randomPart, ammoProps, damagedParts);
+        }
 
         damageRecord.BodyParts = damagedParts;
         damageRecord.ActualAmount = damage;
@@ -95,6 +101,53 @@ public class SlingshotHandler : TrinketHandler, IUpgradableHandler
         DeActivate();
 
         return damageRecord;
+    }
+    
+    private void ApplyExplosiveSplashDamage(BodyPart hitPart, AmmoProperties ammoProps, List<DamagedBodyPartRecord> damagedParts)
+    {
+        var splashDamage = ammoProps.SplashDamageRange.RandomValue;
+        if (_upgradeLevel >= 1)
+        {
+            splashDamage *= BoneDamageMultiplier;
+        }
+        
+        // Damage parent part if exists
+        if (hitPart.Socket?.ParentPart is { } parentPart && !parentPart.IsDestroyed)
+        {
+            var parentDamageRecord = new DamagedBodyPartRecord(parentPart)
+            {
+                DamageApplied = splashDamage
+            };
+            parentPart.HitPoints = Math.Max(0, parentPart.HitPoints - splashDamage);
+            damagedParts.Add(parentDamageRecord);
+            
+            // Also damage parent's skin if it has one
+            if (parentPart.Skin is { } parentSkin && !parentSkin.IsDestroyed)
+            {
+                var skinDamage = splashDamage * BodyPart.SkinDamageScaler;
+                parentSkin.HitPoints = Math.Max(0, parentSkin.HitPoints - skinDamage);
+            }
+        }
+        
+        // Damage attached external parts (child parts)
+        foreach (var externalPart in hitPart.ExternalParts)
+        {
+            if (externalPart.IsDestroyed) continue;
+            
+            var externalDamageRecord = new DamagedBodyPartRecord(externalPart)
+            {
+                DamageApplied = splashDamage
+            };
+            externalPart.HitPoints = Math.Max(0, externalPart.HitPoints - splashDamage);
+            damagedParts.Add(externalDamageRecord);
+            
+            // Also damage the external part's skin if it has one
+            if (externalPart.Skin is { } externalSkin && !externalSkin.IsDestroyed)
+            {
+                var skinDamage = splashDamage * BodyPart.SkinDamageScaler;
+                externalSkin.HitPoints = Math.Max(0, externalSkin.HitPoints - skinDamage);
+            }
+        }
     }
 
     public void ApplyBodyPartModifiers(BodyPart part, DamagedBodyPartRecord damagedBodyPartRecord)

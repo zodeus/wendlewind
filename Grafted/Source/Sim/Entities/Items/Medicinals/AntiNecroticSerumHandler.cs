@@ -1,4 +1,4 @@
-﻿namespace Grafted.Sim.Entities.Items.Medicinals;
+namespace Grafted.Sim.Entities.Items.Medicinals;
 
 [UsedImplicitly]
 public class AntiNecroticSerumHandler : MedicinalHandler
@@ -26,8 +26,7 @@ public class AntiNecroticSerumHandler : MedicinalHandler
         {
             Padding = new Thickness(20),
             MinWidth = 320,
-            Spacing = 8,
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame]
+            Spacing = 8
         };
 
         // Header Section: Icon + Description

@@ -30,6 +30,7 @@ public class CombatHandler : IDisposable
     private readonly Encounter _encounter;
     private readonly Dictionary<Pawn, Item> _queuedItems = new();
     public EntityContainer Loot = new();
+    public List<ResourceCount> CollectedLoot { get; } = [];
     public readonly List<BodyPart> SeveredLimbs = [];
     public event Action<CombatEvent>? EventOccured;
     public double TotalDirectPlayerDamage { get; private set; }
@@ -435,6 +436,12 @@ public class CombatHandler : IDisposable
             {
                 AddToLootContainer(EntityGenerator.CreateEntity<Item>(resource.Item, resource.Amount.RandomValue));
             }
+        }
+
+        // Save loot for display before auto-collecting
+        foreach (var item in Loot.AsItems())
+        {
+            CollectedLoot.Add(new ResourceCount(item.ItemDef, item.StackSize));
         }
 
         // Auto loot

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
     <ItemDef Name="AmmoBase" ParentName="ItemResource" Abstract="true">
@@ -99,6 +99,36 @@
             </ResourceRequirements>
             <RequiredTrinkets>
                 <ListItem>TinkersToolbox</ListItem>
+            </RequiredTrinkets>
+        </CraftingProperties>
+    </ItemDef>
+    
+    <ItemDef ParentName="AmmoBase">
+        <Moniker>ExplosiveFang</Moniker>
+        <Label>Explosive Fang</Label>
+        <Description>A fang packed with black powder that explodes on impact, dealing devastating damage to the hit part and splash damage to surrounding body parts.</Description>
+        <TexturePath>Entities/Item/Supplies/Ammo/ExplosiveFang</TexturePath>
+        <AmmoProperties>
+            <DamageType>Blunt</DamageType>
+            <DamageRange>300~500</DamageRange>
+            <IsExplosive>true</IsExplosive>
+            <SplashDamageRange>100~200</SplashDamageRange>
+        </AmmoProperties>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>Fang</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>BlackPowder</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+            <RequiredTrinkets>
+                <ListItem>TinkersToolbox</ListItem>
+                <ListItem>MechanicalEye</ListItem>
             </RequiredTrinkets>
         </CraftingProperties>
     </ItemDef>

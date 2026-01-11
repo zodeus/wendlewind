@@ -33,7 +33,7 @@
             <ListItem>
                 <Item>BlackPowder</Item>
                 <Amount>1~2</Amount>
-                <ChanceToHarvest>.5</ChanceToHarvest>
+                <ChanceToHarvest>.75</ChanceToHarvest>
             </ListItem>
         </Resources>
         <Encounters>
@@ -82,7 +82,10 @@
                         <PawnDef>Orc</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Orc #2</PawnName>
-                        <BodySizeFactor>1</BodySizeFactor>
+                        <BodySizeFactor>1.2</BodySizeFactor>
+                        <Skills>
+                            <Axes>12</Axes>
+                        </Skills>
                         <EquipmentItems>
                             <ListItem>IronAxe</ListItem>
                             <ListItem>IronAxe</ListItem>
@@ -114,7 +117,10 @@
                         <PawnDef>Orc</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Orc #3</PawnName>
-                        <BodySizeFactor>1</BodySizeFactor>
+                        <BodySizeFactor>1.4</BodySizeFactor>
+                        <Skills>
+                            <Axes>14</Axes>
+                        </Skills>
                         <EquipmentItems>
                             <ListItem>IronAxe</ListItem>
                             <ListItem>IronAxe</ListItem>
@@ -141,7 +147,10 @@
                         <PawnDef>Orc</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Orc #4</PawnName>
-                        <BodySizeFactor>1</BodySizeFactor>
+                        <BodySizeFactor>1.6</BodySizeFactor>
+                        <Skills>
+                            <Axes>16</Axes>
+                        </Skills>
                         <EquipmentItems>
                             <ListItem>IronAxe</ListItem>
                             <ListItem>IronAxe</ListItem>
@@ -174,7 +183,10 @@
                         <PawnDef>Orc</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Orc #5 (boss)</PawnName>
-                        <BodySizeFactor>1</BodySizeFactor>
+                        <BodySizeFactor>2</BodySizeFactor>
+                        <Skills>
+                            <Staves>5</Staves>
+                        </Skills>
                         <EquipmentItems>
                             <ListItem>FireStaff</ListItem>
                             <ListItem>FireStaff</ListItem>

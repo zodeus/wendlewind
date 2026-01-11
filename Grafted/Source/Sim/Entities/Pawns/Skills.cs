@@ -8,7 +8,7 @@ namespace Grafted.Sim.Entities.Pawns;
 public class SkillDef : Def
 {
     public SkillType SkillType = SkillType.None;
-    public WeaponType WeaponType = WeaponType.Invalid;
+    public List<WeaponType> WeaponTypes = new();
     public BodyStanceDef? Stance;
     public override Type DefUiClass => typeof(SkillDefPanel);
 }
@@ -81,7 +81,7 @@ public class PawnSkills : IExposable, IEnumerable<Skill>
 
     public Skill? GetSkill(WeaponType weaponType)
     {
-        return _skills.FirstOrDefault(t => t.Def.WeaponType == weaponType);
+        return _skills.FirstOrDefault(t => t.Def.WeaponTypes.Contains(weaponType));
     }
 
     public Skill? GetSkill(BodyStanceDef stance)

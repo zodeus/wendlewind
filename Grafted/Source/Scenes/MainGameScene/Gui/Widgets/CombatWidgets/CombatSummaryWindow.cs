@@ -65,7 +65,7 @@ public sealed class CombatSummaryWindow : Window
         }
 
         Widget? lootSection = null;
-        if (handler.Loot.Count() > 0)
+        if (handler.CollectedLoot.Count > 0)
         {
             var lootLabel = new Label(BaseContent.Styles.Label.Medium)
             {
@@ -80,26 +80,44 @@ public sealed class CombatSummaryWindow : Window
                 HorizontalAlignment = HorizontalAlignment.Center
             };
             
-            foreach (var item in handler.Loot.Take(8))
+            foreach (var resource in handler.CollectedLoot.Take(8))
             {
-                var itemIcon = new CursorButton(BaseContent.Styles.Button.Icon)
+                var itemPanel = new Panel()
                 {
-                    Content = new Image
-                    {
-                        Background = new TextureRegion(item.Icon),
-                        Width = 48,
-                        Height = 48
-                    },
-                    Enabled = false
+                    Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
+                    Padding = new Thickness(4)
                 };
-                lootItems.Widgets.Add(itemIcon);
+                
+                var itemIcon = new Image
+                {
+                    Background = new TextureRegion(resource.Item.Icon),
+                    Width = 64,
+                    Height = 64
+                };
+                itemPanel.Widgets.Add(itemIcon);
+                
+                // Show count for stackable items
+                if (resource.Count > 1)
+                {
+                    var countLabel = new Label(BaseContent.Styles.Label.Normal)
+                    {
+                        Text = $"x{resource.Count}",
+                        HorizontalAlignment = HorizontalAlignment.Right,
+                        VerticalAlignment = VerticalAlignment.Bottom,
+                        Margin = new Thickness(0, 0, 2, 0)
+                    };
+                    itemPanel.Widgets.Add(countLabel);
+                }
+                
+                itemPanel.WithTooltip(resource.Item.Label);
+                lootItems.Widgets.Add(itemPanel);
             }
             
-            if (handler.Loot.Count() > 8)
+            if (handler.CollectedLoot.Count > 8)
             {
                 var moreLabel = new Label(BaseContent.Styles.Label.Small)
                 {
-                    Text = $"+{handler.Loot.Count() - 8} more",
+                    Text = $"+{handler.CollectedLoot.Count - 8} more",
                     VerticalAlignment = VerticalAlignment.Center
                 };
                 lootItems.Widgets.Add(moreLabel);

@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 
 namespace Grafted.Sim.Entities.Items.Medicinals;
 
@@ -31,8 +31,7 @@ public class MendersMistHandler : MedicinalHandler
         {
             Padding = new Thickness(20),
             MinWidth = 340,
-            Spacing = 8,
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame]
+            Spacing = 8
         };
 
         // ═══════════════════════════════════════════════════════════════════

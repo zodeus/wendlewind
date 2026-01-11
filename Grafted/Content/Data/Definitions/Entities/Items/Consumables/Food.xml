@@ -170,7 +170,7 @@
             </RequiredTrinkets>
             <ResourceRequirements>
                 <ListItem>
-                    <Item>CookedMeat</Item>
+                    <Item>RawMeat</Item>
                     <Count>1</Count>
                 </ListItem>
             </ResourceRequirements>

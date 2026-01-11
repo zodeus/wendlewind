@@ -6,7 +6,9 @@ public class CraftingProperties
     public List<ItemDef>? RequiredTrinkets = null;
     public List<ResourceCount> ResourceRequirements = new();
 
-    public bool CanCraft(Pawn pawn)
+    public bool CanCraft(Pawn pawn) => CanCraft(pawn, 1);
+
+    public bool CanCraft(Pawn pawn, int times)
     {
         if (RequiredTrinkets != null && RequiredTrinkets.Except(pawn.Inventory.Trinkets.Select(t => t.Def)).Any())
         {
@@ -15,7 +17,7 @@ public class CraftingProperties
 
         foreach (var resource in ResourceRequirements)
         {
-            if (pawn.Inventory.Contains(resource) == false)
+            if (pawn.Inventory.AmountOf(resource.Item) < resource.Count * times)
             {
                 return false;
             }

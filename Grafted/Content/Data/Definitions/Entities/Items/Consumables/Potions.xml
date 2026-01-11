@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Definitions>
     <ItemDef Name="Potion" ParentName="ItemBase" Abstract="true">
@@ -139,6 +139,10 @@
                 <ListItem>
                     <Item>HorseTooth</Item>
                     <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>JarOfBlood</Item>
+                    <Count>3</Count>
                 </ListItem>
                 <ListItem>
                     <Item>BoneShard</Item>

@@ -104,7 +104,7 @@
     <BodyDef>
         <Moniker>OrcBody</Moniker>
         <Label>Orc Body</Label>
-        <Description>Destroyed parts receive regeneration after a short delay.&#10;Strength increases by 1.3x for each severed part.</Description>
+        <Description>Eyes regenerate over time.&#10;Destroyed parts receive regeneration after a short delay.&#10;Strength increases by 1.3x for each severed part.&#10;Unlimited stamina.</Description>
         <BoneDensity>3</BoneDensity>
         <MaxBlood>20000</MaxBlood>
         <BloodType>ToxicSlime</BloodType>
