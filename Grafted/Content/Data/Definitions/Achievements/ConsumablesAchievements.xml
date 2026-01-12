@@ -60,4 +60,14 @@
         <BenifitDescription>Substantial increase in physical durability</BenifitDescription>
         <TargetValue>9000</TargetValue>
     </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>WorkWork</Moniker>
+        <Label>Work Work</Label>
+        <Description>Use repair kits to fix your gear</Description>
+        <Category>Consumables</Category>
+        <HandlerClass>WorkWorkHandler</HandlerClass>
+        <TargetValue>20</TargetValue>
+        <TraitDef>ApprenticeFixer</TraitDef>
+    </AchievementDef>
 </Definitions>

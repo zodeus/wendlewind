@@ -15,4 +15,9 @@
         <Label>Pot Bellied</Label>
         <Description>You have a little more belly than usual. More room for the good stuff.</Description>
     </TraitDef>
+    <TraitDef>
+        <Moniker>ApprenticeFixer</Moniker>
+        <Label>Apprentice Fixer</Label>
+        <Description>When repairing an item, it also increases its max durability by 10%.</Description>
+    </TraitDef>
 </Definitions>

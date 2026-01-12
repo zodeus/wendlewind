@@ -59,4 +59,14 @@
         <HandlerClass>LumberjackHandler</HandlerClass>
         <TargetValue>25</TargetValue>
     </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>RockHound</Moniker>
+        <Label>Rock Hound</Label>
+        <Description>Find rocks</Description>
+        <BenifitDescription>Start with pocket of rocks</BenifitDescription>
+        <Category>Exploration</Category>
+        <HandlerClass>RockHoundHandler</HandlerClass>
+        <TargetValue>25</TargetValue>
+    </AchievementDef>
 </Definitions>

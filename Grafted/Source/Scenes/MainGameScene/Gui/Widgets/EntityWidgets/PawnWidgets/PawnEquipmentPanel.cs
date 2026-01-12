@@ -91,7 +91,17 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
             {
                 if (_pawn.Equipment.GetBySlot(part, slot) is { } equipmentItem && equipmentItem.Durability < equipmentItem.MaxDurability)
                 {
+                    // ApprenticeFixer trait: repairing also increases max durability by 10%
+                    if (_pawn.Traits.HasTrait(Defs.Traits.ApprenticeFixer))
+                    {
+                        equipmentItem.MaxDurability *= 1.1f;
+                    }
+                    
                     equipmentItem.Repair();
+                    
+                    // Track achievement progress
+                    Core.Context.Achievements.OnItemUsed(_pawn, item);
+                    
                     item.StackSize--;
                     if (item.StackSize == 0)
                     {

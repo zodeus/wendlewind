@@ -560,6 +560,7 @@
                     <Def>Electrofied</Def>
                     <DurationInTicks>240~720</DurationInTicks>
                     <Chance>.8</Chance>
+                    <Power>5</Power>
                 </ListItem>
                 <ListItem>
                     <Def>Burning</Def>
@@ -602,6 +603,7 @@
                     <Def>Electrofied</Def>
                     <DurationInTicks>240~720</DurationInTicks>
                     <Chance>.8</Chance>
+                    <Rank>5</Rank>
                 </ListItem>
             </BodyPartModifiers>
         </WeaponProperties>

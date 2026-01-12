@@ -97,7 +97,7 @@
   <NinePatchRegion Id="panel-frame-medium-red" Left="964" Top="96" Width="88" Height="88" NinePatchLeft="8" NinePatchTop="8" NinePatchRight="8" NinePatchBottom="8" />
   <NinePatchRegion Id="panel-frame-medium" Left="1052" Top="112" Width="88" Height="88" NinePatchLeft="8" NinePatchTop="8" NinePatchRight="8" NinePatchBottom="8" />
   <NinePatchRegion Id="panel-frame-small" Left="900" Top="128" Width="42" Height="42" NinePatchLeft="4" NinePatchTop="4" NinePatchRight="4" NinePatchBottom="4" />
-  <NinePatchRegion Id="panel-green-gold" Left="2266" Top="128" Width="126" Height="126" NinePatchLeft="0" NinePatchTop="0" NinePatchRight="126" NinePatchBottom="126" />
+  <NinePatchRegion Id="panel-green-gold" Left="2266" Top="128" Width="126" Height="126" NinePatchLeft="14" NinePatchTop="15" NinePatchRight="14" NinePatchBottom="16" />
   <NinePatchRegion Id="panel-icon-frame" Left="2112" Top="88" Width="15" Height="15" NinePatchLeft="3" NinePatchTop="3" NinePatchRight="3" NinePatchBottom="3" />
   <NinePatchRegion Id="panel-loot" Left="1500" Top="151" Width="88" Height="88" NinePatchLeft="8" NinePatchTop="8" NinePatchRight="8" NinePatchBottom="8" />
   <NinePatchRegion Id="panel-red" Left="2392" Top="226" Width="300" Height="300" NinePatchLeft="8" NinePatchTop="7" NinePatchRight="8" NinePatchBottom="7" />

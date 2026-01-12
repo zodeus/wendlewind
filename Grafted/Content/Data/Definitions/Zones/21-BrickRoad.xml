@@ -60,7 +60,7 @@
                 </PotentialLootBoxes>
                 <Enemies>
                     <ListItem>
-                        <PawnDef>Hydra</PawnDef>
+                        <PawnDef>TinMan</PawnDef>
                         <Loadout>EmptyLoadout</Loadout>
                         <PawnName>Tin Man (model #1)</PawnName>
                         <BodySizeFactor>1</BodySizeFactor>

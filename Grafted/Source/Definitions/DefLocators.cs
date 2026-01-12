@@ -167,6 +167,10 @@ public static partial class Defs
         
         // Trinkets
         public static ItemDef PerforationTrap = null!;
+        
+        // Rocks
+        public static ItemDef Rock = null!;
+        public static ItemDef RockOfRot = null!;
     }
 }
 
@@ -369,6 +373,7 @@ public static partial class Defs
         public static TraitDef PotBellied = null!;
         public static TraitDef ThickBlooded = null!;
         public static TraitDef GutMicroacrobatics = null!;
+        public static TraitDef ApprenticeFixer = null!;
     }
 
     [DefLocator]

@@ -209,7 +209,7 @@ public abstract class BaseGui : IDisposable
             Background = null
         });
         _entityViewerWindow.Title = _queuedEntityToView.Value.Key.Label;
-        _entityViewerWindow.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold];
+        _entityViewerWindow.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.FancyDark];
 
         if (_queuedEntityToView.Value.Value.HasValue)
         {
