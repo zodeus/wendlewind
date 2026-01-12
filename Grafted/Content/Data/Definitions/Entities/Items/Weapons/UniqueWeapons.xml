@@ -7,7 +7,7 @@
         <Description>A vampiric blade that hungers for kindred blood. The crimson edge whispers promises of vitality to those who share its thirst.</Description>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
-            <MaxEnchantments>2</MaxEnchantments>
+            <MaxEnchantments>0</MaxEnchantments>
         </EquipmentProperties>
         <WeaponProperties>
             <WeaponType>Dagger</WeaponType>
@@ -48,7 +48,7 @@
         <Description>A gnarled, ancient twig that pulses with sickly energy. Something long dead stirs within its twisted core.</Description>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
-            <MaxEnchantments>3</MaxEnchantments>
+            <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
         <WeaponProperties>
             <WeaponType>Wand</WeaponType>

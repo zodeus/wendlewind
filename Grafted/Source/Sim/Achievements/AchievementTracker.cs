@@ -15,6 +15,12 @@ public class AchievementTracker : IExposable
     public IEnumerable<AchievementProgress> AllProgress => _progress.Values;
     public IEnumerable<AchievementProgress> UnlockedAchievements => _progress.Values.Where(p => p.IsUnlocked);
     public IEnumerable<AchievementProgress> LockedAchievements => _progress.Values.Where(p => !p.IsUnlocked);
+    
+    /// <summary>
+    /// Achievements that are unlocked but not yet acknowledged/dismissed by the player.
+    /// </summary>
+    public IEnumerable<AchievementProgress> UnacknowledgedAchievements => 
+        _progress.Values.Where(p => p.IsUnlocked && !p.IsAcknowledged);
 
     /// <summary>
     /// All achievement handlers for event dispatch
@@ -44,6 +50,22 @@ public class AchievementTracker : IExposable
     public bool IsUnlocked(AchievementDef def)
     {
         return _progress.TryGetValue(def.Moniker, out var progress) && progress.IsUnlocked;
+    }
+
+    public bool IsAcknowledged(AchievementDef def)
+    {
+        return _progress.TryGetValue(def.Moniker, out var progress) && progress.IsAcknowledged;
+    }
+
+    /// <summary>
+    /// Mark an achievement as acknowledged/dismissed by the player.
+    /// </summary>
+    public void Acknowledge(AchievementDef def)
+    {
+        if (_progress.TryGetValue(def.Moniker, out var progress))
+        {
+            progress.IsAcknowledged = true;
+        }
     }
 
     /// <summary>

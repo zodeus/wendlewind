@@ -6,7 +6,7 @@
         <Description>Collect fingers, just fingers... no thumbs, ugly little things</Description>
         <Category>Exploration</Category>
         <TargetValue>16</TargetValue>
-        <BenifitDescription>Not implemented</BenifitDescription>
+        <BenifitDescription>Your fingers are stronger, just your fingers...</BenifitDescription>
         <HandlerClass>FingerCollectorHandler</HandlerClass>
     </AchievementDef>
 

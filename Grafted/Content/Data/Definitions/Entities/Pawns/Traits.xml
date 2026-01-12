@@ -6,21 +6,6 @@
         <Description>Your blood is thicker than usual.</Description>
     </TraitDef>
     <TraitDef>
-        <Moniker>SausageFingers</Moniker>
-        <Label>Sausage Fingers</Label>
-        <Description>Your fingers are a little more meaty.</Description>
-    </TraitDef>
-    <TraitDef>
-        <Moniker>LeaveMyNeckAlone</Moniker>
-        <Label>Leave My Neck Alone</Label>
-        <Description>You don't like getting hit in the neck, but at least your neck is getting thicker.</Description>
-    </TraitDef>
-    <TraitDef>
-        <Moniker>EyeDrops</Moniker>
-        <Label>Eye Drops</Label>
-        <Description>Your eyes have a thin protective barrier.</Description>
-    </TraitDef>
-    <TraitDef>
         <Moniker>GutMicroacrobatics</Moniker>
         <Label>Gut Microacrobatics</Label>
         <Description>Immune to food poisoning.</Description>

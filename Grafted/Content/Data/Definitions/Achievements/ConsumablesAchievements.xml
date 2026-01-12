@@ -16,7 +16,7 @@
         <Label>Fine Diner</Label>
         <Description>Eat well prepared meals</Description>
         <Category>Consumables</Category>
-        <BenifitDescription>Not implemented</BenifitDescription>
+        <BenifitDescription>Start with a food bundle</BenifitDescription>
         <HandlerClass>FineDinerHandler</HandlerClass>
         <TargetValue>99</TargetValue>
     </AchievementDef>

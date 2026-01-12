@@ -14,9 +14,9 @@
         <Moniker>BrainTickler</Moniker>
         <Label>Brain Tickler</Label>
         <Description>Hit the brain</Description>
+        <BenifitDescription>A well earned brain beefing</BenifitDescription>
         <Category>Combat</Category>
         <TargetValue>100</TargetValue>
-        <BenifitDescription>Not implemented</BenifitDescription>
         <HandlerClass>BrainTicklerHandler</HandlerClass>
     </AchievementDef>
     
@@ -44,8 +44,8 @@
         <Moniker>TwoIDontNeedTwo</Moniker>
         <Label>Two! I Don't Need Two!</Label>
         <Description>Lose both eyes and survive</Description>
+        <BenifitDescription>Your eyes are twice as strong</BenifitDescription>
         <Category>Combat</Category>
-        <TraitDef>EyeDrops</TraitDef>
         <HandlerClass>TwoIDontNeedTwoHandler</HandlerClass>
         <IsHidden>true</IsHidden>
     </AchievementDef>
@@ -54,9 +54,9 @@
         <Moniker>Butcher</Moniker>
         <Label>Butcher</Label>
         <Description>Kill enemies</Description>
+        <BenifitDescription>Your fingers are twice as strong</BenifitDescription>
         <Category>Combat</Category>
         <TargetValue>100</TargetValue>
-        <TraitDef>SausageFingers</TraitDef>
         <HandlerClass>ButcherHandler</HandlerClass>
     </AchievementDef>
 
@@ -64,9 +64,9 @@
         <Moniker>TheExecutionersBitch</Moniker>
         <Label>The Executioner's Bitch</Label>
         <Description>Who likes getting hit in the neck... you do</Description>
+        <BenifitDescription>Your neck is stronger</BenifitDescription>
         <Category>Combat</Category>
         <TargetValue>100</TargetValue>
-        <TraitDef>LeaveMyNeckAlone</TraitDef>
         <HandlerClass>TheExecutionersBitchHandler</HandlerClass>
     </AchievementDef>
 
