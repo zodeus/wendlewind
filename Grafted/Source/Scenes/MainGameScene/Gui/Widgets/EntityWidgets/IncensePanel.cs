@@ -7,83 +7,72 @@ public sealed class IncensePanel : EntityPanelBase
 {
     private static readonly Color WarmGlow = new(255, 200, 120);
     private static readonly Color AshGray = new(180, 170, 160);
-    private static readonly Color DeepEmber = new(180, 80, 30);
+
+    private readonly Item _item;
+    private readonly Label? _stackLabel;
 
     public IncensePanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
+        _item = item;
         Padding = new Thickness(24);
         MinWidth = 420;
         Spacing = 8;
 
-        // ═══════════════════════════════════════════════════════════════════
-        // Header Section: Framed Icon + Description
-        // ═══════════════════════════════════════════════════════════════════
+        // Header: Icon + Name/Description
         var headerSection = new HorizontalStackPanel
         {
             Spacing = 18,
             Margin = new Thickness(0, 0, 0, 16)
         };
 
-        // Icon with decorative ember-glow frame
-        var iconOuter = new Panel
-        {
-            Background = new SolidBrush(DeepEmber),
-            Padding = new Thickness(3),
-            Width = 100, Height = 100
-        };
-        var iconInner = new Panel
+        // Icon with decorative frame
+        var iconFrame = new Panel
         {
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
             Padding = new Thickness(4)
         };
-        iconInner.Widgets.Add(new Image
+        iconFrame.Widgets.Add(new Image
         {
             Background = new TextureRegion(item.Icon),
-            Width = 84, Height = 84,
+            Width = 84,
+            Height = 84,
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center
         });
-        iconOuter.Widgets.Add(iconInner);
-        headerSection.Widgets.Add(iconOuter);
+        headerSection.Widgets.Add(iconFrame);
 
-        // Description with warm styling
-        var descArea = new VerticalStackPanel
+        // Name and description
+        var infoArea = new VerticalStackPanel
         {
-            Spacing = 8,
+            Spacing = 6,
             VerticalAlignment = VerticalAlignment.Center
         };
 
+        infoArea.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+        {
+            Text = item.Label,
+            TextColor = WarmGlow
+        });
+
         if (!string.IsNullOrEmpty(item.Def.Description) && item.Def.Description != "undefined")
         {
-            descArea.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+            infoArea.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
             {
                 Text = item.Def.Description,
                 Wrap = true,
                 MaxWidth = 260,
-                TextColor = WarmGlow
+                TextColor = AshGray
             });
         }
 
-        // Stack count indicator
-        if (item.StackSize > 1)
-        {
-            descArea.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-            {
-                Text = $"× {item.StackSize}",
-                TextColor = AshGray,
-                Margin = new Thickness(0, 4, 0, 0)
-            });
-        }
-
-        headerSection.Widgets.Add(descArea);
+        headerSection.Widgets.Add(infoArea);
         Widgets.Add(headerSection);
 
-        // ═══════════════════════════════════════════════════════════════════
-        // Effect Info Section (if has incense properties)
-        // ═══════════════════════════════════════════════════════════════════
+        // Effect section
         var incenseProps = item.ItemDef.IncenseProperties;
         if (incenseProps?.Effect != null)
         {
+            // Separator
             Widgets.Add(new Panel
             {
                 Height = 2,
@@ -92,39 +81,63 @@ public sealed class IncensePanel : EntityPanelBase
                 Margin = new Thickness(0, 4, 0, 12)
             });
 
-            var effectSection = new VerticalStackPanel { Spacing = 4 };
-            effectSection.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            Widgets.Add(new Label(BaseContent.Styles.Label.Small)
             {
                 Text = "When Burned:",
                 TextColor = AshGray
             });
-            effectSection.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+
+            // Effect with icon
+            var effectRow = new HorizontalStackPanel
+            {
+                Spacing = 10,
+                Margin = new Thickness(10, 4, 0, 0)
+            };
+
+            effectRow.Widgets.Add(new Image
+            {
+                Background = new TextureRegion(incenseProps.Effect.Def.Texture),
+                Width = 20,
+                Height = 20
+            });
+
+            var effectColor = IncenseProperties.GetEffectColor(incenseProps.Effect.Def);
+            effectRow.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
             {
                 Text = incenseProps.Effect.Def.Label,
-                TextColor = WarmGlow
+                TextColor = effectColor
             });
-            if (!string.IsNullOrEmpty(incenseProps.Effect.Def.Description))
-            {
-                effectSection.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-                {
-                    Text = incenseProps.Effect.Def.Description,
-                    TextColor = AshGray,
-                    Wrap = true,
-                    MaxWidth = 350
-                });
-            }
+
             var durationSeconds = incenseProps.Effect.DurationInTicks / 60f;
-            effectSection.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            effectRow.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
             {
-                Text = $"Duration: {durationSeconds:0.#}s",
-                TextColor = Color.DarkGray,
-                Margin = new Thickness(0, 4, 0, 0)
+                Text = $"({durationSeconds:0.#}s)",
+                TextColor = Color.DarkGray
             });
-            Widgets.Add(effectSection);
+
+            Widgets.Add(effectRow);
+
+           
+        }
+
+        // Stack info
+        if (item.StackSize > 1 || item.ItemDef.StackLimit > 1)
+        {
+            _stackLabel = new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = $"Stack: {item.StackSize}",
+                TextColor = AshGray,
+                Margin = new Thickness(0, 8, 0, 0)
+            };
+            Widgets.Add(_stackLabel);
         }
     }
 
     public override void Update()
     {
+        if (_stackLabel != null)
+        {
+            _stackLabel.Text = $"Stack: {_item.StackSize}";
+        }
     }
 }

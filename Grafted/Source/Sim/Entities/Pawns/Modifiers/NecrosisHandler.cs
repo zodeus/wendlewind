@@ -54,4 +54,21 @@ public class NecrosisHandler : BodyPartModifier
         ScribeValues.Look(ref _ticksToSpread, "TicksToSpread");
         base.ExposeData();
     }
+
+    public override Widget? GetInfoPanel()
+    {
+        var lines = new List<InfoLine>
+        {
+            new("Spreads when part destroyed", InfoColors.Spread)
+        };
+
+        if (_ticksToSpread > 0)
+            lines.Add(new($"Spread cooldown: {_ticksToSpread}t", InfoColors.Warning));
+
+        return BuildInfoPanel(new InfoPanelData
+        {
+            Lines = lines,
+            CuredBy = "Anti-Necrotic Serum"
+        });
+    }
 }

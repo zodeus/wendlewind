@@ -25,6 +25,6 @@ public class SquirelyPeteHandler : AchievementHandler
     {
         if (!IsUnlocked) return;
 
-        context.Player.Pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(Defs.Items.Walnut, Core.Random.Next(2, 4)));
+        context.Player.Pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(Defs.Items.Walnut, Core.Random.Next(1, 2)));
     }
 }

@@ -16,4 +16,11 @@ public class LifeRegenerationHandler : BodyPartModifier
         BodyPart.HitPoints += BodyPart.HitPoints * HealthRegenerationPerTick;
         base.Tick();
     }
+
+    public override Widget? GetInfoPanel() => BuildInfoPanel(new InfoPanelData
+    {
+        Healing = HealthRegenerationPerTick * 100,
+        HealingSuffix = "% health/tick",
+        Lines = [new($"{ChanceToRegenerateDestroyedPart * 100:0.#}% chance to revive part", InfoColors.Info)]
+    });
 }

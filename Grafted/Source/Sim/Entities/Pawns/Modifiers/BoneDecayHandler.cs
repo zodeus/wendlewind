@@ -49,4 +49,15 @@ public class BoneDecayHandler : BodyPartModifier
 
         return true;
     }
+
+    public override Widget? GetInfoPanel() => BuildInfoPanel(new InfoPanelData
+    {
+        Damage = CurrentDamage,
+        DamageColor = new Color(200, 200, 180),
+        Lines =
+        [
+            new("Damage decreases over time", new Color(180, 180, 160)),
+            new("Expires when part destroyed", new Color(150, 150, 130))
+        ]
+    });
 }

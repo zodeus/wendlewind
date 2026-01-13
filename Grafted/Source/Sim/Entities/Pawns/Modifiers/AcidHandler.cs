@@ -57,4 +57,14 @@ public class AcidHandler : BodyPartModifier
         ScribeValues.Look(ref _hasPenetrated, "HasPenetrated");
         base.ExposeData();
     }
+
+    public override Widget? GetInfoPanel() => BuildInfoPanel(new InfoPanelData
+    {
+        Damage = _hasSpread ? PenetratedDamage : BaseDamage,
+        DamageColor = new Color(180, 255, 80),
+        Lines = [new("Corrodes all materials", new Color(200, 200, 100))],
+        HasSpread = _hasSpread,
+        HasPenetrated = _hasPenetrated,
+        CuredBy = "Soothing Balm"
+    });
 }

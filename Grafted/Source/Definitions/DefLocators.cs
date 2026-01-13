@@ -53,7 +53,7 @@ public static partial class Defs
         public static BodyPartModifierDef RotLung = null!;
         public static BodyPartModifierDef BlackLung = null!;
         public static BodyPartModifierDef SoothingBalm = null!;
-        public static BodyPartModifierDef PurpleRegeneration = null!;
+        public static BodyPartModifierDef HealthRegeneration = null!;
         public static BodyPartModifierDef LifeRegeneration = null!;
         public static BodyPartModifierDef RhinoRestoration = null!;
         public static BodyPartModifierDef Necrosis = null!;
@@ -62,6 +62,7 @@ public static partial class Defs
         public static BodyPartModifierDef BloodDrain = null!;
         public static BodyPartModifierDef PoppingPustules = null!;
         public static BodyPartModifierDef Burning = null!;
+        public static BodyPartModifierDef Electrofied = null!;
     }
 }
 

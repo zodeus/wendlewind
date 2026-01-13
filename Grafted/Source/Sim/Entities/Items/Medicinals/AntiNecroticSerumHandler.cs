@@ -13,7 +13,7 @@ public class AntiNecroticSerumHandler : MedicinalHandler
         var duration = item.ItemDef.MedicinalProperties!.DurationInTicks;
         if (part.HasModifier(Defs.BodyPartModifiers.Necrosis) && part.HasModifier(Defs.BodyPartModifiers.NecrosisSerum) == false)
         {
-            part.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.NecrosisSerum, duration));
+            part.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.NecrosisSerum, duration, 1));
             return true;
         }
 

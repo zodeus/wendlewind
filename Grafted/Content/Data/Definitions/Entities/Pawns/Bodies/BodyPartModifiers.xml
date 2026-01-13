@@ -103,7 +103,7 @@
         <Moniker>SoothingBalm</Moniker>
         <Label>Soothing Balm</Label>
         <Type>Buff</Type>
-        <Description>Slowly heals the skin, meat and even organs. Oh, it also negates acid</Description>
+        <Description>Removes burning and acid effects.</Description>
         <HandlerClass>SoothingBalm</HandlerClass>
         <Color>128, 214, 58</Color>
     </BodyPartModifierDef>
@@ -116,12 +116,12 @@
         <Color>128, 214, 58</Color>
     </BodyPartModifierDef>
     <BodyPartModifierDef>
-        <Moniker>PurpleRegeneration</Moniker>
-        <Label>Purple Regen</Label>
+        <Moniker>HealthRegeneration</Moniker>
+        <Label>Health Regen</Label>
         <Type>Buff</Type>
         <Description>Regenerates body part health</Description>
-        <HandlerClass>PurpleRegeneration</HandlerClass>
-        <Color>168, 2, 214</Color>
+        <HandlerClass>HealthRegeneration</HandlerClass>
+        <Color>115, 2, 235</Color>
         <ColorPriority>2</ColorPriority>
     </BodyPartModifierDef>
     <BodyPartModifierDef>

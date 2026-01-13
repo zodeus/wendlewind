@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnPreparationPanelWidgets;
 
 internal sealed class IncenseItemsBar : HorizontalStackPanel, IUpdatable
@@ -104,8 +106,59 @@ internal sealed class IncenseItemButton : CursorButton
         Height = BaseContent.IconSizes.Large + 8;
 
         Click += OnClick;
-        this.WithDynamicTooltip(() => _item.Label);
+        this.WithTooltip(CreateTooltipContent);
         Update();
+    }
+
+    private Widget CreateTooltipContent()
+    {
+        var container = new VerticalStackPanel { Spacing = 4, Padding = new Thickness(4) };
+
+        // Item name
+        container.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+        {
+            Text = _item.Label,
+            TextColor = Color.Gold
+        });
+
+        // Effect section
+        var incenseProps = _item.ItemDef.IncenseProperties;
+        if (incenseProps?.Effect != null)
+        {
+            container.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = "When Burned:",
+                TextColor = new Color(180, 170, 160),
+                Margin = new Thickness(0, 4, 0, 2)
+            });
+
+            var effectPanel = new HorizontalStackPanel
+            {
+                Spacing = 6,
+                Margin = new Thickness(8, 0, 0, 0)
+            };
+
+            var effectColor = IncenseProperties.GetEffectColor(incenseProps.Effect.Def);
+            effectPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = incenseProps.Effect.Def.Label,
+                TextColor = effectColor
+            });
+
+            if (incenseProps.Effect.DurationInTicks > 0)
+            {
+                var durationSeconds = incenseProps.Effect.DurationInTicks / 60f;
+                effectPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = $"({durationSeconds:0.#}s)",
+                    TextColor = new Color(150, 150, 150)
+                });
+            }
+
+            container.Widgets.Add(effectPanel);
+        }
+
+        return container;
     }
 
     private void OnClick(object? sender, EventArgs e)

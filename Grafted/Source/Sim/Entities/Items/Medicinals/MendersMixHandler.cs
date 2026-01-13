@@ -16,6 +16,7 @@ public class MendersMixHandler : MedicinalHandler
     private static readonly Color BalmColor = new(180, 200, 140);        // Soft green for soothing
     private static readonly Color HealedTextColor = new(130, 200, 130);
     private static readonly Color FlowArrowColor = new(100, 180, 100);
+    private const double SoothingBalmPower = 1;
 
     public override bool ApplyToPart(Item item, BodyPart part)
     {
@@ -333,13 +334,13 @@ public class MendersMixHandler : MedicinalHandler
 
         // Heal this part and apply soothing balm
         _healAmount -= UpdateHealth(bodyPart);
-        bodyPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.SoothingBalm, duration));
+        bodyPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.SoothingBalm, duration, SoothingBalmPower));
 
         // Heal internal parts (bone, flesh, skin, organs)
         foreach (var internalPart in bodyPart.InternalParts)
         {
             _healAmount -= UpdateHealth(internalPart);
-            internalPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.SoothingBalm, duration));
+            internalPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.SoothingBalm, duration, SoothingBalmPower));
         }
 
         // Recursively apply to external parts (travels through sockets)

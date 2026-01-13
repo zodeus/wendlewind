@@ -10,6 +10,7 @@ public class BlackenedSmokeHandler : PotionHandler
     public override bool CanUseInCombat => true;
     public override bool CanUseOutsideCombat => false;
     public override bool CanAutoUse => false;
+    private const double BlackLungPower = 1;
 
     public override PotionUseResult UseInCombat(Pawn user, Pawn? target = null)
     {
@@ -24,21 +25,21 @@ public class BlackenedSmokeHandler : PotionHandler
         });
 
         // Apply BlackLung modifier to the target's lungs
-        var blackLungModifier = BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.BlackLung, duration);
+        var blackLungModifier = BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.BlackLung, duration, BlackLungPower);
         var lungs = actualTarget.Body.AllParts.Where(p => p?.Type == BodyPartType.Lung).ToList();
-        
+
         var lungsAffected = 0;
         foreach (var lung in lungs)
         {
-            lung.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.BlackLung, duration));
+            lung.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.BlackLung, duration, BlackLungPower));
             lungsAffected++;
         }
 
         var message = $"/c[{TC.Attacker}]{user.LabelShort} /c[{TC.Yellow}]hurled a /c[{TC.Item}]{PotionLabel} /c[{TC.Yellow}]at /c[{TC.Victim}]{actualTarget.LabelShort}";
-        
+
         return PotionUseResult.Succeeded(
             message,
-            alertMessage: lungsAffected > 0 
+            alertMessage: lungsAffected > 0
                 ? $"{actualTarget.Label}'s lungs fill with acrid black smoke"
                 : $"{actualTarget.Label} is shrouded in black smoke",
             alertColor: Color.DarkGray

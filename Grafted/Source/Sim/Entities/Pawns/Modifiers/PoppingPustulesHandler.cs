@@ -114,7 +114,7 @@ public class PoppingPustulesHandler : BodyPartModifier
         if (targetPart.HasModifier(Def)) return;
         if (AllowedSubstances.Contains(targetPart.Substance) == false) return;
         targetPart = targetPart.Skin ?? targetPart;
-        targetPart.TryAddModifier(BodyPartModifierGenerator.Generate(Def, SpreadDuration.RandomValue));
+        targetPart.TryAddModifier(BodyPartModifierGenerator.Generate(Def, SpreadDuration.RandomValue, Power));
     }
 
     public override bool ApplyToPart(BodyPart part)
@@ -134,5 +134,23 @@ public class PoppingPustulesHandler : BodyPartModifier
         }
 
         return true;
+    }
+
+    public override Widget? GetInfoPanel()
+    {
+        var isSkin = BodyPart?.Type == BodyPartType.Skin;
+        var damageRange = isSkin ? SkinDamagePerTick : FleshDamagePerTick;
+
+        return BuildInfoPanel(new InfoPanelData
+        {
+            Lines =
+            [
+                new($"-{damageRange.Min:0.#}-{damageRange.Max:0.#} damage/tick", new Color(200, 150, 100)),
+                new("EXPLODES when expired!", InfoColors.Penetrated),
+                new($"{SpreadChance * 100:0}% spread on pop", InfoColors.Spread)
+            ],
+            TimePrefix = "Time until pop",
+            TimeColor = new Color(255, 150, 150)
+        });
     }
 }

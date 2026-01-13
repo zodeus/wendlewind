@@ -16,6 +16,7 @@ public class PerforationTrapHandler : TrinketHandler, IUpgradableHandler
     // BloodDrain base duration (ticks)
     private const int BaseBloodDrainDuration = 600;
     private const int Level2DurationBonus = 900;
+    private const double BloodDrainPower = 1;
     
     private int _upgradeLevel;
     private bool _isSet;
@@ -166,7 +167,7 @@ public class PerforationTrapHandler : TrinketHandler, IUpgradableHandler
         
         foreach (var part in externalParts)
         {
-            var modifier = BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.BloodDrain, BloodDrainDuration);
+            var modifier = BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.BloodDrain, BloodDrainDuration, BloodDrainPower);
             if (modifier.ApplyToPart(part))
             {
                 partsAffected++;

@@ -558,14 +558,9 @@
             <BodyPartModifiers>
                 <ListItem>
                     <Def>Electrofied</Def>
-                    <DurationInTicks>240~720</DurationInTicks>
+                    <DurationInTicks>60~120</DurationInTicks>
                     <Chance>.8</Chance>
-                    <Power>5</Power>
-                </ListItem>
-                <ListItem>
-                    <Def>Burning</Def>
-                    <DurationInTicks>120~360</DurationInTicks>
-                    <Chance>.7</Chance>
+                    <Power>2</Power>
                 </ListItem>
             </BodyPartModifiers>
         </WeaponProperties>
@@ -601,9 +596,9 @@
             <BodyPartModifiers>
                 <ListItem>
                     <Def>Electrofied</Def>
-                    <DurationInTicks>240~720</DurationInTicks>
+                    <DurationInTicks>60~120</DurationInTicks>
                     <Chance>.8</Chance>
-                    <Rank>5</Rank>
+                    <Power>2</Power>
                 </ListItem>
             </BodyPartModifiers>
         </WeaponProperties>

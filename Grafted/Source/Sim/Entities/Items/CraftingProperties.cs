@@ -25,4 +25,39 @@ public class CraftingProperties
 
         return true;
     }
+
+    public bool Craft(Pawn pawn, ItemDef itemDef, int times = 1)
+    {
+        List<Item> resourcesTaken = [];
+        foreach (var resource in ResourceRequirements)
+        {
+            var scaledResource = new ResourceCount { Item = resource.Item, Count = resource.Count * times };
+            var resourceToUse = pawn.Inventory.Take(scaledResource);
+
+            if (resourceToUse == null)
+            {
+                foreach (var resourceTaken in resourcesTaken)
+                {
+                    pawn.Inventory.TryAdd(resourceTaken);
+                }
+
+                return false;
+            }
+
+            resourcesTaken.Add(resourceToUse);
+            if (resourceToUse.StackSize < scaledResource.Count)
+            {
+                return false;
+            }
+        }
+
+        foreach (var resourceTaken in resourcesTaken)
+        {
+            resourceTaken.Destroy();
+        }
+
+        pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(itemDef, AmountProduced * times));
+
+        return true;
+    }
 }

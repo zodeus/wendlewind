@@ -67,7 +67,7 @@ internal sealed class BodyPartRow : HorizontalStackPanel
                 // Use small colored pips around the ring to represent all modifiers on this part
                 var pipData = part.Modifiers
                     .OrderByDescending(m => m.Def.ColorPriority)
-                    .Select(m => new PipData { Color = m.Def.Color, Label = m.Label })
+                    .Select(m => new PipData { Color = m.Def.Color, Label = m.Label, InfoPanel = m.GetInfoPanel() })
                     .ToList();
 
                 panel.SetPips(pipData);

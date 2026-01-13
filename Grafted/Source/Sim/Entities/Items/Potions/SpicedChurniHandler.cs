@@ -17,7 +17,7 @@ public class SpicedChurniHandler : PotionHandler
 
         // Apply regeneration to all body parts
         actualTarget.Body.AllParts.ForEach(p => p.TryAddModifier(
-            BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.PurpleRegeneration, duration)
+            BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.HealthRegeneration, duration, 1)
         ));
 
         // Apply the body effect

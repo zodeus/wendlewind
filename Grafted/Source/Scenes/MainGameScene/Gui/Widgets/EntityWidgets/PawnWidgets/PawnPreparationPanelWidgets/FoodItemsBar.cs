@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnPreparationPanelWidgets;
 
 internal sealed class FoodItemsBar : HorizontalStackPanel, IUpdatable
@@ -100,8 +102,74 @@ internal sealed class FoodItemButton : CursorButton
         Height = BaseContent.IconSizes.Large + 8;
 
         Click += OnClick;
-        this.WithDynamicTooltip(() => _item.Label);
+        this.WithTooltip(CreateTooltipContent);
         Update();
+    }
+
+    private Widget CreateTooltipContent()
+    {
+        var container = new VerticalStackPanel { Spacing = 4, Padding = new Thickness(4) };
+
+        // Item name
+        container.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+        {
+            Text = _item.Label,
+            TextColor = Color.Gold
+        });
+
+        // Nutritional value
+        var nutritionValue = _item.GetStatValue(Defs.Stats.NutritionalValue);
+        var nutritionColor = FoodProperties.GetNutritionColor(nutritionValue);
+        container.Widgets.Add(new HorizontalStackPanel
+        {
+            Spacing = 6,
+            Widgets =
+            {
+                new Label(BaseContent.Styles.Label.Small) { Text = "Nutrition:", TextColor = new Color(180, 180, 180) },
+                new Label(BaseContent.Styles.Label.Small) { Text = $"{nutritionValue:0.##}", TextColor = nutritionColor }
+            }
+        });
+
+        // Effects section
+        var foodProps = _item.ItemDef.FoodProperties;
+        if (foodProps?.Effects.Any() == true)
+        {
+            container.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = "Effects:",
+                TextColor = new Color(220, 180, 100),
+                Margin = new Thickness(0, 4, 0, 2)
+            });
+
+            foreach (var effect in foodProps.Effects)
+            {
+                var effectPanel = new HorizontalStackPanel
+                {
+                    Spacing = 6,
+                    Margin = new Thickness(8, 0, 0, 0)
+                };
+
+                var effectColor = FoodProperties.GetEffectColor(effect.Def);
+                effectPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = effect.Def.Label,
+                    TextColor = effectColor
+                });
+
+                if (effect.DurationInTicks > 0)
+                {
+                    effectPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+                    {
+                        Text = $"({effect.DurationInTicks:N0} ticks)",
+                        TextColor = new Color(150, 150, 150)
+                    });
+                }
+
+                container.Widgets.Add(effectPanel);
+            }
+        }
+
+        return container;
     }
 
     private void OnClick(object? sender, EventArgs e)

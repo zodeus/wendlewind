@@ -1,12 +1,18 @@
+using Grafted.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
+
 namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
 /// <summary>
-/// Data for a single pip: its color and label for the tooltip.
+/// Data for a single pip: its color, label for simple tooltip, and optional info panel.
 /// </summary>
 public readonly struct PipData
 {
     public Color Color { get; init; }
     public string Label { get; init; }
+    /// <summary>
+    /// Optional custom info panel widget. If provided, shown instead of simple label tooltip.
+    /// </summary>
+    public Widget? InfoPanel { get; init; }
 }
 
 public sealed class BodyPartIcon : Panel
@@ -18,7 +24,6 @@ public sealed class BodyPartIcon : Panel
     private readonly ColoredRegion? _imageTexture;
     private readonly ColoredRegion _backgroundTexture;
     private readonly List<Panel> _pipWidgets = new();
-    private Label? _tooltipLabel;
     private event Action<BodyPartIcon>? Handler;
 
     public BodyPartIcon(ColoredRegion? imageTexture, Action<BodyPartIcon>? handler = null)
@@ -61,15 +66,12 @@ public sealed class BodyPartIcon : Panel
     /// </summary>
     public void SetPips(IReadOnlyList<PipData> pips)
     {
-        // Clear existing pips and tooltip
+        // Clear existing pips
         foreach (var pip in _pipWidgets)
         {
             pip.RemoveFromParent();
         }
         _pipWidgets.Clear();
-
-        _tooltipLabel?.RemoveFromParent();
-        _tooltipLabel = null;
 
         if (pips.Count == 0)
         {
@@ -81,18 +83,6 @@ public sealed class BodyPartIcon : Panel
         // Draw pips horizontally from the top-left of the icon container.
         const int pipDiameter = 12;
         const int pipSpacing = 2;
-
-        // Create a shared tooltip label (initially hidden)
-        _tooltipLabel = new Label(BaseContent.Styles.Label.Small)
-        {
-            Visible = false,
-            TextColor = Color.White,
-            Padding = new Thickness(6, 3, 6, 3),
-            HorizontalAlignment = HorizontalAlignment.Left,
-            VerticalAlignment = VerticalAlignment.Top,
-            Top = -20,
-        };
-
         const int maxPipsPerRow = 3;
 
         for (var i = 0; i < pipCount; i++)
@@ -116,36 +106,17 @@ public sealed class BodyPartIcon : Panel
                 Top = pipTop
             };
 
-            // Add hover handlers to show/hide tooltip
-            var label = pipData.Label;
-            var capturedPipLeft = pipLeft;
-            var capturedPipTop = pipTop;
-            pip.MouseEntered += (_, _) =>
+            // Attach tooltip using TooltipHelper - use custom info panel if available, otherwise simple label
+            var capturedPipData = pipData;
+            pip.WithTooltip(() => capturedPipData.InfoPanel ?? new Label(BaseContent.Styles.Label.Small)
             {
-                if (_tooltipLabel != null)
-                {
-                    _tooltipLabel.Text = label;
-                    _tooltipLabel.Left = capturedPipLeft;
-                    _tooltipLabel.Top = capturedPipTop - 20;
-                    _tooltipLabel.Visible = true;
-                    _tooltipLabel.TextColor = Color.GhostWhite;
-                }
-            };
-
-            pip.MouseLeft += (_, _) =>
-            {
-                if (_tooltipLabel != null)
-                {
-                    _tooltipLabel.Visible = false;
-                }
-            };
+                Text = capturedPipData.Label,
+                TextColor = Color.GhostWhite
+            });
 
             _pipWidgets.Add(pip);
             Widgets.Add(pip);
         }
-
-        // Add tooltip last so it renders on top
-        Widgets.Add(_tooltipLabel);
     }
 
     /// <summary>

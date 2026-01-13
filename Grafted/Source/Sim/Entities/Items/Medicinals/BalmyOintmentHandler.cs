@@ -7,14 +7,15 @@ public class BalmyOintmentHandler : MedicinalHandler
     private static readonly Color PartColor = new(180, 150, 130);        // Flesh tone
     private static readonly Color InternalColor = new(140, 120, 110);    // Darker for internal
     private static readonly Color EffectColor = new(220, 200, 100);      // Golden glow effect
+    private const double SoothingBalmPower = 1;
 
     public override bool ApplyToPart(Item item, BodyPart part)
     {
         var duration = item.ItemDef.MedicinalProperties!.DurationInTicks;
-        part.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.SoothingBalm, duration));
+        part.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.SoothingBalm, duration, 1));
         foreach (var internalPart in part.AllInternalParts)
         {
-            internalPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.SoothingBalm, duration));
+            internalPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.SoothingBalm, duration, SoothingBalmPower));
         }
 
         return true;

@@ -181,11 +181,6 @@ public sealed class GameHud : HorizontalStackPanel
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center
         };
-        
-        if (gui is ZoneGui)
-        {
-            statsContainer.Margin = new Thickness(80, 0, 0, 0);
-        }
 
         var statsRow = new HorizontalStackPanel
         {

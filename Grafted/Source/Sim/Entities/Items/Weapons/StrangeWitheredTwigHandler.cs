@@ -102,8 +102,7 @@ public class StrangeWitheredTwigHandler : WeaponHandler, IUpgradableHandler
         {
             // Create the modifier with random duration using the generator
             var duration = Core.Random.Next(MinDurationTicks, MaxDurationTicks + 1);
-            var modifier = BodyPartModifierGenerator.Generate(modifierDef.Def, duration);
-            Log.Info($"StrangeWitheredTwigHandler: OnHit: Modifier: {modifier.Label}");
+            var modifier = BodyPartModifierGenerator.Generate(modifierDef.Def, duration, 1.0);
             // Apply to the hit part
             modifier.ApplyToPart(targetPart);
             appliedModifiers.Add(modifierDef.Def.Label);

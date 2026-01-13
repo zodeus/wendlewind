@@ -13,6 +13,7 @@ public class OrcBodyHandler : RegeneratingEyesBodyHandler
     private const int MaxRegenerationDelay = 240;
     private const int RhinoRestorationDuration = 600;
     private const float StrengthMultiplierPerSever = 1.3f;
+    private const double RhinoPower = 1.5;
 
     // Track destroyed external parts and their countdown timers
     // Key: BodyPart Id, Value: Ticks remaining until restoration
@@ -133,7 +134,8 @@ public class OrcBodyHandler : RegeneratingEyesBodyHandler
         
         var modifier = BodyPartModifierGenerator.Generate(
             Defs.BodyPartModifiers.RhinoRestoration, 
-            RhinoRestorationDuration);
+            RhinoRestorationDuration,
+            RhinoPower);
         
         modifier.ApplyToPart(part);
     }

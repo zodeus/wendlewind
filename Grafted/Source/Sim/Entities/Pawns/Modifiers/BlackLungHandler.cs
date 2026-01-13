@@ -46,9 +46,29 @@ public class BlackLungHandler : BodyPartModifier
 
         foreach (var lung in lungs)
         {
-            lung.TryAddModifier(BodyPartModifierGenerator.Generate(Def, DurationInTicks));
+            lung.TryAddModifier(BodyPartModifierGenerator.Generate(Def, DurationInTicks, Power));
         }
 
         return true;
+    }
+
+    public override Widget? GetInfoPanel()
+    {
+        var cycleTick = Ticks % DamagePhases[^1].EndTick;
+        var phaseName = cycleTick < DamagePhases[0].EndTick ? "Initial Irritation"
+            : cycleTick < DamagePhases[1].EndTick ? "Acute Inflammation"
+            : cycleTick < DamagePhases[2].EndTick ? "Brief Recovery"
+            : "Sustained Damage";
+
+        return BuildInfoPanel(new InfoPanelData
+        {
+            Damage = GetCurrentDamageRate(),
+            DamageColor = new Color(80, 80, 80),
+            Lines =
+            [
+                new($"Phase: {phaseName}", new Color(120, 100, 120)),
+                new("Targets lungs specifically", new Color(150, 130, 150))
+            ]
+        });
     }
 }

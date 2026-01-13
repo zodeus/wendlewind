@@ -6,7 +6,7 @@ public class ElectrofiedHandler : BodyPartModifier
     private bool _hasSpread;
     private bool _hasPenetrated;
     private double _baseDamage = 0.3;
-    private double _penetratedDamage = 0.1;
+    private double _penetratedDamage = 0.2;
     private const double OrganDamage = 0.01;
     private const double ArteryDamage = 0.01;
     private const double EyeDamage = 0.003;
@@ -36,6 +36,7 @@ public class ElectrofiedHandler : BodyPartModifier
             damage = _penetratedDamage;
         }
 
+        damage *= Power;
         BodyPart.HitPoints -= damage;
 
         this.HandleSpreading(BodyPart, SpreadThreshold, ref _hasSpread);
@@ -72,7 +73,6 @@ public class ElectrofiedHandler : BodyPartModifier
         _baseDamage *= 1.2;
         _penetratedDamage *= 1.2;
         DurationInTicks += Core.Random.Next(0, modifier.DurationInTicks);
-        Log.Info($"ElectrofiedHandler: BodyPart {BodyPart.Label} Merging with {modifier.Label}, base damage: {_baseDamage}, penetrated damage: {_penetratedDamage}");
     }
 
     public override void SpreadTo(BodyPart part)
@@ -86,5 +86,23 @@ public class ElectrofiedHandler : BodyPartModifier
         ScribeValues.Look(ref _hasSpread, "HasSpread");
         ScribeValues.Look(ref _hasPenetrated, "HasPenetrated");
         base.ExposeData();
+    }
+
+    public override Widget? GetInfoPanel()
+    {
+        var currentDamage = BodyPart?.IsOrgan == true ? OrganDamage 
+            : BodyPart?.Type == BodyPartType.Artery ? ArteryDamage 
+            : BodyPart?.Type == BodyPartType.Eye ? EyeDamage
+            : _hasPenetrated ? _penetratedDamage : _baseDamage;
+
+        return BuildInfoPanel(new InfoPanelData
+        {
+            Damage = currentDamage * Power,
+            DamageColor = new Color(100, 180, 255),
+            Lines = [new("Conducts through body", new Color(150, 200, 255))],
+            HasSpread = _hasSpread,
+            HasPenetrated = _hasPenetrated,
+            ShowPower = true
+        });
     }
 }

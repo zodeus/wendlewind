@@ -116,6 +116,13 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
         item.EjectFromContainer();
         bodyPart.Equipment[slot] = item;
 
+        // When a non-builtin weapon is equipped, disable all builtin weapons for combat
+        if (item.ItemDef.EquipmentProperties?.EquipmentType == EquipmentType.Weapon &&
+            item.ItemDef.EquipmentProperties?.SlotUsedToEquip != EquipmentSlotType.BuiltIn)
+        {
+            SetBuiltinWeaponsUseInCombat(false);
+        }
+
         //OnEquipmentChanged(new OnChangeArgs(OnChangeArgs.ChangeType.ItemEquipped, item));
         return unequippedItem;
     }
@@ -148,6 +155,18 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
     private void UnEquipInternal(BodyPart bodyPart, EquipmentSlotType slot, Item item)
     {
         bodyPart.Equipment[slot] = null;
+
+        // When a non-builtin weapon is unequipped, check if any non-builtin weapons remain
+        // If not, re-enable builtin weapons for combat
+        if (item.ItemDef.EquipmentProperties?.EquipmentType == EquipmentType.Weapon &&
+            item.ItemDef.EquipmentProperties?.SlotUsedToEquip != EquipmentSlotType.BuiltIn)
+        {
+            if (!HasNonBuiltinWeapons())
+            {
+                SetBuiltinWeaponsUseInCombat(true);
+            }
+        }
+
         //OnEquipmentChanged(new OnChangeArgs(OnChangeArgs.ChangeType.ItemUnequipped, item));
     }
 
@@ -200,6 +219,22 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
     public int SlotCountFor(ItemDef itemDef)
     {
         return Slots.Sum(slot => slot.Value.Count(slotType => itemDef.EquipmentProperties?.SlotUsedToEquip == slotType));
+    }
+
+    private bool HasNonBuiltinWeapons()
+    {
+        return Weapons.Any(w => w.Item1.ItemDef.EquipmentProperties?.SlotUsedToEquip != EquipmentSlotType.BuiltIn);
+    }
+
+    private void SetBuiltinWeaponsUseInCombat(bool useInCombat)
+    {
+        foreach (var (weapon, _) in Weapons)
+        {
+            if (weapon.ItemDef.EquipmentProperties?.SlotUsedToEquip == EquipmentSlotType.BuiltIn)
+            {
+                weapon.UseInCombat = useInCombat;
+            }
+        }
     }
 
     public void Tick()

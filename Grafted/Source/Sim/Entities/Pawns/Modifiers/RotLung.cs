@@ -36,4 +36,13 @@ public class RotLung : BodyPartModifier
         
         return true;
     }
+
+    public override Widget? GetInfoPanel() => BuildInfoPanel(new InfoPanelData
+    {
+        Damage = DamageFactorPerTick * 100,
+        DamageSuffix = "% health/tick",
+        DamageColor = new Color(120, 100, 80),
+        Lines = [new("Targets lungs specifically", new Color(150, 130, 100))],
+        BlockedBy = "Plague Mask"
+    });
 }

@@ -33,20 +33,20 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         Encounter.StateChangedAction += CombatStateChangedAction;
         Encounter.CombatHandler!.CombatLogMessageAdded += AddCombatLogEntry;
         Encounter.CombatHandler!.EventOccured += PrintDamage;
+        Margin = new Thickness(0, 5, 0, 0);
         _gameHud = new GameHud(gui, context)
         {
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            Margin = new Thickness(0, 5, 0, 0)
         };
 
         _playerPartyPanel = new CombatPartyPanel(gui, Encounter, Encounter.PlayerPawns, HorizontalAlignment.Right);
         Grid.SetRow(_playerPartyPanel, 1);
         Grid.SetColumn(_playerPartyPanel, 0);
-        
+
         _opponentPartyPanel = new CombatPartyPanel(gui, Encounter, Encounter.EnemyPawns, HorizontalAlignment.Left);
         Grid.SetRow(_opponentPartyPanel, 1);
         Grid.SetColumn(_opponentPartyPanel, 2);
-        
+
         _controlPanel = new CombatControlPanel(Encounter)
         {
             MinWidth = 190,
@@ -75,12 +75,14 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
         _playerQueuedPotionSlot = new CursorButton(BaseContent.Styles.Button.Icon)
         {
-            Width = 64, Height = 64
+            Width = 64,
+            Height = 64
         };
         _playerQueuedPotionSlot.Click += (_, _) => Encounter.CombatHandler?.DeQueuedItemForPawn(Encounter.PlayerPawns[0]);
         _enemyQueuedPotionSlot = new CursorButton(BaseContent.Styles.Button.Icon)
         {
-            Width = 64, Height = 64
+            Width = 64,
+            Height = 64
         };
         var separator = new VerticalSeparator { HorizontalAlignment = HorizontalAlignment.Center };
         _potionQueuePanel = new HorizontalStackPanel
@@ -98,7 +100,8 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         {
             Margin = new Thickness(0, 15, 0, 15),
             HorizontalAlignment = HorizontalAlignment.Center,
-            Text = "0", TextColor = Color.DarkGoldenrod
+            Text = "0",
+            TextColor = Color.DarkGoldenrod
         };
 
         var logsButton = new CursorButton(BaseContent.Styles.Button.Normal)
@@ -126,7 +129,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             _combatLogWindow.Left = centerX;
             _combatLogWindow.Top = 370;
         };
-        
+
         _showSummaryButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Margin = new Thickness(0, 10, 0, 0),
@@ -143,10 +146,10 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             ShowSummaryWindow();
             _showSummaryButton.Visible = false;
         };
-        
+
         VerticalStackPanel centerColumn = new()
         {
-            Margin = new Thickness(10,0,10,0),
+            Margin = new Thickness(10, 0, 10, 0),
             Spacing = 0,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Widgets =
@@ -183,14 +186,14 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         };
         Grid.SetRow(playerBodyPanel, 2);
         Grid.SetColumn(playerBodyPanel, 0);
-        
+
         var centerBodyPanel = new HorizontalStackPanel
         {
             HorizontalAlignment = HorizontalAlignment.Right
         };
         Grid.SetRow(centerBodyPanel, 2);
         Grid.SetColumn(centerBodyPanel, 1);
-        
+
         grid.Widgets.Add(_playerPartyPanel);
         grid.Widgets.Add(centerColumn);
         grid.Widgets.Add(_opponentPartyPanel);
@@ -303,7 +306,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     private void CenterSummaryWindow()
     {
         if (_summaryWindow == null) return;
-        
+
         _summaryWindow.Arrange(new Rectangle(0, 0, Core.ReferenceResolution.X, Core.ReferenceResolution.Y));
         var windowWidth = _summaryWindow.ActualBounds.Width;
         var centerX = (Core.ReferenceResolution.X - windowWidth) / 2;
@@ -360,7 +363,9 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         Label label = new(BaseContent.Styles.Label.Small)
         {
             Width = 1600,
-            Text = detailedMessage, Wrap = true, Margin = new Thickness(0, 10, 0, 0)
+            Text = detailedMessage,
+            Wrap = true,
+            Margin = new Thickness(0, 10, 0, 0)
         };
 
         panel.Widgets.Insert(0, label);

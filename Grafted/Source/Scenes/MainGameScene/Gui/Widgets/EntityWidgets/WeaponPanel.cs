@@ -301,6 +301,13 @@ public sealed class WeaponPanel : EntityPanelBase
                     Grid.SetColumn(durationLabel, 2);
                     modsGrid.Widgets.Add(durationLabel);
                 }
+                if (mod.Power != 1.0)
+                {
+                    var powerLabel = new Label("small") { Text = $"p{mod.Power}", TextColor = Color.DarkGray };
+                    Grid.SetRow(powerLabel, row);
+                    Grid.SetColumn(powerLabel, 3);
+                    modsGrid.Widgets.Add(powerLabel);
+                }
 
                 row++;
             }

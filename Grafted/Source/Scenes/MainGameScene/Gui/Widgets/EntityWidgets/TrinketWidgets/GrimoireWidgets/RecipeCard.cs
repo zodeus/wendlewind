@@ -258,7 +258,7 @@ public class RecipeCard : Panel
 
         button.Click += (_, _) =>
         {
-            if (_currentPawn != null && _currentItem != null && CraftItem(_currentPawn, _currentItem, 1))
+            if (_currentPawn != null && _currentItem != null && _currentItem.CraftingProperties!.Craft(_currentPawn, _currentItem, 1))
             {
                 SetItem(_currentPawn, _currentItem);
             }
@@ -297,7 +297,7 @@ public class RecipeCard : Panel
 
                 incrementButton.Click += (_, _) =>
                 {
-                    if (_currentPawn != null && _currentItem != null && CraftItem(_currentPawn, _currentItem, amount))
+                    if (_currentPawn != null && _currentItem != null && _currentItem.CraftingProperties!.Craft(_currentPawn, _currentItem, amount))
                     {
                         SetItem(_currentPawn, _currentItem);
                     }
@@ -477,41 +477,6 @@ public class RecipeCard : Panel
         row.Widgets.Add(statusIcon);
 
         return row;
-    }
-
-    private bool CraftItem(Pawn pawn, ItemDef itemToCraft, int times = 1)
-    {
-        List<Item> resourcesTaken = [];
-        foreach (var resource in itemToCraft.CraftingProperties!.ResourceRequirements)
-        {
-            var scaledResource = new ResourceCount { Item = resource.Item, Count = resource.Count * times };
-            var resourceToUse = pawn.Inventory.Take(scaledResource);
-
-            if (resourceToUse == null)
-            {
-                foreach (var resourceTaken in resourcesTaken)
-                {
-                    pawn.Inventory.TryAdd(resourceTaken);
-                }
-
-                return false;
-            }
-
-            resourcesTaken.Add(resourceToUse);
-            if (resourceToUse.StackSize < scaledResource.Count)
-            {
-                return false;
-            }
-        }
-
-        foreach (var resourceTaken in resourcesTaken)
-        {
-            resourceTaken.Destroy();
-        }
-
-        pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(itemToCraft, itemToCraft.CraftingProperties.AmountProduced * times));
-
-        return true;
     }
 
     private void ClearCard()

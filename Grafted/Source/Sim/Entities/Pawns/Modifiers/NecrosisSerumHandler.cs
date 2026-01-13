@@ -21,4 +21,14 @@ public class NecrosisSerumHandler : BodyPartModifier
 
         return true;
     }
+
+    public override Widget? GetInfoPanel() => BuildInfoPanel(new InfoPanelData
+    {
+        Lines =
+        [
+            new("Anti-necrotic treatment", InfoColors.Cure),
+            new("Cures Necrosis when expired", InfoColors.Info)
+        ],
+        TimePrefix = "Time remaining"
+    });
 }

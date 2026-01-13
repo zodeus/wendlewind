@@ -114,4 +114,14 @@ public class PoisonHandler : BodyPartModifier
 
         return false;
     }
+
+    public override Widget? GetInfoPanel() => BuildInfoPanel(new InfoPanelData
+    {
+        Lines =
+        [
+            new("Damages external + internal parts", new Color(180, 100, 255)),
+            new($"{SpreadChance * 100:0.#}% spread chance/tick", new Color(200, 150, 255)),
+            new("Spreads through arteries", InfoColors.Spread)
+        ]
+    });
 }

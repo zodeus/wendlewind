@@ -7,8 +7,8 @@ public sealed class CraftingPanel : VerticalStackPanel, IUpdatable
     private readonly Pawn _pawn;
     private readonly RecipeCard _recipeCard;
     private readonly List<ItemDef> _items;
-    private readonly Dictionary<ItemDef, Panel> _itemButtons = new();
-    
+    private readonly Dictionary<ItemDef, CursorButton> _itemButtons = new();
+
     /// <summary>
     /// Returns true if any recipe in this panel can be crafted with current inventory
     /// </summary>
@@ -64,17 +64,14 @@ public sealed class CraftingPanel : VerticalStackPanel, IUpdatable
         return scrollViewer;
     }
 
-    private Panel CreateItemButton(ItemDef item, RecipeCard recipeCard)
+    private CursorButton CreateItemButton(ItemDef item, RecipeCard recipeCard)
     {
         var canCraft = item.CraftingProperties?.CanCraft(_pawn) == true;
 
         // Outer frame panel
-        var framePanel = new Panel
+        var framePanel = new CursorButton(BaseContent.Styles.Button.Gold)
         {
             Width = 72,
-            Height = 72,
-            Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundWhite64], Color.DimGray),
-            Padding = new Thickness(4),
         };
 
         // Inner content panel with item icon
@@ -91,7 +88,7 @@ public sealed class CraftingPanel : VerticalStackPanel, IUpdatable
             Height = 48,
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
-            Opacity = canCraft ? 1.0f : 0.5f
+            Opacity = canCraft ? 1.0f : 0.4f
         };
         iconPanel.Widgets.Add(itemImage);
 
@@ -105,45 +102,43 @@ public sealed class CraftingPanel : VerticalStackPanel, IUpdatable
                 Background = new SolidBrush(new Color(60, 200, 60)),
                 HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Top,
-                Margin = new Thickness(0, 2, 2, 0)
+                Margin = new Thickness(0, 0, 0, 0)
             };
             iconPanel.Widgets.Add(indicator);
         }
 
-        framePanel.Widgets.Add(iconPanel);
+        framePanel.Content = iconPanel;
 
-        // Hover and click handling
-        framePanel.MouseEntered += (_, _) =>
-        {
-            framePanel.Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundWhite64], Color.DarkGoldenrod);
-        };
-
-        framePanel.MouseLeft += (_, _) =>
-        {
-            if (recipeCard.CurrentItem == item)
-            {
-                framePanel.Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundElite64], Color.White);
-            }
-            else
-            {
-                framePanel.Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundWhite64], Color.DimGray);
-            }
-        };
 
         framePanel.TouchDown += (_, _) =>
         {
-            // Clear previous selection styling
-            foreach (var btn in _itemButtons.Values)
-            {
-                btn.Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundWhite64], Color.DimGray);
-            }
-
-            // Apply selected styling
-            framePanel.Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundElite64], Color.White);
             recipeCard.SetItem(_pawn, item);
         };
 
+        // Add tooltip with item info
+        framePanel.WithTooltip(() => CreateItemTooltip(item));
+
         return framePanel;
+    }
+
+    private Widget CreateItemTooltip(ItemDef item)
+    {
+        var container = new VerticalStackPanel { Spacing = 6, MaxWidth = 280 };
+
+        // Item name
+        container.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+        {
+            Text = item.Label,
+            TextColor = Color.Gold
+        });
+
+        return container;
+    }
+
+    public override void InternalRender(RenderContext context)
+    {
+        base.InternalRender(context);
+        TooltipHelper.UpdatePosition();
     }
 
     public void Update()
@@ -153,15 +148,15 @@ public sealed class CraftingPanel : VerticalStackPanel, IUpdatable
         {
             if (!_itemButtons.TryGetValue(item, out var framePanel)) continue;
             var canCraft = item.CraftingProperties?.CanCraft(_pawn) == true;
-
+            framePanel.Enabled = canCraft;
             // Find and update the icon panel (first widget in frame)
-            if (framePanel.Widgets.Count > 0 && framePanel.Widgets[0] is Panel iconPanel)
+            if (framePanel.Content is Panel iconPanel)
             {
                 // Update item image opacity
                 var itemImage = iconPanel.Widgets.OfType<Image>().FirstOrDefault();
                 if (itemImage != null)
                 {
-                    itemImage.Opacity = canCraft ? 1.0f : 0.5f;
+                    itemImage.Opacity = canCraft ? 1.0f : 0.4f;
                 }
 
                 // Update or add/remove the craftable indicator

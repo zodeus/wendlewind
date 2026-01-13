@@ -117,32 +117,48 @@ public sealed class BodyPartPanel : EntityPanelBase
 
 public sealed class BodyPartPanelModifiersLabel : VerticalStackPanel
 {
-    private Dictionary<BodyPartModifier, Label> _labels = new();
+    private Dictionary<BodyPartModifier, Widget> _widgets = new();
 
     public BodyPartPanelModifiersLabel(BodyPart bodyPart)
     {
         Spacing = 5;
         foreach (var modifier in bodyPart.Modifiers)
         {
-            var label = CreateLabel(modifier);
-            Widgets.Add(label);
-            _labels.Add(modifier, label);
+            var widget = CreateModifierWidget(modifier);
+            Widgets.Add(widget);
+            _widgets.Add(modifier, widget);
         }
 
         bodyPart.ModifiersChanged += OnModifiersChanged;
     }
 
-    private static Label CreateLabel(BodyPartModifier modifier)
+    private static Widget CreateModifierWidget(BodyPartModifier modifier)
     {
-        var label = new Label
+        // Header panel with label
+        var headerPanel = new Panel
         {
-            Text = GetLabelText(modifier),
             Padding = new Thickness(12),
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.SimpleWhite], modifier.Def.Color),
-            TextColor = modifier.Def.Color
+            Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.SimpleWhite], modifier.Def.Color)
         };
-        return label;
+
+        var headerLabel = new Label
+        {
+            Text = GetLabelText(modifier),
+            TextColor = modifier.Def.Color,
+            Tag = "headerLabel"
+        };
+
+        headerPanel.Widgets.Add(headerLabel);
+
+        // Add tooltip with info panel if available
+        headerPanel.WithTooltip(() => modifier.GetInfoPanel() ?? new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = modifier.Def.Description,
+            TextColor = Color.GhostWhite
+        });
+
+        return headerPanel;
     }
 
     private void OnModifiersChanged(BodyPartModifier mod, BodyPartModifierEventType type)
@@ -150,13 +166,13 @@ public sealed class BodyPartPanelModifiersLabel : VerticalStackPanel
         switch (type)
         {
             case BodyPartModifierEventType.Added:
-                var label = CreateLabel(mod);
-                Widgets.Add(label);
-                _labels.Add(mod, label);
+                var widget = CreateModifierWidget(mod);
+                Widgets.Add(widget);
+                _widgets.Add(mod, widget);
                 break;
             case BodyPartModifierEventType.Removed:
-                _labels[mod].RemoveFromParent();
-                _labels.Remove(mod);
+                _widgets[mod].RemoveFromParent();
+                _widgets.Remove(mod);
                 break;
         }
     }
@@ -164,15 +180,23 @@ public sealed class BodyPartPanelModifiersLabel : VerticalStackPanel
     private static string GetLabelText(BodyPartModifier modifier)
     {
         var timeRemaining = modifier.DurationInTicks == 0 ? "\u221e" : modifier.TicksRemaining + "t";
-        return $"{modifier.Label} {timeRemaining}";
+        var power = $"p{modifier.Power}";
+        return $"{modifier.Label} {timeRemaining} {power}";
     }
 
     public void Update()
     {
-        foreach (var pair in _labels)
+        foreach (var (modifier, widget) in _widgets)
         {
-            var (modifier, label) = pair;
-            label.Text = GetLabelText(modifier);
+            // Find the header label within the panel and update its text
+            if (widget is Panel panel)
+            {
+                var headerLabel = panel.Widgets.FirstOrDefault(w => w.Tag as string == "headerLabel") as Label;
+                if (headerLabel != null)
+                {
+                    headerLabel.Text = GetLabelText(modifier);
+                }
+            }
         }
     }
 }

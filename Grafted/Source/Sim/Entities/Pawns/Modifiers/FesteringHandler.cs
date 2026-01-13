@@ -71,4 +71,19 @@ public class FesteringHandler : BodyPartModifier
 
         return true;
     }
+
+    public override Widget? GetInfoPanel()
+    {
+        var currentDamage = BodyPart?.IsOrgan == true ? OrganDamage 
+            : BodyPart?.Type == BodyPartType.Artery ? ArteryDamage 
+            : _hasPenetrated ? PenetratedDamage : BaseDamage;
+
+        return BuildInfoPanel(new InfoPanelData
+        {
+            Damage = currentDamage,
+            DamageColor = new Color(180, 150, 80),
+            HasSpread = _hasSpread,
+            HasPenetrated = _hasPenetrated
+        });
+    }
 }

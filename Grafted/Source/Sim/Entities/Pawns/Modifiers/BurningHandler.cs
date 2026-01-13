@@ -35,7 +35,7 @@ public class BurningHandler : BodyPartModifier
             damage = PenetratedDamage;
         }
 
-        BodyPart.HitPoints -= damage;
+        BodyPart.HitPoints -= damage * Power;
 
         this.HandleSpreading(BodyPart, SpreadThreshold, ref _hasSpread);
         this.HandlePenetration(BodyPart, PenetrationThreshold, ref _hasPenetrated);
@@ -77,5 +77,21 @@ public class BurningHandler : BodyPartModifier
         ScribeValues.Look(ref _hasSpread, "HasSpread");
         ScribeValues.Look(ref _hasPenetrated, "HasPenetrated");
         base.ExposeData();
+    }
+
+    public override Widget? GetInfoPanel()
+    {
+        var currentDamage = BodyPart?.IsOrgan == true ? OrganDamage 
+            : BodyPart?.Type == BodyPartType.Skin ? SkinDamage 
+            : _hasPenetrated ? PenetratedDamage : BaseDamage;
+
+        return BuildInfoPanel(new InfoPanelData
+        {
+            Damage = currentDamage * Power,
+            HasSpread = _hasSpread,
+            HasPenetrated = _hasPenetrated,
+            CuredBy = "Soothing Balm",
+            ShowPower = true
+        });
     }
 }

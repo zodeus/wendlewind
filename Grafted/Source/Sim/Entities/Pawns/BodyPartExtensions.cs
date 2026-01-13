@@ -125,7 +125,7 @@ namespace Grafted.Sim.Entities.Pawns
         {
             if (!Core.Random.Chance(record.Chance.RandomValue)) return false;
 
-            var mod = BodyPartModifierGenerator.Generate(record.Def, record.DurationInTicks.RandomValue);
+            var mod = BodyPartModifierGenerator.Generate(record.Def, record.DurationInTicks.RandomValue, record.Power);
             mod.Maneuver = maneuver;
             return mod.ApplyToPart(part);
         }

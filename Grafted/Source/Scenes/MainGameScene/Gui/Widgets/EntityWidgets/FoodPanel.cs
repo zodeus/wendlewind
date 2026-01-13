@@ -5,8 +5,6 @@ namespace Grafted.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 [UsedImplicitly]
 public sealed class FoodPanel : EntityPanelBase
 {
-    private readonly CursorButton _eatButton = null!;
-    private readonly CursorButton _cookButton;
     private readonly Label _stackSizeLabel = null!;
     private readonly Item _item;
 
@@ -46,17 +44,16 @@ public sealed class FoodPanel : EntityPanelBase
         var foodProps = item.ItemDef.FoodProperties;
         if (foodProps != null)
         {
-            var foodTypeLabel = FormatFoodType(foodProps.FoodType);
             Widgets.Add(new Label("small")
             {
-                Text = $"Type: {foodTypeLabel}",
+                Text = $"Type: {item.ItemDef.Label}",
                 TextColor = new Color(180, 180, 180)
             });
         }
 
         // Nutritional value
         var nutritionValue = item.GetStatValue(Defs.Stats.NutritionalValue);
-        var nutritionColor = GetNutritionColor(nutritionValue);
+        var nutritionColor = FoodProperties.GetNutritionColor(nutritionValue);
         Widgets.Add(new HorizontalStackPanel
         {
             Spacing = 8,
@@ -93,7 +90,7 @@ public sealed class FoodPanel : EntityPanelBase
                     Height = 20
                 });
 
-                var effectColor = GetEffectColor(effect.Def);
+                var effectColor = FoodProperties.GetEffectColor(effect.Def);
                 effectPanel.Widgets.Add(new Label("small")
                 {
                     Text = effect.Def.Label,
@@ -136,114 +133,11 @@ public sealed class FoodPanel : EntityPanelBase
                 Margin = new Thickness(0, 5, 0, 0)
             };
             Widgets.Add(_stackSizeLabel);
-        }
-
-        // Buttons
-        _eatButton = new CursorButton(BaseContent.Styles.Button.Normal)
-        {
-            Content = new Label { Text = "Eat" },
-            Margin = new Thickness(0, 15, 0, 0)
-        };
-        _eatButton.Click += (_, _) =>
-        {
-            if (Core.Context.PlayerPawn.TryEat(item))
-            {
-                gui.WorldTextHandler.Add(new WorldSpaceText
-                {
-                    Font = BaseContent.Fonts.Default.Medium,
-                    Color = Color.PaleGoldenrod,
-                    Text = item.Label,
-                    DurationInTicks = 120,
-                    Position = Mouse.GetState().Position.ToVector2()
-                });
-            }
-        };
-
-        _cookButton = new CursorButton(BaseContent.Styles.Button.Normal)
-        {
-            Content = new Label { Text = "Cook" },
-            Margin = new Thickness(0, 15, 0, 0),
-            Visible = ShowCookButton(item)
-        };
-        _cookButton.Click += (_, _) => { HandleCooking(item); };
-        Widgets.Add(new HorizontalStackPanel
-        {
-            Spacing = 20,
-            Widgets = { _eatButton, _cookButton }
-        });
-    }
-
-    private static string FormatFoodType(FoodType foodType)
-    {
-        return foodType switch
-        {
-            FoodType.RawGrain => "Raw Grain",
-            FoodType.RawMeat => "Raw Meat",
-            FoodType.CookedVegetable => "Cooked Vegetable",
-            FoodType.CookedMeat => "Cooked Meat",
-            FoodType.DriedMeat => "Dried Meat",
-            _ => foodType.ToString()
-        };
-    }
-
-    private static Color GetNutritionColor(float value)
-    {
-        return value switch
-        {
-            >= 50 => new Color(100, 220, 100),  // High nutrition - green
-            >= 25 => new Color(220, 220, 100),  // Medium nutrition - yellow
-            _ => new Color(200, 150, 100)       // Low nutrition - orange
-        };
-    }
-
-    private static Color GetEffectColor(BodyEffectDef def)
-    {
-        // Check if the effect has any negative stat modifiers
-        if (def.AffectedStats != null)
-        {
-            foreach (var stat in def.AffectedStats)
-            {
-                if (stat.Offset < 0 || stat.Factor < 1f)
-                    return new Color(220, 100, 100); // Negative effect - red
-            }
-        }
-        return new Color(100, 180, 220); // Positive/neutral effect - blue
-    }
-
-    private static void HandleCooking(Item item)
-    {
-        if (item.ItemDef != Defs.Items.RawMeat && item.ItemDef != Defs.Items.RawCorn) return;
-        if (item.StackSize > 1)
-        {
-            item.StackSize--;
-        }
-        else
-        {
-            item.Destroy();
-        }
-
-        if (item.ItemDef == Defs.Items.RawMeat)
-        {
-            Core.Context.PlayerPawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(Defs.Items.CookedMeat));
-        }
-        else if (item.ItemDef == Defs.Items.RawCorn)
-        {
-            Core.Context.PlayerPawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(Defs.Items.CookedCorn));
-        }
-    }
-
-    private static bool ShowCookButton(Item item)
-    {
-        if (item.ItemDef == Defs.Items.RawMeat && Core.Context.Player.HasTrinkets(Defs.Items.FlameStick))
-            return true;
-        if (item.ItemDef == Defs.Items.RawCorn && Core.Context.Player.HasTrinkets(Defs.Items.FlameStick, Defs.Items.CookingPot, Defs.Items.WeepingBucket))
-            return true;
-        return false;
+        }        
     }
 
     public override void Update()
     {
-        _eatButton.Enabled = Core.Context.World.Player.Pawn.IsHungry;
         _stackSizeLabel.Text = $"Stack: {_item.StackSize}/{_item.ItemDef.StackLimit}";
     }
 }

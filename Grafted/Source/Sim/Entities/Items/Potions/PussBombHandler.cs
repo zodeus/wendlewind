@@ -7,6 +7,7 @@ namespace Grafted.Sim.Entities.Items.Potions;
 public class PussBombHandler : PotionHandler
 {
     private static RangeInt FesteringDuration = new RangeInt(400, 900);
+    private const double FesteringPower = 2;
 
     public override bool CanUseInCombat => true;
 
@@ -23,7 +24,7 @@ public class PussBombHandler : PotionHandler
         foreach (var part in target.Body.AllExternalParts.Where(p => p.Type != BodyPartType.Eye))
         {
             var duration = FesteringDuration.RandomValue;
-            var modifier = BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.Festering, duration);
+            var modifier = BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.Festering, duration, FesteringPower);
             if (modifier.ApplyToPart(part))
             {
                 partsAffected++;

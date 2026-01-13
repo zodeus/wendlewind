@@ -13,14 +13,13 @@ public class MapGui : BaseGui
     public MapGui(GameContext context, WorldTextHandler worldTextHandler)
     {
         _worldTextHandler = worldTextHandler;
-        
+
         // Create desktop first so NodeMapWidget can reference it
         Desktop = new Desktop { HasExternalTextInput = true };
-        
-        _gameHud = new GameHud(this, context) 
-        { 
-            HorizontalAlignment = HorizontalAlignment.Stretch, 
-            Margin = new Thickness(0, 5, 0, 0) 
+
+        _gameHud = new GameHud(this, context)
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch
         };
 
         // Create the node-based zone map
@@ -34,6 +33,7 @@ public class MapGui : BaseGui
         rootPanel.Widgets.Add(new VerticalStackPanel
         {
             Spacing = 8,
+            Margin = new Thickness(0, 5, 0, 0),
             Widgets =
             {
                 _gameHud,

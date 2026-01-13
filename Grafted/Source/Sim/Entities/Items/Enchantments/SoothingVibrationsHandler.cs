@@ -15,10 +15,10 @@ public class SoothingVibrationsHandler : EnchantmentHandler
 
     public void ApplyToRegenerationToPart(BodyPart part)
     {
-        part.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.LifeRegeneration, DurationInTicks));
+        part.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.LifeRegeneration, DurationInTicks, 1));
         foreach (var internalPart in part.AllInternalParts)
         {
-            internalPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.LifeRegeneration, DurationInTicks));
+            internalPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.LifeRegeneration, DurationInTicks, 1));
         }
     }
 }

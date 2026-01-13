@@ -36,4 +36,12 @@ public class BloodDrainHandler : BodyPartModifier
         part.TryAddModifier(this);
         return true;
     }
+
+    public override Widget? GetInfoPanel() => BuildInfoPanel(new InfoPanelData
+    {
+        Damage = BloodDrainPerTick,
+        DamageSuffix = "blood/tick",
+        DamageColor = new Color(180, 60, 60),
+        Lines = [new("Stops if part severed", InfoColors.Muted)]
+    });
 }
