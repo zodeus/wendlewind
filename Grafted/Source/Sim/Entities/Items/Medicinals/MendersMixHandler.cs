@@ -13,10 +13,10 @@ public class MendersMixHandler : MedicinalHandler
     private static readonly Color SkinColor = new(210, 180, 150);        // Tan for skin
     private static readonly Color OrganColor = new(140, 80, 80);         // Dark red for organs
     private static readonly Color SocketColor = new(160, 140, 100);      // Gold-ish for socket connections
-    private static readonly Color BalmColor = new(180, 200, 140);        // Soft green for soothing
+    private static readonly Color RhinoColor = new(52, 116, 153);        // Blue for rhino restoration
     private static readonly Color HealedTextColor = new(130, 200, 130);
     private static readonly Color FlowArrowColor = new(100, 180, 100);
-    private const double SoothingBalmPower = 1;
+    private const double RhinoPower = 1;
 
     public override bool ApplyToPart(Item item, BodyPart part)
     {
@@ -103,8 +103,8 @@ public class MendersMixHandler : MedicinalHandler
         var duration = item.ItemDef.MedicinalProperties!.DurationInTicks;
         panel.Widgets.Add(new Label("small")
         {
-            Text = $"Soothing Balm Duration: {duration} ticks",
-            TextColor = BalmColor
+            Text = $"Rhino Restoration Duration: {duration} ticks",
+            TextColor = RhinoColor
         });
 
         // How It Works section
@@ -192,7 +192,7 @@ public class MendersMixHandler : MedicinalHandler
         content.Widgets.Add(flowContainer);
 
         // Step 3: Applies balm
-        content.Widgets.Add(CreateStepRow("3.", "Applies Soothing Balm to all", BalmColor));
+        content.Widgets.Add(CreateStepRow("3.", "Applies Rhino Restoration to all", RhinoColor));
 
         container.Widgets.Add(content);
         return container;
@@ -285,9 +285,9 @@ public class MendersMixHandler : MedicinalHandler
         grid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
         grid.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
 
-        AddLegendRow(grid, 0, "✓ Heals:", "All part types (flesh, bone, skin, organs)", HealedTextColor);
-        AddLegendRow(grid, 1, "⟳ Spreads:", "Through sockets to external parts", SocketColor);
-        AddLegendRow(grid, 2, "✦ Bonus:", "Applies Soothing Balm to all parts", BalmColor);
+        AddLegendRow(grid, 0, "Heals:", "All part types (flesh, bone, skin, organs)", HealedTextColor);
+        AddLegendRow(grid, 1, "Spreads:", "Through sockets to external parts", SocketColor);
+        AddLegendRow(grid, 2, "Bonus:", "Applies Rhino Restoration to all parts", RhinoColor);
 
         content.Widgets.Add(grid);
 
@@ -332,15 +332,15 @@ public class MendersMixHandler : MedicinalHandler
             return;
         }
 
-        // Heal this part and apply soothing balm
+        // Heal this part and apply rhino restoration
         _healAmount -= UpdateHealth(bodyPart);
-        bodyPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.SoothingBalm, duration, SoothingBalmPower));
+        bodyPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.RhinoRestoration, duration, RhinoPower));
 
         // Heal internal parts (bone, flesh, skin, organs)
-        foreach (var internalPart in bodyPart.InternalParts)
+        foreach (var internalPart in bodyPart.AllInternalParts)
         {
             _healAmount -= UpdateHealth(internalPart);
-            internalPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.SoothingBalm, duration, SoothingBalmPower));
+            internalPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.RhinoRestoration, duration, RhinoPower));
         }
 
         // Recursively apply to external parts (travels through sockets)
@@ -353,7 +353,7 @@ public class MendersMixHandler : MedicinalHandler
     private double UpdateHealth(BodyPart bodyPart)
     {
         var currentHealth = bodyPart.HitPoints;
-        bodyPart.HitPoints += Math.Min(bodyPart.MaxHitPoints - bodyPart.HitPoints, _healAmount);
+        bodyPart.HitPoints += _healAmount;
         return bodyPart.HitPoints - currentHealth;
     }
 }

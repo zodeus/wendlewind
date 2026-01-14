@@ -155,7 +155,10 @@ public class PawnBody : IExposable, IIdentityProvider
 
         if (EnergyPercent < .90f)
         {
-            return Mathf.Clamp(_baseAttackSpeed * EnergyPercent, 0, 100);
+             //var value = _baseAttackSpeed - ( _baseAttackSpeed / 2 * EnergyPercent);
+            var value = _baseAttackSpeed - ( _baseAttackSpeed / 8   * EnergyPercent);
+            return Mathf.Clamp(value, 0, 100);
+            
         }
 
         return _baseAttackSpeed;

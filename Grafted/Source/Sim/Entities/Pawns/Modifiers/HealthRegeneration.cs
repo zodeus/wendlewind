@@ -27,7 +27,7 @@ public class HealthRegeneration : BodyPartModifier
     public override Widget? GetInfoPanel() => BuildInfoPanel(new InfoPanelData
     {
         Healing = Power * HealthRegenerationPerTick,
-        Lines = [new("Can restore destroyed parts", InfoColors.Info)],
+        Lines = [new("Restores destroyed parts", InfoColors.Info)],
         ShowPower = true
     });
 }

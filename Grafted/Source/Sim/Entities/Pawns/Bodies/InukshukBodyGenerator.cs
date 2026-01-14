@@ -28,6 +28,8 @@ public class InukshukBodyGenerator : IBodyGenerator
         // Legs (simple stone limbs - no feet, legs ARE the weapons)
         MakeLeg(torso.GetSocketsFor(BodyPartType.Leg)[0].TryAttachPart(Defs.BodyParts.InukshukLeg));
         MakeLeg(torso.GetSocketsFor(BodyPartType.Leg)[1].TryAttachPart(Defs.BodyParts.InukshukLeg));
+
+        IBodyGenerator.SetSubstanceOverride(pawn, SubstanceType.Stone);
     }
 
     static void MakeArm(BodyPart arm)

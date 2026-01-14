@@ -287,7 +287,7 @@
             <BodyPartModifiers>
                 <ListItem>
                     <Def>RotLung</Def>
-                    <DurationInTicks>200~350</DurationInTicks>
+                    <DurationInTicks>60~180</DurationInTicks>
                     <Chance>1</Chance>
                 </ListItem>
             </BodyPartModifiers>
@@ -371,7 +371,7 @@
                 <ListItem>
                     <Def>Burning</Def>
                     <DurationInTicks>30~80</DurationInTicks>
-                    <Chance>.07</Chance>
+                    <Chance>.5</Chance>
                 </ListItem>
             </BodyPartModifiers>
         </WeaponProperties>
@@ -394,7 +394,7 @@
                 <ListItem>
                     <Def>Acid</Def>
                     <DurationInTicks>20~60</DurationInTicks>
-                    <Chance>.15</Chance>
+                    <Chance>.5</Chance>
                 </ListItem>
             </BodyPartModifiers>
         </WeaponProperties>

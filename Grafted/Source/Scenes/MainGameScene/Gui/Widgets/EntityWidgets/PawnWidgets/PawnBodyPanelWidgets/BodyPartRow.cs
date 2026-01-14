@@ -110,7 +110,6 @@ internal sealed class BodyPartRow : HorizontalStackPanel
                     Speed = -2,
                     Position = Mouse.GetState().Position.ToVector2()
                 });
-                _gui.TickGame();
                 if (item.StackSize != 0) return;
 
                 item.Destroy();

@@ -102,20 +102,14 @@ public class BodyPart : Entity
         }
     }
 
-    public bool HasBones
-    {
-        get { return AllInternalParts.Any(part => part.Substance == SubstanceType.Bone); }
-    }
+    public List<BodyPart> Bones => AllInternalParts.Where(part => part.Substance == SubstanceType.Bone).ToList();
+    public List<BodyPart> Arteries => AllInternalParts.Where(part => part.Type == BodyPartType.Artery).ToList();
 
-    public bool HasBrokenBones
-    {
-        get { return AllInternalParts.Any(part => part.Substance == SubstanceType.Bone && part.HitPoints <= 0); }
-    }
+    public bool HasBones => Bones.Count > 0;
 
-    public BodyPart? Skin
-    {
-        get { return InternalParts.FirstOrNull(part => part?.Type == BodyPartType.Skin); }
-    }
+    public bool HasBrokenBones => Bones.Any(part => part.HitPoints <= 0);
+
+    public BodyPart? Skin => InternalParts.FirstOrNull(part => part?.Type == BodyPartType.Skin);
 
     public bool HasMobility
     {

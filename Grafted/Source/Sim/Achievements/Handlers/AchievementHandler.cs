@@ -64,6 +64,11 @@ public abstract class AchievementHandler
     public virtual void OnItemDisassembled(Item item) { }
 
     /// <summary>
+    /// Called when an item is crafted
+    /// </summary>
+    public virtual void OnItemCrafted(Pawn crafter, ItemDef itemDef, int amount) { }
+
+    /// <summary>
     /// Called when an enemy is killed
     /// </summary>
     public virtual void OnEnemyKilled(Pawn enemy) { }

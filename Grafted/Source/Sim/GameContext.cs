@@ -57,11 +57,6 @@ public class GameContext : IExposable
         InternalTick();
     }
 
-    public void TickOnce()
-    {
-        InternalTick();
-    }
-
     private void InternalTick()
     {
         Ticks++;

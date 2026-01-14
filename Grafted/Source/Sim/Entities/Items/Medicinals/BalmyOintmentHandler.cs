@@ -13,12 +13,27 @@ public class BalmyOintmentHandler : MedicinalHandler
     {
         var duration = item.ItemDef.MedicinalProperties!.DurationInTicks;
         part.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.SoothingBalm, duration, 1));
+        RemoveBurningAndAcid(part);
         foreach (var internalPart in part.AllInternalParts)
         {
             internalPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.SoothingBalm, duration, SoothingBalmPower));
+            RemoveBurningAndAcid(internalPart);
         }
 
+
         return true;
+    }
+
+    private void RemoveBurningAndAcid(BodyPart part)
+    {
+        foreach (var modifier in part.Modifiers.ToList())
+        {
+            if (modifier.Def == Defs.BodyPartModifiers.Burning || modifier.Def == Defs.BodyPartModifiers.Acid)
+            {
+                modifier.IsExpired = true;
+                part.Modifiers.Remove(modifier);
+            }
+        }
     }
 
     public override Widget? GetInfoPanel(Item item)
@@ -126,7 +141,7 @@ public class BalmyOintmentHandler : MedicinalHandler
 
         visualColumn.Widgets.Add(new Label("small")
         {
-            Text = "All get Soothing Balm ✨",
+            Text = "All get Soothing Balm",
             TextColor = EffectColor,
             HorizontalAlignment = HorizontalAlignment.Center,
             Margin = new Thickness(0, 4, 0, 0)

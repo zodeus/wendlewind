@@ -24,6 +24,8 @@ public class MarionetteBodyGenerator : IBodyGenerator
         // Legs
         MakeLeg(torso.GetSocketsFor(BodyPartType.Leg)[0].TryAttachPart(Defs.BodyParts.MarionetteLeg));
         MakeLeg(torso.GetSocketsFor(BodyPartType.Leg)[1].TryAttachPart(Defs.BodyParts.MarionetteLeg));
+
+        IBodyGenerator.SetSubstanceOverride(pawn, SubstanceType.Wood);
     }
 
     static void MakeArm(BodyPart arm)

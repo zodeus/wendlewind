@@ -10,8 +10,7 @@ public class RustyDollBodyGenerator : IBodyGenerator
         core.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("RustyDollMouth")!);
         var skull = core.GetSocketsFor(BodyPartType.Skull)[0].TryAttachPart(Defs.BodyParts.Skull);
         var brain = skull.GetSocketsFor(BodyPartType.Brain)[0].TryAttachPart(Defs.BodyParts.Brain);
-        skull.SetSubstanceOverride(SubstanceType.Metal);
-        brain.SetSubstanceOverride(SubstanceType.Metal);
+        IBodyGenerator.SetSubstanceOverride(pawn, SubstanceType.Metal);
     }
 
     public static void GenerateMinion(BodyPartSocket minionSocket, double hpMultiplier)

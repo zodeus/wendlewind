@@ -6,6 +6,7 @@ public class TreebornBodyGenerator : IBodyGenerator
     {
         pawn.Body.RootSocket = new BodyPartSocket(Defs.BodyPartSockets.TreeTrunkSocket);
         GenerateBodyInSocket(pawn.Body.RootSocket);
+        IBodyGenerator.SetSubstanceOverride(pawn, SubstanceType.Wood);
     }
 
     private static void GenerateBodyInSocket(BodyPartSocket rootSocket)

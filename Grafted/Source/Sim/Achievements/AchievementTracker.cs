@@ -159,6 +159,17 @@ public class AchievementTracker : IExposable
     }
 
     /// <summary>
+    /// Called when an item is crafted
+    /// </summary>
+    public void OnItemCrafted(Pawn crafter, ItemDef itemDef, int amount)
+    {
+        foreach (var handler in Handlers)
+        {
+            handler.OnItemCrafted(crafter, itemDef, amount);
+        }
+    }
+
+    /// <summary>
     /// Called when an enemy is killed
     /// </summary>
     public void OnEnemyKilled(Pawn enemy)

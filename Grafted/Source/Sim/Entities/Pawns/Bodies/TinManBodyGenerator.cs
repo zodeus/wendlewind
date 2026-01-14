@@ -18,6 +18,8 @@ public class TinManBodyGenerator : IBodyGenerator
         // Legs
         MakeLeg(torso.GetSocketsFor(BodyPartType.Leg)[0].TryAttachPart(Defs.BodyParts.TinManLeg));
         MakeLeg(torso.GetSocketsFor(BodyPartType.Leg)[1].TryAttachPart(Defs.BodyParts.TinManLeg));
+
+        IBodyGenerator.SetSubstanceOverride(pawn, SubstanceType.Metal);
     }
 
     static void MakeArm(BodyPart arm)

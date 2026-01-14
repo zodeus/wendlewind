@@ -57,7 +57,6 @@ internal sealed class BodyPartSocketPanel : HorizontalStackPanel
         if (socket.AttachedPart == null && socket.IsSealed == false && item.Def == Defs.Items.Cauterize)
         {
             socket.IsSealed = true;
-            _gui.TickGame();
         }
     }
 

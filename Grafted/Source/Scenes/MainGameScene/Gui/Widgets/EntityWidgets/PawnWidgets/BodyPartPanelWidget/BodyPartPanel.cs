@@ -180,8 +180,7 @@ public sealed class BodyPartPanelModifiersLabel : VerticalStackPanel
     private static string GetLabelText(BodyPartModifier modifier)
     {
         var timeRemaining = modifier.DurationInTicks == 0 ? "\u221e" : modifier.TicksRemaining + "t";
-        var power = $"p{modifier.Power}";
-        return $"{modifier.Label} {timeRemaining} {power}";
+        return $"{modifier.Label} {timeRemaining}";
     }
 
     public void Update()

@@ -320,7 +320,6 @@ public sealed class PotionPanel : EntityPanelBase
                 {
                     UpdateStackLabel();
                 }
-                Core.Context.TickOnce();
             }
         };
 

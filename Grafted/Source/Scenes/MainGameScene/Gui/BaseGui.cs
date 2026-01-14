@@ -246,11 +246,6 @@ public abstract class BaseGui : IDisposable
     {
         CleanupTextInput();
     }
-
-    public void TickGame()
-    {
-        Core.Context.TickOnce();
-    }
 }
 
 public class ScreenMessageData

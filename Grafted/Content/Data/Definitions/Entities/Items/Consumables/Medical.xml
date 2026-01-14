@@ -124,7 +124,7 @@
         <TexturePath>Entities/Item/Medical/AntiNecroticSerum</TexturePath>
         <MedicinalProperties>
             <HandlerClass>AntiNecroticSerumHandler</HandlerClass>
-            <DurationInTicks>3000</DurationInTicks>
+            <DurationInTicks>1000</DurationInTicks>
         </MedicinalProperties>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
@@ -176,7 +176,7 @@
                     <Count>1</Count>
                 </ListItem>
                 <ListItem>
-                    <Item>GoldCapMushroom</Item>
+                    <Item>Ichor</Item>
                     <Count>1</Count>
                 </ListItem>
                 <ListItem>

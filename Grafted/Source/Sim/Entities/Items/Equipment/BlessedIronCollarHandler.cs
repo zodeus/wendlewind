@@ -2,8 +2,8 @@ namespace Grafted.Sim.Entities.Items.Equipment;
 
 public class BlessedIronCollarHandler : EquipmentHandler
 {
-    public const float NegativeNeckDrain = 0.1f;
-    public const float NegativeNeckDrainPerTick = 0.00025f;
+    public const float DamagePerTick = 0.1f;
+    public const float SoftTissueDamagePerTick = 0.03f;
     public override bool OnPreDamageTaken(DamageRequest request, DamageResponse response)
     {
         if (request.TargetedPart.Type == BodyPartType.Neck)
@@ -19,11 +19,13 @@ public class BlessedIronCollarHandler : EquipmentHandler
 
     public override void Tick(Pawn pawn, BodyPart bodyPart)
     {
-        bodyPart.HitPoints -= bodyPart.MaxHitPoints * NegativeNeckDrainPerTick;
-        if (bodyPart.Skin != null )
+        bodyPart.HitPoints -= DamagePerTick;
+        if (bodyPart.Skin != null)
         {
-            bodyPart.Skin.HitPoints -= bodyPart.Skin.MaxHitPoints * NegativeNeckDrainPerTick;
+            bodyPart.Skin.HitPoints -= DamagePerTick;
         }
+        bodyPart.Bones.ForEach(bone => bone.HitPoints -= SoftTissueDamagePerTick);
+        bodyPart.Arteries.ForEach(artery => artery.HitPoints -= SoftTissueDamagePerTick);
     }
 }
 

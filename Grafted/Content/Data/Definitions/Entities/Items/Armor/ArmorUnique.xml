@@ -12,7 +12,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Unique/BlessedIronCollar</TexturePath>
         <BaseStats>
-            <MaxDurability>66666</MaxDurability>
+            <MaxDurability>666</MaxDurability>
         </BaseStats>
         <TrinketProperties>
             <Type>Equipment</Type>

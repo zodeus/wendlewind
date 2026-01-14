@@ -21,6 +21,6 @@ public class LifeRegenerationHandler : BodyPartModifier
     {
         Healing = HealthRegenerationPerTick * 100,
         HealingSuffix = "% health/tick",
-        Lines = [new($"{ChanceToRegenerateDestroyedPart * 100:0.#}% chance to revive part", InfoColors.Info)]
+        Lines = [new($"{ChanceToRegenerateDestroyedPart * 100:0.#}% chance to restore destroyed parts", InfoColors.Info)]
     });
 }
