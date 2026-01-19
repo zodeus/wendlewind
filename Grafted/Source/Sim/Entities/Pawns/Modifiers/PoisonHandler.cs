@@ -115,13 +115,19 @@ public class PoisonHandler : BodyPartModifier
         return false;
     }
 
-    public override Widget? GetInfoPanel() => BuildInfoPanel(new InfoPanelData
+    public override Widget? GetInfoPanel()
     {
-        Lines =
-        [
+        var averageDamage = (BodyPart.HitPoints * DamageFactorPerTick.Min + BodyPart.HitPoints * DamageFactorPerTick.Max) / 2;
+        var lines = new List<InfoLine>
+        {
             new("Damages external + internal parts", new Color(180, 100, 255)),
             new($"{SpreadChance * 100:0.#}% spread chance/tick", new Color(200, 150, 255)),
             new("Spreads through arteries", InfoColors.Spread)
-        ]
-    });
+        };
+        if (averageDamage > 0)
+            lines.Add(new($"{averageDamage:.###} avg damage/tick", InfoColors.Damage));
+
+
+        return BuildInfoPanel(new InfoPanelData { Lines = lines });
+    }
 }

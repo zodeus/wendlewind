@@ -48,6 +48,13 @@
         <!-- <UiClass>MechanicalUmbrellaPanel</UiClass> -->
         <TexturePath>Entities/Item/Trinket/MechanicalUmbrella</TexturePath>
     </ItemDef>
+    <ItemDef ParentName="InteractiveTrinket">
+        <Moniker>Cloakenator</Moniker>
+        <Label>Cloakenator</Label>
+        <Description>A mystical device used to combine cloaks into powerful new cloaks.</Description>
+        <UiClass>CloakenatorPanel</UiClass>
+        <TexturePath>Entities/Item/Trinket/Cloakenator</TexturePath>
+    </ItemDef>
     <!-- 
     AutoMuncher
     

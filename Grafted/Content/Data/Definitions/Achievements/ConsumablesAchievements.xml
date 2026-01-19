@@ -7,7 +7,7 @@
         <BenifitDescription>Your max blood is increased</BenifitDescription>
         <Category>Consumables</Category>
         <ItemUsedDef>JarOfBlood</ItemUsedDef>
-        <TargetValue>50</TargetValue>
+        <TargetValue>25</TargetValue>
         <HandlerClass>BloodChuggerHandler</HandlerClass>
     </AchievementDef>
 
@@ -18,7 +18,7 @@
         <Category>Consumables</Category>
         <BenifitDescription>Start with a food bundle</BenifitDescription>
         <HandlerClass>FineDinerHandler</HandlerClass>
-        <TargetValue>99</TargetValue>
+        <TargetValue>53</TargetValue>
     </AchievementDef>
 
     <AchievementDef>
@@ -27,7 +27,7 @@
         <Description>Remember Piggy? I remember\npiggy... you little piggy</Description>
         <Category>Consumables</Category>
         <HandlerClass>YouLittlePiggyHandler</HandlerClass>
-        <TargetValue>100</TargetValue>
+        <TargetValue>40</TargetValue>
         <TraitDef>PotBellied</TraitDef>
     </AchievementDef>
 

@@ -20,6 +20,10 @@ public abstract class EquipmentHandler : IExposable
         return false;
     }
 
+    public virtual void PostPawnDamageTakenEffect(BodyPart bodyPart, Pawn pawn, Pawn target, DamageRecord damageRecord)
+    {
+    }
+
     public virtual void ExposeData()
     {
         ScribeReferences.Look(ref Equipment!, "Equipment");

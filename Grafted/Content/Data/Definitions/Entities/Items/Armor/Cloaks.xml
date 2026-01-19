@@ -2,6 +2,7 @@
 <Definitions>
     <ItemDef Name="CloakBase" ParentName="ArmorBase" Abstract="true">
         <Moniker>CloakBase</Moniker>
+        <UiClass>CloakPanel</UiClass>
         <EquipmentProperties>
             <SlotUsedToEquip>Cloak</SlotUsedToEquip>
         </EquipmentProperties>
@@ -11,15 +12,26 @@
         <Label>Cloak of Evasion</Label>
         <Description>A cape that increases your evasion.</Description>
         <TexturePath>Entities/Item/Equipment/Armor/Cloak/Evasion</TexturePath>
-        <BaseStats>
-            <Evasion>0.1</Evasion>
-        </BaseStats>
+        <EquipmentProperties>
+            <HandlerClass>EvasionCloakHandler</HandlerClass>
+        </EquipmentProperties>
+        <UpgradeProperties>
+            <Upgrades>
+                <Upgrade Level="1" Bonus="+0.05 Evasion">
+                    <MullinStick>3</MullinStick>
+                </Upgrade>
+                <Upgrade Level="2" Bonus="+0.05 Evasion">
+                    <MullinStick>5</MullinStick>
+                    <Fuse>1</Fuse>
+                    <GoldenBean>3</GoldenBean>
+                </Upgrade>
+            </Upgrades>
+        </UpgradeProperties>
     </ItemDef>
     <ItemDef ParentName="CloakBase">
         <Moniker>StrengthCloak</Moniker>
         <Label>Cloak of Strength</Label>
         <Description>A cloak that increases your strength.</Description>
-        <UiClass>CloakPanel</UiClass>
         <EquipmentProperties>
             <HandlerClass>StrengthCloakHandler</HandlerClass>
         </EquipmentProperties>
@@ -28,7 +40,7 @@
                 <Upgrade Level="1" Bonus="+1 Strength">
                     <BloodBath>1</BloodBath>
                 </Upgrade>
-                <Upgrade Level="2" Bonus="+2 Strength">
+                <Upgrade Level="2" Bonus="+1 Strength">
                     <BloodBath>1</BloodBath>
                     <RhinoSkin>1</RhinoSkin>
                     <Fuse>1</Fuse>
@@ -41,7 +53,6 @@
     <ItemDef ParentName="CloakBase">
         <Moniker>RejuvenationCloak</Moniker>
         <Label>Cloak of Rejuvenation</Label>
-        <UiClass>CloakPanel</UiClass>
         <EquipmentProperties>
             <HandlerClass>RejuvenationCloakHandler</HandlerClass>
         </EquipmentProperties>
@@ -50,7 +61,7 @@
                 <Upgrade Level="1" Bonus="+100% Healing">
                     <ElvishLeaf>1</ElvishLeaf>
                 </Upgrade>
-                <Upgrade Level="2" Bonus="+200% Healing">
+                <Upgrade Level="2" Bonus="+100% Healing">
                     <ElvishLeaf>1</ElvishLeaf>
                     <RhinoSkin>1</RhinoSkin>
                     <Fuse>1</Fuse>
@@ -70,7 +81,106 @@
     <ItemDef ParentName="CloakBase">
         <Moniker>ThornCloak</Moniker>
         <Label>Cloak of Thorns</Label>
-        <Description>A cloak that covers you in thorns.</Description>
+        <Description>A cloak covered in sharp thorns that reflects damage back to attackers.</Description>
         <TexturePath>Entities/Item/Equipment/Armor/Cloak/Thorns</TexturePath>
+        <EquipmentProperties>
+            <HandlerClass>ThornCloakHandler</HandlerClass>
+        </EquipmentProperties>
+        <UpgradeProperties>
+            <Upgrades>
+                <Upgrade Level="1" Bonus="+20% Reflect">
+                    <SpidersBite>1</SpidersBite>
+                    <RhinoSkin>1</RhinoSkin>
+                </Upgrade>
+                <Upgrade Level="2" Bonus="+20% Reflect">
+                    <SpidersBite>2</SpidersBite>
+                    <RhinoSkin>1</RhinoSkin>
+                    <Fuse>1</Fuse>
+                    <GoldenBean>3</GoldenBean>
+                </Upgrade>
+            </Upgrades>
+        </UpgradeProperties>
+    </ItemDef>
+    <ItemDef ParentName="CloakBase">
+        <Moniker>ClericCloak</Moniker>
+        <Label>Cleric Cloak</Label>
+        <Description>A holy cloak that combines strength with rejuvenation. Blessed by the divine.</Description>
+        <UiClass>CloakPanel</UiClass>
+        <EquipmentProperties>
+            <HandlerClass>ClericCloakHandler</HandlerClass>
+        </EquipmentProperties>
+        <UpgradeProperties>
+            <Upgrades>
+                <Upgrade Level="1" Bonus="+1 Strength, +100% Healing">
+                    <BloodBath>1</BloodBath>
+                    <ElvishLeaf>1</ElvishLeaf>
+                </Upgrade>
+                <Upgrade Level="2" Bonus="+1 Strength, +100% Healing">
+                    <BloodBath>1</BloodBath>
+                    <ElvishLeaf>1</ElvishLeaf>
+                    <RhinoSkin>2</RhinoSkin>
+                    <Fuse>1</Fuse>
+                    <GoldenBean>5</GoldenBean>
+                </Upgrade>
+            </Upgrades>
+        </UpgradeProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Cloak/Cleric</TexturePath>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>Cloakenator</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>StrengthCloak</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>RejuvenationCloak</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+    </ItemDef>
+    <ItemDef ParentName="CloakBase">
+        <Moniker>NinjaCloak</Moniker>
+        <Label>Ninja Cloak</Label>
+        <Description>A shadowy cloak that combines strength with agility. Move like the wind, strike like thunder.</Description>
+        <UiClass>CloakPanel</UiClass>
+        <EquipmentProperties>
+            <HandlerClass>NinjaCloakHandler</HandlerClass>
+        </EquipmentProperties>
+        <UpgradeProperties>
+            <Upgrades>
+                <Upgrade Level="1" Bonus="+1 Strength, +0.05 Evasion">
+                    <BloodBath>1</BloodBath>
+                    <MullinStick>3</MullinStick>
+                </Upgrade>
+                <Upgrade Level="2" Bonus="+1 Strength, +0.05 Evasion">
+                    <BloodBath>1</BloodBath>
+                    <RhinoSkin>1</RhinoSkin>
+                    <MullinStick>5</MullinStick>
+                    <Fuse>1</Fuse>
+                    <GoldenBean>5</GoldenBean>
+                </Upgrade>
+            </Upgrades>
+        </UpgradeProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Cloak/Ninja</TexturePath>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>Cloakenator</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>StrengthCloak</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>EvasionCloak</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
     </ItemDef>
 </Definitions>

@@ -11,31 +11,7 @@
             <AttackSpeed>1</AttackSpeed>
             <Strength>1</Strength>
             <Accuracy>.80</Accuracy>
-            <Evasion>.02</Evasion>
-        </BaseStats>
-    </PawnDef>
-    <PawnDef ParentName="BaseHumanRace">
-        <Moniker>HumanB</Moniker>
-        <Label>Human</Label>
-        <Species>Human</Species>
-        <Body>HumanBody</Body>
-        <BaseStats>
-            <AttackSpeed>2</AttackSpeed>
-            <Strength>2</Strength>
-            <Accuracy>.80</Accuracy>
-            <Evasion>.02</Evasion>
-        </BaseStats>
-    </PawnDef>
-    <PawnDef ParentName="BaseHumanRace">
-        <Moniker>HumanC</Moniker>
-        <Label>Human</Label>
-        <Species>Human</Species>
-        <Body>HumanBody</Body>
-        <BaseStats>
-            <AttackSpeed>2</AttackSpeed>
-            <Strength>1.5</Strength>
-            <Accuracy>.80</Accuracy>
-            <Evasion>.02</Evasion>
+            <Evasion>.05</Evasion>
         </BaseStats>
     </PawnDef>
 </Definitions>

@@ -210,7 +210,7 @@ public class CombatHandler : IDisposable
             }
         }
 
-        foreach (var statusEffect in damage.DamageStatusEffects)
+        foreach (var statusEffect in damage.ReflectedEffects)
         {
             EventOccured?.Invoke(new CombatEvent(statusEffect.Pawn, CombatEventType.StatusEffect, statusEffect.EffectDef.Label));
             yield return $"/c[{TC.Purple2}]{statusEffect.Pawn}/c[{TC.Default}]'s " +

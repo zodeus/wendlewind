@@ -92,7 +92,7 @@ public class Pawn : Entity
             DamageTaken?.Invoke(this, request, response);
             return;
         }
-        
+
         if (Core.Random.Chance(this.GetStatValue(Defs.Stats.Evasion)))
         {
             response.Dodged = true;
@@ -109,7 +109,7 @@ public class Pawn : Entity
             DamageTaken?.Invoke(this, request, response);
             if (earlyExit) return;
         }
-        
+
         foreach (var damage in request.RawDamages)
         {
             if (request.Source.PawnType == PawnType.Player)
@@ -168,6 +168,18 @@ public class Pawn : Entity
                 enchantment.EnchantmentHandler?.PostPawnDamageTakenEffect(bodyPart, this, request.Source, damageRecord);
             }
 
+            // Handle Equipment Post-Damage Effects
+            foreach (var equipment in bodyPart.Equipment.Values.Where(e => e?.ItemDef.EquipmentProperties?.SlotUsedToEquip != EquipmentSlotType.Cloak))
+            {
+                equipment?.EquipmentHandler?.PostPawnDamageTakenEffect(bodyPart, this, request.Source, damageRecord);
+            }
+
+            // Handle Cloak Post-Damage Effects
+            foreach (var equipment in Equipment.Where(e => e?.ItemDef.EquipmentProperties?.SlotUsedToEquip == EquipmentSlotType.Cloak))
+            {
+                equipment?.EquipmentHandler?.PostPawnDamageTakenEffect(bodyPart, this, request.Source, damageRecord);
+            }
+ 
             // Handle Weapon Handler (unique weapon effects)
             damage.Weapon.WeaponHandler?.OnHit(request.Source, this, request, damageRecord);
 
@@ -224,7 +236,7 @@ public class Pawn : Entity
                     deathRecord.KillingWeapon = damageRecord.WeaponLabel;
                     deathRecord.KillingManeuver = damageRecord.WeaponManeuverLabel;
                     return deathRecord;
-                }   
+                }
             }
         }
         return null;
@@ -320,7 +332,7 @@ public class Pawn : Entity
             {
                 continue;
             }
-            
+
             Body.Effects.TryApplyEffect(new BodyEffect
             {
                 Def = record.Def,
@@ -364,7 +376,8 @@ public class Pawn : Entity
         {
             return 99999;
         }
-        if (AttackSpeed > Core.TicksPerSecond) {
+        if (AttackSpeed > Core.TicksPerSecond)
+        {
             Log.Warning($"{Label} has attack speed greater than {Core.TicksPerSecond}, setting to 1");
             return 1;
         }

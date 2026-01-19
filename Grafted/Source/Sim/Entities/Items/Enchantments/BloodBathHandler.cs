@@ -8,6 +8,6 @@ public class BloodBathHandler : EnchantmentHandler
     public override void PostPawnDamageTakenEffect(BodyPart bodyPart, Pawn target, Pawn source, DamageRecord damageRecord)
     {
         target.Body.BloodAmount += target.Body.MaxBlood * BloodScaleFactor;
-        damageRecord.DamageStatusEffects.Add(new DamageStatusEffect(target, Enchantment.ItemDef, $"Blood bath applied to {bodyPart.Label}"));
+        damageRecord.ReflectedEffects.Add(new ReflectedStatusEffect(target, Enchantment.ItemDef, $"Blood bath applied to {bodyPart.Label}"));
     }
 }

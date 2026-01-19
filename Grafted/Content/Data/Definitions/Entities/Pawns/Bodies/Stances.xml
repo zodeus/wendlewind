@@ -9,23 +9,31 @@
     </BodyStanceDef>
     <BodyStanceDef>
         <Moniker>Defensive</Moniker>
-        <Label>Hold your ground, you might be a bit slower.</Label>
+        <Label>Hold your ground, you might be a bit less accurate.</Label>
         <TexturePath>Entities/Pawn/BodyStances/Defensive</TexturePath>
         <AffectedStats>
             <ListItem>
                 <Stat>Evasion</Stat>
-                <Offset>0.13</Offset>
+                <Offset>0.10</Offset>
+            </ListItem>
+            <ListItem>
+                <Stat>Accuracy</Stat>
+                <Offset>-0.05</Offset>
             </ListItem>
         </AffectedStats>
     </BodyStanceDef>
     <BodyStanceDef>
         <Moniker>Offensive</Moniker>
-        <Label>...</Label>
+        <Label>You are more accurate, but you might be a bit slower.</Label>
         <TexturePath>Entities/Pawn/BodyStances/Melee</TexturePath>
         <AffectedStats>
             <ListItem>
                 <Stat>Accuracy</Stat>
-                <Offset>0.11</Offset>
+                <Offset>0.10</Offset>
+            </ListItem>
+            <ListItem>
+                <Stat>Evasion</Stat>
+                <Offset>-0.05</Offset>
             </ListItem>
         </AffectedStats>
     </BodyStanceDef>

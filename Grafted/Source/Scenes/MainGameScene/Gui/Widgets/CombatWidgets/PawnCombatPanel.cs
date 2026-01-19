@@ -199,7 +199,81 @@ internal sealed class BodyStanceBar : HorizontalStackPanel
                 ((ColoredRegion)button.Content.Background).Color = Color.Goldenrod;
             }
 
+            // Add tooltip with stance info
+            button.WithTooltip(() => CreateStanceTooltip(stance));
+
             Widgets.Add(button);
         }
+    }
+
+    private static Widget CreateStanceTooltip(BodyStanceDef stance)
+    {
+        var container = new VerticalStackPanel { Spacing = 6, Padding = new Thickness(4) };
+
+        // Stance name
+        container.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+        {
+            Text = stance.Moniker,
+            TextColor = Color.Gold
+        });
+
+        // Stance description
+        container.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = stance.Label,
+            TextColor = new Color(180, 180, 180),
+            Wrap = true,
+            MaxWidth = 250
+        });
+
+        // Affected stats
+        if (stance.AffectedStats is { Count: > 0 })
+        {
+            container.Widgets.Add(new HorizontalSeparator { Color = new Color(60, 50, 40) });
+
+            foreach (var stat in stance.AffectedStats)
+            {
+                var statRow = new HorizontalStackPanel { Spacing = 8 };
+
+                var statName = new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = stat.Stat.Label,
+                    TextColor = new Color(200, 200, 200)
+                };
+                statRow.Widgets.Add(statName);
+
+                string valueText;
+                Color valueColor;
+
+                if (stat.Offset.HasValue)
+                {
+                    var offset = stat.Offset.Value;
+                    var sign = offset >= 0 ? "+" : "";
+                    valueText = $"{sign}{offset * 100:0}%";
+                    valueColor = offset >= 0 ? new Color(100, 200, 100) : new Color(200, 100, 100);
+                }
+                else if (stat.Factor.HasValue)
+                {
+                    var factor = stat.Factor.Value;
+                    valueText = $"x{factor:0.##}";
+                    valueColor = factor >= 1 ? new Color(100, 200, 100) : new Color(200, 100, 100);
+                }
+                else
+                {
+                    continue;
+                }
+
+                var statValue = new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = valueText,
+                    TextColor = valueColor
+                };
+                statRow.Widgets.Add(statValue);
+
+                container.Widgets.Add(statRow);
+            }
+        }
+
+        return container;
     }
 }

@@ -63,12 +63,13 @@ public sealed class CloakPanel : EntityPanelBase
         // Current bonus display
         _bonusLabel = new Label(BaseContent.Styles.Label.Normal)
         {
-            TextColor = _cloakHandler.BonusColor
+            Text = _cloakHandler.GetBonusDisplayText(),
+            TextColor = Color.DarkGoldenrod
         };
-        descArea.Widgets.Add(_bonusLabel);
         
         headerSection.Widgets.Add(descArea);
         Widgets.Add(headerSection);
+        Widgets.Add(_bonusLabel);
 
         // ═══════════════════════════════════════════════════════════════════
         // Upgrade Level Box
@@ -104,7 +105,7 @@ public sealed class CloakPanel : EntityPanelBase
         _upgradeLevelLabel = new Label("small")
         {
             Text = $"{currentLevel} / {maxLevel}",
-            TextColor = Color.Gold,
+            TextColor = Color.DarkGoldenrod,
             VerticalAlignment = VerticalAlignment.Center
         };
         levelContent.Widgets.Add(_upgradeLevelLabel);
@@ -132,7 +133,7 @@ public sealed class CloakPanel : EntityPanelBase
                 Width = 12,
                 Height = 12,
                 Background = filled 
-                    ? new SolidBrush(Color.Gold) 
+                    ? new SolidBrush(Color.DarkGoldenrod) 
                     : new SolidBrush(new Color(60, 60, 60))
             };
             _levelIndicatorContainer.Widgets.Add(pip);
@@ -151,7 +152,6 @@ public sealed class CloakPanel : EntityPanelBase
     private void UpdateBonusLabel()
     {
         _bonusLabel.Text = _cloakHandler.GetBonusDisplayText();
-        _bonusLabel.TextColor = _cloakHandler.BonusColor;
     }
 
     public override void Update()

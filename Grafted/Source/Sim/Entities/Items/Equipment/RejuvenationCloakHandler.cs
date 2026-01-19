@@ -11,6 +11,11 @@ public class RejuvenationCloakHandler : EquipmentHandler, IUpgradableHandler, IC
     public int UpgradeLevel => _upgradeLevel;
     public UpgradeProperties? UpgradeProperties => Equipment.ItemDef.UpgradeProperties;
     void IUpgradableHandler.SetUpgradeLevel(int level) => _upgradeLevel = level;
+    
+    /// <summary>
+    /// Sets the upgrade level directly. Used by composite cloak handlers.
+    /// </summary>
+    public void SetLevel(int level) => _upgradeLevel = level;
 
     public float RejuvenationPerTick => _upgradeLevel switch
     {

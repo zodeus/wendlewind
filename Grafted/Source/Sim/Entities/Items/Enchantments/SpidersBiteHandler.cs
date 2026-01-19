@@ -21,8 +21,8 @@ public class SpidersBiteHandler : EnchantmentHandler
             };
             if (randomPart.ApplyBodyPartModifier(modRecord, Enchantment.Label))
             {
-                damageRecord.DamageStatusEffects.Add(
-                    new DamageStatusEffect(target, Enchantment.ItemDef, $"/c[{TC.BodyPart}]{randomPart.Label} /c[{TC.Default}]was bitten by /c[{TC.BrightBlue}]{Enchantment.Label}")
+                damageRecord.ReflectedEffects.Add(
+                    new ReflectedStatusEffect(target, Enchantment.ItemDef, $"/c[{TC.BodyPart}]{randomPart.Label} /c[{TC.Default}]was bitten by /c[{TC.BrightBlue}]{Enchantment.Label} ")
                 );
             }
         }

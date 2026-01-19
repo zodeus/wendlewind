@@ -92,7 +92,7 @@ public class DeathRattleHandler : TrinketHandler
             ActualAmount = damage,
             BodyParts = damagedParts
         };
-        damageRecord.DamageStatusEffects.Add(new DamageStatusEffect(part.Body?.Pawn ?? null!, Trinket.ItemDef, "Death Rattle"));
+        damageRecord.ReflectedEffects.Add(new ReflectedStatusEffect(part.Body?.Pawn ?? null!, Trinket.ItemDef, "Death Rattle"));
         return damageRecord;
     }
 

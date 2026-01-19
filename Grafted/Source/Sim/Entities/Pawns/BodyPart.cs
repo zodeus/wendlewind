@@ -542,7 +542,7 @@ public class BodyPart : Entity
             label += Socket?.ParentPart?.Position == null ? "" : string.Join(" ", Regex.Split(Socket?.ParentPart?.Position.ToString()!, @"(?<!^)(?=[A-Z])")) + " ";
         }
 
-
+        // Skip position prefix for minions (they use InternalLabel for layout lookups)
         label += Position == null || IsMinionPosition(Position.Value) ? "" : string.Join(" ", Regex.Split(Position.ToString()!, @"(?<!^)(?=[A-Z])")) + " ";
         label += BodyPartDef.Label;
         return label;

@@ -10,7 +10,7 @@ public class ItemUpgradePanel : VerticalStackPanel
     private readonly IUpgradableHandler _handler;
     private readonly Action? _onUpgradeComplete;
     
-    private static readonly Color GoldColor = Color.Gold;
+    private static readonly Color GoldColor = Color.DarkGoldenrod;
     private static readonly Color GrayColor = Color.Gray;
 
     public ItemUpgradePanel(Item item, IUpgradableHandler handler, Action? onUpgradeComplete = null)

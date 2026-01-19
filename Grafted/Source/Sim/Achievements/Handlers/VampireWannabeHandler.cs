@@ -18,7 +18,7 @@ public class VampireWannabeHandler : AchievementHandler
         if (IsUnlocked) return;
 
 
-        var wasBloodBathApplied = response.Damages.Any(d => d.DamageStatusEffects.Any(m => m.EffectDef == Defs.Items.BloodBath));
+        var wasBloodBathApplied = response.Damages.Any(d => d.ReflectedEffects.Any(m => m.EffectDef == Defs.Items.BloodBath));
 
         if (wasBloodBathApplied)
         {

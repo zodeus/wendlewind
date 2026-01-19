@@ -113,7 +113,7 @@ public class StrangeWitheredTwigHandler : WeaponHandler, IUpgradableHandler
         if (appliedModifiers.Count > 0)
         {
             var effectsList = string.Join(", ", appliedModifiers);
-            damageRecord.DamageStatusEffects.Add(new DamageStatusEffect(
+            damageRecord.ReflectedEffects.Add(new ReflectedStatusEffect(
                 victim,
                 Weapon.ItemDef,
                 $"Withered Twig inflicts: {effectsList}"));

@@ -3,7 +3,7 @@
 [UsedImplicitly]
 public class NecrosisHandler : BodyPartModifier
 {
-    private static RangeDouble DamageFactorPerTick = new (0.001, 0.002);
+    private static RangeDouble DamageFactorPerTick = new(0.001, 0.002);
     private const int TotalTicksToSpread = 6000;
 
     public override List<SubstanceType> AllowedSubstances => [
@@ -57,10 +57,13 @@ public class NecrosisHandler : BodyPartModifier
 
     public override Widget? GetInfoPanel()
     {
+        var averageDamage = (BodyPart.HitPoints * DamageFactorPerTick.Min + BodyPart.HitPoints * DamageFactorPerTick.Max) / 2;
         var lines = new List<InfoLine>
         {
             new("Spreads when part destroyed", InfoColors.Spread)
         };
+        if (averageDamage > 0)
+            lines.Add(new($"{averageDamage:.###} avg damage/tick", InfoColors.Damage));
 
         if (_ticksToSpread > 0)
             lines.Add(new($"Spread cooldown: {_ticksToSpread}t", InfoColors.Warning));
@@ -68,6 +71,7 @@ public class NecrosisHandler : BodyPartModifier
         return BuildInfoPanel(new InfoPanelData
         {
             Lines = lines,
+            TimePrefix = "Time remaining",
             CuredBy = "Anti-Necrotic Serum"
         });
     }

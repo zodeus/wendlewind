@@ -59,6 +59,19 @@ public sealed class GrimoirePanel : EntityPanelBase
         if (incense.Count > 0)
             AddCraftingTab($"Incense ({incense.Count})", "Prepare", incense);
         
+        // Add Cloaks tab if player has the Cloakenator trinket
+        var cloakenatorDef = DefRepository<ItemDef>.GetByMoniker("Cloakenator");
+        if (cloakenatorDef != null && Core.Context.Player.HasTrinket(cloakenatorDef))
+        {
+            var cloaks = DefRepository<ItemDef>.Defs
+                .Where(d => d.EquipmentProperties?.SlotUsedToEquip == EquipmentSlotType.Cloak && d.CraftingProperties != null)
+                .OrderBy(d => d.Label)
+                .ToList();
+            
+            if (cloaks.Count > 0)
+                AddCraftingTab($"Cloaks ({cloaks.Count})", "Weave", cloaks);
+        }
+        
         Widgets.Add(_tabs);
         
         // Initialize tab indicators
