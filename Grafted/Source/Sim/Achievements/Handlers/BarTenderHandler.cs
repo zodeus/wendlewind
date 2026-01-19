@@ -26,7 +26,7 @@ public class BarTenderHandler : AchievementHandler
 
         var pawn = context.Player.Pawn;
         var availablePotions = DefRepository<ItemDef>.Defs
-            .Where(d => d.ItemType == ItemType.Potion)
+            .Where(d => d.ItemType == ItemType.Potion && d != Defs.Items.JarOfBlood)
             .ToList();
 
         if (availablePotions.Count == 0) return;

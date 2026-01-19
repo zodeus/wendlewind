@@ -13,9 +13,14 @@
         </Weathers>
         <Resources>
             <ListItem>
-                <Item>ShadeWood</Item>
+                <Item>Twig</Item>
                 <Amount>1</Amount>
-                <ChanceToHarvest>.5</ChanceToHarvest>
+                <ChanceToHarvest>.2</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>InkyCapMushroom</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.2</ChanceToHarvest>
             </ListItem>
             <ListItem>
                 <Item>HealingRoot</Item>

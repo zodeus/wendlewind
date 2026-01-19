@@ -188,6 +188,17 @@ public class AchievementTracker : IExposable
         }
     }
 
+    /// <summary>
+    /// Called when the golden goose is fed
+    /// </summary>
+    public void OnGooseFed(int currentHunger, int maxHunger)
+    {
+        foreach (var handler in Handlers)
+        {
+            handler.OnGooseFed(currentHunger, maxHunger);
+        }
+    }
+
     public void OnWorldRestart(GameContext context)
     {
         foreach (var handler in Handlers)

@@ -18,9 +18,14 @@
                 <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>MullinStick</Item>
+                <Item>Twig</Item>
                 <Amount>1~2</Amount>
                 <ChanceToHarvest>.4</ChanceToHarvest>
+            </ListItem>
+            <ListItem>
+                <Item>VenomVial</Item>
+                <Amount>1</Amount>
+                <ChanceToHarvest>.5</ChanceToHarvest>
             </ListItem>
             <ListItem>
                 <Item>RawFish</Item>

@@ -69,4 +69,24 @@
         <HandlerClass>RockHoundHandler</HandlerClass>
         <TargetValue>25</TargetValue>
     </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>FullMaxTheGoose</Moniker>
+        <Label>Full Max The Goose</Label>
+        <Description>Get the goose to full max</Description>
+        <BenifitDescription>Start with some golden beans</BenifitDescription>
+        <Category>Exploration</Category>
+        <HandlerClass>FullMaxTheGooseHandler</HandlerClass>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>JackAndTheBeanstalk</Moniker>
+        <Label>Jack And The Beanstalk</Label>
+        <IsHidden>true</IsHidden>
+        <Description>Hold 50 golden beans</Description>
+        <UnlockedTrinketDef>GoldenGoose</UnlockedTrinketDef>
+        <Category>Exploration</Category>    
+        <TargetValue>50</TargetValue>
+        <HandlerClass>JackAndTheBeanstalkHandler</HandlerClass>
+    </AchievementDef>
 </Definitions>

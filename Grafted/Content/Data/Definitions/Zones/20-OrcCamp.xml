@@ -13,17 +13,12 @@
             <ListItem>
                 <Item>GoldCapMushroom</Item>
                 <Amount>1~2</Amount>
-                <ChanceToHarvest>.75</ChanceToHarvest>
+                <ChanceToHarvest>.7</ChanceToHarvest>
             </ListItem>
             <ListItem>
-                <Item>HealingRoot</Item>
+                <Item>ElderBerry</Item>
                 <Amount>1~2</Amount>
-                <ChanceToHarvest>.8</ChanceToHarvest>
-            </ListItem>
-            <ListItem>
-                <Item>Twig</Item>
-                <Amount>1~2</Amount>
-                <ChanceToHarvest>.8</ChanceToHarvest>
+                <ChanceToHarvest>.4</ChanceToHarvest>
             </ListItem>
             <ListItem>
                 <Item>BeakPuss</Item>

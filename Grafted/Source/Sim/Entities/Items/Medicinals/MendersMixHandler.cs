@@ -6,6 +6,7 @@ namespace Grafted.Sim.Entities.Items.Medicinals;
 public class MendersMixHandler : MedicinalHandler
 {
     private double _healAmount;
+    private bool _appliedAnyEffect;
 
     // Colors for the infographic
     private static readonly Color FleshColor = new(180, 120, 120);       // Pinkish for flesh
@@ -22,13 +23,48 @@ public class MendersMixHandler : MedicinalHandler
     {
         var healingValue = item.GetStatValue(Defs.Stats.HealingValue);
         var duration = item.ItemDef.MedicinalProperties!.DurationInTicks;
-        
+
         _healAmount = healingValue;
+        _appliedAnyEffect = false;
         ApplyToPart(part, duration);
-        
-        return _healAmount < healingValue;
+
+        return _healAmount < healingValue || _appliedAnyEffect;
     }
 
+
+    private void ApplyToPart(BodyPart bodyPart, int duration)
+    {
+        if (_healAmount <= 0)
+        {
+            return;
+        }
+
+        // Heal this part and apply rhino restoration
+        _healAmount -= UpdateHealth(bodyPart);
+        bodyPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.RhinoRestoration, duration, RhinoPower));
+        _appliedAnyEffect = true;
+
+        // Heal internal parts (bone, flesh, skin, organs)
+        foreach (var internalPart in bodyPart.AllInternalParts)
+        {
+            _healAmount -= UpdateHealth(internalPart);
+            internalPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.RhinoRestoration, duration, RhinoPower));
+        }
+
+        // Recursively apply to external parts (travels through sockets)
+        foreach (var externalPart in bodyPart.ExternalParts)
+        {
+            ApplyToPart(externalPart, duration);
+        }
+    }
+
+    private double UpdateHealth(BodyPart bodyPart)
+    {
+        var currentHealth = bodyPart.HitPoints;
+        bodyPart.HitPoints += _healAmount;
+        return bodyPart.HitPoints - currentHealth;
+    }
+    
     public override Widget? GetInfoPanel(Item item)
     {
         var panel = new VerticalStackPanel
@@ -323,37 +359,5 @@ public class MendersMixHandler : MedicinalHandler
         Grid.SetColumn(valueLabel, 1);
         Grid.SetRow(valueLabel, row);
         grid.Widgets.Add(valueLabel);
-    }
-
-    private void ApplyToPart(BodyPart bodyPart, int duration)
-    {
-        if (_healAmount <= 0)
-        {
-            return;
-        }
-
-        // Heal this part and apply rhino restoration
-        _healAmount -= UpdateHealth(bodyPart);
-        bodyPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.RhinoRestoration, duration, RhinoPower));
-
-        // Heal internal parts (bone, flesh, skin, organs)
-        foreach (var internalPart in bodyPart.AllInternalParts)
-        {
-            _healAmount -= UpdateHealth(internalPart);
-            internalPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.RhinoRestoration, duration, RhinoPower));
-        }
-
-        // Recursively apply to external parts (travels through sockets)
-        foreach (var externalPart in bodyPart.ExternalParts)
-        {
-            ApplyToPart(externalPart, duration);
-        }
-    }
-
-    private double UpdateHealth(BodyPart bodyPart)
-    {
-        var currentHealth = bodyPart.HitPoints;
-        bodyPart.HitPoints += _healAmount;
-        return bodyPart.HitPoints - currentHealth;
     }
 }

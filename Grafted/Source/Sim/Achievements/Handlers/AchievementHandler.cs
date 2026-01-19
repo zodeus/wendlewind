@@ -79,6 +79,11 @@ public abstract class AchievementHandler
     public virtual void OnBloodLost(Pawn pawn, float bloodLost) { }
 
     /// <summary>
+    /// Called when the golden goose is fed
+    /// </summary>
+    public virtual void OnGooseFed(int currentHunger, int maxHunger) { }
+
+    /// <summary>
     /// Called when the world is restarted
     /// </summary>
     public virtual void OnWorldRestart(GameContext context) { }

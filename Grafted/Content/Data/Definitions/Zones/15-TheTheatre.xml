@@ -12,7 +12,7 @@
         </Weathers>
         <Resources>
             <ListItem>
-                <Item>MullinStick</Item>
+                <Item>Cloth</Item>
                 <Amount>1</Amount>
                 <ChanceToHarvest>.6</ChanceToHarvest>
             </ListItem>

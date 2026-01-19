@@ -69,6 +69,9 @@ public class GoldenGooseHandler : TrinketHandler
         if (!CanEat(item.ItemDef)) return 0;
         Hunger += _foodList[item.ItemDef];
         
+        // Notify achievement system
+        Core.Context.Achievements.OnGooseFed(Hunger, MaxHunger);
+        
         return _foodList[item.ItemDef];
     }
 
