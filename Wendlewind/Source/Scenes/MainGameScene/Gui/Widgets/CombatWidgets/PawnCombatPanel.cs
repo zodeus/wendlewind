@@ -1,0 +1,279 @@
+﻿using Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+using Wendlewind.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
+using Image = Myra.Graphics2D.UI.Image;
+
+namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
+
+internal sealed class PawnCombatPanel : HorizontalStackPanel
+{
+    public readonly Pawn Pawn;
+    private readonly Encounter _encounter;
+    private VerticalProgressBar _bloodBar = null!;
+    private PawnRenderWidget? _bodyWidget;
+    private readonly ZoneGui _gui;
+    private readonly List<IUpdatable> _updatables = new();
+
+    /// <summary>
+    /// Gets the body render widget for this pawn, if available.
+    /// </summary>
+    public PawnRenderWidget? BodyWidget => _bodyWidget;
+
+    public PawnCombatPanel(ZoneGui gui, Pawn pawn, Encounter encounter)
+    {
+        Pawn = pawn;
+        _encounter = encounter;
+        _gui = gui;
+        var isPlayer = pawn.PawnType == PawnType.Player;
+        if (isPlayer)
+        {
+            GeneratePlayerControls(pawn);
+        }
+
+        Widgets.Add(GeneratePawnPanel());
+
+        Update(0f);
+    }
+
+    private void GeneratePlayerControls(Pawn pawn)
+    {
+        var trinketBar = new TrinketBar(pawn.Inventory, TrinketType.Combat)
+        {
+            DefaultProportion = Proportion.Auto,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            HorizontalAlignment = HorizontalAlignment.Right,
+        };
+        var potionBar = new PotionBar(pawn, item => _encounter.CombatHandler?.QueueItemForPawn(item, Pawn))
+        {
+            HorizontalAlignment = HorizontalAlignment.Right
+        };
+        var weaponBar = new WeaponBar(pawn)
+        {
+            HorizontalAlignment = HorizontalAlignment.Right,
+        };
+        var stanceBar = new BodyStanceBar(pawn) {HorizontalAlignment = HorizontalAlignment.Right };
+
+        _updatables.Add(potionBar);
+        _updatables.Add(weaponBar);
+
+        SetProportionType(potionBar, ProportionType.Auto);
+        SetProportionType(weaponBar, ProportionType.Auto);
+        SetProportionType(stanceBar, ProportionType.Auto);
+        SetProportionType(trinketBar, ProportionType.Auto);
+        Widgets.Add(new VerticalStackPanel
+        {
+            VerticalAlignment = VerticalAlignment.Bottom,
+            MinWidth = 300,
+            Widgets =
+            {
+                potionBar,
+                weaponBar,
+                stanceBar,
+                trinketBar,
+            }
+        });
+    }
+
+    private PawnRenderWidget CreateBodyWidget(int size)
+    {
+        _bodyWidget = new PawnRenderWidget(Pawn)
+        {
+            Width = size,
+            Height = size
+        };
+
+        if (Pawn.PawnType == PawnType.Player)
+        {
+            _bodyWidget.HorizontalAlignment = HorizontalAlignment.Right;
+        }
+        
+        // Set weather from encounter if available
+        if (_encounter.Weather != null)
+        {
+            _bodyWidget.SetWeather(_encounter.Weather);
+        }
+        return _bodyWidget;
+    }
+
+    private Widget GeneratePawnPanel()
+    {
+        VerticalStackPanel panel = new()
+        {
+            VerticalAlignment = VerticalAlignment.Bottom,
+            DefaultProportion = Proportion.Auto
+        };
+        
+        // Use body widget for all pawns - it will fall back to icon if no layout available
+        var bodyWidget = CreateBodyWidget(BaseContent.IconSizes.Portrait);
+        
+        // Create vertical blood bar
+        _bloodBar = new VerticalBloodBar(Pawn) { Width = 16, Height = BaseContent.IconSizes.Portrait };
+        
+        // Create effects panel for all pawns
+        var pawnEffectsPanel = new PawnBodyEffectsPanel(_gui, Pawn, EffectsPanelOrientation.Vertical)
+        {
+            VerticalAlignment = VerticalAlignment.Bottom,
+        };
+        _updatables.Add(pawnEffectsPanel);
+        
+        // Create horizontal container for body, blood bar, and effects
+        // Player: effects on left, body, blood bar on right
+        // Enemy: blood bar on left, body, effects on right
+        var bodyAndBloodContainer = new HorizontalStackPanel
+        {
+            Spacing = 5,
+            VerticalAlignment = VerticalAlignment.Bottom,
+        };
+        
+        if (Pawn.PawnType == PawnType.Player)
+        {
+            bodyAndBloodContainer.Widgets.Add(pawnEffectsPanel);
+            bodyAndBloodContainer.Widgets.Add(bodyWidget);
+            bodyAndBloodContainer.Widgets.Add(_bloodBar);
+            bodyAndBloodContainer.HorizontalAlignment = HorizontalAlignment.Right;
+        }
+        else
+        {
+            bodyAndBloodContainer.Widgets.Add(_bloodBar);
+            bodyAndBloodContainer.Widgets.Add(bodyWidget);
+            bodyAndBloodContainer.Widgets.Add(pawnEffectsPanel);
+        }
+        
+        panel.Widgets.Add(bodyAndBloodContainer);
+
+        Label namePlate = new()
+        {
+            Text = Pawn.LabelShort,
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Padding = new Thickness(12)
+        };
+        namePlate.TouchDown += (_, _) => {
+            _gui.ViewEntity(Pawn);
+        };
+        var attackSpeed = new AttackSpeedIcon(Pawn){ VerticalAlignment = VerticalAlignment.Stretch};
+        _updatables.Add(attackSpeed);
+        SetProportionType(namePlate, ProportionType.Fill);
+        SetProportionType(attackSpeed, ProportionType.Auto);
+        panel.Widgets.Add(new HorizontalStackPanel { Widgets = { namePlate, attackSpeed } });
+
+        return panel;
+    }
+
+    public void Update(float deltaTime)
+    {
+        _bloodBar.Value = Pawn.Body.BloodPercent * 100;
+        _bodyWidget?.Update(deltaTime);
+        foreach (var u in _updatables)
+        {
+            u.Update();
+        }
+    }
+}
+
+internal sealed class BodyStanceBar : HorizontalStackPanel
+{
+    public BodyStanceBar(Pawn pawn)
+    {
+        var buttons = new List<CursorButton>();
+        var defaultColor = new Color(80, 80, 80, 100);
+        foreach (var stance in DefRepository<BodyStanceDef>.Defs)
+        {
+            var button = new CursorButton(BaseContent.Styles.Button.Icon)
+            {
+                Content = new Image
+                {
+                    Background = new ColoredRegion(new TextureRegion(stance.Texture), defaultColor),
+                    Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium
+                }
+            };
+            button.TouchDown += (_, _) =>
+            {
+                buttons.ForEach(b => ((ColoredRegion)b.Content.Background).Color = defaultColor);
+                ((ColoredRegion)button.Content.Background).Color = Color.Goldenrod;
+                pawn.Body.Stance = stance;
+            };
+            buttons.Add(button);
+
+            if (pawn.Body.Stance == stance)
+            {
+                ((ColoredRegion)button.Content.Background).Color = Color.Goldenrod;
+            }
+
+            // Add tooltip with stance info
+            button.WithTooltip(() => CreateStanceTooltip(stance));
+
+            Widgets.Add(button);
+        }
+    }
+
+    private static Widget CreateStanceTooltip(BodyStanceDef stance)
+    {
+        var container = new VerticalStackPanel { Spacing = 6, Padding = new Thickness(4) };
+
+        // Stance name
+        container.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+        {
+            Text = stance.Moniker,
+            TextColor = Color.Gold
+        });
+
+        // Stance description
+        container.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = stance.Label,
+            TextColor = new Color(180, 180, 180),
+            Wrap = true,
+            MaxWidth = 250
+        });
+
+        // Affected stats
+        if (stance.AffectedStats is { Count: > 0 })
+        {
+            container.Widgets.Add(new HorizontalSeparator { Color = new Color(60, 50, 40) });
+
+            foreach (var stat in stance.AffectedStats)
+            {
+                var statRow = new HorizontalStackPanel { Spacing = 8 };
+
+                var statName = new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = stat.Stat.Label,
+                    TextColor = new Color(200, 200, 200)
+                };
+                statRow.Widgets.Add(statName);
+
+                string valueText;
+                Color valueColor;
+
+                if (stat.Offset.HasValue)
+                {
+                    var offset = stat.Offset.Value;
+                    var sign = offset >= 0 ? "+" : "";
+                    valueText = $"{sign}{offset * 100:0}%";
+                    valueColor = offset >= 0 ? new Color(100, 200, 100) : new Color(200, 100, 100);
+                }
+                else if (stat.Factor.HasValue)
+                {
+                    var factor = stat.Factor.Value;
+                    valueText = $"x{factor:0.##}";
+                    valueColor = factor >= 1 ? new Color(100, 200, 100) : new Color(200, 100, 100);
+                }
+                else
+                {
+                    continue;
+                }
+
+                var statValue = new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = valueText,
+                    TextColor = valueColor
+                };
+                statRow.Widgets.Add(statValue);
+
+                container.Widgets.Add(statRow);
+            }
+        }
+
+        return container;
+    }
+}

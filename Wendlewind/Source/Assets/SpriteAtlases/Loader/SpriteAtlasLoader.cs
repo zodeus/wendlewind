@@ -1,0 +1,83 @@
+﻿using System.Globalization;
+using System.IO;
+using Wendlewind.Graphics.Textures;
+
+namespace Wendlewind.Assets.SpriteAtlases.Loader;
+
+public static class SpriteAtlasLoader {
+    /// <summary>
+    /// parses a .atlas file and loads up a SpriteAtlas with it's associated Texture
+    /// </summary>
+    public static SpriteAtlas ParseSpriteAtlas(string dataFile, bool premultiplyAlpha = false) {
+        SpriteAtlasData spriteAtlas = ParseSpriteAtlasData(dataFile);
+        using Stream? stream = TitleContainer.OpenStream(dataFile.Replace(".atlas", ".png"));
+        return spriteAtlas.AsSpriteAtlas(premultiplyAlpha ? TextureUtils.TextureFromStreamPreMultiplied(stream) : Texture2D.FromStream(Core.GraphicsDevice, stream));
+    }
+
+    /// <summary>
+    /// parses a .atlas file into a temporary SpriteAtlasData class. If leaveOriginsRelative is true, origins will be left as 0 - 1 range instead
+    /// of multiplying them by the width/height.
+    /// </summary>
+    internal static SpriteAtlasData ParseSpriteAtlasData(string dataFile, bool leaveOriginsRelative = false) {
+        SpriteAtlasData spriteAtlas = new();
+
+        bool parsingSprites = true;
+        char[] commaSplitter = { ',' };
+
+        using FileStream streamFile = File.OpenRead(dataFile);
+        using StreamReader stream = new(streamFile);
+
+        string? line;
+        while ((line = stream.ReadLine()) != null) {
+            // once we hit an empty line we are done parsing sprites so we move on to parsing animations
+            if (parsingSprites && string.IsNullOrWhiteSpace(line)) {
+                parsingSprites = false;
+                continue;
+            }
+
+            if (parsingSprites) {
+                spriteAtlas.Names.Add(line);
+
+                // source rect
+                line = stream.ReadLine();
+                string[] lineParts = line!.Split(commaSplitter, StringSplitOptions.RemoveEmptyEntries);
+                Rectangle rect = new(int.Parse(lineParts[0]), int.Parse(lineParts[1]), int.Parse(lineParts[2]), int.Parse(lineParts[3]));
+                spriteAtlas.SourceRects.Add(rect);
+
+                // origin
+                line = stream.ReadLine();
+                lineParts = line!.Split(commaSplitter, StringSplitOptions.RemoveEmptyEntries);
+                Vector2 origin = new(float.Parse(lineParts[0], CultureInfo.InvariantCulture), float.Parse(lineParts[1], CultureInfo.InvariantCulture));
+
+                if (leaveOriginsRelative) {
+                    spriteAtlas.Origins.Add(origin);
+                }
+                else {
+                    spriteAtlas.Origins.Add(origin * new Vector2(rect.Width, rect.Height));
+                }
+            }
+            else {
+                // catch the case of a newline at the end of the file
+                if (string.IsNullOrWhiteSpace(line)) break;
+
+                spriteAtlas.AnimationNames.Add(line);
+
+                // animation fps
+                line = stream.ReadLine();
+                spriteAtlas.AnimationFps.Add(int.Parse(line!));
+
+                // animation frames
+                line = stream.ReadLine();
+                List<int> frames = new();
+                spriteAtlas.AnimationFrames.Add(frames);
+                string[] lineParts = line!.Split(commaSplitter, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var part in lineParts) {
+                    frames.Add(int.Parse(part));
+                }
+            }
+        }
+
+        return spriteAtlas;
+    }
+}

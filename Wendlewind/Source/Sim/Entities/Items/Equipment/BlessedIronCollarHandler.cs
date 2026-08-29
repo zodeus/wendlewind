@@ -1,0 +1,31 @@
+namespace Wendlewind.Sim.Entities.Items.Equipment;
+
+public class BlessedIronCollarHandler : EquipmentHandler
+{
+    public const float DamagePerTick = 0.1f;
+    public const float SoftTissueDamagePerTick = 0.03f;
+    public override bool OnPreDamageTaken(DamageRequest request, DamageResponse response)
+    {
+        if (request.TargetedPart.Type == BodyPartType.Neck)
+        {
+            var damageRecord = new DamageRecord(
+                "Nothing", "Blessed Iron Collar", DamageType.Magic, request.TargetedPart, 0, request.TotalRawDamage
+            );
+            response.Damages.Add(damageRecord);
+            return true;
+        }
+        return false;
+    }
+
+    public override void Tick(Pawn pawn, BodyPart bodyPart)
+    {
+        bodyPart.HitPoints -= DamagePerTick;
+        if (bodyPart.Skin != null)
+        {
+            bodyPart.Skin.HitPoints -= DamagePerTick;
+        }
+        bodyPart.Bones.ForEach(bone => bone.HitPoints -= SoftTissueDamagePerTick);
+        bodyPart.Arteries.ForEach(artery => artery.HitPoints -= SoftTissueDamagePerTick);
+    }
+}
+

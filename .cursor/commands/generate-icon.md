@@ -8,12 +8,12 @@ When the user says "generate icon [ItemName]" or "create icon for [ItemName]", f
 - **ItemName**: The name of the item to create an icon for (e.g., "Fleshify", "HealthPotion")
 - **Dimensions**: Optional dimensions in format WIDTHxHEIGHT (default: 256x256). User can specify like "generate icon Fleshify 512x512"
 - **Category**: The item category determines reference images and output path:
-  - `Potion` → Reference: `Grafted/Content/Textures/Entities/Item/Potion/`
-  - `Trinket` → Reference: `Grafted/Content/Textures/Entities/Item/Trinket/`
-  - `Medical` → Reference: `Grafted/Content/Textures/Entities/Item/Medical/`
-  - `Weapon` → Reference: `Grafted/Content/Textures/Entities/Item/Equipment/Weapon/`
-  - `Armor` → Reference: `Grafted/Content/Textures/Entities/Item/Equipment/Armor/`
-  - `Resource` → Reference: `Grafted/Content/Textures/Entities/Item/Resource/`
+  - `Potion` → Reference: `Wendlewind/Content/Textures/Entities/Item/Potion/`
+  - `Trinket` → Reference: `Wendlewind/Content/Textures/Entities/Item/Trinket/`
+  - `Medical` → Reference: `Wendlewind/Content/Textures/Entities/Item/Medical/`
+  - `Weapon` → Reference: `Wendlewind/Content/Textures/Entities/Item/Equipment/Weapon/`
+  - `Armor` → Reference: `Wendlewind/Content/Textures/Entities/Item/Equipment/Armor/`
+  - `Resource` → Reference: `Wendlewind/Content/Textures/Entities/Item/Resource/`
 
 ### Process
 
@@ -25,7 +25,7 @@ When the user says "generate icon [ItemName]" or "create icon for [ItemName]", f
 
 #### Step 2: Gather Item Description
 1. Check if there's an existing XML definition for the item in:
-   - `Grafted/Content/Data/Definitions/Entities/Items/` (search subdirectories)
+   - `Wendlewind/Content/Data/Definitions/Entities/Items/` (search subdirectories)
 2. If found, use the `<Description>` field to understand what the item looks like
 3. If not found, ask the user for a description or infer from the item name
 
@@ -54,7 +54,7 @@ Background=Plain Black
 2. Copy to the correct textures folder:
 
 ```powershell
-Copy-Item "[generated-image-path]" "Grafted/Content/Textures/Entities/Item/[Category]/[ItemName].png" -Force
+Copy-Item "[generated-image-path]" "Wendlewind/Content/Textures/Entities/Item/[Category]/[ItemName].png" -Force
 ```
 
 #### Step 6: Verify
@@ -105,7 +105,7 @@ If the generated image doesn't match the game's art style, try:
 
 ### Output Paths Reference
 ```
-Grafted/Content/Textures/Entities/Item/
+Wendlewind/Content/Textures/Entities/Item/
 ├── Potion/           # Consumable potions
 ├── Trinket/          # Equipment trinkets
 ├── Medical/          # Healing items

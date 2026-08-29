@@ -10,20 +10,20 @@ When the user says "create potion [PotionName]" or "new potion [PotionName]", fo
 
 ### Files to Create/Modify
 
-1. **Handler Class**: `Grafted/Source/Sim/Entities/Items/Potions/[PotionName]Handler.cs`
-2. **XML Definition**: `Grafted/Content/Data/Definitions/Entities/Items/Consumables/Potions.xml`
-3. **Icon Texture**: `Grafted/Content/Textures/Entities/Item/Potion/[PotionName].png`
+1. **Handler Class**: `Wendlewind/Source/Sim/Entities/Items/Potions/[PotionName]Handler.cs`
+2. **XML Definition**: `Wendlewind/Content/Data/Definitions/Entities/Items/Consumables/Potions.xml`
+3. **Icon Texture**: `Wendlewind/Content/Textures/Entities/Item/Potion/[PotionName].png`
 
 ---
 
 ## Step 1: Create the Potion Handler
 
-**Create:** `Grafted/Source/Sim/Entities/Items/Potions/[PotionName]Handler.cs`
+**Create:** `Wendlewind/Source/Sim/Entities/Items/Potions/[PotionName]Handler.cs`
 
 ### Handler Template
 
 ```csharp
-namespace Grafted.Sim.Entities.Items.Potions;
+namespace Wendlewind.Sim.Entities.Items.Potions;
 
 /// <summary>
 /// Handler for [PotionName] potion - [brief description of effect].
@@ -129,7 +129,7 @@ var duration = GetDuration();  // Reads from PotionDuration stat in XML
 
 ## Step 2: Add XML Definition
 
-**Modify:** `Grafted/Content/Data/Definitions/Entities/Items/Consumables/Potions.xml`
+**Modify:** `Wendlewind/Content/Data/Definitions/Entities/Items/Consumables/Potions.xml`
 
 Add before `</Definitions>`:
 
@@ -209,24 +209,24 @@ Use the nano-banana MCP to create the potion icon.
 ### Step 3a: Read Reference Image
 ```
 Read one of the existing potion images to understand the style:
-Grafted/Content/Textures/Entities/Item/Potion/JarOfBlood.png
+Wendlewind/Content/Textures/Entities/Item/Potion/JarOfBlood.png
 ```
 
 ### Step 3b: Generate Icon
 ```
 command: generate-icon
 Parameters:
-  - imagePath: Grafted/Content/Textures/Entities/Item/Potion/JarOfBlood.png
+  - imagePath: Wendlewind/Content/Textures/Entities/Item/Potion/JarOfBlood.png
   - prompt: "Transform this potion bottle to contain [description of liquid appearance based on potion effect]. The liquid should be [color] and look [texture/quality]. Keep the same bottle style, cork, rope wrapping, and tag. Change the tag text to say '[POTIONNAME]'. [Additional visual details]"
 ```
 
 ### Step 3d: Save Icon
 ```powershell
-Copy-Item "[generated-image-path]" "Grafted/Content/Textures/Entities/Item/Potion/[PotionName].png" -Force
+Copy-Item "[generated-image-path]" "Wendlewind/Content/Textures/Entities/Item/Potion/[PotionName].png" -Force
 ```
 ### Step 3e: If BodyEffect was created Copy Icon to  
 ```powershell
-Copy-Item "[generated-image-path]" "Grafted/Content/Textures/Entities/Pawn/BodyEffects/[BodyEffectName].png" -Force
+Copy-Item "[generated-image-path]" "Wendlewind/Content/Textures/Entities/Pawn/BodyEffects/[BodyEffectName].png" -Force
 ```
 
 ### Icon Prompt Ideas by Effect Type
@@ -268,9 +268,9 @@ Copy-Item "[generated-image-path]" "Grafted/Content/Textures/Entities/Pawn/BodyE
 
 ## Reference: File Locations
 
-- **Handlers:** `Grafted/Source/Sim/Entities/Items/Potions/`
-- **XML Definitions:** `Grafted/Content/Data/Definitions/Entities/Items/Consumables/Potions.xml`
-- **Icons:** `Grafted/Content/Textures/Entities/Item/Potion/`
+- **Handlers:** `Wendlewind/Source/Sim/Entities/Items/Potions/`
+- **XML Definitions:** `Wendlewind/Content/Data/Definitions/Entities/Items/Consumables/Potions.xml`
+- **Icons:** `Wendlewind/Content/Textures/Entities/Item/Potion/`
 - **Base Classes:** 
   - `PotionHandler.cs` - Abstract base class
   - `IPotionHandler.cs` - Interface definition

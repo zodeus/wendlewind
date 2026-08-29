@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Grafted.sln",
+                "${workspaceFolder}/Wendlewind.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Grafted.sln",
+                "${workspaceFolder}/Wendlewind.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/Grafted.sln"
+                "${workspaceFolder}/Wendlewind.sln"
             ],
             "problemMatcher": "$msCompile"
         },
@@ -46,10 +46,10 @@
                 "run",
                 "--hot-reload",
                 "--project",
-                "${workspaceFolder}/Grafted/Grafted.csproj"
+                "${workspaceFolder}/Wendlewind/Wendlewind.csproj"
             ],
             "options": {
-                "cwd": "${workspaceFolder}/Grafted"
+                "cwd": "${workspaceFolder}/Wendlewind"
             },
             "problemMatcher": "$msCompile",
             "isBackground": true
