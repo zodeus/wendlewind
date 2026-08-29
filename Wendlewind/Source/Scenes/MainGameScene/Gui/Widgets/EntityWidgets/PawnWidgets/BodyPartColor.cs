@@ -3,8 +3,6 @@
 public static class BodyPartColor {
     private static readonly Color DestroyedColor = Color.Red;
     private static readonly Color DisabledColor = new(50, 50, 50);
-    private static readonly Color LowColor = new(170, 0, 0);
-    private static readonly Color HighColor = new(65, 120, 64);
     private static readonly Color SealSocketColor = new(154, 120, 50);
     private static readonly Color ColdBodyColor = new(0, 0, 200);
     private static readonly Color NormalBodyColor = new(0, 200, 0);
@@ -12,27 +10,11 @@ public static class BodyPartColor {
     private static readonly Color FullStomach = new(0, 225, 0);
     private static readonly Color EmptyStomach = new(225, 0, 0);
 
-    public static Color Get(BodyPart bodyPart) {
-        if (bodyPart.IsDestroyed) {
-            return DestroyedColor;
-        }
+    public static Color Get(BodyPart bodyPart) => PawnPartTint.Get(bodyPart);
 
-        if (bodyPart.HasMobility == false || bodyPart.IsFunctional == false) {
-            return DisabledColor;
-        }
+    public static Color Get(PawnBody body) => PawnPartTint.Get(body);
 
-        return Color.Lerp(LowColor, HighColor, (float)bodyPart.HealthPercent);
-    }
-    
-    public static Color Get(PawnBody body) {
-
-        return Color.Lerp(LowColor, HighColor, (float)body.HitPoints / (float)body.MaxHitPoints);
-    }
-
-    public static Color GetBloodColor(float value)
-    {
-        return Color.Lerp(DestroyedColor, HighColor, value);
-    }
+    public static Color GetBloodColor(float value) => PawnPartTint.GetBloodColor(value);
 
     public static Color Get(BodyPartSocket socket) {
         if (socket.IsSealed == false) {

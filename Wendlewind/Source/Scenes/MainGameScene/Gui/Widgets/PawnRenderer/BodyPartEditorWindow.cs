@@ -1,6 +1,4 @@
-using System.Runtime.InteropServices;
-using System.Text;
-using Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayouts;
+using System.IO;
 using Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
 namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
@@ -312,12 +310,12 @@ public class BodyPartEditorWindow : Window
         rightPanel.Widgets.Add(new Label { Text = "" }); // Spacer
         
         // Action buttons
-        var copyButton = new CursorButton(BaseContent.Styles.Button.Normal)
+        var saveButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
-            Content = new Label { Text = "Copy to Clipboard" },
+            Content = new Label { Text = "Save XML" },
         };
-        copyButton.Click += (_, _) => CopyPositionsToClipboard();
-        rightPanel.Widgets.Add(copyButton);
+        saveButton.Click += (_, _) => SaveXml();
+        rightPanel.Widgets.Add(saveButton);
         
         var resetButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
@@ -853,6 +851,7 @@ public class BodyPartEditorWindow : Window
                     _isDragging = false;
                     _isDraggingMultiple = false;
                     _allPartsDragOffsets.Clear();
+                    SaveXml();
                 }
             }
             
@@ -1142,128 +1141,46 @@ public class BodyPartEditorWindow : Window
         UpdateSelectionUI();
     }
 
-    private void CopyPositionsToClipboard()
+    private void SaveXml()
     {
-        var sb = new StringBuilder();
-        sb.AppendLine("// Body part positions (native coordinates) - keyed by Moniker");
-        sb.AppendLine("private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()");
-        sb.AppendLine("{");
-        
-        var partInfos = new List<(string internalLabel, Vector2 position, int renderOrder, float scale, float rotation, bool flipH, bool flipV, bool hasEquip, Vector2 equipOffset, float equipRot, float equipScale, bool equipFlipH)>();
-        
-        // Use the overrides dictionary which contains all parts we've been editing (keyed by Moniker)
-        foreach (var (internalLabel, over) in _overrides)
+        if (_layout == null)
         {
-            partInfos.Add((
-                internalLabel, 
-                over.Position, 
-                over.RenderOrder, 
-                over.Scale, 
-                over.Rotation, 
-                over.FlipHorizontal, 
-                over.FlipVertical,
-                over.HasEquipmentAttachment,
-                over.EquipmentOffset,
-                over.EquipmentRotation,
-                over.EquipmentScale,
-                over.EquipmentFlipH));
+            return;
         }
-        
-        partInfos.Sort((a, b) => a.renderOrder.CompareTo(b.renderOrder));
-        
-        foreach (var (internalLabel, position, renderOrder, scale, rotation, flipH, flipV, hasEquip, equipOffset, equipRot, equipScale, equipFlipH) in partInfos)
+
+        var cells = _overrides.Select(pair =>
         {
-            var optionalParams = "";
-            if (rotation != 0f) optionalParams += $", {rotation:F4}f";
-            else if (flipH || flipV || hasEquip) optionalParams += ", 0f"; // Need to include rotation if we have later params
-            if (flipH) optionalParams += ", flipHorizontal: true";
-            if (flipV) optionalParams += ", flipVertical: true";
-            
-            if (hasEquip)
+            EquipmentAttachmentData? attachment = null;
+            if (pair.Value.HasEquipmentAttachment)
             {
-                var equipParams = $"new EquipmentAttachmentData(new Vector2({equipOffset.X:F0}f, {equipOffset.Y:F0}f), {equipRot:F4}f, {equipScale:F2}f, {equipFlipH.ToString().ToLower()})";
-                optionalParams += $", equipmentAttachment: {equipParams}";
+                attachment = new EquipmentAttachmentData(
+                    pair.Value.EquipmentOffset,
+                    pair.Value.EquipmentRotation,
+                    pair.Value.EquipmentScale,
+                    pair.Value.EquipmentFlipH);
             }
-            
-            sb.AppendLine($"    {{ \"{internalLabel}\", new BodyPartLayoutData(new Vector2({position.X:F0}f, {position.Y:F0}f), {renderOrder}, {scale:F2}f{optionalParams}) }},");
-        }
-        
-        sb.AppendLine("};");
-        
+
+            var data = new BodyPartLayoutData(
+                pair.Value.Position,
+                pair.Value.RenderOrder,
+                pair.Value.Scale,
+                pair.Value.Rotation,
+                pair.Value.FlipHorizontal,
+                pair.Value.FlipVertical,
+                attachment);
+            return (pair.Key, data);
+        });
+
         try
         {
-            SetClipboardText(sb.ToString());
+            var path = BodyPartLayoutXml.Write(_pawn.Body.Def, _layout.NativeSize, cells);
+            Title = $"Body Part Editor - {_pawn.Label}  (saved {Path.GetFileName(path)})";
         }
         catch (Exception ex)
         {
-            Log.Error($"Failed to copy to clipboard: {ex.Message}");
+            Log.Error($"Failed to save body part layout: {ex.Message}");
         }
     }
-
-    #region Windows Clipboard
-    
-    [DllImport("user32.dll", SetLastError = true)]
-    private static extern bool OpenClipboard(IntPtr hWndNewOwner);
-    
-    [DllImport("user32.dll", SetLastError = true)]
-    private static extern bool CloseClipboard();
-    
-    [DllImport("user32.dll", SetLastError = true)]
-    private static extern bool EmptyClipboard();
-    
-    [DllImport("user32.dll", SetLastError = true)]
-    private static extern IntPtr SetClipboardData(uint uFormat, IntPtr hMem);
-    
-    [DllImport("kernel32.dll", SetLastError = true)]
-    private static extern IntPtr GlobalAlloc(uint uFlags, UIntPtr dwBytes);
-    
-    [DllImport("kernel32.dll", SetLastError = true)]
-    private static extern IntPtr GlobalLock(IntPtr hMem);
-    
-    [DllImport("kernel32.dll", SetLastError = true)]
-    private static extern bool GlobalUnlock(IntPtr hMem);
-    
-    private const uint CF_UNICODETEXT = 13;
-    private const uint GMEM_MOVEABLE = 0x0002;
-    
-    private static void SetClipboardText(string text)
-    {
-        if (!OpenClipboard(IntPtr.Zero))
-            throw new Exception("Could not open clipboard");
-        
-        try
-        {
-            EmptyClipboard();
-            
-            var bytes = Encoding.Unicode.GetBytes(text + "\0");
-            var hGlobal = GlobalAlloc(GMEM_MOVEABLE, (UIntPtr)bytes.Length);
-            
-            if (hGlobal == IntPtr.Zero)
-                throw new Exception("Could not allocate memory for clipboard");
-            
-            var target = GlobalLock(hGlobal);
-            if (target == IntPtr.Zero)
-                throw new Exception("Could not lock clipboard memory");
-            
-            try
-            {
-                Marshal.Copy(bytes, 0, target, bytes.Length);
-            }
-            finally
-            {
-                GlobalUnlock(hGlobal);
-            }
-            
-            if (SetClipboardData(CF_UNICODETEXT, hGlobal) == IntPtr.Zero)
-                throw new Exception("Could not set clipboard data");
-        }
-        finally
-        {
-            CloseClipboard();
-        }
-    }
-    
-    #endregion
 }
 
 /// <summary>

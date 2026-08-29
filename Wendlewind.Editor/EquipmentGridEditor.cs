@@ -36,16 +36,6 @@ public sealed class EquipmentGridEditor
 
     public void Draw()
     {
-        var display = ImGui.GetIO().DisplaySize;
-        ImGui.SetNextWindowPos(Num.Vector2.Zero, ImGuiCond.Always);
-        ImGui.SetNextWindowSize(display, ImGuiCond.Always);
-        const ImGuiWindowFlags flags = ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoBringToFrontOnFocus;
-        if (!ImGui.Begin("Equipment Grid Editor", flags))
-        {
-            ImGui.End();
-            return;
-        }
-
         DrawToolbar();
         ImGui.Separator();
         var statusHeight = ImGui.GetFrameHeightWithSpacing() + 8;
@@ -64,7 +54,6 @@ public sealed class EquipmentGridEditor
         ImGui.EndChild();
         ImGui.Separator();
         DrawStatusBar();
-        ImGui.End();
     }
 
     private void DrawToolbar()

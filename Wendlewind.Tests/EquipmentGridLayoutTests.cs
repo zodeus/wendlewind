@@ -36,8 +36,8 @@ public class EquipmentGridLayoutTests
         var def = EquipmentGridDef.ForBody(pawn.Body.Def);
 
         Assert.NotNull(def);
-        Assert.Equal(7, layout.Columns);
-        Assert.Equal(9, layout.Rows);
+        Assert.Equal(def.Columns, layout.Columns);
+        Assert.Equal(def.Rows, layout.Rows);
         Assert.Equal(expected.Count, layout.Slots.Count);
 
         var missing = expected

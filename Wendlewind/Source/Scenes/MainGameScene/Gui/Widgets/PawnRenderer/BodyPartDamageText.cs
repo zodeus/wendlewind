@@ -1,5 +1,3 @@
-using Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayouts;
-
 namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
     
 /// <summary>

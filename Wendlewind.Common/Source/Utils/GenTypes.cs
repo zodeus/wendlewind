@@ -189,6 +189,14 @@ public static class GenTypes
             }
         }
 
+        foreach (var type in AllTypes)
+        {
+            if (string.Equals(type.Name, typeName, StringComparison.OrdinalIgnoreCase))
+            {
+                return type;
+            }
+        }
+
         return null;
     }
 

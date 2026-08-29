@@ -6,6 +6,7 @@ using Wendlewind.Assets;
 using Wendlewind.Coroutines;
 using Wendlewind.Definitions.Loader;
 using Wendlewind.Graphics;
+using Wendlewind.PawnLayout;
 using Wendlewind.Scenes.Components;
 using Wendlewind.Scenes.MainGameScene;
 using Wendlewind.Utils.Timers;
@@ -208,6 +209,7 @@ public class Core : Game
         MyraEnvironment.EnableModalDarkening = true;
         LoadStyleSheet();
 
+        BodyPartLayoutRegistry.EnsureLoaded();
         DataLoader.Load();
         BaseContent.Initialize();
 

@@ -12,6 +12,10 @@
       <Link>Content\Data\%(RecursiveDir)%(Filename)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\Wendlewind\Content\Textures\**\*">
+      <Link>Content\Textures\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -23,5 +27,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Wendlewind.Simulation\Wendlewind.Simulation.csproj" />
     <ProjectReference Include="..\Wendlewind.Common\Wendlewind.Common.csproj" />
+    <ProjectReference Include="..\Wendlewind.NetCode\Wendlewind.NetCode.csproj" />
+    <ProjectReference Include="..\Wendlewind.Renderer\Wendlewind.Renderer.csproj" />
+    <ProjectReference Include="..\Wendlewind.PawnLayout\Wendlewind.PawnLayout.csproj" />
   </ItemGroup>
 </Project>

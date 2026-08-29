@@ -61,5 +61,6 @@
         <ProjectReference Include="..\Wendlewind.Simulation\Wendlewind.Simulation.csproj" />
         <ProjectReference Include="..\Wendlewind.NetCode\Wendlewind.NetCode.csproj" />
         <ProjectReference Include="..\Wendlewind.Renderer\Wendlewind.Renderer.csproj" />
+        <ProjectReference Include="..\Wendlewind.PawnLayout\Wendlewind.PawnLayout.csproj" />
     </ItemGroup>
 </Project>
