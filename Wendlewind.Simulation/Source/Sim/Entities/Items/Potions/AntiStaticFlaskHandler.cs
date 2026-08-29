@@ -13,7 +13,6 @@ public class AntiStaticFlaskHandler : PotionHandler
 
     public override bool CanUseInCombat => true;
     public override bool CanUseOutsideCombat => true;
-    public override bool CanAutoUse => true;
 
     public override PotionUseResult UseOutsideCombat(Pawn user)
     {
@@ -52,18 +51,6 @@ public class AntiStaticFlaskHandler : PotionHandler
                 : $"{actualTarget.Label} feels strangely calm",
             alertColor: Color.Cyan
         );
-    }
-
-    public override PotionUseResult? TryAutoUse(Pawn pawn)
-    {
-        // // Auto-use if any body part has the Electrofied modifier
-        // var hasElectrofied = pawn.Body.AllParts.Any(p =>
-        //     p.Modifiers.Any(m => m.Def == Defs.BodyPartModifiers.Electrofied));
-
-        // if (hasElectrofied)
-        //     return UseInCombat(pawn);
-
-        return null;
     }
 
     public override string GetEffectDescription()

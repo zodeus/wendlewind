@@ -13,7 +13,6 @@ public class FleshifyHandler : PotionHandler
 
     public override bool CanUseInCombat => true;
     public override bool CanUseOutsideCombat => true;
-    public override bool CanAutoUse => false;
     
     public override PotionUseResult UseInCombat(Pawn user, Pawn? target = null)
     {

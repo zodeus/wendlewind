@@ -17,7 +17,7 @@ public abstract class PotionHandler : IPotionHandler, IExposable, IHasContext, I
     
     public virtual bool CanUseInCombat => true;
     public virtual bool CanUseOutsideCombat => false;
-    public virtual bool CanAutoUse => false;
+    public virtual bool CanAutoUse => Potion.PotionTrigger != null;
     
     protected string PotionLabel => Potion.Label;
     protected ItemDef PotionDef => Potion.ItemDef;
@@ -30,12 +30,6 @@ public abstract class PotionHandler : IPotionHandler, IExposable, IHasContext, I
     }
     
     public abstract string GetEffectDescription();
-    
-    /// <summary>
-    /// Attempts to automatically consume this potion during combat if conditions are met.
-    /// Override in derived classes to implement auto-consume logic.
-    /// </summary>
-    public virtual PotionUseResult? TryAutoUse(Pawn pawn) => null;
     
     /// <summary>
     /// Get a stat value from the potion.

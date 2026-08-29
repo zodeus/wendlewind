@@ -33,7 +33,6 @@ public class [PotionName]Handler : PotionHandler
 {
     public override bool CanUseInCombat => true;
     public override bool CanUseOutsideCombat => false;  // Set true if usable outside combat
-    public override bool CanAutoUse => false;           // Set true for auto-consumption logic
     
     public override PotionUseResult UseInCombat(Pawn user, Pawn? target = null)
     {
@@ -59,13 +58,6 @@ public class [PotionName]Handler : PotionHandler
     public override string GetEffectDescription()
     {
         return "[Description shown in UI tooltip]";
-    }
-    
-    // Optional: Implement if CanAutoUse is true
-    public override PotionUseResult? TryAutoUse(Pawn pawn)
-    {
-        // Return UseInCombat(pawn) if conditions are met, null otherwise
-        return null;
     }
 }
 ```
@@ -144,6 +136,9 @@ Add before `</Definitions>`:
     <TexturePath>Entities/Item/Potion/[PotionName]</TexturePath>
     <PotionProperties>
         <HandlerClass>[PotionName]Handler</HandlerClass>
+        <DefaultTrigger>
+            <Type>Immediately</Type>
+        </DefaultTrigger>
     </PotionProperties>
     <CraftingProperties>
         <AmountProduced>1</AmountProduced>

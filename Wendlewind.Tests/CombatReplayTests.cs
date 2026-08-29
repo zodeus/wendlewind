@@ -1,5 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Wendlewind.Definitions.Loader;
+using Wendlewind.NetCode;
+using Wendlewind.NetCode.Contracts;
 using Wendlewind.Sim;
 using Wendlewind.Sim.Combat;
 using Wendlewind.Sim.Entities.Pawns;
@@ -117,5 +119,32 @@ public class CombatReplayTests
                 File.Delete(path);
             }
         }
+    }
+
+    [Fact]
+    public void SnapshotHydrateSimulateAgrees()
+    {
+        var snapshot = BuildTemplates.TankRegen();
+        CombatReplay.AssertDeterministic(
+            CombatReplay.DefaultRunSeed,
+            context => BuildSnapshotFactory.Apply(context.PlayerPawn, snapshot));
+    }
+
+    [Fact]
+    public void LivePawnSnapshotRoundTripAgrees()
+    {
+        BuildSnapshot snapshot;
+        using (var root = SimServices.BuildRoot())
+        using (var scope = root.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetRequiredService<GameContext>();
+            context.Initialize(CombatReplay.DefaultRunSeed);
+            BuildSnapshotFactory.Apply(context.PlayerPawn, BuildTemplates.Glasscannon());
+            snapshot = BuildSnapshotFactory.ToSnapshot(context.PlayerPawn, "player", "roundtrip", CombatReplay.DefaultRunSeed);
+        }
+
+        CombatReplay.AssertDeterministic(
+            CombatReplay.DefaultRunSeed,
+            context => BuildSnapshotFactory.Apply(context.PlayerPawn, snapshot));
     }
 }

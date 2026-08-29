@@ -22,6 +22,19 @@ public class GameScene : Scene
         Core.Context = _context;
         _context.OnStateChanged += HandleOnStateChanged;
 
+        DebugSettings.DetectLaunchFlags();
+
+        if (DebugSettings.TestSimMode)
+        {
+            _context.Initialize(TestSimSettings.Seed);
+            var zone = _context.World.Zones.OrderBy(z => z.ZoneDef.Stage).FirstOrDefault();
+            if (zone != null)
+            {
+                _context.EnterZone(zone.ZoneDef);
+            }
+            return;
+        }
+
         if (File.Exists("save.xml"))
         {
             _context.Load("save.xml");

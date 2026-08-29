@@ -231,9 +231,18 @@ public class Core : Game
         // Initialize UI scaling
         UpdateUiScale();
 
+        DebugSettings.DetectLaunchFlags();
+
         Scene.RegisterScene(new MainMenuScene());
         Scene.RegisterScene(new GameScene());
-        ChangeScene<MainMenuScene>();
+        if (DebugSettings.TestSimMode)
+        {
+            ChangeScene<GameScene>();
+        }
+        else
+        {
+            ChangeScene<MainMenuScene>();
+        }
 
         _fixedUpdateTimer.Start();
 

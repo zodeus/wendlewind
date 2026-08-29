@@ -75,6 +75,21 @@ public class Zone : IExposable, IIdentityProvider, IHasContext
         ActiveEncounter.State = EncounterState.InProgress;
     }
 
+    public void StartHumanDuel(Pawn player, Pawn enemy, int? seed = null)
+    {
+        ActiveEncounter?.Dispose();
+        ActiveEncounter = CombatGenerator.GenerateHumanDuel(Context, player, enemy, this, seed);
+        ChangeState(ZoneState.Combat);
+        ActiveEncounter.State = EncounterState.InProgress;
+    }
+
+    public void ReturnToPreparation()
+    {
+        ActiveEncounter?.Dispose();
+        ActiveEncounter = null;
+        ChangeState(ZoneState.Preparation);
+    }
+
     public void Alert(ScreenMessageData message)
     {
         OnZoneMessage?.Invoke(message);

@@ -39,13 +39,6 @@ public interface IPotionHandler
     /// Get a description of what this potion does.
     /// </summary>
     string GetEffectDescription();
-    
-    /// <summary>
-    /// Attempts to automatically consume this potion during combat if conditions are met.
-    /// </summary>
-    /// <param name="pawn">The pawn carrying the potion</param>
-    /// <returns>The result if consumed, null if conditions weren't met</returns>
-    PotionUseResult? TryAutoUse(Pawn pawn);
 }
 
 /// <summary>

@@ -14,7 +14,6 @@ public class BlackenedSmokeHandler : PotionHandler
 
     public override bool CanUseInCombat => true;
     public override bool CanUseOutsideCombat => false;
-    public override bool CanAutoUse => false;
     private const double BlackLungPower = 1;
 
     public override PotionUseResult UseInCombat(Pawn user, Pawn? target = null)

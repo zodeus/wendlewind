@@ -19,6 +19,15 @@
         <TexturePath>Entities/Item/Potion/JarOfBlood</TexturePath>
         <PotionProperties>
             <HandlerClass>JarOfBloodHandler</HandlerClass>
+            <DefaultTrigger>
+                <Type>SelfBloodBelow</Type>
+                <Threshold>0.1</Threshold>
+            </DefaultTrigger>
+            <AllowedTriggerTypes>
+                <ListItem>SelfBloodBelow</ListItem>
+                <ListItem>Immediately</ListItem>
+                <ListItem>AfterSeconds</ListItem>
+            </AllowedTriggerTypes>
         </PotionProperties>
     </ItemDef>
     <ItemDef ParentName="Potion">
@@ -28,6 +37,15 @@
         <TexturePath>Entities/Item/Potion/AcidFlask</TexturePath>
         <PotionProperties>
             <HandlerClass>AcidFlaskHandler</HandlerClass>
+            <DefaultTrigger>
+                <Type>AfterSeconds</Type>
+                <AfterSeconds>5</AfterSeconds>
+            </DefaultTrigger>
+            <AllowedTriggerTypes>
+                <ListItem>AfterSeconds</ListItem>
+                <ListItem>Immediately</ListItem>
+                <ListItem>EnemyBloodBelow</ListItem>
+            </AllowedTriggerTypes>
         </PotionProperties>
         <CraftingProperties>
             <AmountProduced>2</AmountProduced>
@@ -57,6 +75,17 @@
         <TexturePath>Entities/Item/Potion/SpicedChurni</TexturePath>
         <PotionProperties>
             <HandlerClass>SpicedChurniHandler</HandlerClass>
+            <DefaultTrigger>
+                <Type>SelfPartsDamaged</Type>
+                <Threshold>0.4</Threshold>
+                <HealthThreshold>0.6</HealthThreshold>
+            </DefaultTrigger>
+            <AllowedTriggerTypes>
+                <ListItem>SelfPartsDamaged</ListItem>
+                <ListItem>SelfBloodBelow</ListItem>
+                <ListItem>Immediately</ListItem>
+                <ListItem>AfterSeconds</ListItem>
+            </AllowedTriggerTypes>
         </PotionProperties>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
@@ -89,6 +118,15 @@
         <TexturePath>Entities/Item/Potion/PussBomb</TexturePath>
         <PotionProperties>
             <HandlerClass>PussBombHandler</HandlerClass>
+            <DefaultTrigger>
+                <Type>AfterSeconds</Type>
+                <AfterSeconds>4</AfterSeconds>
+            </DefaultTrigger>
+            <AllowedTriggerTypes>
+                <ListItem>AfterSeconds</ListItem>
+                <ListItem>Immediately</ListItem>
+                <ListItem>EnemyBloodBelow</ListItem>
+            </AllowedTriggerTypes>
         </PotionProperties>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
@@ -121,6 +159,14 @@
         <TexturePath>Entities/Item/Potion/Fleshify</TexturePath>
         <PotionProperties>
             <HandlerClass>FleshifyHandler</HandlerClass>
+            <DefaultTrigger>
+                <Type>Immediately</Type>
+            </DefaultTrigger>
+            <AllowedTriggerTypes>
+                <ListItem>Immediately</ListItem>
+                <ListItem>AfterSeconds</ListItem>
+                <ListItem>SelfBloodBelow</ListItem>
+            </AllowedTriggerTypes>
         </PotionProperties>
         <CraftingProperties>    
             <AmountProduced>1</AmountProduced>
@@ -161,6 +207,15 @@
         <TexturePath>Entities/Item/Potion/BlackenedSmoke</TexturePath>
         <PotionProperties>
             <HandlerClass>BlackenedSmokeHandler</HandlerClass>
+            <DefaultTrigger>
+                <Type>AfterSeconds</Type>
+                <AfterSeconds>3</AfterSeconds>
+            </DefaultTrigger>
+            <AllowedTriggerTypes>
+                <ListItem>AfterSeconds</ListItem>
+                <ListItem>Immediately</ListItem>
+                <ListItem>EnemyBloodBelow</ListItem>
+            </AllowedTriggerTypes>
         </PotionProperties>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
@@ -194,6 +249,14 @@
         <TexturePath>Entities/Item/Potion/StrengthPotion</TexturePath>
         <PotionProperties>
             <HandlerClass>StrengthPotionHandler</HandlerClass>
+            <DefaultTrigger>
+                <Type>Immediately</Type>
+            </DefaultTrigger>
+            <AllowedTriggerTypes>
+                <ListItem>Immediately</ListItem>
+                <ListItem>AfterSeconds</ListItem>
+                <ListItem>SelfBloodBelow</ListItem>
+            </AllowedTriggerTypes>
         </PotionProperties>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
@@ -226,6 +289,15 @@
         <TexturePath>Entities/Item/Potion/AntiStaticFlask</TexturePath>
         <PotionProperties>
             <HandlerClass>AntiStaticFlaskHandler</HandlerClass>
+            <DefaultTrigger>
+                <Type>AfterSeconds</Type>
+                <AfterSeconds>8</AfterSeconds>
+            </DefaultTrigger>
+            <AllowedTriggerTypes>
+                <ListItem>AfterSeconds</ListItem>
+                <ListItem>Immediately</ListItem>
+                <ListItem>SelfBloodBelow</ListItem>
+            </AllowedTriggerTypes>
         </PotionProperties>
         <CraftingProperties>
             <AmountProduced>2</AmountProduced>

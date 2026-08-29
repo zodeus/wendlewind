@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <OutputType>WinExe</OutputType>
+        <OutputType>Exe</OutputType>
         <AssemblyName>Wendlewind</AssemblyName>
         <RootNamespace>Wendlewind</RootNamespace>
         <PublishReadyToRun>false</PublishReadyToRun>

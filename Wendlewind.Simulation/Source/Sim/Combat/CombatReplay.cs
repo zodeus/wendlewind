@@ -19,12 +19,13 @@ public static class CombatReplay
         int Ticks,
         string? CauseOfDeath);
 
-    public static Result Run(int runSeed = DefaultRunSeed)
+    public static Result Run(int runSeed = DefaultRunSeed, Action<GameContext>? configure = null)
     {
         using var root = SimServices.BuildRoot();
         using var scope = root.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<GameContext>();
         context.Initialize(runSeed);
+        configure?.Invoke(context);
 
         var zone = context.World.Zones.OrderBy(z => z.ZoneDef.Stage).First();
         context.EnterZone(zone.ZoneDef);
@@ -56,10 +57,10 @@ public static class CombatReplay
             CauseOfDeath: handler?.CauseOfDeath);
     }
 
-    public static Result AssertDeterministic(int runSeed = DefaultRunSeed)
+    public static Result AssertDeterministic(int runSeed = DefaultRunSeed, Action<GameContext>? configure = null)
     {
-        var first = Run(runSeed);
-        var second = Run(runSeed);
+        var first = Run(runSeed, configure);
+        var second = Run(runSeed, configure);
 
         if (first != second)
         {

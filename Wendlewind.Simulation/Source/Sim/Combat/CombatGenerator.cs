@@ -30,6 +30,26 @@ public static class CombatGenerator
         return encounter;
     }
 
+    public static Encounter GenerateHumanDuel(GameContext context, Pawn playerPawn, Pawn enemyPawn, Zone zone, int? seed = null)
+    {
+        int encounterSeed = seed ?? SeedUtility.EncounterSeed(
+            context.RunSeed,
+            zone.ZoneDef.Moniker,
+            zone.Stage);
+
+        context.Rng = new Random(encounterSeed);
+
+        Encounter encounter = new(zone, new EncounterProperties(), weather: null)
+        {
+            Seed = encounterSeed,
+            Context = context
+        };
+        encounter.AddPlayerPawn(playerPawn);
+        encounter.AddEnemyPawn(enemyPawn);
+        encounter.Initialize();
+        return encounter;
+    }
+
     private static void GenerateEnemies(Encounter encounter)
     {
         // todo only handling a single enemy

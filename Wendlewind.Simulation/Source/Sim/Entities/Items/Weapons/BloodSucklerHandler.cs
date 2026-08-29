@@ -81,8 +81,9 @@ public class BloodSucklerHandler : WeaponHandler
             return;
         }
 
-        // Determine how many parts to heal
-        var partsToHeal = Context.Rng.Next(MinPartsToHeal, Math.Min(MaxPartsToHeal + 1, damagedParts.Count + 1));
+        var upper = Math.Min(MaxPartsToHeal, damagedParts.Count);
+        var lower = Math.Min(MinPartsToHeal, upper);
+        var partsToHeal = lower >= upper ? upper : Context.Rng.Next(lower, upper + 1);
 
         // Shuffle and take random parts
         var partsToHealList = damagedParts

@@ -258,24 +258,12 @@ public sealed class PotionPanel : EntityPanelBase
             Widgets = { outsideIcon, outsideLabel }
         });
 
-        // Auto use indicator
-        var autoUseIcon = new Image
+        var triggerText = item.PotionTrigger?.Describe() ?? "No combat trigger";
+        usagePanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
         {
-            Width = 20,
-            Height = 20,
-            Background = handler.CanAutoUse ? Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Checkmark] : Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.X],
-            Color = handler.CanAutoUse ? new Color(120, 220, 120) : new Color(160, 100, 100)
-        };
-        var autoUseLabel = new Label(BaseContent.Styles.Label.Small)
-        {
-            Text = "Auto Use",
-            TextColor = handler.CanAutoUse ? new Color(120, 220, 120) : new Color(160, 100, 100),
+            Text = triggerText,
+            TextColor = item.PotionTrigger != null ? new Color(120, 220, 120) : new Color(160, 100, 100),
             VerticalAlignment = VerticalAlignment.Center
-        };
-        usagePanel.Widgets.Add(new HorizontalStackPanel
-        {
-            Spacing = 6,
-            Widgets = { autoUseIcon, autoUseLabel }
         });
 
         return usagePanel;

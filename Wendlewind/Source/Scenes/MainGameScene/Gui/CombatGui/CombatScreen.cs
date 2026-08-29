@@ -1,5 +1,7 @@
 using Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 using Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
+using TestSimLauncher = Wendlewind.Scenes.MainGameScene.TestSimLauncher;
+using TestSimSettings = Wendlewind.Scenes.MainGameScene.TestSimSettings;
 
 namespace Wendlewind.Scenes.MainGameScene.Gui.CombatGui;
 
@@ -14,11 +16,6 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     private readonly CombatControlPanel _controlPanel;
     private readonly PawnBodyPanel _pawnBodyView;
     private readonly PawnBodyPanel _enemyPawnBodyView;
-    private CursorButton _playerQueuedPotionSlot;
-    private Item? _playerQueuedPotion;
-    private CursorButton _enemyQueuedPotionSlot;
-    private Item? _enemyQueuedPotion;
-    private readonly HorizontalStackPanel _potionQueuePanel;
     private readonly Label _tickLabel;
     private Window? _combatLogWindow;
     private CombatSummaryWindow? _summaryWindow;
@@ -73,29 +70,6 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             Content = new VerticalStackPanel { Padding = new Thickness(0), Spacing = 12 }
         };
 
-        _playerQueuedPotionSlot = new CursorButton(BaseContent.Styles.Button.Icon)
-        {
-            Width = 64,
-            Height = 64
-        };
-        _playerQueuedPotionSlot.Click += (_, _) => Encounter.CombatHandler?.DeQueuedItemForPawn(Encounter.PlayerPawns[0]);
-        _enemyQueuedPotionSlot = new CursorButton(BaseContent.Styles.Button.Icon)
-        {
-            Width = 64,
-            Height = 64
-        };
-        var separator = new VerticalSeparator { HorizontalAlignment = HorizontalAlignment.Center };
-        _potionQueuePanel = new HorizontalStackPanel
-        {
-            Margin = new Thickness(5, 20, 5, 5),
-            Widgets =
-            {
-                _playerQueuedPotionSlot,
-                separator,
-                _enemyQueuedPotionSlot,
-            }
-        };
-        SetProportionType(separator, ProportionType.Fill);
         _tickLabel = new Label(BaseContent.Styles.Label.Normal)
         {
             Margin = new Thickness(0, 15, 0, 15),
@@ -112,6 +86,35 @@ public class CombatScreen : VerticalStackPanel, IDisposable
                 Text = "Logs"
             }
         };
+        var rematchButton = new CursorButton(BaseContent.Styles.Button.Normal)
+        {
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Visible = DebugSettings.TestSimMode,
+            Content = new Label(BaseContent.Styles.Label.Small) { Text = "Rematch" }
+        };
+        rematchButton.Click += (_, _) => TestSimLauncher.Rematch(_context);
+
+        var rerollButton = new CursorButton(BaseContent.Styles.Button.Normal)
+        {
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Visible = DebugSettings.TestSimMode,
+            Content = new Label(BaseContent.Styles.Label.Small) { Text = "Reroll" }
+        };
+        rerollButton.Click += (_, _) => TestSimLauncher.Reroll(_context);
+
+        var swapButton = new CursorButton(BaseContent.Styles.Button.Normal)
+        {
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Visible = DebugSettings.TestSimMode,
+            Content = new Label(BaseContent.Styles.Label.Small) { Text = "Swap" }
+        };
+        swapButton.Click += (_, _) =>
+        {
+            (TestSimSettings.AttackerBuildId, TestSimSettings.DefenderBuildId) =
+                (TestSimSettings.DefenderBuildId, TestSimSettings.AttackerBuildId);
+            TestSimLauncher.Rematch(_context);
+        };
+
         logsButton.TouchDown += (_, _) =>
         {
             _combatLogWindow ??= new Window { Content = _combatLog };
@@ -155,9 +158,11 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             Widgets =
             {
                 _controlPanel,
-                _potionQueuePanel,
                 _tickLabel,
                 logsButton,
+                rematchButton,
+                rerollButton,
+                swapButton,
                 _showSummaryButton
             }
         };
@@ -280,7 +285,10 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
     private void ShowCombatSummary()
     {
-        _summaryWindow = new CombatSummaryWindow(Encounter, () => Encounter.Zone.CombatResults());
+        Action onContinue = DebugSettings.TestSimMode
+            ? () => TestSimLauncher.ReturnToSelector(_context)
+            : () => Encounter.Zone.CombatResults();
+        _summaryWindow = new CombatSummaryWindow(Encounter, onContinue);
         _summaryWindow.OnReviewRequested += OnReviewRequested;
         _summaryWindow.Show(_gui.Desktop);
         CenterSummaryWindow();
@@ -316,34 +324,6 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
     public void Update(float deltaTime)
     {
-        if (Encounter.CombatHandler?.ItemQueuedFor(Encounter.PlayerPawns[0]) is { } potion)
-        {
-            if (!Equals(_playerQueuedPotion, potion))
-            {
-                _playerQueuedPotion = potion;
-                _playerQueuedPotionSlot.Content = new Image { Background = new TextureRegion(potion.GetIcon()), Width = 64, Height = 64 };
-            }
-        }
-        else if (_playerQueuedPotionSlot.Content != null)
-        {
-            _playerQueuedPotion = null;
-            _playerQueuedPotionSlot.Content = null;
-        }
-
-        if (Encounter.CombatHandler?.ItemQueuedFor(Encounter.EnemyPawns[0]) is { } enemyPotion)
-        {
-            if (!Equals(_enemyQueuedPotion, enemyPotion))
-            {
-                _enemyQueuedPotion = enemyPotion;
-                _enemyQueuedPotionSlot.Content = new Image { Background = new TextureRegion(enemyPotion.GetIcon()), Width = 64, Height = 64 };
-            }
-        }
-        else if (_enemyQueuedPotionSlot.Content != null)
-        {
-            _enemyQueuedPotion = null;
-            _enemyQueuedPotionSlot.Content = null;
-        }
-
         _tickLabel.Text = $"{_context.CurrentZone?.ActiveEncounter?.Ticks}";
         _gameHud.Update();
         _playerPartyPanel.Update(deltaTime);

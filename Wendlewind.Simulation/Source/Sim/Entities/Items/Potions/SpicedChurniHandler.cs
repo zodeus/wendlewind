@@ -13,7 +13,6 @@ public class SpicedChurniHandler : PotionHandler
 
     public override bool CanUseInCombat => true;
     public override bool CanUseOutsideCombat => false;
-    public override bool CanAutoUse => true;
     
     public override PotionUseResult UseInCombat(Pawn user, Pawn? target = null)
     {
@@ -39,23 +38,6 @@ public class SpicedChurniHandler : PotionHandler
             alertMessage: $"{actualTarget.Label} is absorbing the spices",
             alertColor: Color.GreenYellow
         );
-    }
-    
-    public override PotionUseResult? TryAutoUse(Pawn pawn)
-    {
-        var externalParts = pawn.Body.AllExternalParts;
-        
-        // Check if both eyes are destroyed
-        var eyes = externalParts.Where(p => p.Type == BodyPartType.Eye).ToList();
-        if (eyes.Count > 0 && eyes.All(e => !e.IsFunctional))
-            return UseInCombat(pawn);
-        
-        // Check if 50% of external parts are below 50% health
-        var damagedCount = externalParts.Count(p => p.HealthPercent < 0.6);
-        if (damagedCount >= externalParts.Count * 0.4)
-            return UseInCombat(pawn);
-        
-        return null;
     }
     
     public override string GetEffectDescription()

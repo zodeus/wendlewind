@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Wendlewind.Simulation\Wendlewind.Simulation.csproj" />
+    <ProjectReference Include="..\Wendlewind.NetCode\Wendlewind.NetCode.csproj" />
   </ItemGroup>
 
   <ItemGroup>

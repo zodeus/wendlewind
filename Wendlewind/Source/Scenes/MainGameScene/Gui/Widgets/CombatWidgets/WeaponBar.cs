@@ -8,9 +8,12 @@ public sealed class WeaponBar : HorizontalStackPanel, IUpdatable
     private readonly Pawn _pawn;
     private List<KeyValuePair<Item, (ColoredRegion, BodyPart)>> _weapons = new();
 
-    public WeaponBar(Pawn pawn)
+    private readonly bool _readOnly;
+
+    public WeaponBar(Pawn pawn, bool readOnly = false)
     {
         _pawn = pawn;
+        _readOnly = readOnly;
         Refresh();
     }
 
@@ -58,11 +61,14 @@ public sealed class WeaponBar : HorizontalStackPanel, IUpdatable
                     Height = BaseContent.IconSizes.Medium,
                 }
             };
-            button.TouchDown += (_, _) =>
+            if (!_readOnly)
             {
-                weapon.UseInCombat = !weapon.UseInCombat;
-                backgroundImage.Color = weapon.UseInCombat ? EnabledWeaponColor : DisabledWeaponColor;
-            };
+                button.TouchDown += (_, _) =>
+                {
+                    weapon.UseInCombat = !weapon.UseInCombat;
+                    backgroundImage.Color = weapon.UseInCombat ? EnabledWeaponColor : DisabledWeaponColor;
+                };
+            }
             Widgets.Add(button);
             _weapons.Add(new KeyValuePair<Item, (ColoredRegion, BodyPart)>(weapon, (backgroundImage, bodyPart)));
         }

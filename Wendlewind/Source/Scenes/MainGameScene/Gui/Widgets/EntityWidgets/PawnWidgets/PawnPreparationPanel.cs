@@ -12,6 +12,7 @@ public class PawnPreparationPanel : Panel, IUpdatable
     private readonly SupplyItemsBar _supplyItemsBar;
     private readonly FoodItemsBar _foodItemsBar;
     private readonly IncenseItemsBar _incenseItemsBar;
+    private readonly CombatConfigPanel _combatConfigPanel;
     private Panel _controlsPanel;
 
     public PawnPreparationPanel(BaseGui gui, Pawn playerPawn)
@@ -56,6 +57,8 @@ public class PawnPreparationPanel : Panel, IUpdatable
         _supplyItemsBar = new SupplyItemsBar(gui, playerPawn.Inventory);
         _foodItemsBar = new FoodItemsBar(gui, playerPawn);
         _incenseItemsBar = new IncenseItemsBar(gui, Core.Context.Player);
+        _combatConfigPanel = new CombatConfigPanel(playerPawn);
+        centerColumn.Widgets.Add(_combatConfigPanel);
         var consumableBarsContainer = new HorizontalStackPanel { Spacing = 12 };
         consumableBarsContainer.Widgets.Add(_supplyItemsBar);
         consumableBarsContainer.Widgets.Add(_incenseItemsBar);
@@ -94,5 +97,6 @@ public class PawnPreparationPanel : Panel, IUpdatable
         _supplyItemsBar.Update();
         _foodItemsBar.Update();
         _incenseItemsBar.Update();
+        _combatConfigPanel.Update();
     }
 }

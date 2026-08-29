@@ -18,7 +18,7 @@ public class Encounter(Zone zone, EncounterProperties def, WeatherDef? weather =
 
     public void Initialize()
     {
-        if (Def.Enemies.Count > 0)
+        if (EnemyPawns.Count > 0)
         {
             CombatHandler = new CombatHandler(this) { Context = Context };
         }

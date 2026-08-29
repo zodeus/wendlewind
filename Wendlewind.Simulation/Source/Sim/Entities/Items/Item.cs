@@ -34,6 +34,7 @@ public class Item : Entity, IExposable
 
     public bool CanBeDestroyed => ItemDef.ItemType == ItemType.Equipment;
     public bool UseInCombat = true;
+    public PotionTrigger? PotionTrigger;
 
     public ItemEnchantments? Enchantments;
 
@@ -73,6 +74,8 @@ public class Item : Entity, IExposable
             {
                 PotionHandler.Potion = this;
             }
+
+            PotionTrigger ??= ItemDef.PotionProperties.DefaultTrigger?.Clone();
         }
 
         if (ItemDef.WeaponProperties?.HandlerClass != null)
@@ -168,6 +171,7 @@ public class Item : Entity, IExposable
         ScribeValues.Look(ref MaxDurability, "MaxDurability");
         ScribeValues.Look(ref _stackSize, "StackSize");
         ScribeValues.Look(ref UseInCombat, "UseInCombat");
+        ScribeDeep.Look(ref PotionTrigger!, "PotionTrigger");
         ScribeDeep.Look(ref Enchantments!, "Enchantments");
         ScribeDeep.Look(ref EnchantmentHandler!, "EnchantmentHandler");
         ScribeDeep.Look(ref TrinketHandler!, "TrinketHandler");

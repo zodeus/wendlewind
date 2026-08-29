@@ -67,7 +67,7 @@ public class Player : IExposable, IHasContext
     {
         var pawn = PawnGenerator.CreatePawn(
             Context,
-            new PawnRequest($"Human (specimen Alpha)",
+            new PawnRequest($"Bilbert",
             DefRepository<PawnDef>.GetByMoniker("HumanA")!,
             Defs.PawnLoadouts.DefaultStarterLoadout, PawnType.Player)
         );

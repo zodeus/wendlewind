@@ -13,7 +13,6 @@ public class JarOfBloodHandler : PotionHandler
 
     public override bool CanUseInCombat => true;
     public override bool CanUseOutsideCombat => true;
-    public override bool CanAutoUse => true;
     
     public override PotionUseResult UseInCombat(Pawn user, Pawn? target = null)
     {
@@ -41,12 +40,5 @@ public class JarOfBloodHandler : PotionHandler
     public override string GetEffectDescription()
     {
         return "Instantly restores all lost blood.";
-    }
-    
-    public override PotionUseResult? TryAutoUse(Pawn pawn)
-    {
-        if (pawn.Body.BloodPercent < .1f)
-            return UseInCombat(pawn);
-        return null;
     }
 }

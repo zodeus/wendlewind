@@ -29,7 +29,6 @@ public class CombatHandler : IDisposable, IHasContext
     private readonly Encounter _encounter;
     private readonly Random _rng;
     public GameContext Context { get; set; } = null!;
-    private readonly Dictionary<Pawn, Item> _queuedItems = new();
     public EntityContainer Loot = new();
     public List<ResourceCount> CollectedLoot { get; } = [];
     public readonly List<BodyPart> SeveredLimbs = [];
@@ -231,23 +230,30 @@ public class CombatHandler : IDisposable, IHasContext
 
         Attack(Enemy, Player);
 
-        AutoConsumePotions(Player);
-        AutoConsumePotions(Enemy);
-
-        AutoQueueEnemyPotions();
+        EvaluatePotionTriggers(Player, Enemy);
+        EvaluatePotionTriggers(Enemy, Player);
 
         Enemy.Tick();
     }
 
-    private void AutoConsumePotions(Pawn pawn)
+    private void EvaluatePotionTriggers(Pawn self, Pawn enemy)
     {
-        foreach (var potion in pawn.Equipment.Potions.ToList())
+        foreach (var potion in self.Equipment.Potions.ToList())
         {
-            if (potion.PotionHandler?.TryAutoUse(pawn) is not { } result) 
+            if (potion.PotionTrigger?.ShouldFire(self, enemy, _encounter.Ticks) != true)
+            {
                 continue;
-            
+            }
+
+            if (potion.PotionHandler == null)
+            {
+                continue;
+            }
+
+            var result = potion.PotionHandler.UseInCombat(self, enemy);
             LogMessage(result.Message);
-            if (result.AlertMessage != null && pawn.PawnType == PawnType.Player)
+
+            if (result.AlertMessage != null && self.PawnType == PawnType.Player)
             {
                 _encounter.Zone.Alert(new ScreenMessageData
                 {
@@ -256,23 +262,15 @@ public class CombatHandler : IDisposable, IHasContext
                     Color = result.AlertColor
                 });
             }
-            pawn.Equipment.UnEquip(potion);
-            Context.Achievements.OnItemUsed(pawn, potion);
-            potion.Destroy();
-        }
-    }
 
-    private void AutoQueueEnemyPotions()
-    {
-        if (ItemQueuedFor(Enemy) != null || !Context.Rng.Chance(0.01f)) return;
-
-        var usablePotions = new List<ItemDef> { Defs.Items.AcidFlask, Defs.Items.SpicedChurni };
-        foreach (var potionDef in usablePotions)
-        {
-            if (Enemy.Equipment.PotionByDef(potionDef) is { } potion)
+            if (!result.Success)
             {
-                QueueItemForPawn(potion, Enemy);
+                continue;
             }
+
+            self.Equipment.UnEquip(potion);
+            Context.Achievements.OnItemUsed(self, potion);
+            potion.Destroy();
         }
     }
 
@@ -282,8 +280,6 @@ public class CombatHandler : IDisposable, IHasContext
         {
             return;
         }
-
-        HandleQueuedItem(attacker, victim);
 
         attacker.ResetAttackCoolDown();
         var damageOptions = attacker.Equipment.UsableWeapons
@@ -302,67 +298,6 @@ public class CombatHandler : IDisposable, IHasContext
         victim.TakeDamage(damageRequest);
         
         attacker.Body.ConsumeEnergyFromAttack();
-    }
-
-    private void HandleQueuedItem(Pawn pawn, Pawn target)
-    {
-        if (DeQueuedItemForPawn(pawn) is not { } item) return;
-
-        if (item is { ItemDef: { ItemType: ItemType.Potion } } potion)
-        {
-            // Track potion usage for achievements (player only)
-            if (pawn.PawnType == PawnType.Player)
-            {
-                Context.Achievements.OnItemUsed(pawn, potion);
-            }
-
-            // Use the potion handler if available
-            if (potion.PotionHandler != null)
-            {
-                var result = potion.PotionHandler.UseInCombat(pawn, target);
-                LogMessage(result.Message);
-                
-                if (result.AlertMessage != null)
-                {
-                    _encounter.Zone.Alert(new ScreenMessageData
-                    {
-                        Text = result.AlertMessage,
-                            Duration = 8,
-                        Color = result.AlertColor
-                    });
-                }
-            }
-            else
-            {
-                // Fallback for potions without handlers
-                LogMessage($"/c[{TC.Attacker}]{pawn.LabelShort} /c[{TC.Yellow}]used /c[{TC.Item}]{potion.Label}");
-            }
-
-            pawn.Equipment.UnEquip(potion);
-            potion.Destroy();
-        }
-    }
-
-    public void QueueItemForPawn(Item potion, Pawn pawn)
-    {
-        _queuedItems[pawn] = potion;
-    }
-
-    public Item? DeQueuedItemForPawn(Pawn pawn)
-    {
-        if (_queuedItems.ContainsKey(pawn))
-        {
-            var potion = _queuedItems[pawn];
-            _queuedItems.Remove(pawn);
-            return potion;
-        }
-
-        return null;
-    }
-
-    public Item? ItemQueuedFor(Pawn pawn)
-    {
-        return _queuedItems.ContainsKey(pawn) ? _queuedItems[pawn] : null;
     }
 
     private void EndCombat()

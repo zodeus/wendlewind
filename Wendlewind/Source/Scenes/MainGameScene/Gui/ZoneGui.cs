@@ -9,6 +9,7 @@ public class ZoneGui : BaseGui
     private readonly WorldTextHandler _worldTextHandler;
     private readonly Zone _zone;
     private CombatPreparationScreen? _combatPreparationScreen;
+    private TestSimSelectorScreen? _testSimSelectorScreen;
     private CombatScreen? _combatScreen;
     private MysteryScreen? _shrineScreen;
     private CombatResultsScreen? _combatResultsScreen;
@@ -46,6 +47,8 @@ public class ZoneGui : BaseGui
 
         _combatPreparationScreen?.RemoveFromParent();
         _combatPreparationScreen = null;
+        _testSimSelectorScreen?.RemoveFromParent();
+        _testSimSelectorScreen = null;
 
         _combatResultsScreen?.RemoveFromParent();
         _combatResultsScreen = null;
@@ -64,8 +67,16 @@ public class ZoneGui : BaseGui
         switch (state)
         {
             case ZoneState.Preparation:
-                _combatPreparationScreen = new CombatPreparationScreen(this, _context);
-                (Desktop.Root as Panel)!.Widgets.Add(_combatPreparationScreen);
+                if (DebugSettings.TestSimMode)
+                {
+                    _testSimSelectorScreen = new TestSimSelectorScreen(_context);
+                    (Desktop.Root as Panel)!.Widgets.Add(_testSimSelectorScreen);
+                }
+                else
+                {
+                    _combatPreparationScreen = new CombatPreparationScreen(this, _context);
+                    (Desktop.Root as Panel)!.Widgets.Add(_combatPreparationScreen);
+                }
                 break;
             case ZoneState.Combat:
                 _combatScreen = new CombatScreen(this, _context);
@@ -88,6 +99,7 @@ public class ZoneGui : BaseGui
     public override void Update(float deltaTime)
     {
         _combatPreparationScreen?.Update();
+        _testSimSelectorScreen?.Update();
         _combatScreen?.Update(deltaTime);
         _combatResultsScreen?.Update();
         _shrineScreen?.Update(deltaTime);

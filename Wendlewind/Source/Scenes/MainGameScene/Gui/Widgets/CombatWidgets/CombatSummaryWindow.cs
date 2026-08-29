@@ -21,7 +21,7 @@ public sealed class CombatSummaryWindow : Window
         }
         else
         {
-            Content = BuildDeathReportContent(encounter, handler);
+            Content = BuildDeathReportContent(encounter, handler, onContinue);
         }
     }
 
@@ -188,7 +188,7 @@ public sealed class CombatSummaryWindow : Window
         return content;
     }
 
-    private Widget BuildDeathReportContent(Encounter encounter, CombatHandler handler)
+    private Widget BuildDeathReportContent(Encounter encounter, CombatHandler handler, Action onContinue)
     {
         var deathRecords = Core.Context.DeathRecords.List;
         var totalDamageAllRuns = deathRecords.Sum(r => r.TotalDamageDealt) + handler.TotalDirectPlayerDamage;
@@ -317,7 +317,14 @@ public sealed class CombatSummaryWindow : Window
         restartButton.Click += (_, _) =>
         {
             Close();
-            Core.Context.StartOver();
+            if (DebugSettings.TestSimMode)
+            {
+                onContinue();
+            }
+            else
+            {
+                Core.Context.StartOver();
+            }
         };
 
         // Build content
