@@ -12,6 +12,8 @@ public sealed record BuildSnapshot
     public string? StanceMoniker { get; init; }
     public WeaponConfig[] Weapons { get; init; } = [];
     public PotionConfig[] Potions { get; init; } = [];
+    public SocketedItemConfig[] Sockets { get; init; } = [];
+    public string[] FoodBuffs { get; init; } = [];
 }
 
 public sealed record WeaponConfig
@@ -27,6 +29,12 @@ public sealed record PotionConfig
     public float Threshold { get; init; }
     public float AfterSeconds { get; init; }
     public float HealthThreshold { get; init; } = 0.6f;
+}
+
+public sealed record SocketedItemConfig
+{
+    public required string ItemMoniker { get; init; }
+    public string[] EnchantmentMonikers { get; init; } = [];
 }
 
 public sealed record MatchRequest
@@ -46,6 +54,7 @@ public sealed record CombatResult
 [JsonSerializable(typeof(BuildSnapshot))]
 [JsonSerializable(typeof(WeaponConfig))]
 [JsonSerializable(typeof(PotionConfig))]
+[JsonSerializable(typeof(SocketedItemConfig))]
 [JsonSerializable(typeof(MatchRequest))]
 [JsonSerializable(typeof(CombatResult))]
 [JsonSerializable(typeof(PotionTriggerType))]

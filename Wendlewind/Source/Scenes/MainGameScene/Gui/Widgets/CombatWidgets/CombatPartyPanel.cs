@@ -1,4 +1,4 @@
-﻿namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
+namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 
 internal sealed class CombatPartyPanel : VerticalStackPanel
 {
@@ -38,5 +38,16 @@ internal sealed class CombatPartyPanel : VerticalStackPanel
     public PawnCombatPanel? GetPanelForPawn(Pawn pawn)
     {
         return _panels.FirstOrDefault(p => p.Pawn == pawn);
+    }
+
+    public void NotifyPotionUsed(int pawnId, string? itemMoniker)
+    {
+        foreach (var panel in _panels)
+        {
+            if (panel.Pawn.Id == pawnId)
+            {
+                panel.NotifyPotionUsed(itemMoniker);
+            }
+        }
     }
 }

@@ -25,6 +25,9 @@ public sealed class BodyPartIcon : Panel
     private readonly ColoredRegion _backgroundTexture;
     private readonly List<Panel> _pipWidgets = new();
     private event Action<BodyPartIcon>? Handler;
+    private float _flashTime;
+    private Color _flashColor = Color.White;
+    private Color _baseColor = Color.White;
 
     public BodyPartIcon(ColoredRegion? imageTexture, Action<BodyPartIcon>? handler = null)
     {
@@ -49,10 +52,38 @@ public sealed class BodyPartIcon : Panel
 
     public void Update()
     {
+        Update(1f / 60f);
+    }
+
+    public void Update(float deltaTime)
+    {
         Handler?.Invoke(this);
+        if (_flashTime <= 0)
+        {
+            return;
+        }
+
+        _flashTime -= deltaTime;
+        var t = Math.Clamp(_flashTime / 0.35f, 0f, 1f);
+        ApplyColor(Color.Lerp(_baseColor, _flashColor, t));
+    }
+
+    public void Flash(Color color)
+    {
+        _flashTime = 0.35f;
+        _flashColor = color;
     }
 
     public void SetColor(Color color)
+    {
+        _baseColor = color;
+        if (_flashTime <= 0)
+        {
+            ApplyColor(color);
+        }
+    }
+
+    private void ApplyColor(Color color)
     {
         _backgroundTexture.Color = color;
         if (_imageTexture != null)

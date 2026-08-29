@@ -144,6 +144,11 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
     
     public void Update()
     {
+        Update(1f / 60f);
+    }
+
+    public void Update(float deltaTime)
+    {
         // Check if we need to regenerate the skeleton (e.g., new parts attached to previously-empty sockets)
         bool needsRegeneration = false;
         foreach (var socketPanel in _socketPanels)
@@ -176,7 +181,7 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
         {
             var socketPanel = _socketPanels[i];
 
-            socketPanel.Update();
+            socketPanel.Update(deltaTime);
             
             // Remove severed parts
             if (socketPanel.Socket.AttachedPart?.IsSevered == true)
@@ -194,5 +199,39 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
 
         _capabilitiesOverlay.Update();
         _medicalItemsBar?.Update();
+    }
+
+    public void AddDamageText(BodyPart? bodyPart, string text, DynamicSpriteFont font, Color color, float duration = 2f)
+    {
+        FindRowForPart(bodyPart)?.AddFloater(text, font, color, duration);
+    }
+
+    public void FlashPart(BodyPart? bodyPart, Color color)
+    {
+        FindRowForPart(bodyPart)?.Flash(color);
+    }
+
+    private BodyPartRow? FindRowForPart(BodyPart? part)
+    {
+        if (part == null)
+        {
+            return null;
+        }
+
+        foreach (var panel in _socketPanels)
+        {
+            var row = panel.PartRow;
+            if (row.BodyPart == null)
+            {
+                continue;
+            }
+
+            if (row.BodyPart == part || row.ContainsPart(part))
+            {
+                return row;
+            }
+        }
+
+        return null;
     }
 }

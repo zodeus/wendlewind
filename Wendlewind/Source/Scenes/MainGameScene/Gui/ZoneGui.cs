@@ -69,7 +69,7 @@ public class ZoneGui : BaseGui
             case ZoneState.Preparation:
                 if (DebugSettings.TestSimMode)
                 {
-                    _testSimSelectorScreen = new TestSimSelectorScreen(_context);
+                    _testSimSelectorScreen = new TestSimSelectorScreen(this, _context);
                     (Desktop.Root as Panel)!.Widgets.Add(_testSimSelectorScreen);
                 }
                 else

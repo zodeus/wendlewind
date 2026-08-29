@@ -93,4 +93,39 @@ public class CombatReplayTests
             CombatReplay.DefaultRunSeed,
             context => BuildSnapshotFactory.Apply(context.PlayerPawn, snapshot));
     }
+
+    [Fact]
+    public void AllTemplatesHydrateLoadout()
+    {
+        using var root = SimServices.BuildRoot();
+        foreach (var template in BuildTemplates.All)
+        {
+            using var scope = root.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<GameContext>();
+            context.Initialize(CombatReplay.DefaultRunSeed);
+            BuildSnapshotFactory.Apply(context.PlayerPawn, template);
+
+            var pawn = context.PlayerPawn;
+            Assert.False(pawn.IsDead, template.BuildId);
+            foreach (var weapon in template.Weapons)
+            {
+                Assert.Contains(pawn.Equipment.Weapons, w => w.Item1.Def.Moniker == weapon.ItemMoniker);
+            }
+
+            foreach (var potion in template.Potions)
+            {
+                Assert.Contains(pawn.Equipment.Potions, p => p.Def.Moniker == potion.ItemMoniker);
+            }
+
+            if (template.Sockets.Length > 0)
+            {
+                Assert.Contains(pawn.Equipment, item => item.Enchantments != null && item.Enchantments.Any());
+            }
+
+            if (template.FoodBuffs.Length > 0)
+            {
+                Assert.True(pawn.Body.Effects.Any(), $"{template.BuildId} should start with food buffs");
+            }
+        }
+    }
 }

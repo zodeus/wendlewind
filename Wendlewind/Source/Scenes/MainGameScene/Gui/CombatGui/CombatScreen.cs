@@ -20,6 +20,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     private Window? _combatLogWindow;
     private CombatSummaryWindow? _summaryWindow;
     private CursorButton? _showSummaryButton;
+    private readonly CombatFloaterRouter _floaterRouter;
 
     private Encounter Encounter => _context.CurrentZone!.ActiveEncounter!;
 
@@ -28,8 +29,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         _gui = gui;
         _context = context;
         Encounter.StateChangedAction += CombatStateChangedAction;
-        Encounter.CombatHandler!.CombatLogMessageAdded += AddCombatLogEntry;
-        Encounter.CombatHandler!.EventOccured += PrintDamage;
+        Encounter.CombatHandler!.CombatEventRecorded += OnCombatEvent;
         Margin = new Thickness(0, 5, 0, 0);
         _gameHud = new GameHud(gui, context)
         {
@@ -208,65 +208,34 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
         Widgets.Add(_gameHud);
         Widgets.Add(grid);
+
+        _floaterRouter = new CombatFloaterRouter(
+            _playerPartyPanel,
+            _opponentPartyPanel,
+            _pawnBodyView,
+            _enemyPawnBodyView,
+            Encounter.PlayerPawns,
+            Encounter.EnemyPawns);
+        _floaterRouter.PotionUsed += OnPotionUsed;
     }
 
-    // Render events to the pawn body widget 
-    private void PrintDamage(CombatEvent combatEvent)
+    private void OnCombatEvent(CombatLogEvent combatEvent)
     {
-        var color = combatEvent.Type switch
+        var logLine = CombatLogFormatter.Format(combatEvent);
+        if (!string.IsNullOrEmpty(logLine))
         {
-            CombatEventType.Damage => new Color(186, 22, 0),
-            CombatEventType.Block => new Color(0, 150, 237),
-            CombatEventType.Dodge => new Color(0, 150, 237),
-            CombatEventType.Miss => Color.Orange,
-            CombatEventType.Heal => Color.GreenYellow,
-            CombatEventType.Buff => Color.GreenYellow,
-            CombatEventType.Debuff => new Color(237, 51, 0),
-            CombatEventType.StatusEffect => Color.Purple,
-            CombatEventType.Death => Color.AntiqueWhite,
-            _ => throw new ArgumentOutOfRangeException()
-        };
+            AddCombatLogEntry(logLine);
+        }
 
-        // Route damage text to the appropriate body widget
-        var partyPanel = combatEvent.Target.PawnType == PawnType.Player
+        _floaterRouter.Handle(combatEvent);
+    }
+
+    private void OnPotionUsed(CombatLogEvent combatEvent)
+    {
+        var party = Encounter.PlayerPawns.Any(p => p.Id == combatEvent.SubjectPawnId)
             ? _playerPartyPanel
             : _opponentPartyPanel;
-
-        var combatPanel = partyPanel.GetPanelForPawn(combatEvent.Target);
-        if (combatPanel?.BodyWidget != null)
-        {
-            // Try to extract a numeric damage value from the text for font scaling
-            var damageAmount = 0f;
-            if (combatEvent.Type == CombatEventType.Damage || combatEvent.Type == CombatEventType.Heal)
-            {
-                // Extract all digits from the text and try to parse as damage
-                var digits = new string(combatEvent.Text.Where(char.IsDigit).ToArray());
-                if (float.TryParse(digits, out var parsed))
-                {
-                    damageAmount = parsed;
-                }
-            }
-
-            var font = combatEvent.Type switch
-            {
-                CombatEventType.Damage => BaseContent.Fonts.Default.VerySmall,
-                CombatEventType.Heal => BaseContent.Fonts.Default.VerySmall,
-                CombatEventType.Block => BaseContent.Fonts.Default.Smallest,
-                CombatEventType.Dodge => BaseContent.Fonts.Default.Smallest,
-                CombatEventType.Miss => BaseContent.Fonts.Default.Smallest,
-                CombatEventType.Buff => BaseContent.Fonts.Default.Smallest,
-                CombatEventType.Debuff => BaseContent.Fonts.Default.Smallest,
-                CombatEventType.Death => BaseContent.Fonts.Default.Small,
-                CombatEventType.StatusEffect => BaseContent.Fonts.Default.Smallest,
-                _ => throw new ArgumentOutOfRangeException()
-            };
-            if (combatEvent.IsCritical)
-            {
-                font = BaseContent.Fonts.Default.Normal;
-                color = Color.Red;
-            }
-            combatPanel.BodyWidget.AddDamageText(combatEvent.BodyPart, combatEvent.Text, font, color, 3f);
-        }
+        party.NotifyPotionUsed(combatEvent.SubjectPawnId, combatEvent.ItemMoniker);
     }
 
     private void CombatStateChangedAction(EncounterState state)
@@ -328,8 +297,9 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         _gameHud.Update();
         _playerPartyPanel.Update(deltaTime);
         _opponentPartyPanel.Update(deltaTime);
-        _pawnBodyView.Update();
-        _enemyPawnBodyView.Update();
+        _pawnBodyView.Update(deltaTime);
+        _enemyPawnBodyView.Update(deltaTime);
+        _floaterRouter.Update(deltaTime);
     }
 
     private void AddCombatLogEntry(string? detailedMessage)
@@ -354,8 +324,8 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     public void Dispose()
     {
         Encounter.StateChangedAction -= CombatStateChangedAction;
-        Encounter.CombatHandler!.CombatLogMessageAdded -= AddCombatLogEntry;
-        Encounter.CombatHandler!.EventOccured -= PrintDamage;
+        Encounter.CombatHandler!.CombatEventRecorded -= OnCombatEvent;
+        _floaterRouter.PotionUsed -= OnPotionUsed;
         if (_summaryWindow != null)
         {
             _summaryWindow.OnReviewRequested -= OnReviewRequested;

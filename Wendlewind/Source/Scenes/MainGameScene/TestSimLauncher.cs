@@ -13,7 +13,8 @@ public static class TestSimLauncher
         var attacker = context.PlayerPawn;
         var defender = CreateHumanOpponent(context);
 
-        BuildSnapshotFactory.Apply(attacker, BuildTemplates.Get(TestSimSettings.AttackerBuildId));
+        var attackerBuild = TestSimSettings.AttackerOverride ?? BuildTemplates.Get(TestSimSettings.AttackerBuildId);
+        BuildSnapshotFactory.Apply(attacker, attackerBuild);
         BuildSnapshotFactory.Apply(defender, BuildTemplates.Get(TestSimSettings.DefenderBuildId));
 
         context.CurrentZone!.StartHumanDuel(attacker, defender, TestSimSettings.Seed);

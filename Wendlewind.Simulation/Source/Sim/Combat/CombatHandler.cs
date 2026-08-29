@@ -2,37 +2,22 @@ using Wendlewind.Sim.Achievements.Handlers;
 
 namespace Wendlewind.Sim.Combat;
 
-public enum CombatEventType
-{
-    Damage,
-    Block,
-    Dodge,
-    Miss,
-    Heal,
-    Buff,
-    Debuff,
-    Death,
-    StatusEffect
-}
-
-public class CombatEvent(Pawn victim, CombatEventType damage, string s, BodyPart? bodyPart = null, bool isCritical = false)
-{
-    public string Text { get; set; } = s;
-    public Pawn Target { get; set; } = victim;
-    public CombatEventType Type { get; set; } = damage;
-    public BodyPart? BodyPart { get; set; } = bodyPart;
-    public bool IsCritical { get; set; } = isCritical;
-}
-
 public class CombatHandler : IDisposable, IHasContext
 {
+    private const int TickHealthFlushInterval = 30;
+
     private readonly Encounter _encounter;
     private readonly Random _rng;
+    private readonly List<CombatLogEvent> _log = [];
+    private readonly Dictionary<(int PawnId, string PartKey), TickHealthAccumulator> _tickHealth = new();
+    private int _lastTickHealthFlush;
+
     public GameContext Context { get; set; } = null!;
     public EntityContainer Loot = new();
     public List<ResourceCount> CollectedLoot { get; } = [];
     public readonly List<BodyPart> SeveredLimbs = [];
-    public event Action<CombatEvent>? EventOccured;
+    public IReadOnlyList<CombatLogEvent> Log => _log;
+    public event Action<CombatLogEvent>? CombatEventRecorded;
     public double TotalDirectPlayerDamage { get; private set; }
     public string? CauseOfDeath { get; private set; }
     public string? KillingWeapon { get; private set; }
@@ -41,7 +26,6 @@ public class CombatHandler : IDisposable, IHasContext
     public Random Rng => _rng;
     public Pawn Player { get; set; }
     public Pawn Enemy { get; set; }
-    public event Action<string>? CombatLogMessageAdded;
 
     public CombatHandler(Encounter encounter)
     {
@@ -53,12 +37,73 @@ public class CombatHandler : IDisposable, IHasContext
 
         Player.DamageTaken += OnDamageTaken;
         Player.Died += OnDeath;
-
         Enemy.DamageTaken += OnDamageTaken;
         Enemy.Died += OnDeath;
 
+        Player.Body.TickHealthChanged += OnTickHealthChanged;
+        Enemy.Body.TickHealthChanged += OnTickHealthChanged;
+
         Player.Body.Handler.OnBloodLost += Context.Achievements.OnBloodLost;
         Enemy.Body.Handler.OnBloodLost += Context.Achievements.OnBloodLost;
+    }
+
+    private void Record(CombatLogEvent combatEvent)
+    {
+        var stamped = combatEvent with { Tick = _encounter.Ticks };
+        _log.Add(stamped);
+        CombatEventRecorded?.Invoke(stamped);
+    }
+
+    private void OnTickHealthChanged(BodyPart part, double delta)
+    {
+        var pawn = part.Body?.Pawn;
+        if (pawn == null || delta == 0)
+        {
+            return;
+        }
+
+        var key = (pawn.Id, part.InternalLabel);
+        if (!_tickHealth.TryGetValue(key, out var acc))
+        {
+            acc = new TickHealthAccumulator(pawn, part);
+            _tickHealth[key] = acc;
+        }
+
+        acc.Delta += delta;
+    }
+
+    private void FlushTickHealth(bool force = false)
+    {
+        if (_tickHealth.Count == 0)
+        {
+            return;
+        }
+
+        if (!force && _encounter.Ticks - _lastTickHealthFlush < TickHealthFlushInterval)
+        {
+            return;
+        }
+
+        _lastTickHealthFlush = _encounter.Ticks;
+        foreach (var acc in _tickHealth.Values)
+        {
+            if (Math.Abs(acc.Delta) < 0.05)
+            {
+                continue;
+            }
+
+            Record(new CombatLogEvent
+            {
+                Kind = acc.Delta > 0 ? CombatEventKind.Heal : CombatEventKind.DamageOverTime,
+                SubjectPawnId = acc.Pawn.Id,
+                SubjectName = acc.Pawn.LabelShort,
+                BodyPartKey = acc.Part.InternalLabel,
+                BodyPartLabel = acc.Part.Label,
+                Amount = Math.Abs(acc.Delta)
+            });
+        }
+
+        _tickHealth.Clear();
     }
 
     private void OnDeath(DeathEvent deathEvent)
@@ -66,9 +111,14 @@ public class CombatHandler : IDisposable, IHasContext
         CauseOfDeath = deathEvent.Record.CauseOfDeath;
         KillingWeapon = deathEvent.Record.KillingWeapon;
         KillingManeuver = deathEvent.Record.KillingManeuver;
-        LogMessage(
-            $"/f[default, 32]/c[{TC.Victim}]{deathEvent.Pawn.LabelShort} /cddied from /c[{TC.Red}]{deathEvent.Record.CauseOfDeath}\n"
-        );
+        FlushTickHealth(force: true);
+        Record(new CombatLogEvent
+        {
+            Kind = CombatEventKind.Death,
+            SubjectPawnId = deathEvent.Pawn.Id,
+            SubjectName = deathEvent.Pawn.LabelShort,
+            Message = deathEvent.Record.CauseOfDeath
+        });
         _encounter.Zone.Alert(
             new ScreenMessageData
             {
@@ -87,7 +137,6 @@ public class CombatHandler : IDisposable, IHasContext
             PawnName = deathEvent.Pawn.LabelShort + (_encounter.AtBoss ? " (Boss)" : "")
         });
 
-        // Track achievement: enemy killed
         if (deathEvent.Pawn.PawnType == PawnType.Enemy)
         {
             Context.Achievements.OnEnemyKilled(deathEvent.Pawn);
@@ -98,10 +147,8 @@ public class CombatHandler : IDisposable, IHasContext
 
     private void OnDamageTaken(Pawn victim, DamageRequest request, DamageResponse response)
     {
-        var logs = new List<string>();
         var attacker = request.Source;
 
-        // Record players severed body parts in order to take its equipment
         if (victim.PawnType == PawnType.Player)
         {
             foreach (var damage in response.Damages.SelectMany(r => r.BodyParts))
@@ -121,86 +168,95 @@ public class CombatHandler : IDisposable, IHasContext
 
         foreach (var damage in response.TrinketDamages)
         {
-            logs.AddRange(LogDamage(victim, attacker, damage, TC.Purple2));
+            RecordDamage(victim, attacker, damage, isTrinket: true);
         }
 
         if (response.Missed)
         {
-            EventOccured?.Invoke(new CombatEvent(attacker, CombatEventType.Miss, $"missed"));
-            logs.Add($"/c[{TC.Attacker}]{attacker.LabelShort} /c[{TC.Blue}]missed /c[{TC.Victim}]{victim.LabelShort}.");
+            Record(new CombatLogEvent
+            {
+                Kind = CombatEventKind.Miss,
+                SubjectPawnId = victim.Id,
+                SubjectName = victim.LabelShort,
+                SourcePawnId = attacker.Id,
+                SourceName = attacker.LabelShort
+            });
         }
         else if (response.Dodged)
         {
-            EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Dodge, $"dodged"));
-            logs.Add($"/c[{TC.Victim}]{victim.LabelShort} /c[{TC.Blue}]dodged attack");
+            Record(new CombatLogEvent
+            {
+                Kind = CombatEventKind.Dodge,
+                SubjectPawnId = victim.Id,
+                SubjectName = victim.LabelShort,
+                SourcePawnId = attacker.Id,
+                SourceName = attacker.LabelShort
+            });
         }
         else
         {
             foreach (var damage in response.Damages)
             {
-                logs.AddRange(LogDamage(victim, attacker, damage, TC.Item));
+                RecordDamage(victim, attacker, damage, isTrinket: false);
             }
-        }
-
-        logs.Reverse();
-        foreach (var log in logs)
-        {
-            LogMessage(log);
         }
     }
 
-    private IEnumerable<string> LogDamage(Pawn victim, Pawn attacker, DamageRecord damage, string weaponColor)
+    private void RecordDamage(Pawn victim, Pawn attacker, DamageRecord damage, bool isTrinket)
     {
-        yield return $"/c[{TC.Attacker}]{attacker} /c[{TC.Default}]hit /c[{TC.Victim}]{victim.LabelShort}'s /c[{TC.BodyPart}]{damage.BodyPartHit.Label}" +
-                     $"/c[{TC.Default}] with /c[{weaponColor}]{damage.WeaponLabel} /c[{TC.Golden}]({damage.WeaponManeuverLabel})" +
-                     $"/c[{TC.Default}] for /c[{TC.Red}]{damage.ActualAmount:N0} /c[{TC.Golden}]{damage.DamageType}/c[{TC.Default}] damage," +
-                     $" blocked /c[#00e6ff]{damage.AmountBlocked}";
-
-        if (damage.ActualAmount > 0)
-        {
-            EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Damage, $"{damage.ActualAmount:N0}", damage.BodyPartHit, damage.IsCritical));
-        }
-
-        if (damage.AmountBlocked > 0)
-        {
-            EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Block, $"{damage.AmountBlocked:N0}", damage.BodyPartHit));
-        }
-
+        var subEffects = new List<CombatSubEffect>();
 
         foreach (var itemRecord in damage.DestroyedEquipment)
         {
-            yield return $"  /c[{TC.Equipment}]{itemRecord.Def.Label} /c[{TC.Red}]destroyed";
+            subEffects.Add(new CombatSubEffect
+            {
+                Kind = CombatEventKind.EquipmentDestroyed,
+                ItemMoniker = itemRecord.Def.Moniker,
+                ItemLabel = itemRecord.Def.Label,
+                Label = itemRecord.Def.Label
+            });
         }
 
         foreach (var partRecord in damage.BodyParts)
         {
             foreach (var modifier in partRecord.AppliedModifiers)
             {
-                EventOccured?.Invoke(new CombatEvent(victim, modifier.Type == BodyPartModifierType.Buff ? CombatEventType.Buff : CombatEventType.Debuff, modifier.Label, partRecord.BodyPart));
-                yield return $"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Default}]afflicted with /c[{TC.Yellow}]{modifier}";
+                subEffects.Add(new CombatSubEffect
+                {
+                    Kind = modifier.Type == BodyPartModifierType.Buff
+                        ? CombatEventKind.BuffApplied
+                        : CombatEventKind.DebuffApplied,
+                    SubjectPawnId = victim.Id,
+                    SubjectName = victim.LabelShort,
+                    BodyPartKey = partRecord.BodyPart.InternalLabel,
+                    BodyPartLabel = partRecord.PartType.ToString(),
+                    Label = modifier.Label
+                });
             }
 
-            if (partRecord is { WasDestroyed: true } && (partRecord.IsVital || partRecord.BodyPart.IsExternal))
+            if (partRecord.WasDestroyed)
             {
-                // EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Damage, $"{partRecord.PartType} destroyed"));
-            }
-
-            if (partRecord is { WasDestroyed: true, IsVital: false })
-            {
-                //EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Damage, $"{partRecord.PartType} destroyed"));
-                yield return $"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]destroyed";
-            }
-
-            if (partRecord is { WasDestroyed: true, IsVital: true })
-            {
-                //EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Damage, $"{partRecord.PartType} destroyed"));
-                yield return $"  /c[{TC.Red}]Vital part /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]destroyed";
+                subEffects.Add(new CombatSubEffect
+                {
+                    Kind = CombatEventKind.PartDestroyed,
+                    SubjectPawnId = victim.Id,
+                    SubjectName = victim.LabelShort,
+                    BodyPartKey = partRecord.BodyPart.InternalLabel,
+                    BodyPartLabel = partRecord.PartType.ToString(),
+                    IsVital = partRecord.IsVital
+                });
             }
 
             if (partRecord.BodyPart.IsExternal && partRecord.WasSevered)
             {
-                EventOccured?.Invoke(new CombatEvent(victim, CombatEventType.Damage, $"{partRecord.PartType} severed", partRecord.BodyPart));
-                yield return $"  /c[{TC.BodyPart}]{partRecord.PartType} /c[{TC.Red}]SEVERED";
+                subEffects.Add(new CombatSubEffect
+                {
+                    Kind = CombatEventKind.PartSevered,
+                    SubjectPawnId = victim.Id,
+                    SubjectName = victim.LabelShort,
+                    BodyPartKey = partRecord.BodyPart.InternalLabel,
+                    BodyPartLabel = partRecord.PartType.ToString()
+                });
                 _encounter.Zone.Alert(
                     new ScreenMessageData
                     {
@@ -213,14 +269,40 @@ public class CombatHandler : IDisposable, IHasContext
 
         foreach (var statusEffect in damage.ReflectedEffects)
         {
-            EventOccured?.Invoke(new CombatEvent(statusEffect.Pawn, CombatEventType.StatusEffect, statusEffect.EffectDef.Label));
-            yield return $"/c[{TC.Purple2}]{statusEffect.Pawn}/c[{TC.Default}]'s " +
-                         $"{statusEffect.Label}";
+            subEffects.Add(new CombatSubEffect
+            {
+                Kind = CombatEventKind.StatusReflected,
+                SubjectPawnId = statusEffect.Pawn.Id,
+                SubjectName = statusEffect.Pawn.Label,
+                Label = statusEffect.Label,
+                ItemLabel = statusEffect.EffectDef.Label
+            });
         }
+
+        Record(new CombatLogEvent
+        {
+            Kind = CombatEventKind.Damage,
+            SubjectPawnId = victim.Id,
+            SubjectName = victim.LabelShort,
+            SourcePawnId = attacker.Id,
+            SourceName = attacker.Label,
+            ItemLabel = damage.WeaponLabel,
+            WeaponManeuverLabel = damage.WeaponManeuverLabel,
+            BodyPartKey = damage.BodyPartHit.InternalLabel,
+            BodyPartLabel = damage.BodyPartHit.Label,
+            Amount = damage.ActualAmount,
+            Blocked = damage.AmountBlocked,
+            DamageType = damage.DamageType.ToString(),
+            IsCritical = damage.IsCritical,
+            IsTrinket = isTrinket,
+            SubEffects = subEffects.ToArray()
+        });
     }
 
     public void Tick()
     {
+        FlushTickHealth();
+
         Attack(Player, Enemy);
 
         if (Enemy.IsDead)
@@ -234,6 +316,7 @@ public class CombatHandler : IDisposable, IHasContext
         EvaluatePotionTriggers(Enemy, Player);
 
         Enemy.Tick();
+        FlushTickHealth();
     }
 
     private void EvaluatePotionTriggers(Pawn self, Pawn enemy)
@@ -251,7 +334,6 @@ public class CombatHandler : IDisposable, IHasContext
             }
 
             var result = potion.PotionHandler.UseInCombat(self, enemy);
-            LogMessage(result.Message);
 
             if (result.AlertMessage != null && self.PawnType == PawnType.Player)
             {
@@ -265,8 +347,27 @@ public class CombatHandler : IDisposable, IHasContext
 
             if (!result.Success)
             {
+                Record(new CombatLogEvent
+                {
+                    Kind = CombatEventKind.System,
+                    SubjectPawnId = self.Id,
+                    SubjectName = self.LabelShort,
+                    ItemMoniker = potion.ItemDef.Moniker,
+                    ItemLabel = potion.Label,
+                    Message = result.Message
+                });
                 continue;
             }
+
+            Record(new CombatLogEvent
+            {
+                Kind = CombatEventKind.PotionUsed,
+                SubjectPawnId = self.Id,
+                SubjectName = self.LabelShort,
+                ItemMoniker = potion.ItemDef.Moniker,
+                ItemLabel = potion.Label,
+                Message = result.Message
+            });
 
             self.Equipment.UnEquip(potion);
             Context.Achievements.OnItemUsed(self, potion);
@@ -289,19 +390,27 @@ public class CombatHandler : IDisposable, IHasContext
 
         if (damageOptions.Count == 0)
         {
-            LogMessage($"/c[{TC.Attacker}]{attacker.LabelShort} has no usable weapons");
+            Record(new CombatLogEvent
+            {
+                Kind = CombatEventKind.System,
+                SubjectPawnId = attacker.Id,
+                SubjectName = attacker.LabelShort,
+                Message = $"{attacker.LabelShort} has no usable weapons"
+            });
             return;
         }
 
         var damageRequest = damageOptions.RandomElement(Context.Rng);
         damageRequest.TargetedPart = victim.Body.AllExternalParts.Where(p => p.IsDestroyed == false || p.AllInternalParts.Count != 0).RandomElementByWeight(part => part.HitWeight, Context.Rng)!;
         victim.TakeDamage(damageRequest);
-        
+
         attacker.Body.ConsumeEnergyFromAttack();
     }
 
     private void EndCombat()
     {
+        FlushTickHealth(force: true);
+
         var playerIsAlive = !Player.IsDead;
         if (playerIsAlive)
         {
@@ -324,7 +433,6 @@ public class CombatHandler : IDisposable, IHasContext
             }
         }
 
-        // Notify achievements of combat end
         Context.Achievements.OnCombatEnd(new AchievementCombatEndContext
         {
             Player = Player,
@@ -336,13 +444,14 @@ public class CombatHandler : IDisposable, IHasContext
             CauseOfDeath = CauseOfDeath
         });
 
-        LogMessage($"/f[default, 48]/c[{TC.Golden}]Battle is over\n");
+        Record(new CombatLogEvent
+        {
+            Kind = CombatEventKind.System,
+            SubjectPawnId = Player.Id,
+            SubjectName = Player.LabelShort,
+            Message = "Battle is over"
+        });
         _encounter.State = EncounterState.Finished;
-    }
-
-    private void LogMessage(string message)
-    {
-        CombatLogMessageAdded?.Invoke(message);
     }
 
     private void CollectLoot()
@@ -358,8 +467,6 @@ public class CombatHandler : IDisposable, IHasContext
             AddToLootContainer(item);
         }
 
-        //CollectEquipment(Enemy);
-
         foreach (var part in SeveredLimbs)
         {
             TakePartEquipment(part);
@@ -373,13 +480,11 @@ public class CombatHandler : IDisposable, IHasContext
             }
         }
 
-        // Save loot for display before auto-collecting
         foreach (var item in Loot.AsItems())
         {
             CollectedLoot.Add(new ResourceCount(item.ItemDef, item.StackSize));
         }
 
-        // Auto loot
         var items = Loot.AsItems().ToList();
         if (items == null) return;
 
@@ -430,12 +535,22 @@ public class CombatHandler : IDisposable, IHasContext
 
     public void Dispose()
     {
+        FlushTickHealth(force: true);
         Player.DamageTaken -= OnDamageTaken;
         Player.Died -= OnDeath;
         Enemy.DamageTaken -= OnDamageTaken;
         Enemy.Died -= OnDeath;
+        Player.Body.TickHealthChanged -= OnTickHealthChanged;
+        Enemy.Body.TickHealthChanged -= OnTickHealthChanged;
         Player.Body.Handler.OnBloodLost -= Context.Achievements.OnBloodLost;
         Enemy.Body.Handler.OnBloodLost -= Context.Achievements.OnBloodLost;
+    }
+
+    private sealed class TickHealthAccumulator(Pawn pawn, BodyPart part)
+    {
+        public readonly Pawn Pawn = pawn;
+        public readonly BodyPart Part = part;
+        public double Delta;
     }
 }
 

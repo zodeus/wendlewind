@@ -40,7 +40,9 @@ public static class BuildSnapshotFactory
                     AfterSeconds = p.PotionTrigger?.AfterSeconds ?? 0,
                     HealthThreshold = p.PotionTrigger?.HealthThreshold ?? 0.6f
                 })
-                .ToArray()
+                .ToArray(),
+            Sockets = CaptureSockets(pawn),
+            FoodBuffs = CaptureFoodBuffs(pawn)
         };
     }
 
@@ -59,6 +61,8 @@ public static class BuildSnapshotFactory
 
         ApplyWeaponFlags(pawn, snapshot.Weapons);
         ApplyPotionTriggers(pawn, snapshot.Potions);
+        ApplySockets(pawn, snapshot.Sockets);
+        ApplyFoodBuffs(pawn, snapshot.FoodBuffs);
     }
 
     private static void ReplaceLoadout(Pawn pawn, IEnumerable<string> monikers)
@@ -123,5 +127,96 @@ public static class BuildSnapshotFactory
             };
             remaining.Remove(match);
         }
+    }
+
+    private static void ApplySockets(Pawn pawn, SocketedItemConfig[] configs)
+    {
+        var remaining = pawn.Equipment.Where(i => i.Enchantments != null).ToList();
+        foreach (var config in configs)
+        {
+            var match = remaining.FirstOrDefault(i => i.Def.Moniker == config.ItemMoniker);
+            if (match?.Enchantments == null)
+            {
+                continue;
+            }
+
+            remaining.Remove(match);
+            var max = match.Enchantments.MaxEnchantments;
+            for (var i = 0; i < config.EnchantmentMonikers.Length && i < max; i++)
+            {
+                var def = DefRepository<ItemDef>.GetByMoniker(config.EnchantmentMonikers[i], raiseError: false);
+                if (def == null)
+                {
+                    continue;
+                }
+
+                match.Enchantments.TryAdd(pawn.Context.Factory.CreateEntity<Item>(def, 1), i);
+            }
+        }
+    }
+
+    private static void ApplyFoodBuffs(Pawn pawn, string[] foodMonikers)
+    {
+        foreach (var moniker in foodMonikers)
+        {
+            var def = DefRepository<ItemDef>.GetByMoniker(moniker, raiseError: false);
+            if (def?.FoodProperties == null)
+            {
+                continue;
+            }
+
+            pawn.TryEat(pawn.Context.Factory.CreateEntity<Item>(def, 1));
+        }
+    }
+
+    private static SocketedItemConfig[] CaptureSockets(Pawn pawn)
+    {
+        return pawn.Equipment
+            .Where(i => i.Enchantments != null)
+            .Select(i => new SocketedItemConfig
+            {
+                ItemMoniker = i.Def.Moniker,
+                EnchantmentMonikers = Enumerable.Range(0, i.Enchantments!.MaxEnchantments)
+                    .Select(p => i.Enchantments.TryGetAtSocket(p)?.Def.Moniker)
+                    .Where(m => m != null)
+                    .ToArray()!
+            })
+            .Where(s => s.EnchantmentMonikers.Length > 0)
+            .ToArray();
+    }
+
+    private static string[] CaptureFoodBuffs(Pawn pawn)
+    {
+        var active = pawn.Body.Effects
+            .Where(e => !e.IsExpired)
+            .Select(e => e.Def)
+            .ToHashSet();
+        if (active.Count == 0)
+        {
+            return [];
+        }
+
+        var foods = DefRepository<ItemDef>.Defs
+            .Where(d => d.FoodProperties is { Effects.Count: > 0 })
+            .Where(d => d.FoodProperties!.Effects.All(r => active.Contains(r.Def)))
+            .OrderByDescending(d => d.FoodProperties!.Effects.Count)
+            .ToList();
+
+        var covered = new HashSet<BodyEffectDef>();
+        var result = new List<string>();
+        foreach (var food in foods)
+        {
+            var effects = food.FoodProperties!.Effects.Select(r => r.Def).ToList();
+            if (effects.Any(e => !covered.Contains(e)))
+            {
+                result.Add(food.Moniker);
+                foreach (var effect in effects)
+                {
+                    covered.Add(effect);
+                }
+            }
+        }
+
+        return result.ToArray();
     }
 }

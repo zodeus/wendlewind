@@ -20,7 +20,7 @@ public sealed class TestSimTool
     private float _accumulator;
     private string? _status;
     private readonly List<string> _log = [];
-    private Action<string>? _logHandler;
+    private Action<CombatLogEvent>? _logHandler;
 
     public TestSimTool(GameContext context, EditorPawnRenderer attacker, EditorPawnRenderer defender)
     {
@@ -279,8 +279,15 @@ public sealed class TestSimTool
             return;
         }
 
-        _logHandler = message => _log.Add(StripRichText(message));
-        handler.CombatLogMessageAdded += _logHandler;
+        _logHandler = e =>
+        {
+            var line = CombatLogFormatter.Format(e);
+            if (!string.IsNullOrEmpty(line))
+            {
+                _log.Add(StripRichText(line));
+            }
+        };
+        handler.CombatEventRecorded += _logHandler;
     }
 
     private void DetachLog()
@@ -288,7 +295,7 @@ public sealed class TestSimTool
         var handler = _context.CurrentZone?.ActiveEncounter?.CombatHandler;
         if (handler != null && _logHandler != null)
         {
-            handler.CombatLogMessageAdded -= _logHandler;
+            handler.CombatEventRecorded -= _logHandler;
         }
 
         _logHandler = null;

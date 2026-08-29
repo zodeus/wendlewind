@@ -1,4 +1,4 @@
-﻿namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
+namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 
 public sealed class WeaponBar : HorizontalStackPanel, IUpdatable
 {
@@ -9,11 +9,13 @@ public sealed class WeaponBar : HorizontalStackPanel, IUpdatable
     private List<KeyValuePair<Item, (ColoredRegion, BodyPart)>> _weapons = new();
 
     private readonly bool _readOnly;
+    private readonly Action<Item>? _inspectHandler;
 
-    public WeaponBar(Pawn pawn, bool readOnly = false)
+    public WeaponBar(Pawn pawn, bool readOnly = false, Action<Item>? inspectHandler = null)
     {
         _pawn = pawn;
         _readOnly = readOnly;
+        _inspectHandler = inspectHandler;
         Refresh();
     }
 
@@ -61,6 +63,7 @@ public sealed class WeaponBar : HorizontalStackPanel, IUpdatable
                     Height = BaseContent.IconSizes.Medium,
                 }
             };
+            button.WithTooltip(weapon.Label, weapon.Description);
             if (!_readOnly)
             {
                 button.TouchDown += (_, _) =>
@@ -68,6 +71,10 @@ public sealed class WeaponBar : HorizontalStackPanel, IUpdatable
                     weapon.UseInCombat = !weapon.UseInCombat;
                     backgroundImage.Color = weapon.UseInCombat ? EnabledWeaponColor : DisabledWeaponColor;
                 };
+            }
+            else if (_inspectHandler != null)
+            {
+                button.TouchDown += (_, _) => _inspectHandler(weapon);
             }
             Widgets.Add(button);
             _weapons.Add(new KeyValuePair<Item, (ColoredRegion, BodyPart)>(weapon, (backgroundImage, bodyPart)));

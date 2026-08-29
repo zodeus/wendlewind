@@ -1,4 +1,4 @@
-﻿using Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+using Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Wendlewind.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
 
 namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
@@ -11,6 +11,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
     private PawnRenderWidget? _bodyWidget;
     private readonly ZoneGui _gui;
     private readonly List<IUpdatable> _updatables = new();
+    private PotionBar? _potionBar;
 
     /// <summary>
     /// Gets the body render widget for this pawn, if available.
@@ -35,41 +36,58 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
 
     private void GeneratePlayerControls(Pawn pawn)
     {
-        var trinketBar = new TrinketBar(pawn.Inventory, TrinketType.Combat)
+        var trinketBar = new TrinketBar(pawn.Inventory, TrinketType.Combat, item => _gui.ViewEntity(item))
         {
             DefaultProportion = Proportion.Auto,
             VerticalAlignment = VerticalAlignment.Bottom,
             HorizontalAlignment = HorizontalAlignment.Right,
         };
-        var potionBar = new PotionBar(pawn)
+        _potionBar = new PotionBar(pawn, item => _gui.ViewEntity(item))
         {
             HorizontalAlignment = HorizontalAlignment.Right
         };
-        var weaponBar = new WeaponBar(pawn, readOnly: true)
+        var weaponBar = new WeaponBar(pawn, readOnly: true, inspectHandler: item => _gui.ViewEntity(item))
         {
             HorizontalAlignment = HorizontalAlignment.Right,
         };
         var stanceBar = new BodyStanceBar(pawn, readOnly: true) {HorizontalAlignment = HorizontalAlignment.Right };
 
-        _updatables.Add(potionBar);
+        _updatables.Add(_potionBar);
         _updatables.Add(weaponBar);
 
-        SetProportionType(potionBar, ProportionType.Auto);
+        SetProportionType(_potionBar, ProportionType.Auto);
         SetProportionType(weaponBar, ProportionType.Auto);
         SetProportionType(stanceBar, ProportionType.Auto);
         SetProportionType(trinketBar, ProportionType.Auto);
-        Widgets.Add(new VerticalStackPanel
+
+        var loadout = new VerticalStackPanel
         {
             VerticalAlignment = VerticalAlignment.Bottom,
+            HorizontalAlignment = HorizontalAlignment.Right,
             MinWidth = 300,
+            Spacing = 6,
+            Padding = new Thickness(10),
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
             Widgets =
             {
-                potionBar,
+                new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = "Loadout",
+                    TextColor = Color.Goldenrod,
+                    HorizontalAlignment = HorizontalAlignment.Right
+                },
+                _potionBar,
                 weaponBar,
                 stanceBar,
                 trinketBar,
             }
-        });
+        };
+        Widgets.Add(loadout);
+    }
+
+    public void NotifyPotionUsed(string? itemMoniker)
+    {
+        _potionBar?.NotifyUsed(itemMoniker);
     }
 
     private PawnRenderWidget CreateBodyWidget(int size)
@@ -162,8 +180,14 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
     {
         _bloodBar.Value = Pawn.Body.BloodPercent * 100;
         _bodyWidget?.Update(deltaTime);
+        _potionBar?.Update(deltaTime);
         foreach (var u in _updatables)
         {
+            if (u == _potionBar)
+            {
+                continue;
+            }
+
             u.Update();
         }
     }

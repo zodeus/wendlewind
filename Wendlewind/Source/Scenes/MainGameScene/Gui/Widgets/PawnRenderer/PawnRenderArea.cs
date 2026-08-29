@@ -36,6 +36,7 @@ internal class PawnRenderArea(PawnRenderer renderer, Texture2D? fallbackIcon) : 
         else if (fallbackIcon != null)
         {
             context.Draw(fallbackIcon, destRect, Color.White);
+            _damageTextRenderer.Render(context, bounds, (float)bounds.Width / renderer.NativeSize);
         }
     }
 }

@@ -8,7 +8,7 @@ public static class DebugSettings {
     {
         if (Environment.GetEnvironmentVariable("WENDLEWIND_TEST_SIM") == "1")
         {
-            TestSimMode = true;
+            EnableTestSim();
             return;
         }
 
@@ -16,9 +16,15 @@ public static class DebugSettings {
         {
             if (string.Equals(arg, "--test-sim", StringComparison.OrdinalIgnoreCase))
             {
-                TestSimMode = true;
+                EnableTestSim();
                 return;
             }
         }
+    }
+
+    private static void EnableTestSim()
+    {
+        TestSimMode = true;
+        CombatSpeed = 4;
     }
 }

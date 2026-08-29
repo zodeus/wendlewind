@@ -1,4 +1,4 @@
-﻿using Wendlewind.Sim.Entities.Pawns.Bodies.Handlers;
+using Wendlewind.Sim.Entities.Pawns.Bodies.Handlers;
 
 namespace Wendlewind.Sim.Entities.Pawns;
 
@@ -9,6 +9,7 @@ public class PawnBody : IExposable, IIdentityProvider
     private BodyPartSocket _rootSocket = null!;
 
     public readonly Pawn Pawn;
+    public event Action<BodyPart, double>? TickHealthChanged;
     public string Id = "invalid";
     public float BodySizeFactor = 1;
     public float Energy = 1;
@@ -131,6 +132,29 @@ public class PawnBody : IExposable, IIdentityProvider
                 KillingManeuver = "Blood loss"
             });
         }
+    }
+
+    public void NotifyTickHealthChanged(BodyPart part, double delta)
+    {
+        TickHealthChanged?.Invoke(part, delta);
+    }
+
+    public BodyPart? FindPartByKey(string? key)
+    {
+        if (string.IsNullOrEmpty(key))
+        {
+            return null;
+        }
+
+        foreach (var part in AllParts)
+        {
+            if (part.InternalLabel == key)
+            {
+                return part;
+            }
+        }
+
+        return null;
     }
 
     public void ConsumeEnergyFromAttack()

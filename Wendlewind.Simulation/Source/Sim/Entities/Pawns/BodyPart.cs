@@ -264,12 +264,14 @@ public class BodyPart : Entity
 
     public override void Tick()
     {
+        var hpBefore = _hitPoints;
         for (int index = Modifiers.Count - 1; index >= 0; index--)
         {
             BodyPartModifier modifier = Modifiers[index];
             modifier.Tick();
             if (Body?.Pawn.IsDead == true)
             {
+                NotifyTickDelta(hpBefore);
                 return;
             }
 
@@ -281,6 +283,16 @@ public class BodyPart : Entity
         }
 
         base.Tick();
+        NotifyTickDelta(hpBefore);
+    }
+
+    private void NotifyTickDelta(double hpBefore)
+    {
+        var delta = _hitPoints - hpBefore;
+        if (delta != 0)
+        {
+            Body?.NotifyTickHealthChanged(this, delta);
+        }
     }
 
     private void GetParts(BodyPart part, List<BodyPart> parts, bool? partIsExternal = null)

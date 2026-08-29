@@ -1,8 +1,9 @@
-﻿namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
+namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
 
 internal sealed class BodyPartSocketPanel : HorizontalStackPanel
 {
     public readonly BodyPartSocket Socket;
+    public BodyPartRow PartRow => _bodyPartRow;
     private readonly BaseGui _gui;
     private readonly bool _showInternalParts;
     private SocketLabel _socketLabel;
@@ -11,6 +12,7 @@ internal sealed class BodyPartSocketPanel : HorizontalStackPanel
     public BodyPartSocketPanel(BodyPartSocket socket, BaseGui gui, bool showInternalParts)
     {
         Socket = socket;
+        ClipToBounds = false;
         _gui = gui;
         _showInternalParts = showInternalParts;
         _socketLabel = new SocketLabel(socket, showInternalParts)
@@ -62,6 +64,11 @@ internal sealed class BodyPartSocketPanel : HorizontalStackPanel
 
     public void Update()
     {
+        Update(1f / 60f);
+    }
+
+    public void Update(float deltaTime)
+    {
         if (Socket.AttachedPart == null && _socketLabel.Visible == false)
         {
             _socketLabel.Visible = true;
@@ -87,7 +94,7 @@ internal sealed class BodyPartSocketPanel : HorizontalStackPanel
             _bodyPartRow.Visible = false;
         }
 
-        _bodyPartRow.Update();
+        _bodyPartRow.Update(deltaTime);
         _socketLabel.Update();
     }
 }

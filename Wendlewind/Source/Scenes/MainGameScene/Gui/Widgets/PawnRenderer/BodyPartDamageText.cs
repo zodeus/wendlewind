@@ -12,18 +12,15 @@ public class BodyPartDamageText
     public float TimeLeft { get; set; }
     public float Scale { get; set; } = 1f;
     public float Opacity { get; set; } = 1f;
-    public float VelocityY { get; set; } = -200f; // pixels per second
-    public float VibrationAmplitude { get; set; } = 0.2f;
     public float Duration { get; set; }
     public float ElapsedTime { get; set; }
+    internal CombatFloaterStyle Style { get; set; } = CombatFloaterStyle.CreateRandom();
 
     public void Update(float deltaTime)
     {
         TimeLeft -= deltaTime;
         ElapsedTime += deltaTime;
-        Position += new Vector2(0, VelocityY * deltaTime);
 
-        // Fade out in the last 20% of lifetime
         var fadeThreshold = Duration * 0.2f;
         if (TimeLeft < fadeThreshold)
         {
@@ -88,7 +85,8 @@ public class BodyPartDamageTextRenderer(IBodyPartLayout? layout, int nativeSize)
             Color = color,
             Position = position,
             TimeLeft = duration,
-            Duration = duration
+            Duration = duration,
+            Style = CombatFloaterStyle.CreateRandom()
         });
     }
     
@@ -156,48 +154,30 @@ public class BodyPartDamageTextRenderer(IBodyPartLayout? layout, int nativeSize)
     {
         foreach (var text in _texts)
         {
-            // Convert native position to screen position
+            var motion = text.Style.Evaluate(text.ElapsedTime, text.Duration);
             var screenPos = new Vector2(
                 widgetBounds.X + text.Position.X * layoutScale,
                 widgetBounds.Y + text.Position.Y * layoutScale
-            );
-            
-            // Add vibration effect (use elapsed time for consistent speed)
-            var vibrationOffset = new Vector2(
-                (float)(Math.Sin(text.ElapsedTime * 30) * text.VibrationAmplitude),
-                (float)(Math.Cos(text.ElapsedTime * 42) * text.VibrationAmplitude * 0.5)
-            );
-            screenPos += vibrationOffset;
-            
-            var color = text.Color * text.Opacity;
-            
-            // Draw text with outline for visibility
-            var textSize = text.Font.MeasureString(text.Text);
-            var centeredPos = screenPos - textSize / 2f;
+            ) + motion.Offset;
 
-             var yOffset = -10;
-            // Skip rendering if text is entirely outside widget bounds
+            var textSize = text.Font.MeasureString(text.Text) * motion.Scale;
+            var yOffset = -10;
             var textBounds = new Rectangle(
-                (int)centeredPos.X, 
-                (int)centeredPos.Y + yOffset, 
-                (int)textSize.X, 
+                (int)(screenPos.X - textSize.X / 2f),
+                (int)(screenPos.Y - textSize.Y / 2f) + yOffset,
+                (int)textSize.X,
                 (int)textSize.Y);
             if (!widgetBounds.Intersects(textBounds))
                 continue;
-            
-            // Draw outline
-            var outlineColor = Color.Black * text.Opacity * 0.8f;
-            for (var dx = -1; dx <= 1; dx++)
-            {
-                for (var dy = -1; dy <= 1; dy++)
-                {
-                    if (dx == 0 && dy == 0) continue;
-                    context.DrawString(text.Font, text.Text, centeredPos + new Vector2(dx, dy), outlineColor);
-                }
-            }
-            
-            // Draw main text
-            context.DrawString(text.Font, text.Text, centeredPos, color);
+
+            CombatFloaterDraw.Draw(
+                context,
+                text.Font,
+                text.Text,
+                screenPos + new Vector2(0, yOffset),
+                text.Color,
+                text.Opacity * motion.Opacity,
+                motion.Scale);
         }
     }
     
