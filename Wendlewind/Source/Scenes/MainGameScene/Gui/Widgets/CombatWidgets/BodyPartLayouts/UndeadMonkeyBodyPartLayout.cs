@@ -6,7 +6,7 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayo
 /// Monkey is viewed from the front, slightly hunched forward.
 /// </summary>
 [UsedImplicitly]
-public class UndeadMonkeyBodyPartLayout : IBodyPartLayout
+public class UndeadMonkeyBodyPartLayout : BodyPartLayoutBase
 {
     // Body part positions (native coordinates)
     private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()
@@ -26,20 +26,5 @@ public class UndeadMonkeyBodyPartLayout : IBodyPartLayout
         { "Left Hand", new BodyPartLayoutData(new Vector2(333f, 120f), 43, 0.25f, -2.6704f, flipHorizontal: true) },
     };
 
-    public int NativeSize => 512;
-
-    public BodyPartRenderInfo? GetRenderInfo(BodyPart part)
-    {
-        if (!PartLayoutMap.TryGetValue(part.Label, out var layoutData))
-        {
-            return null;
-        }
-
-        if (part.GetIcon() == null)
-        {
-            return null;
-        }
-
-        return new BodyPartRenderInfo(part.GetIcon(), layoutData);
-    }
+    protected override IReadOnlyDictionary<string, BodyPartLayoutData> Map => PartLayoutMap;
 }

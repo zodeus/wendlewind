@@ -8,6 +8,7 @@
         <BoneDensity>1</BoneDensity>
         <GeneratorClass>HumanBodyGenerator</GeneratorClass>
         <LayoutClass>HumanBodyPartLayout</LayoutClass>
+        <EquipmentGrid>HumanBodyEquipmentGrid</EquipmentGrid>
     </BodyDef>
     <BodyDef>
         <Moniker>RabbitBody</Moniker>

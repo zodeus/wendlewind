@@ -6,7 +6,7 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayo
 /// Marionette is a humanoid puppet with no neck.
 /// </summary>
 [UsedImplicitly]
-public class MarionetteBodyPartLayout : IBodyPartLayout
+public class MarionetteBodyPartLayout : BodyPartLayoutBase
 {
     // Body part positions (native coordinates)
     private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()
@@ -25,20 +25,5 @@ public class MarionetteBodyPartLayout : IBodyPartLayout
         { "Right Eye", new BodyPartLayoutData(new Vector2(218f, 159f), 66, 0.12f, 0.0524f) },
     };
 
-    public int NativeSize => 512;
-
-    public BodyPartRenderInfo? GetRenderInfo(BodyPart part)
-    {
-        if (!PartLayoutMap.TryGetValue(part.Label, out var layoutData))
-        {
-            return null;
-        }
-
-        if (part.GetIcon() == null)
-        {
-            return null;
-        }
-
-        return new BodyPartRenderInfo(part.GetIcon(), layoutData);
-    }
+    protected override IReadOnlyDictionary<string, BodyPartLayoutData> Map => PartLayoutMap;
 }

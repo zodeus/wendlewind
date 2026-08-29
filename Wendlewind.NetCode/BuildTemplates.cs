@@ -71,7 +71,7 @@ public static class BuildTemplates
     {
         PlayerId = "template",
         BuildId = "Glasscannon",
-        EntityDefMonikers = ["BloodSuckler", "StrengthPotion"],
+        EntityDefMonikers = ["StrangeWitheredTwig", "SpicedChurni"],
         StanceMoniker = "Offensive",
         Weapons =
         [

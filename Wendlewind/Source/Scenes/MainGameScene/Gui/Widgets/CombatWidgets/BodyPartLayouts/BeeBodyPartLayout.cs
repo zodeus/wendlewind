@@ -5,7 +5,7 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayo
 /// Positions are specified in a 512x512 coordinate space.
 /// Keys use InternalLabel format (Moniker_Position) for stable lookups.
 /// </summary>
-public class BeeBodyPartLayout : IBodyPartLayout
+public class BeeBodyPartLayout : BodyPartLayoutBase
 {
     // Body part positions (native coordinates) - keyed by InternalLabel
     private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()
@@ -31,22 +31,8 @@ public class BeeBodyPartLayout : IBodyPartLayout
         { "BeeDrone_M4", new BodyPartLayoutData(new Vector2(391f, 239f), 55, 0.50f, 0.2094f) },
     };
 
+    protected override IReadOnlyDictionary<string, BodyPartLayoutData> Map => PartLayoutMap;
 
-    public int NativeSize => 512;
-
-    public BodyPartRenderInfo? GetRenderInfo(BodyPart part)
-    {
-        if (!PartLayoutMap.TryGetValue(part.InternalLabel, out var layoutData))
-        {
-            return null;
-        }
-
-        if (part.GetIcon() == null)
-        {
-            return null;
-        }
-
-        return new BodyPartRenderInfo(part.GetIcon(), layoutData);
-    }
+    protected override string GetLookupKey(BodyPart part) => part.InternalLabel;
 }
 

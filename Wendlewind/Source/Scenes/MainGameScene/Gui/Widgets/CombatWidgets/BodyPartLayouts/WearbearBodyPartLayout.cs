@@ -5,7 +5,7 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayo
 /// Positions are specified in a 512x512 coordinate space.
 /// Wearbear is viewed from the side with head on the right.
 /// </summary>
-public class WearbearBodyPartLayout : IBodyPartLayout
+public class WearbearBodyPartLayout : BodyPartLayoutBase
 {
  // Body part positions (native coordinates)
 private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()
@@ -25,21 +25,6 @@ private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = n
     { "Left Arm", new BodyPartLayoutData(new Vector2(235f, 139f), 26, 1.50f, 0.1222f) },
 };
 
-    public int NativeSize => 512;
-
-    public BodyPartRenderInfo? GetRenderInfo(BodyPart part)
-    {
-        if (!PartLayoutMap.TryGetValue(part.Label, out var layoutData))
-        {
-            return null;
-        }
-
-        if (part.GetIcon() == null)
-        {
-            return null;
-        }
-
-        return new BodyPartRenderInfo(part.GetIcon(), layoutData);
-    }
+    protected override IReadOnlyDictionary<string, BodyPartLayoutData> Map => PartLayoutMap;
 }
 

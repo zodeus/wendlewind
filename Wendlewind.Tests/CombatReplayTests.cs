@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using Wendlewind.Definitions.Loader;
 using Wendlewind.NetCode;
 using Wendlewind.NetCode.Contracts;
 using Wendlewind.Sim;
@@ -11,62 +10,9 @@ namespace Wendlewind.Tests;
 
 public class CombatReplayTests
 {
-    private static readonly object LoadLock = new();
-    private static bool _loaded;
-
     public CombatReplayTests()
     {
-        lock (LoadLock)
-        {
-            if (_loaded)
-            {
-                return;
-            }
-
-            foreach (var path in Directory.GetFiles(AppContext.BaseDirectory, "Wendlewind*.dll"))
-            {
-                var name = System.Reflection.AssemblyName.GetAssemblyName(path);
-                if (AppDomain.CurrentDomain.GetAssemblies().All(a => a.GetName().Name != name.Name))
-                {
-                    System.Reflection.Assembly.Load(name);
-                }
-            }
-
-            _ = typeof(PawnDef);
-            if (Wendlewind.Utils.GenTypes.GetTypeInAnyAssembly("PawnDef") == null)
-            {
-                throw new InvalidOperationException(
-                    "PawnDef was not visible to GenTypes. Assemblies=" +
-                    string.Join(", ", AppDomain.CurrentDomain.GetAssemblies().Select(a => a.GetName().Name)));
-            }
-
-            Directory.SetCurrentDirectory(FindContentRoot());
-            DataLoader.Load();
-            _loaded = true;
-        }
-    }
-
-    private static string FindContentRoot()
-    {
-        var dir = new DirectoryInfo(AppContext.BaseDirectory);
-        while (dir != null)
-        {
-            var definitions = Path.Combine(dir.FullName, "Content", "Data", "Definitions");
-            if (Directory.Exists(definitions))
-            {
-                return dir.FullName;
-            }
-
-            var client = Path.Combine(dir.FullName, "Wendlewind", "Content", "Data", "Definitions");
-            if (Directory.Exists(client))
-            {
-                return Path.Combine(dir.FullName, "Wendlewind");
-            }
-
-            dir = dir.Parent;
-        }
-
-        throw new DirectoryNotFoundException("Could not find Content/Data/Definitions for DataLoader.");
+        TestData.EnsureLoaded();
     }
 
     [Fact]

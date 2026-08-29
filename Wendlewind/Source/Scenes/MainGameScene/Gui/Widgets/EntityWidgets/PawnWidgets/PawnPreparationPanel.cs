@@ -40,11 +40,19 @@ public class PawnPreparationPanel : Panel, IUpdatable
             Margin = new Thickness(20, 0, 0, 0)
         };
 
+        var equipmentHost = new ScrollViewer
+        {
+            Content = _equipmentPanel,
+            MaxHeight = 520,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Top
+        };
+
         centerColumn.Widgets.Add(new HorizontalStackPanel
         {
             Spacing = 15,
             Widgets = {
-                _equipmentPanel,
+                equipmentHost,
                 new PawnSkillsPanel(playerPawn.Skills)
             }
         });

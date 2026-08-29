@@ -5,7 +5,7 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayo
 /// Positions are specified in a 512x512 coordinate space.
 /// Inukshuks are stone creatures viewed from the front with a humanoid stance.
 /// </summary>
-public class InukshukBodyPartLayout : IBodyPartLayout
+public class InukshukBodyPartLayout : BodyPartLayoutBase
 {
     // Body part positions (native coordinates)
     private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()
@@ -18,21 +18,6 @@ public class InukshukBodyPartLayout : IBodyPartLayout
         { "Head", new BodyPartLayoutData(new Vector2(192f, 156f), 20, 1.10f) },
     };
 
-    public int NativeSize => 512;
-
-    public BodyPartRenderInfo? GetRenderInfo(BodyPart part)
-    {
-        if (!PartLayoutMap.TryGetValue(part.Label, out var layoutData))
-        {
-            return null;
-        }
-
-        if (part.GetIcon() == null)
-        {
-            return null;
-        }
-
-        return new BodyPartRenderInfo(part.GetIcon(), layoutData);
-    }
+    protected override IReadOnlyDictionary<string, BodyPartLayoutData> Map => PartLayoutMap;
 }
 

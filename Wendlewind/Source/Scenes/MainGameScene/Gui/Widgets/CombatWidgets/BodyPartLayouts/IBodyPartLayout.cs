@@ -194,6 +194,14 @@ public interface IBodyPartLayout
     int NativeSize { get; }
     
     /// <summary>
+    /// Gets the layout data for a specific body part, if available.
+    /// Does not require a texture, unlike <see cref="GetRenderInfo"/>.
+    /// </summary>
+    /// <param name="part">The body part to get layout data for.</param>
+    /// <returns>The layout data, or null if this part is not in the layout.</returns>
+    BodyPartLayoutData? GetLayoutData(BodyPart part);
+
+    /// <summary>
     /// Gets the render info for a specific body part, if available.
     /// </summary>
     /// <param name="part">The body part to get render info for.</param>

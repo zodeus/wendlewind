@@ -1,0 +1,13 @@
+global using System;
+global using System.Collections.Generic;
+global using System.IO;
+global using System.Linq;
+global using ImGuiNET;
+global using Microsoft.Xna.Framework;
+global using Microsoft.Xna.Framework.Graphics;
+global using Microsoft.Xna.Framework.Input;
+global using Wendlewind.Definitions;
+global using Wendlewind.Definitions.Loader;
+global using Wendlewind.Sim;
+global using Wendlewind.Sim.Entities.Items.Equipment;
+global using Wendlewind.Sim.Entities.Pawns;

@@ -4,7 +4,7 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayo
 /// Body part layout for humanoid pawns (humans, ghouls, etc.).
 /// Positions are specified in a 512x512 coordinate space.
 /// </summary>
-public class HumanBodyPartLayout : IBodyPartLayout
+public class HumanBodyPartLayout : BodyPartLayoutBase
 {
     // Body part positions (native coordinates)
     private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()
@@ -24,21 +24,6 @@ public class HumanBodyPartLayout : IBodyPartLayout
         { "Right Hand", new BodyPartLayoutData(new Vector2(127f, 286f), 59, 0.50f, 0.3840f, equipmentAttachment: new EquipmentAttachmentData(new Vector2(36f, 33f), 0.2269f, 1.00f, false, renderArmor: false)) },
     };
 
-    public int NativeSize => 512;
-    
-    public BodyPartRenderInfo? GetRenderInfo(BodyPart part)
-    {
-        if (!PartLayoutMap.TryGetValue(part.Label, out var layoutData))
-        {
-            return null;
-        }
-        
-        if (part.GetIcon() == null)
-        {
-            return null;
-        }
-        
-        return new BodyPartRenderInfo(part.GetIcon(), layoutData);
-    }
+    protected override IReadOnlyDictionary<string, BodyPartLayoutData> Map => PartLayoutMap;
 }
 

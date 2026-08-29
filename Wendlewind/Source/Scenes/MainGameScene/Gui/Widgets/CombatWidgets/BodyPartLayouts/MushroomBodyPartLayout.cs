@@ -5,7 +5,7 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayo
 /// Positions are specified in a 512x512 coordinate space.
 /// Mushroom is viewed from the front with cap on top and humanoid limbs.
 /// </summary>
-public class MushroomBodyPartLayout : IBodyPartLayout
+public class MushroomBodyPartLayout : BodyPartLayoutBase
 {
     // Body part positions (native coordinates)
     private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()
@@ -24,22 +24,7 @@ public class MushroomBodyPartLayout : IBodyPartLayout
         { "Left Arm", new BodyPartLayoutData(new Vector2(160f, 278f), 29, 0.85f, 0.2094f, flipHorizontal: true) },
     };
 
-    public int NativeSize => 512;
-
-    public BodyPartRenderInfo? GetRenderInfo(BodyPart part)
-    {
-        if (!PartLayoutMap.TryGetValue(part.Label, out var layoutData))
-        {
-            return null;
-        }
-
-        if (part.GetIcon() == null)
-        {
-            return null;
-        }
-
-        return new BodyPartRenderInfo(part.GetIcon(), layoutData);
-    }
+    protected override IReadOnlyDictionary<string, BodyPartLayoutData> Map => PartLayoutMap;
 }
 
 

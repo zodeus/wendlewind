@@ -5,7 +5,7 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayo
 /// Positions are specified in a 512x512 coordinate space.
 /// Turtle is viewed from above/side with head on the left.
 /// </summary>
-public class TurtleBodyPartLayout : IBodyPartLayout
+public class TurtleBodyPartLayout : BodyPartLayoutBase
 {
     // Body part positions (native coordinates)
     private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()
@@ -22,21 +22,6 @@ public class TurtleBodyPartLayout : IBodyPartLayout
         { "Right Eye", new BodyPartLayoutData(new Vector2(143f, 331f), 25, 0.12f, -0.7679f) },
     };
 
-    public int NativeSize => 512;
-
-    public BodyPartRenderInfo? GetRenderInfo(BodyPart part)
-    {
-        if (!PartLayoutMap.TryGetValue(part.Label, out var layoutData))
-        {
-            return null;
-        }
-
-        if (part.GetIcon() == null)
-        {
-            return null;
-        }
-
-        return new BodyPartRenderInfo(part.GetIcon(), layoutData);
-    }
+    protected override IReadOnlyDictionary<string, BodyPartLayoutData> Map => PartLayoutMap;
 }
 

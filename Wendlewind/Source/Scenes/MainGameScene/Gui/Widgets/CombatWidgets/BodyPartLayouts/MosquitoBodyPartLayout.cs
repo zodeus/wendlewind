@@ -4,7 +4,7 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayo
 /// Body part layout for mosquito pawns.
 /// Positions are specified in a 512x512 coordinate space.
 /// </summary>
-public class MosquitoBodyPartLayout : IBodyPartLayout
+public class MosquitoBodyPartLayout : BodyPartLayoutBase
 {
     // Body part positions (native coordinates)
     private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()
@@ -27,21 +27,6 @@ public class MosquitoBodyPartLayout : IBodyPartLayout
         { "Left Eye", new BodyPartLayoutData(new Vector2(193f, 274f), 50, 0.75f, 0.0698f) },
     };
 
-    public int NativeSize => 512;
-
-    public BodyPartRenderInfo? GetRenderInfo(BodyPart part)
-    {
-        if (!PartLayoutMap.TryGetValue(part.Label, out var layoutData))
-        {
-            return null;
-        }
-
-        if (part.GetIcon() == null)
-        {
-            return null;
-        }
-
-        return new BodyPartRenderInfo(part.GetIcon(), layoutData);
-    }
+    protected override IReadOnlyDictionary<string, BodyPartLayoutData> Map => PartLayoutMap;
 }
 

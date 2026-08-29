@@ -6,7 +6,7 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayo
 /// The Hydra has torso as root with 3 heads attached to it.
 /// </summary>
 [UsedImplicitly]
-public class HydraBodyPartLayout : IBodyPartLayout
+public class HydraBodyPartLayout : BodyPartLayoutBase
 {
     // Body part positions (native coordinates)
     private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()
@@ -17,20 +17,5 @@ public class HydraBodyPartLayout : IBodyPartLayout
         { "Head", new BodyPartLayoutData(new Vector2(122f, 173f), 100, 0.75f) },
     };
 
-    public int NativeSize => 512;
-    
-    public BodyPartRenderInfo? GetRenderInfo(BodyPart part)
-    {
-        if (!PartLayoutMap.TryGetValue(part.Label, out var layoutData))
-        {
-            return null;
-        }
-        
-        if (part.GetIcon() == null)
-        {
-            return null;
-        }
-        
-        return new BodyPartRenderInfo(part.GetIcon(), layoutData);
-    }
+    protected override IReadOnlyDictionary<string, BodyPartLayoutData> Map => PartLayoutMap;
 }

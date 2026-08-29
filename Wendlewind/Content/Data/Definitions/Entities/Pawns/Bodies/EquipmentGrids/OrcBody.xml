@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Definitions>
+    <EquipmentGridDef>
+        <Moniker>OrcBodyEquipmentGrid</Moniker>
+        <Label>Orc Body Equipment Grid</Label>
+        <Body>OrcBody</Body>
+        <Columns>8</Columns>
+        <Rows>10</Rows>
+        <Cells>
+            <ListItem>
+                <PartKey>OrcHead_HeadSocket</PartKey>
+                <Slot>HeadArmor</Slot>
+                <Col>3</Col>
+                <Row>0</Row>
+            </ListItem>
+        </Cells>
+    </EquipmentGridDef>
+</Definitions>

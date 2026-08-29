@@ -4,7 +4,7 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayo
 /// Body part layout for orc pawns.
 /// Positions are specified in a 512x512 coordinate space.
 /// </summary>
-public class OrcBodyPartLayout : IBodyPartLayout
+public class OrcBodyPartLayout : BodyPartLayoutBase
 {
     // Body part positions (native coordinates) - keyed by Moniker
     private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()
@@ -23,21 +23,8 @@ public class OrcBodyPartLayout : IBodyPartLayout
         { "Eye_Right", new BodyPartLayoutData(new Vector2(180f, 140f), 82, 0.14f, -0.4538f) },
     };
 
-    public int NativeSize => 512;
-    
-    public BodyPartRenderInfo? GetRenderInfo(BodyPart part)
-    {
-        if (!PartLayoutMap.TryGetValue(part.InternalLabel, out var layoutData))
-        {
-            return null;
-        }
-        
-        if (part.GetIcon() == null)
-        {
-            return null;
-        }
-        
-        return new BodyPartRenderInfo(part.GetIcon(), layoutData);
-    }
+    protected override IReadOnlyDictionary<string, BodyPartLayoutData> Map => PartLayoutMap;
+
+    protected override string GetLookupKey(BodyPart part) => part.InternalLabel;
 }
 

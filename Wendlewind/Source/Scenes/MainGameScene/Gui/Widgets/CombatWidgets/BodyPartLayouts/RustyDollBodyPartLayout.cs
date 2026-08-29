@@ -6,7 +6,7 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayo
 /// RustyDoll is a simple creature with just a head and torso - no limbs.
 /// </summary>
 [UsedImplicitly]
-public class RustyDollBodyPartLayout : IBodyPartLayout
+public class RustyDollBodyPartLayout : BodyPartLayoutBase
 {
     // Body part positions (native coordinates) - keyed by Moniker
     private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap1 = new()
@@ -36,21 +36,7 @@ public class RustyDollBodyPartLayout : IBodyPartLayout
         { "RustyDollMinion_M6", new BodyPartLayoutData(new Vector2(165f, 319f), 10, 0.75f) },
     };
 
-    public int NativeSize => 512;
+    protected override IReadOnlyDictionary<string, BodyPartLayoutData> Map => PartLayoutMap2;
 
-    public BodyPartRenderInfo? GetRenderInfo(BodyPart part)
-    {
-        if (!PartLayoutMap2.TryGetValue(part.InternalLabel ?? "", out var layoutData))
-        {
-            Log.Error($"RustyDollBodyPartLayout: No layout data found for part: {part.BodyPartDef.Moniker}");
-            return null;
-        }
-
-        if (part.GetIcon() == null)
-        {
-            return null;
-        }
-
-        return new BodyPartRenderInfo(part.GetIcon(), layoutData);
-    }
+    protected override string GetLookupKey(BodyPart part) => part.InternalLabel ?? "";
 }

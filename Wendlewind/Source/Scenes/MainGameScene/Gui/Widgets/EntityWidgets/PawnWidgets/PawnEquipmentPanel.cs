@@ -1,45 +1,105 @@
-﻿using Myra.Graphics2D.Brushes;
+﻿namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
-namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
-
-public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
+public class PawnEquipmentPanel : Grid, IUpdatable
 {
     private readonly BaseGui _gui;
     private readonly Pawn _pawn;
-    private readonly Dictionary<BodyPart, EquipmentColumn> _panels = new();
+    private readonly Dictionary<BodyPart, List<Widget>> _partWidgets = new();
+    private readonly Dictionary<(BodyPart Part, EquipmentSlotType Slot), CursorButton> _slots = new();
     private static readonly Color DestroyedEquipmentColor = new(255, 0, 0, 15);
+    private static readonly Color SlotHintColor = new(140, 130, 115);
     private readonly SelectionPopup<Item> _selectionPopup;
+    private readonly int _cellSize = BaseContent.IconSizes.Large;
+    private readonly Dictionary<ItemDef, ColoredRegion> _iconCache = new();
+    private readonly IImage _potionSlotIcon;
+    private readonly IImage _bagSlotIcon;
 
     public PawnEquipmentPanel(BaseGui gui, Pawn pawn, Action<BodyPart, EquipmentSlotType>? clickAction = null)
     {
         _gui = gui;
         _pawn = pawn;
         _selectionPopup = new SelectionPopup<Item>(gui.Desktop);
-        Spacing = 2;
-        foreach (var (bodyPart, slots) in pawn.Equipment.Slots)
+        _potionSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.PotionSlot];
+        _bagSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.BagSlot];
+        ColumnSpacing = 2;
+        RowSpacing = 2;
+
+        var layout = EquipmentGridLayout.Build(pawn);
+        for (var i = 0; i < layout.Columns; i++)
         {
-            if (slots.Count == 0)
-            {
-                continue;
-            }
-            if (bodyPart.Type is BodyPartType.Finger or BodyPartType.Thumb or BodyPartType.Eye)
-            {
-                continue;
-            }
-
-            EquipmentColumn partPanel = new(gui, pawn, bodyPart, slots, (part, type) =>
-            {
-                if (clickAction != null)
-                {
-                    clickAction.Invoke(part, type);
-                    return;
-                }
-
-                HandleClick(part, type);
-            });
-            Widgets.Add(partPanel);
-            _panels.Add(bodyPart, partPanel);
+            ColumnsProportions.Add(new Proportion(ProportionType.Pixels, _cellSize));
         }
+
+        for (var i = 0; i < layout.Rows; i++)
+        {
+            RowsProportions.Add(new Proportion(ProportionType.Pixels, _cellSize));
+        }
+
+        Action<BodyPart, EquipmentSlotType> onClick = (part, type) =>
+        {
+            if (clickAction != null)
+            {
+                clickAction.Invoke(part, type);
+                return;
+            }
+
+            HandleClick(part, type);
+        };
+
+        foreach (var (key, cell) in layout.Slots)
+        {
+            var slotFrame = CreateSlotButton(key.Part, key.Slot, onClick);
+            Place(slotFrame, cell.Col, cell.Row);
+            Track(key.Part, slotFrame);
+            _slots[key] = slotFrame;
+        }
+    }
+
+    private void Place(Widget widget, int col, int row)
+    {
+        Widgets.Add(widget);
+        SetColumn(widget, col);
+        SetRow(widget, row);
+    }
+
+    private void Track(BodyPart bodyPart, Widget widget)
+    {
+        if (!_partWidgets.TryGetValue(bodyPart, out var widgets))
+        {
+            widgets = [];
+            _partWidgets[bodyPart] = widgets;
+        }
+
+        widgets.Add(widget);
+    }
+
+    private CursorButton CreateSlotButton(BodyPart bodyPart, EquipmentSlotType slot, Action<BodyPart, EquipmentSlotType> onClick)
+    {
+        var slotFrame = new CursorButton(BaseContent.Styles.Button.Icon)
+        {
+            Content = new Panel
+            {
+                Widgets =
+                {
+                    new HorizontalProgressBar(BaseContent.Styles.Bar.Durability)
+                    {
+                        Width = _cellSize - 4, Height = 12, HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Bottom
+                    },
+                    new Label(BaseContent.Styles.Label.Small)
+                    {
+                        Text = GetSlotHint(slot),
+                        TextColor = SlotHintColor,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center
+                    }
+                }
+            },
+            Width = _cellSize,
+            Height = _cellSize
+        };
+        slotFrame.TouchDown += (_, _) => onClick(bodyPart, slot);
+        return slotFrame;
     }
 
     private void HandleClick(BodyPart part, EquipmentSlotType slot)
@@ -95,12 +155,12 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
                     {
                         equipmentItem.MaxDurability *= 1.1f;
                     }
-                    
+
                     equipmentItem.Repair();
-                    
+
                     // Track achievement progress
                     Core.Context.Achievements.OnItemUsed(_pawn, item);
-                    
+
                     item.StackSize--;
                     if (item.StackSize == 0)
                     {
@@ -214,128 +274,125 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
     {
         _selectionPopup.Update();
 
-        foreach ((var bodyPart, var widget) in _panels)
+        foreach (var ((bodyPart, slot), image) in _slots)
         {
-            widget.Update();
-            if (bodyPart.IsSevered)
+            UpdateSlot(bodyPart, slot, image);
+        }
+
+        List<BodyPart>? severed = null;
+        foreach (var bodyPart in _partWidgets.Keys)
+        {
+            if (!bodyPart.IsSevered)
             {
-                _panels.Remove(bodyPart);
-                widget.RemoveFromParent();
+                continue;
+            }
+
+            severed ??= [];
+            severed.Add(bodyPart);
+        }
+
+        if (severed == null)
+        {
+            return;
+        }
+
+        foreach (var bodyPart in severed)
+        {
+            if (_partWidgets.Remove(bodyPart, out var widgets))
+            {
+                foreach (var widget in widgets)
+                {
+                    widget.RemoveFromParent();
+                }
+            }
+
+            var staleSlots = _slots.Keys.Where(key => key.Part == bodyPart).ToList();
+            foreach (var key in staleSlots)
+            {
+                _slots.Remove(key);
             }
         }
     }
 
-    private class EquipmentColumn : VerticalStackPanel
+    private void UpdateSlot(BodyPart bodyPart, EquipmentSlotType slot, CursorButton image)
     {
-        private readonly BaseGui _gui;
-        private readonly Pawn _pawn;
-        private readonly int _cellSize = BaseContent.IconSizes.Large;
-        private readonly BodyPart _bodyPart;
-        private readonly Dictionary<EquipmentSlotType, CursorButton> _slots = new();
-        private readonly Image _imageFrame;
-        private event Action<BodyPart, EquipmentSlotType>? ClickAction;
-        private Dictionary<ItemDef, ColoredRegion> _iconCache = new();
-        private IImage _potionSlotIcon;
-        private IImage _bagSlotIcon;
+        bool isSlotEmpty = bodyPart.Equipment[slot] == null;
 
-        public EquipmentColumn(BaseGui gui, Pawn pawn, BodyPart bodyPart, List<EquipmentSlotType> slots, Action<BodyPart, EquipmentSlotType>? clickAction = null)
+        bool hasAvailableEquipment = false;
+        if (isSlotEmpty)
         {
-            _gui = gui;
-            _pawn = pawn;
-            _bodyPart = bodyPart;
-            ClickAction = clickAction;
-            Spacing = 2;
-            _potionSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.PotionSlot];
-            _bagSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.BagSlot];
-            _imageFrame = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.GetWhiteIcon()), BodyPartColor.Get(bodyPart)), Width = _cellSize, Height = _cellSize };
-            _imageFrame.TouchDown += (_, _) => gui.ViewEntity(bodyPart);
-            _imageFrame.MouseEntered += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Hand);
-            _imageFrame.MouseLeft += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Arrow);
-            Widgets.Add(_imageFrame);
-            foreach (var slot in slots)
-            {
-                CursorButton slotFrame = new(BaseContent.Styles.Button.Icon)
-                {
-                    Content = new HorizontalStackPanel
-                    {
-                        Widgets =
-                        {
-                            new HorizontalProgressBar(BaseContent.Styles.Bar.Durability)
-                            {
-                                Width = _cellSize - 4, Height = 12, HorizontalAlignment = HorizontalAlignment.Center,
-                                VerticalAlignment = VerticalAlignment.Bottom
-                            }
-                        }
-                    },
-                    Width = _cellSize,
-                    Height = _cellSize
-                };
-                _slots.Add(slot, slotFrame);
-                slotFrame.TouchDown += (_, _) => ClickAction?.Invoke(bodyPart, slot);
-                Widgets.Add(slotFrame);
-            }
+            hasAvailableEquipment = _pawn.Inventory.Any(i =>
+                i.ItemDef.EquipmentProperties?.SlotUsedToEquip == slot ||
+                (i.ItemDef.ItemType == ItemType.Potion && slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2));
         }
 
-        public void Update()
+        if (hasAvailableEquipment)
         {
-            foreach ((var slot, var image) in _slots)
+            image.Content.BorderThickness = new Thickness(2);
+            image.Content.Border = new SolidBrush(Color.DarkGoldenrod);
+        }
+        else
+        {
+            image.Content.BorderThickness = new Thickness(0);
+            image.Content.Border = null;
+        }
+
+        var progressBar = (HorizontalProgressBar)((Panel)image.Content).Widgets[0];
+        var hintLabel = (Label)((Panel)image.Content).Widgets[1];
+
+        if (bodyPart.Equipment[slot] is { IsDestroyed: false } item)
+        {
+            if (_iconCache.ContainsKey(item.ItemDef) == false)
             {
-                bool isSlotEmpty = _bodyPart.Equipment[slot] == null;
-
-                // Check if there's an available item in inventory for this empty slot
-                bool hasAvailableEquipment = false;
-                if (isSlotEmpty)
-                {
-                    hasAvailableEquipment = _pawn.Inventory.Any(i =>
-                        i.ItemDef.EquipmentProperties?.SlotUsedToEquip == slot ||
-                        (i.ItemDef.ItemType == ItemType.Potion && slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2));
-                }
-
-                if (hasAvailableEquipment)
-                {                    
-                    image.Content.BorderThickness = new Thickness(2);
-                    image.Content.Border = new SolidBrush(Color.DarkGoldenrod);
-                }
-                else
-                {
-                    image.Content.BorderThickness = new Thickness(0);
-                    image.Content.Border = null;
-                }
-
-                if (_bodyPart.Equipment[slot] is { IsDestroyed: false } item)
-                {
-                    if (_iconCache.ContainsKey(item.ItemDef) == false)
-                    {
-                        _iconCache[item.ItemDef] = new ColoredRegion(new TextureRegion(item.GetIcon()), Color.White);
-                    }
-
-                    ((HorizontalProgressBar)((HorizontalStackPanel)image.Content).Widgets[0]).Visible = item.Durability > 1;
-                    image.Content.Background = _iconCache[item.ItemDef];
-                    ((HorizontalProgressBar)((HorizontalStackPanel)image.Content).Widgets[0]).Value = item.Durability / item.MaxDurability * 100;
-                    ((ColoredRegion)image.Content.Background).Color = GetEquipmentColor(item, _bodyPart);
-                }
-                else
-                {
-                    if (slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2)
-                    {
-                        image.Content.Background = _potionSlotIcon;
-                    }
-                    else if (slot is EquipmentSlotType.Bag)
-                    {
-                        image.Content.Background = _bagSlotIcon;
-                    }
-                    else
-                    {
-                        image.Content.Background = null;
-                    }
-
-                    ((HorizontalProgressBar)((HorizontalStackPanel)image.Content).Widgets[0]).Visible = false;
-                }
+                _iconCache[item.ItemDef] = new ColoredRegion(new TextureRegion(item.GetIcon()), Color.White);
             }
 
-            ((ColoredRegion)_imageFrame.Background).Color = BodyPartColor.Get(_bodyPart);
+            progressBar.Visible = item.Durability > 1;
+            image.Content.Background = _iconCache[item.ItemDef];
+            progressBar.Value = item.Durability / item.MaxDurability * 100;
+            ((ColoredRegion)image.Content.Background).Color = GetEquipmentColor(item, bodyPart);
+            hintLabel.Visible = false;
+        }
+        else
+        {
+            if (slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2)
+            {
+                image.Content.Background = _potionSlotIcon;
+                hintLabel.Visible = false;
+            }
+            else if (slot is EquipmentSlotType.Bag)
+            {
+                image.Content.Background = _bagSlotIcon;
+                hintLabel.Visible = false;
+            }
+            else
+            {
+                image.Content.Background = null;
+                hintLabel.Visible = true;
+            }
+
+            progressBar.Visible = false;
         }
     }
+
+    /// <summary>
+    /// Short word shown in an empty slot so it's clear what the slot is for.
+    /// </summary>
+    private static string GetSlotHint(EquipmentSlotType slot) => slot switch
+    {
+        EquipmentSlotType.HandWeapon => "Wpn",
+        EquipmentSlotType.HandArmor => "Hand",
+        EquipmentSlotType.FootWeapon => "Kick",
+        EquipmentSlotType.FootArmor => "Foot",
+        EquipmentSlotType.LegArmor => "Leg",
+        EquipmentSlotType.ArmArmor => "Arm",
+        EquipmentSlotType.TorsoArmor => "Body",
+        EquipmentSlotType.NeckArmor => "Neck",
+        EquipmentSlotType.HeadArmor => "Head",
+        EquipmentSlotType.Cloak => "Cloak",
+        EquipmentSlotType.Necklace => "Amulet",
+        _ => string.Empty
+    };
 
     private static Color GetEquipmentColor(Item item, BodyPart bodyPart)
     {

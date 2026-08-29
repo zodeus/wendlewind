@@ -10,6 +10,7 @@ public class BodyDef : Def {
     public Type GeneratorClass = typeof(IBodyGenerator);
     public Type HandlerClass = typeof(DefaultBodyHandler);
     public Type? LayoutClass;
+    public EquipmentGridDef? EquipmentGrid;
 
     public DefaultBodyHandler CreateHandler(ISimFactory factory) => factory.Create<DefaultBodyHandler>(HandlerClass);
     public IBodyGenerator CreateGenerator(ISimFactory factory) => factory.Create<IBodyGenerator>(GeneratorClass);

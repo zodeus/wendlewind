@@ -6,7 +6,7 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayo
 /// Bat is viewed from the front with wings spread.
 /// </summary>
 [UsedImplicitly]
-public class BatBodyPartLayout : IBodyPartLayout
+public class BatBodyPartLayout : BodyPartLayoutBase
 {
     // Body part positions (native coordinates)
     private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()
@@ -21,20 +21,5 @@ public class BatBodyPartLayout : IBodyPartLayout
         { "Right Claw", new BodyPartLayoutData(new Vector2(130f, 376f), 40, 0.55f, 0.7854f, flipHorizontal: true) },
     };
 
-    public int NativeSize => 512;
-
-    public BodyPartRenderInfo? GetRenderInfo(BodyPart part)
-    {
-        if (!PartLayoutMap.TryGetValue(part.Label, out var layoutData))
-        {
-            return null;
-        }
-
-        if (part.GetIcon() == null)
-        {
-            return null;
-        }
-
-        return new BodyPartRenderInfo(part.GetIcon(), layoutData);
-    }
+    protected override IReadOnlyDictionary<string, BodyPartLayoutData> Map => PartLayoutMap;
 }

@@ -4,7 +4,7 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayo
 /// Body part layout for GameBox pawns (retro game console constructs).
 /// Positions are specified in a 512x512 coordinate space.
 /// </summary>
-public class GameBoxBodyPartLayout : IBodyPartLayout
+public class GameBoxBodyPartLayout : BodyPartLayoutBase
 {
     // Body part positions (native coordinates)
     private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()
@@ -20,22 +20,5 @@ public class GameBoxBodyPartLayout : IBodyPartLayout
         { "Head", new BodyPartLayoutData(new Vector2(154f, 162f), 60, 0.55f) }
     };
 
-
-    public int NativeSize => 512;
-    
-    public BodyPartRenderInfo? GetRenderInfo(BodyPart part)
-    {
-        if (!PartLayoutMap.TryGetValue(part.Label, out var layoutData))
-        {
-            Log.Error($"GameBoxBodyPartLayout: No layout data found for part: {part.Label}");
-            return null;
-        }
-        
-        if (part.GetIcon() == null)
-        {
-            return null;
-        }
-        
-        return new BodyPartRenderInfo(part.GetIcon(), layoutData);
-    }
+    protected override IReadOnlyDictionary<string, BodyPartLayoutData> Map => PartLayoutMap;
 }

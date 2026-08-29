@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Definitions>
+    <EquipmentGridDef>
+        <Moniker>RabbitBodyEquipmentGrid</Moniker>
+        <Label>Rabbit Body Equipment Grid</Label>
+        <Body>RabbitBody</Body>
+        <Columns>1</Columns>
+        <Rows>1</Rows>
+        <Cells>
+            <ListItem>
+                <PartKey>RabbitHead_HeadSocket</PartKey>
+                <Slot>BuiltIn</Slot>
+                <Col>0</Col>
+                <Row>0</Row>
+            </ListItem>
+        </Cells>
+    </EquipmentGridDef>
+</Definitions>

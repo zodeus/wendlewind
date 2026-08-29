@@ -5,7 +5,7 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayo
 /// Positions are specified in a 512x512 coordinate space.
 /// Rabbit is viewed from the side with head on the right.
 /// </summary>
-public class RabbitBodyPartLayout : IBodyPartLayout
+public class RabbitBodyPartLayout : BodyPartLayoutBase
 {
     // Body part positions (native coordinates)
     private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()
@@ -25,23 +25,7 @@ public class RabbitBodyPartLayout : IBodyPartLayout
         { "Front Left Leg", new BodyPartLayoutData(new Vector2(215f, 414f), 31, 0.44f, 0.3436f, flipHorizontal: true) },
     };
 
-
-    public int NativeSize => 512;
-
-    public BodyPartRenderInfo? GetRenderInfo(BodyPart part)
-    {
-        if (!PartLayoutMap.TryGetValue(part.Label, out var layoutData))
-        {
-            return null;
-        }
-
-        if (part.GetIcon() == null)
-        {
-            return null;
-        }
-
-        return new BodyPartRenderInfo(part.GetIcon(), layoutData);
-    }
+    protected override IReadOnlyDictionary<string, BodyPartLayoutData> Map => PartLayoutMap;
 }
 
 

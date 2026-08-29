@@ -6,6 +6,8 @@ namespace Wendlewind;
 public static class Program {
     [STAThread]
     private static void Main() {
+        Directory.SetCurrentDirectory(AppContext.BaseDirectory);
+
         AppDomain.CurrentDomain.UnhandledException += (_, args) =>
         {
             WriteCrash(args.ExceptionObject as Exception ?? new Exception(args.ExceptionObject?.ToString()));

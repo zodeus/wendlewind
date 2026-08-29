@@ -4,7 +4,7 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayo
 /// Body part layout for ghoul pawns.
 /// Positions are specified in a 512x512 coordinate space.
 /// </summary>
-public class GhoulBodyPartLayout : IBodyPartLayout
+public class GhoulBodyPartLayout : BodyPartLayoutBase
 {
     // Body part positions (native coordinates)
     private static readonly Dictionary<string, BodyPartLayoutData> PartLayoutMap = new()
@@ -24,22 +24,7 @@ public class GhoulBodyPartLayout : IBodyPartLayout
         { "Left Eye", new BodyPartLayoutData(new Vector2(248f, 197f), 75, 0.13f, -0.2094f) },
     };
 
-    public int NativeSize => 512;
-    
-    public BodyPartRenderInfo? GetRenderInfo(BodyPart part)
-    {
-        if (!PartLayoutMap.TryGetValue(part.Label, out var layoutData))
-        {
-            return null;
-        }
-        
-        if (part.GetIcon() == null)
-        {
-            return null;
-        }
-        
-        return new BodyPartRenderInfo(part.GetIcon(), layoutData);
-    }
+    protected override IReadOnlyDictionary<string, BodyPartLayoutData> Map => PartLayoutMap;
 }
 
 
