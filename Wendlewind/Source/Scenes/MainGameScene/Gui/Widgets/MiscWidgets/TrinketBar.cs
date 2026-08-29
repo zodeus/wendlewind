@@ -63,7 +63,7 @@ public sealed class TrinketBarCell : VerticalStackPanel
             {
                 VerticalAlignment = VerticalAlignment.Stretch,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
-                Background = new TextureRegion(trinket.Icon),
+                Background = new TextureRegion(trinket.GetIcon()),
             }
         };
         _button.Click += (_, _) => {
@@ -77,13 +77,30 @@ public sealed class TrinketBarCell : VerticalStackPanel
         // Hover tooltip using dynamic getter since label could change
         _button.WithDynamicTooltip(() => _trinket.Label, () => _trinket.Def.Description);
         
-        _trinket.TrinketHandler?.PrepareTrinketButton(_button);
         Widgets.Add(_button);
     }
 
     public void Update()
     {
-        _trinket.TrinketHandler?.Update(_button);
+        var handler = _trinket.TrinketHandler;
+        if (handler == null)
+        {
+            return;
+        }
+
+        if (handler.IsActive)
+        {
+            _button.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright];
+        }
+        else if (handler.Cooldown > 0)
+        {
+            _button.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameRed];
+        }
+        else
+        {
+            _button.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
+        }
+
         TooltipHelper.UpdatePosition();
     }
 }

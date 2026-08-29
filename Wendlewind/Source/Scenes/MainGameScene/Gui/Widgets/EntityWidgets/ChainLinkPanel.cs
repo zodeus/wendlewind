@@ -34,7 +34,7 @@ public sealed class ChainLinkPanel : EntityPanelBase
         };
         iconFrame.Widgets.Add(new Image
         {
-            Background = new TextureRegion(item.Icon),
+            Background = new TextureRegion(item.GetIcon()),
             Width = 76, Height = 76,
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center
@@ -115,7 +115,7 @@ public sealed class ChainLinkPanel : EntityPanelBase
             Padding = new Thickness(8),
             Content = new Image
             {
-                Background = new TextureRegion(recipe.ArmorDef.Icon),
+                Background = new TextureRegion(recipe.ArmorDef.GetIcon()),
                 Width = 64,
                 Height = 64
             }
@@ -170,7 +170,6 @@ public sealed class ChainLinkPanel : EntityPanelBase
         // Show feedback
         Gui.PushScreenMessage(new ScreenMessageData
         {
-            Font = BaseContent.Fonts.Default.Medium,
             Text = $"Forged {recipe.ArmorDef.Label}!",
             Duration = 3,
             Color = BaseContent.Colors.Text.Golden

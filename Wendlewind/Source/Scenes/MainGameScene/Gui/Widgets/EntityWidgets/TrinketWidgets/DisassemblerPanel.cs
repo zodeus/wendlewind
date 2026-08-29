@@ -10,7 +10,7 @@ public sealed class DisassemblerPanel : EntityPanelBase
         Padding = new Thickness(20);
         MinWidth = 720;
         Height = 720;
-        Background = new ColoredRegion(new TextureRegion(_.Icon), new Color(20, 20, 20, 120));
+        Background = new ColoredRegion(new TextureRegion(_.GetIcon()), new Color(20, 20, 20, 120));
 
         // Subtitle
         Widgets.Add(new Label(BaseContent.Styles.Label.Small)
@@ -138,7 +138,7 @@ public sealed class DisassembleItemCard : Panel
         };
         iconFrame.Widgets.Add(new Image
         {
-            Background = new TextureRegion(item.Icon),
+            Background = new TextureRegion(item.GetIcon()),
             Width = 56,
             Height = 56,
             HorizontalAlignment = HorizontalAlignment.Center,
@@ -271,7 +271,7 @@ public sealed class DisassembleItemCard : Panel
 
         iconFrame.Widgets.Add(new Image
         {
-            Background = new TextureRegion(resource.Item.Icon),
+            Background = new TextureRegion(resource.Item.GetIcon()),
             Width = 40,
             Height = 40,
             HorizontalAlignment = HorizontalAlignment.Center,
@@ -312,7 +312,7 @@ public sealed class DisassembleItemCard : Panel
 
         iconFrame.Widgets.Add(new Image
         {
-            Background = new TextureRegion(enchantment.Icon),
+            Background = new TextureRegion(enchantment.GetIcon()),
             Width = 40,
             Height = 40,
             HorizontalAlignment = HorizontalAlignment.Center,

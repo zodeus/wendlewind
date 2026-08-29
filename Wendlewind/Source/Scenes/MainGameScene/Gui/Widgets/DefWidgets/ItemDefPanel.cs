@@ -20,7 +20,7 @@ public class ItemDefPanel : DefPanelBase {
         var iconPanel = new Panel {
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
             Padding = new Thickness(3),
-            Widgets = { new Image { Background = new TextureRegion(resource.Icon), Width = 64, Height = 64 } },
+            Widgets = { new Image { Background = new TextureRegion(resource.GetIcon()), Width = 64, Height = 64 } },
             VerticalAlignment = VerticalAlignment.Top
         };
         Grid.SetRow(iconPanel, 0);

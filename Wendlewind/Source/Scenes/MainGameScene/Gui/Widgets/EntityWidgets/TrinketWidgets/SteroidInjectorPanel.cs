@@ -51,7 +51,7 @@ public sealed class SteroidInjectorPanel : EntityPanelBase
             {
                 new Image
                 {
-                    Background = new TextureRegion(item.Icon),
+                    Background = new TextureRegion(item.GetIcon()),
                     Width = 52,
                     Height = 52,
                     HorizontalAlignment = HorizontalAlignment.Center,
@@ -355,7 +355,7 @@ public sealed class SteroidInjectorPanel : EntityPanelBase
             _injectButton.Enabled = canAfford;
             
             // Update icon color based on health
-            _partIcon.Background = new ColoredRegion(new TextureRegion(_bodyPart.Icon), BodyPartColor.Get(_bodyPart));
+            _partIcon.Background = new ColoredRegion(new TextureRegion(_bodyPart.GetIcon()), BodyPartColor.Get(_bodyPart));
             
             // Update name color
             _partNameLabel.TextColor = canAfford ? BodyPartColor.Get(_bodyPart) : DisabledTextColor;

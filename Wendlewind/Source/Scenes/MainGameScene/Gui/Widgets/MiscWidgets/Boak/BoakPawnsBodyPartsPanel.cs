@@ -91,7 +91,7 @@ internal class BoakPawnsBodyPartsPanel : VerticalStackPanel
                 Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
                 Padding = new Thickness(1),
                 VerticalAlignment = VerticalAlignment.Center,
-                Widgets = { new Image { Width = 22, Height = 22, Background = new TextureRegion(def.Icon) } }
+                Widgets = { new Image { Width = 22, Height = 22, Background = new TextureRegion(def.GetIcon()) } }
             };
             AddCell(grid, iconPanel, row, col++);
 

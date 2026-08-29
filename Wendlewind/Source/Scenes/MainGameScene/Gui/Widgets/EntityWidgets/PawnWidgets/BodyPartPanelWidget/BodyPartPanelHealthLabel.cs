@@ -13,7 +13,7 @@ internal sealed class BodyPartPanelHealthLabel : VerticalStackPanel
         Margin = new Thickness(0, 0, 0, 10);
         Spacing = 10;
 
-        _image = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.Icon), Color.White), Width = 128, Height = 128 };
+        _image = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.GetIcon()), Color.White), Width = 128, Height = 128 };
         _label = new Label(BaseContent.Styles.Label.Medium);
         Widgets.Add(_image);
         Widgets.Add(_label);

@@ -368,7 +368,7 @@ public sealed class BodyPartEquippedItemsWidget : VerticalStackPanel
         };
         var icon = new Image
         {
-            Background = new TextureRegion(item.Icon),
+            Background = new TextureRegion(item.GetIcon()),
             Width = 32,
             Height = 32,
             HorizontalAlignment = HorizontalAlignment.Center,

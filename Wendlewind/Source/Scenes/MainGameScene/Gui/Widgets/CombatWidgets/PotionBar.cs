@@ -12,7 +12,7 @@ public sealed class PotionBar : HorizontalStackPanel, IUpdatable
             {
                 Content = new Image
                 {
-                    Background = new TextureRegion(potion.Icon),
+                    Background = new TextureRegion(potion.GetIcon()),
                     Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium
                 }
             };

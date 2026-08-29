@@ -5,7 +5,7 @@ public class EntityIcon : Image
     public EntityIcon(EntityDef def, int? size = null)
     {
         size ??= BaseContent.IconSizes.Large;
-        Background = new TextureRegion(def.Icon);
+        Background = new TextureRegion(def.GetIcon());
         Width = size;
         Height = size;
     }
@@ -13,7 +13,7 @@ public class EntityIcon : Image
     public EntityIcon(Entity entity, int? size = null)
     {
         size ??= BaseContent.IconSizes.Large;
-        Background = new TextureRegion(entity.Icon);
+        Background = new TextureRegion(entity.GetIcon());
         Width = size;
         Height = size;
     }

@@ -21,7 +21,7 @@ public sealed class FoodPanel : EntityPanelBase
             Spacing = 15,
             Widgets =
             {
-                new Image { Background = new TextureRegion(item.Icon), Width = 96, Height = 96 },
+                new Image { Background = new TextureRegion(item.GetIcon()), Width = 96, Height = 96 },
                 new VerticalStackPanel
                 {
                     Spacing = 5,
@@ -85,7 +85,7 @@ public sealed class FoodPanel : EntityPanelBase
 
                 effectPanel.Widgets.Add(new Image
                 {
-                    Background = new TextureRegion(effect.Def.Texture),
+                    Background = new TextureRegion(effect.Def.GetTexture()),
                     Width = 20,
                     Height = 20
                 });

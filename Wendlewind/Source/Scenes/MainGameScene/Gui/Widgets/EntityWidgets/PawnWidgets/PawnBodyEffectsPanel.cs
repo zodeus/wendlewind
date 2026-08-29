@@ -159,7 +159,7 @@ public sealed class PawnBodyEffectsPanel : Panel, IUpdatable
                 Padding = new Thickness(10, 10, 10, 6),
                 Content = new Panel
                 {
-                    Background = new TextureRegion(effect.Def.Texture),
+                    Background = new TextureRegion(effect.Def.GetTexture()),
                     Widgets =
                     {
                         _durationLabel

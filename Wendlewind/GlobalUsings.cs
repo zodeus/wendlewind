@@ -28,6 +28,7 @@ global using Wendlewind.Sim.Entities.Items.Trinkets;
 
 global using Wendlewind.Sim.Persistence;
 global using Wendlewind.Sim.Zones;
+global using Wendlewind.Presentation;
 global using Wendlewind.Utils;
 global using JetBrains.Annotations;
 global using Microsoft.Xna.Framework;

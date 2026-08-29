@@ -84,7 +84,7 @@ public class MapNodeWidget : Panel
             {
                 var stateIcon = new Image
                 {
-                    Background = new ColoredRegion(new TextureRegion(_zone.ZoneDef.IconTexture), new Color(80, 80, 80)),
+                    Background = new ColoredRegion(new TextureRegion(_zone.ZoneDef.GetIcon()), new Color(80, 80, 80)),
                     Width = 60,
                     Height = 63,
                     HorizontalAlignment = HorizontalAlignment.Center,

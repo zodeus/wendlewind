@@ -36,6 +36,7 @@ public static class DevConsoleCommands
             "complete-zone" => CompleteZone(),
             "stats" => ShowStats(),
             "tp" or "teleport" => Teleport(args),
+            "fight" => Fight(),
             "list-zones" or "zones" => ListZones(args),
             _ => $"Unknown command: /{command}. Type /help for available commands."
         };
@@ -111,6 +112,7 @@ public static class DevConsoleCommands
                "  /complete-zone      - Complete current zone\n" +
                "  /stats              - Show player stats\n" +
                "  /tp <zone-moniker>  - Teleport to zone\n" +
+               "  /fight              - Start the current zone encounter\n" +
                "  /clear              - Clear console";
     }
 
@@ -367,5 +369,20 @@ public static class DevConsoleCommands
         zone.Stage = 0;
         context.EnterZone(zoneDef);
         return $"Teleporting to {zoneDef.Label}...";
+    }
+
+    private static string Fight()
+    {
+        var zone = Core.Context?.CurrentZone;
+        if (zone == null)
+            return "Error: Not in a zone. Use /tp <zone> first.";
+
+        if (zone.State == ZoneState.Combat && zone.ActiveEncounter?.State == EncounterState.InProgress)
+            return "Combat is already in progress.";
+
+        zone.NextEncounter();
+        return zone.State == ZoneState.Combat
+            ? "Fight started."
+            : $"Encounter advanced to {zone.State}.";
     }
 }

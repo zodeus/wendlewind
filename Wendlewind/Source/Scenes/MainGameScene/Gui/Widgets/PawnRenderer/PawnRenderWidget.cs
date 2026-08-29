@@ -64,7 +64,7 @@ public class PawnRenderWidget : Panel, IDisposable
         Texture2D? fallbackIcon = null;
         if (!_renderer.HasValidLayout)
         {
-            fallbackIcon = pawn.Icon;
+            fallbackIcon = pawn.GetIcon();
         }
 
         // Create the render area

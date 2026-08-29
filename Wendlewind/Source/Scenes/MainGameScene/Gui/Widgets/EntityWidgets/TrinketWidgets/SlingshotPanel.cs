@@ -27,7 +27,7 @@ public sealed class SlingshotPanel : EntityPanelBase
         // Header with icon, title, and active bonuses
         _headerIcon = new Image
         {
-            Background = new TextureRegion(_handler.CurrentTexture),
+            Background = new TextureRegion(EntityVisuals.LoadPremultiplied(_handler.CurrentTexturePath)),
             Width = 48, Height = 48
         };
         
@@ -153,7 +153,7 @@ public sealed class SlingshotPanel : EntityPanelBase
     
     private void RefreshHeaderIcon()
     {
-        _headerIcon.Background = new TextureRegion(_handler.CurrentTexture);
+        _headerIcon.Background = new TextureRegion(EntityVisuals.LoadPremultiplied(_handler.CurrentTexturePath));
         _autoFireToggle.Visible = _handler.UpgradeLevel >= 3;
     }
 

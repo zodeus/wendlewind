@@ -7,7 +7,7 @@ internal class DefsPanel : Grid {
         int gridRow = 0;
         int gridColum = 0;
         foreach (Def def in defs) {
-            DefPanelBase panel = def.UiPanel(new DefPanelProperties { Background = background });
+            DefPanelBase panel = DefPanelFactory.Create(def, new DefPanelProperties { Background = background });
             Grid.SetRow(panel, gridRow);
             Grid.SetColumn(panel, gridColum);
             Widgets.Add(panel);

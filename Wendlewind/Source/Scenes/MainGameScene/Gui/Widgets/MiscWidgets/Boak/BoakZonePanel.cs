@@ -27,7 +27,7 @@ internal sealed class BoakZoneCard : Panel
                 {
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     VerticalAlignment = VerticalAlignment.Stretch,
-                    Background = new TextureRegion(zoneDef.BackgroundTexture)
+                    Background = new TextureRegion(zoneDef.GetBackground())
                 }
             }
         };
@@ -150,7 +150,7 @@ internal sealed class BoakZoneCard : Panel
                         {
                             Width = IconSize,
                             Height = IconSize,
-                            Background = new TextureRegion(resource.Item.Icon)
+                            Background = new TextureRegion(resource.Item.GetIcon())
                         }
                     }
                 };
@@ -205,7 +205,7 @@ internal sealed class BoakZoneCard : Panel
                         {
                             Width = 32,
                             Height = 32,
-                            Background = new TextureRegion(drop.Icon)
+                            Background = new TextureRegion(drop.GetIcon())
                         }
                     }
                 };

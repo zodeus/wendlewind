@@ -51,7 +51,7 @@ public class ZoneSelectionWindow : Window
         {
             VerticalAlignment = VerticalAlignment.Top,
             Padding = new Thickness(40, 0, 40, 0),
-            Background = new ColoredRegion(new TextureRegion(zone.ZoneDef.BackgroundTexture), new Color(20, 20, 20, 20)),
+            Background = new ColoredRegion(new TextureRegion(zone.ZoneDef.GetBackground()), new Color(20, 20, 20, 20)),
             Spacing = 5,
             Widgets =
             {

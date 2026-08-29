@@ -23,11 +23,19 @@ public class Core : Game
 
     public static Emitter<CoreEvent> Emitter { get; private set; } = null!;
 
-    public static GameContext Context { get; set; } = null!;
+    public static GameContext Context
+    {
+        get => GameContext.Current;
+        set => GameContext.Current = value;
+    }
     public static SceneManager Scene { get; } = new();
     public static GraphicsWrapper Graphics { get; private set; } = null!;
 
-    public static Random Random { get; private set; } = null!;
+    public static Random Random
+    {
+        get => GameContext.Random;
+        set => GameContext.Random = value;
+    }
     public static bool PauseInBackground { get; set; } = false;
     public static bool PauseCoroutines { get; set; } = false;
 
@@ -193,6 +201,8 @@ public class Core : Game
         }
 
         Content = new ContentManager(GraphicsDevice, contentDirectory);
+        RenderHost.GraphicsDevice = GraphicsDevice;
+        RenderHost.Content = Content;
         Graphics = new GraphicsWrapper();
 
         //Scene.Load<LoadingScene>();

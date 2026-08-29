@@ -72,7 +72,7 @@ internal sealed class SupplyItemButton : CursorButton
         // Item icon
         container.Widgets.Add(new Image
         {
-            Background = new TextureRegion(item.Icon),
+            Background = new TextureRegion(item.GetIcon()),
             Width = BaseContent.IconSizes.Large,
             Height = BaseContent.IconSizes.Large
         });
@@ -100,7 +100,7 @@ internal sealed class SupplyItemButton : CursorButton
         // Attach the item to the mouse for use
         _gui.MouseAttachment = new MouseAttachment(
             _gui,
-            _item.Icon,
+            _item.GetIcon(),
             leftClickAction: null,
             updateAction: (attachment) =>
             {

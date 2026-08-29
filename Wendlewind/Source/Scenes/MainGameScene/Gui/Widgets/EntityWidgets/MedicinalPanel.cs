@@ -17,9 +17,7 @@ public class MedicinalPanel : EntityPanelBase
     {
         _item = item;
 
-        // Try to get a custom info panel from the handler
-        var handler = item.ItemDef.MedicinalProperties?.Handler;
-        _customContent = handler?.GetInfoPanel(item);
+        _customContent = null;
 
         if (_customContent != null)
         {
@@ -44,7 +42,7 @@ public class MedicinalPanel : EntityPanelBase
                 Spacing = 10,
                 Widgets =
                 {
-                    new Image { Background = new TextureRegion(item.Icon), Width = 128, Height = 128 },
+                    new Image { Background = new TextureRegion(item.GetIcon()), Width = 128, Height = 128 },
                     new Label(BaseContent.Styles.Label.Normal)
                     {
                         Text = item.Def.Description,

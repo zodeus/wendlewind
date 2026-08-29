@@ -46,7 +46,7 @@ public sealed class PerforationTrapPanel : EntityPanelBase
             {
                 new Image
                 {
-                    Background = new TextureRegion(item.Icon),
+                    Background = new TextureRegion(item.GetIcon()),
                     Width = 100,
                     Height = 100,
                     HorizontalAlignment = HorizontalAlignment.Center,
@@ -187,7 +187,7 @@ public sealed class PerforationTrapPanel : EntityPanelBase
             var row = new HorizontalStackPanel { Spacing = 8 };
             row.Widgets.Add(new Image
             {
-                Background = new TextureRegion(cost.Item.Texture),
+                Background = new TextureRegion(cost.Item.GetTexture()),
                 Width = 20,
                 Height = 20,
                 VerticalAlignment = VerticalAlignment.Center

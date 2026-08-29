@@ -23,7 +23,7 @@ public class EntitySelector : Window {
                 selectionAction(entity);
                 Close();
             };
-            row.Widgets.Add(new Image { Height = 32, Width = 32, Background = new TextureRegion(entity.Icon), Margin = new Thickness(10, 0, 0, 0) });
+            row.Widgets.Add(new Image { Height = 32, Width = 32, Background = new TextureRegion(entity.GetIcon()), Margin = new Thickness(10, 0, 0, 0) });
             Label label = new() { Text = entity is Item item ? item.LabelWithStackSize : entity.Label, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 10, 0) };
             row.Widgets.Add(label);
             panel.Widgets.Add(row);

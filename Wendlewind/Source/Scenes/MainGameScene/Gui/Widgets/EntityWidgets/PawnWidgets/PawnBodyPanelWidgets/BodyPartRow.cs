@@ -59,7 +59,7 @@ internal sealed class BodyPartRow : HorizontalStackPanel
                 partsInCurrentRow = 0;
             }
 
-            BodyPartIcon partIcon = new(new ColoredRegion(new TextureRegion(part.WhiteIcon), BodyPartColor.Get(bodyPart)), panel =>
+            BodyPartIcon partIcon = new(new ColoredRegion(new TextureRegion(part.GetWhiteIcon()), BodyPartColor.Get(bodyPart)), panel =>
             {
                 // Keep the main ring color based on the body part state
                 panel.SetColor(BodyPartColor.Get(part));
@@ -103,7 +103,6 @@ internal sealed class BodyPartRow : HorizontalStackPanel
                 item.StackSize--;
                 _gui.WorldTextHandler.Add(new WorldSpaceText
                 {
-                    Font = BaseContent.Fonts.Default.Medium,
                     Color = Color.GreenYellow,
                     Text = item.Label,
                     DurationInTicks = 120,

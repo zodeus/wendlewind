@@ -71,7 +71,6 @@ public sealed class DevConsole : Panel
         {
             Text = ">",
             TextColor = new Color(100, 200, 100),
-            Font = BaseContent.Fonts.Default.Normal,
             VerticalAlignment = VerticalAlignment.Center
         });
         
@@ -241,7 +240,6 @@ public sealed class DevConsole : Panel
         {
             Text = text,
             TextColor = color,
-            Font = BaseContent.Fonts.Default.Small,
             Wrap = true,
             Width = Core.ReferenceResolution.X - 50
         };

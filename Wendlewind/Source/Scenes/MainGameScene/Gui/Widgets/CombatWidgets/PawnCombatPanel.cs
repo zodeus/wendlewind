@@ -182,7 +182,7 @@ internal sealed class BodyStanceBar : HorizontalStackPanel
             {
                 Content = new Image
                 {
-                    Background = new ColoredRegion(new TextureRegion(stance.Texture), defaultColor),
+                    Background = new ColoredRegion(new TextureRegion(stance.GetTexture()), defaultColor),
                     Width = BaseContent.IconSizes.Medium, Height = BaseContent.IconSizes.Medium
                 }
             };

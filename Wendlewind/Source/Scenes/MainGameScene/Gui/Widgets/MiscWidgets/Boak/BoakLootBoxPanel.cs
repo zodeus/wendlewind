@@ -32,7 +32,7 @@ internal sealed class BoakLootBoxCard : Panel
                 {
                     Width = ChestIconSize,
                     Height = ChestIconSize,
-                    Background = new TextureRegion(def.Icon)
+                    Background = new TextureRegion(def.GetIcon())
                 }
             }
         };
@@ -147,7 +147,7 @@ internal sealed class BoakLootBoxCard : Panel
                         {
                             Width = ItemIconSize,
                             Height = ItemIconSize,
-                            Background = new TextureRegion(item.ItemDef.Icon)
+                            Background = new TextureRegion(item.ItemDef.GetIcon())
                         }
                     }
                 };

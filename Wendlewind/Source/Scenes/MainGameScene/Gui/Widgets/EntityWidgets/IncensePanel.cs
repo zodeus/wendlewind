@@ -33,7 +33,7 @@ public sealed class IncensePanel : EntityPanelBase
         };
         iconFrame.Widgets.Add(new Image
         {
-            Background = new TextureRegion(item.Icon),
+            Background = new TextureRegion(item.GetIcon()),
             Width = 84,
             Height = 84,
             VerticalAlignment = VerticalAlignment.Center,
@@ -96,7 +96,7 @@ public sealed class IncensePanel : EntityPanelBase
 
             effectRow.Widgets.Add(new Image
             {
-                Background = new TextureRegion(incenseProps.Effect.Def.Texture),
+                Background = new TextureRegion(incenseProps.Effect.Def.GetTexture()),
                 Width = 20,
                 Height = 20
             });

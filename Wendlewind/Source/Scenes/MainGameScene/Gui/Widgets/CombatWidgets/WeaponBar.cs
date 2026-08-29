@@ -48,7 +48,7 @@ public sealed class WeaponBar : HorizontalStackPanel, IUpdatable
         foreach (var (weapon, bodyPart) in _pawn.Equipment.Weapons)
         {
             var initialColor = weapon.UseInCombat ? EnabledWeaponColor : DisabledWeaponColor;
-            var backgroundImage = new ColoredRegion(new TextureRegion(weapon.Icon), initialColor);
+            var backgroundImage = new ColoredRegion(new TextureRegion(weapon.GetIcon()), initialColor);
             var button = new CursorButton(BaseContent.Styles.Button.Icon)
             {
                 Content = new Image

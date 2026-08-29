@@ -303,7 +303,7 @@ public static class BodyPartRenderHelper
             if (item.ItemDef.EquipmentProperties?.EquipmentType != EquipmentType.Weapon) continue;
             
             // Get the weapon's texture
-            var weaponTexture = item.ItemDef.Texture;
+            var weaponTexture = item.ItemDef.GetTexture();
             if (weaponTexture == null) continue;
             
             // Calculate the center of the body part in screen coordinates
@@ -375,7 +375,7 @@ public static class BodyPartRenderHelper
             if (item.ItemDef.EquipmentProperties?.EquipmentType != EquipmentType.Armor) continue;
             
             // Get the armor's texture
-            var armorTexture = item.ItemDef.Texture;
+            var armorTexture = item.ItemDef.GetTexture();
             if (armorTexture == null) continue;
             
             // Calculate the center of the body part in screen coordinates

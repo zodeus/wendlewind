@@ -92,7 +92,7 @@ public class ItemUpgradePanel : VerticalStackPanel
 
             trinketRow.Widgets.Add(new Image
             {
-                Background = new TextureRegion(trinketDef.Texture),
+                Background = new TextureRegion(trinketDef.GetTexture()),
                 Width = 20, Height = 20,
                 Opacity = hasTrinket ? 1.0f : 0.4f,
                 VerticalAlignment = VerticalAlignment.Center
@@ -118,7 +118,7 @@ public class ItemUpgradePanel : VerticalStackPanel
 
             costRow.Widgets.Add(new Image
             {
-                Background = new TextureRegion(cost.Item.Texture),
+                Background = new TextureRegion(cost.Item.GetTexture()),
                 Width = 20, Height = 20,
                 Opacity = hasEnough ? 1.0f : 0.5f,
                 VerticalAlignment = VerticalAlignment.Center

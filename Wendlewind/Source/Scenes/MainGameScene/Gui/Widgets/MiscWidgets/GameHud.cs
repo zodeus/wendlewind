@@ -106,7 +106,7 @@ public sealed class GameHud : HorizontalStackPanel
             HorizontalAlignment = HorizontalAlignment.Center,
             Width = 32,
             Height = 32,
-            Background = new ColoredRegion(new TextureRegion(Defs.BodyParts.Stomach.Icon), Color.White)
+            Background = new ColoredRegion(new TextureRegion(Defs.BodyParts.Stomach.GetIcon()), Color.White)
         };
 
         _stomachContainer = new Panel

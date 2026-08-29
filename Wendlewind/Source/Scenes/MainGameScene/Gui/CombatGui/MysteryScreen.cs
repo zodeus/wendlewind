@@ -89,7 +89,7 @@ internal sealed class MysteryScreen : VerticalStackPanel
                 {
                     new Image
                     {
-                        Background = new TextureRegion(item.ItemDef.Icon),
+                        Background = new TextureRegion(item.ItemDef.GetIcon()),
                         Width = 128,
                         Height = 128,
                         HorizontalAlignment = HorizontalAlignment.Center

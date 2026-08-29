@@ -31,12 +31,12 @@ public class TurtleBodyPartLayout : IBodyPartLayout
             return null;
         }
 
-        if (part.Image == null)
+        if (part.GetIcon() == null)
         {
             return null;
         }
 
-        return new BodyPartRenderInfo(part.Image, layoutData);
+        return new BodyPartRenderInfo(part.GetIcon(), layoutData);
     }
 }
 

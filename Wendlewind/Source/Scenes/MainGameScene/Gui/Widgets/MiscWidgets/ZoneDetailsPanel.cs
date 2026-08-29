@@ -120,7 +120,7 @@ public class ZoneDetailsPanel : VerticalStackPanel
         section.Widgets.Add(CreateSectionLabel("Potential Resources"));
         var allDrops = GetAllEnemyDrops(zoneDef);
         var allUniqueResources = zoneDef.Resources.Select(r => r.Item).Concat(allDrops).Distinct().ToList();
-        section.Widgets.Add(CreateWrappedIconRows(allUniqueResources, r => CreateIconCell(r.Icon).WithTooltip(r.Label)));
+        section.Widgets.Add(CreateWrappedIconRows(allUniqueResources, r => CreateIconCell(r.GetIcon()).WithTooltip(r.Label)));
         return section;
     }
 
@@ -129,7 +129,7 @@ public class ZoneDetailsPanel : VerticalStackPanel
         var uniqueChests = zoneDef.Encounters.SelectMany(e => e.PotentialLootBoxes).Distinct().OrderBy(c => c.Moniker).ToList();
         var section = new VerticalStackPanel { Spacing = 8 };
         section.Widgets.Add(CreateSectionLabel("Potential Chests"));
-        section.Widgets.Add(CreateWrappedIconRows(uniqueChests, c => CreateIconCell(c.Icon).WithTooltip(c.Label)));
+        section.Widgets.Add(CreateWrappedIconRows(uniqueChests, c => CreateIconCell(c.GetIcon()).WithTooltip(c.Label)));
         return section;
     }
 

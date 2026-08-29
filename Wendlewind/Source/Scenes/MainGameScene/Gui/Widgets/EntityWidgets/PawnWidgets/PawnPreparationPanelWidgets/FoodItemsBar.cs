@@ -81,7 +81,7 @@ internal sealed class FoodItemButton : CursorButton
         // Item icon
         _iconImage = new Image
         {
-            Background = new ColoredRegion(new TextureRegion(item.Icon), Color.White),
+            Background = new ColoredRegion(new TextureRegion(item.GetIcon()), Color.White),
             Width = BaseContent.IconSizes.Large,
             Height = BaseContent.IconSizes.Large
         };
@@ -180,7 +180,6 @@ internal sealed class FoodItemButton : CursorButton
         {
             _gui.WorldTextHandler.Add(new WorldSpaceText
             {
-                Font = BaseContent.Fonts.Default.Medium,
                 Color = Color.PaleGoldenrod,
                 Text = _item.Label,
                 DurationInTicks = 120,

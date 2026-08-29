@@ -113,7 +113,7 @@ public class ZoneGui : BaseGui
             RasterizerState.CullNone
         );
         spriteBatch.Draw(
-            Zone.ZoneDef.BackgroundTexture, new Rectangle(0, 0, Screen.Width, Screen.Height),
+            Zone.ZoneDef.GetBackground(), new Rectangle(0, 0, Screen.Width, Screen.Height),
             new Color(255, 255, 255, 0.1f)
         );
         spriteBatch.End();

@@ -29,6 +29,7 @@ public class GameScene : Scene
         }
 
         StartGame();
+        TryStartSmokeEncounter();
     }
 
     private void ReloadGui()
@@ -67,7 +68,6 @@ public class GameScene : Scene
             ActiveGui!.PushScreenMessage(new ScreenMessageData
             {
                 Text = "Ahhh.... A new specimen...",
-                Font = BaseContent.Fonts.Default.Huge,
                 Duration = 3,
                 Color = Color.WhiteSmoke
             });
@@ -85,6 +85,23 @@ public class GameScene : Scene
         _context.Initialize();
         ActiveGui = null;
         StartGame();
+    }
+
+    private void TryStartSmokeEncounter()
+    {
+        if (Environment.GetEnvironmentVariable("WENDLEWIND_SMOKE") != "1")
+        {
+            return;
+        }
+
+        var zone = _context.World.Zones.OrderBy(z => z.ZoneDef.Stage).FirstOrDefault();
+        if (zone == null)
+        {
+            return;
+        }
+
+        _context.EnterZone(zone.ZoneDef);
+        _context.CurrentZone?.NextEncounter();
     }
 
     private void StartOver()
@@ -160,7 +177,6 @@ public class GameScene : Scene
             ActiveGui!.PushScreenMessage(new ScreenMessageData
             {
                 Text = "Game Saved",
-                Font = BaseContent.Fonts.Default.Huge,
                 Duration = 3,
                 Color = Color.WhiteSmoke
             });
@@ -182,7 +198,6 @@ public class GameScene : Scene
             ActiveGui!.PushScreenMessage(new ScreenMessageData
             {
                 Text = "Game Loaded",
-                Font = BaseContent.Fonts.Default.Huge,
                 Duration = 3,
                 Color = Color.WhiteSmoke
             });

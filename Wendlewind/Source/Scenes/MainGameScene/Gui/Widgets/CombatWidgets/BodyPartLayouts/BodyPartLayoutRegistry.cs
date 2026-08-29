@@ -11,7 +11,12 @@ public static class BodyPartLayoutRegistry
     /// <returns>The layout, or null if no layout is configured for this body type.</returns>
     public static IBodyPartLayout? GetLayoutFor(PawnBody body)
     {
-        return body.Def.Layout;
+        if (body.Def.LayoutClass == null)
+        {
+            return null;
+        }
+
+        return (IBodyPartLayout)Activator.CreateInstance(body.Def.LayoutClass)!;
     }
 }
 

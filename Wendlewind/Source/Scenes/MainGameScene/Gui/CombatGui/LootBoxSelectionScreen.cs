@@ -79,7 +79,7 @@ public sealed class LootBoxSelectionScreen : VerticalStackPanel
             Padding = new Thickness(16),
             Content = new Image
             {
-                Background = new TextureRegion(box.Icon),
+                Background = new TextureRegion(box.GetIcon()),
                 Width = 256,
                 Height = 256
             }
@@ -170,7 +170,7 @@ public sealed class LootBoxSelectionScreen : VerticalStackPanel
                 {
                     new Image
                     {
-                        Background = new TextureRegion(item.ItemDef.Icon),
+                        Background = new TextureRegion(item.ItemDef.GetIcon()),
                         Width = 128, Height = 128, HorizontalAlignment = HorizontalAlignment.Center
                     },
                     new HorizontalSeparator { Margin = new Thickness(0, 0, 0, 10) },

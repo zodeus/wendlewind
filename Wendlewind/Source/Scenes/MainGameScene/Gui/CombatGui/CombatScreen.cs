@@ -321,7 +321,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             if (!Equals(_playerQueuedPotion, potion))
             {
                 _playerQueuedPotion = potion;
-                _playerQueuedPotionSlot.Content = new Image { Background = new TextureRegion(potion.Icon), Width = 64, Height = 64 };
+                _playerQueuedPotionSlot.Content = new Image { Background = new TextureRegion(potion.GetIcon()), Width = 64, Height = 64 };
             }
         }
         else if (_playerQueuedPotionSlot.Content != null)
@@ -335,7 +335,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             if (!Equals(_enemyQueuedPotion, enemyPotion))
             {
                 _enemyQueuedPotion = enemyPotion;
-                _enemyQueuedPotionSlot.Content = new Image { Background = new TextureRegion(enemyPotion.Icon), Width = 64, Height = 64 };
+                _enemyQueuedPotionSlot.Content = new Image { Background = new TextureRegion(enemyPotion.GetIcon()), Width = 64, Height = 64 };
             }
         }
         else if (_enemyQueuedPotionSlot.Content != null)

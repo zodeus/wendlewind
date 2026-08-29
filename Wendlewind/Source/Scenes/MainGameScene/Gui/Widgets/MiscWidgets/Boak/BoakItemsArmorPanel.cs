@@ -55,7 +55,7 @@ internal sealed class BoakItemsArmorPanel : ScrollViewer
                 Margin = new Thickness(6),
                 Width = 48,
                 Height = 48,
-                Background = new TextureRegion(def.Icon),
+                Background = new TextureRegion(def.GetIcon()),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center
             });

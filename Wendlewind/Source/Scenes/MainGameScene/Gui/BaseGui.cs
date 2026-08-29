@@ -163,7 +163,8 @@ public abstract class BaseGui : IDisposable
                 DepthStencilState.None,
                 RasterizerState.CullNone
             );
-            int offset = (int)_screenMessage.Font.MeasureString(_screenMessage.Text).X / 2;
+            var font = BaseContent.Fonts.Default.VeryLarge;
+            int offset = (int)font.MeasureString(_screenMessage.Text).X / 2;
             Color colorA = _screenMessage.Color.Multiply(new Color(1f, 1f, 1f, Mathf.Lerp(0f, 1f, _screenMessageTimeLeft / _screenMessage.Duration)));
             Color colorB = _screenMessage.Color.Multiply(new Color(1f, 1f, 1f, Mathf.Lerp(0f, .6f, _screenMessageTimeLeft / _screenMessage.Duration)));
             int xOffsetA = Core.Random.Next(-2, 2);
@@ -171,9 +172,9 @@ public abstract class BaseGui : IDisposable
             int xOffsetB = Core.Random.Next(-8, 8);
             int yOffsetB = Core.Random.Next(-8, 8);
 
-            spriteBatch.DrawString(_screenMessage.Font, _screenMessage.Text, new Vector2((Screen.Width / 2) - offset + xOffsetB, 400 + yOffsetB), colorB);
+            spriteBatch.DrawString(font, _screenMessage.Text, new Vector2((Screen.Width / 2) - offset + xOffsetB, 400 + yOffsetB), colorB);
             //spriteBatch.DrawString(BaseContent.Fonts.Default.VeryLarge, _screenMessage, new Vector2((Screen.Width / 2) - offset + Core.Random.Next(-5, 5), 300 + Core.Random.Next(-5, 5)), colorB);
-            spriteBatch.DrawString(_screenMessage.Font, _screenMessage.Text, new Vector2((Screen.Width / 2) - offset + xOffsetA, 400 + yOffsetA), colorA);
+            spriteBatch.DrawString(BaseContent.Fonts.Default.VeryLarge, _screenMessage.Text, new Vector2((Screen.Width / 2) - offset + xOffsetA, 400 + yOffsetA), colorA);
             spriteBatch.End();
         }
     }
@@ -202,7 +203,7 @@ public abstract class BaseGui : IDisposable
             _entityViewerWindow.Close();
         }
 
-        _entityViewerWindow.Content = _queuedEntityToView.Value.Key.UiPanel(this, new EntityPanelProperties
+        _entityViewerWindow.Content = EntityPanelFactory.Create(this, _queuedEntityToView.Value.Key, new EntityPanelProperties
         {
             ShowTitle = false,
             ShowCloseButton = false,
@@ -246,12 +247,4 @@ public abstract class BaseGui : IDisposable
     {
         CleanupTextInput();
     }
-}
-
-public class ScreenMessageData
-{
-    public string Text = "";
-    public Color Color;
-    public int Duration = 10000;
-    public DynamicSpriteFont Font = BaseContent.Fonts.Default.VeryLarge;
 }

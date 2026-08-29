@@ -70,7 +70,6 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
                     item.StackSize--;
                     _gui.WorldTextHandler.Add(new WorldSpaceText
                     {
-                        Font = BaseContent.Fonts.Default.Normal,
                         Color = Color.Azure,
                         Text = $"Socket added to {equipmentItem.Label}",
                         DurationInTicks = 120,
@@ -176,7 +175,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
 
         _selectionPopup.Show(
             availableItems,
-            i => i.Icon,
+            i => i.GetIcon(),
             i => EquipItemFromInventory(part, slot, i));
     }
 
@@ -248,7 +247,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
             Spacing = 2;
             _potionSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.PotionSlot];
             _bagSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.BagSlot];
-            _imageFrame = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.WhiteIcon), BodyPartColor.Get(bodyPart)), Width = _cellSize, Height = _cellSize };
+            _imageFrame = new Image { Background = new ColoredRegion(new TextureRegion(bodyPart.GetWhiteIcon()), BodyPartColor.Get(bodyPart)), Width = _cellSize, Height = _cellSize };
             _imageFrame.TouchDown += (_, _) => gui.ViewEntity(bodyPart);
             _imageFrame.MouseEntered += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Hand);
             _imageFrame.MouseLeft += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Arrow);
@@ -307,7 +306,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
                 {
                     if (_iconCache.ContainsKey(item.ItemDef) == false)
                     {
-                        _iconCache[item.ItemDef] = new ColoredRegion(new TextureRegion(item.Icon), Color.White);
+                        _iconCache[item.ItemDef] = new ColoredRegion(new TextureRegion(item.GetIcon()), Color.White);
                     }
 
                     ((HorizontalProgressBar)((HorizontalStackPanel)image.Content).Widgets[0]).Visible = item.Durability > 1;

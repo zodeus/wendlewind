@@ -31,7 +31,7 @@ internal sealed class ItemEnchantmentSocketsPanel : HorizontalStackPanel
         };
         if (_item.Enchantments?.TryGetAtSocket(index) is { } enchantment)
         {
-            socket.Content = new Image { Width = 64, Height = 64, Background = new TextureRegion(enchantment.Icon) };
+            socket.Content = new Image { Width = 64, Height = 64, Background = new TextureRegion(enchantment.GetIcon()) };
         }
         else
         {
@@ -55,7 +55,7 @@ internal sealed class ItemEnchantmentSocketsPanel : HorizontalStackPanel
                 e.EjectFromContainer();
                 _gui.MouseAttachment.Detach();
                 _item.Enchantments!.TryAdd(e, position);
-                socket.Content = new Image { Width = 58, Height = 58, Background = new TextureRegion(e.Icon) };
+                socket.Content = new Image { Width = 58, Height = 58, Background = new TextureRegion(e.GetIcon()) };
                 return;
             }
 
@@ -82,7 +82,7 @@ internal sealed class ItemEnchantmentSocketsPanel : HorizontalStackPanel
 
         _selectionPopup.Show(
             availableEnchantments,
-            e => e.Icon,
+            e => e.GetIcon(),
             e => SocketEnchantmentFromInventory(socketIndex, e, socketButton));
     }
 
@@ -90,7 +90,7 @@ internal sealed class ItemEnchantmentSocketsPanel : HorizontalStackPanel
     {
         enchantment.EjectFromContainer();
         _item.Enchantments!.TryAdd(enchantment, socketIndex);
-        socketButton.Content = new Image { Width = 58, Height = 58, Background = new TextureRegion(enchantment.Icon) };
+        socketButton.Content = new Image { Width = 58, Height = 58, Background = new TextureRegion(enchantment.GetIcon()) };
     }
 
     public void Update()

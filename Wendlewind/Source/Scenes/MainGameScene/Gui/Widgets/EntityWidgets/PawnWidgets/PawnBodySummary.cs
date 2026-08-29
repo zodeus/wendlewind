@@ -22,7 +22,7 @@ public sealed class PawnBodySummary : Grid, IUpdatable
                 continue;
             }
 
-            Image image = new() { Background = new ColoredRegion(new TextureRegion(part.WhiteIcon), Color.White), Width = BaseContent.IconSizes.Large, Height = BaseContent.IconSizes.Large };
+            Image image = new() { Background = new ColoredRegion(new TextureRegion(part.GetWhiteIcon()), Color.White), Width = BaseContent.IconSizes.Large, Height = BaseContent.IconSizes.Large };
             image.TouchDown += (_, _) => gui.ViewEntity(part);
             _bodyParts.Add(part, image);
             Widgets.Add(image);

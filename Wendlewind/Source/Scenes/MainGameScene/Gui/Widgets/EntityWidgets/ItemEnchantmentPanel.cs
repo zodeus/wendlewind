@@ -22,7 +22,7 @@ public sealed class ItemEnchantmentPanel : EntityPanelBase
             Spacing = 15,
             Widgets =
             {
-                new Image { Background = new TextureRegion(item.Icon), Width = 96, Height = 96 },
+                new Image { Background = new TextureRegion(item.GetIcon()), Width = 96, Height = 96 },
                 new VerticalStackPanel
                 {
                     Spacing = 5,

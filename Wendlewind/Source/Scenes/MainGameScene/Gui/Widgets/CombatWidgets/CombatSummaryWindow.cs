@@ -90,7 +90,7 @@ public sealed class CombatSummaryWindow : Window
                 
                 var itemIcon = new Image
                 {
-                    Background = new TextureRegion(resource.Item.Icon),
+                    Background = new TextureRegion(resource.Item.GetIcon()),
                     Width = 64,
                     Height = 64
                 };

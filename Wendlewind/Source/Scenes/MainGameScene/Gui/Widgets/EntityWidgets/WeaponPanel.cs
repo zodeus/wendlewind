@@ -52,7 +52,7 @@ public sealed class WeaponPanel : EntityPanelBase
         };
         iconFrame.Widgets.Add(new Image
         {
-            Background = new TextureRegion(item.Icon),
+            Background = new TextureRegion(item.GetIcon()),
             Width = 72, Height = 72,
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center
@@ -82,7 +82,7 @@ public sealed class WeaponPanel : EntityPanelBase
         
         // Custom info widget from handler (mechanics, stats, settings)
         // Use a container so we can easily rebuild on upgrade
-        _customInfoWidget = _weaponHandler?.CreateInfoWidget(gui);
+        _customInfoWidget = null;
         if (_customInfoWidget != null)
         {
             _leftColumn.Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 4, 0, 4) });
@@ -351,7 +351,7 @@ public sealed class WeaponPanel : EntityPanelBase
         if (_infoWidgetContainer != null && _weaponHandler != null)
         {
             _infoWidgetContainer.Widgets.Clear();
-            _customInfoWidget = _weaponHandler.CreateInfoWidget(_gui);
+            _customInfoWidget = null;
             if (_customInfoWidget != null)
             {
                 _infoWidgetContainer.Widgets.Add(_customInfoWidget);
@@ -371,7 +371,7 @@ public sealed class WeaponPanel : EntityPanelBase
         // Update custom info widget if present
         if (_customInfoWidget != null)
         {
-            _weaponHandler?.UpdateInfoWidget(_customInfoWidget);
+            ;
         }
     }
 }

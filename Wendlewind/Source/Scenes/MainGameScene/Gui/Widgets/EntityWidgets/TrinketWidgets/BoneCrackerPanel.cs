@@ -39,7 +39,7 @@ public sealed class BoneCrackerPanel : EntityPanelBase
                     {
                         new Image
                         {
-                            Background = new TextureRegion(item.Icon),
+                            Background = new TextureRegion(item.GetIcon()),
                             Width = 56,
                             Height = 56,
                             HorizontalAlignment = HorizontalAlignment.Center,

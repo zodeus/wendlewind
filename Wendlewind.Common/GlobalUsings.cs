@@ -1,0 +1,10 @@
+global using System;
+global using Wendlewind;
+global using System.Collections.Generic;
+global using System.Linq;
+global using JetBrains.Annotations;
+global using Microsoft.Xna.Framework;
+global using Wendlewind.Debug;
+global using Wendlewind.Definitions;
+global using Wendlewind.Maths;
+global using Wendlewind.Utils;

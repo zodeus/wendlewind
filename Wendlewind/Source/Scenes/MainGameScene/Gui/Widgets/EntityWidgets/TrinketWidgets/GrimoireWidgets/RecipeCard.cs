@@ -156,7 +156,7 @@ public class RecipeCard : Panel
         };
         iconFrame.Widgets.Add(new Image
         {
-            Background = new TextureRegion(itemDef.Texture),
+            Background = new TextureRegion(itemDef.GetTexture()),
             Width = 64,
             Height = 64,
             HorizontalAlignment = HorizontalAlignment.Center,
@@ -366,7 +366,7 @@ public class RecipeCard : Panel
         };
         iconFrame.Widgets.Add(new Image
         {
-            Background = new TextureRegion(itemCount.Item.Texture),
+            Background = new TextureRegion(itemCount.Item.GetTexture()),
             Width = 24,
             Height = 24,
             Opacity = hasEnough ? 1.0f : 0.5f,
@@ -446,7 +446,7 @@ public class RecipeCard : Panel
         };
         iconFrame.Widgets.Add(new Image
         {
-            Background = new TextureRegion(trinketDef.Texture),
+            Background = new TextureRegion(trinketDef.GetTexture()),
             Width = 24,
             Height = 24,
             Opacity = hasTrinket ? 1.0f : 0.4f,

@@ -85,7 +85,7 @@ internal sealed class IncenseItemButton : CursorButton
         // Item icon
         _iconImage = new Image
         {
-            Background = new ColoredRegion(new TextureRegion(item.Icon), Color.White),
+            Background = new ColoredRegion(new TextureRegion(item.GetIcon()), Color.White),
             Width = BaseContent.IconSizes.Large,
             Height = BaseContent.IconSizes.Large
         };
@@ -192,7 +192,6 @@ internal sealed class IncenseItemButton : CursorButton
 
         _gui.PushScreenMessage(new ScreenMessageData
         {
-            Font = BaseContent.Fonts.Default.Medium,
             Text = incenseProps.Effect.Def.Description,
             Duration = 6,
             Color = Color.Orange
