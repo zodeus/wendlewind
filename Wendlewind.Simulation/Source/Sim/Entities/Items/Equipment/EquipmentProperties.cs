@@ -6,5 +6,6 @@ public class EquipmentProperties
     public int MaxEnchantments = 0;
     public EquipmentSlotType? SlotUsedToEquip = EquipmentSlotType.Invalid;
     [UsedImplicitly] public Type? HandlerClass;
-    public EquipmentHandler? Handler => HandlerClass != null ? (EquipmentHandler)Activator.CreateInstance(HandlerClass)! : null;
+    public EquipmentHandler? CreateHandler(ISimFactory factory) =>
+        HandlerClass != null ? factory.Create<EquipmentHandler>(HandlerClass) : null;
 }

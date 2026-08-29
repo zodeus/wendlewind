@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Pawns.Modifiers;
 [UsedImplicitly]
 public class ElectrofiedHandler : BodyPartModifier
 {
+    public ElectrofiedHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private bool _hasSpread;
     private bool _hasPenetrated;
     private double _baseDamage = 0.3;
@@ -72,13 +77,13 @@ public class ElectrofiedHandler : BodyPartModifier
         _hasPenetrated = false;
         _baseDamage *= 1.2;
         _penetratedDamage *= 1.2;
-        DurationInTicks += GameContext.Random.Next(0, modifier.DurationInTicks);
+        DurationInTicks += Context.Rng.Next(0, modifier.DurationInTicks);
     }
 
     public override void SpreadTo(BodyPart part)
     {
         base.SpreadTo(part);
-        _hasSpread = GameContext.Random.Chance(0.9f);
+        _hasSpread = Context.Rng.Chance(0.9f);
     }
 
     public override void ExposeData()

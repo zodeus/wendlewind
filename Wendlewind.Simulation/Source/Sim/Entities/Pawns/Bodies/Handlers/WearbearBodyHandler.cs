@@ -6,6 +6,11 @@ namespace Wendlewind.Sim.Entities.Pawns.Bodies.Handlers;
 /// </summary>
 public class WearbearBodyHandler : DefaultBodyHandler
 {
+    public WearbearBodyHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override void Tick()
     {
         base.Tick();

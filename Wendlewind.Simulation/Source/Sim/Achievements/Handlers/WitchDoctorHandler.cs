@@ -6,6 +6,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class WitchDoctorHandler : AchievementHandler
 {
+    public WitchDoctorHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override void OnItemUsed(Pawn consumer, Item item, dynamic? data = null)
     {
         if (IsUnlocked) return;

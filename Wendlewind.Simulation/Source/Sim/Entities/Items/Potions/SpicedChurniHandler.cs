@@ -6,6 +6,11 @@ namespace Wendlewind.Sim.Entities.Items.Potions;
 [UsedImplicitly]
 public class SpicedChurniHandler : PotionHandler
 {
+    public SpicedChurniHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override bool CanUseInCombat => true;
     public override bool CanUseOutsideCombat => false;
     public override bool CanAutoUse => true;
@@ -17,7 +22,7 @@ public class SpicedChurniHandler : PotionHandler
 
         // Apply regeneration to all body parts
         actualTarget.Body.AllParts.ForEach(p => p.TryAddModifier(
-            BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.HealthRegeneration, duration, 1)
+            Context.Factory.CreateModifier(Defs.BodyPartModifiers.HealthRegeneration, duration, 1)
         ));
 
         // Apply the body effect

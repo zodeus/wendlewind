@@ -5,6 +5,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class TwoIDontNeedTwoHandler : AchievementHandler
 {
+    public TwoIDontNeedTwoHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const float EyeHitPointsMultiplier = 2f;
 
     public override void OnCombatEnd(AchievementCombatEndContext context)

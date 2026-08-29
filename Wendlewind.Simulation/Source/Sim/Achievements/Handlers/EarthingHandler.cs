@@ -6,6 +6,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class EarthingHandler : AchievementHandler
 {
+    public EarthingHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override void OnCombatEnd(AchievementCombatEndContext context)
     {
         if (IsUnlocked || !context.PlayerWon) return;

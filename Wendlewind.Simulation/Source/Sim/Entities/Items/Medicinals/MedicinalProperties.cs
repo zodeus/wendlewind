@@ -4,11 +4,13 @@ public class MedicinalProperties
 {
     public int DurationInTicks;
     [UsedImplicitly] public Type HandlerClass = typeof(MedicinalHandler);
-    public MedicinalHandler Handler => (MedicinalHandler)Activator.CreateInstance(HandlerClass)!;
+    public MedicinalHandler CreateHandler(ISimFactory factory) => factory.Create<MedicinalHandler>(HandlerClass);
 }
 
-public abstract class MedicinalHandler
+public abstract class MedicinalHandler : IHasContext, IHasRng
 {
+    public GameContext Context { get; set; } = null!;
+    public IRng Rng { get; set; } = null!;
     /// <summary>
     /// Applies this medical item to the specified body part.
     /// </summary>

@@ -124,7 +124,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
                     if (item.StackSize > 1)
                     {
                         item.StackSize--;
-                        potion = EntityGenerator.CreateEntity<Item>(item.ItemDef, 1);
+                        potion = Core.Context.Factory.CreateEntity<Item>(item.ItemDef, 1);
                     }
                     else
                     {
@@ -189,7 +189,7 @@ public class PawnEquipmentPanel : HorizontalStackPanel, IUpdatable
             if (item.StackSize > 1)
             {
                 item.StackSize--;
-                potion = EntityGenerator.CreateEntity<Item>(item.ItemDef, 1);
+                potion = Core.Context.Factory.CreateEntity<Item>(item.ItemDef, 1);
             }
             else
             {

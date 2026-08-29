@@ -21,7 +21,7 @@ internal sealed class WheelOfParts : VerticalStackPanel
     {
         _pawn = pawn;
         _mystery = mystery;
-        _maxSpins = mystery.PartsToRestore.RandomValue;
+        _maxSpins = mystery.PartsToRestore.Roll(Core.Context.Rng);
 
         HorizontalAlignment = HorizontalAlignment.Center;
         VerticalAlignment = VerticalAlignment.Center;
@@ -122,7 +122,7 @@ internal sealed class WheelOfParts : VerticalStackPanel
         return _pawn.Body.AllExternalParts
             .SelectMany(p => p.Sockets)
             .Where(s => s.AttachedPart == null && s.Def.AllowedBodyPartTypes.Contains(partType))
-            .InRandomOrder()
+            .InRandomOrder(Core.Context.Rng)
             .FirstOrNull();
     }
 

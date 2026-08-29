@@ -5,6 +5,10 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class ButcherHandler : EnemyKilledHandler
 {
+    public ButcherHandler(IRng rng) : base(rng)
+    {
+    }
+
     private const float FingerHitPointsMultiplier = 2f;
 
     public override void OnWorldRestart(GameContext context)

@@ -5,6 +5,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class SweatingBloodHandler : AchievementHandler
 {
+    public SweatingBloodHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const float MaxBloodBonus = 500f;
     public override void OnCombatEnd(AchievementCombatEndContext context)
     {

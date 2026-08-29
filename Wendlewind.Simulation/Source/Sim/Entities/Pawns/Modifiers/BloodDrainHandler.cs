@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Pawns.Modifiers;
 [UsedImplicitly]
 public class BloodDrainHandler : BodyPartModifier
 {
+    public BloodDrainHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const float BloodDrainPerTick = 1f;
     
     public override List<SubstanceType> AllowedSubstances => [SubstanceType.Flesh];

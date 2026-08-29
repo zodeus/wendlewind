@@ -6,11 +6,16 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class JackAndTheBeanstalkHandler : AchievementHandler
 {
+    public JackAndTheBeanstalkHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override void OnItemFound(Item item)
     {
         if (IsUnlocked) return;
 
-        var pawn = GameContext.Current.Player.Pawn;
+        var pawn = Context.Player.Pawn;
         var goldenBeans = pawn.Inventory.AmountOf(Defs.Items.GoldenBean);
 
         // only update if progress is greater than the current value

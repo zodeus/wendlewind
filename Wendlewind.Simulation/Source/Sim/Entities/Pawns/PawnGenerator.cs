@@ -2,9 +2,9 @@ namespace Wendlewind.Sim.Entities.Pawns;
 
 public static class PawnGenerator
 {
-    public static Pawn CreatePawn(PawnRequest request)
+    public static Pawn CreatePawn(GameContext context, PawnRequest request)
     {
-        var pawn = EntityGenerator.CreateEntity<Pawn>(request.PawnDef, true);
+        var pawn = context.Factory.CreateEntity<Pawn>(request.PawnDef, true);
         pawn.PawnType = request.PawnType;
         pawn.Initialize();
         pawn.Biography.Name = request.PawnName;
@@ -23,12 +23,12 @@ public static class PawnGenerator
         {
             pawn.Skills.GetSkill(record.Def).Level = record.Value;
         }
-        //var skills = pawn.Skills.InRandomOrder().ToList();
-        //skills[0].Level = new RangeInt(2, 4).RandomValue;
-        //skills[1].Level = new RangeInt(2, 4).RandomValue;
+        //var skills = pawn.Skills.InRandomOrder(pawn.Context.Rng).ToList();
+        //skills[0].Level = new RangeInt(2, 4).Roll(pawn.Context.Rng);
+        //skills[1].Level = new RangeInt(2, 4).Roll(pawn.Context.Rng);
         /*RangeInt range = new(0, 3);
         foreach (Skill skill in pawn.Skills) {
-            skill.Level = range.RandomValue;
+            skill.Level = range.Roll(pawn.Context.Rng);
         }*/
     }
 
@@ -36,19 +36,19 @@ public static class PawnGenerator
     {
         foreach (var dropCount in items)
         {
-            if (GameContext.Random.Chance(dropCount.ChanceToDrop))
+            if (pawn.Context.Rng.Chance(dropCount.ChanceToDrop))
             {
-                var amount = dropCount.Amount.RandomValue;
+                var amount = dropCount.Amount.Roll(pawn.Context.Rng);
                 if (amount > 1 && dropCount.Item.StackLimit == 1)
                 {
                     for (var i = 0; i < amount; i++)
                     {
-                        pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(dropCount.Item));
+                        pawn.Inventory.TryAdd(pawn.Context.Factory.CreateEntity<Item>(dropCount.Item));
                     }
                 }
                 else
                 {
-                    pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(dropCount.Item, dropCount.Amount.RandomValue));
+                    pawn.Inventory.TryAdd(pawn.Context.Factory.CreateEntity<Item>(dropCount.Item, dropCount.Amount.Roll(pawn.Context.Rng)));
                 }
             }
         }
@@ -71,7 +71,7 @@ public static class PawnGenerator
         Item? returnedItem = null;
         foreach (var itemDef in equipment)
         {
-            var item = EntityGenerator.CreateEntity<Item>(itemDef, 1);
+            var item = pawn.Context.Factory.CreateEntity<Item>(itemDef, 1);
             var wasEquipped = false;
             foreach (var bodyPart in pawn.Body.AllExternalParts)
             {

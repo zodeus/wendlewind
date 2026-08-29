@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Pawns.Modifiers;
 [UsedImplicitly]
 public class PoppingPustulesHandler : BodyPartModifier
 {
+    public PoppingPustulesHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     // Damage dealt each tick to the affected part
     private static RangeDouble SkinDamagePerTick = new(1,1);
     private static RangeDouble FleshDamagePerTick = new(2,2);
@@ -26,7 +31,7 @@ public class PoppingPustulesHandler : BodyPartModifier
             return;
         }
         var damage = BodyPart.Type == BodyPartType.Skin ? SkinDamagePerTick : FleshDamagePerTick;
-        BodyPart.HitPoints -= damage.RandomValue;
+        BodyPart.HitPoints -= damage.Roll(Context.Rng);
 
         CheckIfLostVitalPart();
         base.Tick();
@@ -44,7 +49,7 @@ public class PoppingPustulesHandler : BodyPartModifier
         if (body == null) return;
 
         // Deal heavy damage to the part the pustule was on
-        BodyPart.HitPoints -= PopDamageToSelf.RandomValue;
+        BodyPart.HitPoints -= PopDamageToSelf.Roll(Context.Rng);
 
         // Damage and potentially spread to surrounding parts
         DamageAndSpreadToSurroundingParts(BodyPart);
@@ -56,18 +61,18 @@ public class PoppingPustulesHandler : BodyPartModifier
     {
         if (part.Type == BodyPartType.Artery)
         {
-            return PopDamageToSelfArteries.RandomValue;
+            return PopDamageToSelfArteries.Roll(Context.Rng);
         }
         else if (part.IsOrgan)
         {
-            return PopDamageToSelfOrgans.RandomValue;
+            return PopDamageToSelfOrgans.Roll(Context.Rng);
         }
-        return PopDamageToSelf.RandomValue;
+        return PopDamageToSelf.Roll(Context.Rng);
     }
     
     private double GetSurroundingDamageAmount(BodyPart part)
     {
-        return PopDamageToSurrounding.RandomValue;
+        return PopDamageToSurrounding.Roll(Context.Rng);
     }
 
     private void DamageAndSpreadToSurroundingParts(BodyPart bodyPart)
@@ -110,11 +115,11 @@ public class PoppingPustulesHandler : BodyPartModifier
 
     private void TrySpreadTo(BodyPart targetPart)
     {
-        if (GameContext.Random.Chance((float)SpreadChance) == false) return;
+        if (Context.Rng.Chance((float)SpreadChance) == false) return;
         if (targetPart.HasModifier(Def)) return;
         if (AllowedSubstances.Contains(targetPart.Substance) == false) return;
         targetPart = targetPart.Skin ?? targetPart;
-        targetPart.TryAddModifier(BodyPartModifierGenerator.Generate(Def, SpreadDuration.RandomValue, Power));
+        targetPart.TryAddModifier(Context.Factory.CreateModifier(Def, SpreadDuration.Roll(Context.Rng), Power));
     }
 
     public override bool ApplyToPart(BodyPart part)

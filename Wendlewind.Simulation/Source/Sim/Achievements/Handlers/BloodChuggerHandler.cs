@@ -6,6 +6,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class BloodChuggerHandler : AchievementHandler
 {
+    public BloodChuggerHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const float MaxBloodBonus = 500f;
 
     public override void OnWorldRestart(GameContext context)

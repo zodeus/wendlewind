@@ -101,7 +101,7 @@ public class PawnBody : IExposable, IIdentityProvider
         Id = $"{Pawn.Id}-Body";
         Capabilities = new PawnCapabilities(Pawn);
         Effects = new PawnBodyEffects(Pawn);
-        Handler = Def.Handler;
+        Handler = Def.CreateHandler(Pawn.Context.Factory);
         Handler.Initialize(this);
         Energy = MaxEnergy;
         Stance = Defs.BodyStances.Comfortable;

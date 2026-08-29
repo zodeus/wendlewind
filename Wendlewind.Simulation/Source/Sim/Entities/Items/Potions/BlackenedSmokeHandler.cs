@@ -7,6 +7,11 @@ namespace Wendlewind.Sim.Entities.Items.Potions;
 [UsedImplicitly]
 public class BlackenedSmokeHandler : PotionHandler
 {
+    public BlackenedSmokeHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override bool CanUseInCombat => true;
     public override bool CanUseOutsideCombat => false;
     public override bool CanAutoUse => false;
@@ -25,13 +30,13 @@ public class BlackenedSmokeHandler : PotionHandler
         });
 
         // Apply BlackLung modifier to the target's lungs
-        var blackLungModifier = BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.BlackLung, duration, BlackLungPower);
+        var blackLungModifier = Context.Factory.CreateModifier(Defs.BodyPartModifiers.BlackLung, duration, BlackLungPower);
         var lungs = actualTarget.Body.AllParts.Where(p => p?.Type == BodyPartType.Lung).ToList();
 
         var lungsAffected = 0;
         foreach (var lung in lungs)
         {
-            lung.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.BlackLung, duration, BlackLungPower));
+            lung.TryAddModifier(Context.Factory.CreateModifier(Defs.BodyPartModifiers.BlackLung, duration, BlackLungPower));
             lungsAffected++;
         }
 

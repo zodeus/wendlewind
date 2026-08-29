@@ -9,6 +9,10 @@ namespace Wendlewind.Sim.Entities.Pawns.Bodies.Handlers;
 [UsedImplicitly]
 public class OrcBodyHandler : RegeneratingEyesBodyHandler
 {
+    public OrcBodyHandler(IRng rng) : base(rng)
+    {
+    }
+
     private const int MinRegenerationDelay = 120;
     private const int MaxRegenerationDelay = 240;
     private const int RhinoRestorationDuration = 600;
@@ -78,7 +82,7 @@ public class OrcBodyHandler : RegeneratingEyesBodyHandler
 
     private void StartRegenerationTimer(BodyPart part)
     {
-        var delay = GameContext.Random.Next(MinRegenerationDelay, MaxRegenerationDelay + 1);
+        var delay = Context.Rng.Next(MinRegenerationDelay, MaxRegenerationDelay + 1);
         _destroyedPartTimers[part.Id] = delay;
         _partsWithActiveTimers.Add(part.Id);
         Log.Info($"Orc regeneration timer started for {part.Label}: {delay} ticks");
@@ -132,7 +136,7 @@ public class OrcBodyHandler : RegeneratingEyesBodyHandler
             return;
         }
         
-        var modifier = BodyPartModifierGenerator.Generate(
+        var modifier = Context.Factory.CreateModifier(
             Defs.BodyPartModifiers.RhinoRestoration, 
             RhinoRestorationDuration,
             RhinoPower);

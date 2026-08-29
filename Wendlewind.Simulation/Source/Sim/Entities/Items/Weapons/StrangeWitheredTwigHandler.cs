@@ -14,6 +14,11 @@ namespace Wendlewind.Sim.Entities.Items.Weapons;
 [UsedImplicitly]
 public class StrangeWitheredTwigHandler : WeaponHandler, IUpgradableHandler
 {
+    public StrangeWitheredTwigHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     // Base values
     private const int BaseMinModifiers = 2;
     private const int BaseMaxModifiers = 4;
@@ -90,18 +95,18 @@ public class StrangeWitheredTwigHandler : WeaponHandler, IUpgradableHandler
         _charges = 0;
         _totalCasts++;
         // Determine how many modifiers to apply this hit
-        var modifierCount = GameContext.Random.Next(MinModifiersToApply, MaxModifiersToApply + 1);
+        var modifierCount = Context.Rng.Next(MinModifiersToApply, MaxModifiersToApply + 1);
         var appliedModifiers = new List<string>();
 
         // Try to apply random modifiers
         var possibleModifiers = GetPossibleModifiers();
-        var shuffledModifiers = possibleModifiers.InRandomOrder().Take(modifierCount).ToList();
+        var shuffledModifiers = possibleModifiers.InRandomOrder(Context.Rng).Take(modifierCount).ToList();
 
         foreach (var modifierDef in shuffledModifiers)
         {
             // Create the modifier with random duration using the generator
-            var duration = GameContext.Random.Next(MinDurationTicks, MaxDurationTicks + 1);
-            var modifier = BodyPartModifierGenerator.Generate(modifierDef.Def, duration, 1.0);
+            var duration = Context.Rng.Next(MinDurationTicks, MaxDurationTicks + 1);
+            var modifier = Context.Factory.CreateModifier(modifierDef.Def, duration, 1.0);
             // Apply to the hit part
             modifier.ApplyToPart(targetPart);
             appliedModifiers.Add(modifierDef.Def.Label);

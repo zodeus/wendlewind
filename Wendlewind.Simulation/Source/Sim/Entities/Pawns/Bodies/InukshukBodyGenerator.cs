@@ -12,7 +12,7 @@ public class InukshukBodyGenerator : IBodyGenerator
     public void Generate(Pawn pawn)
     {
         pawn.Body.RootSocket = new BodyPartSocket(Defs.BodyPartSockets.HeadSocket);
-        var head = pawn.Body.RootSocket.TryAttachPart(EntityGenerator.CreateEntity<BodyPart>(Defs.BodyParts.InukshukHead));
+        var head = pawn.Body.RootSocket.TryAttachPart(Defs.BodyParts.InukshukHead);
 
         // Skull (stone core)
         var skull = head.GetSocketsFor(BodyPartType.Skull)[0].TryAttachPart(Defs.BodyParts.Skull);
@@ -35,13 +35,13 @@ public class InukshukBodyGenerator : IBodyGenerator
     static void MakeArm(BodyPart arm)
     {
         arm.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
-        arm.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("InukshukStoneFist")!);
+        arm.Equipment[EquipmentSlotType.BuiltIn] = arm.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("InukshukStoneFist")!);
     }
 
     static void MakeLeg(BodyPart leg)
     {
         leg.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
-        leg.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("InukshukStoneLeg")!);
+        leg.Equipment[EquipmentSlotType.BuiltIn] = leg.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("InukshukStoneLeg")!);
     }
 }
 

@@ -7,6 +7,11 @@ namespace Wendlewind.Sim.Entities.Items.Equipment;
 /// </summary>
 public class ThornCloakHandler : EquipmentHandler, IUpgradableHandler, ICloakHandler
 {
+    public ThornCloakHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const float BaseReflectPercent = 0.40f;
     public const float Level1ReflectPercent = 0.60f;
     public const float Level2ReflectPercent = 0.80f;
@@ -45,7 +50,7 @@ public class ThornCloakHandler : EquipmentHandler, IUpgradableHandler, ICloakHan
         // Find a random external part on the attacker to damage
         var targetPart = target.Body.AllExternalParts
             .Where(p => !p.IsDestroyed && p.HitPoints > 0 && p.Type != BodyPartType.Eye)
-            .RandomElementByWeight(p => p.HitWeight);
+            .RandomElementByWeight(p => p.HitWeight, Context.Rng);
 
         if (targetPart == null) return;
 

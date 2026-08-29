@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Pawns.Modifiers;
 [UsedImplicitly]
 public class PoisonHandler : BodyPartModifier
 {
+    public PoisonHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private static RangeFloat DamageFactorPerTick = new(0.0002f, 0.001f);
     private const float SpreadChance = 0.005f; // 1% chance to spread per tick
 
@@ -16,17 +21,17 @@ public class PoisonHandler : BodyPartModifier
         }
 
         // Apply damage to the external part
-        var externalDamage = externalPart.MaxHitPoints * DamageFactorPerTick.RandomValue;
+        var externalDamage = externalPart.MaxHitPoints * DamageFactorPerTick.Roll(Context.Rng);
         externalPart.HitPoints -= externalDamage;
 
         // Apply damage to all internal parts
         foreach (var internalPart in externalPart.AllInternalParts)
         {
-            internalPart.HitPoints -= internalPart.MaxHitPoints * DamageFactorPerTick.RandomValue;
+            internalPart.HitPoints -= internalPart.MaxHitPoints * DamageFactorPerTick.Roll(Context.Rng);
         }
 
         // Chance to spread to adjacent arteries
-        if (GameContext.Random.Chance(SpreadChance))
+        if (Context.Rng.Chance(SpreadChance))
         {
             Log.Info($"PoisonHandler: Spreading to adjacent artery");
             SpreadToAdjacentArtery();
@@ -85,7 +90,7 @@ public class PoisonHandler : BodyPartModifier
 
         if (adjacentArteries.Count > 0)
         {
-            var targetArtery = adjacentArteries.RandomElement();
+            var targetArtery = adjacentArteries.RandomElement(Context.Rng);
             SpreadTo(targetArtery);
         }
     }

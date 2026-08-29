@@ -30,7 +30,7 @@ public class Item : Entity, IExposable
     public override string Label => Def.Label;
     public string LabelWithStackSize => IsStackable ? $"{Def.Label} x{StackSize}" : Def.Label;
     public bool IsStackable => ItemDef.StackLimit > 1;
-    public MedicinalHandler? MedicinalHandler => ItemDef.MedicinalProperties?.Handler;
+    public MedicinalHandler? MedicinalHandler => ItemDef.MedicinalProperties?.CreateHandler(Context.Factory);
 
     public bool CanBeDestroyed => ItemDef.ItemType == ItemType.Equipment;
     public bool UseInCombat = true;
@@ -50,25 +50,25 @@ public class Item : Entity, IExposable
 
         if (ItemDef.EnchantmentProperties?.HandlerClass != null)
         {
-            EnchantmentHandler = (EnchantmentHandler)Activator.CreateInstance(ItemDef.EnchantmentProperties.HandlerClass)!;
+            EnchantmentHandler = Context.Factory.Create<EnchantmentHandler>(ItemDef.EnchantmentProperties.HandlerClass);
             EnchantmentHandler.Enchantment = this;
         }
 
         if (ItemDef.TrinketProperties?.HandlerClass != null)
         {
-            TrinketHandler = (TrinketHandler)Activator.CreateInstance(ItemDef.TrinketProperties.HandlerClass)!;
+            TrinketHandler = Context.Factory.Create<TrinketHandler>(ItemDef.TrinketProperties.HandlerClass);
             TrinketHandler.Trinket = this;
         }
 
         if (ItemDef.EquipmentProperties?.HandlerClass != null)
         {
-            EquipmentHandler = ItemDef.EquipmentProperties.Handler!;
+            EquipmentHandler = Context.Factory.Create<EquipmentHandler>(ItemDef.EquipmentProperties.HandlerClass);
             EquipmentHandler.Equipment = this;
         }
 
         if (ItemDef.PotionProperties?.HandlerClass != null)
         {
-            PotionHandler = ItemDef.PotionProperties.CreateHandler();
+            PotionHandler = ItemDef.PotionProperties.CreateHandler(Context.Factory);
             if (PotionHandler != null)
             {
                 PotionHandler.Potion = this;
@@ -77,7 +77,7 @@ public class Item : Entity, IExposable
 
         if (ItemDef.WeaponProperties?.HandlerClass != null)
         {
-            WeaponHandler = ItemDef.WeaponProperties.CreateHandler();
+            WeaponHandler = ItemDef.WeaponProperties.CreateHandler(Context.Factory);
             if (WeaponHandler != null)
             {
                 WeaponHandler.Weapon = this;
@@ -113,10 +113,10 @@ public class Item : Entity, IExposable
 
         if (armorHit != null)
         {
-            _durability -= GameContext.Random.Next(1, 10);
+            _durability -= Context.Rng.Next(1, 10);
         }
 
-        _durability -= GameContext.Random.Next(1, 2);
+        _durability -= Context.Rng.Next(1, 2);
 
         if (_durability <= 0)
         {
@@ -139,7 +139,7 @@ public class Item : Entity, IExposable
 
     protected virtual Item CreateItemFromSplit(ItemDef def, int amountWanted)
     {
-        return EntityGenerator.CreateEntity<Item>(def, amountWanted);
+        return Context.Factory.CreateEntity<Item>(def, amountWanted);
     }
 
     /*public bool TryToAbsorbStack(Entity otherEntity) {

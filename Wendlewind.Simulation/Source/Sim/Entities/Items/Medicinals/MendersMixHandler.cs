@@ -5,6 +5,11 @@ namespace Wendlewind.Sim.Entities.Items.Medicinals;
 [UsedImplicitly]
 public class MendersMixHandler : MedicinalHandler
 {
+    public MendersMixHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private double _healAmount;
     private bool _appliedAnyEffect;
 
@@ -31,13 +36,13 @@ public class MendersMixHandler : MedicinalHandler
         }
 
         _healAmount -= UpdateHealth(bodyPart);
-        bodyPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.RhinoRestoration, duration, RhinoPower));
+        bodyPart.TryAddModifier(Context.Factory.CreateModifier(Defs.BodyPartModifiers.RhinoRestoration, duration, RhinoPower));
         _appliedAnyEffect = true;
 
         foreach (var internalPart in bodyPart.AllInternalParts)
         {
             _healAmount -= UpdateHealth(internalPart);
-            internalPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.RhinoRestoration, duration, RhinoPower));
+            internalPart.TryAddModifier(Context.Factory.CreateModifier(Defs.BodyPartModifiers.RhinoRestoration, duration, RhinoPower));
         }
 
         foreach (var externalPart in bodyPart.ExternalParts)

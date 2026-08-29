@@ -10,8 +10,9 @@ public enum ZoneState
     Exit
 }
 
-public class Zone : IExposable, IIdentityProvider
+public class Zone : IExposable, IIdentityProvider, IHasContext
 {
+    public GameContext Context { get; set; } = null!;
     public ZoneDef ZoneDef = null!;
     public int Stage;
     public bool IsComplete;
@@ -52,7 +53,7 @@ public class Zone : IExposable, IIdentityProvider
     public void NextEncounter()
     {
         ActiveEncounter?.Dispose();
-        ActiveEncounter = CombatGenerator.GenerateForZone(Player!.Pawn, this);
+        ActiveEncounter = CombatGenerator.GenerateForZone(Context, Player!.Pawn, this);
         if (ActiveEncounter.AtBoss)
         {
             Alert(new ScreenMessageData

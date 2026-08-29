@@ -112,7 +112,8 @@ public sealed class ItemEnchantmentPanel : EntityPanelBase
                 });
 
                 // Allowed substances info
-                var handlerInstance = (BodyPartModifier)Activator.CreateInstance(modifier.Def.HandlerClass)!;
+                var handlerInstance = (BodyPartModifier)Activator.CreateInstance(
+                    modifier.Def.HandlerClass, new SimRng(Rng.Visual))!;
                 if (handlerInstance.AllowedSubstances.Count > 0)
                 {
                     var substancesText = string.Join(", ", handlerInstance.AllowedSubstances);

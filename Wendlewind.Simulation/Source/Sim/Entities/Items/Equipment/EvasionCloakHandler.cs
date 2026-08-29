@@ -2,6 +2,11 @@ namespace Wendlewind.Sim.Entities.Items.Equipment;
 
 public class EvasionCloakHandler : EquipmentHandler, IUpgradableHandler, ICloakHandler
 {
+    public EvasionCloakHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const float BaseEvasionBonus = 0.05f;
     public const float Level1EvasionBonus = 0.10f;
     public const float Level2EvasionBonus = 0.15f;

@@ -6,8 +6,15 @@ namespace Wendlewind.Sim.Entities.Items.Equipment;
 /// </summary>
 public class ClericCloakHandler : EquipmentHandler, IUpgradableHandler, ICloakHandler
 {
-    private readonly StrengthCloakHandler _strengthHandler = new();
-    private readonly RejuvenationCloakHandler _rejuvenationHandler = new();
+    private readonly StrengthCloakHandler _strengthHandler;
+    private readonly RejuvenationCloakHandler _rejuvenationHandler;
+
+    public ClericCloakHandler(IRng rng)
+    {
+        Rng = rng;
+        _strengthHandler = new StrengthCloakHandler(rng);
+        _rejuvenationHandler = new RejuvenationCloakHandler(rng);
+    }
 
     private int _upgradeLevel;
 

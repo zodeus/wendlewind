@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Pawns.Modifiers;
 [UsedImplicitly]
 public class BoneDecayHandler : BodyPartModifier
 {
+    public BoneDecayHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public double CurrentDamage = 0.3;
     public const double BaseDamage = 0.3;
     public const double EntropyRate = 0.85;

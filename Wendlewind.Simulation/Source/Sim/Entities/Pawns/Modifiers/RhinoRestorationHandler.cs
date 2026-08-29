@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Pawns.Modifiers;
 [UsedImplicitly]
 public class RhinoRestorationHandler : BodyPartModifier
 {
+    public RhinoRestorationHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const double HealthRestoredPerTick = .2;
     private const double SkinHealthRestoredPerTick = .3;
     private const double DestroyPartRegenerationPercent = 0.05f;

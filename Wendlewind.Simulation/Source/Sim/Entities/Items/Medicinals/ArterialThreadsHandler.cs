@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Items.Medicinals;
 [UsedImplicitly]
 public class ArterialThreadsHandler : MedicinalHandler
 {
+    public ArterialThreadsHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
 
     public override bool ApplyToPart(Item item, BodyPart part)
     {

@@ -5,12 +5,12 @@ public class TurtleBodyGenerator : IBodyGenerator
     public void Generate(Pawn pawn)
     {
         pawn.Body.RootSocket = new(Defs.BodyPartSockets.HeadSocket);
-        var head = pawn.Body.RootSocket.TryAttachPart(EntityGenerator.CreateEntity<BodyPart>(Defs.BodyParts.TurtleHead));
+        var head = pawn.Body.RootSocket.TryAttachPart(Defs.BodyParts.TurtleHead);
         head.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
         head.GetSocketsFor(BodyPartType.Eye)[0].TryAttachPart(Defs.BodyParts.Eye);
         head.GetSocketsFor(BodyPartType.Eye)[1].TryAttachPart(Defs.BodyParts.Eye);
         head.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
-        head.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("TurtleBeak")!);
+        head.Equipment[EquipmentSlotType.BuiltIn] = head.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("TurtleBeak")!);
 
         // Skull
         var skull = head.GetSocketsFor(BodyPartType.Skull)[0].TryAttachPart(Defs.BodyParts.Skull);
@@ -58,7 +58,7 @@ public class TurtleBodyGenerator : IBodyGenerator
         flipper.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
         flipper.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
         flipper.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
-        flipper.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("DirtyTurtleFlipper")!);
+        flipper.Equipment[EquipmentSlotType.BuiltIn] = flipper.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("DirtyTurtleFlipper")!);
     }
 
     static void MakeLeg(BodyPart leg)

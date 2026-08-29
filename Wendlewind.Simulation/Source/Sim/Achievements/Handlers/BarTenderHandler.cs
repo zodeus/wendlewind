@@ -6,6 +6,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class BarTenderHandler : AchievementHandler
 {
+    public BarTenderHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const int PotionsToGive = 3;
 
     public override void OnItemCrafted(Pawn crafter, ItemDef itemDef, int amount)
@@ -33,8 +38,8 @@ public class BarTenderHandler : AchievementHandler
 
         for (int i = 0; i < PotionsToGive; i++)
         {
-            var randomPotion = availablePotions.RandomElement();
-            pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(randomPotion, 1));
+            var randomPotion = availablePotions.RandomElement(Context.Rng);
+            pawn.Inventory.TryAdd(Context.Factory.CreateEntity<Item>(randomPotion, 1));
         }
     }
 }

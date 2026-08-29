@@ -6,9 +6,11 @@ namespace Wendlewind.Sim.Achievements;
 /// <summary>
 /// Tracks all achievement progress for the player
 /// </summary>
-public class AchievementTracker : IExposable
+public class AchievementTracker : IExposable, IHasContext
 {
+    public GameContext Context { get; set; } = null!;
     private Dictionary<string, AchievementProgress> _progress = new();
+    private List<AchievementHandler>? _handlers;
 
     public event Action<AchievementDef>? AchievementUnlocked;
 
@@ -25,14 +27,30 @@ public class AchievementTracker : IExposable
     /// <summary>
     /// All achievement handlers for event dispatch
     /// </summary>
-    private List<AchievementHandler> Handlers => DefRepository<AchievementDef>.Defs
-        .Where(d => d.Handler != null)
-        .Select(d => d.Handler!)
-        .ToList();
+    private List<AchievementHandler> Handlers => _handlers ??= CreateHandlers();
+
+    private List<AchievementHandler> CreateHandlers()
+    {
+        var list = new List<AchievementHandler>();
+        foreach (var def in DefRepository<AchievementDef>.Defs)
+        {
+            if (def.HandlerClass == null || !typeof(AchievementHandler).IsAssignableFrom(def.HandlerClass))
+            {
+                continue;
+            }
+
+            var handler = Context.Factory.Create<AchievementHandler>(def.HandlerClass);
+            handler.Def = def;
+            def.Handler = handler;
+            list.Add(handler);
+        }
+
+        return list;
+    }
 
     public void Initialize()
     {
-        // Initialize progress for all achievement definitions
+        _handlers = null;
         foreach (var def in DefRepository<AchievementDef>.Defs)
         {
             if (!_progress.ContainsKey(def.Moniker))
@@ -40,6 +58,8 @@ public class AchievementTracker : IExposable
                 _progress[def.Moniker] = new AchievementProgress(def);
             }
         }
+
+        _handlers = CreateHandlers();
     }
 
     public AchievementProgress? GetProgress(AchievementDef def)

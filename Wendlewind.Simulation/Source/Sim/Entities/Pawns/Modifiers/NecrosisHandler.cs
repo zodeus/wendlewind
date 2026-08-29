@@ -3,6 +3,11 @@
 [UsedImplicitly]
 public class NecrosisHandler : BodyPartModifier
 {
+    public NecrosisHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private static RangeDouble DamageFactorPerTick = new(0.001, 0.002);
     private const int TotalTicksToSpread = 6000;
 
@@ -15,7 +20,7 @@ public class NecrosisHandler : BodyPartModifier
     public override void Tick()
     {
         _ticksToSpread = Math.Clamp(_ticksToSpread--, 0, TotalTicksToSpread);
-        BodyPart.HitPoints -= BodyPart.HitPoints * DamageFactorPerTick.RandomValue;
+        BodyPart.HitPoints -= BodyPart.HitPoints * DamageFactorPerTick.Roll(Context.Rng);
         if (BodyPart.IsDestroyed && _ticksToSpread < 1)
         {
             _ticksToSpread = TotalTicksToSpread;
@@ -25,11 +30,11 @@ public class NecrosisHandler : BodyPartModifier
                 randomParts.Add(BodyPart.Socket.ParentPart);
             }
 
-            randomParts.AddRange(BodyPart.ExternalParts.InRandomOrder());
+            randomParts.AddRange(BodyPart.ExternalParts.InRandomOrder(Context.Rng));
 
             if (randomParts.Count > 0)
             {
-                var part = randomParts.RandomElement();
+                var part = randomParts.RandomElement(Context.Rng);
                 SpreadTo(part);
             }
         }

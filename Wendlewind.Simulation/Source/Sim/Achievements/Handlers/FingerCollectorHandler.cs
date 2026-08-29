@@ -2,6 +2,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 
 public class FingerCollectorHandler : AchievementHandler
 {
+    public FingerCollectorHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const float FingerHitPointsMultiplier = 1.5f;
 
     public override void OnEnemyDamaged(Pawn player, Pawn enemy, DamageRequest request, DamageResponse response)

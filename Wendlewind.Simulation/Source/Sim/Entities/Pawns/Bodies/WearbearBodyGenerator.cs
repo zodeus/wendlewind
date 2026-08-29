@@ -5,12 +5,12 @@ public class WearbearBodyGenerator : IBodyGenerator
     public void Generate(Pawn pawn)
     {
         pawn.Body.RootSocket = new BodyPartSocket(Defs.BodyPartSockets.HeadSocket);
-        var head = pawn.Body.RootSocket.TryAttachPart(EntityGenerator.CreateEntity<BodyPart>(Defs.BodyParts.WearbearHead));
+        var head = pawn.Body.RootSocket.TryAttachPart(Defs.BodyParts.WearbearHead);
         head.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
         head.GetSocketsFor(BodyPartType.Eye)[0].TryAttachPart(Defs.BodyParts.Eye);
         head.GetSocketsFor(BodyPartType.Eye)[1].TryAttachPart(Defs.BodyParts.Eye);
         head.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
-        head.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("WearbearTeeth")!);
+        head.Equipment[EquipmentSlotType.BuiltIn] = head.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("WearbearTeeth")!);
 
         // Skull
         var skull = head.GetSocketsFor(BodyPartType.Skull)[0].TryAttachPart(Defs.BodyParts.Skull);
@@ -53,7 +53,7 @@ public class WearbearBodyGenerator : IBodyGenerator
         hand.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
         hand.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
         hand.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
-        hand.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("WearbearClaws")!);
+        hand.Equipment[EquipmentSlotType.BuiltIn] = hand.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("WearbearClaws")!);
     }
 
     static void MakeLeg(BodyPart leg)
@@ -65,7 +65,7 @@ public class WearbearBodyGenerator : IBodyGenerator
         foot.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
         foot.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
         foot.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
-        foot.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("WearbearClaws")!);
+        foot.Equipment[EquipmentSlotType.BuiltIn] = foot.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("WearbearClaws")!);
     }
 }
 

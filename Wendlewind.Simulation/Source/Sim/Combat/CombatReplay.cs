@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Wendlewind.Sim.Combat;
 
 /// <summary>
@@ -19,8 +21,9 @@ public static class CombatReplay
 
     public static Result Run(int runSeed = DefaultRunSeed)
     {
-        var context = new GameContext();
-        GameContext.Current = context;
+        using var root = SimServices.BuildRoot();
+        using var scope = root.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<GameContext>();
         context.Initialize(runSeed);
 
         var zone = context.World.Zones.OrderBy(z => z.ZoneDef.Stage).First();

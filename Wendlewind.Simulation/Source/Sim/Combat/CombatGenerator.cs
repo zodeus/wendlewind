@@ -1,23 +1,23 @@
-﻿namespace Wendlewind.Sim.Combat;
+namespace Wendlewind.Sim.Combat;
 
 public static class CombatGenerator
 {
-    public static Encounter GenerateForZone(Pawn playerPawn, Zone zone, int? seed = null)
+    public static Encounter GenerateForZone(GameContext context, Pawn playerPawn, Zone zone, int? seed = null)
     {
         int encounterSeed = seed ?? SeedUtility.EncounterSeed(
-            GameContext.Current.RunSeed,
+            context.RunSeed,
             zone.ZoneDef.Moniker,
             zone.Stage);
 
-        GameContext.Random = new Random(encounterSeed);
+        context.Rng = new Random(encounterSeed);
 
         var encounterDef = zone.ZoneDef.Encounters[zone.Stage];
 
         WeatherDef? weather = zone.ZoneDef.Weathers.Count > 0
-            ? zone.ZoneDef.Weathers.RandomElement()
+            ? zone.ZoneDef.Weathers.RandomElement(context.Rng)
             : null;
 
-        Encounter encounter = new(zone, encounterDef, weather) { Seed = encounterSeed };
+        Encounter encounter = new(zone, encounterDef, weather) { Seed = encounterSeed, Context = context };
         encounter.AddPlayerPawn(playerPawn);
 
         if (encounter.Def.Enemies.Count != 0)
@@ -35,12 +35,12 @@ public static class CombatGenerator
         // todo only handling a single enemy
         var enemies = new List<EncounterEnemyRecord>
         {
-            encounter.Def.Enemies.RandomElementByWeight(c => c.SpawnWeight)!
+            encounter.Def.Enemies.RandomElementByWeight(c => c.SpawnWeight, encounter.Context.Rng)!
         };
 
         foreach (var enemyConfig in enemies)
         {
-            var pawn = PawnGenerator.CreatePawn(new PawnRequest(
+            var pawn = PawnGenerator.CreatePawn(encounter.Context, new PawnRequest(
                 enemyConfig.PawnName,
                 enemyConfig.PawnDef,
                 enemyConfig.Loadout,

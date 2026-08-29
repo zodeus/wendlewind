@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Pawns.Modifiers;
 [UsedImplicitly]
 public class RotLung : BodyPartModifier
 {
+    public RotLung(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const string ModifierManeuver = "Slingshot";
     private const double DamagePerTick = .1;
 
@@ -25,7 +30,7 @@ public class RotLung : BodyPartModifier
             return false;
         }
 
-        var lung = part.Type == BodyPartType.Lung ? part : part.Body?.AllParts.Where(p => p?.Type == BodyPartType.Lung).RandomElement();
+        var lung = part.Type == BodyPartType.Lung ? part : part.Body?.AllParts.Where(p => p?.Type == BodyPartType.Lung).RandomElement(Context.Rng);
         if (lung == null)
         {
             return false;

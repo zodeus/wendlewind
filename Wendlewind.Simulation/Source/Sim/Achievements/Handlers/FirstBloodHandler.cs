@@ -5,6 +5,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class FirstBloodHandler : AchievementHandler
 {
+    public FirstBloodHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override void OnCombatEnd(AchievementCombatEndContext context)
     {
         if (IsUnlocked || !context.PlayerWon) return;

@@ -5,6 +5,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class GarbageGremlinHandler : AchievementHandler
 {
+    public GarbageGremlinHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
 
     public override void OnItemUsed(Pawn consumer, Item item, dynamic? data = null)
     {

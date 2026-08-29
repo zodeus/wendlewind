@@ -7,6 +7,11 @@ using Wendlewind.Sim.Entities;
 /// </summary>
 public class FindersKeepersHandler : AchievementHandler
 {
+    public FindersKeepersHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override void OnItemFound(Item item)
     {
         if (IsUnlocked) return;

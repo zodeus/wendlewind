@@ -85,7 +85,9 @@ public static class ScribeExtractor {
                 throw new ArgumentException("Can't load abstract class " + type);
             }
 
-            var exposable = (IExposable?) Activator.CreateInstance(type, ctorArgs);
+            var exposable = (IExposable?) (Scribe.ObjectFactory != null
+                ? Scribe.ObjectFactory.Create(type, ctorArgs)
+                : Activator.CreateInstance(type, ctorArgs));
             var flag = typeof(T).IsValueType /*|| typeof(Name).IsAssignableFrom(typeof(T))*/;
             if (!flag) {
                 Scribe.Loader.CrossRefs.RegisterForCrossRefResolve(exposable);

@@ -2,16 +2,8 @@
 
 public static class BodyPartModifierGenerator
 {
-    public static BodyPartModifier Generate(BodyPartModifierDef def, int duration, double power)
-    {
-        BodyPartModifier modifier = (BodyPartModifier)Activator.CreateInstance(def.HandlerClass)!;
-        modifier.Def = def;
-        modifier.Id = GameContext.Current.IdProvider.NextBodyPartModifierId();
-        modifier.DurationInTicks = duration;
-        modifier.Power = power;
-        modifier.Initialize();
-        return modifier;
-    }
+    public static BodyPartModifier Generate(GameContext context, BodyPartModifierDef def, int duration, double power) =>
+        context.Factory.CreateModifier(def, duration, power);
 }
 
 public enum BodyPartModifierEventType
@@ -20,8 +12,10 @@ public enum BodyPartModifierEventType
     Removed
 }
 
-public abstract class BodyPartModifier : IExposable, IIdentityProvider
+public abstract class BodyPartModifier : IExposable, IIdentityProvider, IHasContext, IHasRng
 {
+    public GameContext Context { get; set; } = null!;
+    public IRng Rng { get; set; } = null!;
     public BodyPart BodyPart = null!;
     public BodyPartModifierDef Def = null!;
     public int Ticks;
@@ -59,7 +53,7 @@ public abstract class BodyPartModifier : IExposable, IIdentityProvider
 
         var ticksRemaining = DurationInTicks - Ticks;
         var spreadDuration = Math.Max(ticksRemaining, 3); // Minimum 3 ticks to prevent cascade
-        part.TryAddModifier(BodyPartModifierGenerator.Generate(Def, spreadDuration, Power));
+        part.TryAddModifier(Context.Factory.CreateModifier(Def, spreadDuration, Power));
     }
 
     public virtual void MergeWith(BodyPartModifier modifier)

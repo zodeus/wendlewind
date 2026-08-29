@@ -1,7 +1,9 @@
 namespace Wendlewind.Sim.Entities.Items.Equipment;
 
-public abstract class EquipmentHandler : IExposable
+public abstract class EquipmentHandler : IExposable, IHasContext, IHasRng
 {
+    public GameContext Context { get; set; } = null!;
+    public IRng Rng { get; set; } = null!;
     public Item Equipment = null!;
 
     public string Label => Equipment.Label;

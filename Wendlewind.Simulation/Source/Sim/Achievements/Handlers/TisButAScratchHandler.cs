@@ -5,6 +5,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class TisButAScratchHandler : AchievementHandler
 {
+    public TisButAScratchHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override void OnPlayerDamaged(Pawn victim, DamageRequest request, DamageResponse response)
     {
         if (IsUnlocked) return;
@@ -29,6 +34,6 @@ public class TisButAScratchHandler : AchievementHandler
             Defs.Items.ClothHelmet, Defs.Items.ClothTunic, Defs.Items.ClothGorget
         };
 
-        PawnGenerator.RegisterEquipment(context.Player.Pawn, armorDefs.InRandomOrder().Take(1).ToList());
+        PawnGenerator.RegisterEquipment(context.Player.Pawn, armorDefs.InRandomOrder(Context.Rng).Take(1).ToList());
     }
 }

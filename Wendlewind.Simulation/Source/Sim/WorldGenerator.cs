@@ -2,12 +2,12 @@
 
 public static class WorldGenerator
 {
-    public static World GenerateNewWorld()
+    public static World GenerateNewWorld(GameContext context)
     {
-        Player player = new();
+        Player player = new() { Context = context };
         player.Initialize();
 
-        World world = new();
+        World world = new() { Context = context };
         world.Initialize(player, DefRepository<ZoneDef>.Defs);
         return world;
     }

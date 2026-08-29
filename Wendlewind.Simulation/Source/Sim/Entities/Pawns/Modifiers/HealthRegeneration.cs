@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Pawns.Modifiers;
 [UsedImplicitly]
 public class HealthRegeneration : BodyPartModifier
 {
+    public HealthRegeneration(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const double HealthRegenerationPerTick = .1f;
     private const float TotalTicksToRegenerate = 15;
     private int _ticksToRegenerate;

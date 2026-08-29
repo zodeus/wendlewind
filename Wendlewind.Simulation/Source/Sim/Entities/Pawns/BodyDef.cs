@@ -11,8 +11,6 @@ public class BodyDef : Def {
     public Type HandlerClass = typeof(DefaultBodyHandler);
     public Type? LayoutClass;
 
-    private IBodyGenerator? _generator;
-
-    public DefaultBodyHandler Handler => (DefaultBodyHandler) Activator.CreateInstance(HandlerClass)!;
-    public IBodyGenerator Generator => _generator ??= (IBodyGenerator) Activator.CreateInstance(GeneratorClass)!;
+    public DefaultBodyHandler CreateHandler(ISimFactory factory) => factory.Create<DefaultBodyHandler>(HandlerClass);
+    public IBodyGenerator CreateGenerator(ISimFactory factory) => factory.Create<IBodyGenerator>(GeneratorClass);
 }

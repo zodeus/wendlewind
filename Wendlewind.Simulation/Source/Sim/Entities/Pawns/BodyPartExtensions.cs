@@ -10,7 +10,7 @@ namespace Wendlewind.Sim.Entities.Pawns
                 var allInternalPartsDestroyed = internalParts.Count > 0 && internalParts.All(p => p.IsDestroyed);
 
                 // Sever if: the part itself is destroyed, OR all internal parts are destroyed (and there are some)
-                if (part.IsDestroyed && allInternalPartsDestroyed && part.Socket != null && GameContext.Random.Chance(.15f))
+                if (part.IsDestroyed && allInternalPartsDestroyed && part.Socket != null && part.Context.Rng.Chance(.15f))
                 {
                     part.Severe();
                 }
@@ -21,14 +21,14 @@ namespace Wendlewind.Sim.Entities.Pawns
         {
             var organsHit = 0;
             var remainingDamage = ctx.Amount;
-            var maxNumberOfOrgansToHit = new RangeInt(1, 4).RandomValue;
+            var maxNumberOfOrgansToHit = new RangeInt(1, 4).Roll(rootPart.Context.Rng);
             if (rootPart.Substance == SubstanceType.Chitin && rootPart.IsCracked == false)
             {
                 return 0;
             }
 
             var skin = rootPart.InternalParts.Where(p => p.Type == BodyPartType.Skin);
-            var rest = rootPart.InternalParts.Where(p => p.Type != BodyPartType.Skin).InRandomOrder();
+            var rest = rootPart.InternalParts.Where(p => p.Type != BodyPartType.Skin).InRandomOrder(rootPart.Context.Rng);
             var internalParts = skin.Concat(rest).ToList();
 
             foreach (var internalPart in internalParts)
@@ -63,7 +63,7 @@ namespace Wendlewind.Sim.Entities.Pawns
                         _ => 1
                     };
 
-                    if (GameContext.Random.Chance(chanceToMiss))
+                    if (rootPart.Context.Rng.Chance(chanceToMiss))
                     {
                         continue;
                     }
@@ -87,7 +87,7 @@ namespace Wendlewind.Sim.Entities.Pawns
                         _ => 1
                     };
 
-                    if (GameContext.Random.Chance(chanceToMiss))
+                    if (rootPart.Context.Rng.Chance(chanceToMiss))
                     {
                         continue;
                     }
@@ -121,9 +121,9 @@ namespace Wendlewind.Sim.Entities.Pawns
 
         public static bool ApplyBodyPartModifier(this BodyPart part, BodyPartModifierRecord record, string maneuver)
         {
-            if (!GameContext.Random.Chance(record.Chance.RandomValue)) return false;
+            if (!part.Context.Rng.Chance(record.Chance.Roll(part.Context.Rng))) return false;
 
-            var mod = BodyPartModifierGenerator.Generate(record.Def, record.DurationInTicks.RandomValue, record.Power);
+            var mod = part.Context.Factory.CreateModifier(record.Def, record.DurationInTicks.Roll(part.Context.Rng), record.Power);
             mod.Maneuver = maneuver;
             return mod.ApplyToPart(part);
         }

@@ -6,6 +6,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class SquirelyPeteHandler : AchievementHandler
 {
+    public SquirelyPeteHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override void OnCombatEnd(AchievementCombatEndContext context)
     {
         if (IsUnlocked || context.PlayerWon == false) return;
@@ -25,6 +30,6 @@ public class SquirelyPeteHandler : AchievementHandler
     {
         if (!IsUnlocked) return;
 
-        context.Player.Pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(Defs.Items.Walnut, GameContext.Random.Next(1, 2)));
+        context.Player.Pawn.Inventory.TryAdd(Context.Factory.CreateEntity<Item>(Defs.Items.Walnut, Context.Rng.Next(1, 2)));
     }
 }

@@ -6,6 +6,11 @@ namespace Wendlewind.Sim.Entities.Items.Potions;
 [UsedImplicitly]
 public class StrengthPotionHandler : PotionHandler
 {
+    public StrengthPotionHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override bool CanUseInCombat => true;
     public override bool CanUseOutsideCombat => false;
     public override bool CanAutoUse => false;

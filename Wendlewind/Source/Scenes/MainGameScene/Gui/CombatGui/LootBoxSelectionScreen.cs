@@ -30,7 +30,7 @@ public sealed class LootBoxSelectionScreen : VerticalStackPanel
 
         // Selection panel - shuffle potential boxes and take up to maxBoxes
         var selectedBoxes = maxBoxes.HasValue
-            ? availableBoxes.InRandomOrder().Take(maxBoxes.Value).ToList()
+            ? availableBoxes.InRandomOrder(Core.Context.Rng).Take(maxBoxes.Value).ToList()
             : availableBoxes;
         _selectionPanel = BuildSelectionPanel(selectedBoxes);
         
@@ -107,15 +107,15 @@ public sealed class LootBoxSelectionScreen : VerticalStackPanel
         var playerPawn = _context.PlayerPawn;
         List<Item> items = [];
         
-        var limit = Mathf.Clamp(box.CollectionLimit.RandomValue, 1, 10);
+        var limit = Mathf.Clamp(box.CollectionLimit.Roll(Core.Context.Rng), 1, 10);
         if (limit == 1)
         {
             var boxItem = box.Items
                 .Where(potentialItem => _context.Player.HasTrinkets(potentialItem.ItemDef) == false)
-                .RandomElementByWeight(i => i.Weight);
+                .RandomElementByWeight(i => i.Weight, Core.Context.Rng);
             if (boxItem != null)
             {
-                items.Add(EntityGenerator.CreateEntity<Item>(boxItem.ItemDef, boxItem.Amount.RandomValue));
+                items.Add(Core.Context.Factory.CreateEntity<Item>(boxItem.ItemDef, boxItem.Amount.Roll(Core.Context.Rng)));
             }
         }
         else
@@ -123,14 +123,14 @@ public sealed class LootBoxSelectionScreen : VerticalStackPanel
             // while items.count < limit, add a random item from box.Items
             while (items.Count < limit)
             {
-                var boxItem = box.Items.Where(i => !items.Any(i2 => i2.Def == i.ItemDef)).RandomElementByWeight(i => i.Weight);
+                var boxItem = box.Items.Where(i => !items.Any(i2 => i2.Def == i.ItemDef)).RandomElementByWeight(i => i.Weight, Core.Context.Rng);
                 if (boxItem == null)
                 {
                     Log.Error("No items left/found in box " + box.Label);
                     break;
                 }
                 if (Core.Random.Chance(boxItem.ChanceToDrop) == false) continue;
-                items.Add(EntityGenerator.CreateEntity<Item>(boxItem.ItemDef, boxItem.Amount.RandomValue));
+                items.Add(Core.Context.Factory.CreateEntity<Item>(boxItem.ItemDef, boxItem.Amount.Roll(Core.Context.Rng)));
             }
         }
 

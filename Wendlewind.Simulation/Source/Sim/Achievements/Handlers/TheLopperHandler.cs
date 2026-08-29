@@ -5,6 +5,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class TheLopperHandler : AchievementHandler
 {
+    public TheLopperHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override void OnEnemyDamaged(Pawn player, Pawn enemy, DamageRequest request, DamageResponse response)
     {
         if (IsUnlocked) return;

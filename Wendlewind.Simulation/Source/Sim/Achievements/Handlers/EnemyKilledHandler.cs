@@ -5,6 +5,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class EnemyKilledHandler : AchievementHandler
 {
+    public EnemyKilledHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override void OnCombatEnd(AchievementCombatEndContext context)
     {
         if (IsUnlocked || !context.PlayerWon) return;

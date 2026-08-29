@@ -24,10 +24,11 @@ public class CombatEvent(Pawn victim, CombatEventType damage, string s, BodyPart
     public bool IsCritical { get; set; } = isCritical;
 }
 
-public class CombatHandler : IDisposable
+public class CombatHandler : IDisposable, IHasContext
 {
     private readonly Encounter _encounter;
     private readonly Random _rng;
+    public GameContext Context { get; set; } = null!;
     private readonly Dictionary<Pawn, Item> _queuedItems = new();
     public EntityContainer Loot = new();
     public List<ResourceCount> CollectedLoot { get; } = [];
@@ -46,7 +47,8 @@ public class CombatHandler : IDisposable
     public CombatHandler(Encounter encounter)
     {
         _encounter = encounter;
-        _rng = GameContext.Current.Rng;
+        Context = encounter.Context;
+        _rng = Context.Rng;
         Player = encounter.PlayerPawns.First();
         Enemy = encounter.EnemyPawns.First();
 
@@ -56,8 +58,8 @@ public class CombatHandler : IDisposable
         Enemy.DamageTaken += OnDamageTaken;
         Enemy.Died += OnDeath;
 
-        Player.Body.Handler.OnBloodLost += GameContext.Current.Achievements.OnBloodLost;
-        Enemy.Body.Handler.OnBloodLost += GameContext.Current.Achievements.OnBloodLost;
+        Player.Body.Handler.OnBloodLost += Context.Achievements.OnBloodLost;
+        Enemy.Body.Handler.OnBloodLost += Context.Achievements.OnBloodLost;
     }
 
     private void OnDeath(DeathEvent deathEvent)
@@ -75,7 +77,7 @@ public class CombatHandler : IDisposable
                 Duration = 8,
                 Color = Color.Red
             });
-        GameContext.Current.DeathRecords.RecordDeath(new DeathRecord
+        Context.DeathRecords.RecordDeath(new DeathRecord
         {
             CauseOfDeath = deathEvent.Record.CauseOfDeath,
             KillingWeapon = deathEvent.Record.KillingWeapon,
@@ -89,7 +91,7 @@ public class CombatHandler : IDisposable
         // Track achievement: enemy killed
         if (deathEvent.Pawn.PawnType == PawnType.Enemy)
         {
-            GameContext.Current.Achievements.OnEnemyKilled(deathEvent.Pawn);
+            Context.Achievements.OnEnemyKilled(deathEvent.Pawn);
         }
 
         EndCombat();
@@ -115,7 +117,7 @@ public class CombatHandler : IDisposable
         if (victim.PawnType == PawnType.Enemy)
         {
             TotalDirectPlayerDamage += response.TotalDamageTaken;
-            GameContext.Current.Achievements.OnEnemyDamaged(Player, Enemy, request, response);
+            Context.Achievements.OnEnemyDamaged(Player, Enemy, request, response);
         }
 
         foreach (var damage in response.TrinketDamages)
@@ -255,14 +257,14 @@ public class CombatHandler : IDisposable
                 });
             }
             pawn.Equipment.UnEquip(potion);
-            GameContext.Current.Achievements.OnItemUsed(pawn, potion);
+            Context.Achievements.OnItemUsed(pawn, potion);
             potion.Destroy();
         }
     }
 
     private void AutoQueueEnemyPotions()
     {
-        if (ItemQueuedFor(Enemy) != null || !GameContext.Random.Chance(0.01f)) return;
+        if (ItemQueuedFor(Enemy) != null || !Context.Rng.Chance(0.01f)) return;
 
         var usablePotions = new List<ItemDef> { Defs.Items.AcidFlask, Defs.Items.SpicedChurni };
         foreach (var potionDef in usablePotions)
@@ -295,8 +297,8 @@ public class CombatHandler : IDisposable
             return;
         }
 
-        var damageRequest = damageOptions.RandomElement();
-        damageRequest.TargetedPart = victim.Body.AllExternalParts.Where(p => p.IsDestroyed == false || p.AllInternalParts.Count != 0).RandomElementByWeight(part => part.HitWeight)!;
+        var damageRequest = damageOptions.RandomElement(Context.Rng);
+        damageRequest.TargetedPart = victim.Body.AllExternalParts.Where(p => p.IsDestroyed == false || p.AllInternalParts.Count != 0).RandomElementByWeight(part => part.HitWeight, Context.Rng)!;
         victim.TakeDamage(damageRequest);
         
         attacker.Body.ConsumeEnergyFromAttack();
@@ -311,7 +313,7 @@ public class CombatHandler : IDisposable
             // Track potion usage for achievements (player only)
             if (pawn.PawnType == PawnType.Player)
             {
-                GameContext.Current.Achievements.OnItemUsed(pawn, potion);
+                Context.Achievements.OnItemUsed(pawn, potion);
             }
 
             // Use the potion handler if available
@@ -383,12 +385,12 @@ public class CombatHandler : IDisposable
             if (_encounter.Def.IsBoss)
             {
                 _encounter.Zone.IsComplete = true;
-                GameContext.Current.World.ProgressTracker.OnZoneCompleted(_encounter.Zone);
+                Context.World.ProgressTracker.OnZoneCompleted(_encounter.Zone);
             }
         }
 
         // Notify achievements of combat end
-        GameContext.Current.Achievements.OnCombatEnd(new AchievementCombatEndContext
+        Context.Achievements.OnCombatEnd(new AchievementCombatEndContext
         {
             Player = Player,
             Enemy = Enemy,
@@ -413,7 +415,7 @@ public class CombatHandler : IDisposable
         for (var i = Enemy.Inventory.Count() - 1; i >= 0; i--)
         {
             var item = Enemy.Inventory[i];
-            if (GameContext.Current.Player.HasTrinkets(item.ItemDef))
+            if (Context.Player.HasTrinkets(item.ItemDef))
             {
                 continue;
             }
@@ -430,9 +432,9 @@ public class CombatHandler : IDisposable
 
         foreach (var resource in _encounter.Zone.ZoneDef.Resources)
         {
-            if (GameContext.Random.Chance(resource.ChanceToHarvest))
+            if (Context.Rng.Chance(resource.ChanceToHarvest))
             {
-                AddToLootContainer(EntityGenerator.CreateEntity<Item>(resource.Item, resource.Amount.RandomValue));
+                AddToLootContainer(Context.Factory.CreateEntity<Item>(resource.Item, resource.Amount.Roll(Context.Rng)));
             }
         }
 
@@ -478,7 +480,7 @@ public class CombatHandler : IDisposable
         {
             foreach (var slot in slots.Where(slot => slot is not EquipmentSlotType.BuiltIn))
             {
-                if (enemy.Equipment.UnEquip(bodyPart, slot) is { } item && GameContext.Random.Chance(chanceToLootEquipment))
+                if (enemy.Equipment.UnEquip(bodyPart, slot) is { } item && Context.Rng.Chance(chanceToLootEquipment))
                 {
                     AddToLootContainer(item);
                 }
@@ -497,8 +499,8 @@ public class CombatHandler : IDisposable
         Player.Died -= OnDeath;
         Enemy.DamageTaken -= OnDamageTaken;
         Enemy.Died -= OnDeath;
-        Player.Body.Handler.OnBloodLost -= GameContext.Current.Achievements.OnBloodLost;
-        Enemy.Body.Handler.OnBloodLost -= GameContext.Current.Achievements.OnBloodLost;
+        Player.Body.Handler.OnBloodLost -= Context.Achievements.OnBloodLost;
+        Enemy.Body.Handler.OnBloodLost -= Context.Achievements.OnBloodLost;
     }
 }
 

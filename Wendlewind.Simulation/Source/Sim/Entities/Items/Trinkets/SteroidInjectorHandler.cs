@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Items.Trinkets;
 [UsedImplicitly]
 public class SteroidInjectorHandler : TrinketHandler
 {
+    public SteroidInjectorHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public double FuelLevel;
 
     private static readonly SimpleCurve CostCurve =
@@ -46,7 +51,7 @@ public class SteroidInjectorHandler : TrinketHandler
         {
             InjectPartInternal(internalPart);
         }
-        GameContext.Current.Achievements.OnItemUsed(GameContext.Current.Player.Pawn, Trinket, new { Amount = cost, BodyPart = bodyPart });
+        Context.Achievements.OnItemUsed(Context.Player.Pawn, Trinket, new { Amount = cost, BodyPart = bodyPart });
     }
 
     private void InjectPartInternal(BodyPart bodyPart)

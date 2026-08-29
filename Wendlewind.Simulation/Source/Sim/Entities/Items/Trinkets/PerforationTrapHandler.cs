@@ -5,6 +5,11 @@ using Wendlewind.Sim.Entities.Pawns.Modifiers;
 [UsedImplicitly]
 public class PerforationTrapHandler : TrinketHandler, IUpgradableHandler
 {
+    public PerforationTrapHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     // Fuse duration ranges
     private const int DefaultMinFuse = 30;
     private const int DefaultMaxFuse = 600;
@@ -56,9 +61,9 @@ public class PerforationTrapHandler : TrinketHandler, IUpgradableHandler
         if (_isSet) return false;
         
         // Can't set trap during combat
-        if (GameContext.Current.CurrentZone?.ActiveEncounter?.State == EncounterState.InProgress) return false;
+        if (Context.CurrentZone?.ActiveEncounter?.State == EncounterState.InProgress) return false;
         
-        var inventory = GameContext.Current.PlayerPawn.Inventory;
+        var inventory = Context.PlayerPawn.Inventory;
         return TrapCosts.All(cost => inventory.AmountOf(cost.Item) >= cost.Count);
     }
     
@@ -66,7 +71,7 @@ public class PerforationTrapHandler : TrinketHandler, IUpgradableHandler
     {
         if (!CanSetTrap()) return false;
         
-        var inventory = GameContext.Current.PlayerPawn.Inventory;
+        var inventory = Context.PlayerPawn.Inventory;
         
         // Take all required resources
         List<Item> takenItems = [];
@@ -99,10 +104,10 @@ public class PerforationTrapHandler : TrinketHandler, IUpgradableHandler
         if (!_isSet) return;
         
         // Return resources to inventory
-        var inventory = GameContext.Current.PlayerPawn.Inventory;
+        var inventory = Context.PlayerPawn.Inventory;
         foreach (var cost in TrapCosts)
         {
-            var item = EntityGenerator.CreateEntity<Item>(cost.Item, cost.Count);
+            var item = Context.Factory.CreateEntity<Item>(cost.Item, cost.Count);
             inventory.TryAdd(item);
         }
         
@@ -118,7 +123,7 @@ public class PerforationTrapHandler : TrinketHandler, IUpgradableHandler
         if (!_isSet) return;
         
         // Get current combat enemy
-        var combatHandler = GameContext.Current.CurrentZone?.ActiveEncounter?.CombatHandler;
+        var combatHandler = Context.CurrentZone?.ActiveEncounter?.CombatHandler;
         if (combatHandler == null) return;
         
         // Start fuse when combat begins
@@ -135,7 +140,7 @@ public class PerforationTrapHandler : TrinketHandler, IUpgradableHandler
             else
             {
                 // Level 1: Random fuse time
-                _fuseTimer = GameContext.Random.Next(DefaultMinFuse, DefaultMaxFuse + 1);
+                _fuseTimer = Context.Rng.Next(DefaultMinFuse, DefaultMaxFuse + 1);
             }
             _initialFuseTime = _fuseTimer;
         }
@@ -164,7 +169,7 @@ public class PerforationTrapHandler : TrinketHandler, IUpgradableHandler
         
         foreach (var part in externalParts)
         {
-            var modifier = BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.BloodDrain, BloodDrainDuration, BloodDrainPower);
+            var modifier = Context.Factory.CreateModifier(Defs.BodyPartModifiers.BloodDrain, BloodDrainDuration, BloodDrainPower);
             if (modifier.ApplyToPart(part))
             {
                 partsAffected++;
@@ -197,7 +202,7 @@ public class PerforationTrapHandler : TrinketHandler, IUpgradableHandler
         if (_isSet)
         {
             // Can't unset during combat
-            if (GameContext.Current.CurrentZone?.ActiveEncounter?.CombatHandler != null)
+            if (Context.CurrentZone?.ActiveEncounter?.CombatHandler != null)
             {
                 return;
             }

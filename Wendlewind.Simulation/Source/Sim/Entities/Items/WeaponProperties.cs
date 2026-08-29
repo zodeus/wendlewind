@@ -13,10 +13,10 @@ public class WeaponProperties
     
     [UsedImplicitly] public Type? HandlerClass;
 
-    public WeaponHandler? CreateHandler()
+    public WeaponHandler? CreateHandler(ISimFactory factory)
     {
         if (HandlerClass == null) return null;
-        return (WeaponHandler)Activator.CreateInstance(HandlerClass)!;
+        return factory.Create<WeaponHandler>(HandlerClass);
     }
 
     public float GetSubstanceModifier(SubstanceType substance)

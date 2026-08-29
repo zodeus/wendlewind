@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Items.Trinkets;
 [UsedImplicitly]
 public class HolyChaliceHandler : TrinketHandler
 {
+    public HolyChaliceHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public float CurrentOffing;
     public float CurrentOffingPercentage => CurrentOffing / 1000;
 

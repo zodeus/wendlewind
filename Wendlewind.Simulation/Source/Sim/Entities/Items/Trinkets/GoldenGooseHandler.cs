@@ -4,6 +4,11 @@ namespace Wendlewind.Sim.Entities.Items.Trinkets;
 [UsedImplicitly]
 public class GoldenGooseHandler : TrinketHandler
 {
+    public GoldenGooseHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const int MaxHunger = 100;
     private const int HungerPerEncounter = 5;
     private static readonly Color HungerFullColor = Color.GreenYellow;
@@ -67,7 +72,7 @@ public class GoldenGooseHandler : TrinketHandler
         Hunger += _foodList[item.ItemDef];
         
         // Notify achievement system
-        GameContext.Current.Achievements.OnGooseFed(Hunger, MaxHunger);
+        Context.Achievements.OnGooseFed(Hunger, MaxHunger);
         
         return _foodList[item.ItemDef];
     }
@@ -83,8 +88,8 @@ public class GoldenGooseHandler : TrinketHandler
         if (beansToGenerate > 0)
         {
             // Create golden beans and add to player inventory
-            var beans = EntityGenerator.CreateEntity<Item>(Defs.Items.GoldenBean, beansToGenerate);
-            GameContext.Current.PlayerPawn.Inventory.TryAdd(beans);
+            var beans = Context.Factory.CreateEntity<Item>(Defs.Items.GoldenBean, beansToGenerate);
+            Context.PlayerPawn.Inventory.TryAdd(beans);
         }
 
         // Goose gets hungrier after each encounter

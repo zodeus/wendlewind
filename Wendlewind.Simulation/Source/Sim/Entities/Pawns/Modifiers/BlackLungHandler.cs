@@ -7,6 +7,11 @@ namespace Wendlewind.Sim.Entities.Pawns.Modifiers;
 [UsedImplicitly]
 public class BlackLungHandler : BodyPartModifier
 {
+    public BlackLungHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     // Damage phases (tick thresholds and damage rates)
     private static readonly (int EndTick, double DamageRate)[] DamagePhases =
     [
@@ -46,7 +51,7 @@ public class BlackLungHandler : BodyPartModifier
 
         foreach (var lung in lungs)
         {
-            lung.TryAddModifier(BodyPartModifierGenerator.Generate(Def, DurationInTicks, Power));
+            lung.TryAddModifier(Context.Factory.CreateModifier(Def, DurationInTicks, Power));
         }
 
         return true;

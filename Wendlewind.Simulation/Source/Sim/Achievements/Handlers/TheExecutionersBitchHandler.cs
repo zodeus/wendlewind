@@ -5,6 +5,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class TheExecutionersBitchHandler : AchievementHandler
 {
+    public TheExecutionersBitchHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const float NeckHitPointsMultiplier = 2f;
 
     public override void OnPlayerDamaged(Pawn victim, DamageRequest request, DamageResponse response)

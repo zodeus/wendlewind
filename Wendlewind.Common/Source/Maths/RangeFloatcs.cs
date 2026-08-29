@@ -15,7 +15,7 @@ public struct RangeFloat : IEquatable<RangeFloat> {
 
     public float Average => (Min + Max) / 2f;
 
-    public float RandomValue => Rng.Current.NextFloat(Min, Max);
+    public float Roll(Random rng) => rng.NextFloat(Min, Max);
 
     public RangeFloat(float min, float max) {
         Min = min;

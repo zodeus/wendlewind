@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Pawns.Modifiers;
 [UsedImplicitly]
 public class BurningHandler : BodyPartModifier
 {
+    public BurningHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private bool _hasSpread;
     private bool _hasPenetrated;
     private const double BaseDamage = 0.08;

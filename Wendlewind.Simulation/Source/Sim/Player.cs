@@ -1,7 +1,8 @@
 ﻿namespace Wendlewind.Sim;
 
-public class Player : IExposable
+public class Player : IExposable, IHasContext
 {
+    public GameContext Context { get; set; } = null!;
     private Pawn _pawn = null!;
 
     private List<ItemDef> _trinketsFound = null!;
@@ -62,9 +63,10 @@ public class Player : IExposable
         return _trinketsFound.Contains(trinket);
     }
 
-    private static Pawn GeneratePlayerPawn()
+    private Pawn GeneratePlayerPawn()
     {
         var pawn = PawnGenerator.CreatePawn(
+            Context,
             new PawnRequest($"Human (specimen Alpha)",
             DefRepository<PawnDef>.GetByMoniker("HumanA")!,
             Defs.PawnLoadouts.DefaultStarterLoadout, PawnType.Player)

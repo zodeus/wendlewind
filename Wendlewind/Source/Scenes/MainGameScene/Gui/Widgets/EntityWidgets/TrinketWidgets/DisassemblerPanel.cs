@@ -380,7 +380,7 @@ public sealed class DisassembleItemCard : Panel
         foreach (var resource in _properties.Items)
         {
             Core.Context.PlayerPawn.Inventory.TryAdd(
-                EntityGenerator.CreateEntity<Item>(resource.Item, resource.Count)
+                Core.Context.Factory.CreateEntity<Item>(resource.Item, resource.Count)
             );
         }
 

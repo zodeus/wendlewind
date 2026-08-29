@@ -49,7 +49,7 @@ public class ZoneDetailsPanel : VerticalStackPanel
         // Horizontal row with pawn render and weather side by side
         var renderAndWeatherRow = new HorizontalStackPanel { Spacing = 20 };
         
-        var renderWidget = new PawnRenderWidget(PawnGenerator.CreatePawn(new PawnRequest(enemy.PawnDef.Species, enemy.PawnDef, Defs.PawnLoadouts.DefaultStarterLoadout, PawnType.Enemy)), 128)
+        var renderWidget = new PawnRenderWidget(PawnGenerator.CreatePawn(Core.Context, new PawnRequest(enemy.PawnDef.Species, enemy.PawnDef, Defs.PawnLoadouts.DefaultStarterLoadout, PawnType.Enemy)), 128)
         {
             Width = 128,
             Height = 128

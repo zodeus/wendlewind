@@ -6,7 +6,7 @@ public class BeeBodyGenerator : IBodyGenerator
     public void Generate(Pawn pawn)
     {
         pawn.Body.RootSocket = new BodyPartSocket(Defs.BodyPartSockets.HeadSocket);
-        var head = pawn.Body.RootSocket.TryAttachPart(EntityGenerator.CreateEntity<BodyPart>(Defs.BodyParts.BeeHead));
+        var head = pawn.Body.RootSocket.TryAttachPart(Defs.BodyParts.BeeHead);
         head.GetSocketsFor(BodyPartType.Eye)[0].TryAttachPart(Defs.BodyParts.Eye);
         head.GetSocketsFor(BodyPartType.Eye)[1].TryAttachPart(Defs.BodyParts.Eye);
         head.GetSocketsFor(BodyPartType.Brain)[0].TryAttachPart(Defs.BodyParts.Brain);
@@ -16,7 +16,7 @@ public class BeeBodyGenerator : IBodyGenerator
         MakeDrone(head.GetSocketsFor(BodyPartType.Minion)[1].TryAttachPart(Defs.BodyParts.BeeDrone));
         MakeDrone(head.GetSocketsFor(BodyPartType.Minion)[2].TryAttachPart(Defs.BodyParts.BeeDrone));
         MakeDrone(head.GetSocketsFor(BodyPartType.Minion)[3].TryAttachPart(Defs.BodyParts.BeeDrone));
-        head.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("BeeMandibles")!);
+        head.Equipment[EquipmentSlotType.BuiltIn] = head.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("BeeMandibles")!);
 
         // Thorax
         var thorax = head.GetSocketsFor(BodyPartType.Thorax)[0].TryAttachPart(Defs.BodyParts.BeeThorax);
@@ -33,11 +33,11 @@ public class BeeBodyGenerator : IBodyGenerator
         var abdomen = thorax.GetSocketsFor(BodyPartType.Abdomen)[0].TryAttachPart(Defs.BodyParts.BeeAbdomen);
         abdomen.GetSocketsFor(BodyPartType.Wing)[0].TryAttachPart(Defs.BodyParts.BeeWing);
         abdomen.GetSocketsFor(BodyPartType.Wing)[1].TryAttachPart(Defs.BodyParts.BeeWing);
-        abdomen.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("BeeStinger")!);
+        abdomen.Equipment[EquipmentSlotType.BuiltIn] = abdomen.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("BeeStinger")!);
     }
 
     private static void MakeDrone(BodyPart drone)
     {
-        drone.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("BeeDroneAttack")!);
+        drone.Equipment[EquipmentSlotType.BuiltIn] = drone.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("BeeDroneAttack")!);
     }
 }

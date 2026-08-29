@@ -49,6 +49,7 @@ public static class GenTypes
 
     public static List<string> ImpliedNamespaceNames {
         get {
+            RefreshCachesIfAssembliesChanged();
             return _impliedNamespaceNames ??= AllTypes
                 .Where(t => t.Namespace?.StartsWith("Wendlewind") == true)
                 .Select(t => t.Namespace!)
@@ -59,6 +60,20 @@ public static class GenTypes
 
     private static readonly Dictionary<TypeCacheKey, Type?> TypeCache = new(EqualityComparer<TypeCacheKey>.Default);
     private static List<string>? _impliedNamespaceNames;
+    private static int _cachedAssemblyCount = -1;
+
+    private static void RefreshCachesIfAssembliesChanged()
+    {
+        var count = AppDomain.CurrentDomain.GetAssemblies().Length;
+        if (count == _cachedAssemblyCount)
+        {
+            return;
+        }
+
+        _cachedAssemblyCount = count;
+        _impliedNamespaceNames = null;
+        TypeCache.Clear();
+    }
 
     private static IEnumerable<Assembly> AllActiveAssemblies {
         get {
@@ -139,6 +154,7 @@ public static class GenTypes
 
     public static Type? GetTypeInAnyAssembly(string? typeName, string? namespaceIfAmbiguous = null)
     {
+        RefreshCachesIfAssembliesChanged();
         var key = new TypeCacheKey(typeName, namespaceIfAmbiguous);
         if (TypeCache.TryGetValue(key, out var value)) return value;
         value = GetTypeInAnyAssemblyInt(typeName, namespaceIfAmbiguous);

@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Items.Trinkets;
 [UsedImplicitly]
 public class DeathRattleHandler : TrinketHandler
 {
+    public DeathRattleHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public readonly RangeFloat _damage = new(80, 160);
     public const double KillDamageMultiplier = 1;
     private const int CooldownValue = 1200;
@@ -76,7 +81,7 @@ public class DeathRattleHandler : TrinketHandler
         List<DamagedBodyPartRecord> damagedParts = [];
         var minDamage = _damage.Min + (float)(_damage.Min * Kills * KillDamageMultiplier);
         var maxDamage = _damage.Max + (float)(_damage.Max * Kills * KillDamageMultiplier);
-        var damage = (double)new RangeFloat(minDamage, maxDamage).RandomValue;
+        var damage = (double)new RangeFloat(minDamage, maxDamage).Roll(Context.Rng);
         part.ApplyDamageToExternalPart(new Damage(Trinket, damage, "Rattle"), damagedParts);
 
         if (part.Body?.Pawn.IsDeadFromPartFailure() != null)

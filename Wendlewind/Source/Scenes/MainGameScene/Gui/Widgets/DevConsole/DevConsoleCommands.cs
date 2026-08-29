@@ -156,7 +156,7 @@ public static class DevConsoleCommands
             return "Error: No player pawn found.";
 
         // Create and add items
-        var item = EntityGenerator.CreateEntity<Item>(itemDef, count);
+        var item = Core.Context.Factory.CreateEntity<Item>(itemDef, count);
         var added = playerPawn.Inventory.TryAdd(item);
 
         if (added)

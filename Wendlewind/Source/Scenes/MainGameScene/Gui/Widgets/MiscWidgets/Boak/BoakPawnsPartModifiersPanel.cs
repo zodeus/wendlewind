@@ -22,7 +22,7 @@ internal class BoakPawnsPartModifiersPanel : Grid
         {
             gridColum = 0;
             var labelWidget = new Label(BaseContent.Styles.Label.Medium) { VerticalAlignment = VerticalAlignment.Center, Text = $"{def.Label}" };
-            labelWidget.WithTooltip(() => BodyPartModifierGenerator.Generate(def, 666, 3).GetInfoPanel()! ?? new Label(BaseContent.Styles.Label.Small) { Text = "No info panel", TextColor = Color.GhostWhite });
+            labelWidget.WithTooltip(() => Core.Context.Factory.CreateModifier(def, 666, 3).GetInfoPanel()! ?? new Label(BaseContent.Styles.Label.Small) { Text = "No info panel", TextColor = Color.GhostWhite });
             AddCell(labelWidget, gridRow, gridColum++);
             AddCell(new Label(BaseContent.Styles.Label.Medium) { VerticalAlignment = VerticalAlignment.Center, Text = $"{def.Type}" }, gridRow, gridColum++);
             AddCell(new Image

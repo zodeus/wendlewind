@@ -42,9 +42,9 @@ internal sealed class MysteryScreen : VerticalStackPanel
 
         // Select random rewards
         var selectedRewards = shrine.OptionalRewards
-            .InRandomOrder()
+            .InRandomOrder(Core.Context.Rng)
             .Take(shrine.OptionalRewardsCount)
-            .Select(itemDef => EntityGenerator.CreateEntity<Item>(itemDef))
+            .Select(itemDef => Core.Context.Factory.CreateEntity<Item>(itemDef))
             .ToList();
 
         if (selectedRewards.Count == 0)

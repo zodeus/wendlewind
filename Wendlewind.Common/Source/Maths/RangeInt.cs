@@ -5,7 +5,7 @@ public readonly struct RangeInt(int min, int max)
     public readonly int Min = min;
     public readonly int Max = max;
 
-    public int RandomValue => Rng.Current.Next(Min, Max + 1);
+    public int Roll(Random rng) => rng.Next(Min, Max + 1);
 
     public override string ToString() {
         return Min + "~" + Max;

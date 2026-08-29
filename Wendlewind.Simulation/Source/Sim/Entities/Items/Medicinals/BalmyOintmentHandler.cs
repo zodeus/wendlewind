@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Items.Medicinals;
 [UsedImplicitly]
 public class BalmyOintmentHandler : MedicinalHandler
 {
+    public BalmyOintmentHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private static readonly Color BalmColor = new(180, 200, 140);        // Soft green for soothing
     private static readonly Color PartColor = new(180, 150, 130);        // Flesh tone
     private static readonly Color InternalColor = new(140, 120, 110);    // Darker for internal
@@ -12,11 +17,11 @@ public class BalmyOintmentHandler : MedicinalHandler
     public override bool ApplyToPart(Item item, BodyPart part)
     {
         var duration = item.ItemDef.MedicinalProperties!.DurationInTicks;
-        part.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.SoothingBalm, duration, 1));
+        part.TryAddModifier(Context.Factory.CreateModifier(Defs.BodyPartModifiers.SoothingBalm, duration, 1));
         RemoveBurningAndAcid(part);
         foreach (var internalPart in part.AllInternalParts)
         {
-            internalPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.SoothingBalm, duration, SoothingBalmPower));
+            internalPart.TryAddModifier(Context.Factory.CreateModifier(Defs.BodyPartModifiers.SoothingBalm, duration, SoothingBalmPower));
             RemoveBurningAndAcid(internalPart);
         }
 

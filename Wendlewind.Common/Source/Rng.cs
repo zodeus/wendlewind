@@ -1,9 +1,8 @@
 namespace Wendlewind;
 
 /// <summary>
-/// Process-wide RNG slots. Simulation code should go through
-/// <c>GameContext.Random</c>, which owns the instance for the active context
-/// and keeps <see cref="Current"/> in sync for Common helpers.
+/// Process-wide RNG slots. Simulation uses <see cref="IRng"/> / <c>GameContext.Rng</c>.
+/// Presentation uses <see cref="Visual"/>.
 /// </summary>
 public static class Rng
 {

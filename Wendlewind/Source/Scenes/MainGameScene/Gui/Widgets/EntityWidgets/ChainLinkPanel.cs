@@ -161,7 +161,7 @@ public sealed class ChainLinkPanel : EntityPanelBase
 
         // Create the armor (use AmountProduced from CraftingProperties)
         var amountProduced = recipe.ArmorDef.CraftingProperties.AmountProduced;
-        var armor = EntityGenerator.CreateEntity<Item>(recipe.ArmorDef, amountProduced);
+        var armor = Core.Context.Factory.CreateEntity<Item>(recipe.ArmorDef, amountProduced);
         pawn.Inventory.TryAdd(armor);
 
         // Update UI

@@ -3,6 +3,11 @@
 [UsedImplicitly]
 public class NecrosisSerumHandler : BodyPartModifier
 {
+    public NecrosisSerumHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override void Tick()
     {
         base.Tick();

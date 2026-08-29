@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Items.Trinkets;
 [UsedImplicitly]
 public class BloodyBellHandler : TrinketHandler
 {
+    public BloodyBellHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const int DefaultCooldown = 300;
     private const float BaseBloodDrainPercent = 0.08f;
     private const float BloodDrainPerRing = 0.02f;

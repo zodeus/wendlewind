@@ -5,6 +5,11 @@ namespace Wendlewind.Sim.Entities.Items.Medicinals;
 [UsedImplicitly]
 public class MendersMistHandler : MedicinalHandler
 {
+    public MendersMistHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private double _mistAmount;
 
     // Colors for the infographic

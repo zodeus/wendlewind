@@ -26,26 +26,19 @@ public class StatDef : Def {
 
     private DefaultStatHandler? _handler;
 
-    public DefaultStatHandler Handler {
-        get {
-            if (_handler == null) {
-                _handler = (DefaultStatHandler) Activator.CreateInstance(HandlerClass, this)!;
-            }
-
-            return _handler;
-        }
-    }
+    public DefaultStatHandler CreateHandler(ISimFactory factory) =>
+        _handler ??= factory.Create<DefaultStatHandler>(HandlerClass, this);
 
     public List<StatDef>? StatFactors;
 }
 
 public static class StatExtensions {
     public static float GetStatValue(this Entity entity, StatDef stat) {
-        return stat.Handler.GetValue(entity);
+        return stat.CreateHandler(entity.Context.Factory).GetValue(entity);
     }
 
     public static float GetStatValue(this Pawn pawn, StatDef stat) {
-        var value = stat.Handler.GetValue(pawn);
+        var value = stat.CreateHandler(pawn.Context.Factory).GetValue(pawn);
         foreach (BodyEffect effect in pawn.Body.Effects)
         {
             effect.ModifyIfApplicable(stat, ref value);

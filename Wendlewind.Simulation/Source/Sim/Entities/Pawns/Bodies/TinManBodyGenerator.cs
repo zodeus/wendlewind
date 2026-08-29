@@ -5,7 +5,7 @@ public class TinManBodyGenerator : IBodyGenerator
     public void Generate(Pawn pawn)
     {
         pawn.Body.RootSocket = new BodyPartSocket(Defs.BodyPartSockets.HeadSocket);
-        var head = pawn.Body.RootSocket.TryAttachPart(EntityGenerator.CreateEntity<BodyPart>(Defs.BodyParts.TinManHead));
+        var head = pawn.Body.RootSocket.TryAttachPart(Defs.BodyParts.TinManHead);
 
         // Torso
         var torso = head.GetSocketsFor(BodyPartType.Torso)[0].TryAttachPart(Defs.BodyParts.TinManTorso);
@@ -25,12 +25,12 @@ public class TinManBodyGenerator : IBodyGenerator
     static void MakeArm(BodyPart arm)
     {
         var hand = arm.GetSocketsFor(BodyPartType.Hand)[0].TryAttachPart(Defs.BodyParts.TinManHand);
-        hand.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("MetalFist")!);
+        hand.Equipment[EquipmentSlotType.BuiltIn] = hand.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("MetalFist")!);
     }
 
     static void MakeLeg(BodyPart leg)
     {
         var foot = leg.GetSocketsFor(BodyPartType.Foot)[0].TryAttachPart(Defs.BodyParts.TinManFoot);
-        foot.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("MetalFoot")!);
+        foot.Equipment[EquipmentSlotType.BuiltIn] = foot.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("MetalFoot")!);
     }
 }

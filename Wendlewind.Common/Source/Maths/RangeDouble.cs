@@ -15,7 +15,7 @@ public struct RangeDouble : IEquatable<RangeDouble> {
 
     public double Average => (Min + Max) / 2d;
 
-    public double RandomValue => Rng.Current.NextDouble(Min, Max);
+    public double Roll(Random rng) => rng.NextDouble(Min, Max);
 
     public RangeDouble(double min, double max) {
         Min = min;

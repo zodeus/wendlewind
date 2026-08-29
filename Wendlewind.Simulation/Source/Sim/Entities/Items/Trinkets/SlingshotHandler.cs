@@ -6,6 +6,11 @@ using Wendlewind.Sim.Entities.Pawns.Modifiers;
 [UsedImplicitly]
 public class SlingshotHandler : TrinketHandler, IUpgradableHandler
 {
+    public SlingshotHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private static string _boneTexturePath = "Entities/Item/Trinket/SlingshotBone";
     private static string _goldTexturePath = "Entities/Item/Trinket/SlingshotGold";
     private Item? _ammo;
@@ -57,14 +62,14 @@ public class SlingshotHandler : TrinketHandler, IUpgradableHandler
         if (_ammo == null || !IsActive) return null;
 
         var ammoProps = AmmoProperties!;
-        var damage = ammoProps.DamageRange.RandomValue;
+        var damage = ammoProps.DamageRange.Roll(Context.Rng);
         // Level 1+ (Bone) gives damage bonus
         if (_upgradeLevel >= 1)
         {
             damage *= BoneDamageMultiplier;
         }
 
-        var randomPart = victim.Body.AllExternalParts.RandomElement();
+        var randomPart = victim.Body.AllExternalParts.RandomElement(Context.Rng);
         var damageRecord = new DamageRecord(Trinket.Label, "Slingshot", ammoProps.DamageType, randomPart, damage, amountBlocked: 0);
         var damagedParts = randomPart.ApplyDamageToExternalPart(new Damage(Trinket, damage, "Slingshot"));
 
@@ -94,7 +99,7 @@ public class SlingshotHandler : TrinketHandler, IUpgradableHandler
     
     private void ApplyExplosiveSplashDamage(BodyPart hitPart, AmmoProperties ammoProps, List<DamagedBodyPartRecord> damagedParts)
     {
-        var splashDamage = ammoProps.SplashDamageRange.RandomValue;
+        var splashDamage = ammoProps.SplashDamageRange.Roll(Context.Rng);
         if (_upgradeLevel >= 1)
         {
             splashDamage *= BoneDamageMultiplier;

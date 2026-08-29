@@ -59,8 +59,8 @@ public static class DefRepository<T> where T : Def {
         return def;
     }
 
-    public static T RandomElement() {
-        return DefsList.RandomElement();
+    public static T RandomElement(Random rng) {
+        return DefsList.RandomElement(rng);
     }
 
     /// <summary>

@@ -1,7 +1,9 @@
 namespace Wendlewind.Sim.Entities.Items.Enchantments;
 
-public abstract class EnchantmentHandler : IExposable
+public abstract class EnchantmentHandler : IExposable, IHasContext, IHasRng
 {
+    public GameContext Context { get; set; } = null!;
+    public IRng Rng { get; set; } = null!;
     public Item Enchantment = null!;
 
     public string Label => Enchantment.Label;

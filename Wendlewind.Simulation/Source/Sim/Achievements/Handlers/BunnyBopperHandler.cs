@@ -5,6 +5,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class BunnyBopperHandler : AchievementHandler
 {
+    public BunnyBopperHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override void OnEnemyKilled(Pawn enemy)
     {
         if (IsUnlocked) return;
@@ -26,6 +31,6 @@ public class BunnyBopperHandler : AchievementHandler
             Defs.Items.ClothHelmet, Defs.Items.ClothTunic, Defs.Items.ClothGorget
         };
 
-        PawnGenerator.RegisterEquipment(context.Player.Pawn, armorDefs.InRandomOrder().Take(1).ToList());
+        PawnGenerator.RegisterEquipment(context.Player.Pawn, armorDefs.InRandomOrder(Context.Rng).Take(1).ToList());
     }
 }

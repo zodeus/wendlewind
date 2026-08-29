@@ -1,7 +1,9 @@
 namespace Wendlewind.Sim.Entities.Items.Trinkets;
 
-public abstract class TrinketHandler : IExposable
+public abstract class TrinketHandler : IExposable, IHasContext, IHasRng
 {
+    public GameContext Context { get; set; } = null!;
+    public IRng Rng { get; set; } = null!;
     public bool IsActive { get; protected set; }
     public int Cooldown;
     public int Kills;

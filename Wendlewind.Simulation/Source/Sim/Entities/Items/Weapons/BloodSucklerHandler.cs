@@ -9,6 +9,11 @@ namespace Wendlewind.Sim.Entities.Items.Weapons;
 [UsedImplicitly]
 public class BloodSucklerHandler : WeaponHandler
 {
+    public BloodSucklerHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const float BloodRestorePercent = 0.03f; // 3% of max blood
     private const float HealthRestoreMin = 5f;
     private const float HealthRestoreMax = 30f;
@@ -77,17 +82,17 @@ public class BloodSucklerHandler : WeaponHandler
         }
 
         // Determine how many parts to heal
-        var partsToHeal = GameContext.Random.Next(MinPartsToHeal, Math.Min(MaxPartsToHeal + 1, damagedParts.Count + 1));
+        var partsToHeal = Context.Rng.Next(MinPartsToHeal, Math.Min(MaxPartsToHeal + 1, damagedParts.Count + 1));
 
         // Shuffle and take random parts
         var partsToHealList = damagedParts
-            .InRandomOrder()
+            .InRandomOrder(Context.Rng)
             .Take(partsToHeal)
             .ToList();
 
         foreach (var part in partsToHealList)
         {
-            var healAmount = GameContext.Random.NextFloat(HealthRestoreMin, HealthRestoreMax);
+            var healAmount = Context.Rng.NextFloat(HealthRestoreMin, HealthRestoreMax);
             var prevHealth = part.HitPoints;
             part.HitPoints = Math.Min(part.MaxHitPoints, part.HitPoints + healAmount);
             var actualHeal = part.HitPoints - prevHealth;

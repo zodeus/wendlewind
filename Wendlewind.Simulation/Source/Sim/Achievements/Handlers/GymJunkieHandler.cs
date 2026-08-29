@@ -7,6 +7,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 [UsedImplicitly]
 public class GymJunkieHandler : AchievementHandler
 {
+    public GymJunkieHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override void OnItemUsed(Pawn consumer, Item item, dynamic? data = null)
     {
         if (IsUnlocked) return;

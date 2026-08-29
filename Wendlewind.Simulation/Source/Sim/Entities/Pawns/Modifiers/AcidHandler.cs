@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Pawns.Modifiers;
 [UsedImplicitly]
 public class AcidHandler : BodyPartModifier
 {
+    public AcidHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const double BaseDamage = 0.1f;
     private const double PenetratedDamage = 0.2f;
     private const double PenetrationThreshold = 0.4f;

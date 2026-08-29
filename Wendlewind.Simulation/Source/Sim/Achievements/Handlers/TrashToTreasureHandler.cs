@@ -5,6 +5,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class TrashToTreasureHandler : AchievementHandler
 {
+    public TrashToTreasureHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private List<ItemType> _trashItemTypes = [ItemType.Equipment];
 
     public override void OnItemDisassembled(Item item)
@@ -25,6 +30,6 @@ public class TrashToTreasureHandler : AchievementHandler
 
         var weaponDefs = new List<ItemDef> { Defs.Items.StoneHammer, Defs.Items.BoneKnife, Defs.Items.BoneSpear, Defs.Items.BoneAxe };
 
-        PawnGenerator.RegisterEquipment(context.Player.Pawn, weaponDefs.InRandomOrder().Take(1).ToList());
+        PawnGenerator.RegisterEquipment(context.Player.Pawn, weaponDefs.InRandomOrder(Context.Rng).Take(1).ToList());
     }
 }

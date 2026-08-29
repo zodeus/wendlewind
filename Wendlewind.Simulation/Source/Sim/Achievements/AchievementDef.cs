@@ -43,14 +43,6 @@ public class AchievementDef : Def
     {
         base.Initialize();
         
-        // Create handler instance if specified
-        if (HandlerClass != null && typeof(AchievementHandler).IsAssignableFrom(HandlerClass))
-        {
-            Handler = (AchievementHandler?)Activator.CreateInstance(HandlerClass);
-            if (Handler != null)
-            {
-                Handler.Def = this;
-            }
-        }
+        // Handlers are constructed per-run by AchievementTracker via ISimFactory.
     }
 }

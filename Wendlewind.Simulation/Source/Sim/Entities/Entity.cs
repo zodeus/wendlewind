@@ -8,8 +8,10 @@ public enum EntityState
     Destroyed
 }
 
-public abstract class Entity : IExposable, IIdentityProvider
+public abstract class Entity : IExposable, IIdentityProvider, IHasContext
 {
+    public GameContext Context { get; set; } = null!;
+
     public event Action<Entity>? Destroyed;
     public event Action<Entity>? EjectedFromContainer;
 

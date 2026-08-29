@@ -15,7 +15,7 @@ public sealed class CombatPreparationScreen : VerticalStackPanel
         Spacing = 15;
 
         _context = context;
-        _encounter = CombatGenerator.GenerateForZone(context.PlayerPawn, context.CurrentZone!);
+        _encounter = CombatGenerator.GenerateForZone(context, context.PlayerPawn, context.CurrentZone!);
         _gameHud = new GameHud(gui, context) { HorizontalAlignment = HorizontalAlignment.Stretch };
         _pawnPanel = new PawnPreparationPanel(gui, context.World.Player.Pawn);
         _pawnPanel.SetControls(CreateZoneControls());

@@ -5,6 +5,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class BrainTicklerHandler : AchievementHandler
 {
+    public BrainTicklerHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const float BrainHitPointsMultiplier = 1.5f;
 
     public override void OnEnemyDamaged(Pawn player, Pawn enemy, DamageRequest request, DamageResponse response)

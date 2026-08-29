@@ -60,7 +60,9 @@ public class BodyPartSocket : IExposable, IIdentityProvider
 
     public BodyPart TryAttachPart(BodyPartDef def)
     {
-        return TryAttachPart(EntityGenerator.CreateEntity<BodyPart>(def));
+        var context = ParentPart?.Context ?? Body?.Pawn.Context
+                      ?? throw new InvalidOperationException("BodyPartSocket has no GameContext to create a part.");
+        return TryAttachPart(context.Factory.CreateEntity<BodyPart>(def));
     }
 
     public BodyPart TryAttachPart(BodyPart bodyPart)

@@ -39,10 +39,12 @@ public static class CollectionExtensions {
         throw new ArgumentException("Failed to cast IList to either List<T> or T[]");
     }
 
-    public static T RandomElement<T>(this IEnumerable<T> source) {
+    public static T RandomElement<T>(this IEnumerable<T> source, Random rng) {
         if (source == null) {
             throw new ArgumentNullException(nameof(source));
         }
+
+        ArgumentNullException.ThrowIfNull(rng);
 
         IList<T> list = source as IList<T> ?? source.ToList();
 
@@ -51,18 +53,20 @@ public static class CollectionExtensions {
             return default!;
         }
 
-        return list[Rng.Current.Next(0, list.Count)];
+        return list[rng.Next(0, list.Count)];
     }
 
-    public static IEnumerable<T> InRandomOrder<T>(this IEnumerable<T> source) {
+    public static IEnumerable<T> InRandomOrder<T>(this IEnumerable<T> source, Random rng) {
         if (source == null) {
             throw new ArgumentNullException(nameof(source));
         }
 
+        ArgumentNullException.ThrowIfNull(rng);
+
         List<T> elements = source.ToList();
 
         for (int remainingElements = elements.Count; remainingElements > 0; remainingElements--) {
-            int randomIndex = Rng.Current.Next(0, remainingElements);
+            int randomIndex = rng.Next(0, remainingElements);
             yield return elements[randomIndex];
             T value = elements[randomIndex];
             elements[randomIndex] = elements[remainingElements - 1];
@@ -70,7 +74,7 @@ public static class CollectionExtensions {
         }
     }
 
-    public static T? RandomElementByWeight<T>(this IEnumerable<T> source, Func<T, float> weightSelector) {
+    public static T? RandomElementByWeight<T>(this IEnumerable<T> source, Func<T, float> weightSelector, Random rng) {
         // Materialize to avoid multiple enumeration and cache weights
         var items = source as IList<T> ?? source.ToList();
 
@@ -100,7 +104,9 @@ public static class CollectionExtensions {
             return default;
         }
 
-        float randomValue = (float)Rng.Current.NextDouble() * totalWeight;
+        ArgumentNullException.ThrowIfNull(rng);
+
+        float randomValue = (float)rng.NextDouble() * totalWeight;
         float cumulative = 0f;
 
         for (int i = 0; i < items.Count; i++) {

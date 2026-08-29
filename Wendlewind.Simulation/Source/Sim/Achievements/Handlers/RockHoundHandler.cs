@@ -5,6 +5,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class RockHoundHandler : AchievementHandler
 {
+    public RockHoundHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private static readonly HashSet<ItemDef> Rocks = [Defs.Items.Rock, Defs.Items.RockOfRot];
 
     private static readonly RangeInt RotRockStackSize = new(2, 4);
@@ -29,11 +34,11 @@ public class RockHoundHandler : AchievementHandler
         var pawn = context.Player.Pawn;
 
         // Add rot rocks
-        var rotRockCount = RotRockStackSize.RandomValue;
-        pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(Defs.Items.RockOfRot, rotRockCount));
+        var rotRockCount = RotRockStackSize.Roll(Context.Rng);
+        pawn.Inventory.TryAdd(Context.Factory.CreateEntity<Item>(Defs.Items.RockOfRot, rotRockCount));
 
         // Add normal rocks
-        var normalRockCount = NormalRockStackSize.RandomValue;
-        pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(Defs.Items.Rock, normalRockCount));
+        var normalRockCount = NormalRockStackSize.Roll(Context.Rng);
+        pawn.Inventory.TryAdd(Context.Factory.CreateEntity<Item>(Defs.Items.Rock, normalRockCount));
     }
 }

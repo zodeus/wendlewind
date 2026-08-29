@@ -5,6 +5,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class BloodLostHandler : AchievementHandler
 {
+    public BloodLostHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override void OnBloodLost(Pawn pawn, float bloodLost)
     {
         if (pawn.PawnType != PawnType.Player)

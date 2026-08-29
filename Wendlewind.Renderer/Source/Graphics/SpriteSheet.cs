@@ -27,7 +27,7 @@ public class SpriteSheet : IDisposable {
     }
 
     public Sprite Random() {
-        return Sprites[Rng.Current.Next(0, HorizontalCount - 1), Rng.Current.Next(0, VerticalCount - 1)];
+        return Sprites[Rng.Visual.Next(0, HorizontalCount - 1), Rng.Visual.Next(0, VerticalCount - 1)];
     }
 
     private Sprite GetRegion(Texture2D texture, int x, int y, int width, int height) {

@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Items.Enchantments;
 [UsedImplicitly]
 public class SoothingVibrationsHandler : EnchantmentHandler
 {
+    public SoothingVibrationsHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const int DurationInTicks = 60;
     public override void PostPawnDamageTakenEffect(BodyPart bodyPart, Pawn pawn, Pawn requestSource, DamageRecord damageRecord)
     {
@@ -15,10 +20,10 @@ public class SoothingVibrationsHandler : EnchantmentHandler
 
     public void ApplyToRegenerationToPart(BodyPart part)
     {
-        part.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.HealthRegeneration, DurationInTicks, 1));
+        part.TryAddModifier(Context.Factory.CreateModifier(Defs.BodyPartModifiers.HealthRegeneration, DurationInTicks, 1));
         foreach (var internalPart in part.AllInternalParts)
         {
-            internalPart.TryAddModifier(BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.HealthRegeneration, DurationInTicks, 1));
+            internalPart.TryAddModifier(Context.Factory.CreateModifier(Defs.BodyPartModifiers.HealthRegeneration, DurationInTicks, 1));
         }
     }
 }

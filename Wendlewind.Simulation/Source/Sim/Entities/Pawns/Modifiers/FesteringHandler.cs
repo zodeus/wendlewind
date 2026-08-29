@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Pawns.Modifiers;
 [UsedImplicitly]
 public class FesteringHandler : BodyPartModifier
 {
+    public FesteringHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const double BaseDamage = 0.05;
     private const double PenetratedDamage = 0.15;
     private const double OrganDamage = 0.005;

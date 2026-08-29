@@ -3,12 +3,17 @@ namespace Wendlewind.Sim.Entities.Items.Enchantments;
 [UsedImplicitly]
 public class SpidersBiteHandler : EnchantmentHandler
 {
+    public SpidersBiteHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public int Bites;
 
     // Armor handler
     public override void PostPawnDamageTakenEffect(BodyPart bodyPart, Pawn pawn, Pawn target, DamageRecord damageRecord)
     {
-        var randomPart = target.Body.AllExternalParts.RandomElement();
+        var randomPart = target.Body.AllExternalParts.RandomElement(Context.Rng);
         Bites++;
         foreach (var modifier in Enchantment.ItemDef.EnchantmentProperties!.BodyPartModifiers)
         {

@@ -5,6 +5,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class TrinketSnifferHandler : AchievementHandler
 {
+    public TrinketSnifferHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private static List<ItemDef> StarterTrinkets = [Defs.Items.CookingPot, Defs.Items.MortarAndPestle, Defs.Items.TinkersToolbox];
     public override void OnItemFound(Item item)
     {
@@ -23,7 +28,7 @@ public class TrinketSnifferHandler : AchievementHandler
     {
         if (IsUnlocked == false) return;
 
-        var trinket = StarterTrinkets.InRandomOrder().First();
-        context.Player.Pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(trinket));
+        var trinket = StarterTrinkets.InRandomOrder(Context.Rng).First();
+        context.Player.Pawn.Inventory.TryAdd(Context.Factory.CreateEntity<Item>(trinket));
     }
 }

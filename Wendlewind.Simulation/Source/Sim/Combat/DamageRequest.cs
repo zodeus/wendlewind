@@ -24,13 +24,13 @@ public class DamageRequest
         {
             throw new Exception("No weapon maneuvers found for weapon: " + tool.ItemDef.Moniker);
         }
-        var weaponManeuver = tool.ItemDef.WeaponProperties!.WeaponManeuvers.RandomElement();
+        var weaponManeuver = tool.ItemDef.WeaponProperties!.WeaponManeuvers.RandomElement(pawn.Context.Rng);
         var skillPower = 1 + (pawn.GetSkill(tool.ItemDef.WeaponProperties!.WeaponType)?.Level * .1f ?? 0);
         var rawDamage = Mathf.RoundToInt(
             toolPower
             * pawnStrength
             * skillPower
-            * weaponManeuver.DamageMultiplier.RandomValue
+            * weaponManeuver.DamageMultiplier.Roll(pawn.Context.Rng)
         );
         
         var (criticalDamage, isCritical) = CalculateCriticalDamage(pawn, rawDamage);
@@ -50,10 +50,10 @@ public class DamageRequest
     private static (int damage, bool isCritical) CalculateCriticalDamage(Pawn pawn, int rawDamage)
     {
         //Defs.Stats.CriticalStrikeChance
-        if (pawn.Inventory.Contains(Defs.Items.Monocle) && GameContext.Random.Chance(.2f))
+        if (pawn.Inventory.Contains(Defs.Items.Monocle) && pawn.Context.Rng.Chance(.2f))
         {
             var range = new RangeFloat(1.2f, 2f);
-            var critMultiplier = range.RandomValue;
+            var critMultiplier = range.Roll(pawn.Context.Rng);
             return (Mathf.RoundToInt(rawDamage * critMultiplier), true);
         }
         return (rawDamage, false);

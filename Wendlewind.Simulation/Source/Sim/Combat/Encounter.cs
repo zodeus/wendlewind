@@ -1,7 +1,8 @@
 namespace Wendlewind.Sim.Combat;
 
-public class Encounter(Zone zone, EncounterProperties def, WeatherDef? weather = null) : IDisposable
+public class Encounter(Zone zone, EncounterProperties def, WeatherDef? weather = null) : IDisposable, IHasContext
 {
+    public GameContext Context { get; set; } = zone.Context;
     private EncounterState _state = EncounterState.NotStarted;
     public CombatHandler? CombatHandler { get; private set; }
     public event Action<EncounterState>? StateChangedAction;
@@ -19,7 +20,7 @@ public class Encounter(Zone zone, EncounterProperties def, WeatherDef? weather =
     {
         if (Def.Enemies.Count > 0)
         {
-            CombatHandler = new CombatHandler(this);
+            CombatHandler = new CombatHandler(this) { Context = Context };
         }
     }
 

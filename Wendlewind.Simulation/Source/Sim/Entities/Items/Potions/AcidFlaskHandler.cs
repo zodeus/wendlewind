@@ -6,6 +6,11 @@ namespace Wendlewind.Sim.Entities.Items.Potions;
 [UsedImplicitly]
 public class AcidFlaskHandler : PotionHandler
 {
+    public AcidFlaskHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override bool CanUseInCombat => true;
     public override bool CanUseOutsideCombat => false;
     
@@ -20,9 +25,9 @@ public class AcidFlaskHandler : PotionHandler
         
         foreach (var eye in target.Body.AllExternalParts
             .Where(part => part.Type == BodyPartType.Eye)
-            .InRandomOrder())
+            .InRandomOrder(Context.Rng))
         {
-            if (GameContext.Random.Chance(1))
+            if (Context.Rng.Chance(1))
             {
                 eye.HitPoints = 0;
                 var eyeText = $"{eye.Socket?.Label.Split(" ")[0]} {eye.Type}";

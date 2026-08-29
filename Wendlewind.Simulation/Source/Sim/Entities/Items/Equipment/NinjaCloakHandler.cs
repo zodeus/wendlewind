@@ -6,7 +6,13 @@ namespace Wendlewind.Sim.Entities.Items.Equipment;
 /// </summary>
 public class NinjaCloakHandler : EquipmentHandler, IUpgradableHandler, ICloakHandler
 {
-    private readonly StrengthCloakHandler _strengthHandler = new();
+    private readonly StrengthCloakHandler _strengthHandler;
+
+    public NinjaCloakHandler(IRng rng)
+    {
+        Rng = rng;
+        _strengthHandler = new StrengthCloakHandler(rng);
+    }
     
     // Evasion bonuses (EvasionCloak doesn't have a handler, it uses BaseStats)
     private const float BaseEvasionBonus = 0.1f;

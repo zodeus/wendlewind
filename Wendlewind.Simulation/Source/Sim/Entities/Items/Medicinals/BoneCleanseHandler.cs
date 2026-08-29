@@ -7,6 +7,11 @@ namespace Wendlewind.Sim.Entities.Items.Medicinals;
 [UsedImplicitly]
 public class BoneCleanseHandler : MedicinalHandler
 {
+    public BoneCleanseHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
 
     public override bool ApplyToPart(Item item, BodyPart part)
     {

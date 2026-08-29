@@ -8,6 +8,11 @@ namespace Wendlewind.Sim.Entities.Pawns.Bodies.Handlers;
 [UsedImplicitly]
 public class HydraBodyHandler : DefaultBodyHandler
 {
+    public HydraBodyHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const int RegenerationCooldownTicks = 120; // Ticks between regeneration checks
     private const float HitPointsMultiplier = 1.5f;
     private int _ticksSinceLastCheck;
@@ -79,7 +84,7 @@ public class HydraBodyHandler : DefaultBodyHandler
         };
         
         // Create the new head
-        var newHead = socket.TryAttachPart(EntityGenerator.CreateEntity<BodyPart>(headDef));
+        var newHead = socket.TryAttachPart(Context.Factory.CreateEntity<BodyPart>(headDef));
         
         // Double the max health based on what it was when severed
         if (_headMaxHealthOnSever.TryGetValue(socket.Id, out var previousMaxHp))
@@ -102,7 +107,7 @@ public class HydraBodyHandler : DefaultBodyHandler
         newHead.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
         
         // Equip teeth weapon on the new head
-        newHead.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(
+        newHead.Equipment[EquipmentSlotType.BuiltIn] = Context.Factory.CreateEntity<Item>(
             DefRepository<ItemDef>.GetByMoniker("HydraTeeth")!);
         
         // Increase strength bonus by 1

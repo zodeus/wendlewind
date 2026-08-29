@@ -163,7 +163,7 @@ public sealed class ResourcePanel : EntityPanelBase
             item.Destroy();
         }
 
-        var potion = EntityGenerator.CreateEntity<Item>(potionToMake);
+        var potion = Core.Context.Factory.CreateEntity<Item>(potionToMake);
         player.Pawn.Inventory.TryAdd(potion);
     }
     public override void Update()

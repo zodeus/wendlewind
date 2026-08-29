@@ -6,6 +6,11 @@ namespace Wendlewind.Sim.Entities.Items.Potions;
 [UsedImplicitly]
 public class FleshifyHandler : PotionHandler
 {
+    public FleshifyHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override bool CanUseInCombat => true;
     public override bool CanUseOutsideCombat => true;
     public override bool CanAutoUse => false;

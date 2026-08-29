@@ -17,7 +17,7 @@ public class GhoulBodyGenerator : IBodyGenerator
         neck.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
 
         // Head
-        var head = neck.GetSocketsFor(BodyPartType.Head)[0].TryAttachPart(EntityGenerator.CreateEntity<BodyPart>(Defs.BodyParts.GhoulHead));
+        var head = neck.GetSocketsFor(BodyPartType.Head)[0].TryAttachPart(Defs.BodyParts.GhoulHead);
         head.GetSocketsFor(BodyPartType.Eye)[0].TryAttachPart(Defs.BodyParts.Eye);
         head.GetSocketsFor(BodyPartType.Eye)[1].TryAttachPart(Defs.BodyParts.Eye);
         head.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
@@ -54,7 +54,7 @@ public class GhoulBodyGenerator : IBodyGenerator
         MakeFingerForSocket(hand.GetSocketsFor(BodyPartType.Finger)[1], Defs.BodyParts.GhoulFinger);
         MakeFingerForSocket(hand.GetSocketsFor(BodyPartType.Finger)[2], Defs.BodyParts.GhoulFinger);
         MakeFingerForSocket(hand.GetSocketsFor(BodyPartType.Finger)[3], Defs.BodyParts.GhoulFinger);
-        hand.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("GhoulishHand")!);
+        hand.Equipment[EquipmentSlotType.BuiltIn] = hand.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("GhoulishHand")!);
     }
 
     public static void MakeFingerForSocket(BodyPartSocket socket, BodyPartDef def)
@@ -72,6 +72,6 @@ public class GhoulBodyGenerator : IBodyGenerator
         foot.GetSocketsFor(BodyPartType.Skin)[0].TryAttachPart(Defs.BodyParts.Skin);
         foot.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
 
-        foot.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("GhoulishFoot")!);
+        foot.Equipment[EquipmentSlotType.BuiltIn] = foot.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("GhoulishFoot")!);
     }
 }

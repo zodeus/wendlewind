@@ -5,6 +5,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class LumberjackHandler : AchievementHandler
 {
+    public LumberjackHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override void OnEnemyKilled(Pawn enemy)
     {
         if (IsUnlocked) return;

@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Items.Medicinals;
 [UsedImplicitly]
 public class MedKitHandler : MedicinalHandler
 {
+    public MedKitHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
 
     public override bool ApplyToPart(Item item, BodyPart part)
     {

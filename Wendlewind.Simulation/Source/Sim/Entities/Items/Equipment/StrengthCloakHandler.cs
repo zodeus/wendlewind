@@ -2,6 +2,11 @@ namespace Wendlewind.Sim.Entities.Items.Equipment;
 
 public class StrengthCloakHandler : EquipmentHandler, IUpgradableHandler, ICloakHandler
 {
+    public StrengthCloakHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const float BaseStrengthBonus = 1f;
     public const float Level1StrengthBonus = 2f;
     public const float Level2StrengthBonus = 3f;

@@ -1,4 +1,5 @@
 using System.IO;
+using Microsoft.Extensions.DependencyInjection;
 using Wendlewind.Scenes.Components;
 using Wendlewind.Scenes.MainGameScene.Gui;
 
@@ -8,7 +9,8 @@ public class GameScene : Scene
 {
     private float _startOverCooldown = 3f;
     private MapGui _mapGui = null!;
-    private GameContext _context = new ();
+    private readonly IServiceScope _runScope = SimServices.BuildRoot().CreateScope();
+    private GameContext _context = null!;
     private GameState _currentGameState = GameState.Map;
     private WorldTextHandler _worldTextHandler = new();
     private KeyboardState _previousKeyboardState;
@@ -16,6 +18,7 @@ public class GameScene : Scene
 
     protected override void OnStart()
     {
+        _context = _runScope.ServiceProvider.GetRequiredService<GameContext>();
         Core.Context = _context;
         _context.OnStateChanged += HandleOnStateChanged;
 

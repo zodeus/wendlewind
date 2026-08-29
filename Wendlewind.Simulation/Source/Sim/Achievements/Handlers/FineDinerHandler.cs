@@ -5,6 +5,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class FineDinerHandler : AchievementHandler
 {
+    public FineDinerHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private static readonly HashSet<ItemDef> FineFoods = [Defs.Items.HeartyStew, Defs.Items.GoldCapMushroom];
 
     private static readonly List<ItemDef> AvailableFoods = [
@@ -44,9 +49,9 @@ public class FineDinerHandler : AchievementHandler
 
     private void AddFoodToInventory(Pawn pawn)
     {
-        var food = AvailableFoods.InRandomOrder().First();
-        var stackSize = FoodStackSize.RandomValue;
-        pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(food, stackSize));
+        var food = AvailableFoods.InRandomOrder(Context.Rng).First();
+        var stackSize = FoodStackSize.Roll(Context.Rng);
+        pawn.Inventory.TryAdd(Context.Factory.CreateEntity<Item>(food, stackSize));
     }
 }
 

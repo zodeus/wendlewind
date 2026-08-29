@@ -1,7 +1,18 @@
-﻿namespace Wendlewind.Sim.Entities.Pawns.Bodies.Handlers;
+namespace Wendlewind.Sim.Entities.Pawns.Bodies.Handlers;
 
-public class DefaultBodyHandler : IExposable
+public class DefaultBodyHandler : IExposable, IHasContext, IHasRng
 {
+    public GameContext Context { get; set; } = null!;
+    public IRng Rng { get; set; } = null!;
+
+    public DefaultBodyHandler()
+    {
+    }
+
+    public DefaultBodyHandler(IRng rng)
+    {
+        Rng = rng;
+    }
     public event Action<Pawn, float>? OnBloodLost;
     private const float FixedBloodLossFactor = .01f;
     private int _ticksWithEmptyStomach;
@@ -14,7 +25,7 @@ public class DefaultBodyHandler : IExposable
     public virtual int TicksUntilFamished => 7200;
     public virtual int EmptyStomachEnergyLossFactor => 2;
     public virtual float HungryThreshold => 0.85f;
-    public virtual float MalnutritionDamageFactor => GameContext.Random.NextFloat(0.0001f, 0.0005f);
+    public virtual float MalnutritionDamageFactor => Context.Rng.NextFloat(0.0001f, 0.0005f);
     public virtual bool IsFamished => _ticksWithEmptyStomach > TicksUntilFamished;
     public bool IsHungry => Body.StomachLevel < HungryThreshold;
     public float Viscosity => Body.Def.BloodType!.Viscosity;
@@ -57,7 +68,7 @@ public class DefaultBodyHandler : IExposable
                 continue;
             }
 
-            if (GameContext.Random.Chance(0.7f))
+            if (Context.Rng.Chance(0.7f))
             {
                 continue;
             }
@@ -100,7 +111,7 @@ public class DefaultBodyHandler : IExposable
 
     protected virtual void HandleNutrition()
     {
-        if (GameContext.Current.Ticks % 20 != 0)
+        if (Context.Ticks % 20 != 0)
         {
             return;
         }

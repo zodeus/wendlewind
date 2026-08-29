@@ -3,12 +3,17 @@ namespace Wendlewind.Sim.Entities.Pawns.Modifiers;
 [UsedImplicitly]
 public class LifeRegenerationHandler : BodyPartModifier
 {
+    public LifeRegenerationHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const double HealthRegenerationPerTick = .01f;
     private const float ChanceToRegenerateDestroyedPart = 0.01f;
 
     public override void Tick()
     {
-        if (BodyPart.HitPoints < 1 && GameContext.Random.Chance(ChanceToRegenerateDestroyedPart))
+        if (BodyPart.HitPoints < 1 && Context.Rng.Chance(ChanceToRegenerateDestroyedPart))
         {
             BodyPart.HitPoints = 1;
         }

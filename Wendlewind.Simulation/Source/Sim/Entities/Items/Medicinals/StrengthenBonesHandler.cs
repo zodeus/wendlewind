@@ -7,6 +7,11 @@ namespace Wendlewind.Sim.Entities.Items.Medicinals;
 [UsedImplicitly]
 public class StrengthenBonesHandler : MedicinalHandler
 {
+    public StrengthenBonesHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const double MaxHpIncreasePercent = 0.05; // 5% increase
 
 

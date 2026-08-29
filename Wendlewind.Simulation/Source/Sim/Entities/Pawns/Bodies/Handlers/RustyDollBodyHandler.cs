@@ -9,6 +9,11 @@ namespace Wendlewind.Sim.Entities.Pawns.Bodies.Handlers;
 [UsedImplicitly]
 public class RustyDollBodyHandler : DefaultBodyHandler
 {
+    public RustyDollBodyHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const float MaxGenerations = 8;
     private int _generationCount;
 
@@ -22,9 +27,9 @@ public class RustyDollBodyHandler : DefaultBodyHandler
     public override void Tick()
     {
         _regenerationCooldownTicks--;
-        if(GameContext.Current.Ticks % 120 == 0)
+        if(Context.Ticks % 120 == 0)
         {
-            ActiveStrengthMultiplier = GameContext.Random.NextFloat(1f, StrengthMultiplier);
+            ActiveStrengthMultiplier = Context.Rng.NextFloat(1f, StrengthMultiplier);
         }
 
         if (Body.EnergyPercent < 0.9f)

@@ -18,7 +18,7 @@ internal sealed class BoakPawnsCreaturesPanel : Grid, IDisposable
         foreach (var def in defs)
         {
             // Create a preview pawn to render
-            var previewPawn = PawnGenerator.CreatePawn(new PawnRequest(
+            var previewPawn = PawnGenerator.CreatePawn(Core.Context, new PawnRequest(
                 def.Label,
                 def,
                 emptyLoadout,

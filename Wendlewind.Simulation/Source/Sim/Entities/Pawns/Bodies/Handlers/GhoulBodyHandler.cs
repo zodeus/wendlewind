@@ -2,6 +2,11 @@
 
 public class GhoulBodyHandler : DefaultBodyHandler
 {
+    public GhoulBodyHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const int RegenerationCooldownTicks = 30;
     private int _ticksSinceLastCheck;
 

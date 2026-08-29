@@ -3,5 +3,10 @@
 [UsedImplicitly]
 public class BatteryHandler : TrinketHandler
 {
+    public BatteryHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
 
 }

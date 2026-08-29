@@ -1,7 +1,8 @@
 namespace Wendlewind.Sim;
 
-public class World : IExposable, IIdentityProvider
+public class World : IExposable, IIdentityProvider, IHasContext
 {
+    public GameContext Context { get; set; } = null!;
     public Player Player = null!;
 
     public List<Zone> Zones = [];
@@ -13,9 +14,10 @@ public class World : IExposable, IIdentityProvider
     public void Initialize(Player player, IReadOnlyList<ZoneDef> zoneDefs)
     {
         Player = player;
+        Player.Context = Context;
         foreach (var zoneDef in zoneDefs.OrderBy(z => z.Stage))
         {
-            var zone = new Zone();
+            var zone = new Zone { Context = Context };
             zone.Initialize(zoneDef);
             Zones.Add(zone);
         }

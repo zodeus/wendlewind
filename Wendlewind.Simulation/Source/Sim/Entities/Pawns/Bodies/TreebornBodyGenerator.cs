@@ -11,7 +11,7 @@ public class TreebornBodyGenerator : IBodyGenerator
 
     private static void GenerateBodyInSocket(BodyPartSocket rootSocket)
     {
-        var torso = rootSocket.TryAttachPart(EntityGenerator.CreateEntity<BodyPart>(Defs.BodyParts.TreeTrunk));
+        var torso = rootSocket.TryAttachPart(Defs.BodyParts.TreeTrunk);
         torso.GetSocketsFor(BodyPartType.Eye)[0].TryAttachPart(Defs.BodyParts.Eye);
         torso.GetSocketsFor(BodyPartType.Eye)[1].TryAttachPart(Defs.BodyParts.Eye);
 
@@ -37,6 +37,6 @@ public class TreebornBodyGenerator : IBodyGenerator
     {
         stump.GetSocketsFor(BodyPartType.Bone)[0].TryAttachPart(Defs.BodyParts.Bone);
         stump.GetSocketsFor(BodyPartType.Artery)[0].TryAttachPart(Defs.BodyParts.Artery);
-        stump.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("TreeBranch")!);
+        stump.Equipment[EquipmentSlotType.BuiltIn] = stump.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("TreeBranch")!);
     }
 }

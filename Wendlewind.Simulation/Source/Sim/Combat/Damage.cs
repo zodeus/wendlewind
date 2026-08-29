@@ -39,7 +39,7 @@ public class Damage
         TotalUnblockedDamage = Math.Clamp(TotalDamage - equipment.GetStatValue(Defs.Stats.PhysicalResistance), 0, TotalDamage);
 
         var damageBlocked = TotalDamage - TotalUnblockedDamage;
-        var durabilityLossFactor = GameContext.Random.NextFloat(0.2f, 0.5f);
+        var durabilityLossFactor = equipment.Context.Rng.NextFloat(0.2f, 0.5f);
         var durabilityLoss = (float)(damageBlocked * durabilityLossFactor);
 
         equipment.ApplyDurabilityLoss(durabilityLoss);

@@ -23,6 +23,12 @@ public static class Scribe {
 
     public static ScribeState State = ScribeState.Inactive;
 
+    /// <summary>
+    /// Optional factory used when reconstructing <see cref="IExposable"/> sim objects.
+    /// Defs still use Activator in <c>DirectXmlToObject</c>.
+    /// </summary>
+    public static IScribeObjectFactory? ObjectFactory { get; set; }
+
     public static void ForceStop() {
         State = ScribeState.Inactive;
         Saver.ForceStop();

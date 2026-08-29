@@ -6,11 +6,11 @@ public class MushroomBodyGenerator : IBodyGenerator
     {
         // Torso
         pawn.Body.RootSocket = new(Defs.BodyPartSockets.TorsoSocket);
-        var stump = pawn.Body.RootSocket.TryAttachPart(EntityGenerator.CreateEntity<BodyPart>(Defs.BodyParts.MushroomStump));
+        var stump = pawn.Body.RootSocket.TryAttachPart(Defs.BodyParts.MushroomStump);
 
         // Cap
         var cap = stump.GetSocketsFor(BodyPartType.Head)[0].TryAttachPart(Defs.BodyParts.MushroomCap);
-        cap.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("MushroomCapWeapon")!);
+        cap.Equipment[EquipmentSlotType.BuiltIn] = cap.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("MushroomCapWeapon")!);
 
         // Eyes
         stump.GetSocketsFor(BodyPartType.Eye)[0].TryAttachPart(Defs.BodyParts.Eye);

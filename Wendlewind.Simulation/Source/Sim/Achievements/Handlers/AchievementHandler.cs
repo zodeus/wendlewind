@@ -3,11 +3,13 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// <summary>
 /// Base class for achievement handlers that check conditions and unlock achievements
 /// </summary>
-public abstract class AchievementHandler
+public abstract class AchievementHandler : IHasContext, IHasRng
 {
+    public GameContext Context { get; set; } = null!;
+    public IRng Rng { get; set; } = null!;
     public AchievementDef Def { get; set; } = null!;
 
-    protected AchievementTracker Tracker => GameContext.Current.Achievements;
+    protected AchievementTracker Tracker => Context.Achievements;
 
     /// <summary>
     /// Check if this achievement is already unlocked
@@ -104,6 +106,6 @@ public abstract class AchievementHandler
         if (IsUnlocked == false) return;
         if (Def.UnlockedTrinketDef == null) return;
 
-        pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(Def.UnlockedTrinketDef));
+        pawn.Inventory.TryAdd(Context.Factory.CreateEntity<Item>(Def.UnlockedTrinketDef));
     }
 }

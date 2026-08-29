@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Pawns.Modifiers;
 [UsedImplicitly]
 public class SoothingBalm : BodyPartModifier
 {
+    public SoothingBalm(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override void Tick()
     {
         RemoveBurningAndAcid();

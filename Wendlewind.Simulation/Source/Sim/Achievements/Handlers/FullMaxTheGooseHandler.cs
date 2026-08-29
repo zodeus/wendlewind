@@ -6,6 +6,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class FullMaxTheGooseHandler : AchievementHandler
 {
+    public FullMaxTheGooseHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private static RangeInt GoldenBeansToGive = new(2, 4);
 
     public override void OnGooseFed(int currentHunger, int maxHunger)
@@ -23,7 +28,7 @@ public class FullMaxTheGooseHandler : AchievementHandler
         if (!IsUnlocked) return;
 
         var pawn = context.Player.Pawn;
-        var goldenBeans = EntityGenerator.CreateEntity<Item>(Defs.Items.GoldenBean, GoldenBeansToGive.RandomValue);
+        var goldenBeans = Context.Factory.CreateEntity<Item>(Defs.Items.GoldenBean, GoldenBeansToGive.Roll(Context.Rng));
         pawn.Inventory.TryAdd(goldenBeans);
     }
 }

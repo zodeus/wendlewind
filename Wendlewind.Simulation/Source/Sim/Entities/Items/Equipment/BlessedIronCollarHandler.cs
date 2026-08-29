@@ -2,6 +2,11 @@ namespace Wendlewind.Sim.Entities.Items.Equipment;
 
 public class BlessedIronCollarHandler : EquipmentHandler
 {
+    public BlessedIronCollarHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public const float DamagePerTick = 0.1f;
     public const float SoftTissueDamagePerTick = 0.03f;
     public override bool OnPreDamageTaken(DamageRequest request, DamageResponse response)

@@ -7,8 +7,8 @@ public class GameBoxBodyGenerator : IBodyGenerator
     public void Generate(Pawn pawn)
     {
         pawn.Body.RootSocket = new BodyPartSocket(Defs.BodyPartSockets.HeadSocket);
-        var head = pawn.Body.RootSocket.TryAttachPart(EntityGenerator.CreateEntity<BodyPart>(Defs.BodyParts.GameBoxHead));
-        head.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("GameBoxScreen")!);
+        var head = pawn.Body.RootSocket.TryAttachPart(Defs.BodyParts.GameBoxHead);
+        head.Equipment[EquipmentSlotType.BuiltIn] = head.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("GameBoxScreen")!);
 
         // Torso (connected directly to head since no neck)
         var torso = head.GetSocketsFor(BodyPartType.Torso)[0].TryAttachPart(Defs.BodyParts.GameBoxTorso);
@@ -19,7 +19,7 @@ public class GameBoxBodyGenerator : IBodyGenerator
 
         // Misc
         var controls = torso.GetSocketsFor(BodyPartType.Misc)[0].TryAttachPart(Defs.BodyParts.GameBoxControls);
-        controls.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("GameBoxDefense")!);
+        controls.Equipment[EquipmentSlotType.BuiltIn] = controls.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("GameBoxDefense")!);
 
         // Arms
         MakeArm(torso.GetSocketsFor(BodyPartType.Arm)[0].TryAttachPart(Defs.BodyParts.GameBoxArm));
@@ -35,11 +35,11 @@ public class GameBoxBodyGenerator : IBodyGenerator
     static void MakeArm(BodyPart arm)
     {
         var hand = arm.GetSocketsFor(BodyPartType.Hand)[0].TryAttachPart(Defs.BodyParts.GameBoxHand);
-        hand.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("GameBoxFist")!);
+        hand.Equipment[EquipmentSlotType.BuiltIn] = hand.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("GameBoxFist")!);
     }
 
     static void MakeLeg(BodyPart leg)
     {
-        leg.Equipment[EquipmentSlotType.BuiltIn] = EntityGenerator.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("GameBoxFoot")!);
+        leg.Equipment[EquipmentSlotType.BuiltIn] = leg.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("GameBoxFoot")!);
     }
 }

@@ -5,6 +5,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class IveBeenJuicedHandler : AchievementHandler
 {
+    public IveBeenJuicedHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override void OnCombatEnd(AchievementCombatEndContext context)
     {
         if (IsUnlocked || context.PlayerWon) return;
@@ -22,7 +27,7 @@ public class IveBeenJuicedHandler : AchievementHandler
         // Start with 2 Jars of Blood
         for (var i = 0; i < 2; i++)
         {
-            context.Player.Pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(Defs.Items.JarOfBlood));
+            context.Player.Pawn.Inventory.TryAdd(Context.Factory.CreateEntity<Item>(Defs.Items.JarOfBlood));
         }
     }
 }

@@ -6,6 +6,11 @@ namespace Wendlewind.Sim.Entities.Pawns.Bodies.Handlers;
 /// </summary>
 public class RegeneratingEyesBodyHandler : DefaultBodyHandler
 {
+    public RegeneratingEyesBodyHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const float RegenerationAmount = 0.005f; // HP regenerated per interval
     
     public override void Tick()

@@ -7,24 +7,17 @@ public enum GameState
     StartOver
 }
 
-public class GameContext : IExposable
+public class GameContext : IExposable, IHasContext
 {
     public const int TicksPerSecond = 60;
 
-    private static GameContext _current = null!;
     private Random _rng = new();
+    private IRng _simRng = new SimRng(new Random());
 
-    public static GameContext Current
+    GameContext IHasContext.Context
     {
-        get => _current;
-        set
-        {
-            _current = value;
-            if (value != null)
-            {
-                Wendlewind.Rng.Current = value._rng;
-            }
-        }
+        get => this;
+        set { }
     }
 
     /// <summary>
@@ -33,7 +26,7 @@ public class GameContext : IExposable
     public int RunSeed { get; private set; }
 
     /// <summary>
-    /// Sim RNG owned by this context. Common helpers read it via <see cref="Rng.Current"/>.
+    /// Sim RNG owned by this context.
     /// </summary>
     public Random Rng
     {
@@ -41,20 +34,14 @@ public class GameContext : IExposable
         set
         {
             _rng = value;
-            if (ReferenceEquals(this, _current))
-            {
-                Wendlewind.Rng.Current = value;
-            }
+            _simRng = new SimRng(value);
         }
     }
 
-    public static Random Random
-    {
-        get => Current.Rng;
-        set => Current.Rng = value;
-    }
+    public IRng SimRng => _simRng;
 
-    //public GameMessages Messages = new();
+    public ISimFactory Factory { get; private set; }
+
     public IdProvider IdProvider = new();
     public PlayerKillRecords DeathRecords = null!;
     public AchievementTracker Achievements = null!;
@@ -68,19 +55,29 @@ public class GameContext : IExposable
 
     public GameContext()
     {
+        Factory = new SimFactory(this);
         DeathRecords = new PlayerKillRecords();
         Achievements = new AchievementTracker();
+    }
+
+    public void AttachServices(IServiceProvider services)
+    {
+        var factory = new SimFactory(this, services);
+        Factory = factory;
+        Scribe.ObjectFactory = factory;
     }
 
     public void Initialize(int? runSeed = null)
     {
         RunSeed = runSeed ?? System.Random.Shared.Next();
         Rng = new Random(RunSeed);
-        World = WorldGenerator.GenerateNewWorld();
+        World = WorldGenerator.GenerateNewWorld(this);
         CurrentZone = null;
         Ticks = 0;
         Achievements = new AchievementTracker();
+        Achievements.Context = this;
         Achievements.Initialize();
+        Factory.RebindGraph();
         WireUpEvents();
     }
 
@@ -133,7 +130,6 @@ public class GameContext : IExposable
         Player.Reset();
         WireUpEvents();
         Achievements.OnWorldRestart(this);
-        //Save();
         if (CurrentZone != null)
         {
             CurrentZone.OnStateChanged -= ZoneStageChanged;
@@ -145,7 +141,6 @@ public class GameContext : IExposable
     {
         if (zoneState != ZoneState.Exit) return;
 
-        // Return to camp
         CurrentZone!.OnStateChanged -= ZoneStageChanged;
         ChangeGameState(GameState.Map);
     }
@@ -163,9 +158,8 @@ public class GameContext : IExposable
 
     public void Save(string filePath = "save.xml")
     {
-        // Log.Warning("Save is dislabled");
-        //return;
         Log.Info("Saving Game to " + filePath);
+        Scribe.ObjectFactory = Factory;
         Scribe.Saver.InitSaving(filePath, "SaveData");
         var context = this;
         ScribeDeep.Look(ref context!, "Context");
@@ -175,6 +169,7 @@ public class GameContext : IExposable
     public void Load(string filePath)
     {
         CurrentZone = null;
+        Scribe.ObjectFactory = Factory;
         Scribe.Loader.InitLoading(filePath);
         if (!Scribe.EnterNode("Context"))
         {
@@ -186,6 +181,7 @@ public class GameContext : IExposable
         ExposeDataInternal();
         Scribe.Loader.FinalizeLoading();
 
+        Factory.RebindGraph();
         WireUpEvents();
     }
 
@@ -196,8 +192,6 @@ public class GameContext : IExposable
         Player.Pawn.Inventory.ItemAdded += Achievements.OnItemFound;
         Player.Pawn.Inventory.ItemAdded += Player.OnItemFound;
     }
-
-
 
     public void ExposeData()
     {
@@ -218,6 +212,10 @@ public class GameContext : IExposable
         var runSeed = RunSeed;
         ScribeValues.Look(ref runSeed, "RunSeed");
         RunSeed = runSeed;
+        if (Scribe.State != ScribeState.Saving && RunSeed != 0)
+        {
+            Rng = new Random(RunSeed);
+        }
         ScribeDeep.Look(ref DeathRecords!, "DeathRecords");
         ScribeDeep.Look(ref Achievements!, "Achievements");
     }

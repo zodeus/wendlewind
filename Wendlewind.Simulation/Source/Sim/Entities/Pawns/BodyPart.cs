@@ -338,7 +338,7 @@ public class BodyPart : Entity
         var unabsorbedDamage = Math.Max(0, damageToAbsorb - damageApplied / substanceModifier);
         var remainingDamage = damageToPenetrate + unabsorbedDamage;
 
-        if (HealthPercent < .1 && GameContext.Random.Chance(0.3f) && Substance == SubstanceType.Chitin)
+        if (HealthPercent < .1 && Context.Rng.Chance(0.3f) && Substance == SubstanceType.Chitin)
         {
             IsCracked = true;
         }

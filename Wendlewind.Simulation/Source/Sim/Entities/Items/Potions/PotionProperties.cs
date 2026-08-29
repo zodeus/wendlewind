@@ -14,9 +14,9 @@ public class PotionProperties
     /// <summary>
     /// Creates an instance of the handler if HandlerClass is specified.
     /// </summary>
-    public PotionHandler? CreateHandler()
+    public PotionHandler? CreateHandler(ISimFactory factory)
     {
         if (HandlerClass == null) return null;
-        return (PotionHandler)Activator.CreateInstance(HandlerClass)!;
+        return factory.Create<PotionHandler>(HandlerClass);
     }
 }

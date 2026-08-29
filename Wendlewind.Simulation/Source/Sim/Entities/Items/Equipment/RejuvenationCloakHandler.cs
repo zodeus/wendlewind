@@ -2,6 +2,11 @@ namespace Wendlewind.Sim.Entities.Items.Equipment;
 
 public class RejuvenationCloakHandler : EquipmentHandler, IUpgradableHandler, ICloakHandler
 {
+    public RejuvenationCloakHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const float BaseRejuvenationPerTick = 0.01f;
     public const float Level1BonusMultiplier = 2f;
     public const float Level2BonusMultiplier = 3f; 

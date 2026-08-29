@@ -6,6 +6,11 @@ namespace Wendlewind.Sim.Entities.Items.Potions;
 [UsedImplicitly]
 public class PussBombHandler : PotionHandler
 {
+    public PussBombHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private static RangeInt FesteringDuration = new RangeInt(400, 900);
     private const double FesteringPower = 2;
 
@@ -23,8 +28,8 @@ public class PussBombHandler : PotionHandler
         // Apply festering to random external body parts
         foreach (var part in target.Body.AllExternalParts.Where(p => p.Type != BodyPartType.Eye))
         {
-            var duration = FesteringDuration.RandomValue;
-            var modifier = BodyPartModifierGenerator.Generate(Defs.BodyPartModifiers.Festering, duration, FesteringPower);
+            var duration = FesteringDuration.Roll(Context.Rng);
+            var modifier = Context.Factory.CreateModifier(Defs.BodyPartModifiers.Festering, duration, FesteringPower);
             if (modifier.ApplyToPart(part))
             {
                 partsAffected++;

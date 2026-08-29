@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Items.Trinkets;
 [UsedImplicitly]
 public class BoneCrackerHandler : TrinketHandler
 {
+    public BoneCrackerHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public const int BonesPerLevel = 12;
     private const int DefaultCooldown = 1200;
     private int _combatBonesbroken;
@@ -95,7 +100,7 @@ public class BoneCrackerHandler : TrinketHandler
     /// <returns>The bone that was broken, or null if no bones available.</returns>
     public BodyPart? BreakOwnBone()
     {
-        var playerPawn = GameContext.Current.PlayerPawn;
+        var playerPawn = Context.PlayerPawn;
         var boneToBreak = FindUnbrokenBone(playerPawn);
         if (boneToBreak == null) return null;
 
@@ -116,7 +121,7 @@ public class BoneCrackerHandler : TrinketHandler
 
         if (unbrokenBones.Count == 0) return null;
 
-        return unbrokenBones[GameContext.Random.Next(unbrokenBones.Count)];
+        return unbrokenBones[Context.Rng.Next(unbrokenBones.Count)];
     }
 
     private void BreakBone(BodyPart bone)

@@ -3,6 +3,11 @@ namespace Wendlewind.Sim.Entities.Items.Enchantments;
 [UsedImplicitly]
 public class RhinoSkinHandler : EnchantmentHandler
 {
+    public RhinoSkinHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const double DamageMitigationBase = 0.5; // 50% damage
     private const double DamageMitigationLevelFactor = 0.01; // 1% damage per level
     private int _level = 1;

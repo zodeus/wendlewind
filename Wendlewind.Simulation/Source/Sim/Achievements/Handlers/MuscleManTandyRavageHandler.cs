@@ -7,6 +7,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 [UsedImplicitly]
 public class MuscleManTandyRavageHandler : AchievementHandler
 {
+    public MuscleManTandyRavageHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     private const float ExternalPartHitPointsMultiplier = 1.5f;
 
     public override void OnItemUsed(Pawn consumer, Item item, dynamic? data = null)

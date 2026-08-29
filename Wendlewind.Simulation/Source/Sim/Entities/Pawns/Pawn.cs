@@ -31,7 +31,7 @@ public class Pawn : Entity
     {
         Body.BodySizeFactor = bodySizeFactor;
         Body.BloodAmount = Body.MaxBlood;
-        PawnDef.Body.Generator.Generate(this);
+        PawnDef.Body.CreateGenerator(Context.Factory).Generate(this);
         Body.BodyPartsDirty = true;
     }
 
@@ -85,14 +85,14 @@ public class Pawn : Entity
     {
         var bodyPart = request.TargetedPart;
         DamageResponse response = new();
-        if (GameContext.Random.Chance(request.Source.ChanceToHit()) == false)
+        if (Context.Rng.Chance(request.Source.ChanceToHit()) == false)
         {
             response.Missed = true;
             DamageTaken?.Invoke(this, request, response);
             return;
         }
 
-        if (GameContext.Random.Chance(this.GetStatValue(Defs.Stats.Evasion)))
+        if (Context.Rng.Chance(this.GetStatValue(Defs.Stats.Evasion)))
         {
             response.Dodged = true;
             DamageTaken?.Invoke(this, request, response);

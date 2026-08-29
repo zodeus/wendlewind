@@ -57,10 +57,10 @@ public class CraftingProperties
         }
 
         var totalAmountCrafted = AmountProduced * times;
-        pawn.Inventory.TryAdd(EntityGenerator.CreateEntity<Item>(itemDef, totalAmountCrafted));
+        pawn.Inventory.TryAdd(pawn.Context.Factory.CreateEntity<Item>(itemDef, totalAmountCrafted));
 
         // Notify achievement system
-        GameContext.Current.Achievements.OnItemCrafted(pawn, itemDef, totalAmountCrafted);
+        pawn.Context.Achievements.OnItemCrafted(pawn, itemDef, totalAmountCrafted);
 
         return true;
     }

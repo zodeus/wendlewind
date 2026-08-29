@@ -6,6 +6,11 @@ namespace Wendlewind.Sim.Achievements.Handlers;
 /// </summary>
 public class YouLittlePiggyHandler : AchievementHandler
 {
+    public YouLittlePiggyHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+
     public override void OnItemUsed(Pawn consumer, Item item, dynamic? data = null)
     {
         if (IsUnlocked) return;

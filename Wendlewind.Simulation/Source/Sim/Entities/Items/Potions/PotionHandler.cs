@@ -3,8 +3,10 @@ namespace Wendlewind.Sim.Entities.Items.Potions;
 /// <summary>
 /// Base class for potion handlers providing common functionality.
 /// </summary>
-public abstract class PotionHandler : IPotionHandler, IExposable
+public abstract class PotionHandler : IPotionHandler, IExposable, IHasContext, IHasRng
 {
+    public GameContext Context { get; set; } = null!;
+    public IRng Rng { get; set; } = null!;
     private Item _potion = null!;
     
     public Item Potion
