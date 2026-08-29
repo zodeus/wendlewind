@@ -11,12 +11,47 @@ public class GameContext : IExposable
 {
     public const int TicksPerSecond = 60;
 
-    public static GameContext Current { get; set; } = null!;
+    private static GameContext _current = null!;
+    private Random _rng = new();
+
+    public static GameContext Current
+    {
+        get => _current;
+        set
+        {
+            _current = value;
+            if (value != null)
+            {
+                Wendlewind.Rng.Current = value._rng;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Identity of this run. Encounter seeds are derived from this, zone, and stage.
+    /// </summary>
+    public int RunSeed { get; private set; }
+
+    /// <summary>
+    /// Sim RNG owned by this context. Common helpers read it via <see cref="Rng.Current"/>.
+    /// </summary>
+    public Random Rng
+    {
+        get => _rng;
+        set
+        {
+            _rng = value;
+            if (ReferenceEquals(this, _current))
+            {
+                Wendlewind.Rng.Current = value;
+            }
+        }
+    }
 
     public static Random Random
     {
-        get => Rng.Current;
-        set => Rng.Current = value;
+        get => Current.Rng;
+        set => Current.Rng = value;
     }
 
     //public GameMessages Messages = new();
@@ -37,8 +72,10 @@ public class GameContext : IExposable
         Achievements = new AchievementTracker();
     }
 
-    public void Initialize()
+    public void Initialize(int? runSeed = null)
     {
+        RunSeed = runSeed ?? System.Random.Shared.Next();
+        Rng = new Random(RunSeed);
         World = WorldGenerator.GenerateNewWorld();
         CurrentZone = null;
         Ticks = 0;
@@ -178,6 +215,9 @@ public class GameContext : IExposable
         ScribeDeep.Look(ref World!, "World");
         ScribeDeep.Look(ref IdProvider!, "IdProvider");
         ScribeValues.Look(ref Ticks, "Ticks");
+        var runSeed = RunSeed;
+        ScribeValues.Look(ref runSeed, "RunSeed");
+        RunSeed = runSeed;
         ScribeDeep.Look(ref DeathRecords!, "DeathRecords");
         ScribeDeep.Look(ref Achievements!, "Achievements");
     }

@@ -602,7 +602,7 @@ internal sealed class WheelRenderWidget : Widget
         _spinStartRotation = _rotation;
 
         // Spin 3-5 full rotations plus a random partial rotation for variety
-        float fullRotations = 3f + (float)Core.Random.NextDouble() * 2f;
+        float fullRotations = 3f + (float)Rng.Visual.NextDouble() * 2f;
         float totalRotation = fullRotations * MathHelper.TwoPi;
         _targetRotation = _spinStartRotation + totalRotation;
     }

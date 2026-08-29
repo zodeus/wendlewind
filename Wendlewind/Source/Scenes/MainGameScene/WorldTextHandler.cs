@@ -95,10 +95,10 @@ public class WorldSpaceText
     public static void VibratingRenderAction(SpriteBatch spriteBatch, WorldSpaceText text)
     {
         var transparency = (float)text.TicksLeft / text.DurationInTicks;
-        var xOffsetA = Core.Random.Next(-1, 1);
-        var yOffsetA = Core.Random.Next(-1, 1);
-        var xOffsetB = Core.Random.Next(-3, 3);
-        var yOffsetB = Core.Random.Next(-3, 3);
+        var xOffsetA = Rng.Visual.Next(-1, 1);
+        var yOffsetA = Rng.Visual.Next(-1, 1);
+        var xOffsetB = Rng.Visual.Next(-3, 3);
+        var yOffsetB = Rng.Visual.Next(-3, 3);
         spriteBatch.DrawString(text.Font, text.Text, new Vector2(text.Position.X - xOffsetB, text.Position.Y + yOffsetB), text.Color * transparency);
         spriteBatch.DrawString(text.Font, text.Text, new Vector2(text.Position.X + xOffsetA, text.Position.Y + yOffsetA), text.Color * transparency);
     }

@@ -2,16 +2,22 @@
 
 public static class CombatGenerator
 {
-    public static Encounter GenerateForZone(Pawn playerPawn, Zone zone)
+    public static Encounter GenerateForZone(Pawn playerPawn, Zone zone, int? seed = null)
     {
+        int encounterSeed = seed ?? SeedUtility.EncounterSeed(
+            GameContext.Current.RunSeed,
+            zone.ZoneDef.Moniker,
+            zone.Stage);
+
+        GameContext.Random = new Random(encounterSeed);
+
         var encounterDef = zone.ZoneDef.Encounters[zone.Stage];
 
-        // Select a random weather from zone's available weathers
         WeatherDef? weather = zone.ZoneDef.Weathers.Count > 0
             ? zone.ZoneDef.Weathers.RandomElement()
             : null;
 
-        Encounter encounter = new(zone, encounterDef, weather);
+        Encounter encounter = new(zone, encounterDef, weather) { Seed = encounterSeed };
         encounter.AddPlayerPawn(playerPawn);
 
         if (encounter.Def.Enemies.Count != 0)

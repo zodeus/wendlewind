@@ -58,16 +58,16 @@ public class BodyPartDamageTextRenderer(IBodyPartLayout? layout, int nativeSize)
             {
                 // Position at the body part location with some random offset
                 position = renderInfo.Value.Position + new Vector2(
-                    Core.Random.Next(-20, 20),
-                    Core.Random.Next(-10, 10)
+                    Rng.Visual.Next(-20, 20),
+                    Rng.Visual.Next(-10, 10)
                 );
             }
             else
             {
                 // Fallback to center with random offset
                 position = new Vector2(nativeSize / 2f, nativeSize / 2f) + new Vector2(
-                    Core.Random.Next(-50, 50),
-                    Core.Random.Next(-50, 50)
+                    Rng.Visual.Next(-50, 50),
+                    Rng.Visual.Next(-50, 50)
                 );
             }
         }
@@ -75,8 +75,8 @@ public class BodyPartDamageTextRenderer(IBodyPartLayout? layout, int nativeSize)
         {
             // No body part specified, use center with random offset
             position = new Vector2(nativeSize / 2f, nativeSize / 2f) + new Vector2(
-                Core.Random.Next(-50, 50),
-                Core.Random.Next(-50, 50)
+                Rng.Visual.Next(-50, 50),
+                Rng.Visual.Next(-50, 50)
             );
         }
         

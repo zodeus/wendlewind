@@ -9,6 +9,7 @@ public class Encounter(Zone zone, EncounterProperties def, WeatherDef? weather =
     public readonly Zone Zone = zone;
     public readonly EncounterProperties Def = def;
     public readonly WeatherDef? Weather = weather;
+    public int Seed { get; init; }
     public int Ticks;
 
     public readonly List<Pawn> PlayerPawns = [];

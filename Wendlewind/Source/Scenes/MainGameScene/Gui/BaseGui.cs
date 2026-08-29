@@ -167,10 +167,10 @@ public abstract class BaseGui : IDisposable
             int offset = (int)font.MeasureString(_screenMessage.Text).X / 2;
             Color colorA = _screenMessage.Color.Multiply(new Color(1f, 1f, 1f, Mathf.Lerp(0f, 1f, _screenMessageTimeLeft / _screenMessage.Duration)));
             Color colorB = _screenMessage.Color.Multiply(new Color(1f, 1f, 1f, Mathf.Lerp(0f, .6f, _screenMessageTimeLeft / _screenMessage.Duration)));
-            int xOffsetA = Core.Random.Next(-2, 2);
-            int yOffsetA = Core.Random.Next(-2, 2);
-            int xOffsetB = Core.Random.Next(-8, 8);
-            int yOffsetB = Core.Random.Next(-8, 8);
+            int xOffsetA = Rng.Visual.Next(-2, 2);
+            int yOffsetA = Rng.Visual.Next(-2, 2);
+            int xOffsetB = Rng.Visual.Next(-8, 8);
+            int yOffsetB = Rng.Visual.Next(-8, 8);
 
             spriteBatch.DrawString(font, _screenMessage.Text, new Vector2((Screen.Width / 2) - offset + xOffsetB, 400 + yOffsetB), colorB);
             //spriteBatch.DrawString(BaseContent.Fonts.Default.VeryLarge, _screenMessage, new Vector2((Screen.Width / 2) - offset + Core.Random.Next(-5, 5), 300 + Core.Random.Next(-5, 5)), colorB);

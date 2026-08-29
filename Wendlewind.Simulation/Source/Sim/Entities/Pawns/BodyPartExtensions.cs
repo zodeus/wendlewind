@@ -27,11 +27,9 @@ namespace Wendlewind.Sim.Entities.Pawns
                 return 0;
             }
 
-            // Order internal parts so skin is always hit first, then randomize the rest
-            var internalParts = rootPart.InternalParts
-                .OrderByDescending(p => p.Type == BodyPartType.Skin)
-                .ThenBy(_ => GameContext.Random.Next())
-                .ToList();
+            var skin = rootPart.InternalParts.Where(p => p.Type == BodyPartType.Skin);
+            var rest = rootPart.InternalParts.Where(p => p.Type != BodyPartType.Skin).InRandomOrder();
+            var internalParts = skin.Concat(rest).ToList();
 
             foreach (var internalPart in internalParts)
             {

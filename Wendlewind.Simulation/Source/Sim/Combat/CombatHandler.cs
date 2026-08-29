@@ -27,6 +27,7 @@ public class CombatEvent(Pawn victim, CombatEventType damage, string s, BodyPart
 public class CombatHandler : IDisposable
 {
     private readonly Encounter _encounter;
+    private readonly Random _rng;
     private readonly Dictionary<Pawn, Item> _queuedItems = new();
     public EntityContainer Loot = new();
     public List<ResourceCount> CollectedLoot { get; } = [];
@@ -37,6 +38,7 @@ public class CombatHandler : IDisposable
     public string? KillingWeapon { get; private set; }
     public string? KillingManeuver { get; private set; }
 
+    public Random Rng => _rng;
     public Pawn Player { get; set; }
     public Pawn Enemy { get; set; }
     public event Action<string>? CombatLogMessageAdded;
@@ -44,6 +46,7 @@ public class CombatHandler : IDisposable
     public CombatHandler(Encounter encounter)
     {
         _encounter = encounter;
+        _rng = GameContext.Current.Rng;
         Player = encounter.PlayerPawns.First();
         Enemy = encounter.EnemyPawns.First();
 
