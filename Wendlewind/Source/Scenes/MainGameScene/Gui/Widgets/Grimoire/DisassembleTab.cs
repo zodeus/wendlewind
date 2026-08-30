@@ -1,18 +1,16 @@
-namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.TrinketWidgets;
+namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.Grimoire;
 
-[UsedImplicitly]
-public sealed class DisassemblerPanel : EntityPanelBase
+public sealed class DisassembleTab : VerticalStackPanel, IUpdatable
 {
     private readonly VerticalStackPanel _itemsPanel;
 
-    public DisassemblerPanel(BaseGui gui, Item _, EntityPanelProperties? props = null) : base(gui, _, props)
+    public DisassembleTab()
     {
-        Padding = new Thickness(20);
-        MinWidth = 720;
-        Height = 720;
-        Background = new ColoredIcon(_.GetIconImage(), new Color(20, 20, 20, 120));
+        Padding = new Thickness(8);
+        Spacing = 0;
+        HorizontalAlignment = HorizontalAlignment.Stretch;
+        VerticalAlignment = VerticalAlignment.Stretch;
 
-        // Subtitle
         Widgets.Add(new Label(BaseContent.Styles.Label.Small)
         {
             Text = "Break down equipment into raw materials",
@@ -21,7 +19,6 @@ public sealed class DisassemblerPanel : EntityPanelBase
             Margin = new Thickness(0, 0, 0, 16)
         });
 
-        // Items list container
         _itemsPanel = new VerticalStackPanel { Spacing = 8 };
         Widgets.Add(new ScrollViewer
         {
@@ -29,6 +26,11 @@ public sealed class DisassemblerPanel : EntityPanelBase
             Content = _itemsPanel
         });
 
+        Redraw();
+    }
+
+    public void Update()
+    {
         Redraw();
     }
 
@@ -86,10 +88,6 @@ public sealed class DisassemblerPanel : EntityPanelBase
 
         return panel;
     }
-
-    public override void Update()
-    {
-    }
 }
 
 public sealed class DisassembleItemCard : Panel
@@ -97,8 +95,8 @@ public sealed class DisassembleItemCard : Panel
     private readonly Item _item;
     private readonly DisassembleProperties _properties;
     private readonly Action _redraw;
-    private IBrush? _defaultBackground;
-    private IBrush? _hoverBackground;
+    private readonly IBrush? _defaultBackground;
+    private readonly IBrush? _hoverBackground;
 
     public DisassembleItemCard(Item item, Action redraw)
     {
@@ -118,10 +116,8 @@ public sealed class DisassembleItemCard : Panel
             HorizontalAlignment = HorizontalAlignment.Stretch
         };
 
-        // Left section: Item info
         var leftSection = new HorizontalStackPanel { Spacing = 12 };
 
-        // Item icon with frame
         var iconContainer = new Panel
         {
             Width = 64,
@@ -148,7 +144,6 @@ public sealed class DisassembleItemCard : Panel
 
         leftSection.Widgets.Add(iconContainer);
 
-        // Item details (name + durability)
         var itemDetails = new VerticalStackPanel
         {
             Spacing = 4,
@@ -164,7 +159,6 @@ public sealed class DisassembleItemCard : Panel
             MaxWidth = 140
         });
 
-        // Show durability if the item has it
         if (item.MaxDurability > 0)
         {
             var durabilityContainer = new VerticalStackPanel { Spacing = 2 };
@@ -197,7 +191,6 @@ public sealed class DisassembleItemCard : Panel
         leftSection.Widgets.Add(itemDetails);
         mainLayout.Widgets.Add(leftSection);
 
-        // Arrow indicator
         mainLayout.Widgets.Add(new Label(BaseContent.Styles.Label.Large)
         {
             Text = "→",
@@ -206,7 +199,6 @@ public sealed class DisassembleItemCard : Panel
             Margin = new Thickness(8, 0, 8, 0)
         });
 
-        // Right section: Output resources
         var outputSection = new HorizontalStackPanel
         {
             Spacing = 8,
@@ -218,7 +210,6 @@ public sealed class DisassembleItemCard : Panel
             outputSection.Widgets.Add(CreateResourceOutput(resource));
         }
 
-        // Show enchantments that will be returned
         if (_item.Enchantments != null)
         {
             foreach (var enchantment in _item.Enchantments)
@@ -229,18 +220,14 @@ public sealed class DisassembleItemCard : Panel
 
         mainLayout.Widgets.Add(outputSection);
 
-        // Spacer to push button to right
         var spacer = new Panel { Width = 1 };
         HorizontalStackPanel.SetProportionType(spacer, ProportionType.Fill);
         mainLayout.Widgets.Add(spacer);
 
-        // Disassemble button
-        var button = CreateDisassembleButton();
-        mainLayout.Widgets.Add(button);
+        mainLayout.Widgets.Add(CreateDisassembleButton());
 
         Widgets.Add(mainLayout);
 
-        // Hover effects
         MouseEntered += (_, _) =>
         {
             Background = _hoverBackground;
@@ -384,7 +371,6 @@ public sealed class DisassembleItemCard : Panel
             );
         }
 
-        // Return enchantments to inventory
         if (_item.Enchantments != null)
         {
             foreach (var enchantment in _item.Enchantments)

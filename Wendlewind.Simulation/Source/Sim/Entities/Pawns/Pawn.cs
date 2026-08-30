@@ -393,6 +393,7 @@ public class Pawn : Entity
         MealPlan ??= new MealPlan(this);
         CombatStomach ??= new CombatStomach(this);
         ActiveIncense ??= [];
+        PruneActiveIncense();
         base.ExposeData();
     }
 
@@ -499,10 +500,11 @@ public class Pawn : Entity
         return true;
     }
 
-    public bool TryLightIncense(Item item, bool requireFlameStick = true)
+    public bool CanLightIncense(Item item, bool requireFlameStick = true)
     {
+        PruneActiveIncense();
         var incenseProps = item.ItemDef.IncenseProperties;
-        if (incenseProps?.Effect == null)
+        if (incenseProps?.Effect == null || item.IsDestroyed || item.StackSize < 1)
         {
             return false;
         }
@@ -512,6 +514,22 @@ public class Pawn : Entity
             return false;
         }
 
+        if (ActiveIncense.Any(a => a.Def == incenseProps.Effect.Def))
+        {
+            return true;
+        }
+
+        return ActiveIncense.Count < IncenseProperties.MaxActive;
+    }
+
+    public bool TryLightIncense(Item item, bool requireFlameStick = true)
+    {
+        if (!CanLightIncense(item, requireFlameStick))
+        {
+            return false;
+        }
+
+        var incenseProps = item.ItemDef.IncenseProperties!;
         var charges = incenseProps.GetDurationInEncounters();
         var existing = ActiveIncense.FirstOrDefault(a => a.Def == incenseProps.Effect.Def);
         if (existing != null)
@@ -536,6 +554,25 @@ public class Pawn : Entity
         }
 
         return true;
+    }
+
+    public void ExtinguishIncense(int index)
+    {
+        if (index < 0 || index >= ActiveIncense.Count)
+        {
+            return;
+        }
+
+        ActiveIncense.RemoveAt(index);
+    }
+
+    public void PruneActiveIncense()
+    {
+        ActiveIncense.RemoveAll(a => a == null || a.Def == null || a.EncountersRemaining <= 0);
+        if (ActiveIncense.Count > IncenseProperties.MaxActive)
+        {
+            ActiveIncense.RemoveRange(IncenseProperties.MaxActive, ActiveIncense.Count - IncenseProperties.MaxActive);
+        }
     }
 
     public void ApplyBattleStartConsumables()

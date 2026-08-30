@@ -4,8 +4,10 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.
 
 internal sealed class PrepItemGrid : VerticalStackPanel, IUpdatable
 {
+    public const int RowCells = 8;
     private const int CellSize = 52;
     private const int CellSpacing = 4;
+    private static readonly int ButtonSize = BaseContent.IconSizes.Medium + 8;
 
     private readonly BaseGui _gui;
     private readonly PawnInventory _inventory;
@@ -14,11 +16,13 @@ internal sealed class PrepItemGrid : VerticalStackPanel, IUpdatable
     private readonly Func<Item, string> _tooltip;
     private readonly Func<Item, bool>? _isHighlighted;
     private readonly Func<Item, bool>? _isDisabled;
+    private readonly bool _pagedRow;
     private readonly Dictionary<Item, PrepItemButton> _buttons = [];
     private readonly VerticalStackPanel _rows = new() { Spacing = CellSpacing };
     private readonly Label _empty;
-    private int _lastCount = -1;
+    private string _itemSignature = "";
     private int _iconsPerRow = -1;
+    private int _page;
 
     public PrepItemGrid(
         BaseGui gui,
@@ -27,7 +31,8 @@ internal sealed class PrepItemGrid : VerticalStackPanel, IUpdatable
         Action<Item> onClick,
         Func<Item, string> tooltip,
         Func<Item, bool>? isHighlighted = null,
-        Func<Item, bool>? isDisabled = null)
+        Func<Item, bool>? isDisabled = null,
+        bool pagedRow = false)
     {
         _gui = gui;
         _inventory = inventory;
@@ -36,6 +41,7 @@ internal sealed class PrepItemGrid : VerticalStackPanel, IUpdatable
         _tooltip = tooltip;
         _isHighlighted = isHighlighted;
         _isDisabled = isDisabled;
+        _pagedRow = pagedRow;
         Spacing = 4;
         HorizontalAlignment = HorizontalAlignment.Stretch;
 
@@ -54,10 +60,8 @@ internal sealed class PrepItemGrid : VerticalStackPanel, IUpdatable
     {
         var items = CurrentItems();
         var perRow = IconsPerRow();
-        if (perRow != _iconsPerRow
-            || items.Count != _lastCount
-            || items.Any(i => !_buttons.ContainsKey(i))
-            || _buttons.Keys.Any(i => !items.Contains(i)))
+        var signature = ItemSignature(items);
+        if (perRow != _iconsPerRow || signature != _itemSignature)
         {
             Rebuild();
             return;
@@ -71,6 +75,11 @@ internal sealed class PrepItemGrid : VerticalStackPanel, IUpdatable
 
     private int IconsPerRow()
     {
+        if (_pagedRow)
+        {
+            return RowCells;
+        }
+
         var width = Math.Max(ActualBounds.Width, Bounds.Width);
         if (width <= 0)
         {
@@ -88,21 +97,32 @@ internal sealed class PrepItemGrid : VerticalStackPanel, IUpdatable
             .ToList();
     }
 
+    private static string ItemSignature(List<Item> items)
+    {
+        return string.Join(",", items.Select(i => i.Id));
+    }
+
     private void Rebuild()
     {
         var items = CurrentItems();
-        _lastCount = items.Count;
+        _itemSignature = ItemSignature(items);
         _iconsPerRow = IconsPerRow();
         _buttons.Clear();
         _rows.Widgets.Clear();
-        _empty.Visible = items.Count == 0;
 
+        if (_pagedRow)
+        {
+            RebuildPagedRow(items);
+            return;
+        }
+
+        _empty.Visible = items.Count == 0;
         HorizontalStackPanel? row = null;
         for (var i = 0; i < items.Count; i++)
         {
             if (i % _iconsPerRow == 0)
             {
-                row = new HorizontalStackPanel { Spacing = 4 };
+                row = new HorizontalStackPanel { Spacing = CellSpacing };
                 _rows.Widgets.Add(row);
             }
 
@@ -111,6 +131,81 @@ internal sealed class PrepItemGrid : VerticalStackPanel, IUpdatable
             _buttons[item] = button;
             row!.Widgets.Add(button);
         }
+    }
+
+    private void RebuildPagedRow(List<Item> items)
+    {
+        _empty.Visible = false;
+        var overflow = items.Count > RowCells;
+        var visible = overflow ? RowCells - 1 : RowCells;
+        var pageCount = Math.Max(1, (items.Count + visible - 1) / visible);
+        if (_page >= pageCount)
+        {
+            _page = 0;
+        }
+
+        var row = new HorizontalStackPanel { Spacing = CellSpacing };
+        _rows.Widgets.Add(row);
+        var start = _page * visible;
+
+        for (var i = 0; i < visible; i++)
+        {
+            var index = start + i;
+            if (index < items.Count)
+            {
+                var item = items[index];
+                var button = new PrepItemButton(_gui, item, _onClick, _tooltip, _isHighlighted, _isDisabled);
+                _buttons[item] = button;
+                row.Widgets.Add(button);
+            }
+            else
+            {
+                row.Widgets.Add(EmptyCell());
+            }
+        }
+
+        if (overflow)
+        {
+            row.Widgets.Add(CreatePager(pageCount));
+        }
+    }
+
+    private Widget CreatePager(int pageCount)
+    {
+        var lastPage = _page >= pageCount - 1;
+        var icon = lastPage
+            ? BaseContent.Styles.Atlas.Icon.ArrowPositive
+            : BaseContent.Styles.Atlas.Icon.ArrowNegative;
+        var button = new CursorButton(BaseContent.Styles.Button.Icon)
+        {
+            Width = ButtonSize,
+            Height = ButtonSize,
+            Content = new Image
+            {
+                Background = Stylesheet.Current.Atlas[icon],
+                Width = BaseContent.IconSizes.Small,
+                Height = BaseContent.IconSizes.Small,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            }
+        };
+        button.Click += (_, _) =>
+        {
+            _page = lastPage ? 0 : _page + 1;
+            Rebuild();
+        };
+        button.WithTooltip(lastPage ? "Back to first row" : "Next row");
+        return button;
+    }
+
+    private static Widget EmptyCell()
+    {
+        return new Panel
+        {
+            Width = ButtonSize,
+            Height = ButtonSize,
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame]
+        };
     }
 }
 

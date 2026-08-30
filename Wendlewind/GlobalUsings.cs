@@ -9,6 +9,7 @@ global using Wendlewind.Definitions;
 global using Wendlewind.Maths;
 global using Wendlewind.Scenes.MainGameScene.Gui.Widgets;
 global using Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
+global using Wendlewind.Scenes.MainGameScene.Gui.Widgets.Grimoire;
 global using Wendlewind.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 global using Wendlewind.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
 global using Wendlewind.Sim;

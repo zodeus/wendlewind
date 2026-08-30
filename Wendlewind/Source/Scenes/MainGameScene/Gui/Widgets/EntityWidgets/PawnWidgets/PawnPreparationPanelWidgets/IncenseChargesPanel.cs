@@ -5,9 +5,11 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.
 public sealed class IncenseChargesPanel : PrepCard, IUpdatable
 {
     private readonly Pawn _pawn;
-    private readonly VerticalStackPanel _active;
+    private readonly VerticalStackPanel _slotRows;
+    private readonly PrepBuffList _buffs;
     private readonly PrepItemGrid _inventory;
-    private int _lastCount = -1;
+    private string _slotSignature = "";
+    private int _slotsPerRow = -1;
 
     public IncenseChargesPanel(BaseGui gui, Pawn pawn) : base("Incense")
     {
@@ -19,78 +21,103 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
             TextColor = new Color(160, 160, 160)
         });
 
-        _active = new VerticalStackPanel { Spacing = 6 };
-        Body.Widgets.Add(_active);
+        _slotRows = new VerticalStackPanel { Spacing = PrepSlots.Spacing };
+        Body.Widgets.Add(_slotRows);
+        _buffs = new PrepBuffList();
+        Body.Widgets.Add(_buffs);
 
         _inventory = new PrepItemGrid(
             gui,
             pawn.Inventory,
             item => item.ItemDef.IncenseProperties?.Effect != null,
             TryLight,
-            _ => _pawn.HasFlameStick()
-                ? "Click to light"
-                : "Need a Flame Stick equipped to light incense",
-            isDisabled: _ => !_pawn.HasFlameStick());
-        SetInventory(_inventory);
+            LightTooltip,
+            isDisabled: IsMuted,
+            pagedRow: true);
+        SetInventory(_inventory, 64);
 
-        Rebuild();
+        RebuildSlots();
     }
 
     public void Update()
     {
-        if (_pawn.ActiveIncense.Count != _lastCount)
+        _pawn.PruneActiveIncense();
+        var perRow = SlotsPerRow();
+        var signature = SlotSignature();
+        if (perRow != _slotsPerRow || signature != _slotSignature)
         {
-            Rebuild();
+            RebuildSlots();
         }
 
         _inventory.Update();
+    }
+
+    private bool IsMuted(Item item)
+    {
+        return !_pawn.CanLightIncense(item);
+    }
+
+    private string LightTooltip(Item item)
+    {
+        if (!_pawn.HasFlameStick())
+        {
+            return "Need a Flame Stick equipped to light incense";
+        }
+
+        if (_pawn.CanLightIncense(item))
+        {
+            return _pawn.ActiveIncense.Any(a => a.Def == item.ItemDef.IncenseProperties?.Effect?.Def)
+                ? "Click to add more duration"
+                : "Click to light";
+        }
+
+        return "All incense slots are full";
     }
 
     private void TryLight(Item item)
     {
         if (_pawn.TryLightIncense(item))
         {
-            Rebuild();
+            RebuildSlots();
         }
     }
 
-    private void Rebuild()
+    private void RebuildSlots()
     {
-        _lastCount = _pawn.ActiveIncense.Count;
-        _active.Widgets.Clear();
+        _slotsPerRow = SlotsPerRow();
+        _slotSignature = SlotSignature();
+        _slotRows.Widgets.Clear();
 
-        if (_pawn.ActiveIncense.Count == 0)
+        HorizontalStackPanel? row = null;
+        for (var i = 0; i < IncenseProperties.MaxActive; i++)
         {
-            _active.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            if (i % _slotsPerRow == 0)
             {
-                Text = _pawn.HasFlameStick()
-                    ? "Click an incense below to light it"
-                    : "Need a Flame Stick equipped to light incense",
-                TextColor = new Color(140, 140, 140)
-            });
-            return;
+                row = new HorizontalStackPanel { Spacing = PrepSlots.Spacing };
+                _slotRows.Widgets.Add(row);
+            }
+
+            var index = i;
+            row!.Widgets.Add(index < _pawn.ActiveIncense.Count
+                ? FilledSlot(_pawn.ActiveIncense[index], index)
+                : EmptySlot());
         }
 
-        foreach (var incense in _pawn.ActiveIncense)
-        {
-            _active.Widgets.Add(CreateIncenseRow(incense));
-        }
+        _buffs.SetEffects(PrepBuffList.FromIncense(_pawn));
     }
 
-    private static Widget CreateIncenseRow(ActiveIncense incense)
+    private Widget FilledSlot(ActiveIncense incense, int index)
     {
         var itemDef = incense.SourceMoniker != null
             ? DefRepository<ItemDef>.GetByMoniker(incense.SourceMoniker, raiseError: false)
             : null;
-        var total = itemDef?.IncenseProperties?.GetDurationInEncounters() ?? incense.EncountersRemaining;
-        var remaining = incense.EncountersRemaining;
         var name = incense.Def?.Label ?? itemDef?.Label ?? incense.SourceMoniker ?? "Incense";
+        var remaining = incense.EncountersRemaining;
 
         var icon = new Image
         {
-            Width = BaseContent.IconSizes.Small,
-            Height = BaseContent.IconSizes.Small,
-            VerticalAlignment = VerticalAlignment.Center
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch
         };
         if (itemDef != null)
         {
@@ -101,43 +128,56 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
             icon.Background = new TextureRegion(incense.Def.GetTexture());
         }
 
-        var header = new HorizontalStackPanel { Spacing = 8 };
-        header.Widgets.Add(icon);
-        header.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-        {
-            Text = name,
-            TextColor = Color.Orange,
-            VerticalAlignment = VerticalAlignment.Center
-        });
-
-        var pips = new HorizontalStackPanel { Spacing = 3 };
-        for (var i = 0; i < Math.Max(total, remaining); i++)
-        {
-            var filled = i < remaining;
-            pips.Widgets.Add(new Panel
-            {
-                Width = 10,
-                Height = 10,
-                VerticalAlignment = VerticalAlignment.Center,
-                Background = new SolidBrush(filled ? new Color(220, 150, 70) : new Color(50, 45, 40))
-            });
-        }
-
         var remainingLabel = new Label(BaseContent.Styles.Label.Small)
         {
-            Text = remaining == 1 ? "1 battle left" : $"{remaining} battles left",
-            TextColor = new Color(200, 180, 140),
-            VerticalAlignment = VerticalAlignment.Center
+            Text = remaining.ToString(),
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            TextColor = new Color(220, 180, 140)
         };
 
-        var pipRow = new HorizontalStackPanel { Spacing = 8 };
-        pipRow.Widgets.Add(pips);
-        pipRow.Widgets.Add(remainingLabel);
-
-        return new VerticalStackPanel
+        var button = new CursorButton
         {
-            Spacing = 4,
-            Widgets = { header, pipRow }
+            Width = PrepSlots.Size - PrepSlots.Pad * 2,
+            Height = PrepSlots.Size - PrepSlots.Pad * 2,
+            Padding = new Thickness(0),
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            Content = new Panel
+            {
+                Widgets = { icon, remainingLabel }
+            }
         };
+        button.Click += (_, _) =>
+        {
+            _pawn.ExtinguishIncense(index);
+            RebuildSlots();
+        };
+        button.WithTooltip(name, remaining == 1 ? "1 battle left — click to extinguish" : $"{remaining} battles left — click to extinguish");
+        return PrepSlots.Frame(button);
+    }
+
+    private static Widget EmptySlot()
+    {
+        var empty = new Panel();
+        empty.WithTooltip("Empty incense slot");
+        return PrepSlots.Frame(empty);
+    }
+
+    private int SlotsPerRow()
+    {
+        var width = Math.Max(_slotRows.ActualBounds.Width, _slotRows.Bounds.Width);
+        if (width <= 0)
+        {
+            return Math.Max(1, IncenseProperties.MaxActive);
+        }
+
+        return Math.Max(1, (width + PrepSlots.Spacing) / (PrepSlots.Size + PrepSlots.Spacing));
+    }
+
+    private string SlotSignature()
+    {
+        return IncenseProperties.MaxActive + ":" + string.Join(",", _pawn.ActiveIncense.Select(a =>
+            $"{a.Def?.Moniker ?? a.SourceMoniker}:{a.EncountersRemaining}"));
     }
 }

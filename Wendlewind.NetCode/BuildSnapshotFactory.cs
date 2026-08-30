@@ -254,6 +254,11 @@ public static class BuildSnapshotFactory
         pawn.ActiveIncense.Clear();
         foreach (var config in configs)
         {
+            if (pawn.ActiveIncense.Count >= IncenseProperties.MaxActive)
+            {
+                break;
+            }
+
             var def = DefRepository<ItemDef>.GetByMoniker(config.ItemMoniker, raiseError: false);
             var effect = def?.IncenseProperties?.Effect?.Def;
             if (effect == null)

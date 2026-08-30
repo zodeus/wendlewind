@@ -27,7 +27,9 @@ public sealed class PawnSummaryCard : VerticalStackPanel, IUpdatable
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
         {
             Text = pawn.LabelShort,
-            TextColor = Color.Goldenrod
+            TextColor = Color.Goldenrod,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Margin = new Thickness(0, 4, 0, 0)
         });
 
         _portrait = new PawnRenderWidget(pawn, 192)

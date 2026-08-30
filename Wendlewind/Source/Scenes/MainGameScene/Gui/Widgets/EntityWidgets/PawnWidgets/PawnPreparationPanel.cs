@@ -57,7 +57,27 @@ public class PawnPreparationPanel : Panel, IUpdatable
         Place(root, CreateTrinketsCell(), 0, 1);
         Place(root, _mealPlanPanel, 2, 1);
         Place(root, _incenseChargesPanel, 3, 1);
-        Widgets.Add(root);
+
+        var grimoireButton = new CursorButton(BaseContent.Styles.Button.Normal)
+        {
+            Content = new Label(BaseContent.Styles.Label.Normal) { Text = "Grimoire" },
+            HorizontalAlignment = HorizontalAlignment.Left
+        };
+        grimoireButton.Click += (_, _) => gui.OpenGrimoire();
+
+        var layout = new VerticalStackPanel
+        {
+            Spacing = 8,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            Widgets =
+            {
+                grimoireButton,
+                root
+            }
+        };
+        VerticalStackPanel.SetProportionType(root, ProportionType.Fill);
+        Widgets.Add(layout);
     }
 
     private Widget CreateTrinketsCell()

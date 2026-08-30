@@ -1,13 +1,20 @@
+using Image = Myra.Graphics2D.UI.Image;
+
 namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnPreparationPanelWidgets;
 
 public sealed class MealPlanPanel : PrepCard, IUpdatable
 {
+    private readonly BaseGui _gui;
     private readonly Pawn _pawn;
-    private readonly FillGauge _gauge;
+    private readonly VerticalStackPanel _slotRows;
+    private readonly PrepBuffList _buffs;
     private readonly PrepItemGrid _inventory;
+    private string _slotSignature = "";
+    private int _slotsPerRow = -1;
 
     public MealPlanPanel(BaseGui gui, Pawn pawn) : base("Food")
     {
+        _gui = gui;
         _pawn = pawn;
 
         Body.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
@@ -16,9 +23,10 @@ public sealed class MealPlanPanel : PrepCard, IUpdatable
             TextColor = new Color(160, 160, 160)
         });
 
-        _gauge = new FillGauge();
-        Body.Widgets.Add(_gauge);
-        RefreshGauge();
+        _slotRows = new VerticalStackPanel { Spacing = PrepSlots.Spacing };
+        Body.Widgets.Add(_slotRows);
+        _buffs = new PrepBuffList();
+        Body.Widgets.Add(_buffs);
 
         _inventory = new PrepItemGrid(
             gui,
@@ -26,37 +34,43 @@ public sealed class MealPlanPanel : PrepCard, IUpdatable
             item => item.ItemDef.FoodProperties != null,
             ToggleMeal,
             MealTooltip,
-            item => _pawn.MealPlan.Items.Contains(item),
-            item => !_pawn.MealPlan.Items.Contains(item) && !_pawn.MealPlan.CanFit(item));
-        SetInventory(_inventory);
+            isDisabled: IsMuted,
+            pagedRow: true);
+        SetInventory(_inventory, 64);
+        RebuildSlots();
     }
 
     public void Update()
     {
         _pawn.MealPlan.Prune();
-        RefreshGauge();
+        var perRow = SlotsPerRow();
+        var signature = SlotSignature();
+        if (perRow != _slotsPerRow || signature != _slotSignature)
+        {
+            RebuildSlots();
+        }
+
         _inventory.Update();
     }
 
-    private void RefreshGauge()
+    private bool IsMuted(Item item)
     {
-        var current = _pawn.MealPlan.Items.Count;
-        _gauge.Set(current, MealPlan.MaxSlots, $"{current} / {MealPlan.MaxSlots}");
+        return _pawn.MealPlan.Items.Contains(item) || !_pawn.MealPlan.CanFit(item);
     }
 
     private string MealTooltip(Item item)
     {
         if (_pawn.MealPlan.CanFit(item))
         {
-            return "Click to add to meal";
+            return "Click to add to a meal slot";
         }
 
         if (_pawn.MealPlan.Items.Contains(item))
         {
-            return "In meal — click to remove";
+            return "In meal — click a slot below to remove";
         }
 
-        return $"Meal full ({MealPlan.MaxSlots}/{MealPlan.MaxSlots})";
+        return "No empty meal slots";
     }
 
     private void ToggleMeal(Item item)
@@ -70,6 +84,85 @@ public sealed class MealPlanPanel : PrepCard, IUpdatable
             _pawn.MealPlan.Remove(item);
         }
 
-        RefreshGauge();
+        RebuildSlots();
+    }
+
+    private void RebuildSlots()
+    {
+        _slotsPerRow = SlotsPerRow();
+        _slotSignature = SlotSignature();
+        _slotRows.Widgets.Clear();
+
+        HorizontalStackPanel? row = null;
+        for (var i = 0; i < MealPlan.MaxSlots; i++)
+        {
+            if (i % _slotsPerRow == 0)
+            {
+                row = new HorizontalStackPanel { Spacing = PrepSlots.Spacing };
+                _slotRows.Widgets.Add(row);
+            }
+
+            var index = i;
+            row!.Widgets.Add(index < _pawn.MealPlan.Items.Count
+                ? FilledSlot(_pawn.MealPlan.Items[index], index)
+                : EmptySlot());
+        }
+
+        _buffs.SetEffects(PrepBuffList.FromMeal(_pawn));
+    }
+
+    private Widget FilledSlot(Item item, int index)
+    {
+        var icon = new CursorButton
+        {
+            Width = PrepSlots.Size - PrepSlots.Pad * 2,
+            Height = PrepSlots.Size - PrepSlots.Pad * 2,
+            Padding = new Thickness(0),
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            Content = new Image
+            {
+                Background = item.GetIconImage(),
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch
+            }
+        };
+        icon.Click += (_, _) =>
+        {
+            _pawn.MealPlan.RemoveAt(index);
+            RebuildSlots();
+        };
+        icon.TouchDown += (_, _) =>
+        {
+            if (Mouse.GetState().RightButton == ButtonState.Pressed && !item.IsDestroyed)
+            {
+                _gui.ViewEntity(item);
+            }
+        };
+        icon.WithTooltip(item.Label, "Click to remove from meal");
+        return PrepSlots.Frame(icon);
+    }
+
+    private static Widget EmptySlot()
+    {
+        var empty = new Panel();
+        empty.WithTooltip("Empty meal slot");
+        return PrepSlots.Frame(empty);
+    }
+
+    private int SlotsPerRow()
+    {
+        var width = Math.Max(_slotRows.ActualBounds.Width, _slotRows.Bounds.Width);
+        if (width <= 0)
+        {
+            return Math.Max(1, MealPlan.MaxSlots);
+        }
+
+        return Math.Max(1, (width + PrepSlots.Spacing) / (PrepSlots.Size + PrepSlots.Spacing));
+    }
+
+    private string SlotSignature()
+    {
+        return MealPlan.MaxSlots + ":" + string.Join(",", _pawn.MealPlan.Items.Select(i => i?.Id ?? -1));
     }
 }

@@ -1,6 +1,6 @@
 ﻿using SolidBrush = Myra.Graphics2D.Brushes.SolidBrush;
 
-namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.TrinketWidgets.GrimoireWidgets;
+namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.Grimoire;
 
 public sealed class CraftingPanel : VerticalStackPanel, IUpdatable
 {

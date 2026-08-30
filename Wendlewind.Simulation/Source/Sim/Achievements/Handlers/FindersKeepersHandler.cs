@@ -1,9 +1,8 @@
 namespace Wendlewind.Sim.Achievements.Handlers;
 
-using Wendlewind.Sim.Entities;
 /// <summary>
-/// Unlocks when the player finds an item (looting from combat)
-/// Benefit: Start with the Grimoire trinket
+/// Historical achievement kept so existing saves still load.
+/// The Grimoire is now a first-class system and is no longer a findable trinket.
 /// </summary>
 public class FindersKeepersHandler : AchievementHandler
 {
@@ -11,16 +10,4 @@ public class FindersKeepersHandler : AchievementHandler
     {
         Rng = rng;
     }
-
-    public override void OnItemFound(Item item)
-    {
-        if (IsUnlocked) return;
-
-        if (item.Def == Defs.Items.Grimoire)
-        {
-            Unlock();
-            return;
-        }
-    }
 }
-

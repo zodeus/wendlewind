@@ -2,6 +2,8 @@ namespace Wendlewind.Sim.Entities.Items;
 
 public class IncenseProperties
 {
+    public const int MaxActive = 3;
+
     public BodyEffectRecord Effect = null!;
     public int DurationInEncounters;
 

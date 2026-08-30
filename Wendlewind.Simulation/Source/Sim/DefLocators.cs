@@ -147,7 +147,6 @@ public static partial class Defs
         public static ItemDef LeatherBoot = null!;
         public static ItemDef BucketHelmet = null!;
 
-        public static ItemDef Grimoire = null!;
         public static ItemDef BloodBath = null!;
         public static ItemDef RejuvenationCloak = null!;
         public static ItemDef StrengthCloak = null!;

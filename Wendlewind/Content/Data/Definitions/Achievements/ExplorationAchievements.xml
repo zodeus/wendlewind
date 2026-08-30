@@ -45,7 +45,6 @@
         <Label>Finders Keepers</Label>
         <Description>You find it, you keep it</Description>
         <IsHidden>true</IsHidden>
-        <UnlockedTrinketDef>Grimoire</UnlockedTrinketDef>
         <Category>Exploration</Category>
         <HandlerClass>FindersKeepersHandler</HandlerClass>
     </AchievementDef>

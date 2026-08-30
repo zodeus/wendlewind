@@ -48,14 +48,6 @@
                 <Weight>1000000</Weight>
             </ListItem>
             <ListItem>
-                <ItemDef>Disassembler</ItemDef>
-                <Weight>1000000</Weight>
-            </ListItem>
-            <ListItem>
-                <ItemDef>Grimoire</ItemDef>
-                <Weight>1000000</Weight>
-            </ListItem>
-            <ListItem>
                 <ItemDef>VialOfDuplicity</ItemDef>
                 <Weight>1000000</Weight>
             </ListItem>

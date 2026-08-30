@@ -57,6 +57,16 @@ public class MealPlan : IExposable
         _items.Remove(item);
     }
 
+    public void RemoveAt(int index)
+    {
+        if (index < 0 || index >= _items.Count)
+        {
+            return;
+        }
+
+        _items.RemoveAt(index);
+    }
+
     public void Prune()
     {
         _items.RemoveAll(i => i == null || i.IsDestroyed || i.StackSize < 1);

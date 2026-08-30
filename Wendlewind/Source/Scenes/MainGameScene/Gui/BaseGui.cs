@@ -7,6 +7,8 @@ namespace Wendlewind.Scenes.MainGameScene.Gui;
 public abstract class BaseGui : IDisposable
 {
     private BookOfAllKnowledgeWindow? Boak;
+    private Window? _grimoireWindow;
+    private GrimoirePanel? _grimoirePanel;
     public Desktop Desktop { get; set; } = null!;
     public abstract WorldTextHandler WorldTextHandler { get; }
 
@@ -37,6 +39,10 @@ public abstract class BaseGui : IDisposable
         }
 
         ((EntityPanelBase?)_entityViewerWindow.Content)?.Update();
+        if (_grimoireWindow is { IsPlaced: true })
+        {
+            _grimoirePanel?.Update();
+        }
         if (_screenMessageTimeLeft > 0)
         {
             _screenMessageTimeLeft -= deltaTime;
@@ -131,6 +137,40 @@ public abstract class BaseGui : IDisposable
 
         Boak = new BookOfAllKnowledgeWindow();
         Boak.Show(Desktop, new Point(0, 0));
+    }
+
+    public void OpenGrimoire()
+    {
+        if (_grimoireWindow is { IsPlaced: true })
+        {
+            CloseGrimoire();
+            return;
+        }
+
+        _grimoirePanel = new GrimoirePanel();
+        _grimoireWindow = new Window
+        {
+            Title = "Grimoire",
+            Content = _grimoirePanel,
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame]
+        };
+        _grimoireWindow.Closed += (_, _) =>
+        {
+            _grimoirePanel?.Detach();
+            _grimoirePanel = null;
+            _grimoireWindow = null;
+        };
+
+        _grimoireWindow.Show(Desktop);
+        _grimoireWindow.Arrange(new Rectangle(0, 0, Core.ReferenceResolution.X, Core.ReferenceResolution.Y));
+        var windowWidth = _grimoireWindow.ActualBounds.Width;
+        _grimoireWindow.Left = (Core.ReferenceResolution.X - windowWidth) / 2;
+        _grimoireWindow.Top = 100;
+    }
+
+    private void CloseGrimoire()
+    {
+        _grimoireWindow?.Close();
     }
 
     public virtual void Draw(SpriteBatch spriteBatch, float deltaTime)

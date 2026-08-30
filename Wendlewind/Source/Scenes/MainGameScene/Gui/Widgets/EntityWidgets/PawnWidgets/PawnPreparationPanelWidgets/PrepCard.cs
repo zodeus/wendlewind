@@ -15,7 +15,9 @@ public class PrepCard : VerticalStackPanel
         Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
         {
             Text = title,
-            TextColor = Color.Goldenrod
+            TextColor = Color.Goldenrod,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Margin = new Thickness(0, 4, 0, 0)
         });
         Widgets.Add(new HorizontalSeparator());
 
@@ -40,14 +42,14 @@ public class PrepCard : VerticalStackPanel
         Body.Widgets.Add(content);
     }
 
-    protected void SetInventory(Widget inventory)
+    protected void SetInventory(Widget inventory, int maxHeight = 200)
     {
         var scroll = new ScrollViewer
         {
             Content = inventory,
             ShowHorizontalScrollBar = false,
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            MaxHeight = 200
+            MaxHeight = maxHeight
         };
         // Title + separator occupy 0 and 1; keep the item grid under the header.
         Widgets.Insert(2, scroll);

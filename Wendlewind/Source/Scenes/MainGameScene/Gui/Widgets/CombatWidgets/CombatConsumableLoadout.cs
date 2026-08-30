@@ -3,7 +3,6 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 internal sealed class CombatConsumableLoadout : Panel, IUpdatable
 {
     private const int MedicalSlots = 5;
-    private const int IncenseSlots = 3;
     private const int ColumnWidth = 180;
     private const int CellSpacing = 5;
     private const int CellSize = (ColumnWidth - CellSpacing * 2) / 3;
@@ -87,7 +86,7 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
         }
 
         var incense = pawn.ActiveIncense;
-        for (var i = 0; i < IncenseSlots; i++)
+        for (var i = 0; i < IncenseProperties.MaxActive; i++)
         {
             var cell = i < incense.Count
                 ? Cell(CreateIncenseIcon(incense[i]))
