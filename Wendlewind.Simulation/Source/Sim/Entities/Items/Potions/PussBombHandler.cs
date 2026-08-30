@@ -16,6 +16,8 @@ public class PussBombHandler : PotionHandler
 
     public override bool CanUseInCombat => true;
 
+    public override Pawn GetCombatApplicationTarget(Pawn user, Pawn? opponent) => opponent ?? user;
+
     public override PotionUseResult UseInCombat(Pawn user, Pawn? target = null)
     {
         if (target == null)

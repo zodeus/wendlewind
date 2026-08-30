@@ -21,6 +21,11 @@ public interface IPotionHandler
     bool CanUseOutsideCombat { get; }
     
     /// <summary>
+    /// Who receives the potion's combat effect (user for sips, opponent for thrown flasks).
+    /// </summary>
+    Pawn GetCombatApplicationTarget(Pawn user, Pawn? opponent);
+
+    /// <summary>
     /// Use the potion on a target pawn during combat.
     /// </summary>
     /// <param name="user">The pawn using the potion</param>

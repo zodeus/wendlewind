@@ -49,6 +49,8 @@ public sealed record CombatLogEvent
     public string SubjectName { get; init; } = "";
     public int? SourcePawnId { get; init; }
     public string? SourceName { get; init; }
+    public int? TargetPawnId { get; init; }
+    public string? TargetName { get; init; }
     public string? ItemMoniker { get; init; }
     public string? ItemLabel { get; init; }
     public string? BlockingItemMoniker { get; init; }

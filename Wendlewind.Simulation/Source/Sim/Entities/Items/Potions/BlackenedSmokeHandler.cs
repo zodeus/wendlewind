@@ -16,6 +16,8 @@ public class BlackenedSmokeHandler : PotionHandler
     public override bool CanUseOutsideCombat => false;
     private const double BlackLungPower = 1;
 
+    public override Pawn GetCombatApplicationTarget(Pawn user, Pawn? opponent) => opponent ?? user;
+
     public override PotionUseResult UseInCombat(Pawn user, Pawn? target = null)
     {
         var actualTarget = target ?? user;

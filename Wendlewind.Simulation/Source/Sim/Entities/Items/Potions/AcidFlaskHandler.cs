@@ -13,6 +13,8 @@ public class AcidFlaskHandler : PotionHandler
 
     public override bool CanUseInCombat => true;
     public override bool CanUseOutsideCombat => false;
+
+    public override Pawn GetCombatApplicationTarget(Pawn user, Pawn? opponent) => opponent ?? user;
     
     public override PotionUseResult UseInCombat(Pawn user, Pawn? target = null)
     {

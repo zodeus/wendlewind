@@ -366,11 +366,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         var color = ColorFor(kind);
         foreach (var key in _slots.Keys)
         {
-            var current = key.Part.Equipment[key.Slot];
-            var moniker = current is { IsDestroyed: false }
-                ? current.ItemDef.Moniker
-                : _lastMonikers.GetValueOrDefault(key);
-            if (moniker != itemMoniker)
+            if (ResolveMoniker(key) != itemMoniker)
             {
                 continue;
             }
@@ -378,6 +374,42 @@ public class PawnEquipmentPanel : Grid, IUpdatable
             _flashes[key] = new SlotFlash { Remaining = GlowDuration, Color = color };
             SpawnSparks(key, color, kind);
         }
+    }
+
+    public bool TryGetSlotCenter(string? itemMoniker, out Vector2 center)
+    {
+        center = default;
+        if (string.IsNullOrEmpty(itemMoniker))
+        {
+            return false;
+        }
+
+        foreach (var key in _slots.Keys)
+        {
+            if (ResolveMoniker(key) != itemMoniker)
+            {
+                continue;
+            }
+
+            var bounds = SlotBounds(key);
+            if (bounds.Width <= 0 || bounds.Height <= 0)
+            {
+                continue;
+            }
+
+            center = new Vector2(bounds.X + bounds.Width * 0.5f, bounds.Y + bounds.Height * 0.5f);
+            return true;
+        }
+
+        return false;
+    }
+
+    private string? ResolveMoniker((BodyPart Part, EquipmentSlotType Slot) key)
+    {
+        var current = key.Part.Equipment[key.Slot];
+        return current is { IsDestroyed: false }
+            ? current.ItemDef.Moniker
+            : _lastMonikers.GetValueOrDefault(key);
     }
 
     public void Update()

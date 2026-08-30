@@ -389,11 +389,16 @@ public class CombatHandler : IDisposable, IHasContext
                 continue;
             }
 
+            var appliedTo = potion.PotionHandler.GetCombatApplicationTarget(self, enemy);
             Record(new CombatLogEvent
             {
                 Kind = CombatEventKind.PotionUsed,
                 SubjectPawnId = self.Id,
                 SubjectName = self.LabelShort,
+                SourcePawnId = self.Id,
+                SourceName = self.LabelShort,
+                TargetPawnId = appliedTo.Id,
+                TargetName = appliedTo.LabelShort,
                 ItemMoniker = potion.ItemDef.Moniker,
                 ItemLabel = potion.Label,
                 Message = result.Message

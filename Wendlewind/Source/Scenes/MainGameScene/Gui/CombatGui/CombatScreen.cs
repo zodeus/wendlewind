@@ -22,6 +22,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     private CombatSummaryWindow? _summaryWindow;
     private CursorButton? _showSummaryButton;
     private readonly CombatFloaterRouter _floaterRouter;
+    private readonly CombatPotionThrowFx _potionThrowFx;
     private readonly CombatFighterStatsColumn _playerStats;
     private readonly CombatFighterStatsColumn _opponentStats;
     private readonly CombatConsumableLoadout _playerLoadout;
@@ -239,6 +240,15 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             Encounter.PlayerPawns,
             Encounter.EnemyPawns);
         _floaterRouter.MedicalUsed += OnMedicalUsed;
+        _floaterRouter.PotionUsed += OnPotionUsed;
+
+        _potionThrowFx = new CombatPotionThrowFx();
+        _potionThrowFx.Impacted += _floaterRouter.ShowPotionImpact;
+        Grid.SetRow(_potionThrowFx, 0);
+        Grid.SetRowSpan(_potionThrowFx, 2);
+        Grid.SetColumn(_potionThrowFx, 0);
+        Grid.SetColumnSpan(_potionThrowFx, 4);
+        grid.Widgets.Add(_potionThrowFx);
     }
 
     private void OnCombatEvent(CombatLogEvent combatEvent)
@@ -297,6 +307,91 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         {
             _opponentPartyPanel.GetPanelForPawn(pawn)?.EquipmentPanel?.FlashSlot(moniker, kind);
         }
+    }
+
+    private void OnPotionUsed(CombatLogEvent combatEvent)
+    {
+        if (TryLaunchPotionThrow(combatEvent))
+        {
+            return;
+        }
+
+        _floaterRouter.ShowPotionImpact(combatEvent);
+    }
+
+    private bool TryLaunchPotionThrow(CombatLogEvent combatEvent)
+    {
+        if (string.IsNullOrEmpty(combatEvent.ItemMoniker))
+        {
+            return false;
+        }
+
+        var user = FindPawn(combatEvent.SubjectPawnId);
+        var target = FindPawn(combatEvent.TargetPawnId ?? combatEvent.SubjectPawnId);
+        if (user == null || target == null)
+        {
+            return false;
+        }
+
+        var userPanel = ResolveParty(user).GetPanelForPawn(user);
+        var targetPanel = ResolveParty(target).GetPanelForPawn(target);
+        if (userPanel?.EquipmentPanel == null || targetPanel?.BodyWidget == null)
+        {
+            return false;
+        }
+
+        if (!userPanel.EquipmentPanel.TryGetSlotCenter(combatEvent.ItemMoniker, out var startLocal))
+        {
+            return false;
+        }
+
+        var portrait = targetPanel.BodyWidget;
+        if (portrait.Bounds.Width <= 0 || portrait.Bounds.Height <= 0)
+        {
+            return false;
+        }
+
+        var def = DefRepository<ItemDef>.GetByMoniker(combatEvent.ItemMoniker, raiseError: false);
+        if (def == null)
+        {
+            return false;
+        }
+
+        var endLocal = new Vector2(portrait.Bounds.Width * 0.5f, portrait.Bounds.Height * 0.5f);
+        return _potionThrowFx.TryStart(
+            combatEvent,
+            userPanel.EquipmentPanel,
+            startLocal,
+            portrait,
+            endLocal,
+            def.GetIcon(),
+            thrown: user.Id != target.Id);
+    }
+
+    private CombatPartyPanel ResolveParty(Pawn pawn)
+    {
+        return pawn.PawnType == PawnType.Player ? _playerPartyPanel : _opponentPartyPanel;
+    }
+
+    private Pawn? FindPawn(int pawnId)
+    {
+        foreach (var pawn in Encounter.PlayerPawns)
+        {
+            if (pawn.Id == pawnId)
+            {
+                return pawn;
+            }
+        }
+
+        foreach (var pawn in Encounter.EnemyPawns)
+        {
+            if (pawn.Id == pawnId)
+            {
+                return pawn;
+            }
+        }
+
+        return null;
     }
 
     private void OnMedicalUsed(CombatLogEvent combatEvent)
@@ -373,6 +468,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         _pawnBodyView.Update(deltaTime);
         _enemyPawnBodyView.Update(deltaTime);
         _floaterRouter.Update(deltaTime);
+        _potionThrowFx.Update(deltaTime);
         _playerStats.Update();
         _opponentStats.Update();
         _playerLoadout.Update();
@@ -423,6 +519,8 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         Encounter.StateChangedAction -= CombatStateChangedAction;
         Encounter.CombatHandler!.CombatEventRecorded -= OnCombatEvent;
         _floaterRouter.MedicalUsed -= OnMedicalUsed;
+        _floaterRouter.PotionUsed -= OnPotionUsed;
+        _potionThrowFx.Impacted -= _floaterRouter.ShowPotionImpact;
         if (_summaryWindow != null)
         {
             _summaryWindow.OnReviewRequested -= OnReviewRequested;

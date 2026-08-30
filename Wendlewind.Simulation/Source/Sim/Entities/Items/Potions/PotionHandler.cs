@@ -22,6 +22,8 @@ public abstract class PotionHandler : IPotionHandler, IExposable, IHasContext, I
     protected string PotionLabel => Potion.Label;
     protected ItemDef PotionDef => Potion.ItemDef;
     
+    public virtual Pawn GetCombatApplicationTarget(Pawn user, Pawn? opponent) => user;
+
     public abstract PotionUseResult UseInCombat(Pawn user, Pawn? target = null);
     
     public virtual PotionUseResult UseOutsideCombat(Pawn user)

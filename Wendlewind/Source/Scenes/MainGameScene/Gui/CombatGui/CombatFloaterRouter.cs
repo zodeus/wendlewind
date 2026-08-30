@@ -33,6 +33,12 @@ internal sealed class CombatFloaterRouter
         _enemyPawns = enemyPawns;
     }
 
+    public void ShowPotionImpact(CombatLogEvent e)
+    {
+        var pawnId = e.TargetPawnId ?? e.SubjectPawnId;
+        Show(pawnId, null, e.ItemLabel ?? "potion", Style(e.Kind, false));
+    }
+
     public void Handle(CombatLogEvent e)
     {
         if (e.Kind is CombatEventKind.Heal or CombatEventKind.DamageOverTime)
@@ -124,7 +130,6 @@ internal sealed class CombatFloaterRouter
                 Show(e.SubjectPawnId, e.BodyPartKey, "dodged", Style(e.Kind, false));
                 break;
             case CombatEventKind.PotionUsed:
-                Show(e.SubjectPawnId, null, e.ItemLabel ?? "potion", Style(e.Kind, false));
                 PotionUsed?.Invoke(e);
                 break;
             case CombatEventKind.MedicalUsed:
