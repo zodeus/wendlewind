@@ -27,7 +27,7 @@ public sealed class MealPlanPanel : PrepCard, IUpdatable
             ToggleMeal,
             MealTooltip,
             item => _pawn.MealPlan.Items.Contains(item),
-            item => !_pawn.MealPlan.Items.Contains(item) && !CanFit(item));
+            item => !_pawn.MealPlan.Items.Contains(item) && !_pawn.MealPlan.CanFit(item));
         SetInventory(_inventory);
     }
 
@@ -40,36 +40,34 @@ public sealed class MealPlanPanel : PrepCard, IUpdatable
 
     private void RefreshGauge()
     {
-        var current = _pawn.MealPlan.AssignedNutrition;
-        _gauge.Set(current, MealPlan.NutritionBudget,
-            $"Stomach {current:0.##} / {MealPlan.NutritionBudget:0.##}");
-    }
-
-    private bool CanFit(Item item)
-    {
-        return _pawn.MealPlan.AssignedNutrition + item.GetStatValue(Defs.Stats.NutritionalValue)
-               <= MealPlan.NutritionBudget + 0.001f;
+        var current = _pawn.MealPlan.Items.Count;
+        _gauge.Set(current, MealPlan.MaxSlots, $"{current} / {MealPlan.MaxSlots}");
     }
 
     private string MealTooltip(Item item)
     {
+        if (_pawn.MealPlan.CanFit(item))
+        {
+            return "Click to add to meal";
+        }
+
         if (_pawn.MealPlan.Items.Contains(item))
         {
             return "In meal — click to remove";
         }
 
-        return CanFit(item) ? "Click to add to meal" : "Too filling for remaining stomach";
+        return $"Meal full ({MealPlan.MaxSlots}/{MealPlan.MaxSlots})";
     }
 
     private void ToggleMeal(Item item)
     {
-        if (_pawn.MealPlan.Items.Contains(item))
-        {
-            _pawn.MealPlan.Remove(item);
-        }
-        else
+        if (_pawn.MealPlan.CanFit(item))
         {
             _pawn.MealPlan.TryAdd(item);
+        }
+        else if (_pawn.MealPlan.Items.Contains(item))
+        {
+            _pawn.MealPlan.Remove(item);
         }
 
         RefreshGauge();

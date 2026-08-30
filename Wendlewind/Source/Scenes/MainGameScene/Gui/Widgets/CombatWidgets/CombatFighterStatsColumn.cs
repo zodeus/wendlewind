@@ -43,8 +43,8 @@ public sealed class CombatFighterStatsColumn : Panel, IUpdatable
             grid.RowsProportions.Add(Proportion.Auto);
         }
 
-        _bloodMeter = new CombatVitalMeter(CombatVitalMeter.VitalKind.Blood, "Blood", CellHeight + 16);
-        _bodyMeter = new CombatVitalMeter(CombatVitalMeter.VitalKind.Body, "Body", CellHeight + 16);
+        _bloodMeter = new CombatVitalMeter(CombatVitalMeter.VitalKind.Blood, "Blood", CellHeight);
+        _bodyMeter = new CombatVitalMeter(CombatVitalMeter.VitalKind.Body, "Body", CellHeight);
         Place(grid, _bloodMeter, 0, 0);
         Place(grid, _bodyMeter, 0, 1);
 

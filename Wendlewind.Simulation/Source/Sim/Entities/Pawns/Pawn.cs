@@ -15,6 +15,7 @@ public class Pawn : Entity
     public PawnEquipment Equipment = null!;
     public MedicalChest MedicalChest = null!;
     public MealPlan MealPlan = null!;
+    public CombatStomach CombatStomach = null!;
     public List<ActiveIncense> ActiveIncense = [];
     public PawnType PawnType = PawnType.Invalid;
     public Zone? Zone;
@@ -50,6 +51,7 @@ public class Pawn : Entity
         Inventory = new PawnInventory(this);
         MedicalChest = new MedicalChest(this);
         MealPlan = new MealPlan(this);
+        CombatStomach = new CombatStomach(this);
         ActiveIncense = [];
         base.Initialize();
     }
@@ -384,10 +386,12 @@ public class Pawn : Entity
         ScribeDeep.Look(ref Equipment!, "Equipment", this);
         ScribeDeep.Look(ref MedicalChest!, "MedicalChest", this);
         ScribeDeep.Look(ref MealPlan!, "MealPlan", this);
+        ScribeDeep.Look(ref CombatStomach!, "CombatStomach", this);
         ScribeCollections.Look(ref ActiveIncense!, "ActiveIncense", LookMode.Deep);
         ScribeReferences.Look(ref Zone!, "Zone");
         MedicalChest ??= new MedicalChest(this);
         MealPlan ??= new MealPlan(this);
+        CombatStomach ??= new CombatStomach(this);
         ActiveIncense ??= [];
         base.ExposeData();
     }
@@ -447,7 +451,6 @@ public class Pawn : Entity
             return false;
         }
 
-        var goldenLipsMultiplier = HasActiveEffect(Defs.BodyEffects.GoldenLips) ? 1.5f : 1f;
         foreach (var record in item.ItemDef.FoodProperties.Effects)
         {
             if (record.Def == Defs.BodyEffects.FoodPoisoning && Traits.HasTrait(Defs.Traits.GutMicroacrobatics))
@@ -458,12 +461,41 @@ public class Pawn : Entity
             Body.Effects.TryApplyEffect(new BodyEffect
             {
                 Def = record.Def,
-                TicksLeft = Math.Max(1, (int)(record.DurationInTicks * goldenLipsMultiplier)),
+                TicksLeft = 1,
                 LastsWholeEncounter = true
             });
         }
 
+        var def = item.ItemDef;
         ApplyEatCost(item);
+        CombatStomach.TryAdd(def);
+        return true;
+    }
+
+    public bool RemoveIngestedFood(int index)
+    {
+        var previous = CollectFoodEffectDefs(CombatStomach.Items);
+        if (!CombatStomach.TryRemoveAt(index))
+        {
+            return false;
+        }
+
+        var remaining = CollectFoodEffectDefs(CombatStomach.Items);
+        foreach (var effect in previous)
+        {
+            if (remaining.Contains(effect))
+            {
+                continue;
+            }
+
+            if (ActiveIncense.Any(incense => incense.Def == effect))
+            {
+                continue;
+            }
+
+            Body.Effects.TryRemove(effect);
+        }
+
         return true;
     }
 
@@ -508,11 +540,15 @@ public class Pawn : Entity
 
     public void ApplyBattleStartConsumables()
     {
-        Body.StomachLevel = 0;
+        Body.StomachLevel = 1;
+        CombatStomach.Clear();
         MealPlan.Prune();
         foreach (var item in MealPlan.Items.ToList())
         {
-            TryEatForBattle(item);
+            if (item is { IsDestroyed: false, StackSize: > 0 })
+            {
+                TryEatForBattle(item);
+            }
         }
 
         MealPlan.Prune();
@@ -574,6 +610,34 @@ public class Pawn : Entity
     private bool HasActiveEffect(BodyEffectDef effect)
     {
         return Body.Effects.Has(effect);
+    }
+
+    private HashSet<BodyEffectDef> CollectFoodEffectDefs(IReadOnlyList<IngestedFood> foods)
+    {
+        var effects = new HashSet<BodyEffectDef>();
+        foreach (var food in foods)
+        {
+            var records = food.Def?.FoodProperties?.Effects;
+            if (records == null)
+            {
+                continue;
+            }
+
+            foreach (var record in records)
+            {
+                if (record.Def == Defs.BodyEffects.FoodPoisoning && Traits.HasTrait(Defs.Traits.GutMicroacrobatics))
+                {
+                    continue;
+                }
+
+                if (record.Def != null)
+                {
+                    effects.Add(record.Def);
+                }
+            }
+        }
+
+        return effects;
     }
 
     public void ResetAttackCoolDown()

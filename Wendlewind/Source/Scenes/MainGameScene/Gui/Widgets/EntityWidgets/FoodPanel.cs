@@ -97,16 +97,6 @@ public sealed class FoodPanel : EntityPanelBase
                     TextColor = effectColor
                 });
 
-                // Duration
-                if (effect.DurationInTicks > 0)
-                {
-                    effectPanel.Widgets.Add(new Label("small")
-                    {
-                        Text = $"({effect.DurationInTicks:N0} ticks)",
-                        TextColor = new Color(150, 150, 150)
-                    });
-                }
-
                 Widgets.Add(effectPanel);
 
                 // Effect notes/description if available

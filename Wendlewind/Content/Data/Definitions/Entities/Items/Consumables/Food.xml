@@ -15,7 +15,6 @@
             <Effects>
                 <ListItem>
                     <Def>FoodPoisoning</Def>
-                    <DurationInTicks>2000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
@@ -37,7 +36,6 @@
             <Effects>
                 <ListItem>
                     <Def>FoodPoisoning</Def>
-                    <DurationInTicks>2000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
@@ -55,7 +53,6 @@
             <Effects>
                 <ListItem>
                     <Def>Fishy</Def>
-                    <DurationInTicks>4000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
@@ -84,7 +81,6 @@
             <Effects>
                 <ListItem>
                     <Def>BeefedUp</Def>
-                    <DurationInTicks>4000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
@@ -113,15 +109,12 @@
             <Effects>
                 <ListItem>
                     <Def>Fishy</Def>
-                    <DurationInTicks>4000</DurationInTicks>
                 </ListItem>
                 <ListItem>
                     <Def>BeefedUp</Def>
-                    <DurationInTicks>4000</DurationInTicks>
                 </ListItem>
                 <ListItem>
                     <Def>Energized</Def>
-                    <DurationInTicks>4000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
@@ -160,7 +153,6 @@
             <Effects>
                 <ListItem>
                     <Def>BeefedUp+</Def>
-                    <DurationInTicks>4000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
@@ -189,7 +181,6 @@
             <Effects>
                 <ListItem>
                     <Def>FoodPoisoning</Def>
-                    <DurationInTicks>3000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
@@ -207,7 +198,6 @@
             <Effects>
                 <ListItem>
                     <Def>FoodPoisoning</Def>
-                    <DurationInTicks>2000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
@@ -225,7 +215,6 @@
             <Effects>
                 <ListItem>
                     <Def>Energized</Def>
-                    <DurationInTicks>4000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
@@ -256,7 +245,6 @@
             <Effects>
                 <ListItem>
                     <Def>GoldenLips</Def>
-                    <DurationInTicks>100</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
@@ -274,7 +262,6 @@
             <Effects>
                 <ListItem>
                     <Def>BlackLips</Def>
-                    <DurationInTicks>10000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
@@ -292,7 +279,6 @@
             <Effects>
                 <ListItem>
                     <Def>Fruiting</Def>
-                    <DurationInTicks>2000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
@@ -333,7 +319,6 @@
             <Effects>
                 <ListItem>
                     <Def>PotentiaNucis</Def>
-                    <DurationInTicks>2000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>
@@ -352,7 +337,6 @@
             <Effects>
                 <ListItem>
                     <Def>Buzzin</Def>
-                    <DurationInTicks>1000</DurationInTicks>
                 </ListItem>
             </Effects>
         </FoodProperties>

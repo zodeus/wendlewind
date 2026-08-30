@@ -40,6 +40,11 @@ public class PawnBodyEffects : IEnumerable<BodyEffect>, IExposable
         _effects.RemoveAll(e => e.LastsWholeEncounter);
     }
 
+    public bool TryRemove(BodyEffectDef effect)
+    {
+        return _effects.RemoveAll(e => e.Def == effect) > 0;
+    }
+
     public void Tick()
     {
         for (int index = _effects.Count - 1; index >= 0; index--)

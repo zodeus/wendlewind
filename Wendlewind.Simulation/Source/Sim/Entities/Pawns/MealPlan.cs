@@ -2,7 +2,7 @@ namespace Wendlewind.Sim.Entities.Pawns;
 
 public class MealPlan : IExposable
 {
-    public const float NutritionBudget = 1f;
+    public const int MaxSlots = 4;
 
     private List<Item> _items = [];
 
@@ -16,38 +16,34 @@ public class MealPlan : IExposable
     {
     }
 
-    public float AssignedNutrition
+    public bool CanFit(Item item)
     {
-        get
+        if (item.ItemDef.FoodProperties == null || item.IsDestroyed || item.StackSize < 1)
         {
-            var total = 0f;
-            foreach (var item in _items)
-            {
-                if (item is { IsDestroyed: false })
-                {
-                    total += item.GetStatValue(Defs.Stats.NutritionalValue);
-                }
-            }
-
-            return total;
+            return false;
         }
+
+        if (_items.Count >= MaxSlots)
+        {
+            return false;
+        }
+
+        var slotted = 0;
+        for (var i = 0; i < _items.Count; i++)
+        {
+            if (_items[i] == item)
+            {
+                slotted++;
+            }
+        }
+
+        return slotted < item.StackSize;
     }
 
     public bool TryAdd(Item item)
     {
         Prune();
-        if (item.ItemDef.FoodProperties == null || item.IsDestroyed)
-        {
-            return false;
-        }
-
-        if (_items.Contains(item))
-        {
-            return false;
-        }
-
-        var nutrition = item.GetStatValue(Defs.Stats.NutritionalValue);
-        if (AssignedNutrition + nutrition > NutritionBudget + 0.001f)
+        if (!CanFit(item))
         {
             return false;
         }

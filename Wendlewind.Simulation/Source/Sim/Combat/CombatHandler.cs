@@ -612,6 +612,10 @@ public class CombatHandler : IDisposable, IHasContext
 
         Player.Body.Effects.ClearWholeEncounterEffects();
         Enemy.Body.Effects.ClearWholeEncounterEffects();
+        Player.CombatStomach.Clear();
+        Enemy.CombatStomach.Clear();
+        Player.MealPlan.Prune();
+        Enemy.MealPlan.Prune();
 
         var playerIsAlive = !Player.IsDead;
         if (playerIsAlive)

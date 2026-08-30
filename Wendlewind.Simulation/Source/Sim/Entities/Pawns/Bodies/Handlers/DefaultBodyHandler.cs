@@ -111,6 +111,11 @@ public class DefaultBodyHandler : IExposable, IHasContext, IHasRng
 
     protected virtual void HandleNutrition()
     {
+        if (Context.CurrentZone?.ActiveEncounter?.State == EncounterState.InProgress)
+        {
+            return;
+        }
+
         if (Context.Ticks % 20 != 0)
         {
             return;

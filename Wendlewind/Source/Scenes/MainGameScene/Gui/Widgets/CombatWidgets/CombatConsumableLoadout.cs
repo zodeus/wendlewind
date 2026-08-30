@@ -3,7 +3,6 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 internal sealed class CombatConsumableLoadout : Panel, IUpdatable
 {
     private const int MedicalSlots = 5;
-    private const int FoodSlots = 4;
     private const int IncenseSlots = 3;
     private const int ColumnWidth = 180;
     private const int CellSpacing = 5;
@@ -12,16 +11,21 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
     private const int IconSize = CellSize - CellPad * 2;
 
     public readonly Pawn Pawn;
+    private readonly ZoneGui _gui;
     private readonly MedicalBar _medicalBar;
+    private readonly Panel[] _foodSlots = new Panel[MealPlan.MaxSlots];
+    private string _foodSignature = "";
 
     public CombatConsumableLoadout(ZoneGui gui, Pawn pawn, bool mirror = false)
     {
         Pawn = pawn;
+        _gui = gui;
         Width = ColumnWidth;
         HorizontalAlignment = HorizontalAlignment.Stretch;
 
         _medicalBar = new MedicalBar(pawn, item => gui.ViewEntity(item), IconSize);
         Widgets.Add(BuildGrid(gui, pawn, mirror));
+        _foodSignature = FoodSignature();
     }
 
     public void NotifyMedicalUsed(string? itemMoniker)
@@ -32,6 +36,12 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
     public void Update()
     {
         _medicalBar.Update();
+        var signature = FoodSignature();
+        if (signature != _foodSignature)
+        {
+            _foodSignature = signature;
+            RefreshFoodSlots();
+        }
     }
 
     private Widget BuildGrid(ZoneGui gui, Pawn pawn, bool mirror)
@@ -68,21 +78,12 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
             Place(grid, i < medicalButtons.Count ? Cell(medicalButtons[i]) : EmptyCell(), i, medicalCol);
         }
 
-        var food = pawn.MealPlan.Items;
-        for (var i = 0; i < FoodSlots; i++)
+        var foods = DisplayedFoodDefs();
+        for (var i = 0; i < MealPlan.MaxSlots; i++)
         {
-            if (i < food.Count && food[i] is { IsDestroyed: false } meal)
-            {
-                var item = meal;
-                var icon = ItemIcon(item);
-                icon.TouchDown += (_, _) => gui.ViewEntity(item);
-                icon.WithTooltip(() => FoodTooltip(item));
-                Place(grid, Cell(icon), i, foodCol);
-            }
-            else
-            {
-                Place(grid, EmptyCell(), i, foodCol);
-            }
+            var cell = i < foods.Count ? Cell(FoodIcon(foods[i])) : EmptyCell();
+            _foodSlots[i] = cell;
+            Place(grid, cell, i, foodCol);
         }
 
         var incense = pawn.ActiveIncense;
@@ -131,16 +132,49 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
         return icon;
     }
 
-    private static Widget FoodTooltip(Item item)
+    private void RefreshFoodSlots()
+    {
+        var foods = DisplayedFoodDefs();
+        for (var i = 0; i < MealPlan.MaxSlots; i++)
+        {
+            var cell = _foodSlots[i];
+            cell.Widgets.Clear();
+            cell.Widgets.Add(i < foods.Count ? FoodIcon(foods[i]) : new Panel());
+        }
+    }
+
+    private List<ItemDef> DisplayedFoodDefs()
+    {
+        if (Pawn.CombatStomach.Items.Count > 0)
+        {
+            return Pawn.CombatStomach.Items
+                .Where(f => f.Def != null)
+                .Select(f => f.Def)
+                .ToList();
+        }
+
+        return Pawn.MealPlan.Items
+            .Where(i => i != null)
+            .Select(i => i.ItemDef)
+            .ToList();
+    }
+
+    private string FoodSignature()
+    {
+        var defs = DisplayedFoodDefs();
+        return string.Join(",", defs.Select(d => d.Moniker));
+    }
+
+    private Widget FoodTooltip(ItemDef def)
     {
         var container = new VerticalStackPanel { Spacing = 4, Padding = new Thickness(4) };
         container.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
         {
-            Text = item.Label,
+            Text = def.Label,
             TextColor = Color.Gold
         });
 
-        var description = item.Def.Description;
+        var description = def.Description;
         if (!string.IsNullOrWhiteSpace(description))
         {
             container.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
@@ -152,7 +186,7 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
             });
         }
 
-        var nutrition = item.GetStatValue(Defs.Stats.NutritionalValue);
+        var nutrition = def.BaseStats.FirstOrDefault(s => s.Def == Defs.Stats.NutritionalValue)?.Value ?? 0f;
         container.Widgets.Add(new HorizontalStackPanel
         {
             Spacing = 6,
@@ -167,7 +201,7 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
             }
         });
 
-        var effects = item.ItemDef.FoodProperties?.Effects;
+        var effects = def.FoodProperties?.Effects;
         if (effects is { Count: > 0 })
         {
             container.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
@@ -197,9 +231,9 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
         return container;
     }
 
-    private static CursorButton ItemIcon(Item item)
+    private CursorButton FoodIcon(ItemDef def)
     {
-        return new CursorButton
+        var icon = new CursorButton
         {
             Width = IconSize,
             Height = IconSize,
@@ -208,11 +242,20 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
             VerticalAlignment = VerticalAlignment.Center,
             Content = new Image
             {
-                Background = item.GetIconImage(),
+                Background = def.GetIconImage(),
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch
             }
         };
+
+        var live = Pawn.Inventory.FirstOrDefault(i => i.Def == def && !i.IsDestroyed);
+        if (live != null)
+        {
+            icon.TouchDown += (_, _) => _gui.ViewEntity(live);
+        }
+
+        icon.WithTooltip(() => FoodTooltip(def));
+        return icon;
     }
 
     private static Panel Cell(Widget content)
