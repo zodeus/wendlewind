@@ -111,8 +111,8 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
             : null;
         var icon = new Image
         {
-            Width = BaseContent.IconSizes.Medium,
-            Height = BaseContent.IconSizes.Medium,
+            Width = IconSize,
+            Height = IconSize,
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center
         };
@@ -135,13 +135,16 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
     {
         return new CursorButton
         {
+            Width = IconSize,
+            Height = IconSize,
+            Padding = new Thickness(0),
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
             Content = new Image
             {
                 Background = new TextureRegion(item.GetIcon()),
-                Width = BaseContent.IconSizes.Medium,
-                Height = BaseContent.IconSizes.Medium
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch
             }
         };
     }
@@ -153,7 +156,7 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
             Width = CellSize,
             Height = CellSize,
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
-            Padding = new Thickness(3),
+            Padding = new Thickness(CellPad),
             Widgets = { content }
         };
     }

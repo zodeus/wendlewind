@@ -135,10 +135,8 @@ public sealed class TestSimSelectorScreen : Panel
 
         button.Click += (_, _) =>
         {
-            if (_buildDropdown?.IsPlaced == true)
+            if (CloseBuildDropdown())
             {
-                _buildDropdown.Close();
-                _buildDropdown = null;
                 return;
             }
 
@@ -164,8 +162,7 @@ public sealed class TestSimSelectorScreen : Panel
                 {
                     valueLabel.Text = choiceId;
                     assign(choiceId);
-                    _buildDropdown?.Close();
-                    _buildDropdown = null;
+                    CloseBuildDropdown();
                 };
                 list.Widgets.Add(choice);
             }
@@ -202,12 +199,27 @@ public sealed class TestSimSelectorScreen : Panel
         };
     }
 
+    private bool CloseBuildDropdown()
+    {
+        if (_buildDropdown?.IsPlaced != true)
+        {
+            _buildDropdown = null;
+            return false;
+        }
+
+        _buildDropdown.Close();
+        _buildDropdown = null;
+        return true;
+    }
+
     private void OpenPreparation()
     {
         if (_prepPanel != null)
         {
             return;
         }
+
+        CloseBuildDropdown();
 
         // Populate the player pawn with the selected attacker build (or a previously saved hand-tuned override)
         // so the preparation screen shows the right potions/weapons/stance to tweak.
@@ -251,6 +263,7 @@ public sealed class TestSimSelectorScreen : Panel
 
     private void Start()
     {
+        CloseBuildDropdown();
         if (_prepPanel != null)
         {
             ClosePreparation();
