@@ -61,7 +61,7 @@ public class EntityPanel : EntityPanelBase
             Spacing = 10,
             Widgets =
             {
-                new Image { Background = new TextureRegion(entity.GetIcon()), Width = 128, Height = 128 },
+                new Image { Background = entity.GetIconImage(), Width = 128, Height = 128 },
                 new Label(BaseContent.Styles.Label.Normal)
                 {
                     Text = entity.Def.Description, Wrap = true, MaxWidth = 400,

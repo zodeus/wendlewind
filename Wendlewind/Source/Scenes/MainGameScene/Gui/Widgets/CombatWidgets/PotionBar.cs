@@ -8,7 +8,7 @@ public sealed class PotionBar : HorizontalStackPanel, IUpdatable
     {
         foreach (var potion in pawn.Equipment.Potions)
         {
-            var tint = new ColoredRegion(new TextureRegion(potion.GetIcon()), Color.White);
+            var tint = new ColoredIcon(potion.GetIconImage(), Color.White);
             var icon = new Image
             {
                 Background = tint,
@@ -75,11 +75,11 @@ public sealed class PotionBar : HorizontalStackPanel, IUpdatable
         }
     }
 
-    private sealed class PotionSlot(Item potion, Widget button, ColoredRegion tint)
+    private sealed class PotionSlot(Item potion, Widget button, ColoredIcon tint)
     {
         public readonly Item Potion = potion;
         public readonly Widget Button = button;
-        public readonly ColoredRegion Tint = tint;
+        public readonly ColoredIcon Tint = tint;
         public bool Consumed;
         public float FlashTime;
     }

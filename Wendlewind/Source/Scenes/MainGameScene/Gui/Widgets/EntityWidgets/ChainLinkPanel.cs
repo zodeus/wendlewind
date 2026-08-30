@@ -34,7 +34,7 @@ public sealed class ChainLinkPanel : EntityPanelBase
         };
         iconFrame.Widgets.Add(new Image
         {
-            Background = new TextureRegion(item.GetIcon()),
+            Background = item.GetIconImage(),
             Width = 76, Height = 76,
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center
@@ -115,7 +115,7 @@ public sealed class ChainLinkPanel : EntityPanelBase
             Padding = new Thickness(8),
             Content = new Image
             {
-                Background = new TextureRegion(recipe.ArmorDef.GetIcon()),
+                Background = recipe.ArmorDef.GetIconImage(),
                 Width = 64,
                 Height = 64
             }

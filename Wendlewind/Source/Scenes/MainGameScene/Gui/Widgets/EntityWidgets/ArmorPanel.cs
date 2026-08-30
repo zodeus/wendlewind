@@ -29,7 +29,7 @@ public sealed class ArmorPanel : EntityPanelBase
         };
         iconFrame.Widgets.Add(new Image
         {
-            Background = new TextureRegion(item.GetIcon()),
+            Background = item.GetIconImage(),
             Width = 72, Height = 72,
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center

@@ -29,7 +29,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
     private readonly bool _showSlotHints;
     private readonly bool _readOnly;
     private readonly bool _hoverToInspect;
-    private readonly Dictionary<ItemDef, ColoredRegion> _iconCache = new();
+    private readonly Dictionary<ItemDef, ColoredIcon> _iconCache = new();
     private readonly Dictionary<(BodyPart Part, EquipmentSlotType Slot), bool> _lastAvailable = new();
     private readonly List<(BodyPart Part, EquipmentSlotType Slot)> _staleSlotKeys = [];
     private readonly SolidBrush _availableSlotBrush = new(Color.DarkGoldenrod);
@@ -509,7 +509,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         {
             if (_iconCache.ContainsKey(item.ItemDef) == false)
             {
-                _iconCache[item.ItemDef] = new ColoredRegion(new TextureRegion(item.GetIcon()), Color.White);
+                _iconCache[item.ItemDef] = new ColoredIcon(item.GetIconImage(), Color.White);
             }
 
             _lastMonikers[key] = item.ItemDef.Moniker;

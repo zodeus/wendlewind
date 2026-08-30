@@ -118,7 +118,7 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
         };
         if (itemDef != null)
         {
-            icon.Background = new TextureRegion(itemDef.GetIcon());
+            icon.Background = itemDef.GetIconImage();
         }
         else if (incense.Def != null)
         {
@@ -189,14 +189,6 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
                     Text = effect.Def.Label,
                     TextColor = FoodProperties.GetEffectColor(effect.Def)
                 });
-                if (effect.DurationInTicks > 0)
-                {
-                    row.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-                    {
-                        Text = $"({effect.DurationInTicks:N0} ticks)",
-                        TextColor = new Color(150, 150, 150)
-                    });
-                }
 
                 container.Widgets.Add(row);
             }
@@ -216,7 +208,7 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
             VerticalAlignment = VerticalAlignment.Center,
             Content = new Image
             {
-                Background = new TextureRegion(item.GetIcon()),
+                Background = item.GetIconImage(),
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch
             }

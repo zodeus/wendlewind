@@ -20,7 +20,7 @@ public class ConsumablePanel : EntityPanelBase {
             Spacing = 10,
             Widgets =
             {
-                new Image { Background = new TextureRegion(item.GetIcon()), Width = 128, Height = 128 },
+                new Image { Background = item.GetIconImage(), Width = 128, Height = 128 },
                 new Label(BaseContent.Styles.Label.Normal)
                 {
                     Text = item.Def.Description, Wrap = true, MaxWidth = 400,

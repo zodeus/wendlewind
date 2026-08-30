@@ -85,7 +85,7 @@ internal sealed class IncenseItemButton : CursorButton
         // Item icon
         _iconImage = new Image
         {
-            Background = new ColoredRegion(new TextureRegion(item.GetIcon()), Color.White),
+            Background = new ColoredIcon(item.GetIconImage(), Color.White),
             Width = BaseContent.IconSizes.Large,
             Height = BaseContent.IconSizes.Large
         };
@@ -210,7 +210,7 @@ internal sealed class IncenseItemButton : CursorButton
         // Only enable if player has FlameStick
         Enabled = CanBurn();
         // Tint icon when disabled
-        ((ColoredRegion)_iconImage.Background).Color = Enabled ? Color.White : Color.Gray;
+        ((ColoredIcon)_iconImage.Background).Color = Enabled ? Color.White : Color.Gray;
         TooltipHelper.UpdatePosition();
     }
 }

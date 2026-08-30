@@ -15,7 +15,7 @@ public class EntityListPanelItem : HorizontalStackPanel
             Spacing = 10,
             Widgets =
             {
-                new Image { Background = new TextureRegion(entity.GetIcon()), Width = BaseContent.IconSizes.Default, Height = BaseContent.IconSizes.Default },
+                new Image { Background = entity.GetIconImage(), Width = BaseContent.IconSizes.Default, Height = BaseContent.IconSizes.Default },
                 _label
             }
         };

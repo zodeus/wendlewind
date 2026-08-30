@@ -38,6 +38,7 @@ public class Core : Game
 
     //todo move this somewhere better
     public static FrameCounter FrameCounter = new();
+    public static float TotalTime { get; private set; }
 
     private readonly TimerManager _timerManager = new();
     private readonly CoroutineManager _coroutineManager = new();
@@ -277,6 +278,7 @@ public class Core : Game
         // }
 
         float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        TotalTime = (float)gameTime.TotalGameTime.TotalSeconds;
         FrameCounter.Update(deltaTime);
         Scene.Update(deltaTime);
         _fixedUpdateTimer.Update();

@@ -7,6 +7,7 @@ namespace Wendlewind.Presentation;
 public static class EntityVisuals
 {
     private static readonly Dictionary<string, Texture2D> Cache = new(StringComparer.OrdinalIgnoreCase);
+    private static readonly Dictionary<string, IImage> IconImageCache = new(StringComparer.OrdinalIgnoreCase);
 
     public static Texture2D GetTexture(this EntityDef def) => Load(def.TexturePath);
 
@@ -29,6 +30,45 @@ public static class EntityVisuals
     }
 
     public static Texture2D GetIcon(this Entity entity) => entity.Def.GetIcon();
+
+    public static IImage GetIconImage(this EntityDef def)
+    {
+        if (def.TexturePath == null)
+        {
+            return new TextureRegion(BaseContent.Textures.BadTexture);
+        }
+
+        var key = "iconImage:" + def.TexturePath;
+        if (IconImageCache.TryGetValue(key, out var cached))
+        {
+            return cached;
+        }
+
+        var frames = DiscoverIconFrames(def);
+        IImage image = frames.Count <= 1
+            ? new TextureRegion(frames[0])
+            : new AnimatedTextureRegion(frames.ToArray(), def.IconFrameRate, def.IconPingPong);
+        IconImageCache[key] = image;
+        return image;
+    }
+
+    public static IImage GetIconImage(this Entity entity) => entity.Def.GetIconImage();
+
+    private static List<Texture2D> DiscoverIconFrames(EntityDef def)
+    {
+        var frames = new List<Texture2D> { def.GetIcon() };
+        for (var i = 1; ; i++)
+        {
+            if (!TryLoadPremultiplied(def.TexturePath + "_" + i, out var frame))
+            {
+                break;
+            }
+
+            frames.Add(frame);
+        }
+
+        return frames;
+    }
 
     public static Texture2D GetWhiteIcon(this BodyPartDef def)
     {
@@ -87,5 +127,31 @@ public static class EntityVisuals
         var texture = TextureUtils.PreMultiply(Load(path)) ?? BaseContent.Textures.BadTexture;
         Cache[key] = texture;
         return texture;
+    }
+
+    private static bool TryLoadPremultiplied(string? path, out Texture2D texture)
+    {
+        if (string.IsNullOrEmpty(path))
+        {
+            texture = null!;
+            return false;
+        }
+
+        var key = "pre:" + path;
+        if (Cache.TryGetValue(key, out var cached))
+        {
+            texture = cached;
+            return true;
+        }
+
+        if (!Core.Content.TryLoad<Texture2D>(path, out var loaded) || loaded == null)
+        {
+            texture = null!;
+            return false;
+        }
+
+        texture = TextureUtils.PreMultiply(loaded) ?? loaded;
+        Cache[key] = texture;
+        return true;
     }
 }

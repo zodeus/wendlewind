@@ -170,7 +170,7 @@ public sealed class LootBoxSelectionScreen : VerticalStackPanel
                 {
                     new Image
                     {
-                        Background = new TextureRegion(item.ItemDef.GetIcon()),
+                        Background = item.ItemDef.GetIconImage(),
                         Width = 128, Height = 128, HorizontalAlignment = HorizontalAlignment.Center
                     },
                     new HorizontalSeparator { Margin = new Thickness(0, 0, 0, 10) },

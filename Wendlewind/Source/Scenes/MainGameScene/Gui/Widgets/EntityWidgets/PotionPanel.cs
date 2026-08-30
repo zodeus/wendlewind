@@ -94,7 +94,7 @@ public sealed class PotionPanel : EntityPanelBase
 
         iconPanel.Widgets.Add(new Image
         {
-            Background = new TextureRegion(item.GetIcon()),
+            Background = item.GetIconImage(),
             Width = 80,
             Height = 80,
             HorizontalAlignment = HorizontalAlignment.Center,

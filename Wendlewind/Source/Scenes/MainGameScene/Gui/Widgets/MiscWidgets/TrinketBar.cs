@@ -64,7 +64,7 @@ public sealed class TrinketBarCell : VerticalStackPanel
             {
                 VerticalAlignment = VerticalAlignment.Stretch,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
-                Background = new TextureRegion(trinket.GetIcon()),
+                Background = trinket.GetIconImage(),
             }
         };
         _button.Click += (_, _) => {

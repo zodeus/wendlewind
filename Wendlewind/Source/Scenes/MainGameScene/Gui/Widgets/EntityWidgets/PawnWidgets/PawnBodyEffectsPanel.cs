@@ -211,13 +211,16 @@ public sealed class PawnBodyEffectTooltip : VerticalStackPanel
         _effect = effect;
         _durationLabel = new Label(BaseContent.Styles.Label.Small) { TextColor = Color.LightBlue };
 
-        Widgets.Add(new HorizontalStackPanel
+        if (!effect.LastsWholeEncounter)
         {
-            Widgets = {
-                new Label(BaseContent.Styles.Label.Small) { Text = "Duration:", Width = 120 },
-                _durationLabel
-            }
-        });
+            Widgets.Add(new HorizontalStackPanel
+            {
+                Widgets = {
+                    new Label(BaseContent.Styles.Label.Small) { Text = "Duration:", Width = 120 },
+                    _durationLabel
+                }
+            });
+        }
         if (effect.Def.Notes != null)
         {
             Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = effect.Def.Notes, Wrap = true });
@@ -244,6 +247,9 @@ public sealed class PawnBodyEffectTooltip : VerticalStackPanel
 
     public void Update()
     {
-        _durationLabel.Text = $"{_effect.TicksLeft:N0}";
+        if (!_effect.LastsWholeEncounter)
+        {
+            _durationLabel.Text = $"{_effect.TicksLeft:N0}";
+        }
     }
 }

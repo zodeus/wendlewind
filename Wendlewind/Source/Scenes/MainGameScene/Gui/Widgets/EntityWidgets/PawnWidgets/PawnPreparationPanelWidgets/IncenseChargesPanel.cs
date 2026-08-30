@@ -94,7 +94,7 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
         };
         if (itemDef != null)
         {
-            icon.Background = new TextureRegion(itemDef.GetIcon());
+            icon.Background = itemDef.GetIconImage();
         }
         else if (incense.Def != null)
         {

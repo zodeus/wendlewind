@@ -33,7 +33,7 @@ public sealed class IncensePanel : EntityPanelBase
         };
         iconFrame.Widgets.Add(new Image
         {
-            Background = new TextureRegion(item.GetIcon()),
+            Background = item.GetIconImage(),
             Width = 84,
             Height = 84,
             VerticalAlignment = VerticalAlignment.Center,

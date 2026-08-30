@@ -29,7 +29,7 @@ public sealed class CloakenatorPanel : EntityPanelBase
         };
         iconFrame.Widgets.Add(new Image
         {
-            Background = new TextureRegion(item.GetIcon()),
+            Background = item.GetIconImage(),
             Width = 72,
             Height = 72,
             VerticalAlignment = VerticalAlignment.Center,
@@ -98,7 +98,7 @@ public sealed class CloakenatorPanel : EntityPanelBase
         // Recipe icon
         row.Widgets.Add(new Image
         {
-            Background = new TextureRegion(recipe.GetIcon()),
+            Background = recipe.GetIconImage(),
             Width = 32,
             Height = 32,
             VerticalAlignment = VerticalAlignment.Center

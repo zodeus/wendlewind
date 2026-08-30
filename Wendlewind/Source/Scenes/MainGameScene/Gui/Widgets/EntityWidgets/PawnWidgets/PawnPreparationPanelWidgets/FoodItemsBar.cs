@@ -81,7 +81,7 @@ internal sealed class FoodItemButton : CursorButton
         // Item icon
         _iconImage = new Image
         {
-            Background = new ColoredRegion(new TextureRegion(item.GetIcon()), Color.White),
+            Background = new ColoredIcon(item.GetIconImage(), Color.White),
             Width = BaseContent.IconSizes.Large,
             Height = BaseContent.IconSizes.Large
         };
@@ -194,7 +194,7 @@ internal sealed class FoodItemButton : CursorButton
         // Only enable if pawn is hungry
         Enabled = _pawn.IsHungry;
         // Tint icon when disabled
-        ((ColoredRegion)_iconImage.Background).Color = Enabled ? _enabledColor : _disabledColor;
+        ((ColoredIcon)_iconImage.Background).Color = Enabled ? _enabledColor : _disabledColor;
         TooltipHelper.UpdatePosition();
     }
 }

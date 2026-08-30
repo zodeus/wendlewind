@@ -73,7 +73,7 @@ internal sealed class MedicalItemButton : CursorButton
         // Item icon
         container.Widgets.Add(new Image
         {
-            Background = new TextureRegion(item.GetIcon()),
+            Background = item.GetIconImage(),
             Width = BaseContent.IconSizes.Large,
             Height = BaseContent.IconSizes.Large
         });

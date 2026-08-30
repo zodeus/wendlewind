@@ -147,7 +147,7 @@ internal sealed class BoakLootBoxCard : Panel
                         {
                             Width = ItemIconSize,
                             Height = ItemIconSize,
-                            Background = new TextureRegion(item.ItemDef.GetIcon())
+                            Background = item.ItemDef.GetIconImage()
                         }
                     }
                 };

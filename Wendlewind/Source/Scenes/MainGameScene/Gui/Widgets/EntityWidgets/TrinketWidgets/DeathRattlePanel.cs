@@ -27,7 +27,7 @@ public sealed class DeathRattlePanel : EntityPanelBase
             {
                 new Image
                 {
-                    Background = new TextureRegion(item.GetIcon()),
+                    Background = item.GetIconImage(),
                     Width = 64, Height = 64
                 },
                 new VerticalStackPanel

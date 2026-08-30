@@ -9,10 +9,8 @@ public sealed class CombatFighterStatsColumn : Panel, IUpdatable
     private const int CellHeight = 40;
 
     private readonly Pawn _pawn;
-    private readonly Label _bloodValue;
-    private readonly HorizontalProgressBar _bloodBar;
-    private readonly Label _hpValue;
-    private readonly HorizontalProgressBar _hpBar;
+    private readonly CombatVitalMeter _bloodMeter;
+    private readonly CombatVitalMeter _bodyMeter;
     private readonly Label _atk;
     private readonly Label _enr;
     private readonly Label _stm;
@@ -45,8 +43,10 @@ public sealed class CombatFighterStatsColumn : Panel, IUpdatable
             grid.RowsProportions.Add(Proportion.Auto);
         }
 
-        Place(grid, CreateMeterCell("Blood", out _bloodValue, out _bloodBar), 0, 0);
-        Place(grid, CreateMeterCell("Body", out _hpValue, out _hpBar), 0, 1);
+        _bloodMeter = new CombatVitalMeter(CombatVitalMeter.VitalKind.Blood, "Blood", CellHeight + 16);
+        _bodyMeter = new CombatVitalMeter(CombatVitalMeter.VitalKind.Body, "Body", CellHeight + 16);
+        Place(grid, _bloodMeter, 0, 0);
+        Place(grid, _bodyMeter, 0, 1);
 
         Place(grid, CreateCell("Attack", out _atk), 1, 0);
         Place(grid, CreateCell("Energy", out _enr), 1, 1);
@@ -83,8 +83,10 @@ public sealed class CombatFighterStatsColumn : Panel, IUpdatable
     public void Update()
     {
         var bloodPercent = _pawn.Body.BloodPercent;
-        UiLabel.Set(_bloodValue, $"{Mathf.RoundToInt(bloodPercent * 100)}%", BodyPartColor.GetBloodColor(bloodPercent));
-        _bloodBar.Value = bloodPercent * 100;
+        UiLabel.Set(_bloodMeter.ValueLabel, $"{Mathf.RoundToInt(bloodPercent * 100)}%", BodyPartColor.GetBloodColor(bloodPercent));
+        _bloodMeter.Bar.Value = bloodPercent * 100;
+        _bloodMeter.Fill = bloodPercent;
+        _bloodMeter.Update();
 
         var attack = _pawn.AttackSpeed;
         UiLabel.Set(_atk, attack < 1 ? $"{attack:.00}" : $"{attack:0.0}",
@@ -102,8 +104,10 @@ public sealed class CombatFighterStatsColumn : Panel, IUpdatable
 
         var maxHp = _pawn.Body.MaxHitPoints;
         var hpPercent = maxHp <= 0 ? 0 : _pawn.Body.HitPoints / maxHp;
-        UiLabel.Set(_hpValue, $"{Mathf.RoundToInt((float)hpPercent * 100)}%", BodyPartColor.GetBloodColor((float)hpPercent));
-        _hpBar.Value = (float)hpPercent * 100;
+        UiLabel.Set(_bodyMeter.ValueLabel, $"{Mathf.RoundToInt((float)hpPercent * 100)}%", BodyPartColor.GetBloodColor((float)hpPercent));
+        _bodyMeter.Bar.Value = (float)hpPercent * 100;
+        _bodyMeter.Fill = (float)hpPercent;
+        _bodyMeter.Update();
 
         UiLabel.Set(_acc, $"{_pawn.GetStatValue(Defs.Stats.Accuracy) * 100:0}%", ValueColor);
         UiLabel.Set(_eva, $"{_pawn.GetStatValue(Defs.Stats.Evasion) * 100:0}%", ValueColor);
@@ -158,32 +162,6 @@ public sealed class CombatFighterStatsColumn : Panel, IUpdatable
             VerticalAlignment = VerticalAlignment.Center,
             Widgets = { NameLabel(name), value }
         }, CellHeight);
-    }
-
-    private static Widget CreateMeterCell(string name, out Label value, out HorizontalProgressBar bar)
-    {
-        value = ValueLabel();
-        bar = new HorizontalProgressBar(BaseContent.Styles.Bar.Health)
-        {
-            Height = 12,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Value = 100
-        };
-
-        var header = new HorizontalStackPanel
-        {
-            Spacing = 6,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            Widgets = { NameLabel(name), value }
-        };
-
-        return Frame(new VerticalStackPanel
-        {
-            Spacing = 3,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalAlignment = VerticalAlignment.Center,
-            Widgets = { header, bar }
-        }, CellHeight + 16);
     }
 
     private static Panel Frame(Widget content, int height)

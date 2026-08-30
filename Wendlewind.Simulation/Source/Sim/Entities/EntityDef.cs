@@ -6,4 +6,6 @@ public class EntityDef : Def {
     public Type? UiClass;
     public List<BaseStat> BaseStats = new();
     public string? TexturePath;
+    public float IconFrameRate = 6;
+    public bool IconPingPong = true;
 }

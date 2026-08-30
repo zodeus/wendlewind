@@ -21,7 +21,7 @@ public sealed class FoodPanel : EntityPanelBase
             Spacing = 15,
             Widgets =
             {
-                new Image { Background = new TextureRegion(item.GetIcon()), Width = 96, Height = 96 },
+                new Image { Background = item.GetIconImage(), Width = 96, Height = 96 },
                 new VerticalStackPanel
                 {
                     Spacing = 5,

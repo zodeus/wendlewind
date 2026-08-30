@@ -11,7 +11,7 @@ public sealed class MedicalBar : HorizontalStackPanel, IUpdatable
         foreach (var chestSlot in pawn.MedicalChest.Slots)
         {
             var item = chestSlot.Item;
-            var tint = new ColoredRegion(new TextureRegion(item.GetIcon()), Color.White);
+            var tint = new ColoredIcon(item.GetIconImage(), Color.White);
             var icon = new Image
             {
                 Background = tint,
@@ -82,11 +82,11 @@ public sealed class MedicalBar : HorizontalStackPanel, IUpdatable
         }
     }
 
-    private sealed class MedicalSlot(Item item, Widget button, ColoredRegion tint)
+    private sealed class MedicalSlot(Item item, Widget button, ColoredIcon tint)
     {
         public readonly Item Item = item;
         public readonly Widget Button = button;
-        public readonly ColoredRegion Tint = tint;
+        public readonly ColoredIcon Tint = tint;
         public bool Consumed;
         public float FlashTime;
     }

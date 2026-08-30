@@ -192,7 +192,7 @@ internal sealed class MedicalTriggerEditor : VerticalStackPanel, IUpdatable
 
         var icon = new Image
         {
-            Background = new TextureRegion(slot.Item.GetIcon()),
+            Background = slot.Item.GetIconImage(),
             Width = BaseContent.IconSizes.Small,
             Height = BaseContent.IconSizes.Small,
             VerticalAlignment = VerticalAlignment.Center

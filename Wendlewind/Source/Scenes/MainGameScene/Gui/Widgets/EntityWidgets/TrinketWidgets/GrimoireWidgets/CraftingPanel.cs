@@ -83,7 +83,7 @@ public sealed class CraftingPanel : VerticalStackPanel, IUpdatable
 
         var itemImage = new Image
         {
-            Background = new TextureRegion(item.GetIcon()),
+            Background = item.GetIconImage(),
             Width = 48,
             Height = 48,
             HorizontalAlignment = HorizontalAlignment.Center,

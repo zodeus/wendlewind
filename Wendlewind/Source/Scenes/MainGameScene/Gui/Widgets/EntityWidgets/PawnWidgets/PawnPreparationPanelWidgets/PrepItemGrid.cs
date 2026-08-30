@@ -122,7 +122,7 @@ internal sealed class PrepItemButton : CursorButton
     private readonly Func<Item, string> _tooltip;
     private readonly Func<Item, bool>? _isHighlighted;
     private readonly Func<Item, bool>? _isDisabled;
-    private readonly ColoredRegion _tint;
+    private readonly ColoredIcon _tint;
 
     public PrepItemButton(
         BaseGui gui,
@@ -138,7 +138,7 @@ internal sealed class PrepItemButton : CursorButton
         _isDisabled = isDisabled;
 
         var container = new Panel();
-        _tint = new ColoredRegion(new TextureRegion(item.GetIcon()), Color.White);
+        _tint = new ColoredIcon(item.GetIconImage(), Color.White);
         _icon = new Image
         {
             Background = _tint,

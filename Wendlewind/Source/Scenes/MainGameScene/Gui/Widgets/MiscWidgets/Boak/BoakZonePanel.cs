@@ -150,7 +150,7 @@ internal sealed class BoakZoneCard : Panel
                         {
                             Width = IconSize,
                             Height = IconSize,
-                            Background = new TextureRegion(resource.Item.GetIcon())
+                            Background = resource.Item.GetIconImage()
                         }
                     }
                 };
@@ -205,7 +205,7 @@ internal sealed class BoakZoneCard : Panel
                         {
                             Width = 32,
                             Height = 32,
-                            Background = new TextureRegion(drop.GetIcon())
+                            Background = drop.GetIconImage()
                         }
                     }
                 };

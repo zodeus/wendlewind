@@ -51,7 +51,7 @@ public sealed class SteroidInjectorPanel : EntityPanelBase
             {
                 new Image
                 {
-                    Background = new TextureRegion(item.GetIcon()),
+                    Background = item.GetIconImage(),
                     Width = 52,
                     Height = 52,
                     HorizontalAlignment = HorizontalAlignment.Center,

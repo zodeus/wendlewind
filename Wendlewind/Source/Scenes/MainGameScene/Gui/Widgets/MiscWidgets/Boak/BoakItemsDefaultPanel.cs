@@ -26,7 +26,7 @@ internal sealed class BoakItemDefaultCard : Panel
                 {
                     Width = IconSize,
                     Height = IconSize,
-                    Background = new TextureRegion(def.GetIcon())
+                    Background = def.GetIconImage()
                 }
             }
         };

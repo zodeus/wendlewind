@@ -28,7 +28,7 @@ internal sealed class BoakItemEnchantmentCard : Panel
                 {
                     Width = IconSize,
                     Height = IconSize,
-                    Background = new TextureRegion(def.GetIcon())
+                    Background = def.GetIconImage()
                 }
             }
         };

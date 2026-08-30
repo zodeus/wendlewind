@@ -195,7 +195,7 @@ internal sealed class PotionTriggerEditor : VerticalStackPanel, IUpdatable
         var row = new HorizontalStackPanel { Spacing = 8 };
         row.Widgets.Add(new Image
         {
-            Background = new TextureRegion(potion.GetIcon()),
+            Background = potion.GetIconImage(),
             Width = BaseContent.IconSizes.Small,
             Height = BaseContent.IconSizes.Small,
             VerticalAlignment = VerticalAlignment.Center

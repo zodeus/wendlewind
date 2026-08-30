@@ -40,7 +40,7 @@ public sealed class GoldenGoosePanel : EntityPanelBase
                     {
                         new Image
                         {
-                            Background = new TextureRegion(item.GetIcon()),
+                            Background = item.GetIconImage(),
                             Width = 56,
                             Height = 56,
                             HorizontalAlignment = HorizontalAlignment.Center,
@@ -96,7 +96,7 @@ public sealed class GoldenGoosePanel : EntityPanelBase
         // Golden bean icon placeholder
         beansContent.Widgets.Add(new Image
         {
-            Background = new TextureRegion(Defs.Items.GoldenBean.GetIcon()),
+            Background = Defs.Items.GoldenBean.GetIconImage(),
             Width = 32,
             Height = 32,
             VerticalAlignment = VerticalAlignment.Center
@@ -251,7 +251,7 @@ public sealed class GoldenGoosePanel : EntityPanelBase
         // Food icon
         row.Widgets.Add(new Image
         {
-            Background = new TextureRegion(food.GetIcon()),
+            Background = food.GetIconImage(),
             Width = 32,
             Height = 32,
             VerticalAlignment = VerticalAlignment.Center

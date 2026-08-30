@@ -46,7 +46,7 @@ public sealed class PerforationTrapPanel : EntityPanelBase
             {
                 new Image
                 {
-                    Background = new TextureRegion(item.GetIcon()),
+                    Background = item.GetIconImage(),
                     Width = 100,
                     Height = 100,
                     HorizontalAlignment = HorizontalAlignment.Center,

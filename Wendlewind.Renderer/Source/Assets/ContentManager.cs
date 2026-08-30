@@ -28,6 +28,37 @@ public class ContentManager {
         return asset;
     }
 
+    public bool TryLoad<T>(string assetName, out T? asset) where T : class {
+        if (_loadedAssets.TryGetValue(assetName, out object? cached) && cached is T preLoadedAsset) {
+            asset = preLoadedAsset;
+            return true;
+        }
+
+        if (typeof(T) == typeof(Texture2D) && !TextureExists(assetName)) {
+            asset = null;
+            return false;
+        }
+
+        try {
+            asset = ReadAsset<T>(assetName);
+            if (asset == null) {
+                return false;
+            }
+
+            _loadedAssets[assetName] = asset;
+            return true;
+        }
+        catch (Exception e) when (e is ContentLoadException or FileNotFoundException or DirectoryNotFoundException) {
+            asset = null;
+            return false;
+        }
+    }
+
+    private bool TextureExists(string assetName) {
+        return File.Exists($"{RootDirectory}/Textures/{assetName}.png")
+               || File.Exists($"{RootDirectory}/Textures/{assetName}");
+    }
+
     private T? ReadAsset<T>(string assetName) where T : class {
         T? asset = default;
 

@@ -6,7 +6,7 @@ public sealed class WeaponBar : HorizontalStackPanel, IUpdatable
     private static Color EnabledWeaponColor = Color.White;
     private static Color NonFunctionalWeaponColor = Color.Red;
     private readonly Pawn _pawn;
-    private List<KeyValuePair<Item, (ColoredRegion, BodyPart)>> _weapons = new();
+    private List<KeyValuePair<Item, (ColoredIcon, BodyPart)>> _weapons = new();
 
     private readonly bool _readOnly;
     private readonly Action<Item>? _inspectHandler;
@@ -53,7 +53,7 @@ public sealed class WeaponBar : HorizontalStackPanel, IUpdatable
         foreach (var (weapon, bodyPart) in _pawn.Equipment.Weapons)
         {
             var initialColor = weapon.UseInCombat ? EnabledWeaponColor : DisabledWeaponColor;
-            var backgroundImage = new ColoredRegion(new TextureRegion(weapon.GetIcon()), initialColor);
+            var backgroundImage = new ColoredIcon(weapon.GetIconImage(), initialColor);
             var button = new CursorButton(BaseContent.Styles.Button.Icon)
             {
                 Content = new Image
@@ -77,7 +77,7 @@ public sealed class WeaponBar : HorizontalStackPanel, IUpdatable
                 button.TouchDown += (_, _) => _inspectHandler(weapon);
             }
             Widgets.Add(button);
-            _weapons.Add(new KeyValuePair<Item, (ColoredRegion, BodyPart)>(weapon, (backgroundImage, bodyPart)));
+            _weapons.Add(new KeyValuePair<Item, (ColoredIcon, BodyPart)>(weapon, (backgroundImage, bodyPart)));
         }
     }
 }
