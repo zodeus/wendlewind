@@ -10,6 +10,10 @@ public class CombatHandler : IDisposable, IHasContext
     private readonly Random _rng;
     private readonly List<CombatLogEvent> _log = [];
     private readonly Dictionary<(int PawnId, string PartKey), TickHealthAccumulator> _tickHealth = new();
+    private readonly List<DamageRequest> _damageOptions = [];
+    private readonly List<CombatSubEffect> _subEffects = [];
+    private readonly List<Item> _potionScratch = [];
+    private readonly List<BodyPart> _medicalCandidates = [];
     private int _lastTickHealthFlush;
     private bool _combatStarted;
 
@@ -205,11 +209,11 @@ public class CombatHandler : IDisposable, IHasContext
 
     private void RecordDamage(Pawn victim, Pawn attacker, DamageRecord damage, bool isTrinket)
     {
-        var subEffects = new List<CombatSubEffect>();
+        _subEffects.Clear();
 
         foreach (var itemRecord in damage.DestroyedEquipment)
         {
-            subEffects.Add(new CombatSubEffect
+            _subEffects.Add(new CombatSubEffect
             {
                 Kind = CombatEventKind.EquipmentDestroyed,
                 ItemMoniker = itemRecord.Def.Moniker,
@@ -222,7 +226,7 @@ public class CombatHandler : IDisposable, IHasContext
         {
             foreach (var modifier in partRecord.AppliedModifiers)
             {
-                subEffects.Add(new CombatSubEffect
+                _subEffects.Add(new CombatSubEffect
                 {
                     Kind = modifier.Type == BodyPartModifierType.Buff
                         ? CombatEventKind.BuffApplied
@@ -237,7 +241,7 @@ public class CombatHandler : IDisposable, IHasContext
 
             if (partRecord.WasDestroyed)
             {
-                subEffects.Add(new CombatSubEffect
+                _subEffects.Add(new CombatSubEffect
                 {
                     Kind = CombatEventKind.PartDestroyed,
                     SubjectPawnId = victim.Id,
@@ -250,7 +254,7 @@ public class CombatHandler : IDisposable, IHasContext
 
             if (partRecord.BodyPart.IsExternal && partRecord.WasSevered)
             {
-                subEffects.Add(new CombatSubEffect
+                _subEffects.Add(new CombatSubEffect
                 {
                     Kind = CombatEventKind.PartSevered,
                     SubjectPawnId = victim.Id,
@@ -270,7 +274,7 @@ public class CombatHandler : IDisposable, IHasContext
 
         foreach (var statusEffect in damage.ReflectedEffects)
         {
-            subEffects.Add(new CombatSubEffect
+            _subEffects.Add(new CombatSubEffect
             {
                 Kind = CombatEventKind.StatusReflected,
                 SubjectPawnId = statusEffect.Pawn.Id,
@@ -300,7 +304,7 @@ public class CombatHandler : IDisposable, IHasContext
             DamageType = damage.DamageType.ToString(),
             IsCritical = damage.IsCritical,
             IsTrinket = isTrinket,
-            SubEffects = subEffects.ToArray()
+            SubEffects = _subEffects.ToArray()
         });
     }
 
@@ -340,7 +344,13 @@ public class CombatHandler : IDisposable, IHasContext
 
     private void EvaluatePotionTriggers(Pawn self, Pawn enemy)
     {
-        foreach (var potion in self.Equipment.Potions.ToList())
+        _potionScratch.Clear();
+        foreach (var potion in self.Equipment.Potions)
+        {
+            _potionScratch.Add(potion);
+        }
+
+        foreach (var potion in _potionScratch)
         {
             if (potion.PotionTrigger?.ShouldFire(self, enemy, _encounter.Ticks) != true)
             {
@@ -431,7 +441,7 @@ public class CombatHandler : IDisposable, IHasContext
         self.MedicalChest.Prune();
     }
 
-    private static bool TryApplyMedical(Pawn self, MedicalChestSlot slot, out string? partLabel, out string? partKey)
+    private bool TryApplyMedical(Pawn self, MedicalChestSlot slot, out string? partLabel, out string? partKey)
     {
         partLabel = null;
         partKey = null;
@@ -470,21 +480,35 @@ public class CombatHandler : IDisposable, IHasContext
             return true;
         }
 
-        var candidates = self.Body.AllExternalParts.OrderBy(p => p.HealthPercent).ToList();
         if (trigger.TargetSelector == MedicalTargetSelector.MostDamagedPart)
         {
-            var part = candidates.FirstOrDefault();
-            if (part == null || !item.MedicinalHandler.ApplyToPart(item, part))
+            BodyPart? mostDamaged = null;
+            foreach (var candidate in self.Body.AllExternalParts)
+            {
+                if (mostDamaged == null || candidate.HealthPercent < mostDamaged.HealthPercent)
+                {
+                    mostDamaged = candidate;
+                }
+            }
+
+            if (mostDamaged == null || !item.MedicinalHandler.ApplyToPart(item, mostDamaged))
             {
                 return false;
             }
 
-            partLabel = part.Label;
-            partKey = part.InternalLabel;
+            partLabel = mostDamaged.Label;
+            partKey = mostDamaged.InternalLabel;
             return true;
         }
 
-        foreach (var part in candidates)
+        _medicalCandidates.Clear();
+        foreach (var part in self.Body.AllExternalParts)
+        {
+            _medicalCandidates.Add(part);
+        }
+
+        _medicalCandidates.Sort(static (a, b) => a.HealthPercent.CompareTo(b.HealthPercent));
+        foreach (var part in _medicalCandidates)
         {
             if (!item.MedicinalHandler.ApplyToPart(item, part))
             {
@@ -499,6 +523,51 @@ public class CombatHandler : IDisposable, IHasContext
         return false;
     }
 
+    private BodyPart PickTargetedPart(Pawn victim)
+    {
+        var parts = victim.Body.AllExternalParts;
+        if (parts.Count == 0)
+        {
+            throw new InvalidOperationException($"{victim.LabelShort} has no external body parts to target.");
+        }
+
+        var totalWeight = 0f;
+        for (var i = 0; i < parts.Count; i++)
+        {
+            var part = parts[i];
+            if (part.IsDestroyed && part.AllInternalParts.Count == 0)
+            {
+                continue;
+            }
+
+            totalWeight += part.HitWeight;
+        }
+
+        if (totalWeight <= 0f)
+        {
+            return parts[0];
+        }
+
+        var roll = (float)Context.Rng.NextDouble() * totalWeight;
+        var cumulative = 0f;
+        for (var i = 0; i < parts.Count; i++)
+        {
+            var part = parts[i];
+            if (part.IsDestroyed && part.AllInternalParts.Count == 0)
+            {
+                continue;
+            }
+
+            cumulative += part.HitWeight;
+            if (roll < cumulative)
+            {
+                return part;
+            }
+        }
+
+        return parts[^1];
+    }
+
     private void Attack(Pawn attacker, Pawn victim)
     {
         if (attacker.TicksToAttack > 0)
@@ -507,12 +576,18 @@ public class CombatHandler : IDisposable, IHasContext
         }
 
         attacker.ResetAttackCoolDown();
-        var damageOptions = attacker.Equipment.UsableWeapons
-            .Where(w => w.UseInCombat)
-            .Select(t => DamageRequest.Create(attacker, t))
-            .ToList();
+        _damageOptions.Clear();
+        foreach (var weapon in attacker.Equipment.UsableWeapons)
+        {
+            if (!weapon.UseInCombat)
+            {
+                continue;
+            }
 
-        if (damageOptions.Count == 0)
+            _damageOptions.Add(DamageRequest.Create(attacker, weapon));
+        }
+
+        if (_damageOptions.Count == 0)
         {
             Record(new CombatLogEvent
             {
@@ -524,8 +599,8 @@ public class CombatHandler : IDisposable, IHasContext
             return;
         }
 
-        var damageRequest = damageOptions.RandomElement(Context.Rng);
-        damageRequest.TargetedPart = victim.Body.AllExternalParts.Where(p => p.IsDestroyed == false || p.AllInternalParts.Count != 0).RandomElementByWeight(part => part.HitWeight, Context.Rng)!;
+        var damageRequest = _damageOptions[Context.Rng.Next(_damageOptions.Count)];
+        damageRequest.TargetedPart = PickTargetedPart(victim);
         victim.TakeDamage(damageRequest);
 
         attacker.Body.ConsumeEnergyFromAttack();

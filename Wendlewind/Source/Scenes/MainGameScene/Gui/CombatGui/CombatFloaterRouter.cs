@@ -197,13 +197,14 @@ internal sealed class CombatFloaterRouter
         var party = pawn.PawnType == PawnType.Player ? _playerParty : _enemyParty;
         var bodyPanel = pawn.PawnType == PawnType.Player ? _playerBody : _enemyBody;
 
-        party.GetPanelForPawn(pawn)?.BodyWidget?.AddDamageText(part, text, font, color, 1.6f);
-
         if (part != null && IsPartTargeted(kind))
         {
             bodyPanel.AddDamageText(part, text, font, color, 1.15f);
             bodyPanel.FlashPart(part, color);
+            return;
         }
+
+        party.GetPanelForPawn(pawn)?.BodyWidget?.AddDamageText(part, text, font, color, 1.6f);
     }
 
     private static bool IsPartTargeted(CombatEventKind kind) => kind is

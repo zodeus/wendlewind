@@ -51,24 +51,14 @@ internal sealed class CombatFloaterStyle
 
 internal static class CombatFloaterDraw
 {
-    public static void Draw(RenderContext context, DynamicSpriteFont font, string text, Vector2 center, Color color, float opacity, float scale)
+    public static void Draw(RenderContext context, DynamicSpriteFont font, string text, Vector2 center, Color color, float opacity, float scale, Vector2? measuredSize = null)
     {
         scale = Math.Max(scale, 0.05f);
         var tint = color * opacity;
-        var outline = Color.Black * opacity * 0.9f;
-        var size = font.MeasureString(text);
+        var size = measuredSize ?? font.MeasureString(text);
         var pos = center - size * scale * 0.5f;
 
-        for (var dx = -2; dx <= 2; dx++)
-        {
-            for (var dy = -2; dy <= 2; dy++)
-            {
-                if (dx == 0 && dy == 0) continue;
-                if (Math.Abs(dx) == 2 && Math.Abs(dy) == 2) continue;
-                DrawAt(context, font, text, pos + new Vector2(dx, dy) * scale, outline, scale);
-            }
-        }
-
+        DrawAt(context, font, text, pos + new Vector2(1f, 1f) * scale, Color.Black * opacity * 0.8f, scale);
         DrawAt(context, font, text, pos, tint, scale);
     }
 

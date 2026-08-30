@@ -13,11 +13,7 @@ public class FingerCollectorHandler : AchievementHandler
     {
         if (IsUnlocked) return;
 
-        var severedFingerCount = response.Damages
-            .SelectMany(d => d.BodyParts)
-            .Concat(response.TrinketDamages.SelectMany(d => d.BodyParts))
-            .Where(p => p.BodyPart.Type == BodyPartType.Finger && p.WasSevered)
-            .Count();
+        var severedFingerCount = CountDamagedParts(response, static p => p.BodyPart.Type == BodyPartType.Finger && p.WasSevered);
 
         Progress.CurrentValue += severedFingerCount;
         if (Progress.CurrentValue >= Def.TargetValue)

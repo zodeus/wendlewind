@@ -14,6 +14,7 @@ public class BodyPartDamageText
     public float Opacity { get; set; } = 1f;
     public float Duration { get; set; }
     public float ElapsedTime { get; set; }
+    public Vector2 MeasuredSize { get; set; }
     internal CombatFloaterStyle Style { get; set; } = CombatFloaterStyle.CreateRandom();
 
     public void Update(float deltaTime)
@@ -86,6 +87,7 @@ public class BodyPartDamageTextRenderer(IBodyPartLayout? layout, int nativeSize)
             Position = position,
             TimeLeft = duration,
             Duration = duration,
+            MeasuredSize = font.MeasureString(text),
             Style = CombatFloaterStyle.CreateRandom()
         });
     }
@@ -160,7 +162,7 @@ public class BodyPartDamageTextRenderer(IBodyPartLayout? layout, int nativeSize)
                 widgetBounds.Y + text.Position.Y * layoutScale
             ) + motion.Offset;
 
-            var textSize = text.Font.MeasureString(text.Text) * motion.Scale;
+            var textSize = text.MeasuredSize * motion.Scale;
             var yOffset = -10;
             var textBounds = new Rectangle(
                 (int)(screenPos.X - textSize.X / 2f),
@@ -177,7 +179,8 @@ public class BodyPartDamageTextRenderer(IBodyPartLayout? layout, int nativeSize)
                 screenPos + new Vector2(0, yOffset),
                 text.Color,
                 text.Opacity * motion.Opacity,
-                motion.Scale);
+                motion.Scale,
+                text.MeasuredSize);
         }
     }
     

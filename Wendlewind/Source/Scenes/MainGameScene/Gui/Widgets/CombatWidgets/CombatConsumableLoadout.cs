@@ -76,7 +76,7 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
                 var item = meal;
                 var icon = ItemIcon(item);
                 icon.TouchDown += (_, _) => gui.ViewEntity(item);
-                icon.WithTooltip(item.Label);
+                icon.WithTooltip(() => FoodTooltip(item));
                 Place(grid, Cell(icon), i, foodCol);
             }
             else
@@ -129,6 +129,80 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
         var left = incense.EncountersRemaining;
         icon.WithTooltip(name, left == 1 ? "1 battle left" : $"{left} battles left");
         return icon;
+    }
+
+    private static Widget FoodTooltip(Item item)
+    {
+        var container = new VerticalStackPanel { Spacing = 4, Padding = new Thickness(4) };
+        container.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+        {
+            Text = item.Label,
+            TextColor = Color.Gold
+        });
+
+        var description = item.Def.Description;
+        if (!string.IsNullOrWhiteSpace(description))
+        {
+            container.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = description,
+                Wrap = true,
+                MaxWidth = 280,
+                TextColor = new Color(200, 200, 200)
+            });
+        }
+
+        var nutrition = item.GetStatValue(Defs.Stats.NutritionalValue);
+        container.Widgets.Add(new HorizontalStackPanel
+        {
+            Spacing = 6,
+            Widgets =
+            {
+                new Label(BaseContent.Styles.Label.Small) { Text = "Nutrition:", TextColor = new Color(180, 180, 180) },
+                new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = $"{nutrition:0.##}",
+                    TextColor = FoodProperties.GetNutritionColor(nutrition)
+                }
+            }
+        });
+
+        var effects = item.ItemDef.FoodProperties?.Effects;
+        if (effects is { Count: > 0 })
+        {
+            container.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = "Effects:",
+                TextColor = new Color(220, 180, 100),
+                Margin = new Thickness(0, 4, 0, 2)
+            });
+
+            foreach (var effect in effects)
+            {
+                var row = new HorizontalStackPanel
+                {
+                    Spacing = 6,
+                    Margin = new Thickness(8, 0, 0, 0)
+                };
+                row.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = effect.Def.Label,
+                    TextColor = FoodProperties.GetEffectColor(effect.Def)
+                });
+                if (effect.DurationInTicks > 0)
+                {
+                    row.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+                    {
+                        Text = $"({effect.DurationInTicks:N0} ticks)",
+                        TextColor = new Color(150, 150, 150)
+                    });
+                }
+
+                container.Widgets.Add(row);
+            }
+        }
+
+        return container;
     }
 
     private static CursorButton ItemIcon(Item item)

@@ -15,6 +15,9 @@ public class BodyPart : Entity
     private string? _internalLabel;
     private bool _isSevered; // todo, this should be set by an applied health condition
     private SubstanceType? _substanceOverride;
+    private List<BodyPart>? _externalPartsCache;
+    private List<BodyPart>? _internalPartsCache;
+    private List<BodyPart>? _allInternalPartsCache;
 
     public double MaxHitPoints;
     public bool IsCracked = false;
@@ -181,16 +184,21 @@ public class BodyPart : Entity
     {
         get
         {
-            List<BodyPart> parts = new();
+            if (_externalPartsCache != null)
+            {
+                return _externalPartsCache;
+            }
+
+            _externalPartsCache = new List<BodyPart>();
             foreach (BodyPartSocket socket in Sockets)
             {
                 if (socket.AttachedPart?.IsExternal == true)
                 {
-                    parts.Add(socket.AttachedPart);
+                    _externalPartsCache.Add(socket.AttachedPart);
                 }
             }
 
-            return parts;
+            return _externalPartsCache;
         }
     }
 
@@ -198,16 +206,21 @@ public class BodyPart : Entity
     {
         get
         {
-            List<BodyPart> parts = new();
+            if (_internalPartsCache != null)
+            {
+                return _internalPartsCache;
+            }
+
+            _internalPartsCache = new List<BodyPart>();
             foreach (BodyPartSocket socket in Sockets)
             {
                 if (socket.AttachedPart?.IsExternal == false)
                 {
-                    parts.Add(socket.AttachedPart);
+                    _internalPartsCache.Add(socket.AttachedPart);
                 }
             }
 
-            return parts;
+            return _internalPartsCache;
         }
     }
 
@@ -215,10 +228,34 @@ public class BodyPart : Entity
     {
         get
         {
-            List<BodyPart> parts = new();
-            GetParts(this, parts, false);
-            return parts;
+            if (_allInternalPartsCache != null)
+            {
+                return _allInternalPartsCache;
+            }
+
+            _allInternalPartsCache = new List<BodyPart>();
+            GetParts(this, _allInternalPartsCache, false);
+            return _allInternalPartsCache;
         }
+    }
+
+    public void InvalidateStructureCaches()
+    {
+        _externalPartsCache = null;
+        _internalPartsCache = null;
+        _allInternalPartsCache = null;
+    }
+
+    public static void NotifyStructureChanged(BodyPart? part)
+    {
+        var current = part;
+        while (current != null)
+        {
+            current.InvalidateStructureCaches();
+            current = current.Socket?.ParentPart;
+        }
+
+        part?.Body?.InvalidatePartCaches();
     }
 
     public Item? Armor
@@ -401,6 +438,8 @@ public class BodyPart : Entity
             return;
         }
 
+        var parentPart = Socket?.ParentPart;
+        var body = Body;
         if (Socket != null)
         {
             Socket.Body = null; //todo not that it matters, but this should probably also set Pawn.Body.RootSocket = null as well
@@ -410,6 +449,9 @@ public class BodyPart : Entity
         }
 
         IsSevered = true;
+        InvalidateStructureCaches();
+        NotifyStructureChanged(parentPart);
+        body?.InvalidatePartCaches();
     }
 
     public void TryAddModifier(BodyPartModifier modifier)
@@ -593,5 +635,6 @@ public class BodyPart : Entity
         ScribeCollections.Look(ref Sockets!, "Sockets", LookMode.Deep);
         ScribeCollections.Look(ref Modifiers!, "Modifiers", LookMode.Deep);
         ScribeCollections.Look(ref Equipment!, "Equipment", LookMode.Value, LookMode.Deep);
+        InvalidateStructureCaches();
     }
 }

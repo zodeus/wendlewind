@@ -14,18 +14,17 @@ public class JustTheTipHandler : AchievementHandler
     {
         if (IsUnlocked) return;
         
-        var severedParts = response.Damages
-        .SelectMany(d => d.BodyParts)
-        .Concat(response.TrinketDamages.SelectMany(d => d.BodyParts))
-        .Where(p => (p.BodyPart.Type == BodyPartType.Finger || p.BodyPart.Type == BodyPartType.Thumb) && p.WasSevered)
-        .ToList();
-        foreach (var damage in severedParts)
+        var severedParts = CountDamagedParts(response, static p =>
+            (p.BodyPart.Type == BodyPartType.Finger || p.BodyPart.Type == BodyPartType.Thumb) && p.WasSevered);
+        if (severedParts <= 0)
         {
-            Progress.CurrentValue++;
-            if (Progress.CurrentValue >= Def.TargetValue)
-            {
-                Unlock();
-            }
+            return;
+        }
+
+        Progress.CurrentValue += severedParts;
+        if (Progress.CurrentValue >= Def.TargetValue)
+        {
+            Unlock();
         }
     }
 }

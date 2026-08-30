@@ -11,15 +11,16 @@ public enum EquipmentFlashKind
 
 public class PawnEquipmentPanel : Grid, IUpdatable
 {
-    private const float FlashDuration = 0.4f;
-    private const int PulsePixels = 4;
+    private const float GlowDuration = 0.7f;
 
     private readonly BaseGui _gui;
     private readonly Pawn _pawn;
     private readonly Dictionary<BodyPart, List<Widget>> _partWidgets = new();
     private readonly Dictionary<(BodyPart Part, EquipmentSlotType Slot), CursorButton> _slots = new();
+    private readonly Dictionary<(BodyPart Part, EquipmentSlotType Slot), (int Col, int Row)> _slotCells = new();
     private readonly Dictionary<(BodyPart Part, EquipmentSlotType Slot), SlotFlash> _flashes = new();
     private readonly Dictionary<(BodyPart Part, EquipmentSlotType Slot), string> _lastMonikers = new();
+    private readonly List<SlotSpark> _sparks = [];
     private static readonly Color DestroyedEquipmentColor = new(255, 0, 0, 15);
     private static readonly Color SlotHintColor = new(140, 130, 115);
     private readonly SelectionPopup<Item> _selectionPopup;
@@ -28,8 +29,12 @@ public class PawnEquipmentPanel : Grid, IUpdatable
     private readonly bool _showSlotHints;
     private readonly bool _readOnly;
     private readonly Dictionary<ItemDef, ColoredRegion> _iconCache = new();
+    private readonly Dictionary<(BodyPart Part, EquipmentSlotType Slot), bool> _lastAvailable = new();
+    private readonly List<(BodyPart Part, EquipmentSlotType Slot)> _staleSlotKeys = [];
+    private readonly SolidBrush _availableSlotBrush = new(Color.DarkGoldenrod);
     private readonly IImage _potionSlotIcon;
     private readonly IImage _bagSlotIcon;
+    private static Texture2D? _glowTexture;
 
     public PawnEquipmentPanel(
         BaseGui gui,
@@ -50,6 +55,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         _bagSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.BagSlot];
         ColumnSpacing = 2;
         RowSpacing = 2;
+        ClipToBounds = false;
 
         var layout = EquipmentGridLayout.Build(pawn);
         for (var i = 0; i < layout.Columns; i++)
@@ -79,6 +85,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
             Place(slotFrame, cell.Col, cell.Row);
             Track(key.Part, slotFrame);
             _slots[key] = slotFrame;
+            _slotCells[key] = (cell.Col, cell.Row);
         }
     }
 
@@ -333,7 +340,8 @@ public class PawnEquipmentPanel : Grid, IUpdatable
                 continue;
             }
 
-            _flashes[key] = new SlotFlash { Remaining = FlashDuration, Color = color };
+            _flashes[key] = new SlotFlash { Remaining = GlowDuration, Color = color };
+            SpawnSparks(key, color, kind);
         }
     }
 
@@ -346,6 +354,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
     {
         _selectionPopup.Update();
         TickFlashes(deltaTime);
+        TickSparks(deltaTime);
 
         foreach (var ((bodyPart, slot), image) in _slots)
         {
@@ -379,12 +388,22 @@ public class PawnEquipmentPanel : Grid, IUpdatable
                 }
             }
 
-            var staleSlots = _slots.Keys.Where(key => key.Part == bodyPart).ToList();
-            foreach (var key in staleSlots)
+            _staleSlotKeys.Clear();
+            foreach (var key in _slots.Keys)
+            {
+                if (key.Part == bodyPart)
+                {
+                    _staleSlotKeys.Add(key);
+                }
+            }
+
+            foreach (var key in _staleSlotKeys)
             {
                 _slots.Remove(key);
+                _slotCells.Remove(key);
                 _flashes.Remove(key);
                 _lastMonikers.Remove(key);
+                _lastAvailable.Remove(key);
             }
         }
     }
@@ -409,33 +428,37 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         foreach (var key in expired)
         {
             _flashes.Remove(key);
-            if (_slots.TryGetValue(key, out var button))
-            {
-                ResetPulse(button);
-            }
+            // Glow is drawn in InternalRender; slot widgets stay put.
         }
     }
 
     private void UpdateSlot(BodyPart bodyPart, EquipmentSlotType slot, CursorButton image)
     {
         var key = (bodyPart, slot);
-        var flashing = _flashes.TryGetValue(key, out var flash);
+        var glowing = _flashes.ContainsKey(key);
         bool isSlotEmpty = bodyPart.Equipment[slot] == null;
 
         bool hasAvailableEquipment = false;
         if (!_readOnly && isSlotEmpty)
         {
-            hasAvailableEquipment = _pawn.Inventory.Any(i =>
-                i.ItemDef.EquipmentProperties?.SlotUsedToEquip == slot ||
-                (i.ItemDef.ItemType == ItemType.Potion && slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2));
+            foreach (var inventoryItem in _pawn.Inventory)
+            {
+                if (inventoryItem.ItemDef.EquipmentProperties?.SlotUsedToEquip == slot
+                    || (inventoryItem.ItemDef.ItemType == ItemType.Potion && slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2))
+                {
+                    hasAvailableEquipment = true;
+                    break;
+                }
+            }
         }
 
-        if (!flashing)
+        if (!_lastAvailable.TryGetValue(key, out var lastAvailable) || lastAvailable != hasAvailableEquipment)
         {
+            _lastAvailable[key] = hasAvailableEquipment;
             if (hasAvailableEquipment)
             {
                 image.Content.BorderThickness = new Thickness(2);
-                image.Content.Border = new SolidBrush(Color.DarkGoldenrod);
+                image.Content.Border = _availableSlotBrush;
             }
             else
             {
@@ -459,15 +482,11 @@ public class PawnEquipmentPanel : Grid, IUpdatable
             icon.Visible = true;
             icon.Background = _iconCache[item.ItemDef];
             image.Content.Background = null;
-            if (!flashing)
-            {
-                _iconCache[item.ItemDef].Color = GetEquipmentColor(item, bodyPart);
-                ResetPulse(image);
-            }
+            _iconCache[item.ItemDef].Color = GetEquipmentColor(item, bodyPart);
 
             hintLabel.Visible = false;
         }
-        else if (flashing && icon.Background != null)
+        else if (glowing && icon.Background != null)
         {
             hintLabel.Visible = false;
             progressBar.Visible = false;
@@ -476,7 +495,6 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         {
             icon.Visible = false;
             icon.Background = null;
-            ResetPulse(image);
             if (slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2)
             {
                 image.Content.Background = _potionSlotIcon;
@@ -496,33 +514,6 @@ public class PawnEquipmentPanel : Grid, IUpdatable
             progressBar.Visible = false;
         }
 
-        if (flashing && flash != null)
-        {
-            ApplyFlash(image, icon, flash);
-        }
-    }
-
-    private void ApplyFlash(CursorButton button, Image icon, SlotFlash flash)
-    {
-        var t = Math.Clamp(1f - flash.Remaining / FlashDuration, 0f, 1f);
-        var pulse = MathF.Sin(t * MathF.PI);
-        var size = _iconBaseSize + (int)(PulsePixels * pulse);
-        icon.Visible = true;
-        icon.Width = size;
-        icon.Height = size;
-        button.Content.BorderThickness = new Thickness(1 + (int)(2 * pulse));
-        button.Content.Border = new SolidBrush(flash.Color);
-        if (icon.Background is ColoredRegion tint)
-        {
-            tint.Color = Color.Lerp(Color.White, flash.Color, pulse);
-        }
-    }
-
-    private void ResetPulse(CursorButton button)
-    {
-        var (icon, _, _) = SlotParts(button);
-        icon.Width = _iconBaseSize;
-        icon.Height = _iconBaseSize;
     }
 
     private static (Image Icon, HorizontalProgressBar Bar, Label Hint) SlotParts(CursorButton button)
@@ -545,6 +536,185 @@ public class PawnEquipmentPanel : Grid, IUpdatable
     {
         public float Remaining;
         public Color Color;
+    }
+
+    private sealed class SlotSpark
+    {
+        public (BodyPart Part, EquipmentSlotType Slot) Key;
+        public Vector2 Offset;
+        public Vector2 Velocity;
+        public float Life;
+        public float MaxLife;
+        public float Size;
+        public Color Color;
+        public float Gravity;
+    }
+
+    private Rectangle SlotBounds((BodyPart Part, EquipmentSlotType Slot) key)
+    {
+        if (!_slotCells.TryGetValue(key, out var cell))
+        {
+            return Rectangle.Empty;
+        }
+
+        var origin = ActualBounds;
+        return new Rectangle(
+            origin.X + cell.Col * (_cellSize + ColumnSpacing),
+            origin.Y + cell.Row * (_cellSize + RowSpacing),
+            _cellSize,
+            _cellSize);
+    }
+
+    private void SpawnSparks((BodyPart Part, EquipmentSlotType Slot) key, Color color, EquipmentFlashKind kind)
+    {
+        var (count, speedMin, speedMax, gravity, life) = kind switch
+        {
+            EquipmentFlashKind.Block => (8, 20f, 50f, 0f, 0.4f),
+            EquipmentFlashKind.Proc => (12, 35f, 85f, -20f, 0.5f),
+            EquipmentFlashKind.Potion => (8, 24f, 60f, -80f, 0.45f),
+            EquipmentFlashKind.Destroyed => (14, 50f, 110f, 180f, 0.5f),
+            _ => (10, 28f, 75f, 40f, 0.45f)
+        };
+
+        for (var i = 0; i < count; i++)
+        {
+            var angle = kind == EquipmentFlashKind.Potion
+                ? MathHelper.ToRadians(Rng.Visual.Next(-50, 51) - 90)
+                : MathHelper.ToRadians(Rng.Visual.Next(0, 360));
+            var speed = Rng.Visual.Next((int)speedMin, (int)speedMax + 1);
+            _sparks.Add(new SlotSpark
+            {
+                Key = key,
+                Offset = new Vector2(Rng.Visual.Next(-3, 4), Rng.Visual.Next(-3, 4)),
+                Velocity = new Vector2(MathF.Cos(angle), MathF.Sin(angle)) * speed,
+                Life = life,
+                MaxLife = life,
+                Size = Rng.Visual.Next(4, 8),
+                Color = color,
+                Gravity = gravity
+            });
+        }
+    }
+
+    private void TickSparks(float deltaTime)
+    {
+        for (var i = _sparks.Count - 1; i >= 0; i--)
+        {
+            var spark = _sparks[i];
+            spark.Life -= deltaTime;
+            if (spark.Life <= 0 || !_slotCells.ContainsKey(spark.Key))
+            {
+                _sparks.RemoveAt(i);
+                continue;
+            }
+
+            spark.Velocity.Y += spark.Gravity * deltaTime;
+            spark.Offset += spark.Velocity * deltaTime;
+        }
+    }
+
+    public override void InternalRender(RenderContext context)
+    {
+        base.InternalRender(context);
+        DrawGlows(context);
+        DrawSparks(context);
+    }
+
+    private void DrawGlows(RenderContext context)
+    {
+        if (_flashes.Count == 0)
+        {
+            return;
+        }
+
+        var glow = EnsureGlowTexture();
+        foreach (var (key, flash) in _flashes)
+        {
+            var bounds = SlotBounds(key);
+            if (bounds.Width <= 0 || bounds.Height <= 0)
+            {
+                continue;
+            }
+
+            var progress = Math.Clamp(1f - flash.Remaining / GlowDuration, 0f, 1f);
+            var pulse = MathF.Sin(progress * MathF.PI);
+            if (pulse < 0.02f)
+            {
+                continue;
+            }
+
+            var center = new Vector2(bounds.X + bounds.Width * 0.5f, bounds.Y + bounds.Height * 0.5f);
+            var cell = Math.Max(bounds.Width, bounds.Height);
+            DrawHalo(context, glow, center, cell * (1.85f + 0.45f * pulse), flash.Color * (0.55f * pulse));
+            DrawHalo(context, glow, center, cell * (1.15f + 0.2f * pulse), Color.Lerp(flash.Color, Color.White, 0.25f) * (0.22f * pulse));
+        }
+    }
+
+    private static void DrawHalo(RenderContext context, Texture2D glow, Vector2 center, float diameter, Color color)
+    {
+        var size = Math.Max(8, (int)diameter);
+        context.Draw(glow, new Rectangle(
+            (int)center.X - size / 2,
+            (int)center.Y - size / 2,
+            size,
+            size), color);
+    }
+
+    private void DrawSparks(RenderContext context)
+    {
+        if (_sparks.Count == 0)
+        {
+            return;
+        }
+
+        var glow = EnsureGlowTexture();
+        foreach (var spark in _sparks)
+        {
+            var bounds = SlotBounds(spark.Key);
+            if (bounds.Width <= 0 || bounds.Height <= 0)
+            {
+                continue;
+            }
+
+            var pos = new Vector2(bounds.X + bounds.Width * 0.5f, bounds.Y + bounds.Height * 0.5f) + spark.Offset;
+            var t = Math.Clamp(spark.Life / spark.MaxLife, 0f, 1f);
+            var fade = t < 0.25f ? t / 0.25f : 1f;
+            var size = Math.Max(6, (int)(spark.Size * 2.6f));
+            context.Draw(glow, new Rectangle(
+                (int)pos.X - size / 2,
+                (int)pos.Y - size / 2,
+                size,
+                size), spark.Color * (0.75f * fade));
+        }
+    }
+
+    private static Texture2D EnsureGlowTexture()
+    {
+        if (_glowTexture != null)
+        {
+            return _glowTexture;
+        }
+
+        const int size = 128;
+        var data = new Color[size * size];
+        var center = (size - 1) * 0.5f;
+        for (var y = 0; y < size; y++)
+        {
+            for (var x = 0; x < size; x++)
+            {
+                var dx = x - center;
+                var dy = y - center;
+                var dist = MathF.Sqrt(dx * dx + dy * dy) / center;
+                var alpha = MathF.Max(0f, 1f - dist);
+                alpha = alpha * alpha * alpha;
+                var a = (byte)(alpha * 255f);
+                data[y * size + x] = new Color(a, a, a, a);
+            }
+        }
+
+        _glowTexture = new Texture2D(Core.GraphicsDevice, size, size);
+        _glowTexture.SetData(data);
+        return _glowTexture;
     }
 
     /// <summary>

@@ -76,6 +76,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
             HorizontalAlignment = align,
             Padding = new Thickness(panelPad),
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
+            ClipToBounds = false,
             Widgets = { _equipment }
         };
 
@@ -107,7 +108,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
 
     private PawnRenderWidget CreateBodyWidget(int size)
     {
-        _bodyWidget = new PawnRenderWidget(Pawn)
+        _bodyWidget = new PawnRenderWidget(Pawn, size)
         {
             Width = size,
             Height = size,

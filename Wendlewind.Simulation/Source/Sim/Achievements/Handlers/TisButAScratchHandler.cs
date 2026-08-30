@@ -14,12 +14,9 @@ public class TisButAScratchHandler : AchievementHandler
     {
         if (IsUnlocked) return;
 
-        var severedParts = response.Damages
-        .SelectMany(d => d.BodyParts)
-        .Concat(response.TrinketDamages.SelectMany(d => d.BodyParts))
-        .Where(p => (p.BodyPart.Type == BodyPartType.Arm || p.BodyPart.Type == BodyPartType.Leg) && p.WasSevered)
-        .ToList();
-        if (severedParts.Count >= Def.TargetValue)
+        var severedParts = CountDamagedParts(response, static p =>
+            (p.BodyPart.Type == BodyPartType.Arm || p.BodyPart.Type == BodyPartType.Leg) && p.WasSevered);
+        if (severedParts >= Def.TargetValue)
         {
             Unlock();
         }

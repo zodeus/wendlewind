@@ -110,9 +110,12 @@ public class Pawn : Entity
         foreach (var equipment in bodyPart.Equipment.Values)
         {
             if (equipment == null) continue;
-            var earlyExit = equipment?.EquipmentHandler?.OnPreDamageTaken(request, response) ?? false;
-            DamageTaken?.Invoke(this, request, response);
-            if (earlyExit) return;
+            var earlyExit = equipment.EquipmentHandler?.OnPreDamageTaken(request, response) ?? false;
+            if (earlyExit)
+            {
+                DamageTaken?.Invoke(this, request, response);
+                return;
+            }
         }
 
         foreach (var damage in request.RawDamages)
@@ -177,25 +180,45 @@ public class Pawn : Entity
 
             // Apply Damage
             damageRecord.BodyParts = bodyPart.ApplyDamageToExternalPart(damage);
-            damageRecord.ActualAmount = damageRecord.BodyParts.Sum(p => p.DamageApplied);
-
-            // Handle Enchantments
-            var enchantments = bodyPart.Equipment.Values.SelectMany(e => e?.Enchantments?.ToList() ?? []);
-            foreach (var enchantment in enchantments)
+            var actualAmount = 0d;
+            foreach (var damaged in damageRecord.BodyParts)
             {
-                enchantment.EnchantmentHandler?.PostPawnDamageTakenEffect(bodyPart, this, request.Source, damageRecord);
+                actualAmount += damaged.DamageApplied;
             }
 
-            // Handle Equipment Post-Damage Effects
-            foreach (var equipment in bodyPart.Equipment.Values.Where(e => e?.ItemDef.EquipmentProperties?.SlotUsedToEquip != EquipmentSlotType.Cloak))
+            damageRecord.ActualAmount = actualAmount;
+
+            foreach (var equipped in bodyPart.Equipment.Values)
             {
+                if (equipped?.Enchantments == null)
+                {
+                    continue;
+                }
+
+                foreach (var enchantment in equipped.Enchantments)
+                {
+                    enchantment.EnchantmentHandler?.PostPawnDamageTakenEffect(bodyPart, this, request.Source, damageRecord);
+                }
+            }
+
+            foreach (var equipment in bodyPart.Equipment.Values)
+            {
+                if (equipment?.ItemDef.EquipmentProperties?.SlotUsedToEquip == EquipmentSlotType.Cloak)
+                {
+                    continue;
+                }
+
                 equipment?.EquipmentHandler?.PostPawnDamageTakenEffect(bodyPart, this, request.Source, damageRecord);
             }
 
-            // Handle Cloak Post-Damage Effects
-            foreach (var equipment in Equipment.Where(e => e?.ItemDef.EquipmentProperties?.SlotUsedToEquip == EquipmentSlotType.Cloak))
+            foreach (var equipment in Equipment)
             {
-                equipment?.EquipmentHandler?.PostPawnDamageTakenEffect(bodyPart, this, request.Source, damageRecord);
+                if (equipment?.ItemDef.EquipmentProperties?.SlotUsedToEquip != EquipmentSlotType.Cloak)
+                {
+                    continue;
+                }
+
+                equipment.EquipmentHandler?.PostPawnDamageTakenEffect(bodyPart, this, request.Source, damageRecord);
             }
  
             // Handle Weapon Handler (unique weapon effects)
@@ -230,34 +253,64 @@ public class Pawn : Entity
 
     private DeathRecord? CheckIfKilledByDamage(DamageResponse response)
     {
-        List<string> nonFunctionalVitalParts = [];
-        foreach (var damageRecord in response.Damages.Concat(response.TrinketDamages))
+        if (IsDeadFromPartFailure() is not { } deathRecord)
+        {
+            return null;
+        }
+
+        if (!TryDescribeKillingBlow(response.Damages, deathRecord, out var weaponLabel, out var maneuverLabel, out var cause)
+            && !TryDescribeKillingBlow(response.TrinketDamages, deathRecord, out weaponLabel, out maneuverLabel, out cause))
+        {
+            return deathRecord;
+        }
+
+        deathRecord.CauseOfDeath = cause;
+        deathRecord.KillingWeapon = weaponLabel;
+        deathRecord.KillingManeuver = maneuverLabel;
+        return deathRecord;
+    }
+
+    private static bool TryDescribeKillingBlow(
+        List<DamageRecord> damages,
+        DeathRecord deathRecord,
+        out string weaponLabel,
+        out string maneuverLabel,
+        out string cause)
+    {
+        weaponLabel = deathRecord.KillingWeapon ?? "";
+        maneuverLabel = deathRecord.KillingManeuver ?? "";
+        cause = deathRecord.CauseOfDeath ?? "";
+        foreach (var damageRecord in damages)
         {
             foreach (var partRecord in damageRecord.BodyParts)
             {
+                string? partCause = null;
                 if (partRecord.BodyPart.IsDestroyed)
                 {
-                    nonFunctionalVitalParts.Add($"{partRecord.PartType} was destroyed");
+                    partCause = $"{partRecord.PartType} was destroyed";
                 }
                 else if (partRecord.BodyPart is { IsExternal: true, IsSevered: true })
                 {
-                    nonFunctionalVitalParts.Add($"{partRecord.PartType} was severed");
+                    partCause = $"{partRecord.PartType} was severed";
                 }
                 else if (partRecord.BodyPart.IsFunctional == false)
                 {
-                    nonFunctionalVitalParts.Add($"{partRecord.PartType} stopped functioning");
+                    partCause = $"{partRecord.PartType} stopped functioning";
                 }
 
-                if (IsDeadFromPartFailure() is { } deathRecord && nonFunctionalVitalParts.Any())
+                if (partCause == null)
                 {
-                    deathRecord.CauseOfDeath = $"{nonFunctionalVitalParts.First()} ({deathRecord.FailedOrgan} failed)";
-                    deathRecord.KillingWeapon = damageRecord.WeaponLabel;
-                    deathRecord.KillingManeuver = damageRecord.WeaponManeuverLabel;
-                    return deathRecord;
+                    continue;
                 }
+
+                cause = $"{partCause} ({deathRecord.FailedOrgan} failed)";
+                weaponLabel = damageRecord.WeaponLabel;
+                maneuverLabel = damageRecord.WeaponManeuverLabel;
+                return true;
             }
         }
-        return null;
+
+        return false;
     }
 
     public void TriggerDeath(DeathRecord deathRecord)
@@ -278,20 +331,38 @@ public class Pawn : Entity
 
     public DeathRecord? IsDeadFromPartFailure()
     {
-        // Group vital parts by type - you're dead if ALL parts of any vital type are non-functional
-        var vitalPartsByType = Body.AllParts
-            .Where(p => p.IsVital)
-            .GroupBy(p => p.Type);
-
-        foreach (var group in vitalPartsByType)
+        // Dead if ALL parts of any vital type are non-functional
+        var parts = Body.AllParts;
+        for (var i = 0; i < parts.Count; i++)
         {
-            var functionalCount = group.Count(p => p.IsFunctional);
-            if (functionalCount == 0)
+            var candidate = parts[i];
+            if (!candidate.IsVital)
+            {
+                continue;
+            }
+
+            var anyFunctional = false;
+            for (var j = 0; j < parts.Count; j++)
+            {
+                var other = parts[j];
+                if (other.Type != candidate.Type || !other.IsVital)
+                {
+                    continue;
+                }
+
+                if (other.IsFunctional)
+                {
+                    anyFunctional = true;
+                    break;
+                }
+            }
+
+            if (!anyFunctional)
             {
                 return new DeathRecord
                 {
-                    FailedOrgan = group.First().Label,
-                    CauseOfDeath = $"All {group.Key} organs are non-functional",
+                    FailedOrgan = candidate.Label,
+                    CauseOfDeath = $"All {candidate.Type} organs are non-functional",
                     KillingWeapon = "Organ failure",
                     KillingManeuver = "Organ failure"
                 };

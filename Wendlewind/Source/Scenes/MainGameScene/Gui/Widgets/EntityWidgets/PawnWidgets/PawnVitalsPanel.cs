@@ -206,13 +206,11 @@ public sealed class PawnVitalsPanel : Panel, IUpdatable
         }
 
         var bloodPercent = _pawn.Body.BloodPercent;
-        _bloodLabel.Text = $"{Mathf.RoundToInt(bloodPercent * 100)}%";
-        _bloodLabel.TextColor = BodyPartColor.GetBloodColor(bloodPercent);
+        UiLabel.Set(_bloodLabel, $"{Mathf.RoundToInt(bloodPercent * 100)}%", BodyPartColor.GetBloodColor(bloodPercent));
         _bloodBar.Value = bloodPercent * 100;
 
         var energyPercent = _pawn.Body.EnergyPercent;
-        _energyLabel.Text = $"{Mathf.RoundToInt(energyPercent * 100)}%";
-        _energyLabel.TextColor = BodyPartColor.GetStomachColor(energyPercent);
+        UiLabel.Set(_energyLabel, $"{Mathf.RoundToInt(energyPercent * 100)}%", BodyPartColor.GetStomachColor(energyPercent));
         _energyBar.Value = energyPercent * 100;
 
         var stomachLevel = _pawn.Body.StomachLevel;

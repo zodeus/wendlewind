@@ -14,12 +14,28 @@ public class PawnCapabilities : IExposable
         get
         {
             // if pawn has no eye sockets return 1
-            if (_pawn.Body.AllExternalParts.Count(p => p.Type == BodyPartType.Eye) == 0)
+            var eyeSockets = 0;
+            var eyes = 0;
+            var parts = _pawn.Body.AllExternalParts;
+            for (var i = 0; i < parts.Count; i++)
+            {
+                var part = parts[i];
+                if (part.Type != BodyPartType.Eye)
+                {
+                    continue;
+                }
+
+                eyeSockets++;
+                if (part.IsFunctional)
+                {
+                    eyes++;
+                }
+            }
+
+            if (eyeSockets == 0)
             {
                 return 1;
             }
-
-            var eyes = _pawn.Body.AllExternalParts.Count(p => p.Type == BodyPartType.Eye && p.IsFunctional);
             if (_pawn.Inventory.Trinkets.Any(t => t.Def == Defs.Items.MechanicalEye))
             {
                 eyes += 1;
@@ -44,7 +60,17 @@ public class PawnCapabilities : IExposable
         get
         {
             if (_pawn.Body.RequiresLungs == false) return 1;
-            var lungs = _pawn.Body.AllParts.Count(p => p.BodyPartDef.BodyPartType == BodyPartType.Lung && p.IsFunctional);
+            var lungs = 0;
+            var allParts = _pawn.Body.AllParts;
+            for (var i = 0; i < allParts.Count; i++)
+            {
+                var part = allParts[i];
+                if (part.Type == BodyPartType.Lung && part.IsFunctional)
+                {
+                    lungs++;
+                }
+            }
+
             return lungs switch
             {
                 2 => 1f,
@@ -54,25 +80,47 @@ public class PawnCapabilities : IExposable
         }
     }
 
-    public float Mobility => _pawn.Body.AllParts.Sum(p => p.HasMobility ? p.BodyPartDef.MobilityFraction : 0f);
-
-    public float Circulation {
-        get
-        {
-            var arteries = _pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Artery).ToList();
-            if (arteries.Count == 0) return 0;
-            return (float)arteries.Average(p => p.HealthPercent);
-        }
-    }
-
-    public float Digestion
+    public float Mobility
     {
         get
         {
-            var stomachs = _pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Stomach).ToList();
-            if (stomachs.Count == 0) return 0;
-            return (float)stomachs.Average(p => p.HealthPercent);
+            var mobility = 0f;
+            var allParts = _pawn.Body.AllParts;
+            for (var i = 0; i < allParts.Count; i++)
+            {
+                var part = allParts[i];
+                if (part.HasMobility)
+                {
+                    mobility += part.BodyPartDef.MobilityFraction;
+                }
+            }
+
+            return mobility;
         }
+    }
+
+    public float Circulation => AverageHealth(BodyPartType.Artery);
+
+    public float Digestion => AverageHealth(BodyPartType.Stomach);
+
+    private float AverageHealth(BodyPartType type)
+    {
+        var total = 0d;
+        var count = 0;
+        var allParts = _pawn.Body.AllParts;
+        for (var i = 0; i < allParts.Count; i++)
+        {
+            var part = allParts[i];
+            if (part.Type != type)
+            {
+                continue;
+            }
+
+            total += part.HealthPercent;
+            count++;
+        }
+
+        return count == 0 ? 0 : (float)(total / count);
     }
 
     public void ExposeData()

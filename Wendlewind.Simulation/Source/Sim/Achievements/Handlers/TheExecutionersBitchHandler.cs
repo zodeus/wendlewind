@@ -16,11 +16,7 @@ public class TheExecutionersBitchHandler : AchievementHandler
     {
         if (IsUnlocked == true) return;
 
-        var hasNeckDamage = response.Damages
-        .SelectMany(d => d.BodyParts)
-        .Any(p => p.BodyPart.Type == BodyPartType.Neck);
-
-        if (hasNeckDamage == false) return;
+        if (!AnyDamagedPart(response, static p => p.BodyPart.Type == BodyPartType.Neck)) return;
 
         Progress.CurrentValue++;
         if (Progress.CurrentValue >= Def.TargetValue)

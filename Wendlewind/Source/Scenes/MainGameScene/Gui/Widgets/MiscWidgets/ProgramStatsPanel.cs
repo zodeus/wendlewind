@@ -18,8 +18,8 @@ public sealed class ProgramStatsPanel : VerticalStackPanel {
     }
 
     public void Update() {
-        _fps.Text = $"FPS: {(int) Core.FrameCounter.AverageFramesPerSecond}";
-        _ticks.Text = $"Ticks: {Core.Context.Ticks}";
-        _frameTime.Text = $"FT: {Core.FrameCounter.AverageFrameTime}";
+        UiLabel.Set(_fps, $"FPS: {(int) Core.FrameCounter.AverageFramesPerSecond}");
+        UiLabel.Set(_ticks, $"Ticks: {Core.Context.Ticks}");
+        UiLabel.Set(_frameTime, $"FT: {Core.FrameCounter.AverageFrameTime}");
     }
 }

@@ -27,25 +27,44 @@ namespace Wendlewind.Sim.Entities.Pawns
                 return 0;
             }
 
-            var skin = rootPart.InternalParts.Where(p => p.Type == BodyPartType.Skin);
-            var rest = rootPart.InternalParts.Where(p => p.Type != BodyPartType.Skin).InRandomOrder(rootPart.Context.Rng);
-            var internalParts = skin.Concat(rest).ToList();
+            var internals = rootPart.InternalParts;
+            foreach (var internalPart in internals)
+            {
+                if (internalPart.Type != BodyPartType.Skin)
+                {
+                    continue;
+                }
 
-            foreach (var internalPart in internalParts)
+                var skinDamage = remainingDamage * BodyPart.SkinDamageScaler;
+                var skinRemainder = internalPart.ApplyDamage(ctx.WithAmount(skinDamage), damagedParts, cascade: false);
+                remainingDamage -= skinDamage - skinRemainder;
+            }
+
+            if (remainingDamage <= 0)
+            {
+                return 0;
+            }
+
+            var rest = new List<BodyPart>(internals.Count);
+            foreach (var internalPart in internals)
+            {
+                if (internalPart.Type != BodyPartType.Skin)
+                {
+                    rest.Add(internalPart);
+                }
+            }
+
+            for (var i = rest.Count - 1; i > 0; i--)
+            {
+                var swapIndex = rootPart.Context.Rng.Next(i + 1);
+                (rest[i], rest[swapIndex]) = (rest[swapIndex], rest[i]);
+            }
+
+            foreach (var internalPart in rest)
             {
                 if (remainingDamage <= 0)
                 {
                     return 0;
-                }
-
-                // Skin takes reduced damage but is always hit first, does not cascade further
-                if (internalPart.Type == BodyPartType.Skin)
-                {
-                    var skinDamage = remainingDamage * BodyPart.SkinDamageScaler;
-                    var skinRemainder = internalPart.ApplyDamage(ctx.WithAmount(skinDamage), damagedParts, cascade: false);
-                    // Reduce remaining damage by what skin absorbed (skinDamage - skinRemainder)
-                    remainingDamage -= skinDamage - skinRemainder;
-                    continue;
                 }
 
                 // Attempt to hit critical parts 

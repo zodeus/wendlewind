@@ -66,16 +66,8 @@ internal sealed class BodyPartRow : HorizontalStackPanel
 
             BodyPartIcon partIcon = new(new ColoredRegion(new TextureRegion(part.GetWhiteIcon()), BodyPartColor.Get(bodyPart)), panel =>
             {
-                // Keep the main ring color based on the body part state
                 panel.SetColor(BodyPartColor.Get(part));
-
-                // Use small colored pips around the ring to represent all modifiers on this part
-                var pipData = part.Modifiers
-                    .OrderByDescending(m => m.Def.ColorPriority)
-                    .Select(m => new PipData { Color = m.Def.Color, Label = m.Label, InfoPanel = m.GetInfoPanel() })
-                    .ToList();
-
-                panel.SetPips(pipData);
+                panel.RefreshPips(part);
             });
             partIcon.MouseEntered += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Hand);
             partIcon.MouseLeft += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Arrow);
@@ -148,6 +140,7 @@ internal sealed class BodyPartRow : HorizontalStackPanel
             TimeLeft = lifetime,
             Duration = lifetime,
             Stack = -_floaters.Count * 12f,
+            MeasuredSize = font.MeasureString(text),
             Style = CombatFloaterStyle.CreateRandom()
         });
     }
@@ -174,18 +167,17 @@ internal sealed class BodyPartRow : HorizontalStackPanel
             return;
         }
 
-        _label.Text = $"{BodyPart.Label}";
+        UiLabel.Set(_label, BodyPart.Label);
         _baseLabelColor = BodyPartColor.Get(BodyPart);
+        var labelColor = _baseLabelColor;
         if (_flashTime > 0)
         {
             _flashTime -= deltaTime;
             var t = Math.Clamp(_flashTime / 0.35f, 0f, 1f);
-            _label.TextColor = Color.Lerp(_baseLabelColor, _flashColor, t);
+            labelColor = Color.Lerp(_baseLabelColor, _flashColor, t);
         }
-        else
-        {
-            _label.TextColor = _baseLabelColor;
-        }
+
+        UiLabel.SetColor(_label, labelColor);
 
         foreach (var image in _parts)
         {
@@ -234,7 +226,8 @@ internal sealed class BodyPartRow : HorizontalStackPanel
                 origin + new Vector2(0, floater.Stack) + motion.Offset,
                 floater.Color,
                 fade * motion.Opacity,
-                motion.Scale);
+                motion.Scale,
+                floater.MeasuredSize);
         }
     }
 
@@ -247,6 +240,7 @@ internal sealed class BodyPartRow : HorizontalStackPanel
         public float Duration;
         public float Elapsed;
         public float Stack;
+        public Vector2 MeasuredSize;
         public CombatFloaterStyle Style = CombatFloaterStyle.CreateRandom();
     }
 }

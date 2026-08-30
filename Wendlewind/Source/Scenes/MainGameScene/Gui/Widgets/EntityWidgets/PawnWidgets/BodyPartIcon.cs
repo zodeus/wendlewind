@@ -28,6 +28,7 @@ public sealed class BodyPartIcon : Panel
     private float _flashTime;
     private Color _flashColor = Color.White;
     private Color _baseColor = Color.White;
+    private int _pipSignature = int.MinValue;
 
     public BodyPartIcon(ColoredRegion? imageTexture, Action<BodyPartIcon>? handler = null)
     {
@@ -90,6 +91,43 @@ public sealed class BodyPartIcon : Panel
         {
             _imageTexture.Color = color;
         }
+    }
+
+    public void RefreshPips(BodyPart part)
+    {
+        var signature = ComputePipSignature(part);
+        if (signature == _pipSignature)
+        {
+            return;
+        }
+
+        var ordered = new List<BodyPartModifier>(part.Modifiers);
+        ordered.Sort((a, b) => b.Def.ColorPriority.CompareTo(a.Def.ColorPriority));
+
+        var pipData = new List<PipData>(ordered.Count);
+        foreach (var modifier in ordered)
+        {
+            pipData.Add(new PipData
+            {
+                Color = modifier.Def.Color,
+                Label = modifier.Label,
+                InfoPanel = modifier.GetInfoPanel()
+            });
+        }
+
+        SetPips(pipData);
+        _pipSignature = signature;
+    }
+
+    private static int ComputePipSignature(BodyPart part)
+    {
+        var hash = part.Modifiers.Count;
+        foreach (var modifier in part.Modifiers)
+        {
+            hash = HashCode.Combine(hash, modifier.Id, modifier.Def.ColorPriority, modifier.Label);
+        }
+
+        return hash;
     }
 
     /// <summary>

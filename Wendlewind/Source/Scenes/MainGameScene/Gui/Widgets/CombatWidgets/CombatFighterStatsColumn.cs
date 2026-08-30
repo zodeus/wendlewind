@@ -83,41 +83,33 @@ public sealed class CombatFighterStatsColumn : Panel, IUpdatable
     public void Update()
     {
         var bloodPercent = _pawn.Body.BloodPercent;
-        _bloodValue.Text = $"{Mathf.RoundToInt(bloodPercent * 100)}%";
-        _bloodValue.TextColor = BodyPartColor.GetBloodColor(bloodPercent);
+        UiLabel.Set(_bloodValue, $"{Mathf.RoundToInt(bloodPercent * 100)}%", BodyPartColor.GetBloodColor(bloodPercent));
         _bloodBar.Value = bloodPercent * 100;
 
         var attack = _pawn.AttackSpeed;
-        _atk.Text = attack < 1 ? $"{attack:.00}" : $"{attack:0.0}";
-        _atk.TextColor = attack < 1 ? Color.Red : attack < 2 ? Color.Orange : Color.YellowGreen;
+        UiLabel.Set(_atk, attack < 1 ? $"{attack:.00}" : $"{attack:0.0}",
+            attack < 1 ? Color.Red : attack < 2 ? Color.Orange : Color.YellowGreen);
 
         var energy = _pawn.Body.EnergyPercent;
-        _enr.Text = $"{Mathf.RoundToInt(energy * 100)}%";
-        _enr.TextColor = BodyPartColor.GetStomachColor(energy);
+        UiLabel.Set(_enr, $"{Mathf.RoundToInt(energy * 100)}%", BodyPartColor.GetStomachColor(energy));
 
         var stomach = _pawn.Body.StomachLevel;
-        _stm.Text = $"{Mathf.RoundToInt(stomach * 100)}%";
-        _stm.TextColor = BodyPartColor.GetStomachColor(stomach);
+        UiLabel.Set(_stm, $"{Mathf.RoundToInt(stomach * 100)}%", BodyPartColor.GetStomachColor(stomach));
 
         var period = _pawn.CalculateTicksToAttack();
         var remaining = Math.Clamp(_pawn.TicksToAttack, 0, period);
-        _nxt.Text = remaining <= 0 ? "rdy" : $"{remaining / (float)GameContext.TicksPerSecond:0.0}s";
-        _nxt.TextColor = ValueColor;
+        UiLabel.Set(_nxt, remaining <= 0 ? "rdy" : $"{remaining / (float)GameContext.TicksPerSecond:0.0}s", ValueColor);
 
         var maxHp = _pawn.Body.MaxHitPoints;
         var hpPercent = maxHp <= 0 ? 0 : _pawn.Body.HitPoints / maxHp;
-        _hpValue.Text = $"{Mathf.RoundToInt((float)hpPercent * 100)}%";
-        _hpValue.TextColor = BodyPartColor.GetBloodColor((float)hpPercent);
+        UiLabel.Set(_hpValue, $"{Mathf.RoundToInt((float)hpPercent * 100)}%", BodyPartColor.GetBloodColor((float)hpPercent));
         _hpBar.Value = (float)hpPercent * 100;
 
-        _acc.Text = $"{_pawn.GetStatValue(Defs.Stats.Accuracy) * 100:0}%";
-        _acc.TextColor = ValueColor;
-        _eva.Text = $"{_pawn.GetStatValue(Defs.Stats.Evasion) * 100:0}%";
-        _eva.TextColor = ValueColor;
+        UiLabel.Set(_acc, $"{_pawn.GetStatValue(Defs.Stats.Accuracy) * 100:0}%", ValueColor);
+        UiLabel.Set(_eva, $"{_pawn.GetStatValue(Defs.Stats.Evasion) * 100:0}%", ValueColor);
 
         var temperature = _pawn.Body.Temperature;
-        _tmp.Text = $"{temperature:0}";
-        _tmp.TextColor = BodyPartColor.GetBodyTemperatureColor(temperature);
+        UiLabel.Set(_tmp, $"{temperature:0}", BodyPartColor.GetBodyTemperatureColor(temperature));
 
         _capabilities.Update();
 

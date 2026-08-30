@@ -78,6 +78,8 @@ public class BodyPartSocket : IExposable, IIdentityProvider
         IsSealed = true;
 
         bodyPart.AdaptBodyPartTo(ParentPart);
+        BodyPart.NotifyStructureChanged(ParentPart ?? bodyPart);
+        Body?.InvalidatePartCaches();
 
         return bodyPart;
     }

@@ -28,18 +28,15 @@ public sealed class AttackSpeedIcon : Panel, IUpdatable
     {
         if (_pawn.AttackSpeed < 1)
         {
-            _label.TextColor = Color.Red;
-            _label.Text = $"{_pawn.AttackSpeed:.00}";
+            UiLabel.Set(_label, $"{_pawn.AttackSpeed:.00}", Color.Red);
         }
         else if (_pawn.AttackSpeed < 2)
         {
-            _label.TextColor = Color.Orange;
-            _label.Text = $"{_pawn.AttackSpeed:##.0}";
+            UiLabel.Set(_label, $"{_pawn.AttackSpeed:##.0}", Color.Orange);
         }
         else
         {
-            _label.TextColor = Color.YellowGreen;
-            _label.Text = $"{_pawn.AttackSpeed:##.0}";
+            UiLabel.Set(_label, $"{_pawn.AttackSpeed:##.0}", Color.YellowGreen);
         }
     }
 }

@@ -14,19 +14,16 @@ public class TheLopperHandler : AchievementHandler
     {
         if (IsUnlocked) return;
 
-        var severedHeads = response.Damages
-            .SelectMany(d => d.BodyParts)
-            .Concat(response.TrinketDamages.SelectMany(d => d.BodyParts))
-            .Where(p => p.BodyPart.Type == BodyPartType.Head && p.WasSevered)
-            .ToList();
-
-        foreach (var _ in severedHeads)
+        var severedHeads = CountDamagedParts(response, static p => p.BodyPart.Type == BodyPartType.Head && p.WasSevered);
+        if (severedHeads <= 0)
         {
-            Progress.CurrentValue++;
-            if (Progress.CurrentValue >= Def.TargetValue)
-            {
-                Unlock();
-            }
+            return;
+        }
+
+        Progress.CurrentValue += severedHeads;
+        if (Progress.CurrentValue >= Def.TargetValue)
+        {
+            Unlock();
         }
     }
 }

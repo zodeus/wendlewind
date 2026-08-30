@@ -54,7 +54,6 @@ public sealed class PawnCapabilitiesPanel : VerticalStackPanel, IUpdatable
         capabilitiesContainer.Widgets.Add(CreateCapabilityRow("Sight", _capabilities.Sight));
         capabilitiesContainer.Widgets.Add(CreateCapabilityRow("Breathing", _capabilities.Breathing));
         capabilitiesContainer.Widgets.Add(CreateCapabilityRow("Circulation", _capabilities.Circulation));
-        capabilitiesContainer.Widgets.Add(CreateCapabilityRow("Digestion", _capabilities.Digestion));
         capabilitiesContainer.Widgets.Add(CreateCapabilityRow("Mobility", _capabilities.Mobility));
 
         Widgets.Add(capabilitiesContainer);
@@ -184,7 +183,6 @@ public sealed class PawnCapabilitiesPanel : VerticalStackPanel, IUpdatable
         UpdateCapability("Breathing", _capabilities.Breathing);
         UpdateCapability("Mobility", _capabilities.Mobility);
         UpdateCapability("Circulation", _capabilities.Circulation);
-        UpdateCapability("Digestion", _capabilities.Digestion);
     }
 
     private void UpdateCapability(string name, float value)

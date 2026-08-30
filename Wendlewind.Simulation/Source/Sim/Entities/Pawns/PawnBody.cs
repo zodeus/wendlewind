@@ -7,6 +7,8 @@ public class PawnBody : IExposable, IIdentityProvider
     private float _bloodAmount;
     private float _baseAttackSpeed;
     private BodyPartSocket _rootSocket = null!;
+    private List<BodyPart>? _allPartsCache;
+    private List<BodyPart>? _allExternalPartsCache;
 
     public readonly Pawn Pawn;
     public event Action<BodyPart, double>? TickHealthChanged;
@@ -35,6 +37,7 @@ public class PawnBody : IExposable, IIdentityProvider
         {
             _rootSocket = value;
             _rootSocket.Body = this;
+            InvalidatePartCaches();
         }
     }
 
@@ -66,13 +69,18 @@ public class PawnBody : IExposable, IIdentityProvider
     {
         get
         {
-            List<BodyPart> parts = new();
-            if (RootSocket.AttachedPart != null)
+            if (_allPartsCache != null)
             {
-                GetParts(RootSocket.AttachedPart!, parts);
+                return _allPartsCache;
             }
 
-            return parts;
+            _allPartsCache = new List<BodyPart>();
+            if (RootSocket.AttachedPart != null)
+            {
+                GetParts(RootSocket.AttachedPart, _allPartsCache);
+            }
+
+            return _allPartsCache;
         }
     }
 
@@ -80,14 +88,26 @@ public class PawnBody : IExposable, IIdentityProvider
     {
         get
         {
-            List<BodyPart> parts = new();
-            if (RootSocket.AttachedPart != null)
+            if (_allExternalPartsCache != null)
             {
-                GetParts(RootSocket.AttachedPart, parts, true);
+                return _allExternalPartsCache;
             }
 
-            return parts;
+            _allExternalPartsCache = new List<BodyPart>();
+            if (RootSocket.AttachedPart != null)
+            {
+                GetParts(RootSocket.AttachedPart, _allExternalPartsCache, true);
+            }
+
+            return _allExternalPartsCache;
         }
+    }
+
+    public void InvalidatePartCaches()
+    {
+        _allPartsCache = null;
+        _allExternalPartsCache = null;
+        BodyPartsDirty = true;
     }
 
     public bool IsHungry => Handler.IsHungry;
@@ -206,6 +226,7 @@ public class PawnBody : IExposable, IIdentityProvider
         ScribeDefs.Look(ref Stance!, "Stance");
         ScribeDeep.Look(ref _rootSocket!, "RootSocket");
         ScribeDeep.Look(ref Handler!, "Handler");
+        InvalidatePartCaches();
     }
 
     private void GetParts(BodyPart part, List<BodyPart> parts, bool externalOnly = false)

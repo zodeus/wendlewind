@@ -130,6 +130,11 @@ public class AchievementTracker : IExposable, IHasContext
     {
         foreach (var handler in Handlers)
         {
+            if (IsUnlocked(handler.Def))
+            {
+                continue;
+            }
+
             handler.OnPlayerDamaged(victim, request, response);
         }
     }
@@ -141,6 +146,11 @@ public class AchievementTracker : IExposable, IHasContext
     {
         foreach (var handler in Handlers)
         {
+            if (IsUnlocked(handler.Def))
+            {
+                continue;
+            }
+
             handler.OnEnemyDamaged(player, enemy, request, response);
         }
     }
@@ -204,6 +214,11 @@ public class AchievementTracker : IExposable, IHasContext
     {
         foreach (var handler in Handlers)
         {
+            if (IsUnlocked(handler.Def))
+            {
+                continue;
+            }
+
             handler.OnBloodLost(pawn, bloodLost);
         }
     }

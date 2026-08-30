@@ -16,11 +16,7 @@ public class BrainTicklerHandler : AchievementHandler
     {
         if (IsUnlocked || response == null) return;
 
-        var allDamages = response.Damages
-            .SelectMany(d => d.BodyParts)
-            .Concat(response.TrinketDamages.SelectMany(d => d.BodyParts))
-            .ToList();
-        if (allDamages.Any(p => p.BodyPart.Type == BodyPartType.Brain))
+        if (AnyDamagedPart(response, static p => p.BodyPart.Type == BodyPartType.Brain))
         {
             Progress.CurrentValue++;
             if (Progress.CurrentValue >= Def.TargetValue)

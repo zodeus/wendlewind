@@ -4,12 +4,13 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
 /// <summary>
 /// A compact capabilities overlay for display within the pawn renderer.
-/// Shows Sight, Breathing, Circulation, Digestion, and Mobility as horizontal bars.
+/// Shows Sight, Breathing, Circulation, and Mobility as horizontal bars.
 /// </summary>
 public sealed class PawnCapabilitiesOverlay : Panel, IUpdatable
 {
     private readonly PawnCapabilities _capabilities;
-    private readonly Dictionary<string, (Panel barFill, Panel indicator)> _rows = new();
+    private readonly Dictionary<string, CapabilityRow> _rows = new();
+    private readonly Dictionary<Color, SolidBrush> _brushes = new();
 
     // Color palette matching the existing capabilities panel
     private static readonly Color ColorExcellent = new(120, 200, 80);
@@ -70,7 +71,6 @@ public sealed class PawnCapabilitiesOverlay : Panel, IUpdatable
         rowsContainer.Widgets.Add(CreateCapabilityRow("Sight", _capabilities.Sight));
         rowsContainer.Widgets.Add(CreateCapabilityRow("Breathing", _capabilities.Breathing));
         rowsContainer.Widgets.Add(CreateCapabilityRow("Circulation", _capabilities.Circulation));
-        rowsContainer.Widgets.Add(CreateCapabilityRow("Digestion", _capabilities.Digestion));
         rowsContainer.Widgets.Add(CreateCapabilityRow("Mobility", _capabilities.Mobility));
     }
 
@@ -87,7 +87,7 @@ public sealed class PawnCapabilitiesOverlay : Panel, IUpdatable
         {
             Width = 5,
             Height = 5,
-            Background = new SolidBrush(GetStatusColor(value)),
+            Background = Brush(GetStatusColor(value)),
             VerticalAlignment = VerticalAlignment.Center
         };
         row.Widgets.Add(indicator);
@@ -117,13 +117,13 @@ public sealed class PawnCapabilitiesOverlay : Panel, IUpdatable
         {
             Width = fillWidth,
             Height = 6,
-            Background = new SolidBrush(GetBarColor(value)),
+            Background = Brush(GetBarColor(value)),
             HorizontalAlignment = HorizontalAlignment.Left
         };
         barBackground.Widgets.Add(barFill);
         row.Widgets.Add(barBackground);
 
-        _rows[name] = (barFill, indicator);
+        _rows[name] = new CapabilityRow(barFill, indicator, value);
         return row;
     }
 
@@ -177,17 +177,46 @@ public sealed class PawnCapabilitiesOverlay : Panel, IUpdatable
         UpdateCapability("Sight", _capabilities.Sight);
         UpdateCapability("Breathing", _capabilities.Breathing);
         UpdateCapability("Circulation", _capabilities.Circulation);
-        UpdateCapability("Digestion", _capabilities.Digestion);
         UpdateCapability("Mobility", _capabilities.Mobility);
     }
 
     private void UpdateCapability(string name, float value)
     {
         if (!_rows.TryGetValue(name, out var row)) return;
+        if (row.LastValue == value)
+        {
+            return;
+        }
 
-        row.barFill.Width = Math.Clamp((int)(value * 60), 0, 60);
-        row.barFill.Background = new SolidBrush(GetBarColor(value));
-        row.indicator.Background = new SolidBrush(GetStatusColor(value));
+        row.LastValue = value;
+        row.BarFill.Width = Math.Clamp((int)(value * 60), 0, 60);
+        row.BarFill.Background = Brush(GetBarColor(value));
+        row.Indicator.Background = Brush(GetStatusColor(value));
+    }
+
+    private SolidBrush Brush(Color color)
+    {
+        if (!_brushes.TryGetValue(color, out var brush))
+        {
+            brush = new SolidBrush(color);
+            _brushes[color] = brush;
+        }
+
+        return brush;
+    }
+
+    private sealed class CapabilityRow
+    {
+        public readonly Panel BarFill;
+        public readonly Panel Indicator;
+        public float LastValue;
+
+        public CapabilityRow(Panel barFill, Panel indicator, float lastValue)
+        {
+            BarFill = barFill;
+            Indicator = indicator;
+            LastValue = lastValue;
+        }
     }
 }
 

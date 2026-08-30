@@ -5,11 +5,12 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
     private readonly BaseGui _gui;
     private readonly PawnBody _body;
     private readonly List<BodyPartSocketPanel> _socketPanels;
+    private readonly HashSet<BodyPartSocket> _registeredSockets = new();
     private readonly VerticalStackPanel _partsPanel;
     private readonly PawnInventory? _inventory;
     private readonly MedicalItemsBar? _medicalItemsBar;
 
-    public PawnBodyPanel(BaseGui gui, PawnBody body, PawnInventory? inventory = null)
+    public PawnBodyPanel(BaseGui gui, PawnBody body, PawnInventory? inventory = null, bool fillAvailableHeight = false)
     {
         MinWidth = 536;
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
@@ -19,7 +20,12 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
         _socketPanels = new List<BodyPartSocketPanel>();
         Padding = new Thickness(15);
 
-        var mainContainer = new VerticalStackPanel { Spacing = 8 };
+        var mainContainer = new VerticalStackPanel
+        {
+            Spacing = 8,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch
+        };
 
         // Medical items bar at the top (if inventory provided)
         if (_inventory != null)
@@ -33,13 +39,19 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
 
         _partsPanel = new VerticalStackPanel() { Spacing = 2 };
 
-        // Main content - body parts scroll viewer
-        mainContainer.Widgets.Add(new ScrollViewer
+        var partsScroll = new ScrollViewer
         {
             Content = _partsPanel,
+            ShowHorizontalScrollBar = false,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Stretch
-        });
+        };
+        mainContainer.Widgets.Add(partsScroll);
+        if (fillAvailableHeight)
+        {
+            VerticalStackPanel.SetProportionType(partsScroll, ProportionType.Fill);
+            ClipToBounds = true;
+        }
 
         Widgets.Add(mainContainer);
 
@@ -67,6 +79,7 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
         }
         _partsPanel.Widgets.Clear();
         _socketPanels.Clear();
+        _registeredSockets.Clear();
         RegisterSocket(_body.RootSocket, 0);
     }
 
@@ -90,6 +103,7 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
 
         _partsPanel.Widgets.Add(panel);
         _socketPanels.Add(panel);
+        _registeredSockets.Add(socket);
 
         if (socket.AttachedPart == null)
         {
@@ -110,6 +124,7 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
                 BodyPartSocketPanel p = new(appendageSocket, _gui, false);
                 appendagesPanel.Widgets.Add(p);
                 _socketPanels.Add(p);
+                _registeredSockets.Add(appendageSocket);
             }
         }
         else
@@ -152,7 +167,7 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
                     if (!ShouldRegisterSocket(childSocket))
                         continue;
                     
-                    if (childSocket.IsExternal && !_socketPanels.Any(p => p.Socket == childSocket))
+                    if (childSocket.IsExternal && !_registeredSockets.Contains(childSocket))
                     {
                         needsRegeneration = true;
                         break;
@@ -176,12 +191,14 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
             // Remove severed parts
             if (socketPanel.Socket.AttachedPart?.IsSevered == true)
             {
+                _registeredSockets.Remove(socketPanel.Socket);
                 _socketPanels.RemoveAt(i);
                 socketPanel.RemoveFromParent();
             }
             // Remove minion sockets that have become empty (minion was removed/died)
             else if (!ShouldRegisterSocket(socketPanel.Socket))
             {
+                _registeredSockets.Remove(socketPanel.Socket);
                 _socketPanels.RemoveAt(i);
                 socketPanel.RemoveFromParent();
             }

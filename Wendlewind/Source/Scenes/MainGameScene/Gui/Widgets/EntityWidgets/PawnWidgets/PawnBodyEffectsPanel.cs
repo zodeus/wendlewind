@@ -179,16 +179,21 @@ public sealed class PawnBodyEffectsPanel : Panel, IUpdatable
 
         public void Update()
         {
-            var ticks = _effect.TicksLeft;
-            _durationLabel.Text = FormatTicks(ticks);
+            if (_effect.LastsWholeEncounter)
+            {
+                _durationLabel.Text = string.Empty;
+            }
+            else
+            {
+                var ticks = _effect.TicksLeft;
+                _durationLabel.Text = FormatTicks(ticks);
 
-            // Lerp from red (0 ticks) to green (5000+ ticks)
-            var t = Math.Clamp(ticks / 5000f, 0f, 1f);
-            _durationLabel.TextColor = Color.Lerp(Color.Red, Color.LawnGreen, t);
+                // Lerp from red (0 ticks) to green (5000+ ticks)
+                var t = Math.Clamp(ticks / 5000f, 0f, 1f);
+                _durationLabel.TextColor = Color.Lerp(Color.Red, Color.LawnGreen, t);
+            }
 
             TooltipHelper.UpdatePosition();
-
-            // Update tooltip content
             _tooltipContent?.Update();
         }
     }

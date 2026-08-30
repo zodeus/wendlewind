@@ -60,19 +60,25 @@ public class PawnRenderer : IDisposable
     // Track subscribed parts to detect when new parts are added
     private HashSet<BodyPart> _subscribedParts = new();
     
-    // Final composite - rendered each frame when effects are active, 
-    // or just references body cache when no effects
+    // Final composite - rendered when effects are active or health text changed,
+    // otherwise the last composite is reused so health text stays visible
     private RenderTarget2D? _compositeRenderTarget;
-    private bool _hasActiveEffects;
+    private bool _needsComposite = true;
+    private bool _hasComposited;
+    private int _lastHealth = int.MinValue;
+    private int _lastMaxHealth = int.MinValue;
+    private string _healthText = "";
+    private Vector2 _healthTextSize;
     
     private SpriteBatch? _spriteBatch;
     private readonly int _renderSize;
+    private readonly List<(BodyPart part, BodyPartRenderInfo info)> _renderList = new();
     
     /// <summary>
     /// The rendered texture containing the composited body parts and effects.
     /// Returns the composite when effects are active, otherwise returns the cached body.
     /// </summary>
-    public Texture2D? RenderedTexture => _hasActiveEffects ? _compositeRenderTarget : _bodyRenderTarget;
+    public Texture2D? RenderedTexture => _hasComposited ? _compositeRenderTarget : _bodyRenderTarget;
     
     /// <summary>
     /// Returns true if this renderer has a valid layout for the pawn's body type.
@@ -152,9 +158,23 @@ public class PawnRenderer : IDisposable
         {
             SubscribeToNewParts();
         }
-        
-        // Always use composite render target to show health text overlay
-        _hasActiveEffects = true;
+
+        var currentHealth = (int)Math.Ceiling(_pawn.Body.HitPoints);
+        var maxHealth = (int)_pawn.Body.MaxHitPoints;
+        var healthChanged = currentHealth != _lastHealth || maxHealth != _lastMaxHealth;
+        if (healthChanged)
+        {
+            _lastHealth = currentHealth;
+            _lastMaxHealth = maxHealth;
+            _healthText = $"{currentHealth}/{maxHealth}";
+            _healthTextSize = Vector2.Zero;
+        }
+
+        _needsComposite = _bodyDirty
+            || !_hasComposited
+            || healthChanged
+            || _bloodSpurtRenderer.HasActiveSpurts
+            || _weatherRenderer.HasActiveEffects;
     }
 
     /// <summary>
@@ -232,17 +252,19 @@ public class PawnRenderer : IDisposable
         var layoutScale = (float)_renderSize / _layout.NativeSize;
         
         // Step 1: Render body to cache if dirty (expensive, but rare)
+        var bodyWasDirty = _bodyDirty;
         if (_bodyDirty)
         {
             RenderBodyToCache(previousRenderTargets, layoutScale);
             _bodyDirty = false;
         }
         
-        // Step 2: If effects are active, composite body cache + effects
-        // Otherwise, RenderedTexture already points to the body cache
-        if (_hasActiveEffects)
+        // Step 2: Composite only when blood, weather, health text, or body cache changed
+        if (_needsComposite || bodyWasDirty)
         {
             RenderComposite(previousRenderTargets, layoutScale);
+            _hasComposited = true;
+            _needsComposite = false;
         }
     }
     
@@ -298,10 +320,6 @@ public class PawnRenderer : IDisposable
     /// </summary>
     private void RenderHealthText(SpriteBatch spriteBatch)
     {
-        var currentHealth = (int)Math.Ceiling(_pawn.Body.HitPoints);
-        var maxHealth = (int)_pawn.Body.MaxHitPoints;
-        var healthText = $"{currentHealth}/{maxHealth}";
-        
         // Scale font based on render size (Medium = 30pt is baseline for 512px render target)
         var font = _renderSize switch
         {
@@ -310,20 +328,23 @@ public class PawnRenderer : IDisposable
             <= 384 => BaseContent.Fonts.Default.Normal,
             _ => BaseContent.Fonts.Default.Large
         };
-        var textSize = font.MeasureString(healthText);
+        if (_healthTextSize == Vector2.Zero && !string.IsNullOrEmpty(_healthText))
+        {
+            _healthTextSize = font.MeasureString(_healthText);
+        }
         
         // Position at top center with padding scaled to render size
-        var x = (_renderSize - textSize.X) / 2f;
+        var x = (_renderSize - _healthTextSize.X) / 2f;
         var y = _renderSize * 0.02f; // 2% padding from top
         
         // Draw shadow/outline for readability
         var shadowOffset = Math.Max(1, _renderSize / 256);
         var shadowColor = Color.Black * 0.8f;
-        spriteBatch.DrawString(font, healthText, new Vector2(x + shadowOffset, y + shadowOffset), shadowColor);
+        spriteBatch.DrawString(font, _healthText, new Vector2(x + shadowOffset, y + shadowOffset), shadowColor);
         
         // Draw main text with color based on health percentage
         var textColor = BodyPartColor.Get(_pawn.Body);
-        spriteBatch.DrawString(font, healthText, new Vector2(x, y), textColor);
+        spriteBatch.DrawString(font, _healthText, new Vector2(x, y), textColor);
     }
 
     /// <summary>
@@ -335,9 +356,7 @@ public class PawnRenderer : IDisposable
         
         var parts = _pawn.Body.AllExternalParts;
         
-        // Get render info for all parts and sort by render order
-        var renderList = new List<(BodyPart part, BodyPartRenderInfo info)>();
-        
+        _renderList.Clear();
         foreach (var part in parts)
         {
             // Skip severed parts (physically removed), but keep destroyed parts (damaged but still attached)
@@ -346,18 +365,17 @@ public class PawnRenderer : IDisposable
             var renderInfo = _layout.GetRenderInfo(part);
             if (renderInfo.HasValue)
             {
-                renderList.Add((part, renderInfo.Value));
+                _renderList.Add((part, renderInfo.Value));
             }
         }
         
-        // Sort by render order (back to front)
-        renderList.Sort((a, b) => a.info.RenderOrder.CompareTo(b.info.RenderOrder));
+        _renderList.Sort((a, b) => a.info.RenderOrder.CompareTo(b.info.RenderOrder));
         
         // Calculate scale to fit render target
         float layoutScale = (float)_renderSize / _layout.NativeSize;
         
         // Render each part and its equipped weapons/armor
-        foreach (var (part, info) in renderList)
+        foreach (var (part, info) in _renderList)
         {
             // Render equipped weapons BEFORE the body part (so they appear behind/underneath)
             BodyPartRenderHelper.RenderEquippedWeapons(spriteBatch, part, info, layoutScale: layoutScale);

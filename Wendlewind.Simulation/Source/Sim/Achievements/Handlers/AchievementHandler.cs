@@ -108,4 +108,47 @@ public abstract class AchievementHandler : IHasContext, IHasRng
 
         pawn.Inventory.TryAdd(Context.Factory.CreateEntity<Item>(Def.UnlockedTrinketDef));
     }
+
+    protected static int CountDamagedParts(DamageResponse response, Func<DamagedBodyPartRecord, bool> match)
+    {
+        return CountDamagedParts(response.Damages, match) + CountDamagedParts(response.TrinketDamages, match);
+    }
+
+    protected static bool AnyDamagedPart(DamageResponse response, Func<DamagedBodyPartRecord, bool> match)
+    {
+        return AnyDamagedPart(response.Damages, match) || AnyDamagedPart(response.TrinketDamages, match);
+    }
+
+    private static int CountDamagedParts(List<DamageRecord> damages, Func<DamagedBodyPartRecord, bool> match)
+    {
+        var count = 0;
+        foreach (var damage in damages)
+        {
+            foreach (var part in damage.BodyParts)
+            {
+                if (match(part))
+                {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
+    private static bool AnyDamagedPart(List<DamageRecord> damages, Func<DamagedBodyPartRecord, bool> match)
+    {
+        foreach (var damage in damages)
+        {
+            foreach (var part in damage.BodyParts)
+            {
+                if (match(part))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }

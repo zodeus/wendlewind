@@ -26,6 +26,8 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     private readonly CombatFighterStatsColumn _opponentStats;
     private readonly CombatConsumableLoadout _playerLoadout;
     private readonly CombatConsumableLoadout _opponentLoadout;
+    private readonly Widget _playerCenter;
+    private readonly Widget _opponentCenter;
 
     private Encounter Encounter => _context.CurrentZone!.ActiveEncounter!;
 
@@ -47,15 +49,16 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
         var player = Encounter.PlayerPawns.First();
         var opponent = Encounter.EnemyPawns.First();
-        _pawnBodyView = new PawnBodyPanel(gui, player.Body)
+        _pawnBodyView = new PawnBodyPanel(gui, player.Body, fillAvailableHeight: true)
         {
-            Height = 1300,
-            HorizontalAlignment = HorizontalAlignment.Right
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Stretch
         };
 
-        _enemyPawnBodyView = new PawnBodyPanel(gui, opponent.Body)
+        _enemyPawnBodyView = new PawnBodyPanel(gui, opponent.Body, fillAvailableHeight: true)
         {
-            HorizontalAlignment = HorizontalAlignment.Left
+            HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Stretch
         };
         _combatLog = new ScrollViewer
         {
@@ -176,23 +179,17 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             Margin = new Thickness(0, 8, 0, 0)
         };
 
-        var playerCenter = new VerticalStackPanel
+        _playerCenter = new VerticalStackPanel
         {
             Spacing = 0,
             VerticalAlignment = VerticalAlignment.Top,
             Widgets = { _playerStats, _playerLoadout }
         };
-        var opponentCenter = new VerticalStackPanel
+        _opponentCenter = new VerticalStackPanel
         {
             Spacing = 0,
             VerticalAlignment = VerticalAlignment.Top,
             Widgets = { _opponentStats, _opponentLoadout }
-        };
-
-        var opponentBody = new Panel
-        {
-            Height = 1300,
-            Widgets = { _enemyPawnBodyView }
         };
 
         Grid.SetRow(_playerPartyPanel, 0);
@@ -206,14 +203,14 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         Grid.SetRow(_pawnBodyView, 1);
         Grid.SetColumn(_pawnBodyView, 0);
 
-        Grid.SetRow(playerCenter, 1);
-        Grid.SetColumn(playerCenter, 1);
+        Grid.SetRow(_playerCenter, 1);
+        Grid.SetColumn(_playerCenter, 1);
 
-        Grid.SetRow(opponentCenter, 1);
-        Grid.SetColumn(opponentCenter, 2);
+        Grid.SetRow(_opponentCenter, 1);
+        Grid.SetColumn(_opponentCenter, 2);
 
-        Grid.SetRow(opponentBody, 1);
-        Grid.SetColumn(opponentBody, 3);
+        Grid.SetRow(_enemyPawnBodyView, 1);
+        Grid.SetColumn(_enemyPawnBodyView, 3);
 
         Grid grid = new()
         {
@@ -227,9 +224,9 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         grid.Widgets.Add(_playerPartyPanel);
         grid.Widgets.Add(_opponentPartyPanel);
         grid.Widgets.Add(_pawnBodyView);
-        grid.Widgets.Add(playerCenter);
-        grid.Widgets.Add(opponentCenter);
-        grid.Widgets.Add(opponentBody);
+        grid.Widgets.Add(_playerCenter);
+        grid.Widgets.Add(_opponentCenter);
+        grid.Widgets.Add(_enemyPawnBodyView);
 
         Widgets.Add(_gameHud);
         Widgets.Add(grid);
@@ -380,6 +377,26 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         _opponentStats.Update();
         _playerLoadout.Update();
         _opponentLoadout.Update();
+        SyncBodyPanelHeights();
+    }
+
+    private void SyncBodyPanelHeights()
+    {
+        var height = Math.Max(_playerCenter.ActualBounds.Height, _opponentCenter.ActualBounds.Height);
+        if (height <= 0)
+        {
+            return;
+        }
+
+        if (_pawnBodyView.Height != height)
+        {
+            _pawnBodyView.Height = height;
+        }
+
+        if (_enemyPawnBodyView.Height != height)
+        {
+            _enemyPawnBodyView.Height = height;
+        }
     }
 
     private void AddCombatLogEntry(string? detailedMessage)
