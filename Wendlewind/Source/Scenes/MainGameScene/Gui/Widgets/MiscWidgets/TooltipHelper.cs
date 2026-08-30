@@ -1,5 +1,11 @@
 namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 
+public enum TooltipPlacement
+{
+    FollowMouse,
+    BottomCorner
+}
+
 /// <summary>
 /// A reusable tooltip system that displays information when hovering over UI elements.
 /// Use the static methods to show/hide tooltips, or attach to widgets using the extension methods.
@@ -15,15 +21,18 @@ public static class TooltipHelper
     private static bool _shouldBeVisible;
     private static Desktop? _currentDesktop;
     private static Widget? _currentOwner; // Track which widget owns the current tooltip
+    private static TooltipPlacement _placement = TooltipPlacement.FollowMouse;
 
     private const int OffsetX = 15;
     private const int OffsetY = 15;
+    private const int CornerMargin = 24;
 
     /// <summary>
     /// Shows a simple tooltip with a title and optional description.
     /// </summary>
     public static void Show(Desktop desktop, string title, string? description = null, Widget? owner = null)
     {
+        _placement = TooltipPlacement.FollowMouse;
         _currentOwner = owner;
         
         EnsureWindowCreated();
@@ -38,6 +47,7 @@ public static class TooltipHelper
         _titleLabel!.Text = title;
         _descriptionLabel!.Text = description ?? "";
         _descriptionLabel.Visible = !string.IsNullOrEmpty(description);
+        ApplyWindowChrome();
         
         _shouldBeVisible = true;
         _currentDesktop = desktop;
@@ -47,8 +57,13 @@ public static class TooltipHelper
     /// <summary>
     /// Shows a tooltip with custom widget content.
     /// </summary>
-    public static void ShowCustom(Desktop desktop, Widget content, Widget? owner = null)
+    public static void ShowCustom(
+        Desktop desktop,
+        Widget content,
+        Widget? owner = null,
+        TooltipPlacement placement = TooltipPlacement.FollowMouse)
     {
+        _placement = placement;
         _currentOwner = owner;
         
         EnsureWindowCreated();
@@ -56,6 +71,7 @@ public static class TooltipHelper
         _customContent = content;
         _window!.Content = content;
         _isCustomContent = true;
+        ApplyWindowChrome();
         
         _shouldBeVisible = true;
         _currentDesktop = desktop;
@@ -74,6 +90,7 @@ public static class TooltipHelper
         {
             _shouldBeVisible = false;
             _currentOwner = null;
+            _placement = TooltipPlacement.FollowMouse;
             _window?.Close();
         }
         // If a different widget is requesting hide, ignore it - 
@@ -86,20 +103,16 @@ public static class TooltipHelper
     public static void UpdatePosition()
     {
         if (!_shouldBeVisible || _window == null) return;
-        
-        // Re-show if needed (handles rapid mouse movement between items)
+
         if (!_window.IsPlaced && _currentDesktop != null)
         {
-            var (uiX, uiY) = GetMouseUiPosition();
-            _window.Show(_currentDesktop, new Point(uiX + OffsetX, uiY + OffsetY));
+            ShowWindow(_currentDesktop);
             return;
         }
-        
+
         if (_window.IsPlaced)
         {
-            var (uiX, uiY) = GetMouseUiPosition();
-            _window.Left = uiX + OffsetX;
-            _window.Top = uiY + OffsetY;
+            ApplyPlacement();
         }
     }
 
@@ -136,19 +149,84 @@ public static class TooltipHelper
             Content = _defaultContent
         };
         _window.TitlePanel.Visible = false;
+        ApplyWindowChrome();
+    }
+
+    private static void ApplyWindowChrome()
+    {
+        if (_window == null)
+        {
+            return;
+        }
+
+        _window.Background = Stylesheet.Current.Atlas[
+            _placement == TooltipPlacement.BottomCorner
+                ? BaseContent.Styles.Atlas.Panel.MediumFrame
+                : BaseContent.Styles.Atlas.Panel.IconFrame];
     }
 
     private static void ShowWindow(Desktop desktop)
     {
-        var (uiX, uiY) = GetMouseUiPosition();
-        
-        // Always close and re-show to avoid race conditions with IsPlaced state
         if (_window!.IsPlaced)
         {
             _window.Close();
         }
-        
-        _window.Show(desktop, new Point(uiX + OffsetX, uiY + OffsetY));
+
+        var origin = GetPlacementOrigin();
+        _window.Show(desktop, origin);
+        ApplyPlacement();
+    }
+
+    private static void ApplyPlacement()
+    {
+        if (_window == null)
+        {
+            return;
+        }
+
+        if (_placement == TooltipPlacement.FollowMouse)
+        {
+            var (uiX, uiY) = GetMouseUiPosition();
+            _window.Left = uiX + OffsetX;
+            _window.Top = uiY + OffsetY;
+            return;
+        }
+
+        _window.Arrange(new Rectangle(0, 0, Core.ReferenceResolution.X, Core.ReferenceResolution.Y));
+        var width = _window.ActualBounds.Width;
+        var height = _window.ActualBounds.Height;
+        var screenW = Core.ReferenceResolution.X;
+        var screenH = Core.ReferenceResolution.Y;
+        var pinRight = IsNearRightEdge();
+
+        _window.Left = pinRight
+            ? screenW - width - CornerMargin
+            : CornerMargin;
+        _window.Top = screenH - height - CornerMargin;
+    }
+
+    private static Point GetPlacementOrigin()
+    {
+        if (_placement == TooltipPlacement.BottomCorner)
+        {
+            return IsNearRightEdge()
+                ? new Point(Core.ReferenceResolution.X - CornerMargin, Core.ReferenceResolution.Y - CornerMargin)
+                : new Point(CornerMargin, Core.ReferenceResolution.Y - CornerMargin);
+        }
+
+        var (uiX, uiY) = GetMouseUiPosition();
+        return new Point(uiX + OffsetX, uiY + OffsetY);
+    }
+
+    private static bool IsNearRightEdge()
+    {
+        if (_currentOwner is { ActualBounds.Width: > 0 })
+        {
+            return _currentOwner.ActualBounds.Center.X >= Core.ReferenceResolution.X / 2;
+        }
+
+        var (uiX, _) = GetMouseUiPosition();
+        return uiX >= Core.ReferenceResolution.X / 2;
     }
 
     private static (int x, int y) GetMouseUiPosition()

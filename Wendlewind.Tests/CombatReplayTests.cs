@@ -134,6 +134,13 @@ public class CombatReplayTests
             {
                 Assert.Contains(pawn.Inventory.Trinkets, t => t.Def.Moniker == trinketMoniker);
             }
+
+            foreach (var enchantmentMoniker in BuildTemplates.AllEnchantments())
+            {
+                var count = pawn.Inventory.Count(i => i.Def.Moniker == enchantmentMoniker);
+                Assert.True(count >= BuildTemplates.EnchantmentCopies,
+                    $"{template.BuildId} should include {BuildTemplates.EnchantmentCopies} {enchantmentMoniker}");
+            }
         }
     }
 }

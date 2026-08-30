@@ -119,15 +119,17 @@ public sealed class WeaponPanel : EntityPanelBase
         _durabilityBar = new HorizontalProgressBar(BaseContent.Styles.Bar.Durability)
         {
             Width = 140, Height = 14,
+            Minimum = 0,
+            Maximum = 100,
             HorizontalAlignment = HorizontalAlignment.Left
         };
         durabilitySection.Widgets.Add(_durabilityBar);
 
         _durabilityLabel = new Label("small")
         {
-            Text = $"Durability: {item.Durability}/{item.MaxDurability}",
             TextColor = Color.LightGray
         };
+        RefreshDurability();
         durabilitySection.Widgets.Add(_durabilityLabel);
         _rightColumn.Widgets.Add(durabilitySection);
 
@@ -364,8 +366,7 @@ public sealed class WeaponPanel : EntityPanelBase
 
     public override void Update()
     {
-        _durabilityBar.Value = _item.Durability / _item.MaxDurability * 100;
-        _durabilityLabel.Text = $"Durability: {_item.Durability}/{_item.MaxDurability}";
+        RefreshDurability();
         _socketsPanel.Update();
         
         // Update custom info widget if present
@@ -373,5 +374,12 @@ public sealed class WeaponPanel : EntityPanelBase
         {
             ;
         }
+    }
+
+    private void RefreshDurability()
+    {
+        var max = Math.Max(1f, _item.MaxDurability);
+        _durabilityBar.Value = _item.Durability / max * 100f;
+        _durabilityLabel.Text = $"Durability: {_item.Durability:0}/{_item.MaxDurability:0}";
     }
 }

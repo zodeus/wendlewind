@@ -379,15 +379,17 @@ public static class BuildTemplates
     });
 
     public const int FullInventoryStack = 99;
+    public const int EnchantmentCopies = 3;
 
     private static InventoryStackConfig[]? _fullInventory;
     private static string[]? _allTrinkets;
+    private static string[]? _allEnchantments;
 
     private static BuildSnapshot WithFullInventory(BuildSnapshot snapshot)
     {
         return snapshot with
         {
-            Inventory = FullInventory(),
+            Inventory = [..FullInventory(), ..EnchantmentInventory()],
             EntityDefMonikers = snapshot.EntityDefMonikers
                 .Concat(AllTrinkets())
                 .Distinct()
@@ -408,6 +410,29 @@ public static class BuildTemplates
             .ToArray();
         return _allTrinkets;
     }
+
+    public static string[] AllEnchantments()
+    {
+        if (_allEnchantments is { Length: > 0 })
+        {
+            return _allEnchantments;
+        }
+
+        _allEnchantments = DefRepository<ItemDef>.Defs
+            .Where(d => d.ItemType == ItemType.Enchantment && !string.IsNullOrEmpty(d.Moniker) && d.Moniker != "undefined")
+            .Select(d => d.Moniker)
+            .ToArray();
+        return _allEnchantments;
+    }
+
+    private static InventoryStackConfig[] EnchantmentInventory() =>
+        AllEnchantments()
+            .Select(moniker => new InventoryStackConfig
+            {
+                ItemMoniker = moniker,
+                Amount = EnchantmentCopies
+            })
+            .ToArray();
 
     private static InventoryStackConfig[] FullInventory()
     {

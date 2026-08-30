@@ -106,8 +106,20 @@ public static class BuildSnapshotFactory
         foreach (var stack in stacks)
         {
             var def = DefRepository<ItemDef>.GetByMoniker(stack.ItemMoniker, raiseError: false);
-            if (def == null || def.StackLimit <= 1)
+            if (def == null)
             {
+                continue;
+            }
+
+            if (def.StackLimit <= 1)
+            {
+                var existingCount = pawn.Inventory.Count(i => i.Def == def && !i.IsDestroyed);
+                var needed = Math.Max(stack.Amount, 1) - existingCount;
+                for (var n = 0; n < needed; n++)
+                {
+                    pawn.Inventory.TryAdd(pawn.Context.Factory.CreateEntity<Item>(def, 1));
+                }
+
                 continue;
             }
 
@@ -126,7 +138,7 @@ public static class BuildSnapshotFactory
     private static InventoryStackConfig[] CaptureInventory(Pawn pawn)
     {
         return pawn.Inventory
-            .Where(i => !i.IsDestroyed && i.ItemDef.StackLimit > 1)
+            .Where(i => !i.IsDestroyed && (i.ItemDef.StackLimit > 1 || i.ItemDef.ItemType == ItemType.Enchantment))
             .GroupBy(i => i.Def.Moniker)
             .Select(g => new InventoryStackConfig
             {

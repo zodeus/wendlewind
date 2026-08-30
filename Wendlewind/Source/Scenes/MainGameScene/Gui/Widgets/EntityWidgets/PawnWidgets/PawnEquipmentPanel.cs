@@ -182,7 +182,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
             Background = null
         });
 
-        TooltipHelper.ShowCustom(Desktop, panel, owner);
+        TooltipHelper.ShowCustom(Desktop, panel, owner, TooltipPlacement.BottomCorner);
     }
 
     private void HandleClick(BodyPart part, EquipmentSlotType slot)
