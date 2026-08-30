@@ -1,4 +1,5 @@
 using Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
+using Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
 using TestSimLauncher = Wendlewind.Scenes.MainGameScene.TestSimLauncher;
 using TestSimSettings = Wendlewind.Scenes.MainGameScene.TestSimSettings;
@@ -252,6 +253,53 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         }
 
         _floaterRouter.Handle(combatEvent);
+        ApplyEquipmentFeedback(combatEvent);
+    }
+
+    private void ApplyEquipmentFeedback(CombatLogEvent combatEvent)
+    {
+        if (combatEvent.Kind == CombatEventKind.Damage)
+        {
+            FlashEquipment(combatEvent.ItemMoniker, EquipmentFlashKind.Strike);
+            if (combatEvent.Blocked > 0)
+            {
+                FlashEquipment(combatEvent.BlockingItemMoniker, EquipmentFlashKind.Block);
+            }
+        }
+        else if (combatEvent.Kind == CombatEventKind.PotionUsed)
+        {
+            FlashEquipment(combatEvent.ItemMoniker, EquipmentFlashKind.Potion);
+        }
+
+        foreach (var sub in combatEvent.SubEffects)
+        {
+            if (sub.Kind == CombatEventKind.StatusReflected)
+            {
+                FlashEquipment(sub.ItemMoniker, EquipmentFlashKind.Proc);
+            }
+            else if (sub.Kind == CombatEventKind.EquipmentDestroyed)
+            {
+                FlashEquipment(sub.ItemMoniker, EquipmentFlashKind.Destroyed);
+            }
+        }
+    }
+
+    private void FlashEquipment(string? moniker, EquipmentFlashKind kind)
+    {
+        if (string.IsNullOrEmpty(moniker))
+        {
+            return;
+        }
+
+        foreach (var pawn in Encounter.PlayerPawns)
+        {
+            _playerPartyPanel.GetPanelForPawn(pawn)?.EquipmentPanel?.FlashSlot(moniker, kind);
+        }
+
+        foreach (var pawn in Encounter.EnemyPawns)
+        {
+            _opponentPartyPanel.GetPanelForPawn(pawn)?.EquipmentPanel?.FlashSlot(moniker, kind);
+        }
     }
 
     private void OnMedicalUsed(CombatLogEvent combatEvent)

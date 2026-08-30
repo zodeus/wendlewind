@@ -89,12 +89,12 @@ public class DeathRattleHandler : TrinketHandler
             Kills++;
         }
 
-        var damageRecord = new DamageRecord(Trinket.Label, "Head Rattle", Trinket.ItemDef.WeaponProperties?.DamageType ?? DamageType.Invalid, part, damage, amountBlocked: 0)
+        var damageRecord = new DamageRecord(Trinket.Label, "Head Rattle", Trinket.ItemDef.WeaponProperties?.DamageType ?? DamageType.Invalid, part, damage, amountBlocked: 0, weaponMoniker: Trinket.ItemDef.Moniker)
         {
             ActualAmount = damage,
             BodyParts = damagedParts
         };
-        damageRecord.ReflectedEffects.Add(new ReflectedStatusEffect(part.Body?.Pawn ?? null!, Trinket.ItemDef, "Death Rattle"));
+        damageRecord.ReflectedEffects.Add(new ReflectedStatusEffect(part.Body?.Pawn ?? null!, Trinket.ItemDef, "Death Rattle", Trinket.ItemDef.Moniker));
         return damageRecord;
     }
 

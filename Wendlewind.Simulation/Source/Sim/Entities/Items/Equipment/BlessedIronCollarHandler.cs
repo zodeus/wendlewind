@@ -14,8 +14,17 @@ public class BlessedIronCollarHandler : EquipmentHandler
         if (request.TargetedPart.Type == BodyPartType.Neck)
         {
             var damageRecord = new DamageRecord(
-                "Nothing", "Blessed Iron Collar", DamageType.Magic, request.TargetedPart, 0, request.TotalRawDamage
-            );
+                "Nothing",
+                "Blessed Iron Collar",
+                DamageType.Magic,
+                request.TargetedPart,
+                0,
+                request.TotalRawDamage,
+                weaponMoniker: request.RawDamages.FirstOrDefault()?.Weapon.ItemDef.Moniker)
+            {
+                BlockingItemMoniker = Equipment.ItemDef.Moniker,
+                BlockingItemLabel = Equipment.Label
+            };
             response.Damages.Add(damageRecord);
             return true;
         }

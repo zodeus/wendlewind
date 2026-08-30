@@ -51,6 +51,8 @@ public sealed record CombatLogEvent
     public string? SourceName { get; init; }
     public string? ItemMoniker { get; init; }
     public string? ItemLabel { get; init; }
+    public string? BlockingItemMoniker { get; init; }
+    public string? BlockingItemLabel { get; init; }
     public string? WeaponManeuverLabel { get; init; }
     public string? BodyPartKey { get; init; }
     public string? BodyPartLabel { get; init; }

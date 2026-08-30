@@ -60,7 +60,8 @@ public class BloodSucklerHandler : WeaponHandler
             damageRecord.ReflectedEffects.Add(new ReflectedStatusEffect(
                 attacker,
                 Weapon.ItemDef,
-                $"Blood Suckler drained {bloodToRestore:N0} blood"));
+                $"Blood Suckler drained {bloodToRestore:N0} blood",
+                Weapon.ItemDef.Moniker));
         }
         else
         {
@@ -104,7 +105,8 @@ public class BloodSucklerHandler : WeaponHandler
                 damageRecord.ReflectedEffects.Add(new ReflectedStatusEffect(
                     pawn,
                     Weapon.ItemDef,
-                    $"Blood Suckler healed {part.Label} for {actualHeal:N1}"));
+                    $"Blood Suckler healed {part.Label} for {actualHeal:N1}",
+                    Weapon.ItemDef.Moniker));
             }
         }
     }

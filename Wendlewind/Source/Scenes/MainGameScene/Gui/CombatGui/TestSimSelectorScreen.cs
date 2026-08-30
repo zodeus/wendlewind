@@ -11,7 +11,6 @@ public sealed class TestSimSelectorScreen : Panel
     private readonly TextBox _seedField;
 
     private PawnPreparationPanel? _prepPanel;
-    private Window? _buildDropdown;
 
     public TestSimSelectorScreen(BaseGui gui, GameContext context)
     {
@@ -117,69 +116,32 @@ public sealed class TestSimSelectorScreen : Panel
             assign(selectedId);
         }
 
-        var valueLabel = new Label(BaseContent.Styles.Label.Small)
-        {
-            Text = selectedId,
-            TextColor = Color.White,
-            VerticalAlignment = VerticalAlignment.Center
-        };
-
-        var button = new CursorButton
+        var combo = new ComboView
         {
             Width = 260,
-            VerticalAlignment = VerticalAlignment.Center,
-            Background = new SolidBrush(new Color(25, 25, 30)),
-            Padding = new Thickness(8, 4),
-            Content = valueLabel
+            VerticalAlignment = VerticalAlignment.Center
         };
-
-        button.Click += (_, _) =>
+        foreach (var id in ids)
         {
-            if (CloseBuildDropdown())
+            combo.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
             {
-                return;
+                Text = id,
+                TextColor = Color.White
+            });
+        }
+
+        var selectedIndex = ids.IndexOf(selectedId);
+        if (selectedIndex >= 0)
+        {
+            combo.SelectedIndex = selectedIndex;
+        }
+
+        combo.SelectedIndexChanged += (_, _) =>
+        {
+            if (combo.SelectedIndex is int index && index >= 0 && index < ids.Count)
+            {
+                assign(ids[index]);
             }
-
-            var list = new VerticalStackPanel { Spacing = 0 };
-            foreach (var id in ids)
-            {
-                var choiceId = id;
-                var choice = new CursorButton
-                {
-                    HorizontalAlignment = HorizontalAlignment.Stretch,
-                    Content = new Label(BaseContent.Styles.Label.Small)
-                    {
-                        Text = choiceId,
-                        TextColor = Color.White
-                    }
-                };
-                if (choiceId == valueLabel.Text)
-                {
-                    choice.Background = new SolidBrush(new Color(80, 20, 20));
-                }
-
-                choice.Click += (_, _) =>
-                {
-                    valueLabel.Text = choiceId;
-                    assign(choiceId);
-                    CloseBuildDropdown();
-                };
-                list.Widgets.Add(choice);
-            }
-
-            var dropdown = new Window
-            {
-                Content = list,
-                Width = button.ActualBounds.Width,
-                Padding = new Thickness(0)
-            };
-            dropdown.TitlePanel.Visible = false;
-            dropdown.Show(_gui.Desktop);
-
-            var origin = button.ToGlobal(new Point(0, button.ActualBounds.Height));
-            dropdown.Left = origin.X;
-            dropdown.Top = origin.Y;
-            _buildDropdown = dropdown;
         };
 
         return new HorizontalStackPanel
@@ -194,22 +156,9 @@ public sealed class TestSimSelectorScreen : Panel
                     MinWidth = 90,
                     VerticalAlignment = VerticalAlignment.Center
                 },
-                button
+                combo
             }
         };
-    }
-
-    private bool CloseBuildDropdown()
-    {
-        if (_buildDropdown?.IsPlaced != true)
-        {
-            _buildDropdown = null;
-            return false;
-        }
-
-        _buildDropdown.Close();
-        _buildDropdown = null;
-        return true;
     }
 
     private void OpenPreparation()
@@ -218,8 +167,6 @@ public sealed class TestSimSelectorScreen : Panel
         {
             return;
         }
-
-        CloseBuildDropdown();
 
         // Populate the player pawn with the selected attacker build (or a previously saved hand-tuned override)
         // so the preparation screen shows the right potions/weapons/stance to tweak.
@@ -263,7 +210,6 @@ public sealed class TestSimSelectorScreen : Panel
 
     private void Start()
     {
-        CloseBuildDropdown();
         if (_prepPanel != null)
         {
             ClosePreparation();

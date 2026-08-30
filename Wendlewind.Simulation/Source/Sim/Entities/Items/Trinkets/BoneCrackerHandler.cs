@@ -87,7 +87,8 @@ public class BoneCrackerHandler : TrinketHandler
             DamageType.Magic,
             boneToBreak,
             boneToBreak.MaxHitPoints,
-            amountBlocked: 0)
+            amountBlocked: 0,
+            weaponMoniker: Trinket.ItemDef.Moniker)
         {
             ActualAmount = boneToBreak.MaxHitPoints,
             BodyParts = damagedParts

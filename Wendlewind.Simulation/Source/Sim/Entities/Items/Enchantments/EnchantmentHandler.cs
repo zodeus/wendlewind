@@ -28,4 +28,11 @@ public abstract class EnchantmentHandler : IExposable, IHasContext, IHasRng
     public virtual void PostPawnDamageTakenEffect(BodyPart bodyPart, Pawn target, Pawn source, DamageRecord damageRecord)
     {
     }
+
+    protected string? HostItemMoniker(BodyPart bodyPart)
+    {
+        return bodyPart.Equipment.Values
+            .FirstOrDefault(item => item?.Enchantments?.Contains(Enchantment) == true)
+            ?.ItemDef.Moniker;
+    }
 }

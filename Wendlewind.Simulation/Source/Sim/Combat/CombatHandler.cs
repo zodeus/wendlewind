@@ -276,7 +276,8 @@ public class CombatHandler : IDisposable, IHasContext
                 SubjectPawnId = statusEffect.Pawn.Id,
                 SubjectName = statusEffect.Pawn.Label,
                 Label = statusEffect.Label,
-                ItemLabel = statusEffect.EffectDef.Label
+                ItemLabel = statusEffect.EffectDef.Label,
+                ItemMoniker = statusEffect.ItemMoniker ?? statusEffect.EffectDef.Moniker
             });
         }
 
@@ -287,7 +288,10 @@ public class CombatHandler : IDisposable, IHasContext
             SubjectName = victim.LabelShort,
             SourcePawnId = attacker.Id,
             SourceName = attacker.Label,
+            ItemMoniker = damage.WeaponMoniker,
             ItemLabel = damage.WeaponLabel,
+            BlockingItemMoniker = damage.BlockingItemMoniker,
+            BlockingItemLabel = damage.BlockingItemLabel,
             WeaponManeuverLabel = damage.WeaponManeuverLabel,
             BodyPartKey = damage.BodyPartHit.InternalLabel,
             BodyPartLabel = damage.BodyPartHit.Label,

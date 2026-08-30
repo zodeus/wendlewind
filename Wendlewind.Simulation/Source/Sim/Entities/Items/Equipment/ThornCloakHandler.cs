@@ -57,7 +57,7 @@ public class ThornCloakHandler : EquipmentHandler, IUpgradableHandler, ICloakHan
         // Apply thorn damage directly to the attacker's body part
         targetPart.HitPoints -= reflectedDamage;
         damageRecord.ReflectedEffects.Add(
-            new ReflectedStatusEffect(target, Equipment.ItemDef, $"/c[{TC.BodyPart}]{targetPart.Label} /c[{TC.Default}]was hit by /c[{TC.BrightBlue}]{Equipment.Label} for {reflectedDamage:N0} damage")
+            new ReflectedStatusEffect(target, Equipment.ItemDef, $"/c[{TC.BodyPart}]{targetPart.Label} /c[{TC.Default}]was hit by /c[{TC.BrightBlue}]{Equipment.Label} for {reflectedDamage:N0} damage", Equipment.ItemDef.Moniker)
         );
     }
 

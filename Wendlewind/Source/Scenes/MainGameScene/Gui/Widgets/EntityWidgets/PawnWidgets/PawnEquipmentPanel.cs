@@ -1,15 +1,30 @@
 ﻿namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
+public enum EquipmentFlashKind
+{
+    Strike,
+    Block,
+    Proc,
+    Potion,
+    Destroyed
+}
+
 public class PawnEquipmentPanel : Grid, IUpdatable
 {
+    private const float FlashDuration = 0.4f;
+    private const int PulsePixels = 4;
+
     private readonly BaseGui _gui;
     private readonly Pawn _pawn;
     private readonly Dictionary<BodyPart, List<Widget>> _partWidgets = new();
     private readonly Dictionary<(BodyPart Part, EquipmentSlotType Slot), CursorButton> _slots = new();
+    private readonly Dictionary<(BodyPart Part, EquipmentSlotType Slot), SlotFlash> _flashes = new();
+    private readonly Dictionary<(BodyPart Part, EquipmentSlotType Slot), string> _lastMonikers = new();
     private static readonly Color DestroyedEquipmentColor = new(255, 0, 0, 15);
     private static readonly Color SlotHintColor = new(140, 130, 115);
     private readonly SelectionPopup<Item> _selectionPopup;
     private readonly int _cellSize;
+    private readonly int _iconBaseSize;
     private readonly bool _showSlotHints;
     private readonly bool _readOnly;
     private readonly Dictionary<ItemDef, ColoredRegion> _iconCache = new();
@@ -27,6 +42,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         _gui = gui;
         _pawn = pawn;
         _cellSize = cellSize ?? BaseContent.IconSizes.Large;
+        _iconBaseSize = Math.Max(8, _cellSize - 6);
         _showSlotHints = showSlotHints;
         _readOnly = readOnly;
         _selectionPopup = new SelectionPopup<Item>(gui.Desktop);
@@ -92,10 +108,21 @@ public class PawnEquipmentPanel : Grid, IUpdatable
             {
                 Widgets =
                 {
+                    new Image
+                    {
+                        Width = _iconBaseSize,
+                        Height = _iconBaseSize,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Visible = false
+                    },
                     new HorizontalProgressBar(BaseContent.Styles.Bar.Durability)
                     {
                         Width = Math.Max(8, _cellSize - 4),
-                        Height = Math.Max(4, _cellSize / 6),
+                        Height = Math.Max(8, _cellSize / 6),
+                        Minimum = 0,
+                        Maximum = 100,
+                        Padding = new Thickness(1),
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Bottom
                     },
@@ -287,9 +314,38 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         }
     }
 
+    public void FlashSlot(string? itemMoniker, EquipmentFlashKind kind)
+    {
+        if (string.IsNullOrEmpty(itemMoniker))
+        {
+            return;
+        }
+
+        var color = ColorFor(kind);
+        foreach (var key in _slots.Keys)
+        {
+            var current = key.Part.Equipment[key.Slot];
+            var moniker = current is { IsDestroyed: false }
+                ? current.ItemDef.Moniker
+                : _lastMonikers.GetValueOrDefault(key);
+            if (moniker != itemMoniker)
+            {
+                continue;
+            }
+
+            _flashes[key] = new SlotFlash { Remaining = FlashDuration, Color = color };
+        }
+    }
+
     public void Update()
     {
+        Update(1f / 60f);
+    }
+
+    public void Update(float deltaTime)
+    {
         _selectionPopup.Update();
+        TickFlashes(deltaTime);
 
         foreach (var ((bodyPart, slot), image) in _slots)
         {
@@ -327,12 +383,43 @@ public class PawnEquipmentPanel : Grid, IUpdatable
             foreach (var key in staleSlots)
             {
                 _slots.Remove(key);
+                _flashes.Remove(key);
+                _lastMonikers.Remove(key);
+            }
+        }
+    }
+
+    private void TickFlashes(float deltaTime)
+    {
+        if (_flashes.Count == 0)
+        {
+            return;
+        }
+
+        var expired = new List<(BodyPart Part, EquipmentSlotType Slot)>();
+        foreach (var (key, flash) in _flashes)
+        {
+            flash.Remaining -= deltaTime;
+            if (flash.Remaining <= 0)
+            {
+                expired.Add(key);
+            }
+        }
+
+        foreach (var key in expired)
+        {
+            _flashes.Remove(key);
+            if (_slots.TryGetValue(key, out var button))
+            {
+                ResetPulse(button);
             }
         }
     }
 
     private void UpdateSlot(BodyPart bodyPart, EquipmentSlotType slot, CursorButton image)
     {
+        var key = (bodyPart, slot);
+        var flashing = _flashes.TryGetValue(key, out var flash);
         bool isSlotEmpty = bodyPart.Equipment[slot] == null;
 
         bool hasAvailableEquipment = false;
@@ -343,19 +430,21 @@ public class PawnEquipmentPanel : Grid, IUpdatable
                 (i.ItemDef.ItemType == ItemType.Potion && slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2));
         }
 
-        if (hasAvailableEquipment)
+        if (!flashing)
         {
-            image.Content.BorderThickness = new Thickness(2);
-            image.Content.Border = new SolidBrush(Color.DarkGoldenrod);
-        }
-        else
-        {
-            image.Content.BorderThickness = new Thickness(0);
-            image.Content.Border = null;
+            if (hasAvailableEquipment)
+            {
+                image.Content.BorderThickness = new Thickness(2);
+                image.Content.Border = new SolidBrush(Color.DarkGoldenrod);
+            }
+            else
+            {
+                image.Content.BorderThickness = new Thickness(0);
+                image.Content.Border = null;
+            }
         }
 
-        var progressBar = (HorizontalProgressBar)((Panel)image.Content).Widgets[0];
-        var hintLabel = (Label)((Panel)image.Content).Widgets[1];
+        var (icon, progressBar, hintLabel) = SlotParts(image);
 
         if (bodyPart.Equipment[slot] is { IsDestroyed: false } item)
         {
@@ -364,14 +453,30 @@ public class PawnEquipmentPanel : Grid, IUpdatable
                 _iconCache[item.ItemDef] = new ColoredRegion(new TextureRegion(item.GetIcon()), Color.White);
             }
 
+            _lastMonikers[key] = item.ItemDef.Moniker;
             progressBar.Visible = item.Durability > 1;
-            image.Content.Background = _iconCache[item.ItemDef];
             progressBar.Value = item.Durability / item.MaxDurability * 100;
-            ((ColoredRegion)image.Content.Background).Color = GetEquipmentColor(item, bodyPart);
+            icon.Visible = true;
+            icon.Background = _iconCache[item.ItemDef];
+            image.Content.Background = null;
+            if (!flashing)
+            {
+                _iconCache[item.ItemDef].Color = GetEquipmentColor(item, bodyPart);
+                ResetPulse(image);
+            }
+
             hintLabel.Visible = false;
+        }
+        else if (flashing && icon.Background != null)
+        {
+            hintLabel.Visible = false;
+            progressBar.Visible = false;
         }
         else
         {
+            icon.Visible = false;
+            icon.Background = null;
+            ResetPulse(image);
             if (slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2)
             {
                 image.Content.Background = _potionSlotIcon;
@@ -390,6 +495,56 @@ public class PawnEquipmentPanel : Grid, IUpdatable
 
             progressBar.Visible = false;
         }
+
+        if (flashing && flash != null)
+        {
+            ApplyFlash(image, icon, flash);
+        }
+    }
+
+    private void ApplyFlash(CursorButton button, Image icon, SlotFlash flash)
+    {
+        var t = Math.Clamp(1f - flash.Remaining / FlashDuration, 0f, 1f);
+        var pulse = MathF.Sin(t * MathF.PI);
+        var size = _iconBaseSize + (int)(PulsePixels * pulse);
+        icon.Visible = true;
+        icon.Width = size;
+        icon.Height = size;
+        button.Content.BorderThickness = new Thickness(1 + (int)(2 * pulse));
+        button.Content.Border = new SolidBrush(flash.Color);
+        if (icon.Background is ColoredRegion tint)
+        {
+            tint.Color = Color.Lerp(Color.White, flash.Color, pulse);
+        }
+    }
+
+    private void ResetPulse(CursorButton button)
+    {
+        var (icon, _, _) = SlotParts(button);
+        icon.Width = _iconBaseSize;
+        icon.Height = _iconBaseSize;
+    }
+
+    private static (Image Icon, HorizontalProgressBar Bar, Label Hint) SlotParts(CursorButton button)
+    {
+        var panel = (Panel)button.Content;
+        return ((Image)panel.Widgets[0], (HorizontalProgressBar)panel.Widgets[1], (Label)panel.Widgets[2]);
+    }
+
+    private static Color ColorFor(EquipmentFlashKind kind) => kind switch
+    {
+        EquipmentFlashKind.Strike => new Color(220, 180, 70),
+        EquipmentFlashKind.Block => new Color(140, 190, 210),
+        EquipmentFlashKind.Proc => new Color(255, 215, 80),
+        EquipmentFlashKind.Potion => new Color(255, 215, 80),
+        EquipmentFlashKind.Destroyed => Color.Red,
+        _ => Color.White
+    };
+
+    private sealed class SlotFlash
+    {
+        public float Remaining;
+        public Color Color;
     }
 
     /// <summary>

@@ -147,7 +147,20 @@ public class Pawn : Entity
 
             // Create damage record after blocking is calculated
             var amountBlocked = damage.TotalDamage - damage.TotalUnblockedDamage;
-            DamageRecord damageRecord = new(damage.Weapon.Label, request.WeaponManeuver.Label, damage.Type, bodyPart, damage.TotalDamage, amountBlocked, damage.IsCritical);
+            DamageRecord damageRecord = new(
+                damage.Weapon.Label,
+                request.WeaponManeuver.Label,
+                damage.Type,
+                bodyPart,
+                damage.TotalDamage,
+                amountBlocked,
+                damage.IsCritical,
+                damage.Weapon.ItemDef.Moniker);
+            if (bodyPartEquipment != null && amountBlocked > 0)
+            {
+                damageRecord.BlockingItemMoniker = bodyPartEquipment.ItemDef.Moniker;
+                damageRecord.BlockingItemLabel = bodyPartEquipment.Label;
+            }
 
             if (destroyedArmor != null)
             {

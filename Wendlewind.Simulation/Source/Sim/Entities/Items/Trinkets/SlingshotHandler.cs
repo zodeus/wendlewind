@@ -70,7 +70,7 @@ public class SlingshotHandler : TrinketHandler, IUpgradableHandler
         }
 
         var randomPart = victim.Body.AllExternalParts.RandomElement(Context.Rng);
-        var damageRecord = new DamageRecord(Trinket.Label, "Slingshot", ammoProps.DamageType, randomPart, damage, amountBlocked: 0);
+        var damageRecord = new DamageRecord(Trinket.Label, "Slingshot", ammoProps.DamageType, randomPart, damage, amountBlocked: 0, weaponMoniker: Trinket.ItemDef.Moniker);
         var damagedParts = randomPart.ApplyDamageToExternalPart(new Damage(Trinket, damage, "Slingshot"));
 
         ApplyBodyPartModifiers(randomPart, damagedParts[0]);

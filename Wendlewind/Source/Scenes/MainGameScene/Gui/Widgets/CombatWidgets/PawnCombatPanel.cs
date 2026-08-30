@@ -16,6 +16,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
     /// Gets the body render widget for this pawn, if available.
     /// </summary>
     public PawnRenderWidget? BodyWidget => _bodyWidget;
+    public PawnEquipmentPanel? EquipmentPanel => _equipment;
 
     public PawnCombatPanel(ZoneGui gui, Pawn pawn, Encounter encounter, bool includePortrait = true)
     {
@@ -156,9 +157,13 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
     public void Update(float deltaTime)
     {
         _bodyWidget?.Update(deltaTime);
+        _equipment?.Update(deltaTime);
         foreach (var u in _updatables)
         {
-            u.Update();
+            if (u != _equipment)
+            {
+                u.Update();
+            }
         }
     }
 }

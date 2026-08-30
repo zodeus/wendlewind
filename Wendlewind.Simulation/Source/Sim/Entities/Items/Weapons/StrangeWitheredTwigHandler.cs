@@ -120,7 +120,8 @@ public class StrangeWitheredTwigHandler : WeaponHandler, IUpgradableHandler
             damageRecord.ReflectedEffects.Add(new ReflectedStatusEffect(
                 victim,
                 Weapon.ItemDef,
-                $"Withered Twig inflicts: {effectsList}"));
+                $"Withered Twig inflicts: {effectsList}",
+                Weapon.ItemDef.Moniker));
         }
     }
 
