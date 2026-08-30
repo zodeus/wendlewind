@@ -68,7 +68,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         };
         _updatables.Add(_equipment);
 
-        return new VerticalStackPanel
+        var equipmentFrame = new VerticalStackPanel
         {
             Height = targetHeight,
             VerticalAlignment = VerticalAlignment.Top,
@@ -77,6 +77,31 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
             Widgets = { _equipment }
         };
+
+        var effects = new PawnBodyEffectsPanel(_gui, Pawn, EffectsPanelOrientation.Vertical)
+        {
+            VerticalAlignment = VerticalAlignment.Top
+        };
+        _updatables.Add(effects);
+
+        var row = new HorizontalStackPanel
+        {
+            Spacing = 4,
+            VerticalAlignment = VerticalAlignment.Top,
+            HorizontalAlignment = align
+        };
+        if (Pawn.PawnType == PawnType.Player)
+        {
+            row.Widgets.Add(effects);
+            row.Widgets.Add(equipmentFrame);
+        }
+        else
+        {
+            row.Widgets.Add(equipmentFrame);
+            row.Widgets.Add(effects);
+        }
+
+        return row;
     }
 
     private PawnRenderWidget CreateBodyWidget(int size)
@@ -109,33 +134,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
             DefaultProportion = Proportion.Auto
         };
 
-        var bodyWidget = CreateBodyWidget(BaseContent.IconSizes.Portrait);
-
-        var pawnEffectsPanel = new PawnBodyEffectsPanel(_gui, Pawn, EffectsPanelOrientation.Vertical)
-        {
-            VerticalAlignment = VerticalAlignment.Bottom,
-        };
-        _updatables.Add(pawnEffectsPanel);
-
-        var portraitRow = new HorizontalStackPanel
-        {
-            Spacing = 5,
-            VerticalAlignment = VerticalAlignment.Bottom,
-        };
-
-        if (Pawn.PawnType == PawnType.Player)
-        {
-            portraitRow.Widgets.Add(pawnEffectsPanel);
-            portraitRow.Widgets.Add(bodyWidget);
-            portraitRow.HorizontalAlignment = HorizontalAlignment.Right;
-        }
-        else
-        {
-            portraitRow.Widgets.Add(bodyWidget);
-            portraitRow.Widgets.Add(pawnEffectsPanel);
-        }
-
-        panel.Widgets.Add(portraitRow);
+        panel.Widgets.Add(CreateBodyWidget(BaseContent.IconSizes.Portrait));
 
         Label namePlate = new()
         {
