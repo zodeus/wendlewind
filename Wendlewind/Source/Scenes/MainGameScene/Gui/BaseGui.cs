@@ -9,6 +9,8 @@ public abstract class BaseGui : IDisposable
     private BookOfAllKnowledgeWindow? Boak;
     private Window? _grimoireWindow;
     private GrimoirePanel? _grimoirePanel;
+    private Window? _inventoryWindow;
+    private ItemContainerPanel? _inventoryPanel;
     public Desktop Desktop { get; set; } = null!;
     public abstract WorldTextHandler WorldTextHandler { get; }
 
@@ -42,6 +44,10 @@ public abstract class BaseGui : IDisposable
         if (_grimoireWindow is { IsPlaced: true })
         {
             _grimoirePanel?.Update();
+        }
+        if (_inventoryWindow is { IsPlaced: true })
+        {
+            _inventoryPanel?.Update();
         }
         if (_screenMessageTimeLeft > 0)
         {
@@ -171,6 +177,39 @@ public abstract class BaseGui : IDisposable
     private void CloseGrimoire()
     {
         _grimoireWindow?.Close();
+    }
+
+    public void OpenInventory()
+    {
+        if (_inventoryWindow is { IsPlaced: true })
+        {
+            CloseInventory();
+            return;
+        }
+
+        _inventoryPanel = new ItemContainerPanel(this, Core.Context.PlayerPawn.Inventory);
+        _inventoryWindow = new Window
+        {
+            Title = "Inventory",
+            Content = _inventoryPanel,
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame]
+        };
+        _inventoryWindow.Closed += (_, _) =>
+        {
+            _inventoryPanel = null;
+            _inventoryWindow = null;
+        };
+
+        _inventoryWindow.Show(Desktop);
+        _inventoryWindow.Arrange(new Rectangle(0, 0, Core.ReferenceResolution.X, Core.ReferenceResolution.Y));
+        var windowWidth = _inventoryWindow.ActualBounds.Width;
+        _inventoryWindow.Left = (Core.ReferenceResolution.X - windowWidth) / 2;
+        _inventoryWindow.Top = 100;
+    }
+
+    private void CloseInventory()
+    {
+        _inventoryWindow?.Close();
     }
 
     public virtual void Draw(SpriteBatch spriteBatch, float deltaTime)

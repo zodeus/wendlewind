@@ -5,7 +5,49 @@ public class MedicinalProperties
     public int DurationInTicks;
     public bool InfiniteUse;
     public int CooldownInTicks;
+    public MedicalTrigger? DefaultTrigger;
+    public List<MedicalTriggerType> AllowedTriggerTypes = [];
+    public List<MedicalTargetSelector> AllowedTargetSelectors = [];
+    public List<MedicalTargetPool> WatchPool = [];
+    public MedicalApplyMode ApplyMode;
     [UsedImplicitly] public Type? HandlerClass;
+
+    public IReadOnlyList<MedicalTriggerType> GetAllowedTriggerTypes()
+    {
+        return AllowedTriggerTypes.Count > 0
+            ? AllowedTriggerTypes
+            : Enum.GetValues<MedicalTriggerType>();
+    }
+
+    public IReadOnlyList<MedicalTargetSelector> GetAllowedTargetSelectors()
+    {
+        IEnumerable<MedicalTargetSelector> selectors = AllowedTargetSelectors.Count > 0
+            ? AllowedTargetSelectors
+            : Enum.GetValues<MedicalTargetSelector>();
+        return selectors.Where(s => s != MedicalTargetSelector.MostDamagedPart).ToList();
+    }
+
+    public IReadOnlyList<MedicalTargetPool> GetWatchPool()
+    {
+        return WatchPool.Count > 0
+            ? WatchPool
+            : [MedicalTargetPool.External];
+    }
+
+    public bool AllowsTrigger(MedicalTriggerType type)
+    {
+        return GetAllowedTriggerTypes().Contains(type);
+    }
+
+    public bool AllowsTarget(MedicalTargetSelector selector)
+    {
+        return GetAllowedTargetSelectors().Contains(selector);
+    }
+
+    public bool Watches(MedicalTargetPool pool)
+    {
+        return GetWatchPool().Contains(pool);
+    }
 
     public MedicinalHandler? CreateHandler(ISimFactory factory)
     {

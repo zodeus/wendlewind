@@ -8,14 +8,15 @@ public class BalmyOintmentHandler : MedicinalHandler
         Rng = rng;
     }
 
-    private static readonly Color BalmColor = new(180, 200, 140);        // Soft green for soothing
-    private static readonly Color PartColor = new(180, 150, 130);        // Flesh tone
-    private static readonly Color InternalColor = new(140, 120, 110);    // Darker for internal
-    private static readonly Color EffectColor = new(220, 200, 100);      // Golden glow effect
     private const double SoothingBalmPower = 1;
 
     public override bool ApplyToPart(Item item, BodyPart part)
     {
+        if (!NeedsBalm(part) && part.AllInternalParts.All(p => !NeedsBalm(p)))
+        {
+            return false;
+        }
+
         var duration = item.ItemDef.MedicinalProperties!.DurationInTicks;
         part.TryAddModifier(Context.Factory.CreateModifier(Defs.BodyPartModifiers.SoothingBalm, duration, 1));
         RemoveBurningAndAcid(part);
@@ -25,8 +26,18 @@ public class BalmyOintmentHandler : MedicinalHandler
             RemoveBurningAndAcid(internalPart);
         }
 
-
         return true;
+    }
+
+    private static bool NeedsBalm(BodyPart part)
+    {
+        return HasBurningOrAcid(part) || part.HasModifier(Defs.BodyPartModifiers.SoothingBalm) == false;
+    }
+
+    private static bool HasBurningOrAcid(BodyPart part)
+    {
+        return part.HasModifier(Defs.BodyPartModifiers.Burning)
+               || part.HasModifier(Defs.BodyPartModifiers.Acid);
     }
 
     private void RemoveBurningAndAcid(BodyPart part)

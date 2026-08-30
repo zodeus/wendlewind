@@ -387,12 +387,12 @@ public static class BuildTemplates
 
     private static BuildSnapshot WithFullInventory(BuildSnapshot snapshot)
     {
+        var already = snapshot.EntityDefMonikers.ToHashSet();
         return snapshot with
         {
             Inventory = [..FullInventory(), ..EnchantmentInventory()],
             EntityDefMonikers = snapshot.EntityDefMonikers
-                .Concat(AllTrinkets())
-                .Distinct()
+                .Concat(AllTrinkets().Where(already.Add))
                 .ToArray()
         };
     }
@@ -499,7 +499,7 @@ public static class BuildTemplates
     private static readonly MedicalChestConfig[] DefaultMedical =
     [
         MedPartBelow("MedKit", 0.5f, 2),
-        MedBloodBelow("MendersMist", 0.4f, 1),
+        MedPartBelow("MendersMist", 0.4f, 1),
         MedPartBelow("ArterialThreads", 0.6f, 1),
         MedCauterize()
     ];
@@ -509,7 +509,7 @@ public static class BuildTemplates
         ItemMoniker = moniker,
         Charges = charges,
         Type = MedicalTriggerType.PartBelowHealth,
-        TargetSelector = MedicalTargetSelector.MostDamagedPart,
+        TargetSelector = MedicalTargetSelector.Auto,
         HealthThreshold = health
     };
 

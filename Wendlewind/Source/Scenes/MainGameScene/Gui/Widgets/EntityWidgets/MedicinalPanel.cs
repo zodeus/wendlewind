@@ -1,4 +1,5 @@
 using System.Globalization;
+using Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnPreparationPanelWidgets;
 
 namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
@@ -84,9 +85,31 @@ public class MedicinalPanel : EntityPanelBase
                     {
                         Text = $"Duration: {medicinal.DurationInTicks / (float)GameContext.TicksPerSecond:0.#}s",
                         TextColor = new Color(180, 180, 180),
-                        Margin = new Thickness(0, 0, 0, 8)
+                        Margin = new Thickness(0, 0, 0, 4)
                     });
                 }
+
+                var triggers = medicinal.GetAllowedTriggerTypes();
+                if (triggers.Count > 0 && triggers.Count < Enum.GetValues<MedicalTriggerType>().Length)
+                {
+                    Widgets.Add(new Label("small")
+                    {
+                        Text = "Triggers: " + string.Join(", ", triggers.Select(TriggerLabels.For)),
+                        TextColor = new Color(180, 180, 180),
+                        Wrap = true,
+                        MaxWidth = 400,
+                        Margin = new Thickness(0, 0, 0, 4)
+                    });
+                }
+
+                Widgets.Add(new Label("small")
+                {
+                    Text = "Watches: " + string.Join(", ", medicinal.GetWatchPool().Select(TriggerLabels.For)),
+                    TextColor = new Color(180, 180, 180),
+                    Wrap = true,
+                    MaxWidth = 400,
+                    Margin = new Thickness(0, 0, 0, 8)
+                });
             }
 
             foreach (var baseStat in item.Def.BaseStats)

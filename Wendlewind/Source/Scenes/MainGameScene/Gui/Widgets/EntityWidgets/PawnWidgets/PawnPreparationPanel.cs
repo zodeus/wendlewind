@@ -4,6 +4,10 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
 public class PawnPreparationPanel : Panel, IUpdatable
 {
+    private const int CharacterColumnWidth = 236;
+    private const int CardPadding = 16;
+    private const int PotionColumnWidth = 460;
+
     private readonly PawnEquipmentPanel _equipmentPanel;
     private readonly PawnSummaryCard _summaryCard;
     private readonly PawnBodyEffectsPanel _pawnEffectsPanel;
@@ -41,10 +45,10 @@ public class PawnPreparationPanel : Panel, IUpdatable
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Stretch
         };
-        root.ColumnsProportions.Add(new Proportion(ProportionType.Part, 0.39f));
-        root.ColumnsProportions.Add(new Proportion(ProportionType.Part, 0.9f));
-        root.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1f));
-        root.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1f));
+        root.ColumnsProportions.Add(new Proportion(ProportionType.Pixels, CharacterColumnWidth));
+        root.ColumnsProportions.Add(new Proportion(ProportionType.Pixels, _equipmentPanel.PixelWidth + CardPadding));
+        root.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
+        root.ColumnsProportions.Add(new Proportion(ProportionType.Pixels, PotionColumnWidth));
         root.RowsProportions.Add(new Proportion(ProportionType.Part, 1.15f));
         root.RowsProportions.Add(new Proportion(ProportionType.Part, 0.85f));
 
@@ -63,7 +67,7 @@ public class PawnPreparationPanel : Panel, IUpdatable
             VerticalAlignment = VerticalAlignment.Stretch
         };
         lastColumn.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
-        lastColumn.RowsProportions.Add(new Proportion(ProportionType.Part, 1f));
+        lastColumn.RowsProportions.Add(new Proportion(ProportionType.Auto));
         lastColumn.RowsProportions.Add(new Proportion(ProportionType.Part, 1f));
         lastColumn.RowsProportions.Add(new Proportion(ProportionType.Part, 1f));
         Place(lastColumn, _potionsPanel, 0, 0);
@@ -80,6 +84,14 @@ public class PawnPreparationPanel : Panel, IUpdatable
         };
         grimoireButton.Click += (_, _) => gui.OpenGrimoire();
 
+        var inventoryButton = new CursorButton(BaseContent.Styles.Button.Normal)
+        {
+            Content = new Label(BaseContent.Styles.Label.Normal) { Text = "Inventory" },
+            HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        inventoryButton.Click += (_, _) => gui.OpenInventory();
+
         var header = new HorizontalStackPanel
         {
             Spacing = 8,
@@ -88,6 +100,7 @@ public class PawnPreparationPanel : Panel, IUpdatable
             Widgets =
             {
                 grimoireButton,
+                inventoryButton,
                 _controlsPanel
             }
         };
@@ -142,7 +155,9 @@ public class PawnPreparationPanel : Panel, IUpdatable
         _pawnEffectsPanel.Update();
         _mealPlanPanel.Update();
         _incenseChargesPanel.Update();
-        _potionsPanel.Update();
         _medicalChestPanel.Update();
+        _potionsPanel.Update();
+        _potionsPanel.SyncCardHeight(_medicalChestPanel.CardHeight);
+        _trinketsPanel.Update();
     }
 }

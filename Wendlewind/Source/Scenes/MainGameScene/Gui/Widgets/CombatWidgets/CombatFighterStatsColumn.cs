@@ -13,11 +13,9 @@ public sealed class CombatFighterStatsColumn : Panel, IUpdatable
     private readonly CombatVitalMeter _bodyMeter;
     private readonly Label _atk;
     private readonly Label _enr;
-    private readonly Label _stm;
     private readonly Label _nxt;
     private readonly Label _acc;
     private readonly Label _eva;
-    private readonly Label _tmp;
     private readonly PawnCapabilitiesOverlay _capabilities;
     private readonly Image _stanceIcon;
     private BodyStanceDef? _stance;
@@ -38,7 +36,7 @@ public sealed class CombatFighterStatsColumn : Panel, IUpdatable
         };
         grid.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1));
         grid.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1));
-        for (var i = 0; i < 5; i++)
+        for (var i = 0; i < 4; i++)
         {
             grid.RowsProportions.Add(Proportion.Auto);
         }
@@ -50,17 +48,15 @@ public sealed class CombatFighterStatsColumn : Panel, IUpdatable
 
         Place(grid, CreateCell("Attack", out _atk), 1, 0);
         Place(grid, CreateCell("Energy", out _enr), 1, 1);
-        Place(grid, CreateCell("Stomach", out _stm), 2, 0);
-        Place(grid, CreateCell("Next", out _nxt), 2, 1);
-        Place(grid, CreateCell("Accuracy", out _acc), 3, 0);
-        Place(grid, CreateCell("Evasion", out _eva), 3, 1);
-        Place(grid, CreateCell("Temp", out _tmp), 4, 0);
+        Place(grid, CreateCell("Accuracy", out _acc), 2, 0);
+        Place(grid, CreateCell("Evasion", out _eva), 2, 1);
+        Place(grid, CreateCell("Next", out _nxt), 3, 0);
         var stanceCell = CreateIconCell("Stance", out _stanceIcon);
         stanceCell.WithTooltip(() => new Label(BaseContent.Styles.Label.Small)
         {
             Text = _pawn.Body.Stance?.Label ?? "Stance"
         });
-        Place(grid, stanceCell, 4, 1);
+        Place(grid, stanceCell, 3, 1);
 
         _capabilities = new PawnCapabilitiesOverlay(pawn.Body)
         {
@@ -95,9 +91,6 @@ public sealed class CombatFighterStatsColumn : Panel, IUpdatable
         var energy = _pawn.Body.EnergyPercent;
         UiLabel.Set(_enr, $"{Mathf.RoundToInt(energy * 100)}%", BodyPartColor.GetStomachColor(energy));
 
-        var stomach = _pawn.Body.StomachLevel;
-        UiLabel.Set(_stm, $"{Mathf.RoundToInt(stomach * 100)}%", BodyPartColor.GetStomachColor(stomach));
-
         var period = _pawn.CalculateTicksToAttack();
         var remaining = Math.Clamp(_pawn.TicksToAttack, 0, period);
         UiLabel.Set(_nxt, remaining <= 0 ? "rdy" : $"{remaining / (float)GameContext.TicksPerSecond:0.0}s", ValueColor);
@@ -111,9 +104,6 @@ public sealed class CombatFighterStatsColumn : Panel, IUpdatable
 
         UiLabel.Set(_acc, $"{_pawn.GetStatValue(Defs.Stats.Accuracy) * 100:0}%", ValueColor);
         UiLabel.Set(_eva, $"{_pawn.GetStatValue(Defs.Stats.Evasion) * 100:0}%", ValueColor);
-
-        var temperature = _pawn.Body.Temperature;
-        UiLabel.Set(_tmp, $"{temperature:0}", BodyPartColor.GetBodyTemperatureColor(temperature));
 
         _capabilities.Update();
 

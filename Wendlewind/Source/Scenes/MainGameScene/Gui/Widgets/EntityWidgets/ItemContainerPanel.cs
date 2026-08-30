@@ -1,99 +1,51 @@
 ﻿namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
-public sealed class ItemContainerPanel : Panel
+public sealed class ItemContainerPanel : VerticalStackPanel, IUpdatable
 {
-    private readonly BaseGui _gui;
+    private static readonly (string Label, ItemType Type)[] Categories =
+    [
+        ("Equipment", ItemType.Equipment),
+        ("Trinkets", ItemType.Trinket),
+        ("Medicinal", ItemType.Medical),
+        ("Potions", ItemType.Potion),
+        ("Food", ItemType.Food),
+        ("Incense", ItemType.Incense),
+        ("Supplies", ItemType.Supplies),
+        ("Enchantments", ItemType.Enchantment),
+        ("Resources", ItemType.Resource)
+    ];
 
-    private readonly List<InventoryListPanel> _sections = new();
+    private readonly TabPanel _tabs;
 
     public ItemContainerPanel(BaseGui gui, PawnInventory inventory)
     {
-        _gui = gui;
-        Background = new ColoredRegion(Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame], new Color(100, 100, 100, 220));
-        Padding = new Thickness(15, 15, 15, 15);
+        Padding = new Thickness(12);
+        Width = 1040;
+        Height = 720;
+        MinWidth = 1040;
 
-        List<ItemContainerPanelSection> sections = new()
+        _tabs = new TabPanel(tabsOnTop: true)
         {
-            new ItemContainerPanelSection
-            {
-                Label = "Medicinal",
-                Inventory = inventory,
-                Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Medical || entity.Def == Defs.Items.Cauterize
-            },
-            new ItemContainerPanelSection
-            {
-                Label = "Potions",
-                Inventory = inventory,
-                Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Potion
-            },
-            new ItemContainerPanelSection
-            {
-                Label = "Food",
-                Inventory = inventory,
-                Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Food
-            },
-            new ItemContainerPanelSection
-            {
-                Label = "Incense",
-                Inventory = inventory,
-                Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Incense
-            },
-            new ItemContainerPanelSection
-            {
-                Label = "Supplies",
-                Inventory = inventory,
-                Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Supplies
-            },
-            new ItemContainerPanelSection
-            {
-                Label = "Equipment",
-                Inventory = inventory,
-                Filter = entity => ((Item)entity).ItemDef.ItemType == ItemType.Equipment
-            },
-            new ItemContainerPanelSection
-            {
-                Label = "Enchantments",
-                Inventory = inventory,
-                Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Enchantment
-            },
-            new ItemContainerPanelSection
-            {
-                Label = "Resources",
-                Inventory = inventory,
-                Filter = entity => ((Item)entity).ItemDef.ItemType is ItemType.Resource
-            }
+            ButtonStyle = BaseContent.Styles.Button.Normal,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch
         };
 
-        var verticalStackPanel = new VerticalStackPanel();
-        Widgets.Add(new ScrollViewer
+        foreach (var (label, type) in Categories)
         {
-            ScrollMultiplier = 40,
-            Content = verticalStackPanel
-        });
-        foreach (var section in sections)
-        {
-            InventoryListPanel panel = new(_gui, section.Label, section.Inventory, section.Filter)
+            _tabs.AddTab(label, new InventoryListPanel(gui, inventory, item => item.ItemDef.ItemType == type)
             {
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                Margin = new Thickness(0, 0, 0, 10)
-            };
-            _sections.Add(panel);
-            verticalStackPanel.Widgets.Add(panel);
+                HorizontalAlignment = HorizontalAlignment.Stretch
+            });
         }
+
+        Widgets.Add(_tabs);
+        SetProportionType(_tabs, ProportionType.Fill);
+        Update();
     }
 
     public void Update()
     {
-        foreach (var section in _sections)
-        {
-            section.Update();
-        }
-    }
-
-    private class ItemContainerPanelSection
-    {
-        public PawnInventory Inventory { get; set; } = null!;
-        public Func<Entity, bool>? Filter { get; set; }
-        public string Label { get; set; } = string.Empty;
+        _tabs.Update();
     }
 }

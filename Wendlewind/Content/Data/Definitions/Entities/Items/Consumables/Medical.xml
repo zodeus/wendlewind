@@ -15,6 +15,20 @@
         <MedicinalProperties>
             <InfiniteUse>true</InfiniteUse>
             <CooldownInTicks>300</CooldownInTicks>
+            <ApplyMode>WatchedPart</ApplyMode>
+            <WatchPool>
+                <ListItem>Socket</ListItem>
+            </WatchPool>
+            <AllowedTriggerTypes>
+                <ListItem>PartSevered</ListItem>
+            </AllowedTriggerTypes>
+            <AllowedTargetSelectors>
+                <ListItem>SeveredOrUnsealedSocket</ListItem>
+            </AllowedTargetSelectors>
+            <DefaultTrigger>
+                <Type>PartSevered</Type>
+                <TargetSelector>SeveredOrUnsealedSocket</TargetSelector>
+            </DefaultTrigger>
         </MedicinalProperties>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
@@ -25,6 +39,25 @@
         <MedicinalProperties>
             <HandlerClass>MedKitHandler</HandlerClass>
             <CooldownInTicks>240</CooldownInTicks>
+            <ApplyMode>NearestExternalAncestor</ApplyMode>
+            <WatchPool>
+                <ListItem>External</ListItem>
+                <ListItem>Internal</ListItem>
+            </WatchPool>
+            <AllowedTriggerTypes>
+                <ListItem>PartBelowHealth</ListItem>
+                <ListItem>Immediately</ListItem>
+                <ListItem>AfterSeconds</ListItem>
+            </AllowedTriggerTypes>
+            <AllowedTargetSelectors>
+                <ListItem>Auto</ListItem>
+                <ListItem>SpecificPart</ListItem>
+            </AllowedTargetSelectors>
+            <DefaultTrigger>
+                <Type>PartBelowHealth</Type>
+                <TargetSelector>Auto</TargetSelector>
+                <HealthThreshold>0.5</HealthThreshold>
+            </DefaultTrigger>
         </MedicinalProperties>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
@@ -52,6 +85,23 @@
         <MedicinalProperties>
             <HandlerClass>ArterialThreadsHandler</HandlerClass>
             <CooldownInTicks>180</CooldownInTicks>
+            <ApplyMode>NearestExternalAncestor</ApplyMode>
+            <WatchPool>
+                <ListItem>Artery</ListItem>
+            </WatchPool>
+            <AllowedTriggerTypes>
+                <ListItem>PartBelowHealth</ListItem>
+                <ListItem>Immediately</ListItem>
+            </AllowedTriggerTypes>
+            <AllowedTargetSelectors>
+                <ListItem>Auto</ListItem>
+                <ListItem>SpecificPart</ListItem>
+            </AllowedTargetSelectors>
+            <DefaultTrigger>
+                <Type>PartBelowHealth</Type>
+                <TargetSelector>Auto</TargetSelector>
+                <HealthThreshold>0.6</HealthThreshold>
+            </DefaultTrigger>
         </MedicinalProperties>
         <CraftingProperties>
             <AmountProduced>2</AmountProduced>
@@ -74,6 +124,26 @@
         <MedicinalProperties>
             <HandlerClass>MendersMistHandler</HandlerClass>
             <CooldownInTicks>180</CooldownInTicks>
+            <ApplyMode>WatchedPart</ApplyMode>
+            <WatchPool>
+                <ListItem>External</ListItem>
+            </WatchPool>
+            <AllowedTriggerTypes>
+                <ListItem>PartBelowHealth</ListItem>
+                <ListItem>SelfPartsDamaged</ListItem>
+                <ListItem>SelfBloodBelow</ListItem>
+                <ListItem>Immediately</ListItem>
+                <ListItem>AfterSeconds</ListItem>
+            </AllowedTriggerTypes>
+            <AllowedTargetSelectors>
+                <ListItem>Auto</ListItem>
+                <ListItem>SpecificPart</ListItem>
+            </AllowedTargetSelectors>
+            <DefaultTrigger>
+                <Type>PartBelowHealth</Type>
+                <TargetSelector>Auto</TargetSelector>
+                <HealthThreshold>0.5</HealthThreshold>
+            </DefaultTrigger>
         </MedicinalProperties>
         <BaseStats>
             <HealingValue>200</HealingValue>
@@ -103,6 +173,24 @@
             <HandlerClass>BalmyOintmentHandler</HandlerClass>
             <DurationInTicks>800</DurationInTicks>
             <CooldownInTicks>240</CooldownInTicks>
+            <ApplyMode>NearestExternalAncestor</ApplyMode>
+            <WatchPool>
+                <ListItem>External</ListItem>
+                <ListItem>Internal</ListItem>
+            </WatchPool>
+            <AllowedTriggerTypes>
+                <ListItem>BurningOrAcid</ListItem>
+                <ListItem>Immediately</ListItem>
+                <ListItem>AfterSeconds</ListItem>
+            </AllowedTriggerTypes>
+            <AllowedTargetSelectors>
+                <ListItem>Auto</ListItem>
+                <ListItem>SpecificPart</ListItem>
+            </AllowedTargetSelectors>
+            <DefaultTrigger>
+                <Type>BurningOrAcid</Type>
+                <TargetSelector>Auto</TargetSelector>
+            </DefaultTrigger>
         </MedicinalProperties>
         <CraftingProperties>
             <AmountProduced>3</AmountProduced>
@@ -134,6 +222,23 @@
             <HandlerClass>AntiNecroticSerumHandler</HandlerClass>
             <DurationInTicks>1000</DurationInTicks>
             <CooldownInTicks>300</CooldownInTicks>
+            <ApplyMode>WatchedPart</ApplyMode>
+            <WatchPool>
+                <ListItem>External</ListItem>
+                <ListItem>Internal</ListItem>
+            </WatchPool>
+            <AllowedTriggerTypes>
+                <ListItem>HasNecrosis</ListItem>
+                <ListItem>Immediately</ListItem>
+            </AllowedTriggerTypes>
+            <AllowedTargetSelectors>
+                <ListItem>Auto</ListItem>
+                <ListItem>SpecificPart</ListItem>
+            </AllowedTargetSelectors>
+            <DefaultTrigger>
+                <Type>HasNecrosis</Type>
+                <TargetSelector>Auto</TargetSelector>
+            </DefaultTrigger>
         </MedicinalProperties>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
@@ -166,6 +271,27 @@
             <HandlerClass>MendersMixHandler</HandlerClass>
             <DurationInTicks>300</DurationInTicks>
             <CooldownInTicks>300</CooldownInTicks>
+            <ApplyMode>NearestExternalAncestor</ApplyMode>
+            <WatchPool>
+                <ListItem>External</ListItem>
+                <ListItem>Internal</ListItem>
+            </WatchPool>
+            <AllowedTriggerTypes>
+                <ListItem>PartBelowHealth</ListItem>
+                <ListItem>SelfPartsDamaged</ListItem>
+                <ListItem>SelfBloodBelow</ListItem>
+                <ListItem>Immediately</ListItem>
+                <ListItem>AfterSeconds</ListItem>
+            </AllowedTriggerTypes>
+            <AllowedTargetSelectors>
+                <ListItem>Auto</ListItem>
+                <ListItem>SpecificPart</ListItem>
+            </AllowedTargetSelectors>
+            <DefaultTrigger>
+                <Type>PartBelowHealth</Type>
+                <TargetSelector>Auto</TargetSelector>
+                <HealthThreshold>0.4</HealthThreshold>
+            </DefaultTrigger>
         </MedicinalProperties>
         <BaseStats>
             <HealingValue>500</HealingValue>
@@ -204,6 +330,18 @@
         <MedicinalProperties>
             <HandlerClass>BoneCleanseHandler</HandlerClass>
             <CooldownInTicks>360</CooldownInTicks>
+            <ApplyMode>Self</ApplyMode>
+            <WatchPool>
+                <ListItem>Bone</ListItem>
+            </WatchPool>
+            <AllowedTriggerTypes>
+                <ListItem>Immediately</ListItem>
+                <ListItem>AfterSeconds</ListItem>
+                <ListItem>PartBelowHealth</ListItem>
+            </AllowedTriggerTypes>
+            <DefaultTrigger>
+                <Type>Immediately</Type>
+            </DefaultTrigger>
         </MedicinalProperties>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
@@ -233,6 +371,17 @@
         <MedicinalProperties>
             <HandlerClass>StrengthenBonesHandler</HandlerClass>
             <CooldownInTicks>360</CooldownInTicks>
+            <ApplyMode>Self</ApplyMode>
+            <WatchPool>
+                <ListItem>Self</ListItem>
+            </WatchPool>
+            <AllowedTriggerTypes>
+                <ListItem>Immediately</ListItem>
+                <ListItem>AfterSeconds</ListItem>
+            </AllowedTriggerTypes>
+            <DefaultTrigger>
+                <Type>Immediately</Type>
+            </DefaultTrigger>
         </MedicinalProperties>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>

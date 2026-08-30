@@ -1,46 +1,87 @@
 namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 
-public sealed class TrinketBar : VerticalStackPanel
+public sealed class TrinketBar : VerticalStackPanel, IUpdatable
 {
-    private Dictionary<Item, TrinketBarCell> _trinkets = [];
-    private HorizontalStackPanel _currentRow = new();
-    public int TrinketsPerRow { get; set; } = 10;
+    private static readonly int CellSize = BaseContent.IconSizes.Large;
+    private const int CellSpacing = 2;
 
-    public TrinketBar(PawnInventory inventory, TrinketType type, Action<Item>? clickAction = null, int trinketsPerRow = 10)
+    private readonly PawnInventory _inventory;
+    private readonly TrinketType _type;
+    private readonly Action<Item>? _clickAction;
+    private readonly Dictionary<Item, TrinketBarCell> _trinkets = [];
+    private int _perRow = -1;
+
+    public TrinketBar(PawnInventory inventory, TrinketType type, Action<Item>? clickAction = null)
     {
-        TrinketsPerRow = trinketsPerRow;
-        Widgets.Add(_currentRow);
-        inventory.ItemAdded += CreatePanel;
-        foreach (var trinket in inventory.Trinkets)
+        _inventory = inventory;
+        _type = type;
+        _clickAction = clickAction;
+        Spacing = CellSpacing;
+        HorizontalAlignment = HorizontalAlignment.Stretch;
+        inventory.ItemAdded += _ => Rebuild();
+        Rebuild();
+    }
+
+    public void Update()
+    {
+        var perRow = CellsPerRow();
+        if (perRow != _perRow)
         {
-            CreatePanel(trinket);
+            Rebuild();
+            return;
         }
 
-        return;
-
-        void CreatePanel(Entity entity)
+        foreach (var cell in _trinkets.Values)
         {
-            if (entity is not Item { ItemDef: { ItemType: ItemType.Trinket } } trinket) return;
-            if (trinket.ItemDef.TrinketProperties?.Type != type) return;
-            
-            if (_currentRow.Widgets.Count >= TrinketsPerRow)
-            {
-                _currentRow = new HorizontalStackPanel();
-                Widgets.Add(_currentRow);
-            }
-
-            var panel = new TrinketBarCell(trinket, clickAction) { VerticalAlignment = VerticalAlignment.Bottom };
-            _trinkets[trinket] = panel;
-            _currentRow.Widgets.Add(panel);
+            cell.Update();
         }
     }
 
-    override public void InternalRender(RenderContext context)
+    private int CellsPerRow()
     {
-        base.InternalRender(context);
-        foreach (var (item, button) in _trinkets)
+        var width = Math.Max(ActualBounds.Width, Bounds.Width);
+        if (width <= 0)
         {
-            button.Update();
+            return int.MaxValue;
+        }
+
+        return Math.Max(1, (width + CellSpacing) / (CellSize + CellSpacing));
+    }
+
+    private void Rebuild()
+    {
+        _perRow = CellsPerRow();
+        _trinkets.Clear();
+        Widgets.Clear();
+
+        HorizontalStackPanel? row = null;
+        var index = 0;
+        foreach (var trinket in CurrentTrinkets())
+        {
+            if (index % _perRow == 0)
+            {
+                row = new HorizontalStackPanel { Spacing = CellSpacing };
+                Widgets.Add(row);
+            }
+
+            var cell = new TrinketBarCell(trinket, _clickAction)
+            {
+                VerticalAlignment = VerticalAlignment.Bottom
+            };
+            _trinkets[trinket] = cell;
+            row!.Widgets.Add(cell);
+            index++;
+        }
+    }
+
+    private IEnumerable<Item> CurrentTrinkets()
+    {
+        foreach (var trinket in _inventory.Trinkets)
+        {
+            if (trinket.ItemDef.TrinketProperties?.Type == _type)
+            {
+                yield return trinket;
+            }
         }
     }
 }
@@ -74,10 +115,9 @@ public sealed class TrinketBarCell : VerticalStackPanel
             }
             trinket.TrinketHandler?.OnClick();
         };
-        
-        // Hover tooltip using dynamic getter since label could change
+
         _button.WithDynamicTooltip(() => _trinket.Label, () => _trinket.Def.Description);
-        
+
         Widgets.Add(_button);
     }
 

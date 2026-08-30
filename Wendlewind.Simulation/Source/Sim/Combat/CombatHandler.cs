@@ -13,7 +13,6 @@ public class CombatHandler : IDisposable, IHasContext
     private readonly List<DamageRequest> _damageOptions = [];
     private readonly List<CombatSubEffect> _subEffects = [];
     private readonly List<Item> _potionScratch = [];
-    private readonly List<BodyPart> _medicalCandidates = [];
     private int _lastTickHealthFlush;
     private bool _combatStarted;
 
@@ -416,7 +415,7 @@ public class CombatHandler : IDisposable, IHasContext
                 continue;
             }
 
-            if (slot.Trigger?.ShouldFire(self, enemy, _encounter.Ticks) != true)
+            if (slot.Trigger?.ShouldFire(self, enemy, _encounter.Ticks, slot.Def) != true)
             {
                 continue;
             }
@@ -425,6 +424,7 @@ public class CombatHandler : IDisposable, IHasContext
             if (!TryApplyMedical(self, slot, item, out var partLabel, out var partKey))
             {
                 item.Destroy();
+                slot.NextReadyTick = _encounter.Ticks + MedicalChest.FailedApplyBackoffInTicks;
                 continue;
             }
 
@@ -457,7 +457,7 @@ public class CombatHandler : IDisposable, IHasContext
         partKey = null;
         var trigger = slot.Trigger ?? new MedicalTrigger();
 
-        if (item.Def == Defs.Items.Cauterize || trigger.TargetSelector == MedicalTargetSelector.SeveredOrUnsealedSocket)
+        if (MedicalTrigger.CanSealSocket(slot.Def) && trigger.TargetSelector == MedicalTargetSelector.SeveredOrUnsealedSocket)
         {
             var socket = MedicalTrigger.FindUnsealedSocket(self);
             if (socket == null)
@@ -476,56 +476,25 @@ public class CombatHandler : IDisposable, IHasContext
             return false;
         }
 
-        if (trigger.TargetSelector == MedicalTargetSelector.SpecificPart)
-        {
-            var part = self.Body.FindPartByKey(trigger.TargetPartKey);
-            if (part == null || !item.MedicinalHandler.ApplyToPart(item, part))
-            {
-                return false;
-            }
-
-            partLabel = part.Label;
-            partKey = part.InternalLabel;
-            return true;
-        }
-
-        if (trigger.TargetSelector == MedicalTargetSelector.MostDamagedPart)
-        {
-            BodyPart? mostDamaged = null;
-            foreach (var candidate in self.Body.AllExternalParts)
-            {
-                if (mostDamaged == null || candidate.HealthPercent < mostDamaged.HealthPercent)
-                {
-                    mostDamaged = candidate;
-                }
-            }
-
-            if (mostDamaged == null || !item.MedicinalHandler.ApplyToPart(item, mostDamaged))
-            {
-                return false;
-            }
-
-            partLabel = mostDamaged.Label;
-            partKey = mostDamaged.InternalLabel;
-            return true;
-        }
-
-        _medicalCandidates.Clear();
-        foreach (var part in self.Body.AllExternalParts)
-        {
-            _medicalCandidates.Add(part);
-        }
-
-        _medicalCandidates.Sort(static (a, b) => a.HealthPercent.CompareTo(b.HealthPercent));
-        foreach (var part in _medicalCandidates)
+        var applySelf = slot.Def.MedicinalProperties?.ApplyMode == MedicalApplyMode.Self;
+        foreach (var part in trigger.EnumerateApplyTargets(self, slot.Def))
         {
             if (!item.MedicinalHandler.ApplyToPart(item, part))
             {
                 continue;
             }
 
-            partLabel = part.Label;
-            partKey = part.InternalLabel;
+            if (applySelf)
+            {
+                partLabel = self.LabelShort;
+                partKey = null;
+            }
+            else
+            {
+                partLabel = part.Label;
+                partKey = part.InternalLabel;
+            }
+
             return true;
         }
 

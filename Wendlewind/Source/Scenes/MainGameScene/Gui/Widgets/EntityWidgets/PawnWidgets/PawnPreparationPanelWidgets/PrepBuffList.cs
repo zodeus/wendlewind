@@ -151,6 +151,11 @@ internal sealed class PrepBuffList : VerticalStackPanel
         }
     }
 
+    public static IEnumerable<BodyEffectDef> FromPrep(Pawn pawn)
+    {
+        return FromMeal(pawn).Concat(FromIncense(pawn));
+    }
+
     private static void Add(Dictionary<StatDef, float> totals, StatDef stat, float value)
     {
         totals[stat] = totals.GetValueOrDefault(stat) + value;

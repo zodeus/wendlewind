@@ -13,11 +13,15 @@ public static class BuildSnapshotFactory
 {
     public static BuildSnapshot ToSnapshot(Pawn pawn, string playerId, string buildId, int seed = 0)
     {
-        var items = pawn.Equipment
+        var equipment = pawn.Equipment
             .Where(i => i.ItemDef.EquipmentProperties?.SlotUsedToEquip != EquipmentSlotType.BuiltIn)
             .Select(i => i.Def.Moniker)
-            .Concat(pawn.Inventory.Trinkets.Select(t => t.Def.Moniker))
-            .Distinct()
+            .ToArray();
+        var already = equipment.ToHashSet();
+        var items = equipment
+            .Concat(pawn.Inventory.Trinkets
+                .Select(t => t.Def.Moniker)
+                .Where(already.Add))
             .ToArray();
 
         return new BuildSnapshot
@@ -211,6 +215,7 @@ public static class BuildSnapshotFactory
 
     private static void ApplyMedicalChest(Pawn pawn, MedicalChestConfig[] configs)
     {
+        pawn.MedicalChest.EnsureCapacity(configs.Length);
         pawn.MedicalChest.Clear();
         foreach (var config in configs)
         {
@@ -220,7 +225,7 @@ public static class BuildSnapshotFactory
                 continue;
             }
 
-            pawn.MedicalChest.TryInstall(def, config.Charges, new MedicalTrigger
+            if (!pawn.MedicalChest.TryInstall(def, config.Charges, new MedicalTrigger
             {
                 Type = config.Type,
                 TargetSelector = config.TargetSelector,
@@ -228,7 +233,12 @@ public static class BuildSnapshotFactory
                 AfterSeconds = config.AfterSeconds,
                 HealthThreshold = config.HealthThreshold > 0 ? config.HealthThreshold : 0.6f,
                 TargetPartKey = config.TargetPartKey
-            });
+            }))
+            {
+                continue;
+            }
+
+            MedicalChest.Sanitize(pawn.MedicalChest.Slots[^1]);
         }
     }
 

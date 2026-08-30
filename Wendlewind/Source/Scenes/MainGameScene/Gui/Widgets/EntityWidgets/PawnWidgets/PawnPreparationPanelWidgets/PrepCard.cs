@@ -3,6 +3,7 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.
 public class PrepCard : VerticalStackPanel
 {
     protected readonly VerticalStackPanel Body;
+    private readonly ScrollViewer _bodyScroll;
 
     public PrepCard(string title)
     {
@@ -26,15 +27,15 @@ public class PrepCard : VerticalStackPanel
             Spacing = 6,
             HorizontalAlignment = HorizontalAlignment.Stretch
         };
-        var bodyScroll = new ScrollViewer
+        _bodyScroll = new ScrollViewer
         {
             Content = Body,
             ShowHorizontalScrollBar = false,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Stretch
         };
-        Widgets.Add(bodyScroll);
-        SetProportionType(bodyScroll, ProportionType.Fill);
+        Widgets.Add(_bodyScroll);
+        SetProportionType(_bodyScroll, ProportionType.Fill);
     }
 
     public PrepCard(string title, Widget content) : this(title)
@@ -53,5 +54,15 @@ public class PrepCard : VerticalStackPanel
         };
         // Title + separator occupy 0 and 1; keep the item grid under the header.
         Widgets.Insert(2, scroll);
+    }
+
+    protected void UseFixedBody()
+    {
+        _bodyScroll.Content = null;
+        Widgets.Remove(_bodyScroll);
+        Body.HorizontalAlignment = HorizontalAlignment.Stretch;
+        Body.VerticalAlignment = VerticalAlignment.Stretch;
+        Widgets.Add(Body);
+        SetProportionType(Body, ProportionType.Fill);
     }
 }

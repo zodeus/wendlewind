@@ -10,8 +10,11 @@ public sealed class PawnSummaryCard : VerticalStackPanel, IUpdatable
     private readonly PawnRenderWidget _portrait;
     private readonly PawnCapabilitiesOverlay _capabilities;
     private readonly PawnSkillsPanel _skills;
+    private readonly PrepBuffList _buffs;
+    private readonly PrepLoadoutSummary _loadout;
     private Window? _bodyWindow;
     private PawnBodyPanel? _bodyOverlay;
+    private string _buffSignature = "";
 
     public PawnSummaryCard(BaseGui gui, Pawn pawn)
     {
@@ -55,6 +58,25 @@ public sealed class PawnSummaryCard : VerticalStackPanel, IUpdatable
 
         _skills = new PawnSkillsPanel(pawn.Skills);
         Widgets.Add(_skills);
+
+        _buffs = new PrepBuffList();
+        _loadout = new PrepLoadoutSummary(gui, pawn);
+        var details = new VerticalStackPanel
+        {
+            Spacing = 8,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Widgets = { _buffs, _loadout }
+        };
+        var scroll = new ScrollViewer
+        {
+            Content = details,
+            ShowHorizontalScrollBar = false,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch
+        };
+        Widgets.Add(scroll);
+        SetProportionType(scroll, ProportionType.Fill);
+        RefreshBuffs();
     }
 
     public void OpenBodyOverlay()
@@ -86,6 +108,22 @@ public sealed class PawnSummaryCard : VerticalStackPanel, IUpdatable
 
         _capabilities.Update();
         _skills.Update();
+        RefreshBuffs();
+        _loadout.Update();
         _bodyOverlay?.Update();
+    }
+
+    private void RefreshBuffs()
+    {
+        var signature = string.Join(",", _pawn.MealPlan.Items.Select(i => i?.Id ?? -1))
+                        + "|"
+                        + string.Join(",", _pawn.ActiveIncense.Select(a => a.Def?.Moniker ?? a.SourceMoniker));
+        if (signature == _buffSignature)
+        {
+            return;
+        }
+
+        _buffSignature = signature;
+        _buffs.SetEffects(PrepBuffList.FromPrep(_pawn));
     }
 }

@@ -75,18 +75,14 @@ internal sealed class PrepItemGrid : VerticalStackPanel, IUpdatable
 
     private int IconsPerRow()
     {
-        if (_pagedRow)
-        {
-            return RowCells;
-        }
-
         var width = Math.Max(ActualBounds.Width, Bounds.Width);
         if (width <= 0)
         {
-            return 1;
+            return _pagedRow ? RowCells : 1;
         }
 
-        return Math.Max(1, (width + CellSpacing) / (CellSize + CellSpacing));
+        var fitted = Math.Max(1, (width + CellSpacing) / (CellSize + CellSpacing));
+        return _pagedRow ? Math.Min(fitted, RowCells) : fitted;
     }
 
     private List<Item> CurrentItems()
@@ -136,8 +132,8 @@ internal sealed class PrepItemGrid : VerticalStackPanel, IUpdatable
     private void RebuildPagedRow(List<Item> items)
     {
         _empty.Visible = false;
-        var overflow = items.Count > RowCells;
-        var visible = overflow ? RowCells - 1 : RowCells;
+        var overflow = items.Count > _iconsPerRow;
+        var visible = overflow ? _iconsPerRow - 1 : _iconsPerRow;
         var pageCount = Math.Max(1, (items.Count + visible - 1) / visible);
         if (_page >= pageCount)
         {

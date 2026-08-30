@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Wendlewind.Tests;
 
+[Collection("Sim")]
 public class CombatReplayTests
 {
     public CombatReplayTests()
@@ -95,6 +96,32 @@ public class CombatReplayTests
     }
 
     [Fact]
+    public void SnapshotRoundTripKeepsPairedArmor()
+    {
+        using var root = SimServices.BuildRoot();
+        using var applyScope = root.CreateScope();
+        var applyContext = applyScope.ServiceProvider.GetRequiredService<GameContext>();
+        applyContext.Initialize(CombatReplay.DefaultRunSeed);
+        BuildSnapshotFactory.Apply(applyContext.PlayerPawn, BuildTemplates.LeatherSkirmisher());
+
+        var snapshot = BuildSnapshotFactory.ToSnapshot(applyContext.PlayerPawn, "player", "pairs", CombatReplay.DefaultRunSeed);
+        Assert.Equal(2, snapshot.EntityDefMonikers.Count(m => m == "LeatherGlove"));
+        Assert.Equal(2, snapshot.EntityDefMonikers.Count(m => m == "LeatherBoot"));
+        Assert.Equal(2, snapshot.EntityDefMonikers.Count(m => m == "LeatherVambrace"));
+        Assert.Equal(2, snapshot.EntityDefMonikers.Count(m => m == "LeatherGreave"));
+
+        using var hydrateScope = root.CreateScope();
+        var hydrateContext = hydrateScope.ServiceProvider.GetRequiredService<GameContext>();
+        hydrateContext.Initialize(CombatReplay.DefaultRunSeed);
+        BuildSnapshotFactory.Apply(hydrateContext.PlayerPawn, snapshot);
+
+        Assert.Equal(2, hydrateContext.PlayerPawn.Equipment.Count(i => i.Def.Moniker == "LeatherGlove"));
+        Assert.Equal(2, hydrateContext.PlayerPawn.Equipment.Count(i => i.Def.Moniker == "LeatherBoot"));
+        Assert.Equal(2, hydrateContext.PlayerPawn.Equipment.Count(i => i.Def.Moniker == "LeatherVambrace"));
+        Assert.Equal(2, hydrateContext.PlayerPawn.Equipment.Count(i => i.Def.Moniker == "LeatherGreave"));
+    }
+
+    [Fact]
     public void AllTemplatesHydrateLoadout()
     {
         using var root = SimServices.BuildRoot();
@@ -107,6 +134,13 @@ public class CombatReplayTests
 
             var pawn = context.PlayerPawn;
             Assert.False(pawn.IsDead, template.BuildId);
+            foreach (var pair in template.EntityDefMonikers.GroupBy(m => m).Where(g => g.Count() > 1))
+            {
+                var equipped = pawn.Equipment.Count(i => i.Def.Moniker == pair.Key);
+                Assert.True(equipped >= pair.Count(),
+                    $"{template.BuildId} should equip {pair.Count()} {pair.Key}, equipped {equipped}");
+            }
+
             foreach (var weapon in template.Weapons)
             {
                 Assert.Contains(pawn.Equipment.Weapons, w => w.Item1.Def.Moniker == weapon.ItemMoniker);

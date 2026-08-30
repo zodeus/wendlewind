@@ -2,42 +2,81 @@ using Image = Myra.Graphics2D.UI.Image;
 
 namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnPreparationPanelWidgets;
 
-public sealed class PotionsPanel : PrepCard, IUpdatable
+public sealed class PotionsPanel : VerticalStackPanel, IUpdatable
 {
+    private const int SlotCount = 2;
+
     private readonly BaseGui _gui;
     private readonly Pawn _pawn;
-    private readonly VerticalStackPanel _editors;
+    private readonly Grid _slots;
+    private readonly Label _countLabel;
     private readonly PrepItemGrid _inventory;
-    private readonly List<PotionTriggerEditor> _editorList = [];
+    private readonly List<PotionTriggerEditor> _editors = [];
+    private string _signature = "";
+    private int _cardHeight;
 
-    public PotionsPanel(BaseGui gui, Pawn pawn) : base("Potions")
+    public PotionsPanel(BaseGui gui, Pawn pawn)
     {
         _gui = gui;
         _pawn = pawn;
-        _editors = new VerticalStackPanel { Spacing = 6 };
-        Body.Widgets.Add(_editors);
+        Spacing = 8;
+        Padding = new Thickness(0);
+        HorizontalAlignment = HorizontalAlignment.Stretch;
+        VerticalAlignment = VerticalAlignment.Top;
+
+        _countLabel = new Label(BaseContent.Styles.Label.Small)
+        {
+            TextColor = new Color(160, 160, 160)
+        };
 
         _inventory = new PrepItemGrid(
             gui,
             pawn.Inventory,
             item => item.ItemDef.ItemType == ItemType.Potion,
             TryEquipPotion,
-            item => IsEquippedDef(item) ? "Equipped" : "Click to equip",
-            IsEquippedDef);
-        SetInventory(_inventory);
-        RefreshEditors();
+            item => EquippedCount() >= SlotCount
+                ? "Both slots full"
+                : IsEquippedDef(item)
+                    ? "Equipped"
+                    : "Click to equip",
+            IsEquippedDef,
+            _ => EquippedCount() >= SlotCount);
+        Widgets.Add(new PotionInventoryCard(_inventory, _countLabel));
+
+        _slots = new Grid
+        {
+            ColumnSpacing = 8,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Top
+        };
+        _slots.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1));
+        _slots.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1));
+        _slots.RowsProportions.Add(new Proportion(ProportionType.Fill));
+        Widgets.Add(_slots);
+        Rebuild();
+    }
+
+    public void SyncCardHeight(int height)
+    {
+        if (height <= 0 || height == _cardHeight)
+        {
+            return;
+        }
+
+        _cardHeight = height;
+        ApplyCardHeight();
     }
 
     public void Update()
     {
-        var equipped = _pawn.Equipment.Potions.ToList();
-        if (_editorList.Count != equipped.Count)
+        var signature = SlotSignature();
+        if (signature != _signature)
         {
-            RefreshEditors();
+            Rebuild();
         }
         else
         {
-            foreach (var editor in _editorList)
+            foreach (var editor in _editors)
             {
                 editor.Update();
             }
@@ -46,9 +85,16 @@ public sealed class PotionsPanel : PrepCard, IUpdatable
         _inventory.Update();
     }
 
+    private int EquippedCount() => _pawn.Equipment.Potions.Count();
+
     private bool IsEquippedDef(Item item)
     {
         return _pawn.Equipment.Potions.Any(p => p.Def == item.Def);
+    }
+
+    private string SlotSignature()
+    {
+        return string.Join(",", _pawn.Equipment.Potions.Select(p => p.Id));
     }
 
     private void TryEquipPotion(Item item)
@@ -79,7 +125,7 @@ public sealed class PotionsPanel : PrepCard, IUpdatable
                 _pawn.Inventory.TryAdd(swapped);
             }
 
-            RefreshEditors();
+            Rebuild();
             return;
         }
 
@@ -94,32 +140,91 @@ public sealed class PotionsPanel : PrepCard, IUpdatable
             _pawn.Inventory.TryAdd(item);
         }
 
-        RefreshEditors();
+        Rebuild();
     }
 
-    private void RefreshEditors()
+    private void Rebuild()
     {
-        _editors.Widgets.Clear();
-        _editorList.Clear();
-        foreach (var potion in _pawn.Equipment.Potions)
+        _slots.Widgets.Clear();
+        _editors.Clear();
+        _signature = SlotSignature();
+
+        var equipped = _pawn.Equipment.Potions.ToList();
+        _countLabel.Text = $"{equipped.Count}/{SlotCount} equipped";
+        for (var i = 0; i < SlotCount; i++)
         {
-            var editor = new PotionTriggerEditor(_gui, potion, () => UnequipPotion(potion));
-            _editorList.Add(editor);
-            _editors.Widgets.Add(editor);
+            Widget card = i < equipped.Count
+                ? CreateCard(equipped[i])
+                : PotionSlotChrome.Empty();
+            _slots.Widgets.Add(card);
+            Grid.SetColumn(card, i);
         }
 
-        if (_editorList.Count == 0)
+        ApplyCardHeight();
+    }
+
+    private void ApplyCardHeight()
+    {
+        if (_cardHeight <= 0)
         {
-            _editors.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-            {
-                Text = "Click a potion below to equip it",
-                TextColor = new Color(140, 140, 140)
-            });
+            return;
+        }
+
+        _slots.Height = _cardHeight;
+        foreach (var card in _slots.Widgets)
+        {
+            card.Height = _cardHeight;
+            card.MinHeight = _cardHeight;
+            card.MaxHeight = _cardHeight;
+        }
+    }
+
+    private PotionTriggerEditor CreateCard(Item potion)
+    {
+        var editor = new PotionTriggerEditor(_gui, potion, () => UnequipPotion(potion));
+        _editors.Add(editor);
+        return editor;
+    }
+
+    private sealed class PotionInventoryCard : PrepCard
+    {
+        public PotionInventoryCard(Widget inventory, Widget count) : base("Potions")
+        {
+            UseFixedBody();
+            VerticalAlignment = VerticalAlignment.Top;
+            Body.Widgets.Add(inventory);
+            Body.Widgets.Add(count);
         }
     }
 }
 
-internal sealed class PotionTriggerEditor : VerticalStackPanel, IUpdatable
+internal static class PotionSlotChrome
+{
+    public static void Apply(Panel card)
+    {
+        card.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
+        card.Padding = new Thickness(8);
+        card.HorizontalAlignment = HorizontalAlignment.Stretch;
+        card.VerticalAlignment = VerticalAlignment.Stretch;
+        card.ClipToBounds = true;
+    }
+
+    public static Panel Empty()
+    {
+        var card = new Panel();
+        Apply(card);
+        card.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = "Empty",
+            TextColor = new Color(120, 120, 120),
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center
+        });
+        return card;
+    }
+}
+
+internal sealed class PotionTriggerEditor : Panel, IUpdatable
 {
     private readonly Item _potion;
     private readonly OptionDropdown<PotionTriggerType> _typeDropdown;
@@ -130,8 +235,14 @@ internal sealed class PotionTriggerEditor : VerticalStackPanel, IUpdatable
     public PotionTriggerEditor(BaseGui gui, Item potion, Action onUnequip)
     {
         _potion = potion;
-        Spacing = 6;
-        HorizontalAlignment = HorizontalAlignment.Stretch;
+        PotionSlotChrome.Apply(this);
+
+        var body = new VerticalStackPanel
+        {
+            Spacing = 6,
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        };
+        Widgets.Add(body);
 
         potion.PotionTrigger ??= potion.ItemDef.PotionProperties?.DefaultTrigger?.Clone()
                                  ?? new PotionTrigger { Type = PotionTriggerType.Immediately };
@@ -139,35 +250,33 @@ internal sealed class PotionTriggerEditor : VerticalStackPanel, IUpdatable
         _allowed = potion.ItemDef.PotionProperties?.GetAllowedTriggerTypes()
                    ?? Enum.GetValues<PotionTriggerType>();
 
-        Widgets.Add(CreateHeader(gui, potion, onUnequip));
+        body.Widgets.Add(CreateHeader(gui, potion, onUnequip));
 
-        var whenRow = new HorizontalStackPanel
-        {
-            Spacing = 6,
-            VerticalAlignment = VerticalAlignment.Center
-        };
         _typeDropdown = new OptionDropdown<PotionTriggerType>(
             gui.Desktop,
             _allowed,
             TriggerLabels.For,
             potion.PotionTrigger.Type,
-            ApplyType);
-        whenRow.Widgets.Add(_typeDropdown);
+            ApplyType)
+        {
+            MinWidth = 0,
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        };
+        body.Widgets.Add(_typeDropdown);
 
         _slider = new ThresholdSlider(
             SliderCaption(potion.PotionTrigger.Type),
             SliderMode(potion.PotionTrigger.Type),
             CurrentSliderValue(potion.PotionTrigger));
         _slider.ValueChanged += ApplyValue;
-        whenRow.Widgets.Add(_slider);
-        Widgets.Add(whenRow);
+        body.Widgets.Add(_slider);
 
         _summary = new Label(BaseContent.Styles.Label.Small)
         {
             TextColor = new Color(200, 180, 140),
             Wrap = true
         };
-        Widgets.Add(_summary);
+        body.Widgets.Add(_summary);
 
         RefreshControls();
     }
@@ -188,21 +297,44 @@ internal sealed class PotionTriggerEditor : VerticalStackPanel, IUpdatable
 
         var remove = new CursorButton(BaseContent.Styles.Button.Small)
         {
-            Content = new Label(BaseContent.Styles.Label.Small) { Text = "✕" }
+            Width = 22,
+            Height = 22,
+            Padding = new Thickness(3),
+            Content = new Image
+            {
+                Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Close],
+                Width = 12,
+                Height = 12,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            }
         };
         remove.Click += (_, _) => onUnequip();
 
-        var row = new HorizontalStackPanel { Spacing = 8 };
-        row.Widgets.Add(new Image
+        var icon = new Image
         {
             Background = potion.GetIconImage(),
             Width = BaseContent.IconSizes.Small,
             Height = BaseContent.IconSizes.Small,
             VerticalAlignment = VerticalAlignment.Center
-        });
-        row.Widgets.Add(name);
-        row.Widgets.Add(remove);
-        return row;
+        };
+        icon.TouchDown += (_, _) => gui.ViewEntity(potion);
+
+        var header = new Grid
+        {
+            ColumnSpacing = 6,
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        };
+        header.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        header.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
+        header.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        header.Widgets.Add(icon);
+        header.Widgets.Add(name);
+        header.Widgets.Add(remove);
+        Grid.SetColumn(icon, 0);
+        Grid.SetColumn(name, 1);
+        Grid.SetColumn(remove, 2);
+        return header;
     }
 
     private void ApplyType(PotionTriggerType type)

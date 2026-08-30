@@ -79,6 +79,7 @@ public class GameContext : IExposable, IHasContext
         Achievements.Initialize();
         Factory.RebindGraph();
         WireUpEvents();
+        RefreshPlayerMedicalChest();
     }
 
     public void Tick()
@@ -130,6 +131,7 @@ public class GameContext : IExposable, IHasContext
         Player.Reset();
         WireUpEvents();
         Achievements.OnWorldRestart(this);
+        RefreshPlayerMedicalChest();
         if (CurrentZone != null)
         {
             CurrentZone.OnStateChanged -= ZoneStageChanged;
@@ -182,7 +184,10 @@ public class GameContext : IExposable, IHasContext
         Scribe.Loader.FinalizeLoading();
 
         Factory.RebindGraph();
+        Achievements.Context = this;
+        Achievements.Initialize();
         WireUpEvents();
+        RefreshPlayerMedicalChest();
     }
 
     private void WireUpEvents()
@@ -191,6 +196,12 @@ public class GameContext : IExposable, IHasContext
         Player.Pawn.DamageTaken += Achievements.OnPlayerDamaged;
         Player.Pawn.Inventory.ItemAdded += Achievements.OnItemFound;
         Player.Pawn.Inventory.ItemAdded += Player.OnItemFound;
+        Achievements.AchievementUnlocked += _ => RefreshPlayerMedicalChest();
+    }
+
+    private void RefreshPlayerMedicalChest()
+    {
+        PlayerPawn.MedicalChest.RefreshFromAchievements(Achievements);
     }
 
     public void ExposeData()

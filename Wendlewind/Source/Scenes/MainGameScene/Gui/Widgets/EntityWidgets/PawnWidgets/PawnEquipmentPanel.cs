@@ -37,6 +37,8 @@ public class PawnEquipmentPanel : Grid, IUpdatable
     private readonly IImage _bagSlotIcon;
     private static Texture2D? _glowTexture;
 
+    public int PixelWidth { get; }
+
     public PawnEquipmentPanel(
         BaseGui gui,
         Pawn pawn,
@@ -61,6 +63,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         ClipToBounds = false;
 
         var layout = EquipmentGridLayout.Build(pawn);
+        PixelWidth = layout.Columns * _cellSize + Math.Max(0, layout.Columns - 1) * ColumnSpacing;
         for (var i = 0; i < layout.Columns; i++)
         {
             ColumnsProportions.Add(new Proportion(ProportionType.Pixels, _cellSize));

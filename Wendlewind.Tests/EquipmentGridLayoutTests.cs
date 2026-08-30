@@ -6,6 +6,7 @@ using Xunit;
 
 namespace Wendlewind.Tests;
 
+[Collection("Sim")]
 public class EquipmentGridLayoutTests
 {
     public EquipmentGridLayoutTests()

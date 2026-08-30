@@ -80,4 +80,103 @@
         <HandlerClass>BarTenderHandler</HandlerClass>
         <TargetValue>20</TargetValue>
     </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>FieldMedic</Moniker>
+        <Label>Field Medic</Label>
+        <Description>Use Med Kits</Description>
+        <BenifitDescription>Unlocks one medical chest slot</BenifitDescription>
+        <Category>Consumables</Category>
+        <ItemUsedDef>MedKit</ItemUsedDef>
+        <TargetValue>15</TargetValue>
+        <HandlerClass>MedicalChestSlotHandler</HandlerClass>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>Threader</Moniker>
+        <Label>Threader</Label>
+        <Description>Use Arterial Threads</Description>
+        <BenifitDescription>Unlocks one medical chest slot</BenifitDescription>
+        <Category>Consumables</Category>
+        <ItemUsedDef>ArterialThreads</ItemUsedDef>
+        <TargetValue>10</TargetValue>
+        <HandlerClass>MedicalChestSlotHandler</HandlerClass>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>MistWeaver</Moniker>
+        <Label>Mist Weaver</Label>
+        <Description>Use Mender's Mist</Description>
+        <BenifitDescription>Unlocks one medical chest slot</BenifitDescription>
+        <Category>Consumables</Category>
+        <ItemUsedDef>MendersMist</ItemUsedDef>
+        <TargetValue>10</TargetValue>
+        <HandlerClass>MedicalChestSlotHandler</HandlerClass>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>BalmTender</Moniker>
+        <Label>Balm Tender</Label>
+        <Description>Use Balmy Ointment</Description>
+        <BenifitDescription>Unlocks one medical chest slot</BenifitDescription>
+        <Category>Consumables</Category>
+        <ItemUsedDef>BalmyOintment</ItemUsedDef>
+        <TargetValue>8</TargetValue>
+        <HandlerClass>MedicalChestSlotHandler</HandlerClass>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>RotWard</Moniker>
+        <Label>Rot Ward</Label>
+        <Description>Use Anti-Necrotic Serum</Description>
+        <BenifitDescription>Unlocks one medical chest slot</BenifitDescription>
+        <Category>Consumables</Category>
+        <ItemUsedDef>AntiNecroticSerum</ItemUsedDef>
+        <TargetValue>5</TargetValue>
+        <HandlerClass>MedicalChestSlotHandler</HandlerClass>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>Mixologist</Moniker>
+        <Label>Mixologist</Label>
+        <Description>Use Mender's Mix</Description>
+        <BenifitDescription>Unlocks one medical chest slot</BenifitDescription>
+        <Category>Consumables</Category>
+        <ItemUsedDef>MendersMix</ItemUsedDef>
+        <TargetValue>8</TargetValue>
+        <HandlerClass>MedicalChestSlotHandler</HandlerClass>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>BoneWasher</Moniker>
+        <Label>Bone Washer</Label>
+        <Description>Use Bone Cleanse</Description>
+        <BenifitDescription>Unlocks one medical chest slot</BenifitDescription>
+        <Category>Consumables</Category>
+        <ItemUsedDef>BoneCleanse</ItemUsedDef>
+        <TargetValue>5</TargetValue>
+        <HandlerClass>MedicalChestSlotHandler</HandlerClass>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>Ossifier</Moniker>
+        <Label>Ossifier</Label>
+        <Description>Use Strengthen Bones</Description>
+        <BenifitDescription>Unlocks one medical chest slot</BenifitDescription>
+        <Category>Consumables</Category>
+        <ItemUsedDef>StrengthenBones</ItemUsedDef>
+        <TargetValue>5</TargetValue>
+        <HandlerClass>MedicalChestSlotHandler</HandlerClass>
+    </AchievementDef>
+
+    <AchievementDef>
+        <Moniker>Ironbrand</Moniker>
+        <Label>Ironbrand</Label>
+        <Description>Cauterize a severed part</Description>
+        <BenifitDescription>Unlocks one medical chest slot</BenifitDescription>
+        <Category>Consumables</Category>
+        <ItemUsedDef>Cauterize</ItemUsedDef>
+        <TargetValue>10</TargetValue>
+        <HandlerClass>MedicalChestSlotHandler</HandlerClass>
+    </AchievementDef>
 </Definitions>

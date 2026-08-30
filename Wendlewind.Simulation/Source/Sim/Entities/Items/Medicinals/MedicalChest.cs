@@ -1,3 +1,5 @@
+using Wendlewind.Sim.Achievements.Handlers;
+
 namespace Wendlewind.Sim.Entities.Items.Medicinals;
 
 public class MedicalChestSlot : IExposable
@@ -16,13 +18,20 @@ public class MedicalChestSlot : IExposable
         ScribeValues.Look(ref Charges, "Charges");
         ScribeDeep.Look(ref Trigger!, "Trigger");
         Trigger ??= new MedicalTrigger();
+        if (Scribe.State == ScribeState.LoadingObjects)
+        {
+            MedicalChest.Sanitize(this);
+        }
     }
 }
 
 public class MedicalChest : IExposable
 {
-    public const int DefaultCapacity = 4;
+    public const int MaxSlots = 12;
+    public const int BaseSlots = 3;
+    public const int DefaultCapacity = MaxSlots;
     public const int DefaultCooldownInTicks = 180;
+    public const int FailedApplyBackoffInTicks = 30;
 
     public int Capacity = DefaultCapacity;
     private Pawn _pawn = null!;
@@ -57,12 +66,14 @@ public class MedicalChest : IExposable
             return false;
         }
 
-        _slots.Add(new MedicalChestSlot
+        var slot = new MedicalChestSlot
         {
             Def = item.ItemDef,
             Charges = IsInfiniteUse(item.ItemDef) ? 0 : 1,
             Trigger = trigger ?? DefaultTriggerFor(item.ItemDef)
-        });
+        };
+        Sanitize(slot);
+        _slots.Add(slot);
         return true;
     }
 
@@ -74,12 +85,14 @@ public class MedicalChest : IExposable
             return false;
         }
 
-        _slots.Add(new MedicalChestSlot
+        var slot = new MedicalChestSlot
         {
             Def = def,
             Charges = IsInfiniteUse(def) ? 0 : Math.Max(0, charges),
             Trigger = trigger ?? DefaultTriggerFor(def)
-        });
+        };
+        Sanitize(slot);
+        _slots.Add(slot);
         return true;
     }
 
@@ -177,6 +190,40 @@ public class MedicalChest : IExposable
         }
     }
 
+    public void EnsureCapacity(int needed)
+    {
+        if (needed > Capacity)
+        {
+            Capacity = Math.Min(MaxSlots, needed);
+        }
+    }
+
+    public void RefreshFromAchievements(AchievementTracker tracker)
+    {
+        Capacity = UnlockedCapacity(tracker);
+        while (_slots.Count > Capacity)
+        {
+            Remove(_slots[^1]);
+        }
+    }
+
+    public static int UnlockedCapacity(AchievementTracker tracker)
+    {
+        var extra = SlotUnlockDefs().Count(tracker.IsUnlocked);
+        return Math.Min(MaxSlots, BaseSlots + extra);
+    }
+
+    public static IEnumerable<AchievementDef> SlotUnlockDefs()
+    {
+        return DefRepository<AchievementDef>.Defs
+            .Where(d => d.HandlerClass == typeof(MedicalChestSlotHandler));
+    }
+
+    public static AchievementDef? NextLockedSlotAchievement(AchievementTracker tracker)
+    {
+        return SlotUnlockDefs().FirstOrDefault(d => !tracker.IsUnlocked(d));
+    }
+
     public static bool IsMedicalItem(Item item)
     {
         return item != null && IsMedicalItem(item.ItemDef);
@@ -184,12 +231,12 @@ public class MedicalChest : IExposable
 
     public static bool IsMedicalItem(ItemDef? def)
     {
-        return def != null && (def.ItemType == ItemType.Medical || def == Defs.Items.Cauterize);
+        return def != null && def.ItemType == ItemType.Medical;
     }
 
     public static bool IsInfiniteUse(ItemDef? def)
     {
-        return def != null && (def.MedicinalProperties?.InfiniteUse == true || def == Defs.Items.Cauterize);
+        return def?.MedicinalProperties?.InfiniteUse == true;
     }
 
     public static int CooldownInTicks(ItemDef? def)
@@ -198,20 +245,11 @@ public class MedicalChest : IExposable
         return ticks > 0 ? ticks : DefaultCooldownInTicks;
     }
 
-    public static MedicalTrigger DefaultTriggerFor(Item item)
-    {
-        return DefaultTriggerFor(item.ItemDef);
-    }
-
     public static MedicalTrigger DefaultTriggerFor(ItemDef def)
     {
-        if (def == Defs.Items.Cauterize)
+        if (def?.MedicinalProperties?.DefaultTrigger != null)
         {
-            return new MedicalTrigger
-            {
-                Type = MedicalTriggerType.PartSevered,
-                TargetSelector = MedicalTargetSelector.SeveredOrUnsealedSocket
-            };
+            return def.MedicinalProperties.DefaultTrigger.Clone();
         }
 
         return new MedicalTrigger
@@ -221,14 +259,44 @@ public class MedicalChest : IExposable
         };
     }
 
+    public static void Sanitize(MedicalChestSlot slot)
+    {
+        if (slot?.Def == null)
+        {
+            return;
+        }
+
+        slot.Trigger ??= new MedicalTrigger();
+        if (slot.Trigger.TargetSelector == MedicalTargetSelector.MostDamagedPart)
+        {
+            slot.Trigger.TargetSelector = MedicalTargetSelector.Auto;
+        }
+
+        var props = slot.Def.MedicinalProperties;
+        var typeAllowed = props == null || props.AllowsTrigger(slot.Trigger.Type);
+        var targetAllowed = props == null
+                            || props.ApplyMode == MedicalApplyMode.Self
+                            || props.AllowsTarget(slot.Trigger.TargetSelector);
+        if (typeAllowed && targetAllowed)
+        {
+            return;
+        }
+
+        slot.Trigger = DefaultTriggerFor(slot.Def);
+    }
+
     public void ExposeData()
     {
         ScribeValues.Look(ref Capacity, "Capacity", DefaultCapacity);
         ScribeCollections.Look(ref _slots!, "Slots", LookMode.Deep);
         _slots ??= [];
-        if (Capacity <= 0)
+
+        if (Scribe.State == ScribeState.LoadingObjects)
         {
-            Capacity = DefaultCapacity;
+            foreach (var slot in _slots)
+            {
+                Sanitize(slot);
+            }
         }
     }
 

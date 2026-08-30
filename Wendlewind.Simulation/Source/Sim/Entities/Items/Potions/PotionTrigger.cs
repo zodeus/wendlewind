@@ -26,7 +26,7 @@ public class PotionTrigger : IExposable
             PotionTriggerType.AfterSeconds => tick >= AfterSeconds * GameContext.TicksPerSecond,
             PotionTriggerType.SelfBloodBelow => self.Body.BloodPercent < Threshold,
             PotionTriggerType.EnemyBloodBelow => enemy.Body.BloodPercent < Threshold,
-            PotionTriggerType.SelfPartsDamaged => IsSelfPartsDamaged(self),
+            PotionTriggerType.SelfPartsDamaged => self.Body.IsSelfPartsDamaged(Threshold, HealthThreshold),
             _ => false
         };
     }
@@ -53,17 +53,4 @@ public class PotionTrigger : IExposable
         ScribeValues.Look(ref HealthThreshold, "HealthThreshold", 0.6f);
     }
 
-    private bool IsSelfPartsDamaged(Pawn self)
-    {
-        var externalParts = self.Body.AllExternalParts;
-        var eyes = externalParts.Where(p => p.Type == BodyPartType.Eye).ToList();
-        if (eyes.Count > 0 && eyes.All(e => !e.IsFunctional))
-        {
-            return true;
-        }
-
-        var healthThreshold = HealthThreshold > 0 ? HealthThreshold : 0.6f;
-        var damagedCount = externalParts.Count(p => p.HealthPercent < healthThreshold);
-        return damagedCount >= externalParts.Count * Threshold;
-    }
 }

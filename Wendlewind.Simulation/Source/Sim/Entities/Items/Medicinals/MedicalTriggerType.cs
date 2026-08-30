@@ -7,5 +7,7 @@ public enum MedicalTriggerType
     SelfBloodBelow,
     SelfPartsDamaged,
     PartBelowHealth,
-    PartSevered
+    PartSevered,
+    HasNecrosis,
+    BurningOrAcid
 }

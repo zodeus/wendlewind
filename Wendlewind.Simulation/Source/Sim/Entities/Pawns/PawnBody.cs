@@ -44,6 +44,20 @@ public class PawnBody : IExposable, IIdentityProvider
     public float BloodPercent => BloodAmount / MaxBlood;
     public bool IsWarm => Temperature is > 10 and < 40;
 
+    public bool IsSelfPartsDamaged(float fraction, float healthThreshold)
+    {
+        var externalParts = AllExternalParts;
+        var eyes = externalParts.Where(p => p.Type == BodyPartType.Eye).ToList();
+        if (eyes.Count > 0 && eyes.All(e => !e.IsFunctional))
+        {
+            return true;
+        }
+
+        var threshold = healthThreshold > 0 ? healthThreshold : 0.6f;
+        var damagedCount = externalParts.Count(p => p.HealthPercent < threshold);
+        return damagedCount >= externalParts.Count * fraction;
+    }
+
     public float MovementSpeed
     {
         get

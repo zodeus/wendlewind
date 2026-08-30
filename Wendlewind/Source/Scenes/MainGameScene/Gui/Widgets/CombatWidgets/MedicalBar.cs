@@ -343,7 +343,12 @@ internal sealed class MedicalSlotView : Panel
 
     private static string ChargeText(MedicalChestSlot slot)
     {
-        return slot.IsInfinite ? "∞" : slot.Charges.ToString();
+        if (slot.IsInfinite)
+        {
+            return "∞";
+        }
+
+        return slot.Charges > 0 ? slot.Charges.ToString() : "";
     }
 
     private static string SlotTooltip(MedicalChestSlot slot)

@@ -22,7 +22,7 @@ internal sealed class MedicalItemsBar : HorizontalStackPanel, IUpdatable
     {
         // Get all medical items from inventory
         var medicalItems = _inventory
-            .Where(item => item.ItemDef.ItemType == ItemType.Medical || item.Def == Defs.Items.Cauterize)
+            .Where(item => item.ItemDef.ItemType == ItemType.Medical)
             //order by cauterize, medkit, mist, arterial threads
             .OrderBy(item => item.Def == Defs.Items.Cauterize ? 0 : item.Def == Defs.Items.MedKit ? 1 : item.Def == Defs.Items.MendersMist ? 2 : item.Def == Defs.Items.ArterialThreads ? 3 : 4)
             .ToList();

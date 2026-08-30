@@ -1,3 +1,5 @@
+using FontStashSharp.RichText;
+
 namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnPreparationPanelWidgets;
 
 internal static class TriggerLabels
@@ -25,6 +27,8 @@ internal static class TriggerLabels
             MedicalTriggerType.SelfPartsDamaged => "My parts damaged past",
             MedicalTriggerType.PartBelowHealth => "A part drops below",
             MedicalTriggerType.PartSevered => "A part is severed",
+            MedicalTriggerType.HasNecrosis => "A part has necrosis",
+            MedicalTriggerType.BurningOrAcid => "A part is burning or acid",
             _ => type.ToString()
         };
     }
@@ -38,6 +42,20 @@ internal static class TriggerLabels
             MedicalTargetSelector.SeveredOrUnsealedSocket => "Open socket",
             MedicalTargetSelector.SpecificPart => "Chosen part",
             _ => selector.ToString()
+        };
+    }
+
+    public static string For(MedicalTargetPool pool)
+    {
+        return pool switch
+        {
+            MedicalTargetPool.External => "external parts",
+            MedicalTargetPool.Internal => "organs",
+            MedicalTargetPool.Artery => "arteries",
+            MedicalTargetPool.Bone => "bones",
+            MedicalTargetPool.Socket => "open sockets",
+            MedicalTargetPool.Self => "whole body",
+            _ => pool.ToString()
         };
     }
 
@@ -68,6 +86,8 @@ internal static class TriggerLabels
             MedicalTriggerType.SelfPartsDamaged => $"Uses when {Percent(trigger.Threshold)} of parts are damaged",
             MedicalTriggerType.PartBelowHealth => $"Uses when a part drops below {Percent(trigger.HealthThreshold)}",
             MedicalTriggerType.PartSevered => "Uses when a part is severed",
+            MedicalTriggerType.HasNecrosis => "Uses when a part has necrosis",
+            MedicalTriggerType.BurningOrAcid => "Uses when a part is burning or acid-burned",
             _ => trigger.Type.ToString()
         };
 
@@ -101,23 +121,26 @@ internal sealed class ThresholdSlider : HorizontalStackPanel
 
     public ThresholdSlider(string caption, ThresholdSliderMode mode, float value)
     {
-        Spacing = 8;
+        Spacing = 6;
         VerticalAlignment = VerticalAlignment.Center;
+        HorizontalAlignment = HorizontalAlignment.Stretch;
 
         _caption = new Label(BaseContent.Styles.Label.Small)
         {
             Text = caption,
             TextColor = new Color(160, 160, 160),
             VerticalAlignment = VerticalAlignment.Center,
-            MinWidth = 56
+            MinWidth = 36
         };
         Widgets.Add(_caption);
 
         _slider = new HorizontalSlider
         {
-            Width = 110,
+            MinWidth = 48,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Center
         };
+        SetProportionType(_slider, ProportionType.Fill);
         _slider.ValueChangedByUser += (_, _) =>
         {
             RefreshValueLabel();
@@ -179,6 +202,8 @@ internal sealed class OptionDropdown<T> : CursorButton, IUpdatable
     private readonly Desktop _desktop;
     private readonly Func<T, string> _labelSelector;
     private readonly Action<T> _onSelect;
+    private readonly int _maxItemsPerColumn;
+    private readonly Func<T, string>? _groupSelector;
     private readonly Label _label;
     private IReadOnlyList<T> _items;
     private Window? _popup;
@@ -188,12 +213,16 @@ internal sealed class OptionDropdown<T> : CursorButton, IUpdatable
         IReadOnlyList<T> items,
         Func<T, string> labelSelector,
         T current,
-        Action<T> onSelect) : base(BaseContent.Styles.Button.Small)
+        Action<T> onSelect,
+        int maxItemsPerColumn = 0,
+        Func<T, string>? groupSelector = null) : base(BaseContent.Styles.Button.Small)
     {
         _desktop = desktop;
         _items = items;
         _labelSelector = labelSelector;
         _onSelect = onSelect;
+        _maxItemsPerColumn = maxItemsPerColumn;
+        _groupSelector = groupSelector;
 
         _label = new Label(BaseContent.Styles.Label.Small)
         {
@@ -217,7 +246,7 @@ internal sealed class OptionDropdown<T> : CursorButton, IUpdatable
             }
         };
 
-        MinWidth = 128;
+        MinWidth = 96;
         Click += (_, _) => Show();
     }
 
@@ -250,9 +279,9 @@ internal sealed class OptionDropdown<T> : CursorButton, IUpdatable
         const int styleBuffer = 20;
         var popupBounds = new Rectangle(
             _popup.Left,
-            _popup.Top,
-            contentBounds.Width + styleBuffer,
-            contentBounds.Height + styleBuffer
+            _popup.Top - Bounds.Height,
+            Math.Max(contentBounds.Width + styleBuffer, Bounds.Width),
+            contentBounds.Height + styleBuffer + Bounds.Height
         );
 
         var expandedBounds = new Rectangle(
@@ -282,31 +311,108 @@ internal sealed class OptionDropdown<T> : CursorButton, IUpdatable
             Padding = new Thickness(0)
         };
         _popup.TitlePanel.Visible = false;
+        _popup.Content = BuildOptions();
+        _popup.HorizontalAlignment = HorizontalAlignment.Left;
+        _popup.VerticalAlignment = VerticalAlignment.Top;
+        _popup.Show(_desktop, _desktop.ToLocal(ToGlobal(new Point(0, Bounds.Height))));
+    }
 
-        var list = new VerticalStackPanel { Spacing = 0 };
-        foreach (var item in _items)
+    private Widget BuildOptions()
+    {
+        if (_groupSelector != null)
         {
-            var captured = item;
-            var option = new CursorButton(BaseContent.Styles.Button.Dark)
-            {
-                Content = new Label(BaseContent.Styles.Label.Small)
-                {
-                    Text = _labelSelector(captured)
-                },
-                HorizontalAlignment = HorizontalAlignment.Stretch
-            };
-            option.Click += (_, _) =>
-            {
-                _label.Text = _labelSelector(captured);
-                _onSelect(captured);
-                Close();
-            };
-            list.Widgets.Add(option);
+            return BuildGroupedOptions();
         }
 
-        _popup.Content = list;
-        var uiPos = Core.ScreenToUi(Mouse.GetState().Position);
-        _popup.Show(_desktop, uiPos);
+        var perColumn = _maxItemsPerColumn > 0 ? _maxItemsPerColumn : _items.Count;
+        if (_items.Count <= perColumn)
+        {
+            var list = new VerticalStackPanel { Spacing = 0, MinWidth = Bounds.Width };
+            foreach (var item in _items)
+            {
+                list.Widgets.Add(CreateOption(item));
+            }
+
+            return list;
+        }
+
+        var columns = new HorizontalStackPanel { Spacing = 0 };
+        VerticalStackPanel? column = null;
+        for (var i = 0; i < _items.Count; i++)
+        {
+            if (i % perColumn == 0)
+            {
+                column = new VerticalStackPanel { Spacing = 0 };
+                columns.Widgets.Add(column);
+            }
+
+            column!.Widgets.Add(CreateOption(_items[i]));
+        }
+
+        return columns;
+    }
+
+    private Widget BuildGroupedOptions()
+    {
+        var groups = new List<(string Title, List<T> Items)>();
+        var index = new Dictionary<string, List<T>>();
+        foreach (var item in _items)
+        {
+            var title = _groupSelector!(item);
+            if (!index.TryGetValue(title, out var items))
+            {
+                items = [];
+                index[title] = items;
+                groups.Add((title, items));
+            }
+
+            items.Add(item);
+        }
+
+        var columns = new HorizontalStackPanel { Spacing = 0 };
+        foreach (var (title, items) in groups)
+        {
+            var column = new VerticalStackPanel { Spacing = 0 };
+            var header = new Panel
+            {
+                Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                Padding = new Thickness(10, 6)
+            };
+            header.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = title,
+                TextColor = new Color(200, 180, 140)
+            });
+            column.Widgets.Add(header);
+            foreach (var item in items)
+            {
+                column.Widgets.Add(CreateOption(item));
+            }
+
+            columns.Widgets.Add(column);
+        }
+
+        return columns;
+    }
+
+    private CursorButton CreateOption(T item)
+    {
+        var option = new CursorButton(BaseContent.Styles.Button.Dark)
+        {
+            Content = new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = _labelSelector(item)
+            },
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        };
+        option.Click += (_, _) =>
+        {
+            _label.Text = _labelSelector(item);
+            _onSelect(item);
+            Close();
+        };
+        return option;
     }
 
     private void Close()
@@ -328,17 +434,20 @@ internal sealed class ChargeStepper : HorizontalStackPanel
     public event Action? Increment;
     public event Action? LoadMax;
 
-    public ChargeStepper()
+    public ChargeStepper(bool compact = false)
     {
-        Spacing = 6;
+        Spacing = compact ? 4 : 6;
         VerticalAlignment = VerticalAlignment.Center;
 
-        Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+        if (!compact)
         {
-            Text = "Loaded",
-            TextColor = new Color(160, 160, 160),
-            VerticalAlignment = VerticalAlignment.Center
-        });
+            Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = "Loaded",
+                TextColor = new Color(160, 160, 160),
+                VerticalAlignment = VerticalAlignment.Center
+            });
+        }
 
         _minus = StepButton("−");
         _minus.Click += (_, _) => Decrement?.Invoke();
@@ -348,6 +457,7 @@ internal sealed class ChargeStepper : HorizontalStackPanel
         {
             Text = "0",
             MinWidth = 24,
+            TextAlign = TextHorizontalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center
         };

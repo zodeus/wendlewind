@@ -1,0 +1,13 @@
+namespace Wendlewind.Sim.Achievements.Handlers;
+
+/// <summary>
+/// Item-use achievement that unlocks one medical chest slot.
+/// Progress comes from the base OnItemUsed + ItemUsedDef path.
+/// </summary>
+public class MedicalChestSlotHandler : AchievementHandler
+{
+    public MedicalChestSlotHandler(IRng rng)
+    {
+        Rng = rng;
+    }
+}
