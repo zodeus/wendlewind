@@ -70,6 +70,7 @@ public static class TooltipHelper
         
         _customContent = content;
         _window!.Content = content;
+        StackPanel.SetProportionType(content, ProportionType.Auto);
         _isCustomContent = true;
         ApplyWindowChrome();
         

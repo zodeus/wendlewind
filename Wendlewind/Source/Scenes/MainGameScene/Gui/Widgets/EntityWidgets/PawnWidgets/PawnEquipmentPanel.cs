@@ -36,6 +36,8 @@ public class PawnEquipmentPanel : Grid, IUpdatable
     private readonly IImage _potionSlotIcon;
     private readonly IImage _bagSlotIcon;
     private static Texture2D? _glowTexture;
+    private Item? _hoverInspectItem;
+    private Widget? _hoverInspectOwner;
 
     public int PixelWidth { get; }
 
@@ -157,18 +159,83 @@ public class PawnEquipmentPanel : Grid, IUpdatable
             slotFrame.TouchDown += (_, _) => onClick(bodyPart, slot);
         }
 
-        if (_hoverToInspect)
+        return slotFrame;
+    }
+
+    protected override void OnPlacedChanged()
+    {
+        base.OnPlacedChanged();
+        if (!IsPlaced)
         {
-            slotFrame.MouseEntered += (_, _) => ShowInspectPopup(bodyPart, slot, slotFrame);
-            slotFrame.MouseLeft += (_, _) => TooltipHelper.Hide(slotFrame);
+            HideHoverInspect();
+        }
+    }
+
+    private void HideHoverInspect()
+    {
+        if (_hoverInspectItem == null && _hoverInspectOwner == null)
+        {
+            return;
         }
 
-        return slotFrame;
+        TooltipHelper.Hide(_hoverInspectOwner);
+        _hoverInspectItem = null;
+        _hoverInspectOwner = null;
+    }
+
+    private void UpdateHoverInspect()
+    {
+        var desktop = Desktop ?? _gui.Desktop;
+        if (desktop == null)
+        {
+            return;
+        }
+
+        var mouse = desktop.MousePosition;
+        CursorButton? owner = null;
+        Item? item = null;
+        BodyPart? part = null;
+        var slot = default(EquipmentSlotType);
+
+        foreach (var (key, button) in _slots)
+        {
+            if (!button.Visible || !button.ContainsGlobalPoint(mouse))
+            {
+                continue;
+            }
+
+            if (key.Part.Equipment[key.Slot] is { IsDestroyed: false } equipped)
+            {
+                owner = button;
+                item = equipped;
+                part = key.Part;
+                slot = key.Slot;
+            }
+
+            break;
+        }
+
+        if (item == null || owner == null || part == null)
+        {
+            HideHoverInspect();
+            return;
+        }
+
+        if (ReferenceEquals(_hoverInspectItem, item) && _hoverInspectOwner == owner)
+        {
+            TooltipHelper.UpdatePosition();
+            return;
+        }
+
+        _hoverInspectItem = item;
+        _hoverInspectOwner = owner;
+        ShowInspectPopup(part, slot, owner);
     }
 
     private void ShowInspectPopup(BodyPart bodyPart, EquipmentSlotType slot, Widget owner)
     {
-        if (Desktop == null)
+        var desktop = Desktop ?? _gui.Desktop;
+        if (desktop == null)
         {
             return;
         }
@@ -185,7 +252,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
             Background = null
         });
 
-        TooltipHelper.ShowCustom(Desktop, panel, owner, TooltipPlacement.BottomCorner);
+        TooltipHelper.ShowCustom(desktop, panel, owner, TooltipPlacement.BottomCorner);
     }
 
     private void HandleClick(BodyPart part, EquipmentSlotType slot)
@@ -422,7 +489,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         _selectionPopup.Update();
         if (_hoverToInspect)
         {
-            TooltipHelper.UpdatePosition();
+            UpdateHoverInspect();
         }
         TickFlashes(deltaTime);
         TickSparks(deltaTime);
