@@ -13,6 +13,9 @@ public class Pawn : Entity
     public PawnSkills Skills = null!;
     public PawnInventory Inventory = null!;
     public PawnEquipment Equipment = null!;
+    public MedicalChest MedicalChest = null!;
+    public MealPlan MealPlan = null!;
+    public List<ActiveIncense> ActiveIncense = [];
     public PawnType PawnType = PawnType.Invalid;
     public Zone? Zone;
     public int TicksToAttack;
@@ -45,6 +48,9 @@ public class Pawn : Entity
         Skills = new PawnSkills(this);
         Equipment = new PawnEquipment(this);
         Inventory = new PawnInventory(this);
+        MedicalChest = new MedicalChest(this);
+        MealPlan = new MealPlan(this);
+        ActiveIncense = [];
         base.Initialize();
     }
 
@@ -292,7 +298,13 @@ public class Pawn : Entity
         ScribeDeep.Look(ref Skills!, "Skills", this);
         ScribeDeep.Look(ref Inventory!, "Inventory", this);
         ScribeDeep.Look(ref Equipment!, "Equipment", this);
+        ScribeDeep.Look(ref MedicalChest!, "MedicalChest", this);
+        ScribeDeep.Look(ref MealPlan!, "MealPlan", this);
+        ScribeCollections.Look(ref ActiveIncense!, "ActiveIncense", LookMode.Deep);
         ScribeReferences.Look(ref Zone!, "Zone");
+        MedicalChest ??= new MedicalChest(this);
+        MealPlan ??= new MealPlan(this);
+        ActiveIncense ??= [];
         base.ExposeData();
     }
 
@@ -339,17 +351,68 @@ public class Pawn : Entity
             });
         }
 
-        FoodConsumed?.Invoke(this, item);
+        ApplyEatCost(item);
+        return true;
+    }
 
-        var nutrition = item.GetStatValue(Defs.Stats.NutritionalValue);
-        if (Traits.HasTrait(Defs.Traits.PotBellied))
+    public bool TryEatForBattle(Item? item)
+    {
+        if (item?.ItemDef.FoodProperties == null)
         {
-            // reduce nutrition by usage 25% 
-            nutrition *= 0.75f;
+            Log.Error($"failed to eat null item '{item}'");
+            return false;
         }
-        Body.StomachLevel += nutrition;
-        Body.Energy = Body.MaxEnergy;
 
+        var goldenLipsMultiplier = HasActiveEffect(Defs.BodyEffects.GoldenLips) ? 1.5f : 1f;
+        foreach (var record in item.ItemDef.FoodProperties.Effects)
+        {
+            if (record.Def == Defs.BodyEffects.FoodPoisoning && Traits.HasTrait(Defs.Traits.GutMicroacrobatics))
+            {
+                continue;
+            }
+
+            Body.Effects.TryApplyEffect(new BodyEffect
+            {
+                Def = record.Def,
+                TicksLeft = Math.Max(1, (int)(record.DurationInTicks * goldenLipsMultiplier)),
+                LastsWholeEncounter = true
+            });
+        }
+
+        ApplyEatCost(item);
+        return true;
+    }
+
+    public bool TryLightIncense(Item item, bool requireFlameStick = true)
+    {
+        var incenseProps = item.ItemDef.IncenseProperties;
+        if (incenseProps?.Effect == null)
+        {
+            return false;
+        }
+
+        if (requireFlameStick && !HasFlameStick())
+        {
+            return false;
+        }
+
+        var charges = incenseProps.GetDurationInEncounters();
+        var existing = ActiveIncense.FirstOrDefault(a => a.Def == incenseProps.Effect.Def);
+        if (existing != null)
+        {
+            existing.EncountersRemaining += charges;
+        }
+        else
+        {
+            ActiveIncense.Add(new ActiveIncense
+            {
+                Def = incenseProps.Effect.Def,
+                EncountersRemaining = charges,
+                SourceMoniker = item.ItemDef.Moniker
+            });
+        }
+
+        Context.Achievements.OnItemUsed(this, item);
         item.StackSize--;
         if (item.StackSize < 1)
         {
@@ -357,6 +420,71 @@ public class Pawn : Entity
         }
 
         return true;
+    }
+
+    public void ApplyBattleStartConsumables()
+    {
+        Body.StomachLevel = 0;
+        MealPlan.Prune();
+        foreach (var item in MealPlan.Items.ToList())
+        {
+            TryEatForBattle(item);
+        }
+
+        MealPlan.Prune();
+
+        for (var i = ActiveIncense.Count - 1; i >= 0; i--)
+        {
+            var incense = ActiveIncense[i];
+            if (incense.Def == null || incense.EncountersRemaining <= 0)
+            {
+                ActiveIncense.RemoveAt(i);
+                continue;
+            }
+
+            Body.Effects.TryApplyEffect(new BodyEffect
+            {
+                Def = incense.Def,
+                TicksLeft = 1,
+                LastsWholeEncounter = true
+            });
+
+            incense.EncountersRemaining--;
+            if (incense.EncountersRemaining <= 0)
+            {
+                ActiveIncense.RemoveAt(i);
+            }
+        }
+    }
+
+    public bool HasFlameStick()
+    {
+        if (Inventory.Trinkets.Any(t => t.Def == Defs.Items.FlameStick))
+        {
+            return true;
+        }
+
+        return PawnType == PawnType.Player && Context.World.Player.HasTrinket(Defs.Items.FlameStick);
+    }
+
+    private void ApplyEatCost(Item item)
+    {
+        FoodConsumed?.Invoke(this, item);
+
+        var nutrition = item.GetStatValue(Defs.Stats.NutritionalValue);
+        if (Traits.HasTrait(Defs.Traits.PotBellied))
+        {
+            nutrition *= 0.75f;
+        }
+
+        Body.StomachLevel = Mathf.Clamp(Body.StomachLevel + nutrition, 0f, 1f);
+        Body.Energy = Body.MaxEnergy;
+
+        item.StackSize--;
+        if (item.StackSize < 1)
+        {
+            item.Destroy();
+        }
     }
 
     private bool HasActiveEffect(BodyEffectDef effect)

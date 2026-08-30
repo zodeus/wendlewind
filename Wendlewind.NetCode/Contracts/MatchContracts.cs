@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Wendlewind.Sim.Entities.Items.Medicinals;
 using Wendlewind.Sim.Entities.Items.Potions;
 
 namespace Wendlewind.NetCode.Contracts;
@@ -14,6 +15,10 @@ public sealed record BuildSnapshot
     public PotionConfig[] Potions { get; init; } = [];
     public SocketedItemConfig[] Sockets { get; init; } = [];
     public string[] FoodBuffs { get; init; } = [];
+    public string[] Meal { get; init; } = [];
+    public MedicalChestConfig[] MedicalChest { get; init; } = [];
+    public IncenseConfig[] Incense { get; init; } = [];
+    public InventoryStackConfig[] Inventory { get; init; } = [];
 }
 
 public sealed record WeaponConfig
@@ -29,6 +34,29 @@ public sealed record PotionConfig
     public float Threshold { get; init; }
     public float AfterSeconds { get; init; }
     public float HealthThreshold { get; init; } = 0.6f;
+}
+
+public sealed record MedicalChestConfig
+{
+    public required string ItemMoniker { get; init; }
+    public MedicalTriggerType Type { get; init; }
+    public MedicalTargetSelector TargetSelector { get; init; }
+    public float Threshold { get; init; }
+    public float AfterSeconds { get; init; }
+    public float HealthThreshold { get; init; } = 0.6f;
+    public string? TargetPartKey { get; init; }
+}
+
+public sealed record IncenseConfig
+{
+    public required string ItemMoniker { get; init; }
+    public int EncountersRemaining { get; init; }
+}
+
+public sealed record InventoryStackConfig
+{
+    public required string ItemMoniker { get; init; }
+    public int Amount { get; init; } = 99;
 }
 
 public sealed record SocketedItemConfig
@@ -54,8 +82,13 @@ public sealed record CombatResult
 [JsonSerializable(typeof(BuildSnapshot))]
 [JsonSerializable(typeof(WeaponConfig))]
 [JsonSerializable(typeof(PotionConfig))]
+[JsonSerializable(typeof(MedicalChestConfig))]
+[JsonSerializable(typeof(IncenseConfig))]
+[JsonSerializable(typeof(InventoryStackConfig))]
 [JsonSerializable(typeof(SocketedItemConfig))]
 [JsonSerializable(typeof(MatchRequest))]
 [JsonSerializable(typeof(CombatResult))]
 [JsonSerializable(typeof(PotionTriggerType))]
+[JsonSerializable(typeof(MedicalTriggerType))]
+[JsonSerializable(typeof(MedicalTargetSelector))]
 public partial class NetCodeJsonContext : JsonSerializerContext;

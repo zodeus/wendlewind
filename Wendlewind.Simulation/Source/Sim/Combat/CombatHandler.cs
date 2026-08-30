@@ -11,6 +11,7 @@ public class CombatHandler : IDisposable, IHasContext
     private readonly List<CombatLogEvent> _log = [];
     private readonly Dictionary<(int PawnId, string PartKey), TickHealthAccumulator> _tickHealth = new();
     private int _lastTickHealthFlush;
+    private bool _combatStarted;
 
     public GameContext Context { get; set; } = null!;
     public EntityContainer Loot = new();
@@ -301,6 +302,12 @@ public class CombatHandler : IDisposable, IHasContext
 
     public void Tick()
     {
+        if (!_combatStarted)
+        {
+            _combatStarted = true;
+            OnCombatStart();
+        }
+
         FlushTickHealth();
 
         Attack(Player, Enemy);
@@ -314,9 +321,17 @@ public class CombatHandler : IDisposable, IHasContext
 
         EvaluatePotionTriggers(Player, Enemy);
         EvaluatePotionTriggers(Enemy, Player);
+        EvaluateMedicalTriggers(Player, Enemy);
+        EvaluateMedicalTriggers(Enemy, Player);
 
         Enemy.Tick();
         FlushTickHealth();
+    }
+
+    private void OnCombatStart()
+    {
+        Player.ApplyBattleStartConsumables();
+        Enemy.ApplyBattleStartConsumables();
     }
 
     private void EvaluatePotionTriggers(Pawn self, Pawn enemy)
@@ -375,6 +390,111 @@ public class CombatHandler : IDisposable, IHasContext
         }
     }
 
+    private void EvaluateMedicalTriggers(Pawn self, Pawn enemy)
+    {
+        self.MedicalChest.Prune();
+        foreach (var slot in self.MedicalChest.Slots.ToList())
+        {
+            if (slot.Trigger?.ShouldFire(self, enemy, _encounter.Ticks) != true)
+            {
+                continue;
+            }
+
+            if (!TryApplyMedical(self, slot, out var partLabel, out var partKey))
+            {
+                continue;
+            }
+
+            Record(new CombatLogEvent
+            {
+                Kind = CombatEventKind.MedicalUsed,
+                SubjectPawnId = self.Id,
+                SubjectName = self.LabelShort,
+                ItemMoniker = slot.Item.ItemDef.Moniker,
+                ItemLabel = slot.Item.Label,
+                BodyPartKey = partKey,
+                BodyPartLabel = partLabel
+            });
+
+            Context.Achievements.OnItemUsed(self, slot.Item);
+            slot.Item.StackSize--;
+            if (slot.Item.StackSize < 1)
+            {
+                slot.Item.Destroy();
+            }
+        }
+
+        self.MedicalChest.Prune();
+    }
+
+    private static bool TryApplyMedical(Pawn self, MedicalChestSlot slot, out string? partLabel, out string? partKey)
+    {
+        partLabel = null;
+        partKey = null;
+        var item = slot.Item;
+        var trigger = slot.Trigger;
+
+        if (item.Def == Defs.Items.Cauterize || trigger.TargetSelector == MedicalTargetSelector.SeveredOrUnsealedSocket)
+        {
+            var socket = MedicalTrigger.FindUnsealedSocket(self);
+            if (socket == null)
+            {
+                return false;
+            }
+
+            socket.IsSealed = true;
+            partLabel = socket.Label;
+            partKey = socket.ParentPart?.InternalLabel;
+            return true;
+        }
+
+        if (item.MedicinalHandler == null)
+        {
+            return false;
+        }
+
+        if (trigger.TargetSelector == MedicalTargetSelector.SpecificPart)
+        {
+            var part = self.Body.FindPartByKey(trigger.TargetPartKey);
+            if (part == null || !item.MedicinalHandler.ApplyToPart(item, part))
+            {
+                return false;
+            }
+
+            partLabel = part.Label;
+            partKey = part.InternalLabel;
+            return true;
+        }
+
+        var candidates = self.Body.AllExternalParts.OrderBy(p => p.HealthPercent).ToList();
+        if (trigger.TargetSelector == MedicalTargetSelector.MostDamagedPart)
+        {
+            var part = candidates.FirstOrDefault();
+            if (part == null || !item.MedicinalHandler.ApplyToPart(item, part))
+            {
+                return false;
+            }
+
+            partLabel = part.Label;
+            partKey = part.InternalLabel;
+            return true;
+        }
+
+        foreach (var part in candidates)
+        {
+            if (!item.MedicinalHandler.ApplyToPart(item, part))
+            {
+                continue;
+            }
+
+            partLabel = part.Label;
+            partKey = part.InternalLabel;
+            return true;
+        }
+
+        return false;
+    }
+
     private void Attack(Pawn attacker, Pawn victim)
     {
         if (attacker.TicksToAttack > 0)
@@ -410,6 +530,9 @@ public class CombatHandler : IDisposable, IHasContext
     private void EndCombat()
     {
         FlushTickHealth(force: true);
+
+        Player.Body.Effects.ClearWholeEncounterEffects();
+        Enemy.Body.Effects.ClearWholeEncounterEffects();
 
         var playerIsAlive = !Player.IsDead;
         if (playerIsAlive)

@@ -122,9 +122,17 @@ public class CombatReplayTests
                 Assert.Contains(pawn.Equipment, item => item.Enchantments != null && item.Enchantments.Any());
             }
 
-            if (template.FoodBuffs.Length > 0)
+            if (template.Meal.Length > 0 || template.FoodBuffs.Length > 0)
             {
-                Assert.True(pawn.Body.Effects.Any(), $"{template.BuildId} should start with food buffs");
+                Assert.True(pawn.MealPlan.Items.Count > 0, $"{template.BuildId} should have a configured meal");
+            }
+
+            Assert.True(template.Inventory.Length > 0, $"{template.BuildId} should include a full inventory");
+            Assert.Contains(pawn.Inventory, i => i.StackSize >= BuildTemplates.FullInventoryStack);
+
+            foreach (var trinketMoniker in BuildTemplates.AllTrinkets())
+            {
+                Assert.Contains(pawn.Inventory.Trinkets, t => t.Def.Moniker == trinketMoniker);
             }
         }
     }

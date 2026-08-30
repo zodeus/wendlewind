@@ -1,11 +1,13 @@
+using Wendlewind.Definitions;
 using Wendlewind.NetCode.Contracts;
+using Wendlewind.Sim.Entities.Items;
 using Wendlewind.Sim.Entities.Items.Potions;
 
 namespace Wendlewind.NetCode;
 
 public static class BuildTemplates
 {
-    public static IReadOnlyList<BuildSnapshot> All { get; } =
+    public static IReadOnlyList<BuildSnapshot> All =>
     [
         AcidRusher(),
         TankRegen(),
@@ -26,7 +28,7 @@ public static class BuildTemplates
                ?? throw new ArgumentException($"Unknown build template '{buildId}'.");
     }
 
-    public static BuildSnapshot AcidRusher() => new()
+    public static BuildSnapshot AcidRusher() => WithFullInventory(new()
     {
         PlayerId = "template",
         BuildId = "AcidRusher",
@@ -45,9 +47,9 @@ public static class BuildTemplates
                 AfterSeconds = 5
             }
         ]
-    };
+    });
 
-    public static BuildSnapshot TankRegen() => new()
+    public static BuildSnapshot TankRegen() => WithFullInventory(new()
     {
         PlayerId = "template",
         BuildId = "TankRegen",
@@ -73,9 +75,9 @@ public static class BuildTemplates
                 HealthThreshold = 0.6f
             }
         ]
-    };
+    });
 
-    public static BuildSnapshot Glasscannon() => new()
+    public static BuildSnapshot Glasscannon() => WithFullInventory(new()
     {
         PlayerId = "template",
         BuildId = "Glasscannon",
@@ -93,9 +95,9 @@ public static class BuildTemplates
                 Type = PotionTriggerType.Immediately
             }
         ]
-    };
+    });
 
-    public static BuildSnapshot LeatherSkirmisher() => new()
+    public static BuildSnapshot LeatherSkirmisher() => WithFullInventory(new()
     {
         PlayerId = "template",
         BuildId = "LeatherSkirmisher",
@@ -126,9 +128,9 @@ public static class BuildTemplates
             Socket("LeatherBoot", "SoothingVibrations")
         ],
         FoodBuffs = ["CookedMeat"]
-    };
+    });
 
-    public static BuildSnapshot BoneReaver() => new()
+    public static BuildSnapshot BoneReaver() => WithFullInventory(new()
     {
         PlayerId = "template",
         BuildId = "BoneReaver",
@@ -150,9 +152,9 @@ public static class BuildTemplates
             AfterSeconds("AcidFlask", 7)
         ],
         FoodBuffs = ["CookedFish"]
-    };
+    });
 
-    public static BuildSnapshot IronRaider() => new()
+    public static BuildSnapshot IronRaider() => WithFullInventory(new()
     {
         PlayerId = "template",
         BuildId = "IronRaider",
@@ -183,9 +185,9 @@ public static class BuildTemplates
             Socket("LeatherGlove", "ElvishLeaf")
         ],
         FoodBuffs = ["CookedMeat", "CookedCorn"]
-    };
+    });
 
-    public static BuildSnapshot IroncladWarden() => new()
+    public static BuildSnapshot IroncladWarden() => WithFullInventory(new()
     {
         PlayerId = "template",
         BuildId = "IroncladWarden",
@@ -195,8 +197,7 @@ public static class BuildTemplates
             ..ChainSetNoNeck(),
             "BlessedIronCollar",
             "StrengthCloak",
-            "JarOfBlood", "SpicedChurni",
-            "BoneCracker"
+            "JarOfBlood", "SpicedChurni"
         ],
         StanceMoniker = "Defensive",
         Weapons =
@@ -216,9 +217,9 @@ public static class BuildTemplates
             Socket("BlessedIronCollar", "RhinoSkin", "BloodBath", "ElvishLeaf")
         ],
         FoodBuffs = ["HeartyStew", "DriedMeat"]
-    };
+    });
 
-    public static BuildSnapshot WitchDoctorSage() => new()
+    public static BuildSnapshot WitchDoctorSage() => WithFullInventory(new()
     {
         PlayerId = "template",
         BuildId = "WitchDoctorSage",
@@ -227,8 +228,7 @@ public static class BuildTemplates
             "StrangeWitheredTwig", "IronDagger",
             ..WitchDoctorSet(),
             "RejuvenationCloak",
-            "PussBomb", "BlackenedSmoke",
-            "Slingshot"
+            "PussBomb", "BlackenedSmoke"
         ],
         StanceMoniker = "Offensive",
         Weapons =
@@ -258,9 +258,9 @@ public static class BuildTemplates
             Socket("WitchDoctorBoot", "BloodBath", "ElvishLeaf")
         ],
         FoodBuffs = ["HeartyStew", "WondrousJam"]
-    };
+    });
 
-    public static BuildSnapshot PlagueHexer() => new()
+    public static BuildSnapshot PlagueHexer() => WithFullInventory(new()
     {
         PlayerId = "template",
         BuildId = "PlagueHexer",
@@ -275,8 +275,7 @@ public static class BuildTemplates
             ..Pair("WitchDoctorGreave"),
             ..Pair("WitchDoctorBoot"),
             "ThornCloak",
-            "AcidFlask", "PussBomb",
-            "PerforationTrap"
+            "AcidFlask", "PussBomb"
         ],
         StanceMoniker = "Offensive",
         Weapons =
@@ -305,9 +304,9 @@ public static class BuildTemplates
             Socket("WitchDoctorBoot", "BloodBath", "ElvishLeaf")
         ],
         FoodBuffs = ["GoldCapMushroom", "HeartyStew"]
-    };
+    });
 
-    public static BuildSnapshot DualFury() => new()
+    public static BuildSnapshot DualFury() => WithFullInventory(new()
     {
         PlayerId = "template",
         BuildId = "DualFury",
@@ -316,8 +315,7 @@ public static class BuildTemplates
             "IronClaws", "IronAxe",
             ..LeatherSet(),
             "NinjaCloak",
-            "StrengthPotion", "AntiStaticFlask",
-            "BloodyBell"
+            "StrengthPotion", "AntiStaticFlask"
         ],
         StanceMoniker = "Offensive",
         Weapons =
@@ -341,9 +339,9 @@ public static class BuildTemplates
             Socket("LeatherBoot", "RhinoSkin")
         ],
         FoodBuffs = ["DriedMeat", "HoneyPot", "Walnut"]
-    };
+    });
 
-    public static BuildSnapshot HexTwig() => new()
+    public static BuildSnapshot HexTwig() => WithFullInventory(new()
     {
         PlayerId = "template",
         BuildId = "HexTwig",
@@ -352,8 +350,7 @@ public static class BuildTemplates
             "StrangeWitheredTwig", "FireStaff",
             ..ClothSet(),
             "ClericCloak",
-            "BlackenedSmoke", "Fleshify",
-            "DeathRattle"
+            "BlackenedSmoke", "Fleshify"
         ],
         StanceMoniker = "Offensive",
         Weapons =
@@ -372,7 +369,56 @@ public static class BuildTemplates
             Socket("FireStaff", "EverburningStone")
         ],
         FoodBuffs = ["WondrousJam", "CookedCorn"]
-    };
+    });
+
+    public const int FullInventoryStack = 99;
+
+    private static InventoryStackConfig[]? _fullInventory;
+    private static string[]? _allTrinkets;
+
+    private static BuildSnapshot WithFullInventory(BuildSnapshot snapshot)
+    {
+        return snapshot with
+        {
+            Inventory = FullInventory(),
+            EntityDefMonikers = snapshot.EntityDefMonikers
+                .Concat(AllTrinkets())
+                .Distinct()
+                .ToArray()
+        };
+    }
+
+    public static string[] AllTrinkets()
+    {
+        if (_allTrinkets is { Length: > 0 })
+        {
+            return _allTrinkets;
+        }
+
+        _allTrinkets = DefRepository<ItemDef>.Defs
+            .Where(d => d.ItemType == ItemType.Trinket && !string.IsNullOrEmpty(d.Moniker) && d.Moniker != "undefined")
+            .Select(d => d.Moniker)
+            .ToArray();
+        return _allTrinkets;
+    }
+
+    private static InventoryStackConfig[] FullInventory()
+    {
+        if (_fullInventory is { Length: > 0 })
+        {
+            return _fullInventory;
+        }
+
+        _fullInventory = DefRepository<ItemDef>.Defs
+            .Where(d => d.StackLimit > 1 && !string.IsNullOrEmpty(d.Moniker))
+            .Select(d => new InventoryStackConfig
+            {
+                ItemMoniker = d.Moniker,
+                Amount = FullInventoryStack
+            })
+            .ToArray();
+        return _fullInventory;
+    }
 
     private static string[] LeatherSet() =>
     [

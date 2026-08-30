@@ -1,110 +1,133 @@
-using Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
 using Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnPreparationPanelWidgets;
 
 namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
 public class PawnPreparationPanel : Panel, IUpdatable
 {
-    private readonly ItemContainerPanel _inventoryPanel;
     private readonly PawnEquipmentPanel _equipmentPanel;
-    private readonly PawnBodyPanel _bodyPanel;
+    private readonly PawnSummaryCard _summaryCard;
     private readonly PawnBodyEffectsPanel _pawnEffectsPanel;
     private readonly SupplyItemsBar _supplyItemsBar;
-    private readonly FoodItemsBar _foodItemsBar;
-    private readonly IncenseItemsBar _incenseItemsBar;
-    private readonly CombatConfigPanel _combatConfigPanel;
+    private readonly MealPlanPanel _mealPlanPanel;
+    private readonly IncenseChargesPanel _incenseChargesPanel;
+    private readonly PotionsPanel _potionsPanel;
+    private readonly MedicalChestPanel _medicalChestPanel;
+    private readonly TrinketsPanel _trinketsPanel;
+    private readonly WeaponBar _weaponBar;
     private Panel _controlsPanel;
 
     public PawnPreparationPanel(BaseGui gui, Pawn playerPawn)
     {
         VerticalAlignment = VerticalAlignment.Stretch;
         HorizontalAlignment = HorizontalAlignment.Stretch;
+        Padding = new Thickness(8);
         _pawnEffectsPanel = new PawnBodyEffectsPanel(gui, playerPawn);
-        _bodyPanel = new PawnBodyPanel(gui, playerPawn.Body, playerPawn.Inventory)
-        {
-            Height = 740,
-        };
-        _inventoryPanel = new ItemContainerPanel(gui, playerPawn.Inventory)
-        {
-            Width = 400,
-            VerticalAlignment = VerticalAlignment.Stretch,
-            Visible = !playerPawn.IsDead
-        };
+        _summaryCard = new PawnSummaryCard(gui, playerPawn);
 
         _equipmentPanel = new PawnEquipmentPanel(gui, playerPawn);
-        _controlsPanel = new Panel();
-
-        VerticalStackPanel centerColumn = new()
-        {
-            Spacing = 15,
-            Margin = new Thickness(20, 0, 0, 0)
-        };
-
-        var equipmentHost = new ScrollViewer
-        {
-            Content = _equipmentPanel,
-            MaxHeight = 520,
-            HorizontalAlignment = HorizontalAlignment.Left,
-            VerticalAlignment = VerticalAlignment.Top
-        };
-
-        centerColumn.Widgets.Add(new HorizontalStackPanel
-        {
-            Spacing = 15,
-            Widgets = {
-                equipmentHost,
-                new PawnSkillsPanel(playerPawn.Skills)
-            }
-        });
-        centerColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory, TrinketType.Combat, item => gui.ViewEntity(item)) { TrinketsPerRow = 9 });
-        centerColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory, TrinketType.Passive, item => gui.ViewEntity(item)) { TrinketsPerRow = 9 });
-        centerColumn.Widgets.Add(new TrinketBar(playerPawn.Inventory, TrinketType.Interactive, item => gui.ViewEntity(item)) { TrinketsPerRow = 9 });
-        centerColumn.Widgets.Add(_pawnEffectsPanel);
-
-        // Supply, food and incense bars above zone controls
+        _controlsPanel = new Panel { HorizontalAlignment = HorizontalAlignment.Left };
+        _weaponBar = new WeaponBar(playerPawn);
+        _potionsPanel = new PotionsPanel(gui, playerPawn);
+        _medicalChestPanel = new MedicalChestPanel(gui, playerPawn);
         _supplyItemsBar = new SupplyItemsBar(gui, playerPawn.Inventory);
-        _foodItemsBar = new FoodItemsBar(gui, playerPawn);
-        _incenseItemsBar = new IncenseItemsBar(gui, Core.Context.Player);
-        _combatConfigPanel = new CombatConfigPanel(playerPawn);
-        centerColumn.Widgets.Add(_combatConfigPanel);
-        var consumableBarsContainer = new HorizontalStackPanel { Spacing = 12 };
-        consumableBarsContainer.Widgets.Add(_supplyItemsBar);
-        consumableBarsContainer.Widgets.Add(_incenseItemsBar);
-        centerColumn.Widgets.Add(consumableBarsContainer);
-        centerColumn.Widgets.Add(_foodItemsBar);
+        _mealPlanPanel = new MealPlanPanel(gui, playerPawn);
+        _incenseChargesPanel = new IncenseChargesPanel(gui, playerPawn);
+        _trinketsPanel = new TrinketsPanel(gui, playerPawn);
 
-        centerColumn.Widgets.Add(_controlsPanel);
-
-        HorizontalStackPanel grid = new()
+        var root = new Grid
         {
+            ColumnSpacing = 8,
+            RowSpacing = 8,
             HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch
+        };
+        root.ColumnsProportions.Add(new Proportion(ProportionType.Part, 0.9f));
+        root.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1.15f));
+        root.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1f));
+        root.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1f));
+        root.RowsProportions.Add(new Proportion(ProportionType.Part, 1.15f));
+        root.RowsProportions.Add(new Proportion(ProportionType.Part, 0.85f));
+
+        Place(root, _summaryCard, 0, 0);
+        var loadout = CreateLoadoutCard(playerPawn);
+        Place(root, loadout, 1, 0);
+        Grid.SetRowSpan(loadout, 2);
+        Place(root, _potionsPanel, 2, 0);
+        Place(root, _medicalChestPanel, 3, 0);
+        Place(root, CreateTrinketsCell(), 0, 1);
+        Place(root, _mealPlanPanel, 2, 1);
+        Place(root, _incenseChargesPanel, 3, 1);
+        Widgets.Add(root);
+    }
+
+    private Widget CreateTrinketsCell()
+    {
+        var cell = new VerticalStackPanel
+        {
+            Spacing = 6,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
             Widgets =
             {
-                _bodyPanel,
-                centerColumn,
-                _inventoryPanel,
+                _trinketsPanel,
+                _supplyItemsBar,
+                _controlsPanel
             }
         };
-        HorizontalStackPanel.SetProportionType(_bodyPanel, ProportionType.Auto);
-        HorizontalStackPanel.SetProportionType(centerColumn, ProportionType.Fill);
-        HorizontalStackPanel.SetProportionType(_inventoryPanel, ProportionType.Auto);
-        Widgets.Add(grid);
+        VerticalStackPanel.SetProportionType(_trinketsPanel, ProportionType.Fill);
+        return cell;
+    }
+
+    private Widget CreateLoadoutCard(Pawn playerPawn)
+    {
+        var body = new VerticalStackPanel
+        {
+            Spacing = 8,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            Widgets =
+            {
+                new HorizontalStackPanel
+                {
+                    Spacing = 12,
+                    Widgets =
+                    {
+                        _equipmentPanel,
+                        new PawnSkillsPanel(playerPawn.Skills)
+                    }
+                },
+                new Label(BaseContent.Styles.Label.Small) { Text = "Stance", TextColor = new Color(180, 180, 180) },
+                new BodyStanceBar(playerPawn),
+                new Label(BaseContent.Styles.Label.Small) { Text = "Weapons", TextColor = new Color(180, 180, 180) },
+                _weaponBar,
+                _pawnEffectsPanel
+            }
+        };
+
+        return new PrepCard("Loadout", body);
+    }
+
+    private static void Place(Grid grid, Widget widget, int column, int row)
+    {
+        grid.Widgets.Add(widget);
+        Grid.SetColumn(widget, column);
+        Grid.SetRow(widget, row);
     }
 
     public void SetControls(Widget control)
     {
         _controlsPanel.Widgets.Add(control);
     }
-    
+
     public void Update()
     {
-        _bodyPanel.Update();
+        _summaryCard.Update();
         _equipmentPanel.Update();
-        _inventoryPanel.Update();
         _pawnEffectsPanel.Update();
         _supplyItemsBar.Update();
-        _foodItemsBar.Update();
-        _incenseItemsBar.Update();
-        _combatConfigPanel.Update();
+        _mealPlanPanel.Update();
+        _incenseChargesPanel.Update();
+        _potionsPanel.Update();
+        _medicalChestPanel.Update();
+        _weaponBar.Update();
     }
 }

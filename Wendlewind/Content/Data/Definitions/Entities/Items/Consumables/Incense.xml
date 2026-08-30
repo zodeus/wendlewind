@@ -12,6 +12,7 @@
         <Description>A stick of Mullin wood, it's smell is calming and soothing.</Description>
         <TexturePath>Entities/Item/Incense/MullinStick</TexturePath>
         <IncenseProperties>
+            <DurationInEncounters>2</DurationInEncounters>
             <Effect>
                 <Def>Mulled</Def>
                 <DurationInTicks>4000</DurationInTicks>
@@ -42,6 +43,7 @@
         <Description>A stick of Shade wood, it's smell is mysterious and alluring.</Description>
         <TexturePath>Entities/Item/Incense/ShadeWood</TexturePath>
         <IncenseProperties>
+            <DurationInEncounters>2</DurationInEncounters>
             <Effect>
                 <Def>Shaded</Def>
                 <DurationInTicks>4000</DurationInTicks>
@@ -73,6 +75,7 @@
             soothing and exhilirating.</Description>
         <TexturePath>Entities/Item/Incense/DippedMullinStick</TexturePath>
         <IncenseProperties>
+            <DurationInEncounters>3</DurationInEncounters>
             <Effect>
                 <Def>WellMulled</Def>
                 <DurationInTicks>2000</DurationInTicks>

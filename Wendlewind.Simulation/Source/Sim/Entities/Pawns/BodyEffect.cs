@@ -3,7 +3,8 @@ namespace Wendlewind.Sim.Entities.Pawns;
 public class BodyEffect : IExposable {
     public BodyEffectDef Def = null!;
     public int TicksLeft;
-    public bool IsExpired => TicksLeft < 1;
+    public bool LastsWholeEncounter;
+    public bool IsExpired => !LastsWholeEncounter && TicksLeft < 1;
 
     public void ModifyIfApplicable(StatDef stat, ref float value) {
         if (Def.AffectedStats == null || IsExpired) {
@@ -24,11 +25,15 @@ public class BodyEffect : IExposable {
     }
 
     public void Tick() {
-        TicksLeft--;
+        if (!LastsWholeEncounter)
+        {
+            TicksLeft--;
+        }
     }
 
     public void ExposeData() {
         ScribeDefs.Look(ref Def!, "Def");
         ScribeValues.Look(ref TicksLeft, "TicksLeft");
+        ScribeValues.Look(ref LastsWholeEncounter, "LastsWholeEncounter");
     }
 }

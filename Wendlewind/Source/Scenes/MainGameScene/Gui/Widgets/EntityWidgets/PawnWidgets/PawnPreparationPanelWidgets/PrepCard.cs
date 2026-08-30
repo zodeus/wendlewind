@@ -1,0 +1,55 @@
+namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnPreparationPanelWidgets;
+
+public class PrepCard : VerticalStackPanel
+{
+    protected readonly VerticalStackPanel Body;
+
+    public PrepCard(string title)
+    {
+        Spacing = 6;
+        Padding = new Thickness(8);
+        HorizontalAlignment = HorizontalAlignment.Stretch;
+        VerticalAlignment = VerticalAlignment.Stretch;
+        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
+
+        Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+        {
+            Text = title,
+            TextColor = Color.Goldenrod
+        });
+        Widgets.Add(new HorizontalSeparator());
+
+        Body = new VerticalStackPanel
+        {
+            Spacing = 6,
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        };
+        var bodyScroll = new ScrollViewer
+        {
+            Content = Body,
+            ShowHorizontalScrollBar = false,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch
+        };
+        Widgets.Add(bodyScroll);
+        SetProportionType(bodyScroll, ProportionType.Fill);
+    }
+
+    public PrepCard(string title, Widget content) : this(title)
+    {
+        Body.Widgets.Add(content);
+    }
+
+    protected void SetInventory(Widget inventory)
+    {
+        var scroll = new ScrollViewer
+        {
+            Content = inventory,
+            ShowHorizontalScrollBar = false,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            MaxHeight = 200
+        };
+        // Title + separator occupy 0 and 1; keep the item grid under the header.
+        Widgets.Insert(2, scroll);
+    }
+}

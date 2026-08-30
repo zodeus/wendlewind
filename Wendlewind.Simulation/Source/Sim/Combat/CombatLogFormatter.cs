@@ -14,6 +14,7 @@ public static class CombatLogFormatter
             CombatEventKind.Dodge =>
                 $"/c[{TC.Victim}]{e.SubjectName} /c[{TC.Blue}]dodged attack",
             CombatEventKind.PotionUsed => FormatPotionUsed(e),
+            CombatEventKind.MedicalUsed => FormatMedicalUsed(e),
             CombatEventKind.Death =>
                 $"/f[default, 32]/c[{TC.Victim}]{e.SubjectName} /cddied from /c[{TC.Red}]{e.Message}\n",
             CombatEventKind.System => FormatSystem(e),
@@ -21,6 +22,16 @@ public static class CombatLogFormatter
             CombatEventKind.DamageOverTime => null,
             _ => e.Message
         };
+    }
+
+    private static string FormatMedicalUsed(CombatLogEvent e)
+    {
+        if (!string.IsNullOrEmpty(e.BodyPartLabel))
+        {
+            return $"/c[{TC.Attacker}]{e.SubjectName} /c[{TC.Yellow}]used /c[{TC.Item}]{e.ItemLabel} /c[{TC.Default}]on /c[{TC.BodyPart}]{e.BodyPartLabel}";
+        }
+
+        return $"/c[{TC.Attacker}]{e.SubjectName} /c[{TC.Yellow}]used /c[{TC.Item}]{e.ItemLabel}";
     }
 
     private static string FormatPotionUsed(CombatLogEvent e)

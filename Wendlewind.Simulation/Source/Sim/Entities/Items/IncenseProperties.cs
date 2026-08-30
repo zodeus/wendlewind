@@ -3,6 +3,12 @@ namespace Wendlewind.Sim.Entities.Items;
 public class IncenseProperties
 {
     public BodyEffectRecord Effect = null!;
+    public int DurationInEncounters;
+
+    public int GetDurationInEncounters()
+    {
+        return DurationInEncounters > 0 ? DurationInEncounters : 1;
+    }
 
     public static Color GetEffectColor(BodyEffectDef def)
     {

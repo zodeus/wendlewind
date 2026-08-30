@@ -1,7 +1,9 @@
 using Wendlewind.Definitions;
 using Wendlewind.NetCode.Contracts;
+using Wendlewind.Sim;
 using Wendlewind.Sim.Entities.Items;
 using Wendlewind.Sim.Entities.Items.Equipment;
+using Wendlewind.Sim.Entities.Items.Medicinals;
 using Wendlewind.Sim.Entities.Items.Potions;
 using Wendlewind.Sim.Entities.Pawns;
 
@@ -14,7 +16,8 @@ public static class BuildSnapshotFactory
         var items = pawn.Equipment
             .Where(i => i.ItemDef.EquipmentProperties?.SlotUsedToEquip != EquipmentSlotType.BuiltIn)
             .Select(i => i.Def.Moniker)
-            .Concat(pawn.Inventory.Select(i => i.Def.Moniker))
+            .Concat(pawn.Inventory.Trinkets.Select(t => t.Def.Moniker))
+            .Distinct()
             .ToArray();
 
         return new BuildSnapshot
@@ -42,7 +45,11 @@ public static class BuildSnapshotFactory
                 })
                 .ToArray(),
             Sockets = CaptureSockets(pawn),
-            FoodBuffs = CaptureFoodBuffs(pawn)
+            FoodBuffs = CaptureMeal(pawn),
+            Meal = CaptureMeal(pawn),
+            MedicalChest = CaptureMedicalChest(pawn),
+            Incense = CaptureIncense(pawn),
+            Inventory = CaptureInventory(pawn)
         };
     }
 
@@ -62,7 +69,10 @@ public static class BuildSnapshotFactory
         ApplyWeaponFlags(pawn, snapshot.Weapons);
         ApplyPotionTriggers(pawn, snapshot.Potions);
         ApplySockets(pawn, snapshot.Sockets);
-        ApplyFoodBuffs(pawn, snapshot.FoodBuffs);
+        ApplyMeal(pawn, snapshot.Meal.Length > 0 ? snapshot.Meal : snapshot.FoodBuffs);
+        ApplyMedicalChest(pawn, snapshot.MedicalChest);
+        ApplyIncense(pawn, snapshot.Incense);
+        ApplyInventory(pawn, snapshot.Inventory);
     }
 
     private static void ReplaceLoadout(Pawn pawn, IEnumerable<string> monikers)
@@ -89,6 +99,41 @@ public static class BuildSnapshotFactory
         }
 
         PawnGenerator.RegisterEquipment(pawn, defs);
+    }
+
+    private static void ApplyInventory(Pawn pawn, InventoryStackConfig[] stacks)
+    {
+        foreach (var stack in stacks)
+        {
+            var def = DefRepository<ItemDef>.GetByMoniker(stack.ItemMoniker, raiseError: false);
+            if (def == null || def.StackLimit <= 1)
+            {
+                continue;
+            }
+
+            var amount = Math.Clamp(stack.Amount > 0 ? stack.Amount : 99, 1, def.StackLimit);
+            var existing = pawn.Inventory.FirstOrDefault(i => i.Def == def && !i.IsDestroyed);
+            if (existing != null)
+            {
+                existing.StackSize = Math.Max(existing.StackSize, amount);
+                continue;
+            }
+
+            pawn.Inventory.TryAdd(pawn.Context.Factory.CreateEntity<Item>(def, amount));
+        }
+    }
+
+    private static InventoryStackConfig[] CaptureInventory(Pawn pawn)
+    {
+        return pawn.Inventory
+            .Where(i => !i.IsDestroyed && i.ItemDef.StackLimit > 1)
+            .GroupBy(i => i.Def.Moniker)
+            .Select(g => new InventoryStackConfig
+            {
+                ItemMoniker = g.Key,
+                Amount = g.Sum(i => i.StackSize)
+            })
+            .ToArray();
     }
 
     private static void ApplyWeaponFlags(Pawn pawn, WeaponConfig[] configs)
@@ -155,18 +200,81 @@ public static class BuildSnapshotFactory
         }
     }
 
-    private static void ApplyFoodBuffs(Pawn pawn, string[] foodMonikers)
+    private static void ApplyMeal(Pawn pawn, string[] foodMonikers)
     {
+        pawn.MealPlan.Prune();
         foreach (var moniker in foodMonikers)
         {
-            var def = DefRepository<ItemDef>.GetByMoniker(moniker, raiseError: false);
-            if (def?.FoodProperties == null)
+            var item = FindOrCreateInventoryItem(pawn, moniker, d => d.FoodProperties != null);
+            if (item != null)
+            {
+                pawn.MealPlan.TryAdd(item);
+            }
+        }
+    }
+
+    private static void ApplyMedicalChest(Pawn pawn, MedicalChestConfig[] configs)
+    {
+        pawn.MedicalChest.Prune();
+        foreach (var config in configs)
+        {
+            var item = FindOrCreateInventoryItem(pawn, config.ItemMoniker,
+                d => d.ItemType == ItemType.Medical || d == Defs.Items.Cauterize);
+            if (item == null)
             {
                 continue;
             }
 
-            pawn.TryEat(pawn.Context.Factory.CreateEntity<Item>(def, 1));
+            pawn.MedicalChest.TryAdd(item, new MedicalTrigger
+            {
+                Type = config.Type,
+                TargetSelector = config.TargetSelector,
+                Threshold = config.Threshold,
+                AfterSeconds = config.AfterSeconds,
+                HealthThreshold = config.HealthThreshold > 0 ? config.HealthThreshold : 0.6f,
+                TargetPartKey = config.TargetPartKey
+            });
         }
+    }
+
+    private static void ApplyIncense(Pawn pawn, IncenseConfig[] configs)
+    {
+        pawn.ActiveIncense.Clear();
+        foreach (var config in configs)
+        {
+            var def = DefRepository<ItemDef>.GetByMoniker(config.ItemMoniker, raiseError: false);
+            var effect = def?.IncenseProperties?.Effect?.Def;
+            if (effect == null)
+            {
+                continue;
+            }
+
+            pawn.ActiveIncense.Add(new ActiveIncense
+            {
+                Def = effect,
+                EncountersRemaining = config.EncountersRemaining > 0 ? config.EncountersRemaining : 1,
+                SourceMoniker = config.ItemMoniker
+            });
+        }
+    }
+
+    private static Item? FindOrCreateInventoryItem(Pawn pawn, string moniker, Func<ItemDef, bool> isValid)
+    {
+        var existing = pawn.Inventory.FirstOrDefault(i => i.Def.Moniker == moniker && !i.IsDestroyed);
+        if (existing != null)
+        {
+            return existing;
+        }
+
+        var def = DefRepository<ItemDef>.GetByMoniker(moniker, raiseError: false);
+        if (def == null || !isValid(def))
+        {
+            return null;
+        }
+
+        var created = pawn.Context.Factory.CreateEntity<Item>(def, 1);
+        pawn.Inventory.TryAdd(created);
+        return created;
     }
 
     private static SocketedItemConfig[] CaptureSockets(Pawn pawn)
@@ -185,38 +293,36 @@ public static class BuildSnapshotFactory
             .ToArray();
     }
 
-    private static string[] CaptureFoodBuffs(Pawn pawn)
+    private static string[] CaptureMeal(Pawn pawn)
     {
-        var active = pawn.Body.Effects
-            .Where(e => !e.IsExpired)
-            .Select(e => e.Def)
-            .ToHashSet();
-        if (active.Count == 0)
-        {
-            return [];
-        }
+        pawn.MealPlan.Prune();
+        return pawn.MealPlan.Items.Select(i => i.Def.Moniker).ToArray();
+    }
 
-        var foods = DefRepository<ItemDef>.Defs
-            .Where(d => d.FoodProperties is { Effects.Count: > 0 })
-            .Where(d => d.FoodProperties!.Effects.All(r => active.Contains(r.Def)))
-            .OrderByDescending(d => d.FoodProperties!.Effects.Count)
-            .ToList();
-
-        var covered = new HashSet<BodyEffectDef>();
-        var result = new List<string>();
-        foreach (var food in foods)
+    private static MedicalChestConfig[] CaptureMedicalChest(Pawn pawn)
+    {
+        pawn.MedicalChest.Prune();
+        return pawn.MedicalChest.Slots.Select(s => new MedicalChestConfig
         {
-            var effects = food.FoodProperties!.Effects.Select(r => r.Def).ToList();
-            if (effects.Any(e => !covered.Contains(e)))
+            ItemMoniker = s.Item.Def.Moniker,
+            Type = s.Trigger.Type,
+            TargetSelector = s.Trigger.TargetSelector,
+            Threshold = s.Trigger.Threshold,
+            AfterSeconds = s.Trigger.AfterSeconds,
+            HealthThreshold = s.Trigger.HealthThreshold,
+            TargetPartKey = s.Trigger.TargetPartKey
+        }).ToArray();
+    }
+
+    private static IncenseConfig[] CaptureIncense(Pawn pawn)
+    {
+        return pawn.ActiveIncense
+            .Where(a => a.EncountersRemaining > 0 && a.Def != null)
+            .Select(a => new IncenseConfig
             {
-                result.Add(food.Moniker);
-                foreach (var effect in effects)
-                {
-                    covered.Add(effect);
-                }
-            }
-        }
-
-        return result.ToArray();
+                ItemMoniker = a.SourceMoniker ?? a.Def.Moniker,
+                EncountersRemaining = a.EncountersRemaining
+            })
+            .ToArray();
     }
 }

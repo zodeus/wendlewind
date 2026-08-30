@@ -25,10 +25,19 @@ public class PawnBodyEffects : IEnumerable<BodyEffect>, IExposable
         if (_effects.Find(e => e.Def == effect.Def) is { } existingEffect)
         {
             existingEffect.TicksLeft += effect.TicksLeft;
+            if (effect.LastsWholeEncounter)
+            {
+                existingEffect.LastsWholeEncounter = true;
+            }
             return;
         }
 
         _effects.Add(effect);
+    }
+
+    public void ClearWholeEncounterEffects()
+    {
+        _effects.RemoveAll(e => e.LastsWholeEncounter);
     }
 
     public void Tick()

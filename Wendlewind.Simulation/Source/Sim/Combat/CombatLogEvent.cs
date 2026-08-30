@@ -15,6 +15,7 @@ public enum CombatEventKind
     EquipmentDestroyed,
     StatusReflected,
     PotionUsed,
+    MedicalUsed,
     Death,
     System
 }
