@@ -338,6 +338,8 @@ public class CombatHandler : IDisposable, IHasContext
 
     private void OnCombatStart()
     {
+        Player.MedicalChest.ResetCooldowns();
+        Enemy.MedicalChest.ResetCooldowns();
         Player.ApplyBattleStartConsumables();
         Enemy.ApplyBattleStartConsumables();
     }
@@ -409,13 +411,20 @@ public class CombatHandler : IDisposable, IHasContext
         self.MedicalChest.Prune();
         foreach (var slot in self.MedicalChest.Slots.ToList())
         {
+            if (!slot.HasCharge || _encounter.Ticks < slot.NextReadyTick)
+            {
+                continue;
+            }
+
             if (slot.Trigger?.ShouldFire(self, enemy, _encounter.Ticks) != true)
             {
                 continue;
             }
 
-            if (!TryApplyMedical(self, slot, out var partLabel, out var partKey))
+            var item = Context.Factory.CreateEntity<Item>(slot.Def, 1);
+            if (!TryApplyMedical(self, slot, item, out var partLabel, out var partKey))
             {
+                item.Destroy();
                 continue;
             }
 
@@ -424,29 +433,29 @@ public class CombatHandler : IDisposable, IHasContext
                 Kind = CombatEventKind.MedicalUsed,
                 SubjectPawnId = self.Id,
                 SubjectName = self.LabelShort,
-                ItemMoniker = slot.Item.ItemDef.Moniker,
-                ItemLabel = slot.Item.Label,
+                ItemMoniker = slot.Def.Moniker,
+                ItemLabel = slot.Def.Label,
                 BodyPartKey = partKey,
                 BodyPartLabel = partLabel
             });
 
-            Context.Achievements.OnItemUsed(self, slot.Item);
-            slot.Item.StackSize--;
-            if (slot.Item.StackSize < 1)
-            {
-                slot.Item.Destroy();
-            }
-        }
+            Context.Achievements.OnItemUsed(self, item);
+            item.Destroy();
 
-        self.MedicalChest.Prune();
+            if (!slot.IsInfinite)
+            {
+                slot.Charges--;
+            }
+
+            slot.NextReadyTick = _encounter.Ticks + MedicalChest.CooldownInTicks(slot.Def);
+        }
     }
 
-    private bool TryApplyMedical(Pawn self, MedicalChestSlot slot, out string? partLabel, out string? partKey)
+    private bool TryApplyMedical(Pawn self, MedicalChestSlot slot, Item item, out string? partLabel, out string? partKey)
     {
         partLabel = null;
         partKey = null;
-        var item = slot.Item;
-        var trigger = slot.Trigger;
+        var trigger = slot.Trigger ?? new MedicalTrigger();
 
         if (item.Def == Defs.Items.Cauterize || trigger.TargetSelector == MedicalTargetSelector.SeveredOrUnsealedSocket)
         {
@@ -577,13 +586,8 @@ public class CombatHandler : IDisposable, IHasContext
 
         attacker.ResetAttackCoolDown();
         _damageOptions.Clear();
-        foreach (var weapon in attacker.Equipment.UsableWeapons)
+        foreach (var weapon in attacker.Equipment.CombatWeapons)
         {
-            if (!weapon.UseInCombat)
-            {
-                continue;
-            }
-
             _damageOptions.Add(DamageRequest.Create(attacker, weapon));
         }
 

@@ -4,10 +4,8 @@ public class PawnSkillsPanel : Panel, IUpdatable {
     private readonly Dictionary<Skill, SkillPanelRow> _skillList = new();
 
     public PawnSkillsPanel(PawnSkills skills) {
-        Padding = new Thickness(10);
-        HorizontalAlignment = HorizontalAlignment.Left;
+        HorizontalAlignment = HorizontalAlignment.Stretch;
         VerticalAlignment = VerticalAlignment.Top;
-        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
 
         var container = new VerticalStackPanel { Spacing = 4 };
 

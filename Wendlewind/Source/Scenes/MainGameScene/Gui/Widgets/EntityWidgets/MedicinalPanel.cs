@@ -54,6 +54,41 @@ public class MedicinalPanel : EntityPanelBase
             });
             Widgets.Add(_stackLabel);
 
+            var medicinal = item.ItemDef.MedicinalProperties;
+            if (medicinal != null)
+            {
+                if (MedicalChest.IsInfiniteUse(item.ItemDef))
+                {
+                    Widgets.Add(new Label("small")
+                    {
+                        Text = "Infinite use",
+                        TextColor = new Color(200, 180, 140),
+                        Margin = new Thickness(0, 0, 0, 4)
+                    });
+                }
+
+                var cooldown = MedicalChest.CooldownInTicks(item.ItemDef);
+                if (cooldown > 0)
+                {
+                    Widgets.Add(new Label("small")
+                    {
+                        Text = $"Cooldown: {cooldown / (float)GameContext.TicksPerSecond:0.#}s",
+                        TextColor = new Color(180, 180, 180),
+                        Margin = new Thickness(0, 0, 0, 4)
+                    });
+                }
+
+                if (medicinal.DurationInTicks > 0)
+                {
+                    Widgets.Add(new Label("small")
+                    {
+                        Text = $"Duration: {medicinal.DurationInTicks / (float)GameContext.TicksPerSecond:0.#}s",
+                        TextColor = new Color(180, 180, 180),
+                        Margin = new Thickness(0, 0, 0, 8)
+                    });
+                }
+            }
+
             foreach (var baseStat in item.Def.BaseStats)
             {
                 var row = new HorizontalStackPanel { Spacing = 10 };

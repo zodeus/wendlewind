@@ -498,23 +498,25 @@ public static class BuildTemplates
 
     private static readonly MedicalChestConfig[] DefaultMedical =
     [
-        MedPartBelow("MedKit", 0.5f),
-        MedBloodBelow("MendersMist", 0.4f),
-        MedPartBelow("ArterialThreads", 0.6f),
+        MedPartBelow("MedKit", 0.5f, 2),
+        MedBloodBelow("MendersMist", 0.4f, 1),
+        MedPartBelow("ArterialThreads", 0.6f, 1),
         MedCauterize()
     ];
 
-    private static MedicalChestConfig MedPartBelow(string moniker, float health) => new()
+    private static MedicalChestConfig MedPartBelow(string moniker, float health, int charges) => new()
     {
         ItemMoniker = moniker,
+        Charges = charges,
         Type = MedicalTriggerType.PartBelowHealth,
         TargetSelector = MedicalTargetSelector.MostDamagedPart,
         HealthThreshold = health
     };
 
-    private static MedicalChestConfig MedBloodBelow(string moniker, float threshold) => new()
+    private static MedicalChestConfig MedBloodBelow(string moniker, float threshold, int charges) => new()
     {
         ItemMoniker = moniker,
+        Charges = charges,
         Type = MedicalTriggerType.SelfBloodBelow,
         Threshold = threshold
     };
@@ -522,6 +524,7 @@ public static class BuildTemplates
     private static MedicalChestConfig MedCauterize() => new()
     {
         ItemMoniker = "Cauterize",
+        Charges = 0,
         Type = MedicalTriggerType.PartSevered,
         TargetSelector = MedicalTargetSelector.SeveredOrUnsealedSocket
     };

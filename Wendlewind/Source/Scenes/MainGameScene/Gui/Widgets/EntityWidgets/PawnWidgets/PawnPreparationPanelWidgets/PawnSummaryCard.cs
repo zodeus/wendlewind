@@ -8,9 +8,8 @@ public sealed class PawnSummaryCard : VerticalStackPanel, IUpdatable
     private readonly BaseGui _gui;
     private readonly Pawn _pawn;
     private readonly PawnRenderWidget _portrait;
-    private readonly VerticalBloodBar _bloodBar;
     private readonly PawnCapabilitiesOverlay _capabilities;
-    private readonly Label _hint;
+    private readonly PawnSkillsPanel _skills;
     private Window? _bodyWindow;
     private PawnBodyPanel? _bodyOverlay;
 
@@ -35,26 +34,27 @@ public sealed class PawnSummaryCard : VerticalStackPanel, IUpdatable
         _portrait = new PawnRenderWidget(pawn, 192)
         {
             Width = 192,
-            Height = 192
+            Height = 192,
+            HorizontalAlignment = HorizontalAlignment.Center
         };
         _portrait.Clicked += (_, _) => OpenBodyOverlay();
-
-        _bloodBar = new VerticalBloodBar(pawn) { Width = 16, Height = 192 };
-
-        var portraitRow = new HorizontalStackPanel { Spacing = 6 };
-        portraitRow.Widgets.Add(_portrait);
-        portraitRow.Widgets.Add(_bloodBar);
-        Widgets.Add(portraitRow);
+        Widgets.Add(_portrait);
 
         _capabilities = new PawnCapabilitiesOverlay(pawn.Body);
         Widgets.Add(_capabilities);
 
-        _hint = new Label(BaseContent.Styles.Label.Small)
+        Widgets.Add(new Label(BaseContent.Styles.Label.Small)
         {
-            Text = "Click portrait to inspect body",
-            TextColor = new Color(150, 150, 150)
-        };
-        Widgets.Add(_hint);
+            Text = "Stance",
+            TextColor = new Color(180, 180, 180)
+        });
+        Widgets.Add(new BodyStanceBar(pawn)
+        {
+            HorizontalAlignment = HorizontalAlignment.Left
+        });
+
+        _skills = new PawnSkillsPanel(pawn.Skills);
+        Widgets.Add(_skills);
     }
 
     public void OpenBodyOverlay()
@@ -84,8 +84,8 @@ public sealed class PawnSummaryCard : VerticalStackPanel, IUpdatable
             _bodyWindow = null;
         }
 
-        _bloodBar.Value = _pawn.Body.BloodPercent * 100;
         _capabilities.Update();
+        _skills.Update();
         _bodyOverlay?.Update();
     }
 }

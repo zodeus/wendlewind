@@ -12,6 +12,10 @@
         <StackLimit>1</StackLimit>
         <Description>Cauterizes a severed limb (unsealed socket).</Description>
         <TexturePath>Entities/Item/Medical/Cauterize</TexturePath>
+        <MedicinalProperties>
+            <InfiniteUse>true</InfiniteUse>
+            <CooldownInTicks>300</CooldownInTicks>
+        </MedicinalProperties>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
         <Moniker>MedKit</Moniker>
@@ -20,6 +24,7 @@
         <TexturePath>Entities/Item/Medical/MedKit</TexturePath>
         <MedicinalProperties>
             <HandlerClass>MedKitHandler</HandlerClass>
+            <CooldownInTicks>240</CooldownInTicks>
         </MedicinalProperties>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
@@ -46,6 +51,7 @@
         <TexturePath>Entities/Item/Medical/ArterialThreads</TexturePath>
         <MedicinalProperties>
             <HandlerClass>ArterialThreadsHandler</HandlerClass>
+            <CooldownInTicks>180</CooldownInTicks>
         </MedicinalProperties>
         <CraftingProperties>
             <AmountProduced>2</AmountProduced>
@@ -67,6 +73,7 @@
         <TexturePath>Entities/Item/Medical/MendersMist</TexturePath>
         <MedicinalProperties>
             <HandlerClass>MendersMistHandler</HandlerClass>
+            <CooldownInTicks>180</CooldownInTicks>
         </MedicinalProperties>
         <BaseStats>
             <HealingValue>200</HealingValue>
@@ -95,6 +102,7 @@
         <MedicinalProperties>
             <HandlerClass>BalmyOintmentHandler</HandlerClass>
             <DurationInTicks>800</DurationInTicks>
+            <CooldownInTicks>240</CooldownInTicks>
         </MedicinalProperties>
         <CraftingProperties>
             <AmountProduced>3</AmountProduced>
@@ -125,6 +133,7 @@
         <MedicinalProperties>
             <HandlerClass>AntiNecroticSerumHandler</HandlerClass>
             <DurationInTicks>1000</DurationInTicks>
+            <CooldownInTicks>300</CooldownInTicks>
         </MedicinalProperties>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
@@ -156,6 +165,7 @@
         <MedicinalProperties>
             <HandlerClass>MendersMixHandler</HandlerClass>
             <DurationInTicks>300</DurationInTicks>
+            <CooldownInTicks>300</CooldownInTicks>
         </MedicinalProperties>
         <BaseStats>
             <HealingValue>500</HealingValue>
@@ -193,6 +203,7 @@
         <TexturePath>Entities/Item/Medical/BoneCleanse</TexturePath>
         <MedicinalProperties>
             <HandlerClass>BoneCleanseHandler</HandlerClass>
+            <CooldownInTicks>360</CooldownInTicks>
         </MedicinalProperties>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
@@ -221,6 +232,7 @@
         <TexturePath>Entities/Item/Medical/StrengthenBones</TexturePath>
         <MedicinalProperties>
             <HandlerClass>StrengthenBonesHandler</HandlerClass>
+            <CooldownInTicks>360</CooldownInTicks>
         </MedicinalProperties>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>

@@ -66,7 +66,7 @@ public static class BuildSnapshotFactory
             pawn.Body.Stance = stance;
         }
 
-        ApplyWeaponFlags(pawn, snapshot.Weapons);
+        pawn.Equipment.SyncWeaponCombatUse();
         ApplyPotionTriggers(pawn, snapshot.Potions);
         ApplySockets(pawn, snapshot.Sockets);
         ApplyMeal(pawn, snapshot.Meal.Length > 0 ? snapshot.Meal : snapshot.FoodBuffs);
@@ -148,22 +148,6 @@ public static class BuildSnapshotFactory
             .ToArray();
     }
 
-    private static void ApplyWeaponFlags(Pawn pawn, WeaponConfig[] configs)
-    {
-        var remaining = pawn.Equipment.Weapons.Select(w => w.Item1).ToList();
-        foreach (var config in configs)
-        {
-            var match = remaining.FirstOrDefault(w => w.Def.Moniker == config.ItemMoniker);
-            if (match == null)
-            {
-                continue;
-            }
-
-            match.UseInCombat = config.UseInCombat;
-            remaining.Remove(match);
-        }
-    }
-
     private static void ApplyPotionTriggers(Pawn pawn, PotionConfig[] configs)
     {
         var remaining = pawn.Equipment.Potions.ToList();
@@ -227,17 +211,16 @@ public static class BuildSnapshotFactory
 
     private static void ApplyMedicalChest(Pawn pawn, MedicalChestConfig[] configs)
     {
-        pawn.MedicalChest.Prune();
+        pawn.MedicalChest.Clear();
         foreach (var config in configs)
         {
-            var item = FindOrCreateInventoryItem(pawn, config.ItemMoniker,
-                d => d.ItemType == ItemType.Medical || d == Defs.Items.Cauterize);
-            if (item == null)
+            var def = DefRepository<ItemDef>.GetByMoniker(config.ItemMoniker, raiseError: false);
+            if (def == null || !MedicalChest.IsMedicalItem(def))
             {
                 continue;
             }
 
-            pawn.MedicalChest.TryAdd(item, new MedicalTrigger
+            pawn.MedicalChest.TryInstall(def, config.Charges, new MedicalTrigger
             {
                 Type = config.Type,
                 TargetSelector = config.TargetSelector,
@@ -321,7 +304,8 @@ public static class BuildSnapshotFactory
         pawn.MedicalChest.Prune();
         return pawn.MedicalChest.Slots.Select(s => new MedicalChestConfig
         {
-            ItemMoniker = s.Item.Def.Moniker,
+            ItemMoniker = s.Def.Moniker,
+            Charges = s.Charges,
             Type = s.Trigger.Type,
             TargetSelector = s.Trigger.TargetSelector,
             Threshold = s.Trigger.Threshold,

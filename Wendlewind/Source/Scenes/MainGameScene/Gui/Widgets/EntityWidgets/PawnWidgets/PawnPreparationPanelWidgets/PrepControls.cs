@@ -316,6 +316,100 @@ internal sealed class OptionDropdown<T> : CursorButton, IUpdatable
     }
 }
 
+internal sealed class ChargeStepper : HorizontalStackPanel
+{
+    private readonly Label _value;
+    private readonly CursorButton _minus;
+    private readonly CursorButton _plus;
+    private readonly CursorButton _max;
+    private readonly Label _infinite;
+
+    public event Action? Decrement;
+    public event Action? Increment;
+    public event Action? LoadMax;
+
+    public ChargeStepper()
+    {
+        Spacing = 6;
+        VerticalAlignment = VerticalAlignment.Center;
+
+        Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = "Loaded",
+            TextColor = new Color(160, 160, 160),
+            VerticalAlignment = VerticalAlignment.Center
+        });
+
+        _minus = StepButton("−");
+        _minus.Click += (_, _) => Decrement?.Invoke();
+        Widgets.Add(_minus);
+
+        _value = new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = "0",
+            MinWidth = 24,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        Widgets.Add(_value);
+
+        _plus = StepButton("+");
+        _plus.Click += (_, _) => Increment?.Invoke();
+        Widgets.Add(_plus);
+
+        _max = new CursorButton(BaseContent.Styles.Button.Small)
+        {
+            Content = new Label(BaseContent.Styles.Label.Small) { Text = "Max" }
+        };
+        _max.Click += (_, _) => LoadMax?.Invoke();
+        Widgets.Add(_max);
+
+        _infinite = new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = "∞",
+            TextColor = new Color(200, 180, 140),
+            VerticalAlignment = VerticalAlignment.Center,
+            Visible = false
+        };
+        Widgets.Add(_infinite);
+    }
+
+    public void Set(int charges, bool canDecrement, bool canIncrement)
+    {
+        _infinite.Visible = false;
+        _minus.Visible = true;
+        _plus.Visible = true;
+        _max.Visible = true;
+        _value.Visible = true;
+        _value.Text = charges.ToString();
+        _minus.Enabled = canDecrement;
+        _plus.Enabled = canIncrement;
+        _max.Enabled = canIncrement;
+    }
+
+    public void SetInfinite()
+    {
+        _value.Visible = false;
+        _minus.Visible = false;
+        _plus.Visible = false;
+        _max.Visible = false;
+        _infinite.Visible = true;
+    }
+
+    private static CursorButton StepButton(string text)
+    {
+        return new CursorButton(BaseContent.Styles.Button.Small)
+        {
+            MinWidth = 22,
+            Content = new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = text,
+                HorizontalAlignment = HorizontalAlignment.Center
+            }
+        };
+    }
+}
+
 internal sealed class FillGauge : Panel
 {
     private readonly Panel _fill;

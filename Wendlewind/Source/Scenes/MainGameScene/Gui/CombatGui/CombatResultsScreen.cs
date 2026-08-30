@@ -38,7 +38,7 @@ public sealed class CombatResultsScreen : VerticalStackPanel
         var controlsWrapper = new Panel
         {
             HorizontalAlignment = HorizontalAlignment.Left,
-            VerticalAlignment = VerticalAlignment.Bottom
+            VerticalAlignment = VerticalAlignment.Center
         };
 
         var zoneControls = ZoneControls.ForResults(

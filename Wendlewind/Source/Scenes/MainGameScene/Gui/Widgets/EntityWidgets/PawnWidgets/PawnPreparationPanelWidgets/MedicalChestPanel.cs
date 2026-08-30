@@ -22,13 +22,13 @@ public sealed class MedicalChestPanel : PrepCard, IUpdatable
             pawn.Inventory,
             MedicalChest.IsMedicalItem,
             TryArm,
-            item => IsArmed(item)
-                ? "Armed"
-                : _pawn.MedicalChest.Slots.Count >= _pawn.MedicalChest.Capacity
-                    ? "Chest full"
+            item => _pawn.MedicalChest.Slots.Count >= _pawn.MedicalChest.Capacity
+                ? "Chest full"
+                : IsArmed(item)
+                    ? "Click to arm another slot"
                     : "Click to arm",
             IsArmed,
-            item => !IsArmed(item) && _pawn.MedicalChest.Slots.Count >= _pawn.MedicalChest.Capacity);
+            _ => _pawn.MedicalChest.Slots.Count >= _pawn.MedicalChest.Capacity);
         SetInventory(_inventory);
         Rebuild();
     }
@@ -53,18 +53,12 @@ public sealed class MedicalChestPanel : PrepCard, IUpdatable
 
     private bool IsArmed(Item item)
     {
-        return _pawn.MedicalChest.Slots.Any(s => s.Item == item);
+        return _pawn.MedicalChest.Slots.Any(s => s.Def == item.Def);
     }
 
     private void TryArm(Item item)
     {
-        if (IsArmed(item))
-        {
-            _gui.ViewEntity(item);
-            return;
-        }
-
-        if (_pawn.MedicalChest.TryAdd(item))
+        if (_pawn.MedicalChest.TryArm(item))
         {
             Rebuild();
         }
@@ -101,6 +95,7 @@ internal sealed class MedicalTriggerEditor : VerticalStackPanel, IUpdatable
     private readonly OptionDropdown<BodyPart>? _partDropdown;
     private readonly ThresholdSlider _slider;
     private readonly Label _summary;
+    private readonly ChargeStepper _charges;
 
     public MedicalTriggerEditor(BaseGui gui, Pawn pawn, MedicalChestSlot slot, Action onRemoved)
     {
@@ -112,6 +107,12 @@ internal sealed class MedicalTriggerEditor : VerticalStackPanel, IUpdatable
         Background = new SolidBrush(new Color(20, 18, 16, 80));
 
         Widgets.Add(CreateHeader(gui, slot, onRemoved));
+
+        _charges = new ChargeStepper();
+        _charges.Decrement += () => _pawn.MedicalChest.RemoveCharge(_slot);
+        _charges.Increment += () => _pawn.MedicalChest.AddCharge(_slot);
+        _charges.LoadMax += () => _pawn.MedicalChest.LoadMax(_slot);
+        Widgets.Add(_charges);
 
         var controlRow = new HorizontalStackPanel
         {
@@ -163,6 +164,7 @@ internal sealed class MedicalTriggerEditor : VerticalStackPanel, IUpdatable
         Widgets.Add(_summary);
 
         RefreshControls();
+        RefreshCharges();
     }
 
     public void Update()
@@ -170,13 +172,28 @@ internal sealed class MedicalTriggerEditor : VerticalStackPanel, IUpdatable
         _typeDropdown.Update();
         _targetDropdown.Update();
         _partDropdown?.Update();
+        RefreshCharges();
+    }
+
+    private void RefreshCharges()
+    {
+        if (_slot.IsInfinite)
+        {
+            _charges.SetInfinite();
+            return;
+        }
+
+        _charges.Set(
+            _slot.Charges,
+            _slot.Charges > 0,
+            _pawn.Inventory.AmountOf(_slot.Def) > 0);
     }
 
     private Widget CreateHeader(BaseGui gui, MedicalChestSlot slot, Action onRemoved)
     {
         var name = new Label(BaseContent.Styles.Label.Small)
         {
-            Text = slot.Item.Label,
+            Text = slot.Def.Label,
             VerticalAlignment = VerticalAlignment.Center
         };
 
@@ -192,19 +209,31 @@ internal sealed class MedicalTriggerEditor : VerticalStackPanel, IUpdatable
 
         var icon = new Image
         {
-            Background = slot.Item.GetIconImage(),
+            Background = slot.Def.GetIconImage(),
             Width = BaseContent.IconSizes.Small,
             Height = BaseContent.IconSizes.Small,
             VerticalAlignment = VerticalAlignment.Center
         };
-        icon.TouchDown += (_, _) => gui.ViewEntity(slot.Item);
-        name.TouchDown += (_, _) => gui.ViewEntity(slot.Item);
+        icon.TouchDown += (_, _) => ViewSlot(gui, slot);
+        name.TouchDown += (_, _) => ViewSlot(gui, slot);
 
         var row = new HorizontalStackPanel { Spacing = 6 };
         row.Widgets.Add(icon);
         row.Widgets.Add(name);
         row.Widgets.Add(remove);
         return row;
+    }
+
+    private void ViewSlot(BaseGui gui, MedicalChestSlot slot)
+    {
+        var live = _pawn.Inventory.FirstOrDefault(i => i.Def == slot.Def && !i.IsDestroyed);
+        if (live != null)
+        {
+            gui.ViewEntity(live);
+            return;
+        }
+
+        gui.ViewEntity(_pawn.Context.Factory.CreateEntity<Item>(slot.Def, 1));
     }
 
     private void ApplyType(MedicalTriggerType type)

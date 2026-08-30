@@ -31,9 +31,8 @@ public sealed class CombatPreparationScreen : VerticalStackPanel
     {
         var controlsWrapper = new Panel
         {
-            Margin = new Thickness(0, 0, 0, 20),
             HorizontalAlignment = HorizontalAlignment.Left,
-            VerticalAlignment = VerticalAlignment.Bottom
+            VerticalAlignment = VerticalAlignment.Center
         };
 
         var zoneControls = new ZoneControls(_encounter, Continue);

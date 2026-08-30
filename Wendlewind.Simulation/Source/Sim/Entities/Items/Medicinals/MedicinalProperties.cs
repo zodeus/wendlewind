@@ -3,8 +3,14 @@ namespace Wendlewind.Sim.Entities.Items.Medicinals;
 public class MedicinalProperties
 {
     public int DurationInTicks;
-    [UsedImplicitly] public Type HandlerClass = typeof(MedicinalHandler);
-    public MedicinalHandler CreateHandler(ISimFactory factory) => factory.Create<MedicinalHandler>(HandlerClass);
+    public bool InfiniteUse;
+    public int CooldownInTicks;
+    [UsedImplicitly] public Type? HandlerClass;
+
+    public MedicinalHandler? CreateHandler(ISimFactory factory)
+    {
+        return HandlerClass == null ? null : factory.Create<MedicinalHandler>(HandlerClass);
+    }
 }
 
 public abstract class MedicinalHandler : IHasContext, IHasRng

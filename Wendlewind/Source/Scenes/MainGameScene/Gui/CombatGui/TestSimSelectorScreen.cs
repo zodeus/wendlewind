@@ -182,7 +182,7 @@ public sealed class TestSimSelectorScreen : Panel
         var backButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             HorizontalAlignment = HorizontalAlignment.Left,
-            VerticalAlignment = VerticalAlignment.Bottom,
+            VerticalAlignment = VerticalAlignment.Center,
             Content = new Label(BaseContent.Styles.Label.Normal) { Text = "Back to Test Sim" }
         };
         backButton.Click += (_, _) => ClosePreparation();

@@ -82,6 +82,38 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
 
     public IEnumerable<Item> UsableWeapons => UsableItems.Where(i => i.ItemDef.EquipmentProperties?.EquipmentType == EquipmentType.Weapon);
 
+    /// <summary>
+    /// Weapons that should strike this attack: every usable held weapon, or builtin
+    /// (fist/foot) weapons when nothing else is equipped.
+    /// </summary>
+    public IEnumerable<Item> CombatWeapons
+    {
+        get
+        {
+            var hasHeldWeapon = false;
+            foreach (var weapon in UsableWeapons)
+            {
+                if (IsBuiltinWeapon(weapon))
+                {
+                    continue;
+                }
+
+                hasHeldWeapon = true;
+                yield return weapon;
+            }
+
+            if (hasHeldWeapon)
+            {
+                yield break;
+            }
+
+            foreach (var weapon in UsableWeapons)
+            {
+                yield return weapon;
+            }
+        }
+    }
+
 
     public IEnumerable<KeyValuePair<BodyPart, List<EquipmentSlotType>>> Slots
     {
@@ -116,11 +148,9 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
         item.EjectFromContainer();
         bodyPart.Equipment[slot] = item;
 
-        // When a non-builtin weapon is equipped, disable all builtin weapons for combat
-        if (item.ItemDef.EquipmentProperties?.EquipmentType == EquipmentType.Weapon &&
-            item.ItemDef.EquipmentProperties?.SlotUsedToEquip != EquipmentSlotType.BuiltIn)
+        if (item.ItemDef.EquipmentProperties?.EquipmentType == EquipmentType.Weapon)
         {
-            SetBuiltinWeaponsUseInCombat(false);
+            SyncWeaponCombatUse();
         }
 
         //OnEquipmentChanged(new OnChangeArgs(OnChangeArgs.ChangeType.ItemEquipped, item));
@@ -156,15 +186,9 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
     {
         bodyPart.Equipment[slot] = null;
 
-        // When a non-builtin weapon is unequipped, check if any non-builtin weapons remain
-        // If not, re-enable builtin weapons for combat
-        if (item.ItemDef.EquipmentProperties?.EquipmentType == EquipmentType.Weapon &&
-            item.ItemDef.EquipmentProperties?.SlotUsedToEquip != EquipmentSlotType.BuiltIn)
+        if (item.ItemDef.EquipmentProperties?.EquipmentType == EquipmentType.Weapon)
         {
-            if (!HasNonBuiltinWeapons())
-            {
-                SetBuiltinWeaponsUseInCombat(true);
-            }
+            SyncWeaponCombatUse();
         }
 
         //OnEquipmentChanged(new OnChangeArgs(OnChangeArgs.ChangeType.ItemUnequipped, item));
@@ -221,19 +245,17 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
         return Slots.Sum(slot => slot.Value.Count(slotType => itemDef.EquipmentProperties?.SlotUsedToEquip == slotType));
     }
 
-    private bool HasNonBuiltinWeapons()
+    private static bool IsBuiltinWeapon(Item weapon)
     {
-        return Weapons.Any(w => w.Item1.ItemDef.EquipmentProperties?.SlotUsedToEquip != EquipmentSlotType.BuiltIn);
+        return weapon.ItemDef.EquipmentProperties?.SlotUsedToEquip == EquipmentSlotType.BuiltIn;
     }
 
-    private void SetBuiltinWeaponsUseInCombat(bool useInCombat)
+    public void SyncWeaponCombatUse()
     {
+        var hasHeldWeapon = Weapons.Any(w => !IsBuiltinWeapon(w.Item1));
         foreach (var (weapon, _) in Weapons)
         {
-            if (weapon.ItemDef.EquipmentProperties?.SlotUsedToEquip == EquipmentSlotType.BuiltIn)
-            {
-                weapon.UseInCombat = useInCombat;
-            }
+            weapon.UseInCombat = IsBuiltinWeapon(weapon) ? !hasHeldWeapon : true;
         }
     }
 

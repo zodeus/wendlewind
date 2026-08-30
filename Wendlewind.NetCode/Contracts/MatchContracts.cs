@@ -39,6 +39,7 @@ public sealed record PotionConfig
 public sealed record MedicalChestConfig
 {
     public required string ItemMoniker { get; init; }
+    public int Charges { get; init; } = 1;
     public MedicalTriggerType Type { get; init; }
     public MedicalTargetSelector TargetSelector { get; init; }
     public float Threshold { get; init; }

@@ -2,7 +2,6 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 
 internal sealed class CombatConsumableLoadout : Panel, IUpdatable
 {
-    private const int MedicalSlots = 5;
     private const int ColumnWidth = 180;
     private const int CellSpacing = 5;
     private const int CellSize = (ColumnWidth - CellSpacing * 2) / 3;
@@ -20,9 +19,10 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
         Pawn = pawn;
         _gui = gui;
         Width = ColumnWidth;
+        ClipToBounds = false;
         HorizontalAlignment = HorizontalAlignment.Stretch;
 
-        _medicalBar = new MedicalBar(pawn, item => gui.ViewEntity(item), IconSize);
+        _medicalBar = new MedicalBar(pawn, def => ViewMedical(def), IconSize);
         Widgets.Add(BuildGrid(gui, pawn, mirror));
         _foodSignature = FoodSignature();
     }
@@ -49,6 +49,7 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
         {
             ColumnSpacing = CellSpacing,
             RowSpacing = CellSpacing,
+            ClipToBounds = false,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Top
         };
@@ -57,7 +58,8 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
             grid.ColumnsProportions.Add(new Proportion(ProportionType.Pixels, CellSize));
         }
 
-        for (var i = 0; i < MedicalSlots; i++)
+        var rowCount = Math.Max(Math.Max(pawn.MedicalChest.Capacity, MealPlan.MaxSlots), IncenseProperties.MaxActive);
+        for (var i = 0; i < rowCount; i++)
         {
             grid.RowsProportions.Add(new Proportion(ProportionType.Pixels, CellSize));
         }
@@ -72,9 +74,9 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
         var foodCol = 1;
         var incenseCol = mirror ? 0 : 2;
 
-        for (var i = 0; i < MedicalSlots; i++)
+        for (var i = 0; i < pawn.MedicalChest.Capacity; i++)
         {
-            Place(grid, i < medicalButtons.Count ? Cell(medicalButtons[i]) : EmptyCell(), i, medicalCol);
+            Place(grid, i < medicalButtons.Count ? Cell(medicalButtons[i], clip: false) : EmptyCell(), i, medicalCol);
         }
 
         var foods = DisplayedFoodDefs();
@@ -95,6 +97,18 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
         }
 
         return grid;
+    }
+
+    private void ViewMedical(ItemDef def)
+    {
+        var live = Pawn.Inventory.FirstOrDefault(i => i.Def == def && !i.IsDestroyed);
+        if (live != null)
+        {
+            _gui.ViewEntity(live);
+            return;
+        }
+
+        _gui.ViewEntity(Pawn.Context.Factory.CreateEntity<Item>(def, 1));
     }
 
     private static void Place(Grid grid, Widget cell, int row, int column)
@@ -257,12 +271,13 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
         return icon;
     }
 
-    private static Panel Cell(Widget content)
+    private static Panel Cell(Widget content, bool clip = true)
     {
         return new Panel
         {
             Width = CellSize,
             Height = CellSize,
+            ClipToBounds = clip,
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
             Padding = new Thickness(CellPad),
             Widgets = { content }
