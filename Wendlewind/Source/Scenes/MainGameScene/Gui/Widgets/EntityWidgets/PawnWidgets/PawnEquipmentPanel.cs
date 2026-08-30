@@ -28,6 +28,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
     private readonly int _iconBaseSize;
     private readonly bool _showSlotHints;
     private readonly bool _readOnly;
+    private readonly bool _hoverToInspect;
     private readonly Dictionary<ItemDef, ColoredRegion> _iconCache = new();
     private readonly Dictionary<(BodyPart Part, EquipmentSlotType Slot), bool> _lastAvailable = new();
     private readonly List<(BodyPart Part, EquipmentSlotType Slot)> _staleSlotKeys = [];
@@ -42,7 +43,8 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         Action<BodyPart, EquipmentSlotType>? clickAction = null,
         int? cellSize = null,
         bool showSlotHints = true,
-        bool readOnly = false)
+        bool readOnly = false,
+        bool hoverToInspect = false)
     {
         _gui = gui;
         _pawn = pawn;
@@ -50,6 +52,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         _iconBaseSize = Math.Max(8, _cellSize - 6);
         _showSlotHints = showSlotHints;
         _readOnly = readOnly;
+        _hoverToInspect = hoverToInspect;
         _selectionPopup = new SelectionPopup<Item>(gui.Desktop);
         _potionSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.PotionSlot];
         _bagSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.BagSlot];
@@ -150,7 +153,36 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         {
             slotFrame.TouchDown += (_, _) => onClick(bodyPart, slot);
         }
+
+        if (_hoverToInspect)
+        {
+            slotFrame.MouseEntered += (_, _) => ShowInspectPopup(bodyPart, slot, slotFrame);
+            slotFrame.MouseLeft += (_, _) => TooltipHelper.Hide(slotFrame);
+        }
+
         return slotFrame;
+    }
+
+    private void ShowInspectPopup(BodyPart bodyPart, EquipmentSlotType slot, Widget owner)
+    {
+        if (Desktop == null)
+        {
+            return;
+        }
+
+        if (bodyPart.Equipment[slot] is not { IsDestroyed: false } item)
+        {
+            return;
+        }
+
+        var panel = EntityPanelFactory.Create(_gui, item, new EntityPanelProperties
+        {
+            ShowTitle = true,
+            ShowCloseButton = false,
+            Background = null
+        });
+
+        TooltipHelper.ShowCustom(Desktop, panel, owner);
     }
 
     private void HandleClick(BodyPart part, EquipmentSlotType slot)
@@ -353,6 +385,10 @@ public class PawnEquipmentPanel : Grid, IUpdatable
     public void Update(float deltaTime)
     {
         _selectionPopup.Update();
+        if (_hoverToInspect)
+        {
+            TooltipHelper.UpdatePosition();
+        }
         TickFlashes(deltaTime);
         TickSparks(deltaTime);
 

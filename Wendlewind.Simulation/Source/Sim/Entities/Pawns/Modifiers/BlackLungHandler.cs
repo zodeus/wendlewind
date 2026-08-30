@@ -15,10 +15,10 @@ public class BlackLungHandler : BodyPartModifier
     // Damage phases (tick thresholds and damage rates)
     private static readonly (int EndTick, double DamageRate)[] DamagePhases =
     [
-        (100, 0.1),   // Phase 1: Initial irritation (30 ticks, light damage)
-        (300, 0.4),   // Phase 2: Acute inflammation (30 ticks, heavy damage)
-        (400, 0.05),   // Phase 3: Brief recovery (20 ticks, minimal damage)
-        (500, 0.2)   // Phase 4: Sustained damage (25 ticks, heavy damage)
+        (100, 0.04),   // Phase 1: Initial irritation (light damage)
+        (300, 0.15),   // Phase 2: Acute inflammation (moderate damage)
+        (400, 0.02),   // Phase 3: Brief recovery (minimal damage)
+        (500, 0.08)    // Phase 4: Sustained damage (moderate damage)
     ];
 
     private double GetCurrentDamageRate()

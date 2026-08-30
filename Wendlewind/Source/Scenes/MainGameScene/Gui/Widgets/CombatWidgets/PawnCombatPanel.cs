@@ -62,7 +62,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         var innerHeight = targetHeight - panelPad * 2;
         var cellSize = Math.Max(20, (innerHeight - (rows - 1) * 2) / rows);
 
-        _equipment = new PawnEquipmentPanel(_gui, Pawn, cellSize: cellSize, showSlotHints: false, readOnly: true)
+        _equipment = new PawnEquipmentPanel(_gui, Pawn, cellSize: cellSize, showSlotHints: false, readOnly: true, hoverToInspect: true)
         {
             VerticalAlignment = VerticalAlignment.Top,
             HorizontalAlignment = align
