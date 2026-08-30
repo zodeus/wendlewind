@@ -6,8 +6,9 @@ public sealed class TrinketBar : VerticalStackPanel
     private HorizontalStackPanel _currentRow = new();
     public int TrinketsPerRow { get; set; } = 10;
 
-    public TrinketBar(PawnInventory inventory, TrinketType type, Action<Item>? clickAction = null)
+    public TrinketBar(PawnInventory inventory, TrinketType type, Action<Item>? clickAction = null, int trinketsPerRow = 10)
     {
+        TrinketsPerRow = trinketsPerRow;
         Widgets.Add(_currentRow);
         inventory.ItemAdded += CreatePanel;
         foreach (var trinket in inventory.Trinkets)

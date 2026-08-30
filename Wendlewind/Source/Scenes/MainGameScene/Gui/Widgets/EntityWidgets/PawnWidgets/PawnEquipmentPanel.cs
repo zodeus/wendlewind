@@ -9,15 +9,26 @@ public class PawnEquipmentPanel : Grid, IUpdatable
     private static readonly Color DestroyedEquipmentColor = new(255, 0, 0, 15);
     private static readonly Color SlotHintColor = new(140, 130, 115);
     private readonly SelectionPopup<Item> _selectionPopup;
-    private readonly int _cellSize = BaseContent.IconSizes.Large;
+    private readonly int _cellSize;
+    private readonly bool _showSlotHints;
+    private readonly bool _readOnly;
     private readonly Dictionary<ItemDef, ColoredRegion> _iconCache = new();
     private readonly IImage _potionSlotIcon;
     private readonly IImage _bagSlotIcon;
 
-    public PawnEquipmentPanel(BaseGui gui, Pawn pawn, Action<BodyPart, EquipmentSlotType>? clickAction = null)
+    public PawnEquipmentPanel(
+        BaseGui gui,
+        Pawn pawn,
+        Action<BodyPart, EquipmentSlotType>? clickAction = null,
+        int? cellSize = null,
+        bool showSlotHints = true,
+        bool readOnly = false)
     {
         _gui = gui;
         _pawn = pawn;
+        _cellSize = cellSize ?? BaseContent.IconSizes.Large;
+        _showSlotHints = showSlotHints;
+        _readOnly = readOnly;
         _selectionPopup = new SelectionPopup<Item>(gui.Desktop);
         _potionSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.PotionSlot];
         _bagSlotIcon = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.BagSlot];
@@ -83,13 +94,16 @@ public class PawnEquipmentPanel : Grid, IUpdatable
                 {
                     new HorizontalProgressBar(BaseContent.Styles.Bar.Durability)
                     {
-                        Width = _cellSize - 4, Height = 12, HorizontalAlignment = HorizontalAlignment.Center,
+                        Width = Math.Max(8, _cellSize - 4),
+                        Height = Math.Max(4, _cellSize / 6),
+                        HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Bottom
                     },
                     new Label(BaseContent.Styles.Label.Small)
                     {
                         Text = GetSlotHint(slot),
                         TextColor = SlotHintColor,
+                        Visible = _showSlotHints,
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Center
                     }
@@ -98,7 +112,10 @@ public class PawnEquipmentPanel : Grid, IUpdatable
             Width = _cellSize,
             Height = _cellSize
         };
-        slotFrame.TouchDown += (_, _) => onClick(bodyPart, slot);
+        if (!_readOnly)
+        {
+            slotFrame.TouchDown += (_, _) => onClick(bodyPart, slot);
+        }
         return slotFrame;
     }
 
@@ -319,7 +336,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         bool isSlotEmpty = bodyPart.Equipment[slot] == null;
 
         bool hasAvailableEquipment = false;
-        if (isSlotEmpty)
+        if (!_readOnly && isSlotEmpty)
         {
             hasAvailableEquipment = _pawn.Inventory.Any(i =>
                 i.ItemDef.EquipmentProperties?.SlotUsedToEquip == slot ||
@@ -368,7 +385,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
             else
             {
                 image.Content.Background = null;
-                hintLabel.Visible = true;
+                hintLabel.Visible = _showSlotHints;
             }
 
             progressBar.Visible = false;

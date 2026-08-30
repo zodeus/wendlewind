@@ -11,6 +11,7 @@ public sealed class TestSimSelectorScreen : Panel
     private readonly TextBox _seedField;
 
     private PawnPreparationPanel? _prepPanel;
+    private Window? _buildDropdown;
 
     public TestSimSelectorScreen(BaseGui gui, GameContext context)
     {
@@ -44,7 +45,7 @@ public sealed class TestSimSelectorScreen : Panel
             HorizontalAlignment = HorizontalAlignment.Center
         });
 
-        _selectorColumn.Widgets.Add(CreateBuildDropdown("Attacker", TestSimSettings.AttackerBuildId, id =>
+        _selectorColumn.Widgets.Add(CreateBuildPicker("Attacker", TestSimSettings.AttackerBuildId, id =>
         {
             if (TestSimSettings.AttackerBuildId == id)
             {
@@ -55,7 +56,7 @@ public sealed class TestSimSelectorScreen : Panel
             // The hand-tuned player loadout no longer matches the chosen template, so discard it.
             TestSimSettings.AttackerOverride = null;
         }));
-        _selectorColumn.Widgets.Add(CreateBuildDropdown("Defender", TestSimSettings.DefenderBuildId, id =>
+        _selectorColumn.Widgets.Add(CreateBuildPicker("Defender", TestSimSettings.DefenderBuildId, id =>
         {
             TestSimSettings.DefenderBuildId = id;
         }));
@@ -107,37 +108,81 @@ public sealed class TestSimSelectorScreen : Panel
         _prepPanel?.Update();
     }
 
-    private static Widget CreateBuildDropdown(string title, string selectedId, Action<string> assign)
+    private Widget CreateBuildPicker(string title, string selectedId, Action<string> assign)
     {
         var ids = BuildTemplates.All.Select(t => t.BuildId).ToList();
-        var combo = new ComboView
+        if (!ids.Contains(selectedId) && ids.Count > 0)
         {
-            Width = 260,
+            selectedId = ids[0];
+            assign(selectedId);
+        }
+
+        var valueLabel = new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = selectedId,
+            TextColor = Color.White,
             VerticalAlignment = VerticalAlignment.Center
         };
 
-        foreach (var id in ids)
+        var button = new CursorButton
         {
-            combo.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-            {
-                Text = id,
-                TextColor = Color.White
-            });
-        }
+            Width = 260,
+            VerticalAlignment = VerticalAlignment.Center,
+            Background = new SolidBrush(new Color(25, 25, 30)),
+            Padding = new Thickness(8, 4),
+            Content = valueLabel
+        };
 
-        var selectedIndex = ids.IndexOf(selectedId);
-        combo.SelectedIndex = selectedIndex >= 0 ? selectedIndex : 0;
-        if (selectedIndex < 0 && ids.Count > 0)
+        button.Click += (_, _) =>
         {
-            assign(ids[0]);
-        }
-
-        combo.SelectedIndexChanged += (_, _) =>
-        {
-            if (combo.SelectedItem is Label { Text: { } id })
+            if (_buildDropdown?.IsPlaced == true)
             {
-                assign(id);
+                _buildDropdown.Close();
+                _buildDropdown = null;
+                return;
             }
+
+            var list = new VerticalStackPanel { Spacing = 0 };
+            foreach (var id in ids)
+            {
+                var choiceId = id;
+                var choice = new CursorButton
+                {
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    Content = new Label(BaseContent.Styles.Label.Small)
+                    {
+                        Text = choiceId,
+                        TextColor = Color.White
+                    }
+                };
+                if (choiceId == valueLabel.Text)
+                {
+                    choice.Background = new SolidBrush(new Color(80, 20, 20));
+                }
+
+                choice.Click += (_, _) =>
+                {
+                    valueLabel.Text = choiceId;
+                    assign(choiceId);
+                    _buildDropdown?.Close();
+                    _buildDropdown = null;
+                };
+                list.Widgets.Add(choice);
+            }
+
+            var dropdown = new Window
+            {
+                Content = list,
+                Width = button.ActualBounds.Width,
+                Padding = new Thickness(0)
+            };
+            dropdown.TitlePanel.Visible = false;
+            dropdown.Show(_gui.Desktop);
+
+            var origin = button.ToGlobal(new Point(0, button.ActualBounds.Height));
+            dropdown.Left = origin.X;
+            dropdown.Top = origin.Y;
+            _buildDropdown = dropdown;
         };
 
         return new HorizontalStackPanel
@@ -152,7 +197,7 @@ public sealed class TestSimSelectorScreen : Panel
                     MinWidth = 90,
                     VerticalAlignment = VerticalAlignment.Center
                 },
-                combo
+                button
             }
         };
     }

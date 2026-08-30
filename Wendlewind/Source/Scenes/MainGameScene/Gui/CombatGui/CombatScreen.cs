@@ -21,6 +21,10 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     private CombatSummaryWindow? _summaryWindow;
     private CursorButton? _showSummaryButton;
     private readonly CombatFloaterRouter _floaterRouter;
+    private readonly CombatFighterStatsColumn _playerStats;
+    private readonly CombatFighterStatsColumn _opponentStats;
+    private readonly CombatConsumableLoadout _playerLoadout;
+    private readonly CombatConsumableLoadout _opponentLoadout;
 
     private Encounter Encounter => _context.CurrentZone!.ActiveEncounter!;
 
@@ -31,33 +35,24 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         Encounter.StateChangedAction += CombatStateChangedAction;
         Encounter.CombatHandler!.CombatEventRecorded += OnCombatEvent;
         Margin = new Thickness(0, 5, 0, 0);
-        _gameHud = new GameHud(gui, context)
-        {
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-        };
 
         _playerPartyPanel = new CombatPartyPanel(gui, Encounter, Encounter.PlayerPawns, HorizontalAlignment.Right);
-        Grid.SetRow(_playerPartyPanel, 1);
-        Grid.SetColumn(_playerPartyPanel, 0);
-
         _opponentPartyPanel = new CombatPartyPanel(gui, Encounter, Encounter.EnemyPawns, HorizontalAlignment.Left);
-        Grid.SetRow(_opponentPartyPanel, 1);
-        Grid.SetColumn(_opponentPartyPanel, 2);
 
         _controlPanel = new CombatControlPanel(Encounter)
         {
-            MinWidth = 190,
-            HorizontalAlignment = HorizontalAlignment.Stretch
+            VerticalAlignment = VerticalAlignment.Center
         };
-        Grid.SetRow(_controlPanel, 2);
-        Grid.SetColumn(_controlPanel, 0);
 
-        _pawnBodyView = new PawnBodyPanel(gui, Encounter.PlayerPawns.First().Body)
+        var player = Encounter.PlayerPawns.First();
+        var opponent = Encounter.EnemyPawns.First();
+        _pawnBodyView = new PawnBodyPanel(gui, player.Body)
         {
-            Height = 1300
+            Height = 1300,
+            HorizontalAlignment = HorizontalAlignment.Right
         };
 
-        _enemyPawnBodyView = new PawnBodyPanel(gui, Encounter.EnemyPawns.First().Body)
+        _enemyPawnBodyView = new PawnBodyPanel(gui, opponent.Body)
         {
             HorizontalAlignment = HorizontalAlignment.Left
         };
@@ -70,17 +65,16 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             Content = new VerticalStackPanel { Padding = new Thickness(0), Spacing = 12 }
         };
 
-        _tickLabel = new Label(BaseContent.Styles.Label.Normal)
+        _tickLabel = new Label(BaseContent.Styles.Label.Small)
         {
-            Margin = new Thickness(0, 15, 0, 15),
-            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
             Text = "0",
             TextColor = Color.DarkGoldenrod
         };
 
         var logsButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
-            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
             Content = new Label(BaseContent.Styles.Label.Small)
             {
                 Text = "Logs"
@@ -88,7 +82,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         };
         var rematchButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
-            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
             Visible = DebugSettings.TestSimMode,
             Content = new Label(BaseContent.Styles.Label.Small) { Text = "Rematch" }
         };
@@ -96,7 +90,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
         var rerollButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
-            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
             Visible = DebugSettings.TestSimMode,
             Content = new Label(BaseContent.Styles.Label.Small) { Text = "Reroll" }
         };
@@ -104,7 +98,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
         var swapButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
-            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
             Visible = DebugSettings.TestSimMode,
             Content = new Label(BaseContent.Styles.Label.Small) { Text = "Swap" }
         };
@@ -135,8 +129,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
         _showSummaryButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
-            Margin = new Thickness(0, 10, 0, 0),
-            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
             Visible = false,
             Content = new Label(BaseContent.Styles.Label.Small)
             {
@@ -150,11 +143,11 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             _showSummaryButton.Visible = false;
         };
 
-        VerticalStackPanel centerColumn = new()
+        var toolbar = new HorizontalStackPanel
         {
-            Margin = new Thickness(10, 0, 10, 0),
-            Spacing = 0,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Spacing = 8,
+            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Center,
             Widgets =
             {
                 _controlPanel,
@@ -166,45 +159,76 @@ public class CombatScreen : VerticalStackPanel, IDisposable
                 _showSummaryButton
             }
         };
-        Grid.SetRow(centerColumn, 1);
-        Grid.SetColumn(centerColumn, 1);
+        _gameHud = new GameHud(gui, context, toolbar)
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+        };
 
-        var panel = new Panel()
+        _playerStats = new CombatFighterStatsColumn(player);
+        _opponentStats = new CombatFighterStatsColumn(opponent);
+        _playerLoadout = new CombatConsumableLoadout(gui, player)
+        {
+            Margin = new Thickness(0, 8, 0, 0)
+        };
+        _opponentLoadout = new CombatConsumableLoadout(gui, opponent, mirror: true)
+        {
+            Margin = new Thickness(0, 8, 0, 0)
+        };
+
+        var playerCenter = new VerticalStackPanel
+        {
+            Spacing = 0,
+            VerticalAlignment = VerticalAlignment.Top,
+            Widgets = { _playerStats, _playerLoadout }
+        };
+        var opponentCenter = new VerticalStackPanel
+        {
+            Spacing = 0,
+            VerticalAlignment = VerticalAlignment.Top,
+            Widgets = { _opponentStats, _opponentLoadout }
+        };
+
+        var opponentBody = new Panel
         {
             Height = 1300,
             Widgets = { _enemyPawnBodyView }
         };
-        Grid.SetRow(panel, 2);
-        Grid.SetColumn(panel, 2);
+
+        Grid.SetRow(_playerPartyPanel, 0);
+        Grid.SetColumn(_playerPartyPanel, 0);
+        Grid.SetColumnSpan(_playerPartyPanel, 2);
+
+        Grid.SetRow(_opponentPartyPanel, 0);
+        Grid.SetColumn(_opponentPartyPanel, 2);
+        Grid.SetColumnSpan(_opponentPartyPanel, 2);
+
+        Grid.SetRow(_pawnBodyView, 1);
+        Grid.SetColumn(_pawnBodyView, 0);
+
+        Grid.SetRow(playerCenter, 1);
+        Grid.SetColumn(playerCenter, 1);
+
+        Grid.SetRow(opponentCenter, 1);
+        Grid.SetColumn(opponentCenter, 2);
+
+        Grid.SetRow(opponentBody, 1);
+        Grid.SetColumn(opponentBody, 3);
+
         Grid grid = new()
         {
             Margin = new Thickness(30, 0, 30, 30),
             HorizontalAlignment = HorizontalAlignment.Center,
-            RowSpacing = 0,
+            RowSpacing = 8,
+            ColumnSpacing = 17,
             DefaultRowProportion = Proportion.Auto,
             DefaultColumnProportion = Proportion.Auto,
         };
-        var playerBodyPanel = new HorizontalStackPanel
-        {
-            HorizontalAlignment = HorizontalAlignment.Right,
-            Widgets = { _pawnBodyView }
-        };
-        Grid.SetRow(playerBodyPanel, 2);
-        Grid.SetColumn(playerBodyPanel, 0);
-
-        var centerBodyPanel = new HorizontalStackPanel
-        {
-            HorizontalAlignment = HorizontalAlignment.Right
-        };
-        Grid.SetRow(centerBodyPanel, 2);
-        Grid.SetColumn(centerBodyPanel, 1);
-
         grid.Widgets.Add(_playerPartyPanel);
-        grid.Widgets.Add(centerColumn);
         grid.Widgets.Add(_opponentPartyPanel);
-        grid.Widgets.Add(playerBodyPanel);
-        grid.Widgets.Add(centerBodyPanel);
-        grid.Widgets.Add(panel);
+        grid.Widgets.Add(_pawnBodyView);
+        grid.Widgets.Add(playerCenter);
+        grid.Widgets.Add(opponentCenter);
+        grid.Widgets.Add(opponentBody);
 
         Widgets.Add(_gameHud);
         Widgets.Add(grid);
@@ -216,7 +240,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             _enemyPawnBodyView,
             Encounter.PlayerPawns,
             Encounter.EnemyPawns);
-        _floaterRouter.PotionUsed += OnPotionUsed;
+        _floaterRouter.MedicalUsed += OnMedicalUsed;
     }
 
     private void OnCombatEvent(CombatLogEvent combatEvent)
@@ -230,12 +254,16 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         _floaterRouter.Handle(combatEvent);
     }
 
-    private void OnPotionUsed(CombatLogEvent combatEvent)
+    private void OnMedicalUsed(CombatLogEvent combatEvent)
     {
-        var party = Encounter.PlayerPawns.Any(p => p.Id == combatEvent.SubjectPawnId)
-            ? _playerPartyPanel
-            : _opponentPartyPanel;
-        party.NotifyPotionUsed(combatEvent.SubjectPawnId, combatEvent.ItemMoniker);
+        ResolveLoadout(combatEvent.SubjectPawnId).NotifyMedicalUsed(combatEvent.ItemMoniker);
+    }
+
+    private CombatConsumableLoadout ResolveLoadout(int pawnId)
+    {
+        return Encounter.PlayerPawns.Any(p => p.Id == pawnId)
+            ? _playerLoadout
+            : _opponentLoadout;
     }
 
     private void CombatStateChangedAction(EncounterState state)
@@ -300,6 +328,10 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         _pawnBodyView.Update(deltaTime);
         _enemyPawnBodyView.Update(deltaTime);
         _floaterRouter.Update(deltaTime);
+        _playerStats.Update();
+        _opponentStats.Update();
+        _playerLoadout.Update();
+        _opponentLoadout.Update();
     }
 
     private void AddCombatLogEntry(string? detailedMessage)
@@ -325,7 +357,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     {
         Encounter.StateChangedAction -= CombatStateChangedAction;
         Encounter.CombatHandler!.CombatEventRecorded -= OnCombatEvent;
-        _floaterRouter.PotionUsed -= OnPotionUsed;
+        _floaterRouter.MedicalUsed -= OnMedicalUsed;
         if (_summaryWindow != null)
         {
             _summaryWindow.OnReviewRequested -= OnReviewRequested;

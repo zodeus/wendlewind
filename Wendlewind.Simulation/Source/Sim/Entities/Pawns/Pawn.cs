@@ -497,7 +497,7 @@ public class Pawn : Entity
         TicksToAttack = CalculateTicksToAttack();
     }
 
-    private int CalculateTicksToAttack()
+    public int CalculateTicksToAttack()
     {
         if (AttackSpeed <= 0)
         {

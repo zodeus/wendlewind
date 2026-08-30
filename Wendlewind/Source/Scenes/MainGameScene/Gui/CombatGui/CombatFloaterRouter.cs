@@ -15,6 +15,7 @@ internal sealed class CombatFloaterRouter
     private readonly Dictionary<(int PawnId, string PartKey), TickAgg> _tickAgg = new();
 
     public event Action<CombatLogEvent>? PotionUsed;
+    public event Action<CombatLogEvent>? MedicalUsed;
 
     public CombatFloaterRouter(
         CombatPartyPanel playerParty,
@@ -128,6 +129,7 @@ internal sealed class CombatFloaterRouter
                 break;
             case CombatEventKind.MedicalUsed:
                 Show(e.SubjectPawnId, e.BodyPartKey, e.ItemLabel ?? "medical", Style(e.Kind, false));
+                MedicalUsed?.Invoke(e);
                 break;
             case CombatEventKind.Death:
                 Show(e.SubjectPawnId, null, "died", Style(e.Kind, false));
@@ -194,9 +196,8 @@ internal sealed class CombatFloaterRouter
         var part = pawn.Body.FindPartByKey(partKey);
         var party = pawn.PawnType == PawnType.Player ? _playerParty : _enemyParty;
         var bodyPanel = pawn.PawnType == PawnType.Player ? _playerBody : _enemyBody;
-        var combatPanel = party.GetPanelForPawn(pawn);
 
-        combatPanel?.BodyWidget?.AddDamageText(part, text, font, color, 1.6f);
+        party.GetPanelForPawn(pawn)?.BodyWidget?.AddDamageText(part, text, font, color, 1.6f);
 
         if (part != null && IsPartTargeted(kind))
         {

@@ -6,13 +6,12 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
     private readonly PawnBody _body;
     private readonly List<BodyPartSocketPanel> _socketPanels;
     private readonly VerticalStackPanel _partsPanel;
-    private readonly PawnCapabilitiesOverlay _capabilitiesOverlay;
     private readonly PawnInventory? _inventory;
     private readonly MedicalItemsBar? _medicalItemsBar;
 
     public PawnBodyPanel(BaseGui gui, PawnBody body, PawnInventory? inventory = null)
     {
-        MinWidth = 670;
+        MinWidth = 536;
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
         _gui = gui;
         _body = body;
@@ -43,15 +42,6 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
         });
 
         Widgets.Add(mainContainer);
-
-        // Capabilities overlay in top-right corner
-        _capabilitiesOverlay = new PawnCapabilitiesOverlay(body)
-        {
-            HorizontalAlignment = HorizontalAlignment.Right,
-            VerticalAlignment = VerticalAlignment.Top,
-            Margin = new Thickness(0, 0, 5, 0)
-        };
-        Widgets.Add(_capabilitiesOverlay);
 
         MouseLeft += OnMouseLeft;
 
@@ -197,7 +187,6 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
             }
         }
 
-        _capabilitiesOverlay.Update();
         _medicalItemsBar?.Update();
     }
 

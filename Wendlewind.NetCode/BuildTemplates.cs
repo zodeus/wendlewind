@@ -1,6 +1,7 @@
 using Wendlewind.Definitions;
 using Wendlewind.NetCode.Contracts;
 using Wendlewind.Sim.Entities.Items;
+using Wendlewind.Sim.Entities.Items.Medicinals;
 using Wendlewind.Sim.Entities.Items.Potions;
 
 namespace Wendlewind.NetCode;
@@ -216,7 +217,10 @@ public static class BuildTemplates
             Socket("IronMace", "BoneEater"),
             Socket("BlessedIronCollar", "RhinoSkin", "BloodBath", "ElvishLeaf")
         ],
-        FoodBuffs = ["HeartyStew", "DriedMeat"]
+        FoodBuffs = DefaultMeal,
+        Meal = DefaultMeal,
+        Incense = DefaultIncense,
+        MedicalChest = DefaultMedical
     });
 
     public static BuildSnapshot WitchDoctorSage() => WithFullInventory(new()
@@ -257,7 +261,10 @@ public static class BuildTemplates
             Socket("WitchDoctorBoot", "RhinoSkin", "SpidersBite"),
             Socket("WitchDoctorBoot", "BloodBath", "ElvishLeaf")
         ],
-        FoodBuffs = ["HeartyStew", "WondrousJam"]
+        FoodBuffs = DefaultMeal,
+        Meal = DefaultMeal,
+        Incense = DefaultIncense,
+        MedicalChest = DefaultMedical
     });
 
     public static BuildSnapshot PlagueHexer() => WithFullInventory(new()
@@ -455,6 +462,44 @@ public static class BuildTemplates
 
     private static SocketedItemConfig[] SocketSet(string item, params string[] enchants) =>
         [Socket(item, enchants)];
+
+    private static readonly string[] DefaultMeal = ["CookedFish", "DriedMeat", "HeartyStew"];
+
+    private static readonly IncenseConfig[] DefaultIncense =
+    [
+        new() { ItemMoniker = "MullinStick", EncountersRemaining = 2 },
+        new() { ItemMoniker = "ShadeWood", EncountersRemaining = 2 }
+    ];
+
+    private static readonly MedicalChestConfig[] DefaultMedical =
+    [
+        MedPartBelow("MedKit", 0.5f),
+        MedBloodBelow("MendersMist", 0.4f),
+        MedPartBelow("ArterialThreads", 0.6f),
+        MedCauterize()
+    ];
+
+    private static MedicalChestConfig MedPartBelow(string moniker, float health) => new()
+    {
+        ItemMoniker = moniker,
+        Type = MedicalTriggerType.PartBelowHealth,
+        TargetSelector = MedicalTargetSelector.MostDamagedPart,
+        HealthThreshold = health
+    };
+
+    private static MedicalChestConfig MedBloodBelow(string moniker, float threshold) => new()
+    {
+        ItemMoniker = moniker,
+        Type = MedicalTriggerType.SelfBloodBelow,
+        Threshold = threshold
+    };
+
+    private static MedicalChestConfig MedCauterize() => new()
+    {
+        ItemMoniker = "Cauterize",
+        Type = MedicalTriggerType.PartSevered,
+        TargetSelector = MedicalTargetSelector.SeveredOrUnsealedSocket
+    };
 
     private static PotionConfig Immediately(string moniker) => new()
     {

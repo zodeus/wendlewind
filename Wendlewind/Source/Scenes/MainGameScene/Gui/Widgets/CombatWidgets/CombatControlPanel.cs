@@ -17,7 +17,7 @@ public sealed class CombatControlPanel : VerticalStackPanel
         _speedButtonsPanel = new HorizontalStackPanel
         {
             Spacing = 3,
-            Margin = new Thickness(0, 20, 0, 0),
+            VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center,
             Widgets =
             {

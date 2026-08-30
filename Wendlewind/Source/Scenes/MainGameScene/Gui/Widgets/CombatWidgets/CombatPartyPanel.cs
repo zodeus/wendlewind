@@ -4,7 +4,12 @@ internal sealed class CombatPartyPanel : VerticalStackPanel
 {
     private readonly List<PawnCombatPanel> _panels;
 
-    public CombatPartyPanel(ZoneGui gui, Encounter encounter, List<Pawn> pawns, HorizontalAlignment pawnAlignment)
+    public CombatPartyPanel(
+        ZoneGui gui,
+        Encounter encounter,
+        List<Pawn> pawns,
+        HorizontalAlignment pawnAlignment,
+        bool includePortrait = true)
     {
         Spacing = 0;
         _panels = new List<PawnCombatPanel>();
@@ -17,7 +22,7 @@ internal sealed class CombatPartyPanel : VerticalStackPanel
 
         foreach (var pawn in pawns)
         {
-            PawnCombatPanel panel = new(gui, pawn, encounter);
+            PawnCombatPanel panel = new(gui, pawn, encounter, includePortrait);
             _panels.Add(panel);
             pawnRow.Widgets.Add(panel);
         }
@@ -40,14 +45,4 @@ internal sealed class CombatPartyPanel : VerticalStackPanel
         return _panels.FirstOrDefault(p => p.Pawn == pawn);
     }
 
-    public void NotifyPotionUsed(int pawnId, string? itemMoniker)
-    {
-        foreach (var panel in _panels)
-        {
-            if (panel.Pawn.Id == pawnId)
-            {
-                panel.NotifyPotionUsed(itemMoniker);
-            }
-        }
-    }
 }
