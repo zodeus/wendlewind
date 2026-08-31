@@ -45,9 +45,12 @@ public static class ArenaProgressMapper
         run.LastOpponentPlayerId = record.LastOpponentPlayerId;
         run.LastFightWon = record.LastFightWon;
         run.LastGoldDelta = record.LastGoldDelta;
-        run.CurrentMerchant = string.IsNullOrWhiteSpace(record.CurrentMerchantMoniker)
+        var merchantMoniker = record.CurrentMerchantMoniker == "WitchDoctor"
+            ? "Alchemist"
+            : record.CurrentMerchantMoniker;
+        run.CurrentMerchant = string.IsNullOrWhiteSpace(merchantMoniker)
             ? null
-            : DefRepository<MerchantDef>.GetByMoniker(record.CurrentMerchantMoniker, raiseError: false);
+            : DefRepository<MerchantDef>.GetByMoniker(merchantMoniker, raiseError: false);
         run.SetPhase(Enum.TryParse<ArenaPhase>(record.Phase, out var phase) ? phase : ArenaPhase.GeneralStore);
     }
 }

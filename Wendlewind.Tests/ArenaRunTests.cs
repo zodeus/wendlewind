@@ -92,12 +92,12 @@ public class ArenaRunTests
         using var scope = CreateArena();
         var context = scope.Context;
         var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
-        var offer = merchant.Offers.First(o => o.GoldCost <= context.ArenaRun!.Gold);
+        var offer = merchant.AllOffers.First(o => !o.IsSet && o.GoldCost <= context.ArenaRun!.Gold);
         var goldBefore = context.ArenaRun!.Gold;
 
         Assert.True(context.ArenaRun.TryBuy(context, offer));
         Assert.Equal(goldBefore - offer.GoldCost, context.ArenaRun.Gold);
-        Assert.True(context.PlayerPawn.Inventory.Contains(offer.ItemDef));
+        Assert.True(context.PlayerPawn.Inventory.Contains(offer.ItemDef!));
     }
 
     [Fact]
@@ -113,7 +113,7 @@ public class ArenaRunTests
 
         Assert.False(context.ArenaRun.TryBuy(context, expensive));
         Assert.Equal(ArenaRun.StartingGold, context.ArenaRun.Gold);
-        Assert.False(context.PlayerPawn.Inventory.Contains(expensive.ItemDef));
+        Assert.False(context.PlayerPawn.Inventory.Contains(expensive.ItemDef!));
     }
 
     [Fact]
@@ -128,10 +128,139 @@ public class ArenaRunTests
     public void ShopStockIsDeterministic()
     {
         var merchant = DefRepository<MerchantDef>.GetByMoniker("Blacksmith")!;
-        var first = ShopStock.Roll(merchant, 12345, 2);
-        var second = ShopStock.Roll(merchant, 12345, 2);
-        Assert.Equal(first.Select(o => o.ItemDef.Moniker), second.Select(o => o.ItemDef.Moniker));
-        Assert.True(first.Count <= merchant.StockSize);
+        var first = ShopStock.Flatten(ShopStock.Roll(merchant, 12345, 2));
+        var second = ShopStock.Flatten(ShopStock.Roll(merchant, 12345, 2));
+        Assert.Equal(first.Select(o => o.StockKey), second.Select(o => o.StockKey));
+        Assert.Equal(merchant.Shelves.Select(s => s.Category), ShopStock.Roll(merchant, 12345, 2).Select(s => s.Category));
+    }
+
+    [Fact]
+    public void ShopStockAlwaysIncludesUnlockedArmorSets()
+    {
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("Blacksmith")!;
+        var early = ShopStock.Roll(merchant, 99, 1).Single(shelf => shelf.Category == ShopCategory.Armor);
+        Assert.Contains(early.Offers, offer => offer.SetLabel == "Leather Set");
+        Assert.DoesNotContain(early.Offers, offer => offer.SetLabel == "Chain Set");
+
+        var late = ShopStock.Roll(merchant, 99, 4).Single(shelf => shelf.Category == ShopCategory.Armor);
+        Assert.Contains(late.Offers, offer => offer.SetLabel == "Leather Set");
+        Assert.Contains(late.Offers, offer => offer.SetLabel == "Chain Set");
+    }
+
+    [Fact]
+    public void ShopStockHidesLockedOffersUntilTheirRound()
+    {
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("Blacksmith")!;
+        Assert.DoesNotContain(ShopStock.AvailableOffers(merchant, 0), o => o.ItemDef?.Moniker == "FireStaff");
+        Assert.Contains(ShopStock.AvailableOffers(merchant, 4), o => o.ItemDef?.Moniker == "FireStaff");
+        Assert.Contains(ShopStock.AvailableOffers(merchant, 4), o => o.ItemDef?.Moniker == "IronDagger");
+    }
+
+    [Fact]
+    public void LateShopStockStillIncludesEarlyOffers()
+    {
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("Ranger")!;
+        var seenEarly = false;
+        var seenLate = false;
+        for (var seed = 1; seed <= 40 && !(seenEarly && seenLate); seed++)
+        {
+            var ammo = ShopStock.Roll(merchant, seed, 6).Single(shelf => shelf.Category == ShopCategory.Ammo);
+            seenEarly |= ammo.Offers.Any(o => o.ItemDef?.Moniker == "BoneDart");
+            seenLate |= ammo.Offers.Any(o => o.ItemDef?.Moniker == "ExplosiveFang");
+        }
+
+        Assert.True(seenEarly);
+        Assert.True(seenLate);
+    }
+
+    [Fact]
+    public void AuthoredSetPricesAreTwentyPercentOffPieces()
+    {
+        foreach (var merchant in DefRepository<MerchantDef>.Defs)
+        {
+            foreach (var offer in merchant.AllOffers.Where(o => o.IsSet))
+            {
+                Assert.Equal(ShopCatalog.ComputeSetCost(offer.SetPieces, merchant), offer.GoldCost);
+            }
+        }
+    }
+
+    [Fact]
+    public void TryBuySetAddsEveryPiece()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
+        var set = merchant.AllOffers.First(o => o.IsSet && o.SetLabel == "Cloth Set");
+        var goldBefore = context.ArenaRun!.Gold;
+
+        Assert.True(context.ArenaRun.TryBuy(context, set));
+        Assert.Equal(goldBefore - set.GoldCost, context.ArenaRun.Gold);
+        foreach (var piece in set.SetPieces.Distinct())
+        {
+            Assert.True(context.PlayerPawn.Inventory.Contains(piece));
+        }
+    }
+
+    [Fact]
+    public void TryBuySetRejectsOverspendWithoutAddingPieces()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("Blacksmith")!;
+        var set = merchant.AllOffers.First(o => o.IsSet && o.SetLabel == "Chain Set");
+        var tooExpensive = new MerchantOffer
+        {
+            SetLabel = set.SetLabel,
+            SetPieces = [..set.SetPieces],
+            GoldCost = context.ArenaRun!.Gold + 1
+        };
+
+        Assert.False(context.ArenaRun.TryBuy(context, tooExpensive));
+        Assert.Equal(ArenaRun.StartingGold, context.ArenaRun.Gold);
+        Assert.False(context.PlayerPawn.Inventory.Contains(set.SetPieces[0]));
+    }
+
+    [Fact]
+    public void TrySellPaysOneTenthAndRemovesItem()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
+        context.ArenaRun!.CurrentMerchant = merchant;
+        var offer = merchant.AllOffers.First(o => !o.IsSet && o.ItemDef!.Moniker == "WoodClub");
+        Assert.True(context.ArenaRun.TryBuy(context, offer));
+        var item = context.PlayerPawn.Inventory.First(i => i.ItemDef == offer.ItemDef);
+        var goldBeforeSell = context.ArenaRun.Gold;
+
+        Assert.True(context.ArenaRun.TrySell(context, item));
+        Assert.Equal(goldBeforeSell + offer.GoldCost / 10, context.ArenaRun.Gold);
+        Assert.False(context.PlayerPawn.Inventory.Contains(offer.ItemDef!));
+    }
+
+    [Fact]
+    public void MidRunMapHasFourMerchantsAndNoWitchDoctor()
+    {
+        var midRun = DefRepository<MerchantDef>.Defs
+            .Where(m => !m.IsGeneralStore)
+            .Select(m => m.Moniker)
+            .OrderBy(m => m)
+            .ToArray();
+        Assert.Equal(["Alchemist", "Blacksmith", "Magician", "Ranger"], midRun);
+        Assert.DoesNotContain("WitchDoctor", DefRepository<MerchantDef>.Defs.Select(m => m.Moniker));
+    }
+
+    [Fact]
+    public void ApplyToRemapsWitchDoctorToAlchemist()
+    {
+        using var scope = CreateArena();
+        var run = scope.Context.ArenaRun!;
+        var record = ArenaProgressMapper.FromRun(run, null, "remap", DateTimeOffset.UtcNow) with
+        {
+            CurrentMerchantMoniker = "WitchDoctor"
+        };
+        ArenaProgressMapper.ApplyTo(run, record);
+        Assert.Equal("Alchemist", run.CurrentMerchant!.Moniker);
     }
 
     [Fact]

@@ -48,7 +48,6 @@ public static partial class Defs
         public static MerchantDef GeneralStore = null!;
         public static MerchantDef Blacksmith = null!;
         public static MerchantDef Ranger = null!;
-        public static MerchantDef WitchDoctor = null!;
         public static MerchantDef Alchemist = null!;
         public static MerchantDef Magician = null!;
     }

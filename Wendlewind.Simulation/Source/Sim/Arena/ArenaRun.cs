@@ -52,20 +52,89 @@ public class ArenaRun : IExposable
 
     public bool TryBuy(GameContext context, MerchantOffer offer)
     {
-        if (offer.ItemDef == null || offer.GoldCost < 0 || Gold < offer.GoldCost)
+        if (offer.GoldCost < 0 || Gold < offer.GoldCost)
         {
             return false;
         }
 
-        var item = context.Factory.CreateEntity<Item>(offer.ItemDef);
-        if (!context.PlayerPawn.Inventory.TryAdd(item))
+        var granted = offer.GrantedItems;
+        if (granted.Count == 0)
         {
-            item.Destroy();
             return false;
+        }
+
+        var created = new List<Item>(granted.Count);
+        foreach (var def in granted)
+        {
+            var item = context.Factory.CreateEntity<Item>(def);
+            if (!context.PlayerPawn.Inventory.TryAdd(item))
+            {
+                RollbackPurchase(created);
+                item.Destroy();
+                return false;
+            }
+
+            created.Add(item);
         }
 
         Gold -= offer.GoldCost;
         return true;
+    }
+
+    public bool TrySell(GameContext context, Item item)
+    {
+        if (item.IsDestroyed)
+        {
+            return false;
+        }
+
+        if (!IsInInventory(context.PlayerPawn, item))
+        {
+            var unequipped = context.PlayerPawn.Equipment.UnEquip(item);
+            if (unequipped == null || !context.PlayerPawn.Inventory.TryAdd(unequipped))
+            {
+                return false;
+            }
+
+            item = unequipped;
+        }
+
+        var payout = ShopCatalog.GetSellPrice(item.ItemDef, CurrentMerchant);
+        if (ShopCatalog.GetBuyPrice(item.ItemDef, CurrentMerchant) <= 0)
+        {
+            return false;
+        }
+
+        var taken = context.PlayerPawn.Inventory.Take(item.Def, 1);
+        if (taken == null)
+        {
+            return false;
+        }
+
+        taken.Destroy();
+        Gold += payout;
+        return true;
+    }
+
+    private static bool IsInInventory(Pawn pawn, Item item)
+    {
+        foreach (var owned in pawn.Inventory)
+        {
+            if (owned == item)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static void RollbackPurchase(List<Item> created)
+    {
+        foreach (var item in created)
+        {
+            item.Destroy();
+        }
     }
 
     public void ApplyMatchResult(bool playerWon, string opponentPlayerId)

@@ -102,8 +102,8 @@ public class PlayerStoreTests
 
             var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
             Assert.Equal(
-                ShopStock.Roll(merchant, first.RunSeed, 0).Select(offer => offer.ItemDef.Moniker),
-                ShopStock.Roll(merchant, second.RunSeed, 0).Select(offer => offer.ItemDef.Moniker));
+                ShopStock.Flatten(ShopStock.Roll(merchant, first.RunSeed, 0)).Select(offer => offer.StockKey),
+                ShopStock.Flatten(ShopStock.Roll(merchant, second.RunSeed, 0)).Select(offer => offer.StockKey));
         }
         finally
         {
