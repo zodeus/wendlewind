@@ -141,7 +141,7 @@ public class DefaultBodyHandler : IExposable, IHasContext, IHasRng
 
     private void DoBloodLossForPart(BodyPart part)
     {
-        var bloodLossScaleFactor = FixedBloodLossFactor * (part.BloodAmount / Viscosity / Body.BodySizeFactor);
+        var bloodLossScaleFactor = FixedBloodLossFactor * (part.BloodAmount / (Viscosity * ViscosityModifier) / Body.BodySizeFactor);
 
         if (part.HealthPercent < BloodLossThreshold)
         {
