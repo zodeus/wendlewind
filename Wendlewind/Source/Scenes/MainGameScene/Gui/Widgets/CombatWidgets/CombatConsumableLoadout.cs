@@ -9,12 +9,12 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
     private const int IconSize = CellSize - CellPad * 2;
 
     public readonly Pawn Pawn;
-    private readonly ZoneGui _gui;
+    private readonly BaseGui _gui;
     private readonly MedicalBar _medicalBar;
     private readonly Panel[] _foodSlots = new Panel[MealPlan.MaxSlots];
     private string _foodSignature = "";
 
-    public CombatConsumableLoadout(ZoneGui gui, Pawn pawn, bool mirror = false)
+    public CombatConsumableLoadout(BaseGui gui, Pawn pawn, bool mirror = false)
     {
         Pawn = pawn;
         _gui = gui;
@@ -22,7 +22,7 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
         ClipToBounds = false;
         HorizontalAlignment = HorizontalAlignment.Stretch;
 
-        _medicalBar = new MedicalBar(pawn, def => ViewMedical(def), IconSize);
+        _medicalBar = new MedicalBar(gui, pawn, def => ViewMedical(def), IconSize);
         Widgets.Add(BuildGrid(gui, pawn, mirror));
         _foodSignature = FoodSignature();
     }
@@ -43,7 +43,7 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
         }
     }
 
-    private Widget BuildGrid(ZoneGui gui, Pawn pawn, bool mirror)
+    private Widget BuildGrid(BaseGui gui, Pawn pawn, bool mirror)
     {
         var grid = new Grid
         {

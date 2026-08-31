@@ -8,7 +8,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
     public readonly Pawn Pawn;
     private readonly Encounter _encounter;
     private PawnRenderWidget? _bodyWidget;
-    private readonly ZoneGui _gui;
+    private readonly BaseGui _gui;
     private readonly List<IUpdatable> _updatables = new();
     private PawnEquipmentPanel? _equipment;
 
@@ -18,7 +18,7 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
     public PawnRenderWidget? BodyWidget => _bodyWidget;
     public PawnEquipmentPanel? EquipmentPanel => _equipment;
 
-    public PawnCombatPanel(ZoneGui gui, Pawn pawn, Encounter encounter, bool includePortrait = true)
+    public PawnCombatPanel(BaseGui gui, Pawn pawn, Encounter encounter, bool includePortrait = true)
     {
         Pawn = pawn;
         _encounter = encounter;

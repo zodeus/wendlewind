@@ -5,7 +5,7 @@ internal sealed class CombatPartyPanel : VerticalStackPanel
     private readonly List<PawnCombatPanel> _panels;
 
     public CombatPartyPanel(
-        ZoneGui gui,
+        BaseGui gui,
         Encounter encounter,
         List<Pawn> pawns,
         HorizontalAlignment pawnAlignment,

@@ -9,14 +9,16 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
     private readonly VerticalStackPanel _partsPanel;
     private readonly PawnInventory? _inventory;
     private readonly MedicalItemsBar? _medicalItemsBar;
+    private readonly bool _hoverToInspect;
 
-    public PawnBodyPanel(BaseGui gui, PawnBody body, PawnInventory? inventory = null, bool fillAvailableHeight = false)
+    public PawnBodyPanel(BaseGui gui, PawnBody body, PawnInventory? inventory = null, bool fillAvailableHeight = false, bool hoverToInspect = false)
     {
         MinWidth = 536;
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
         _gui = gui;
         _body = body;
         _inventory = inventory;
+        _hoverToInspect = hoverToInspect;
         _socketPanels = new List<BodyPartSocketPanel>();
         Padding = new Thickness(15);
 
@@ -96,7 +98,7 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
             return;
         }
 
-        BodyPartSocketPanel panel = new(socket, _gui, true)
+        BodyPartSocketPanel panel = new(socket, _gui, true, _hoverToInspect)
         {
             Margin = new Thickness(padding * 25, 0, 0, 0),
         };
@@ -121,7 +123,7 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
                 // Also skip sockets that shouldn't be registered (e.g., empty minion sockets)
                 if (!ShouldRegisterSocket(appendageSocket)) continue;
 
-                BodyPartSocketPanel p = new(appendageSocket, _gui, false);
+                BodyPartSocketPanel p = new(appendageSocket, _gui, false, _hoverToInspect);
                 appendagesPanel.Widgets.Add(p);
                 _socketPanels.Add(p);
                 _registeredSockets.Add(appendageSocket);

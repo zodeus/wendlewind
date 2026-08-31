@@ -1,0 +1,119 @@
+namespace Wendlewind.Sim.Arena;
+
+public class ArenaRun : IExposable
+{
+    public const int StartingGold = 300;
+    public const int WinGold = 100;
+    public const int LoseGold = 75;
+    public const int WinsToFinish = 10;
+    public const int LossesToFinish = 5;
+
+    public int RunSeed;
+    public int Gold = StartingGold;
+    public int Wins;
+    public int Losses;
+    public string PlayerId = "";
+    public string PlayerName = "";
+    public ArenaPhase Phase = ArenaPhase.GeneralStore;
+    public MerchantDef? CurrentMerchant;
+    public List<string> FoughtPlayerIds = [];
+    public string? LastOpponentPlayerId;
+    public bool LastFightWon;
+    public int LastGoldDelta;
+
+    public event Action<ArenaPhase>? OnPhaseChanged;
+
+    public int LivesRemaining => Math.Max(0, LossesToFinish - Losses);
+    public bool IsRunOver => Wins >= WinsToFinish || Losses >= LossesToFinish;
+    public bool IsVictory => Wins >= WinsToFinish;
+    public int FightsPlayed => Wins + Losses;
+
+    public void Start(string playerId, string playerName, int runSeed)
+    {
+        PlayerId = playerId;
+        PlayerName = playerName;
+        RunSeed = runSeed;
+        Gold = StartingGold;
+        Wins = 0;
+        Losses = 0;
+        FoughtPlayerIds = [];
+        LastOpponentPlayerId = null;
+        LastFightWon = false;
+        LastGoldDelta = 0;
+        CurrentMerchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore");
+        SetPhase(ArenaPhase.GeneralStore);
+    }
+
+    public void SetPhase(ArenaPhase phase)
+    {
+        Phase = phase;
+        OnPhaseChanged?.Invoke(phase);
+    }
+
+    public bool TryBuy(GameContext context, MerchantOffer offer)
+    {
+        if (offer.ItemDef == null || offer.GoldCost < 0 || Gold < offer.GoldCost)
+        {
+            return false;
+        }
+
+        var item = context.Factory.CreateEntity<Item>(offer.ItemDef);
+        if (!context.PlayerPawn.Inventory.TryAdd(item))
+        {
+            item.Destroy();
+            return false;
+        }
+
+        Gold -= offer.GoldCost;
+        return true;
+    }
+
+    public void ApplyMatchResult(bool playerWon, string opponentPlayerId)
+    {
+        LastFightWon = playerWon;
+        LastOpponentPlayerId = opponentPlayerId;
+        if (!string.IsNullOrEmpty(opponentPlayerId) && !FoughtPlayerIds.Contains(opponentPlayerId))
+        {
+            FoughtPlayerIds.Add(opponentPlayerId);
+        }
+
+        if (playerWon)
+        {
+            Wins++;
+            LastGoldDelta = WinGold;
+            Gold += WinGold;
+        }
+        else
+        {
+            Losses++;
+            LastGoldDelta = LoseGold;
+            Gold += LoseGold;
+        }
+
+        SetPhase(ArenaPhase.Results);
+    }
+
+    public void ExposeData()
+    {
+        ScribeValues.Look(ref RunSeed, "RunSeed");
+        ScribeValues.Look(ref Gold, "Gold");
+        ScribeValues.Look(ref Wins, "Wins");
+        ScribeValues.Look(ref Losses, "Losses");
+        var playerId = PlayerId;
+        var playerName = PlayerName;
+        var phase = Phase;
+        ScribeValues.Look(ref playerId, "PlayerId", "");
+        ScribeValues.Look(ref playerName, "PlayerName", "");
+        ScribeValues.Look(ref phase, "Phase");
+        PlayerId = playerId ?? "";
+        PlayerName = playerName ?? "";
+        Phase = phase;
+        ScribeDefs.Look(ref CurrentMerchant, "CurrentMerchant");
+        ScribeCollections.Look(ref FoughtPlayerIds, "FoughtPlayerIds", LookMode.Value);
+        var lastOpponent = LastOpponentPlayerId ?? "";
+        ScribeValues.Look(ref lastOpponent, "LastOpponentPlayerId", "");
+        LastOpponentPlayerId = string.IsNullOrEmpty(lastOpponent) ? null : lastOpponent;
+        ScribeValues.Look(ref LastFightWon, "LastFightWon");
+        ScribeValues.Look(ref LastGoldDelta, "LastGoldDelta");
+    }
+}

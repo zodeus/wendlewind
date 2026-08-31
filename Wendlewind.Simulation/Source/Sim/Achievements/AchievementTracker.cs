@@ -251,6 +251,38 @@ public class AchievementTracker : IExposable, IHasContext
             handler.OnWorldRestart(context);
         }
     }
+    public void Import(
+        string moniker,
+        float currentValue,
+        bool isUnlocked,
+        DateTime? unlockedAt,
+        bool isAcknowledged)
+    {
+        var def = DefRepository<AchievementDef>.GetByMoniker(moniker, raiseError: false);
+        if (def == null)
+        {
+            return;
+        }
+
+        if (!_progress.TryGetValue(def.Moniker, out var progress))
+        {
+            progress = new AchievementProgress(def);
+            _progress[def.Moniker] = progress;
+        }
+
+        progress.CurrentValue = currentValue;
+        progress.IsUnlocked = isUnlocked;
+        progress.UnlockedAt = unlockedAt;
+        progress.IsAcknowledged = isAcknowledged;
+    }
+
+    public IReadOnlyList<AchievementProgress> Export()
+    {
+        return _progress.Values
+            .Where(progress => progress.IsUnlocked || progress.IsAcknowledged || progress.CurrentValue > 0)
+            .ToList();
+    }
+
     public void ExposeData()
     {
         ScribeCollections.Look(ref _progress!, "AchievementProgress", LookMode.Value, LookMode.Deep);

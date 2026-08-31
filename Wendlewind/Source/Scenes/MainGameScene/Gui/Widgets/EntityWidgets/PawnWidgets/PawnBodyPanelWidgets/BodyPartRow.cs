@@ -1,4 +1,4 @@
-
+using Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 using Color = Microsoft.Xna.Framework.Color;
 
 namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
@@ -7,19 +7,24 @@ internal sealed class BodyPartRow : HorizontalStackPanel
 {
     private const int MaxPartsPerRow = 7;
     private readonly BaseGui _gui;
+    private readonly bool _hoverToInspect;
     public BodyPart? BodyPart;
     private Label _label;
     private List<BodyPartIcon> _parts = new();
+    private readonly List<(BodyPartIcon Icon, BodyPart Part)> _iconParts = [];
     private List<HorizontalStackPanel> _rows = new();
     private VerticalStackPanel _iconContainer;
     private float _flashTime;
     private Color _flashColor = Color.White;
     private Color _baseLabelColor = Color.White;
     private readonly List<RowFloater> _floaters = [];
+    private BodyPart? _hoverInspectPart;
+    private Widget? _hoverInspectOwner;
 
-    public BodyPartRow(BaseGui gui)
+    public BodyPartRow(BaseGui gui, bool hoverToInspect = false)
     {
         _gui = gui;
+        _hoverToInspect = hoverToInspect;
         ClipToBounds = false;
         Spacing = 5;
         _label = new Label(BaseContent.Styles.Label.Medium) { VerticalAlignment = VerticalAlignment.Center };
@@ -30,7 +35,9 @@ internal sealed class BodyPartRow : HorizontalStackPanel
 
     public void SetPart(BodyPart bodyPart, bool showInternalParts)
     {
+        HideHoverInspect();
         _parts.Clear();
+        _iconParts.Clear();
         _rows.Clear();
         Widgets.Clear();
         _iconContainer.Widgets.Clear();
@@ -68,12 +75,16 @@ internal sealed class BodyPartRow : HorizontalStackPanel
             {
                 panel.SetColor(BodyPartColor.Get(part));
                 panel.RefreshPips(part);
-            });
+            })
+            {
+                AttachPipTooltips = !_hoverToInspect
+            };
             partIcon.MouseEntered += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Hand);
             partIcon.MouseLeft += (_, _) => Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Arrow);
 
             partIcon.TouchDown += (_, _) => BodyPartClickHandler(part, !showInternalParts);
             _parts.Add(partIcon);
+            _iconParts.Add((partIcon, part));
             currentRow.Widgets.Add(partIcon);
             partsInCurrentRow++;
         }
@@ -88,6 +99,7 @@ internal sealed class BodyPartRow : HorizontalStackPanel
 
         if (_gui.MouseAttachment == null)
         {
+            HideHoverInspect();
             _gui.ViewEntity(part);
             return;
         }
@@ -112,6 +124,85 @@ internal sealed class BodyPartRow : HorizontalStackPanel
                 _gui.MouseAttachment.Detach();
             }
         }
+    }
+
+    protected override void OnPlacedChanged()
+    {
+        base.OnPlacedChanged();
+        if (!IsPlaced)
+        {
+            HideHoverInspect();
+        }
+    }
+
+    private void HideHoverInspect()
+    {
+        if (_hoverInspectPart == null && _hoverInspectOwner == null)
+        {
+            return;
+        }
+
+        TooltipHelper.Hide(_hoverInspectOwner);
+        _hoverInspectPart = null;
+        _hoverInspectOwner = null;
+    }
+
+    private void UpdateHoverInspect()
+    {
+        var desktop = Desktop ?? _gui.Desktop;
+        if (desktop == null)
+        {
+            return;
+        }
+
+        var mouse = desktop.MousePosition;
+        BodyPartIcon? owner = null;
+        BodyPart? part = null;
+        foreach (var (icon, iconPart) in _iconParts)
+        {
+            if (!icon.Visible || !icon.ContainsGlobalPoint(mouse))
+            {
+                continue;
+            }
+
+            owner = icon;
+            part = iconPart;
+            break;
+        }
+
+        if (owner == null || part == null)
+        {
+            HideHoverInspect();
+            return;
+        }
+
+        if (ReferenceEquals(_hoverInspectPart, part) && _hoverInspectOwner == owner)
+        {
+            TooltipHelper.UpdatePosition();
+            return;
+        }
+
+        _hoverInspectPart = part;
+        _hoverInspectOwner = owner;
+        ShowInspectPopup(part, owner);
+    }
+
+    private void ShowInspectPopup(BodyPart part, Widget owner)
+    {
+        var desktop = Desktop ?? _gui.Desktop;
+        if (desktop == null)
+        {
+            return;
+        }
+
+        var panel = EntityPanelFactory.Create(_gui, part, new EntityPanelProperties
+        {
+            ShowTitle = true,
+            ShowCloseButton = false,
+            Background = null
+        });
+
+        TooltipHelper.ShowCustom(desktop, panel, owner, TooltipPlacement.BottomCorner);
     }
 
     public bool ContainsPart(BodyPart part)
@@ -182,6 +273,11 @@ internal sealed class BodyPartRow : HorizontalStackPanel
         foreach (var image in _parts)
         {
             image.Update(deltaTime);
+        }
+
+        if (_hoverToInspect)
+        {
+            UpdateHoverInspect();
         }
 
         for (var i = _floaters.Count - 1; i >= 0; i--)

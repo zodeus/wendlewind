@@ -390,6 +390,7 @@ public static class BuildTemplates
         var already = snapshot.EntityDefMonikers.ToHashSet();
         return snapshot with
         {
+            PawnDefMoniker = string.IsNullOrWhiteSpace(snapshot.PawnDefMoniker) ? "HumanA" : snapshot.PawnDefMoniker,
             Inventory = [..FullInventory(), ..EnchantmentInventory()],
             EntityDefMonikers = snapshot.EntityDefMonikers
                 .Concat(AllTrinkets().Where(already.Add))

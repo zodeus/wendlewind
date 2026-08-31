@@ -15,7 +15,10 @@ public class SquirelyPeteHandler : AchievementHandler
     {
         if (IsUnlocked || context.PlayerWon == false) return;
 
-        var maxStackFound = context.Player.Inventory.Max(i => i.StackSize);
+        var maxStackFound = context.Player.Inventory
+            .Select(item => item.StackSize)
+            .DefaultIfEmpty(0)
+            .Max();
         if (maxStackFound > Progress.CurrentValue) {
             Progress.CurrentValue = maxStackFound;
         }

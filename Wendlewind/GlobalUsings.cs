@@ -13,6 +13,7 @@ global using Wendlewind.Scenes.MainGameScene.Gui.Widgets.Grimoire;
 global using Wendlewind.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 global using Wendlewind.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
 global using Wendlewind.Sim;
+global using Wendlewind.Sim.Arena;
 global using Wendlewind.Sim.LootBoxes;
 global using Wendlewind.Sim.Achievements;
 global using Wendlewind.Sim.Combat;

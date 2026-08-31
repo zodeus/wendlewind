@@ -8,6 +8,7 @@ using Wendlewind.Definitions.Loader;
 using Wendlewind.Graphics;
 using Wendlewind.PawnLayout;
 using Wendlewind.Scenes.Components;
+using Wendlewind.Scenes.ArenaScene;
 using Wendlewind.Scenes.MainGameScene;
 using Wendlewind.Utils.Timers;
 using Myra;
@@ -238,6 +239,7 @@ public class Core : Game
 
         Scene.RegisterScene(new MainMenuScene());
         Scene.RegisterScene(new GameScene());
+        Scene.RegisterScene(new ArenaScene());
         if (DebugSettings.TestSimMode)
         {
             ChangeScene<GameScene>();
@@ -262,6 +264,16 @@ public class Core : Game
     public static void ChangeScene<T>() where T : Scene => Scene.Load<T>();
 
     public new static void Exit() => ((Game)Instance).Exit();
+
+    protected override void OnExiting(object sender, ExitingEventArgs args)
+    {
+        if (Scene.ActiveScene is ArenaScene arena)
+        {
+            arena.SaveOnExit();
+        }
+
+        base.OnExiting(sender, args);
+    }
 
     protected override void Update(GameTime gameTime)
     {

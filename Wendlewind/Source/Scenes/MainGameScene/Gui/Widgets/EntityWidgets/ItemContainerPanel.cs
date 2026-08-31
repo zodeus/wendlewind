@@ -24,7 +24,7 @@ public sealed class ItemContainerPanel : VerticalStackPanel, IUpdatable
         Height = 720;
         MinWidth = 1040;
 
-        _tabs = new TabPanel(tabsOnTop: true)
+        _tabs = new TabPanel(tabsOnTop: true, tabsPerRow: 5)
         {
             ButtonStyle = BaseContent.Styles.Button.Normal,
             HorizontalAlignment = HorizontalAlignment.Stretch,

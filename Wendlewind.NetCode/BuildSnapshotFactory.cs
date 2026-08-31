@@ -11,25 +11,23 @@ namespace Wendlewind.NetCode;
 
 public static class BuildSnapshotFactory
 {
-    public static BuildSnapshot ToSnapshot(Pawn pawn, string playerId, string buildId, int seed = 0)
+    public static BuildSnapshot ToSnapshot(Pawn pawn, string playerId, string buildId, int seed = 0, int round = 0)
     {
         var equipment = pawn.Equipment
             .Where(i => i.ItemDef.EquipmentProperties?.SlotUsedToEquip != EquipmentSlotType.BuiltIn)
             .Select(i => i.Def.Moniker)
-            .ToArray();
-        var already = equipment.ToHashSet();
-        var items = equipment
-            .Concat(pawn.Inventory.Trinkets
-                .Select(t => t.Def.Moniker)
-                .Where(already.Add))
             .ToArray();
 
         return new BuildSnapshot
         {
             PlayerId = playerId,
             BuildId = buildId,
-            EntityDefMonikers = items,
+            EntityDefMonikers = equipment,
             Seed = seed,
+            PawnDefMoniker = pawn.PawnDef.Moniker,
+            PawnName = pawn.Biography.Name,
+            SubmittedAt = DateTimeOffset.UtcNow,
+            Round = round,
             StanceMoniker = pawn.Body.Stance?.Moniker,
             Weapons = pawn.Equipment.Weapons
                 .Select(w => new WeaponConfig
@@ -55,6 +53,28 @@ public static class BuildSnapshotFactory
             Incense = CaptureIncense(pawn),
             Inventory = CaptureInventory(pawn)
         };
+    }
+
+    public static PawnDef ResolvePawnDef(BuildSnapshot snapshot)
+    {
+        var moniker = string.IsNullOrWhiteSpace(snapshot.PawnDefMoniker) ? "HumanA" : snapshot.PawnDefMoniker;
+        return DefRepository<PawnDef>.GetByMoniker(moniker, raiseError: false)
+               ?? DefRepository<PawnDef>.GetByMoniker("HumanA")!;
+    }
+
+    public static Pawn CreatePawn(GameContext context, BuildSnapshot snapshot, PawnType pawnType)
+    {
+        var empty = DefRepository<PawnLoadoutDef>.GetByMoniker("EmptyLoadout")
+                    ?? Defs.PawnLoadouts.DefaultStarterLoadout;
+        var pawn = PawnGenerator.CreatePawn(
+            context,
+            new PawnRequest(
+                snapshot.PawnName ?? snapshot.PlayerId,
+                ResolvePawnDef(snapshot),
+                empty,
+                pawnType));
+        Apply(pawn, snapshot);
+        return pawn;
     }
 
     public static void Apply(Pawn pawn, BuildSnapshot snapshot)
@@ -142,7 +162,7 @@ public static class BuildSnapshotFactory
     private static InventoryStackConfig[] CaptureInventory(Pawn pawn)
     {
         return pawn.Inventory
-            .Where(i => !i.IsDestroyed && (i.ItemDef.StackLimit > 1 || i.ItemDef.ItemType == ItemType.Enchantment))
+            .Where(i => !i.IsDestroyed)
             .GroupBy(i => i.Def.Moniker)
             .Select(g => new InventoryStackConfig
             {

@@ -30,6 +30,8 @@ public sealed class BodyPartIcon : Panel
     private Color _baseColor = Color.White;
     private int _pipSignature = int.MinValue;
 
+    public bool AttachPipTooltips { get; set; } = true;
+
     public BodyPartIcon(ColoredRegion? imageTexture, Action<BodyPartIcon>? handler = null)
     {
         _imageTexture = imageTexture;
@@ -175,13 +177,15 @@ public sealed class BodyPartIcon : Panel
                 Top = pipTop
             };
 
-            // Attach tooltip using TooltipHelper - use custom info panel if available, otherwise simple label
-            var capturedPipData = pipData;
-            pip.WithTooltip(() => capturedPipData.InfoPanel ?? new Label(BaseContent.Styles.Label.Small)
+            if (AttachPipTooltips)
             {
-                Text = capturedPipData.Label,
-                TextColor = Color.GhostWhite
-            });
+                var capturedPipData = pipData;
+                pip.WithTooltip(() => capturedPipData.InfoPanel ?? new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = capturedPipData.Label,
+                    TextColor = Color.GhostWhite
+                });
+            }
 
             _pipWidgets.Add(pip);
             Widgets.Add(pip);

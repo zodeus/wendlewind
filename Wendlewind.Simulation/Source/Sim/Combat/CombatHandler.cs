@@ -598,7 +598,10 @@ public class CombatHandler : IDisposable, IHasContext
         var playerIsAlive = !Player.IsDead;
         if (playerIsAlive)
         {
-            CollectLoot();
+            if (!_encounter.Def.SkipLoot && Context.ArenaRun == null)
+            {
+                CollectLoot();
+            }
             Player.Inventory.Trinkets.ForEach(t =>
             {
                 t.TrinketHandler?.PostCombatAction(new PostCombatReport

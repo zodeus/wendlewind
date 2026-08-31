@@ -14,6 +14,7 @@ public class EncounterProperties
     public List<LootBoxDef> PotentialLootBoxes = new();
     public int? MaxBoxes;
     public bool IsBoss;
+    public bool SkipLoot;
 }
 
 public class EncounterEnemyRecord

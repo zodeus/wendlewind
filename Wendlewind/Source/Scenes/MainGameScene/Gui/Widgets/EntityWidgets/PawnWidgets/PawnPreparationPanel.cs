@@ -18,7 +18,7 @@ public class PawnPreparationPanel : Panel, IUpdatable
     private readonly TrinketsPanel _trinketsPanel;
     private readonly Panel _controlsPanel;
 
-    public PawnPreparationPanel(BaseGui gui, Pawn playerPawn)
+    public PawnPreparationPanel(BaseGui gui, Pawn playerPawn, bool showGrimoire = true)
     {
         VerticalAlignment = VerticalAlignment.Stretch;
         HorizontalAlignment = HorizontalAlignment.Stretch;
@@ -76,17 +76,17 @@ public class PawnPreparationPanel : Panel, IUpdatable
         Place(root, lastColumn, 3, 0);
         Grid.SetRowSpan(lastColumn, 2);
 
-        var grimoireButton = new CursorButton(BaseContent.Styles.Button.Normal)
+        var grimoireButton = new CursorButton(BaseContent.Styles.Button.Large)
         {
-            Content = new Label(BaseContent.Styles.Label.Normal) { Text = "Grimoire" },
+            Content = new Label { Text = "Grimoire", HorizontalAlignment = HorizontalAlignment.Center },
             HorizontalAlignment = HorizontalAlignment.Left,
             VerticalAlignment = VerticalAlignment.Center
         };
         grimoireButton.Click += (_, _) => gui.OpenGrimoire();
 
-        var inventoryButton = new CursorButton(BaseContent.Styles.Button.Normal)
+        var inventoryButton = new CursorButton(BaseContent.Styles.Button.Large)
         {
-            Content = new Label(BaseContent.Styles.Label.Normal) { Text = "Inventory" },
+            Content = new Label { Text = "Inventory", HorizontalAlignment = HorizontalAlignment.Center },
             HorizontalAlignment = HorizontalAlignment.Left,
             VerticalAlignment = VerticalAlignment.Center
         };
@@ -96,14 +96,15 @@ public class PawnPreparationPanel : Panel, IUpdatable
         {
             Spacing = 8,
             HorizontalAlignment = HorizontalAlignment.Left,
-            VerticalAlignment = VerticalAlignment.Center,
-            Widgets =
-            {
-                grimoireButton,
-                inventoryButton,
-                _controlsPanel
-            }
+            VerticalAlignment = VerticalAlignment.Center
         };
+        if (showGrimoire)
+        {
+            header.Widgets.Add(grimoireButton);
+        }
+
+        header.Widgets.Add(inventoryButton);
+        header.Widgets.Add(_controlsPanel);
 
         var layout = new VerticalStackPanel
         {

@@ -23,6 +23,23 @@ public class Player : IExposable, IHasContext
         _pawn = GeneratePlayerPawn();
     }
 
+    public void ResetForArena(string name, string? pawnDefMoniker = null)
+    {
+        _pawn?.Destroy();
+        _trinketsFound = new List<ItemDef>();
+        var empty = DefRepository<PawnLoadoutDef>.GetByMoniker("EmptyLoadout")
+                    ?? Defs.PawnLoadouts.DefaultStarterLoadout;
+        var pawnDef = DefRepository<PawnDef>.GetByMoniker(pawnDefMoniker ?? "HumanA", raiseError: false)
+                      ?? DefRepository<PawnDef>.GetByMoniker("HumanA")!;
+        _pawn = PawnGenerator.CreatePawn(
+            Context,
+            new PawnRequest(
+                string.IsNullOrWhiteSpace(name) ? "Bilbert" : name,
+                pawnDef,
+                empty,
+                PawnType.Player));
+    }
+
     public void OnItemFound(Item item)
     {
         if (HasTrinket(item.ItemDef)) {

@@ -39,7 +39,7 @@ public static class CombatGenerator
 
         context.Rng = new Random(encounterSeed);
 
-        Encounter encounter = new(zone, new EncounterProperties(), weather: null)
+        Encounter encounter = new(zone, new EncounterProperties { SkipLoot = true }, weather: null)
         {
             Seed = encounterSeed,
             Context = context

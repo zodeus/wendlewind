@@ -8,8 +8,9 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.CombatGui;
 
 public class CombatScreen : VerticalStackPanel, IDisposable
 {
-    private readonly ZoneGui _gui;
+    private readonly BaseGui _gui;
     private readonly GameContext _context;
+    private readonly Action? _onFinished;
     private readonly ScrollViewer _combatLog;
     private readonly GameHud _gameHud;
     private readonly CombatPartyPanel _playerPartyPanel;
@@ -32,10 +33,11 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
     private Encounter Encounter => _context.CurrentZone!.ActiveEncounter!;
 
-    public CombatScreen(ZoneGui gui, GameContext context)
+    public CombatScreen(BaseGui gui, GameContext context, Action? onFinished = null)
     {
         _gui = gui;
         _context = context;
+        _onFinished = onFinished;
         Encounter.StateChangedAction += CombatStateChangedAction;
         Encounter.CombatHandler!.CombatEventRecorded += OnCombatEvent;
         Margin = new Thickness(0, 5, 0, 0);
@@ -50,13 +52,13 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
         var player = Encounter.PlayerPawns.First();
         var opponent = Encounter.EnemyPawns.First();
-        _pawnBodyView = new PawnBodyPanel(gui, player.Body, fillAvailableHeight: true)
+        _pawnBodyView = new PawnBodyPanel(gui, player.Body, fillAvailableHeight: true, hoverToInspect: true)
         {
             HorizontalAlignment = HorizontalAlignment.Right,
             VerticalAlignment = VerticalAlignment.Stretch
         };
 
-        _enemyPawnBodyView = new PawnBodyPanel(gui, opponent.Body, fillAvailableHeight: true)
+        _enemyPawnBodyView = new PawnBodyPanel(gui, opponent.Body, fillAvailableHeight: true, hoverToInspect: true)
         {
             HorizontalAlignment = HorizontalAlignment.Left,
             VerticalAlignment = VerticalAlignment.Stretch
@@ -422,9 +424,10 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
     private void ShowCombatSummary()
     {
-        Action onContinue = DebugSettings.TestSimMode
-            ? () => TestSimLauncher.ReturnToSelector(_context)
-            : () => Encounter.Zone.CombatResults();
+        Action onContinue = _onFinished
+            ?? (DebugSettings.TestSimMode
+                ? () => TestSimLauncher.ReturnToSelector(_context)
+                : () => Encounter.Zone.CombatResults());
         _summaryWindow = new CombatSummaryWindow(Encounter, onContinue);
         _summaryWindow.OnReviewRequested += OnReviewRequested;
         _summaryWindow.Show(_gui.Desktop);

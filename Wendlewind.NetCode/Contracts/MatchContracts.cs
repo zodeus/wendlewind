@@ -10,6 +10,10 @@ public sealed record BuildSnapshot
     public required string BuildId { get; init; }
     public required string[] EntityDefMonikers { get; init; }
     public int Seed { get; init; }
+    public string PawnDefMoniker { get; init; } = "HumanA";
+    public string? PawnName { get; init; }
+    public DateTimeOffset? SubmittedAt { get; init; }
+    public int Round { get; init; }
     public string? StanceMoniker { get; init; }
     public WeaponConfig[] Weapons { get; init; } = [];
     public PotionConfig[] Potions { get; init; } = [];
@@ -66,6 +70,11 @@ public sealed record SocketedItemConfig
     public string[] EnchantmentMonikers { get; init; } = [];
 }
 
+public sealed record BuildPoolState
+{
+    public Dictionary<string, List<BuildSnapshot>> Rounds { get; init; } = new();
+}
+
 public sealed record MatchRequest
 {
     public required BuildSnapshot Attacker { get; init; }
@@ -78,8 +87,15 @@ public sealed record CombatResult
     public required string WinnerPlayerId { get; init; }
     public int Ticks { get; init; }
     public string? CauseOfDeath { get; init; }
+    public string? DefenderPlayerId { get; init; }
+    public BuildSnapshot? Defender { get; init; }
+    public int EncounterSeed { get; init; }
 }
 
+[JsonSourceGenerationOptions(
+    PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
+    PropertyNameCaseInsensitive = true,
+    WriteIndented = true)]
 [JsonSerializable(typeof(BuildSnapshot))]
 [JsonSerializable(typeof(WeaponConfig))]
 [JsonSerializable(typeof(PotionConfig))]
@@ -89,6 +105,19 @@ public sealed record CombatResult
 [JsonSerializable(typeof(SocketedItemConfig))]
 [JsonSerializable(typeof(MatchRequest))]
 [JsonSerializable(typeof(CombatResult))]
+[JsonSerializable(typeof(List<BuildSnapshot>))]
+[JsonSerializable(typeof(BuildPoolState))]
+[JsonSerializable(typeof(Dictionary<string, List<BuildSnapshot>>))]
+[JsonSerializable(typeof(PlayerProfileRecord))]
+[JsonSerializable(typeof(CreatePlayerRequest))]
+[JsonSerializable(typeof(AchievementRecord))]
+[JsonSerializable(typeof(AchievementState))]
+[JsonSerializable(typeof(List<AchievementRecord>))]
+[JsonSerializable(typeof(ArenaProgressRecord))]
+[JsonSerializable(typeof(ArenaFightRecord))]
+[JsonSerializable(typeof(ArenaRunRecord))]
+[JsonSerializable(typeof(List<ArenaRunRecord>))]
+[JsonSerializable(typeof(StartArenaRequest))]
 [JsonSerializable(typeof(PotionTriggerType))]
 [JsonSerializable(typeof(MedicalTriggerType))]
 [JsonSerializable(typeof(MedicalTargetSelector))]

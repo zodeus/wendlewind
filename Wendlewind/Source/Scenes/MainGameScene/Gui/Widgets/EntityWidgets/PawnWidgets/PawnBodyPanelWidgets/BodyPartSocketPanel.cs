@@ -6,15 +6,17 @@ internal sealed class BodyPartSocketPanel : HorizontalStackPanel
     public BodyPartRow PartRow => _bodyPartRow;
     private readonly BaseGui _gui;
     private readonly bool _showInternalParts;
+    private readonly bool _hoverToInspect;
     private SocketLabel _socketLabel;
     private BodyPartRow _bodyPartRow;
 
-    public BodyPartSocketPanel(BodyPartSocket socket, BaseGui gui, bool showInternalParts)
+    public BodyPartSocketPanel(BodyPartSocket socket, BaseGui gui, bool showInternalParts, bool hoverToInspect = false)
     {
         Socket = socket;
         ClipToBounds = false;
         _gui = gui;
         _showInternalParts = showInternalParts;
+        _hoverToInspect = hoverToInspect;
         _socketLabel = new SocketLabel(socket, showInternalParts)
         {
             Height = 40
@@ -22,7 +24,7 @@ internal sealed class BodyPartSocketPanel : HorizontalStackPanel
         _socketLabel.TouchDown += (_, _) => BodyPartSocketClickHandler(socket);
         Widgets.Add(_socketLabel);
 
-        _bodyPartRow = new BodyPartRow(gui)
+        _bodyPartRow = new BodyPartRow(gui, hoverToInspect)
         {
             VerticalAlignment = VerticalAlignment.Center,
             Height = 40

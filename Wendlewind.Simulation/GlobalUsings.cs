@@ -7,6 +7,7 @@ global using Wendlewind.Debug;
 global using Wendlewind.Definitions;
 global using Wendlewind.Maths;
 global using Wendlewind.Sim;
+global using Wendlewind.Sim.Arena;
 global using Wendlewind.Sim.Achievements;
 global using Wendlewind.Sim.Combat;
 global using Wendlewind.Sim.Entities;

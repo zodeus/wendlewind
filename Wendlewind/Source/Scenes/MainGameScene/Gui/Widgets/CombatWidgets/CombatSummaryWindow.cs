@@ -314,10 +314,15 @@ public sealed class CombatSummaryWindow : Window
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Margin = new Thickness(0, 30, 0, 0)
         };
+        if (Core.Context.ArenaRun != null)
+        {
+            restartButton.Content = new Label { Text = "Continue", HorizontalAlignment = HorizontalAlignment.Center };
+        }
+
         restartButton.Click += (_, _) =>
         {
             Close();
-            if (DebugSettings.TestSimMode)
+            if (DebugSettings.TestSimMode || Core.Context.ArenaRun != null)
             {
                 onContinue();
             }

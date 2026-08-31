@@ -1,3 +1,5 @@
+using Wendlewind.Scenes.MainGameScene.Gui;
+using Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 using Image = Myra.Graphics2D.UI.Image;
 
 namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
@@ -7,14 +9,14 @@ public sealed class MedicalBar : HorizontalStackPanel, IUpdatable
     private readonly Pawn _pawn;
     private readonly List<MedicalSlotView> _slots = [];
 
-    public MedicalBar(Pawn pawn, Action<ItemDef>? clickHandler = null, int? iconSize = null)
+    public MedicalBar(BaseGui gui, Pawn pawn, Action<ItemDef>? clickHandler = null, int? iconSize = null)
     {
         _pawn = pawn;
         pawn.MedicalChest.Prune();
         var size = iconSize ?? BaseContent.IconSizes.Medium;
         foreach (var chestSlot in pawn.MedicalChest.Slots)
         {
-            var view = new MedicalSlotView(chestSlot, size, clickHandler);
+            var view = new MedicalSlotView(gui, pawn, chestSlot, size, clickHandler);
             Widgets.Add(view);
             _slots.Add(view);
         }
@@ -62,6 +64,9 @@ internal sealed class MedicalSlotView : Panel
     private static readonly Color EmptyTint = new(48, 48, 46);
     private static readonly Color TimerColor = new(220, 200, 150);
 
+    private readonly BaseGui _gui;
+    private readonly Pawn _pawn;
+    private readonly CursorButton _button;
     private readonly ColoredIcon _tint;
     private readonly Panel _dim;
     private readonly Label _chargeLabel;
@@ -70,11 +75,16 @@ internal sealed class MedicalSlotView : Panel
     private readonly List<SlotSpark> _sparks = [];
     private static Texture2D? _glowTexture;
     private float _flashRemaining;
+    private Item? _hoverInspectItem;
+    private Widget? _hoverInspectOwner;
+    private Item? _previewItem;
 
     public readonly MedicalChestSlot ChestSlot;
 
-    public MedicalSlotView(MedicalChestSlot chestSlot, int size, Action<ItemDef>? clickHandler)
+    public MedicalSlotView(BaseGui gui, Pawn pawn, MedicalChestSlot chestSlot, int size, Action<ItemDef>? clickHandler)
     {
+        _gui = gui;
+        _pawn = pawn;
         ChestSlot = chestSlot;
         ClipToBounds = false;
         Width = size;
@@ -125,7 +135,7 @@ internal sealed class MedicalSlotView : Panel
             Widgets = { _cooldownLabel }
         };
 
-        var button = new CursorButton
+        _button = new CursorButton
         {
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Stretch,
@@ -140,12 +150,89 @@ internal sealed class MedicalSlotView : Panel
         };
 
         var def = chestSlot.Def;
-        button.TouchDown += (_, _) => clickHandler?.Invoke(def);
-        button.WithDynamicTooltip(
-            () => chestSlot.Def.Label,
-            () => SlotTooltip(chestSlot));
+        _button.TouchDown += (_, _) =>
+        {
+            HideHoverInspect();
+            clickHandler?.Invoke(def);
+        };
 
-        Widgets.Add(button);
+        Widgets.Add(_button);
+    }
+
+    protected override void OnPlacedChanged()
+    {
+        base.OnPlacedChanged();
+        if (!IsPlaced)
+        {
+            HideHoverInspect();
+        }
+    }
+
+    private void HideHoverInspect()
+    {
+        if (_hoverInspectItem == null && _hoverInspectOwner == null)
+        {
+            return;
+        }
+
+        TooltipHelper.Hide(_hoverInspectOwner);
+        _hoverInspectItem = null;
+        _hoverInspectOwner = null;
+    }
+
+    private void UpdateHoverInspect()
+    {
+        var desktop = Desktop ?? _gui.Desktop;
+        if (desktop == null)
+        {
+            return;
+        }
+
+        if (!_button.Visible || !_button.ContainsGlobalPoint(desktop.MousePosition))
+        {
+            HideHoverInspect();
+            return;
+        }
+
+        var item = ResolveInspectItem();
+        if (ReferenceEquals(_hoverInspectItem, item) && _hoverInspectOwner == _button)
+        {
+            TooltipHelper.UpdatePosition();
+            return;
+        }
+
+        _hoverInspectItem = item;
+        _hoverInspectOwner = _button;
+        ShowInspectPopup();
+    }
+
+    private void ShowInspectPopup()
+    {
+        var desktop = Desktop ?? _gui.Desktop;
+        if (desktop == null || _hoverInspectItem == null || _hoverInspectOwner == null)
+        {
+            return;
+        }
+
+        var panel = EntityPanelFactory.Create(_gui, _hoverInspectItem, new EntityPanelProperties
+        {
+            ShowTitle = true,
+            ShowCloseButton = false,
+            Background = null
+        });
+
+        TooltipHelper.ShowCustom(desktop, panel, _hoverInspectOwner, TooltipPlacement.BottomCorner);
+    }
+
+    private Item ResolveInspectItem()
+    {
+        var live = _pawn.Inventory.FirstOrDefault(i => i.Def == ChestSlot.Def && !i.IsDestroyed);
+        if (live != null)
+        {
+            return live;
+        }
+
+        return _previewItem ??= _pawn.Context.Factory.CreateEntity<Item>(ChestSlot.Def, 1);
     }
 
     public void Flash()
@@ -205,6 +292,8 @@ internal sealed class MedicalSlotView : Panel
         {
             _cooldownChip.Visible = false;
         }
+
+        UpdateHoverInspect();
     }
 
     public override void InternalRender(RenderContext context)
@@ -349,27 +438,6 @@ internal sealed class MedicalSlotView : Panel
         }
 
         return slot.Charges > 0 ? slot.Charges.ToString() : "";
-    }
-
-    private static string SlotTooltip(MedicalChestSlot slot)
-    {
-        var lines = new List<string> { slot.Trigger.Describe() };
-        if (slot.IsInfinite)
-        {
-            lines.Add("Infinite use");
-        }
-        else
-        {
-            lines.Add(slot.Charges == 1 ? "1 charge" : $"{slot.Charges} charges");
-        }
-
-        var cooldown = MedicalChest.CooldownInTicks(slot.Def);
-        if (cooldown > 0)
-        {
-            lines.Add($"Cooldown {cooldown / (float)GameContext.TicksPerSecond:0.#}s");
-        }
-
-        return string.Join("\n", lines);
     }
 
     private sealed class SlotSpark

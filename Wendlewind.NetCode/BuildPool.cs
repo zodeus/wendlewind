@@ -1,0 +1,215 @@
+using System.Text.Json;
+using Wendlewind.NetCode.Contracts;
+
+namespace Wendlewind.NetCode;
+
+public sealed class BuildPool
+{
+    private readonly Dictionary<int, List<BuildSnapshot>> _rounds = new();
+    private readonly string? _path;
+    private readonly object _gate = new();
+
+    public BuildPool(string? persistPath = null)
+    {
+        _path = persistPath;
+        Load();
+    }
+
+    public int Count
+    {
+        get
+        {
+            lock (_gate)
+            {
+                return _rounds.Values.Sum(list => list.Count);
+            }
+        }
+    }
+
+    public void Upsert(BuildSnapshot snapshot)
+    {
+        if (string.IsNullOrWhiteSpace(snapshot.PlayerId))
+        {
+            throw new ArgumentException("BuildSnapshot.PlayerId is required.", nameof(snapshot));
+        }
+
+        var stored = snapshot with
+        {
+            SubmittedAt = snapshot.SubmittedAt ?? DateTimeOffset.UtcNow,
+            Round = ResolveRound(snapshot)
+        };
+
+        lock (_gate)
+        {
+            GetRoundList(stored.Round).Add(stored);
+            PersistUnlocked();
+        }
+    }
+
+    public BuildSnapshot? Get(string playerId)
+    {
+        lock (_gate)
+        {
+            return _rounds.Values
+                .SelectMany(list => list)
+                .Where(b => string.Equals(b.PlayerId, playerId, StringComparison.Ordinal))
+                .OrderByDescending(b => b.SubmittedAt ?? DateTimeOffset.MinValue)
+                .FirstOrDefault();
+        }
+    }
+
+    public BuildSnapshot? PickOpponent(int round)
+    {
+        lock (_gate)
+        {
+            if (_rounds.TryGetValue(round, out var bucket) && bucket.Count > 0)
+            {
+                return bucket[Random.Shared.Next(bucket.Count)];
+            }
+        }
+
+        return null;
+    }
+
+    public static BuildSnapshot MirrorOf(BuildSnapshot snapshot)
+    {
+        var playerId = snapshot.PlayerId;
+        if (playerId.StartsWith("mirror:", StringComparison.Ordinal))
+        {
+            return snapshot;
+        }
+
+        return snapshot with { PlayerId = $"mirror:{playerId}" };
+    }
+
+    public static int ResolveRound(BuildSnapshot snapshot)
+    {
+        if (snapshot.Round > 0)
+        {
+            return snapshot.Round;
+        }
+
+        var buildId = snapshot.BuildId;
+        if (buildId.StartsWith("arena-", StringComparison.OrdinalIgnoreCase)
+            && int.TryParse(buildId.AsSpan("arena-".Length), out var fromId)
+            && fromId > 0)
+        {
+            return fromId;
+        }
+
+        return 1;
+    }
+
+    private List<BuildSnapshot> GetRoundList(int round)
+    {
+        if (!_rounds.TryGetValue(round, out var list))
+        {
+            list = [];
+            _rounds[round] = list;
+        }
+
+        return list;
+    }
+
+    private void Load()
+    {
+        if (string.IsNullOrEmpty(_path) || !File.Exists(_path))
+        {
+            return;
+        }
+
+        var json = File.ReadAllText(_path);
+        lock (_gate)
+        {
+            if (TryLoadRoundState(json) || TryLoadLegacyFlatList(json))
+            {
+                PersistUnlocked();
+            }
+        }
+    }
+
+    private bool TryLoadRoundState(string json)
+    {
+        try
+        {
+            var state = JsonSerializer.Deserialize(json, NetCodeJsonContext.Default.BuildPoolState);
+            if (state?.Rounds == null || state.Rounds.Count == 0)
+            {
+                return false;
+            }
+
+            foreach (var (key, builds) in state.Rounds)
+            {
+                if (!int.TryParse(key, out var round) || builds == null)
+                {
+                    continue;
+                }
+
+                foreach (var snapshot in builds)
+                {
+                    if (string.IsNullOrWhiteSpace(snapshot.PlayerId))
+                    {
+                        continue;
+                    }
+
+                    var stored = snapshot with { Round = snapshot.Round > 0 ? snapshot.Round : round };
+                    GetRoundList(stored.Round).Add(stored);
+                }
+            }
+
+            return _rounds.Count > 0;
+        }
+        catch (JsonException)
+        {
+            return false;
+        }
+    }
+
+    private bool TryLoadLegacyFlatList(string json)
+    {
+        try
+        {
+            var snapshots = JsonSerializer.Deserialize(json, NetCodeJsonContext.Default.ListBuildSnapshot);
+            if (snapshots == null || snapshots.Count == 0)
+            {
+                return false;
+            }
+
+            foreach (var snapshot in snapshots)
+            {
+                if (string.IsNullOrWhiteSpace(snapshot.PlayerId))
+                {
+                    continue;
+                }
+
+                var stored = snapshot with { Round = ResolveRound(snapshot) };
+                GetRoundList(stored.Round).Add(stored);
+            }
+
+            return true;
+        }
+        catch (JsonException)
+        {
+            return false;
+        }
+    }
+
+    private void PersistUnlocked()
+    {
+        if (string.IsNullOrEmpty(_path))
+        {
+            return;
+        }
+
+        var state = new BuildPoolState
+        {
+            Rounds = _rounds
+                .OrderBy(pair => pair.Key)
+                .ToDictionary(
+                    pair => pair.Key.ToString(),
+                    pair => pair.Value.ToList())
+        };
+        var json = JsonSerializer.Serialize(state, NetCodeJsonContext.Default.BuildPoolState);
+        File.WriteAllText(_path, json);
+    }
+}

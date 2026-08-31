@@ -36,6 +36,21 @@ public static partial class Defs
     public static class PawnLoadouts
     {
         public static PawnLoadoutDef DefaultStarterLoadout = null!;
+        public static PawnLoadoutDef EmptyLoadout = null!;
+    }
+}
+
+public static partial class Defs
+{
+    [DefLocator]
+    public static class Merchants
+    {
+        public static MerchantDef GeneralStore = null!;
+        public static MerchantDef Blacksmith = null!;
+        public static MerchantDef Ranger = null!;
+        public static MerchantDef WitchDoctor = null!;
+        public static MerchantDef Alchemist = null!;
+        public static MerchantDef Magician = null!;
     }
 }
 

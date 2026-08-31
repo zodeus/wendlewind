@@ -4,7 +4,9 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 
 public sealed class TabPanel : VerticalStackPanel
 {
-    private readonly HorizontalStackPanel _tabButtonsPanel;
+    private readonly VerticalStackPanel _tabButtonsPanel;
+    private HorizontalStackPanel? _currentRow;
+    private readonly int _tabsPerRow;
     private readonly List<CursorButton> _tabButtons = [];
     private readonly List<Widget> _tabContents = [];
     private readonly List<Panel> _tabIndicators = [];
@@ -13,10 +15,11 @@ public sealed class TabPanel : VerticalStackPanel
     public string ButtonStyle { get; set; } = BaseContent.Styles.Button.Large;
     private static string LabelStyle => BaseContent.Styles.Label.Normal;
 
-    public TabPanel(bool tabsOnTop = true)
+    public TabPanel(bool tabsOnTop = true, int? tabsPerRow = null)
     {
         Spacing = 10;
-        _tabButtonsPanel = new HorizontalStackPanel { Spacing = 5 };
+        _tabsPerRow = tabsPerRow ?? int.MaxValue;
+        _tabButtonsPanel = new VerticalStackPanel { Spacing = 5 };
         if (tabsOnTop)
         {
             Widgets.Add(_tabButtonsPanel);
@@ -87,13 +90,24 @@ public sealed class TabPanel : VerticalStackPanel
                 ((Label)label.Content).TextColor = Color.DarkGoldenrod;
             }
         };
-        _tabButtonsPanel.Widgets.Add(row);
+        AddTabButton(row);
 
         if (_activeTab.Content == null)
         {
             SetActiveTab(widget);
             ((Label)label!.Content).TextColor = Color.DarkGoldenrod;
         }
+    }
+
+    private void AddTabButton(Widget tabButton)
+    {
+        if (_currentRow == null || _currentRow.Widgets.Count >= _tabsPerRow)
+        {
+            _currentRow = new HorizontalStackPanel { Spacing = 5 };
+            _tabButtonsPanel.Widgets.Add(_currentRow);
+        }
+
+        _currentRow.Widgets.Add(tabButton);
     }
 
     private void SetActiveTab(Widget widget)

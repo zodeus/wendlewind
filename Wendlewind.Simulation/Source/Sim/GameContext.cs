@@ -52,6 +52,7 @@ public class GameContext : IExposable, IHasContext
     public Pawn PlayerPawn => World.Player.Pawn;
     public event Action<GameState>? OnStateChanged;
     public Zone? CurrentZone { get; set; }
+    public ArenaRun? ArenaRun;
 
     public GameContext()
     {
@@ -73,12 +74,35 @@ public class GameContext : IExposable, IHasContext
         Rng = new Random(RunSeed);
         World = WorldGenerator.GenerateNewWorld(this);
         CurrentZone = null;
+        ArenaRun = null;
         Ticks = 0;
         Achievements = new AchievementTracker();
         Achievements.Context = this;
         Achievements.Initialize();
         Factory.RebindGraph();
         WireUpEvents();
+        RefreshPlayerMedicalChest();
+    }
+
+    public void InitializeArena(string playerId, string playerName, int? runSeed = null)
+    {
+        Initialize(runSeed);
+        Player.ResetForArena(playerName);
+        WirePawnEvents();
+        RefreshPlayerMedicalChest();
+        ArenaRun = new ArenaRun();
+        ArenaRun.Start(playerId, playerName, RunSeed);
+    }
+
+    public void RestoreArenaPawn()
+    {
+        if (ArenaRun == null)
+        {
+            return;
+        }
+
+        Player.ResetForArena(ArenaRun.PlayerName);
+        WirePawnEvents();
         RefreshPlayerMedicalChest();
     }
 
@@ -192,11 +216,16 @@ public class GameContext : IExposable, IHasContext
 
     private void WireUpEvents()
     {
+        WirePawnEvents();
+        Achievements.AchievementUnlocked += _ => RefreshPlayerMedicalChest();
+    }
+
+    private void WirePawnEvents()
+    {
         Player.Pawn.FoodConsumed += (p, i) => Achievements.OnItemUsed(p, i, null);
         Player.Pawn.DamageTaken += Achievements.OnPlayerDamaged;
         Player.Pawn.Inventory.ItemAdded += Achievements.OnItemFound;
         Player.Pawn.Inventory.ItemAdded += Player.OnItemFound;
-        Achievements.AchievementUnlocked += _ => RefreshPlayerMedicalChest();
     }
 
     private void RefreshPlayerMedicalChest()
@@ -229,6 +258,7 @@ public class GameContext : IExposable, IHasContext
         }
         ScribeDeep.Look(ref DeathRecords!, "DeathRecords");
         ScribeDeep.Look(ref Achievements!, "Achievements");
+        ScribeDeep.Look(ref ArenaRun, "ArenaRun");
     }
 
     #endregion
