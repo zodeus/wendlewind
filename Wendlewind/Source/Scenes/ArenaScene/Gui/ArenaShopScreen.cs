@@ -13,6 +13,9 @@ public sealed class ArenaShopScreen : Grid
     private readonly Label _status;
     private readonly Label _runStats;
     private readonly VerticalStackPanel _packBody;
+    private readonly ScrollViewer _catalog;
+    private readonly MerchantDef _merchant;
+    private IReadOnlyList<RolledShelf> _stock = [];
 
     public ArenaShopScreen(BaseGui gui, GameContext context, Action onDone)
     {
@@ -29,9 +32,9 @@ public sealed class ArenaShopScreen : Grid
         RowsProportions.Add(new Proportion(ProportionType.Auto));
 
         var run = context.ArenaRun ?? throw new InvalidOperationException("Shop requires an ArenaRun.");
-        var merchant = run.CurrentMerchant
-                       ?? DefRepository<MerchantDef>.GetByMoniker("GeneralStore")
-                       ?? throw new InvalidOperationException("No merchant selected.");
+        _merchant = run.CurrentMerchant
+                    ?? DefRepository<MerchantDef>.GetByMoniker("GeneralStore")
+                    ?? throw new InvalidOperationException("No merchant selected.");
 
         _purse = new GoldPurse(context);
         _status = new Label(BaseContent.Styles.Label.Small)
@@ -55,7 +58,7 @@ public sealed class ArenaShopScreen : Grid
         };
         header.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
         header.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
-        header.Widgets.Add(CreatePortrait(merchant));
+        header.Widgets.Add(CreatePortrait(_merchant));
         var info = new VerticalStackPanel
         {
             Spacing = 6,
@@ -65,12 +68,12 @@ public sealed class ArenaShopScreen : Grid
             {
                 new Label(BaseContent.Styles.Label.Huge)
                 {
-                    Text = merchant.Label,
+                    Text = _merchant.Label,
                     TextColor = Color.Goldenrod
                 },
                 new Label(BaseContent.Styles.Label.Small)
                 {
-                    Text = merchant.Description,
+                    Text = _merchant.Description,
                     Wrap = true
                 },
                 new HorizontalStackPanel
@@ -84,25 +87,19 @@ public sealed class ArenaShopScreen : Grid
         header.Widgets.Add(info);
         Grid.SetColumn(info, 1);
 
-        var shelves = new VerticalStackPanel
+        _catalog = new ScrollViewer
         {
-            Spacing = 12,
-            HorizontalAlignment = HorizontalAlignment.Stretch
-        };
-        var rolled = ShopStock.Roll(merchant, run.RunSeed, run.FightsPlayed);
-        foreach (var row in ShopLayout.GroupRows(rolled, shelf => shelf.Columns))
-        {
-            shelves.Widgets.Add(CreateShelfRow(row));
-        }
-
-        var catalog = new ScrollViewer
-        {
-            Content = shelves,
             ShowHorizontalScrollBar = false,
             ShowVerticalScrollBar = true,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Stretch
         };
+        _stock = ShopStock.Roll(
+            _merchant,
+            run.RunSeed,
+            run.FightsPlayed,
+            ShopStock.OwnedUniqueMonikers(_context.Player));
+        RebuildCatalog();
 
         _packBody = new VerticalStackPanel
         {
@@ -160,7 +157,7 @@ public sealed class ArenaShopScreen : Grid
         };
 
         Add(header, 0);
-        Add(catalog, 1);
+        Add(_catalog, 1);
         Add(footer, 2);
     }
 
@@ -585,6 +582,35 @@ public sealed class ArenaShopScreen : Grid
         });
     }
 
+    private void RebuildCatalog()
+    {
+        var shelves = new VerticalStackPanel
+        {
+            Spacing = 12,
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        };
+        foreach (var row in ShopLayout.GroupRows(_stock, shelf => shelf.Columns))
+        {
+            shelves.Widgets.Add(CreateShelfRow(row));
+        }
+
+        _catalog.Content = shelves;
+    }
+
+    private void RemovePurchasedOffer(MerchantOffer offer)
+    {
+        _stock = _stock
+            .Select(shelf => new RolledShelf
+            {
+                Category = shelf.Category,
+                Offers = shelf.Offers.Where(o => o != offer).ToList(),
+                Columns = shelf.Columns,
+                ItemColumns = shelf.ItemColumns
+            })
+            .ToList();
+        RebuildCatalog();
+    }
+
     private void RebuildPack()
     {
         _packBody.Widgets.Clear();
@@ -616,6 +642,7 @@ public sealed class ArenaShopScreen : Grid
             _status.TextColor = Color.LightGreen;
             _status.Text = $"Bought {label}";
             _purse.Refresh();
+            RemovePurchasedOffer(offer);
             RebuildPack();
             return;
         }

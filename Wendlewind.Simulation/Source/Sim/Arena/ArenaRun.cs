@@ -2,7 +2,7 @@ namespace Wendlewind.Sim.Arena;
 
 public class ArenaRun : IExposable
 {
-    public const int StartingGold = 300;
+    public const int StartingGold = 100;
     public const int WinGold = 100;
     public const int LoseGold = 75;
     public const int WinsToFinish = 10;
@@ -64,6 +64,11 @@ public class ArenaRun : IExposable
             return false;
         }
 
+        if (offer.IsUniqueOwnedType && (quantity != 1 || OwnsUnique(context.Player, offer.ItemDef!)))
+        {
+            return false;
+        }
+
         var granted = offer.GrantedItems;
         if (granted.Count == 0)
         {
@@ -116,6 +121,11 @@ public class ArenaRun : IExposable
         taken.Destroy();
         Gold += payout;
         return true;
+    }
+
+    private static bool OwnsUnique(Player player, ItemDef def)
+    {
+        return ShopStock.OwnedUniqueMonikers(player).Contains(def.Moniker);
     }
 
     private static bool IsInInventory(Pawn pawn, Item item)

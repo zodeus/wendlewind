@@ -22,6 +22,9 @@
                     <ListItem>
                         <ItemDef>CookedCorn</ItemDef>
                     </ListItem>
+                    <ListItem>
+                        <ItemDef>DriedMeat</ItemDef>
+                    </ListItem>
                 </Offers>
             </ListItem>
             <ListItem>

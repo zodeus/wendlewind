@@ -10,7 +10,11 @@ public sealed class RolledShelf
 
 public static class ShopStock
 {
-    public static IReadOnlyList<RolledShelf> Roll(MerchantDef merchant, int runSeed, int round)
+    public static IReadOnlyList<RolledShelf> Roll(
+        MerchantDef merchant,
+        int runSeed,
+        int round,
+        IReadOnlySet<string>? ownedUniqueMonikers = null)
     {
         if (merchant.Shelves.Count == 0)
         {
@@ -25,7 +29,7 @@ public static class ShopStock
             rolled.Add(new RolledShelf
             {
                 Category = shelf.Category,
-                Offers = RollShelf(shelf, rng, round),
+                Offers = RollShelf(shelf, rng, round, ownedUniqueMonikers),
                 Columns = shelf.ResolvedColumns,
                 ItemColumns = shelf.ResolvedItemColumns
             });
@@ -34,15 +38,52 @@ public static class ShopStock
         return rolled;
     }
 
+    public static HashSet<string> OwnedUniqueMonikers(Player player)
+    {
+        var owned = new HashSet<string>();
+        foreach (var def in player.TrinketsFound)
+        {
+            if (def?.Moniker != null)
+            {
+                owned.Add(def.Moniker);
+            }
+        }
+
+        var pawn = player.Pawn;
+        foreach (var item in pawn.Inventory)
+        {
+            if (MerchantOffer.IsUniqueOwnedTypeDef(item.ItemDef) && item.Def.Moniker != null)
+            {
+                owned.Add(item.Def.Moniker);
+            }
+        }
+
+        foreach (var incense in pawn.ActiveIncense)
+        {
+            if (!string.IsNullOrEmpty(incense.SourceMoniker))
+            {
+                owned.Add(incense.SourceMoniker);
+            }
+        }
+
+        return owned;
+    }
+
     public static IReadOnlyList<MerchantOffer> Flatten(IReadOnlyList<RolledShelf> shelves) =>
         shelves.SelectMany(shelf => shelf.Offers).ToList();
 
     public static IEnumerable<MerchantOffer> AvailableOffers(MerchantDef merchant, int round) =>
         merchant.AllOffers.Where(offer => offer.IsAvailable(round));
 
-    private static IReadOnlyList<MerchantOffer> RollShelf(MerchantShelf shelf, Random rng, int round)
+    private static IReadOnlyList<MerchantOffer> RollShelf(
+        MerchantShelf shelf,
+        Random rng,
+        int round,
+        IReadOnlySet<string>? ownedUniqueMonikers)
     {
-        var available = shelf.Offers.Where(offer => offer.IsAvailable(round)).ToList();
+        var available = shelf.Offers
+            .Where(offer => offer.IsAvailable(round) && !IsOwnedUnique(offer, ownedUniqueMonikers))
+            .ToList();
         if (available.Count == 0)
         {
             return [];
@@ -58,6 +99,14 @@ public static class ShopStock
 
         var remaining = Math.Max(0, stockSize - sets.Count);
         return [..sets, ..WeightedTake(pieces, remaining, rng)];
+    }
+
+    private static bool IsOwnedUnique(MerchantOffer offer, IReadOnlySet<string>? ownedUniqueMonikers)
+    {
+        return ownedUniqueMonikers != null
+               && offer.IsUniqueOwnedType
+               && offer.ItemDef?.Moniker != null
+               && ownedUniqueMonikers.Contains(offer.ItemDef.Moniker);
     }
 
     private static List<MerchantOffer> WeightedTake(List<MerchantOffer> pool, int count, Random rng)

@@ -467,9 +467,7 @@ public class Pawn : Entity
             });
         }
 
-        var def = item.ItemDef;
-        ApplyEatCost(item);
-        CombatStomach.TryAdd(def);
+        CombatStomach.TryAdd(item.ItemDef);
         return true;
     }
 
@@ -516,7 +514,7 @@ public class Pawn : Entity
 
         if (ActiveIncense.Any(a => a.Def == incenseProps.Effect.Def))
         {
-            return true;
+            return false;
         }
 
         return ActiveIncense.Count < IncenseProperties.MaxActive;
@@ -530,29 +528,14 @@ public class Pawn : Entity
         }
 
         var incenseProps = item.ItemDef.IncenseProperties!;
-        var charges = incenseProps.GetDurationInEncounters();
-        var existing = ActiveIncense.FirstOrDefault(a => a.Def == incenseProps.Effect.Def);
-        if (existing != null)
+        ActiveIncense.Add(new ActiveIncense
         {
-            existing.EncountersRemaining += charges;
-        }
-        else
-        {
-            ActiveIncense.Add(new ActiveIncense
-            {
-                Def = incenseProps.Effect.Def,
-                EncountersRemaining = charges,
-                SourceMoniker = item.ItemDef.Moniker
-            });
-        }
+            Def = incenseProps.Effect.Def,
+            EncountersRemaining = incenseProps.GetDurationInEncounters(),
+            SourceMoniker = item.ItemDef.Moniker
+        });
 
         Context.Achievements.OnItemUsed(this, item);
-        item.StackSize--;
-        if (item.StackSize < 1)
-        {
-            item.Destroy();
-        }
-
         return true;
     }
 
@@ -589,22 +572,7 @@ public class Pawn : Entity
         }
 
         MealPlan.Prune();
-        TickIncenseCharges(applyEffects: true);
-    }
-
-    public void ApplyPersistedBattleConsumableCosts()
-    {
-        MealPlan.Prune();
-        foreach (var item in MealPlan.Items.ToList())
-        {
-            if (item is { IsDestroyed: false, StackSize: > 0 })
-            {
-                DecrementStack(item);
-            }
-        }
-
-        MealPlan.Prune();
-        TickIncenseCharges(applyEffects: false);
+        TickIncenseCharges();
     }
 
     public bool HasFlameStick()
@@ -642,7 +610,7 @@ public class Pawn : Entity
         }
     }
 
-    private void TickIncenseCharges(bool applyEffects)
+    private void TickIncenseCharges()
     {
         for (var i = ActiveIncense.Count - 1; i >= 0; i--)
         {
@@ -653,21 +621,12 @@ public class Pawn : Entity
                 continue;
             }
 
-            if (applyEffects)
+            Body.Effects.TryApplyEffect(new BodyEffect
             {
-                Body.Effects.TryApplyEffect(new BodyEffect
-                {
-                    Def = incense.Def,
-                    TicksLeft = 1,
-                    LastsWholeEncounter = true
-                });
-            }
-
-            incense.EncountersRemaining--;
-            if (incense.EncountersRemaining <= 0)
-            {
-                ActiveIncense.RemoveAt(i);
-            }
+                Def = incense.Def,
+                TicksLeft = 1,
+                LastsWholeEncounter = true
+            });
         }
     }
 

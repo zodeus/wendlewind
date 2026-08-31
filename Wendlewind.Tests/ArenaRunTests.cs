@@ -125,7 +125,7 @@ public class ArenaRunTests
         var medKit = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("MedKit")! };
         var cauterize = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("Cauterize")! };
         var sword = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("IronSword")! };
-        Assert.True(food.OffersBulkBuy);
+        Assert.False(food.OffersBulkBuy);
         Assert.True(medKit.OffersBulkBuy);
         Assert.False(cauterize.OffersBulkBuy);
         Assert.False(sword.OffersBulkBuy);
@@ -136,8 +136,9 @@ public class ArenaRunTests
     {
         using var scope = CreateArena();
         var context = scope.Context;
-        var offer = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("CookedCorn")! };
-        var goldBefore = context.ArenaRun!.Gold;
+        var offer = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("MedKit")! };
+        context.ArenaRun!.Gold = offer.ResolveGoldCost() * MerchantOffer.BulkBuyQuantity + 50;
+        var goldBefore = context.ArenaRun.Gold;
 
         Assert.True(context.ArenaRun.TryBuy(context, offer, MerchantOffer.BulkBuyQuantity));
         Assert.Equal(goldBefore - offer.ResolveGoldCost() * MerchantOffer.BulkBuyQuantity, context.ArenaRun.Gold);
@@ -149,12 +150,19 @@ public class ArenaRunTests
     {
         using var scope = CreateArena();
         var context = scope.Context;
-        var offer = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("CookedCorn")! };
+        var offer = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("MedKit")! };
         context.ArenaRun!.Gold = offer.ResolveGoldCost() * (MerchantOffer.BulkBuyQuantity - 1);
 
         Assert.False(context.ArenaRun.TryBuy(context, offer, MerchantOffer.BulkBuyQuantity));
         Assert.Equal(offer.ResolveGoldCost() * (MerchantOffer.BulkBuyQuantity - 1), context.ArenaRun.Gold);
         Assert.Equal(0, context.PlayerPawn.Inventory.AmountOf(offer.ItemDef!));
+    }
+
+    [Fact]
+    public void FoodAndIncenseAreNonStackable()
+    {
+        Assert.Equal(1, DefRepository<ItemDef>.GetByMoniker("CookedCorn")!.StackLimit);
+        Assert.Equal(1, DefRepository<ItemDef>.GetByMoniker("MullinStick")!.StackLimit);
     }
 
     [Fact]
@@ -262,7 +270,8 @@ public class ArenaRunTests
         var context = scope.Context;
         var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
         var set = merchant.AllOffers.First(o => o.IsSet && o.SetLabel == "Cloth Set");
-        var goldBefore = context.ArenaRun!.Gold;
+        context.ArenaRun!.Gold = Math.Max(context.ArenaRun.Gold, set.ResolveGoldCost());
+        var goldBefore = context.ArenaRun.Gold;
 
         Assert.True(context.ArenaRun.TryBuy(context, set));
         Assert.Equal(goldBefore - set.ResolveGoldCost(), context.ArenaRun.Gold);
@@ -298,7 +307,7 @@ public class ArenaRunTests
         var context = scope.Context;
         var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
         context.ArenaRun!.CurrentMerchant = merchant;
-        var offer = merchant.AllOffers.First(o => !o.IsSet && o.ItemDef!.Moniker == "DriedMeat");
+        var offer = merchant.AllOffers.First(o => !o.IsSet && o.ItemDef!.Moniker == "CookedCorn");
         Assert.True(context.ArenaRun.TryBuy(context, offer));
         var item = context.PlayerPawn.Inventory.First(i => i.ItemDef == offer.ItemDef);
         var goldBeforeSell = context.ArenaRun.Gold;
@@ -315,11 +324,11 @@ public class ArenaRunTests
         var rows = ShopLayout.GroupRows(merchant.Shelves, shelf => shelf.Columns);
         Assert.Equal(
         [
-            [ShopCategory.Starter],
+            [ShopCategory.Food, ShopCategory.Incense],
             [ShopCategory.Weapons, ShopCategory.Armor],
             [ShopCategory.Medicine, ShopCategory.Potions]
         ], rows.Select(row => row.Select(shelf => shelf.Category).ToArray()).ToArray());
-        Assert.Equal(12, merchant.Shelves[0].StockSize);
+        Assert.Equal(2, merchant.Shelves[0].StockSize);
         Assert.Equal(1, merchant.Shelves[0].ItemColumns);
         Assert.All(rows, row => Assert.Equal(ShopLayout.GridColumns, row.Sum(shelf => shelf.ResolvedColumns)));
     }
@@ -461,7 +470,7 @@ public class ArenaRunTests
     }
 
     [Fact]
-    public void ReapplyingPrepSnapshotAfterFightConsumesMealAndIncense()
+    public void MealAndIncenseRemainAfterSnapshotRestore()
     {
         using var scope = CreateArena();
         var pawn = scope.Context.PlayerPawn;
@@ -473,17 +482,116 @@ public class ArenaRunTests
         Assert.True(pawn.Inventory.TryAdd(incense));
         Assert.True(pawn.MealPlan.TryAdd(meat));
         Assert.True(pawn.TryLightIncense(incense, requireFlameStick: false));
+        Assert.Equal(1, pawn.Inventory.AmountOf(incenseDef));
 
         var snapshot = BuildSnapshotFactory.ToSnapshot(pawn, "p", "arena-1", 1, round: 1);
         using var restored = CreateArena();
         var restoredPawn = restored.Context.PlayerPawn;
         BuildSnapshotFactory.Apply(restoredPawn, snapshot);
-        restoredPawn.ApplyPersistedBattleConsumableCosts();
 
-        Assert.Equal(0, restoredPawn.Inventory.AmountOf(meatDef));
-        Assert.Empty(restoredPawn.MealPlan.Items);
+        Assert.Equal(1, restoredPawn.Inventory.AmountOf(meatDef));
+        Assert.Equal(1, restoredPawn.Inventory.AmountOf(incenseDef));
+        Assert.Single(restoredPawn.MealPlan.Items);
         Assert.Single(restoredPawn.ActiveIncense);
-        Assert.Equal(1, restoredPawn.ActiveIncense[0].EncountersRemaining);
+        Assert.Equal(2, restoredPawn.ActiveIncense[0].EncountersRemaining);
+    }
+
+    [Fact]
+    public void LightingIncenseDoesNotDestroyTheStick()
+    {
+        using var scope = CreateArena();
+        var pawn = scope.Context.PlayerPawn;
+        var incenseDef = DefRepository<ItemDef>.GetByMoniker("MullinStick")!;
+        var incense = scope.Context.Factory.CreateEntity<Item>(incenseDef, 1);
+        Assert.True(pawn.Inventory.TryAdd(incense));
+        Assert.True(pawn.TryLightIncense(incense, requireFlameStick: false));
+        Assert.Equal(1, pawn.Inventory.AmountOf(incenseDef));
+        Assert.False(pawn.CanLightIncense(incense, requireFlameStick: false));
+    }
+
+    [Fact]
+    public void BattleStartDoesNotConsumeMealFood()
+    {
+        using var scope = CreateArena();
+        var pawn = scope.Context.PlayerPawn;
+        var meatDef = DefRepository<ItemDef>.GetByMoniker("DriedMeat")!;
+        var meat = scope.Context.Factory.CreateEntity<Item>(meatDef, 1);
+        Assert.True(pawn.Inventory.TryAdd(meat));
+        Assert.True(pawn.MealPlan.TryAdd(meat));
+        pawn.ApplyBattleStartConsumables();
+        Assert.Equal(1, pawn.Inventory.AmountOf(meatDef));
+        Assert.Single(pawn.MealPlan.Items);
+    }
+
+    [Fact]
+    public void ShopRollOmitsOwnedFoodAndIncense()
+    {
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
+        var owned = new HashSet<string> { "CookedCorn", "MullinStick" };
+        for (var seed = 1; seed <= 40; seed++)
+        {
+            var offers = ShopStock.Flatten(ShopStock.Roll(merchant, seed, 0, owned));
+            Assert.DoesNotContain(offers, o => o.ItemDef?.Moniker == "CookedCorn");
+            Assert.DoesNotContain(offers, o => o.ItemDef?.Moniker == "MullinStick");
+        }
+    }
+
+    [Fact]
+    public void TrinketsAreUniqueOwnedTypes()
+    {
+        var trinket = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("FlameStick")! };
+        var food = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("CookedCorn")! };
+        var sword = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("IronSword")! };
+        Assert.True(trinket.IsUniqueOwnedType);
+        Assert.True(food.IsUniqueOwnedType);
+        Assert.False(sword.IsUniqueOwnedType);
+    }
+
+    [Fact]
+    public void ShopRollOmitsOwnedOrFoundTrinkets()
+    {
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("Alchemist")!;
+        var owned = new HashSet<string> { "FlameStick" };
+        for (var seed = 1; seed <= 40; seed++)
+        {
+            var offers = ShopStock.Flatten(ShopStock.Roll(merchant, seed, 0, owned));
+            Assert.DoesNotContain(offers, o => o.ItemDef?.Moniker == "FlameStick");
+        }
+
+        using var scope = CreateArena();
+        var stick = scope.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("FlameStick")!, 1);
+        Assert.True(scope.Context.PlayerPawn.Inventory.TryAdd(stick));
+        Assert.Contains("FlameStick", ShopStock.OwnedUniqueMonikers(scope.Context.Player));
+    }
+
+    [Fact]
+    public void TryBuyRejectsTrinketThePlayerAlreadyFound()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var offer = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("FlameStick")! };
+        context.ArenaRun!.Gold = Math.Max(context.ArenaRun.Gold, offer.ResolveGoldCost() * 2);
+        Assert.True(context.ArenaRun.TryBuy(context, offer));
+        Assert.True(context.Player.HasTrinket(offer.ItemDef!));
+        var goldAfterFirst = context.ArenaRun.Gold;
+        var item = context.PlayerPawn.Inventory.First(i => i.ItemDef == offer.ItemDef);
+        Assert.True(context.ArenaRun.TrySell(context, item));
+        Assert.False(context.ArenaRun.TryBuy(context, offer));
+        Assert.Equal(goldAfterFirst + offer.ResolveGoldCost() / 10, context.ArenaRun.Gold);
+        Assert.Equal(0, context.PlayerPawn.Inventory.AmountOf(offer.ItemDef!));
+    }
+
+    [Fact]
+    public void TryBuyRejectsFoodThePlayerAlreadyOwns()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var offer = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("CookedCorn")! };
+        Assert.True(context.ArenaRun!.TryBuy(context, offer));
+        var goldAfterFirst = context.ArenaRun.Gold;
+        Assert.False(context.ArenaRun.TryBuy(context, offer));
+        Assert.Equal(goldAfterFirst, context.ArenaRun.Gold);
+        Assert.Equal(1, context.PlayerPawn.Inventory.AmountOf(offer.ItemDef!));
     }
 
     [Fact]

@@ -163,7 +163,6 @@ public sealed class ArenaScene : Scene
 
         _context.RestoreArenaPawn();
         BuildSnapshotFactory.Apply(_context.PlayerPawn, _lastPrepSnapshot);
-        _context.PlayerPawn.ApplyPersistedBattleConsumableCosts();
         EnsureZoneShell();
         run.ApplyMatchResult(serverWon, _pendingResult.DefenderPlayerId ?? "unknown");
         if (run.IsRunOver)

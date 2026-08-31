@@ -117,7 +117,39 @@ public sealed class IncensePanel : EntityPanelBase
 
             Widgets.Add(effectRow);
 
-           
+            // Buff/stat effects granted by this effect
+            var affectedStats = incenseProps.Effect.Def.AffectedStats;
+            if (affectedStats != null)
+            {
+                foreach (var affectedStat in affectedStats)
+                {
+                    var offset = affectedStat.Offset != null
+                        ? $"/c[{(affectedStat.Offset > 0 ? TC.Green : TC.Red)}]+{affectedStat.Offset} "
+                        : "";
+                    var factor = affectedStat.Factor != null
+                        ? $"/c[{(affectedStat.Factor > 0 ? TC.Green : TC.Red)}]*{affectedStat.Factor} "
+                        : "";
+
+                    Widgets.Add(new HorizontalStackPanel
+                    {
+                        Spacing = 10,
+                        Margin = new Thickness(40, 2, 0, 0),
+                        Widgets =
+                        {
+                            new Label(BaseContent.Styles.Label.Small)
+                            {
+                                Text = affectedStat.Stat.Label,
+                                TextColor = AshGray,
+                                Width = 120
+                            },
+                            new Label(BaseContent.Styles.Label.Small)
+                            {
+                                Text = $"{offset}{factor}"
+                            }
+                        }
+                    });
+                }
+            }
         }
 
         // Stack info
