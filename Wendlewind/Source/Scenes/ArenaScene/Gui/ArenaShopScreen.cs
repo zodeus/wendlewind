@@ -1,5 +1,6 @@
 using Wendlewind.Scenes.MainGameScene.Gui;
 using Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
+using Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.TrinketWidgets;
 
 namespace Wendlewind.Scenes.ArenaScene.Gui;
 
@@ -15,6 +16,7 @@ public sealed class ArenaShopScreen : Grid
     private readonly VerticalStackPanel _packBody;
     private readonly ScrollViewer _catalog;
     private readonly MerchantDef _merchant;
+    private readonly List<(CursorButton Button, Label Price, int Cost)> _buyButtons = [];
     private IReadOnlyList<RolledShelf> _stock = [];
 
     public ArenaShopScreen(BaseGui gui, GameContext context, Action onDone)
@@ -348,7 +350,7 @@ public sealed class ArenaShopScreen : Grid
     {
         var title = new Label(BaseContent.Styles.Label.Small)
         {
-            Text = offer.DisplayLabel,
+            Text = offer.Available > 1 ? $"{offer.DisplayLabel}  x{offer.Available}" : offer.DisplayLabel,
             TextColor = Color.Goldenrod,
             HorizontalAlignment = HorizontalAlignment.Center
         };
@@ -402,18 +404,22 @@ public sealed class ArenaShopScreen : Grid
 
     private Widget CreateBuyButton(MerchantOffer offer)
     {
+        var cost = offer.ResolveGoldCost();
+        var price = new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = $"{cost}g",
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
         var buy = new CursorButton(BaseContent.Styles.Button.Normal)
         {
-            Content = new Label(BaseContent.Styles.Label.Small)
-            {
-                Text = $"{offer.ResolveGoldCost()}g",
-                HorizontalAlignment = HorizontalAlignment.Center
-            },
+            Content = price,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             MinWidth = 0
         };
         buy.Click += (_, _) => TryBuy(offer);
         buy.WithTooltip(() => CreateOfferInspect(offer));
+        _buyButtons.Add((buy, price, cost));
+        ApplyAffordability(buy, price, cost);
         return buy;
     }
 
@@ -551,16 +557,24 @@ public sealed class ArenaShopScreen : Grid
 
     private Widget CreateEntityInspect(Item item)
     {
-        return EntityPanelFactory.Create(_gui, item, new EntityPanelProperties
+        var properties = new EntityPanelProperties
         {
             ShowTitle = true,
             ShowCloseButton = false,
             Background = null
-        });
+        };
+
+        if (item.ItemDef.ItemType == ItemType.Trinket)
+        {
+            return new TrinketPanel(_gui, item, properties);
+        }
+
+        return EntityPanelFactory.Create(_gui, item, properties);
     }
 
     private void RebuildCatalog()
     {
+        _buyButtons.Clear();
         var shelves = new VerticalStackPanel
         {
             Spacing = 12,
@@ -619,7 +633,16 @@ public sealed class ArenaShopScreen : Grid
             _status.TextColor = Color.LightGreen;
             _status.Text = $"Bought {label}";
             _purse.Refresh();
-            RemovePurchasedOffer(offer);
+            offer.Available--;
+            if (offer.Available <= 0)
+            {
+                RemovePurchasedOffer(offer);
+            }
+            else
+            {
+                RebuildCatalog();
+            }
+
             RebuildPack();
             return;
         }
@@ -637,11 +660,27 @@ public sealed class ArenaShopScreen : Grid
             _status.Text = $"Sold {label}";
             _purse.Refresh();
             RebuildPack();
+            RefreshAffordability();
             return;
         }
 
         _status.TextColor = Color.IndianRed;
         _status.Text = $"Cannot sell {label}";
+    }
+
+    private void RefreshAffordability()
+    {
+        foreach (var (button, price, cost) in _buyButtons)
+        {
+            ApplyAffordability(button, price, cost);
+        }
+    }
+
+    private void ApplyAffordability(CursorButton button, Label price, int cost)
+    {
+        var canAfford = (_context.ArenaRun?.Gold ?? 0) >= cost;
+        button.Enabled = canAfford;
+        price.TextColor = canAfford ? Color.White : new Color(140, 90, 90);
     }
 
     private void RefreshRunStats()
@@ -659,6 +698,7 @@ public sealed class ArenaShopScreen : Grid
     {
         _purse.Refresh();
         RefreshRunStats();
+        RefreshAffordability();
         TooltipHelper.UpdatePosition();
     }
 }

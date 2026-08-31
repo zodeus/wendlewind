@@ -2,12 +2,15 @@ namespace Wendlewind.Sim.Arena;
 
 public class MerchantOffer
 {
+    public const int MedicalStock = 5;
+
     public ItemDef? ItemDef;
     public string? SetLabel;
     public List<ItemDef> SetPieces = [];
     public int GoldCost;
     public int AvailableFromRound;
     public int Weight;
+    public int Available = 1;
 
     public bool IsSet => SetPieces.Count > 0;
     public bool IsUniqueOwnedType => !IsSet && IsUniqueOwnedTypeDef(ItemDef);
@@ -45,4 +48,18 @@ public class MerchantOffer
         : ItemDef != null
             ? [ItemDef]
             : [];
+
+    public MerchantOffer CloneForStock()
+    {
+        return new MerchantOffer
+        {
+            ItemDef = ItemDef,
+            SetLabel = SetLabel,
+            SetPieces = [..SetPieces],
+            GoldCost = GoldCost,
+            AvailableFromRound = AvailableFromRound,
+            Weight = Weight,
+            Available = ItemDef is { ItemType: ItemType.Medical } ? MedicalStock : 1
+        };
+    }
 }

@@ -23,9 +23,10 @@ public static class TooltipHelper
     private static Widget? _currentOwner; // Track which widget owns the current tooltip
     private static TooltipPlacement _placement = TooltipPlacement.FollowMouse;
 
-    private const int OffsetX = 15;
-    private const int OffsetY = 15;
+    private const int OffsetX = 16;
+    private const int OffsetY = 16;
     private const int CornerMargin = 24;
+    private const int CustomMaxHeight = 380;
 
     /// <summary>
     /// Shows a simple tooltip with a title and optional description.
@@ -68,9 +69,9 @@ public static class TooltipHelper
         
         EnsureWindowCreated();
         
-        _customContent = content;
-        _window!.Content = content;
-        StackPanel.SetProportionType(content, ProportionType.Auto);
+        _customContent = WrapCustomContent(content);
+        _window!.Content = _customContent;
+        StackPanel.SetProportionType(_customContent, ProportionType.Auto);
         _isCustomContent = true;
         ApplyWindowChrome();
         
@@ -142,15 +143,40 @@ public static class TooltipHelper
         _defaultContent.Widgets.Add(_titleLabel);
         _defaultContent.Widgets.Add(_descriptionLabel);
 
-        _window = new Window
+        _window = new TooltipWindow
         {
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
             Margin = new Thickness(0),
             Padding = new Thickness(10, 3, 10, 10),
-            Content = _defaultContent
+            Content = _defaultContent,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Top
         };
         _window.TitlePanel.Visible = false;
         ApplyWindowChrome();
+    }
+
+    private static Widget WrapCustomContent(Widget content)
+    {
+        if (content is ScrollViewer viewer)
+        {
+            var current = viewer.MaxHeight ?? CustomMaxHeight;
+            viewer.MaxHeight = Math.Min(current, CustomMaxHeight);
+            return viewer;
+        }
+
+        if (_customContent is ScrollViewer existing && existing.Content == content)
+        {
+            return existing;
+        }
+
+        return new ScrollViewer
+        {
+            Content = content,
+            ShowHorizontalScrollBar = false,
+            ShowVerticalScrollBar = true,
+            MaxHeight = CustomMaxHeight
+        };
     }
 
     private static void ApplyWindowChrome()
@@ -164,6 +190,9 @@ public static class TooltipHelper
             _placement == TooltipPlacement.BottomCorner
                 ? BaseContent.Styles.Atlas.Panel.MediumFrame
                 : BaseContent.Styles.Atlas.Panel.IconFrame];
+        _window.MaxHeight = _isCustomContent ? CustomMaxHeight : null;
+        _window.HorizontalAlignment = HorizontalAlignment.Left;
+        _window.VerticalAlignment = VerticalAlignment.Top;
     }
 
     private static void ShowWindow(Desktop desktop)
@@ -250,6 +279,11 @@ public static class TooltipHelper
         var uiY = (int)((screenPos.Y - Core.UiOffset.Y) / Core.UiScale);
         return (uiX, uiY);
     }
+
+    private sealed class TooltipWindow : Window
+    {
+        public override Widget? HitTest(Point p) => null;
+    }
 }
 
 /// <summary>
@@ -274,7 +308,10 @@ public static class TooltipExtensions
     /// <summary>
     /// Attaches a tooltip with custom content to a widget that shows on hover.
     /// </summary>
-    public static T WithTooltip<T>(this T widget, Func<Widget> contentFactory) where T : Widget
+    public static T WithTooltip<T>(
+        this T widget,
+        Func<Widget> contentFactory,
+        TooltipPlacement placement = TooltipPlacement.FollowMouse) where T : Widget
     {
         Widget? content = null;
         widget.MouseEntered += (_, _) =>
@@ -282,7 +319,7 @@ public static class TooltipExtensions
             if (widget.Desktop != null)
             {
                 content ??= contentFactory();
-                TooltipHelper.ShowCustom(widget.Desktop, content, widget);
+                TooltipHelper.ShowCustom(widget.Desktop, content, widget, placement);
             }
         };
         widget.MouseLeft += (_, _) => TooltipHelper.Hide(widget);

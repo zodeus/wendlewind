@@ -25,6 +25,11 @@ public class CursorButton : Button
 
     private void OnMouseEntered(object? sender, EventArgs e)
     {
+        if (!Enabled)
+        {
+            return;
+        }
+
         Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Hand);
         _cursorSet = true;
     }
@@ -56,7 +61,7 @@ public class CursorButton : Button
     public override void InternalRender(RenderContext context)
     {
         // if widget is not placed, reset cursor
-        if (!IsPlaced)
+        if (!IsPlaced || !Enabled)
         {
             ResetCursor();
         }

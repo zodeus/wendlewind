@@ -127,6 +127,35 @@ public class ArenaRunTests
     }
 
     [Fact]
+    public void MedicalShopOffersHaveFiveAvailable()
+    {
+        Assert.Equal(MerchantOffer.MedicalStock, new MerchantOffer
+        {
+            ItemDef = DefRepository<ItemDef>.GetByMoniker("MedKit")!
+        }.CloneForStock().Available);
+        Assert.Equal(MerchantOffer.MedicalStock, new MerchantOffer
+        {
+            ItemDef = DefRepository<ItemDef>.GetByMoniker("Cauterize")!
+        }.CloneForStock().Available);
+        Assert.Equal(1, new MerchantOffer
+        {
+            ItemDef = DefRepository<ItemDef>.GetByMoniker("CookedCorn")!
+        }.CloneForStock().Available);
+        Assert.Equal(1, new MerchantOffer
+        {
+            ItemDef = DefRepository<ItemDef>.GetByMoniker("StrengthPotion")!
+        }.CloneForStock().Available);
+
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
+        var medicine = ShopStock.Roll(merchant, 1, 0).Single(shelf => shelf.Category == ShopCategory.Medicine);
+        Assert.All(medicine.Offers, offer =>
+        {
+            Assert.Equal(ItemType.Medical, offer.ItemDef!.ItemType);
+            Assert.Equal(MerchantOffer.MedicalStock, offer.Available);
+        });
+    }
+
+    [Fact]
     public void MedicalChestChargesRestoreFromPrepSnapshot()
     {
         using var scope = CreateArena();

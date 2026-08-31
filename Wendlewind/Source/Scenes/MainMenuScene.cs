@@ -66,11 +66,10 @@ public class MainMenuScene : Scene
             ArenaScene.StartFresh = true;
             Core.ChangeScene<ArenaScene>();
         }));
-        // playButtons.Widgets.Add(MenuButton("Campaign", () => Core.ChangeScene<GameScene>()));
-        // if (HasServerArenaProgress())
-        // {
-        //     playButtons.Widgets.Add(MenuButton("Continue Arena", () => Core.ChangeScene<ArenaScene>()));
-        // }
+        if (HasServerArenaProgress())
+        {
+            playButtons.Widgets.Add(MenuButton("Continue Arena", () => Core.ChangeScene<ArenaScene>()));
+        }
 
         _playPanel = new VerticalStackPanel
         {

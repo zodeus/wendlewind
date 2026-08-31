@@ -94,12 +94,15 @@ public static class ShopStock
         var stockSize = Math.Max(shelf.StockSize, 1);
         if (sets.Count == 0)
         {
-            return WeightedTake(pieces, stockSize, rng);
+            return CloneForStock(WeightedTake(pieces, stockSize, rng));
         }
 
         var remaining = Math.Max(0, stockSize - sets.Count);
-        return [..sets, ..WeightedTake(pieces, remaining, rng)];
+        return CloneForStock([..sets, ..WeightedTake(pieces, remaining, rng)]);
     }
+
+    private static List<MerchantOffer> CloneForStock(IEnumerable<MerchantOffer> offers) =>
+        offers.Select(offer => offer.CloneForStock()).ToList();
 
     private static bool IsOwnedUnique(MerchantOffer offer, IReadOnlySet<string>? ownedUniqueMonikers)
     {
