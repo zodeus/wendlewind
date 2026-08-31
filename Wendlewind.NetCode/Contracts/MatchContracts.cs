@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Wendlewind.Sim.Combat;
 using Wendlewind.Sim.Entities.Items.Medicinals;
 using Wendlewind.Sim.Entities.Items.Potions;
 
@@ -121,4 +122,19 @@ public sealed record CombatResult
 [JsonSerializable(typeof(PotionTriggerType))]
 [JsonSerializable(typeof(MedicalTriggerType))]
 [JsonSerializable(typeof(MedicalTargetSelector))]
+[JsonSerializable(typeof(FightAnalytics))]
+[JsonSerializable(typeof(FightSideStats))]
+[JsonSerializable(typeof(CombatLogEvent))]
+[JsonSerializable(typeof(CombatLogEvent[]))]
+[JsonSerializable(typeof(CombatSubEffect))]
+[JsonSerializable(typeof(CombatSubEffect[]))]
+[JsonSerializable(typeof(CombatEventKind))]
+[JsonSerializable(typeof(CombatLogRecord))]
+[JsonSerializable(typeof(CombatEventsFile))]
+[JsonSerializable(typeof(List<CombatLogRecord>))]
+[JsonSerializable(typeof(FightAnalyticsRow))]
+[JsonSerializable(typeof(List<FightAnalyticsRow>))]
+[JsonSerializable(typeof(FightAnalyticsSummary))]
+[JsonSerializable(typeof(Dictionary<string, int>))]
+[JsonSerializable(typeof(BackfillResult))]
 public partial class NetCodeJsonContext : JsonSerializerContext;

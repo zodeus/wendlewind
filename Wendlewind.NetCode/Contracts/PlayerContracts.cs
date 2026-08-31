@@ -1,3 +1,5 @@
+using Wendlewind.Sim.Combat;
+
 namespace Wendlewind.NetCode.Contracts;
 
 public sealed record PlayerProfileRecord
@@ -61,6 +63,7 @@ public sealed record ArenaFightRecord
     public int Ticks { get; init; }
     public string? CauseOfDeath { get; init; }
     public DateTimeOffset FoughtAt { get; init; }
+    public FightAnalytics? Analytics { get; init; }
 }
 
 public sealed record ArenaRunRecord
@@ -82,4 +85,55 @@ public sealed record StartArenaRequest
 {
     public int? RunSeed { get; init; }
     public string? PlayerName { get; init; }
+}
+
+public sealed record CombatLogRecord
+{
+    public required string MatchId { get; init; }
+    public CombatLogEvent[] Events { get; init; } = [];
+}
+
+public sealed record CombatEventsFile
+{
+    public List<CombatLogRecord> Fights { get; init; } = [];
+}
+
+public sealed record FightAnalyticsRow
+{
+    public required string MatchId { get; init; }
+    public required string PlayerId { get; init; }
+    public required string RunId { get; init; }
+    public int Round { get; init; }
+    public double DurationSeconds { get; init; }
+    public bool InTargetBand { get; init; }
+    public required string WinnerPlayerId { get; init; }
+    public string? CauseOfDeath { get; init; }
+    public double AttackerDamagePerSecond { get; init; }
+    public double DefenderDamagePerSecond { get; init; }
+    public double AttackerDamage { get; init; }
+    public double DefenderDamage { get; init; }
+    public double AttackerHealing { get; init; }
+    public double DefenderHealing { get; init; }
+    public string? KillingWeapon { get; init; }
+    public string? KillingManeuver { get; init; }
+}
+
+public sealed record FightAnalyticsSummary
+{
+    public int Count { get; init; }
+    public double InTargetBandPercent { get; init; }
+    public double? DurationP50 { get; init; }
+    public double? DurationP90 { get; init; }
+    public double? DurationMin { get; init; }
+    public double? DurationMax { get; init; }
+    public Dictionary<string, int> CauseOfDeath { get; init; } = new();
+    public string? LongestMatchId { get; init; }
+    public string? ShortestMatchId { get; init; }
+}
+
+public sealed record BackfillResult
+{
+    public int Scanned { get; init; }
+    public int Updated { get; init; }
+    public int Skipped { get; init; }
 }

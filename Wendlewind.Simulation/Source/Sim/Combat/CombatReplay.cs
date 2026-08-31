@@ -107,7 +107,27 @@ public static class CombatReplay
         int Ticks,
         string? CauseOfDeath);
 
+    public readonly record struct DuelWithLog(
+        DuelResult Summary,
+        CombatLogEvent[] Log,
+        int AttackerPawnId,
+        int DefenderPawnId,
+        string? KillingWeapon,
+        string? KillingManeuver);
+
     public static DuelResult RunDuel(
+        int runSeed,
+        Action<GameContext, Pawn, Pawn> configure,
+        string attackerPawnDef = "HumanA",
+        string attackerName = "Attacker",
+        string defenderPawnDef = "HumanA",
+        string defenderName = "Defender")
+    {
+        return RunDuelWithLog(runSeed, configure, attackerPawnDef, attackerName, defenderPawnDef, defenderName)
+            .Summary;
+    }
+
+    public static DuelWithLog RunDuelWithLog(
         int runSeed,
         Action<GameContext, Pawn, Pawn> configure,
         string attackerPawnDef = "HumanA",
@@ -154,14 +174,22 @@ public static class CombatReplay
             throw new TimeoutException($"Duel did not finish within {MaxTicks} ticks.");
         }
 
-        return new DuelResult(
+        var handler = encounter.CombatHandler;
+        var summary = new DuelResult(
             RunSeed: runSeed,
             EncounterSeed: encounter.Seed,
             AttackerName: context.PlayerPawn.LabelShort,
             DefenderName: defender.LabelShort,
             AttackerAlive: !context.PlayerPawn.IsDead,
             Ticks: encounter.Ticks,
-            CauseOfDeath: encounter.CombatHandler?.CauseOfDeath);
+            CauseOfDeath: handler?.CauseOfDeath);
+        return new DuelWithLog(
+            Summary: summary,
+            Log: handler?.Log.ToArray() ?? [],
+            AttackerPawnId: context.PlayerPawn.Id,
+            DefenderPawnId: defender.Id,
+            KillingWeapon: handler?.KillingWeapon,
+            KillingManeuver: handler?.KillingManeuver);
     }
 
     public static DuelResult AssertDuelDeterministic(

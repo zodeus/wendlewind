@@ -47,6 +47,7 @@ int pawnCount = DefRepository<PawnDef>.Defs.Count;
 var dataDir = ServerData.EnsureDirectory();
 var pool = new BuildPool(ServerData.PoolPath(dataDir));
 var players = new PlayerStore(dataDir);
+var analytics = new FightAnalyticsService(players);
 Console.WriteLine($"Data directory: {dataDir}");
 
 app.MapGet("/health", () => Results.Ok(new
@@ -85,7 +86,8 @@ app.MapPost("/matches", (MatchRequest request) =>
 
     var runSeed = attacker.Seed != 0 ? attacker.Seed : Random.Shared.Next();
     var encounterSeed = ArenaSeeds.Encounter(runSeed, round);
-    var result = DuelSimulator.Run(attacker, defender, encounterSeed);
+    var simulation = DuelSimulator.Simulate(attacker, defender, encounterSeed);
+    var result = simulation.Result;
     players.AppendFight(attacker.PlayerId, new ArenaFightRecord
     {
         MatchId = result.MatchId,
@@ -96,8 +98,9 @@ app.MapPost("/matches", (MatchRequest request) =>
         WinnerPlayerId = result.WinnerPlayerId,
         Ticks = result.Ticks,
         CauseOfDeath = result.CauseOfDeath,
-        FoughtAt = DateTimeOffset.UtcNow
-    });
+        FoughtAt = DateTimeOffset.UtcNow,
+        Analytics = simulation.Analytics
+    }, simulation.Log);
     return Results.Ok(result);
 });
 
@@ -163,5 +166,17 @@ app.MapGet("/players/{playerId}/arena/runs/{runId}", (string playerId, string ru
     var run = players.GetRun(playerId, runId);
     return run is null ? Results.NotFound() : Results.Ok(run);
 });
+
+app.MapGet("/analytics/fights", () => Results.Ok(analytics.ListFights()));
+
+app.MapGet("/analytics/fights/summary", () => Results.Ok(analytics.Summarize()));
+
+app.MapGet("/analytics/fights/{matchId}/log", (string matchId) =>
+{
+    var log = analytics.GetLog(matchId);
+    return log is null ? Results.NotFound() : Results.Ok(log);
+});
+
+app.MapPost("/analytics/backfill", () => Results.Ok(analytics.Backfill()));
 
 app.Run();

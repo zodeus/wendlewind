@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 using Wendlewind.NetCode.Contracts;
 using Wendlewind.Sim.Arena;
+using Wendlewind.Sim.Combat;
 
 namespace Wendlewind.NetCode;
 
@@ -102,13 +103,15 @@ public sealed class PlayerStore
         }
     }
 
-    public ArenaFightRecord AppendFight(string playerId, ArenaFightRecord fight)
+    public ArenaFightRecord AppendFight(
+        string playerId,
+        ArenaFightRecord fight,
+        IReadOnlyList<CombatLogEvent>? log = null)
     {
         lock (_gate)
         {
             var current = ReadCurrentUnlocked(playerId) ?? StartArenaUnlocked(playerId, fight.Attacker.PawnName, fight.Attacker.Seed);
-            var path = RunPath(playerId, current.RunId);
-            var run = TryRead(path, NetCodeJsonContext.Default.ArenaRunRecord)
+            var run = ReadRunUnlocked(playerId, current.RunId)
                       ?? new ArenaRunRecord
                       {
                           RunId = current.RunId,
@@ -120,7 +123,12 @@ public sealed class PlayerStore
 
             var stored = fight with { FoughtAt = fight.FoughtAt == default ? DateTimeOffset.UtcNow : fight.FoughtAt };
             run.Fights.Add(stored);
-            Write(path, run, NetCodeJsonContext.Default.ArenaRunRecord);
+            WriteRunUnlocked(playerId, current.RunId, run);
+            if (log != null)
+            {
+                WriteCombatLogUnlocked(playerId, current.RunId, stored.MatchId, log);
+            }
+
             return stored;
         }
     }
@@ -129,7 +137,7 @@ public sealed class PlayerStore
     {
         lock (_gate)
         {
-            return TryRead(RunPath(playerId, runId), NetCodeJsonContext.Default.ArenaRunRecord);
+            return ReadRunUnlocked(playerId, runId);
         }
     }
 
@@ -137,18 +145,68 @@ public sealed class PlayerStore
     {
         lock (_gate)
         {
-            var dir = RunsDir(playerId);
-            if (!Directory.Exists(dir))
+            return ListRunsUnlocked(playerId);
+        }
+    }
+
+    public List<ArenaRunRecord> ListAllRuns()
+    {
+        lock (_gate)
+        {
+            return ListAllRunsUnlocked();
+        }
+    }
+
+    public CombatLogRecord? GetCombatLog(string playerId, string runId, string matchId)
+    {
+        lock (_gate)
+        {
+            return FindCombatLogUnlocked(playerId, runId, matchId);
+        }
+    }
+
+    public CombatLogRecord? FindCombatLog(string matchId)
+    {
+        lock (_gate)
+        {
+            foreach (var run in ListAllRunsUnlocked())
             {
-                return [];
+                var log = FindCombatLogUnlocked(run.PlayerId, run.RunId, matchId);
+                if (log != null)
+                {
+                    return log;
+                }
             }
 
-            return Directory.GetFiles(dir, "*.json")
-                .Select(path => TryRead(path, NetCodeJsonContext.Default.ArenaRunRecord))
-                .Where(run => run != null)
-                .Cast<ArenaRunRecord>()
-                .OrderByDescending(run => run.StartedAt)
-                .ToList();
+            return null;
+        }
+    }
+
+    public bool TryUpdateFight(
+        string playerId,
+        string runId,
+        string matchId,
+        FightAnalytics analytics,
+        IReadOnlyList<CombatLogEvent> log)
+    {
+        lock (_gate)
+        {
+            var run = ReadRunUnlocked(playerId, runId);
+            if (run == null)
+            {
+                return false;
+            }
+
+            var index = run.Fights.FindIndex(fight => fight.MatchId == matchId);
+            if (index < 0)
+            {
+                return false;
+            }
+
+            run.Fights[index] = run.Fights[index] with { Analytics = analytics };
+            WriteRunUnlocked(playerId, runId, run);
+            WriteCombatLogUnlocked(playerId, runId, matchId, log);
+            return true;
         }
     }
 
@@ -225,15 +283,14 @@ public sealed class PlayerStore
             RunSeed = runSeed,
             StartedAt = now
         };
-        Write(RunPath(playerId, runId), run, NetCodeJsonContext.Default.ArenaRunRecord);
+        WriteRunUnlocked(playerId, runId, run);
         Write(CurrentArenaPath(playerId), progress, NetCodeJsonContext.Default.ArenaProgressRecord);
         return progress;
     }
 
     private void UpsertRunFromProgressUnlocked(ArenaProgressRecord progress)
     {
-        var path = RunPath(progress.PlayerId, progress.RunId);
-        var run = TryRead(path, NetCodeJsonContext.Default.ArenaRunRecord)
+        var run = ReadRunUnlocked(progress.PlayerId, progress.RunId)
                   ?? new ArenaRunRecord
                   {
                       RunId = progress.RunId,
@@ -251,7 +308,7 @@ public sealed class PlayerStore
             Losses = progress.Losses,
             FinalGold = progress.Gold
         };
-        Write(path, updated, NetCodeJsonContext.Default.ArenaRunRecord);
+        WriteRunUnlocked(progress.PlayerId, progress.RunId, updated);
     }
 
     private ArenaRunRecord? FinishCurrentUnlocked(string playerId, bool abandoned, bool? victory = null)
@@ -262,7 +319,7 @@ public sealed class PlayerStore
             return null;
         }
 
-        var run = TryRead(RunPath(playerId, current.RunId), NetCodeJsonContext.Default.ArenaRunRecord)
+        var run = ReadRunUnlocked(playerId, current.RunId)
                   ?? new ArenaRunRecord
                   {
                       RunId = current.RunId,
@@ -282,9 +339,148 @@ public sealed class PlayerStore
             FinalGold = current.Gold,
             Fights = run.Fights
         };
-        Write(RunPath(playerId, current.RunId), finished, NetCodeJsonContext.Default.ArenaRunRecord);
+        WriteRunUnlocked(playerId, current.RunId, finished);
         File.Delete(CurrentArenaPath(playerId));
         return finished;
+    }
+
+    private List<ArenaRunRecord> ListRunsUnlocked(string playerId)
+    {
+        var dir = RunsDir(playerId);
+        if (!Directory.Exists(dir))
+        {
+            return [];
+        }
+
+        return DiscoverRunIds(dir)
+            .Select(runId => ReadRunUnlocked(playerId, runId))
+            .Where(run => run != null)
+            .Cast<ArenaRunRecord>()
+            .OrderByDescending(run => run.StartedAt)
+            .ToList();
+    }
+
+    private List<ArenaRunRecord> ListAllRunsUnlocked()
+    {
+        if (!Directory.Exists(_playersDir))
+        {
+            return [];
+        }
+
+        return Directory.GetDirectories(_playersDir)
+            .SelectMany(playerDir => ListRunsUnlocked(Path.GetFileName(playerDir)))
+            .OrderByDescending(run => run.StartedAt)
+            .ToList();
+    }
+
+    private ArenaRunRecord? ReadRunUnlocked(string playerId, string runId)
+    {
+        MigrateRunLayoutUnlocked(playerId, runId);
+        return TryRead(RunPath(playerId, runId), NetCodeJsonContext.Default.ArenaRunRecord);
+    }
+
+    private void WriteRunUnlocked(string playerId, string runId, ArenaRunRecord run)
+    {
+        Write(RunPath(playerId, runId), run, NetCodeJsonContext.Default.ArenaRunRecord);
+        if (!File.Exists(CombatEventsPath(playerId, runId)))
+        {
+            Write(CombatEventsPath(playerId, runId), new CombatEventsFile(), NetCodeJsonContext.Default.CombatEventsFile);
+        }
+    }
+
+    private void WriteCombatLogUnlocked(
+        string playerId,
+        string runId,
+        string matchId,
+        IReadOnlyList<CombatLogEvent> log)
+    {
+        var archive = TryRead(CombatEventsPath(playerId, runId), NetCodeJsonContext.Default.CombatEventsFile)
+                      ?? new CombatEventsFile();
+        var record = new CombatLogRecord
+        {
+            MatchId = matchId,
+            Events = log as CombatLogEvent[] ?? log.ToArray()
+        };
+        var index = archive.Fights.FindIndex(fight => fight.MatchId == matchId);
+        if (index >= 0)
+        {
+            archive.Fights[index] = record;
+        }
+        else
+        {
+            archive.Fights.Add(record);
+        }
+
+        Write(CombatEventsPath(playerId, runId), archive, NetCodeJsonContext.Default.CombatEventsFile);
+    }
+
+    private CombatLogRecord? FindCombatLogUnlocked(string playerId, string runId, string matchId)
+    {
+        MigrateRunLayoutUnlocked(playerId, runId);
+        var archive = TryRead(CombatEventsPath(playerId, runId), NetCodeJsonContext.Default.CombatEventsFile);
+        return archive?.Fights.FirstOrDefault(fight => fight.MatchId == matchId);
+    }
+
+    private void MigrateRunLayoutUnlocked(string playerId, string runId)
+    {
+        if (!IsSafeId(runId))
+        {
+            return;
+        }
+
+        var matchPath = RunPath(playerId, runId);
+        var legacyRunPath = LegacyRunPath(playerId, runId);
+        if (!File.Exists(matchPath) && File.Exists(legacyRunPath))
+        {
+            Directory.CreateDirectory(RunDir(playerId, runId));
+            File.Move(legacyRunPath, matchPath);
+        }
+
+        var eventsPath = CombatEventsPath(playerId, runId);
+        var legacyLogsDir = LegacyLogsDir(playerId, runId);
+        if (!File.Exists(eventsPath) && Directory.Exists(legacyLogsDir))
+        {
+            var archive = new CombatEventsFile();
+            foreach (var file in Directory.GetFiles(legacyLogsDir, "*.json"))
+            {
+                var record = TryRead(file, NetCodeJsonContext.Default.CombatLogRecord);
+                if (record != null)
+                {
+                    archive.Fights.Add(record);
+                }
+            }
+
+            Write(eventsPath, archive, NetCodeJsonContext.Default.CombatEventsFile);
+            Directory.Delete(legacyLogsDir, true);
+        }
+        else if (File.Exists(matchPath) && !File.Exists(eventsPath))
+        {
+            Write(eventsPath, new CombatEventsFile(), NetCodeJsonContext.Default.CombatEventsFile);
+        }
+    }
+
+    private static IEnumerable<string> DiscoverRunIds(string runsDir)
+    {
+        var ids = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var directory in Directory.GetDirectories(runsDir))
+        {
+            var id = Path.GetFileName(directory);
+            if (IsSafeId(id))
+            {
+                ids.Add(id);
+            }
+        }
+
+        foreach (var file in Directory.GetFiles(runsDir, "*.json"))
+        {
+            var id = Path.GetFileNameWithoutExtension(file);
+            if (IsSafeId(id))
+            {
+                ids.Add(id);
+            }
+        }
+
+        return ids;
     }
 
     private void EnsurePlayerDir(string playerId)
@@ -303,12 +499,27 @@ public sealed class PlayerStore
 
     private string RunsDir(string playerId) => Path.Combine(PlayerDir(playerId), "arena-runs");
 
+    private string RunDir(string playerId, string runId) =>
+        Path.Combine(RunsDir(playerId), Sanitize(runId));
+
     private string RunPath(string playerId, string runId) =>
+        Path.Combine(RunDir(playerId, runId), "match.json");
+
+    private string CombatEventsPath(string playerId, string runId) =>
+        Path.Combine(RunDir(playerId, runId), "combat-events.json");
+
+    private string LegacyRunPath(string playerId, string runId) =>
         Path.Combine(RunsDir(playerId), $"{Sanitize(runId)}.json");
+
+    private string LegacyLogsDir(string playerId, string runId) =>
+        Path.Combine(RunDir(playerId, runId), "logs");
+
+    private static bool IsSafeId(string id) =>
+        !string.IsNullOrWhiteSpace(id) && id.IndexOfAny(Path.GetInvalidFileNameChars()) < 0;
 
     private static string Sanitize(string id)
     {
-        if (string.IsNullOrWhiteSpace(id) || id.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
+        if (!IsSafeId(id))
         {
             throw new ArgumentException("Invalid id for file storage.", nameof(id));
         }
