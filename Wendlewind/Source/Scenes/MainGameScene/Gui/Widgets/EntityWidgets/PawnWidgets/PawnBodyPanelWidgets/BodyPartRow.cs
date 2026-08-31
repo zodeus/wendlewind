@@ -1,4 +1,3 @@
-using Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 using Color = Microsoft.Xna.Framework.Color;
 
 namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
@@ -20,6 +19,7 @@ internal sealed class BodyPartRow : HorizontalStackPanel
     private readonly List<RowFloater> _floaters = [];
     private BodyPart? _hoverInspectPart;
     private Widget? _hoverInspectOwner;
+    private BodyPartTooltip? _hoverTooltip;
 
     public BodyPartRow(BaseGui gui, bool hoverToInspect = false)
     {
@@ -145,6 +145,7 @@ internal sealed class BodyPartRow : HorizontalStackPanel
         TooltipHelper.Hide(_hoverInspectOwner);
         _hoverInspectPart = null;
         _hoverInspectOwner = null;
+        _hoverTooltip = null;
     }
 
     private void UpdateHoverInspect()
@@ -156,18 +157,27 @@ internal sealed class BodyPartRow : HorizontalStackPanel
         }
 
         var mouse = desktop.MousePosition;
-        BodyPartIcon? owner = null;
+        Widget? owner = null;
         BodyPart? part = null;
-        foreach (var (icon, iconPart) in _iconParts)
-        {
-            if (!icon.Visible || !icon.ContainsGlobalPoint(mouse))
-            {
-                continue;
-            }
 
-            owner = icon;
-            part = iconPart;
-            break;
+        if (_label.Visible && _label.ContainsGlobalPoint(mouse) && BodyPart != null)
+        {
+            owner = _label;
+            part = BodyPart;
+        }
+        else
+        {
+            foreach (var (icon, iconPart) in _iconParts)
+            {
+                if (!icon.Visible || !icon.ContainsGlobalPoint(mouse))
+                {
+                    continue;
+                }
+
+                owner = icon;
+                part = iconPart;
+                break;
+            }
         }
 
         if (owner == null || part == null)
@@ -178,6 +188,7 @@ internal sealed class BodyPartRow : HorizontalStackPanel
 
         if (ReferenceEquals(_hoverInspectPart, part) && _hoverInspectOwner == owner)
         {
+            _hoverTooltip?.Refresh();
             TooltipHelper.UpdatePosition();
             return;
         }
@@ -195,14 +206,8 @@ internal sealed class BodyPartRow : HorizontalStackPanel
             return;
         }
 
-        var panel = EntityPanelFactory.Create(_gui, part, new EntityPanelProperties
-        {
-            ShowTitle = true,
-            ShowCloseButton = false,
-            Background = null
-        });
-
-        TooltipHelper.ShowCustom(desktop, panel, owner, TooltipPlacement.BottomCorner);
+        _hoverTooltip = new BodyPartTooltip(part);
+        TooltipHelper.ShowCustom(desktop, _hoverTooltip, owner);
     }
 
     public bool ContainsPart(BodyPart part)

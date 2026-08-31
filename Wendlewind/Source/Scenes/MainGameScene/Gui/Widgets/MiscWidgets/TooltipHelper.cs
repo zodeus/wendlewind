@@ -185,19 +185,32 @@ public static class TooltipHelper
             return;
         }
 
-        if (_placement == TooltipPlacement.FollowMouse)
-        {
-            var (uiX, uiY) = GetMouseUiPosition();
-            _window.Left = uiX + OffsetX;
-            _window.Top = uiY + OffsetY;
-            return;
-        }
-
         _window.Arrange(new Rectangle(0, 0, Core.ReferenceResolution.X, Core.ReferenceResolution.Y));
         var width = _window.ActualBounds.Width;
         var height = _window.ActualBounds.Height;
         var screenW = Core.ReferenceResolution.X;
         var screenH = Core.ReferenceResolution.Y;
+
+        if (_placement == TooltipPlacement.FollowMouse)
+        {
+            var (uiX, uiY) = GetMouseUiPosition();
+            var left = uiX + OffsetX;
+            var top = uiY + OffsetY;
+            if (left + width > screenW)
+            {
+                left = uiX - width - OffsetX;
+            }
+
+            if (top + height > screenH)
+            {
+                top = uiY - height - OffsetY;
+            }
+
+            _window.Left = Math.Clamp(left, 0, Math.Max(0, screenW - width));
+            _window.Top = Math.Clamp(top, 0, Math.Max(0, screenH - height));
+            return;
+        }
+
         var pinRight = IsNearRightEdge();
 
         _window.Left = pinRight
