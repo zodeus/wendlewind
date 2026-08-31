@@ -7,6 +7,7 @@ using Wendlewind.Sim;
 using Wendlewind.Sim.Arena;
 using Wendlewind.Sim.Combat;
 using Wendlewind.Sim.Entities.Items;
+using Wendlewind.Sim.Entities.Items.Medicinals;
 using Xunit;
 
 namespace Wendlewind.Tests;
@@ -119,50 +120,35 @@ public class ArenaRunTests
     }
 
     [Fact]
-    public void FoodAndSingleUseMedicalOfferBulkBuy()
-    {
-        var food = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("CookedCorn")! };
-        var medKit = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("MedKit")! };
-        var cauterize = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("Cauterize")! };
-        var sword = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("IronSword")! };
-        Assert.False(food.OffersBulkBuy);
-        Assert.True(medKit.OffersBulkBuy);
-        Assert.False(cauterize.OffersBulkBuy);
-        Assert.False(sword.OffersBulkBuy);
-    }
-
-    [Fact]
-    public void TryBuyQuantityAddsStackAndChargesMultiple()
-    {
-        using var scope = CreateArena();
-        var context = scope.Context;
-        var offer = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("MedKit")! };
-        context.ArenaRun!.Gold = offer.ResolveGoldCost() * MerchantOffer.BulkBuyQuantity + 50;
-        var goldBefore = context.ArenaRun.Gold;
-
-        Assert.True(context.ArenaRun.TryBuy(context, offer, MerchantOffer.BulkBuyQuantity));
-        Assert.Equal(goldBefore - offer.ResolveGoldCost() * MerchantOffer.BulkBuyQuantity, context.ArenaRun.Gold);
-        Assert.Equal(MerchantOffer.BulkBuyQuantity, context.PlayerPawn.Inventory.AmountOf(offer.ItemDef!));
-    }
-
-    [Fact]
-    public void TryBuyQuantityRejectsOverspendWithoutAddingItems()
-    {
-        using var scope = CreateArena();
-        var context = scope.Context;
-        var offer = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("MedKit")! };
-        context.ArenaRun!.Gold = offer.ResolveGoldCost() * (MerchantOffer.BulkBuyQuantity - 1);
-
-        Assert.False(context.ArenaRun.TryBuy(context, offer, MerchantOffer.BulkBuyQuantity));
-        Assert.Equal(offer.ResolveGoldCost() * (MerchantOffer.BulkBuyQuantity - 1), context.ArenaRun.Gold);
-        Assert.Equal(0, context.PlayerPawn.Inventory.AmountOf(offer.ItemDef!));
-    }
-
-    [Fact]
     public void FoodAndIncenseAreNonStackable()
     {
         Assert.Equal(1, DefRepository<ItemDef>.GetByMoniker("CookedCorn")!.StackLimit);
         Assert.Equal(1, DefRepository<ItemDef>.GetByMoniker("MullinStick")!.StackLimit);
+    }
+
+    [Fact]
+    public void MedicalChestChargesRestoreFromPrepSnapshot()
+    {
+        using var scope = CreateArena();
+        var pawn = scope.Context.PlayerPawn;
+        var def = DefRepository<ItemDef>.GetByMoniker("MedKit")!;
+        pawn.MedicalChest.Clear();
+        Assert.True(pawn.MedicalChest.TryInstall(def, 3, new MedicalTrigger
+        {
+            Type = MedicalTriggerType.PartBelowHealth,
+            TargetSelector = MedicalTargetSelector.Auto,
+            HealthThreshold = 0.5f
+        }));
+
+        var snapshot = BuildSnapshotFactory.ToSnapshot(pawn, "p", "arena-1", 1, round: 1);
+        pawn.MedicalChest.Slots[0].Charges = 0;
+        BuildSnapshotFactory.Apply(pawn, snapshot);
+
+        var slot = Assert.Single(pawn.MedicalChest.Slots);
+        Assert.Equal(def, slot.Def);
+        Assert.Equal(3, slot.Charges);
+        Assert.Equal(MedicalTriggerType.PartBelowHealth, slot.Trigger.Type);
+        Assert.Equal(0.5f, slot.Trigger.HealthThreshold);
     }
 
     [Fact]

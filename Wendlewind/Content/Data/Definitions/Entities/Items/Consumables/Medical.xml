@@ -36,7 +36,7 @@
         <Moniker>MedKit</Moniker>
         <Label>Med Kit</Label>
         <Description>Good for patching the meat. Heals bone, flesh, skin and organs. Fully heals a single body part.</Description>
-        <GoldCost>5</GoldCost>
+        <GoldCost>10</GoldCost>
         <TexturePath>Entities/Item/Medical/MedKit</TexturePath>
         <MedicinalProperties>
             <HandlerClass>MedKitHandler</HandlerClass>
@@ -83,7 +83,7 @@
         <Moniker>ArterialThreads</Moniker>
         <Label>Arterial Threads</Label>
         <Description>Used to repair arteries.</Description>
-        <GoldCost>3</GoldCost>
+        <GoldCost>5</GoldCost>
         <TexturePath>Entities/Item/Medical/ArterialThreads</TexturePath>
         <MedicinalProperties>
             <HandlerClass>ArterialThreadsHandler</HandlerClass>
@@ -123,7 +123,7 @@
         <Moniker>MendersMist</Moniker>
         <Label>Menders Mist</Label>
         <Description>A little spritz of this goes a long way. Heals bone, flesh and skin. Travels through sockets.</Description>
-        <GoldCost>5</GoldCost>
+        <GoldCost>10</GoldCost>
         <TexturePath>Entities/Item/Medical/MendersMist</TexturePath>
         <MedicinalProperties>
             <HandlerClass>MendersMistHandler</HandlerClass>
@@ -172,7 +172,7 @@
         <Moniker>BalmyOintment</Moniker>
         <Label>Balmy Ointment</Label>
         <Description>Soothes the skin and meat, tingly and nice.</Description>
-        <GoldCost>8</GoldCost>
+        <GoldCost>15</GoldCost>
         <TexturePath>Entities/Item/Medical/BalmyOintment</TexturePath>
         <MedicinalProperties>
             <HandlerClass>BalmyOintmentHandler</HandlerClass>
@@ -222,7 +222,7 @@
         <Moniker>AntiNecroticSerum</Moniker>
         <Label>Anti Necrotic Serum</Label>
         <Description>Put it where it hurts.</Description>
-        <GoldCost>20</GoldCost>
+        <GoldCost>50</GoldCost>
         <TexturePath>Entities/Item/Medical/AntiNecroticSerum</TexturePath>
         <MedicinalProperties>
             <HandlerClass>AntiNecroticSerumHandler</HandlerClass>
@@ -272,7 +272,7 @@
         <Moniker>MendersMix</Moniker>
         <Label>Menders Mix</Label>
         <Description>A supreme blend of healing herbs and minerals.</Description>
-        <GoldCost>20</GoldCost>
+        <GoldCost>40</GoldCost>
         <TexturePath>Entities/Item/Medical/MendersMix</TexturePath>
         <MedicinalProperties>
             <HandlerClass>MendersMixHandler</HandlerClass>
@@ -333,7 +333,7 @@
         <Moniker>BoneCleanse</Moniker>
         <Label>Bone Cleanse</Label>
         <Description>A potent skeletal purifier. Cleanses all bones of impurities and restores structural integrity.</Description>
-        <GoldCost>50</GoldCost>
+        <GoldCost>80</GoldCost>
         <TexturePath>Entities/Item/Medical/BoneCleanse</TexturePath>
         <MedicinalProperties>
             <HandlerClass>BoneCleanseHandler</HandlerClass>

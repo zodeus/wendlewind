@@ -380,7 +380,7 @@ public sealed class ArenaShopScreen : Grid
             });
         }
 
-        var buy = CreateBuyButtons(offer);
+        var buy = CreateBuyButton(offer);
         var card = new Grid
         {
             Padding = new Thickness(8),
@@ -400,42 +400,19 @@ public sealed class ArenaShopScreen : Grid
         return card.WithTooltip(() => CreateOfferInspect(offer));
     }
 
-    private Widget CreateBuyButtons(MerchantOffer offer)
+    private Widget CreateBuyButton(MerchantOffer offer)
     {
-        var single = CreateBuyButton(offer, 1);
-        if (!offer.OffersBulkBuy)
-        {
-            return single;
-        }
-
-        var bulk = CreateBuyButton(offer, MerchantOffer.BulkBuyQuantity);
-        var row = new Grid
-        {
-            ColumnSpacing = 4,
-            HorizontalAlignment = HorizontalAlignment.Stretch
-        };
-        row.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1));
-        row.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1));
-        row.Widgets.Add(single);
-        row.Widgets.Add(bulk);
-        Grid.SetColumn(bulk, 1);
-        return row;
-    }
-
-    private Widget CreateBuyButton(MerchantOffer offer, int quantity)
-    {
-        var cost = offer.ResolveGoldCost() * quantity;
         var buy = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Content = new Label(BaseContent.Styles.Label.Small)
             {
-                Text = quantity > 1 ? $"{quantity}x {cost}g" : $"{cost}g",
+                Text = $"{offer.ResolveGoldCost()}g",
                 HorizontalAlignment = HorizontalAlignment.Center
             },
             HorizontalAlignment = HorizontalAlignment.Stretch,
             MinWidth = 0
         };
-        buy.Click += (_, _) => TryBuy(offer, quantity);
+        buy.Click += (_, _) => TryBuy(offer);
         buy.WithTooltip(() => CreateOfferInspect(offer));
         return buy;
     }
@@ -633,11 +610,11 @@ public sealed class ArenaShopScreen : Grid
         _packBody.Widgets.Add(CreateShelfLine());
     }
 
-    private void TryBuy(MerchantOffer offer, int quantity = 1)
+    private void TryBuy(MerchantOffer offer)
     {
-        var cost = offer.ResolveGoldCost() * quantity;
-        var label = quantity > 1 ? $"{offer.DisplayLabel} x{quantity}" : offer.DisplayLabel;
-        if (_context.ArenaRun!.TryBuy(_context, offer, quantity))
+        var cost = offer.ResolveGoldCost();
+        var label = offer.DisplayLabel;
+        if (_context.ArenaRun!.TryBuy(_context, offer))
         {
             _status.TextColor = Color.LightGreen;
             _status.Text = $"Bought {label}";

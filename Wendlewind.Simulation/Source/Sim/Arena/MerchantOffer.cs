@@ -2,8 +2,6 @@ namespace Wendlewind.Sim.Arena;
 
 public class MerchantOffer
 {
-    public const int BulkBuyQuantity = 10;
-
     public ItemDef? ItemDef;
     public string? SetLabel;
     public List<ItemDef> SetPieces = [];
@@ -12,17 +10,11 @@ public class MerchantOffer
     public int Weight;
 
     public bool IsSet => SetPieces.Count > 0;
-    public bool OffersBulkBuy => !IsSet && ItemDef != null && OffersBulkBuyFor(ItemDef);
     public bool IsUniqueOwnedType => !IsSet && IsUniqueOwnedTypeDef(ItemDef);
 
     public static bool IsUniqueOwnedTypeDef(ItemDef? def) =>
         def is { ItemType: ItemType.Food or ItemType.Incense or ItemType.Trinket }
         || def?.TrinketProperties != null;
-
-    private static bool OffersBulkBuyFor(ItemDef def)
-    {
-        return def.StackLimit > 1;
-    }
 
     public int ResolveGoldCost()
     {
