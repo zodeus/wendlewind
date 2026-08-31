@@ -10,6 +10,7 @@
     <ItemDef ParentName="ChainArmorBase">
         <Moniker>ChainHelmet</Moniker>
         <Label>Chain Helmet</Label>
+        <GoldCost>70</GoldCost>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>
@@ -63,6 +64,7 @@
     <ItemDef ParentName="ChainArmorBase">
         <Moniker>ChainGlove</Moniker>
         <Label>Chain Glove</Label>
+        <GoldCost>55</GoldCost>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>HandArmor</SlotUsedToEquip>
@@ -92,6 +94,7 @@
     <ItemDef ParentName="ChainArmorBase">
         <Moniker>ChainVambrace</Moniker>
         <Label>Chain Vambrace</Label>
+        <GoldCost>60</GoldCost>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>ArmArmor</SlotUsedToEquip>
@@ -118,6 +121,7 @@
     <ItemDef ParentName="ChainArmorBase">
         <Moniker>ChainTunic</Moniker>
         <Label>Chain Tunic</Label>
+        <GoldCost>110</GoldCost>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>TorsoArmor</SlotUsedToEquip>
@@ -144,6 +148,7 @@
     <ItemDef ParentName="ChainArmorBase">
         <Moniker>ChainGreave</Moniker>
         <Label>Chain Greave</Label>
+        <GoldCost>65</GoldCost>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>LegArmor</SlotUsedToEquip>
@@ -170,6 +175,7 @@
     <ItemDef ParentName="ChainArmorBase">
         <Moniker>ChainBoot</Moniker>
         <Label>Chain Boot</Label>
+        <GoldCost>60</GoldCost>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>FootArmor</SlotUsedToEquip>

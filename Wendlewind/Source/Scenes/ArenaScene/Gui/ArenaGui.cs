@@ -47,10 +47,12 @@ public sealed class ArenaGui : BaseGui
         var root = (Panel)Desktop.Root;
         _activeScreen = phase switch
         {
-            ArenaPhase.GeneralStore or ArenaPhase.Shop => _shopScreen = new ArenaShopScreen(_context, _scene.FinishShopping),
+            ArenaPhase.GeneralStore or ArenaPhase.Shop => _shopScreen = new ArenaShopScreen(this, _context, _scene.FinishShopping),
             ArenaPhase.Prep => _prepScreen = new ArenaPrepScreen(this, _context, _scene.BeginFight),
             ArenaPhase.Matching => new ArenaMatchingScreen(_scene.MatchError, _scene.ReturnToPrep),
             ArenaPhase.Combat => _combatScreen = new CombatScreen(this, _context, _scene.OnVisualCombatFinished),
+            ArenaPhase.Results when _context.ArenaRun?.IsRunOver == true =>
+                new ArenaRunEndScreen(_context, _scene.ReturnToMenu),
             ArenaPhase.Results => new ArenaResultsScreen(_context, _scene.ContinueFromResults),
             ArenaPhase.MerchantSelect => _mapScreen = new ArenaMapScreen(_context, _scene.SelectMerchant),
             ArenaPhase.RunEnd => new ArenaRunEndScreen(_context, _scene.ReturnToMenu),
@@ -77,6 +79,7 @@ public sealed class ArenaGui : BaseGui
         _worldTextHandler.Clear();
         _activeScreen?.RemoveFromParent();
         _activeScreen = null;
+        TooltipHelper.Hide();
         CloseEntityWindow();
     }
 

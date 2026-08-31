@@ -16,6 +16,7 @@
         <Moniker>JarOfBlood</Moniker>
         <Label>Jar of Blood</Label>
         <Description>A crimson elixir that restores vitality.</Description>
+        <GoldCost>55</GoldCost>
         <TexturePath>Entities/Item/Potion/JarOfBlood</TexturePath>
         <PotionProperties>
             <HandlerClass>JarOfBloodHandler</HandlerClass>
@@ -34,6 +35,7 @@
         <Moniker>AcidFlask</Moniker>
         <Label>Acid Flask</Label>
         <Description>Corrosive liquid sealed in fragile glass.</Description>
+        <GoldCost>45</GoldCost>
         <TexturePath>Entities/Item/Potion/AcidFlask</TexturePath>
         <PotionProperties>
             <HandlerClass>AcidFlaskHandler</HandlerClass>
@@ -72,6 +74,7 @@
             <PotionDuration>1200</PotionDuration>
         </BaseStats>
         <Description>A warm, tingling brew infused with purple essence.</Description>
+        <GoldCost>70</GoldCost>
         <TexturePath>Entities/Item/Potion/SpicedChurni</TexturePath>
         <PotionProperties>
             <HandlerClass>SpicedChurniHandler</HandlerClass>
@@ -115,6 +118,7 @@
         <Moniker>PussBomb</Moniker>
         <Label>Puss Bomb</Label>
         <Description>A putrid, festering sphere of infection. Splatters the target with vile pus that causes their flesh to rot.</Description>
+        <GoldCost>50</GoldCost>
         <TexturePath>Entities/Item/Potion/PussBomb</TexturePath>
         <PotionProperties>
             <HandlerClass>PussBombHandler</HandlerClass>
@@ -156,6 +160,7 @@
         <Moniker>Fleshify</Moniker>
         <Label>Fleshify</Label>
         <Description>A viscous, pink elixir that pulses with an unsettling vitality. Permanently transforms all non-flesh body parts into soft, living flesh.</Description>
+        <GoldCost>80</GoldCost>
         <TexturePath>Entities/Item/Potion/Fleshify</TexturePath>
         <PotionProperties>
             <HandlerClass>FleshifyHandler</HandlerClass>
@@ -204,6 +209,7 @@
             <PotionDuration>1800</PotionDuration>
         </BaseStats>
         <Description>A flask of concentrated black smoke that swirls with malevolent intent. Reduces the target's accuracy and coats their lungs with a suffocating affliction.</Description>
+        <GoldCost>60</GoldCost>
         <TexturePath>Entities/Item/Potion/BlackenedSmoke</TexturePath>
         <PotionProperties>
             <HandlerClass>BlackenedSmokeHandler</HandlerClass>
@@ -246,6 +252,7 @@
             <PotionDuration>1800</PotionDuration>
         </BaseStats>
         <Description>A deep amber elixir that swirls with golden essence. Grants tremendous physical power to those who drink it.</Description>
+        <GoldCost>75</GoldCost>
         <TexturePath>Entities/Item/Potion/StrengthPotion</TexturePath>
         <PotionProperties>
             <HandlerClass>StrengthPotionHandler</HandlerClass>
@@ -286,6 +293,7 @@
         <Moniker>AntiStaticFlask</Moniker>
         <Label>Anti-Static Flask</Label>
         <Description>A grounding elixir that hums with neutralizing energy. Instantly purges all electrified afflictions from the body.</Description>
+        <GoldCost>40</GoldCost>
         <TexturePath>Entities/Item/Potion/AntiStaticFlask</TexturePath>
         <PotionProperties>
             <HandlerClass>AntiStaticFlaskHandler</HandlerClass>

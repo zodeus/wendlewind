@@ -50,9 +50,16 @@ public class ArenaRun : IExposable
         OnPhaseChanged?.Invoke(phase);
     }
 
-    public bool TryBuy(GameContext context, MerchantOffer offer)
+    public bool TryBuy(GameContext context, MerchantOffer offer, int quantity = 1)
     {
-        if (offer.GoldCost < 0 || Gold < offer.GoldCost)
+        if (quantity < 1)
+        {
+            return false;
+        }
+
+        var unitCost = offer.ResolveGoldCost();
+        var cost = unitCost * quantity;
+        if (unitCost < 0 || Gold < cost)
         {
             return false;
         }
@@ -63,21 +70,16 @@ public class ArenaRun : IExposable
             return false;
         }
 
-        var created = new List<Item>(granted.Count);
+        var created = new List<Item>();
         foreach (var def in granted)
         {
-            var item = context.Factory.CreateEntity<Item>(def);
-            if (!context.PlayerPawn.Inventory.TryAdd(item))
+            if (!TryGrantPurchase(context, def, quantity, created))
             {
-                RollbackPurchase(created);
-                item.Destroy();
                 return false;
             }
-
-            created.Add(item);
         }
 
-        Gold -= offer.GoldCost;
+        Gold -= cost;
         return true;
     }
 
@@ -99,8 +101,8 @@ public class ArenaRun : IExposable
             item = unequipped;
         }
 
-        var payout = ShopCatalog.GetSellPrice(item.ItemDef, CurrentMerchant);
-        if (ShopCatalog.GetBuyPrice(item.ItemDef, CurrentMerchant) <= 0)
+        var payout = ShopCatalog.GetSellPrice(item.ItemDef);
+        if (ShopCatalog.GetBuyPrice(item.ItemDef) <= 0)
         {
             return false;
         }
@@ -126,6 +128,37 @@ public class ArenaRun : IExposable
             }
         }
 
+        return false;
+    }
+
+    private static bool TryGrantPurchase(GameContext context, ItemDef def, int quantity, List<Item> created)
+    {
+        if (def.StackLimit > 1)
+        {
+            return TryAddPurchasedItem(context, context.Factory.CreateEntity<Item>(def, quantity), created);
+        }
+
+        for (var i = 0; i < quantity; i++)
+        {
+            if (!TryAddPurchasedItem(context, context.Factory.CreateEntity<Item>(def), created))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static bool TryAddPurchasedItem(GameContext context, Item item, List<Item> created)
+    {
+        if (context.PlayerPawn.Inventory.TryAdd(item))
+        {
+            created.Add(item);
+            return true;
+        }
+
+        RollbackPurchase(created);
+        item.Destroy();
         return false;
     }
 
@@ -159,7 +192,7 @@ public class ArenaRun : IExposable
             Gold += LoseGold;
         }
 
-        SetPhase(ArenaPhase.Results);
+        SetPhase(IsRunOver ? ArenaPhase.RunEnd : ArenaPhase.Results);
     }
 
     public void ExposeData()

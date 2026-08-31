@@ -5,6 +5,7 @@
         <Moniker>IronDagger</Moniker>
         <Label>Iron Dagger</Label>
         <Description>Very pointy</Description>
+        <GoldCost>55</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>
@@ -60,6 +61,7 @@
         <Moniker>IronSword</Moniker>
         <Label>Iron Sword</Label>
         <Description>Very cutty</Description>
+        <GoldCost>80</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>
@@ -91,6 +93,7 @@
         <Moniker>IronAxe</Moniker>
         <Label>Iron Axe</Label>
         <Description>It chops, it also hurts</Description>
+        <GoldCost>85</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>
@@ -126,6 +129,7 @@
         <Moniker>IronHammer</Moniker>
         <Label>Iron Hammer</Label>
         <Description>It's purpose, rattle the brains</Description>
+        <GoldCost>80</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>
@@ -165,6 +169,7 @@
         <Moniker>IronMace</Moniker>
         <Label>Iron Mace</Label>
         <Description>It's a mace made from iron</Description>
+        <GoldCost>90</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>
@@ -220,6 +225,7 @@
         <Moniker>IronClaws</Moniker>
         <Label>Iron Claws</Label>
         <Description>It's a claws made from iron</Description>
+        <GoldCost>90</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>

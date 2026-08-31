@@ -9,6 +9,7 @@
     <ItemDef ParentName="ClothArmorBase">
         <Moniker>ClothHelmet</Moniker>
         <Label>Cloth Helmet</Label>
+        <GoldCost>20</GoldCost>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>
@@ -26,6 +27,7 @@
     <ItemDef ParentName="ClothArmorBase">
         <Moniker>ClothGlove</Moniker>
         <Label>Cloth Glove</Label>
+        <GoldCost>15</GoldCost>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>HandArmor</SlotUsedToEquip>
@@ -46,6 +48,7 @@
     <ItemDef ParentName="ClothArmorBase">
         <Moniker>ClothVambrace</Moniker>
         <Label>Cloth Vambrace</Label>
+        <GoldCost>20</GoldCost>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>ArmArmor</SlotUsedToEquip>
@@ -65,6 +68,7 @@
         <Label>Cloth Gorget</Label>
         <ItemType>Equipment</ItemType>
         <Description>A soft wrap for your neck</Description>
+        <GoldCost>20</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>NeckArmor</SlotUsedToEquip>
         </EquipmentProperties>
@@ -81,6 +85,7 @@
     <ItemDef ParentName="ClothArmorBase">
         <Moniker>ClothBoot</Moniker>
         <Label>Cloth Boot</Label>
+        <GoldCost>18</GoldCost>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>FootArmor</SlotUsedToEquip>
@@ -101,6 +106,7 @@
     <ItemDef ParentName="ClothArmorBase">
         <Moniker>ClothGreave</Moniker>
         <Label>Cloth Greave</Label>
+        <GoldCost>20</GoldCost>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>LegArmor</SlotUsedToEquip>
@@ -118,6 +124,7 @@
     <ItemDef ParentName="ClothArmorBase">
         <Moniker>ClothTunic</Moniker>
         <Label>Cloth Tunic</Label>
+        <GoldCost>25</GoldCost>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>TorsoArmor</SlotUsedToEquip>

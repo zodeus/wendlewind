@@ -11,6 +11,7 @@
     <ItemDef ParentName="BagBase">
         <Moniker>ClothSatchel</Moniker>
         <Label>Cloth Satchel</Label>
+        <GoldCost>25</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>Bag</SlotUsedToEquip>
         </EquipmentProperties>
@@ -22,6 +23,7 @@
     <ItemDef ParentName="BagBase">
         <Moniker>LeatherSatchel</Moniker>
         <Label>Leather Satchel</Label>
+        <GoldCost>40</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>Bag</SlotUsedToEquip>
         </EquipmentProperties>

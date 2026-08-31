@@ -58,18 +58,64 @@ public sealed class BuildPool
         }
     }
 
-    public BuildSnapshot? PickOpponent(int round)
+    public BuildSnapshot? PickOpponent(int round, string? excludePlayerId = null)
     {
         lock (_gate)
         {
-            if (_rounds.TryGetValue(round, out var bucket) && bucket.Count > 0)
+            var others = Candidates(round, excludePlayerId);
+            if (others.Count > 0)
             {
-                return bucket[Random.Shared.Next(bucket.Count)];
+                return Pick(others);
             }
+
+            if (!string.IsNullOrWhiteSpace(excludePlayerId))
+            {
+                foreach (var otherRound in _rounds.Keys.OrderBy(r => Math.Abs(r - round)).ThenByDescending(r => r))
+                {
+                    if (otherRound == round)
+                    {
+                        continue;
+                    }
+
+                    var fallback = Candidates(otherRound, excludePlayerId);
+                    if (fallback.Count > 0)
+                    {
+                        return Pick(fallback);
+                    }
+                }
+            }
+
+            var ownRound = Candidates(round, excludePlayerId: null);
+            return ownRound.Count > 0 ? Pick(ownRound) : null;
+        }
+    }
+
+    private List<BuildSnapshot> Candidates(int round, string? excludePlayerId)
+    {
+        if (!_rounds.TryGetValue(round, out var bucket) || bucket.Count == 0)
+        {
+            return [];
         }
 
-        return null;
+        if (string.IsNullOrWhiteSpace(excludePlayerId))
+        {
+            return bucket;
+        }
+
+        return bucket
+            .Where(build => !IsSamePlayer(build.PlayerId, excludePlayerId))
+            .ToList();
     }
+
+    private static bool IsSamePlayer(string playerId, string otherPlayerId)
+    {
+        return string.Equals(playerId, otherPlayerId, StringComparison.Ordinal)
+               || string.Equals(playerId, $"mirror:{otherPlayerId}", StringComparison.Ordinal)
+               || string.Equals($"mirror:{playerId}", otherPlayerId, StringComparison.Ordinal);
+    }
+
+    private static BuildSnapshot Pick(IReadOnlyList<BuildSnapshot> candidates) =>
+        candidates[Random.Shared.Next(candidates.Count)];
 
     public static BuildSnapshot MirrorOf(BuildSnapshot snapshot)
     {

@@ -1,15 +1,22 @@
+using Wendlewind.Scenes.MainGameScene.Gui;
+using Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
+
 namespace Wendlewind.Scenes.ArenaScene.Gui;
 
 public sealed class ArenaShopScreen : Grid
 {
+    private const int PackItemColumns = 1;
+
+    private readonly BaseGui _gui;
     private readonly GameContext _context;
     private readonly GoldPurse _purse;
     private readonly Label _status;
     private readonly Label _runStats;
-    private readonly HorizontalStackPanel _packRow;
+    private readonly VerticalStackPanel _packBody;
 
-    public ArenaShopScreen(GameContext context, Action onDone)
+    public ArenaShopScreen(BaseGui gui, GameContext context, Action onDone)
     {
+        _gui = gui;
         _context = context;
         HorizontalAlignment = HorizontalAlignment.Stretch;
         VerticalAlignment = VerticalAlignment.Stretch;
@@ -82,9 +89,10 @@ public sealed class ArenaShopScreen : Grid
             Spacing = 12,
             HorizontalAlignment = HorizontalAlignment.Stretch
         };
-        foreach (var shelf in ShopStock.Roll(merchant, run.RunSeed, run.FightsPlayed))
+        var rolled = ShopStock.Roll(merchant, run.RunSeed, run.FightsPlayed);
+        foreach (var row in ShopLayout.GroupRows(rolled, shelf => shelf.Columns))
         {
-            shelves.Widgets.Add(CreateShelf(shelf));
+            shelves.Widgets.Add(CreateShelfRow(row));
         }
 
         var catalog = new ScrollViewer
@@ -96,36 +104,12 @@ public sealed class ArenaShopScreen : Grid
             VerticalAlignment = VerticalAlignment.Stretch
         };
 
-        _packRow = new HorizontalStackPanel
+        _packBody = new VerticalStackPanel
         {
             Spacing = 8,
-            HorizontalAlignment = HorizontalAlignment.Left
+            HorizontalAlignment = HorizontalAlignment.Stretch
         };
         RebuildPack();
-
-        var packPanel = new VerticalStackPanel
-        {
-            Spacing = 6,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
-            Padding = new Thickness(10, 8),
-            Widgets =
-            {
-                new Label(BaseContent.Styles.Label.Medium)
-                {
-                    Text = "Your pack",
-                    TextColor = Color.Goldenrod
-                },
-                new ScrollViewer
-                {
-                    Content = _packRow,
-                    ShowHorizontalScrollBar = true,
-                    ShowVerticalScrollBar = false,
-                    HorizontalAlignment = HorizontalAlignment.Stretch,
-                    Height = 130
-                }
-            }
-        };
 
         var done = new CursorButton(BaseContent.Styles.Button.LargeGold)
         {
@@ -135,20 +119,45 @@ public sealed class ArenaShopScreen : Grid
                 HorizontalAlignment = HorizontalAlignment.Center
             },
             HorizontalAlignment = HorizontalAlignment.Right,
-            MinWidth = 200
+            MinWidth = 180
         };
         done.Click += (_, _) => onDone();
 
-        var footer = new Grid
+        var packHeader = new Grid
         {
             ColumnSpacing = 12,
             HorizontalAlignment = HorizontalAlignment.Stretch
         };
-        footer.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
-        footer.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-        footer.Widgets.Add(packPanel);
-        footer.Widgets.Add(done);
+        packHeader.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
+        packHeader.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        var packTitle = new VerticalStackPanel
+        {
+            Spacing = 2,
+            VerticalAlignment = VerticalAlignment.Center,
+            Widgets =
+            {
+                new Label(BaseContent.Styles.Label.Medium)
+                {
+                    Text = "Your pack",
+                    TextColor = Color.Goldenrod
+                },
+                new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = "Sell for one-tenth value",
+                    TextColor = Color.Gray
+                }
+            }
+        };
+        packHeader.Widgets.Add(packTitle);
+        packHeader.Widgets.Add(done);
         Grid.SetColumn(done, 1);
+
+        var footer = new VerticalStackPanel
+        {
+            Spacing = 8,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Widgets = { packHeader, _packBody }
+        };
 
         Add(header, 0);
         Add(catalog, 1);
@@ -224,24 +233,43 @@ public sealed class ArenaShopScreen : Grid
         _ => new Color(80, 80, 88)
     };
 
-    private Widget CreateShelf(RolledShelf shelf)
+    private Widget CreateShelfRow(IReadOnlyList<RolledShelf> shelves)
     {
-        var row = new HorizontalStackPanel
+        if (shelves.Count == 1 && shelves[0].Columns >= ShopLayout.GridColumns)
         {
-            Spacing = 10,
-            HorizontalAlignment = HorizontalAlignment.Left
-        };
-        foreach (var offer in shelf.Offers)
-        {
-            row.Widgets.Add(CreateOfferCard(offer));
+            return CreateShelf(shelves[0]);
         }
 
+        var row = new Grid
+        {
+            ColumnSpacing = 12,
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        };
+        for (var i = 0; i < ShopLayout.GridColumns; i++)
+        {
+            row.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1));
+        }
+
+        var column = 0;
+        foreach (var shelf in shelves)
+        {
+            var widget = CreateShelf(shelf);
+            row.Widgets.Add(widget);
+            Grid.SetColumn(widget, column);
+            Grid.SetColumnSpan(widget, shelf.Columns);
+            column += shelf.Columns;
+        }
+
+        return row;
+    }
+
+    private Widget CreateShelf(RolledShelf shelf)
+    {
+        var cards = shelf.Offers.Select(CreateOfferCard).ToList();
         return new VerticalStackPanel
         {
             Spacing = 6,
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
-            Padding = new Thickness(10, 8),
             Widgets =
             {
                 new Label(BaseContent.Styles.Label.Medium)
@@ -249,46 +277,95 @@ public sealed class ArenaShopScreen : Grid
                     Text = shelf.Category.Label(),
                     TextColor = Color.Goldenrod
                 },
-                new ScrollViewer
-                {
-                    Content = row,
-                    ShowHorizontalScrollBar = true,
-                    ShowVerticalScrollBar = false,
-                    HorizontalAlignment = HorizontalAlignment.Stretch
-                }
+                CreateSlotGrid(cards, shelf.Columns, shelf.ItemColumns),
+                CreateShelfLine()
             }
+        };
+    }
+
+    private static Widget CreateSlotGrid(IReadOnlyList<Widget> cards, int columns, int itemColumns)
+    {
+        var gridColumns = ShopLayout.NormalizeColumns(columns);
+        var span = ShopLayout.NormalizeItemColumns(itemColumns, gridColumns);
+        var slotsPerRow = ShopLayout.SlotsPerRow(gridColumns, span);
+        var rows = new VerticalStackPanel
+        {
+            Spacing = 10,
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        };
+
+        var rowCount = Math.Max(1, (int)Math.Ceiling(cards.Count / (float)slotsPerRow));
+        for (var r = 0; r < rowCount; r++)
+        {
+            var row = new Grid
+            {
+                ColumnSpacing = 10,
+                HorizontalAlignment = HorizontalAlignment.Stretch
+            };
+            for (var c = 0; c < gridColumns; c++)
+            {
+                row.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1));
+            }
+
+            row.RowsProportions.Add(new Proportion(ProportionType.Auto));
+
+            for (var c = 0; c < slotsPerRow; c++)
+            {
+                var index = r * slotsPerRow + c;
+                var cell = new Panel
+                {
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch
+                };
+                if (index < cards.Count)
+                {
+                    var card = cards[index];
+                    card.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    card.VerticalAlignment = VerticalAlignment.Stretch;
+                    cell.Widgets.Add(card);
+                }
+
+                row.Widgets.Add(cell);
+                Grid.SetColumn(cell, c * span);
+                Grid.SetColumnSpan(cell, span);
+            }
+
+            rows.Widgets.Add(row);
+        }
+
+        return rows;
+    }
+
+    private static Widget CreateShelfLine()
+    {
+        return new Panel
+        {
+            Height = 3,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Background = new SolidBrush(new Color(196, 156, 72)),
+            Margin = new Thickness(2, 0, 2, 4)
         };
     }
 
     private Widget CreateOfferCard(MerchantOffer offer)
     {
-        var buy = new CursorButton(BaseContent.Styles.Button.Normal)
+        var title = new Label(BaseContent.Styles.Label.Small)
         {
-            Content = new Label(BaseContent.Styles.Label.Small)
-            {
-                Text = $"{offer.GoldCost}g",
-                HorizontalAlignment = HorizontalAlignment.Center
-            },
-            HorizontalAlignment = HorizontalAlignment.Stretch
-        };
-        buy.Click += (_, _) => TryBuy(offer);
-
-        var widgets = new List<Widget>
-        {
-            new Label(BaseContent.Styles.Label.Small)
-            {
-                Text = offer.DisplayLabel,
-                TextColor = Color.Goldenrod,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                Wrap = true,
-                Width = 130
-            }
+            Text = offer.DisplayLabel,
+            TextColor = Color.Goldenrod,
+            HorizontalAlignment = HorizontalAlignment.Center
         };
 
+        var body = new VerticalStackPanel
+        {
+            Spacing = 4,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Center
+        };
         if (offer.IsSet)
         {
-            widgets.Add(CreateSetIcons(offer));
-            widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            body.Widgets.Add(CreateSetIcons(offer));
+            body.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
             {
                 Text = "20% set",
                 TextColor = Color.LightGreen,
@@ -297,7 +374,7 @@ public sealed class ArenaShopScreen : Grid
         }
         else if (offer.ItemDef != null)
         {
-            widgets.Add(new Image
+            body.Widgets.Add(new Image
             {
                 Background = offer.ItemDef.GetIconImage(),
                 Width = 64,
@@ -306,50 +383,108 @@ public sealed class ArenaShopScreen : Grid
             });
         }
 
-        widgets.Add(buy);
-
-        var card = new VerticalStackPanel
+        var buy = CreateBuyButtons(offer);
+        var card = new Grid
         {
-            Width = 150,
-            Spacing = 4,
             Padding = new Thickness(8),
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Top,
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame]
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright]
         };
-        foreach (var widget in widgets)
-        {
-            card.Widgets.Add(widget);
-        }
-
-        return card;
+        card.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
+        card.RowsProportions.Add(new Proportion(ProportionType.Auto));
+        card.RowsProportions.Add(new Proportion(ProportionType.Fill));
+        card.RowsProportions.Add(new Proportion(ProportionType.Auto));
+        card.Widgets.Add(title);
+        card.Widgets.Add(body);
+        card.Widgets.Add(buy);
+        Grid.SetRow(body, 1);
+        Grid.SetRow(buy, 2);
+        return card.WithTooltip(() => CreateOfferInspect(offer));
     }
 
-    private static Widget CreateSetIcons(MerchantOffer offer)
+    private Widget CreateBuyButtons(MerchantOffer offer)
     {
-        var row = new HorizontalStackPanel
+        var single = CreateBuyButton(offer, 1);
+        if (!offer.OffersBulkBuy)
         {
-            Spacing = 2,
+            return single;
+        }
+
+        var bulk = CreateBuyButton(offer, MerchantOffer.BulkBuyQuantity);
+        var row = new Grid
+        {
+            ColumnSpacing = 4,
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        };
+        row.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1));
+        row.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1));
+        row.Widgets.Add(single);
+        row.Widgets.Add(bulk);
+        Grid.SetColumn(bulk, 1);
+        return row;
+    }
+
+    private Widget CreateBuyButton(MerchantOffer offer, int quantity)
+    {
+        var cost = offer.ResolveGoldCost() * quantity;
+        var buy = new CursorButton(BaseContent.Styles.Button.Normal)
+        {
+            Content = new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = quantity > 1 ? $"{quantity}x {cost}g" : $"{cost}g",
+                HorizontalAlignment = HorizontalAlignment.Center
+            },
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            MinWidth = 0
+        };
+        buy.Click += (_, _) => TryBuy(offer, quantity);
+        buy.WithTooltip(() => CreateOfferInspect(offer));
+        return buy;
+    }
+
+    private Widget CreateSetIcons(MerchantOffer offer)
+    {
+        const int maxSlots = 4;
+        var pieces = offer.SetPieces;
+        var overflow = pieces.Count > maxSlots ? pieces.Count - (maxSlots - 1) : 0;
+        var iconCount = overflow > 0 ? maxSlots - 1 : pieces.Count;
+        var columns = iconCount + (overflow > 0 ? 1 : 0);
+
+        var row = new Grid
+        {
+            ColumnSpacing = 2,
             HorizontalAlignment = HorizontalAlignment.Center
         };
-        foreach (var piece in offer.SetPieces.Take(6))
+        for (var i = 0; i < columns; i++)
         {
-            row.Widgets.Add(new Image
+            row.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        }
+
+        for (var i = 0; i < iconCount; i++)
+        {
+            var piece = pieces[i];
+            var icon = new Image
             {
                 Background = piece.GetIconImage(),
                 Width = 20,
                 Height = 20
-            });
+            }.WithTooltip(() => CreateItemInspect(piece));
+            row.Widgets.Add(icon);
+            Grid.SetColumn(icon, i);
         }
 
-        if (offer.SetPieces.Count > 6)
+        if (overflow > 0)
         {
-            row.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            var extra = new Label(BaseContent.Styles.Label.Small)
             {
-                Text = $"+{offer.SetPieces.Count - 6}",
+                Text = $"+{overflow}",
                 TextColor = Color.Gray,
-                VerticalAlignment = VerticalAlignment.Center
-            });
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center
+            };
+            row.Widgets.Add(extra);
+            Grid.SetColumn(extra, iconCount);
         }
 
         return row;
@@ -357,7 +492,7 @@ public sealed class ArenaShopScreen : Grid
 
     private Widget CreateSellCard(Item item)
     {
-        var payout = ShopCatalog.GetSellPrice(item.ItemDef, _context.ArenaRun?.CurrentMerchant);
+        var payout = ShopCatalog.GetSellPrice(item.ItemDef);
         var sell = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Content = new Label(BaseContent.Styles.Label.Small)
@@ -368,69 +503,125 @@ public sealed class ArenaShopScreen : Grid
             HorizontalAlignment = HorizontalAlignment.Stretch
         };
         sell.Click += (_, _) => TrySell(item);
+        sell.WithTooltip(() => CreateEntityInspect(item));
 
         return new VerticalStackPanel
         {
-            Width = 110,
-            Spacing = 3,
-            Padding = new Thickness(6),
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
+            Spacing = 4,
+            Padding = new Thickness(8),
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright],
             Widgets =
             {
                 new Label(BaseContent.Styles.Label.Small)
                 {
                     Text = item.LabelWithStackSize,
                     TextColor = Color.Goldenrod,
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    Wrap = true,
-                    Width = 98
+                    HorizontalAlignment = HorizontalAlignment.Center
                 },
                 new Image
                 {
                     Background = item.GetIconImage(),
-                    Width = 40,
-                    Height = 40,
+                    Width = 48,
+                    Height = 48,
                     HorizontalAlignment = HorizontalAlignment.Center
                 },
                 sell
             }
+        }.WithTooltip(() => CreateEntityInspect(item));
+    }
+
+    private Widget CreateOfferInspect(MerchantOffer offer)
+    {
+        if (offer.IsSet)
+        {
+            return CreateSetInspect(offer);
+        }
+
+        return CreateItemInspect(offer.ItemDef!);
+    }
+
+    private Widget CreateSetInspect(MerchantOffer offer)
+    {
+        var body = new VerticalStackPanel
+        {
+            Spacing = 10
         };
+        body.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
+        {
+            Text = offer.DisplayLabel,
+            TextColor = Color.Goldenrod
+        });
+        body.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = $"20% set · {offer.ResolveGoldCost()}g",
+            TextColor = Color.LightGreen
+        });
+        foreach (var piece in offer.SetPieces.DistinctBy(def => def.Moniker))
+        {
+            body.Widgets.Add(CreateItemInspect(piece));
+        }
+
+        return new ScrollViewer
+        {
+            Content = body,
+            ShowHorizontalScrollBar = false,
+            ShowVerticalScrollBar = true,
+            MaxHeight = 520
+        };
+    }
+
+    private Widget CreateItemInspect(ItemDef def) =>
+        CreateEntityInspect(_context.Factory.CreateEntity<Item>(def, 1));
+
+    private Widget CreateEntityInspect(Item item)
+    {
+        return EntityPanelFactory.Create(_gui, item, new EntityPanelProperties
+        {
+            ShowTitle = true,
+            ShowCloseButton = false,
+            Background = null
+        });
     }
 
     private void RebuildPack()
     {
-        _packRow.Widgets.Clear();
+        _packBody.Widgets.Clear();
         var items = _context.PlayerPawn.Inventory.ToList();
         if (items.Count == 0)
         {
-            _packRow.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            _packBody.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
             {
-                Text = "Empty",
-                TextColor = Color.Gray,
-                VerticalAlignment = VerticalAlignment.Center
+                Text = "Nothing to sell",
+                TextColor = Color.Gray
             });
+            _packBody.Widgets.Add(CreateShelfLine());
             return;
         }
 
-        foreach (var item in items)
-        {
-            _packRow.Widgets.Add(CreateSellCard(item));
-        }
+        _packBody.Widgets.Add(CreateSlotGrid(
+            items.Select(CreateSellCard).ToList(),
+            ShopLayout.GridColumns,
+            PackItemColumns));
+        _packBody.Widgets.Add(CreateShelfLine());
     }
 
-    private void TryBuy(MerchantOffer offer)
+    private void TryBuy(MerchantOffer offer, int quantity = 1)
     {
-        if (_context.ArenaRun!.TryBuy(_context, offer))
+        var cost = offer.ResolveGoldCost() * quantity;
+        var label = quantity > 1 ? $"{offer.DisplayLabel} x{quantity}" : offer.DisplayLabel;
+        if (_context.ArenaRun!.TryBuy(_context, offer, quantity))
         {
             _status.TextColor = Color.LightGreen;
-            _status.Text = $"Bought {offer.DisplayLabel}";
+            _status.Text = $"Bought {label}";
             _purse.Refresh();
             RebuildPack();
             return;
         }
 
         _status.TextColor = Color.IndianRed;
-        _status.Text = $"Cannot buy {offer.DisplayLabel} ({offer.GoldCost}g, you have {_context.ArenaRun.Gold}g)";
+        _status.Text = $"Cannot buy {label} ({cost}g, you have {_context.ArenaRun.Gold}g)";
     }
 
     private void TrySell(Item item)
@@ -464,5 +655,6 @@ public sealed class ArenaShopScreen : Grid
     {
         _purse.Refresh();
         RefreshRunStats();
+        TooltipHelper.UpdatePosition();
     }
 }

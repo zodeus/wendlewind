@@ -18,6 +18,7 @@
             <DamageType>Magic</DamageType>
         </WeaponProperties>
         <Description>When activated, hitting a body part charges this trinket.Once charged it will trigger a head rattle.</Description>
+        <GoldCost>110</GoldCost>
         <TexturePath>Entities/Item/Trinket/DeathRattle</TexturePath>
     </ItemDef>
     <ItemDef ParentName="CombatTrinket">
@@ -28,6 +29,7 @@
             <HandlerClass>BoneCrackerHandler</HandlerClass>
         </TrinketProperties>
         <Description>A bone crusher, cracks random bones.</Description>
+        <GoldCost>100</GoldCost>
         <TexturePath>Entities/Item/Trinket/BoneCracker</TexturePath>
     </ItemDef>
     <ItemDef ParentName="CombatTrinket">
@@ -35,6 +37,7 @@
         <Label>Slingshot</Label>
         <UiClass>SlingshotPanel</UiClass>
         <Description>A sling shot for extra attacks.</Description>
+        <GoldCost>70</GoldCost>
         <TrinketProperties>
             <HandlerClass>SlingshotHandler</HandlerClass>
         </TrinketProperties>
@@ -69,6 +72,7 @@
             <HandlerClass>BloodyBellHandler</HandlerClass>
         </TrinketProperties>
         <Description>A cursed bell that tolls for blood. When activated, your next attack drains the victim's blood and restores your own.</Description>
+        <GoldCost>120</GoldCost>
         <TexturePath>Entities/Item/Trinket/BloodyBell</TexturePath>
     </ItemDef>
     
@@ -90,6 +94,7 @@
             <HandlerClass>PerforationTrapHandler</HandlerClass>
         </TrinketProperties>
         <Description>A cruel trap that can be armed with a fuse. When triggered during combat, it perforates the opponent with countless tiny needles, causing blood to drain from all exposed flesh.</Description>
+        <GoldCost>115</GoldCost>
         <TexturePath>Entities/Item/Trinket/PerforationTrap</TexturePath>
         <UpgradeProperties>
             <Upgrades>

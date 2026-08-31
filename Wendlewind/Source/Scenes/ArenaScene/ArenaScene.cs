@@ -161,10 +161,17 @@ public sealed class ArenaScene : Scene
                 $"Arena re-sim disagreed with server. LocalWon={localWon} ServerWinner={_pendingResult.WinnerPlayerId}");
         }
 
-        run.ApplyMatchResult(serverWon, _pendingResult.DefenderPlayerId ?? "unknown");
         _context.RestoreArenaPawn();
         BuildSnapshotFactory.Apply(_context.PlayerPawn, _lastPrepSnapshot);
+        _context.PlayerPawn.ApplyPersistedBattleConsumableCosts();
         EnsureZoneShell();
+        run.ApplyMatchResult(serverWon, _pendingResult.DefenderPlayerId ?? "unknown");
+        if (run.IsRunOver)
+        {
+            FinishOnServer(run.IsVictory);
+            return;
+        }
+
         SaveRun();
     }
 
@@ -344,6 +351,10 @@ public sealed class ArenaScene : Scene
         if (_context.ArenaRun!.Phase is ArenaPhase.Matching or ArenaPhase.Combat)
         {
             _context.ArenaRun.SetPhase(ArenaPhase.Prep);
+        }
+        else if (_context.ArenaRun.IsRunOver)
+        {
+            _context.ArenaRun.SetPhase(ArenaPhase.RunEnd);
         }
 
         if (current.Loadout != null)

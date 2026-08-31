@@ -8,6 +8,7 @@
         <Moniker>BoneDart</Moniker>
         <Label>Bone Dart</Label>
         <Description>A dart made of bone.</Description>
+        <GoldCost>20</GoldCost>
         <TexturePath>Entities/Item/Supplies/Ammo/BoneDart</TexturePath>
         <AmmoProperties>
             <DamageType>Blunt</DamageType>
@@ -29,6 +30,7 @@
         <Moniker>RockOfRot</Moniker>
         <Label>Rock of Rot</Label>
         <Description>A rock that is rotting.</Description>
+        <GoldCost>50</GoldCost>
         <TexturePath>Entities/Item/Supplies/Ammo/RockOfRot</TexturePath>
         <AmmoProperties>
             <DamageType>Magic</DamageType>
@@ -69,6 +71,7 @@
         <Moniker>PoisonDart</Moniker>
         <Label>Poison Dart</Label>
         <Description>A dart with a poisony substance.</Description>
+        <GoldCost>40</GoldCost>
         <TexturePath>Entities/Item/Supplies/Ammo/PoisonDart</TexturePath>
         <AmmoProperties>
             <DamageType>Poison</DamageType>
@@ -107,6 +110,7 @@
         <Moniker>ExplosiveFang</Moniker>
         <Label>Explosive Fang</Label>
         <Description>A fang packed with black powder that explodes on impact, dealing devastating damage to the hit part and splash damage to surrounding body parts.</Description>
+        <GoldCost>60</GoldCost>
         <TexturePath>Entities/Item/Supplies/Ammo/ExplosiveFang</TexturePath>
         <AmmoProperties>
             <DamageType>Blunt</DamageType>

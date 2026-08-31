@@ -11,6 +11,7 @@
         <Moniker>EvasionCloak</Moniker>
         <Label>Cloak of Evasion</Label>
         <Description>A cape that increases your evasion.</Description>
+        <GoldCost>90</GoldCost>
         <TexturePath>Entities/Item/Equipment/Armor/Cloak/Evasion</TexturePath>
         <EquipmentProperties>
             <HandlerClass>EvasionCloakHandler</HandlerClass>
@@ -32,6 +33,7 @@
         <Moniker>StrengthCloak</Moniker>
         <Label>Cloak of Strength</Label>
         <Description>A cloak that increases your strength.</Description>
+        <GoldCost>90</GoldCost>
         <EquipmentProperties>
             <HandlerClass>StrengthCloakHandler</HandlerClass>
         </EquipmentProperties>
@@ -70,18 +72,21 @@
             </Upgrades>
         </UpgradeProperties>
         <Description>A cloak that provides rejuvenation.</Description>
+        <GoldCost>100</GoldCost>
         <TexturePath>Entities/Item/Equipment/Armor/Cloak/Rejuvenation</TexturePath>
     </ItemDef>
     <ItemDef ParentName="CloakBase">
         <Moniker>RageCloak</Moniker>
         <Label>Cloak of Rage</Label>
         <Description>A cloak that engulfs your body in flames.</Description>
+        <GoldCost>95</GoldCost>
         <TexturePath>Entities/Item/Equipment/Armor/Cloak/Rage</TexturePath>
     </ItemDef>
     <ItemDef ParentName="CloakBase">
         <Moniker>ThornCloak</Moniker>
         <Label>Cloak of Thorns</Label>
         <Description>A cloak covered in sharp thorns that reflects damage back to attackers.</Description>
+        <GoldCost>95</GoldCost>
         <TexturePath>Entities/Item/Equipment/Armor/Cloak/Thorns</TexturePath>
         <EquipmentProperties>
             <HandlerClass>ThornCloakHandler</HandlerClass>
@@ -105,6 +110,7 @@
         <Moniker>ClericCloak</Moniker>
         <Label>Cleric Cloak</Label>
         <Description>A holy cloak that combines strength with rejuvenation. Blessed by the divine.</Description>
+        <GoldCost>110</GoldCost>
         <UiClass>CloakPanel</UiClass>
         <EquipmentProperties>
             <HandlerClass>ClericCloakHandler</HandlerClass>
@@ -146,6 +152,7 @@
         <Moniker>NinjaCloak</Moniker>
         <Label>Ninja Cloak</Label>
         <Description>A shadowy cloak that combines strength with agility. Move like the wind, strike like thunder.</Description>
+        <GoldCost>105</GoldCost>
         <UiClass>CloakPanel</UiClass>
         <EquipmentProperties>
             <HandlerClass>NinjaCloakHandler</HandlerClass>

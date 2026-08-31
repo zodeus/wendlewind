@@ -5,6 +5,7 @@
         <Moniker>FireStaff</Moniker>
         <Label>Fire Staff</Label>
         <Description></Description>
+        <GoldCost>140</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>

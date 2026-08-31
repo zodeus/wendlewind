@@ -5,6 +5,7 @@
         <Label>Blessed Iron Collar</Label>
         <ItemType>Equipment</ItemType>
         <Description>A collar made of blessed iron. It is said to protect the wearer from harm...</Description>
+        <GoldCost>160</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>NeckArmor</SlotUsedToEquip>
             <MaxEnchantments>3</MaxEnchantments>
@@ -30,6 +31,7 @@
         <Moniker>PlagueMask</Moniker>
         <Label>Plague Mask</Label>
         <Description>It's a mask, a plague mask, a gas mask.</Description>
+        <GoldCost>140</GoldCost>
         <TexturePath>Entities/Item/Equipment/Armor/Unique/PlagueMask</TexturePath>
         <EquipmentProperties>
             <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>

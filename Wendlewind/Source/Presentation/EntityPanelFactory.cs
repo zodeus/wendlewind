@@ -9,7 +9,16 @@ public static class EntityPanelFactory
     public static EntityPanelBase Create(BaseGui gui, Entity entity, EntityPanelProperties? properties = null)
     {
         var type = entity.Def.UiClass ?? typeof(EntityPanel);
-        return (EntityPanelBase)Activator.CreateInstance(type, gui, entity, properties)!;
+        try
+        {
+            return (EntityPanelBase)Activator.CreateInstance(type, gui, entity, properties)!;
+        }
+        catch (Exception)
+        {
+            return entity is Item item
+                ? new ArmorPanel(gui, item, properties)
+                : new EntityPanel(gui, entity, properties);
+        }
     }
 }
 

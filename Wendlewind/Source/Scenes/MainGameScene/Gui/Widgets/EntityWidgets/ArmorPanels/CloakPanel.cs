@@ -7,21 +7,22 @@ namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.ArmorPanels;
 [UsedImplicitly]
 public sealed class CloakPanel : EntityPanelBase
 {
-    private readonly ICloakHandler _cloakHandler;
-    private readonly IUpgradableHandler _upgradableHandler;
-    private readonly ItemUpgradePanel _upgradePanel;
-    private readonly Label _bonusLabel;
-    private readonly Label _upgradeLevelLabel;
-    private readonly HorizontalStackPanel _levelIndicatorContainer;
+    private readonly ICloakHandler? _cloakHandler;
+    private readonly IUpgradableHandler? _upgradableHandler;
+    private readonly ItemUpgradePanel? _upgradePanel;
+    private readonly Label? _bonusLabel;
+    private readonly Label? _upgradeLevelLabel;
+    private readonly HorizontalStackPanel? _levelIndicatorContainer;
 
     public CloakPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
         var handler = item.EquipmentHandler;
-        if (handler is not ICloakHandler cloakHandler)
-            throw new InvalidOperationException($"CloakPanel requires an ICloakHandler, but got {handler?.GetType().Name ?? "null"}");
-        if (handler is not IUpgradableHandler upgradableHandler)
-            throw new InvalidOperationException($"CloakPanel requires an IUpgradableHandler, but got {handler?.GetType().Name ?? "null"}");
-        
+        if (handler is not ICloakHandler cloakHandler || handler is not IUpgradableHandler upgradableHandler)
+        {
+            BuildPreviewLayout(item);
+            return;
+        }
+
         _cloakHandler = cloakHandler;
         _upgradableHandler = upgradableHandler;
         
@@ -121,9 +122,80 @@ public sealed class CloakPanel : EntityPanelBase
 
         UpdateBonusLabel();
     }
+
+    private void BuildPreviewLayout(Item item)
+    {
+        Padding = new Thickness(20);
+        MinWidth = 360;
+        Spacing = 8;
+
+        var headerSection = new HorizontalStackPanel { Spacing = 15, Margin = new Thickness(0, 0, 0, 12) };
+        var iconFrame = new Panel
+        {
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
+            Padding = new Thickness(4),
+            Width = 80,
+            Height = 80
+        };
+        iconFrame.Widgets.Add(new Image
+        {
+            Background = item.GetIconImage(),
+            Width = 72,
+            Height = 72,
+            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Center
+        });
+        headerSection.Widgets.Add(iconFrame);
+
+        if (!string.IsNullOrWhiteSpace(item.Def.Description) && item.Def.Description != "undefined")
+        {
+            headerSection.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+            {
+                Text = item.Def.Description,
+                Wrap = true,
+                MaxWidth = 280
+            });
+        }
+
+        Widgets.Add(headerSection);
+        Widgets.Add(new HorizontalStackPanel
+        {
+            Spacing = 8,
+            Widgets =
+            {
+                new Label("small") { Text = "Slot:", TextColor = Color.Gray },
+                new Label("small")
+                {
+                    Text = item.ItemDef.EquipmentProperties?.SlotUsedToEquip?.ToString() ?? "Cloak",
+                    TextColor = ColorExt.HexToColor(TC.Blue.TrimStart('#'))
+                }
+            }
+        });
+        if (item.ItemDef.GoldCost > 0)
+        {
+            Widgets.Add(new HorizontalStackPanel
+            {
+                Spacing = 8,
+                Widgets =
+                {
+                    new Label("small") { Text = "Cost:", TextColor = Color.Gray },
+                    new Label("small")
+                    {
+                        Text = $"{item.ItemDef.GoldCost}g",
+                        TextColor = ColorExt.HexToColor(TC.Golden.TrimStart('#'))
+                    }
+                }
+            });
+        }
+    }
     
     private void BuildLevelIndicators(int currentLevel, int maxLevel)
     {
+        if (_levelIndicatorContainer == null)
+        {
+            return;
+        }
+
         _levelIndicatorContainer.Widgets.Clear();
         for (var i = 1; i <= maxLevel; i++)
         {
@@ -142,6 +214,11 @@ public sealed class CloakPanel : EntityPanelBase
     
     private void OnUpgradeComplete()
     {
+        if (_upgradableHandler == null || _upgradeLevelLabel == null)
+        {
+            return;
+        }
+
         UpdateBonusLabel();
         var maxLevel = _upgradableHandler.UpgradeProperties?.MaxLevel ?? 2;
         var currentLevel = _upgradableHandler.UpgradeLevel;
@@ -151,6 +228,11 @@ public sealed class CloakPanel : EntityPanelBase
 
     private void UpdateBonusLabel()
     {
+        if (_bonusLabel == null || _cloakHandler == null)
+        {
+            return;
+        }
+
         _bonusLabel.Text = _cloakHandler.GetBonusDisplayText();
     }
 

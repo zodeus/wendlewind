@@ -8,6 +8,7 @@ public class ItemDef : EntityDef
 
     public ItemType ItemType = ItemType.None;
     public int StackLimit = 1;
+    public int GoldCost;
 
     public EquipmentProperties? EquipmentProperties;
     public WeaponProperties? WeaponProperties;

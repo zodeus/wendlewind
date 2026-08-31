@@ -10,6 +10,7 @@
         <Moniker>MullinStick</Moniker>
         <Label>Mullin Stick</Label>
         <Description>A stick of Mullin wood, it's smell is calming and soothing.</Description>
+        <GoldCost>30</GoldCost>
         <TexturePath>Entities/Item/Incense/MullinStick</TexturePath>
         <IncenseProperties>
             <DurationInEncounters>2</DurationInEncounters>
@@ -41,6 +42,7 @@
         <Moniker>ShadeWood</Moniker>
         <Label>Shade Wood</Label>
         <Description>A stick of Shade wood, it's smell is mysterious and alluring.</Description>
+        <GoldCost>45</GoldCost>
         <TexturePath>Entities/Item/Incense/ShadeWood</TexturePath>
         <IncenseProperties>
             <DurationInEncounters>2</DurationInEncounters>
@@ -73,6 +75,7 @@
         <Label>Dipped Mullin Stick</Label>
         <Description>A stick of Mullin wood, dipped in a golden substance, it's smell is calming and
             soothing and exhilirating.</Description>
+        <GoldCost>55</GoldCost>
         <TexturePath>Entities/Item/Incense/DippedMullinStick</TexturePath>
         <IncenseProperties>
             <DurationInEncounters>3</DurationInEncounters>
@@ -104,6 +107,7 @@
         <Moniker>WitchWood</Moniker>
         <Label>Witch Wood</Label>
         <Description>A stick of Witch wood, aromatic and invigorating.</Description>
+        <GoldCost>70</GoldCost>
         <TexturePath>Entities/Item/Incense/WitchWood</TexturePath>
     </ItemDef>
 </Definitions>

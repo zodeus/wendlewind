@@ -589,29 +589,22 @@ public class Pawn : Entity
         }
 
         MealPlan.Prune();
+        TickIncenseCharges(applyEffects: true);
+    }
 
-        for (var i = ActiveIncense.Count - 1; i >= 0; i--)
+    public void ApplyPersistedBattleConsumableCosts()
+    {
+        MealPlan.Prune();
+        foreach (var item in MealPlan.Items.ToList())
         {
-            var incense = ActiveIncense[i];
-            if (incense.Def == null || incense.EncountersRemaining <= 0)
+            if (item is { IsDestroyed: false, StackSize: > 0 })
             {
-                ActiveIncense.RemoveAt(i);
-                continue;
-            }
-
-            Body.Effects.TryApplyEffect(new BodyEffect
-            {
-                Def = incense.Def,
-                TicksLeft = 1,
-                LastsWholeEncounter = true
-            });
-
-            incense.EncountersRemaining--;
-            if (incense.EncountersRemaining <= 0)
-            {
-                ActiveIncense.RemoveAt(i);
+                DecrementStack(item);
             }
         }
+
+        MealPlan.Prune();
+        TickIncenseCharges(applyEffects: false);
     }
 
     public bool HasFlameStick()
@@ -637,10 +630,44 @@ public class Pawn : Entity
         Body.StomachLevel = Mathf.Clamp(Body.StomachLevel + nutrition, 0f, 1f);
         Body.Energy = Body.MaxEnergy;
 
+        DecrementStack(item);
+    }
+
+    private static void DecrementStack(Item item)
+    {
         item.StackSize--;
         if (item.StackSize < 1)
         {
             item.Destroy();
+        }
+    }
+
+    private void TickIncenseCharges(bool applyEffects)
+    {
+        for (var i = ActiveIncense.Count - 1; i >= 0; i--)
+        {
+            var incense = ActiveIncense[i];
+            if (incense.Def == null || incense.EncountersRemaining <= 0)
+            {
+                ActiveIncense.RemoveAt(i);
+                continue;
+            }
+
+            if (applyEffects)
+            {
+                Body.Effects.TryApplyEffect(new BodyEffect
+                {
+                    Def = incense.Def,
+                    TicksLeft = 1,
+                    LastsWholeEncounter = true
+                });
+            }
+
+            incense.EncountersRemaining--;
+            if (incense.EncountersRemaining <= 0)
+            {
+                ActiveIncense.RemoveAt(i);
+            }
         }
     }
 

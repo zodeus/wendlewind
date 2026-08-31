@@ -68,6 +68,7 @@ public class ArenaRunTests
         Assert.True(context.ArenaRun!.IsRunOver);
         Assert.True(context.ArenaRun.IsVictory);
         Assert.Equal(10, context.ArenaRun.Wins);
+        Assert.Equal(ArenaPhase.RunEnd, context.ArenaRun.Phase);
     }
 
     [Fact]
@@ -84,6 +85,7 @@ public class ArenaRunTests
         Assert.False(context.ArenaRun.IsVictory);
         Assert.Equal(5, context.ArenaRun.Losses);
         Assert.Equal(0, context.ArenaRun.LivesRemaining);
+        Assert.Equal(ArenaPhase.RunEnd, context.ArenaRun.Phase);
     }
 
     [Fact]
@@ -92,11 +94,11 @@ public class ArenaRunTests
         using var scope = CreateArena();
         var context = scope.Context;
         var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
-        var offer = merchant.AllOffers.First(o => !o.IsSet && o.GoldCost <= context.ArenaRun!.Gold);
+        var offer = merchant.AllOffers.First(o => !o.IsSet && o.ResolveGoldCost() <= context.ArenaRun!.Gold);
         var goldBefore = context.ArenaRun!.Gold;
 
         Assert.True(context.ArenaRun.TryBuy(context, offer));
-        Assert.Equal(goldBefore - offer.GoldCost, context.ArenaRun.Gold);
+        Assert.Equal(goldBefore - offer.ResolveGoldCost(), context.ArenaRun.Gold);
         Assert.True(context.PlayerPawn.Inventory.Contains(offer.ItemDef!));
     }
 
@@ -117,6 +119,45 @@ public class ArenaRunTests
     }
 
     [Fact]
+    public void FoodAndSingleUseMedicalOfferBulkBuy()
+    {
+        var food = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("CookedCorn")! };
+        var medKit = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("MedKit")! };
+        var cauterize = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("Cauterize")! };
+        var sword = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("IronSword")! };
+        Assert.True(food.OffersBulkBuy);
+        Assert.True(medKit.OffersBulkBuy);
+        Assert.False(cauterize.OffersBulkBuy);
+        Assert.False(sword.OffersBulkBuy);
+    }
+
+    [Fact]
+    public void TryBuyQuantityAddsStackAndChargesMultiple()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var offer = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("CookedCorn")! };
+        var goldBefore = context.ArenaRun!.Gold;
+
+        Assert.True(context.ArenaRun.TryBuy(context, offer, MerchantOffer.BulkBuyQuantity));
+        Assert.Equal(goldBefore - offer.ResolveGoldCost() * MerchantOffer.BulkBuyQuantity, context.ArenaRun.Gold);
+        Assert.Equal(MerchantOffer.BulkBuyQuantity, context.PlayerPawn.Inventory.AmountOf(offer.ItemDef!));
+    }
+
+    [Fact]
+    public void TryBuyQuantityRejectsOverspendWithoutAddingItems()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var offer = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("CookedCorn")! };
+        context.ArenaRun!.Gold = offer.ResolveGoldCost() * (MerchantOffer.BulkBuyQuantity - 1);
+
+        Assert.False(context.ArenaRun.TryBuy(context, offer, MerchantOffer.BulkBuyQuantity));
+        Assert.Equal(offer.ResolveGoldCost() * (MerchantOffer.BulkBuyQuantity - 1), context.ArenaRun.Gold);
+        Assert.Equal(0, context.PlayerPawn.Inventory.AmountOf(offer.ItemDef!));
+    }
+
+    [Fact]
     public void ArenaEncounterSeedIsStablePerRound()
     {
         Assert.Equal(ArenaSeeds.Encounter(99, 1), ArenaSeeds.Encounter(99, 1));
@@ -132,6 +173,34 @@ public class ArenaRunTests
         var second = ShopStock.Flatten(ShopStock.Roll(merchant, 12345, 2));
         Assert.Equal(first.Select(o => o.StockKey), second.Select(o => o.StockKey));
         Assert.Equal(merchant.Shelves.Select(s => s.Category), ShopStock.Roll(merchant, 12345, 2).Select(s => s.Category));
+    }
+
+    [Fact]
+    public void ShopShelfPoolsExceedStockSize()
+    {
+        foreach (var merchant in DefRepository<MerchantDef>.Defs)
+        {
+            foreach (var shelf in merchant.Shelves)
+            {
+                var setCount = shelf.Offers.Count(offer => offer.IsSet);
+                var pieceCount = shelf.Offers.Count(offer => !offer.IsSet);
+                var rolledSlots = Math.Max(0, shelf.StockSize - setCount);
+                Assert.True(
+                    pieceCount > rolledSlots,
+                    $"{merchant.Moniker} {shelf.Category}: {pieceCount} pieces for {rolledSlots} rolled slots");
+            }
+        }
+    }
+
+    [Fact]
+    public void ShopStockVariesAcrossSeeds()
+    {
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
+        var distinct = Enumerable.Range(1, 16)
+            .Select(seed => string.Join(",", ShopStock.Flatten(ShopStock.Roll(merchant, seed, 0)).Select(o => o.StockKey)))
+            .Distinct()
+            .Count();
+        Assert.True(distinct > 1);
     }
 
     [Fact]
@@ -174,13 +243,14 @@ public class ArenaRunTests
     }
 
     [Fact]
-    public void AuthoredSetPricesAreTwentyPercentOffPieces()
+    public void SetPricesAreTwentyPercentOffPieceGoldCosts()
     {
         foreach (var merchant in DefRepository<MerchantDef>.Defs)
         {
             foreach (var offer in merchant.AllOffers.Where(o => o.IsSet))
             {
-                Assert.Equal(ShopCatalog.ComputeSetCost(offer.SetPieces, merchant), offer.GoldCost);
+                Assert.All(offer.SetPieces, piece => Assert.True(piece.GoldCost > 0));
+                Assert.Equal(ShopCatalog.ComputeSetCost(offer.SetPieces), offer.ResolveGoldCost());
             }
         }
     }
@@ -195,7 +265,7 @@ public class ArenaRunTests
         var goldBefore = context.ArenaRun!.Gold;
 
         Assert.True(context.ArenaRun.TryBuy(context, set));
-        Assert.Equal(goldBefore - set.GoldCost, context.ArenaRun.Gold);
+        Assert.Equal(goldBefore - set.ResolveGoldCost(), context.ArenaRun.Gold);
         foreach (var piece in set.SetPieces.Distinct())
         {
             Assert.True(context.PlayerPawn.Inventory.Contains(piece));
@@ -228,14 +298,49 @@ public class ArenaRunTests
         var context = scope.Context;
         var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
         context.ArenaRun!.CurrentMerchant = merchant;
-        var offer = merchant.AllOffers.First(o => !o.IsSet && o.ItemDef!.Moniker == "WoodClub");
+        var offer = merchant.AllOffers.First(o => !o.IsSet && o.ItemDef!.Moniker == "DriedMeat");
         Assert.True(context.ArenaRun.TryBuy(context, offer));
         var item = context.PlayerPawn.Inventory.First(i => i.ItemDef == offer.ItemDef);
         var goldBeforeSell = context.ArenaRun.Gold;
 
         Assert.True(context.ArenaRun.TrySell(context, item));
-        Assert.Equal(goldBeforeSell + offer.GoldCost / 10, context.ArenaRun.Gold);
+        Assert.Equal(goldBeforeSell + offer.ResolveGoldCost() / 10, context.ArenaRun.Gold);
         Assert.False(context.PlayerPawn.Inventory.Contains(offer.ItemDef!));
+    }
+
+    [Fact]
+    public void GeneralStoreUsesTwelveColumnShelfRows()
+    {
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
+        var rows = ShopLayout.GroupRows(merchant.Shelves, shelf => shelf.Columns);
+        Assert.Equal(
+        [
+            [ShopCategory.Starter],
+            [ShopCategory.Weapons, ShopCategory.Armor],
+            [ShopCategory.Medicine, ShopCategory.Potions]
+        ], rows.Select(row => row.Select(shelf => shelf.Category).ToArray()).ToArray());
+        Assert.Equal(12, merchant.Shelves[0].StockSize);
+        Assert.Equal(1, merchant.Shelves[0].ItemColumns);
+        Assert.All(rows, row => Assert.Equal(ShopLayout.GridColumns, row.Sum(shelf => shelf.ResolvedColumns)));
+    }
+
+    [Fact]
+    public void ShopRowsUseSpansThatFillTwelveColumns()
+    {
+        foreach (var merchant in DefRepository<MerchantDef>.Defs)
+        {
+            foreach (var shelf in merchant.Shelves)
+            {
+                Assert.Equal(1, shelf.ResolvedItemColumns);
+                Assert.Equal(0, ShopLayout.GridColumns % shelf.ResolvedColumns);
+                Assert.Equal(0, shelf.ResolvedColumns % shelf.ResolvedItemColumns);
+            }
+
+            foreach (var row in ShopLayout.GroupRows(merchant.Shelves, shelf => shelf.Columns))
+            {
+                Assert.Equal(ShopLayout.GridColumns, row.Sum(shelf => shelf.ResolvedColumns));
+            }
+        }
     }
 
     [Fact]
@@ -276,20 +381,19 @@ public class ArenaRunTests
     }
 
     [Fact]
-    public void BuildPoolPicksAnyBuildInTheRoundIncludingSelf()
+    public void BuildPoolPrefersOtherPlayersOverSelf()
     {
         var path = Path.Combine(Path.GetTempPath(), $"wendlewind-pool-{Guid.NewGuid():N}.json");
         try
         {
             var pool = new BuildPool(path);
-            var alice = BuildTemplates.TankRegen() with { PlayerId = "alice", Round = 1 };
-            var bob = BuildTemplates.AcidRusher() with { PlayerId = "bob", Round = 1 };
-            pool.Upsert(alice);
-            pool.Upsert(bob);
+            pool.Upsert(BuildTemplates.TankRegen() with { PlayerId = "alice", Round = 1 });
+            pool.Upsert(BuildTemplates.AcidRusher() with { PlayerId = "bob", Round = 1 });
 
-            var opponent = pool.PickOpponent(1);
-            Assert.NotNull(opponent);
-            Assert.Contains(opponent.PlayerId, (string[])["alice", "bob"]);
+            for (var i = 0; i < 20; i++)
+            {
+                Assert.Equal("bob", pool.PickOpponent(1, "alice")!.PlayerId);
+            }
         }
         finally
         {
@@ -301,11 +405,21 @@ public class ArenaRunTests
     }
 
     [Fact]
+    public void BuildPoolFallsBackToOtherRoundsWhenAloneThisRound()
+    {
+        var pool = new BuildPool();
+        pool.Upsert(BuildTemplates.TankRegen() with { PlayerId = "alice", Round = 1 });
+        pool.Upsert(BuildTemplates.AcidRusher() with { PlayerId = "bob", Round = 2 });
+
+        Assert.Equal("alice", pool.PickOpponent(2, "bob")!.PlayerId);
+    }
+
+    [Fact]
     public void BuildPoolPicksOwnBuildWhenAlone()
     {
         var pool = new BuildPool();
         pool.Upsert(BuildTemplates.TankRegen() with { PlayerId = "solo", BuildId = "arena-1", Round = 1 });
-        var opponent = pool.PickOpponent(1);
+        var opponent = pool.PickOpponent(1, "solo");
         Assert.NotNull(opponent);
         Assert.Equal("solo", opponent.PlayerId);
         Assert.Equal("arena-1", opponent.BuildId);
@@ -344,6 +458,32 @@ public class ArenaRunTests
         Assert.Equal("alice", pool.PickOpponent(1)!.PlayerId);
         Assert.Equal("bob", pool.PickOpponent(2)!.PlayerId);
         Assert.Null(pool.PickOpponent(3));
+    }
+
+    [Fact]
+    public void ReapplyingPrepSnapshotAfterFightConsumesMealAndIncense()
+    {
+        using var scope = CreateArena();
+        var pawn = scope.Context.PlayerPawn;
+        var meatDef = DefRepository<ItemDef>.GetByMoniker("DriedMeat")!;
+        var incenseDef = DefRepository<ItemDef>.GetByMoniker("MullinStick")!;
+        var meat = scope.Context.Factory.CreateEntity<Item>(meatDef, 1);
+        var incense = scope.Context.Factory.CreateEntity<Item>(incenseDef, 1);
+        Assert.True(pawn.Inventory.TryAdd(meat));
+        Assert.True(pawn.Inventory.TryAdd(incense));
+        Assert.True(pawn.MealPlan.TryAdd(meat));
+        Assert.True(pawn.TryLightIncense(incense, requireFlameStick: false));
+
+        var snapshot = BuildSnapshotFactory.ToSnapshot(pawn, "p", "arena-1", 1, round: 1);
+        using var restored = CreateArena();
+        var restoredPawn = restored.Context.PlayerPawn;
+        BuildSnapshotFactory.Apply(restoredPawn, snapshot);
+        restoredPawn.ApplyPersistedBattleConsumableCosts();
+
+        Assert.Equal(0, restoredPawn.Inventory.AmountOf(meatDef));
+        Assert.Empty(restoredPawn.MealPlan.Items);
+        Assert.Single(restoredPawn.ActiveIncense);
+        Assert.Equal(1, restoredPawn.ActiveIncense[0].EncountersRemaining);
     }
 
     [Fact]

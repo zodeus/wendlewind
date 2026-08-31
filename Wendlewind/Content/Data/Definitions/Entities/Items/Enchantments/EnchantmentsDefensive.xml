@@ -10,6 +10,7 @@
         <Moniker>SoothingVibrations</Moniker>
         <Label>Soothing Vibrations</Label>
         <Description>When struck it vibrates with life energy.</Description>
+        <GoldCost>80</GoldCost>
         <EnchantmentProperties>
             <ValidEquipmentTypes>
                 <ListItem>Armor</ListItem>
@@ -22,6 +23,7 @@
         <Moniker>BloodBath</Moniker>
         <Label>Blood Bath</Label>
         <Description>Time for the gore to pour.\n\nRestores a small amount of blood each time this takes damages</Description>
+        <GoldCost>95</GoldCost>
         <EnchantmentProperties>
             <ValidEquipmentTypes>
                 <ListItem>Armor</ListItem>
@@ -34,6 +36,7 @@
         <Moniker>RhinoSkin</Moniker>
         <Label>Rhino Skin</Label>
         <Description>Thick and chunky.</Description>
+        <GoldCost>110</GoldCost>
         <EnchantmentProperties>
             <ValidEquipmentTypes>
                 <ListItem>Armor</ListItem>
@@ -53,6 +56,7 @@
         <Moniker>ElvishLeaf</Moniker>
         <Label>Elvish Leaf</Label>
         <Description>Elvish Leaf, passivly heals</Description>
+        <GoldCost>90</GoldCost>
         <EnchantmentProperties>
             <ValidEquipmentTypes>
                 <ListItem>Armor</ListItem>

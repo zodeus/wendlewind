@@ -5,6 +5,7 @@
         <Moniker>SpidersBite</Moniker>
         <Label>Spiders Bite</Label>
         <Description>Hit me once shame you, I bite you.</Description>
+        <GoldCost>90</GoldCost>
         <EnchantmentProperties>
             <ValidEquipmentTypes>
                 <ListItem>Weapon</ListItem>
@@ -25,6 +26,7 @@
         <Moniker>FesteringWounds</Moniker>
         <Label>Festering Wounds</Label>
         <Description>It spreads...</Description>
+        <GoldCost>85</GoldCost>
         <EnchantmentProperties>
             <ValidEquipmentTypes>
                 <ListItem>Weapon</ListItem>
@@ -43,6 +45,7 @@
         <Moniker>BoneEater</Moniker>
         <Label>Bone Eater</Label>
         <Description>Watch them crumble from the inside.</Description>
+        <GoldCost>95</GoldCost>
         <EnchantmentProperties>
             <ValidEquipmentTypes>
                 <ListItem>Weapon</ListItem>
@@ -61,6 +64,7 @@
         <Moniker>EverburningStone</Moniker>
         <Label>Everburning Stone</Label>
         <Description>The stone never stops burning.</Description>
+        <GoldCost>100</GoldCost>
         <EnchantmentProperties>
             <ValidEquipmentTypes>
                 <ListItem>Weapon</ListItem>

@@ -36,7 +36,7 @@ public sealed class ArenaResultsScreen : VerticalStackPanel
         {
             Content = new Label
             {
-                Text = run.IsRunOver ? "See run results" : "Choose a merchant",
+                Text = "Choose a merchant",
                 HorizontalAlignment = HorizontalAlignment.Center
             },
             HorizontalAlignment = HorizontalAlignment.Center

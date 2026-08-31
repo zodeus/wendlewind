@@ -9,6 +9,7 @@
         <Moniker>RawMeat</Moniker>
         <Label>Raw Meat</Label>
         <Description>Raw meat.</Description>
+        <GoldCost>12</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/RawMeat</TexturePath>
         <FoodProperties>
             <FoodType>RawMeat</FoodType>
@@ -30,6 +31,7 @@
         <Moniker>RawFish</Moniker>
         <Label>Raw Fish</Label>
         <Description>Raw sprink fish.</Description>
+        <GoldCost>10</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/RawFish</TexturePath>
         <FoodProperties>
             <FoodType>RawMeat</FoodType>
@@ -47,6 +49,7 @@
         <Moniker>CookedFish</Moniker>
         <Label>Cooked Fish</Label>
         <Description>It's a nicely cooked fish.</Description>
+        <GoldCost>10</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/CookedFish</TexturePath>
         <FoodProperties>
             <FoodType>CookedMeat</FoodType>
@@ -75,6 +78,7 @@
         <Moniker>CookedMeat</Moniker>
         <Label>Cooked Meat</Label>
         <Description>Some cooked meat, a nice belly filler.</Description>
+        <GoldCost>10</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/CookedMeat</TexturePath>
         <FoodProperties>
             <FoodType>CookedMeat</FoodType>
@@ -103,6 +107,7 @@
         <Moniker>HeartyStew</Moniker>
         <Label>Hearty Stew</Label>
         <Description>Nicely stewed meat and vegetables.</Description>
+        <GoldCost>50</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/FishStew</TexturePath>
         <FoodProperties>
             <FoodType>CookedMeat</FoodType>
@@ -147,6 +152,7 @@
         <Moniker>DriedMeat</Moniker>
         <Label>Dried Meat</Label>
         <Description>Some dried meat, it's beefy.</Description>
+        <GoldCost>20</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/DriedMeat</TexturePath>
         <FoodProperties>
             <FoodType>DriedMeat</FoodType>
@@ -175,6 +181,7 @@
         <Moniker>RawGrain</Moniker>
         <Label>Raw Grain</Label>
         <Description>Can be milled.</Description>
+        <GoldCost>10</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/RawGrain</TexturePath>
         <FoodProperties>
             <FoodType>RawGrain</FoodType>
@@ -192,6 +199,7 @@
         <Moniker>RawCorn</Moniker>
         <Label>Raw Corn</Label>
         <Description>Can be boiled and eaten</Description>
+        <GoldCost>8</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/RawCorn</TexturePath>
         <FoodProperties>
             <FoodType>RawGrain</FoodType>
@@ -209,6 +217,7 @@
         <Moniker>CookedCorn</Moniker>
         <Label>Cooked Corn</Label>
         <Description>Some cooked corn, it's energizing</Description>
+        <GoldCost>20</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/CookedCorn</TexturePath>
         <FoodProperties>
             <FoodType>CookedVegetable</FoodType>
@@ -239,6 +248,7 @@
         <Moniker>GoldCapMushroom</Moniker>
         <Label>Golden Cap</Label>
         <Description>This is an interesting morsel, perhaps I should taste it...</Description>
+        <GoldCost>40</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/GoldCapMushroom</TexturePath>
         <FoodProperties>
             <FoodType>Fungi</FoodType>
@@ -256,6 +266,7 @@
         <Moniker>InkyCapMushroom</Moniker>
         <Label>Inky Cap Mushroom</Label>
         <Description>Probably not a good idea to taste this one...</Description>
+        <GoldCost>35</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/InkyCapMushroom</TexturePath>
         <FoodProperties>
             <FoodType>Fungi</FoodType>
@@ -273,6 +284,7 @@
         <Moniker>WondrousJam</Moniker>
         <Label>Wondrous Jam</Label>
         <Description />
+        <GoldCost>50</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/WondrousJam</TexturePath>
         <FoodProperties>
             <FoodType>Fruit</FoodType>
@@ -313,6 +325,7 @@
         <Moniker>Walnut</Moniker>
         <Label>Walnut</Label>
         <Description>A walnut, earthy and nutritious, a very nice snack.</Description>
+        <GoldCost>100</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/Walnut</TexturePath>
         <FoodProperties>
             <FoodType>Nut</FoodType>
@@ -331,6 +344,7 @@
         <Moniker>HoneyPot</Moniker>
         <Label>Honey Pot</Label>
         <Description>A pot filled with honey. It's sweet and sticky.</Description>
+        <GoldCost>60</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/HoneyPot</TexturePath>
         <FoodProperties>
             <FoodType>Nectar</FoodType>

@@ -10,48 +10,56 @@
         <Moniker>WeepingBucket</Moniker>
         <Label>Weeping Bucket</Label>
         <Description>It's a bucket, not all to special, however... as your pour it out you notice the inside begin to weep.</Description>
+        <GoldCost>50</GoldCost>
         <TexturePath>Entities/Item/Trinket/WeepingBucket</TexturePath>
     </ItemDef>
     <ItemDef ParentName="PassiveTrinket">
         <Moniker>CookingPot</Moniker>
         <Label>Cooking Pot</Label>
         <Description>A pot for cooking.</Description>
+        <GoldCost>40</GoldCost>
         <TexturePath>Entities/Item/Trinket/CookingPot</TexturePath>
     </ItemDef>
     <ItemDef ParentName="PassiveTrinket">
         <Moniker>MortarAndPestle</Moniker>
         <Label>Mortar and Pestle</Label>
         <Description>For making big things into smaller things.</Description>
+        <GoldCost>45</GoldCost>
         <TexturePath>Entities/Item/Trinket/MortarAndPestle</TexturePath>
     </ItemDef>
     <ItemDef ParentName="PassiveTrinket">
         <Moniker>FlameStick</Moniker>
         <Label>Flame Stick</Label>
         <Description>A primitive fire-starting tool.</Description>
+        <GoldCost>35</GoldCost>
         <TexturePath>Entities/Item/Trinket/FlameStick</TexturePath>
     </ItemDef>
     <ItemDef ParentName="PassiveTrinket">
         <Moniker>VialOfDuplicity</Moniker>
         <Label>Vial of Duplicity</Label>
         <Description>A vial that seems to copy itself.</Description>
+        <GoldCost>85</GoldCost>
         <TexturePath>Entities/Item/Trinket/VialOfDuplicity</TexturePath>
     </ItemDef>
     <ItemDef ParentName="PassiveTrinket">
         <Moniker>MechanicalEye</Moniker>
         <Label>Mechanical Eye</Label>
         <Description>Never lose your way again.</Description>
+        <GoldCost>80</GoldCost>
         <TexturePath>Entities/Item/Trinket/MechanicalEye</TexturePath>
     </ItemDef>
     <ItemDef ParentName="PassiveTrinket">
         <Moniker>TinkersToolbox</Moniker>
         <Label>Tinkers Toolbox</Label>
         <Description>Opens more crafting possibilities</Description>
+        <GoldCost>90</GoldCost>
         <TexturePath>Entities/Item/Trinket/TinkersToolbox</TexturePath>
     </ItemDef>
     <ItemDef ParentName="PassiveTrinket">
         <Moniker>Monocle</Moniker>
         <Label>Monocle</Label>
         <Description>A monocle, useful for seeing things, critical things.</Description>
+        <GoldCost>70</GoldCost>
         <TexturePath>Entities/Item/Trinket/Monocle</TexturePath>
     </ItemDef>
 

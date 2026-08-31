@@ -5,6 +5,7 @@
         <Moniker>WoodClub</Moniker>
         <Label>Wood Club</Label>
         <Description>A tool used in the service of justice (1.5x to bones)</Description>
+        <GoldCost>25</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
         </EquipmentProperties>
@@ -29,6 +30,7 @@
         <Moniker>BoneKnife</Moniker>
         <Label>Bone Knife</Label>
         <Description>It's a knife made from bone</Description>
+        <GoldCost>35</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
         </EquipmentProperties>
@@ -57,6 +59,7 @@
         <Moniker>BoneSpear</Moniker>
         <Label>Bone Spear</Label>
         <Description>It's a spear made from bone</Description>
+        <GoldCost>60</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
         </EquipmentProperties>
@@ -85,6 +88,7 @@
         <Moniker>BoneAxe</Moniker>
         <Label>Bone Axe</Label>
         <Description>It's an axe made from bone</Description>
+        <GoldCost>45</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
         </EquipmentProperties>
@@ -109,6 +113,7 @@
         <Moniker>StoneHammer</Moniker>
         <Label>Stone Hammer</Label>
         <Description>It's a hammer made from stone</Description>
+        <GoldCost>50</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
         </EquipmentProperties>

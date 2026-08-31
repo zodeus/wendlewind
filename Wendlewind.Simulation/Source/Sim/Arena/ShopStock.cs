@@ -4,6 +4,8 @@ public sealed class RolledShelf
 {
     public required ShopCategory Category { get; init; }
     public required IReadOnlyList<MerchantOffer> Offers { get; init; }
+    public int Columns { get; init; } = ShopLayout.GridColumns;
+    public int ItemColumns { get; init; } = 1;
 }
 
 public static class ShopStock
@@ -23,7 +25,9 @@ public static class ShopStock
             rolled.Add(new RolledShelf
             {
                 Category = shelf.Category,
-                Offers = RollShelf(shelf, rng, round)
+                Offers = RollShelf(shelf, rng, round),
+                Columns = shelf.ResolvedColumns,
+                ItemColumns = shelf.ResolvedItemColumns
             });
         }
 
