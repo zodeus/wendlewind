@@ -157,6 +157,26 @@ public sealed class PlayerStore
         }
     }
 
+    public bool DeletePlayer(string playerId)
+    {
+        lock (_gate)
+        {
+            if (!IsSafeId(playerId))
+            {
+                return false;
+            }
+
+            var dir = PlayerDir(playerId);
+            if (!Directory.Exists(dir))
+            {
+                return false;
+            }
+
+            Directory.Delete(dir, true);
+            return true;
+        }
+    }
+
     public List<AdminPlayerRow> ListPlayers()
     {
         lock (_gate)

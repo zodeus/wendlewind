@@ -66,6 +66,17 @@ public static class AdminEndpoints
             return detail is null ? Results.NotFound() : Results.Ok(detail);
         });
 
+        api.MapDelete("/players/{playerId}", (string playerId) =>
+        {
+            if (!players.DeletePlayer(playerId))
+            {
+                return Results.NotFound();
+            }
+
+            pool.RemovePlayer(playerId);
+            return Results.NoContent();
+        });
+
         api.MapGet("/runs", () => Results.Ok(players.ListAllRunRows()));
 
         api.MapGet("/runs/{playerId}/{runId}", (string playerId, string runId) =>

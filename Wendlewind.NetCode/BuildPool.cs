@@ -67,6 +67,30 @@ public sealed class BuildPool
         }
     }
 
+    public int RemovePlayer(string playerId)
+    {
+        if (string.IsNullOrWhiteSpace(playerId))
+        {
+            return 0;
+        }
+
+        lock (_gate)
+        {
+            var removed = 0;
+            foreach (var list in _rounds.Values)
+            {
+                removed += list.RemoveAll(build => IsSamePlayer(build.PlayerId, playerId));
+            }
+
+            if (removed > 0)
+            {
+                PersistUnlocked();
+            }
+
+            return removed;
+        }
+    }
+
     public BuildSnapshot? Get(string playerId)
     {
         lock (_gate)

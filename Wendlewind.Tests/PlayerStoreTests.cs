@@ -139,6 +139,13 @@ public class PlayerStoreTests
             Assert.Equal(1, overview.Runs);
             Assert.Equal(3, overview.PoolBuilds);
             Assert.Single(overview.ActivePlayers);
+
+            Assert.True(store.DeletePlayer("alice"));
+            Assert.Null(store.GetProfile("alice"));
+            Assert.Null(store.GetPlayerDetail("alice"));
+            Assert.False(store.DeletePlayer("alice"));
+            Assert.Single(store.ListPlayers());
+            Assert.Equal("bob", store.ListPlayers()[0].PlayerId);
         }
         finally
         {

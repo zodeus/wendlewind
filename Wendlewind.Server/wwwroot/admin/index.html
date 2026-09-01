@@ -69,6 +69,20 @@
       text-decoration: none;
     }
 
+    button.danger {
+      background: #3a1810;
+      border-color: var(--bad);
+    }
+
+    button.danger:hover {
+      background: #522018;
+    }
+
+    button.small {
+      padding: 0.2rem 0.5rem;
+      font-size: 0.8rem;
+    }
+
     .spacer { flex: 1; }
 
     .muted { color: var(--muted); }
@@ -408,6 +422,36 @@
       });
     }
 
+    async function deletePlayer(playerId, displayName) {
+      const label = displayName || playerId;
+      if (!confirm("Delete " + label + " and all their arena data? This cannot be undone.")) {
+        return;
+      }
+
+      try {
+        await api("/players/" + encodeURIComponent(playerId), { method: "DELETE" });
+        state.cache = {};
+        if (state.route.parts[0] === "players" && state.route.parts[1]) {
+          location.hash = "#/players";
+          return;
+        }
+        render();
+        await load();
+      } catch (error) {
+        paint(() => `<p class="error">${esc(error.message)}</p>`);
+      }
+    }
+
+    function bindDeletes() {
+      document.querySelectorAll("[data-delete]").forEach((el) => {
+        el.addEventListener("click", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          deletePlayer(el.getAttribute("data-delete"), el.getAttribute("data-name"));
+        });
+      });
+    }
+
     function searchBox(placeholder) {
       return `<div class="toolbar"><input type="search" id="search" placeholder="${esc(placeholder)}" value="${esc(state.search)}"></div>`;
     }
@@ -513,6 +557,7 @@
             ${header("totalWins", "W–L")}
             ${header("hasActiveArena", "Arena")}
             ${header("lastPlayedAt", "Last played")}
+            <th></th>
           </tr></thead>
           <tbody>
             ${filtered.map((p) => `
@@ -526,6 +571,7 @@
                   ? `<span class="pill warn">${esc(p.activePhase || "Active")} ${record(p.activeWins, p.activeLosses)} · ${p.activeGold ?? 0}g</span>`
                   : `<span class="muted">Idle</span>`}</td>
                 <td>${when(p.lastPlayedAt)}</td>
+                <td><button type="button" class="danger small" data-delete="${esc(p.playerId)}" data-name="${esc(p.displayName)}">Delete</button></td>
               </tr>`).join("")}
           </tbody>
         </table>
@@ -550,7 +596,10 @@
             <h2 style="margin:0.35rem 0 0">${esc(p.displayName)}</h2>
             <div class="id">${esc(p.playerId)}</div>
           </div>
-          <div>${p.hasActiveArena ? `<span class="pill warn">In arena</span>` : `<span class="pill">Idle</span>`}</div>
+          <div style="display:flex;gap:0.5rem;align-items:center">
+            ${p.hasActiveArena ? `<span class="pill warn">In arena</span>` : `<span class="pill">Idle</span>`}
+            <button type="button" class="danger" data-delete="${esc(p.playerId)}" data-name="${esc(p.displayName)}">Delete player</button>
+          </div>
         </div>
         <dl class="kv">
           <dt>Username</dt><dd>${esc(p.username || "—")}</dd>
@@ -776,6 +825,7 @@
     function afterPaint() {
       bindSort();
       bindClicks();
+      bindDeletes();
       bindSearch();
     }
 
