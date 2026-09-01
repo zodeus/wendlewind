@@ -68,11 +68,11 @@ public class GameContext : IExposable, IHasContext
         Scribe.ObjectFactory = factory;
     }
 
-    public void Initialize(int? runSeed = null)
+    public void Initialize(int? runSeed = null, string? playerName = null)
     {
         RunSeed = runSeed ?? System.Random.Shared.Next();
         Rng = new Random(RunSeed);
-        World = WorldGenerator.GenerateNewWorld(this);
+        World = WorldGenerator.GenerateNewWorld(this, playerName);
         CurrentZone = null;
         ArenaRun = null;
         Ticks = 0;
@@ -86,7 +86,7 @@ public class GameContext : IExposable, IHasContext
 
     public void InitializeArena(string playerId, string playerName, int? runSeed = null)
     {
-        Initialize(runSeed);
+        Initialize(runSeed, playerName);
         Player.ResetForArena(playerName);
         WirePawnEvents();
         RefreshPlayerMedicalChest();

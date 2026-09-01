@@ -6,13 +6,15 @@ public class Player : IExposable, IHasContext
     private Pawn _pawn = null!;
 
     private List<ItemDef> _trinketsFound = null!;
-    public string Label => "undefined";
+    public string Username = "";
+    public string Label => string.IsNullOrWhiteSpace(Username) ? "undefined" : Username;
     public Pawn Pawn => _pawn;
 
     public IReadOnlyList<ItemDef> TrinketsFound => _trinketsFound;
 
-    public void Initialize()
+    public void Initialize(string? username = null)
     {
+        SetUsername(username);
         Reset();
     }
 
@@ -25,6 +27,7 @@ public class Player : IExposable, IHasContext
 
     public void ResetForArena(string name, string? pawnDefMoniker = null)
     {
+        SetUsername(name);
         _pawn?.Destroy();
         _trinketsFound = new List<ItemDef>();
         var empty = DefRepository<PawnLoadoutDef>.GetByMoniker("EmptyLoadout")
@@ -34,7 +37,7 @@ public class Player : IExposable, IHasContext
         _pawn = PawnGenerator.CreatePawn(
             Context,
             new PawnRequest(
-                string.IsNullOrWhiteSpace(name) ? "Bilbert" : name,
+                ResolvePawnName(),
                 pawnDef,
                 empty,
                 PawnType.Player));
@@ -57,6 +60,9 @@ public class Player : IExposable, IHasContext
     {
         ScribeDeep.Look(ref _pawn!, "Pawn");
         ScribeCollections.Look(ref _trinketsFound!, "TrinketsFound", LookMode.Def);
+        var username = Username;
+        ScribeValues.Look(ref username, "Username", "");
+        Username = username ?? "";
     }
 
     public IEnumerable<Entity> FindItems(Func<Item, bool> filter)
@@ -84,11 +90,24 @@ public class Player : IExposable, IHasContext
     {
         var pawn = PawnGenerator.CreatePawn(
             Context,
-            new PawnRequest($"Bilbert",
-            DefRepository<PawnDef>.GetByMoniker("HumanA")!,
-            Defs.PawnLoadouts.DefaultStarterLoadout, PawnType.Player)
+            new PawnRequest(
+                ResolvePawnName(),
+                DefRepository<PawnDef>.GetByMoniker("HumanA")!,
+                Defs.PawnLoadouts.DefaultStarterLoadout,
+                PawnType.Player)
         );
 
         return pawn;
     }
+
+    private void SetUsername(string? username)
+    {
+        if (!string.IsNullOrWhiteSpace(username))
+        {
+            Username = username.Trim();
+        }
+    }
+
+    private string ResolvePawnName() =>
+        string.IsNullOrWhiteSpace(Username) ? "UnnamedPlayer" : Username;
 }

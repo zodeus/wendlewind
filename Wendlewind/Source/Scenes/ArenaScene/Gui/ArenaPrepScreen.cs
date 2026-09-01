@@ -8,7 +8,7 @@ public sealed class ArenaPrepScreen : VerticalStackPanel
     private readonly PawnPreparationPanel _pawnPanel;
     private readonly ArenaHud _hud;
 
-    public ArenaPrepScreen(BaseGui gui, GameContext context, Action onFight)
+    public ArenaPrepScreen(BaseGui gui, GameContext context, Action onFight, Action onShop)
     {
         Spacing = 10;
         Padding = new Thickness(8);
@@ -17,6 +17,12 @@ public sealed class ArenaPrepScreen : VerticalStackPanel
 
         _hud = new ArenaHud(context);
         _pawnPanel = new PawnPreparationPanel(gui, context.PlayerPawn, showGrimoire: false);
+
+        var shop = new CursorButton(BaseContent.Styles.Button.Large)
+        {
+            Content = new Label { Text = "Shop", HorizontalAlignment = HorizontalAlignment.Center }
+        };
+        shop.Click += (_, _) => onShop();
 
         var fight = new CursorButton(BaseContent.Styles.Button.LargeGold)
         {
@@ -28,7 +34,7 @@ public sealed class ArenaPrepScreen : VerticalStackPanel
         {
             Spacing = 24,
             VerticalAlignment = VerticalAlignment.Center,
-            Widgets = { fight, _hud }
+            Widgets = { shop, fight, _hud }
         };
         _pawnPanel.SetControls(headerExtras);
 

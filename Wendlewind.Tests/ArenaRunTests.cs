@@ -335,6 +335,92 @@ public class ArenaRunTests
     }
 
     [Fact]
+    public void TrySellUnequipsWornGearAndPaysSellPrice()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var offer = Offer("WoodClub");
+        context.ArenaRun!.Gold = Math.Max(context.ArenaRun.Gold, offer.ResolveGoldCost());
+        Assert.True(context.ArenaRun.TryBuy(context, offer));
+        var equipped = context.PlayerPawn.Equipment.First(item => item.Def == offer.ItemDef && !item.IsDestroyed);
+        Assert.Contains(ShopPack.SellableItems(context.PlayerPawn), entry => entry.Equipped && entry.Item == equipped);
+        var goldBefore = context.ArenaRun.Gold;
+
+        Assert.True(context.ArenaRun.TrySell(context, equipped));
+        Assert.Equal(goldBefore + ShopCatalog.GetSellPrice(offer.ItemDef!), context.ArenaRun.Gold);
+        Assert.False(Owns(context.PlayerPawn, offer.ItemDef!));
+    }
+
+    [Fact]
+    public void ShopPackOmitsBuiltinEquipment()
+    {
+        using var scope = CreateArena();
+        var pawn = scope.Context.PlayerPawn;
+        Assert.Contains(pawn.Equipment, item => ShopPack.IsBuiltin(item));
+        Assert.DoesNotContain(ShopPack.SellableItems(pawn), entry => ShopPack.IsBuiltin(entry.Item));
+    }
+
+    [Fact]
+    public void OpenShopVisitKeepsPurchasedHoles()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var run = context.ArenaRun!;
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
+        run.CurrentMerchant = merchant;
+        var rolled = ShopStock.Roll(
+            merchant,
+            run.RunSeed,
+            run.FightsPlayed,
+            ShopStock.OwnedUniqueMonikers(context.Player));
+        var stock = run.OpenShopVisit(merchant, rolled);
+        var offer = ShopStock.Flatten(stock).First(o =>
+            !o.IsSet && o.Available == 1 && o.ItemDef?.ItemType == ItemType.Equipment);
+        run.Gold = Math.Max(run.Gold, offer.ResolveGoldCost());
+        var stockKey = offer.StockKey;
+
+        Assert.True(run.TryBuy(context, offer));
+        var restored = run.OpenShopVisit(
+            merchant,
+            ShopStock.Roll(
+                merchant,
+                run.RunSeed,
+                run.FightsPlayed,
+                ShopStock.OwnedUniqueMonikers(context.Player)));
+        Assert.DoesNotContain(ShopStock.Flatten(restored), o => o.StockKey == stockKey);
+    }
+
+    [Fact]
+    public void ProgressRoundTripKeepsShopVisitHoles()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var run = context.ArenaRun!;
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
+        run.CurrentMerchant = merchant;
+        var stock = run.OpenShopVisit(
+            merchant,
+            ShopStock.Roll(merchant, run.RunSeed, run.FightsPlayed, ShopStock.OwnedUniqueMonikers(context.Player)));
+        var offer = ShopStock.Flatten(stock).First(o =>
+            !o.IsSet && o.Available == 1 && o.ItemDef?.ItemType == ItemType.Equipment);
+        run.Gold = Math.Max(run.Gold, offer.ResolveGoldCost());
+        var stockKey = offer.StockKey;
+        Assert.True(run.TryBuy(context, offer));
+
+        var record = ArenaProgressMapper.FromRun(run, null, "shop-visit", DateTimeOffset.UtcNow);
+        using var restored = CreateArena();
+        ArenaProgressMapper.ApplyTo(restored.Context.ArenaRun!, record);
+        var shelves = restored.Context.ArenaRun!.OpenShopVisit(
+            merchant,
+            ShopStock.Roll(
+                merchant,
+                restored.Context.ArenaRun.RunSeed,
+                restored.Context.ArenaRun.FightsPlayed,
+                ShopStock.OwnedUniqueMonikers(restored.Context.Player)));
+        Assert.DoesNotContain(ShopStock.Flatten(shelves), o => o.StockKey == stockKey);
+    }
+
+    [Fact]
     public void GeneralStoreUsesTwelveColumnShelfRows()
     {
         var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;

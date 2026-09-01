@@ -47,9 +47,20 @@ public sealed record ArenaProgressRecord
     public string? LastOpponentPlayerId { get; init; }
     public bool LastFightWon { get; init; }
     public int LastGoldDelta { get; init; }
+    public string ShopVisitKey { get; init; } = "";
+    public List<ShopShelfRecord> ShopShelves { get; init; } = [];
     public BuildSnapshot? Loadout { get; init; }
     public DateTimeOffset StartedAt { get; init; }
     public DateTimeOffset UpdatedAt { get; init; }
+}
+
+public sealed record ShopShelfRecord
+{
+    public string Category { get; init; } = "";
+    public int Columns { get; init; }
+    public int ItemColumns { get; init; } = 1;
+    public List<string> OfferKeys { get; init; } = [];
+    public List<int> Remaining { get; init; } = [];
 }
 
 public sealed record ArenaFightRecord

@@ -27,6 +27,8 @@ public static class ArenaProgressMapper
             LastOpponentPlayerId = run.LastOpponentPlayerId,
             LastFightWon = run.LastFightWon,
             LastGoldDelta = run.LastGoldDelta,
+            ShopVisitKey = run.ShopVisitKey,
+            ShopShelves = [..run.ShopShelves.Select(ToRecord)],
             Loadout = loadout,
             StartedAt = startedAt,
             UpdatedAt = DateTimeOffset.UtcNow
@@ -45,6 +47,8 @@ public static class ArenaProgressMapper
         run.LastOpponentPlayerId = record.LastOpponentPlayerId;
         run.LastFightWon = record.LastFightWon;
         run.LastGoldDelta = record.LastGoldDelta;
+        run.ShopVisitKey = record.ShopVisitKey ?? "";
+        run.ShopShelves = [..(record.ShopShelves ?? []).Select(FromRecord)];
         var merchantMoniker = record.CurrentMerchantMoniker == "WitchDoctor"
             ? "Alchemist"
             : record.CurrentMerchantMoniker;
@@ -52,5 +56,29 @@ public static class ArenaProgressMapper
             ? null
             : DefRepository<MerchantDef>.GetByMoniker(merchantMoniker, raiseError: false);
         run.SetPhase(Enum.TryParse<ArenaPhase>(record.Phase, out var phase) ? phase : ArenaPhase.GeneralStore);
+    }
+
+    private static ShopShelfRecord ToRecord(PersistedShopShelf shelf)
+    {
+        return new ShopShelfRecord
+        {
+            Category = shelf.Category.ToString(),
+            Columns = shelf.Columns,
+            ItemColumns = shelf.ItemColumns,
+            OfferKeys = [..shelf.OfferKeys],
+            Remaining = [..shelf.Remaining]
+        };
+    }
+
+    private static PersistedShopShelf FromRecord(ShopShelfRecord record)
+    {
+        return new PersistedShopShelf
+        {
+            Category = Enum.TryParse<ShopCategory>(record.Category, out var category) ? category : default,
+            Columns = record.Columns,
+            ItemColumns = record.ItemColumns,
+            OfferKeys = [..record.OfferKeys],
+            Remaining = [..record.Remaining]
+        };
     }
 }

@@ -114,6 +114,18 @@ public sealed class ArenaScene : Scene
         SaveRun();
     }
 
+    public void ReturnToShop()
+    {
+        var run = _context.ArenaRun;
+        if (run?.CurrentMerchant == null)
+        {
+            return;
+        }
+
+        run.SetPhase(run.FightsPlayed == 0 ? ArenaPhase.GeneralStore : ArenaPhase.Shop);
+        SaveRun();
+    }
+
     public void BeginFight()
     {
         if (_context.ArenaRun == null || _client == null)

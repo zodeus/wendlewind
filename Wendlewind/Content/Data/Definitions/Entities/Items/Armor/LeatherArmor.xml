@@ -10,7 +10,7 @@
     <ItemDef ParentName="LeatherArmorBase">
         <Moniker>LeatherHelmet</Moniker>
         <Label>Leather Helmet</Label>
-        <GoldCost>30</GoldCost>
+        <GoldCost>60</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>
@@ -32,7 +32,7 @@
     <ItemDef ParentName="LeatherArmorBase">
         <Moniker>LeatherGlove</Moniker>
         <Label>Leather Glove</Label>
-        <GoldCost>20</GoldCost>
+        <GoldCost>30</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandArmor</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>
@@ -58,7 +58,7 @@
     <ItemDef ParentName="LeatherArmorBase">
         <Moniker>LeatherVambrace</Moniker>
         <Label>Leather Vambrace</Label>
-        <GoldCost>35</GoldCost>
+        <GoldCost>15</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>ArmArmor</SlotUsedToEquip>
         </EquipmentProperties>
@@ -80,7 +80,7 @@
         <Moniker>LeatherGorget</Moniker>
         <Label>Leather Gorget</Label>
         <Description>Fits snuggly around your neck</Description>
-        <GoldCost>25</GoldCost>
+        <GoldCost>30</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>NeckArmor</SlotUsedToEquip>
         </EquipmentProperties>
@@ -101,7 +101,7 @@
     <ItemDef ParentName="LeatherArmorBase">
         <Moniker>LeatherBoot</Moniker>
         <Label>Leather Boot</Label>
-        <GoldCost>30</GoldCost>
+        <GoldCost>15</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>FootArmor</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>
@@ -126,7 +126,7 @@
     <ItemDef ParentName="LeatherArmorBase">
         <Moniker>LeatherGreave</Moniker>
         <Label>Leather Greave</Label>
-        <GoldCost>35</GoldCost>
+        <GoldCost>15</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>LegArmor</SlotUsedToEquip>
         </EquipmentProperties>
@@ -151,7 +151,7 @@
     <ItemDef ParentName="LeatherArmorBase">
         <Moniker>LeatherTunic</Moniker>
         <Label>Leather Tunic</Label>
-        <GoldCost>50</GoldCost>
+        <GoldCost>80</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>TorsoArmor</SlotUsedToEquip>
         </EquipmentProperties>

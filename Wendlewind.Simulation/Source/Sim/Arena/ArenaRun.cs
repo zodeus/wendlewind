@@ -20,6 +20,8 @@ public class ArenaRun : IExposable
     public string? LastOpponentPlayerId;
     public bool LastFightWon;
     public int LastGoldDelta;
+    public string ShopVisitKey = "";
+    public List<PersistedShopShelf> ShopShelves = [];
 
     public event Action<ArenaPhase>? OnPhaseChanged;
 
@@ -40,6 +42,8 @@ public class ArenaRun : IExposable
         LastOpponentPlayerId = null;
         LastFightWon = false;
         LastGoldDelta = 0;
+        ShopVisitKey = "";
+        ShopShelves = [];
         CurrentMerchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore");
         SetPhase(ArenaPhase.GeneralStore);
     }
@@ -85,8 +89,59 @@ public class ArenaRun : IExposable
         }
 
         Gold -= cost;
+        RecordPurchase(offer, quantity);
         return true;
     }
+
+    public IReadOnlyList<RolledShelf> OpenShopVisit(MerchantDef merchant, IReadOnlyList<RolledShelf> rolled)
+    {
+        var key = ShopVisitKeyFor(merchant);
+        if (ShopVisitKey == key && ShopShelves.Count > 0)
+        {
+            return ShopStock.Restore(merchant, ShopShelves);
+        }
+
+        ShopVisitKey = key;
+        ShopShelves = ShopStock.Capture(rolled);
+        return rolled;
+    }
+
+    public void RecordPurchase(MerchantOffer offer, int quantity = 1)
+    {
+        if (quantity < 1 || ShopShelves.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var shelf in ShopShelves)
+        {
+            for (var i = 0; i < shelf.OfferKeys.Count; i++)
+            {
+                if (shelf.OfferKeys[i] != offer.StockKey)
+                {
+                    continue;
+                }
+
+                var remaining = i < shelf.Remaining.Count ? shelf.Remaining[i] : 0;
+                remaining = Math.Max(0, remaining - quantity);
+                if (remaining <= 0)
+                {
+                    shelf.OfferKeys.RemoveAt(i);
+                    if (i < shelf.Remaining.Count)
+                    {
+                        shelf.Remaining.RemoveAt(i);
+                    }
+
+                    return;
+                }
+
+                shelf.Remaining[i] = remaining;
+                return;
+            }
+        }
+    }
+
+    public string ShopVisitKeyFor(MerchantDef merchant) => $"{merchant.Moniker}:{FightsPlayed}";
 
     public bool TrySell(GameContext context, Item item)
     {
@@ -222,11 +277,16 @@ public class ArenaRun : IExposable
         PlayerName = playerName ?? "";
         Phase = phase;
         ScribeDefs.Look(ref CurrentMerchant, "CurrentMerchant");
-        ScribeCollections.Look(ref FoughtPlayerIds, "FoughtPlayerIds", LookMode.Value);
+        ScribeCollections.Look(ref FoughtPlayerIds!, "FoughtPlayerIds", LookMode.Value);
         var lastOpponent = LastOpponentPlayerId ?? "";
         ScribeValues.Look(ref lastOpponent, "LastOpponentPlayerId", "");
         LastOpponentPlayerId = string.IsNullOrEmpty(lastOpponent) ? null : lastOpponent;
         ScribeValues.Look(ref LastFightWon, "LastFightWon");
         ScribeValues.Look(ref LastGoldDelta, "LastGoldDelta");
+        ScribeValues.Look(ref ShopVisitKey!, "ShopVisitKey", "");
+        ScribeCollections.Look(ref ShopShelves!, "ShopShelves", LookMode.Deep);
+        FoughtPlayerIds ??= [];
+        ShopVisitKey ??= "";
+        ShopShelves ??= [];
     }
 }

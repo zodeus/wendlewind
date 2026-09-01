@@ -48,7 +48,7 @@ public sealed class ArenaGui : BaseGui
         _activeScreen = phase switch
         {
             ArenaPhase.GeneralStore or ArenaPhase.Shop => _shopScreen = new ArenaShopScreen(this, _context, _scene.FinishShopping),
-            ArenaPhase.Prep => _prepScreen = new ArenaPrepScreen(this, _context, _scene.BeginFight),
+            ArenaPhase.Prep => _prepScreen = new ArenaPrepScreen(this, _context, _scene.BeginFight, _scene.ReturnToShop),
             ArenaPhase.Matching => new ArenaMatchingScreen(_scene.MatchError, _scene.ReturnToPrep),
             ArenaPhase.Combat => _combatScreen = new CombatScreen(this, _context, _scene.OnVisualCombatFinished),
             ArenaPhase.Results when _context.ArenaRun?.IsRunOver == true =>

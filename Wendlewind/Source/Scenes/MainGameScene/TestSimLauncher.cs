@@ -1,5 +1,6 @@
 using Wendlewind.Definitions;
 using Wendlewind.NetCode;
+using Wendlewind.Scenes.ArenaScene;
 using Wendlewind.Sim.Entities.Pawns;
 
 namespace Wendlewind.Scenes.MainGameScene;
@@ -38,7 +39,7 @@ public static class TestSimLauncher
 
     private static void ResetToZone(GameContext context)
     {
-        context.Initialize(TestSimSettings.Seed);
+        context.Initialize(TestSimSettings.Seed, PlayerProfile.LoadOrCreate().Username);
         var zone = context.World.Zones.OrderBy(z => z.ZoneDef.Stage).First();
         context.EnterZone(zone.ZoneDef);
     }

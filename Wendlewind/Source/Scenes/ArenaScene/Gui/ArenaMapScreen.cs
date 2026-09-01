@@ -2,41 +2,97 @@ using Wendlewind.Scenes.MainGameScene.Gui.Widgets.MapWidgets;
 
 namespace Wendlewind.Scenes.ArenaScene.Gui;
 
-public sealed class ArenaMapScreen : VerticalStackPanel
+public sealed class ArenaMapScreen : Grid
 {
-    private readonly ArenaHud _hud;
+    private static readonly Color TitleColor = new(214, 208, 196);
+    private static readonly Color BodyColor = new(168, 164, 156);
+    private static readonly Color Completed = new(80, 140, 80);
+    private static readonly Color Current = new(232, 170, 0);
+    private static readonly Color Locked = new(50, 50, 55);
+
+    private readonly GameContext _context;
+    private readonly GoldPurse _purse;
+    private readonly Label _runStats;
 
     public ArenaMapScreen(GameContext context, Action<MerchantDef> onMerchantPicked)
     {
-        Spacing = 16;
-        Padding = new Thickness(16);
+        Padding = new Thickness(24, 16);
+        ColumnSpacing = 0;
+        RowSpacing = 16;
         HorizontalAlignment = HorizontalAlignment.Stretch;
         VerticalAlignment = VerticalAlignment.Stretch;
+        ColumnsProportions.Add(new Proportion(ProportionType.Fill));
+        RowsProportions.Add(new Proportion(ProportionType.Auto));
+        RowsProportions.Add(new Proportion(ProportionType.Fill));
 
+        _context = context;
         var run = context.ArenaRun ?? throw new InvalidOperationException("Map requires an ArenaRun.");
-        _hud = new ArenaHud(context);
-
-        Widgets.Add(_hud);
-        Widgets.Add(new Label(BaseContent.Styles.Label.Huge)
+        _purse = new GoldPurse(context);
+        _runStats = new Label(BaseContent.Styles.Label.Medium)
         {
-            Text = "Choose a merchant",
-            HorizontalAlignment = HorizontalAlignment.Center,
-            TextColor = Color.Goldenrod
-        });
-        Widgets.Add(BuildFightSpine(run));
-        Widgets.Add(BuildMerchantRow(onMerchantPicked));
+            TextColor = Color.Goldenrod,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        RefreshRunStats(run);
+
+        var header = new VerticalStackPanel
+        {
+            Spacing = 10,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Widgets =
+            {
+                new HorizontalStackPanel
+                {
+                    Spacing = 20,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Widgets = { _purse, _runStats }
+                },
+                new Label(BaseContent.Styles.Label.Huge)
+                {
+                    Text = "Choose a merchant",
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    TextColor = TitleColor
+                },
+                new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = $"Fight {run.Wins + 1} of {ArenaRun.WinsToFinish} — who stocks your next kit?",
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    TextColor = BodyColor
+                },
+                BuildFightSpine(run)
+            }
+        };
+
+        Widgets.Add(header);
+        var merchants = BuildMerchantRow(onMerchantPicked);
+        Widgets.Add(merchants);
+        Grid.SetRow(merchants, 1);
     }
 
     private static Widget BuildFightSpine(ArenaRun run)
     {
         var row = new HorizontalStackPanel
         {
-            Spacing = 8,
-            HorizontalAlignment = HorizontalAlignment.Center
+            Spacing = 0,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center
         };
 
         for (var i = 1; i <= ArenaRun.WinsToFinish; i++)
         {
+            if (i > 1)
+            {
+                var reached = i - 1 <= run.Wins;
+                row.Widgets.Add(new Panel
+                {
+                    Width = 22,
+                    Height = 3,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Background = new SolidBrush(reached ? Completed : Locked)
+                });
+            }
+
             var state = i <= run.Wins
                 ? MapNodeState.Completed
                 : i == run.Wins + 1
@@ -44,15 +100,17 @@ public sealed class ArenaMapScreen : VerticalStackPanel
                     : MapNodeState.Locked;
             var color = state switch
             {
-                MapNodeState.Completed => new Color(80, 140, 80),
-                MapNodeState.Current => new Color(232, 170, 0),
-                _ => new Color(50, 50, 55)
+                MapNodeState.Completed => Completed,
+                MapNodeState.Current => Current,
+                _ => Locked
             };
+            var size = state == MapNodeState.Current ? 42 : 34;
 
             row.Widgets.Add(new Panel
             {
-                Width = 36,
-                Height = 36,
+                Width = size,
+                Height = size,
+                VerticalAlignment = VerticalAlignment.Center,
                 Background = new ColoredRegion(
                     Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundWhite64],
                     color),
@@ -61,6 +119,7 @@ public sealed class ArenaMapScreen : VerticalStackPanel
                     new Label(BaseContent.Styles.Label.Small)
                     {
                         Text = i.ToString(),
+                        TextColor = state == MapNodeState.Locked ? BodyColor : Color.White,
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Center
                     }
@@ -73,34 +132,186 @@ public sealed class ArenaMapScreen : VerticalStackPanel
 
     private static Widget BuildMerchantRow(Action<MerchantDef> onMerchantPicked)
     {
-        var row = new HorizontalStackPanel
+        var merchants = DefRepository<MerchantDef>.Defs.Where(m => !m.IsGeneralStore).ToList();
+        var row = new Grid
         {
-            Spacing = 12,
-            HorizontalAlignment = HorizontalAlignment.Center
+            ColumnSpacing = 16,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch
         };
-
-        foreach (var merchant in DefRepository<MerchantDef>.Defs.Where(m => !m.IsGeneralStore))
+        row.RowsProportions.Add(new Proportion(ProportionType.Fill));
+        foreach (var _ in merchants)
         {
-            var captured = merchant;
-            var button = new CursorButton(BaseContent.Styles.Button.Normal)
-            {
-                Content = new Label(BaseContent.Styles.Label.Normal)
-                {
-                    Text = captured.Label,
-                    HorizontalAlignment = HorizontalAlignment.Center
-                },
-                Width = 160,
-                Height = 80
-            };
-            button.Click += (_, _) => onMerchantPicked(captured);
-            row.Widgets.Add(button);
+            row.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1));
+        }
+
+        for (var i = 0; i < merchants.Count; i++)
+        {
+            var captured = merchants[i];
+            var card = CreateMerchantCard(captured, onMerchantPicked);
+            row.Widgets.Add(card);
+            Grid.SetColumn(card, i);
         }
 
         return row;
     }
 
+    private static Widget CreateMerchantCard(MerchantDef merchant, Action<MerchantDef> onPicked)
+    {
+        var body = new Grid
+        {
+            RowSpacing = 8,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch
+        };
+        body.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
+        body.RowsProportions.Add(new Proportion(ProportionType.Fill));
+        body.RowsProportions.Add(new Proportion(ProportionType.Auto));
+        body.RowsProportions.Add(new Proportion(ProportionType.Auto));
+        body.RowsProportions.Add(new Proportion(ProportionType.Auto));
+
+        var portrait = CreatePortrait(merchant);
+        var name = new Label(BaseContent.Styles.Label.Medium)
+        {
+            Text = merchant.Label,
+            TextColor = TitleColor,
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
+        var shelves = new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = ShelfSummary(merchant),
+            TextColor = Color.Goldenrod,
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
+        var description = new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = merchant.Description,
+            TextColor = BodyColor,
+            Wrap = true,
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
+        body.Widgets.Add(portrait);
+        body.Widgets.Add(name);
+        body.Widgets.Add(shelves);
+        body.Widgets.Add(description);
+        Grid.SetRow(name, 1);
+        Grid.SetRow(shelves, 2);
+        Grid.SetRow(description, 3);
+
+        var button = new CursorButton(BaseContent.Styles.Button.Normal)
+        {
+            Content = body,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            Padding = new Thickness(12)
+        };
+        button.Click += (_, _) => onPicked(merchant);
+        return button;
+    }
+
+    private static Widget CreatePortrait(MerchantDef merchant)
+    {
+        IImage? portrait = null;
+        if (!string.IsNullOrWhiteSpace(merchant.TexturePath)
+            && Core.Content.TryLoad<Texture2D>(merchant.TexturePath, out var texture)
+            && texture != null)
+        {
+            portrait = new TextureRegion(texture);
+        }
+
+        return new SquareFitPortrait(portrait, PortraitColor(merchant.Kind), merchant.Label);
+    }
+
+    private sealed class SquareFitPortrait : Panel
+    {
+        private const int ImageInset = 8;
+        private readonly Panel _frame;
+
+        public SquareFitPortrait(IImage? portrait, Color fallbackTint, string label)
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch;
+            VerticalAlignment = VerticalAlignment.Stretch;
+            _frame = new Panel
+            {
+                Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright],
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            if (portrait != null)
+            {
+                _frame.Widgets.Add(new Image
+                {
+                    Background = portrait,
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                    Margin = new Thickness(ImageInset)
+                });
+            }
+            else
+            {
+                _frame.Widgets.Add(new Panel
+                {
+                    Background = new ColoredRegion(
+                        Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundWhite64],
+                        fallbackTint),
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                    Margin = new Thickness(12),
+                    Widgets =
+                    {
+                        new Label(BaseContent.Styles.Label.Huge)
+                        {
+                            Text = label.Length > 0 ? label[0].ToString() : "?",
+                            TextColor = Color.White,
+                            HorizontalAlignment = HorizontalAlignment.Center,
+                            VerticalAlignment = VerticalAlignment.Center
+                        }
+                    }
+                });
+            }
+
+            Widgets.Add(_frame);
+        }
+
+        protected override void InternalArrange()
+        {
+            var size = Math.Max(0, Math.Min(ActualBounds.Width, ActualBounds.Height));
+            _frame.Width = size;
+            _frame.Height = size;
+            base.InternalArrange();
+        }
+    }
+
+    private static string ShelfSummary(MerchantDef merchant)
+    {
+        var labels = merchant.Shelves
+            .Select(shelf => shelf.Category.Label())
+            .Distinct()
+            .ToList();
+        return labels.Count == 0 ? merchant.Kind.ToString() : string.Join(" · ", labels);
+    }
+
+    private static Color PortraitColor(MerchantKind kind) => kind switch
+    {
+        MerchantKind.Blacksmith => new Color(120, 88, 64),
+        MerchantKind.Magician => new Color(92, 64, 140),
+        MerchantKind.Alchemist => new Color(64, 112, 72),
+        MerchantKind.Ranger => new Color(56, 96, 64),
+        _ => new Color(80, 80, 88)
+    };
+
+    private void RefreshRunStats(ArenaRun run)
+    {
+        _runStats.Text = $"Wins {run.Wins}/{ArenaRun.WinsToFinish}   Lives {run.LivesRemaining}";
+    }
+
     public void Update()
     {
-        _hud.Refresh();
+        _purse.Refresh();
+        if (_context.ArenaRun != null)
+        {
+            RefreshRunStats(_context.ArenaRun);
+        }
     }
 }

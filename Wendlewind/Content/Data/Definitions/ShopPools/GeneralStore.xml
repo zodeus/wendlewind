@@ -10,7 +10,7 @@
         <Shelves>
             <ListItem>
                 <Category>Food</Category>
-                <Columns>4</Columns>
+                <Columns>2</Columns>
                 <ItemColumns>1</ItemColumns>
                 <StockSize>2</StockSize>
                 <Offers>
@@ -30,7 +30,7 @@
             </ListItem>
             <ListItem>
                 <Category>Incense</Category>
-                <Columns>4</Columns>
+                <Columns>2</Columns>
                 <ItemColumns>1</ItemColumns>
                 <StockSize>2</StockSize>
                 <Offers>
@@ -45,7 +45,7 @@
             
             <ListItem>
                 <Category>Potions</Category>
-                <Columns>4</Columns>
+                <Columns>2</Columns>
                 <ItemColumns>1</ItemColumns>
                 <StockSize>2</StockSize>
                 <Offers>
@@ -62,7 +62,7 @@
             </ListItem>
             <ListItem>
                 <Category>Weapons</Category>
-                <Columns>6</Columns>
+                <Columns>3</Columns>
                 <ItemColumns>1</ItemColumns>
                 <StockSize>3</StockSize>
                 <Offers>
@@ -85,7 +85,7 @@
             </ListItem>
             <ListItem>
                 <Category>Medicine</Category>
-                <Columns>6</Columns>
+                <Columns>3</Columns>
                 <ItemColumns>1</ItemColumns>
                 <StockSize>3</StockSize>
                 <Offers>
@@ -105,9 +105,9 @@
             </ListItem>
             <ListItem>
                 <Category>Armor</Category>
-                <Columns>12</Columns>
+                <Columns>8</Columns>
                 <ItemColumns>1</ItemColumns>
-                <StockSize>12</StockSize>
+                <StockSize>8</StockSize>
                 <Offers>
                     <ListItem>
                         <SetLabel>Cloth Set</SetLabel>

@@ -115,6 +115,8 @@ public sealed record CombatResult
 [JsonSerializable(typeof(AchievementState))]
 [JsonSerializable(typeof(List<AchievementRecord>))]
 [JsonSerializable(typeof(ArenaProgressRecord))]
+[JsonSerializable(typeof(ShopShelfRecord))]
+[JsonSerializable(typeof(List<ShopShelfRecord>))]
 [JsonSerializable(typeof(ArenaFightRecord))]
 [JsonSerializable(typeof(ArenaRunRecord))]
 [JsonSerializable(typeof(List<ArenaRunRecord>))]

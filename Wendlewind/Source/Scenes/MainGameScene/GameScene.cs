@@ -1,5 +1,6 @@
 using System.IO;
 using Microsoft.Extensions.DependencyInjection;
+using Wendlewind.Scenes.ArenaScene;
 using Wendlewind.Scenes.Components;
 using Wendlewind.Scenes.MainGameScene.Gui;
 
@@ -26,7 +27,7 @@ public class GameScene : Scene
 
         if (DebugSettings.TestSimMode)
         {
-            _context.Initialize(TestSimSettings.Seed);
+            _context.Initialize(TestSimSettings.Seed, PlayerUsername());
             var zone = _context.World.Zones.OrderBy(z => z.ZoneDef.Stage).FirstOrDefault();
             if (zone != null)
             {
@@ -95,10 +96,16 @@ public class GameScene : Scene
         ReloadGui();
     }
 
+    private static string? PlayerUsername()
+    {
+        var username = PlayerProfile.LoadOrCreate().Username;
+        return string.IsNullOrWhiteSpace(username) ? null : username;
+    }
+
     private void NewGame()
     {
         Core.ClearCoroutines();
-        _context.Initialize();
+        _context.Initialize(playerName: PlayerUsername());
         ActiveGui = null;
         StartGame();
     }

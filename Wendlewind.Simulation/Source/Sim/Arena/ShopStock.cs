@@ -8,6 +8,26 @@ public sealed class RolledShelf
     public int ItemColumns { get; init; } = 1;
 }
 
+public sealed class PersistedShopShelf : IExposable
+{
+    public ShopCategory Category;
+    public int Columns = ShopLayout.GridColumns;
+    public int ItemColumns = 1;
+    public List<string> OfferKeys = [];
+    public List<int> Remaining = [];
+
+    public void ExposeData()
+    {
+        ScribeValues.Look(ref Category, "Category");
+        ScribeValues.Look(ref Columns, "Columns");
+        ScribeValues.Look(ref ItemColumns, "ItemColumns");
+        ScribeCollections.Look(ref OfferKeys!, "OfferKeys", LookMode.Value);
+        ScribeCollections.Look(ref Remaining!, "Remaining", LookMode.Value);
+        OfferKeys ??= [];
+        Remaining ??= [];
+    }
+}
+
 public static class ShopStock
 {
     public static IReadOnlyList<RolledShelf> Roll(
@@ -69,6 +89,37 @@ public static class ShopStock
         return owned;
     }
 
+    public static List<PersistedShopShelf> Capture(IReadOnlyList<RolledShelf> shelves)
+    {
+        return shelves.Select(shelf => new PersistedShopShelf
+        {
+            Category = shelf.Category,
+            Columns = shelf.Columns,
+            ItemColumns = shelf.ItemColumns,
+            OfferKeys = shelf.Offers.Select(offer => offer.StockKey).ToList(),
+            Remaining = shelf.Offers.Select(offer => offer.Available).ToList()
+        }).ToList();
+    }
+
+    public static IReadOnlyList<RolledShelf> Restore(
+        MerchantDef merchant,
+        IReadOnlyList<PersistedShopShelf> persisted)
+    {
+        var lookup = new Dictionary<string, MerchantOffer>();
+        foreach (var offer in merchant.AllOffers)
+        {
+            lookup.TryAdd(offer.StockKey, offer);
+        }
+
+        return persisted.Select(shelf => new RolledShelf
+        {
+            Category = shelf.Category,
+            Offers = RestoreOffers(shelf, lookup),
+            Columns = shelf.Columns,
+            ItemColumns = shelf.ItemColumns
+        }).ToList();
+    }
+
     public static IReadOnlyList<MerchantOffer> Flatten(IReadOnlyList<RolledShelf> shelves) =>
         shelves.SelectMany(shelf => shelf.Offers).ToList();
 
@@ -99,6 +150,27 @@ public static class ShopStock
 
         var remaining = Math.Max(0, stockSize - sets.Count);
         return CloneForStock([..sets, ..WeightedTake(pieces, remaining, rng)]);
+    }
+
+    private static List<MerchantOffer> RestoreOffers(
+        PersistedShopShelf shelf,
+        IReadOnlyDictionary<string, MerchantOffer> lookup)
+    {
+        var offers = new List<MerchantOffer>();
+        var count = Math.Min(shelf.OfferKeys.Count, shelf.Remaining.Count);
+        for (var i = 0; i < count; i++)
+        {
+            if (shelf.Remaining[i] <= 0 || !lookup.TryGetValue(shelf.OfferKeys[i], out var template))
+            {
+                continue;
+            }
+
+            var clone = template.CloneForStock();
+            clone.Available = shelf.Remaining[i];
+            offers.Add(clone);
+        }
+
+        return offers;
     }
 
     private static List<MerchantOffer> CloneForStock(IEnumerable<MerchantOffer> offers) =>
