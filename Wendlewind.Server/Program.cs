@@ -50,6 +50,9 @@ var players = new PlayerStore(dataDir);
 var analytics = new FightAnalyticsService(players);
 Console.WriteLine($"Data directory: {dataDir}");
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.MapGet("/health", () => Results.Ok(new
 {
     status = "ok",

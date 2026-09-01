@@ -1,3 +1,5 @@
+using Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
+
 namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 
 internal sealed class CombatConsumableLoadout : Panel, IUpdatable
@@ -237,6 +239,7 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
                 });
 
                 container.Widgets.Add(row);
+                FoodPanel.AddAffectedStatRows(container, effect.Def.AffectedStats);
             }
         }
 

@@ -9,11 +9,12 @@ set -euo pipefail
 
 VERSION="0.1"
 PLATFORM="all"
+SERVER_URL="http://5.78.232.9"
 SKIP_UPLOAD=0
 
 usage() {
   cat <<'EOF'
-Usage: ./publish-release.sh [--version 0.1] [--platform all|windows|mac|current] [--skip-upload]
+Usage: ./publish-release.sh [--version 0.1] [--platform all|windows|mac|current] [--server-url http://5.78.232.9] [--skip-upload]
 EOF
 }
 
@@ -25,6 +26,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --platform)
       PLATFORM="${2:-}"
+      shift 2
+      ;;
+    --server-url)
+      SERVER_URL="${2:-}"
       shift 2
       ;;
     --skip-upload)
@@ -105,6 +110,8 @@ Wendlewind $VERSION for Windows
 
 Double-click Wendlewind.exe to play.
 
+The client is already pointed at $SERVER_URL. You can change the Server field in the main menu.
+
 If Windows SmartScreen warns about an unknown app, choose More info > Run anyway.
 EOF
   else
@@ -115,6 +122,8 @@ From Terminal, in this folder:
 
   chmod +x Wendlewind
   ./Wendlewind
+
+The client is already pointed at $SERVER_URL. You can change the Server field in the main menu.
 
 macOS may block unsigned apps. Allow it under System Settings > Privacy & Security, or run:
 
@@ -149,6 +158,7 @@ publish_target() {
 
   find "$publish_dir" -name '*.pdb' -delete
   write_readme "$publish_dir" "$rid"
+  printf '{"ServerHost":"%s"}' "${SERVER_URL%/}" > "$publish_dir/client.json"
 
   if [[ "$rid" == osx-* ]]; then
     chmod +x "$publish_dir/Wendlewind" || true

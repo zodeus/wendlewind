@@ -99,6 +99,8 @@ public sealed class FoodPanel : EntityPanelBase
 
                 Widgets.Add(effectPanel);
 
+                AddAffectedStatRows(this, effect.Def.AffectedStats);
+
                 // Effect notes/description if available
                 if (!string.IsNullOrEmpty(effect.Def.Notes))
                 {
@@ -129,5 +131,47 @@ public sealed class FoodPanel : EntityPanelBase
     public override void Update()
     {
         _stackSizeLabel.Text = $"Stack: {_item.StackSize}/{_item.ItemDef.StackLimit}";
+    }
+
+    internal static void AddAffectedStatRows(VerticalStackPanel parent, IEnumerable<AffectedStatRecord>? affectedStats)
+    {
+        if (affectedStats == null)
+        {
+            return;
+        }
+
+        foreach (var affectedStat in affectedStats)
+        {
+            var offset = affectedStat.Offset != null
+                ? $"/c[{(affectedStat.Offset > 0 ? TC.Green : TC.Red)}]+{affectedStat.Offset} "
+                : "";
+            var factor = affectedStat.Factor != null
+                ? $"/c[{(affectedStat.Factor > 0 ? TC.Green : TC.Red)}]*{affectedStat.Factor} "
+                : "";
+
+            if (offset.Length == 0 && factor.Length == 0)
+            {
+                continue;
+            }
+
+            parent.Widgets.Add(new HorizontalStackPanel
+            {
+                Spacing = 10,
+                Margin = new Thickness(40, 2, 0, 0),
+                Widgets =
+                {
+                    new Label("small")
+                    {
+                        Text = affectedStat.Stat.Label,
+                        TextColor = new Color(180, 180, 180),
+                        Width = 120
+                    },
+                    new Label("small")
+                    {
+                        Text = $"{offset}{factor}"
+                    }
+                }
+            });
+        }
     }
 }

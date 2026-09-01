@@ -16,9 +16,7 @@ public sealed class ArenaMatchClient : IDisposable
 
     public ArenaMatchClient(string? baseUrl = null)
     {
-        var url = baseUrl
-                  ?? Environment.GetEnvironmentVariable("WENDLEWIND_SERVER_URL")
-                  ?? DefaultBaseUrl;
+        var url = baseUrl ?? ClientSettings.LoadOrCreate().ResolveBaseUrl();
         _http = new HttpClient
         {
             BaseAddress = new Uri(url.TrimEnd('/') + "/"),

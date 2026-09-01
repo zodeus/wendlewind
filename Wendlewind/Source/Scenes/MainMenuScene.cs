@@ -10,7 +10,9 @@ public class MainMenuScene : Scene
 {
     private Desktop _desktop = null!;
     private PlayerProfile _profile = null!;
+    private ClientSettings _clientSettings = null!;
     private TextBox _usernameField = null!;
+    private TextBox _serverField = null!;
     private Label _usernameError = null!;
     private Widget _usernamePanel = null!;
     private Widget _playPanel = null!;
@@ -20,6 +22,7 @@ public class MainMenuScene : Scene
     protected override void OnStart()
     {
         _profile = PlayerProfile.LoadOrCreate();
+        _clientSettings = ClientSettings.LoadOrCreate();
         TryHydrateUsernameFromServer();
 
         _usernameField = new TextBox
@@ -63,12 +66,17 @@ public class MainMenuScene : Scene
         };
         playButtons.Widgets.Add(MenuButton("Start New Arena", () =>
         {
+            PersistServerHost();
             ArenaScene.StartFresh = true;
             Core.ChangeScene<ArenaScene>();
         }));
         if (HasServerArenaProgress())
         {
-            playButtons.Widgets.Add(MenuButton("Continue Arena", () => Core.ChangeScene<ArenaScene>()));
+            playButtons.Widgets.Add(MenuButton("Continue Arena", () =>
+            {
+                PersistServerHost();
+                Core.ChangeScene<ArenaScene>();
+            }));
         }
 
         _playPanel = new VerticalStackPanel
@@ -103,6 +111,30 @@ public class MainMenuScene : Scene
             Height = 420
         });
 
+        _serverField = new TextBox
+        {
+            Width = 240,
+            Text = _clientSettings.ServerHost,
+            TextColor = Color.White,
+            Background = new SolidBrush(new Color(25, 25, 30)),
+            Padding = new Thickness(8, 4)
+        };
+        var serverPanel = new HorizontalStackPanel
+        {
+            Spacing = 12,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Widgets =
+            {
+                new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = "Server",
+                    VerticalAlignment = VerticalAlignment.Center,
+                    TextColor = new Color(200, 200, 200)
+                },
+                _serverField
+            }
+        };
+
         _desktop = new Desktop
         {
             HasExternalTextInput = true,
@@ -111,7 +143,7 @@ public class MainMenuScene : Scene
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 Spacing = 20,
-                Widgets = { banner, _usernamePanel, _playPanel }
+                Widgets = { banner, _usernamePanel, _playPanel, serverPanel }
             }
         };
         Core.ConfigureDesktopScaling(_desktop);
@@ -125,11 +157,13 @@ public class MainMenuScene : Scene
     public override void Update(float deltaTime)
     {
         var keyboard = Keyboard.GetState();
-        if (_usernamePanel.Visible
-            && keyboard.IsKeyDown(Keys.Enter)
-            && _previousKeyboard.IsKeyUp(Keys.Enter))
+        if (keyboard.IsKeyDown(Keys.Enter) && _previousKeyboard.IsKeyUp(Keys.Enter))
         {
-            ConfirmUsername();
+            PersistServerHost();
+            if (_usernamePanel.Visible)
+            {
+                ConfirmUsername();
+            }
         }
 
         _previousKeyboard = keyboard;
@@ -137,6 +171,7 @@ public class MainMenuScene : Scene
 
     public override void End()
     {
+        PersistServerHost();
         if (_textInputHandler != null)
         {
             Core.Instance.Window.TextInput -= _textInputHandler;
@@ -159,6 +194,7 @@ public class MainMenuScene : Scene
             return;
         }
 
+        PersistServerHost();
         _profile.SetUsername(username);
         TryPushUsernameToServer();
         if (_playPanel is VerticalStackPanel play && play.Widgets[0] is Label playingAs)
@@ -174,6 +210,22 @@ public class MainMenuScene : Scene
         var ready = _profile.HasUsername;
         _usernamePanel.Visible = !ready;
         _playPanel.Visible = ready;
+    }
+
+    private void PersistServerHost()
+    {
+        if (_serverField == null || _clientSettings == null)
+        {
+            return;
+        }
+
+        var host = string.IsNullOrWhiteSpace(_serverField.Text)
+            ? ClientSettings.DefaultHost
+            : _serverField.Text.Trim();
+        if (host != _clientSettings.ServerHost)
+        {
+            _clientSettings.SetServerHost(host);
+        }
     }
 
     private void TryHydrateUsernameFromServer()

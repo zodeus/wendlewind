@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wendlewind</title>
+  <link rel="icon" href="/favicon.ico">
+  <style>
+    :root {
+      --ink: #120c08;
+      --parchment: #e8dcc4;
+      --muted: #b8a88a;
+      --button: #3a2a18;
+      --button-edge: #c4b08a;
+      --button-hover: #524024;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: var(--ink);
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      color: var(--parchment);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .hero {
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+      padding: 1rem 1rem 0;
+    }
+
+    .hero img {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    .bar {
+      flex: 0 0 auto;
+      padding: 1.25rem 1.5rem 2rem;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 0.35rem;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-shadow: 0 2px 0 #000, 0 0 18px rgba(0, 0, 0, 0.8);
+    }
+
+    .version {
+      margin: 0 0 1.25rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .downloads {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    a.btn {
+      display: inline-block;
+      min-width: 11.5rem;
+      padding: 0.7rem 1.1rem;
+      color: var(--parchment);
+      text-decoration: none;
+      background: var(--button);
+      border: 2px solid var(--button-edge);
+      box-shadow: 0 2px 0 #000;
+    }
+
+    a.btn:hover,
+    a.btn:focus-visible {
+      background: var(--button-hover);
+    }
+
+    a.btn small {
+      display: block;
+      margin-top: 0.15rem;
+      color: var(--muted);
+      font-size: 0.75rem;
+    }
+
+    .note {
+      max-width: 38rem;
+      margin: 1.1rem auto 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.45;
+    }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <img src="/img/splash.png" alt="A Journey, No Destination. Survive. Explore. Fight.">
+  </div>
+  <div class="bar">
+    <h1>Wendlewind</h1>
+    <p class="version" id="version">Download the client</p>
+    <div class="downloads">
+      <a class="btn" id="win" href="https://github.com/zodeus/wendlewind/releases/latest">
+        Windows
+        <small>x64 zip</small>
+      </a>
+      <a class="btn" id="osx-arm" href="https://github.com/zodeus/wendlewind/releases/latest">
+        macOS
+        <small>Apple Silicon</small>
+      </a>
+      <a class="btn" id="osx-intel" href="https://github.com/zodeus/wendlewind/releases/latest">
+        macOS
+        <small>Intel</small>
+      </a>
+    </div>
+    <p class="note">
+      Unzip and run <code>Wendlewind.exe</code> on Windows, or <code>./Wendlewind</code> on macOS.
+      Windows SmartScreen may ask you to choose More info, then Run anyway.
+      On macOS, allow the unsigned app under Privacy &amp; Security, or run
+      <code>xattr -cr .</code> in the unzipped folder.
+    </p>
+  </div>
+  <script>
+    const releasesUrl = "https://github.com/zodeus/wendlewind/releases/latest";
+    const buttons = {
+      "win-x64": document.getElementById("win"),
+      "osx-arm64": document.getElementById("osx-arm"),
+      "osx-x64": document.getElementById("osx-intel")
+    };
+
+    fetch("https://api.github.com/repos/zodeus/wendlewind/releases/latest")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(response.status);
+        }
+        return response.json();
+      })
+      .then((release) => {
+        const version = document.getElementById("version");
+        if (release.name || release.tag_name) {
+          version.textContent = release.name || release.tag_name;
+        }
+
+        for (const asset of release.assets || []) {
+          const name = asset.name || "";
+          for (const [rid, button] of Object.entries(buttons)) {
+            if (name.includes(rid) && asset.browser_download_url) {
+              button.href = asset.browser_download_url;
+            }
+          }
+        }
+      })
+      .catch(() => {
+        for (const button of Object.values(buttons)) {
+          button.href = releasesUrl;
+        }
+      });
+  </script>
+</body>
+</html>

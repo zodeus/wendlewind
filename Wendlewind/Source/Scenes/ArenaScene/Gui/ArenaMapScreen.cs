@@ -4,6 +4,7 @@ namespace Wendlewind.Scenes.ArenaScene.Gui;
 
 public sealed class ArenaMapScreen : Grid
 {
+    private const int PortraitSize = 360;
     private static readonly Color TitleColor = new(214, 208, 196);
     private static readonly Color BodyColor = new(168, 164, 156);
     private static readonly Color Completed = new(80, 140, 80);
@@ -137,9 +138,9 @@ public sealed class ArenaMapScreen : Grid
         {
             ColumnSpacing = 16,
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalAlignment = VerticalAlignment.Stretch
+            VerticalAlignment = VerticalAlignment.Top
         };
-        row.RowsProportions.Add(new Proportion(ProportionType.Fill));
+        row.RowsProportions.Add(new Proportion(ProportionType.Auto));
         foreach (var _ in merchants)
         {
             row.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1));
@@ -162,10 +163,9 @@ public sealed class ArenaMapScreen : Grid
         {
             RowSpacing = 8,
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalAlignment = VerticalAlignment.Stretch
+            VerticalAlignment = VerticalAlignment.Top
         };
         body.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
-        body.RowsProportions.Add(new Proportion(ProportionType.Fill));
         body.RowsProportions.Add(new Proportion(ProportionType.Auto));
         body.RowsProportions.Add(new Proportion(ProportionType.Auto));
         body.RowsProportions.Add(new Proportion(ProportionType.Auto));
@@ -183,26 +183,18 @@ public sealed class ArenaMapScreen : Grid
             TextColor = Color.Goldenrod,
             HorizontalAlignment = HorizontalAlignment.Center
         };
-        var description = new Label(BaseContent.Styles.Label.Small)
-        {
-            Text = merchant.Description,
-            TextColor = BodyColor,
-            Wrap = true,
-            HorizontalAlignment = HorizontalAlignment.Center
-        };
         body.Widgets.Add(portrait);
+        Grid.SetRow(portrait, 0);
         body.Widgets.Add(name);
         body.Widgets.Add(shelves);
-        body.Widgets.Add(description);
         Grid.SetRow(name, 1);
         Grid.SetRow(shelves, 2);
-        Grid.SetRow(description, 3);
 
         var button = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Content = body,
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalAlignment = VerticalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Top,
             Padding = new Thickness(12)
         };
         button.Click += (_, _) => onPicked(merchant);
@@ -219,68 +211,36 @@ public sealed class ArenaMapScreen : Grid
             portrait = new TextureRegion(texture);
         }
 
-        return new SquareFitPortrait(portrait, PortraitColor(merchant.Kind), merchant.Label);
-    }
-
-    private sealed class SquareFitPortrait : Panel
-    {
-        private const int ImageInset = 8;
-        private readonly Panel _frame;
-
-        public SquareFitPortrait(IImage? portrait, Color fallbackTint, string label)
+        var frame = new Panel
         {
-            HorizontalAlignment = HorizontalAlignment.Stretch;
-            VerticalAlignment = VerticalAlignment.Stretch;
-            _frame = new Panel
+            Width = PortraitSize,
+            Height = PortraitSize,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Top,
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright]
+        };
+
+        if (portrait != null)
+        {
+            frame.Widgets.Add(new Image
             {
-                Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright],
+                Background = portrait,
+                Width = PortraitSize - 16,
+                Height = PortraitSize - 16,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center
-            };
-
-            if (portrait != null)
-            {
-                _frame.Widgets.Add(new Image
-                {
-                    Background = portrait,
-                    HorizontalAlignment = HorizontalAlignment.Stretch,
-                    VerticalAlignment = VerticalAlignment.Stretch,
-                    Margin = new Thickness(ImageInset)
-                });
-            }
-            else
-            {
-                _frame.Widgets.Add(new Panel
-                {
-                    Background = new ColoredRegion(
-                        Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundWhite64],
-                        fallbackTint),
-                    HorizontalAlignment = HorizontalAlignment.Stretch,
-                    VerticalAlignment = VerticalAlignment.Stretch,
-                    Margin = new Thickness(12),
-                    Widgets =
-                    {
-                        new Label(BaseContent.Styles.Label.Huge)
-                        {
-                            Text = label.Length > 0 ? label[0].ToString() : "?",
-                            TextColor = Color.White,
-                            HorizontalAlignment = HorizontalAlignment.Center,
-                            VerticalAlignment = VerticalAlignment.Center
-                        }
-                    }
-                });
-            }
-
-            Widgets.Add(_frame);
+            });
+            return frame;
         }
 
-        protected override void InternalArrange()
+        frame.Widgets.Add(new Label(BaseContent.Styles.Label.Huge)
         {
-            var size = Math.Max(0, Math.Min(ActualBounds.Width, ActualBounds.Height));
-            _frame.Width = size;
-            _frame.Height = size;
-            base.InternalArrange();
-        }
+            Text = merchant.Label.Length > 0 ? merchant.Label[0].ToString() : "?",
+            TextColor = Color.White,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center
+        });
+        return frame;
     }
 
     private static string ShelfSummary(MerchantDef merchant)
@@ -291,15 +251,6 @@ public sealed class ArenaMapScreen : Grid
             .ToList();
         return labels.Count == 0 ? merchant.Kind.ToString() : string.Join(" · ", labels);
     }
-
-    private static Color PortraitColor(MerchantKind kind) => kind switch
-    {
-        MerchantKind.Blacksmith => new Color(120, 88, 64),
-        MerchantKind.Magician => new Color(92, 64, 140),
-        MerchantKind.Alchemist => new Color(64, 112, 72),
-        MerchantKind.Ranger => new Color(56, 96, 64),
-        _ => new Color(80, 80, 88)
-    };
 
     private void RefreshRunStats(ArenaRun run)
     {

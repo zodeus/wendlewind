@@ -8,6 +8,7 @@ param(
     [string]$Version = "0.1",
     [ValidateSet("all", "windows", "mac", "current")]
     [string]$Platform = "all",
+    [string]$ServerUrl = "http://5.78.232.9",
     [switch]$SkipUpload
 )
 
@@ -59,6 +60,8 @@ Wendlewind $Version for Windows
 
 Double-click Wendlewind.exe to play.
 
+The client is already pointed at $ServerUrl. You can change the Server field in the main menu.
+
 If Windows SmartScreen warns about an unknown app, choose More info > Run anyway.
 "@
     }
@@ -71,6 +74,8 @@ From Terminal, in this folder:
   chmod +x Wendlewind
   ./Wendlewind
 
+The client is already pointed at $ServerUrl. You can change the Server field in the main menu.
+
 macOS may block unsigned apps. Allow it under System Settings > Privacy & Security, or run:
 
   xattr -cr .
@@ -80,6 +85,15 @@ macOS may block unsigned apps. Allow it under System Settings > Privacy & Securi
     }
 
     Set-Content -Path (Join-Path $PublishDir "README.txt") -Value $body.Trim() -Encoding utf8
+}
+
+function Write-ClientSettings {
+    param([string]$PublishDir)
+
+    $hostUrl = $ServerUrl.Trim().TrimEnd("/")
+    $json = "{`"ServerHost`":`"$hostUrl`"}"
+    $utf8 = New-Object System.Text.UTF8Encoding $false
+    [System.IO.File]::WriteAllText((Join-Path $PublishDir "client.json"), $json, $utf8)
 }
 
 function Compress-ReleaseFolder {
@@ -129,6 +143,7 @@ function Publish-Target {
 
     Get-ChildItem $publishDir -Filter "*.pdb" -Recurse -ErrorAction SilentlyContinue | Remove-Item -Force
     Write-Readme -PublishDir $publishDir -Rid $Target.Rid
+    Write-ClientSettings -PublishDir $publishDir
     Compress-ReleaseFolder -FolderPath $publishDir -ZipPath $zipPath
 
     Write-Success "Created $zipName"

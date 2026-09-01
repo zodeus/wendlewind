@@ -1,4 +1,5 @@
 using System.Globalization;
+using Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
 namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnPreparationPanelWidgets;
 
@@ -166,6 +167,7 @@ internal sealed class FoodItemButton : CursorButton
                 }
 
                 container.Widgets.Add(effectPanel);
+                FoodPanel.AddAffectedStatRows(container, effect.Def.AffectedStats);
             }
         }
 
