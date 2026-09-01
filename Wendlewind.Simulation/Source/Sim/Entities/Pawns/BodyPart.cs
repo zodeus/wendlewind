@@ -440,6 +440,7 @@ public class BodyPart : Entity
 
         var parentPart = Socket?.ParentPart;
         var body = Body;
+        body?.Handler.OnPartSevered(this);
         if (Socket != null)
         {
             Socket.Body = null; //todo not that it matters, but this should probably also set Pawn.Body.RootSocket = null as well

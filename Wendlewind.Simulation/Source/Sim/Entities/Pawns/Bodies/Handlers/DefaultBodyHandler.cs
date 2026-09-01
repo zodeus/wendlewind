@@ -53,6 +53,32 @@ public class DefaultBodyHandler : IExposable, IHasContext, IHasRng
         Body.Energy -= _ticksWithEmptyStomach > 0 ? baseAmount * EmptyStomachEnergyLossFactor : baseAmount;
     }
 
+    public virtual void OnPartSevered(BodyPart part)
+    {
+        if (Body.Def.BloodType == null)
+        {
+            return;
+        }
+
+        var bodyWeight = Body.AllParts.Sum(p => p.BloodAmount);
+        if (bodyWeight <= 0)
+        {
+            return;
+        }
+
+        var preBlood = Body.BloodAmount;
+        var prePercent = Body.BloodPercent;
+        var loss = preBlood * (part.GetSubtreeBloodWeight() / bodyWeight);
+        if (loss <= 0)
+        {
+            return;
+        }
+
+        Body.BloodAmount -= loss;
+        Body.BloodChangeLastFrame = Body.BloodPercent - prePercent;
+        OnBloodLost?.Invoke(Body.Pawn, preBlood - Body.BloodAmount);
+    }
+
     public virtual void ExposeData()
     {
         ScribeReferences.Look(ref Body!, "Body");

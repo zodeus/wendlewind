@@ -2,7 +2,7 @@
 <Definitions>
     <ItemDef Name="ClothArmorBase" ParentName="ArmorBase" Abstract="true">
         <BaseStats>
-            <PhysicalResistance>2</PhysicalResistance>
+            <PhysicalResistance>3</PhysicalResistance>
             <MaxDurability>100</MaxDurability>
         </BaseStats>
     </ItemDef>
@@ -34,7 +34,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Cloth/Glove</TexturePath>
         <BaseStats>
-            <PhysicalResistance>5</PhysicalResistance>
+            <PhysicalResistance>4</PhysicalResistance>
         </BaseStats>
         <DisassembleProperties>
             <Items>

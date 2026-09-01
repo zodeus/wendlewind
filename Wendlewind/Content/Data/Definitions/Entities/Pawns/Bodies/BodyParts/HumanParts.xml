@@ -7,7 +7,7 @@
     <BodyPartDef ParentName="HumanBodyPartBase">
         <Moniker>HumanHead</Moniker>
         <Label>Head</Label>
-        <HitWeight>20</HitWeight>
+        <HitWeight>22</HitWeight>
         <BloodAmount>50</BloodAmount>
         <BodyPartType>Head</BodyPartType>
         <Substance>Flesh</Substance>
@@ -24,14 +24,14 @@
             <ListItem>HeadArmor</ListItem>
         </EquipmentSlots>
         <BaseStats>
-            <MaxHitPoints>250</MaxHitPoints>
+            <MaxHitPoints>180</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="HumanBodyPartBase">
         <Moniker>HumanNeck</Moniker>
         <Label>Neck</Label>
         <BodyPartType>Neck</BodyPartType>
-        <HitWeight>5</HitWeight>
+        <HitWeight>6</HitWeight>
         <BloodAmount>12</BloodAmount>
         <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanNeck</TexturePath>
@@ -47,14 +47,14 @@
             <ListItem>TorsoSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>120</MaxHitPoints>
+            <MaxHitPoints>90</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="HumanBodyPartBase">
         <Moniker>HumanTorso</Moniker>
         <Label>Torso</Label>
         <BodyPartType>Torso</BodyPartType>
-        <HitWeight>50</HitWeight>
+        <HitWeight>58</HitWeight>
         <BloodAmount>300</BloodAmount>
         <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanTorso</TexturePath>
@@ -79,14 +79,14 @@
             <ListItem>RightLegSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>400</MaxHitPoints>
+            <MaxHitPoints>300</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="HumanBodyPartBase">
         <Moniker>HumanArm</Moniker>
         <Label>Arm</Label>
         <BodyPartType>Arm</BodyPartType>
-        <HitWeight>25</HitWeight>
+        <HitWeight>16</HitWeight>
         <BloodAmount>80</BloodAmount>
         <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanArm</TexturePath>
@@ -102,7 +102,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.1</AttackSpeedModifier>
-            <MaxHitPoints>80</MaxHitPoints>
+            <MaxHitPoints>70</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
     <BodyPartDef ParentName="HumanBodyPartBase">
@@ -115,7 +115,7 @@
             <ListItem>HandArmor</ListItem>
             <ListItem>HandWeapon</ListItem>
         </EquipmentSlots>
-        <HitWeight>12</HitWeight>
+        <HitWeight>5</HitWeight>
         <BloodAmount>20</BloodAmount>
         <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanHand</TexturePath>
@@ -130,7 +130,7 @@
             <ListItem>LittleFingerSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>50</MaxHitPoints>
+            <MaxHitPoints>40</MaxHitPoints>
             <AttackSpeedModifier>.15</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>
@@ -138,7 +138,7 @@
         <Moniker>HumanFinger</Moniker>
         <Label>Finger</Label>
         <BodyPartType>Finger</BodyPartType>
-        <HitWeight>7</HitWeight>
+        <HitWeight>1</HitWeight>
         <BloodAmount>3</BloodAmount>
         <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanFinger</TexturePath>
@@ -156,7 +156,7 @@
         <Moniker>HumanThumb</Moniker>
         <Label>Thumb</Label>
         <BodyPartType>Thumb</BodyPartType>
-        <HitWeight>8</HitWeight>
+        <HitWeight>1</HitWeight>
         <BloodAmount>2.5</BloodAmount>
         <Substance>Flesh</Substance>
         <TexturePath>Entities/Pawn/BodyParts/Human/HumanThumb</TexturePath>
@@ -174,7 +174,7 @@
         <Moniker>HumanLeg</Moniker>
         <Label>Leg</Label>
         <BodyPartType>Leg</BodyPartType>
-        <HitWeight>11</HitWeight>
+        <HitWeight>16</HitWeight>
         <BloodAmount>140</BloodAmount>
         <Substance>Flesh</Substance>
         <MobilityFraction>.4</MobilityFraction>
@@ -189,7 +189,7 @@
             <ListItem>FootSocket</ListItem>
         </Sockets>
         <BaseStats>
-            <MaxHitPoints>80</MaxHitPoints>
+            <MaxHitPoints>70</MaxHitPoints>
             <AttackSpeedModifier>.1</AttackSpeedModifier>
         </BaseStats>
     </BodyPartDef>
@@ -197,7 +197,7 @@
         <Moniker>HumanFoot</Moniker>
         <Label>Foot</Label>
         <BodyPartType>Foot</BodyPartType>
-        <HitWeight>8</HitWeight>
+        <HitWeight>4</HitWeight>
         <BloodAmount>30</BloodAmount>
         <Substance>Flesh</Substance>
         <MobilityFraction>.1</MobilityFraction>
@@ -213,7 +213,7 @@
         </Sockets>
         <BaseStats>
             <AttackSpeedModifier>.1</AttackSpeedModifier>
-            <MaxHitPoints>70</MaxHitPoints>
+            <MaxHitPoints>55</MaxHitPoints>
         </BaseStats>
     </BodyPartDef>
 </Definitions>

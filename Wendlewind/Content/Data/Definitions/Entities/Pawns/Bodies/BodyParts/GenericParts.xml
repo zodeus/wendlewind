@@ -49,7 +49,7 @@
                 </Curve>
             </HitPointScaler>-->
             <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
-                <Factor>0.08</Factor>
+                <Factor>0.09</Factor>
             </MaxHitPointScaler>
         </AdaptiveProperties>
     </BodyPartDef>
@@ -67,7 +67,7 @@
         </Sockets>
         <AdaptiveProperties>
             <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
-                <Factor>0.8</Factor>
+                <Factor>0.6</Factor>
             </MaxHitPointScaler>
         </AdaptiveProperties>
     </BodyPartDef>
@@ -144,7 +144,7 @@
         </Sockets>
         <AdaptiveProperties>
             <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
-                <Factor>0.8</Factor>
+                <Factor>0.6</Factor>
             </MaxHitPointScaler>
         </AdaptiveProperties>
     </BodyPartDef>

@@ -3,7 +3,7 @@
     <ItemDef Name="LeatherArmorBase" ParentName="ArmorBase" Abstract="true">
         <ItemType>Equipment</ItemType>
         <BaseStats>
-            <PhysicalResistance>10</PhysicalResistance>
+            <PhysicalResistance>7</PhysicalResistance>
             <MaxDurability>200</MaxDurability>
         </BaseStats>
     </ItemDef>
@@ -39,7 +39,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Leather/Glove</TexturePath>
         <BaseStats>
-            <PhysicalResistance>15</PhysicalResistance>
+            <PhysicalResistance>10</PhysicalResistance>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -132,7 +132,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Leather/Greave</TexturePath>
         <BaseStats>
-            <PhysicalResistance>10</PhysicalResistance>
+            <PhysicalResistance>7</PhysicalResistance>
             <MaxDurability>120</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -157,7 +157,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Leather/Tunic</TexturePath>
         <BaseStats>
-            <PhysicalResistance>10</PhysicalResistance>
+            <PhysicalResistance>8</PhysicalResistance>
             <MaxDurability>200</MaxDurability>
         </BaseStats>
         <DisassembleProperties>

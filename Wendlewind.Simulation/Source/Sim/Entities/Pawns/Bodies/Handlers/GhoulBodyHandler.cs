@@ -45,6 +45,10 @@ public class GhoulBodyHandler : DefaultBodyHandler
     {
     }
 
+    public override void OnPartSevered(BodyPart part)
+    {
+    }
+
     protected override void HandleNutrition()
     {
     }

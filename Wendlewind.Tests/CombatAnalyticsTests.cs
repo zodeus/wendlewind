@@ -28,26 +28,47 @@ public class CombatAnalyticsTests
             new() { Kind = CombatEventKind.Miss, Tick = 50, SourcePawnId = attackerId, SubjectPawnId = defenderId },
             new() { Kind = CombatEventKind.Dodge, Tick = 60, SourcePawnId = attackerId, SubjectPawnId = defenderId },
             new() { Kind = CombatEventKind.PotionUsed, Tick = 70, SubjectPawnId = attackerId },
-            new() { Kind = CombatEventKind.MedicalUsed, Tick = 80, SubjectPawnId = defenderId }
+            new() { Kind = CombatEventKind.MedicalUsed, Tick = 80, SubjectPawnId = defenderId },
+            new()
+            {
+                Kind = CombatEventKind.Damage,
+                Tick = 90,
+                SourcePawnId = attackerId,
+                SubjectPawnId = defenderId,
+                Amount = 10,
+                SubEffects =
+                [
+                    new CombatSubEffect
+                    {
+                        Kind = CombatEventKind.PartSevered,
+                        SubjectPawnId = defenderId,
+                        BodyPartLabel = "Arm"
+                    }
+                ]
+            }
         ];
 
-        var analytics = CombatAnalytics.From(log, ticks: 1800, attackerId, defenderId, "BoneAxe", "Chop");
+        var analytics = CombatAnalytics.From(log, ticks: 1800, attackerId, defenderId, "BoneAxe", "Chop",
+            attackerBloodPercent: 0.82f, defenderBloodPercent: 0.11f);
 
         Assert.Equal(1800, analytics.DurationTicks);
         Assert.Equal(30, analytics.DurationSeconds);
         Assert.True(analytics.InTargetBand);
-        Assert.Equal(90, analytics.Attacker.DamageDealt);
+        Assert.Equal(100, analytics.Attacker.DamageDealt);
         Assert.Equal(15, analytics.Defender.Healing);
         Assert.Equal(8, analytics.Defender.DotTaken);
-        Assert.Equal(2, analytics.Attacker.Hits);
+        Assert.Equal(3, analytics.Attacker.Hits);
         Assert.Equal(1, analytics.Attacker.Misses);
         Assert.Equal(1, analytics.Defender.Dodges);
         Assert.Equal(1, analytics.Defender.Blocks);
         Assert.Equal(1, analytics.Attacker.PotionUses);
         Assert.Equal(1, analytics.Defender.MedicalUses);
-        Assert.Equal(3, analytics.Attacker.DamagePerSecond);
+        Assert.Equal(1, analytics.Defender.Severs);
+        Assert.Equal(0.82f, analytics.Attacker.BloodPercent);
+        Assert.Equal(0.11f, analytics.Defender.BloodPercent);
+        Assert.Equal(100 / 30.0, analytics.Attacker.DamagePerSecond);
         Assert.Equal(10, analytics.FirstDamageTick);
-        Assert.Equal(20, analytics.LastDamageTick);
+        Assert.Equal(90, analytics.LastDamageTick);
         Assert.Equal("BoneAxe", analytics.KillingWeapon);
         Assert.Equal("Chop", analytics.KillingManeuver);
     }

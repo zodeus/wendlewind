@@ -2,8 +2,11 @@
 <Definitions>
     <ItemDef Name="ChainArmorBase" ParentName="ArmorBase" Abstract="true">
         <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <MaxEnchantments>1</MaxEnchantments>
+        </EquipmentProperties>
         <BaseStats>
-            <PhysicalResistance>50</PhysicalResistance>
+            <PhysicalResistance>15</PhysicalResistance>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
     </ItemDef>

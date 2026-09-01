@@ -146,5 +146,19 @@ namespace Wendlewind.Sim.Entities.Pawns
             mod.Maneuver = maneuver;
             return mod.ApplyToPart(part);
         }
+
+        public static float GetSubtreeBloodWeight(this BodyPart part)
+        {
+            var sum = part.BloodAmount;
+            foreach (var socket in part.Sockets)
+            {
+                if (socket.AttachedPart != null)
+                {
+                    sum += socket.AttachedPart.GetSubtreeBloodWeight();
+                }
+            }
+
+            return sum;
+        }
     }
 }

@@ -22,11 +22,13 @@ public static class TooltipHelper
     private static Desktop? _currentDesktop;
     private static Widget? _currentOwner; // Track which widget owns the current tooltip
     private static TooltipPlacement _placement = TooltipPlacement.FollowMouse;
+    private static int _lastScrollWheel;
 
     private const int OffsetX = 16;
     private const int OffsetY = 16;
     private const int CornerMargin = 24;
     private const int CustomMaxHeight = 380;
+    private const int WheelPixelsPerNotch = 48;
 
     /// <summary>
     /// Shows a simple tooltip with a title and optional description.
@@ -52,6 +54,7 @@ public static class TooltipHelper
         
         _shouldBeVisible = true;
         _currentDesktop = desktop;
+        SyncScrollWheel();
         ShowWindow(desktop);
     }
 
@@ -77,6 +80,7 @@ public static class TooltipHelper
         
         _shouldBeVisible = true;
         _currentDesktop = desktop;
+        SyncScrollWheel();
         ShowWindow(desktop);
     }
 
@@ -115,6 +119,7 @@ public static class TooltipHelper
         if (_window.IsPlaced)
         {
             ApplyPlacement();
+            ApplyMouseWheel();
         }
     }
 
@@ -122,6 +127,12 @@ public static class TooltipHelper
     /// Returns true if the tooltip is currently visible.
     /// </summary>
     public static bool IsVisible => _shouldBeVisible && _window?.IsPlaced == true;
+
+    /// <summary>
+    /// True when the hover inspect popup is open and should take the mouse wheel
+    /// instead of whatever ScrollViewer is under the cursor.
+    /// </summary>
+    public static bool CapturesMouseWheel => IsVisible && _isCustomContent;
 
     private static void EnsureWindowCreated()
     {
@@ -280,9 +291,53 @@ public static class TooltipHelper
         return (uiX, uiY);
     }
 
+    private static void SyncScrollWheel()
+    {
+        _lastScrollWheel = Mouse.GetState().ScrollWheelValue;
+    }
+
+    private static void ApplyMouseWheel()
+    {
+        var wheel = Mouse.GetState().ScrollWheelValue;
+        var delta = wheel - _lastScrollWheel;
+        _lastScrollWheel = wheel;
+        if (delta == 0 || _customContent is not ScrollViewer viewer)
+        {
+            return;
+        }
+
+        var pos = viewer.ScrollPosition;
+        var max = viewer.ScrollMaximum;
+        var notches = delta / 120;
+        if (notches == 0)
+        {
+            notches = delta > 0 ? 1 : -1;
+        }
+
+        pos.Y = Math.Clamp(pos.Y - notches * WheelPixelsPerNotch, 0, Math.Max(0, max.Y));
+        viewer.ScrollPosition = pos;
+    }
+
     private sealed class TooltipWindow : Window
     {
         public override Widget? HitTest(Point p) => null;
+    }
+}
+
+/// <summary>
+/// ScrollViewer that yields the mouse wheel to a hover inspect tooltip, which cannot
+/// receive hits without dismissing itself.
+/// </summary>
+public sealed class TooltipAwareScrollViewer : ScrollViewer
+{
+    public override void OnMouseWheel(float delta)
+    {
+        if (TooltipHelper.CapturesMouseWheel)
+        {
+            return;
+        }
+
+        base.OnMouseWheel(delta);
     }
 }
 

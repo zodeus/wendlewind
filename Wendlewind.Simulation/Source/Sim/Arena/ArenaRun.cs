@@ -2,9 +2,9 @@ namespace Wendlewind.Sim.Arena;
 
 public class ArenaRun : IExposable
 {
-    public const int StartingGold = 100;
-    public const int WinGold = 100;
-    public const int LoseGold = 75;
+    public const int StartingGold = 200;
+    public const int WinGold = 200;
+    public const int LoseGold = 150;
     public const int WinsToFinish = 10;
     public const int LossesToFinish = 5;
 

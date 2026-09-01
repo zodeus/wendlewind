@@ -1,8 +1,3 @@
-Add ZoneDef (see Zone)
-BUG: You can sip enemy potions!!!!
-
-Update body part targeting to use an event based systems for UI combat actions
-
 Cloaks
  - Crafted and upgraded from resources
  - Level 1 leather scraps
@@ -11,35 +6,15 @@ Bags & Rings
 
 Set XML values for BodyPartDef.MobilityFraction
 
-When a body part is severed remove a chunk of blood in proportion to the part lost. Should we store blood in each part?
-
-Skill Tomes
-
 Stances 
 	Arcane Stance
 	
 Trinkets
-	Knowledge Transfer - Non-Combat - let's you move skills XP around
  	Organ Insulator - Combat - Charges when an organ takes damage, enabling it prevents organ damage for a period of time
  	Surgical Saw
- 	Tinkers Toolbox
- 		Carve Wood
  	Blessed Something
  	Crucifix -- gains powers on kill
- 	Pocket Garden - One Becomes Two
+ 	Pocket Garden
  	Blood Thickener 
- 	
-Enchantments	
-	Magnet -- increases chance to hit
-	Feast -- heals stuff
-	Flames -- does Burning
-	Cleave
-	BoneEater -- 
+
 	
-Modifiers
-	BrainWorm
-	Burning
-	BoneDecay
-	
-Achievements
- - Unlocks new items in new play throughs, weapons, enchantments etc 

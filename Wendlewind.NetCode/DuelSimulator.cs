@@ -46,7 +46,9 @@ public static class DuelSimulator
             duel.AttackerPawnId,
             duel.DefenderPawnId,
             duel.KillingWeapon,
-            duel.KillingManeuver);
+            duel.KillingManeuver,
+            duel.AttackerBloodPercent,
+            duel.DefenderBloodPercent);
         return new DuelSimulation
         {
             Result = result,

@@ -14,7 +14,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Primitive/WoodClub</TexturePath>
         <BaseStats>
-            <WeaponPower>12</WeaponPower>
+            <WeaponPower>42</WeaponPower>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -30,7 +30,7 @@
         <Moniker>BoneKnife</Moniker>
         <Label>Bone Knife</Label>
         <Description>It's a knife made from bone</Description>
-        <GoldCost>35</GoldCost>
+        <GoldCost>40</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
         </EquipmentProperties>
@@ -39,7 +39,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Primitive/BoneKnife</TexturePath>
         <BaseStats>
-            <WeaponPower>12</WeaponPower>
+            <WeaponPower>42</WeaponPower>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -59,7 +59,7 @@
         <Moniker>BoneSpear</Moniker>
         <Label>Bone Spear</Label>
         <Description>It's a spear made from bone</Description>
-        <GoldCost>60</GoldCost>
+        <GoldCost>40</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
         </EquipmentProperties>
@@ -68,7 +68,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Primitive/BoneSpear</TexturePath>
         <BaseStats>
-            <WeaponPower>12</WeaponPower>
+            <WeaponPower>42</WeaponPower>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -88,7 +88,7 @@
         <Moniker>BoneAxe</Moniker>
         <Label>Bone Axe</Label>
         <Description>It's an axe made from bone</Description>
-        <GoldCost>45</GoldCost>
+        <GoldCost>40</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
         </EquipmentProperties>
@@ -97,7 +97,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Primitive/BoneAxe</TexturePath>
         <BaseStats>
-            <WeaponPower>12</WeaponPower>
+            <WeaponPower>42</WeaponPower>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -113,7 +113,7 @@
         <Moniker>StoneHammer</Moniker>
         <Label>Stone Hammer</Label>
         <Description>It's a hammer made from stone</Description>
-        <GoldCost>50</GoldCost>
+        <GoldCost>40</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
         </EquipmentProperties>
@@ -122,7 +122,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Primitive/StoneHammer</TexturePath>
         <BaseStats>
-            <WeaponPower>12</WeaponPower>
+            <WeaponPower>42</WeaponPower>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>

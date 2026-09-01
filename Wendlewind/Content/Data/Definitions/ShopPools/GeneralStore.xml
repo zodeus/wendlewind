@@ -31,7 +31,7 @@
                 <Category>Incense</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
-                <StockSize>1</StockSize>
+                <StockSize>2</StockSize>
                 <Offers>
                     <ListItem>
                         <ItemDef>MullinStick</ItemDef>
@@ -48,6 +48,12 @@
                 <StockSize>3</StockSize>
                 <Offers>
                     <ListItem>
+                        <ItemDef>WoodClub</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>BoneKnife</ItemDef>
+                    </ListItem>
+                    <ListItem>
                         <ItemDef>BoneSpear</ItemDef>
                     </ListItem>
                     <ListItem>
@@ -55,25 +61,7 @@
                     </ListItem>
                     <ListItem>
                         <ItemDef>StoneHammer</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>IronDagger</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>IronSword</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>IronAxe</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>IronHammer</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>IronMace</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>IronClaws</ItemDef>
-                    </ListItem>
+                    </ListItem>             
                 </Offers>
             </ListItem>
             <ListItem>

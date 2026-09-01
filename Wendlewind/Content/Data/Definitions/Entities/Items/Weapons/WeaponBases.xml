@@ -20,11 +20,11 @@
             <SubstanceModifiers ListKey="Substance">
                 <ListItem>
                     <Substance>Flesh</Substance>
-                    <Modifier>0.8</Modifier>
+                    <Modifier>0.95</Modifier>
                 </ListItem>
                 <ListItem>
                     <Substance>Fungus</Substance>
-                    <Modifier>0.8</Modifier>
+                    <Modifier>0.9</Modifier>
                 </ListItem>
                 <ListItem>
                     <Substance>Wood</Substance>

@@ -156,6 +156,66 @@ public class BloodLossTests
     }
 
     [Fact]
+    public void SeveringArmDropsBloodBySubtreeFraction()
+    {
+        using var harness = BodyTestHarness.Human();
+        var arm = harness.External(BodyPartType.Arm);
+        var bodyWeight = harness.Pawn.Body.AllParts.Sum(p => p.BloodAmount);
+        var subtreeWeight = arm.GetSubtreeBloodWeight();
+        var before = harness.Pawn.Body.BloodAmount;
+        var expectedLoss = before * (subtreeWeight / bodyWeight);
+
+        arm.Severe();
+
+        Assert.Equal(before - expectedLoss, harness.Pawn.Body.BloodAmount, 3);
+        Assert.True(expectedLoss > 0);
+    }
+
+    [Fact]
+    public void SeveringFingerDropsLessBloodThanArm()
+    {
+        using var armHarness = BodyTestHarness.Human();
+        using var fingerHarness = BodyTestHarness.Human();
+        var armBefore = armHarness.Pawn.Body.BloodAmount;
+        var fingerBefore = fingerHarness.Pawn.Body.BloodAmount;
+
+        armHarness.External(BodyPartType.Arm).Severe();
+        fingerHarness.External(BodyPartType.Finger).Severe();
+
+        var armLoss = armBefore - armHarness.Pawn.Body.BloodAmount;
+        var fingerLoss = fingerBefore - fingerHarness.Pawn.Body.BloodAmount;
+        Assert.True(fingerLoss > 0);
+        Assert.True(fingerLoss < armLoss);
+    }
+
+    [Fact]
+    public void SeveringArmAtHalfBloodLosesHalfAsMuch()
+    {
+        using var full = BodyTestHarness.Human();
+        using var half = BodyTestHarness.Human();
+        half.Pawn.Body.BloodAmount = half.Pawn.Body.MaxBlood * 0.5f;
+        var fullBefore = full.Pawn.Body.BloodAmount;
+        var halfBefore = half.Pawn.Body.BloodAmount;
+
+        full.External(BodyPartType.Arm).Severe();
+        half.External(BodyPartType.Arm).Severe();
+
+        var fullLoss = fullBefore - full.Pawn.Body.BloodAmount;
+        var halfLoss = halfBefore - half.Pawn.Body.BloodAmount;
+        Assert.Equal(fullLoss / 2f, halfLoss, 3);
+    }
+
+    [Fact]
+    public void GhoulDoesNotLoseBloodOnSever()
+    {
+        using var harness = BodyTestHarness.Ghoul();
+        var before = harness.Pawn.Body.BloodAmount;
+        harness.Pawn.Body.AllExternalParts.First(p => p.Type == BodyPartType.Arm).Severe();
+
+        Assert.Equal(before, harness.Pawn.Body.BloodAmount);
+    }
+
+    [Fact]
     public void BloodAtOrBelowOneKillsFromBloodLoss()
     {
         using var harness = BodyTestHarness.Human();

@@ -113,7 +113,9 @@ public static class CombatReplay
         int AttackerPawnId,
         int DefenderPawnId,
         string? KillingWeapon,
-        string? KillingManeuver);
+        string? KillingManeuver,
+        float AttackerBloodPercent,
+        float DefenderBloodPercent);
 
     public static DuelResult RunDuel(
         int runSeed,
@@ -189,7 +191,9 @@ public static class CombatReplay
             AttackerPawnId: context.PlayerPawn.Id,
             DefenderPawnId: defender.Id,
             KillingWeapon: handler?.KillingWeapon,
-            KillingManeuver: handler?.KillingManeuver);
+            KillingManeuver: handler?.KillingManeuver,
+            AttackerBloodPercent: context.PlayerPawn.Body.BloodPercent,
+            DefenderBloodPercent: defender.Body.BloodPercent);
     }
 
     public static DuelResult AssertDuelDeterministic(

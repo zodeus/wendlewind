@@ -11,6 +11,8 @@ public sealed record FightSideStats
     public int Blocks { get; init; }
     public int PotionUses { get; init; }
     public int MedicalUses { get; init; }
+    public int Severs { get; init; }
+    public float BloodPercent { get; init; }
     public double DamagePerSecond { get; init; }
 }
 
@@ -44,7 +46,9 @@ public static class CombatAnalytics
         int attackerPawnId,
         int defenderPawnId,
         string? killingWeapon = null,
-        string? killingManeuver = null)
+        string? killingManeuver = null,
+        float attackerBloodPercent = 0,
+        float defenderBloodPercent = 0)
     {
         var attacker = new SideAccumulator();
         var defender = new SideAccumulator();
@@ -58,6 +62,7 @@ public static class CombatAnalytics
                 ? SideFor(sourceId, attackerPawnId, defenderPawnId, attacker, defender)
                 : null;
 
+            CountSevers(ev, subject, attackerPawnId, defenderPawnId, attacker, defender);
             switch (ev.Kind)
             {
                 case CombatEventKind.Damage:
@@ -133,8 +138,8 @@ public static class CombatAnalytics
             DurationTicks = ticks,
             DurationSeconds = seconds,
             InTargetBand = IsInTargetBand(seconds),
-            Attacker = attacker.ToStats(seconds),
-            Defender = defender.ToStats(seconds),
+            Attacker = attacker.ToStats(seconds, attackerBloodPercent),
+            Defender = defender.ToStats(seconds, defenderBloodPercent),
             KillingWeapon = killingWeapon,
             KillingManeuver = killingManeuver,
             FirstDamageTick = firstDamageTick,
@@ -162,6 +167,34 @@ public static class CombatAnalytics
         return null;
     }
 
+    private static void CountSevers(
+        CombatLogEvent ev,
+        SideAccumulator? subject,
+        int attackerPawnId,
+        int defenderPawnId,
+        SideAccumulator attacker,
+        SideAccumulator defender)
+    {
+        if (ev.Kind == CombatEventKind.PartSevered && subject != null)
+        {
+            subject.Severs++;
+        }
+
+        foreach (var sub in ev.SubEffects)
+        {
+            if (sub.Kind != CombatEventKind.PartSevered)
+            {
+                continue;
+            }
+
+            var subSubject = SideFor(sub.SubjectPawnId, attackerPawnId, defenderPawnId, attacker, defender);
+            if (subSubject != null)
+            {
+                subSubject.Severs++;
+            }
+        }
+    }
+
     private sealed class SideAccumulator
     {
         public double DamageDealt;
@@ -173,8 +206,9 @@ public static class CombatAnalytics
         public int Blocks;
         public int PotionUses;
         public int MedicalUses;
+        public int Severs;
 
-        public FightSideStats ToStats(double seconds) => new()
+        public FightSideStats ToStats(double seconds, float bloodPercent) => new()
         {
             DamageDealt = DamageDealt,
             Healing = Healing,
@@ -185,6 +219,8 @@ public static class CombatAnalytics
             Blocks = Blocks,
             PotionUses = PotionUses,
             MedicalUses = MedicalUses,
+            Severs = Severs,
+            BloodPercent = bloodPercent,
             DamagePerSecond = seconds > 0 ? DamageDealt / seconds : 0
         };
     }

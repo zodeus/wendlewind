@@ -43,7 +43,7 @@ public sealed class ArenaShopScreen : Grid
         _purse = new GoldPurse(context);
         _status = new Label(BaseContent.Styles.Label.Small)
         {
-            Text = "Buy from the shelves, or sell from your pack at a tenth of value.",
+            Text = "Buy from the shelves, or sell from your pack at 1/3 value.",
             HorizontalAlignment = HorizontalAlignment.Left,
             TextColor = Color.Gray,
             Wrap = true
@@ -91,7 +91,7 @@ public sealed class ArenaShopScreen : Grid
         header.Widgets.Add(info);
         Grid.SetColumn(info, 1);
 
-        _catalog = new ScrollViewer
+        _catalog = new TooltipAwareScrollViewer
         {
             ShowHorizontalScrollBar = false,
             ShowVerticalScrollBar = true,
@@ -136,14 +136,14 @@ public sealed class ArenaShopScreen : Grid
                 },
                 new Label(BaseContent.Styles.Label.Small)
                 {
-                    Text = "Sell for one-tenth value",
+                    Text = "Sell for 1/3 value",
                     TextColor = Color.Gray,
                     Wrap = true
                 }
             }
         };
 
-        var packScroll = new ScrollViewer
+        var packScroll = new TooltipAwareScrollViewer
         {
             ShowHorizontalScrollBar = false,
             ShowVerticalScrollBar = true,

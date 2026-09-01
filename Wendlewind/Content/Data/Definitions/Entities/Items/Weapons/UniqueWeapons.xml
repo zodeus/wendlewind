@@ -37,7 +37,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Unique/BloodSuckler</TexturePath>
         <BaseStats>
-            <WeaponPower>50</WeaponPower>
+            <WeaponPower>80</WeaponPower>
             <MaxDurability>5000</MaxDurability>
         </BaseStats>
     </ItemDef>
