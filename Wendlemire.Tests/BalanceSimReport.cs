@@ -676,7 +676,7 @@ public class BalanceSimReport
 
         sb.AppendLine("=== Wendlemire Human-vs-Human Balance (13-round curve) ===");
         sb.AppendLine($"Seeds/matchup: {SeedCount}   Target: {TargetMinTicks / 60}-{TargetMaxTicks / 60}s @ 60tps");
-        sb.AppendLine("Knobs this pass: food/incense AS+Str cut (Shade/Dipped 0.06, Honey 0.08/1.12, Walnut 0.08/1.10); Late=stew+honey+dipped; Full=stew+walnut+dipped+mullin");
+        sb.AppendLine($"Knobs this pass: CombatBalance VitalHpScale={CombatBalance.VitalHpScale} LimbHpScale={CombatBalance.LimbHpScale} (human externals only)");
         sb.AppendLine("Sever dump: currentBlood * (subtree BloodAmount / body BloodAmount) on Severe()");
         sb.AppendLine();
         AppendHumanBloodShares(sb);

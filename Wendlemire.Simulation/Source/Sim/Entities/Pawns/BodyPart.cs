@@ -572,6 +572,7 @@ public class BodyPart : Entity
 
         if (BodyPartDef.AdaptiveProperties == null)
         {
+            ApplyHumanHpScale();
             return;
         }
 
@@ -582,6 +583,23 @@ public class BodyPart : Entity
         }
 
         MaxHitPoints = Mathf.FloorToInt(BodyPartDef.AdaptiveProperties.MaxHitPointScaler.GetMaxHitPointsFor(parentPart));
+        HitPoints = MaxHitPoints;
+    }
+
+    private void ApplyHumanHpScale()
+    {
+        if (Body?.Pawn.Species != "Human")
+        {
+            return;
+        }
+
+        var scale = CombatBalance.ScaleFor(Type);
+        if (scale == 1f)
+        {
+            return;
+        }
+
+        MaxHitPoints = Mathf.FloorToInt((float)(MaxHitPoints * scale));
         HitPoints = MaxHitPoints;
     }
 

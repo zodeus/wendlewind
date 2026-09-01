@@ -32,6 +32,8 @@ internal sealed class BodyTestHarness : IDisposable
 
     public static BodyTestHarness Ghoul(int seed = 1) => new("Ghoul", seed);
 
+    public static BodyTestHarness Orc(int seed = 1) => new("Orc", seed);
+
     public Pawn CreatePawn(string pawnDefMoniker, string name)
     {
         var def = DefRepository<PawnDef>.GetByMoniker(pawnDefMoniker)
