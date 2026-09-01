@@ -21,7 +21,7 @@ public class MedicalTriggerTests
 
     [Theory]
     [InlineData("MedKit")]
-    [InlineData("ArterialThreads")]
+    [InlineData("Suture")]
     [InlineData("MendersMist")]
     [InlineData("BalmyOintment")]
     [InlineData("AntiNecroticSerum")]
@@ -85,7 +85,7 @@ public class MedicalTriggerTests
     }
 
     [Fact]
-    public void ArterialThreadsSelectablePartsAreArteries()
+    public void SutureSelectablePartsAreArteries()
     {
         using var root = SimServices.BuildRoot();
         using var scope = root.CreateScope();
@@ -93,7 +93,7 @@ public class MedicalTriggerTests
         context.Initialize(CombatReplay.DefaultRunSeed);
         BuildSnapshotFactory.Apply(context.PlayerPawn, BuildTemplates.TankRegen());
 
-        var def = RequireDef("ArterialThreads");
+        var def = RequireDef("Suture");
         var parts = MedicalTrigger.ListSelectableParts(context.PlayerPawn, def.MedicinalProperties);
         Assert.NotEmpty(parts);
         Assert.All(parts, p => Assert.Equal(BodyPartType.Artery, p.Type));
@@ -230,7 +230,7 @@ public class MedicalTriggerTests
     {
         switch (moniker)
         {
-            case "ArterialThreads":
+            case "Suture":
                 DamageFirst(pawn, p => p.Type == BodyPartType.Artery, 0.2);
                 break;
             case "BalmyOintment":

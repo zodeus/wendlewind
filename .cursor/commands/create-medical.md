@@ -302,7 +302,7 @@ All medical items automatically use `MedicinalPanel` which calls the handler's `
 | Resource | Moniker | Theme/Use |
 |----------|---------|-----------|
 | Healing Root | HealingRoot | Healing, restoration |
-| Arterial Threads | ArterialThreads | Repairing arteries |
+| Suture | Suture | Repairing arteries |
 | Thread | Thread | Basic crafting material |
 | Churni Root | NettleLeaf | Base ingredient, regeneration |
 | Gold Cap Mushroom | GoldCapMushroom | Soothing, calming effects |
@@ -465,7 +465,7 @@ private static void AddLegendRow(Grid grid, int row, string key, string value, C
 See existing handlers for full examples:
 - `MendersMistHandler` - Complex healing pool with socket propagation
 - `MedKitHandler` - Full heal with part type visualization
-- `ArterialThreadsHandler` - Targeted artery repair
+- `SutureHandler` - Targeted artery repair
 - `BalmyOintmentHandler` - Modifier application with duration
 - `AntiNecroticSerumHandler` - Conditional treatment
 - `MendersMixHandler` - Combined healing + modifier + socket spread
@@ -486,7 +486,7 @@ See existing handlers for full examples:
 | Medical Item | Effect | Key Code Pattern | GetInfoPanel |
 |--------------|--------|------------------|--------------|
 | MedKit | Fully heals part + internals | `part.HitPoints = part.MaxHitPoints` for all | ✓ Shows all part types healed |
-| ArterialThreads | Repairs damaged arteries | Target `BodyPartType.Artery` only | ✓ Shows artery repair flow |
+| Suture | Repairs damaged arteries | Target `BodyPartType.Artery` only | ✓ Shows artery repair flow |
 | MendersMist | Pool-based healing through sockets | Recursive heal with amount tracking | ✓ Socket propagation diagram |
 | BalmyOintment | Applies soothing modifier | `TryAddModifier(SoothingBalm, duration)` | ✓ Shows balm coverage |
 | AntiNecroticSerum | Counters necrosis | Check `HasModifier(Necrosis)` | ✓ Shows necrosis treatment |

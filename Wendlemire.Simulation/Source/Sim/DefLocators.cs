@@ -131,7 +131,7 @@ public static partial class Defs
         public static ItemDef HoneyPot = null!;
         public static ItemDef MedKit = null!;
         public static ItemDef Cauterize = null!;
-        public static ItemDef ArterialThreads = null!;
+        public static ItemDef Suture = null!;
         public static ItemDef MendersMist = null!;
         public static ItemDef RepairKit = null!;
         public static ItemDef JarOfBlood = null!;

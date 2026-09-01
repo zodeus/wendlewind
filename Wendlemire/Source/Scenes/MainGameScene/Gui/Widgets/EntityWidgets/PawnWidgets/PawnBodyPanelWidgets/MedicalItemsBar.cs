@@ -23,8 +23,8 @@ internal sealed class MedicalItemsBar : HorizontalStackPanel, IUpdatable
         // Get all medical items from inventory
         var medicalItems = _inventory
             .Where(item => item.ItemDef.ItemType == ItemType.Medical)
-            //order by cauterize, medkit, mist, arterial threads
-            .OrderBy(item => item.Def == Defs.Items.Cauterize ? 0 : item.Def == Defs.Items.MedKit ? 1 : item.Def == Defs.Items.MendersMist ? 2 : item.Def == Defs.Items.ArterialThreads ? 3 : 4)
+            //order by cauterize, medkit, mist, suture
+            .OrderBy(item => item.Def == Defs.Items.Cauterize ? 0 : item.Def == Defs.Items.MedKit ? 1 : item.Def == Defs.Items.MendersMist ? 2 : item.Def == Defs.Items.Suture ? 3 : 4)
             .ToList();
 
         // Remove buttons for items no longer in inventory

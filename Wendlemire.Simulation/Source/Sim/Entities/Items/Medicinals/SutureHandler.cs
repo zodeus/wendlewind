@@ -1,9 +1,9 @@
 namespace Wendlemire.Sim.Entities.Items.Medicinals;
 
 [UsedImplicitly]
-public class ArterialThreadsHandler : MedicinalHandler
+public class SutureHandler : MedicinalHandler
 {
-    public ArterialThreadsHandler(IRng rng)
+    public SutureHandler(IRng rng)
     {
         Rng = rng;
     }

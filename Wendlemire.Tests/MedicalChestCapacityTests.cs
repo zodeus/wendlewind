@@ -14,7 +14,7 @@ public class MedicalChestCapacityTests
     private static readonly string[] MedicalMonikers =
     [
         "MedKit",
-        "ArterialThreads",
+        "Suture",
         "MendersMist",
         "BalmyOintment",
         "AntiNecroticSerum",

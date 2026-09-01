@@ -165,7 +165,7 @@ public class BalanceSimReport
         ["CookedMeat", "CookedFish"],
         [Pot("JarOfBlood", PotionTriggerType.SelfBloodBelow, threshold: 0.25f)],
         [
-            Med("ArterialThreads", 3, MedicalTriggerType.PartBelowHealth, health: 0.6f),
+            Med("Suture", 3, MedicalTriggerType.PartBelowHealth, health: 0.6f),
             Med("MedKit", 2, MedicalTriggerType.PartBelowHealth)
         ],
         [Stick("MullinStick")]);
@@ -218,7 +218,7 @@ public class BalanceSimReport
             Pot("AcidFlask", PotionTriggerType.AfterSeconds, after: 5),
             Pot("PussBomb", PotionTriggerType.AfterSeconds, after: 4)
         ],
-        [Med("ArterialThreads", 2, MedicalTriggerType.PartBelowHealth, health: 0.6f)],
+        [Med("Suture", 2, MedicalTriggerType.PartBelowHealth, health: 0.6f)],
         [Stick("ShadeWood")]);
 
     private static readonly Kit Sustain = new(
@@ -230,7 +230,7 @@ public class BalanceSimReport
         [
             Med("MedKit", 4, MedicalTriggerType.PartBelowHealth),
             Med("MendersMist", 3, MedicalTriggerType.PartBelowHealth),
-            Med("ArterialThreads", 3, MedicalTriggerType.PartBelowHealth, health: 0.6f)
+            Med("Suture", 3, MedicalTriggerType.PartBelowHealth, health: 0.6f)
         ],
         [Stick("MullinStick")]);
 
@@ -595,9 +595,9 @@ public class BalanceSimReport
         Split("FOOD", "R12 walnut vs honey (stacked)", ChainStackedBurn("A"), MealOnly("Walnut"), ChainStackedBurn("B"), MealOnly("HoneyPot")),
 
         // --- MED: same gear/meal, potion + chest swap ---
-        Split("MED", "R1 MedKit+threads vs Jar only", AxeNaked("A"),
+        Split("MED", "R1 MedKit+suture vs Jar only", AxeNaked("A"),
             MedOnly([], [
-                Med("ArterialThreads", 3, MedicalTriggerType.PartBelowHealth, health: 0.6f),
+                Med("Suture", 3, MedicalTriggerType.PartBelowHealth, health: 0.6f),
                 Med("MedKit", 3, MedicalTriggerType.PartBelowHealth)
             ]),
             AxeNaked("B"),

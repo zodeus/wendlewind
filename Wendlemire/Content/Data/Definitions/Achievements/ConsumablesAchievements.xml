@@ -95,10 +95,10 @@
     <AchievementDef>
         <Moniker>Threader</Moniker>
         <Label>Threader</Label>
-        <Description>Use Arterial Threads</Description>
+        <Description>Use Suture</Description>
         <BenifitDescription>Unlocks one medical chest slot</BenifitDescription>
         <Category>Consumables</Category>
-        <ItemUsedDef>ArterialThreads</ItemUsedDef>
+        <ItemUsedDef>Suture</ItemUsedDef>
         <TargetValue>10</TargetValue>
         <HandlerClass>MedicalChestSlotHandler</HandlerClass>
     </AchievementDef>

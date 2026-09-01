@@ -64,7 +64,7 @@
                         <ItemDef>BalmyOintment</ItemDef>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>ArterialThreads</ItemDef>
+                        <ItemDef>Suture</ItemDef>
                         <AvailableFromRound>2</AvailableFromRound>
                     </ListItem>
                     <ListItem>

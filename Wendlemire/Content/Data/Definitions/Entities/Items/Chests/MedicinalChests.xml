@@ -25,7 +25,7 @@
                 <ChanceToDrop>1</ChanceToDrop>
             </ListItem>
             <ListItem>
-                <ItemDef>ArterialThreads</ItemDef>
+                <ItemDef>Suture</ItemDef>
                 <Amount>3~4</Amount>
                 <ChanceToDrop>1</ChanceToDrop>
             </ListItem>

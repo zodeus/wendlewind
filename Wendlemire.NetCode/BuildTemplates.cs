@@ -501,7 +501,7 @@ public static class BuildTemplates
     [
         MedPartBelow("MedKit", 0.5f, 2),
         MedPartBelow("MendersMist", 0.4f, 1),
-        MedPartBelow("ArterialThreads", 0.6f, 1),
+        MedPartBelow("Suture", 0.6f, 1),
         MedCauterize()
     ];
 
