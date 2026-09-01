@@ -423,13 +423,12 @@ public sealed class ArenaRunEndScreen : VerticalStackPanel
                 ? DefRepository<ItemDef>.GetByMoniker(incense.SourceMoniker, raiseError: false)
                 : null;
             var name = incense.Def?.Label ?? itemDef?.Label ?? incense.SourceMoniker ?? "Incense";
-            var left = incense.EncountersRemaining;
             IImage? icon = itemDef != null
                 ? itemDef.GetIconImage()
                 : incense.Def != null
                     ? new TextureRegion(incense.Def.GetTexture())
                     : null;
-            yield return new KitIcon(icon, name, left == 1 ? "1 battle left" : $"{left} battles left", left.ToString());
+            yield return new KitIcon(icon, name, "Burns until extinguished", null);
         }
     }
 

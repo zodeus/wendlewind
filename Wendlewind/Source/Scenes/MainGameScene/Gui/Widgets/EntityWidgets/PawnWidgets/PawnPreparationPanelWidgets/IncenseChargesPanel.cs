@@ -17,7 +17,7 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
 
         Body.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
         {
-            Text = "Lasts multiple battles",
+            Text = "Burns until extinguished",
             TextColor = new Color(160, 160, 160)
         });
 
@@ -64,11 +64,14 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
             return "Need a Flame Stick equipped to light incense";
         }
 
+        if (_pawn.ActiveIncense.Any(a => a.Def == item.ItemDef.IncenseProperties?.Effect?.Def))
+        {
+            return "Already lit";
+        }
+
         if (_pawn.CanLightIncense(item))
         {
-            return _pawn.ActiveIncense.Any(a => a.Def == item.ItemDef.IncenseProperties?.Effect?.Def)
-                ? "Click to add more duration"
-                : "Click to light";
+            return "Click to light";
         }
 
         return "All incense slots are full";
@@ -112,7 +115,6 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
             ? DefRepository<ItemDef>.GetByMoniker(incense.SourceMoniker, raiseError: false)
             : null;
         var name = incense.Def?.Label ?? itemDef?.Label ?? incense.SourceMoniker ?? "Incense";
-        var remaining = incense.EncountersRemaining;
 
         var icon = new Image
         {
@@ -128,14 +130,6 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
             icon.Background = new TextureRegion(incense.Def.GetTexture());
         }
 
-        var remainingLabel = new Label(BaseContent.Styles.Label.Small)
-        {
-            Text = remaining.ToString(),
-            HorizontalAlignment = HorizontalAlignment.Right,
-            VerticalAlignment = VerticalAlignment.Bottom,
-            TextColor = new Color(220, 180, 140)
-        };
-
         var button = new CursorButton
         {
             Width = PrepSlots.Size - PrepSlots.Pad * 2,
@@ -143,17 +137,14 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
             Padding = new Thickness(0),
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
-            Content = new Panel
-            {
-                Widgets = { icon, remainingLabel }
-            }
+            Content = icon
         };
         button.Click += (_, _) =>
         {
             _pawn.ExtinguishIncense(index);
             RebuildSlots();
         };
-        button.WithTooltip(name, remaining == 1 ? "1 battle left — click to extinguish" : $"{remaining} battles left — click to extinguish");
+        button.WithTooltip(name, "Click to extinguish");
         return PrepSlots.Frame(button);
     }
 

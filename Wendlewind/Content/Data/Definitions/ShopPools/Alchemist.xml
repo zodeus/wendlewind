@@ -170,6 +170,43 @@
                     </ListItem>
                 </Offers>
             </ListItem>
+            <ListItem>
+                <Category>Potions</Category>
+                <Columns>6</Columns>
+                <ItemColumns>1</ItemColumns>
+                <StockSize>6</StockSize>
+                <Offers>
+                    <ListItem>
+                        <ItemDef>JarOfBlood</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>SpicedChurni</ItemDef>
+                        <AvailableFromRound>4</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>PussBomb</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>Fleshify</ItemDef>
+                        <AvailableFromRound>4</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>BlackenedSmoke</ItemDef>
+                        <AvailableFromRound>2</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>StrengthPotion</ItemDef>
+                        <AvailableFromRound>2</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>AcidFlask</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>AntiStaticFlask</ItemDef>
+                        <AvailableFromRound>2</AvailableFromRound>
+                    </ListItem>
+                </Offers>
+            </ListItem>
         </Shelves>
     </MerchantDef>
 </Definitions>

@@ -140,8 +140,7 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
         }
 
         var name = incense.Def?.Label ?? itemDef?.Label ?? "Incense";
-        var left = incense.EncountersRemaining;
-        icon.WithTooltip(name, left == 1 ? "1 battle left" : $"{left} battles left");
+        icon.WithTooltip(name, "Burns until extinguished");
         return icon;
     }
 

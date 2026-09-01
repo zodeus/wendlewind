@@ -119,15 +119,13 @@ internal sealed class PrepLoadoutSummary : VerticalStackPanel, IUpdatable
                 ? DefRepository<ItemDef>.GetByMoniker(incense.SourceMoniker, raiseError: false)
                 : null;
             var name = incense.Def?.Label ?? itemDef?.Label ?? incense.SourceMoniker ?? "Incense";
-            var left = incense.EncountersRemaining;
-            var description = left == 1 ? "1 battle left" : $"{left} battles left";
             IImage? icon = itemDef != null
                 ? itemDef.GetIconImage()
                 : incense.Def != null
                     ? new TextureRegion(incense.Def.GetTexture())
                     : null;
             Action? inspect = itemDef != null ? () => Inspect(itemDef) : null;
-            cells.Add(IconCell(icon, name, description, inspect, left.ToString()));
+            cells.Add(IconCell(icon, name, "Burns until extinguished", inspect));
         }
 
         return cells;
