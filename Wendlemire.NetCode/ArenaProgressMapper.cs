@@ -65,6 +65,7 @@ public static class ArenaProgressMapper
             Category = shelf.Category.ToString(),
             Columns = shelf.Columns,
             ItemColumns = shelf.ItemColumns,
+            RefreshCount = shelf.RefreshCount,
             OfferKeys = [..shelf.OfferKeys],
             Remaining = [..shelf.Remaining]
         };
@@ -77,6 +78,7 @@ public static class ArenaProgressMapper
             Category = Enum.TryParse<ShopCategory>(record.Category, out var category) ? category : default,
             Columns = record.Columns,
             ItemColumns = record.ItemColumns,
+            RefreshCount = record.RefreshCount,
             OfferKeys = [..record.OfferKeys],
             Remaining = [..record.Remaining]
         };

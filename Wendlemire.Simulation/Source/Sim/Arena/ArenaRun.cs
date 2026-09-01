@@ -106,6 +106,61 @@ public class ArenaRun : IExposable
         return rolled;
     }
 
+    public bool TryRefreshShelf(
+        MerchantDef merchant,
+        ShopCategory category,
+        IReadOnlySet<string>? ownedUniqueMonikers = null)
+    {
+        PersistedShopShelf? persisted = null;
+        foreach (var shelf in ShopShelves)
+        {
+            if (shelf.Category == category)
+            {
+                persisted = shelf;
+                break;
+            }
+        }
+
+        if (persisted == null)
+        {
+            return false;
+        }
+
+        MerchantShelf? shelfDef = null;
+        foreach (var shelf in merchant.Shelves)
+        {
+            if (shelf.Category == category)
+            {
+                shelfDef = shelf;
+                break;
+            }
+        }
+
+        if (shelfDef == null)
+        {
+            return false;
+        }
+
+        var cost = ShopCatalog.ShelfRefreshCost(category, persisted.RefreshCount);
+        if (Gold < cost)
+        {
+            return false;
+        }
+
+        var seed = ArenaSeeds.ShopRefresh(
+            RunSeed,
+            merchant.Moniker,
+            FightsPlayed,
+            category,
+            persisted.RefreshCount + 1);
+        var offers = ShopStock.RollShelf(shelfDef, new Random(seed), FightsPlayed, ownedUniqueMonikers);
+        persisted.OfferKeys = offers.Select(offer => offer.StockKey).ToList();
+        persisted.Remaining = offers.Select(offer => offer.Available).ToList();
+        persisted.RefreshCount++;
+        Gold -= cost;
+        return true;
+    }
+
     public void RecordPurchase(MerchantOffer offer, int quantity = 1)
     {
         if (quantity < 1 || ShopShelves.Count == 0)

@@ -63,6 +63,7 @@ public sealed record ShopShelfRecord
     public string Category { get; init; } = "";
     public int Columns { get; init; }
     public int ItemColumns { get; init; } = 1;
+    public int RefreshCount { get; init; }
     public List<string> OfferKeys { get; init; } = [];
     public List<int> Remaining { get; init; } = [];
 }

@@ -6,6 +6,7 @@ public sealed class RolledShelf
     public required IReadOnlyList<MerchantOffer> Offers { get; init; }
     public int Columns { get; init; } = ShopLayout.GridColumns;
     public int ItemColumns { get; init; } = 1;
+    public int RefreshCount { get; init; }
 }
 
 public sealed class PersistedShopShelf : IExposable
@@ -13,6 +14,7 @@ public sealed class PersistedShopShelf : IExposable
     public ShopCategory Category;
     public int Columns = ShopLayout.GridColumns;
     public int ItemColumns = 1;
+    public int RefreshCount;
     public List<string> OfferKeys = [];
     public List<int> Remaining = [];
 
@@ -21,6 +23,7 @@ public sealed class PersistedShopShelf : IExposable
         ScribeValues.Look(ref Category, "Category");
         ScribeValues.Look(ref Columns, "Columns");
         ScribeValues.Look(ref ItemColumns, "ItemColumns");
+        ScribeValues.Look(ref RefreshCount, "RefreshCount");
         ScribeCollections.Look(ref OfferKeys!, "OfferKeys", LookMode.Value);
         ScribeCollections.Look(ref Remaining!, "Remaining", LookMode.Value);
         OfferKeys ??= [];
@@ -96,6 +99,7 @@ public static class ShopStock
             Category = shelf.Category,
             Columns = shelf.Columns,
             ItemColumns = shelf.ItemColumns,
+            RefreshCount = shelf.RefreshCount,
             OfferKeys = shelf.Offers.Select(offer => offer.StockKey).ToList(),
             Remaining = shelf.Offers.Select(offer => offer.Available).ToList()
         }).ToList();
@@ -116,7 +120,8 @@ public static class ShopStock
             Category = shelf.Category,
             Offers = RestoreOffers(shelf, lookup),
             Columns = shelf.Columns,
-            ItemColumns = shelf.ItemColumns
+            ItemColumns = shelf.ItemColumns,
+            RefreshCount = shelf.RefreshCount
         }).ToList();
     }
 
@@ -126,11 +131,11 @@ public static class ShopStock
     public static IEnumerable<MerchantOffer> AvailableOffers(MerchantDef merchant, int round) =>
         merchant.AllOffers.Where(offer => offer.IsAvailable(round));
 
-    private static IReadOnlyList<MerchantOffer> RollShelf(
+    public static IReadOnlyList<MerchantOffer> RollShelf(
         MerchantShelf shelf,
         Random rng,
         int round,
-        IReadOnlySet<string>? ownedUniqueMonikers)
+        IReadOnlySet<string>? ownedUniqueMonikers = null)
     {
         var available = shelf.Offers
             .Where(offer => offer.IsAvailable(round) && !IsOwnedUnique(offer, ownedUniqueMonikers))
@@ -148,8 +153,9 @@ public static class ShopStock
             return CloneForStock(WeightedTake(pieces, stockSize, rng));
         }
 
-        var remaining = Math.Max(0, stockSize - sets.Count);
-        return CloneForStock([..sets, ..WeightedTake(pieces, remaining, rng)]);
+        var pickedSets = WeightedTake(sets, 1, rng);
+        var remaining = Math.Max(0, stockSize - pickedSets.Count);
+        return CloneForStock([..pickedSets, ..WeightedTake(pieces, remaining, rng)]);
     }
 
     private static List<MerchantOffer> RestoreOffers(

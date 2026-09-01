@@ -15,6 +15,22 @@
                 <StockSize>6</StockSize>
                 <Offers>
                     <ListItem>
+                        <SetLabel>Cloth Set</SetLabel>
+                        <SetPieces>
+                            <ListItem>ClothHelmet</ListItem>
+                            <ListItem>ClothGorget</ListItem>
+                            <ListItem>ClothTunic</ListItem>
+                            <ListItem>ClothGlove</ListItem>
+                            <ListItem>ClothGlove</ListItem>
+                            <ListItem>ClothVambrace</ListItem>
+                            <ListItem>ClothVambrace</ListItem>
+                            <ListItem>ClothGreave</ListItem>
+                            <ListItem>ClothGreave</ListItem>
+                            <ListItem>ClothBoot</ListItem>
+                            <ListItem>ClothBoot</ListItem>
+                        </SetPieces>
+                    </ListItem>
+                    <ListItem>
                         <SetLabel>Leather Set</SetLabel>
                         <SetPieces>
                             <ListItem>LeatherHelmet</ListItem>

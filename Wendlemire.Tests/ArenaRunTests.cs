@@ -208,7 +208,8 @@ public class ArenaRunTests
             {
                 var setCount = shelf.Offers.Count(offer => offer.IsSet);
                 var pieceCount = shelf.Offers.Count(offer => !offer.IsSet);
-                var rolledSlots = Math.Max(0, shelf.StockSize - setCount);
+                var reservedSets = setCount > 0 ? 1 : 0;
+                var rolledSlots = Math.Max(0, shelf.StockSize - reservedSets);
                 Assert.True(
                     pieceCount > rolledSlots,
                     $"{merchant.Moniker} {shelf.Category}: {pieceCount} pieces for {rolledSlots} rolled slots");
@@ -228,16 +229,19 @@ public class ArenaRunTests
     }
 
     [Fact]
-    public void ShopStockAlwaysIncludesUnlockedArmorSets()
+    public void ShopStockRollsOneUnlockedArmorSet()
     {
         var merchant = DefRepository<MerchantDef>.GetByMoniker("Blacksmith")!;
         var early = ShopStock.Roll(merchant, 99, 1).Single(shelf => shelf.Category == ShopCategory.Armor);
-        Assert.Contains(early.Offers, offer => offer.SetLabel == "Leather Set");
+        var earlySets = early.Offers.Where(offer => offer.IsSet).ToList();
+        Assert.Single(earlySets);
+        Assert.Contains(earlySets[0].SetLabel, new[] { "Cloth Set", "Leather Set" });
         Assert.DoesNotContain(early.Offers, offer => offer.SetLabel == "Chain Set");
 
         var late = ShopStock.Roll(merchant, 99, 4).Single(shelf => shelf.Category == ShopCategory.Armor);
-        Assert.Contains(late.Offers, offer => offer.SetLabel == "Leather Set");
-        Assert.Contains(late.Offers, offer => offer.SetLabel == "Chain Set");
+        var lateSets = late.Offers.Where(offer => offer.IsSet).ToList();
+        Assert.Single(lateSets);
+        Assert.Contains(lateSets[0].SetLabel, new[] { "Cloth Set", "Leather Set", "Chain Set" });
     }
 
     [Fact]
@@ -418,6 +422,173 @@ public class ArenaRunTests
                 restored.Context.ArenaRun.FightsPlayed,
                 ShopStock.OwnedUniqueMonikers(restored.Context.Player)));
         Assert.DoesNotContain(ShopStock.Flatten(shelves), o => o.StockKey == stockKey);
+    }
+
+    [Fact]
+    public void TryRefreshShelfCostsTenGoldAndReplacesOnlyThatShelf()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var run = context.ArenaRun!;
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
+        var stock = OpenVisit(run, context, merchant);
+        var foodBefore = ShelfKeys(stock, ShopCategory.Food);
+        var goldBefore = run.Gold;
+
+        Assert.True(run.TryRefreshShelf(merchant, ShopCategory.Weapons, ShopStock.OwnedUniqueMonikers(context.Player)));
+        var restored = ShopStock.Restore(merchant, run.ShopShelves);
+        Assert.Equal(goldBefore - ShopCatalog.ShelfRefreshBaseCost, run.Gold);
+        Assert.Equal(1, restored.Single(shelf => shelf.Category == ShopCategory.Weapons).RefreshCount);
+        Assert.Equal(foodBefore, ShelfKeys(restored, ShopCategory.Food));
+        Assert.Equal(0, restored.Single(shelf => shelf.Category == ShopCategory.Food).RefreshCount);
+    }
+
+    [Fact]
+    public void TryRefreshShelfDoublesPerShelf()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var run = context.ArenaRun!;
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
+        OpenVisit(run, context, merchant);
+        var goldBefore = run.Gold;
+        var owned = ShopStock.OwnedUniqueMonikers(context.Player);
+
+        Assert.True(run.TryRefreshShelf(merchant, ShopCategory.Weapons, owned));
+        Assert.Equal(goldBefore - 10, run.Gold);
+        Assert.True(run.TryRefreshShelf(merchant, ShopCategory.Weapons, owned));
+        Assert.Equal(goldBefore - 30, run.Gold);
+        Assert.True(run.TryRefreshShelf(merchant, ShopCategory.Food, owned));
+        Assert.Equal(goldBefore - 40, run.Gold);
+        Assert.Equal(2, run.ShopShelves.Single(shelf => shelf.Category == ShopCategory.Weapons).RefreshCount);
+        Assert.Equal(1, run.ShopShelves.Single(shelf => shelf.Category == ShopCategory.Food).RefreshCount);
+    }
+
+    [Fact]
+    public void FirstArmorRefreshIsFreeThenFollowsNormalCurve()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var run = context.ArenaRun!;
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
+        OpenVisit(run, context, merchant);
+        var goldBefore = run.Gold;
+        var owned = ShopStock.OwnedUniqueMonikers(context.Player);
+
+        Assert.Equal(0, ShopCatalog.ShelfRefreshCost(ShopCategory.Armor, 0));
+        Assert.True(run.TryRefreshShelf(merchant, ShopCategory.Armor, owned));
+        Assert.Equal(goldBefore, run.Gold);
+        Assert.Equal(1, run.ShopShelves.Single(shelf => shelf.Category == ShopCategory.Armor).RefreshCount);
+        Assert.True(run.TryRefreshShelf(merchant, ShopCategory.Armor, owned));
+        Assert.Equal(goldBefore - 10, run.Gold);
+        Assert.True(run.TryRefreshShelf(merchant, ShopCategory.Armor, owned));
+        Assert.Equal(goldBefore - 30, run.Gold);
+    }
+
+    [Fact]
+    public void TryRefreshShelfRejectsOverspend()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var run = context.ArenaRun!;
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
+        var stock = OpenVisit(run, context, merchant);
+        var weaponsBefore = ShelfKeys(stock, ShopCategory.Weapons);
+        run.Gold = ShopCatalog.ShelfRefreshBaseCost - 1;
+
+        Assert.False(run.TryRefreshShelf(merchant, ShopCategory.Weapons, ShopStock.OwnedUniqueMonikers(context.Player)));
+        Assert.Equal(ShopCatalog.ShelfRefreshBaseCost - 1, run.Gold);
+        Assert.Equal(weaponsBefore, ShelfKeys(ShopStock.Restore(merchant, run.ShopShelves), ShopCategory.Weapons));
+        Assert.Equal(0, run.ShopShelves.Single(shelf => shelf.Category == ShopCategory.Weapons).RefreshCount);
+    }
+
+    [Fact]
+    public void ShelfRefreshIsDeterministicForTheSameIndex()
+    {
+        using var first = CreateArena();
+        using var second = CreateArena();
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
+        OpenVisit(first.Context.ArenaRun!, first.Context, merchant);
+        OpenVisit(second.Context.ArenaRun!, second.Context, merchant);
+        var owned = ShopStock.OwnedUniqueMonikers(first.Context.Player);
+
+        Assert.True(first.Context.ArenaRun!.TryRefreshShelf(merchant, ShopCategory.Weapons, owned));
+        Assert.True(second.Context.ArenaRun!.TryRefreshShelf(merchant, ShopCategory.Weapons, owned));
+        Assert.Equal(
+            ShelfKeys(ShopStock.Restore(merchant, first.Context.ArenaRun.ShopShelves), ShopCategory.Weapons),
+            ShelfKeys(ShopStock.Restore(merchant, second.Context.ArenaRun.ShopShelves), ShopCategory.Weapons));
+    }
+
+    [Fact]
+    public void LaterShelfRefreshIndexDiffersFromTheFirstRoll()
+    {
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
+        var shelf = merchant.Shelves.Single(s => s.Category == ShopCategory.Weapons);
+        var foundDifference = false;
+        for (var seed = 1; seed <= 32 && !foundDifference; seed++)
+        {
+            var original = ShopStock.Roll(merchant, seed, 0).Single(s => s.Category == ShopCategory.Weapons)
+                .Offers.Select(offer => offer.StockKey);
+            var refreshed = ShopStock.RollShelf(
+                    shelf,
+                    new Random(ArenaSeeds.ShopRefresh(seed, merchant.Moniker, 0, ShopCategory.Weapons, 1)),
+                    0)
+                .Select(offer => offer.StockKey);
+            foundDifference = !original.SequenceEqual(refreshed);
+        }
+
+        Assert.True(foundDifference);
+    }
+
+    [Fact]
+    public void OpenShopVisitKeepsShelfRefreshCount()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var run = context.ArenaRun!;
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
+        OpenVisit(run, context, merchant);
+        Assert.True(run.TryRefreshShelf(merchant, ShopCategory.Weapons, ShopStock.OwnedUniqueMonikers(context.Player)));
+
+        var restored = run.OpenShopVisit(
+            merchant,
+            ShopStock.Roll(
+                merchant,
+                run.RunSeed,
+                run.FightsPlayed,
+                ShopStock.OwnedUniqueMonikers(context.Player)));
+        Assert.Equal(1, restored.Single(shelf => shelf.Category == ShopCategory.Weapons).RefreshCount);
+        Assert.Equal(20, ShopCatalog.ShelfRefreshCost(
+            ShopCategory.Weapons,
+            restored.Single(shelf => shelf.Category == ShopCategory.Weapons).RefreshCount));
+    }
+
+    [Fact]
+    public void ProgressRoundTripKeepsShelfRefreshCount()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var run = context.ArenaRun!;
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("GeneralStore")!;
+        OpenVisit(run, context, merchant);
+        Assert.True(run.TryRefreshShelf(merchant, ShopCategory.Weapons, ShopStock.OwnedUniqueMonikers(context.Player)));
+
+        var record = ArenaProgressMapper.FromRun(run, null, "shop-refresh", DateTimeOffset.UtcNow);
+        Assert.Equal(1, record.ShopShelves.Single(shelf => shelf.Category == nameof(ShopCategory.Weapons)).RefreshCount);
+
+        using var restored = CreateArena();
+        ArenaProgressMapper.ApplyTo(restored.Context.ArenaRun!, record);
+        var shelves = restored.Context.ArenaRun!.OpenShopVisit(
+            merchant,
+            ShopStock.Roll(
+                merchant,
+                restored.Context.ArenaRun.RunSeed,
+                restored.Context.ArenaRun.FightsPlayed,
+                ShopStock.OwnedUniqueMonikers(restored.Context.Player)));
+        Assert.Equal(1, shelves.Single(shelf => shelf.Category == ShopCategory.Weapons).RefreshCount);
+        Assert.Equal(
+            ShelfKeys(ShopStock.Restore(merchant, run.ShopShelves), ShopCategory.Weapons),
+            ShelfKeys(shelves, ShopCategory.Weapons));
     }
 
     [Fact]
@@ -925,6 +1096,21 @@ public class ArenaRunTests
         Assert.Equal("bob", result.DefenderPlayerId);
         Assert.Equal(9, result.EncounterSeed);
     }
+
+    private static IReadOnlyList<RolledShelf> OpenVisit(ArenaRun run, GameContext context, MerchantDef merchant)
+    {
+        run.CurrentMerchant = merchant;
+        return run.OpenShopVisit(
+            merchant,
+            ShopStock.Roll(
+                merchant,
+                run.RunSeed,
+                run.FightsPlayed,
+                ShopStock.OwnedUniqueMonikers(context.Player)));
+    }
+
+    private static List<string> ShelfKeys(IReadOnlyList<RolledShelf> stock, ShopCategory category) =>
+        stock.Single(shelf => shelf.Category == category).Offers.Select(offer => offer.StockKey).ToList();
 
     private static MerchantOffer Offer(string moniker) =>
         new() { ItemDef = DefRepository<ItemDef>.GetByMoniker(moniker)! };

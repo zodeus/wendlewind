@@ -31,6 +31,7 @@ public sealed class ArenaShopScreen : Grid
     private readonly Action _onDone;
     private readonly MerchantDef _merchant;
     private readonly List<(CursorButton Button, Label Price, int Cost)> _buyButtons = [];
+    private readonly List<(CursorButton Button, Label Price, int Cost)> _refreshButtons = [];
     private IReadOnlyList<RolledShelf> _stock = [];
     private PawnPreparationPanel? _loadoutPanel;
 
@@ -328,14 +329,53 @@ public sealed class ArenaShopScreen : Grid
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Widgets =
             {
-                new Label(BaseContent.Styles.Label.Medium)
-                {
-                    Text = shelf.Category.Label(),
-                    TextColor = TitleColor
-                },
+                CreateShelfHeader(shelf),
                 CreateSlotGrid(cards, shelf.Columns, shelf.ItemColumns)
             }
         };
+    }
+
+    private Widget CreateShelfHeader(RolledShelf shelf)
+    {
+        var header = new Grid
+        {
+            ColumnSpacing = 8,
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        };
+        header.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
+        header.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        header.RowsProportions.Add(new Proportion(ProportionType.Auto));
+
+        var title = new Label(BaseContent.Styles.Label.Medium)
+        {
+            Text = shelf.Category.Label(),
+            TextColor = TitleColor,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        var refresh = CreateRefreshButton(shelf);
+        header.Widgets.Add(title);
+        header.Widgets.Add(refresh);
+        Grid.SetColumn(refresh, 1);
+        return header;
+    }
+
+    private Widget CreateRefreshButton(RolledShelf shelf)
+    {
+        var cost = ShopCatalog.ShelfRefreshCost(shelf.Category, shelf.RefreshCount);
+        var price = new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = cost == 0 ? "Reroll free" : $"Reroll {cost}g",
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
+        var refresh = new CursorButton(BaseContent.Styles.Button.Small)
+        {
+            Content = price,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        refresh.Click += (_, _) => TryRefreshShelf(shelf.Category);
+        _refreshButtons.Add((refresh, price, cost));
+        ApplyAffordability(refresh, price, cost);
+        return refresh;
     }
 
     private static Widget CreateSlotGrid(IReadOnlyList<Widget> cards, int columns, int itemColumns)
@@ -671,6 +711,7 @@ public sealed class ArenaShopScreen : Grid
     private void RebuildCatalog()
     {
         _buyButtons.Clear();
+        _refreshButtons.Clear();
         var shelves = new VerticalStackPanel
         {
             Spacing = 22,
@@ -692,7 +733,8 @@ public sealed class ArenaShopScreen : Grid
                 Category = shelf.Category,
                 Offers = shelf.Offers.Where(o => o != offer).ToList(),
                 Columns = shelf.Columns,
-                ItemColumns = shelf.ItemColumns
+                ItemColumns = shelf.ItemColumns,
+                RefreshCount = shelf.RefreshCount
             })
             .ToList();
         RebuildCatalog();
@@ -746,6 +788,28 @@ public sealed class ArenaShopScreen : Grid
         _status.Text = $"Cannot buy {label} ({cost}g, you have {_context.ArenaRun.Gold}g)";
     }
 
+    private void TryRefreshShelf(ShopCategory category)
+    {
+        var run = _context.ArenaRun!;
+        var cost = ShopCatalog.ShelfRefreshCost(
+            category,
+            run.ShopShelves.FirstOrDefault(shelf => shelf.Category == category)?.RefreshCount ?? 0);
+        var label = category.Label();
+        if (run.TryRefreshShelf(_merchant, category, ShopStock.OwnedUniqueMonikers(_context.Player)))
+        {
+            _status.TextColor = Color.LightGreen;
+            _status.Text = $"Refreshed {label}";
+            _purse.Refresh();
+            _stock = ShopStock.Restore(_merchant, run.ShopShelves);
+            RebuildCatalog();
+            RebuildPack();
+            return;
+        }
+
+        _status.TextColor = Color.IndianRed;
+        _status.Text = $"Cannot refresh {label} ({cost}g, you have {run.Gold}g)";
+    }
+
     private void TrySell(Item item)
     {
         var label = item.Label;
@@ -766,6 +830,11 @@ public sealed class ArenaShopScreen : Grid
     private void RefreshAffordability()
     {
         foreach (var (button, price, cost) in _buyButtons)
+        {
+            ApplyAffordability(button, price, cost);
+        }
+
+        foreach (var (button, price, cost) in _refreshButtons)
         {
             ApplyAffordability(button, price, cost);
         }
