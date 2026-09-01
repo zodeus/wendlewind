@@ -7,9 +7,14 @@ namespace Wendlewind.Scenes.ArenaScene.Gui;
 public sealed class ArenaShopScreen : Grid
 {
     private const int PackWidth = 210;
+    private const int PortraitSize = 180;
     private const int OfferIconSize = 48;
     private const int PackIconSize = 36;
     private const int SetIconSize = 16;
+    private static readonly Color TitleColor = new(214, 208, 196);
+    private static readonly Color BodyColor = new(168, 164, 156);
+    private static readonly Color ShelfWood = new(58, 28, 20);
+    private static readonly Color ShelfHighlight = new(96, 48, 32);
 
     private readonly BaseGui _gui;
     private readonly GameContext _context;
@@ -50,7 +55,7 @@ public sealed class ArenaShopScreen : Grid
         };
         _runStats = new Label(BaseContent.Styles.Label.Small)
         {
-            TextColor = Color.Goldenrod,
+            TextColor = BodyColor,
             VerticalAlignment = VerticalAlignment.Center
         };
         RefreshRunStats();
@@ -73,18 +78,15 @@ public sealed class ArenaShopScreen : Grid
                 new Label(BaseContent.Styles.Label.Huge)
                 {
                     Text = _merchant.Label,
-                    TextColor = Color.Goldenrod
+                    TextColor = TitleColor
                 },
                 new Label(BaseContent.Styles.Label.Small)
                 {
                     Text = _merchant.Description,
+                    TextColor = BodyColor,
                     Wrap = true
                 },
-                new HorizontalStackPanel
-                {
-                    Spacing = 16,
-                    Widgets = { _purse, _runStats }
-                },
+                _runStats,
                 _status
             }
         };
@@ -132,16 +134,17 @@ public sealed class ArenaShopScreen : Grid
                 new Label(BaseContent.Styles.Label.Medium)
                 {
                     Text = "Your pack",
-                    TextColor = Color.Goldenrod
+                    TextColor = TitleColor
                 },
                 new Label(BaseContent.Styles.Label.Small)
                 {
                     Text = "Sell for 1/3 value",
-                    TextColor = Color.Gray,
+                    TextColor = BodyColor,
                     Wrap = true
                 }
             }
         };
+        _purse.HorizontalAlignment = HorizontalAlignment.Stretch;
 
         var packScroll = new TooltipAwareScrollViewer
         {
@@ -161,13 +164,16 @@ public sealed class ArenaShopScreen : Grid
         };
         packPanel.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
         packPanel.RowsProportions.Add(new Proportion(ProportionType.Auto));
+        packPanel.RowsProportions.Add(new Proportion(ProportionType.Auto));
         packPanel.RowsProportions.Add(new Proportion(ProportionType.Fill));
         packPanel.RowsProportions.Add(new Proportion(ProportionType.Auto));
         packPanel.Widgets.Add(packTitle);
+        packPanel.Widgets.Add(_purse);
+        Grid.SetRow(_purse, 1);
         packPanel.Widgets.Add(packScroll);
-        Grid.SetRow(packScroll, 1);
+        Grid.SetRow(packScroll, 2);
         packPanel.Widgets.Add(done);
-        Grid.SetRow(done, 2);
+        Grid.SetRow(done, 3);
 
         var body = new Grid
         {
@@ -205,8 +211,8 @@ public sealed class ArenaShopScreen : Grid
 
         var frame = new Panel
         {
-            Width = 180,
-            Height = 220,
+            Width = PortraitSize,
+            Height = PortraitSize,
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright],
             HorizontalAlignment = HorizontalAlignment.Left,
             VerticalAlignment = VerticalAlignment.Top
@@ -218,7 +224,8 @@ public sealed class ArenaShopScreen : Grid
             {
                 Background = portrait,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch
+                VerticalAlignment = VerticalAlignment.Stretch,
+                Margin = new Thickness(8)
             });
             return frame;
         }
@@ -297,10 +304,9 @@ public sealed class ArenaShopScreen : Grid
                 new Label(BaseContent.Styles.Label.Medium)
                 {
                     Text = shelf.Category.Label(),
-                    TextColor = Color.Goldenrod
+                    TextColor = TitleColor
                 },
-                CreateSlotGrid(cards, shelf.Columns, shelf.ItemColumns),
-                CreateShelfLine()
+                CreateSlotGrid(cards, shelf.Columns, shelf.ItemColumns)
             }
         };
     }
@@ -353,6 +359,7 @@ public sealed class ArenaShopScreen : Grid
             }
 
             rows.Widgets.Add(row);
+            rows.Widgets.Add(CreateShelfLine());
         }
 
         return rows;
@@ -362,10 +369,12 @@ public sealed class ArenaShopScreen : Grid
     {
         return new Panel
         {
-            Height = 3,
+            Height = 10,
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            Background = new SolidBrush(new Color(196, 156, 72)),
-            Margin = new Thickness(2, 0, 2, 4)
+            Background = new SolidBrush(ShelfWood),
+            Border = new SolidBrush(ShelfHighlight),
+            BorderThickness = new Thickness(0, 2, 0, 1),
+            Margin = new Thickness(2, 0, 2, 6)
         };
     }
 
@@ -374,7 +383,7 @@ public sealed class ArenaShopScreen : Grid
         var title = new Label(BaseContent.Styles.Label.Small)
         {
             Text = offer.Available > 1 ? $"{offer.DisplayLabel}  x{offer.Available}" : offer.DisplayLabel,
-            TextColor = Color.Goldenrod,
+            TextColor = TitleColor,
             HorizontalAlignment = HorizontalAlignment.Center
         };
 
@@ -401,17 +410,18 @@ public sealed class ArenaShopScreen : Grid
                 Background = offer.ItemDef.GetIconImage(),
                 Width = OfferIconSize,
                 Height = OfferIconSize,
-                HorizontalAlignment = HorizontalAlignment.Center
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Margin = new Thickness(6)
             });
         }
 
         var buy = CreateBuyButton(offer);
         var card = new Grid
         {
-            Padding = new Thickness(4),
+            Padding = new Thickness(8),
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Stretch,
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright]
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.SmallFrame]
         };
         card.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
         card.RowsProportions.Add(new Proportion(ProportionType.Auto));
@@ -511,15 +521,15 @@ public sealed class ArenaShopScreen : Grid
         return new VerticalStackPanel
         {
             Spacing = 2,
-            Padding = new Thickness(4),
+            Padding = new Thickness(8),
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright],
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.SmallFrame],
             Widgets =
             {
                 new Label(BaseContent.Styles.Label.Small)
                 {
                     Text = item.LabelWithStackSize,
-                    TextColor = Color.Goldenrod,
+                    TextColor = TitleColor,
                     HorizontalAlignment = HorizontalAlignment.Center,
                     Wrap = true
                 },
@@ -528,7 +538,8 @@ public sealed class ArenaShopScreen : Grid
                     Background = item.GetIconImage(),
                     Width = PackIconSize,
                     Height = PackIconSize,
-                    HorizontalAlignment = HorizontalAlignment.Center
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Margin = new Thickness(6)
                 },
                 sell
             }
@@ -600,7 +611,7 @@ public sealed class ArenaShopScreen : Grid
         _buyButtons.Clear();
         var shelves = new VerticalStackPanel
         {
-            Spacing = 8,
+            Spacing = 22,
             HorizontalAlignment = HorizontalAlignment.Stretch
         };
         foreach (var row in ShopLayout.GroupRows(_stock, shelf => shelf.Columns))

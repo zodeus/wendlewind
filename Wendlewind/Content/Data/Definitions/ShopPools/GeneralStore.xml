@@ -6,10 +6,11 @@
         <Description>Trail rations, incense, and a few useful bottles.</Description>
         <Kind>GeneralStore</Kind>
         <Ability>None</Ability>
+        <TexturePath>Entities/Pawn/Portrait/Merchants/GeneralStore</TexturePath>
         <Shelves>
             <ListItem>
                 <Category>Food</Category>
-                <Columns>6</Columns>
+                <Columns>4</Columns>
                 <ItemColumns>1</ItemColumns>
                 <StockSize>2</StockSize>
                 <Offers>
@@ -29,7 +30,7 @@
             </ListItem>
             <ListItem>
                 <Category>Incense</Category>
-                <Columns>6</Columns>
+                <Columns>4</Columns>
                 <ItemColumns>1</ItemColumns>
                 <StockSize>2</StockSize>
                 <Offers>
@@ -38,6 +39,24 @@
                     </ListItem>
                     <ListItem>
                         <ItemDef>ShadeWood</ItemDef>
+                    </ListItem>
+                </Offers>
+            </ListItem>
+            
+            <ListItem>
+                <Category>Potions</Category>
+                <Columns>4</Columns>
+                <ItemColumns>1</ItemColumns>
+                <StockSize>2</StockSize>
+                <Offers>
+                    <ListItem>
+                        <ItemDef>JarOfBlood</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>AcidFlask</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>PussBomb</ItemDef>
                     </ListItem>
                 </Offers>
             </ListItem>
@@ -65,10 +84,30 @@
                 </Offers>
             </ListItem>
             <ListItem>
-                <Category>Armor</Category>
+                <Category>Medicine</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
-                <StockSize>6</StockSize>
+                <StockSize>3</StockSize>
+                <Offers>
+                    <ListItem>
+                        <ItemDef>BalmyOintment</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>ArterialThreads</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>MedKit</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>MendersMist</ItemDef>
+                    </ListItem>
+                </Offers>
+            </ListItem>
+            <ListItem>
+                <Category>Armor</Category>
+                <Columns>12</Columns>
+                <ItemColumns>1</ItemColumns>
+                <StockSize>12</StockSize>
                 <Offers>
                     <ListItem>
                         <SetLabel>Cloth Set</SetLabel>
@@ -143,61 +182,6 @@
                     </ListItem>
                     <ListItem>
                         <ItemDef>LeatherBoot</ItemDef>
-                    </ListItem>
-                </Offers>
-            </ListItem>
-            <ListItem>
-                <Category>Medicine</Category>
-                <Columns>6</Columns>
-                <ItemColumns>1</ItemColumns>
-                <StockSize>3</StockSize>
-                <Offers>
-                    <ListItem>
-                        <ItemDef>Cauterize</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>BalmyOintment</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>ArterialThreads</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>MedKit</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>MendersMist</ItemDef>
-                    </ListItem>
-                </Offers>
-            </ListItem>
-            <ListItem>
-                <Category>Potions</Category>
-                <Columns>6</Columns>
-                <ItemColumns>1</ItemColumns>
-                <StockSize>2</StockSize>
-                <Offers>
-                    <ListItem>
-                        <ItemDef>JarOfBlood</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>AcidFlask</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>StrengthPotion</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>AntiStaticFlask</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>PussBomb</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>BlackenedSmoke</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>SpicedChurni</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>Fleshify</ItemDef>
                     </ListItem>
                 </Offers>
             </ListItem>

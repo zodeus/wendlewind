@@ -16,7 +16,7 @@
         <Moniker>JarOfBlood</Moniker>
         <Label>Jar of Blood</Label>
         <Description>A crimson elixir that restores vitality.</Description>
-        <GoldCost>55</GoldCost>
+        <GoldCost>50</GoldCost>
         <TexturePath>Entities/Item/Potion/JarOfBlood</TexturePath>
         <PotionProperties>
             <HandlerClass>JarOfBloodHandler</HandlerClass>
@@ -35,7 +35,7 @@
         <Moniker>AcidFlask</Moniker>
         <Label>Acid Flask</Label>
         <Description>Corrosive liquid sealed in fragile glass.</Description>
-        <GoldCost>45</GoldCost>
+        <GoldCost>100</GoldCost>
         <TexturePath>Entities/Item/Potion/AcidFlask</TexturePath>
         <PotionProperties>
             <HandlerClass>AcidFlaskHandler</HandlerClass>
@@ -74,7 +74,7 @@
             <PotionDuration>1200</PotionDuration>
         </BaseStats>
         <Description>A warm, tingling brew infused with purple essence.</Description>
-        <GoldCost>70</GoldCost>
+        <GoldCost>100</GoldCost>
         <TexturePath>Entities/Item/Potion/SpicedChurni</TexturePath>
         <PotionProperties>
             <HandlerClass>SpicedChurniHandler</HandlerClass>
@@ -118,7 +118,7 @@
         <Moniker>PussBomb</Moniker>
         <Label>Puss Bomb</Label>
         <Description>A putrid, festering sphere of infection. Splatters the target with vile pus that causes their flesh to rot.</Description>
-        <GoldCost>50</GoldCost>
+        <GoldCost>80</GoldCost>
         <TexturePath>Entities/Item/Potion/PussBomb</TexturePath>
         <PotionProperties>
             <HandlerClass>PussBombHandler</HandlerClass>

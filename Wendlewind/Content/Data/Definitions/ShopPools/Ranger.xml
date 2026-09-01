@@ -6,6 +6,7 @@
         <Description>Trail rations, darts, and the quiet tools of the woods.</Description>
         <Kind>Ranger</Kind>
         <Ability>None</Ability>
+        <TexturePath>Entities/Pawn/Portrait/Merchants/Ranger</TexturePath>
         <Shelves>
             <ListItem>
                 <Category>Food</Category>

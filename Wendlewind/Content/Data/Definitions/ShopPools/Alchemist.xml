@@ -6,6 +6,7 @@
         <Description>Incense, salves, and hexed hides from a folded witch-doctor stall.</Description>
         <Kind>Alchemist</Kind>
         <Ability>None</Ability>
+        <TexturePath>Entities/Pawn/Portrait/Merchants/Alchemist</TexturePath>
         <Shelves>
             <ListItem>
                 <Category>Incense</Category>

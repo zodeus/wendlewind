@@ -6,6 +6,7 @@
         <Description>Bottled fury, combat trinkets, and cloaks that hum.</Description>
         <Kind>Magician</Kind>
         <Ability>None</Ability>
+        <TexturePath>Entities/Pawn/Portrait/Merchants/Magician</TexturePath>
         <Shelves>
             <ListItem>
                 <Category>Potions</Category>

@@ -10,3 +10,5 @@ RELEASE/
 .DS_Store
 MonoSound*
 Wendlewind.Server/data/
+artifacts/
+.tools/

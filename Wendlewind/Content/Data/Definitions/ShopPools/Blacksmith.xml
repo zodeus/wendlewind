@@ -6,6 +6,7 @@
         <Description>Iron, chain, and steel that remembers a fight.</Description>
         <Kind>Blacksmith</Kind>
         <Ability>None</Ability>
+        <TexturePath>Entities/Pawn/Portrait/Merchants/Blacksmith</TexturePath>
         <Shelves>
             <ListItem>
                 <Category>Armor</Category>
