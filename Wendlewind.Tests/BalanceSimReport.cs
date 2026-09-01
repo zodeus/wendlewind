@@ -203,26 +203,57 @@ public class BalanceSimReport
     private static BuildSnapshot ClubNaked(string id) => Fighter(id, ["WoodClub"]);
     private static BuildSnapshot AxeNaked(string id) => Fighter(id, ["BoneAxe"]);
     private static BuildSnapshot SpearNaked(string id) => Fighter(id, ["BoneSpear"]);
+    private static BuildSnapshot KnifeNaked(string id) => Fighter(id, ["BoneKnife"]);
+    private static BuildSnapshot HammerNaked(string id) => Fighter(id, ["StoneHammer"]);
     private static BuildSnapshot AxeCloth(string id) => Fighter(id, ["BoneAxe"], ClothSet);
+    private static BuildSnapshot ClubCloth(string id) => Fighter(id, ["WoodClub"], ClothSet);
+    private static BuildSnapshot SpearCloth(string id) => Fighter(id, ["BoneSpear"], ClothSet);
+    private static BuildSnapshot DualPrimitive(string id) => Fighter(id, ["BoneAxe", "BoneKnife"]);
     private static BuildSnapshot AxeLeatherCore(string id) => Fighter(id, ["BoneAxe"], LeatherCore);
     private static BuildSnapshot SwordFesterCloth(string id) =>
         Fighter(id, ["IronSword"], ClothSet, Weapon("IronSword", "FesteringWounds"));
+    private static BuildSnapshot SwordPlainCloth(string id) => Fighter(id, ["IronSword"], ClothSet);
+    private static BuildSnapshot DaggerFesterCloth(string id) =>
+        Fighter(id, ["IronDagger"], ClothSet, Weapon("IronDagger", "FesteringWounds"));
 
     // R4-6
     private static BuildSnapshot SwordLeather(string id) => Fighter(id, ["IronSword"], LeatherSet);
     private static BuildSnapshot MaceLeather(string id) => Fighter(id, ["IronMace"], LeatherSet);
+    private static BuildSnapshot IronAxeLeather(string id) => Fighter(id, ["IronAxe"], LeatherSet);
+    private static BuildSnapshot ClawsLeather(string id) => Fighter(id, ["IronClaws"], LeatherSet);
     private static BuildSnapshot DualIronLeather(string id) =>
         Fighter(id, ["IronSword", "IronDagger"], LeatherSet,
+            Combine(Weapon("IronDagger", "FesteringWounds"), LeatherLightEnchants()));
+    private static BuildSnapshot DualDaggerLeather(string id) =>
+        Fighter(id, ["IronDagger", "IronDagger"], LeatherSet,
             Combine(Weapon("IronDagger", "FesteringWounds"), LeatherLightEnchants()));
     private static BuildSnapshot SwordLeatherLeaf(string id) =>
         Fighter(id, ["IronSword"], LeatherSet,
             Combine(Weapon("IronSword", "FesteringWounds"), LeatherMidEnchants()));
+    private static BuildSnapshot SwordBloodBathLeather(string id) =>
+        Fighter(id, ["IronSword"], LeatherSet,
+            Combine(
+                Weapon("IronSword", "SpidersBite"),
+                [Sock("LeatherTunic", "BloodBath")],
+                LeatherLightEnchants()));
+    private static BuildSnapshot FireStaffLeather(string id) =>
+        Fighter(id, ["FireStaff"], LeatherSet, Weapon("FireStaff", "FesteringWounds"));
+    private static BuildSnapshot ChainPartialSword(string id) =>
+        Fighter(id, ["IronSword"],
+            ["ChainHelmet", "ChainTunic", "LeatherGorget",
+             "LeatherGlove", "LeatherGlove", "LeatherGreave", "LeatherGreave"]);
     private static BuildSnapshot WdPartialBoneEater(string id) =>
         Fighter(id, ["IronSword"],
             ["WitchDoctorHelmet", "WitchDoctorTunic", "LeatherGorget",
              "LeatherGlove", "LeatherGlove", "LeatherGreave", "LeatherGreave"],
             Combine(Weapon("IronSword", "BoneEater"),
                 [Sock("WitchDoctorHelmet", "ElvishLeaf"), Sock("WitchDoctorTunic", "ElvishLeaf")]));
+    private static BuildSnapshot WdPartialBite(string id) =>
+        Fighter(id, ["IronClaws"],
+            ["WitchDoctorHelmet", "WitchDoctorTunic", "LeatherGorget",
+             "LeatherGlove", "LeatherGlove", "LeatherGreave", "LeatherGreave"],
+            Combine(Weapon("IronClaws", "SpidersBite"),
+                [Sock("WitchDoctorHelmet", "ElvishLeaf"), Sock("WitchDoctorTunic", "SoothingVibrations")]));
 
     // R7-9
     private static BuildSnapshot SwordChain(string id) => Fighter(id, ["IronSword"], ChainSet);
@@ -232,6 +263,15 @@ public class BalanceSimReport
         Fighter(id, ["IronMace"], ChainSet, Weapon("IronMace", "BoneEater"));
     private static BuildSnapshot ChainSpider(string id) =>
         Fighter(id, ["IronSword"], ChainSet, Weapon("IronSword", "SpidersBite"));
+    private static BuildSnapshot ChainDual(string id) =>
+        Fighter(id, ["IronSword", "IronDagger"], ChainSet,
+            Combine(Weapon("IronDagger", "FesteringWounds")));
+    private static BuildSnapshot ChainRhinoLight(string id) =>
+        Fighter(id, ["IronSword"], ChainSet,
+            Combine(
+                Weapon("IronSword", "EverburningStone"),
+                [Sock("ChainHelmet", "RhinoSkin"), Sock("ChainTunic", "RhinoSkin"),
+                 Sock("ChainBoot", "ElvishLeaf")]));
     private static BuildSnapshot DualDoTLeather(string id) =>
         Fighter(id, ["IronSword", "IronDagger"], LeatherSet,
             Combine(
@@ -239,6 +279,20 @@ public class BalanceSimReport
                 LeatherMidEnchants()));
     private static BuildSnapshot WdPlainBone(string id) =>
         Fighter(id, ["IronSword"], WitchDoctorSet, Weapon("IronSword", "BoneEater"));
+    private static BuildSnapshot WdBurn(string id) =>
+        Fighter(id, ["IronSword"], WitchDoctorSet, Weapon("IronSword", "EverburningStone"));
+    private static BuildSnapshot WdFester(string id) =>
+        Fighter(id, ["IronSword"], WitchDoctorSet, Weapon("IronSword", "FesteringWounds"));
+    private static BuildSnapshot WdCollarBone(string id) =>
+        Fighter(id, ["IronMace"],
+            ["PlagueMask", "BlessedIronCollar", "WitchDoctorTunic",
+             "WitchDoctorGlove", "WitchDoctorGlove", "WitchDoctorVambrace", "WitchDoctorVambrace",
+             "WitchDoctorGreave", "WitchDoctorGreave", "WitchDoctorBoot", "WitchDoctorBoot"],
+            Combine(
+                Weapon("IronMace", "BoneEater"),
+                [Sock("BlessedIronCollar", "RhinoSkin"), Sock("WitchDoctorTunic", "ElvishLeaf")]));
+    private static BuildSnapshot ClawsChainBite(string id) =>
+        Fighter(id, ["IronClaws"], ChainSet, Weapon("IronClaws", "SpidersBite"));
 
     // R10-13
     private static BuildSnapshot ChainStackedBurn(string id) =>
@@ -246,12 +300,23 @@ public class BalanceSimReport
             Combine(
                 [Sock("IronSword", "EverburningStone"), Sock("IronDagger", "BoneEater")],
                 ChainFullEnchants()));
+    private static BuildSnapshot ChainStackedFester(string id) =>
+        Fighter(id, ["IronSword", "IronDagger"], ChainSet,
+            Combine(
+                [Sock("IronSword", "FesteringWounds"), Sock("IronDagger", "SpidersBite")],
+                ChainFullEnchants()));
     private static BuildSnapshot WdHealBurn(string id) =>
         Fighter(id, ["IronSword"], WitchDoctorSet,
             Combine(Weapon("IronSword", "EverburningStone"), WdHealStack()));
     private static BuildSnapshot WdHealFester(string id) =>
         Fighter(id, ["IronSword"], WitchDoctorSet,
             Combine(Weapon("IronSword", "FesteringWounds"), WdHealStack()));
+    private static BuildSnapshot WdHealBite(string id) =>
+        Fighter(id, ["IronClaws"], WitchDoctorSet,
+            Combine(Weapon("IronClaws", "SpidersBite"), WdHealStack()));
+    private static BuildSnapshot WdHealBone(string id) =>
+        Fighter(id, ["IronMace"], WitchDoctorSet,
+            Combine(Weapon("IronMace", "BoneEater"), WdHealStack()));
     private static BuildSnapshot WdReflectBite(string id) =>
         Fighter(id, ["IronClaws"], WitchDoctorSet,
             Combine(Weapon("IronClaws", "SpidersBite"), WdReflectStack()));
@@ -260,9 +325,17 @@ public class BalanceSimReport
             Combine(
                 [Sock("IronSword", "EverburningStone"), Sock("IronMace", "BoneEater")],
                 UniqueMixEnchants()));
+    private static BuildSnapshot UniqueMixBite(string id) =>
+        Fighter(id, ["IronClaws", "IronDagger"], WdUniqueMix,
+            Combine(
+                [Sock("IronClaws", "SpidersBite"), Sock("IronDagger", "FesteringWounds")],
+                UniqueMixEnchants()));
     private static BuildSnapshot FireStaffFester(string id) =>
         Fighter(id, ["FireStaff", "IronDagger"], WitchDoctorSet,
             Combine(Weapon("IronDagger", "FesteringWounds"), WdHealStack()));
+    private static BuildSnapshot FireStaffBurn(string id) =>
+        Fighter(id, ["FireStaff", "IronSword"], WitchDoctorSet,
+            Combine(Weapon("IronSword", "EverburningStone"), WdHealStack()));
 
     #endregion
 
@@ -274,42 +347,72 @@ public class BalanceSimReport
         new("R1-3", "Club vs Club (naked)", ClubNaked("A"), ClubNaked("B")),
         new("R1-3", "Axe vs Axe (naked)", AxeNaked("A"), AxeNaked("B")),
         new("R1-3", "Spear vs Axe (naked)", SpearNaked("A"), AxeNaked("B")),
+        new("R1-3", "Knife vs Knife (naked)", KnifeNaked("A"), KnifeNaked("B")),
+        new("R1-3", "Hammer vs Club (naked)", HammerNaked("A"), ClubNaked("B")),
+        new("R1-3", "Dual-primitive vs Axe (naked)", DualPrimitive("A"), AxeNaked("B")),
         new("R1-3", "Axe+cloth vs Axe+cloth", AxeCloth("A"), AxeCloth("B")),
+        new("R1-3", "Club+cloth vs Club+cloth", ClubCloth("A"), ClubCloth("B")),
+        new("R1-3", "Spear+cloth vs Axe+cloth", SpearCloth("A"), AxeCloth("B")),
         new("R1-3", "Axe+leather-core vs Axe+leather-core", AxeLeatherCore("A"), AxeLeatherCore("B")),
         new("R1-3", "Sword+Fester+cloth vs Axe+cloth", SwordFesterCloth("A"), AxeCloth("B")),
+        new("R1-3", "Dagger+Fester+cloth vs Sword+cloth", DaggerFesterCloth("A"), SwordPlainCloth("B")),
 
         // --- R4-6: full leather, first WD/chain pieces, BoneEater ---
         new("R4-6", "Sword+leather vs Sword+leather", SwordLeather("A"), SwordLeather("B")),
         new("R4-6", "Mace+leather vs Sword+leather", MaceLeather("A"), SwordLeather("B")),
+        new("R4-6", "IronAxe+leather vs Sword+leather", IronAxeLeather("A"), SwordLeather("B")),
+        new("R4-6", "Claws+leather vs Sword+leather", ClawsLeather("A"), SwordLeather("B")),
         new("R4-6", "Dual-iron+Fester+leaf vs same", DualIronLeather("A"), DualIronLeather("B")),
+        new("R4-6", "Dual-dagger+Fester+leaf vs Dual-iron", DualDaggerLeather("A"), DualIronLeather("B")),
         new("R4-6", "Sword+Fester+leather-ench vs same", SwordLeatherLeaf("A"), SwordLeatherLeaf("B")),
+        new("R4-6", "Sword+Bite+BloodBath vs Sword+leather", SwordBloodBathLeather("A"), SwordLeather("B")),
+        new("R4-6", "FireStaff+Fester+leather vs Sword+leather", FireStaffLeather("A"), SwordLeather("B")),
+        new("R4-6", "Chain-partial vs Sword+leather", ChainPartialSword("A"), SwordLeather("B")),
         new("R4-6", "WD-partial+BoneEater vs Sword+leather", WdPartialBoneEater("A"), SwordLeather("B")),
-        new("R4-6", "Sword+leather vs Axe+leather-core", SwordLeather("A"), AxeLeatherCore("B")),
+        new("R4-6", "WD-partial+Bite vs Mace+leather", WdPartialBite("A"), MaceLeather("B")),
 
         // --- R7-9: full chain/WD, Everburning / Rhino come online ---
         new("R7-9", "Sword+chain vs Sword+chain", SwordChain("A"), SwordChain("B")),
         new("R7-9", "Chain+Burn vs Chain (plain)", ChainBurn("A"), SwordChain("B")),
         new("R7-9", "Chain+Burn vs Chain+BoneEater", ChainBurn("A"), ChainBone("B")),
         new("R7-9", "Chain+Burn vs Chain+SpidersBite", ChainBurn("A"), ChainSpider("B")),
+        new("R7-9", "Dual-iron+chain vs Sword+chain", ChainDual("A"), SwordChain("B")),
+        new("R7-9", "Chain+Rhino-light vs Chain+Burn", ChainRhinoLight("A"), ChainBurn("B")),
         new("R7-9", "Dual-DoT+leather vs same", DualDoTLeather("A"), DualDoTLeather("B")),
         new("R7-9", "WD+BoneEater vs Sword+chain", WdPlainBone("A"), SwordChain("B")),
+        new("R7-9", "WD+Burn vs Sword+chain", WdBurn("A"), SwordChain("B")),
+        new("R7-9", "WD+Fester vs WD+BoneEater", WdFester("A"), WdPlainBone("B")),
+        new("R7-9", "WD+collar+Bone vs Chain+Burn", WdCollarBone("A"), ChainBurn("B")),
+        new("R7-9", "Claws+chain+Bite vs Dual-DoT+leather", ClawsChainBite("A"), DualDoTLeather("B")),
 
         // --- R10-13: stacked sockets. Symmetric full-heal mirrors omitted —
         // WD heal-stack+Burn vs same already measured ~400s / 96% bleed (regen wins).
         new("R10-13", "Chain stacked+Burn/Bone vs same", ChainStackedBurn("A"), ChainStackedBurn("B")),
+        new("R10-13", "Chain stacked+Fester/Bite vs Burn/Bone", ChainStackedFester("A"), ChainStackedBurn("B")),
         new("R10-13", "WD heal+Burn vs Chain stacked", WdHealBurn("A"), ChainStackedBurn("B")),
         new("R10-13", "WD heal+Fester vs Chain stacked", WdHealFester("A"), ChainStackedBurn("B")),
+        new("R10-13", "WD heal+Bite vs Chain stacked", WdHealBite("A"), ChainStackedBurn("B")),
+        new("R10-13", "WD heal+Bone vs Chain stacked", WdHealBone("A"), ChainStackedBurn("B")),
         new("R10-13", "WD reflect+Bite vs Chain stacked", WdReflectBite("A"), ChainStackedBurn("B")),
+        new("R10-13", "WD reflect+Bite vs WD heal+Fester", WdReflectBite("A"), WdHealFester("B")),
         new("R10-13", "Unique-mix+Burn/Bone vs Chain stacked", UniqueMixBurn("A"), ChainStackedBurn("B")),
+        new("R10-13", "Unique-mix+Bite vs Chain stacked", UniqueMixBite("A"), ChainStackedBurn("B")),
         new("R10-13", "FireStaff+Fester+WD vs Chain stacked", FireStaffFester("A"), ChainStackedBurn("B")),
+        new("R10-13", "FireStaff+Burn+WD vs Chain stacked", FireStaffBurn("A"), ChainStackedBurn("B")),
         new("R10-13", "WD heal+Burn vs WD+BoneEater (no stack)", WdHealBurn("A"), WdPlainBone("B")),
         new("R10-13", "Unique-mix vs WD+BoneEater (no stack)", UniqueMixBurn("A"), WdPlainBone("B")),
+        new("R10-13", "WD heal+Bite vs Unique-mix+Burn", WdHealBite("A"), UniqueMixBurn("B")),
+        new("R10-13", "FireStaff+Burn vs WD+collar+Bone", FireStaffBurn("A"), WdCollarBone("B")),
 
         // --- Cross-band (what a leftover early build faces later) ---
         new("X", "R1 axe vs R5 sword-leather", AxeNaked("A"), SwordLeather("B")),
+        new("X", "R1 club vs R5 mace-leather", ClubNaked("A"), MaceLeather("B")),
+        new("X", "R3 Fester-cloth vs R8 chain-plain", SwordFesterCloth("A"), SwordChain("B")),
         new("X", "R5 sword-leather vs R8 chain-burn", SwordLeather("A"), ChainBurn("B")),
+        new("X", "R5 leather vs R12 chain stacked", SwordLeather("A"), ChainStackedBurn("B")),
         new("X", "R6 dual-iron vs R12 WD-heal-burn", DualIronLeather("A"), WdHealBurn("B")),
         new("X", "R8 chain-plain vs R12 unique-mix", SwordChain("A"), UniqueMixBurn("B")),
+        new("X", "R8 WD-bone vs R12 WD-heal-burn", WdPlainBone("A"), WdHealBurn("B")),
     ];
 
     [Fact]

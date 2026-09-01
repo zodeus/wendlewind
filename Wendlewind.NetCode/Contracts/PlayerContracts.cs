@@ -148,3 +148,86 @@ public sealed record BackfillResult
     public int Updated { get; init; }
     public int Skipped { get; init; }
 }
+
+public sealed record AdminLoginRequest
+{
+    public string? Password { get; init; }
+}
+
+public sealed record AdminSession
+{
+    public bool Authenticated { get; init; }
+}
+
+public sealed record AdminOverview
+{
+    public int Players { get; init; }
+    public int ActiveArenas { get; init; }
+    public int Runs { get; init; }
+    public int FinishedRuns { get; init; }
+    public int Victories { get; init; }
+    public int Defeats { get; init; }
+    public int Abandoned { get; init; }
+    public int Fights { get; init; }
+    public int PoolBuilds { get; init; }
+    public List<AdminPoolRound> PoolByRound { get; init; } = [];
+    public FightAnalyticsSummary FightSummary { get; init; } = new();
+    public List<AdminPlayerRow> ActivePlayers { get; init; } = [];
+}
+
+public sealed record AdminPoolRound
+{
+    public int Round { get; init; }
+    public int Builds { get; init; }
+}
+
+public sealed record AdminPlayerRow
+{
+    public required string PlayerId { get; init; }
+    public string DisplayName { get; init; } = "";
+    public string Username { get; init; } = "";
+    public DateTimeOffset CreatedAt { get; init; }
+    public DateTimeOffset UpdatedAt { get; init; }
+    public int RunCount { get; init; }
+    public int FightCount { get; init; }
+    public int TotalWins { get; init; }
+    public int TotalLosses { get; init; }
+    public int Victories { get; init; }
+    public bool HasActiveArena { get; init; }
+    public string? ActivePhase { get; init; }
+    public int? ActiveWins { get; init; }
+    public int? ActiveLosses { get; init; }
+    public int? ActiveGold { get; init; }
+    public DateTimeOffset? LastPlayedAt { get; init; }
+}
+
+public sealed record AdminPlayerDetail
+{
+    public required AdminPlayerRow Player { get; init; }
+    public AchievementState Achievements { get; init; } = new();
+    public ArenaProgressRecord? CurrentArena { get; init; }
+    public List<AdminRunRow> Runs { get; init; } = [];
+}
+
+public sealed record AdminRunRow
+{
+    public required string RunId { get; init; }
+    public required string PlayerId { get; init; }
+    public string PlayerName { get; init; } = "";
+    public int RunSeed { get; init; }
+    public DateTimeOffset StartedAt { get; init; }
+    public DateTimeOffset? FinishedAt { get; init; }
+    public bool? Victory { get; init; }
+    public int Wins { get; init; }
+    public int Losses { get; init; }
+    public int FinalGold { get; init; }
+    public int FightCount { get; init; }
+    public bool IsActive { get; init; }
+}
+
+public sealed record AdminPoolState
+{
+    public int Count { get; init; }
+    public List<AdminPoolRound> Rounds { get; init; } = [];
+    public List<BuildSnapshot> Builds { get; init; } = [];
+}

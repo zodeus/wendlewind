@@ -106,6 +106,50 @@ public class PlayerStoreTests
     }
 
     [Fact]
+    public void ListsPlayersAndAdminOverview()
+    {
+        var dir = Path.Combine(Path.GetTempPath(), $"ww-data-{Guid.NewGuid():N}");
+        try
+        {
+            var store = new PlayerStore(dir);
+            store.GetOrCreateProfile("alice", "Alice", "alice");
+            store.GetOrCreateProfile("bob", "Bob", "bob");
+            var started = store.StartArena("alice", "Alice", 7);
+            store.SaveCurrentArena(started with { Gold = 250, Wins = 1, Phase = "Blacksmith" });
+
+            var players = store.ListPlayers();
+            Assert.Equal(2, players.Count);
+            var alice = players.Single(player => player.PlayerId == "alice");
+            Assert.Equal("Alice", alice.DisplayName);
+            Assert.True(alice.HasActiveArena);
+            Assert.Equal("Blacksmith", alice.ActivePhase);
+            Assert.Equal(250, alice.ActiveGold);
+            Assert.Equal(1, alice.RunCount);
+            Assert.False(players.Single(player => player.PlayerId == "bob").HasActiveArena);
+
+            var detail = store.GetPlayerDetail("alice");
+            Assert.NotNull(detail);
+            Assert.Equal(started.RunId, detail.CurrentArena!.RunId);
+            Assert.Single(detail.Runs);
+            Assert.True(detail.Runs[0].IsActive);
+
+            var overview = store.SummarizeAdmin(3, [new AdminPoolRound { Round = 1, Builds = 3 }], new FightAnalyticsSummary());
+            Assert.Equal(2, overview.Players);
+            Assert.Equal(1, overview.ActiveArenas);
+            Assert.Equal(1, overview.Runs);
+            Assert.Equal(3, overview.PoolBuilds);
+            Assert.Single(overview.ActivePlayers);
+        }
+        finally
+        {
+            if (Directory.Exists(dir))
+            {
+                Directory.Delete(dir, true);
+            }
+        }
+    }
+
+    [Fact]
     public void RestartingUnfinishedRunKeepsRootSeedAndOpeningShop()
     {
         var dir = Path.Combine(Path.GetTempPath(), $"ww-data-{Guid.NewGuid():N}");

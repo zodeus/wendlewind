@@ -157,6 +157,91 @@ public sealed class PlayerStore
         }
     }
 
+    public List<AdminPlayerRow> ListPlayers()
+    {
+        lock (_gate)
+        {
+            return ListPlayerIdsUnlocked()
+                .Select(ToPlayerRowUnlocked)
+                .OrderByDescending(player => player.LastPlayedAt ?? player.UpdatedAt)
+                .ToList();
+        }
+    }
+
+    public AdminPlayerDetail? GetPlayerDetail(string playerId)
+    {
+        lock (_gate)
+        {
+            if (!PlayerExistsUnlocked(playerId))
+            {
+                return null;
+            }
+
+            var current = ReadCurrentUnlocked(playerId);
+            var runs = ListRunsUnlocked(playerId);
+            return new AdminPlayerDetail
+            {
+                Player = ToPlayerRowUnlocked(playerId, current, runs),
+                Achievements = TryRead(AchievementsPath(playerId), NetCodeJsonContext.Default.AchievementState)
+                               ?? new AchievementState(),
+                CurrentArena = current,
+                Runs = runs.Select(run => ToRunRow(run, current?.RunId)).ToList()
+            };
+        }
+    }
+
+    public List<AdminRunRow> ListAllRunRows()
+    {
+        lock (_gate)
+        {
+            var active = new Dictionary<string, string>(StringComparer.Ordinal);
+            foreach (var playerId in ListPlayerIdsUnlocked())
+            {
+                var current = ReadCurrentUnlocked(playerId);
+                if (current != null)
+                {
+                    active[playerId] = current.RunId;
+                }
+            }
+
+            return ListAllRunsUnlocked()
+                .Select(run =>
+                {
+                    active.TryGetValue(run.PlayerId, out var activeRunId);
+                    return ToRunRow(run, activeRunId);
+                })
+                .ToList();
+        }
+    }
+
+    public AdminOverview SummarizeAdmin(int poolBuilds, IReadOnlyList<AdminPoolRound> poolByRound, FightAnalyticsSummary fightSummary)
+    {
+        lock (_gate)
+        {
+            var players = ListPlayerIdsUnlocked()
+                .Select(ToPlayerRowUnlocked)
+                .OrderByDescending(player => player.LastPlayedAt ?? player.UpdatedAt)
+                .ToList();
+            var runs = ListAllRunsUnlocked();
+            var finished = runs.Where(run => run.FinishedAt != null).ToList();
+            return new AdminOverview
+            {
+                Players = players.Count,
+                ActiveArenas = players.Count(player => player.HasActiveArena),
+                Runs = runs.Count,
+                FinishedRuns = finished.Count,
+                Victories = finished.Count(run => run.Victory == true),
+                Defeats = finished.Count(run => run.Victory == false),
+                Abandoned = finished.Count(run => run.Victory == null),
+                Fights = runs.Sum(run => run.Fights.Count),
+                PoolBuilds = poolBuilds,
+                PoolByRound = poolByRound.ToList(),
+                FightSummary = fightSummary,
+                ActivePlayers = players.Where(player => player.HasActiveArena).ToList()
+            };
+        }
+    }
+
     public CombatLogRecord? GetCombatLog(string playerId, string runId, string matchId)
     {
         lock (_gate)
@@ -362,15 +447,94 @@ public sealed class PlayerStore
 
     private List<ArenaRunRecord> ListAllRunsUnlocked()
     {
+        return ListPlayerIdsUnlocked()
+            .SelectMany(ListRunsUnlocked)
+            .OrderByDescending(run => run.StartedAt)
+            .ToList();
+    }
+
+    private IEnumerable<string> ListPlayerIdsUnlocked()
+    {
         if (!Directory.Exists(_playersDir))
         {
             return [];
         }
 
         return Directory.GetDirectories(_playersDir)
-            .SelectMany(playerDir => ListRunsUnlocked(Path.GetFileName(playerDir)))
-            .OrderByDescending(run => run.StartedAt)
-            .ToList();
+            .Select(Path.GetFileName)
+            .Where(id => IsSafeId(id!))
+            .Cast<string>();
+    }
+
+    private bool PlayerExistsUnlocked(string playerId)
+    {
+        return IsSafeId(playerId) && Directory.Exists(PlayerDir(playerId));
+    }
+
+    private AdminPlayerRow ToPlayerRowUnlocked(string playerId)
+    {
+        return ToPlayerRowUnlocked(playerId, ReadCurrentUnlocked(playerId), ListRunsUnlocked(playerId));
+    }
+
+    private AdminPlayerRow ToPlayerRowUnlocked(
+        string playerId,
+        ArenaProgressRecord? current,
+        IReadOnlyList<ArenaRunRecord> runs)
+    {
+        var profile = TryRead(ProfilePath(playerId), NetCodeJsonContext.Default.PlayerProfileRecord);
+        var lastPlayed = profile?.UpdatedAt ?? default;
+        if (current != null && current.UpdatedAt > lastPlayed)
+        {
+            lastPlayed = current.UpdatedAt;
+        }
+
+        foreach (var run in runs)
+        {
+            var stamp = run.FinishedAt ?? run.StartedAt;
+            if (stamp > lastPlayed)
+            {
+                lastPlayed = stamp;
+            }
+        }
+
+        return new AdminPlayerRow
+        {
+            PlayerId = profile?.PlayerId ?? playerId,
+            DisplayName = profile?.DisplayName ?? playerId,
+            Username = profile?.Username ?? "",
+            CreatedAt = profile?.CreatedAt ?? default,
+            UpdatedAt = profile?.UpdatedAt ?? default,
+            RunCount = runs.Count,
+            FightCount = runs.Sum(run => run.Fights.Count),
+            TotalWins = runs.Sum(run => run.Wins),
+            TotalLosses = runs.Sum(run => run.Losses),
+            Victories = runs.Count(run => run.Victory == true),
+            HasActiveArena = current != null,
+            ActivePhase = current?.Phase,
+            ActiveWins = current?.Wins,
+            ActiveLosses = current?.Losses,
+            ActiveGold = current?.Gold,
+            LastPlayedAt = lastPlayed == default ? null : lastPlayed
+        };
+    }
+
+    private static AdminRunRow ToRunRow(ArenaRunRecord run, string? activeRunId)
+    {
+        return new AdminRunRow
+        {
+            RunId = run.RunId,
+            PlayerId = run.PlayerId,
+            PlayerName = run.PlayerName,
+            RunSeed = run.RunSeed,
+            StartedAt = run.StartedAt,
+            FinishedAt = run.FinishedAt,
+            Victory = run.Victory,
+            Wins = run.Wins,
+            Losses = run.Losses,
+            FinalGold = run.FinalGold,
+            FightCount = run.Fights.Count,
+            IsActive = activeRunId != null && string.Equals(run.RunId, activeRunId, StringComparison.Ordinal)
+        };
     }
 
     private ArenaRunRecord? ReadRunUnlocked(string playerId, string runId)

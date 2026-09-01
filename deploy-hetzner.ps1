@@ -341,6 +341,7 @@ WorkingDirectory=$RemoteAppDir
 Environment=ASPNETCORE_ENVIRONMENT=Production
 Environment=ASPNETCORE_URLS=http://127.0.0.1:5080
 Environment=WENDLEWIND_DATA=$RemoteDataDir
+EnvironmentFile=-/etc/wendlewind.env
 ExecStart=$RemoteAppDir/Wendlewind.Server
 Restart=always
 RestartSec=3
@@ -366,6 +367,12 @@ fi
 
 mkdir -p $RemoteAppDir $RemoteDataDir
 chown wendlewind:wendlewind $RemoteAppDir $RemoteDataDir
+
+if [ ! -f /etc/wendlewind.env ]; then
+  umask 077
+  python3 -c "import secrets; print('WENDLEWIND_ADMIN_PASSWORD=' + secrets.token_hex(12))" > /etc/wendlewind.env
+  chmod 600 /etc/wendlewind.env
+fi
 
 install -m 644 /tmp/wendlewind.service /etc/systemd/system/wendlewind.service
 install -m 644 /tmp/Caddyfile /etc/caddy/Caddyfile
@@ -496,6 +503,24 @@ function Get-PublicBaseUrl {
     return "http://$(Get-ServerIPv4)"
 }
 
+function Get-AdminPassword {
+    $ip = Get-ServerIPv4
+    $args = (Get-SshArguments) + @(
+        "root@$ip",
+        "sed -n 's/^WENDLEWIND_ADMIN_PASSWORD=//p' /etc/wendlewind.env"
+    )
+    $output = & ssh @args
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to read WENDLEWIND_ADMIN_PASSWORD from /etc/wendlewind.env"
+    }
+
+    $password = (@($output) | ForEach-Object { "$_".Trim() } | Where-Object { $_ } | Select-Object -Last 1)
+    if ([string]::IsNullOrWhiteSpace($password)) {
+        throw "WENDLEWIND_ADMIN_PASSWORD is missing from /etc/wendlewind.env"
+    }
+    return $password
+}
+
 function Show-Status {
     $server = Get-Server
     if (-not $server) {
@@ -515,6 +540,8 @@ function Show-Status {
     Invoke-Remote "systemctl is-active wendlewind; systemctl is-active caddy; echo DATA=$RemoteDataDir; du -sh $RemoteDataDir 2>/dev/null || true"
     Wait-Health
     Write-Host ""
+    Write-Host "Admin:   $(Get-PublicBaseUrl)/admin"
+    Write-Host "Admin password: $(Get-AdminPassword)"
     Write-Success "Client: set WENDLEWIND_SERVER_URL=$(Get-PublicBaseUrl)"
 }
 
@@ -539,9 +566,12 @@ function Remove-Server {
 
 function Show-Summary {
     $url = Get-PublicBaseUrl
+    $adminPassword = Get-AdminPassword
     Write-Host ""
     Write-Success "Wendlewind is up at $url"
     Write-Host "Health:  $url/health"
+    Write-Host "Admin:   $url/admin"
+    Write-Host "Admin password: $adminPassword"
     Write-Host "Client:  set WENDLEWIND_SERVER_URL=$url"
     Write-Host "Data:    $RemoteDataDir on the VM (survives deploys, not destroy)"
 }

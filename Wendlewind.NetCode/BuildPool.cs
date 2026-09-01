@@ -26,6 +26,27 @@ public sealed class BuildPool
         }
     }
 
+    public AdminPoolState Snapshot()
+    {
+        lock (_gate)
+        {
+            var builds = _rounds
+                .OrderBy(pair => pair.Key)
+                .SelectMany(pair => pair.Value)
+                .OrderByDescending(build => build.SubmittedAt ?? DateTimeOffset.MinValue)
+                .ToList();
+            return new AdminPoolState
+            {
+                Count = builds.Count,
+                Rounds = _rounds
+                    .OrderBy(pair => pair.Key)
+                    .Select(pair => new AdminPoolRound { Round = pair.Key, Builds = pair.Value.Count })
+                    .ToList(),
+                Builds = builds
+            };
+        }
+    }
+
     public void Upsert(BuildSnapshot snapshot)
     {
         if (string.IsNullOrWhiteSpace(snapshot.PlayerId))

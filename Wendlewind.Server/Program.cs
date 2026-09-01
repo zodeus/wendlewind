@@ -4,6 +4,7 @@ using Wendlewind.Definitions;
 using Wendlewind.Definitions.Loader;
 using Wendlewind.NetCode;
 using Wendlewind.NetCode.Contracts;
+using Wendlewind.Server;
 using Wendlewind.Sim;
 using Wendlewind.Sim.Arena;
 using Wendlewind.Sim.Combat;
@@ -48,10 +49,13 @@ var dataDir = ServerData.EnsureDirectory();
 var pool = new BuildPool(ServerData.PoolPath(dataDir));
 var players = new PlayerStore(dataDir);
 var analytics = new FightAnalyticsService(players);
+var adminAuth = AdminAuth.Create(app.Environment);
 Console.WriteLine($"Data directory: {dataDir}");
+Console.WriteLine($"Admin: {adminAuth.StatusMessage}");
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
+app.MapAdmin(adminAuth, players, pool, analytics);
 
 app.MapGet("/health", () => Results.Ok(new
 {
