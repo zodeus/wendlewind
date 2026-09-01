@@ -40,6 +40,12 @@ public sealed class ArenaGui : BaseGui
 
     private void HandlePhaseChanged(ArenaPhase phase)
     {
+        if (phase is ArenaPhase.MerchantSelect or ArenaPhase.Results
+            && _context.ArenaRun is { IsRunOver: false, CurrentMerchant: null } run)
+        {
+            run.AssignNextMerchant();
+        }
+
         MouseAttachment?.Detach();
         ClearScreenMessage();
         ClearScreens();
@@ -53,8 +59,8 @@ public sealed class ArenaGui : BaseGui
             ArenaPhase.Combat => _combatScreen = new CombatScreen(this, _context, _scene.OnVisualCombatFinished),
             ArenaPhase.Results when _context.ArenaRun?.IsRunOver == true =>
                 new ArenaRunEndScreen(_context, _scene.ReturnToMenu, _scene.LastFinishedRun, _scene.CurrentRank),
-            ArenaPhase.Results => new ArenaResultsScreen(_context, _scene.ContinueFromResults, _scene.CurrentRank),
-            ArenaPhase.MerchantSelect => _mapScreen = new ArenaMapScreen(_context, _scene.SelectMerchant),
+            ArenaPhase.Results or ArenaPhase.MerchantSelect =>
+                _mapScreen = new ArenaMapScreen(_context, _scene.SelectMerchant, _scene.LastCombatResult),
             ArenaPhase.RunEnd => new ArenaRunEndScreen(_context, _scene.ReturnToMenu, _scene.LastFinishedRun, _scene.CurrentRank),
             _ => new ArenaMatchingScreen("Unknown arena phase", _scene.ReturnToPrep)
         };

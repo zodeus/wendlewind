@@ -5,6 +5,9 @@ public static class ArenaSeeds
     public static int Shop(int runSeed, string merchantMoniker, int visit) =>
         SeedUtility.Mix(runSeed, SeedUtility.StableHash($"shop:{merchantMoniker}"), visit);
 
+    public static int Merchant(int runSeed, int visit) =>
+        SeedUtility.Mix(runSeed, SeedUtility.StableHash("merchant"), visit);
+
     public static int ShopRefresh(
         int runSeed,
         string merchantMoniker,

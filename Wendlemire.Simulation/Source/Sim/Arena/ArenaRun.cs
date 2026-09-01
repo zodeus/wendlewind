@@ -93,6 +93,11 @@ public class ArenaRun : IExposable
         return true;
     }
 
+    public void AssignNextMerchant()
+    {
+        CurrentMerchant = MerchantPool.Select(RunSeed, FightsPlayed);
+    }
+
     public IReadOnlyList<RolledShelf> OpenShopVisit(MerchantDef merchant, IReadOnlyList<RolledShelf> rolled)
     {
         var key = ShopVisitKeyFor(merchant);
@@ -313,7 +318,14 @@ public class ArenaRun : IExposable
             Gold += LoseGold;
         }
 
-        SetPhase(IsRunOver ? ArenaPhase.RunEnd : ArenaPhase.Results);
+        if (IsRunOver)
+        {
+            SetPhase(ArenaPhase.RunEnd);
+            return;
+        }
+
+        AssignNextMerchant();
+        SetPhase(ArenaPhase.MerchantSelect);
     }
 
     public void ExposeData()

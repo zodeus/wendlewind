@@ -1,6 +1,3 @@
-using Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
-using Wendlemire.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
-
 namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnPreparationPanelWidgets;
 
 public sealed class PawnSummaryCard : VerticalStackPanel, IUpdatable
@@ -12,8 +9,6 @@ public sealed class PawnSummaryCard : VerticalStackPanel, IUpdatable
     private readonly PawnSkillsPanel _skills;
     private readonly PrepBuffList _buffs;
     private readonly PrepLoadoutSummary _loadout;
-    private Window? _bodyWindow;
-    private PawnBodyPanel? _bodyOverlay;
     private string _buffSignature = "";
 
     public PawnSummaryCard(BaseGui gui, Pawn pawn)
@@ -40,7 +35,7 @@ public sealed class PawnSummaryCard : VerticalStackPanel, IUpdatable
             Height = 192,
             HorizontalAlignment = HorizontalAlignment.Center
         };
-        _portrait.Clicked += (_, _) => OpenBodyOverlay();
+        _portrait.Clicked += (_, _) => _gui.ViewEntity(_pawn);
         Widgets.Add(_portrait);
 
         _capabilities = new PawnCapabilitiesOverlay(pawn.Body);
@@ -79,38 +74,12 @@ public sealed class PawnSummaryCard : VerticalStackPanel, IUpdatable
         RefreshBuffs();
     }
 
-    public void OpenBodyOverlay()
-    {
-        if (_bodyWindow?.IsPlaced == true)
-        {
-            return;
-        }
-
-        _bodyOverlay = new PawnBodyPanel(_gui, _pawn.Body, _pawn.Inventory)
-        {
-            Height = 740
-        };
-        _bodyWindow = new Window
-        {
-            Title = $"{_pawn.LabelShort} - Body",
-            Content = _bodyOverlay
-        };
-        _bodyWindow.ShowModal(_gui.Desktop);
-    }
-
     public void Update()
     {
-        if (_bodyWindow is { IsPlaced: false })
-        {
-            _bodyOverlay = null;
-            _bodyWindow = null;
-        }
-
         _capabilities.Update();
         _skills.Update();
         RefreshBuffs();
         _loadout.Update();
-        _bodyOverlay?.Update();
     }
 
     private void RefreshBuffs()

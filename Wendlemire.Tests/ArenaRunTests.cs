@@ -42,7 +42,8 @@ public class ArenaRunTests
         Assert.Equal(ArenaRun.StartingGold + ArenaRun.WinGold, context.ArenaRun.Gold);
         Assert.Equal(1, context.ArenaRun.Wins);
         Assert.Equal(0, context.ArenaRun.Losses);
-        Assert.Equal(ArenaPhase.Results, context.ArenaRun.Phase);
+        Assert.Equal(ArenaPhase.MerchantSelect, context.ArenaRun.Phase);
+        Assert.Equal("Blacksmith", context.ArenaRun.CurrentMerchant!.Moniker);
     }
 
     [Fact]
@@ -636,6 +637,66 @@ public class ArenaRunTests
             .ToArray();
         Assert.Equal(["Alchemist", "Blacksmith", "Magician", "Ranger"], midRun);
         Assert.DoesNotContain("WitchDoctor", DefRepository<MerchantDef>.Defs.Select(m => m.Moniker));
+    }
+
+    [Theory]
+    [InlineData(1, "Blacksmith")]
+    [InlineData(2, "Ranger")]
+    [InlineData(3, "Alchemist")]
+    [InlineData(4, "Magician")]
+    public void MerchantPoolIsExclusiveForTheFirstFourVisits(int fightsPlayed, string moniker)
+    {
+        var pool = MerchantPool.Available(fightsPlayed);
+        Assert.Equal([moniker], pool.Select(merchant => merchant.Moniker));
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(5)]
+    [InlineData(9)]
+    public void MerchantPoolOffersEverySpecialtyMerchantAfterTheIntro(int fightsPlayed)
+    {
+        var pool = MerchantPool.Available(fightsPlayed)
+            .Select(merchant => merchant.Moniker)
+            .OrderBy(moniker => moniker)
+            .ToArray();
+        Assert.Equal(["Alchemist", "Blacksmith", "Magician", "Ranger"], pool);
+    }
+
+    [Theory]
+    [InlineData(1, "Blacksmith")]
+    [InlineData(2, "Ranger")]
+    [InlineData(3, "Alchemist")]
+    [InlineData(4, "Magician")]
+    public void MerchantPoolSelectsTheExclusiveMerchant(int fightsPlayed, string moniker)
+    {
+        Assert.Equal(moniker, MerchantPool.Select(99, fightsPlayed).Moniker);
+    }
+
+    [Fact]
+    public void MerchantPoolSelectIsDeterministicAfterTheIntro()
+    {
+        Assert.Equal(MerchantPool.Select(99, 5).Moniker, MerchantPool.Select(99, 5).Moniker);
+    }
+
+    [Fact]
+    public void MerchantPoolSelectVariesAcrossSeedsAfterTheIntro()
+    {
+        var distinct = Enumerable.Range(1, 16)
+            .Select(seed => MerchantPool.Select(seed, 5).Moniker)
+            .Distinct()
+            .Count();
+        Assert.True(distinct > 1);
+    }
+
+    [Fact]
+    public void AssignNextMerchantPicksFromTheVisitPool()
+    {
+        using var scope = CreateArena();
+        var run = scope.Context.ArenaRun!;
+        run.ApplyMatchResult(true, "opp-1");
+        run.AssignNextMerchant();
+        Assert.Equal("Blacksmith", run.CurrentMerchant!.Moniker);
     }
 
     [Fact]

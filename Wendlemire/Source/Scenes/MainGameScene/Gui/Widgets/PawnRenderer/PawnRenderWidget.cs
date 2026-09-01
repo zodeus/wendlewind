@@ -10,12 +10,18 @@ namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
 /// </summary>
 public class PawnRenderWidget : Panel, IDisposable
 {
+    private static readonly SolidBrush HoverBorder = new(Color.Goldenrod);
+
     private readonly PawnRenderer _renderer;
     private readonly PawnRenderArea _renderArea;
     private readonly Pawn _pawn;
     private readonly CursorButton _editorButton;
     private readonly VerticalStackPanel? _editorControlPanel;
+    private EventHandler<EventArgs>? _clicked;
+    private IBrush? _restBackground;
     private bool _isDisposed;
+    private bool _hovered;
+    private bool _cursorSet;
 
     public Pawn Pawn => _pawn;
     
@@ -40,8 +46,13 @@ public class PawnRenderWidget : Panel, IDisposable
 
     /// <summary>
     /// Event fired when the widget is clicked.
+    /// Subscribing enables hover cursor and highlight.
     /// </summary>
-    public event EventHandler<EventArgs>? Clicked;
+    public event EventHandler<EventArgs>? Clicked
+    {
+        add => _clicked += value;
+        remove => _clicked -= value;
+    }
 
     /// <summary>
     /// Provides access to the underlying renderer for advanced operations.
@@ -106,8 +117,14 @@ public class PawnRenderWidget : Panel, IDisposable
             _editorControlPanel = null;
         }
 
-        // Handle click events
+        // Handle click and hover on both the frame and the inner render area.
+        // Myra routes hover to the topmost child, so the portrait itself must listen.
         TouchDown += OnTouchDown;
+        _renderArea.TouchDown += OnTouchDown;
+        MouseEntered += OnHoverEntered;
+        MouseLeft += OnHoverLeft;
+        _renderArea.MouseEntered += OnHoverEntered;
+        _renderArea.MouseLeft += OnHoverLeft;
     }
 
     private void OnEditButtonClick(object? sender, EventArgs e)
@@ -119,7 +136,70 @@ public class PawnRenderWidget : Panel, IDisposable
 
     private void OnTouchDown(object? sender, EventArgs e)
     {
-        Clicked?.Invoke(this, EventArgs.Empty);
+        _clicked?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void OnHoverEntered(object? sender, EventArgs e)
+    {
+        if (_clicked == null)
+        {
+            return;
+        }
+
+        ApplyHover();
+    }
+
+    private void OnHoverLeft(object? sender, EventArgs e)
+    {
+        if (ContainsMouse())
+        {
+            return;
+        }
+
+        ClearHover();
+    }
+
+    private bool ContainsMouse()
+    {
+        if (Desktop == null)
+        {
+            return false;
+        }
+
+        return ContainsGlobalPoint(Desktop.MousePosition);
+    }
+
+    private void ApplyHover()
+    {
+        if (!_hovered)
+        {
+            _hovered = true;
+            _restBackground = Background;
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright];
+            Border = HoverBorder;
+            BorderThickness = new Thickness(2);
+        }
+
+        Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Hand);
+        _cursorSet = true;
+    }
+
+    private void ClearHover()
+    {
+        if (_hovered)
+        {
+            _hovered = false;
+            Background = _restBackground;
+            _restBackground = null;
+            Border = null;
+            BorderThickness = new Thickness(0);
+        }
+
+        if (_cursorSet)
+        {
+            Mouse.SetCursor(Microsoft.Xna.Framework.Input.MouseCursor.Arrow);
+            _cursorSet = false;
+        }
     }
 
     /// <summary>
@@ -177,6 +257,12 @@ public class PawnRenderWidget : Panel, IDisposable
         _isDisposed = true;
 
         TouchDown -= OnTouchDown;
+        _renderArea.TouchDown -= OnTouchDown;
+        MouseEntered -= OnHoverEntered;
+        MouseLeft -= OnHoverLeft;
+        _renderArea.MouseEntered -= OnHoverEntered;
+        _renderArea.MouseLeft -= OnHoverLeft;
+        ClearHover();
         if (_editorButton != null)
         {
             _editorButton.Click -= OnEditButtonClick;

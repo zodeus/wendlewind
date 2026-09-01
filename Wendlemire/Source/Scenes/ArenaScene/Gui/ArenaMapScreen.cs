@@ -1,3 +1,4 @@
+using Wendlemire.NetCode.Contracts;
 using Wendlemire.Scenes.MainGameScene.Gui.Widgets.MapWidgets;
 
 namespace Wendlemire.Scenes.ArenaScene.Gui;
@@ -5,17 +6,23 @@ namespace Wendlemire.Scenes.ArenaScene.Gui;
 public sealed class ArenaMapScreen : Grid
 {
     private const int PortraitSize = 360;
+    private const int ResultsWidth = 360;
     private static readonly Color TitleColor = new(214, 208, 196);
     private static readonly Color BodyColor = new(168, 164, 156);
     private static readonly Color Completed = new(80, 140, 80);
     private static readonly Color Current = new(232, 170, 0);
     private static readonly Color Locked = new(50, 50, 55);
+    private static readonly Color PanelFill = new(18, 14, 12);
+    private static readonly Color PanelEdge = new(96, 48, 32);
 
     private readonly GameContext _context;
     private readonly GoldPurse _purse;
     private readonly Label _runStats;
 
-    public ArenaMapScreen(GameContext context, Action<MerchantDef> onMerchantPicked)
+    public ArenaMapScreen(
+        GameContext context,
+        Action<MerchantDef> onMerchantPicked,
+        CombatResult? lastFight = null)
     {
         Padding = new Thickness(24, 16);
         ColumnSpacing = 0;
@@ -28,6 +35,13 @@ public sealed class ArenaMapScreen : Grid
 
         _context = context;
         var run = context.ArenaRun ?? throw new InvalidOperationException("Map requires an ArenaRun.");
+        if (run.CurrentMerchant == null)
+        {
+            run.AssignNextMerchant();
+        }
+
+        var merchant = run.CurrentMerchant
+                       ?? throw new InvalidOperationException("Map requires a rolled merchant.");
         _purse = new GoldPurse(context);
         _runStats = new Label(BaseContent.Styles.Label.Medium)
         {
@@ -49,26 +63,14 @@ public sealed class ArenaMapScreen : Grid
                     VerticalAlignment = VerticalAlignment.Center,
                     Widgets = { _purse, _runStats }
                 },
-                new Label(BaseContent.Styles.Label.Huge)
-                {
-                    Text = "Choose a merchant",
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    TextColor = TitleColor
-                },
-                new Label(BaseContent.Styles.Label.Small)
-                {
-                    Text = $"Fight {run.Wins + 1} of {ArenaRun.WinsToFinish} — who stocks your next kit?",
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    TextColor = BodyColor
-                },
                 BuildFightSpine(run)
             }
         };
 
         Widgets.Add(header);
-        var merchants = BuildMerchantRow(onMerchantPicked);
-        Widgets.Add(merchants);
-        Grid.SetRow(merchants, 1);
+        var reveal = BuildMerchantReveal(run, merchant, lastFight, onMerchantPicked);
+        Widgets.Add(reveal);
+        Grid.SetRow(reveal, 1);
     }
 
     private static Widget BuildFightSpine(ArenaRun run)
@@ -131,74 +133,168 @@ public sealed class ArenaMapScreen : Grid
         return row;
     }
 
-    private static Widget BuildMerchantRow(Action<MerchantDef> onMerchantPicked)
+    private static Widget BuildMerchantReveal(
+        ArenaRun run,
+        MerchantDef merchant,
+        CombatResult? lastFight,
+        Action<MerchantDef> onMerchantPicked)
     {
-        var merchants = DefRepository<MerchantDef>.Defs.Where(m => !m.IsGeneralStore).ToList();
-        var row = new Grid
+        var visit = new CursorButton(BaseContent.Styles.Button.LargeGold)
         {
-            ColumnSpacing = 16,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalAlignment = VerticalAlignment.Top
+            Content = new Label
+            {
+                Text = "Visit shop",
+                HorizontalAlignment = HorizontalAlignment.Center
+            },
+            HorizontalAlignment = HorizontalAlignment.Center
         };
-        row.RowsProportions.Add(new Proportion(ProportionType.Auto));
-        foreach (var _ in merchants)
-        {
-            row.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1));
-        }
+        visit.Click += (_, _) => onMerchantPicked(merchant);
 
-        for (var i = 0; i < merchants.Count; i++)
+        var pair = new Grid
         {
-            var captured = merchants[i];
-            var card = CreateMerchantCard(captured, onMerchantPicked);
-            row.Widgets.Add(card);
-            Grid.SetColumn(card, i);
-        }
+            ColumnSpacing = 28,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        pair.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        pair.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        pair.RowsProportions.Add(new Proportion(ProportionType.Auto));
 
-        return row;
+        var merchantColumn = CreateMerchantColumn(merchant, onMerchantPicked);
+        var results = CreateResultsPanel(run, merchant, lastFight);
+        pair.Widgets.Add(merchantColumn);
+        pair.Widgets.Add(results);
+        Grid.SetColumn(results, 1);
+
+        return new VerticalStackPanel
+        {
+            Spacing = 20,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            Widgets = { pair, visit }
+        };
     }
 
-    private static Widget CreateMerchantCard(MerchantDef merchant, Action<MerchantDef> onPicked)
+    private static Widget CreateMerchantColumn(MerchantDef merchant, Action<MerchantDef> onPicked)
     {
-        var body = new Grid
-        {
-            RowSpacing = 8,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalAlignment = VerticalAlignment.Top
-        };
-        body.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
-        body.RowsProportions.Add(new Proportion(ProportionType.Auto));
-        body.RowsProportions.Add(new Proportion(ProportionType.Auto));
-        body.RowsProportions.Add(new Proportion(ProportionType.Auto));
-
         var portrait = CreatePortrait(merchant);
-        var name = new Label(BaseContent.Styles.Label.Medium)
-        {
-            Text = merchant.Label,
-            TextColor = TitleColor,
-            HorizontalAlignment = HorizontalAlignment.Center
-        };
-        var shelves = new Label(BaseContent.Styles.Label.Small)
-        {
-            Text = ShelfSummary(merchant),
-            TextColor = Color.Goldenrod,
-            HorizontalAlignment = HorizontalAlignment.Center
-        };
-        body.Widgets.Add(portrait);
-        Grid.SetRow(portrait, 0);
-        body.Widgets.Add(name);
-        body.Widgets.Add(shelves);
-        Grid.SetRow(name, 1);
-        Grid.SetRow(shelves, 2);
-
         var button = new CursorButton(BaseContent.Styles.Button.Normal)
         {
-            Content = body,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalAlignment = VerticalAlignment.Top,
-            Padding = new Thickness(12)
+            Content = portrait,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Padding = new Thickness(0)
         };
         button.Click += (_, _) => onPicked(merchant);
-        return button;
+
+        return new VerticalStackPanel
+        {
+            Spacing = 8,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            Widgets =
+            {
+                new Label(BaseContent.Styles.Label.Huge)
+                {
+                    Text = $"The {merchant.Label}",
+                    TextColor = TitleColor,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                },
+                button,
+                new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = ShelfSummary(merchant),
+                    TextColor = Color.Goldenrod,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                }
+            }
+        };
+    }
+
+    private static Widget CreateResultsPanel(ArenaRun run, MerchantDef merchant, CombatResult? lastFight)
+    {
+        var won = run.LastFightWon;
+        var body = new VerticalStackPanel
+        {
+            Spacing = 8,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        body.Widgets.Add(new Label(BaseContent.Styles.Label.Huge)
+        {
+            Text = won ? "Victory" : "Defeat",
+            TextColor = won ? Color.Goldenrod : Color.IndianRed,
+            HorizontalAlignment = HorizontalAlignment.Left
+        });
+        body.Widgets.Add(DetailRow("Reward", $"+{run.LastGoldDelta}g", Color.LightGreen));
+        body.Widgets.Add(DetailRow("Purse", $"{run.Gold}g", Color.Goldenrod));
+        body.Widgets.Add(DetailRow("Record", $"{run.Wins} wins · {run.Losses} losses"));
+        body.Widgets.Add(DetailRow("Lives", $"{run.LivesRemaining} remaining"));
+        body.Widgets.Add(DetailRow("Next fight", $"{run.Wins + 1} of {ArenaRun.WinsToFinish}"));
+
+        if (lastFight is { Ticks: > 0 })
+        {
+            var seconds = lastFight.Ticks / (float)GameContext.TicksPerSecond;
+            body.Widgets.Add(DetailRow("Duration", $"{seconds:0}s"));
+        }
+
+        var cause = lastFight?.CauseOfDeath;
+        if (!string.IsNullOrWhiteSpace(cause))
+        {
+            body.Widgets.Add(DetailRow(won ? "They died of" : "You died of", cause));
+        }
+
+        var opponent = lastFight?.Defender?.PawnName;
+        if (!string.IsNullOrWhiteSpace(opponent))
+        {
+            body.Widgets.Add(DetailRow("Opponent", opponent));
+        }
+
+        if (!string.IsNullOrWhiteSpace(merchant.Description))
+        {
+            body.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = merchant.Description,
+                TextColor = BodyColor,
+                Wrap = true,
+                HorizontalAlignment = HorizontalAlignment.Stretch
+            });
+        }
+
+        return new Panel
+        {
+            Width = ResultsWidth,
+            MinHeight = PortraitSize,
+            Padding = new Thickness(20, 16),
+            VerticalAlignment = VerticalAlignment.Stretch,
+            Background = new SolidBrush(PanelFill),
+            Border = new SolidBrush(PanelEdge),
+            BorderThickness = new Thickness(2),
+            Widgets = { body }
+        };
+    }
+
+    private static Widget DetailRow(string label, string value, Color? valueColor = null)
+    {
+        return new HorizontalStackPanel
+        {
+            Spacing = 10,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Widgets =
+            {
+                new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = label,
+                    TextColor = BodyColor,
+                    Width = 110
+                },
+                new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = value,
+                    TextColor = valueColor ?? TitleColor,
+                    Wrap = true
+                }
+            }
+        };
     }
 
     private static Widget CreatePortrait(MerchantDef merchant)

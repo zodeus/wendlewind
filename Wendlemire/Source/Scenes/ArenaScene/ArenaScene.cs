@@ -31,6 +31,7 @@ public sealed class ArenaScene : Scene
     public string? MatchError { get; private set; }
     public ArenaRankDisplay CurrentRank { get; private set; } = ArenaRank.FromRating(ArenaRank.StartingRating, 0);
     public ArenaRunRecord? LastFinishedRun { get; private set; }
+    public CombatResult? LastCombatResult => _pendingResult;
 
     protected override void OnStart()
     {
@@ -204,6 +205,7 @@ public sealed class ArenaScene : Scene
             return;
         }
 
+        run.AssignNextMerchant();
         run.SetPhase(ArenaPhase.MerchantSelect);
         SaveRun();
     }

@@ -54,22 +54,6 @@
                         </SetPieces>
                     </ListItem>
                     <ListItem>
-                        <SetLabel>Leather Set</SetLabel>
-                        <SetPieces>
-                            <ListItem>LeatherHelmet</ListItem>
-                            <ListItem>LeatherGorget</ListItem>
-                            <ListItem>LeatherTunic</ListItem>
-                            <ListItem>LeatherGlove</ListItem>
-                            <ListItem>LeatherGlove</ListItem>
-                            <ListItem>LeatherVambrace</ListItem>
-                            <ListItem>LeatherVambrace</ListItem>
-                            <ListItem>LeatherGreave</ListItem>
-                            <ListItem>LeatherGreave</ListItem>
-                            <ListItem>LeatherBoot</ListItem>
-                            <ListItem>LeatherBoot</ListItem>
-                        </SetPieces>
-                    </ListItem>
-                    <ListItem>
                         <ItemDef>ClothHelmet</ItemDef>
                     </ListItem>
                     <ListItem>
