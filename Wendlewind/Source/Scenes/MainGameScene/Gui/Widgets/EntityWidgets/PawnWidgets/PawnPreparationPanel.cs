@@ -16,7 +16,7 @@ public class PawnPreparationPanel : Panel, IUpdatable
     private readonly PotionsPanel _potionsPanel;
     private readonly MedicalChestPanel _medicalChestPanel;
     private readonly TrinketsPanel _trinketsPanel;
-    private readonly Panel _controlsPanel;
+    private readonly HorizontalStackPanel _header;
 
     public PawnPreparationPanel(BaseGui gui, Pawn playerPawn, bool showGrimoire = true)
     {
@@ -27,8 +27,9 @@ public class PawnPreparationPanel : Panel, IUpdatable
         _summaryCard = new PawnSummaryCard(gui, playerPawn);
 
         _equipmentPanel = new PawnEquipmentPanel(gui, playerPawn);
-        _controlsPanel = new Panel
+        _header = new HorizontalStackPanel
         {
+            Spacing = 8,
             HorizontalAlignment = HorizontalAlignment.Left,
             VerticalAlignment = VerticalAlignment.Center
         };
@@ -92,19 +93,12 @@ public class PawnPreparationPanel : Panel, IUpdatable
         };
         inventoryButton.Click += (_, _) => gui.OpenInventory();
 
-        var header = new HorizontalStackPanel
-        {
-            Spacing = 8,
-            HorizontalAlignment = HorizontalAlignment.Left,
-            VerticalAlignment = VerticalAlignment.Center
-        };
         if (showGrimoire)
         {
-            header.Widgets.Add(grimoireButton);
+            _header.Widgets.Add(grimoireButton);
         }
 
-        header.Widgets.Add(inventoryButton);
-        header.Widgets.Add(_controlsPanel);
+        _header.Widgets.Add(inventoryButton);
 
         var layout = new VerticalStackPanel
         {
@@ -113,7 +107,7 @@ public class PawnPreparationPanel : Panel, IUpdatable
             VerticalAlignment = VerticalAlignment.Stretch,
             Widgets =
             {
-                header,
+                _header,
                 root
             }
         };
@@ -146,7 +140,8 @@ public class PawnPreparationPanel : Panel, IUpdatable
 
     public void SetControls(Widget control)
     {
-        _controlsPanel.Widgets.Add(control);
+        control.VerticalAlignment = VerticalAlignment.Center;
+        _header.Widgets.Add(control);
     }
 
     public void Update()

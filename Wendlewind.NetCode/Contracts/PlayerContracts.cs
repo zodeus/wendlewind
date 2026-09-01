@@ -178,6 +178,8 @@ public sealed record AdminOverview
     public int Abandoned { get; init; }
     public int Fights { get; init; }
     public int PoolBuilds { get; init; }
+    public int ActivationCodes { get; init; }
+    public int UnusedCodes { get; init; }
     public List<AdminPoolRound> PoolByRound { get; init; } = [];
     public FightAnalyticsSummary FightSummary { get; init; } = new();
     public List<AdminPlayerRow> ActivePlayers { get; init; } = [];
@@ -240,4 +242,54 @@ public sealed record AdminPoolState
     public int Count { get; init; }
     public List<AdminPoolRound> Rounds { get; init; } = [];
     public List<BuildSnapshot> Builds { get; init; } = [];
+}
+
+public sealed record ActivationCodeRecord
+{
+    public required string Id { get; init; }
+    public required string Code { get; init; }
+    public string Note { get; init; } = "";
+    public DateTimeOffset CreatedAt { get; init; }
+    public DateTimeOffset? RedeemedAt { get; init; }
+    public DateTimeOffset? RevokedAt { get; init; }
+}
+
+public sealed record ActivationCodeFile
+{
+    public string Secret { get; init; } = "";
+    public List<ActivationCodeRecord> Codes { get; init; } = [];
+}
+
+public sealed record CreateActivationCodesRequest
+{
+    public int Count { get; init; } = 1;
+    public string? Note { get; init; }
+}
+
+public sealed record ActivateRequest
+{
+    public string? Code { get; init; }
+}
+
+public sealed record DownloadAsset
+{
+    public required string Id { get; init; }
+    public required string Label { get; init; }
+    public required string Detail { get; init; }
+}
+
+public sealed record DownloadCatalog
+{
+    public bool Unlocked { get; init; }
+    public string? Version { get; init; }
+    public string? Error { get; init; }
+    public List<DownloadAsset> Assets { get; init; } = [];
+}
+
+public sealed record ActivationCodeSummary
+{
+    public int Total { get; init; }
+    public int Unused { get; init; }
+    public int Redeemed { get; init; }
+    public int Revoked { get; init; }
 }

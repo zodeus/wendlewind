@@ -10,7 +10,8 @@ public static class AdminEndpoints
         AdminAuth auth,
         PlayerStore players,
         BuildPool pool,
-        FightAnalyticsService analytics)
+        FightAnalyticsService analytics,
+        ActivationCodeStore codes)
     {
         app.MapGet("/admin", () => Results.Redirect("/admin/index.html"));
 
@@ -55,7 +56,26 @@ public static class AdminEndpoints
         api.MapGet("/overview", () =>
         {
             var snapshot = pool.Snapshot();
-            return Results.Ok(players.SummarizeAdmin(snapshot.Count, snapshot.Rounds, analytics.Summarize()));
+            var summary = codes.Summarize();
+            return Results.Ok(players.SummarizeAdmin(snapshot.Count, snapshot.Rounds, analytics.Summarize()) with
+            {
+                ActivationCodes = summary.Total,
+                UnusedCodes = summary.Unused
+            });
+        });
+
+        api.MapGet("/codes", () => Results.Ok(codes.List()));
+
+        api.MapPost("/codes", (CreateActivationCodesRequest? request) =>
+        {
+            var created = codes.Generate(request?.Count ?? 1, request?.Note);
+            return Results.Ok(created);
+        });
+
+        api.MapPost("/codes/{id}/revoke", (string id) =>
+        {
+            var revoked = codes.Revoke(id);
+            return revoked is null ? Results.NotFound() : Results.Ok(revoked);
         });
 
         api.MapGet("/players", () => Results.Ok(players.ListPlayers()));

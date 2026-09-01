@@ -49,13 +49,63 @@ var dataDir = ServerData.EnsureDirectory();
 var pool = new BuildPool(ServerData.PoolPath(dataDir));
 var players = new PlayerStore(dataDir);
 var analytics = new FightAnalyticsService(players);
+var codes = new ActivationCodeStore(dataDir);
+var releases = new ReleaseDownloadService(new HttpClient());
 var adminAuth = AdminAuth.Create(app.Environment);
 Console.WriteLine($"Data directory: {dataDir}");
 Console.WriteLine($"Admin: {adminAuth.StatusMessage}");
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
-app.MapAdmin(adminAuth, players, pool, analytics);
+app.MapAdmin(adminAuth, players, pool, analytics, codes);
+
+app.MapGet("/downloads", async (HttpContext http, CancellationToken cancellationToken) =>
+{
+    var unlocked = DownloadAuth.TryGetSession(http, codes, out _);
+    return Results.Ok(await releases.RefreshCatalogAsync(unlocked, cancellationToken));
+});
+
+app.MapPost("/activate", async (HttpContext http, ActivateRequest? request, CancellationToken cancellationToken) =>
+{
+    if (DownloadAuth.TryGetSession(http, codes, out _))
+    {
+        return Results.Ok(await releases.RefreshCatalogAsync(true, cancellationToken));
+    }
+
+    var redeemed = codes.TryRedeem(request?.Code);
+    if (redeemed is null)
+    {
+        await Task.Delay(300, cancellationToken);
+        return TypedResults.Json(
+            new DownloadCatalog { Unlocked = false, Error = "That code is spent, revoked, or unknown." },
+            NetCodeJsonContext.Default.DownloadCatalog,
+            statusCode: StatusCodes.Status403Forbidden);
+    }
+
+    DownloadAuth.SignIn(http, codes, redeemed.Id);
+    return Results.Ok(await releases.RefreshCatalogAsync(true, cancellationToken));
+});
+
+app.MapGet("/download/{platform}", async (HttpContext http, string platform, CancellationToken cancellationToken) =>
+{
+    if (!ReleaseDownloadService.IsPlatform(platform))
+    {
+        return Results.NotFound();
+    }
+
+    if (!DownloadAuth.TryGetSession(http, codes, out _))
+    {
+        return Results.Unauthorized();
+    }
+
+    var url = await releases.ResolveUrlAsync(platform, cancellationToken);
+    return url is null
+        ? TypedResults.Json(
+            new DownloadCatalog { Unlocked = true, Error = "Release assets are unavailable." },
+            NetCodeJsonContext.Default.DownloadCatalog,
+            statusCode: StatusCodes.Status503ServiceUnavailable)
+        : Results.Redirect(url);
+});
 
 app.MapGet("/health", () => Results.Ok(new
 {

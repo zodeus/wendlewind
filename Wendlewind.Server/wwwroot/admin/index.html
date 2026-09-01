@@ -5,21 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Wendlewind Admin</title>
   <link rel="icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
   <style>
     :root {
-      --ink: #120c08;
-      --panel: #1c140e;
-      --panel-2: #261b12;
-      --parchment: #e8dcc4;
-      --muted: #b8a88a;
-      --line: #3d2e1c;
-      --button: #3a2a18;
-      --button-edge: #c4b08a;
-      --button-hover: #524024;
-      --good: #8fb36a;
-      --bad: #c56a48;
-      --warn: #d4a24c;
-      --link: #e8c27a;
+      --void: #070504;
+      --ash: #100c0a;
+      --iron: #1a1210;
+      --scar: #241610;
+      --rust: #6e2a1c;
+      --blood: #7a1c16;
+      --ember: #c45428;
+      --bone: #cbb896;
+      --dust: #7a6e58;
+      --iron-edge: #3c2e26;
+      --good: #8a9a62;
+      --bad: #c45a3a;
+      --warn: #c45428;
+      --link: #d4b27a;
     }
 
     * { box-sizing: border-box; }
@@ -27,55 +31,79 @@
     html, body {
       margin: 0;
       min-height: 100%;
-      background: var(--ink);
-      color: var(--parchment);
-      font-family: Georgia, "Times New Roman", serif;
+      background: var(--void);
+    }
+
+    body {
+      position: relative;
+      color: var(--bone);
+      font-family: "IM Fell English", Georgia, serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 8;
+      opacity: 0.08;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
     a { color: var(--link); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    a:hover { color: #ead9b4; text-decoration: underline; }
 
-    code, .mono { font-family: Consolas, "Courier New", monospace; }
+    code, .mono { font-family: Consolas, "Courier New", monospace; color: #b8946a; }
 
     header {
+      position: relative;
+      z-index: 2;
       display: flex;
       align-items: center;
       gap: 1.25rem;
       flex-wrap: wrap;
-      padding: 0.9rem 1.25rem;
-      border-bottom: 1px solid var(--line);
-      background: var(--panel);
+      padding: 0.85rem 1.25rem;
+      background: linear-gradient(180deg, #1a1210, #100c0a);
+      box-shadow: inset 0 -1px 0 #6a3a28, 0 1px 0 #050302;
     }
 
     header h1 {
       margin: 0;
-      font-size: 1.15rem;
-      letter-spacing: 0.06em;
+      font-family: Cinzel, serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-shadow: 0 1px 0 #000;
     }
 
     nav { display: flex; gap: 0.35rem; flex-wrap: wrap; }
 
     nav a, button {
-      color: var(--parchment);
-      background: var(--button);
-      border: 1px solid var(--button-edge);
+      color: var(--bone);
+      background: linear-gradient(180deg, #2a1a14 0%, #140c0a 100%);
+      border: 1px solid var(--iron-edge);
+      box-shadow: inset 0 0 0 1px #0c0806, inset 0 1px 0 rgba(203, 184, 150, 0.06);
       padding: 0.4rem 0.75rem;
       font: inherit;
       cursor: pointer;
     }
 
     nav a.active, nav a:hover, button:hover {
-      background: var(--button-hover);
+      border-color: var(--rust);
+      color: #ead9b4;
+      background: linear-gradient(180deg, #3a1c14 0%, #1a0c0a 100%);
       text-decoration: none;
     }
 
     button.danger {
-      background: #3a1810;
-      border-color: var(--bad);
+      background: linear-gradient(180deg, #3a1410 0%, #140808 100%);
+      border-color: var(--blood);
     }
 
     button.danger:hover {
-      background: #522018;
+      background: linear-gradient(180deg, #521810 0%, #1a0808 100%);
+      border-color: var(--bad);
     }
 
     button.small {
@@ -85,12 +113,18 @@
 
     .spacer { flex: 1; }
 
-    .muted { color: var(--muted); }
+    .muted { color: var(--dust); }
     .good { color: var(--good); }
     .bad { color: var(--bad); }
     .warn { color: var(--warn); }
 
-    main { padding: 1.25rem; max-width: 1200px; margin: 0 auto; }
+    main {
+      position: relative;
+      z-index: 1;
+      padding: 1.25rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
     .cards {
       display: grid;
@@ -100,15 +134,17 @@
     }
 
     .card {
-      background: var(--panel);
-      border: 1px solid var(--line);
+      background: var(--iron);
+      border: 1px solid var(--iron-edge);
+      box-shadow: inset 0 0 0 1px #0c0806;
       padding: 0.85rem 0.95rem;
     }
 
     .card .label {
-      color: var(--muted);
-      font-size: 0.78rem;
-      letter-spacing: 0.04em;
+      color: var(--dust);
+      font-family: Cinzel, serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
     }
 
@@ -125,58 +161,94 @@
       margin-bottom: 0.85rem;
     }
 
-    input[type="search"], input[type="password"], input[type="text"] {
-      background: var(--panel-2);
-      border: 1px solid var(--line);
-      color: var(--parchment);
+    input[type="search"], input[type="password"], input[type="text"], input[type="number"] {
+      background: #140c0a;
+      border: 1px solid var(--iron-edge);
+      color: var(--bone);
       padding: 0.45rem 0.65rem;
       font: inherit;
       min-width: 16rem;
     }
 
+    input:focus {
+      outline: none;
+      border-color: var(--rust);
+    }
+
+    input[type="number"] {
+      min-width: 5rem;
+      width: 5.5rem;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      background: var(--panel);
+      background: var(--iron);
+      border: 1px solid var(--iron-edge);
       font-size: 0.92rem;
     }
 
     th, td {
       text-align: left;
       padding: 0.5rem 0.65rem;
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid #2a1c16;
       vertical-align: top;
     }
 
     th {
-      color: var(--muted);
-      font-weight: 400;
-      letter-spacing: 0.03em;
+      color: var(--dust);
+      font-family: Cinzel, serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       cursor: pointer;
       user-select: none;
       white-space: nowrap;
     }
 
-    tbody tr:hover { background: var(--panel-2); }
+    tbody tr:hover { background: var(--scar); }
     tbody tr.clickable { cursor: pointer; }
 
     .pill {
       display: inline-block;
       padding: 0.1rem 0.4rem;
-      border: 1px solid var(--line);
+      border: 1px solid var(--iron-edge);
+      background: #140c0a;
       font-size: 0.75rem;
       letter-spacing: 0.03em;
     }
 
-    .login {
-      max-width: 22rem;
-      margin: 4rem auto;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      padding: 1.4rem;
+    main.login-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .login h2 { margin: 0 0 0.35rem; }
+    .login {
+      max-width: 22rem;
+      width: 100%;
+      background: var(--iron);
+      padding: 8px;
+      box-shadow:
+        0 0 0 1px #0a0604,
+        0 18px 40px rgba(0, 0, 0, 0.7),
+        inset 0 0 0 1px #6a3a28;
+    }
+
+    .login-inner {
+      background: var(--ash);
+      padding: 1.35rem 1.4rem 1.45rem;
+    }
+
+    .login h2 {
+      margin: 0 0 0.35rem;
+      font-family: Cinzel, serif;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
     .login p { margin: 0 0 1rem; }
     .login form { display: flex; flex-direction: column; gap: 0.65rem; }
     .login input { min-width: 0; width: 100%; }
@@ -191,28 +263,52 @@
       margin-bottom: 1rem;
     }
 
+    .detail-head h2 {
+      font-family: Cinzel, serif;
+      letter-spacing: 0.06em;
+    }
+
     .kv { display: grid; grid-template-columns: 8rem 1fr; gap: 0.3rem 0.75rem; margin-bottom: 1rem; }
-    .kv dt { color: var(--muted); }
+    .kv dt { color: var(--dust); }
     .kv dd { margin: 0; }
 
     .chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
     .chip {
-      background: var(--panel-2);
-      border: 1px solid var(--line);
+      background: #140c0a;
+      border: 1px solid var(--iron-edge);
       padding: 0.15rem 0.45rem;
       font-size: 0.8rem;
     }
 
     .section { margin-bottom: 1.5rem; }
-    .section h3 { margin: 0 0 0.6rem; font-size: 1rem; letter-spacing: 0.04em; }
+    .section h3 {
+      margin: 0 0 0.6rem;
+      font-family: Cinzel, serif;
+      font-size: 0.92rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
 
-    .empty { color: var(--muted); padding: 1.5rem 0; }
+    .empty { color: var(--dust); padding: 1.5rem 0; }
 
-    .id { font-size: 0.78rem; color: var(--muted); word-break: break-all; }
+    .id { font-size: 0.78rem; color: var(--dust); word-break: break-all; }
+
+    .created {
+      background: #1a100c;
+      border: 1px solid var(--rust);
+      padding: 0.75rem 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .created .mono {
+      font-size: 1.05rem;
+      letter-spacing: 0.06em;
+      color: #ead9b4;
+    }
 
     pre.log {
-      background: var(--panel);
-      border: 1px solid var(--line);
+      background: var(--iron);
+      border: 1px solid var(--iron-edge);
       padding: 0.75rem;
       overflow: auto;
       max-height: 24rem;
@@ -325,6 +421,10 @@
         } else if (page === "pool") {
           const data = await cached("pool", () => api("/pool"));
           paint(() => poolView(data));
+        } else if (page === "codes") {
+          const data = await api("/codes");
+          state.cache.codes = data;
+          paint(() => codesView(data, state.cache.createdCodes));
         } else {
           paint(() => `<p class="empty">Unknown page.</p>`);
         }
@@ -410,6 +510,7 @@
           else if (page === "runs" && !state.route.parts[1]) paint(() => runsView(state.cache.runs));
           else if (page === "fights" && !state.route.parts[1]) paint(() => fightsView(state.cache.fights));
           else if (page === "pool") paint(() => poolView(state.cache.pool));
+          else if (page === "codes") paint(() => codesView(state.cache.codes, state.cache.createdCodes));
           bindSort(fallback);
           bindClicks();
         });
@@ -466,6 +567,7 @@
         else if (page === "runs") paint(() => runsView(state.cache.runs));
         else if (page === "fights") paint(() => fightsView(state.cache.fights));
         else if (page === "pool") paint(() => poolView(state.cache.pool));
+        else if (page === "codes") paint(() => codesView(state.cache.codes, state.cache.createdCodes));
         const el = document.getElementById("search");
         if (el) {
           el.focus();
@@ -490,6 +592,7 @@
             ${navLink("#/runs", "Arena runs")}
             ${navLink("#/fights", "Fights")}
             ${navLink("#/pool", "Pool")}
+            ${navLink("#/codes", "Codes")}
           </nav>
           <span class="spacer"></span>
           <button type="button" id="logout">Sign out</button>
@@ -500,15 +603,17 @@
 
     function loginView() {
       return `
-        <main>
+        <main class="login-page">
           <div class="login">
-            <h2>Admin</h2>
-            <p class="muted">Enter the host password to view players, runs, and stats.</p>
-            <form id="login">
-              <input type="password" name="password" placeholder="Password" autocomplete="current-password" autofocus>
-              <button type="submit">Sign in</button>
-              <div class="error">${esc(state.error)}</div>
-            </form>
+            <div class="login-inner">
+              <h2>Admin</h2>
+              <p class="muted">Enter the host password to view players, runs, and stats.</p>
+              <form id="login">
+                <input type="password" name="password" placeholder="Password" autocomplete="current-password" autofocus>
+                <button type="submit">Sign in</button>
+                <div class="error">${esc(state.error)}</div>
+              </form>
+            </div>
           </div>
         </main>
       `;
@@ -533,6 +638,7 @@
           ${card("Abandoned", data.abandoned)}
           ${card("Fights", data.fights)}
           ${card("Pool builds", data.poolBuilds)}
+          ${card("Unused codes", data.unusedCodes ?? 0, (data.unusedCodes ?? 0) === 0 ? "warn" : "good")}
           ${card("Fight p50", summary.durationP50 == null ? "—" : summary.durationP50.toFixed(1) + "s")}
           ${card("Fight p90", summary.durationP90 == null ? "—" : summary.durationP90.toFixed(1) + "s")}
           ${card("In band", summary.inTargetBandPercent == null ? "—" : summary.inTargetBandPercent.toFixed(0) + "%")}
@@ -810,6 +916,124 @@
       `;
     }
 
+    function codeStatus(code) {
+      if (code.revokedAt) return `<span class="pill bad">Revoked</span>`;
+      if (code.redeemedAt) return `<span class="pill">Redeemed</span>`;
+      return `<span class="pill good">Unused</span>`;
+    }
+
+    function codesView(rows, created) {
+      if (!rows) return `<p class="muted">Loading…</p>`;
+      const fresh = created || [];
+      const filtered = sortRows(filterRows(rows, ["code", "note", "id"]), "createdAt");
+      return `
+        <form class="toolbar" id="generate-codes">
+          <input type="number" name="count" min="1" max="25" value="1" title="How many codes">
+          <input type="text" name="note" placeholder="Note (optional)" maxlength="80">
+          <button type="submit">Generate</button>
+        </form>
+        ${fresh.length ? `
+          <div class="created">
+            <div class="muted">New codes — copy these now</div>
+            ${fresh.map((code) => `
+              <div style="display:flex;gap:0.5rem;align-items:center;margin-top:0.45rem">
+                <span class="mono">${esc(code.code)}</span>
+                <button type="button" class="small" data-copy="${esc(code.code)}">Copy</button>
+              </div>`).join("")}
+          </div>` : ""}
+        ${searchBox("Search codes")}
+        ${filtered.length === 0 ? `<p class="empty">No activation codes yet.</p>` : `
+          <table>
+            <thead><tr>
+              ${header("code", "Code")}
+              ${header("note", "Note")}
+              ${header("createdAt", "Created")}
+              ${header("redeemedAt", "Redeemed")}
+              ${header("revokedAt", "Status")}
+              <th></th>
+            </tr></thead>
+            <tbody>
+              ${filtered.map((code) => `
+                <tr>
+                  <td class="mono">${esc(code.code)}</td>
+                  <td>${esc(code.note || "—")}</td>
+                  <td>${when(code.createdAt)}</td>
+                  <td>${when(code.redeemedAt)}</td>
+                  <td>${codeStatus(code)}</td>
+                  <td>
+                    <button type="button" class="small" data-copy="${esc(code.code)}">Copy</button>
+                    ${code.revokedAt ? "" : `<button type="button" class="danger small" data-revoke="${esc(code.id)}">Revoke</button>`}
+                  </td>
+                </tr>`).join("")}
+            </tbody>
+          </table>`}
+      `;
+    }
+
+    async function generateCodes(event) {
+      event.preventDefault();
+      const form = new FormData(event.target);
+      try {
+        const created = await api("/codes", {
+          method: "POST",
+          body: JSON.stringify({
+            count: Number(form.get("count") || 1),
+            note: form.get("note") || ""
+          })
+        });
+        state.cache.createdCodes = created;
+        delete state.cache.overview;
+        const data = await api("/codes");
+        state.cache.codes = data;
+        paint(() => codesView(data, created));
+      } catch (error) {
+        paint(() => `<p class="error">${esc(error.message)}</p>`);
+      }
+    }
+
+    async function revokeCode(id) {
+      if (!confirm("Revoke this code? Unused copies will stop working, and any download session from it will end.")) {
+        return;
+      }
+      try {
+        await api("/codes/" + encodeURIComponent(id) + "/revoke", { method: "POST", body: "{}" });
+        if (state.cache.createdCodes) {
+          state.cache.createdCodes = state.cache.createdCodes.map((code) =>
+            code.id === id ? { ...code, revokedAt: new Date().toISOString() } : code);
+        }
+        delete state.cache.overview;
+        const data = await api("/codes");
+        state.cache.codes = data;
+        paint(() => codesView(data, state.cache.createdCodes));
+      } catch (error) {
+        paint(() => `<p class="error">${esc(error.message)}</p>`);
+      }
+    }
+
+    function bindCodes() {
+      const form = document.getElementById("generate-codes");
+      if (form) form.addEventListener("submit", generateCodes);
+      document.querySelectorAll("[data-revoke]").forEach((el) => {
+        el.addEventListener("click", (event) => {
+          event.preventDefault();
+          revokeCode(el.getAttribute("data-revoke"));
+        });
+      });
+      document.querySelectorAll("[data-copy]").forEach((el) => {
+        el.addEventListener("click", async (event) => {
+          event.preventDefault();
+          const value = el.getAttribute("data-copy");
+          try {
+            await navigator.clipboard.writeText(value);
+            el.textContent = "Copied";
+            setTimeout(() => { el.textContent = "Copy"; }, 1200);
+          } catch {
+            window.prompt("Copy code", value);
+          }
+        });
+      });
+    }
+
     function render() {
       const root = document.getElementById("app");
       if (!state.session) {
@@ -830,6 +1054,7 @@
       bindClicks();
       bindDeletes();
       bindSearch();
+      bindCodes();
     }
 
     const _paint = paint;

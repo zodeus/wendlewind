@@ -21,23 +21,21 @@ public sealed class ArenaPrepScreen : VerticalStackPanel
 
         var shop = new CursorButton(BaseContent.Styles.Button.Large)
         {
-            Content = new Label { Text = "Shop", HorizontalAlignment = HorizontalAlignment.Center }
+            Content = new Label { Text = "Shop", HorizontalAlignment = HorizontalAlignment.Center },
+            VerticalAlignment = VerticalAlignment.Center
         };
         shop.Click += (_, _) => onShop();
 
         var fight = new CursorButton(BaseContent.Styles.Button.LargeGold)
         {
-            Content = new Label { Text = "Fight", HorizontalAlignment = HorizontalAlignment.Center }
+            Content = new Label { Text = "Fight", HorizontalAlignment = HorizontalAlignment.Center },
+            VerticalAlignment = VerticalAlignment.Center
         };
         fight.Click += (_, _) => onFight();
 
-        var headerExtras = new HorizontalStackPanel
-        {
-            Spacing = 24,
-            VerticalAlignment = VerticalAlignment.Center,
-            Widgets = { shop, fight, _hud }
-        };
-        _pawnPanel.SetControls(headerExtras);
+        _pawnPanel.SetControls(shop);
+        _pawnPanel.SetControls(fight);
+        _pawnPanel.SetControls(_hud);
 
         Widgets.Add(_pawnPanel);
         SetProportionType(_pawnPanel, ProportionType.Fill);

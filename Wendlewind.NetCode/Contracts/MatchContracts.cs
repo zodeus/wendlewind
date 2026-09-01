@@ -151,4 +151,13 @@ public sealed record CombatResult
 [JsonSerializable(typeof(AdminRunRow))]
 [JsonSerializable(typeof(List<AdminRunRow>))]
 [JsonSerializable(typeof(AdminPoolState))]
+[JsonSerializable(typeof(ActivationCodeRecord))]
+[JsonSerializable(typeof(List<ActivationCodeRecord>))]
+[JsonSerializable(typeof(ActivationCodeFile))]
+[JsonSerializable(typeof(CreateActivationCodesRequest))]
+[JsonSerializable(typeof(ActivateRequest))]
+[JsonSerializable(typeof(DownloadAsset))]
+[JsonSerializable(typeof(List<DownloadAsset>))]
+[JsonSerializable(typeof(DownloadCatalog))]
+[JsonSerializable(typeof(ActivationCodeSummary))]
 public partial class NetCodeJsonContext : JsonSerializerContext;
