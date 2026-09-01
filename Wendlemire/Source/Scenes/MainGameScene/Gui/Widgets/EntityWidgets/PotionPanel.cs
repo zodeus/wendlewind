@@ -140,8 +140,12 @@ public sealed class PotionPanel : EntityPanelBase
         // Different colors based on potion type
         if (item.Def == Defs.Items.JarOfBlood)
             return new Color(180, 40, 40);
+        if (item.Def == Defs.Items.Pitchblood)
+            return new Color(90, 20, 20);
         if (item.Def == Defs.Items.AcidFlask)
             return new Color(140, 200, 60);
+        if (item.Def == Defs.Items.TallowFlask)
+            return new Color(210, 180, 90);
         if (IsHealingPotion(item))
             return new Color(200, 80, 100);
 

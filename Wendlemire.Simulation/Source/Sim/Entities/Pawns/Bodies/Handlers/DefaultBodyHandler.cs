@@ -30,8 +30,21 @@ public class DefaultBodyHandler : IExposable, IHasContext, IHasRng
     public bool IsHungry => Body.StomachLevel < HungryThreshold;
     public float Viscosity => Body.Def.BloodType!.Viscosity;
 
+    public const float PitchbloodViscosityFactor = 2.5f;
     private float? _hasThickBloodedTrait;
-    public float ViscosityModifier => _hasThickBloodedTrait ??= Body.Pawn.Traits.HasTrait(Defs.Traits.ThickBlooded) ? 1.2f : 1f;
+    public float ViscosityModifier
+    {
+        get
+        {
+            var modifier = _hasThickBloodedTrait ??= Body.Pawn.Traits.HasTrait(Defs.Traits.ThickBlooded) ? 1.2f : 1f;
+            if (Body.Effects.Has(Defs.BodyEffects.Pitchblood))
+            {
+                modifier *= PitchbloodViscosityFactor;
+            }
+
+            return modifier;
+        }
+    }
 
     public virtual void Initialize(PawnBody body)
     {

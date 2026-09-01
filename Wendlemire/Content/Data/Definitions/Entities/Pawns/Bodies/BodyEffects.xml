@@ -208,6 +208,30 @@
         </AffectedStats>
     </BodyEffectDef>
     <BodyEffectDef>
+        <Moniker>Pitchblood</Moniker>
+        <Label>Pitchblood</Label>
+        <Description>Your blood thickens to pitch. Wounds weep instead of spray.</Description>
+        <TexturePath>Entities/Item/Potion/Pitchblood</TexturePath>
+        <AffectedStats>
+            <ListItem>
+                <Stat>AttackSpeed</Stat>
+                <Factor>-0.10</Factor>
+            </ListItem>
+        </AffectedStats>
+    </BodyEffectDef>
+    <BodyEffectDef>
+        <Moniker>Tallowed</Moniker>
+        <Label>Tallowed</Label>
+        <Description>Hot fat gums the legs. Steps and strikes come slower.</Description>
+        <TexturePath>Entities/Item/Potion/TallowFlask</TexturePath>
+        <AffectedStats>
+            <ListItem>
+                <Stat>AttackSpeed</Stat>
+                <Factor>-0.25</Factor>
+            </ListItem>
+        </AffectedStats>
+    </BodyEffectDef>
+    <BodyEffectDef>
         <Moniker>WitchTouched</Moniker>
         <Label>Witch Touched</Label>
         <TexturePath>Entities/Pawn/BodyEffects/FeelingThePurple</TexturePath>

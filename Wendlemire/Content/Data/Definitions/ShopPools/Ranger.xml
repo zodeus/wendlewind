@@ -51,7 +51,7 @@
                 <Category>Potions</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
-                <StockSize>1</StockSize>
+                <StockSize>2</StockSize>
                 <Offers>
                     <ListItem>
                         <ItemDef>JarOfBlood</ItemDef>
@@ -137,7 +137,7 @@
                 <Category>Medicine</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
-                <StockSize>1</StockSize>
+                <StockSize>2</StockSize>
                 <Offers>
                     <ListItem>
                         <ItemDef>MedKit</ItemDef>
@@ -165,7 +165,7 @@
                 <Category>Food</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
-                <StockSize>4</StockSize>
+                <StockSize>3</StockSize>
                 <Offers>
                     <ListItem>
                         <ItemDef>CookedFish</ItemDef>
@@ -190,14 +190,14 @@
                         <ItemDef>Walnut</ItemDef>
                         <AvailableFromRound>4</AvailableFromRound>
                     </ListItem>
-                    <ListItem>
+                    <!-- <ListItem>
                         <ItemDef>GoldCapMushroom</ItemDef>
                         <AvailableFromRound>6</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>InkyCapMushroom</ItemDef>
                         <AvailableFromRound>6</AvailableFromRound>
-                    </ListItem>
+                    </ListItem> -->
                 </Offers>
             </ListItem>
             <ListItem>
@@ -206,7 +206,7 @@
                 <ItemColumns>1</ItemColumns>
                 <StockSize>3</StockSize>
                 <Offers>
-                    <ListItem>
+                    <!-- <ListItem>
                         <ItemDef>BoneDart</ItemDef>
                     </ListItem>
                     <ListItem>
@@ -220,14 +220,14 @@
                     <ListItem>
                         <ItemDef>ExplosiveFang</ItemDef>
                         <AvailableFromRound>6</AvailableFromRound>
-                    </ListItem>
+                    </ListItem> -->
                 </Offers>
             </ListItem>
             <ListItem>
                 <Category>Medicine</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
-                <StockSize>6</StockSize>
+                <StockSize>3</StockSize>
                 <Offers>
                     <ListItem>
                         <ItemDef>Cauterize</ItemDef>
@@ -270,35 +270,13 @@
                 <Category>Trinkets</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
-                <StockSize>6</StockSize>
+                <StockSize>1</StockSize>
                 <Offers>
                     <ListItem>
-                        <ItemDef>WeepingBucket</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>CookingPot</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>MortarAndPestle</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>FlameStick</ItemDef>
-                    </ListItem>
-                    <ListItem>
                         <ItemDef>MechanicalEye</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>Monocle</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>TinkersToolbox</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>Slingshot</ItemDef>
                     </ListItem>
                 </Offers>
             </ListItem>

@@ -59,6 +59,12 @@
                     <ListItem>
                         <ItemDef>StrengthPotion</ItemDef>
                     </ListItem>
+                    <ListItem>
+                        <ItemDef>Pitchblood</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>TallowFlask</ItemDef>
+                    </ListItem>
                 </Offers>
             </ListItem>
             <ListItem>

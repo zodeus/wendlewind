@@ -80,6 +80,8 @@ public class PawnCapabilities : IExposable
         }
     }
 
+    public const float TallowedMobilityFactor = 0.55f;
+
     public float Mobility
     {
         get
@@ -93,6 +95,11 @@ public class PawnCapabilities : IExposable
                 {
                     mobility += part.BodyPartDef.MobilityFraction;
                 }
+            }
+
+            if (_pawn.Body.Effects.Has(Defs.BodyEffects.Tallowed))
+            {
+                mobility *= TallowedMobilityFactor;
             }
 
             return mobility;

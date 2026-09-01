@@ -365,6 +365,84 @@
         </CraftingProperties>
     </ItemDef>
     <ItemDef ParentName="Potion">
+        <Moniker>Pitchblood</Moniker>
+        <Label>Pitchblood</Label>
+        <BaseStats>
+            <PotionDuration>1200</PotionDuration>
+        </BaseStats>
+        <Description>A tar-thick draught that clots in the veins. Wounds weep instead of spray.</Description>
+        <GoldCost>80</GoldCost>
+        <TexturePath>Entities/Item/Potion/Pitchblood</TexturePath>
+        <PotionProperties>
+            <HandlerClass>PitchbloodHandler</HandlerClass>
+            <DefaultTrigger>
+                <Type>SelfBloodBelow</Type>
+                <Threshold>0.4</Threshold>
+            </DefaultTrigger>
+            <AllowedTriggerTypes>
+                <ListItem>SelfBloodBelow</ListItem>
+                <ListItem>Immediately</ListItem>
+                <ListItem>AfterSeconds</ListItem>
+            </AllowedTriggerTypes>
+        </PotionProperties>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>MortarAndPestle</ListItem>
+                <ListItem>VialOfDuplicity</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>HoneyPot</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>NettleLeaf</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+    </ItemDef>
+    <ItemDef ParentName="Potion">
+        <Moniker>TallowFlask</Moniker>
+        <Label>Tallow Flask</Label>
+        <BaseStats>
+            <PotionDuration>720</PotionDuration>
+        </BaseStats>
+        <Description>Hot rendered fat sealed in cheap glass. Smash it underfoot to gum the legs.</Description>
+        <GoldCost>100</GoldCost>
+        <TexturePath>Entities/Item/Potion/TallowFlask</TexturePath>
+        <PotionProperties>
+            <HandlerClass>TallowFlaskHandler</HandlerClass>
+            <DefaultTrigger>
+                <Type>AfterSeconds</Type>
+                <AfterSeconds>3</AfterSeconds>
+            </DefaultTrigger>
+            <AllowedTriggerTypes>
+                <ListItem>AfterSeconds</ListItem>
+                <ListItem>Immediately</ListItem>
+                <ListItem>EnemyBloodBelow</ListItem>
+            </AllowedTriggerTypes>
+        </PotionProperties>
+        <CraftingProperties>
+            <AmountProduced>2</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>FlameStick</ListItem>
+                <ListItem>CookingPot</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>RawMeat</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>Twig</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+    </ItemDef>
+    <ItemDef ParentName="Potion">
         <Moniker>AntiStaticFlask</Moniker>
         <Label>Anti-Static Flask</Label>
         <Description>A grounding elixir that hums with neutralizing energy. Instantly purges all electrified afflictions from the body.</Description>

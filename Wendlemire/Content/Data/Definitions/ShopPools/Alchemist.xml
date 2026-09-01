@@ -9,6 +9,42 @@
         <TexturePath>Entities/Pawn/Portrait/Merchants/Alchemist</TexturePath>
         <Shelves>
             <ListItem>
+                <Category>Armor</Category>
+                <Columns>6</Columns>
+                <ItemColumns>1</ItemColumns>
+                <StockSize>3</StockSize>
+                <Offers>
+                    <ListItem>
+                        <ItemDef>WitchDoctorHelmet</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>WitchDoctorGorget</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>WitchDoctorTunic</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>WitchDoctorGlove</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>WitchDoctorVambrace</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>WitchDoctorGreave</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>WitchDoctorBoot</ItemDef>
+                    </ListItem>
+                    <!-- <ListItem>
+                        <ItemDef>PlagueMask</ItemDef>
+                    </ListItem> -->
+                    <ListItem>
+                        <ItemDef>BlessedIronCollar</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
+                    </ListItem>
+                </Offers>
+            </ListItem>
+            <ListItem>
                 <Category>Incense</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
@@ -35,14 +71,10 @@
                 <Category>Medicine</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
-                <StockSize>6</StockSize>
+                <StockSize>4</StockSize>
                 <Offers>
                     <ListItem>
-                        <ItemDef>Cauterize</ItemDef>
-                    </ListItem>
-                    <ListItem>
                         <ItemDef>MedKit</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>MendersMist</ItemDef>
@@ -53,27 +85,74 @@
                         <AvailableFromRound>6</AvailableFromRound>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>BoneCleanse</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>AntiNecroticSerum</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
                         <ItemDef>BalmyOintment</ItemDef>
                     </ListItem>
                     <ListItem>
                         <ItemDef>Suture</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>StrengthenBones</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
+                        <AvailableFromRound>6</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>Cyberveins</ItemDef>
                         <AvailableFromRound>6</AvailableFromRound>
+                    </ListItem>
+                </Offers>
+            </ListItem>
+            <ListItem>
+                <Category>Enchantments</Category>
+                <Columns>6</Columns>
+                <ItemColumns>1</ItemColumns>
+                <StockSize>2</StockSize>
+                <Offers>
+                    <ListItem>
+                        <ItemDef>SoothingVibrations</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>BloodBath</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>SpidersBite</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>ElvishLeaf</ItemDef>
+                        <AvailableFromRound>5</AvailableFromRound>
+                    </ListItem>
+                </Offers>
+            </ListItem>
+            <ListItem>
+                <Category>Potions</Category>
+                <Columns>6</Columns>
+                <ItemColumns>1</ItemColumns>
+                <StockSize>6</StockSize>
+                <Offers>
+                    <ListItem>
+                        <ItemDef>JarOfBlood</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>HealingPotion</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>PussBomb</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>StrengthPotion</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>AcidFlask</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>BlackenedSmoke</ItemDef>
+                        <AvailableFromRound>5</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>HealingFlask</ItemDef>
+                        <AvailableFromRound>5</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>HealingSalve</ItemDef>
+                        <AvailableFromRound>7</AvailableFromRound>
                     </ListItem>
                 </Offers>
             </ListItem>
@@ -111,111 +190,6 @@
                     <ListItem>
                         <ItemDef>MechanicalEye</ItemDef>
                         <AvailableFromRound>4</AvailableFromRound>
-                    </ListItem>
-                </Offers>
-            </ListItem>
-            <ListItem>
-                <Category>Armor</Category>
-                <Columns>6</Columns>
-                <ItemColumns>1</ItemColumns>
-                <StockSize>6</StockSize>
-                <Offers>
-                    <ListItem>
-                        <SetLabel>Witch Doctor Set</SetLabel>
-                        <AvailableFromRound>4</AvailableFromRound>
-                        <SetPieces>
-                            <ListItem>WitchDoctorHelmet</ListItem>
-                            <ListItem>WitchDoctorGorget</ListItem>
-                            <ListItem>WitchDoctorTunic</ListItem>
-                            <ListItem>WitchDoctorGlove</ListItem>
-                            <ListItem>WitchDoctorGlove</ListItem>
-                            <ListItem>WitchDoctorVambrace</ListItem>
-                            <ListItem>WitchDoctorVambrace</ListItem>
-                            <ListItem>WitchDoctorGreave</ListItem>
-                            <ListItem>WitchDoctorGreave</ListItem>
-                            <ListItem>WitchDoctorBoot</ListItem>
-                            <ListItem>WitchDoctorBoot</ListItem>
-                        </SetPieces>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>WitchDoctorHelmet</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>WitchDoctorGorget</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>WitchDoctorTunic</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>WitchDoctorGlove</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>WitchDoctorVambrace</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>WitchDoctorGreave</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>WitchDoctorBoot</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>PlagueMask</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>BlessedIronCollar</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
-                    </ListItem>
-                </Offers>
-            </ListItem>
-            <ListItem>
-                <Category>Potions</Category>
-                <Columns>6</Columns>
-                <ItemColumns>1</ItemColumns>
-                <StockSize>6</StockSize>
-                <Offers>
-                    <ListItem>
-                        <ItemDef>JarOfBlood</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>HealingPotion</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>HealingFlask</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>HealingSalve</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>PussBomb</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>Fleshify</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>BlackenedSmoke</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>StrengthPotion</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>AcidFlask</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>AntiStaticFlask</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
                     </ListItem>
                 </Offers>
             </ListItem>

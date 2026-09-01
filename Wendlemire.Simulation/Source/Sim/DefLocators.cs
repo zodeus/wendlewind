@@ -89,6 +89,8 @@ public static partial class Defs
         public static BodyEffectDef Fruiting = null!;
         public static BodyEffectDef BlackenedSmoke = null!;
         public static BodyEffectDef Strengthened = null!;
+        public static BodyEffectDef Pitchblood = null!;
+        public static BodyEffectDef Tallowed = null!;
         public static BodyEffectDef WitchTouched = null!;
     }
 }
@@ -141,6 +143,8 @@ public static partial class Defs
         public static ItemDef JarOfBlood = null!;
         public static ItemDef AcidFlask = null!;
         public static ItemDef HealingPotion = null!;
+        public static ItemDef Pitchblood = null!;
+        public static ItemDef TallowFlask = null!;
         public static ItemDef HealingFlask = null!;
         public static ItemDef HealingSalve = null!;
         public static ItemDef PussBomb = null!;
