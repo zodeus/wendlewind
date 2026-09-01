@@ -3,6 +3,7 @@ using Wendlemire.Definitions;
 using Wendlemire.NetCode;
 using Wendlemire.Sim;
 using Wendlemire.Sim.Combat;
+using Wendlemire.Sim.Entities;
 using Wendlemire.Sim.Entities.Items;
 using Wendlemire.Sim.Entities.Items.Medicinals;
 using Wendlemire.Sim.Entities.Pawns;
@@ -28,6 +29,7 @@ public class MedicalTriggerTests
     [InlineData("MendersMix")]
     [InlineData("BoneCleanse")]
     [InlineData("StrengthenBones")]
+    [InlineData("Cyberveins")]
     [InlineData("Cauterize")]
     public void AuthoredDefaultFiresInCombat(string moniker)
     {
@@ -211,6 +213,43 @@ public class MedicalTriggerTests
     }
 
     [Fact]
+    public void CyberveinsTriplesArteryMaxHitPoints()
+    {
+        using var root = SimServices.BuildRoot();
+        using var scope = root.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<GameContext>();
+        context.Initialize(CombatReplay.DefaultRunSeed);
+        BuildSnapshotFactory.Apply(context.PlayerPawn, BuildTemplates.TankRegen());
+
+        var pawn = context.PlayerPawn;
+        var arteries = pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Artery).ToList();
+        Assert.NotEmpty(arteries);
+        var baselines = arteries.Select(a => a.MaxHitPoints).ToList();
+
+        var def = RequireDef("Cyberveins");
+        var item = context.Factory.CreateEntity<Item>(def, 1);
+        Assert.True(item.MedicinalHandler!.ApplyToPart(item, pawn.Body.RootSocket.AttachedPart!));
+
+        for (var i = 0; i < arteries.Count; i++)
+        {
+            Assert.Equal(baselines[i] * 3, arteries[i].MaxHitPoints);
+            Assert.Equal(arteries[i].MaxHitPoints, arteries[i].HitPoints);
+        }
+    }
+
+    [Fact]
+    public void DuplicateCyberveinsSlotsDoNotStackInCombat()
+    {
+        AssertInstallDoesNotStack("Cyberveins", p => p.Type == BodyPartType.Artery, before => before * 3);
+    }
+
+    [Fact]
+    public void DuplicateStrengthenBonesSlotsDoNotStackInCombat()
+    {
+        AssertInstallDoesNotStack("StrengthenBones", p => p.Substance == SubstanceType.Bone, before => before * 1.40);
+    }
+
+    [Fact]
     public void MedKitCannotSealSockets()
     {
         using var root = SimServices.BuildRoot();
@@ -224,6 +263,42 @@ public class MedicalTriggerTests
         var def = RequireDef("MedKit");
         Assert.True(pawn.MedicalChest.TryInstall(def, 1));
         Assert.False(MedicalTrigger.CanSealSocket(def));
+    }
+
+    private static void AssertInstallDoesNotStack(
+        string moniker,
+        Func<BodyPart, bool> match,
+        Func<double, double> expectedMax)
+    {
+        using var root = SimServices.BuildRoot();
+        using var scope = root.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<GameContext>();
+        context.Initialize(CombatReplay.DefaultRunSeed);
+
+        var pawn = context.PlayerPawn;
+        pawn.MedicalChest.Clear();
+        var def = RequireDef(moniker);
+        Assert.True(pawn.MedicalChest.TryInstall(def, 1));
+        Assert.True(pawn.MedicalChest.TryInstall(def, 1));
+
+        var parts = pawn.Body.AllParts.Where(match).ToList();
+        Assert.NotEmpty(parts);
+        var baselines = parts.Select(p => p.MaxHitPoints).ToList();
+        var scale = pawn.GetStatValue(Defs.Stats.BodyScale);
+
+        var zone = context.World.Zones.OrderBy(z => z.ZoneDef.Stage).First();
+        context.EnterZone(zone.ZoneDef);
+        context.CurrentZone!.NextEncounter();
+        context.Tick();
+
+        var used = context.CurrentZone.ActiveEncounter!.CombatHandler!.Log
+            .Count(e => e.Kind == CombatEventKind.MedicalUsed && e.ItemMoniker == moniker);
+        Assert.Equal(1, used);
+
+        for (var i = 0; i < parts.Count; i++)
+        {
+            Assert.Equal(expectedMax(baselines[i] * scale), parts[i].MaxHitPoints, 3);
+        }
     }
 
     private static void PrepareFor(string moniker, Pawn pawn, GameContext context)
@@ -246,6 +321,7 @@ public class MedicalTriggerTests
                 DamageFirst(pawn, p => p.Substance == SubstanceType.Bone, 0.4);
                 break;
             case "StrengthenBones":
+            case "Cyberveins":
                 break;
             default:
                 DamageFirst(pawn, p => p.IsExternal && p.Type != BodyPartType.Eye, 0.2);

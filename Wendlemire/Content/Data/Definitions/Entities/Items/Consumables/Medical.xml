@@ -375,10 +375,12 @@
         <Moniker>StrengthenBones</Moniker>
         <Label>Strengthen Bones</Label>
         <Description>A fortifying bone elixir. Permanently increases skeletal density and fully restores bone integrity.</Description>
+        <StackLimit>1</StackLimit>
         <GoldCost>200</GoldCost>
         <TexturePath>Entities/Item/Medical/StrengthenBones</TexturePath>
         <MedicinalProperties>
             <HandlerClass>StrengthenBonesHandler</HandlerClass>
+            <InfiniteUse>true</InfiniteUse>
             <CooldownInTicks>360</CooldownInTicks>
             <ApplyMode>Self</ApplyMode>
             <WatchPool>
@@ -386,7 +388,6 @@
             </WatchPool>
             <AllowedTriggerTypes>
                 <ListItem>Immediately</ListItem>
-                <ListItem>AfterSeconds</ListItem>
             </AllowedTriggerTypes>
             <DefaultTrigger>
                 <Type>Immediately</Type>
@@ -417,6 +418,47 @@
                 </ListItem>
                 <ListItem>
                     <Item>BalmyOintment</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+    </ItemDef>
+    <ItemDef ParentName="MedicalItem">
+        <Moniker>Cyberveins</Moniker>
+        <Label>Cyberveins</Label>
+        <Description>Synthetic arterial grafts. When installed, triples the durability of every artery.</Description>
+        <StackLimit>1</StackLimit>
+        <GoldCost>250</GoldCost>
+        <TexturePath>Entities/Item/Medical/Cyberveins</TexturePath>
+        <MedicinalProperties>
+            <HandlerClass>CyberveinsHandler</HandlerClass>
+            <InfiniteUse>true</InfiniteUse>
+            <CooldownInTicks>360</CooldownInTicks>
+            <ApplyMode>Self</ApplyMode>
+            <WatchPool>
+                <ListItem>Self</ListItem>
+            </WatchPool>
+            <AllowedTriggerTypes>
+                <ListItem>Immediately</ListItem>
+            </AllowedTriggerTypes>
+            <DefaultTrigger>
+                <Type>Immediately</Type>
+            </DefaultTrigger>
+        </MedicinalProperties>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>TinkersToolbox</ListItem>
+                <ListItem>MechanicalEye</ListItem>
+                <ListItem>SteroidInjector</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>Suture</Item>
+                    <Count>2</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>Ichor</Item>
                     <Count>1</Count>
                 </ListItem>
             </ResourceRequirements>

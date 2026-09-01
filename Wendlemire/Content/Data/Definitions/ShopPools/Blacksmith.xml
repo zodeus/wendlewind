@@ -170,10 +170,13 @@
                 <Category>Medicine</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
-                <StockSize>1</StockSize>
+                <StockSize>2</StockSize>
                 <Offers>
                     <ListItem>
                         <ItemDef>Cauterize</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>Suture</ItemDef>
                     </ListItem>
                 </Offers>
             </ListItem>

@@ -34,7 +34,7 @@ public class MedicalChestCapacityTests
         var context = scope.ServiceProvider.GetRequiredService<GameContext>();
         context.Initialize(CombatReplay.DefaultRunSeed);
 
-        Assert.Equal(9, MedicalChest.SlotUnlockDefs().Count());
+        Assert.Equal(10, MedicalChest.SlotUnlockDefs().Count());
         Assert.Equal(MedicalChest.BaseSlots, context.PlayerPawn.MedicalChest.Capacity);
     }
 

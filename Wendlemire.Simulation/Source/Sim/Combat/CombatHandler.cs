@@ -341,6 +341,33 @@ public class CombatHandler : IDisposable, IHasContext
         Enemy.MedicalChest.ResetCooldowns();
         Player.ApplyBattleStartConsumables();
         Enemy.ApplyBattleStartConsumables();
+        ApplyPermanentInstalls(Player);
+        ApplyPermanentInstalls(Enemy);
+    }
+
+    private void ApplyPermanentInstalls(Pawn self)
+    {
+        self.MedicalChest.Prune();
+        var applied = new HashSet<ItemDef>();
+        foreach (var slot in self.MedicalChest.Slots.ToList())
+        {
+            if (!IsBattleStartInstall(slot))
+            {
+                continue;
+            }
+
+            if (applied.Add(slot.Def))
+            {
+                TryFireMedicalSlot(self, slot);
+            }
+
+            MedicalChest.LockForRestOfCombat(slot);
+        }
+    }
+
+    private static bool IsBattleStartInstall(MedicalChestSlot slot)
+    {
+        return slot.IsInfinite && slot.Trigger?.Type == MedicalTriggerType.Immediately;
     }
 
     private void EvaluatePotionTriggers(Pawn self, Pawn enemy)
@@ -415,7 +442,9 @@ public class CombatHandler : IDisposable, IHasContext
         self.MedicalChest.Prune();
         foreach (var slot in self.MedicalChest.Slots.ToList())
         {
-            if (!slot.HasCharge || _encounter.Ticks < slot.NextReadyTick)
+            if (IsBattleStartInstall(slot)
+                || !slot.HasCharge
+                || _encounter.Ticks < slot.NextReadyTick)
             {
                 continue;
             }
@@ -425,35 +454,43 @@ public class CombatHandler : IDisposable, IHasContext
                 continue;
             }
 
-            var item = Context.Factory.CreateEntity<Item>(slot.Def, 1);
-            if (!TryApplyMedical(self, slot, item, out var partLabel, out var partKey))
+            if (!TryFireMedicalSlot(self, slot))
             {
-                item.Destroy();
                 slot.NextReadyTick = _encounter.Ticks + MedicalChest.FailedApplyBackoffInTicks;
-                continue;
             }
-
-            Record(new CombatLogEvent
-            {
-                Kind = CombatEventKind.MedicalUsed,
-                SubjectPawnId = self.Id,
-                SubjectName = self.LabelShort,
-                ItemMoniker = slot.Def.Moniker,
-                ItemLabel = slot.Def.Label,
-                BodyPartKey = partKey,
-                BodyPartLabel = partLabel
-            });
-
-            Context.Achievements.OnItemUsed(self, item);
-            item.Destroy();
-
-            if (!slot.IsInfinite)
-            {
-                slot.Charges--;
-            }
-
-            slot.NextReadyTick = _encounter.Ticks + MedicalChest.CooldownInTicks(slot.Def);
         }
+    }
+
+    private bool TryFireMedicalSlot(Pawn self, MedicalChestSlot slot)
+    {
+        var item = Context.Factory.CreateEntity<Item>(slot.Def, 1);
+        if (!TryApplyMedical(self, slot, item, out var partLabel, out var partKey))
+        {
+            item.Destroy();
+            return false;
+        }
+
+        Record(new CombatLogEvent
+        {
+            Kind = CombatEventKind.MedicalUsed,
+            SubjectPawnId = self.Id,
+            SubjectName = self.LabelShort,
+            ItemMoniker = slot.Def.Moniker,
+            ItemLabel = slot.Def.Label,
+            BodyPartKey = partKey,
+            BodyPartLabel = partLabel
+        });
+
+        Context.Achievements.OnItemUsed(self, item);
+        item.Destroy();
+
+        if (!slot.IsInfinite)
+        {
+            slot.Charges--;
+        }
+
+        slot.NextReadyTick = _encounter.Ticks + MedicalChest.CooldownInTicks(slot.Def);
+        return true;
     }
 
     private bool TryApplyMedical(Pawn self, MedicalChestSlot slot, Item item, out string? partLabel, out string? partKey)

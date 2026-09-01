@@ -1,7 +1,7 @@
 namespace Wendlemire.Sim.Entities.Items.Medicinals;
 
 /// <summary>
-/// Handler for StrengthenBones - increases the max HP of all bones by 3%
+/// Handler for StrengthenBones - increases the max HP of all bones by 40%
 /// and fully heals them, regardless of which part is clicked.
 /// </summary>
 [UsedImplicitly]
@@ -12,7 +12,7 @@ public class StrengthenBonesHandler : MedicinalHandler
         Rng = rng;
     }
 
-    private const double MaxHpIncreasePercent = 0.05; // 5% increase
+    private const double MaxHpIncreasePercent = 0.40; // 40% increase
 
 
     public override bool ApplyToPart(Item item, BodyPart part)
@@ -29,7 +29,7 @@ public class StrengthenBonesHandler : MedicinalHandler
 
         foreach (var bonePart in boneParts)
         {
-            // Increase max HP by 5%
+            // Increase max HP by 40%
             var hpIncrease = bonePart.MaxHitPoints * MaxHpIncreasePercent;
             bonePart.MaxHitPoints += hpIncrease;
 

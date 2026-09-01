@@ -6,11 +6,30 @@ namespace Wendlemire.Scenes.ArenaScene.Gui;
 
 public sealed class ArenaShopScreen : Grid
 {
-    private const int PackWidth = 210;
+    private const int InventoryWidth = 280;
     private const int PortraitSize = 180;
     private const int OfferIconSize = 48;
-    private const int PackIconSize = 36;
+    private const int InventoryIconSize = 32;
     private const int SetIconSize = 16;
+    private const string EquippedGroup = "Equipped";
+    private static readonly string[] InventoryGroupOrder =
+    [
+        "Weapons",
+        "Armor",
+        "Cloaks",
+        "Bags",
+        "Gear",
+        "Potions",
+        "Enchantments",
+        "Food",
+        "Ammo",
+        "Medicine",
+        "Incense",
+        "Trinkets",
+        "Resources",
+        "Supplies",
+        "Other"
+    ];
     private static readonly Color TitleColor = new(214, 208, 196);
     private static readonly Color BodyColor = new(168, 164, 156);
     private static readonly Color ShelfWood = new(58, 28, 20);
@@ -21,7 +40,7 @@ public sealed class ArenaShopScreen : Grid
     private readonly GoldPurse _purse;
     private readonly Label _status;
     private readonly Label _runStats;
-    private readonly VerticalStackPanel _packBody;
+    private readonly VerticalStackPanel _inventoryBody;
     private readonly ScrollViewer _catalog;
     private readonly MerchantDef _merchant;
     private readonly List<(CursorButton Button, Label Price, int Cost)> _buyButtons = [];
@@ -35,10 +54,10 @@ public sealed class ArenaShopScreen : Grid
         HorizontalAlignment = HorizontalAlignment.Stretch;
         VerticalAlignment = VerticalAlignment.Stretch;
         Padding = new Thickness(16, 12);
-        ColumnSpacing = 0;
-        RowSpacing = 10;
+        ColumnSpacing = 12;
+        RowSpacing = 0;
         ColumnsProportions.Add(new Proportion(ProportionType.Fill));
-        RowsProportions.Add(new Proportion(ProportionType.Auto));
+        ColumnsProportions.Add(new Proportion(ProportionType.Auto));
         RowsProportions.Add(new Proportion(ProportionType.Fill));
 
         var run = context.ArenaRun ?? throw new InvalidOperationException("Shop requires an ArenaRun.");
@@ -49,7 +68,7 @@ public sealed class ArenaShopScreen : Grid
         _purse = new GoldPurse(context);
         _status = new Label(BaseContent.Styles.Label.Small)
         {
-            Text = "Buy from the shelves, or sell worn gear and pack items at 1/3 value.",
+            Text = "Buy from the shelves, or sell worn gear and inventory items at 1/3 value.",
             HorizontalAlignment = HorizontalAlignment.Left,
             TextColor = Color.Gray,
             Wrap = true
@@ -125,12 +144,12 @@ public sealed class ArenaShopScreen : Grid
                 ShopStock.OwnedUniqueMonikers(_context.Player)));
         RebuildCatalog();
 
-        _packBody = new VerticalStackPanel
+        _inventoryBody = new VerticalStackPanel
         {
-            Spacing = 6,
+            Spacing = 8,
             HorizontalAlignment = HorizontalAlignment.Stretch
         };
-        RebuildPack();
+        RebuildInventory();
 
         var done = new CursorButton(BaseContent.Styles.Button.LargeGold)
         {
@@ -143,7 +162,7 @@ public sealed class ArenaShopScreen : Grid
         };
         done.Click += (_, _) => onDone();
 
-        var packTitle = new VerticalStackPanel
+        var inventoryTitle = new VerticalStackPanel
         {
             Spacing = 2,
             HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -151,7 +170,7 @@ public sealed class ArenaShopScreen : Grid
             {
                 new Label(BaseContent.Styles.Label.Medium)
                 {
-                    Text = "Your pack",
+                    Text = "Inventory",
                     TextColor = TitleColor
                 },
                 new Label(BaseContent.Styles.Label.Small)
@@ -164,56 +183,53 @@ public sealed class ArenaShopScreen : Grid
         };
         _purse.HorizontalAlignment = HorizontalAlignment.Stretch;
 
-        var packScroll = new TooltipAwareScrollViewer
+        var inventoryScroll = new TooltipAwareScrollViewer
         {
             ShowHorizontalScrollBar = false,
             ShowVerticalScrollBar = true,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Stretch,
-            Content = _packBody
+            Content = _inventoryBody
         };
-
-        var packPanel = new Grid
-        {
-            Width = PackWidth,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalAlignment = VerticalAlignment.Stretch,
-            RowSpacing = 8
-        };
-        packPanel.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
-        packPanel.RowsProportions.Add(new Proportion(ProportionType.Auto));
-        packPanel.RowsProportions.Add(new Proportion(ProportionType.Auto));
-        packPanel.RowsProportions.Add(new Proportion(ProportionType.Fill));
-        packPanel.RowsProportions.Add(new Proportion(ProportionType.Auto));
-        packPanel.Widgets.Add(packTitle);
-        packPanel.Widgets.Add(_purse);
-        Grid.SetRow(_purse, 1);
-        packPanel.Widgets.Add(packScroll);
-        Grid.SetRow(packScroll, 2);
-        packPanel.Widgets.Add(done);
-        Grid.SetRow(done, 3);
 
         var shopBody = new Grid
         {
-            ColumnSpacing = 12,
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalAlignment = VerticalAlignment.Stretch
+            VerticalAlignment = VerticalAlignment.Stretch,
+            RowSpacing = 10
         };
         shopBody.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
-        shopBody.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        shopBody.RowsProportions.Add(new Proportion(ProportionType.Auto));
         shopBody.RowsProportions.Add(new Proportion(ProportionType.Fill));
+        shopBody.Widgets.Add(header);
         shopBody.Widgets.Add(_catalog);
-        shopBody.Widgets.Add(packPanel);
-        Grid.SetColumn(packPanel, 1);
+        Grid.SetRow(_catalog, 1);
 
-        Add(header, 0);
-        Add(shopBody, 1);
-    }
+        var inventoryPanel = new Grid
+        {
+            Width = InventoryWidth,
+            Padding = new Thickness(12),
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
+            RowSpacing = 8
+        };
+        inventoryPanel.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
+        inventoryPanel.RowsProportions.Add(new Proportion(ProportionType.Auto));
+        inventoryPanel.RowsProportions.Add(new Proportion(ProportionType.Auto));
+        inventoryPanel.RowsProportions.Add(new Proportion(ProportionType.Fill));
+        inventoryPanel.RowsProportions.Add(new Proportion(ProportionType.Auto));
+        inventoryPanel.Widgets.Add(inventoryTitle);
+        inventoryPanel.Widgets.Add(_purse);
+        Grid.SetRow(_purse, 1);
+        inventoryPanel.Widgets.Add(inventoryScroll);
+        Grid.SetRow(inventoryScroll, 2);
+        inventoryPanel.Widgets.Add(done);
+        Grid.SetRow(done, 3);
 
-    private void Add(Widget widget, int row)
-    {
-        Widgets.Add(widget);
-        Grid.SetRow(widget, row);
+        Widgets.Add(shopBody);
+        Widgets.Add(inventoryPanel);
+        Grid.SetColumn(inventoryPanel, 1);
     }
 
     private Widget CreatePortrait(MerchantDef merchant)
@@ -587,55 +603,122 @@ public sealed class ArenaShopScreen : Grid
         return row;
     }
 
-    private Widget CreateSellCard(Item item, bool equipped)
+    private Widget CreateSellRow(Item item)
     {
         var payout = ShopCatalog.GetSellPrice(item.ItemDef);
-        var sell = new CursorButton(BaseContent.Styles.Button.Small)
+        var icon = new Panel
         {
-            Content = new Label(BaseContent.Styles.Label.Small)
+            Width = InventoryIconSize + 6,
+            Height = InventoryIconSize + 6,
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
+            VerticalAlignment = VerticalAlignment.Center,
+            Widgets =
             {
-                Text = $"{payout}g",
-                HorizontalAlignment = HorizontalAlignment.Center
-            },
-            HorizontalAlignment = HorizontalAlignment.Stretch
+                new Image
+                {
+                    Background = item.GetIconImage(),
+                    Width = InventoryIconSize,
+                    Height = InventoryIconSize,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center
+                }
+            }
         };
-        sell.Click += (_, _) => TrySell(item);
-        sell.WithTooltip(() => CreateEntityInspect(item));
-
-        var card = new VerticalStackPanel
-        {
-            Spacing = 2,
-            Padding = new Thickness(8),
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.SmallFrame]
-        };
-        card.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+        var name = new Label(BaseContent.Styles.Label.Small)
         {
             Text = item.LabelWithStackSize,
             TextColor = TitleColor,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            Wrap = true
-        });
-        if (equipped)
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        var price = new Label(BaseContent.Styles.Label.Small)
         {
-            card.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            Text = $"{payout}g",
+            TextColor = Color.Goldenrod,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+
+        var body = new Grid
+        {
+            ColumnSpacing = 8,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        body.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        body.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
+        body.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        body.Widgets.Add(icon);
+        body.Widgets.Add(name);
+        Grid.SetColumn(name, 1);
+        body.Widgets.Add(price);
+        Grid.SetColumn(price, 2);
+
+        var row = new CursorButton(BaseContent.Styles.Button.Dark)
+        {
+            Content = body,
+            Padding = new Thickness(6, 4, 8, 4),
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        };
+        row.Click += (_, _) => TrySell(item);
+        return row.WithTooltip(() => CreateEntityInspect(item));
+    }
+
+    private Widget CreateInventoryGroup(string title, IReadOnlyList<Item> items, bool equipped)
+    {
+        var group = new VerticalStackPanel
+        {
+            Spacing = 3,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Widgets =
             {
-                Text = "worn",
-                TextColor = Color.Gray,
-                HorizontalAlignment = HorizontalAlignment.Center
-            });
+                new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = title,
+                    TextColor = equipped ? Color.Goldenrod : TitleColor
+                }
+            }
+        };
+        foreach (var item in items)
+        {
+            group.Widgets.Add(CreateSellRow(item));
         }
 
-        card.Widgets.Add(new Image
+        return group;
+    }
+
+    private static string InventoryGroup(Item item)
+    {
+        var def = item.ItemDef;
+        if (def.AmmoProperties != null && def.ItemType is ItemType.Supplies or ItemType.Resource)
         {
-            Background = item.GetIconImage(),
-            Width = PackIconSize,
-            Height = PackIconSize,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            Margin = new Thickness(6)
-        });
-        card.Widgets.Add(sell);
-        return card.WithTooltip(() => CreateEntityInspect(item));
+            return "Ammo";
+        }
+
+        return def.ItemType switch
+        {
+            ItemType.Food => "Food",
+            ItemType.Potion => "Potions",
+            ItemType.Medical => "Medicine",
+            ItemType.Incense => "Incense",
+            ItemType.Trinket => "Trinkets",
+            ItemType.Enchantment => "Enchantments",
+            ItemType.Equipment => def.EquipmentProperties?.EquipmentType switch
+            {
+                EquipmentType.Weapon => "Weapons",
+                EquipmentType.Armor when def.EquipmentProperties.SlotUsedToEquip == EquipmentSlotType.Cloak => "Cloaks",
+                EquipmentType.Armor => "Armor",
+                EquipmentType.Bag => "Bags",
+                _ => "Gear"
+            },
+            ItemType.Resource => "Resources",
+            ItemType.Supplies => "Supplies",
+            _ => "Other"
+        };
+    }
+
+    private static int InventoryGroupSort(string group)
+    {
+        var index = Array.IndexOf(InventoryGroupOrder, group);
+        return index < 0 ? InventoryGroupOrder.Length : index;
     }
 
     private Widget CreateOfferInspect(MerchantOffer offer)
@@ -730,13 +813,13 @@ public sealed class ArenaShopScreen : Grid
         RebuildCatalog();
     }
 
-    private void RebuildPack()
+    private void RebuildInventory()
     {
-        _packBody.Widgets.Clear();
+        _inventoryBody.Widgets.Clear();
         var items = ShopPack.SellableItems(_context.PlayerPawn).ToList();
         if (items.Count == 0)
         {
-            _packBody.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            _inventoryBody.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
             {
                 Text = "Nothing to sell",
                 TextColor = Color.Gray,
@@ -745,9 +828,18 @@ public sealed class ArenaShopScreen : Grid
             return;
         }
 
-        foreach (var (item, equipped) in items)
+        foreach (var group in items
+                     .Where(entry => !entry.Equipped)
+                     .GroupBy(entry => InventoryGroup(entry.Item))
+                     .OrderBy(group => InventoryGroupSort(group.Key)))
         {
-            _packBody.Widgets.Add(CreateSellCard(item, equipped));
+            _inventoryBody.Widgets.Add(CreateInventoryGroup(group.Key, group.Select(entry => entry.Item).ToList(), equipped: false));
+        }
+
+        var equipped = items.Where(entry => entry.Equipped).Select(entry => entry.Item).ToList();
+        if (equipped.Count > 0)
+        {
+            _inventoryBody.Widgets.Add(CreateInventoryGroup(EquippedGroup, equipped, equipped: true));
         }
     }
 
@@ -770,7 +862,7 @@ public sealed class ArenaShopScreen : Grid
                 RebuildCatalog();
             }
 
-            RebuildPack();
+            RebuildInventory();
             return;
         }
 
@@ -792,7 +884,7 @@ public sealed class ArenaShopScreen : Grid
             _purse.Refresh();
             _stock = ShopStock.Restore(_merchant, run.ShopShelves);
             RebuildCatalog();
-            RebuildPack();
+            RebuildInventory();
             return;
         }
 
@@ -808,7 +900,7 @@ public sealed class ArenaShopScreen : Grid
             _status.TextColor = Color.LightGreen;
             _status.Text = $"Sold {label}";
             _purse.Refresh();
-            RebuildPack();
+            RebuildInventory();
             RefreshAffordability();
             return;
         }

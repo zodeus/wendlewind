@@ -267,8 +267,20 @@ internal sealed class PrepItemButton : CursorButton
             }
         };
 
-        this.WithDynamicTooltip(() => _item.Label, () => _tooltip(_item));
+        this.WithDynamicTooltip(() => _item.Label, () => FormatTooltip(_item));
         Refresh();
+    }
+
+    private string FormatTooltip(Item item)
+    {
+        var hint = _tooltip(item);
+        var description = item.Def.Description;
+        if (string.IsNullOrWhiteSpace(description) || description == "undefined")
+        {
+            return hint;
+        }
+
+        return string.IsNullOrWhiteSpace(hint) ? description : $"{description}\n\n{hint}";
     }
 
     public void Refresh()

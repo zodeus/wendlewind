@@ -49,6 +49,16 @@ public class MerchantOffer
             ? [ItemDef]
             : [];
 
+    public static int StockFor(ItemDef? def)
+    {
+        if (MedicalChest.IsInfiniteUse(def))
+        {
+            return 1;
+        }
+
+        return def is { ItemType: ItemType.Medical } ? MedicalStock : 1;
+    }
+
     public MerchantOffer CloneForStock()
     {
         return new MerchantOffer
@@ -59,7 +69,7 @@ public class MerchantOffer
             GoldCost = GoldCost,
             AvailableFromRound = AvailableFromRound,
             Weight = Weight,
-            Available = ItemDef is { ItemType: ItemType.Medical } ? MedicalStock : 1
+            Available = StockFor(ItemDef)
         };
     }
 }

@@ -229,7 +229,7 @@
             <NutritionalValue>.05</NutritionalValue>
         </BaseStats>
     </ItemDef>
-    <ItemDef ParentName="OrganicResource">
+    <ItemDef ParentName="Food">
         <Moniker>HoneyPot</Moniker>
         <Label>Honey Pot</Label>
         <Description>A pot filled with honey. Sweet, sticky, and it toughens the body.</Description>

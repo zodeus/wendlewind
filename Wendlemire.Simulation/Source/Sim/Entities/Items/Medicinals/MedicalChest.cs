@@ -32,6 +32,7 @@ public class MedicalChest : IExposable
     public const int DefaultCapacity = MaxSlots;
     public const int DefaultCooldownInTicks = 180;
     public const int FailedApplyBackoffInTicks = 30;
+    public const int LockedUntilCombatEndTick = int.MaxValue;
 
     public int Capacity = DefaultCapacity;
     private Pawn _pawn = null!;
@@ -188,6 +189,16 @@ public class MedicalChest : IExposable
         {
             slot.NextReadyTick = 0;
         }
+    }
+
+    public static bool IsLockedForRestOfCombat(MedicalChestSlot slot)
+    {
+        return slot.NextReadyTick == LockedUntilCombatEndTick;
+    }
+
+    public static void LockForRestOfCombat(MedicalChestSlot slot)
+    {
+        slot.NextReadyTick = LockedUntilCombatEndTick;
     }
 
     public void EnsureCapacity(int needed)

@@ -170,6 +170,17 @@
     </AchievementDef>
 
     <AchievementDef>
+        <Moniker>WiredBlood</Moniker>
+        <Label>Wired Blood</Label>
+        <Description>Use Cyberveins</Description>
+        <BenifitDescription>Unlocks one medical chest slot</BenifitDescription>
+        <Category>Consumables</Category>
+        <ItemUsedDef>Cyberveins</ItemUsedDef>
+        <TargetValue>5</TargetValue>
+        <HandlerClass>MedicalChestSlotHandler</HandlerClass>
+    </AchievementDef>
+
+    <AchievementDef>
         <Moniker>Ironbrand</Moniker>
         <Label>Ironbrand</Label>
         <Description>Cauterize a severed part</Description>

@@ -136,9 +136,17 @@ public class ArenaRunTests
         {
             ItemDef = DefRepository<ItemDef>.GetByMoniker("MedKit")!
         }.CloneForStock().Available);
-        Assert.Equal(MerchantOffer.MedicalStock, new MerchantOffer
+        Assert.Equal(1, new MerchantOffer
         {
             ItemDef = DefRepository<ItemDef>.GetByMoniker("Cauterize")!
+        }.CloneForStock().Available);
+        Assert.Equal(1, new MerchantOffer
+        {
+            ItemDef = DefRepository<ItemDef>.GetByMoniker("StrengthenBones")!
+        }.CloneForStock().Available);
+        Assert.Equal(1, new MerchantOffer
+        {
+            ItemDef = DefRepository<ItemDef>.GetByMoniker("Cyberveins")!
         }.CloneForStock().Available);
         Assert.Equal(1, new MerchantOffer
         {

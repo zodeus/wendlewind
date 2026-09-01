@@ -248,7 +248,9 @@ internal sealed class MedicalSlotView : Panel
         _chargeLabel.Text = ChargeText(ChestSlot);
 
         var empty = !ChestSlot.HasCharge;
-        var remainingTicks = ChestSlot.NextReadyTick - tick;
+        var remainingTicks = MedicalChest.IsLockedForRestOfCombat(ChestSlot)
+            ? 0
+            : ChestSlot.NextReadyTick - tick;
         var cooling = remainingTicks > 0;
         var muted = empty || cooling;
 

@@ -71,6 +71,10 @@
                         <ItemDef>StrengthenBones</ItemDef>
                         <AvailableFromRound>4</AvailableFromRound>
                     </ListItem>
+                    <ListItem>
+                        <ItemDef>Cyberveins</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
+                    </ListItem>
                 </Offers>
             </ListItem>
             <ListItem>

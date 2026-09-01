@@ -9,52 +9,194 @@
         <TexturePath>Entities/Pawn/Portrait/Merchants/Ranger</TexturePath>
         <Shelves>
             <ListItem>
-                <Category>Food</Category>
+                <Category>Weapons</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
                 <StockSize>6</StockSize>
                 <Offers>
                     <ListItem>
-                        <ItemDef>DriedMeat</ItemDef>
+                        <ItemDef>IronSword</ItemDef>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>CookedMeat</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
+                        <ItemDef>IronAxe</ItemDef>
                     </ListItem>
+                    <ListItem>
+                        <ItemDef>IronHammer</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>IronMace</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>IronDagger</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>IronClaws</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>FireStaff</ItemDef>
+                        <AvailableFromRound>4</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>BoneSpear</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>StoneHammer</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>BoneAxe</ItemDef>
+                    </ListItem>
+                </Offers>
+            </ListItem>
+            <ListItem>
+                <Category>Potions</Category>
+                <Columns>6</Columns>
+                <ItemColumns>1</ItemColumns>
+                <StockSize>1</StockSize>
+                <Offers>
+                    <ListItem>
+                        <ItemDef>JarOfBlood</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>AcidFlask</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>HealingPotion</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>StrengthPotion</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>BlackenedSmoke</ItemDef>
+                        <AvailableFromRound>5</AvailableFromRound>
+                    </ListItem>
+                </Offers>
+            </ListItem>
+            <ListItem>
+                <Category>Armor</Category>
+                <Columns>6</Columns>
+                <ItemColumns>1</ItemColumns>
+                <StockSize>6</StockSize>
+                <Offers>
+                    <ListItem>
+                        <SetLabel>Leather Set</SetLabel>
+                        <SetPieces>
+                            <ListItem>LeatherHelmet</ListItem>
+                            <ListItem>LeatherGorget</ListItem>
+                            <ListItem>LeatherTunic</ListItem>
+                            <ListItem>LeatherGlove</ListItem>
+                            <ListItem>LeatherGlove</ListItem>
+                            <ListItem>LeatherVambrace</ListItem>
+                            <ListItem>LeatherVambrace</ListItem>
+                            <ListItem>LeatherGreave</ListItem>
+                            <ListItem>LeatherGreave</ListItem>
+                            <ListItem>LeatherBoot</ListItem>
+                            <ListItem>LeatherBoot</ListItem>
+                        </SetPieces>
+                    </ListItem>
+                    <ListItem>
+                        <SetLabel>Witch's Set</SetLabel>
+                        <AvailableFromRound>5</AvailableFromRound>
+                        <SetPieces>
+                            <ListItem>WitchDoctorHelmet</ListItem>
+                            <ListItem>WitchDoctorGorget</ListItem>
+                            <ListItem>WitchDoctorTunic</ListItem>
+                            <ListItem>WitchDoctorGlove</ListItem>
+                            <ListItem>WitchDoctorGlove</ListItem>
+                            <ListItem>WitchDoctorVambrace</ListItem>
+                            <ListItem>WitchDoctorVambrace</ListItem>
+                            <ListItem>WitchDoctorGreave</ListItem>
+                            <ListItem>WitchDoctorGreave</ListItem>
+                            <ListItem>WitchDoctorBoot</ListItem>
+                            <ListItem>WitchDoctorBoot</ListItem>
+                        </SetPieces>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>LeatherHelmet</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>LeatherGorget</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>LeatherTunic</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>LeatherGlove</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>LeatherVambrace</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>LeatherGreave</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>LeatherBoot</ItemDef>
+                    </ListItem>
+                </Offers>
+            </ListItem>
+            <ListItem>
+                <Category>Medicine</Category>
+                <Columns>6</Columns>
+                <ItemColumns>1</ItemColumns>
+                <StockSize>1</StockSize>
+                <Offers>
+                    <ListItem>
+                        <ItemDef>MedKit</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>Suture</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>MendersMist</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>Cyberveins</ItemDef>
+                        <AvailableFromRound>5</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>MendersMix</ItemDef>
+                        <AvailableFromRound>5</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>BalmyOintment</ItemDef>
+                    </ListItem>
+                </Offers>
+            </ListItem>
+            <ListItem>
+                <Category>Food</Category>
+                <Columns>6</Columns>
+                <ItemColumns>1</ItemColumns>
+                <StockSize>4</StockSize>
+                <Offers>
                     <ListItem>
                         <ItemDef>CookedFish</ItemDef>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>HeartyStew</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>Walnut</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>HoneyPot</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>GoldCapMushroom</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>InkyCapMushroom</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
+                        <ItemDef>CookedMeat</ItemDef>
                     </ListItem>
                     <ListItem>
                         <ItemDef>CookedCorn</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>DriedMeat</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>HeartyStew</ItemDef>
                     </ListItem>
                     <ListItem>
                         <ItemDef>WondrousJam</ItemDef>
                         <AvailableFromRound>4</AvailableFromRound>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>RawMeat</ItemDef>
+                        <ItemDef>Walnut</ItemDef>
+                        <AvailableFromRound>4</AvailableFromRound>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>RawGrain</ItemDef>
+                        <ItemDef>GoldCapMushroom</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>InkyCapMushroom</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
                     </ListItem>
                 </Offers>
             </ListItem>
@@ -105,6 +247,10 @@
                     <ListItem>
                         <ItemDef>StrengthenBones</ItemDef>
                         <AvailableFromRound>2</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>Cyberveins</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>MendersMist</ItemDef>
