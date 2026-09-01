@@ -78,6 +78,9 @@ public static class AdminEndpoints
             return revoked is null ? Results.NotFound() : Results.Ok(revoked);
         });
 
+        api.MapDelete("/codes/{id}", (string id) =>
+            codes.Delete(id) ? Results.NoContent() : Results.NotFound());
+
         api.MapGet("/players", () => Results.Ok(players.ListPlayers()));
 
         api.MapGet("/players/{playerId}", (string playerId) =>

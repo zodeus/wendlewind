@@ -55,6 +55,43 @@ public class ActivationCodeStoreTests
     }
 
     [Fact]
+    public void DeletesOnlyRevokedCodes()
+    {
+        var dir = Path.Combine(Path.GetTempPath(), $"ww-codes-{Guid.NewGuid():N}");
+        try
+        {
+            var store = new ActivationCodeStore(dir);
+            var created = store.Generate(3, "cleanup");
+            var unused = created[0];
+            var redeemed = store.TryRedeem(created[1].Code);
+            Assert.NotNull(redeemed);
+            var revoked = store.Revoke(created[2].Id);
+            Assert.NotNull(revoked);
+
+            Assert.False(store.Delete(unused.Id));
+            Assert.False(store.Delete(redeemed.Id));
+            Assert.False(store.Delete("missing"));
+            Assert.True(store.Delete(revoked.Id));
+            Assert.False(store.Delete(revoked.Id));
+
+            var remaining = store.List();
+            Assert.Equal(2, remaining.Count);
+            Assert.DoesNotContain(remaining, code => code.Id == revoked.Id);
+
+            var reloaded = new ActivationCodeStore(dir);
+            Assert.Equal(2, reloaded.List().Count);
+            Assert.DoesNotContain(reloaded.List(), code => code.Id == revoked.Id);
+        }
+        finally
+        {
+            if (Directory.Exists(dir))
+            {
+                Directory.Delete(dir, true);
+            }
+        }
+    }
+
+    [Fact]
     public void RejectsUnknownAndEmptyCodes()
     {
         var dir = Path.Combine(Path.GetTempPath(), $"ww-codes-{Guid.NewGuid():N}");

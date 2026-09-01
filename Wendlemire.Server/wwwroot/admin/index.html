@@ -962,7 +962,9 @@
                   <td>${codeStatus(code)}</td>
                   <td>
                     <button type="button" class="small" data-copy="${esc(code.code)}">Copy</button>
-                    ${code.revokedAt ? "" : `<button type="button" class="danger small" data-revoke="${esc(code.id)}">Revoke</button>`}
+                    ${code.revokedAt
+                      ? `<button type="button" class="danger small" data-delete-code="${esc(code.id)}">Delete</button>`
+                      : `<button type="button" class="danger small" data-revoke="${esc(code.id)}">Revoke</button>`}
                   </td>
                 </tr>`).join("")}
             </tbody>
@@ -1010,6 +1012,24 @@
       }
     }
 
+    async function deleteCode(id) {
+      if (!confirm("Delete this revoked code? This cannot be undone.")) {
+        return;
+      }
+      try {
+        await api("/codes/" + encodeURIComponent(id), { method: "DELETE" });
+        if (state.cache.createdCodes) {
+          state.cache.createdCodes = state.cache.createdCodes.filter((code) => code.id !== id);
+        }
+        delete state.cache.overview;
+        const data = await api("/codes");
+        state.cache.codes = data;
+        paint(() => codesView(data, state.cache.createdCodes));
+      } catch (error) {
+        paint(() => `<p class="error">${esc(error.message)}</p>`);
+      }
+    }
+
     function bindCodes() {
       const form = document.getElementById("generate-codes");
       if (form) form.addEventListener("submit", generateCodes);
@@ -1017,6 +1037,12 @@
         el.addEventListener("click", (event) => {
           event.preventDefault();
           revokeCode(el.getAttribute("data-revoke"));
+        });
+      });
+      document.querySelectorAll("[data-delete-code]").forEach((el) => {
+        el.addEventListener("click", (event) => {
+          event.preventDefault();
+          deleteCode(el.getAttribute("data-delete-code"));
         });
       });
       document.querySelectorAll("[data-copy]").forEach((el) => {

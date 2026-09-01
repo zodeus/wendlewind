@@ -142,6 +142,27 @@ public sealed class ActivationCodeStore
         }
     }
 
+    public bool Delete(string id)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+        {
+            return false;
+        }
+
+        lock (_gate)
+        {
+            var index = _codes.FindIndex(item => item.Id == id);
+            if (index < 0 || _codes[index].RevokedAt == null)
+            {
+                return false;
+            }
+
+            _codes.RemoveAt(index);
+            PersistUnlocked();
+            return true;
+        }
+    }
+
     public string IssueSession(string codeId)
     {
         var issued = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
