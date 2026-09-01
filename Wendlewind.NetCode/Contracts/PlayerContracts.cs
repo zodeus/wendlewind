@@ -7,6 +7,10 @@ public sealed record PlayerProfileRecord
     public required string PlayerId { get; init; }
     public string DisplayName { get; init; } = "Bilbert";
     public string Username { get; init; } = "";
+    public int Rating { get; init; }
+    public int RatedRuns { get; init; }
+    public int PeakRating { get; init; }
+    public int? LegendNumber { get; init; }
     public DateTimeOffset CreatedAt { get; init; }
     public DateTimeOffset UpdatedAt { get; init; }
 }
@@ -89,6 +93,10 @@ public sealed record ArenaRunRecord
     public int Wins { get; init; }
     public int Losses { get; init; }
     public int FinalGold { get; init; }
+    public int? RatingBefore { get; init; }
+    public int? RatingAfter { get; init; }
+    public int? RatingDelta { get; init; }
+    public bool RankApplied { get; init; }
     public List<ArenaFightRecord> Fights { get; init; } = [];
 }
 
@@ -198,6 +206,8 @@ public sealed record AdminPlayerRow
     public int? ActiveWins { get; init; }
     public int? ActiveLosses { get; init; }
     public int? ActiveGold { get; init; }
+    public int Rating { get; init; }
+    public int RatedRuns { get; init; }
     public DateTimeOffset? LastPlayedAt { get; init; }
 }
 

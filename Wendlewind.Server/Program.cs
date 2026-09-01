@@ -84,7 +84,7 @@ app.MapPost("/matches", (MatchRequest request) =>
     var round = BuildPool.ResolveRound(request.Attacker);
     var attacker = request.Attacker.Round > 0 ? request.Attacker : request.Attacker with { Round = round };
     var defender = request.Defender
-                   ?? pool.PickOpponent(round, attacker.PlayerId)
+                   ?? pool.PickOpponent(round, attacker.PlayerId, attacker.Rating)
                    ?? BuildPool.MirrorOf(attacker);
     if (string.Equals(defender.PlayerId, attacker.PlayerId, StringComparison.Ordinal)
         || string.Equals(defender.PlayerId, $"mirror:{attacker.PlayerId}", StringComparison.Ordinal))

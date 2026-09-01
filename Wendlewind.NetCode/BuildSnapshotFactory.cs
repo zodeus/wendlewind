@@ -11,7 +11,7 @@ namespace Wendlewind.NetCode;
 
 public static class BuildSnapshotFactory
 {
-    public static BuildSnapshot ToSnapshot(Pawn pawn, string playerId, string buildId, int seed = 0, int round = 0)
+    public static BuildSnapshot ToSnapshot(Pawn pawn, string playerId, string buildId, int seed = 0, int round = 0, int rating = 0)
     {
         var equipment = pawn.Equipment
             .Where(i => i.ItemDef.EquipmentProperties?.SlotUsedToEquip != EquipmentSlotType.BuiltIn)
@@ -28,6 +28,7 @@ public static class BuildSnapshotFactory
             PawnName = pawn.Biography.Name,
             SubmittedAt = DateTimeOffset.UtcNow,
             Round = round,
+            Rating = rating,
             StanceMoniker = pawn.Body.Stance?.Moniker,
             Weapons = pawn.Equipment.Weapons
                 .Select(w => new WeaponConfig

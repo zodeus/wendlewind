@@ -345,6 +345,79 @@ public class PlayerStoreTests
         }
     }
 
+    [Fact]
+    public void FinishedRunWithRealOpponentChangesRating()
+    {
+        var dir = Path.Combine(Path.GetTempPath(), $"ww-data-{Guid.NewGuid():N}");
+        try
+        {
+            var store = new PlayerStore(dir);
+            var started = store.StartArena("alice", "Alice", 1);
+            Assert.Equal(ArenaRank.StartingRating, store.GetProfile("alice")!.Rating);
+
+            store.SaveCurrentArena(started with { Wins = 7, Losses = 5 });
+            store.AppendFight("alice", new ArenaFightRecord
+            {
+                MatchId = "rank-fight",
+                Round = 1,
+                Attacker = BuildTemplates.TankRegen() with { PlayerId = "alice" },
+                Defender = BuildTemplates.AcidRusher() with { PlayerId = "bob" },
+                EncounterSeed = 1,
+                WinnerPlayerId = "alice",
+                Ticks = 1800,
+                FoughtAt = DateTimeOffset.UtcNow
+            });
+
+            var finished = store.FinishCurrent("alice", victory: false);
+            Assert.True(finished!.RankApplied);
+            Assert.Equal(ArenaRank.StartingRating, finished.RatingBefore);
+            Assert.True(finished.RatingAfter > ArenaRank.StartingRating);
+            Assert.Equal(finished.RatingAfter, store.GetProfile("alice")!.Rating);
+            Assert.Equal(1, store.GetProfile("alice")!.RatedRuns);
+        }
+        finally
+        {
+            Directory.Delete(dir, true);
+        }
+    }
+
+    [Fact]
+    public void AbandonedAndMirrorRunsDoNotChangeRating()
+    {
+        var dir = Path.Combine(Path.GetTempPath(), $"ww-data-{Guid.NewGuid():N}");
+        try
+        {
+            var store = new PlayerStore(dir);
+            store.StartArena("alice", "Alice", 1);
+            store.StartArena("alice", "Alice", 1);
+            Assert.Equal(ArenaRank.StartingRating, store.GetProfile("alice")!.Rating);
+            Assert.Equal(0, store.GetProfile("alice")!.RatedRuns);
+
+            var mirror = store.StartArena("alice", "Alice", 2);
+            store.SaveCurrentArena(mirror with { Wins = 10, Losses = 0 });
+            store.AppendFight("alice", new ArenaFightRecord
+            {
+                MatchId = "mirror-fight",
+                Round = 1,
+                Attacker = BuildTemplates.TankRegen() with { PlayerId = "alice" },
+                Defender = BuildTemplates.TankRegen() with { PlayerId = "mirror:alice" },
+                EncounterSeed = 1,
+                WinnerPlayerId = "alice",
+                Ticks = 1800,
+                FoughtAt = DateTimeOffset.UtcNow
+            });
+
+            var finished = store.FinishCurrent("alice", victory: true);
+            Assert.False(finished!.RankApplied);
+            Assert.Equal(ArenaRank.StartingRating, store.GetProfile("alice")!.Rating);
+            Assert.Equal(0, store.GetProfile("alice")!.RatedRuns);
+        }
+        finally
+        {
+            Directory.Delete(dir, true);
+        }
+    }
+
     private static void AppendAnalyzedFight(
         PlayerStore store,
         string matchId,

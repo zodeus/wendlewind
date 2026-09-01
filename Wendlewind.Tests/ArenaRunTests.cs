@@ -561,6 +561,19 @@ public class ArenaRunTests
     }
 
     [Fact]
+    public void BuildPoolPrefersNearbyRatingThenWidens()
+    {
+        var pool = new BuildPool();
+        pool.Upsert(BuildTemplates.TankRegen() with { PlayerId = "near", Round = 1, Rating = 820 });
+        pool.Upsert(BuildTemplates.AcidRusher() with { PlayerId = "far", Round = 1, Rating = 1600 });
+
+        for (var i = 0; i < 20; i++)
+        {
+            Assert.Equal("near", pool.PickOpponent(1, "alice", attackerRating: 800)!.PlayerId);
+        }
+    }
+
+    [Fact]
     public void BuildPoolMatchesOnlyTheSameRound()
     {
         var pool = new BuildPool();

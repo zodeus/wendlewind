@@ -93,7 +93,19 @@ public sealed class ArenaMatchClient : IDisposable
         EnsureSuccess(response, "Save arena");
     }
 
-    public async Task FinishArena(string playerId, bool? victory = null)
+    public async Task<PlayerProfileRecord?> GetProfile(string playerId)
+    {
+        var response = await _http.GetAsync($"players/{playerId}");
+        if (response.StatusCode == HttpStatusCode.NotFound)
+        {
+            return null;
+        }
+
+        EnsureSuccess(response, "Get profile");
+        return await Read(response, NetCodeJsonContext.Default.PlayerProfileRecord);
+    }
+
+    public async Task<ArenaRunRecord?> FinishArena(string playerId, bool? victory = null)
     {
         var path = victory == null
             ? $"players/{playerId}/arena"
@@ -101,10 +113,11 @@ public sealed class ArenaMatchClient : IDisposable
         var response = await _http.DeleteAsync(path);
         if (response.StatusCode == HttpStatusCode.NotFound)
         {
-            return;
+            return null;
         }
 
         EnsureSuccess(response, "Finish arena");
+        return await Read(response, NetCodeJsonContext.Default.ArenaRunRecord);
     }
 
     public async Task<AchievementState> GetAchievements(string playerId)

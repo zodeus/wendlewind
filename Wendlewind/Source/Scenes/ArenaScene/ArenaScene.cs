@@ -29,6 +29,8 @@ public sealed class ArenaScene : Scene
     private float _autosaveTimer;
 
     public string? MatchError { get; private set; }
+    public ArenaRankDisplay CurrentRank { get; private set; } = ArenaRank.FromRating(ArenaRank.StartingRating, 0);
+    public ArenaRunRecord? LastFinishedRun { get; private set; }
 
     protected override void OnStart()
     {
@@ -141,7 +143,8 @@ public sealed class ArenaScene : Scene
             _context.ArenaRun.PlayerId,
             buildId: $"arena-{round}",
             seed: _context.RunSeed,
-            round: round);
+            round: round,
+            rating: CurrentRank.Rating);
         _context.ArenaRun.SetPhase(ArenaPhase.Matching);
         var snapshot = _lastPrepSnapshot;
         _matchTask = Task.Run(() => RequestMatch(snapshot));
@@ -177,13 +180,12 @@ public sealed class ArenaScene : Scene
         BuildSnapshotFactory.Apply(_context.PlayerPawn, _lastPrepSnapshot);
         EnsureZoneShell();
         run.ApplyMatchResult(serverWon, _pendingResult.DefenderPlayerId ?? "unknown");
+        SaveRun();
         if (run.IsRunOver)
         {
             FinishOnServer(run.IsVictory);
-            return;
+            _gui = RecreateGui();
         }
-
-        SaveRun();
     }
 
     public void ContinueFromResults()
@@ -196,8 +198,9 @@ public sealed class ArenaScene : Scene
 
         if (run.IsRunOver)
         {
-            run.SetPhase(ArenaPhase.RunEnd);
+            SaveRun();
             FinishOnServer(run.IsVictory);
+            run.SetPhase(ArenaPhase.RunEnd);
             return;
         }
 
@@ -335,7 +338,8 @@ public sealed class ArenaScene : Scene
             _context.ArenaRun.PlayerId,
             buildId: $"arena-{Math.Max(1, _context.ArenaRun.FightsPlayed)}",
             seed: _context.RunSeed,
-            round: Math.Max(1, _context.ArenaRun.FightsPlayed));
+            round: Math.Max(1, _context.ArenaRun.FightsPlayed),
+            rating: CurrentRank.Rating);
         var progress = ArenaProgressMapper.FromRun(_context.ArenaRun, loadout, _runId, _runStartedAt);
         TryGet(() =>
         {
@@ -347,12 +351,17 @@ public sealed class ArenaScene : Scene
 
     private void FinishOnServer(bool victory)
     {
-        TryGet(() =>
+        var finished = TryGet(() =>
         {
-            _client!.FinishArena(_profile.PlayerId, victory).GetAwaiter().GetResult();
+            var run = _client!.FinishArena(_profile.PlayerId, victory).GetAwaiter().GetResult();
             _client.SaveAchievements(_profile.PlayerId, ExportAchievements()).GetAwaiter().GetResult();
-            return true;
+            RefreshRank();
+            return run;
         });
+        if (finished != null)
+        {
+            LastFinishedRun = finished;
+        }
     }
 
     private void RestoreProgress(ArenaProgressRecord current)
@@ -384,6 +393,19 @@ public sealed class ArenaScene : Scene
         {
             _profile.DisplayName = remote.DisplayName;
         }
+
+        RefreshRank();
+    }
+
+    private void RefreshRank()
+    {
+        var remote = TryGet(() => _client!.GetProfile(_profile.PlayerId).GetAwaiter().GetResult());
+        if (remote == null)
+        {
+            return;
+        }
+
+        CurrentRank = ArenaRank.FromRating(remote.Rating, remote.RatedRuns, remote.LegendNumber);
     }
 
     private void ApplyServerAchievements()

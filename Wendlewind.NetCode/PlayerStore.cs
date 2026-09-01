@@ -29,7 +29,8 @@ public sealed class PlayerStore
     {
         lock (_gate)
         {
-            return TryRead(ProfilePath(playerId), NetCodeJsonContext.Default.PlayerProfileRecord);
+            var profile = TryRead(ProfilePath(playerId), NetCodeJsonContext.Default.PlayerProfileRecord);
+            return profile == null ? null : WithLegendUnlocked(NormalizeProfile(profile));
         }
     }
 
@@ -323,6 +324,7 @@ public sealed class PlayerStore
         var existing = TryRead(path, NetCodeJsonContext.Default.PlayerProfileRecord);
         if (existing != null)
         {
+            existing = NormalizeProfile(existing);
             if (displayName == null && username == null)
             {
                 return existing;
@@ -343,6 +345,8 @@ public sealed class PlayerStore
             PlayerId = id,
             DisplayName = string.IsNullOrWhiteSpace(displayName) ? "Bilbert" : displayName,
             Username = username ?? "",
+            Rating = ArenaRank.StartingRating,
+            PeakRating = ArenaRank.StartingRating,
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow
         };
@@ -434,20 +438,109 @@ public sealed class PlayerStore
                       StartedAt = current.StartedAt
                   };
 
-        var won = victory ?? (current.Wins >= 10 ? true : current.Losses >= 5 ? false : (bool?)null);
+        var wins = Math.Max(current.Wins, CountFightWins(run.Fights, playerId));
+        var losses = Math.Max(current.Losses, CountFightLosses(run.Fights, playerId));
+        var won = victory ?? (wins >= 10 ? true : losses >= 5 ? false : (bool?)null);
+        var complete = !abandoned && (wins >= ArenaRun.WinsToFinish || losses >= ArenaRun.LossesToFinish || victory != null);
+        var rank = complete
+            ? ApplyRankUnlocked(playerId, wins, run.Fights)
+            : default(ArenaRankDelta?);
+
         var finished = run with
         {
             FinishedAt = DateTimeOffset.UtcNow,
             Victory = abandoned && won == null ? null : won,
-            Wins = current.Wins,
-            Losses = current.Losses,
+            Wins = wins,
+            Losses = losses,
             FinalGold = current.Gold,
-            Fights = run.Fights
+            Fights = run.Fights,
+            RatingBefore = rank?.RatingBefore,
+            RatingAfter = rank?.RatingAfter,
+            RatingDelta = rank?.Delta,
+            RankApplied = rank?.Applied == true
         };
         WriteRunUnlocked(playerId, current.RunId, finished);
         File.Delete(CurrentArenaPath(playerId));
         return finished;
     }
+
+    private ArenaRankDelta ApplyRankUnlocked(string playerId, int wins, IReadOnlyList<ArenaFightRecord> fights)
+    {
+        var profile = NormalizeProfile(GetOrCreateProfileUnlocked(playerId));
+        var hadRealOpponent = fights.Any(fight => !ArenaRank.IsMirrorPlayerId(fight.Defender.PlayerId));
+        var delta = ArenaRank.ApplyRun(profile.Rating, profile.RatedRuns, wins, hadRealOpponent);
+        if (!delta.Applied)
+        {
+            return delta;
+        }
+
+        var updated = profile with
+        {
+            Rating = delta.RatingAfter,
+            RatedRuns = profile.RatedRuns + 1,
+            PeakRating = Math.Max(profile.PeakRating, delta.RatingAfter),
+            LegendNumber = null,
+            UpdatedAt = DateTimeOffset.UtcNow
+        };
+        Write(ProfilePath(playerId), updated, NetCodeJsonContext.Default.PlayerProfileRecord);
+        return delta;
+    }
+
+    private PlayerProfileRecord WithLegendUnlocked(PlayerProfileRecord profile)
+    {
+        var display = ArenaRank.FromRating(profile.Rating, profile.RatedRuns);
+        if (display.League != ArenaLeague.Legend)
+        {
+            return profile with { LegendNumber = null };
+        }
+
+        return profile with { LegendNumber = CountLegendNumberUnlocked(profile.PlayerId, profile.Rating) };
+    }
+
+    private int CountLegendNumberUnlocked(string playerId, int rating)
+    {
+        var higher = 0;
+        foreach (var otherId in ListPlayerIdsUnlocked())
+        {
+            var other = TryRead(ProfilePath(otherId), NetCodeJsonContext.Default.PlayerProfileRecord);
+            if (other == null)
+            {
+                continue;
+            }
+
+            other = NormalizeProfile(other);
+            if (other.RatedRuns < ArenaRank.PlacementRuns || other.Rating < ArenaRank.LegendThreshold)
+            {
+                continue;
+            }
+
+            if (other.Rating > rating
+                || (other.Rating == rating && string.CompareOrdinal(other.PlayerId, playerId) < 0))
+            {
+                higher++;
+            }
+        }
+
+        return higher + 1;
+    }
+
+    private static PlayerProfileRecord NormalizeProfile(PlayerProfileRecord profile)
+    {
+        var rating = ArenaRank.NormalizeRating(profile.Rating, profile.RatedRuns);
+        var peak = Math.Max(profile.PeakRating, rating);
+        if (rating == profile.Rating && peak == profile.PeakRating)
+        {
+            return profile;
+        }
+
+        return profile with { Rating = rating, PeakRating = peak };
+    }
+
+    private static int CountFightWins(IReadOnlyList<ArenaFightRecord> fights, string playerId) =>
+        fights.Count(fight => string.Equals(fight.WinnerPlayerId, playerId, StringComparison.Ordinal));
+
+    private static int CountFightLosses(IReadOnlyList<ArenaFightRecord> fights, string playerId) =>
+        fights.Count(fight => !string.Equals(fight.WinnerPlayerId, playerId, StringComparison.Ordinal));
 
     private List<ArenaRunRecord> ListRunsUnlocked(string playerId)
     {
@@ -534,6 +627,8 @@ public sealed class PlayerStore
             ActiveWins = current?.Wins,
             ActiveLosses = current?.Losses,
             ActiveGold = current?.Gold,
+            Rating = profile == null ? 0 : NormalizeProfile(profile).Rating,
+            RatedRuns = profile?.RatedRuns ?? 0,
             LastPlayedAt = lastPlayed == default ? null : lastPlayed
         };
     }

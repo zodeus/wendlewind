@@ -103,14 +103,14 @@ public sealed class BuildPool
         }
     }
 
-    public BuildSnapshot? PickOpponent(int round, string? excludePlayerId = null)
+    public BuildSnapshot? PickOpponent(int round, string? excludePlayerId = null, int attackerRating = 0)
     {
         lock (_gate)
         {
             var others = Candidates(round, excludePlayerId);
             if (others.Count > 0)
             {
-                return Pick(others);
+                return PickRated(others, attackerRating);
             }
 
             if (!string.IsNullOrWhiteSpace(excludePlayerId))
@@ -125,13 +125,13 @@ public sealed class BuildPool
                     var fallback = Candidates(otherRound, excludePlayerId);
                     if (fallback.Count > 0)
                     {
-                        return Pick(fallback);
+                        return PickRated(fallback, attackerRating);
                     }
                 }
             }
 
             var ownRound = Candidates(round, excludePlayerId: null);
-            return ownRound.Count > 0 ? Pick(ownRound) : null;
+            return ownRound.Count > 0 ? PickRated(ownRound, attackerRating) : null;
         }
     }
 
@@ -161,6 +161,28 @@ public sealed class BuildPool
 
     private static BuildSnapshot Pick(IReadOnlyList<BuildSnapshot> candidates) =>
         candidates[Random.Shared.Next(candidates.Count)];
+
+    private static BuildSnapshot PickRated(IReadOnlyList<BuildSnapshot> candidates, int attackerRating)
+    {
+        if (attackerRating <= 0 || candidates.Count == 1)
+        {
+            return Pick(candidates);
+        }
+
+        var target = ArenaRank.EffectiveSnapshotRating(attackerRating);
+        for (var window = 100; window <= 500; window += 50)
+        {
+            var inWindow = candidates
+                .Where(build => Math.Abs(ArenaRank.EffectiveSnapshotRating(build.Rating) - target) <= window)
+                .ToList();
+            if (inWindow.Count > 0)
+            {
+                return Pick(inWindow);
+            }
+        }
+
+        return Pick(candidates);
+    }
 
     public static BuildSnapshot MirrorOf(BuildSnapshot snapshot)
     {

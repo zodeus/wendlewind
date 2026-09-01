@@ -1,8 +1,10 @@
+using Wendlewind.NetCode;
+
 namespace Wendlewind.Scenes.ArenaScene.Gui;
 
 public sealed class ArenaResultsScreen : VerticalStackPanel
 {
-    public ArenaResultsScreen(GameContext context, Action onContinue)
+    public ArenaResultsScreen(GameContext context, Action onContinue, ArenaRankDisplay? rank = null)
     {
         Spacing = 16;
         Padding = new Thickness(24);
@@ -13,7 +15,7 @@ public sealed class ArenaResultsScreen : VerticalStackPanel
         var title = run.LastFightWon ? "Victory" : "Defeat";
         var color = run.LastFightWon ? Color.Goldenrod : Color.IndianRed;
 
-        Widgets.Add(new ArenaHud(context));
+        Widgets.Add(new ArenaHud(context, rank));
         Widgets.Add(new Label(BaseContent.Styles.Label.Huge)
         {
             Text = title,

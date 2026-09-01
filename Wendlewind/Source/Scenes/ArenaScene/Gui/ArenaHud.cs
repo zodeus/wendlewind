@@ -1,3 +1,5 @@
+using Wendlewind.NetCode;
+
 namespace Wendlewind.Scenes.ArenaScene.Gui;
 
 public sealed class ArenaHud : HorizontalStackPanel
@@ -7,13 +9,18 @@ public sealed class ArenaHud : HorizontalStackPanel
     private readonly Label _lives;
     private readonly GameContext _context;
 
-    public ArenaHud(GameContext context)
+    public ArenaHud(GameContext context, ArenaRankDisplay? rank = null)
     {
         _context = context;
         Spacing = 24;
         HorizontalAlignment = HorizontalAlignment.Center;
         VerticalAlignment = VerticalAlignment.Center;
         Padding = new Thickness(12, 6);
+
+        if (rank is { } current)
+        {
+            Widgets.Add(new RankBadge(current, badgeSize: 64));
+        }
 
         _gold = StatLabel();
         _wins = StatLabel();

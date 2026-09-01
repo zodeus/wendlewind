@@ -552,6 +552,7 @@
           <thead><tr>
             ${header("displayName", "Player")}
             ${header("username", "Username")}
+            ${header("rating", "Rating")}
             ${header("runCount", "Runs")}
             ${header("fightCount", "Fights")}
             ${header("totalWins", "W–L")}
@@ -564,6 +565,7 @@
               <tr class="clickable" data-href="#/players/${esc(p.playerId)}">
                 <td>${esc(p.displayName)}<div class="id">${esc(p.playerId)}</div></td>
                 <td>${esc(p.username || "—")}</td>
+                <td>${p.rating ?? 0} <span class="muted">(${p.ratedRuns ?? 0})</span></td>
                 <td>${p.runCount}</td>
                 <td>${p.fightCount}</td>
                 <td>${record(p.totalWins, p.totalLosses)}</td>
@@ -603,6 +605,7 @@
         </div>
         <dl class="kv">
           <dt>Username</dt><dd>${esc(p.username || "—")}</dd>
+          <dt>Rating</dt><dd>${p.rating ?? 0} · ${p.ratedRuns ?? 0} rated runs</dd>
           <dt>Created</dt><dd>${when(p.createdAt)}</dd>
           <dt>Updated</dt><dd>${when(p.updatedAt)}</dd>
           <dt>Record</dt><dd>${record(p.totalWins, p.totalLosses)} · ${p.victories} victories</dd>

@@ -1,3 +1,4 @@
+using Wendlewind.NetCode;
 using Wendlewind.Scenes.MainGameScene.Gui;
 using Wendlewind.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
@@ -8,14 +9,14 @@ public sealed class ArenaPrepScreen : VerticalStackPanel
     private readonly PawnPreparationPanel _pawnPanel;
     private readonly ArenaHud _hud;
 
-    public ArenaPrepScreen(BaseGui gui, GameContext context, Action onFight, Action onShop)
+    public ArenaPrepScreen(BaseGui gui, GameContext context, Action onFight, Action onShop, ArenaRankDisplay? rank = null)
     {
         Spacing = 10;
         Padding = new Thickness(8);
         HorizontalAlignment = HorizontalAlignment.Stretch;
         VerticalAlignment = VerticalAlignment.Stretch;
 
-        _hud = new ArenaHud(context);
+        _hud = new ArenaHud(context, rank);
         _pawnPanel = new PawnPreparationPanel(gui, context.PlayerPawn, showGrimoire: false);
 
         var shop = new CursorButton(BaseContent.Styles.Button.Large)

@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework.Input;
 using Wendlewind.Graphics.Textures;
+using Wendlewind.NetCode;
 using Wendlewind.Scenes.ArenaScene;
+using Wendlewind.Scenes.ArenaScene.Gui;
 using Wendlewind.Scenes.Components;
 using Wendlewind.Scenes.MainGameScene;
 
@@ -91,6 +93,7 @@ public class MainMenuScene : Scene
                     HorizontalAlignment = HorizontalAlignment.Center,
                     TextColor = new Color(200, 200, 200)
                 },
+                LoadRankBadge(),
                 playButtons
             }
         };
@@ -225,6 +228,32 @@ public class MainMenuScene : Scene
         if (host != _clientSettings.ServerHost)
         {
             _clientSettings.SetServerHost(host);
+        }
+    }
+
+    private static Widget LoadRankBadge()
+    {
+        try
+        {
+            using var client = new ArenaMatchClient();
+            var profile = PlayerProfile.LoadOrCreate();
+            var remote = client.GetProfile(profile.PlayerId).GetAwaiter().GetResult()
+                         ?? client.EnsureProfile(profile.PlayerId, profile.DisplayName, profile.Username)
+                             .GetAwaiter().GetResult();
+            var rank = ArenaRank.FromRating(remote.Rating, remote.RatedRuns, remote.LegendNumber);
+            return new RankBadge(rank, badgeSize: 64)
+            {
+                HorizontalAlignment = HorizontalAlignment.Center
+            };
+        }
+        catch
+        {
+            return new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = "Unranked",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                TextColor = new Color(200, 200, 200)
+            };
         }
     }
 

@@ -15,6 +15,7 @@ public sealed record BuildSnapshot
     public string? PawnName { get; init; }
     public DateTimeOffset? SubmittedAt { get; init; }
     public int Round { get; init; }
+    public int Rating { get; init; }
     public string? StanceMoniker { get; init; }
     public WeaponConfig[] Weapons { get; init; } = [];
     public PotionConfig[] Potions { get; init; } = [];
