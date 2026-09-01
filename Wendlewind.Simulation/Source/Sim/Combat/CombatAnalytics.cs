@@ -31,8 +31,8 @@ public sealed record FightAnalytics
 
 public static class CombatAnalytics
 {
-    public const double TargetMinSeconds = 30;
-    public const double TargetMaxSeconds = 60;
+    public const double TargetMinSeconds = 15;
+    public const double TargetMaxSeconds = 25;
 
     public static bool IsInTargetBand(double seconds) =>
         seconds >= TargetMinSeconds && seconds <= TargetMaxSeconds;

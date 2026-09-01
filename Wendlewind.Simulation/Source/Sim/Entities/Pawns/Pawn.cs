@@ -680,6 +680,6 @@ public class Pawn : Entity
             return 1;
         }
 
-        return Mathf.CeilToInt(GameContext.TicksPerSecond / AttackSpeed);
+        return Mathf.CeilToInt(GameContext.TicksPerSecond / (AttackSpeed * 2f));
     }
 }

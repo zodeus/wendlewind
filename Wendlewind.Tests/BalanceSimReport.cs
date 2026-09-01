@@ -29,8 +29,8 @@ public class BalanceSimReport
     };
 
     private const int SeedCount = 24;
-    private const int TargetMinTicks = 1800;
-    private const int TargetMaxTicks = 3600;
+    private const int TargetMinTicks = 900;
+    private const int TargetMaxTicks = 1500;
 
     private readonly ITestOutputHelper _output;
 
@@ -344,7 +344,7 @@ public class BalanceSimReport
 
         sb.AppendLine("=== Wendlewind Human-vs-Human Balance (13-round curve) ===");
         sb.AppendLine($"Seeds/matchup: {SeedCount}   Target: {TargetMinTicks / 60}-{TargetMaxTicks / 60}s @ 60tps");
-        sb.AppendLine("Knobs this pass: primitive 42, IronMace 54, Chain resist 15 + 1 socket, WD resist 20");
+        sb.AppendLine("Knobs this pass: AS 1 = 2 swings/s; ElvishLeaf 0.0001; RhinoSkin refund 10%; primitive 58; iron 52; chain 10; leather 5; WD 12; human HP -15%");
         sb.AppendLine("Sever dump: currentBlood * (subtree BloodAmount / body BloodAmount) on Severe()");
         sb.AppendLine();
         AppendHumanBloodShares(sb);

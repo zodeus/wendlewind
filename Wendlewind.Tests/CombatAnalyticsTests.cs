@@ -48,11 +48,11 @@ public class CombatAnalyticsTests
             }
         ];
 
-        var analytics = CombatAnalytics.From(log, ticks: 1800, attackerId, defenderId, "BoneAxe", "Chop",
+        var analytics = CombatAnalytics.From(log, ticks: 1200, attackerId, defenderId, "BoneAxe", "Chop",
             attackerBloodPercent: 0.82f, defenderBloodPercent: 0.11f);
 
-        Assert.Equal(1800, analytics.DurationTicks);
-        Assert.Equal(30, analytics.DurationSeconds);
+        Assert.Equal(1200, analytics.DurationTicks);
+        Assert.Equal(20, analytics.DurationSeconds);
         Assert.True(analytics.InTargetBand);
         Assert.Equal(100, analytics.Attacker.DamageDealt);
         Assert.Equal(15, analytics.Defender.Healing);
@@ -66,7 +66,7 @@ public class CombatAnalyticsTests
         Assert.Equal(1, analytics.Defender.Severs);
         Assert.Equal(0.82f, analytics.Attacker.BloodPercent);
         Assert.Equal(0.11f, analytics.Defender.BloodPercent);
-        Assert.Equal(100 / 30.0, analytics.Attacker.DamagePerSecond);
+        Assert.Equal(100 / 20.0, analytics.Attacker.DamagePerSecond);
         Assert.Equal(10, analytics.FirstDamageTick);
         Assert.Equal(90, analytics.LastDamageTick);
         Assert.Equal("BoneAxe", analytics.KillingWeapon);
@@ -74,11 +74,11 @@ public class CombatAnalyticsTests
     }
 
     [Theory]
-    [InlineData(1799, false)]
-    [InlineData(1800, true)]
-    [InlineData(3600, true)]
-    [InlineData(3601, false)]
-    public void TargetBandIsInclusiveThirtyToSixtySeconds(int ticks, bool expected)
+    [InlineData(899, false)]
+    [InlineData(900, true)]
+    [InlineData(1500, true)]
+    [InlineData(1501, false)]
+    public void TargetBandIsInclusiveFifteenToTwentyFiveSeconds(int ticks, bool expected)
     {
         var analytics = CombatAnalytics.From([], ticks, 1, 2);
         Assert.Equal(expected, analytics.InTargetBand);
@@ -115,7 +115,7 @@ public class CombatAnalyticsTests
                     Amount = 7
                 }
             ],
-            ticks: 2400,
+            ticks: 1200,
             attackerPawnId: 1,
             defenderPawnId: 2,
             killingWeapon: "IronSword",
@@ -132,7 +132,7 @@ public class CombatAnalyticsTests
         var analyticsJson = JsonSerializer.Serialize(analytics, NetCodeJsonContext.Default.FightAnalytics);
         var restoredAnalytics = JsonSerializer.Deserialize(analyticsJson, NetCodeJsonContext.Default.FightAnalytics);
         Assert.NotNull(restoredAnalytics);
-        Assert.Equal(40, restoredAnalytics.DurationSeconds);
+        Assert.Equal(20, restoredAnalytics.DurationSeconds);
         Assert.True(restoredAnalytics.InTargetBand);
         Assert.Equal("IronSword", restoredAnalytics.KillingWeapon);
 

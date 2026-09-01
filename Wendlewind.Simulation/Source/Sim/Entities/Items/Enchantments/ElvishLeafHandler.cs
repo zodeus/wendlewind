@@ -8,7 +8,7 @@ public class ElvishLeafHandler : EnchantmentHandler
         Rng = rng;
     }
 
-    public const float HealingPerTick = 0.0018f;
+    public const float HealingPerTick = 0.0001f;
     public override void TickForPawn(Pawn pawn, BodyPart bodyPart)
     {
         bodyPart.HitPoints += bodyPart.MaxHitPoints * HealingPerTick;

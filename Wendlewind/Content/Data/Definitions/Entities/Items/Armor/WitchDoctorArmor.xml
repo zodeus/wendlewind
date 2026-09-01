@@ -6,7 +6,7 @@
             <MaxEnchantments>2</MaxEnchantments>
         </EquipmentProperties>
         <BaseStats>
-            <PhysicalResistance>20</PhysicalResistance>
+            <PhysicalResistance>12</PhysicalResistance>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
     </ItemDef>

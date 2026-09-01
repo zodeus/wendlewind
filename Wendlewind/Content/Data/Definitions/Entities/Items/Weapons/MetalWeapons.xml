@@ -45,7 +45,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronDagger</TexturePath>
         <BaseStats>
-            <WeaponPower>45</WeaponPower>
+            <WeaponPower>52</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -77,7 +77,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronSword</TexturePath>
         <BaseStats>
-            <WeaponPower>45</WeaponPower>
+            <WeaponPower>52</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -109,7 +109,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronAxe</TexturePath>
         <BaseStats>
-            <WeaponPower>45</WeaponPower>
+            <WeaponPower>52</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -149,7 +149,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronHammer</TexturePath>
         <BaseStats>
-            <WeaponPower>45</WeaponPower>
+            <WeaponPower>52</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -205,7 +205,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronMace</TexturePath>
         <BaseStats>
-            <WeaponPower>54</WeaponPower>
+            <WeaponPower>62</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -245,7 +245,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronClaws</TexturePath>
         <BaseStats>
-            <WeaponPower>45</WeaponPower>
+            <WeaponPower>52</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
         <DisassembleProperties>

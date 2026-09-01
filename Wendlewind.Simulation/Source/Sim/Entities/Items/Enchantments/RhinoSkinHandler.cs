@@ -8,7 +8,7 @@ public class RhinoSkinHandler : EnchantmentHandler
         Rng = rng;
     }
 
-    private const double DamageMitigationBase = 0.5; // 50% damage
+    private const double DamageMitigationBase = 0.1; // 10% of the hit refunded
     private const double DamageMitigationLevelFactor = 0.01; // 1% damage per level
     private int _level = 1;
     private double DamageMitigationFactor => DamageMitigationBase + ((_level - 1) * DamageMitigationLevelFactor);
@@ -27,7 +27,7 @@ public class RhinoSkinHandler : EnchantmentHandler
 
         if (bodyPart.Skin?.IsDestroyed == true) return;
         var damageMitigated = damageRecord.ActualAmount * DamageMitigationFactor;
-        bodyPart.HitPoints += damageMitigated + damageMitigated;
+        bodyPart.HitPoints += damageMitigated;
     }
 
     private void ApplyPartRegeneration(BodyPart bodyPart, DamageRecord damageRecord)
