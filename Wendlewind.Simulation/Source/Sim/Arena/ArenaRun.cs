@@ -164,6 +164,7 @@ public class ArenaRun : IExposable
         if (context.PlayerPawn.Inventory.TryAdd(item))
         {
             created.Add(item);
+            PurchaseAutoEquip.TryApply(context.PlayerPawn, item);
             return true;
         }
 

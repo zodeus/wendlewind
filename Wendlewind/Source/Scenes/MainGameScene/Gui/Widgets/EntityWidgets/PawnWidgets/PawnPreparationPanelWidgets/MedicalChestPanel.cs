@@ -110,8 +110,14 @@ public sealed class MedicalChestPanel : VerticalStackPanel, IUpdatable
 
         var slots = _pawn.MedicalChest.Slots;
         var capacity = Math.Max(_pawn.MedicalChest.Capacity, 1);
+        var unused = Math.Max(0, capacity - slots.Count);
         var maxSlots = MedicalChest.MaxSlots;
-        _countLabel.Text = $"{slots.Count}/{capacity} armed";
+        _countLabel.Text = unused > 0
+            ? $"{slots.Count}/{capacity} armed — {unused} unused"
+            : $"{slots.Count}/{capacity} armed";
+        _countLabel.TextColor = unused > 0
+            ? MedicalSlotChrome.UnusedAccent
+            : new Color(160, 160, 160);
 
         var rows = (maxSlots + CardsPerRow - 1) / CardsPerRow;
         for (var r = 0; r < rows; r++)
@@ -176,6 +182,8 @@ public sealed class MedicalChestPanel : VerticalStackPanel, IUpdatable
 
 internal static class MedicalSlotChrome
 {
+    public static readonly Color UnusedAccent = new(220, 160, 80);
+
     public static void Apply(Panel card)
     {
         card.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
@@ -189,19 +197,41 @@ internal static class MedicalSlotChrome
     {
         var card = new Panel();
         Apply(card);
+        card.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright];
+
+        var body = new VerticalStackPanel
+        {
+            Spacing = 6,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center
+        };
         var icon = DefRepository<LootBoxDef>.GetByMoniker("MedicinalChest", raiseError: false)?.GetIcon();
         if (icon != null)
         {
-            card.Widgets.Add(new Image
+            body.Widgets.Add(new Image
             {
-                Background = new ColoredIcon(new TextureRegion(icon), new Color(88, 78, 66)),
-                Width = 192,
-                Height = 192,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
+                Background = new ColoredIcon(new TextureRegion(icon), UnusedAccent),
+                Width = 96,
+                Height = 96,
+                HorizontalAlignment = HorizontalAlignment.Center
             });
         }
 
+        body.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+        {
+            Text = "Unused",
+            TextColor = UnusedAccent,
+            HorizontalAlignment = HorizontalAlignment.Center
+        });
+        body.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = "Arm a medical item",
+            TextColor = new Color(200, 150, 90),
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Wrap = true
+        });
+        card.Widgets.Add(body);
+        card.WithTooltip("Unused medical slot", "This slot is empty and will not heal in the fight.");
         return card;
     }
 

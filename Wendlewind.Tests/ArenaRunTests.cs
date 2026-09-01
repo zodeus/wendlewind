@@ -8,6 +8,7 @@ using Wendlewind.Sim.Arena;
 using Wendlewind.Sim.Combat;
 using Wendlewind.Sim.Entities.Items;
 using Wendlewind.Sim.Entities.Items.Medicinals;
+using Wendlewind.Sim.Entities.Pawns;
 using Xunit;
 
 namespace Wendlewind.Tests;
@@ -100,7 +101,7 @@ public class ArenaRunTests
 
         Assert.True(context.ArenaRun.TryBuy(context, offer));
         Assert.Equal(goldBefore - offer.ResolveGoldCost(), context.ArenaRun.Gold);
-        Assert.True(context.PlayerPawn.Inventory.Contains(offer.ItemDef!));
+        Assert.True(Owns(context.PlayerPawn, offer.ItemDef!));
     }
 
     [Fact]
@@ -290,9 +291,10 @@ public class ArenaRunTests
 
         Assert.True(context.ArenaRun.TryBuy(context, set));
         Assert.Equal(goldBefore - set.ResolveGoldCost(), context.ArenaRun.Gold);
-        foreach (var piece in set.SetPieces.Distinct())
+        foreach (var group in set.SetPieces.GroupBy(piece => piece))
         {
-            Assert.True(context.PlayerPawn.Inventory.Contains(piece));
+            var equipped = context.PlayerPawn.Equipment.Count(item => item.Def == group.Key && !item.IsDestroyed);
+            Assert.Equal(group.Count(), equipped);
         }
     }
 
@@ -580,6 +582,153 @@ public class ArenaRunTests
     }
 
     [Fact]
+    public void TryBuyEquipsWeaponAndReplacesOccupiedSlot()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        context.ArenaRun!.Gold = 1000;
+        var first = Offer("BoneAxe");
+        var second = Offer("StoneHammer");
+        var third = Offer("IronSword");
+
+        Assert.True(context.ArenaRun.TryBuy(context, first));
+        Assert.True(context.ArenaRun.TryBuy(context, second));
+        Assert.True(IsEquipped(context.PlayerPawn, first.ItemDef!));
+        Assert.True(IsEquipped(context.PlayerPawn, second.ItemDef!));
+        Assert.False(context.PlayerPawn.Inventory.Contains(first.ItemDef!));
+
+        Assert.True(context.ArenaRun.TryBuy(context, third));
+        Assert.True(IsEquipped(context.PlayerPawn, third.ItemDef!));
+        Assert.True(IsEquipped(context.PlayerPawn, second.ItemDef!));
+        Assert.False(IsEquipped(context.PlayerPawn, first.ItemDef!));
+        Assert.True(context.PlayerPawn.Inventory.Contains(first.ItemDef!));
+    }
+
+    [Fact]
+    public void TryBuyEquipsArmorAndReplacesOccupiedSlot()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        context.ArenaRun!.Gold = 1000;
+        var first = Offer("LeatherHelmet");
+        var second = Offer("ClothHelmet");
+
+        Assert.True(context.ArenaRun.TryBuy(context, first));
+        Assert.True(IsEquipped(context.PlayerPawn, first.ItemDef!));
+
+        Assert.True(context.ArenaRun.TryBuy(context, second));
+        Assert.True(IsEquipped(context.PlayerPawn, second.ItemDef!));
+        Assert.False(IsEquipped(context.PlayerPawn, first.ItemDef!));
+        Assert.True(context.PlayerPawn.Inventory.Contains(first.ItemDef!));
+    }
+
+    [Fact]
+    public void TryBuyEquipsPotionAndReplacesWhenBothSlotsFull()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        context.ArenaRun!.Gold = 1000;
+        var first = Offer("AcidFlask");
+        var second = Offer("AntiStaticFlask");
+        var third = Offer("JarOfBlood");
+
+        Assert.True(context.ArenaRun.TryBuy(context, first));
+        Assert.True(context.ArenaRun.TryBuy(context, second));
+        Assert.True(IsEquipped(context.PlayerPawn, first.ItemDef!));
+        Assert.True(IsEquipped(context.PlayerPawn, second.ItemDef!));
+
+        Assert.True(context.ArenaRun.TryBuy(context, third));
+        Assert.True(IsEquipped(context.PlayerPawn, third.ItemDef!));
+        Assert.True(IsEquipped(context.PlayerPawn, second.ItemDef!));
+        Assert.False(IsEquipped(context.PlayerPawn, first.ItemDef!));
+        Assert.True(context.PlayerPawn.Inventory.Contains(first.ItemDef!));
+    }
+
+    [Fact]
+    public void TryBuyAddsFoodToMealAndReplacesOldestWhenFull()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        context.ArenaRun!.Gold = 1000;
+        var foods = new[] { "CookedFish", "CookedMeat", "DriedMeat", "CookedCorn", "HeartyStew" }
+            .Select(Offer)
+            .ToArray();
+
+        foreach (var offer in foods)
+        {
+            Assert.True(context.ArenaRun.TryBuy(context, offer));
+        }
+
+        var meal = context.PlayerPawn.MealPlan.Items.Select(item => item.ItemDef.Moniker).ToArray();
+        Assert.Equal(["CookedMeat", "DriedMeat", "CookedCorn", "HeartyStew"], meal);
+        Assert.Equal(1, context.PlayerPawn.Inventory.AmountOf(foods[0].ItemDef!));
+        Assert.Equal(1, context.PlayerPawn.Inventory.AmountOf(foods[^1].ItemDef!));
+    }
+
+    [Fact]
+    public void TryBuyLightsIncenseWithoutFlameStick()
+    {
+        using var scope = CreateArena();
+        var pawn = scope.Context.PlayerPawn;
+        var offer = Offer("MullinStick");
+        Assert.True(scope.Context.ArenaRun!.TryBuy(scope.Context, offer));
+        var incense = Assert.Single(pawn.ActiveIncense);
+        Assert.Equal("MullinStick", incense.SourceMoniker);
+        Assert.False(pawn.HasFlameStick());
+        Assert.True(pawn.Inventory.Contains(offer.ItemDef!));
+    }
+
+    [Fact]
+    public void TryBuyLightsIncenseWithoutFlameStickAndReplacesOldestWhenFull()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var pawn = context.PlayerPawn;
+        context.ArenaRun!.Gold = 1000;
+        var filler = DefRepository<BodyEffectDef>.GetByMoniker("Fishy")!;
+        for (var i = 0; i < IncenseProperties.MaxActive; i++)
+        {
+            pawn.ActiveIncense.Add(new ActiveIncense
+            {
+                Def = filler,
+                EncountersRemaining = 1,
+                SourceMoniker = $"dummy{i}"
+            });
+        }
+
+        var offer = Offer("MullinStick");
+        Assert.True(context.ArenaRun.TryBuy(context, offer));
+        Assert.Equal(IncenseProperties.MaxActive, pawn.ActiveIncense.Count);
+        Assert.Equal("MullinStick", pawn.ActiveIncense[^1].SourceMoniker);
+        Assert.DoesNotContain(pawn.ActiveIncense, incense => incense.SourceMoniker == "dummy0");
+        Assert.False(pawn.HasFlameStick());
+    }
+
+    [Fact]
+    public void TryBuyDoesNotArmMedical()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var offer = Offer("MedKit");
+        Assert.True(context.ArenaRun!.TryBuy(context, offer));
+        Assert.True(context.PlayerPawn.Inventory.Contains(offer.ItemDef!));
+        Assert.Empty(context.PlayerPawn.MedicalChest.Slots);
+    }
+
+    [Fact]
+    public void TryBuyTrinketStaysInInventory()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var offer = Offer("FlameStick");
+        context.ArenaRun!.Gold = Math.Max(context.ArenaRun.Gold, offer.ResolveGoldCost());
+        Assert.True(context.ArenaRun.TryBuy(context, offer));
+        Assert.True(context.PlayerPawn.Inventory.Contains(offer.ItemDef!));
+        Assert.True(context.Player.HasTrinket(offer.ItemDef!));
+        Assert.False(IsEquipped(context.PlayerPawn, offer.ItemDef!));
+    }
+
+    [Fact]
     public void TryBuyRejectsTrinketThePlayerAlreadyFound()
     {
         using var scope = CreateArena();
@@ -677,6 +826,15 @@ public class ArenaRunTests
         Assert.Equal("bob", result.DefenderPlayerId);
         Assert.Equal(9, result.EncounterSeed);
     }
+
+    private static MerchantOffer Offer(string moniker) =>
+        new() { ItemDef = DefRepository<ItemDef>.GetByMoniker(moniker)! };
+
+    private static bool Owns(Pawn pawn, ItemDef def) =>
+        pawn.Inventory.Contains(def) || IsEquipped(pawn, def);
+
+    private static bool IsEquipped(Pawn pawn, ItemDef def) =>
+        pawn.Equipment.Any(item => item.Def == def && !item.IsDestroyed);
 
     private static ArenaContextScope CreateArena()
     {
