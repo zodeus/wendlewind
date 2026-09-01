@@ -1,4 +1,4 @@
-# Deploy the Hetzner server and publish the latest desktop clients to GitHub Releases.
+# Deploy the Hetzner server and upload the latest desktop clients to that host.
 #
 # Usage:
 #   .\deploy.ps1
@@ -6,9 +6,10 @@
 #   .\deploy.ps1 -Action deploy -Platform windows
 #   .\deploy.ps1 -SkipClients
 #   .\deploy.ps1 -SkipServer -Version 0.1
+#   .\deploy.ps1 -Domain wendlemire.com
 #
 # Server work is delegated to deploy-hetzner.ps1.
-# Client zips and GitHub upload are delegated to publish-release.ps1.
+# Client zips are built by publish-release.ps1 and copied to /var/lib/wendlemire/downloads.
 
 param(
     [ValidateSet("up", "deploy")]
@@ -22,7 +23,7 @@ param(
     [string]$ServerName = "wendlemire",
     [string]$Location = "fsn1",
     [string]$Type = "cx23",
-    [string]$Domain = "",
+    [string]$Domain = "wendlemire.com",
     [string]$ServerUrl = "",
     [string]$SshKeyName = "wendlemire",
     [string]$SshPublicKeyPath = "",
@@ -30,7 +31,6 @@ param(
 
     [switch]$SkipServer,
     [switch]$SkipClients,
-    [switch]$SkipUpload,
     [switch]$SkipBuild,
     [switch]$Force
 )
@@ -39,6 +39,7 @@ $ErrorActionPreference = "Stop"
 $ProjectRoot = $PSScriptRoot
 $Hetzner = Join-Path $ProjectRoot "deploy-hetzner.ps1"
 $Release = Join-Path $ProjectRoot "publish-release.ps1"
+$ReleaseDir = Join-Path $ProjectRoot "RELEASE"
 
 function Write-Info { param($Message) Write-Host $Message -ForegroundColor Cyan }
 function Write-Success { param($Message) Write-Host $Message -ForegroundColor Green }
@@ -52,21 +53,26 @@ function Resolve-ServerUrl {
         return "https://$Domain"
     }
 
-    if (Get-Command hcloud -ErrorAction SilentlyContinue) {
-        $previousEap = $ErrorActionPreference
-        $ErrorActionPreference = "Continue"
-        $json = & hcloud server describe $ServerName -o json 2>$null
-        $ok = $LASTEXITCODE -eq 0
-        $ErrorActionPreference = $previousEap
-        if ($ok -and -not [string]::IsNullOrWhiteSpace($json)) {
-            $ip = ($json | ConvertFrom-Json).public_net.ipv4.ip
-            if (-not [string]::IsNullOrWhiteSpace($ip)) {
-                return "http://$ip"
-            }
-        }
-    }
+    return "https://wendlemire.com"
+}
 
-    return "http://5.78.232.9"
+function Get-HetznerArgs {
+    param([string]$HetznerAction)
+
+    $args = @{
+        Action     = $HetznerAction
+        ServerName = $ServerName
+        Location   = $Location
+        Type       = $Type
+        SshKeyName = $SshKeyName
+    }
+    if ($Domain) { $args.Domain = $Domain }
+    if ($SshPublicKeyPath) { $args.SshPublicKeyPath = $SshPublicKeyPath }
+    if ($SshIdentityPath) { $args.SshIdentityPath = $SshIdentityPath }
+    if ($SkipBuild) { $args.SkipBuild = $true }
+    if ($Force) { $args.Force = $true }
+    if (-not $SkipClients) { $args.ClientDir = $ReleaseDir }
+    return $args
 }
 
 if (-not (Test-Path $Hetzner)) {
@@ -79,43 +85,30 @@ if ($SkipServer -and $SkipClients) {
     throw "Nothing to do: both -SkipServer and -SkipClients were passed."
 }
 
+$resolvedUrl = Resolve-ServerUrl
+
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Magenta
 Write-Host "  Wendlemire deploy" -ForegroundColor Magenta
 Write-Host "========================================" -ForegroundColor Magenta
 
-if (-not $SkipServer) {
-    Write-Host ""
-    Write-Info "1/2  Server ($Action)..."
-    $hetznerArgs = @{
-        Action     = $Action
-        ServerName = $ServerName
-        Location   = $Location
-        Type       = $Type
-        SshKeyName = $SshKeyName
-    }
-    if ($Domain) { $hetznerArgs.Domain = $Domain }
-    if ($SshPublicKeyPath) { $hetznerArgs.SshPublicKeyPath = $SshPublicKeyPath }
-    if ($SshIdentityPath) { $hetznerArgs.SshIdentityPath = $SshIdentityPath }
-    if ($SkipBuild) { $hetznerArgs.SkipBuild = $true }
-    if ($Force) { $hetznerArgs.Force = $true }
-
-    & $Hetzner @hetznerArgs
-}
-
-$resolvedUrl = Resolve-ServerUrl
-
 if (-not $SkipClients) {
     Write-Host ""
-    Write-Info "2/2  Clients (v$Version → $resolvedUrl)..."
-    $releaseArgs = @{
-        Version   = $Version
-        Platform  = $Platform
-        ServerUrl = $resolvedUrl
-    }
-    if ($SkipUpload) { $releaseArgs.SkipUpload = $true }
+    Write-Info "Building client zips (v$Version → $resolvedUrl)..."
+    & $Release -Version $Version -Platform $Platform -ServerUrl $resolvedUrl
+}
 
-    & $Release @releaseArgs
+if (-not $SkipServer) {
+    Write-Host ""
+    Write-Info "Deploying server ($Action)..."
+    $hetznerArgs = Get-HetznerArgs -HetznerAction $Action
+    & $Hetzner @hetznerArgs
+}
+elseif (-not $SkipClients) {
+    Write-Host ""
+    Write-Info "Uploading client zips to the server..."
+    $hetznerArgs = Get-HetznerArgs -HetznerAction "clients"
+    & $Hetzner @hetznerArgs
 }
 
 Write-Host ""
@@ -123,7 +116,7 @@ Write-Success "Deploy finished."
 Write-Host "Server:  $resolvedUrl"
 Write-Host "Health:  $resolvedUrl/health"
 Write-Host "Admin:   $resolvedUrl/admin"
-if (-not $SkipClients -and -not $SkipUpload) {
-    Write-Host "Clients: https://github.com/zodeus/wendlemire/releases/tag/v$Version"
+if (-not $SkipClients) {
+    Write-Host "Windows: $resolvedUrl/download/win-x64"
 }
 Write-Host ""

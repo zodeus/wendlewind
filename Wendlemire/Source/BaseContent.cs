@@ -30,7 +30,7 @@ public static partial class BaseContent
             BadTexture = Core.Content.Load<Texture2D>(BadTexturePath);
 
             // Main Menu
-            MainMenuBackground = Core.Content.Load<Texture2D>("UI/MainMenu/Background");
+            MainMenuBackground = Core.Content.Load<Texture2D>("UI/MainMenu/Splash");
         }
     }
 }
@@ -202,6 +202,7 @@ public static partial class BaseContent
         }
 
         public static FontData Default { get; set; }
+        public static FontData Display { get; set; }
 
         public static void Load()
         {
@@ -220,6 +221,25 @@ public static partial class BaseContent
                 VeryLarge = monoFont.GetFont(48),
                 Huge = monoFont.GetFont(56),
                 MegaHuge = monoFont.GetFont(96)
+            };
+
+            FontSystem displayFont = new();
+            var displayPath = "Content/Fonts/Cinzel-Bold.ttf";
+            displayFont.AddFont(File.Exists(displayPath)
+                ? File.ReadAllBytes(displayPath)
+                : File.ReadAllBytes("Content/Fonts/JetBrainsMono-Regular.ttf"));
+
+            Display = new FontData
+            {
+                Smallest = displayFont.GetFont(12),
+                VerySmall = displayFont.GetFont(16),
+                Small = displayFont.GetFont(20),
+                Normal = displayFont.GetFont(24),
+                Medium = displayFont.GetFont(30),
+                Large = displayFont.GetFont(36),
+                VeryLarge = displayFont.GetFont(48),
+                Huge = displayFont.GetFont(56),
+                MegaHuge = displayFont.GetFont(96)
             };
         }
     }

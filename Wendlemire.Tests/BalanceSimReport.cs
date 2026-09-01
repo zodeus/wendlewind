@@ -4,6 +4,8 @@ using System.Text.Json.Serialization;
 using Wendlemire.NetCode;
 using Wendlemire.NetCode.Contracts;
 using Wendlemire.Sim.Combat;
+using Wendlemire.Sim.Entities.Items.Medicinals;
+using Wendlemire.Sim.Entities.Items.Potions;
 using Wendlemire.Sim.Entities.Pawns;
 using Xunit;
 using Xunit.Abstractions;
@@ -17,6 +19,12 @@ namespace Wendlemire.Tests;
 ///   R2+  SpidersBite, ElvishLeaf, WD pieces
 ///   R4+  chain, WD set, BoneEater, BloodBath, FireStaff
 ///   R6+  Everburning, RhinoSkin, BlessedIronCollar
+/// Consumable kits ride along (meal + incense + medical chest + potions):
+///   Early  cooked meat/fish, Mullin, threads+MedKit, JarOfBlood
+///   Mid    stew+dried, ShadeWood, MedKit+Balmy+Mist, Jar+Acid
+///   Late   stew+honey, Dipped+Shade, Mix+Cauterize+Bone, Jar+Churni
+///   Full   stew+honey+walnut, 3 incense, Mix+Cauterize+Serum+Bone, Jar+Acid
+/// Extra buckets: KIT (kit vs bare / burst vs sustain), FOOD, MED, INC.
 /// Writes balance-report.txt at the repo root.
 /// Run: dotnet test --filter FullyQualifiedName~BalanceSimReport
 /// </summary>
@@ -110,6 +118,161 @@ public class BalanceSimReport
             Sockets = sockets ?? []
         };
     }
+
+    private sealed record Kit(
+        string[] Meal,
+        PotionConfig[] Potions,
+        MedicalChestConfig[] Medical,
+        IncenseConfig[] Incense)
+    {
+        public static readonly Kit None = new([], [], [], []);
+    }
+
+    private static PotionConfig Pot(
+        string moniker,
+        PotionTriggerType type,
+        float threshold = 0,
+        float after = 0,
+        float health = 0.6f) =>
+        new()
+        {
+            ItemMoniker = moniker,
+            Type = type,
+            Threshold = threshold,
+            AfterSeconds = after,
+            HealthThreshold = health
+        };
+
+    private static MedicalChestConfig Med(
+        string moniker,
+        int charges,
+        MedicalTriggerType type,
+        float health = 0.5f,
+        MedicalTargetSelector sel = MedicalTargetSelector.Auto) =>
+        new()
+        {
+            ItemMoniker = moniker,
+            Charges = charges,
+            Type = type,
+            TargetSelector = sel,
+            HealthThreshold = health
+        };
+
+    private static IncenseConfig Stick(string moniker, int encounters = 2) =>
+        new() { ItemMoniker = moniker, EncountersRemaining = encounters };
+
+    private static readonly Kit Early = new(
+        ["CookedMeat", "CookedFish"],
+        [Pot("JarOfBlood", PotionTriggerType.SelfBloodBelow, threshold: 0.25f)],
+        [
+            Med("ArterialThreads", 3, MedicalTriggerType.PartBelowHealth, health: 0.6f),
+            Med("MedKit", 2, MedicalTriggerType.PartBelowHealth)
+        ],
+        [Stick("MullinStick")]);
+
+    private static readonly Kit Mid = new(
+        ["HeartyStew", "DriedMeat"],
+        [
+            Pot("JarOfBlood", PotionTriggerType.SelfBloodBelow, threshold: 0.2f),
+            Pot("AcidFlask", PotionTriggerType.AfterSeconds, after: 5)
+        ],
+        [
+            Med("MedKit", 3, MedicalTriggerType.PartBelowHealth),
+            Med("BalmyOintment", 2, MedicalTriggerType.BurningOrAcid),
+            Med("MendersMist", 2, MedicalTriggerType.PartBelowHealth)
+        ],
+        [Stick("ShadeWood")]);
+
+    private static readonly Kit Late = new(
+        ["HeartyStew", "HoneyPot"],
+        [
+            Pot("JarOfBlood", PotionTriggerType.SelfBloodBelow, threshold: 0.2f),
+            Pot("SpicedChurni", PotionTriggerType.SelfPartsDamaged, threshold: 0.4f)
+        ],
+        [
+            Med("MendersMix", 2, MedicalTriggerType.PartBelowHealth, health: 0.4f),
+            Med("Cauterize", 1, MedicalTriggerType.PartSevered, sel: MedicalTargetSelector.SeveredOrUnsealedSocket),
+            Med("BoneCleanse", 1, MedicalTriggerType.PartBelowHealth),
+            Med("BalmyOintment", 2, MedicalTriggerType.BurningOrAcid)
+        ],
+        [Stick("DippedMullinStick", 3), Stick("ShadeWood")]);
+
+    private static readonly Kit Full = new(
+        ["HeartyStew", "HoneyPot", "Walnut"],
+        [
+            Pot("JarOfBlood", PotionTriggerType.SelfBloodBelow, threshold: 0.15f),
+            Pot("AcidFlask", PotionTriggerType.AfterSeconds, after: 5)
+        ],
+        [
+            Med("MendersMix", 3, MedicalTriggerType.PartBelowHealth, health: 0.4f),
+            Med("Cauterize", 1, MedicalTriggerType.PartSevered, sel: MedicalTargetSelector.SeveredOrUnsealedSocket),
+            Med("AntiNecroticSerum", 2, MedicalTriggerType.HasNecrosis),
+            Med("BoneCleanse", 1, MedicalTriggerType.PartBelowHealth),
+            Med("BalmyOintment", 2, MedicalTriggerType.BurningOrAcid)
+        ],
+        [Stick("DippedMullinStick", 3), Stick("ShadeWood"), Stick("MullinStick")]);
+
+    private static readonly Kit Burst = new(
+        ["DriedMeat", "CookedCorn"],
+        [
+            Pot("AcidFlask", PotionTriggerType.AfterSeconds, after: 5),
+            Pot("PussBomb", PotionTriggerType.AfterSeconds, after: 4)
+        ],
+        [Med("ArterialThreads", 2, MedicalTriggerType.PartBelowHealth, health: 0.6f)],
+        [Stick("ShadeWood")]);
+
+    private static readonly Kit Sustain = new(
+        ["HeartyStew", "CookedMeat"],
+        [
+            Pot("JarOfBlood", PotionTriggerType.SelfBloodBelow, threshold: 0.2f),
+            Pot("SpicedChurni", PotionTriggerType.SelfPartsDamaged, threshold: 0.4f)
+        ],
+        [
+            Med("MedKit", 4, MedicalTriggerType.PartBelowHealth),
+            Med("MendersMist", 3, MedicalTriggerType.PartBelowHealth),
+            Med("ArterialThreads", 3, MedicalTriggerType.PartBelowHealth, health: 0.6f)
+        ],
+        [Stick("MullinStick")]);
+
+    private static Kit MealOnly(params string[] foods) =>
+        Early with { Meal = foods };
+
+    private static Kit StickOnly(params IncenseConfig[] sticks) =>
+        Mid with { Incense = sticks };
+
+    private static Kit MedOnly(PotionConfig[] potions, MedicalChestConfig[] medical) =>
+        Mid with { Potions = potions, Medical = medical };
+
+    private static BuildSnapshot WithKit(BuildSnapshot snap, Kit kit)
+    {
+        if (kit == Kit.None)
+        {
+            return snap;
+        }
+
+        return snap with
+        {
+            EntityDefMonikers = [..snap.EntityDefMonikers, ..kit.Potions.Select(p => p.ItemMoniker)],
+            Potions = kit.Potions,
+            Meal = kit.Meal,
+            MedicalChest = kit.Medical,
+            Incense = kit.Incense
+        };
+    }
+
+    private static Kit EraKit(string band) => band switch
+    {
+        "R4-6" => Mid,
+        "R7-9" => Late,
+        "R10-13" => Full,
+        _ => Early
+    };
+
+    private static Matchup EraMatch(string band, string name, BuildSnapshot a, BuildSnapshot b) =>
+        new(band, name, WithKit(a, EraKit(band)), WithKit(b, EraKit(band)));
+
+    private static Matchup Split(string band, string name, BuildSnapshot a, Kit aKit, BuildSnapshot b, Kit bKit) =>
+        new(band, name, WithKit(a, aKit), WithKit(b, bKit));
 
     private static SocketedItemConfig Sock(string item, params string[] enchants) =>
         new() { ItemMoniker = item, EnchantmentMonikers = enchants };
@@ -343,76 +506,142 @@ public class BalanceSimReport
 
     private static List<Matchup> Matchups() =>
     [
-        // --- R1-3: unarmored / partial + primitive, first iron/enchant ---
-        new("R1-3", "Club vs Club (naked)", ClubNaked("A"), ClubNaked("B")),
-        new("R1-3", "Axe vs Axe (naked)", AxeNaked("A"), AxeNaked("B")),
-        new("R1-3", "Spear vs Axe (naked)", SpearNaked("A"), AxeNaked("B")),
-        new("R1-3", "Knife vs Knife (naked)", KnifeNaked("A"), KnifeNaked("B")),
-        new("R1-3", "Hammer vs Club (naked)", HammerNaked("A"), ClubNaked("B")),
-        new("R1-3", "Dual-primitive vs Axe (naked)", DualPrimitive("A"), AxeNaked("B")),
-        new("R1-3", "Axe+cloth vs Axe+cloth", AxeCloth("A"), AxeCloth("B")),
-        new("R1-3", "Club+cloth vs Club+cloth", ClubCloth("A"), ClubCloth("B")),
-        new("R1-3", "Spear+cloth vs Axe+cloth", SpearCloth("A"), AxeCloth("B")),
-        new("R1-3", "Axe+leather-core vs Axe+leather-core", AxeLeatherCore("A"), AxeLeatherCore("B")),
-        new("R1-3", "Sword+Fester+cloth vs Axe+cloth", SwordFesterCloth("A"), AxeCloth("B")),
-        new("R1-3", "Dagger+Fester+cloth vs Sword+cloth", DaggerFesterCloth("A"), SwordPlainCloth("B")),
+        // --- R1-3: unarmored / partial + primitive, first iron/enchant + Early kit ---
+        EraMatch("R1-3", "Club vs Club (naked)", ClubNaked("A"), ClubNaked("B")),
+        EraMatch("R1-3", "Axe vs Axe (naked)", AxeNaked("A"), AxeNaked("B")),
+        EraMatch("R1-3", "Spear vs Axe (naked)", SpearNaked("A"), AxeNaked("B")),
+        EraMatch("R1-3", "Knife vs Knife (naked)", KnifeNaked("A"), KnifeNaked("B")),
+        EraMatch("R1-3", "Hammer vs Club (naked)", HammerNaked("A"), ClubNaked("B")),
+        EraMatch("R1-3", "Dual-primitive vs Axe (naked)", DualPrimitive("A"), AxeNaked("B")),
+        EraMatch("R1-3", "Axe+cloth vs Axe+cloth", AxeCloth("A"), AxeCloth("B")),
+        EraMatch("R1-3", "Club+cloth vs Club+cloth", ClubCloth("A"), ClubCloth("B")),
+        EraMatch("R1-3", "Spear+cloth vs Axe+cloth", SpearCloth("A"), AxeCloth("B")),
+        EraMatch("R1-3", "Axe+leather-core vs Axe+leather-core", AxeLeatherCore("A"), AxeLeatherCore("B")),
+        EraMatch("R1-3", "Sword+Fester+cloth vs Axe+cloth", SwordFesterCloth("A"), AxeCloth("B")),
+        EraMatch("R1-3", "Dagger+Fester+cloth vs Sword+cloth", DaggerFesterCloth("A"), SwordPlainCloth("B")),
 
-        // --- R4-6: full leather, first WD/chain pieces, BoneEater ---
-        new("R4-6", "Sword+leather vs Sword+leather", SwordLeather("A"), SwordLeather("B")),
-        new("R4-6", "Mace+leather vs Sword+leather", MaceLeather("A"), SwordLeather("B")),
-        new("R4-6", "IronAxe+leather vs Sword+leather", IronAxeLeather("A"), SwordLeather("B")),
-        new("R4-6", "Claws+leather vs Sword+leather", ClawsLeather("A"), SwordLeather("B")),
-        new("R4-6", "Dual-iron+Fester+leaf vs same", DualIronLeather("A"), DualIronLeather("B")),
-        new("R4-6", "Dual-dagger+Fester+leaf vs Dual-iron", DualDaggerLeather("A"), DualIronLeather("B")),
-        new("R4-6", "Sword+Fester+leather-ench vs same", SwordLeatherLeaf("A"), SwordLeatherLeaf("B")),
-        new("R4-6", "Sword+Bite+BloodBath vs Sword+leather", SwordBloodBathLeather("A"), SwordLeather("B")),
-        new("R4-6", "FireStaff+Fester+leather vs Sword+leather", FireStaffLeather("A"), SwordLeather("B")),
-        new("R4-6", "Chain-partial vs Sword+leather", ChainPartialSword("A"), SwordLeather("B")),
-        new("R4-6", "WD-partial+BoneEater vs Sword+leather", WdPartialBoneEater("A"), SwordLeather("B")),
-        new("R4-6", "WD-partial+Bite vs Mace+leather", WdPartialBite("A"), MaceLeather("B")),
+        // --- R4-6: full leather, first WD/chain pieces, BoneEater + Mid kit ---
+        EraMatch("R4-6", "Sword+leather vs Sword+leather", SwordLeather("A"), SwordLeather("B")),
+        EraMatch("R4-6", "Mace+leather vs Sword+leather", MaceLeather("A"), SwordLeather("B")),
+        EraMatch("R4-6", "IronAxe+leather vs Sword+leather", IronAxeLeather("A"), SwordLeather("B")),
+        EraMatch("R4-6", "Claws+leather vs Sword+leather", ClawsLeather("A"), SwordLeather("B")),
+        EraMatch("R4-6", "Dual-iron+Fester+leaf vs same", DualIronLeather("A"), DualIronLeather("B")),
+        EraMatch("R4-6", "Dual-dagger+Fester+leaf vs Dual-iron", DualDaggerLeather("A"), DualIronLeather("B")),
+        EraMatch("R4-6", "Sword+Fester+leather-ench vs same", SwordLeatherLeaf("A"), SwordLeatherLeaf("B")),
+        EraMatch("R4-6", "Sword+Bite+BloodBath vs Sword+leather", SwordBloodBathLeather("A"), SwordLeather("B")),
+        EraMatch("R4-6", "FireStaff+Fester+leather vs Sword+leather", FireStaffLeather("A"), SwordLeather("B")),
+        EraMatch("R4-6", "Chain-partial vs Sword+leather", ChainPartialSword("A"), SwordLeather("B")),
+        EraMatch("R4-6", "WD-partial+BoneEater vs Sword+leather", WdPartialBoneEater("A"), SwordLeather("B")),
+        EraMatch("R4-6", "WD-partial+Bite vs Mace+leather", WdPartialBite("A"), MaceLeather("B")),
 
-        // --- R7-9: full chain/WD, Everburning / Rhino come online ---
-        new("R7-9", "Sword+chain vs Sword+chain", SwordChain("A"), SwordChain("B")),
-        new("R7-9", "Chain+Burn vs Chain (plain)", ChainBurn("A"), SwordChain("B")),
-        new("R7-9", "Chain+Burn vs Chain+BoneEater", ChainBurn("A"), ChainBone("B")),
-        new("R7-9", "Chain+Burn vs Chain+SpidersBite", ChainBurn("A"), ChainSpider("B")),
-        new("R7-9", "Dual-iron+chain vs Sword+chain", ChainDual("A"), SwordChain("B")),
-        new("R7-9", "Chain+Rhino-light vs Chain+Burn", ChainRhinoLight("A"), ChainBurn("B")),
-        new("R7-9", "Dual-DoT+leather vs same", DualDoTLeather("A"), DualDoTLeather("B")),
-        new("R7-9", "WD+BoneEater vs Sword+chain", WdPlainBone("A"), SwordChain("B")),
-        new("R7-9", "WD+Burn vs Sword+chain", WdBurn("A"), SwordChain("B")),
-        new("R7-9", "WD+Fester vs WD+BoneEater", WdFester("A"), WdPlainBone("B")),
-        new("R7-9", "WD+collar+Bone vs Chain+Burn", WdCollarBone("A"), ChainBurn("B")),
-        new("R7-9", "Claws+chain+Bite vs Dual-DoT+leather", ClawsChainBite("A"), DualDoTLeather("B")),
+        // --- R7-9: full chain/WD, Everburning / Rhino + Late kit ---
+        EraMatch("R7-9", "Sword+chain vs Sword+chain", SwordChain("A"), SwordChain("B")),
+        EraMatch("R7-9", "Chain+Burn vs Chain (plain)", ChainBurn("A"), SwordChain("B")),
+        EraMatch("R7-9", "Chain+Burn vs Chain+BoneEater", ChainBurn("A"), ChainBone("B")),
+        EraMatch("R7-9", "Chain+Burn vs Chain+SpidersBite", ChainBurn("A"), ChainSpider("B")),
+        EraMatch("R7-9", "Dual-iron+chain vs Sword+chain", ChainDual("A"), SwordChain("B")),
+        EraMatch("R7-9", "Chain+Rhino-light vs Chain+Burn", ChainRhinoLight("A"), ChainBurn("B")),
+        EraMatch("R7-9", "Dual-DoT+leather vs same", DualDoTLeather("A"), DualDoTLeather("B")),
+        EraMatch("R7-9", "WD+BoneEater vs Sword+chain", WdPlainBone("A"), SwordChain("B")),
+        EraMatch("R7-9", "WD+Burn vs Sword+chain", WdBurn("A"), SwordChain("B")),
+        EraMatch("R7-9", "WD+Fester vs WD+BoneEater", WdFester("A"), WdPlainBone("B")),
+        EraMatch("R7-9", "WD+collar+Bone vs Chain+Burn", WdCollarBone("A"), ChainBurn("B")),
+        EraMatch("R7-9", "Claws+chain+Bite vs Dual-DoT+leather", ClawsChainBite("A"), DualDoTLeather("B")),
 
-        // --- R10-13: stacked sockets. Symmetric full-heal mirrors omitted —
-        // WD heal-stack+Burn vs same already measured ~400s / 96% bleed (regen wins).
-        new("R10-13", "Chain stacked+Burn/Bone vs same", ChainStackedBurn("A"), ChainStackedBurn("B")),
-        new("R10-13", "Chain stacked+Fester/Bite vs Burn/Bone", ChainStackedFester("A"), ChainStackedBurn("B")),
-        new("R10-13", "WD heal+Burn vs Chain stacked", WdHealBurn("A"), ChainStackedBurn("B")),
-        new("R10-13", "WD heal+Fester vs Chain stacked", WdHealFester("A"), ChainStackedBurn("B")),
-        new("R10-13", "WD heal+Bite vs Chain stacked", WdHealBite("A"), ChainStackedBurn("B")),
-        new("R10-13", "WD heal+Bone vs Chain stacked", WdHealBone("A"), ChainStackedBurn("B")),
-        new("R10-13", "WD reflect+Bite vs Chain stacked", WdReflectBite("A"), ChainStackedBurn("B")),
-        new("R10-13", "WD reflect+Bite vs WD heal+Fester", WdReflectBite("A"), WdHealFester("B")),
-        new("R10-13", "Unique-mix+Burn/Bone vs Chain stacked", UniqueMixBurn("A"), ChainStackedBurn("B")),
-        new("R10-13", "Unique-mix+Bite vs Chain stacked", UniqueMixBite("A"), ChainStackedBurn("B")),
-        new("R10-13", "FireStaff+Fester+WD vs Chain stacked", FireStaffFester("A"), ChainStackedBurn("B")),
-        new("R10-13", "FireStaff+Burn+WD vs Chain stacked", FireStaffBurn("A"), ChainStackedBurn("B")),
-        new("R10-13", "WD heal+Burn vs WD+BoneEater (no stack)", WdHealBurn("A"), WdPlainBone("B")),
-        new("R10-13", "Unique-mix vs WD+BoneEater (no stack)", UniqueMixBurn("A"), WdPlainBone("B")),
-        new("R10-13", "WD heal+Bite vs Unique-mix+Burn", WdHealBite("A"), UniqueMixBurn("B")),
-        new("R10-13", "FireStaff+Burn vs WD+collar+Bone", FireStaffBurn("A"), WdCollarBone("B")),
+        // --- R10-13: stacked sockets + Full kit. Heal-mirrors still omitted. ---
+        EraMatch("R10-13", "Chain stacked+Burn/Bone vs same", ChainStackedBurn("A"), ChainStackedBurn("B")),
+        EraMatch("R10-13", "Chain stacked+Fester/Bite vs Burn/Bone", ChainStackedFester("A"), ChainStackedBurn("B")),
+        EraMatch("R10-13", "WD heal+Burn vs Chain stacked", WdHealBurn("A"), ChainStackedBurn("B")),
+        EraMatch("R10-13", "WD heal+Fester vs Chain stacked", WdHealFester("A"), ChainStackedBurn("B")),
+        EraMatch("R10-13", "WD heal+Bite vs Chain stacked", WdHealBite("A"), ChainStackedBurn("B")),
+        EraMatch("R10-13", "WD heal+Bone vs Chain stacked", WdHealBone("A"), ChainStackedBurn("B")),
+        EraMatch("R10-13", "WD reflect+Bite vs Chain stacked", WdReflectBite("A"), ChainStackedBurn("B")),
+        EraMatch("R10-13", "WD reflect+Bite vs WD heal+Fester", WdReflectBite("A"), WdHealFester("B")),
+        EraMatch("R10-13", "Unique-mix+Burn/Bone vs Chain stacked", UniqueMixBurn("A"), ChainStackedBurn("B")),
+        EraMatch("R10-13", "Unique-mix+Bite vs Chain stacked", UniqueMixBite("A"), ChainStackedBurn("B")),
+        EraMatch("R10-13", "FireStaff+Fester+WD vs Chain stacked", FireStaffFester("A"), ChainStackedBurn("B")),
+        EraMatch("R10-13", "FireStaff+Burn+WD vs Chain stacked", FireStaffBurn("A"), ChainStackedBurn("B")),
+        EraMatch("R10-13", "WD heal+Burn vs WD+BoneEater (no stack)", WdHealBurn("A"), WdPlainBone("B")),
+        EraMatch("R10-13", "Unique-mix vs WD+BoneEater (no stack)", UniqueMixBurn("A"), WdPlainBone("B")),
+        EraMatch("R10-13", "WD heal+Bite vs Unique-mix+Burn", WdHealBite("A"), UniqueMixBurn("B")),
+        EraMatch("R10-13", "FireStaff+Burn vs WD+collar+Bone", FireStaffBurn("A"), WdCollarBone("B")),
 
-        // --- Cross-band (what a leftover early build faces later) ---
-        new("X", "R1 axe vs R5 sword-leather", AxeNaked("A"), SwordLeather("B")),
-        new("X", "R1 club vs R5 mace-leather", ClubNaked("A"), MaceLeather("B")),
-        new("X", "R3 Fester-cloth vs R8 chain-plain", SwordFesterCloth("A"), SwordChain("B")),
-        new("X", "R5 sword-leather vs R8 chain-burn", SwordLeather("A"), ChainBurn("B")),
-        new("X", "R5 leather vs R12 chain stacked", SwordLeather("A"), ChainStackedBurn("B")),
-        new("X", "R6 dual-iron vs R12 WD-heal-burn", DualIronLeather("A"), WdHealBurn("B")),
-        new("X", "R8 chain-plain vs R12 unique-mix", SwordChain("A"), UniqueMixBurn("B")),
-        new("X", "R8 WD-bone vs R12 WD-heal-burn", WdPlainBone("A"), WdHealBurn("B")),
+        // --- Cross-band leftovers keep their own era kits ---
+        Split("X", "R1 axe vs R5 sword-leather", AxeNaked("A"), Early, SwordLeather("B"), Mid),
+        Split("X", "R1 club vs R5 mace-leather", ClubNaked("A"), Early, MaceLeather("B"), Mid),
+        Split("X", "R3 Fester-cloth vs R8 chain-plain", SwordFesterCloth("A"), Early, SwordChain("B"), Late),
+        Split("X", "R5 sword-leather vs R8 chain-burn", SwordLeather("A"), Mid, ChainBurn("B"), Late),
+        Split("X", "R5 leather vs R12 chain stacked", SwordLeather("A"), Mid, ChainStackedBurn("B"), Full),
+        Split("X", "R6 dual-iron vs R12 WD-heal-burn", DualIronLeather("A"), Mid, WdHealBurn("B"), Full),
+        Split("X", "R8 chain-plain vs R12 unique-mix", SwordChain("A"), Late, UniqueMixBurn("B"), Full),
+        Split("X", "R8 WD-bone vs R12 WD-heal-burn", WdPlainBone("A"), Late, WdHealBurn("B"), Full),
+
+        // --- KIT: same gear, consumable delta ---
+        Split("KIT", "R1 axe Early vs axe bare", AxeNaked("A"), Early, AxeNaked("B"), Kit.None),
+        Split("KIT", "R1 axe Early vs same", AxeNaked("A"), Early, AxeNaked("B"), Early),
+        Split("KIT", "R5 leather Mid vs leather bare", SwordLeather("A"), Mid, SwordLeather("B"), Kit.None),
+        Split("KIT", "R5 leather Burst vs Sustain", SwordLeather("A"), Burst, SwordLeather("B"), Sustain),
+        Split("KIT", "R8 chain Late vs chain bare", SwordChain("A"), Late, SwordChain("B"), Kit.None),
+        Split("KIT", "R8 chain Burst vs Sustain", SwordChain("A"), Burst, SwordChain("B"), Sustain),
+        Split("KIT", "R12 stacked Full vs Late", ChainStackedBurn("A"), Full, ChainStackedBurn("B"), Late),
+        Split("KIT", "R12 WD-heal Full vs stacked Mid", WdHealBurn("A"), Full, ChainStackedBurn("B"), Mid),
+
+        // --- FOOD: same gear/med/incense, meal swap ---
+        Split("FOOD", "R1 meat vs fish (axe+cloth)", AxeCloth("A"), MealOnly("CookedMeat"), AxeCloth("B"), MealOnly("CookedFish")),
+        Split("FOOD", "R4 stew vs dried+corn (leather)", SwordLeather("A"), MealOnly("HeartyStew"), SwordLeather("B"), MealOnly("DriedMeat", "CookedCorn")),
+        Split("FOOD", "R5 stew+meat vs honey (leather)", SwordLeather("A"), MealOnly("HeartyStew", "CookedMeat"), SwordLeather("B"), MealOnly("HoneyPot")),
+        Split("FOOD", "R8 honey vs stew (chain)", SwordChain("A"), MealOnly("HoneyPot"), SwordChain("B"), MealOnly("HeartyStew")),
+        Split("FOOD", "R8 honey+stew vs walnut (WD)", WdPlainBone("A"), MealOnly("HoneyPot", "HeartyStew"), WdPlainBone("B"), MealOnly("Walnut")),
+        Split("FOOD", "R12 walnut vs honey (stacked)", ChainStackedBurn("A"), MealOnly("Walnut"), ChainStackedBurn("B"), MealOnly("HoneyPot")),
+
+        // --- MED: same gear/meal, potion + chest swap ---
+        Split("MED", "R1 MedKit+threads vs Jar only", AxeNaked("A"),
+            MedOnly([], [
+                Med("ArterialThreads", 3, MedicalTriggerType.PartBelowHealth, health: 0.6f),
+                Med("MedKit", 3, MedicalTriggerType.PartBelowHealth)
+            ]),
+            AxeNaked("B"),
+            MedOnly([Pot("JarOfBlood", PotionTriggerType.SelfBloodBelow, threshold: 0.25f)], [])),
+        Split("MED", "R4 Mist+Balmy vs Acid flask", SwordLeather("A"),
+            MedOnly([], [
+                Med("MendersMist", 3, MedicalTriggerType.PartBelowHealth),
+                Med("BalmyOintment", 2, MedicalTriggerType.BurningOrAcid)
+            ]),
+            SwordLeather("B"),
+            MedOnly([Pot("AcidFlask", PotionTriggerType.AfterSeconds, after: 5)], [])),
+        Split("MED", "R5 Jar+Churni vs Acid+Puss", SwordLeather("A"),
+            MedOnly([
+                Pot("JarOfBlood", PotionTriggerType.SelfBloodBelow, threshold: 0.2f),
+                Pot("SpicedChurni", PotionTriggerType.SelfPartsDamaged, threshold: 0.4f)
+            ], [Med("MedKit", 2, MedicalTriggerType.PartBelowHealth)]),
+            SwordLeather("B"),
+            MedOnly([
+                Pot("AcidFlask", PotionTriggerType.AfterSeconds, after: 5),
+                Pot("PussBomb", PotionTriggerType.AfterSeconds, after: 4)
+            ], [])),
+        Split("MED", "R8 Mix+Cauterize vs BoneCleanse", ChainBurn("A"),
+            MedOnly([], [
+                Med("MendersMix", 2, MedicalTriggerType.PartBelowHealth, health: 0.4f),
+                Med("Cauterize", 1, MedicalTriggerType.PartSevered, sel: MedicalTargetSelector.SeveredOrUnsealedSocket)
+            ]),
+            ChainBone("B"),
+            MedOnly([], [Med("BoneCleanse", 2, MedicalTriggerType.PartBelowHealth)])),
+        Split("MED", "R12 Serum vs Fester heal", WdHealFester("A"),
+            MedOnly([], [Med("AntiNecroticSerum", 3, MedicalTriggerType.HasNecrosis)]),
+            WdHealFester("B"),
+            MedOnly([], [Med("MendersMix", 3, MedicalTriggerType.PartBelowHealth, health: 0.4f)])),
+        Split("MED", "R12 Balmy vs FireStaff Burn", ChainStackedBurn("A"),
+            MedOnly([], [Med("BalmyOintment", 4, MedicalTriggerType.BurningOrAcid)]),
+            FireStaffBurn("B"),
+            MedOnly([], [Med("MedKit", 2, MedicalTriggerType.PartBelowHealth)])),
+
+        // --- INC: same gear/meal, smoke swap ---
+        Split("INC", "R1 Mullin vs Shade (axe)", AxeNaked("A"), StickOnly(Stick("MullinStick")), AxeNaked("B"), StickOnly(Stick("ShadeWood"))),
+        Split("INC", "R5 Shade vs no incense (leather)", SwordLeather("A"), StickOnly(Stick("ShadeWood")), SwordLeather("B"), StickOnly()),
+        Split("INC", "R5 Dipped vs Mullin (leather)", SwordLeather("A"), StickOnly(Stick("DippedMullinStick", 3)), SwordLeather("B"), StickOnly(Stick("MullinStick"))),
+        Split("INC", "R8 Dipped vs Shade+Mullin (chain)", SwordChain("A"), StickOnly(Stick("DippedMullinStick", 3)), SwordChain("B"), StickOnly(Stick("ShadeWood"), Stick("MullinStick"))),
+        Split("INC", "R8 Shade vs Dipped (WD-bone)", WdPlainBone("A"), StickOnly(Stick("ShadeWood")), WdPlainBone("B"), StickOnly(Stick("DippedMullinStick", 3))),
+        Split("INC", "R12 full smoke vs Mullin (stacked)", ChainStackedBurn("A"), StickOnly(Stick("DippedMullinStick", 3), Stick("ShadeWood"), Stick("MullinStick")), ChainStackedBurn("B"), StickOnly(Stick("MullinStick"))),
     ];
 
     [Fact]
@@ -447,7 +676,7 @@ public class BalanceSimReport
 
         sb.AppendLine("=== Wendlemire Human-vs-Human Balance (13-round curve) ===");
         sb.AppendLine($"Seeds/matchup: {SeedCount}   Target: {TargetMinTicks / 60}-{TargetMaxTicks / 60}s @ 60tps");
-        sb.AppendLine("Knobs this pass: AS 1 = 2 swings/s; ElvishLeaf 0.0001; RhinoSkin refund 10%; primitive 58; iron 52; chain 10; leather 5; WD 12; human HP -15%");
+        sb.AppendLine("Knobs this pass: AS 1 = 2 swings/s; era kits (meal+incense+med+potion) on every fight; KIT/FOOD/MED/INC isolate consumable axes");
         sb.AppendLine("Sever dump: currentBlood * (subtree BloodAmount / body BloodAmount) on Severe()");
         sb.AppendLine();
         AppendHumanBloodShares(sb);

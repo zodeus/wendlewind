@@ -50,10 +50,11 @@ var pool = new BuildPool(ServerData.PoolPath(dataDir));
 var players = new PlayerStore(dataDir);
 var analytics = new FightAnalyticsService(players);
 var codes = new ActivationCodeStore(dataDir);
-var releases = new ReleaseDownloadService(new HttpClient());
+var releases = new ReleaseDownloadService(ServerData.DownloadsDir(dataDir));
 var adminAuth = AdminAuth.Create(app.Environment);
 Console.WriteLine($"Data directory: {dataDir}");
 Console.WriteLine($"Admin: {adminAuth.StatusMessage}");
+Console.WriteLine($"Downloads: {releases.AvailableCount} client build(s) in {releases.DirectoryPath}");
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
@@ -86,7 +87,7 @@ app.MapPost("/activate", async (HttpContext http, ActivateRequest? request, Canc
     return Results.Ok(await releases.RefreshCatalogAsync(true, cancellationToken));
 });
 
-app.MapGet("/download/{platform}", async (HttpContext http, string platform, CancellationToken cancellationToken) =>
+app.MapGet("/download/{platform}", (HttpContext http, string platform) =>
 {
     if (!ReleaseDownloadService.IsPlatform(platform))
     {
@@ -98,13 +99,13 @@ app.MapGet("/download/{platform}", async (HttpContext http, string platform, Can
         return Results.Unauthorized();
     }
 
-    var url = await releases.ResolveUrlAsync(platform, cancellationToken);
-    return url is null
+    var file = releases.Find(platform);
+    return file is null
         ? TypedResults.Json(
-            new DownloadCatalog { Unlocked = true, Error = "Release assets are unavailable." },
+            new DownloadCatalog { Unlocked = true, Error = "Client builds are not on this server yet." },
             NetCodeJsonContext.Default.DownloadCatalog,
             statusCode: StatusCodes.Status503ServiceUnavailable)
-        : Results.Redirect(url);
+        : Results.File(file.Path, "application/zip", file.FileName, enableRangeProcessing: true);
 });
 
 app.MapGet("/health", () => Results.Ok(new

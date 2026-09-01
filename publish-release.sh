@@ -217,7 +217,7 @@ EOF
   fi
 
   echo
-  echo "Release $TAG: https://github.com/zodeus/wendlemire/releases/tag/$TAG"
+  echo "Release $TAG: https://github.com/zodeus/wendlewind/releases/tag/$TAG"
 else
   echo
   echo "Skipped GitHub upload. Artifacts are in $RELEASE_DIR"

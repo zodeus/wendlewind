@@ -1,14 +1,16 @@
-# Publish Wendlemire Windows/macOS builds and upload them to GitHub Releases.
+# Publish Wendlemire Windows/macOS client zips into RELEASE\.
+# Deploy.ps1 uploads those zips to the Hetzner host. GitHub is optional.
 # Usage:
 #   .\publish-release.ps1
 #   .\publish-release.ps1 -Version 0.1 -Platform all
-#   .\publish-release.ps1 -Version 0.1 -Platform windows -SkipUpload
+#   .\publish-release.ps1 -Version 0.1 -Platform windows -GitHub
 
 param(
     [string]$Version = "0.1",
     [ValidateSet("all", "windows", "mac", "current")]
     [string]$Platform = "all",
-    [string]$ServerUrl = "http://5.78.232.9",
+    [string]$ServerUrl = "https://wendlemire.com",
+    [switch]$GitHub,
     [switch]$SkipUpload
 )
 
@@ -195,11 +197,34 @@ Self-contained game builds. Unzip and run Wendlemire.exe on Windows, or ./Wendle
     }
 }
 
+function Write-Manifest {
+    param([string[]]$ZipPaths)
+
+    $files = [ordered]@{}
+    foreach ($zip in $ZipPaths) {
+        $name = [System.IO.Path]::GetFileName($zip)
+        if ($name -match "win-x64") { $files["win-x64"] = $name }
+        elseif ($name -match "osx-arm64") { $files["osx-arm64"] = $name }
+        elseif ($name -match "osx-x64") { $files["osx-x64"] = $name }
+    }
+
+    $manifest = [ordered]@{
+        version = $Version
+        files   = $files
+    }
+    $utf8 = New-Object System.Text.UTF8Encoding $false
+    [System.IO.File]::WriteAllText(
+        (Join-Path $ReleaseDir "latest.json"),
+        ($manifest | ConvertTo-Json -Compress),
+        $utf8)
+}
+
 if (-not (Get-Command dotnet -ErrorAction SilentlyContinue)) {
     throw "dotnet is required on PATH."
 }
-if (-not $SkipUpload -and -not (Get-Command gh -ErrorAction SilentlyContinue)) {
-    throw "GitHub CLI (gh) is required on PATH, or pass -SkipUpload."
+$uploadGitHub = $GitHub -and -not $SkipUpload
+if ($uploadGitHub -and -not (Get-Command gh -ErrorAction SilentlyContinue)) {
+    throw "GitHub CLI (gh) is required on PATH for -GitHub."
 }
 if (-not (Test-Path $Project)) {
     throw "Client project not found: $Project"
@@ -218,14 +243,15 @@ foreach ($target in $targets) {
     $zips += Publish-Target -Target $target
 }
 
-if (-not $SkipUpload) {
+Write-Manifest -ZipPaths $zips
+
+if ($uploadGitHub) {
     Publish-GitHubRelease -ZipPaths $zips
     Write-Host ""
-    Write-Success "Release ${Tag}: https://github.com/zodeus/wendlemire/releases/tag/${Tag}"
+    Write-Success "Release ${Tag}: https://github.com/zodeus/wendlewind/releases/tag/${Tag}"
 }
-else {
-    Write-Host ""
-    Write-Success "Skipped GitHub upload. Artifacts are in $ReleaseDir"
-}
+
+Write-Host ""
+Write-Success "Client zips are in $ReleaseDir"
 
 Write-Host ""

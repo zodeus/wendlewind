@@ -27,8 +27,14 @@ public static class ServerData
         var directory = ResolveDirectory();
         Directory.CreateDirectory(directory);
         Directory.CreateDirectory(Path.Combine(directory, "players"));
+        Directory.CreateDirectory(DownloadsDir(directory));
         TryMigrateLegacyPool(directory);
         return directory;
+    }
+
+    public static string DownloadsDir(string dataDirectory)
+    {
+        return Path.Combine(dataDirectory, "downloads");
     }
 
     public static string PoolPath(string dataDirectory)

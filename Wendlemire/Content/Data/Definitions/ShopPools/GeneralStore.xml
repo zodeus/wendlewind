@@ -9,60 +9,8 @@
         <TexturePath>Entities/Pawn/Portrait/Merchants/GeneralStore</TexturePath>
         <Shelves>
             <ListItem>
-                <Category>Food</Category>
-                <Columns>2</Columns>
-                <ItemColumns>1</ItemColumns>
-                <StockSize>2</StockSize>
-                <Offers>
-                    <ListItem>
-                        <ItemDef>CookedFish</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>CookedMeat</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>CookedCorn</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>DriedMeat</ItemDef>
-                    </ListItem>
-                </Offers>
-            </ListItem>
-            <ListItem>
-                <Category>Incense</Category>
-                <Columns>2</Columns>
-                <ItemColumns>1</ItemColumns>
-                <StockSize>2</StockSize>
-                <Offers>
-                    <ListItem>
-                        <ItemDef>MullinStick</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>ShadeWood</ItemDef>
-                    </ListItem>
-                </Offers>
-            </ListItem>
-            
-            <ListItem>
-                <Category>Potions</Category>
-                <Columns>2</Columns>
-                <ItemColumns>1</ItemColumns>
-                <StockSize>2</StockSize>
-                <Offers>
-                    <ListItem>
-                        <ItemDef>JarOfBlood</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>AcidFlask</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>PussBomb</ItemDef>
-                    </ListItem>
-                </Offers>
-            </ListItem>
-            <ListItem>
                 <Category>Weapons</Category>
-                <Columns>3</Columns>
+                <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
                 <StockSize>3</StockSize>
                 <Offers>
@@ -84,30 +32,10 @@
                 </Offers>
             </ListItem>
             <ListItem>
-                <Category>Medicine</Category>
-                <Columns>3</Columns>
-                <ItemColumns>1</ItemColumns>
-                <StockSize>3</StockSize>
-                <Offers>
-                    <ListItem>
-                        <ItemDef>BalmyOintment</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>ArterialThreads</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>MedKit</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>MendersMist</ItemDef>
-                    </ListItem>
-                </Offers>
-            </ListItem>
-            <ListItem>
                 <Category>Armor</Category>
-                <Columns>8</Columns>
+                <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
-                <StockSize>8</StockSize>
+                <StockSize>6</StockSize>
                 <Offers>
                     <ListItem>
                         <SetLabel>Cloth Set</SetLabel>
@@ -185,6 +113,79 @@
                     </ListItem>
                 </Offers>
             </ListItem>
+            <ListItem>
+                <Category>Food</Category>
+                <Columns>6</Columns>
+                <ItemColumns>1</ItemColumns>
+                <StockSize>2</StockSize>
+                <Offers>
+                    <ListItem>
+                        <ItemDef>CookedFish</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>CookedMeat</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>CookedCorn</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>DriedMeat</ItemDef>
+                    </ListItem>
+                </Offers>
+            </ListItem>
+            <ListItem>
+                <Category>Incense</Category>
+                <Columns>6</Columns>
+                <ItemColumns>1</ItemColumns>
+                <StockSize>2</StockSize>
+                <Offers>
+                    <ListItem>
+                        <ItemDef>MullinStick</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>ShadeWood</ItemDef>
+                    </ListItem>
+                </Offers>
+            </ListItem>
+            
+            <ListItem>
+                <Category>Potions</Category>
+                <Columns>6</Columns>
+                <ItemColumns>1</ItemColumns>
+                <StockSize>2</StockSize>
+                <Offers>
+                    <ListItem>
+                        <ItemDef>JarOfBlood</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>AcidFlask</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>PussBomb</ItemDef>
+                    </ListItem>
+                </Offers>
+            </ListItem>
+            <ListItem>
+                <Category>Medicine</Category>
+                <Columns>6</Columns>
+                <ItemColumns>1</ItemColumns>
+                <StockSize>3</StockSize>
+                <Offers>
+                    <ListItem>
+                        <ItemDef>BalmyOintment</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>ArterialThreads</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>MedKit</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>MendersMist</ItemDef>
+                    </ListItem>
+                </Offers>
+            </ListItem>
+            
         </Shelves>
     </MerchantDef>
 </Definitions>

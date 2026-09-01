@@ -1,27 +1,30 @@
 # Provision and deploy Wendlemire.Server to a single Hetzner Cloud VM.
-# Reads HCLOUD_TOKEN from the process or user environment (same name as hcloud / Terraform).
+# Reads HCLOUD_TOKEN and CLOUDFLARE_API_TOKEN from the process or user environment.
 #
 # Usage:
 #   .\deploy-hetzner.ps1
 #   .\deploy-hetzner.ps1 deploy
+#   .\deploy-hetzner.ps1 clients
+#   .\deploy-hetzner.ps1 dns
 #   .\deploy-hetzner.ps1 status
 #   .\deploy-hetzner.ps1 destroy
-#   .\deploy-hetzner.ps1 -Domain arena.example.com
+#   .\deploy-hetzner.ps1 -Domain wendlemire.com
 #   .\deploy-hetzner.ps1 -Location hil -Type cpx11
 
 param(
     [Parameter(Position = 0)]
-    [ValidateSet("up", "deploy", "status", "destroy")]
+    [ValidateSet("up", "deploy", "clients", "dns", "status", "destroy")]
     [string]$Action = "up",
 
     [string]$ServerName = "wendlemire",
     [string]$Location = "fsn1",
     [string]$Type = "cx23",
     [string]$Image = "ubuntu-24.04",
-    [string]$Domain = "",
+    [string]$Domain = "wendlemire.com",
     [string]$SshKeyName = "wendlemire",
     [string]$SshPublicKeyPath = "",
     [string]$SshIdentityPath = "",
+    [string]$ClientDir = "",
     [switch]$Force,
     [switch]$SkipBuild
 )
@@ -213,6 +216,17 @@ function Ensure-SshKey {
         return
     }
 
+    $pub = ((Get-Content -LiteralPath $SshPublicKeyPath -Raw) -replace "\s+", " ").Trim()
+    $keys = @(Get-HCloudJson -Arguments @("ssh-key", "list", "-o", "json"))
+    $same = @($keys) | Where-Object {
+        ((($_.public_key -replace "\s+", " ").Trim()) -eq $pub)
+    } | Select-Object -First 1
+    if ($same) {
+        Write-Info "Renaming existing SSH key '$($same.name)' to '$SshKeyName'..."
+        Invoke-HCloud @("ssh-key", "update", $same.name, "--name", $SshKeyName)
+        return
+    }
+
     Write-Info "Uploading SSH public key '$SshKeyName' from $SshPublicKeyPath..."
     Invoke-HCloud @("ssh-key", "create", "--name", $SshKeyName, "--public-key-from-file", $SshPublicKeyPath)
 }
@@ -245,8 +259,12 @@ function Wait-Ssh {
     $deadline = (Get-Date).AddMinutes(3)
     $args = (Get-SshArguments) + @("-o", "ConnectTimeout=5", "root@$ip", "true")
     while ((Get-Date) -lt $deadline) {
+        $previous = $ErrorActionPreference
+        $ErrorActionPreference = "Continue"
         & ssh @args 2>$null
-        if ($LASTEXITCODE -eq 0) {
+        $code = $LASTEXITCODE
+        $ErrorActionPreference = $previous
+        if ($code -eq 0) {
             return
         }
         Start-Sleep -Seconds 5
@@ -310,10 +328,221 @@ function Ensure-Server {
     Wait-Ssh
 }
 
+function Get-UserOrProcessEnv {
+    param([string]$Name)
+
+    $value = [Environment]::GetEnvironmentVariable($Name)
+    if ([string]::IsNullOrWhiteSpace($value)) {
+        $value = [Environment]::GetEnvironmentVariable($Name, "User")
+    }
+    if ([string]::IsNullOrWhiteSpace($value)) {
+        $value = [Environment]::GetEnvironmentVariable($Name, "Machine")
+    }
+    return $value
+}
+
+function Get-CloudflareAuthHeaders {
+    $token = Get-UserOrProcessEnv "CLOUDFLARE_API_TOKEN"
+    if (-not [string]::IsNullOrWhiteSpace($token)) {
+        $env:CLOUDFLARE_API_TOKEN = $token
+        return @{
+            Authorization = "Bearer $token"
+        }
+    }
+
+    $key = Get-UserOrProcessEnv "CLOUDFLARE_API_KEY"
+    $email = Get-UserOrProcessEnv "CLOUDFLARE_EMAIL"
+    if (-not [string]::IsNullOrWhiteSpace($key) -and -not [string]::IsNullOrWhiteSpace($email)) {
+        $env:CLOUDFLARE_API_KEY = $key
+        $env:CLOUDFLARE_EMAIL = $email
+        return @{
+            "X-Auth-Email" = $email
+            "X-Auth-Key"   = $key
+        }
+    }
+
+    return $null
+}
+
+function Get-HetznerIPv6Host {
+    param([string]$Raw)
+
+    if ([string]::IsNullOrWhiteSpace($Raw)) {
+        return $null
+    }
+
+    $addr = ($Raw.Trim() -split "/")[0]
+    if ($addr.EndsWith("::")) {
+        return $addr + "1"
+    }
+    return $addr
+}
+
+function Get-DnsZoneName {
+    $hostName = $Domain.Trim().TrimEnd(".").ToLowerInvariant()
+    $parts = $hostName.Split(".")
+    if ($parts.Count -lt 2) {
+        throw "Domain '$Domain' is not a valid hostname."
+    }
+    return "$($parts[-2]).$($parts[-1])"
+}
+
+function Test-IsApexDomain {
+    param([string]$Name)
+
+    return $Name.Trim().TrimEnd(".").ToLowerInvariant() -eq (Get-DnsZoneName)
+}
+
+function Get-SiteHostnames {
+    $primary = $Domain.Trim().TrimEnd(".").ToLowerInvariant()
+    $names = @($primary)
+    if (Test-IsApexDomain $primary) {
+        $names += "www.$primary"
+    }
+    return $names
+}
+
+function Invoke-Cloudflare {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Method,
+        [Parameter(Mandatory = $true)]
+        [string]$Path,
+        [object]$Body = $null
+    )
+
+    $uri = "https://api.cloudflare.com/client/v4$Path"
+    $headers = Get-CloudflareAuthHeaders
+    $params = @{
+        Method      = $Method
+        Uri         = $uri
+        Headers     = $headers
+        ContentType = "application/json"
+    }
+    if ($null -ne $Body) {
+        $params.Body = ($Body | ConvertTo-Json -Compress -Depth 6)
+    }
+
+    try {
+        $response = Invoke-RestMethod @params
+    }
+    catch {
+        $detail = $_.ErrorDetails.Message
+        if ([string]::IsNullOrWhiteSpace($detail)) {
+            $detail = $_.Exception.Message
+        }
+        $status = $_.Exception.Response.StatusCode.value__
+        if ($status -eq 401 -or $status -eq 403) {
+            throw "Cloudflare rejected the API credentials ($status). Create a token at https://dash.cloudflare.com/profile/api-tokens with Zone DNS Edit for wendlemire.com, then set CLOUDFLARE_API_TOKEN. $detail"
+        }
+        throw "Cloudflare $Method $Path failed. $detail"
+    }
+
+    if (-not $response.success) {
+        $errors = ($response.errors | ForEach-Object { "$($_.code): $($_.message)" }) -join "; "
+        throw "Cloudflare $Method $Path failed. $errors"
+    }
+
+    return $response
+}
+
+function Set-CloudflareAddress {
+    param(
+        [string]$ZoneId,
+        [string]$Name,
+        [string]$Type,
+        [string]$Content
+    )
+
+    $query = "type=$Type&name=$([uri]::EscapeDataString($Name))"
+    $list = Invoke-Cloudflare -Method GET -Path "/zones/$ZoneId/dns_records?$query"
+    $existing = @($list.result) | Select-Object -First 1
+    $payload = @{
+        type    = $Type
+        name    = $Name
+        content = $Content
+        ttl     = 1
+        proxied = $false
+    }
+
+    if ($existing) {
+        if ($existing.content -eq $Content -and -not $existing.proxied) {
+            Write-Info "DNS $Type $Name already points at $Content."
+            return
+        }
+
+        Write-Info "Updating $Type $Name → $Content..."
+        Invoke-Cloudflare -Method PUT -Path "/zones/$ZoneId/dns_records/$($existing.id)" -Body $payload | Out-Null
+        return
+    }
+
+    Write-Info "Creating $Type $Name → $Content..."
+    Invoke-Cloudflare -Method POST -Path "/zones/$ZoneId/dns_records" -Body $payload | Out-Null
+}
+
+function Ensure-CloudflareDns {
+    if ([string]::IsNullOrWhiteSpace($Domain)) {
+        return
+    }
+
+    if ($null -eq (Get-CloudflareAuthHeaders)) {
+        Write-Host "Cloudflare credentials are not set. Skipping DNS and serving at the server IP. Set CLOUDFLARE_API_TOKEN to point $Domain at this VM." -ForegroundColor Yellow
+        $script:Domain = ""
+        return
+    }
+
+    $server = Get-Server
+    if (-not $server) {
+        throw "Hetzner server '$ServerName' does not exist. Run .\deploy-hetzner.ps1 first."
+    }
+
+    $ipv4 = $server.public_net.ipv4.ip
+    $ipv6 = Get-HetznerIPv6Host $server.public_net.ipv6.ip
+
+    $zoneName = Get-DnsZoneName
+    Write-Info "Ensuring Cloudflare DNS for $zoneName → $ipv4..."
+
+    $zones = Invoke-Cloudflare -Method GET -Path "/zones?name=$([uri]::EscapeDataString($zoneName))"
+    $zone = @($zones.result) | Select-Object -First 1
+    if (-not $zone) {
+        $accounts = Invoke-Cloudflare -Method GET -Path "/accounts"
+        $account = @($accounts.result) | Select-Object -First 1
+        if (-not $account) {
+            throw "Cloudflare token has no accounts. Create a zone for $zoneName in the Cloudflare dashboard first."
+        }
+
+        Write-Info "Creating Cloudflare zone '$zoneName'..."
+        $created = Invoke-Cloudflare -Method POST -Path "/zones" -Body @{
+            name    = $zoneName
+            account = @{ id = $account.id }
+            type    = "full"
+        }
+        $zone = $created.result
+    }
+
+    foreach ($name in (Get-SiteHostnames)) {
+        Set-CloudflareAddress -ZoneId $zone.id -Name $name -Type A -Content $ipv4
+        if ($ipv6) {
+            Set-CloudflareAddress -ZoneId $zone.id -Name $name -Type AAAA -Content $ipv6
+        }
+    }
+
+    $ns = @($zone.name_servers)
+    if ($ns.Count -gt 0) {
+        Write-Info "Cloudflare nameservers: $($ns -join ', ')"
+        if ($zone.status -ne "active") {
+            Write-Host "Zone status is '$($zone.status)'. If $zoneName was registered outside Cloudflare, set those nameservers at the registrar." -ForegroundColor Yellow
+        }
+    }
+
+    Write-Success "Cloudflare DNS points $((Get-SiteHostnames) -join ', ') at $ipv4 (DNS only, so Caddy can issue HTTPS)."
+}
+
 function Get-Caddyfile {
     if ($Domain) {
+        $hosts = (Get-SiteHostnames) -join " "
         return @"
-$Domain {
+$hosts {
 	reverse_proxy 127.0.0.1:5080
 }
 "@
@@ -465,11 +694,11 @@ systemctl reload caddy || systemctl restart caddy
         try {
             $resolved = [System.Net.Dns]::GetHostAddresses($Domain) | ForEach-Object { $_.IPAddressToString }
             if ($resolved -notcontains $ip) {
-                Write-Host "DNS for $Domain is $($resolved -join ', '); server is $ip. HTTPS will fail until DNS points here." -ForegroundColor Yellow
+                Write-Host "DNS for $Domain is $($resolved -join ', '); server is $ip. HTTPS will fail until the new records propagate." -ForegroundColor Yellow
             }
         }
         catch {
-            Write-Host "Could not resolve $Domain yet. Point it at $($server.public_net.ipv4.ip) before Let's Encrypt can issue a cert." -ForegroundColor Yellow
+            Write-Host "Could not resolve $Domain yet. HTTPS will fail until Cloudflare nameservers are live and the A record has propagated." -ForegroundColor Yellow
         }
     }
 }
@@ -564,6 +793,43 @@ function Remove-Server {
     Write-Success "Deleted '$ServerName'. Firewall and SSH key were left in place."
 }
 
+function Deploy-ClientDownloads {
+    if ([string]::IsNullOrWhiteSpace($ClientDir)) {
+        if ($Action -eq "clients") {
+            throw "Pass -ClientDir pointing at RELEASE\\ with the client zips."
+        }
+        return
+    }
+
+    if (-not (Test-Path $ClientDir)) {
+        throw "Client directory not found: $ClientDir"
+    }
+
+    $zips = @(Get-ChildItem -Path $ClientDir -Filter "*.zip" -File)
+    if ($zips.Count -eq 0) {
+        throw "No client zips in $ClientDir. Run publish-release.ps1 first."
+    }
+
+    $remoteDownloads = "$RemoteDataDir/downloads"
+    Write-Info "Uploading $($zips.Count) client zip(s) to $remoteDownloads ..."
+    Invoke-Remote "mkdir -p $remoteDownloads"
+
+    foreach ($zip in $zips) {
+        Write-Info "  $($zip.Name)"
+        Copy-ToRemote -LocalPath $zip.FullName -RemotePath "/tmp/$($zip.Name)"
+        Invoke-Remote "mv /tmp/$($zip.Name) $remoteDownloads/$($zip.Name)"
+    }
+
+    $manifest = Join-Path $ClientDir "latest.json"
+    if (Test-Path $manifest) {
+        Copy-ToRemote -LocalPath $manifest -RemotePath "/tmp/latest.json"
+        Invoke-Remote "mv /tmp/latest.json $remoteDownloads/latest.json"
+    }
+
+    Invoke-Remote "chown -R wendlemire:wendlemire $remoteDownloads"
+    Write-Success "Client downloads are on the server."
+}
+
 function Show-Summary {
     $url = Get-PublicBaseUrl
     $adminPassword = Get-AdminPassword
@@ -577,22 +843,36 @@ function Show-Summary {
 }
 
 Get-HCloudToken
-Resolve-SshPaths
 $HCloud = Get-HCloudExe
+if ($Action -ne "dns") {
+    Resolve-SshPaths
+}
 
 switch ($Action) {
     "up" {
         Ensure-SshKey
         Ensure-Firewall
         Ensure-Server
+        Ensure-CloudflareDns
         Deploy-App
+        Deploy-ClientDownloads
         Wait-Health
         Show-Summary
     }
     "deploy" {
+        Ensure-CloudflareDns
         Deploy-App
+        Deploy-ClientDownloads
         Wait-Health
         Show-Summary
+    }
+    "clients" {
+        Wait-Ssh
+        Deploy-ClientDownloads
+        Write-Success "Clients: $(Get-PublicBaseUrl)/download/win-x64"
+    }
+    "dns" {
+        Ensure-CloudflareDns
     }
     "status" {
         Show-Status
