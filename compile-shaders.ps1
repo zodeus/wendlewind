@@ -1,4 +1,4 @@
-# Shader Compilation Script for Wendlewind
+# Shader Compilation Script for Wendlemire
 # Compiles .fx shader files to MonoGame effect format (.mgfxo)
 # Usage: .\compile-shaders.ps1
 
@@ -6,8 +6,8 @@ $ErrorActionPreference = "Stop"
 
 # Configuration
 $ProjectRoot = $PSScriptRoot
-$ShaderSourceDir = Join-Path $ProjectRoot "Wendlewind\Content\Effects"
-$ShaderOutputDir = Join-Path $ProjectRoot "Wendlewind\Content\Effects\Compiled"
+$ShaderSourceDir = Join-Path $ProjectRoot "Wendlemire\Content\Effects"
+$ShaderOutputDir = Join-Path $ProjectRoot "Wendlemire\Content\Effects\Compiled"
 $Platform = "DesktopGL"
 
 # Colors for output
@@ -17,7 +17,7 @@ function Write-Warn { param($msg) Write-Host $msg -ForegroundColor Yellow }
 
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Magenta
-Write-Host "  Wendlewind Shader Compiler" -ForegroundColor Magenta
+Write-Host "  Wendlemire Shader Compiler" -ForegroundColor Magenta
 Write-Host "========================================" -ForegroundColor Magenta
 Write-Host ""
 

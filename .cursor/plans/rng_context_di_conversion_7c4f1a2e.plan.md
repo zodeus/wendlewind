@@ -65,7 +65,7 @@ Cosmetic on purpose — removes the "two ways to set the stream" smell before th
 
 ## Phase 2 — Thread `Random` into Common helpers (1–2 days, medium risk)
 
-Goal: nothing in `Wendlewind.Common` reads a hidden global. This phase makes rolls explicit.
+Goal: nothing in `Wendlemire.Common` reads a hidden global. This phase makes rolls explicit.
 
 Change parameterless random surfaces to take a `Random`:
 
@@ -82,7 +82,7 @@ compile. Presentation stays on `Rng.Visual`.
 
 Risk: this is where determinism bugs hide. The replay assertion is the guard — run after each file batch.
 
-Acceptance: `Wendlewind.Common` has zero `Rng.Current` reads; replay agrees.
+Acceptance: `Wendlemire.Common` has zero `Rng.Current` reads; replay agrees.
 
 ---
 
@@ -130,7 +130,7 @@ Acceptance: no `GameContext.Current` references outside the shim; replay agrees;
 
 Goal: real lifetimes for runs/matches. Worth it because the Server hosts concurrent matches.
 
-- Add `Microsoft.Extensions.DependencyInjection` to `Wendlewind.Server` and the Client boot
+- Add `Microsoft.Extensions.DependencyInjection` to `Wendlemire.Server` and the Client boot
   (`Core` / `GameScene`).
 - Register `GameContext`, `ISimFactory`, `IRng`/seed source as **scoped**. One `CreateScope()` per run
   (client) or per `POST /matches` (server).
@@ -212,7 +212,7 @@ starts, cleared when it finishes):
   received `IRng`/`GameContext` from the scope. Keep a debug assert that no loaded handler
   has a null rng.
 
-Save format stays the same (`Class="Wendlewind.Sim...PoisonHandler"`). This is a load-path
+Save format stays the same (`Class="Wendlemire.Sim...PoisonHandler"`). This is a load-path
 change, not a save-schema change.
 
 ### 5d. Constraints
@@ -239,5 +239,5 @@ that rolls takes `IRng` (or `GameContext`) via constructor; save/load round-trip
 
 Total ~3–4 focused weeks including phase 5.
 
-Consider adding a small `Wendlewind.Tests` project in phase 2 so `AssertDeterministic()` runs in CI
+Consider adding a small `Wendlemire.Tests` project in phase 2 so `AssertDeterministic()` runs in CI
 instead of on Server startup.

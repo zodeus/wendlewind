@@ -1,0 +1,13 @@
+global using System;
+global using JetBrains.Annotations;
+global using System.Collections.Generic;
+global using System.Linq;
+global using Microsoft.Xna.Framework;
+global using Microsoft.Xna.Framework.Graphics;
+global using Wendlemire.Definitions;
+global using Wendlemire.Graphics;
+global using Wendlemire.Graphics.Textures;
+global using Wendlemire.Sim.Entities;
+global using Wendlemire.Sim.Entities.Items;
+global using Wendlemire.Sim.Entities.Items.Equipment;
+global using Wendlemire.Sim.Entities.Pawns;

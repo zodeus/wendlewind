@@ -1,0 +1,15 @@
+global using System;
+global using System.Collections.Generic;
+global using System.IO;
+global using System.Linq;
+global using ImGuiNET;
+global using Microsoft.Xna.Framework;
+global using Microsoft.Xna.Framework.Graphics;
+global using Microsoft.Xna.Framework.Input;
+global using Wendlemire.Definitions;
+global using Wendlemire.Definitions.Loader;
+global using Wendlemire.Sim;
+global using Wendlemire.Sim.Entities.Items.Equipment;
+global using Wendlemire.Sim.Entities.Pawns;
+global using Wendlemire.Sim.Combat;
+global using Wendlemire.Sim.Zones;

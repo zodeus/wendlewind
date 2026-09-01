@@ -19,12 +19,12 @@ param(
     [ValidateSet("all", "windows", "mac", "current")]
     [string]$Platform = "all",
 
-    [string]$ServerName = "wendlewind",
+    [string]$ServerName = "wendlemire",
     [string]$Location = "fsn1",
     [string]$Type = "cx23",
     [string]$Domain = "",
     [string]$ServerUrl = "",
-    [string]$SshKeyName = "wendlewind",
+    [string]$SshKeyName = "wendlemire",
     [string]$SshPublicKeyPath = "",
     [string]$SshIdentityPath = "",
 
@@ -81,7 +81,7 @@ if ($SkipServer -and $SkipClients) {
 
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Magenta
-Write-Host "  Wendlewind deploy" -ForegroundColor Magenta
+Write-Host "  Wendlemire deploy" -ForegroundColor Magenta
 Write-Host "========================================" -ForegroundColor Magenta
 
 if (-not $SkipServer) {
@@ -124,6 +124,6 @@ Write-Host "Server:  $resolvedUrl"
 Write-Host "Health:  $resolvedUrl/health"
 Write-Host "Admin:   $resolvedUrl/admin"
 if (-not $SkipClients -and -not $SkipUpload) {
-    Write-Host "Clients: https://github.com/zodeus/wendlewind/releases/tag/v$Version"
+    Write-Host "Clients: https://github.com/zodeus/wendlemire/releases/tag/v$Version"
 }
 Write-Host ""

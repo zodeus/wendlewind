@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wendlemire Admin</title>
+  <link rel="icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --void: #070504;
+      --ash: #100c0a;
+      --iron: #1a1210;
+      --scar: #241610;
+      --rust: #6e2a1c;
+      --blood: #7a1c16;
+      --ember: #c45428;
+      --bone: #cbb896;
+      --dust: #7a6e58;
+      --iron-edge: #3c2e26;
+      --good: #8a9a62;
+      --bad: #c45a3a;
+      --warn: #c45428;
+      --link: #d4b27a;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--void);
+    }
+
+    body {
+      position: relative;
+      color: var(--bone);
+      font-family: "IM Fell English", Georgia, serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 8;
+      opacity: 0.08;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    a { color: var(--link); text-decoration: none; }
+    a:hover { color: #ead9b4; text-decoration: underline; }
+
+    code, .mono { font-family: Consolas, "Courier New", monospace; color: #b8946a; }
+
+    header {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      padding: 0.85rem 1.25rem;
+      background: linear-gradient(180deg, #1a1210, #100c0a);
+      box-shadow: inset 0 -1px 0 #6a3a28, 0 1px 0 #050302;
+    }
+
+    header h1 {
+      margin: 0;
+      font-family: Cinzel, serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-shadow: 0 1px 0 #000;
+    }
+
+    nav { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+
+    nav a, button {
+      color: var(--bone);
+      background: linear-gradient(180deg, #2a1a14 0%, #140c0a 100%);
+      border: 1px solid var(--iron-edge);
+      box-shadow: inset 0 0 0 1px #0c0806, inset 0 1px 0 rgba(203, 184, 150, 0.06);
+      padding: 0.4rem 0.75rem;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    nav a.active, nav a:hover, button:hover {
+      border-color: var(--rust);
+      color: #ead9b4;
+      background: linear-gradient(180deg, #3a1c14 0%, #1a0c0a 100%);
+      text-decoration: none;
+    }
+
+    button.danger {
+      background: linear-gradient(180deg, #3a1410 0%, #140808 100%);
+      border-color: var(--blood);
+    }
+
+    button.danger:hover {
+      background: linear-gradient(180deg, #521810 0%, #1a0808 100%);
+      border-color: var(--bad);
+    }
+
+    button.small {
+      padding: 0.2rem 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    .spacer { flex: 1; }
+
+    .muted { color: var(--dust); }
+    .good { color: var(--good); }
+    .bad { color: var(--bad); }
+    .warn { color: var(--warn); }
+
+    main {
+      position: relative;
+      z-index: 1;
+      padding: 1.25rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .card {
+      background: var(--iron);
+      border: 1px solid var(--iron-edge);
+      box-shadow: inset 0 0 0 1px #0c0806;
+      padding: 0.85rem 0.95rem;
+    }
+
+    .card .label {
+      color: var(--dust);
+      font-family: Cinzel, serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .card .value {
+      font-size: 1.55rem;
+      margin-top: 0.25rem;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 0.85rem;
+    }
+
+    input[type="search"], input[type="password"], input[type="text"], input[type="number"] {
+      background: #140c0a;
+      border: 1px solid var(--iron-edge);
+      color: var(--bone);
+      padding: 0.45rem 0.65rem;
+      font: inherit;
+      min-width: 16rem;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--rust);
+    }
+
+    input[type="number"] {
+      min-width: 5rem;
+      width: 5.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--iron);
+      border: 1px solid var(--iron-edge);
+      font-size: 0.92rem;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 0.5rem 0.65rem;
+      border-bottom: 1px solid #2a1c16;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--dust);
+      font-family: Cinzel, serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    tbody tr:hover { background: var(--scar); }
+    tbody tr.clickable { cursor: pointer; }
+
+    .pill {
+      display: inline-block;
+      padding: 0.1rem 0.4rem;
+      border: 1px solid var(--iron-edge);
+      background: #140c0a;
+      font-size: 0.75rem;
+      letter-spacing: 0.03em;
+    }
+
+    main.login-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login {
+      max-width: 22rem;
+      width: 100%;
+      background: var(--iron);
+      padding: 8px;
+      box-shadow:
+        0 0 0 1px #0a0604,
+        0 18px 40px rgba(0, 0, 0, 0.7),
+        inset 0 0 0 1px #6a3a28;
+    }
+
+    .login-inner {
+      background: var(--ash);
+      padding: 1.35rem 1.4rem 1.45rem;
+    }
+
+    .login h2 {
+      margin: 0 0 0.35rem;
+      font-family: Cinzel, serif;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .login p { margin: 0 0 1rem; }
+    .login form { display: flex; flex-direction: column; gap: 0.65rem; }
+    .login input { min-width: 0; width: 100%; }
+
+    .error { color: var(--bad); min-height: 1.2rem; }
+
+    .detail-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .detail-head h2 {
+      font-family: Cinzel, serif;
+      letter-spacing: 0.06em;
+    }
+
+    .kv { display: grid; grid-template-columns: 8rem 1fr; gap: 0.3rem 0.75rem; margin-bottom: 1rem; }
+    .kv dt { color: var(--dust); }
+    .kv dd { margin: 0; }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .chip {
+      background: #140c0a;
+      border: 1px solid var(--iron-edge);
+      padding: 0.15rem 0.45rem;
+      font-size: 0.8rem;
+    }
+
+    .section { margin-bottom: 1.5rem; }
+    .section h3 {
+      margin: 0 0 0.6rem;
+      font-family: Cinzel, serif;
+      font-size: 0.92rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .empty { color: var(--dust); padding: 1.5rem 0; }
+
+    .id { font-size: 0.78rem; color: var(--dust); word-break: break-all; }
+
+    .created {
+      background: #1a100c;
+      border: 1px solid var(--rust);
+      padding: 0.75rem 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .created .mono {
+      font-size: 1.05rem;
+      letter-spacing: 0.06em;
+      color: #ead9b4;
+    }
+
+    pre.log {
+      background: var(--iron);
+      border: 1px solid var(--iron-edge);
+      padding: 0.75rem;
+      overflow: auto;
+      max-height: 24rem;
+      font-size: 0.8rem;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    const state = {
+      session: false,
+      route: parseRoute(),
+      search: "",
+      sort: { key: "", dir: 1 },
+      cache: {},
+      error: ""
+    };
+
+    function parseRoute() {
+      const hash = (location.hash || "#/").replace(/^#/, "");
+      const parts = hash.split("/").filter(Boolean);
+      return { parts, raw: hash };
+    }
+
+    window.addEventListener("hashchange", () => {
+      state.route = parseRoute();
+      state.sort = { key: "", dir: 1 };
+      render();
+      load();
+    });
+
+    async function api(path, options) {
+      const response = await fetch("/admin/api" + path, {
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json", ...(options && options.headers) },
+        ...options
+      });
+      if (response.status === 401) {
+        state.session = false;
+        throw new Error("unauthorized");
+      }
+      if (!response.ok) {
+        throw new Error(response.status + " " + response.statusText);
+      }
+      if (response.status === 204) return null;
+      return response.json();
+    }
+
+    async function ensureSession() {
+      const session = await api("/session");
+      state.session = !!session.authenticated;
+      return state.session;
+    }
+
+    async function login(password) {
+      state.error = "";
+      try {
+        await api("/login", { method: "POST", body: JSON.stringify({ password }) });
+        state.session = true;
+        render();
+        await load();
+      } catch {
+        state.error = "Wrong password.";
+        render();
+      }
+    }
+
+    async function logout() {
+      await api("/logout", { method: "POST", body: "{}" });
+      state.session = false;
+      state.cache = {};
+      render();
+    }
+
+    function cached(key, loader) {
+      if (state.cache[key]) return Promise.resolve(state.cache[key]);
+      return loader().then((data) => {
+        state.cache[key] = data;
+        return data;
+      });
+    }
+
+    async function load() {
+      if (!state.session) return;
+      const [page, a, b] = state.route.parts;
+      try {
+        if (!page) {
+          const data = await cached("overview", () => api("/overview"));
+          paint(() => overviewView(data));
+        } else if (page === "players" && a) {
+          const data = await cached("player:" + a, () => api("/players/" + encodeURIComponent(a)));
+          paint(() => playerView(data));
+        } else if (page === "players") {
+          const data = await cached("players", () => api("/players"));
+          paint(() => playersView(data));
+        } else if (page === "runs" && a && b) {
+          const data = await cached("run:" + a + ":" + b, () => api("/runs/" + encodeURIComponent(a) + "/" + encodeURIComponent(b)));
+          paint(() => runView(data));
+        } else if (page === "runs") {
+          const data = await cached("runs", () => api("/runs"));
+          paint(() => runsView(data));
+        } else if (page === "fights" && a === "log" && b) {
+          const data = await cached("log:" + b, () => api("/fights/" + encodeURIComponent(b) + "/log"));
+          paint(() => logView(b, data));
+        } else if (page === "fights") {
+          const data = await cached("fights", () => api("/fights"));
+          paint(() => fightsView(data));
+        } else if (page === "pool") {
+          const data = await cached("pool", () => api("/pool"));
+          paint(() => poolView(data));
+        } else if (page === "codes") {
+          const data = await api("/codes");
+          state.cache.codes = data;
+          paint(() => codesView(data, state.cache.createdCodes));
+        } else {
+          paint(() => `<p class="empty">Unknown page.</p>`);
+        }
+      } catch (error) {
+        if (error.message === "unauthorized") {
+          render();
+          return;
+        }
+        paint(() => `<p class="error">${esc(error.message)}</p>`);
+      }
+    }
+
+    function paint(html) {
+      const main = document.getElementById("main");
+      if (main) main.innerHTML = html();
+    }
+
+    function esc(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function shortId(id) {
+      if (!id) return "—";
+      return id.length > 12 ? id.slice(0, 8) + "…" : id;
+    }
+
+    function when(value) {
+      if (!value) return "—";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "—";
+      return `<span title="${esc(date.toISOString())}">${esc(date.toLocaleString())}</span>`;
+    }
+
+    function outcome(victory, active) {
+      if (active) return `<span class="pill warn">Active</span>`;
+      if (victory === true) return `<span class="pill good">Victory</span>`;
+      if (victory === false) return `<span class="pill bad">Defeat</span>`;
+      return `<span class="pill muted">Abandoned</span>`;
+    }
+
+    function record(wins, losses) {
+      return `${wins ?? 0}–${losses ?? 0}`;
+    }
+
+    function filterRows(rows, keys) {
+      const q = state.search.trim().toLowerCase();
+      if (!q) return rows;
+      return rows.filter((row) => keys.some((key) => String(row[key] ?? "").toLowerCase().includes(q)));
+    }
+
+    function sortRows(rows, fallbackKey) {
+      const key = state.sort.key || fallbackKey;
+      const dir = state.sort.dir;
+      return rows.slice().sort((a, b) => {
+        const av = a[key];
+        const bv = b[key];
+        if (av == null && bv == null) return 0;
+        if (av == null) return 1;
+        if (bv == null) return -1;
+        if (typeof av === "number" && typeof bv === "number") return (av - bv) * dir;
+        return String(av).localeCompare(String(bv)) * dir;
+      });
+    }
+
+    function header(key, label) {
+      const mark = state.sort.key === key ? (state.sort.dir > 0 ? " ▲" : " ▼") : "";
+      return `<th data-sort="${esc(key)}">${esc(label)}${mark}</th>`;
+    }
+
+    function bindSort(fallback) {
+      document.querySelectorAll("th[data-sort]").forEach((th) => {
+        th.addEventListener("click", () => {
+          const key = th.getAttribute("data-sort");
+          if (state.sort.key === key) state.sort.dir *= -1;
+          else { state.sort.key = key; state.sort.dir = 1; }
+          const page = state.route.parts[0];
+          if (!page) paint(() => overviewView(state.cache.overview));
+          else if (page === "players" && !state.route.parts[1]) paint(() => playersView(state.cache.players));
+          else if (page === "runs" && !state.route.parts[1]) paint(() => runsView(state.cache.runs));
+          else if (page === "fights" && !state.route.parts[1]) paint(() => fightsView(state.cache.fights));
+          else if (page === "pool") paint(() => poolView(state.cache.pool));
+          else if (page === "codes") paint(() => codesView(state.cache.codes, state.cache.createdCodes));
+          bindSort(fallback);
+          bindClicks();
+        });
+      });
+    }
+
+    function bindClicks() {
+      document.querySelectorAll("[data-href]").forEach((el) => {
+        el.addEventListener("click", () => { location.hash = el.getAttribute("data-href"); });
+      });
+    }
+
+    async function deletePlayer(playerId, displayName) {
+      const label = displayName || playerId;
+      if (!confirm("Delete " + label + " and all their arena data? This cannot be undone.")) {
+        return;
+      }
+
+      try {
+        await api("/players/" + encodeURIComponent(playerId), { method: "DELETE" });
+        state.cache = {};
+        if (state.route.parts[0] === "players" && state.route.parts[1]) {
+          location.hash = "#/players";
+          return;
+        }
+        render();
+        await load();
+      } catch (error) {
+        paint(() => `<p class="error">${esc(error.message)}</p>`);
+      }
+    }
+
+    function bindDeletes() {
+      document.querySelectorAll("[data-delete]").forEach((el) => {
+        el.addEventListener("click", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          deletePlayer(el.getAttribute("data-delete"), el.getAttribute("data-name"));
+        });
+      });
+    }
+
+    function searchBox(placeholder) {
+      return `<div class="toolbar"><input type="search" id="search" placeholder="${esc(placeholder)}" value="${esc(state.search)}"></div>`;
+    }
+
+    function bindSearch() {
+      const input = document.getElementById("search");
+      if (!input) return;
+      input.addEventListener("input", () => {
+        state.search = input.value;
+        const page = state.route.parts[0];
+        if (page === "players") paint(() => playersView(state.cache.players));
+        else if (page === "runs") paint(() => runsView(state.cache.runs));
+        else if (page === "fights") paint(() => fightsView(state.cache.fights));
+        else if (page === "pool") paint(() => poolView(state.cache.pool));
+        else if (page === "codes") paint(() => codesView(state.cache.codes, state.cache.createdCodes));
+        const el = document.getElementById("search");
+        if (el) {
+          el.focus();
+          el.selectionStart = el.selectionEnd = el.value.length;
+        }
+      });
+    }
+
+    function navLink(hash, label) {
+      const current = "#" + (state.route.raw || "/");
+      const active = current === hash || (hash !== "#/" && current.startsWith(hash));
+      return `<a href="${hash}" class="${active ? "active" : ""}">${label}</a>`;
+    }
+
+    function shell(body) {
+      return `
+        <header>
+          <h1>Wendlemire Admin</h1>
+          <nav>
+            ${navLink("#/", "Overview")}
+            ${navLink("#/players", "Players")}
+            ${navLink("#/runs", "Arena runs")}
+            ${navLink("#/fights", "Fights")}
+            ${navLink("#/pool", "Pool")}
+            ${navLink("#/codes", "Codes")}
+          </nav>
+          <span class="spacer"></span>
+          <button type="button" id="logout">Sign out</button>
+        </header>
+        <main id="main">${body}</main>
+      `;
+    }
+
+    function loginView() {
+      return `
+        <main class="login-page">
+          <div class="login">
+            <div class="login-inner">
+              <h2>Admin</h2>
+              <p class="muted">Enter the host password to view players, runs, and stats.</p>
+              <form id="login">
+                <input type="password" name="password" placeholder="Password" autocomplete="current-password" autofocus>
+                <button type="submit">Sign in</button>
+                <div class="error">${esc(state.error)}</div>
+              </form>
+            </div>
+          </div>
+        </main>
+      `;
+    }
+
+    function card(label, value, cls) {
+      return `<div class="card"><div class="label">${esc(label)}</div><div class="value ${cls || ""}">${value}</div></div>`;
+    }
+
+    function overviewView(data) {
+      if (!data) return `<p class="muted">Loading…</p>`;
+      const summary = data.fightSummary || {};
+      const active = data.activePlayers || [];
+      return `
+        <div class="cards">
+          ${card("Players", data.players)}
+          ${card("Active arenas", data.activeArenas, "warn")}
+          ${card("Arena runs", data.runs)}
+          ${card("Finished", data.finishedRuns)}
+          ${card("Victories", data.victories, "good")}
+          ${card("Defeats", data.defeats, "bad")}
+          ${card("Abandoned", data.abandoned)}
+          ${card("Fights", data.fights)}
+          ${card("Pool builds", data.poolBuilds)}
+          ${card("Unused codes", data.unusedCodes ?? 0, (data.unusedCodes ?? 0) === 0 ? "warn" : "good")}
+          ${card("Fight p50", summary.durationP50 == null ? "—" : summary.durationP50.toFixed(1) + "s")}
+          ${card("Fight p90", summary.durationP90 == null ? "—" : summary.durationP90.toFixed(1) + "s")}
+          ${card("In band", summary.inTargetBandPercent == null ? "—" : summary.inTargetBandPercent.toFixed(0) + "%")}
+        </div>
+        <div class="section">
+          <h3>Now playing</h3>
+          ${active.length === 0 ? `<p class="empty">No active arena runs.</p>` : playerTable(active)}
+        </div>
+      `;
+    }
+
+    function playerTable(rows) {
+      const filtered = sortRows(filterRows(rows, ["displayName", "username", "playerId", "activePhase"]), "lastPlayedAt");
+      if (!filtered.length) return `<p class="empty">No players match.</p>`;
+      return `
+        <table>
+          <thead><tr>
+            ${header("displayName", "Player")}
+            ${header("username", "Username")}
+            ${header("rating", "Rating")}
+            ${header("runCount", "Runs")}
+            ${header("fightCount", "Fights")}
+            ${header("totalWins", "W–L")}
+            ${header("hasActiveArena", "Arena")}
+            ${header("lastPlayedAt", "Last played")}
+            <th></th>
+          </tr></thead>
+          <tbody>
+            ${filtered.map((p) => `
+              <tr class="clickable" data-href="#/players/${esc(p.playerId)}">
+                <td>${esc(p.displayName)}<div class="id">${esc(p.playerId)}</div></td>
+                <td>${esc(p.username || "—")}</td>
+                <td>${p.rating ?? 0} <span class="muted">(${p.ratedRuns ?? 0})</span></td>
+                <td>${p.runCount}</td>
+                <td>${p.fightCount}</td>
+                <td>${record(p.totalWins, p.totalLosses)}</td>
+                <td>${p.hasActiveArena
+                  ? `<span class="pill warn">${esc(p.activePhase || "Active")} ${record(p.activeWins, p.activeLosses)} · ${p.activeGold ?? 0}g</span>`
+                  : `<span class="muted">Idle</span>`}</td>
+                <td>${when(p.lastPlayedAt)}</td>
+                <td><button type="button" class="danger small" data-delete="${esc(p.playerId)}" data-name="${esc(p.displayName)}">Delete</button></td>
+              </tr>`).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function playersView(rows) {
+      if (!rows) return `<p class="muted">Loading…</p>`;
+      return searchBox("Search players") + playerTable(rows);
+    }
+
+    function playerView(detail) {
+      if (!detail) return `<p class="muted">Loading…</p>`;
+      const p = detail.player;
+      const current = detail.currentArena;
+      const unlocked = (detail.achievements?.achievements || []).filter((a) => a.isUnlocked);
+      const loadout = current?.loadout;
+      return `
+        <div class="detail-head">
+          <div>
+            <a href="#/players">← Players</a>
+            <h2 style="margin:0.35rem 0 0">${esc(p.displayName)}</h2>
+            <div class="id">${esc(p.playerId)}</div>
+          </div>
+          <div style="display:flex;gap:0.5rem;align-items:center">
+            ${p.hasActiveArena ? `<span class="pill warn">In arena</span>` : `<span class="pill">Idle</span>`}
+            <button type="button" class="danger" data-delete="${esc(p.playerId)}" data-name="${esc(p.displayName)}">Delete player</button>
+          </div>
+        </div>
+        <dl class="kv">
+          <dt>Username</dt><dd>${esc(p.username || "—")}</dd>
+          <dt>Rating</dt><dd>${p.rating ?? 0} · ${p.ratedRuns ?? 0} rated runs</dd>
+          <dt>Created</dt><dd>${when(p.createdAt)}</dd>
+          <dt>Updated</dt><dd>${when(p.updatedAt)}</dd>
+          <dt>Record</dt><dd>${record(p.totalWins, p.totalLosses)} · ${p.victories} victories</dd>
+          <dt>Achievements</dt><dd>${unlocked.length} unlocked</dd>
+        </dl>
+        ${current ? `
+          <div class="section">
+            <h3>Current run</h3>
+            <dl class="kv">
+              <dt>Phase</dt><dd>${esc(current.phase)} · ${esc(current.currentMerchantMoniker || "—")}</dd>
+              <dt>Score</dt><dd>${record(current.wins, current.losses)} · ${current.gold}g</dd>
+              <dt>Started</dt><dd>${when(current.startedAt)}</dd>
+              <dt>Updated</dt><dd>${when(current.updatedAt)}</dd>
+              <dt>Seed</dt><dd class="mono">${current.runSeed}</dd>
+            </dl>
+            ${loadout ? `
+              <p class="muted">${esc(loadout.pawnName || loadout.pawnDefMoniker)} · ${esc(loadout.stanceMoniker || "no stance")}</p>
+              <div class="chips">${(loadout.entityDefMonikers || []).map((m) => `<span class="chip">${esc(m)}</span>`).join("")}</div>
+            ` : ""}
+          </div>` : ""}
+        <div class="section">
+          <h3>Runs</h3>
+          ${runTable(detail.runs || [])}
+        </div>
+        <div class="section">
+          <h3>Unlocked achievements</h3>
+          ${unlocked.length
+            ? `<div class="chips">${unlocked.map((a) => `<span class="chip">${esc(a.moniker)}</span>`).join("")}</div>`
+            : `<p class="empty">None yet.</p>`}
+        </div>
+      `;
+    }
+
+    function runTable(rows) {
+      const filtered = sortRows(filterRows(rows, ["playerName", "playerId", "runId"]), "startedAt");
+      if (!filtered.length) return `<p class="empty">No arena runs.</p>`;
+      return `
+        <table>
+          <thead><tr>
+            ${header("playerName", "Player")}
+            ${header("startedAt", "Started")}
+            ${header("finishedAt", "Finished")}
+            ${header("wins", "W–L")}
+            ${header("finalGold", "Gold")}
+            ${header("fightCount", "Fights")}
+            ${header("victory", "Result")}
+          </tr></thead>
+          <tbody>
+            ${filtered.map((r) => `
+              <tr class="clickable" data-href="#/runs/${esc(r.playerId)}/${esc(r.runId)}">
+                <td>${esc(r.playerName || shortId(r.playerId))}<div class="id">${esc(r.runId)}</div></td>
+                <td>${when(r.startedAt)}</td>
+                <td>${when(r.finishedAt)}</td>
+                <td>${record(r.wins, r.losses)}</td>
+                <td>${r.finalGold}</td>
+                <td>${r.fightCount}</td>
+                <td>${outcome(r.victory, r.isActive)}</td>
+              </tr>`).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function runsView(rows) {
+      if (!rows) return `<p class="muted">Loading…</p>`;
+      return searchBox("Search runs") + runTable(rows);
+    }
+
+    function buildList(snapshot) {
+      if (!snapshot) return "—";
+      const items = snapshot.entityDefMonikers || [];
+      const name = snapshot.pawnName || snapshot.pawnDefMoniker || snapshot.playerId;
+      return `<div>${esc(name)}</div><div class="id">${items.slice(0, 6).map(esc).join(", ")}${items.length > 6 ? "…" : ""}</div>`;
+    }
+
+    function runView(run) {
+      if (!run) return `<p class="muted">Loading…</p>`;
+      const fights = run.fights || [];
+      return `
+        <div class="detail-head">
+          <div>
+            <a href="#/runs">← Runs</a> · <a href="#/players/${esc(run.playerId)}">${esc(run.playerName || "Player")}</a>
+            <h2 style="margin:0.35rem 0 0">Run ${esc(shortId(run.runId))}</h2>
+            <div class="id">${esc(run.runId)}</div>
+          </div>
+          <div>${outcome(run.victory, !run.finishedAt)}</div>
+        </div>
+        <dl class="kv">
+          <dt>Record</dt><dd>${record(run.wins, run.losses)} · ${run.finalGold}g</dd>
+          <dt>Started</dt><dd>${when(run.startedAt)}</dd>
+          <dt>Finished</dt><dd>${when(run.finishedAt)}</dd>
+          <dt>Seed</dt><dd class="mono">${run.runSeed}</dd>
+        </dl>
+        <div class="section">
+          <h3>Fights</h3>
+          ${fights.length === 0 ? `<p class="empty">No fights recorded.</p>` : `
+            <table>
+              <thead><tr>
+                <th>Round</th><th>Attacker</th><th>Defender</th><th>Winner</th><th>Ticks</th><th>Cause</th><th>When</th><th></th>
+              </tr></thead>
+              <tbody>
+                ${fights.map((f) => `
+                  <tr>
+                    <td>${f.round}</td>
+                    <td>${buildList(f.attacker)}</td>
+                    <td>${buildList(f.defender)}</td>
+                    <td>${esc(shortId(f.winnerPlayerId))}</td>
+                    <td>${f.ticks}</td>
+                    <td>${esc(f.causeOfDeath || "—")}</td>
+                    <td>${when(f.foughtAt)}</td>
+                    <td><a href="#/fights/log/${esc(f.matchId)}">log</a></td>
+                  </tr>`).join("")}
+              </tbody>
+            </table>`}
+        </div>
+      `;
+    }
+
+    function fightsView(rows) {
+      if (!rows) return `<p class="muted">Loading…</p>`;
+      const filtered = sortRows(filterRows(rows, ["matchId", "playerId", "runId", "causeOfDeath", "killingWeapon"]), "durationSeconds");
+      if (!filtered.length) return searchBox("Search fights") + `<p class="empty">No fights.</p>`;
+      return searchBox("Search fights") + `
+        <table>
+          <thead><tr>
+            ${header("round", "Round")}
+            ${header("durationSeconds", "Duration")}
+            ${header("playerId", "Player")}
+            ${header("winnerPlayerId", "Winner")}
+            ${header("causeOfDeath", "Cause")}
+            ${header("killingWeapon", "Kill")}
+            ${header("attackerDamage", "Atk dmg")}
+            ${header("defenderDamage", "Def dmg")}
+          </tr></thead>
+          <tbody>
+            ${filtered.map((f) => `
+              <tr class="clickable" data-href="#/fights/log/${esc(f.matchId)}">
+                <td>${f.round}</td>
+                <td>${(f.durationSeconds ?? 0).toFixed(1)}s ${f.inTargetBand ? `<span class="good">●</span>` : ""}</td>
+                <td class="id">${esc(shortId(f.playerId))}</td>
+                <td class="id">${esc(shortId(f.winnerPlayerId))}</td>
+                <td>${esc(f.causeOfDeath || "—")}</td>
+                <td>${esc([f.killingWeapon, f.killingManeuver].filter(Boolean).join(" / ") || "—")}</td>
+                <td>${(f.attackerDamage ?? 0).toFixed(0)}</td>
+                <td>${(f.defenderDamage ?? 0).toFixed(0)}</td>
+              </tr>`).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function logView(matchId, log) {
+      const events = log?.events || [];
+      return `
+        <div class="detail-head">
+          <div>
+            <a href="#/fights">← Fights</a>
+            <h2 style="margin:0.35rem 0 0">Combat log</h2>
+            <div class="id">${esc(matchId)}</div>
+          </div>
+        </div>
+        ${events.length === 0
+          ? `<p class="empty">No events stored for this match.</p>`
+          : `<pre class="log">${events.map((e) => {
+              const t = String(e.tick ?? 0).padStart(5, " ");
+              const who = [e.subjectName, e.targetName].filter(Boolean).join(" → ");
+              const extra = e.message || [e.itemLabel, e.bodyPartLabel, e.amount ? e.amount.toFixed(1) : ""]
+                .filter(Boolean).join(" ");
+              return `${esc(t)}  ${esc(e.kind || "")}  ${esc(who)}  ${esc(extra)}`;
+            }).join("\n")}</pre>`}
+      `;
+    }
+
+    function poolView(pool) {
+      if (!pool) return `<p class="muted">Loading…</p>`;
+      const builds = sortRows(filterRows(pool.builds || [], ["playerId", "pawnName", "pawnDefMoniker", "buildId", "stanceMoniker"]), "submittedAt");
+      const rounds = (pool.rounds || []).map((r) => `<span class="chip">R${r.round}: ${r.builds}</span>`).join("");
+      return `
+        <p class="muted">${pool.count} builds in the matchmaking pool.</p>
+        <div class="chips" style="margin-bottom:1rem">${rounds || `<span class="muted">Empty</span>`}</div>
+        ${searchBox("Search pool")}
+        ${builds.length === 0 ? `<p class="empty">No builds submitted.</p>` : `
+          <table>
+            <thead><tr>
+              ${header("round", "Round")}
+              ${header("pawnName", "Pawn")}
+              ${header("playerId", "Player")}
+              ${header("stanceMoniker", "Stance")}
+              ${header("submittedAt", "Submitted")}
+            </tr></thead>
+            <tbody>
+              ${builds.map((b) => `
+                <tr>
+                  <td>${b.round}</td>
+                  <td>${esc(b.pawnName || b.pawnDefMoniker)}<div class="id">${(b.entityDefMonikers || []).slice(0, 5).map(esc).join(", ")}</div></td>
+                  <td><a href="#/players/${esc(b.playerId)}">${esc(shortId(b.playerId))}</a></td>
+                  <td>${esc(b.stanceMoniker || "—")}</td>
+                  <td>${when(b.submittedAt)}</td>
+                </tr>`).join("")}
+            </tbody>
+          </table>`}
+      `;
+    }
+
+    function codeStatus(code) {
+      if (code.revokedAt) return `<span class="pill bad">Revoked</span>`;
+      if (code.redeemedAt) return `<span class="pill">Redeemed</span>`;
+      return `<span class="pill good">Unused</span>`;
+    }
+
+    function codesView(rows, created) {
+      if (!rows) return `<p class="muted">Loading…</p>`;
+      const fresh = created || [];
+      const filtered = sortRows(filterRows(rows, ["code", "note", "id"]), "createdAt");
+      return `
+        <form class="toolbar" id="generate-codes">
+          <input type="number" name="count" min="1" max="25" value="1" title="How many codes">
+          <input type="text" name="note" placeholder="Note (optional)" maxlength="80">
+          <button type="submit">Generate</button>
+        </form>
+        ${fresh.length ? `
+          <div class="created">
+            <div class="muted">New codes — copy these now</div>
+            ${fresh.map((code) => `
+              <div style="display:flex;gap:0.5rem;align-items:center;margin-top:0.45rem">
+                <span class="mono">${esc(code.code)}</span>
+                <button type="button" class="small" data-copy="${esc(code.code)}">Copy</button>
+              </div>`).join("")}
+          </div>` : ""}
+        ${searchBox("Search codes")}
+        ${filtered.length === 0 ? `<p class="empty">No activation codes yet.</p>` : `
+          <table>
+            <thead><tr>
+              ${header("code", "Code")}
+              ${header("note", "Note")}
+              ${header("createdAt", "Created")}
+              ${header("redeemedAt", "Redeemed")}
+              ${header("revokedAt", "Status")}
+              <th></th>
+            </tr></thead>
+            <tbody>
+              ${filtered.map((code) => `
+                <tr>
+                  <td class="mono">${esc(code.code)}</td>
+                  <td>${esc(code.note || "—")}</td>
+                  <td>${when(code.createdAt)}</td>
+                  <td>${when(code.redeemedAt)}</td>
+                  <td>${codeStatus(code)}</td>
+                  <td>
+                    <button type="button" class="small" data-copy="${esc(code.code)}">Copy</button>
+                    ${code.revokedAt ? "" : `<button type="button" class="danger small" data-revoke="${esc(code.id)}">Revoke</button>`}
+                  </td>
+                </tr>`).join("")}
+            </tbody>
+          </table>`}
+      `;
+    }
+
+    async function generateCodes(event) {
+      event.preventDefault();
+      const form = new FormData(event.target);
+      try {
+        const created = await api("/codes", {
+          method: "POST",
+          body: JSON.stringify({
+            count: Number(form.get("count") || 1),
+            note: form.get("note") || ""
+          })
+        });
+        state.cache.createdCodes = created;
+        delete state.cache.overview;
+        const data = await api("/codes");
+        state.cache.codes = data;
+        paint(() => codesView(data, created));
+      } catch (error) {
+        paint(() => `<p class="error">${esc(error.message)}</p>`);
+      }
+    }
+
+    async function revokeCode(id) {
+      if (!confirm("Revoke this code? Unused copies will stop working, and any download session from it will end.")) {
+        return;
+      }
+      try {
+        await api("/codes/" + encodeURIComponent(id) + "/revoke", { method: "POST", body: "{}" });
+        if (state.cache.createdCodes) {
+          state.cache.createdCodes = state.cache.createdCodes.map((code) =>
+            code.id === id ? { ...code, revokedAt: new Date().toISOString() } : code);
+        }
+        delete state.cache.overview;
+        const data = await api("/codes");
+        state.cache.codes = data;
+        paint(() => codesView(data, state.cache.createdCodes));
+      } catch (error) {
+        paint(() => `<p class="error">${esc(error.message)}</p>`);
+      }
+    }
+
+    function bindCodes() {
+      const form = document.getElementById("generate-codes");
+      if (form) form.addEventListener("submit", generateCodes);
+      document.querySelectorAll("[data-revoke]").forEach((el) => {
+        el.addEventListener("click", (event) => {
+          event.preventDefault();
+          revokeCode(el.getAttribute("data-revoke"));
+        });
+      });
+      document.querySelectorAll("[data-copy]").forEach((el) => {
+        el.addEventListener("click", async (event) => {
+          event.preventDefault();
+          const value = el.getAttribute("data-copy");
+          try {
+            await navigator.clipboard.writeText(value);
+            el.textContent = "Copied";
+            setTimeout(() => { el.textContent = "Copy"; }, 1200);
+          } catch {
+            window.prompt("Copy code", value);
+          }
+        });
+      });
+    }
+
+    function render() {
+      const root = document.getElementById("app");
+      if (!state.session) {
+        root.innerHTML = loginView();
+        document.getElementById("login").addEventListener("submit", (event) => {
+          event.preventDefault();
+          login(new FormData(event.target).get("password"));
+        });
+        return;
+      }
+
+      root.innerHTML = shell(`<p class="muted">Loading…</p>`);
+      document.getElementById("logout").addEventListener("click", logout);
+    }
+
+    function afterPaint() {
+      bindSort();
+      bindClicks();
+      bindDeletes();
+      bindSearch();
+      bindCodes();
+    }
+
+    const _paint = paint;
+    paint = function (html) {
+      _paint(html);
+      afterPaint();
+    };
+
+    (async () => {
+      try {
+        await ensureSession();
+      } catch {
+        state.session = false;
+      }
+      render();
+      if (state.session) await load();
+    })();
+  </script>
+</body>
+</html>

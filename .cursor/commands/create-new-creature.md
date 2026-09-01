@@ -1,11 +1,11 @@
-# Wendlewind Game Development Rules
+# Wendlemire Game Development Rules
 
 ## Command: Create New Creature
 
 When the user says "create creature [CreatureName]" or provides a folder of body part textures, follow this process:
 
 ### Prerequisites
-1. Check the texture folder at `Wendlewind/Content/Textures/Entities/Pawn/BodyParts/[CreatureName]/` to see available body parts
+1. Check the texture folder at `Wendlemire/Content/Textures/Entities/Pawn/BodyParts/[CreatureName]/` to see available body parts
 2. Determine body structure based on textures:
    - **Humanoid** (has Arm, Hand, Finger, Leg, Foot): Use HumanBodyGenerator as reference
    - **Quadruped** (has 4 Legs, Hooves/Paws): Use HorseBodyGenerator or WolfBodyGenerator as reference
@@ -16,7 +16,7 @@ When the user says "create creature [CreatureName]" or provides a folder of body
 ### Files to Create/Modify
 
 #### 1. Body Parts XML Definition
-**Create:** `Wendlewind/Content/Data/Definitions/Entities/Pawns/Bodies/BodyParts/[CreatureName]Parts.xml`
+**Create:** `Wendlemire/Content/Data/Definitions/Entities/Pawns/Bodies/BodyParts/[CreatureName]Parts.xml`
 
 Template structure:
 ```xml
@@ -43,10 +43,10 @@ Key fields for each body part:
 - Claws/Paws → Use `LeftPawSocket`/`RightPawSocket` or `PawSocket`
 
 #### 2. Body Generator Class
-**Create:** `Wendlewind/Source/Sim/Entities/Pawns/Bodies/[CreatureName]BodyGenerator.cs`
+**Create:** `Wendlemire/Source/Sim/Entities/Pawns/Bodies/[CreatureName]BodyGenerator.cs`
 
 ```csharp
-namespace Wendlewind.Sim.Entities.Pawns.Bodies;
+namespace Wendlemire.Sim.Entities.Pawns.Bodies;
 
 [UsedImplicitly]
 public class [CreatureName]BodyGenerator : IBodyGenerator
@@ -62,10 +62,10 @@ public class [CreatureName]BodyGenerator : IBodyGenerator
 ```
 
 #### 3. Body Part Layout Class
-**Create:** `Wendlewind/Source/Scenes/MainGameScene/Gui/Widgets/CombatWidgets/BodyPartLayouts/[CreatureName]BodyPartLayout.cs`
+**Create:** `Wendlemire/Source/Scenes/MainGameScene/Gui/Widgets/CombatWidgets/BodyPartLayouts/[CreatureName]BodyPartLayout.cs`
 
 ```csharp
-namespace Wendlewind.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayouts;
+namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.CombatWidgets.BodyPartLayouts;
 
 [UsedImplicitly]
 public class [CreatureName]BodyPartLayout : IBodyPartLayout
@@ -92,7 +92,7 @@ public class [CreatureName]BodyPartLayout : IBodyPartLayout
 - `Front Left Leg`, `Rear Right Leg` (from positional sockets)
 
 #### 4. Body Definition
-**Modify:** `Wendlewind/Content/Data/Definitions/Entities/Pawns/Bodies/Bodies.xml`
+**Modify:** `Wendlemire/Content/Data/Definitions/Entities/Pawns/Bodies/Bodies.xml`
 
 Add before `</Definitions>`:
 ```xml
@@ -110,7 +110,7 @@ Add before `</Definitions>`:
 BloodType options: AnimalBlood, BlackPlasma, ToxicSlime, Sap, Oil, HoneySuckle
 
 #### 5. Pawn Definition
-**Modify:** `Wendlewind/Content/Data/Definitions/Entities/Pawns/RacesMonsters.xml`
+**Modify:** `Wendlemire/Content/Data/Definitions/Entities/Pawns/RacesMonsters.xml`
 
 Add before `</Definitions>`:
 ```xml
@@ -129,7 +129,7 @@ Add before `</Definitions>`:
 ```
 
 #### 6. DefLocators
-**Modify:** `Wendlewind/Source/Definitions/DefLocators.cs`
+**Modify:** `Wendlemire/Source/Definitions/DefLocators.cs`
 
 Add body part static references in the `BodyParts` class:
 ```csharp
@@ -139,7 +139,7 @@ public static BodyPartDef [CreatureName]Torso = null!;
 ```
 
 #### 7. Biological Weapons
-**Modify:** `Wendlewind/Content/Data/Definitions/Entities/Items/Weapons/BiologicalWeapons.xml`
+**Modify:** `Wendlemire/Content/Data/Definitions/Entities/Items/Weapons/BiologicalWeapons.xml`
 
 Add weapons for attack parts (teeth, claws, feet, etc.):
 ```xml
@@ -163,11 +163,11 @@ Add weapons for attack parts (teeth, claws, feet, etc.):
 ```
 
 ### Reference Files
-- Body Generators: `Wendlewind/Source/Sim/Entities/Pawns/Bodies/`
-- Body Part Layouts: `Wendlewind/Source/Scenes/MainGameScene/Gui/Widgets/CombatWidgets/BodyPartLayouts/`
-- Body Part Types: `Wendlewind/Source/Sim/Entities/Pawns/BodyPartType.cs`
-- Socket Definitions: `Wendlewind/Content/Data/Definitions/Entities/Pawns/Bodies/BodyParts/BodyPartSockets-*.xml`
-- Existing body parts for reference: `Wendlewind/Content/Data/Definitions/Entities/Pawns/Bodies/BodyParts/`
+- Body Generators: `Wendlemire/Source/Sim/Entities/Pawns/Bodies/`
+- Body Part Layouts: `Wendlemire/Source/Scenes/MainGameScene/Gui/Widgets/CombatWidgets/BodyPartLayouts/`
+- Body Part Types: `Wendlemire/Source/Sim/Entities/Pawns/BodyPartType.cs`
+- Socket Definitions: `Wendlemire/Content/Data/Definitions/Entities/Pawns/Bodies/BodyParts/BodyPartSockets-*.xml`
+- Existing body parts for reference: `Wendlemire/Content/Data/Definitions/Entities/Pawns/Bodies/BodyParts/`
 
 ### Validation Checklist
 - [ ] All texture files have corresponding BodyPartDef entries

@@ -1,0 +1,47 @@
+﻿﻿// Global using directives
+
+global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using FontStashSharp;
+global using Wendlemire.Debug;
+global using Wendlemire.Definitions;
+global using Wendlemire.Maths;
+global using Wendlemire.Scenes.MainGameScene.Gui.Widgets;
+global using Wendlemire.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
+global using Wendlemire.Scenes.MainGameScene.Gui.Widgets.Grimoire;
+global using Wendlemire.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
+global using Wendlemire.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
+global using Wendlemire.Sim;
+global using Wendlemire.Sim.Arena;
+global using Wendlemire.Sim.LootBoxes;
+global using Wendlemire.Sim.Achievements;
+global using Wendlemire.Sim.Combat;
+global using Wendlemire.Sim.Entities;
+global using Wendlemire.Sim.Entities.Items;
+global using Wendlemire.Sim.Entities.Pawns;
+global using Wendlemire.Sim.Entities.Pawns.Bodies;
+global using Wendlemire.Sim.Entities.Pawns.Modifiers;
+global using Wendlemire.Sim.Entities.Items.Enchantments;
+global using Wendlemire.Sim.Entities.Items.Equipment;
+global using Wendlemire.Sim.Entities.Items.Medicinals;
+global using Wendlemire.Sim.Entities.Items.Potions;
+global using Wendlemire.Sim.Entities.Items.Trinkets;
+
+global using Wendlemire.Sim.Persistence;
+global using Wendlemire.Sim.Zones;
+global using Wendlemire.PawnLayout;
+global using Wendlemire.Presentation;
+global using Wendlemire.Utils;
+global using JetBrains.Annotations;
+global using Microsoft.Xna.Framework;
+global using Microsoft.Xna.Framework.Graphics;
+global using Microsoft.Xna.Framework.Input;
+global using Myra.Graphics2D;
+global using Myra.Graphics2D.TextureAtlases;
+global using Myra.Graphics2D.UI;
+global using Myra.Graphics2D.UI.Styles;
+global using Myra.Graphics2D.Brushes;
+global using HorizontalAlignment = Myra.Graphics2D.UI.HorizontalAlignment;
+global using Keys = Microsoft.Xna.Framework.Input.Keys;
+global using Label = Myra.Graphics2D.UI.Label;

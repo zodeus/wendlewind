@@ -1,0 +1,10 @@
+global using System;
+global using Wendlemire;
+global using System.Collections.Generic;
+global using System.Linq;
+global using Microsoft.Xna.Framework;
+global using Microsoft.Xna.Framework.Graphics;
+global using Wendlemire.Debug;
+global using Wendlemire.Graphics;
+global using Wendlemire.Maths;
+global using Wendlemire.Utils;

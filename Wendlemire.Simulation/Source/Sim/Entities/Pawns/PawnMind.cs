@@ -1,0 +1,62 @@
+namespace Wendlemire.Sim.Entities.Pawns;
+
+public class PawnMind : IExposable
+{
+    private Pawn _pawn;
+    private float _sanity = 1f;
+    private float _power;
+    private float _focus = .1f;
+
+    public float Sanity
+    {
+        get => _sanity;
+        set => _sanity = Mathf.Clamp(value, 0f, 1);
+    }
+
+    public float Power
+    {
+        get => _power;
+        set => _power = Mathf.Clamp(value, 0f, 1);
+    }
+
+    public float Focus
+    {
+        get => _focus;
+        set => _focus = Mathf.Clamp(value, 0f, 1);
+    }
+
+
+    public PawnMind(Pawn pawn)
+    {
+        _pawn = pawn;
+    }
+
+    public void Tick()
+    {
+        if (_pawn.IsFamished)
+        {
+            Sanity -= 0.001f;
+            Power -= 0.001f;
+            Focus -= 0.001f;
+        }
+
+        if (_pawn.Body.EnergyPercent < .05f)
+        {
+            Sanity -= 0.001f;
+            Power -= 0.001f;
+            Focus -= 0.001f;
+        }
+
+        if (_pawn.Body.IsWarm && _pawn.IsHungry == false)
+        {
+            Sanity += 0.0005f;
+        }
+    }
+
+    public void ExposeData()
+    {
+        ScribeValues.Look(ref _sanity, "Sanity");
+        ScribeValues.Look(ref _power, "Power");
+        ScribeValues.Look(ref _focus, "Focus");
+    }
+}

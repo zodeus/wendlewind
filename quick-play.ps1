@@ -1,10 +1,10 @@
-# Kill any running Wendlewind server/client and start a fresh pair.
+# Kill any running Wendlemire server/client and start a fresh pair.
 # Usage: .\quick-play.ps1
 
 $ErrorActionPreference = "Stop"
 $Root = $PSScriptRoot
-$ServerProject = Join-Path $Root "Wendlewind.Server\Wendlewind.Server.csproj"
-$ClientProject = Join-Path $Root "Wendlewind\Wendlewind.Client.csproj"
+$ServerProject = Join-Path $Root "Wendlemire.Server\Wendlemire.Server.csproj"
+$ClientProject = Join-Path $Root "Wendlemire\Wendlemire.Client.csproj"
 $HealthUrl = "http://localhost:5080/health"
 
 function Stop-OwnedProcesses {
@@ -19,17 +19,17 @@ function Stop-OwnedProcesses {
     }
 }
 
-function Stop-WendlewindPair {
+function Stop-WendlemirePair {
     Stop-OwnedProcesses @(
-        (Get-Process -Name "Wendlewind", "Wendlewind.Server" -ErrorAction SilentlyContinue).Id
+        (Get-Process -Name "Wendlemire", "Wendlemire.Server" -ErrorAction SilentlyContinue).Id
     )
 
     $dotnetHosts = Get-CimInstance Win32_Process -Filter "Name = 'dotnet.exe'" |
         Where-Object {
             $_.CommandLine -and (
-                $_.CommandLine -match "Wendlewind\.Server" -or
-                $_.CommandLine -match "Wendlewind\.Client" -or
-                $_.CommandLine -match "Wendlewind\.dll"
+                $_.CommandLine -match "Wendlemire\.Server" -or
+                $_.CommandLine -match "Wendlemire\.Client" -or
+                $_.CommandLine -match "Wendlemire\.dll"
             )
         }
     Stop-OwnedProcesses @($dotnetHosts.ProcessId)
@@ -61,8 +61,8 @@ function Wait-ServerHealthy {
     throw "Server did not become healthy at $HealthUrl"
 }
 
-Write-Host "Stopping existing Wendlewind server/client..."
-Stop-WendlewindPair
+Write-Host "Stopping existing Wendlemire server/client..."
+Stop-WendlemirePair
 
 Write-Host "Starting server..."
 $server = Start-Process -FilePath "dotnet" -WorkingDirectory $Root -PassThru -ArgumentList @(
@@ -83,5 +83,5 @@ finally {
         Stop-Process -Id $server.Id -Force -ErrorAction SilentlyContinue
     }
 
-    Stop-WendlewindPair
+    Stop-WendlemirePair
 }

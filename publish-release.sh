@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Publish Wendlewind Windows/macOS builds and upload them to GitHub Releases.
+# Publish Wendlemire Windows/macOS builds and upload them to GitHub Releases.
 # Usage:
 #   ./publish-release.sh
 #   ./publish-release.sh --version 0.1 --platform all
@@ -55,7 +55,7 @@ if [[ ! "$PLATFORM" =~ ^(all|windows|mac|current)$ ]]; then
 fi
 
 PROJECT_ROOT="$(cd "$(dirname "$0")" && pwd)"
-PROJECT="$PROJECT_ROOT/Wendlewind/Wendlewind.Client.csproj"
+PROJECT="$PROJECT_ROOT/Wendlemire/Wendlemire.Client.csproj"
 RELEASE_DIR="$PROJECT_ROOT/RELEASE"
 TAG="v$VERSION"
 
@@ -106,9 +106,9 @@ write_readme() {
 
   if [[ "$rid" == win-* ]]; then
     cat > "$publish_dir/README.txt" <<EOF
-Wendlewind $VERSION for Windows
+Wendlemire $VERSION for Windows
 
-Double-click Wendlewind.exe to play.
+Double-click Wendlemire.exe to play.
 
 The client is already pointed at $SERVER_URL. You can change the Server field in the main menu.
 
@@ -116,20 +116,20 @@ If Windows SmartScreen warns about an unknown app, choose More info > Run anyway
 EOF
   else
     cat > "$publish_dir/README.txt" <<EOF
-Wendlewind $VERSION for macOS
+Wendlemire $VERSION for macOS
 
 From Terminal, in this folder:
 
-  chmod +x Wendlewind
-  ./Wendlewind
+  chmod +x Wendlemire
+  ./Wendlemire
 
 The client is already pointed at $SERVER_URL. You can change the Server field in the main menu.
 
 macOS may block unsigned apps. Allow it under System Settings > Privacy & Security, or run:
 
   xattr -cr .
-  chmod +x Wendlewind
-  ./Wendlewind
+  chmod +x Wendlemire
+  ./Wendlemire
 EOF
   fi
 }
@@ -137,8 +137,8 @@ EOF
 publish_target() {
   local rid="$1"
   local label="$2"
-  local publish_dir="$RELEASE_DIR/build/$rid/Wendlewind"
-  local zip_name="Wendlewind-$VERSION-$rid.zip"
+  local publish_dir="$RELEASE_DIR/build/$rid/Wendlemire"
+  local zip_name="Wendlemire-$VERSION-$rid.zip"
   local zip_path="$RELEASE_DIR/$zip_name"
 
   echo
@@ -161,7 +161,7 @@ publish_target() {
   printf '{"ServerHost":"%s"}' "${SERVER_URL%/}" > "$publish_dir/client.json"
 
   if [[ "$rid" == osx-* ]]; then
-    chmod +x "$publish_dir/Wendlewind" || true
+    chmod +x "$publish_dir/Wendlemire" || true
     find "$publish_dir" -name '*.dylib' -exec chmod +x {} \;
   fi
 
@@ -169,11 +169,11 @@ publish_target() {
   (
     cd "$RELEASE_DIR/build/$rid"
     if command -v zip >/dev/null 2>&1; then
-      zip -r -y "$zip_path" Wendlewind >/dev/null
+      zip -r -y "$zip_path" Wendlemire >/dev/null
     else
       python3 - "$zip_path" <<'PY'
 import sys, shutil
-shutil.make_archive(sys.argv[1][:-4], "zip", ".", "Wendlewind")
+shutil.make_archive(sys.argv[1][:-4], "zip", ".", "Wendlemire")
 PY
     fi
   )
@@ -184,7 +184,7 @@ PY
 
 echo
 echo "========================================"
-echo "  Wendlewind $VERSION release"
+echo "  Wendlemire $VERSION release"
 echo "========================================"
 
 mkdir -p "$RELEASE_DIR"
@@ -202,9 +202,9 @@ if [[ "$SKIP_UPLOAD" -eq 0 ]]; then
   echo "Publishing GitHub release $TAG..."
 
   notes="$(cat <<EOF
-Wendlewind $VERSION
+Wendlemire $VERSION
 
-Self-contained game builds. Unzip and run \`Wendlewind.exe\` on Windows, or \`./Wendlewind\` on macOS.
+Self-contained game builds. Unzip and run \`Wendlemire.exe\` on Windows, or \`./Wendlemire\` on macOS.
 EOF
 )"
 
@@ -212,12 +212,12 @@ EOF
     gh release upload "$TAG" "${zips[@]}" --clobber
     echo "Updated existing release $TAG"
   else
-    gh release create "$TAG" "${zips[@]}" --title "Wendlewind $VERSION" --notes "$notes" --latest
+    gh release create "$TAG" "${zips[@]}" --title "Wendlemire $VERSION" --notes "$notes" --latest
     echo "Created GitHub release $TAG"
   fi
 
   echo
-  echo "Release $TAG: https://github.com/zodeus/wendlewind/releases/tag/$TAG"
+  echo "Release $TAG: https://github.com/zodeus/wendlemire/releases/tag/$TAG"
 else
   echo
   echo "Skipped GitHub upload. Artifacts are in $RELEASE_DIR"

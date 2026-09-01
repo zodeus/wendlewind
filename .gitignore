@@ -9,6 +9,6 @@ sol-standard-web/
 RELEASE/
 .DS_Store
 MonoSound*
-Wendlewind.Server/data/
+Wendlemire.Server/data/
 artifacts/
 .tools/

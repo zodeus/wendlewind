@@ -1,8 +1,0 @@
-namespace Wendlewind.Sim.Entities.Items;
-
-public class SubstanceModifier
-{
-    public SubstanceType Substance = SubstanceType.Undefined;
-    public float Modifier = 1f;
-}
-

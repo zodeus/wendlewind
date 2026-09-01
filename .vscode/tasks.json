@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Wendlewind.sln",
+                "${workspaceFolder}/Wendlemire.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Wendlewind.sln",
+                "${workspaceFolder}/Wendlemire.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/Wendlewind.sln"
+                "${workspaceFolder}/Wendlemire.sln"
             ],
             "problemMatcher": "$msCompile"
         },
@@ -46,10 +46,10 @@
                 "run",
                 "--hot-reload",
                 "--project",
-                "${workspaceFolder}/Wendlewind/Wendlewind.csproj"
+                "${workspaceFolder}/Wendlemire/Wendlemire.Client.csproj"
             ],
             "options": {
-                "cwd": "${workspaceFolder}/Wendlewind"
+                "cwd": "${workspaceFolder}/Wendlemire"
             },
             "problemMatcher": "$msCompile",
             "isBackground": true

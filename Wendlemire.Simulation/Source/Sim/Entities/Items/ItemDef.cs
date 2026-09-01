@@ -1,0 +1,45 @@
+using Wendlemire.Sim.Entities.Items.Potions;
+
+namespace Wendlemire.Sim.Entities.Items;
+
+public class ItemDef : EntityDef
+{
+    public override EntityType EntityType => EntityType.Item;
+
+    public ItemType ItemType = ItemType.None;
+    public int StackLimit = 1;
+    public int GoldCost;
+
+    public EquipmentProperties? EquipmentProperties;
+    public WeaponProperties? WeaponProperties;
+    public CraftingProperties? CraftingProperties;
+    public FoodProperties? FoodProperties;
+    public MedicinalProperties? MedicinalProperties;
+    public EnchantmentProperties? EnchantmentProperties;
+    public TrinketProperties? TrinketProperties;
+    public DisassembleProperties? DisassembleProperties;
+    public AmmoProperties? AmmoProperties;
+    public UpgradeProperties? UpgradeProperties;
+    public IncenseProperties? IncenseProperties;
+    public PotionProperties? PotionProperties;
+
+    public override void ResolveDependencies()
+    {
+        base.ResolveDependencies();
+        if (WeaponProperties == null || WeaponProperties.WeaponType == WeaponType.None)
+        {
+            return;
+        }
+
+        if (WeaponProperties.WeaponManeuvers.Count != 0)
+        {
+            Log.Debug($"Sequences for Def:{Moniker} have been specified by XML, skipping auto-associations");
+            return;
+        }
+
+        foreach (var def in DefRepository<WeaponManeuverDef>.Defs.Where(maneuverDef => maneuverDef.Weapons?.Contains(WeaponProperties.WeaponType) == true))
+        {
+            WeaponProperties.WeaponManeuvers.Add(def);
+        }
+    }
+}

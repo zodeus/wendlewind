@@ -8,7 +8,7 @@
             "name": "C#: Debug",
             "type": "dotnet",
             "request": "launch",
-            "projectPath": "${workspaceFolder}/Wendlewind/Wendlewind.csproj"
+            "projectPath": "${workspaceFolder}/Wendlemire/Wendlemire.Client.csproj"
         },
         {
             "name": ".NET Core Attach",
@@ -21,7 +21,7 @@
             "request": "launch",
             "runtimeExecutable": "dotnet",
             "runtimeArgs": ["watch", "run", "--hot-reload"],
-            "cwd": "${workspaceFolder}/Wendlewind",
+            "cwd": "${workspaceFolder}/Wendlemire",
             "console": "integratedTerminal"
         }
     ]

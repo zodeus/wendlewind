@@ -1,4 +1,4 @@
-# Provision and deploy Wendlewind.Server to a single Hetzner Cloud VM.
+# Provision and deploy Wendlemire.Server to a single Hetzner Cloud VM.
 # Reads HCLOUD_TOKEN from the process or user environment (same name as hcloud / Terraform).
 #
 # Usage:
@@ -14,12 +14,12 @@ param(
     [ValidateSet("up", "deploy", "status", "destroy")]
     [string]$Action = "up",
 
-    [string]$ServerName = "wendlewind",
+    [string]$ServerName = "wendlemire",
     [string]$Location = "fsn1",
     [string]$Type = "cx23",
     [string]$Image = "ubuntu-24.04",
     [string]$Domain = "",
-    [string]$SshKeyName = "wendlewind",
+    [string]$SshKeyName = "wendlemire",
     [string]$SshPublicKeyPath = "",
     [string]$SshIdentityPath = "",
     [switch]$Force,
@@ -28,10 +28,10 @@ param(
 
 $ErrorActionPreference = "Stop"
 $ProjectRoot = $PSScriptRoot
-$ServerProject = Join-Path $ProjectRoot "Wendlewind.Server\Wendlewind.Server.csproj"
+$ServerProject = Join-Path $ProjectRoot "Wendlemire.Server\Wendlemire.Server.csproj"
 $PublishDir = Join-Path $ProjectRoot "artifacts\hetzner-server"
-$RemoteAppDir = "/opt/wendlewind"
-$RemoteDataDir = "/var/lib/wendlewind"
+$RemoteAppDir = "/opt/wendlemire"
+$RemoteDataDir = "/var/lib/wendlemire"
 $HCloud = $null
 
 function Write-Info { param($Message) Write-Host $Message -ForegroundColor Cyan }
@@ -305,7 +305,7 @@ function Ensure-Server {
         "--location", $Location,
         "--ssh-key", $SshKeyName,
         "--firewall", $ServerName,
-        "--label", "app=wendlewind"
+        "--label", "app=wendlemire"
     )
     Wait-Ssh
 }
@@ -329,20 +329,20 @@ $Domain {
 function Get-SystemdUnit {
     return @"
 [Unit]
-Description=Wendlewind Server
+Description=Wendlemire Server
 After=network.target
 Wants=network-online.target
 
 [Service]
 Type=simple
-User=wendlewind
-Group=wendlewind
+User=wendlemire
+Group=wendlemire
 WorkingDirectory=$RemoteAppDir
 Environment=ASPNETCORE_ENVIRONMENT=Production
 Environment=ASPNETCORE_URLS=http://127.0.0.1:5080
-Environment=WENDLEWIND_DATA=$RemoteDataDir
-EnvironmentFile=-/etc/wendlewind.env
-ExecStart=$RemoteAppDir/Wendlewind.Server
+Environment=WENDLEMIRE_DATA=$RemoteDataDir
+EnvironmentFile=-/etc/wendlemire.env
+ExecStart=$RemoteAppDir/Wendlemire.Server
 Restart=always
 RestartSec=3
 KillSignal=SIGINT
@@ -361,36 +361,36 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get install -y caddy curl
 
-if ! id -u wendlewind >/dev/null 2>&1; then
-  useradd --system --home $RemoteDataDir --shell /usr/sbin/nologin wendlewind
+if ! id -u wendlemire >/dev/null 2>&1; then
+  useradd --system --home $RemoteDataDir --shell /usr/sbin/nologin wendlemire
 fi
 
 mkdir -p $RemoteAppDir $RemoteDataDir
-chown wendlewind:wendlewind $RemoteAppDir $RemoteDataDir
+chown wendlemire:wendlemire $RemoteAppDir $RemoteDataDir
 
-if [ ! -f /etc/wendlewind.env ]; then
+if [ ! -f /etc/wendlemire.env ]; then
   umask 077
-  python3 -c "import secrets; print('WENDLEWIND_ADMIN_PASSWORD=' + secrets.token_hex(12))" > /etc/wendlewind.env
-  chmod 600 /etc/wendlewind.env
+  python3 -c "import secrets; print('WENDLEMIRE_ADMIN_PASSWORD=' + secrets.token_hex(12))" > /etc/wendlemire.env
+  chmod 600 /etc/wendlemire.env
 fi
 
-install -m 644 /tmp/wendlewind.service /etc/systemd/system/wendlewind.service
+install -m 644 /tmp/wendlemire.service /etc/systemd/system/wendlemire.service
 install -m 644 /tmp/Caddyfile /etc/caddy/Caddyfile
 
 systemctl daemon-reload
 systemctl enable --now caddy
-systemctl enable wendlewind
+systemctl enable wendlemire
 systemctl reload caddy || systemctl restart caddy
 "@
 }
 
 function Publish-Server {
-    if ($SkipBuild -and (Test-Path (Join-Path $PublishDir "Wendlewind.Server"))) {
+    if ($SkipBuild -and (Test-Path (Join-Path $PublishDir "Wendlemire.Server"))) {
         Write-Info "Skipping publish; using $PublishDir"
         return
     }
 
-    Write-Info "Publishing Wendlewind.Server (linux-x64, self-contained)..."
+    Write-Info "Publishing Wendlemire.Server (linux-x64, self-contained)..."
     if (Test-Path $PublishDir) {
         Remove-Item $PublishDir -Recurse -Force
     }
@@ -418,14 +418,14 @@ function Deploy-App {
     Wait-Ssh
     Publish-Server
 
-    $stage = Join-Path $env:TEMP "wendlewind-hetzner"
+    $stage = Join-Path $env:TEMP "wendlemire-hetzner"
     if (Test-Path $stage) {
         Remove-Item $stage -Recurse -Force
     }
     New-Item -ItemType Directory -Force -Path $stage | Out-Null
 
     $archive = Join-Path $stage "server.tgz"
-    $unitPath = Join-Path $stage "wendlewind.service"
+    $unitPath = Join-Path $stage "wendlemire.service"
     $caddyPath = Join-Path $stage "Caddyfile"
     $setupPath = Join-Path $stage "setup.sh"
 
@@ -438,27 +438,27 @@ function Deploy-App {
     Write-UnixFile -Path $setupPath -Content (Get-RemoteSetupScript)
 
     Write-Info "Uploading app and host config..."
-    Copy-ToRemote -LocalPath $archive -RemotePath "/tmp/wendlewind-server.tgz"
-    Copy-ToRemote -LocalPath $unitPath -RemotePath "/tmp/wendlewind.service"
+    Copy-ToRemote -LocalPath $archive -RemotePath "/tmp/wendlemire-server.tgz"
+    Copy-ToRemote -LocalPath $unitPath -RemotePath "/tmp/wendlemire.service"
     Copy-ToRemote -LocalPath $caddyPath -RemotePath "/tmp/Caddyfile"
-    Copy-ToRemote -LocalPath $setupPath -RemotePath "/tmp/wendlewind-setup.sh"
+    Copy-ToRemote -LocalPath $setupPath -RemotePath "/tmp/wendlemire-setup.sh"
 
     $extractPath = Join-Path $stage "extract.sh"
     Write-UnixFile -Path $extractPath -Content @"
 #!/bin/bash
 set -euo pipefail
 rm -rf $RemoteAppDir/*
-tar -xzf /tmp/wendlewind-server.tgz -C $RemoteAppDir
-chmod +x $RemoteAppDir/Wendlewind.Server
-chown -R wendlewind:wendlewind $RemoteAppDir $RemoteDataDir
-systemctl restart wendlewind
+tar -xzf /tmp/wendlemire-server.tgz -C $RemoteAppDir
+chmod +x $RemoteAppDir/Wendlemire.Server
+chown -R wendlemire:wendlemire $RemoteAppDir $RemoteDataDir
+systemctl restart wendlemire
 systemctl reload caddy || systemctl restart caddy
 "@
 
     Write-Info "Installing on the VM..."
-    Copy-ToRemote -LocalPath $extractPath -RemotePath "/tmp/wendlewind-extract.sh"
-    Invoke-Remote "bash /tmp/wendlewind-setup.sh"
-    Invoke-Remote "bash /tmp/wendlewind-extract.sh"
+    Copy-ToRemote -LocalPath $extractPath -RemotePath "/tmp/wendlemire-extract.sh"
+    Invoke-Remote "bash /tmp/wendlemire-setup.sh"
+    Invoke-Remote "bash /tmp/wendlemire-extract.sh"
 
     if ($Domain) {
         $ip = $server.public_net.ipv4.ip
@@ -507,16 +507,16 @@ function Get-AdminPassword {
     $ip = Get-ServerIPv4
     $args = (Get-SshArguments) + @(
         "root@$ip",
-        "sed -n 's/^WENDLEWIND_ADMIN_PASSWORD=//p' /etc/wendlewind.env"
+        "sed -n 's/^WENDLEMIRE_ADMIN_PASSWORD=//p' /etc/wendlemire.env"
     )
     $output = & ssh @args
     if ($LASTEXITCODE -ne 0) {
-        throw "Failed to read WENDLEWIND_ADMIN_PASSWORD from /etc/wendlewind.env"
+        throw "Failed to read WENDLEMIRE_ADMIN_PASSWORD from /etc/wendlemire.env"
     }
 
     $password = (@($output) | ForEach-Object { "$_".Trim() } | Where-Object { $_ } | Select-Object -Last 1)
     if ([string]::IsNullOrWhiteSpace($password)) {
-        throw "WENDLEWIND_ADMIN_PASSWORD is missing from /etc/wendlewind.env"
+        throw "WENDLEMIRE_ADMIN_PASSWORD is missing from /etc/wendlemire.env"
     }
     return $password
 }
@@ -537,12 +537,12 @@ function Show-Status {
     Write-Host ""
 
     Wait-Ssh
-    Invoke-Remote "systemctl is-active wendlewind; systemctl is-active caddy; echo DATA=$RemoteDataDir; du -sh $RemoteDataDir 2>/dev/null || true"
+    Invoke-Remote "systemctl is-active wendlemire; systemctl is-active caddy; echo DATA=$RemoteDataDir; du -sh $RemoteDataDir 2>/dev/null || true"
     Wait-Health
     Write-Host ""
     Write-Host "Admin:   $(Get-PublicBaseUrl)/admin"
     Write-Host "Admin password: $(Get-AdminPassword)"
-    Write-Success "Client: set WENDLEWIND_SERVER_URL=$(Get-PublicBaseUrl)"
+    Write-Success "Client: set WENDLEMIRE_SERVER_URL=$(Get-PublicBaseUrl)"
 }
 
 function Remove-Server {
@@ -568,11 +568,11 @@ function Show-Summary {
     $url = Get-PublicBaseUrl
     $adminPassword = Get-AdminPassword
     Write-Host ""
-    Write-Success "Wendlewind is up at $url"
+    Write-Success "Wendlemire is up at $url"
     Write-Host "Health:  $url/health"
     Write-Host "Admin:   $url/admin"
     Write-Host "Admin password: $adminPassword"
-    Write-Host "Client:  set WENDLEWIND_SERVER_URL=$url"
+    Write-Host "Client:  set WENDLEMIRE_SERVER_URL=$url"
     Write-Host "Data:    $RemoteDataDir on the VM (survives deploys, not destroy)"
 }
 

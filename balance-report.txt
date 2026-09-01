@@ -1,4 +1,4 @@
-=== Wendlewind Human-vs-Human Balance (13-round curve) ===
+=== Wendlemire Human-vs-Human Balance (13-round curve) ===
 Seeds/matchup: 24   Target: 15-25s @ 60tps
 Knobs this pass: AS 1 = 2 swings/s; ElvishLeaf 0.0001; RhinoSkin refund 10%; primitive 58; iron 52; chain 10; leather 5; WD 12; human HP -15%
 Sever dump: currentBlood * (subtree BloodAmount / body BloodAmount) on Severe()

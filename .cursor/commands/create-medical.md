@@ -10,9 +10,9 @@ When the user says "create medical [MedicalName]" or "new medical [MedicalName]"
 
 ### Files to Create/Modify
 
-1. **Handler Class**: `Wendlewind/Source/Sim/Entities/Items/Medicinals/[MedicalName]Handler.cs`
-2. **XML Definition**: `Wendlewind/Content/Data/Definitions/Entities/Items/Consumables/Medical.xml`
-3. **Icon Texture**: `Wendlewind/Content/Textures/Entities/Item/Medical/[MedicalName].png`
+1. **Handler Class**: `Wendlemire/Source/Sim/Entities/Items/Medicinals/[MedicalName]Handler.cs`
+2. **XML Definition**: `Wendlemire/Content/Data/Definitions/Entities/Items/Consumables/Medical.xml`
+3. **Icon Texture**: `Wendlemire/Content/Textures/Entities/Item/Medical/[MedicalName].png`
 
 **Note:** Custom info panels are implemented inside the handler's `GetInfoPanel()` method, not as separate panel classes.
 
@@ -20,12 +20,12 @@ When the user says "create medical [MedicalName]" or "new medical [MedicalName]"
 
 ## Step 1: Create the Medical Handler
 
-**Create:** `Wendlewind/Source/Sim/Entities/Items/Medicinals/[MedicalName]Handler.cs`
+**Create:** `Wendlemire/Source/Sim/Entities/Items/Medicinals/[MedicalName]Handler.cs`
 
 ### Handler Template
 
 ```csharp
-namespace Wendlewind.Sim.Entities.Items.Medicinals;
+namespace Wendlemire.Sim.Entities.Items.Medicinals;
 
 /// <summary>
 /// Handler for [MedicalName] - [brief description of effect].
@@ -254,7 +254,7 @@ public override bool ApplyToPart(Item item, BodyPart part)
 
 ## Step 2: Add XML Definition
 
-**Modify:** `Wendlewind/Content/Data/Definitions/Entities/Items/Consumables/Medical.xml`
+**Modify:** `Wendlemire/Content/Data/Definitions/Entities/Items/Consumables/Medical.xml`
 
 Add before `</Definitions>`:
 
@@ -339,20 +339,20 @@ Use the nano-banana MCP to create the medical icon.
 ### Step 3a: Read Reference Image
 ```
 Read one of the existing medical images to understand the style:
-Wendlewind/Content/Textures/Entities/Item/Medical/MedKit.png
+Wendlemire/Content/Textures/Entities/Item/Medical/MedKit.png
 ```
 
 ### Step 3b: Generate Icon
 ```
 command: generate-icon
 Parameters:
-  - imagePath: Wendlewind/Content/Textures/Entities/Item/Medical/MedKit.png
+  - imagePath: Wendlemire/Content/Textures/Entities/Item/Medical/MedKit.png
   - prompt: "Create a [type of medical item] icon in the same art style. [Description of appearance]. Maintain similar lighting, texture, and level of detail."
 ```
 
 ### Step 3c: Save Icon
 ```powershell
-Copy-Item "[generated-image-path]" "Wendlewind/Content/Textures/Entities/Item/Medical/[MedicalName].png" -Force
+Copy-Item "[generated-image-path]" "Wendlemire/Content/Textures/Entities/Item/Medical/[MedicalName].png" -Force
 ```
 
 ### Icon Prompt Ideas by Medical Type
@@ -498,10 +498,10 @@ All handlers implement `GetInfoPanel()` to provide visual infographics explainin
 
 ## Reference: File Locations
 
-- **Handlers:** `Wendlewind/Source/Sim/Entities/Items/Medicinals/`
-- **XML Definitions:** `Wendlewind/Content/Data/Definitions/Entities/Items/Consumables/Medical.xml`
-- **Icons:** `Wendlewind/Content/Textures/Entities/Item/Medical/`
-- **UI Panel:** `Wendlewind/Source/Scenes/MainGameScene/Gui/Widgets/EntityWidgets/MedicinalPanel.cs`
+- **Handlers:** `Wendlemire/Source/Sim/Entities/Items/Medicinals/`
+- **XML Definitions:** `Wendlemire/Content/Data/Definitions/Entities/Items/Consumables/Medical.xml`
+- **Icons:** `Wendlemire/Content/Textures/Entities/Item/Medical/`
+- **UI Panel:** `Wendlemire/Source/Scenes/MainGameScene/Gui/Widgets/EntityWidgets/MedicinalPanel.cs`
 - **Base Classes:** 
   - `MedicinalHandler.cs` - Abstract base class with `GetInfoPanel()` method
   - `MedicinalProperties.cs` - Properties container

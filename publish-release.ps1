@@ -1,4 +1,4 @@
-# Publish Wendlewind Windows/macOS builds and upload them to GitHub Releases.
+# Publish Wendlemire Windows/macOS builds and upload them to GitHub Releases.
 # Usage:
 #   .\publish-release.ps1
 #   .\publish-release.ps1 -Version 0.1 -Platform all
@@ -15,7 +15,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 $ProjectRoot = $PSScriptRoot
-$Project = Join-Path $ProjectRoot "Wendlewind\Wendlewind.Client.csproj"
+$Project = Join-Path $ProjectRoot "Wendlemire\Wendlemire.Client.csproj"
 $ReleaseDir = Join-Path $ProjectRoot "RELEASE"
 $Tag = "v$Version"
 
@@ -56,9 +56,9 @@ function Write-Readme {
 
     if ($Rid -like "win-*") {
         $body = @"
-Wendlewind $Version for Windows
+Wendlemire $Version for Windows
 
-Double-click Wendlewind.exe to play.
+Double-click Wendlemire.exe to play.
 
 The client is already pointed at $ServerUrl. You can change the Server field in the main menu.
 
@@ -67,20 +67,20 @@ If Windows SmartScreen warns about an unknown app, choose More info > Run anyway
     }
     else {
         $body = @"
-Wendlewind $Version for macOS
+Wendlemire $Version for macOS
 
 From Terminal, in this folder:
 
-  chmod +x Wendlewind
-  ./Wendlewind
+  chmod +x Wendlemire
+  ./Wendlemire
 
 The client is already pointed at $ServerUrl. You can change the Server field in the main menu.
 
 macOS may block unsigned apps. Allow it under System Settings > Privacy & Security, or run:
 
   xattr -cr .
-  chmod +x Wendlewind
-  ./Wendlewind
+  chmod +x Wendlemire
+  ./Wendlemire
 "@
     }
 
@@ -116,8 +116,8 @@ function Compress-ReleaseFolder {
 function Publish-Target {
     param($Target)
 
-    $publishDir = Join-Path $ReleaseDir "build\$($Target.Rid)\Wendlewind"
-    $zipName = "Wendlewind-$Version-$($Target.Rid).zip"
+    $publishDir = Join-Path $ReleaseDir "build\$($Target.Rid)\Wendlemire"
+    $zipName = "Wendlemire-$Version-$($Target.Rid).zip"
     $zipPath = Join-Path $ReleaseDir $zipName
 
     Write-Host ""
@@ -159,9 +159,9 @@ function Publish-GitHubRelease {
     $notesFile = Join-Path $ReleaseDir "release-notes.md"
     $utf8 = New-Object System.Text.UTF8Encoding $false
     [System.IO.File]::WriteAllText($notesFile, @"
-Wendlewind $Version
+Wendlemire $Version
 
-Self-contained game builds. Unzip and run Wendlewind.exe on Windows, or ./Wendlewind on macOS.
+Self-contained game builds. Unzip and run Wendlemire.exe on Windows, or ./Wendlemire on macOS.
 
 "@, $utf8)
 
@@ -185,7 +185,7 @@ Self-contained game builds. Unzip and run Wendlewind.exe on Windows, or ./Wendle
     else {
         $ghArgs = @(
             "release", "create", $Tag,
-            "--title", "Wendlewind $Version",
+            "--title", "Wendlemire $Version",
             "--notes-file", $notesFile,
             "--latest"
         ) + $assetArgs
@@ -209,7 +209,7 @@ New-Item -ItemType Directory -Path $ReleaseDir -Force | Out-Null
 
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Magenta
-Write-Host "  Wendlewind $Version release" -ForegroundColor Magenta
+Write-Host "  Wendlemire $Version release" -ForegroundColor Magenta
 Write-Host "========================================" -ForegroundColor Magenta
 
 $targets = @(Get-PublishTargets -Requested $Platform)
@@ -221,7 +221,7 @@ foreach ($target in $targets) {
 if (-not $SkipUpload) {
     Publish-GitHubRelease -ZipPaths $zips
     Write-Host ""
-    Write-Success "Release ${Tag}: https://github.com/zodeus/wendlewind/releases/tag/${Tag}"
+    Write-Success "Release ${Tag}: https://github.com/zodeus/wendlemire/releases/tag/${Tag}"
 }
 else {
     Write-Host ""

@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Wendlemire.Server": {
+      "commandName": "Project",
+      "applicationUrl": "http://localhost:5080",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "WENDLEMIRE_ADMIN_PASSWORD": "dev"
+      }
+    }
+  }
+}
