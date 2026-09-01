@@ -187,7 +187,7 @@ public class BalanceSimReport
         ["HeartyStew", "HoneyPot"],
         [
             Pot("JarOfBlood", PotionTriggerType.SelfBloodBelow, threshold: 0.2f),
-            Pot("SpicedChurni", PotionTriggerType.SelfPartsDamaged, threshold: 0.4f)
+            Pot("HealingPotion", PotionTriggerType.SelfPartsDamaged, threshold: 0.4f)
         ],
         [
             Med("MendersMix", 2, MedicalTriggerType.PartBelowHealth, health: 0.4f),
@@ -225,7 +225,7 @@ public class BalanceSimReport
         ["HeartyStew", "CookedMeat"],
         [
             Pot("JarOfBlood", PotionTriggerType.SelfBloodBelow, threshold: 0.2f),
-            Pot("SpicedChurni", PotionTriggerType.SelfPartsDamaged, threshold: 0.4f)
+            Pot("HealingPotion", PotionTriggerType.SelfPartsDamaged, threshold: 0.4f)
         ],
         [
             Med("MedKit", 4, MedicalTriggerType.PartBelowHealth),
@@ -609,10 +609,10 @@ public class BalanceSimReport
             ]),
             SwordLeather("B"),
             MedOnly([Pot("AcidFlask", PotionTriggerType.AfterSeconds, after: 5)], [])),
-        Split("MED", "R5 Jar+Churni vs Acid+Puss", SwordLeather("A"),
+        Split("MED", "R5 Jar+Heal vs Acid+Puss", SwordLeather("A"),
             MedOnly([
                 Pot("JarOfBlood", PotionTriggerType.SelfBloodBelow, threshold: 0.2f),
-                Pot("SpicedChurni", PotionTriggerType.SelfPartsDamaged, threshold: 0.4f)
+                Pot("HealingPotion", PotionTriggerType.SelfPartsDamaged, threshold: 0.4f)
             ], [Med("MedKit", 2, MedicalTriggerType.PartBelowHealth)]),
             SwordLeather("B"),
             MedOnly([

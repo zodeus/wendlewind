@@ -1,47 +1,48 @@
 namespace Wendlemire.Sim.Entities.Items.Potions;
 
 /// <summary>
-/// Handler for Spiced Churni - applies regeneration to all body parts.
+/// Applies regeneration to all body parts and the Strengthened body effect.
+/// Power is read from the potion's PotionPower stat.
 /// </summary>
 [UsedImplicitly]
-public class SpicedChurniHandler : PotionHandler
+public class HealingPotionHandler : PotionHandler
 {
-    public SpicedChurniHandler(IRng rng)
+    public HealingPotionHandler(IRng rng)
     {
         Rng = rng;
     }
 
     public override bool CanUseInCombat => true;
     public override bool CanUseOutsideCombat => false;
-    
+
     public override PotionUseResult UseInCombat(Pawn user, Pawn? target = null)
     {
         var actualTarget = user;
         var duration = GetDuration();
+        var power = GetStatValue(Defs.Stats.PotionPower);
 
-        // Apply regeneration to all body parts
         actualTarget.Body.AllParts.ForEach(p => p.TryAddModifier(
-            Context.Factory.CreateModifier(Defs.BodyPartModifiers.HealthRegeneration, duration, 1)
+            Context.Factory.CreateModifier(Defs.BodyPartModifiers.HealthRegeneration, duration, power)
         ));
 
-        // Apply the body effect
         actualTarget.Body.Effects.TryApplyEffect(new BodyEffect
         {
-            Def = Defs.BodyEffects.FeelingThePurple,
+            Def = Defs.BodyEffects.Strengthened,
             TicksLeft = duration
         });
 
-        var message = $"/c[{TC.Attacker}]{actualTarget.LabelShort} /c[{TC.Yellow}]sipped the /c[{TC.Item}]{PotionLabel}";
+        var message = $"/c[{TC.Attacker}]{actualTarget.LabelShort} /c[{TC.Yellow}]drank the /c[{TC.Item}]{PotionLabel}";
 
         return PotionUseResult.Succeeded(
             message,
-            alertMessage: $"{actualTarget.Label} is absorbing the spices",
+            alertMessage: $"{actualTarget.Label} is mending",
             alertColor: Color.GreenYellow
         );
     }
-    
+
     public override string GetEffectDescription()
     {
-        return "Applies regeneration to all body parts.";
+        var power = GetStatValue(Defs.Stats.PotionPower);
+        return $"Applies regeneration ({power:0.##}x) to all body parts.";
     }
 }

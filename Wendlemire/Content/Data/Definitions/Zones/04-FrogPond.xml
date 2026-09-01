@@ -53,7 +53,7 @@
                         <SpawnWeight>1</SpawnWeight>
                         <InventoryItems>
                             <ListItem>
-                                <Item>SpicedChurni</Item>
+                                <Item>HealingPotion</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>.25</ChanceToDrop>
                             </ListItem>
@@ -85,7 +85,7 @@
                         </Skills>
                         <InventoryItems>
                             <ListItem>
-                                <Item>SpicedChurni</Item>
+                                <Item>HealingPotion</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>.75</ChanceToDrop>
                             </ListItem>
@@ -152,7 +152,7 @@
                         </EquipmentItems>
                         <InventoryItems>
                             <ListItem>
-                                <Item>SpicedChurni</Item>
+                                <Item>HealingPotion</Item>
                                 <Amount>1</Amount>
                                 <ChanceToDrop>1</ChanceToDrop>
                             </ListItem>

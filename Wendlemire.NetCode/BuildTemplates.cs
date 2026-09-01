@@ -54,7 +54,7 @@ public static class BuildTemplates
     {
         PlayerId = "template",
         BuildId = "TankRegen",
-        EntityDefMonikers = ["IronSword", "JarOfBlood", "SpicedChurni"],
+        EntityDefMonikers = ["IronSword", "JarOfBlood", "HealingPotion"],
         StanceMoniker = "Defensive",
         Weapons =
         [
@@ -70,7 +70,7 @@ public static class BuildTemplates
             },
             new PotionConfig
             {
-                ItemMoniker = "SpicedChurni",
+                ItemMoniker = "HealingPotion",
                 Type = PotionTriggerType.SelfPartsDamaged,
                 Threshold = 0.4f,
                 HealthThreshold = 0.6f
@@ -198,7 +198,7 @@ public static class BuildTemplates
             ..ChainSetNoNeck(),
             "BlessedIronCollar",
             "StrengthCloak",
-            "JarOfBlood", "SpicedChurni"
+            "JarOfBlood", "HealingPotion"
         ],
         StanceMoniker = "Defensive",
         Weapons =
@@ -209,7 +209,7 @@ public static class BuildTemplates
         Potions =
         [
             SelfBloodBelow("JarOfBlood", 0.2f),
-            PartsDamaged("SpicedChurni", 0.35f, 0.55f)
+            PartsDamaged("HealingPotion", 0.35f, 0.55f)
         ],
         Sockets =
         [

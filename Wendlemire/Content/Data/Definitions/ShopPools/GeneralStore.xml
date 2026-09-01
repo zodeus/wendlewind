@@ -145,7 +145,7 @@
                         <ItemDef>AcidFlask</ItemDef>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>PussBomb</ItemDef>
+                        <ItemDef>HealingPotion</ItemDef>
                     </ListItem>
                 </Offers>
             </ListItem>

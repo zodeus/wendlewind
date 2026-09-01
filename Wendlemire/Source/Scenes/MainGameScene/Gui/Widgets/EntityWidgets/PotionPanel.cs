@@ -130,6 +130,11 @@ public sealed class PotionPanel : EntityPanelBase
         };
     }
 
+    private static bool IsHealingPotion(Item item) =>
+        item.Def == Defs.Items.HealingPotion
+        || item.Def == Defs.Items.HealingFlask
+        || item.Def == Defs.Items.HealingSalve;
+
     private Color GetPotionTitleColor(Item item)
     {
         // Different colors based on potion type
@@ -137,8 +142,8 @@ public sealed class PotionPanel : EntityPanelBase
             return new Color(180, 40, 40);
         if (item.Def == Defs.Items.AcidFlask)
             return new Color(140, 200, 60);
-        if (item.Def == Defs.Items.SpicedChurni)
-            return new Color(180, 100, 220);
+        if (IsHealingPotion(item))
+            return new Color(200, 80, 100);
 
         return BaseContent.Colors.Text.Golden;
     }
@@ -156,7 +161,7 @@ public sealed class PotionPanel : EntityPanelBase
             return "Instantly restores all lost blood.";
         if (item.Def == Defs.Items.AcidFlask)
             return "Throws acid at opponent, potentially blinding them.";
-        if (item.Def == Defs.Items.SpicedChurni)
+        if (IsHealingPotion(item))
             return "Applies regeneration to all body parts.";
 
         return "";
@@ -199,6 +204,28 @@ public sealed class PotionPanel : EntityPanelBase
             }
         };
         statsPanel.Widgets.Add(durationRow);
+
+        var potionPower = item.GetStatValue(Defs.Stats.PotionPower);
+        if (potionPower > 0 && potionPower != 1)
+        {
+            statsPanel.Widgets.Add(new HorizontalStackPanel
+            {
+                Spacing = 8,
+                Widgets =
+                {
+                    new Label(BaseContent.Styles.Label.Normal)
+                    {
+                        Text = "Power:",
+                        TextColor = new Color(200, 200, 200)
+                    },
+                    new Label(BaseContent.Styles.Label.Normal)
+                    {
+                        Text = $"{potionPower:0.##}x",
+                        TextColor = new Color(140, 220, 140)
+                    }
+                }
+            });
+        }
 
         return statsPanel;
     }

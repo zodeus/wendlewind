@@ -32,6 +32,7 @@ public class MainMenuScene : Scene
     private ClientSettings _clientSettings = null!;
     private TextBox _usernameField = null!;
     private TextBox _serverField = null!;
+    private CursorButton _fullscreenButton = null!;
     private Label _usernameError = null!;
     private Label _playingAsLabel = null!;
     private Widget _usernamePanel = null!;
@@ -107,6 +108,8 @@ public class MainMenuScene : Scene
             }
         };
 
+        _fullscreenButton = IronButton(FullscreenButtonText(), ToggleFullscreen);
+
         _desktop = new Desktop
         {
             HasExternalTextInput = true,
@@ -122,7 +125,8 @@ public class MainMenuScene : Scene
                     Wordmark("WENDLEMIRE"),
                     _usernamePanel,
                     _playPanel,
-                    serverPanel
+                    serverPanel,
+                    _fullscreenButton
                 }
             }
         };
@@ -203,6 +207,19 @@ public class MainMenuScene : Scene
         {
             _clientSettings.SetServerHost(host);
         }
+    }
+
+    private void ToggleFullscreen()
+    {
+        var fullScreen = !Screen.IsFullscreen;
+        Screen.SetFullscreen(fullScreen);
+        _clientSettings.SetFullScreen(fullScreen);
+        _fullscreenButton.Content = DisplayLabel(FullscreenButtonText(), 22, Bone);
+    }
+
+    private static string FullscreenButtonText()
+    {
+        return Screen.IsFullscreen ? "Fullscreen: On" : "Fullscreen: Off";
     }
 
     private static Widget BuildHero()

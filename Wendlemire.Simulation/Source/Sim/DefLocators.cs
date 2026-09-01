@@ -18,6 +18,7 @@ public static partial class Defs
         public static StatDef Evasion = null!;
         public static StatDef AttackSpeedModifier = null!;
         public static StatDef PotionDuration = null!;
+        public static StatDef PotionPower = null!;
     }
 }
 
@@ -136,7 +137,9 @@ public static partial class Defs
         public static ItemDef RepairKit = null!;
         public static ItemDef JarOfBlood = null!;
         public static ItemDef AcidFlask = null!;
-        public static ItemDef SpicedChurni = null!;
+        public static ItemDef HealingPotion = null!;
+        public static ItemDef HealingFlask = null!;
+        public static ItemDef HealingSalve = null!;
         public static ItemDef PussBomb = null!;
         public static ItemDef WeepingBucket = null!;
         public static ItemDef CookingPot = null!;

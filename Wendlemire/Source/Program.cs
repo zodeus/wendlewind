@@ -1,5 +1,6 @@
 using System.IO;
 using System.Runtime.InteropServices;
+using Wendlemire.Scenes.ArenaScene;
 
 namespace Wendlemire;
 
@@ -15,7 +16,8 @@ public static class Program {
 
         try
         {
-            using Core game = new();
+            var settings = ClientSettings.LoadOrCreate();
+            using Core game = new(settings.FullScreen);
             game.Run();
         }
         catch (Exception ex)

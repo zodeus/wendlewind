@@ -58,6 +58,16 @@ public static class Screen {
         set => GraphicsManager.IsFullScreen = value;
     }
 
+    public static void SetFullscreen(bool fullscreen) {
+        IsFullscreen = fullscreen;
+        if (fullscreen) {
+            SetSize(MonitorWidth, MonitorHeight);
+        }
+        else {
+            SetSize(Core.ReferenceResolution.X, Core.ReferenceResolution.Y);
+        }
+    }
+
     public static DisplayOrientation SupportedOrientations {
         get => GraphicsManager.SupportedOrientations;
         set => GraphicsManager.SupportedOrientations = value;

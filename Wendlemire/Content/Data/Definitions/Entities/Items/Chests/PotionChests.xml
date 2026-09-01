@@ -19,9 +19,19 @@
                 <ChanceToDrop>.5</ChanceToDrop>
             </ListItem>
             <ListItem>
-                <ItemDef>SpicedChurni</ItemDef>
+                <ItemDef>HealingPotion</ItemDef>
                 <Amount>1</Amount>
                 <ChanceToDrop>.4</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <ItemDef>HealingFlask</ItemDef>
+                <Amount>1</Amount>
+                <ChanceToDrop>.2</ChanceToDrop>
+            </ListItem>
+            <ListItem>
+                <ItemDef>HealingSalve</ItemDef>
+                <Amount>1</Amount>
+                <ChanceToDrop>.1</ChanceToDrop>
             </ListItem>
             <ListItem>
                 <ItemDef>StrengthPotion</ItemDef>

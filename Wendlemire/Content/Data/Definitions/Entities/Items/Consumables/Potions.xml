@@ -67,17 +67,12 @@
             </ResourceRequirements>
         </CraftingProperties>
     </ItemDef>
-    <ItemDef ParentName="Potion">
-        <Moniker>SpicedChurni</Moniker>
-        <Label>Spiced Churni</Label>
+    <ItemDef Name="HealingPotionBase" ParentName="Potion" Abstract="true">
         <BaseStats>
             <PotionDuration>1200</PotionDuration>
         </BaseStats>
-        <Description>A warm, tingling brew infused with purple essence.</Description>
-        <GoldCost>100</GoldCost>
-        <TexturePath>Entities/Item/Potion/SpicedChurni</TexturePath>
         <PotionProperties>
-            <HandlerClass>SpicedChurniHandler</HandlerClass>
+            <HandlerClass>HealingPotionHandler</HandlerClass>
             <DefaultTrigger>
                 <Type>SelfPartsDamaged</Type>
                 <Threshold>0.4</Threshold>
@@ -90,6 +85,17 @@
                 <ListItem>AfterSeconds</ListItem>
             </AllowedTriggerTypes>
         </PotionProperties>
+    </ItemDef>
+    <ItemDef ParentName="HealingPotionBase">
+        <Moniker>HealingPotion</Moniker>
+        <Label>Healing Potion</Label>
+        <BaseStats>
+            <PotionDuration>1200</PotionDuration>
+            <PotionPower>0.75</PotionPower>
+        </BaseStats>
+        <Description>A common restorative draught that knits flesh while you fight.</Description>
+        <GoldCost>150</GoldCost>
+        <TexturePath>Entities/Item/Potion/HealingPotion</TexturePath>
         <CraftingProperties>
             <AmountProduced>1</AmountProduced>
             <RequiredTrinkets>
@@ -110,6 +116,74 @@
                 <ListItem>
                     <Item>NettleLeaf</Item>
                     <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+    </ItemDef>
+    <ItemDef ParentName="HealingPotionBase">
+        <Moniker>HealingFlask</Moniker>
+        <Label>Healing Flask</Label>
+        <BaseStats>
+            <PotionDuration>1200</PotionDuration>
+            <PotionPower>1.25</PotionPower>
+        </BaseStats>
+        <Description>A richer brew that mends wounds more quickly than a common potion.</Description>
+        <GoldCost>250</GoldCost>
+        <TexturePath>Entities/Item/Potion/HealingFlask</TexturePath>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>VialOfDuplicity</ListItem>
+                <ListItem>MortarAndPestle</ListItem>
+                <ListItem>FlameStick</ListItem>
+                <ListItem>CookingPot</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>GoldCapMushroom</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>HealingRoot</Item>
+                    <Count>2</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>NettleLeaf</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+    </ItemDef>
+    <ItemDef ParentName="HealingPotionBase">
+        <Moniker>HealingSalve</Moniker>
+        <Label>Healing Salve</Label>
+        <BaseStats>
+            <PotionDuration>1200</PotionDuration>
+            <PotionPower>2</PotionPower>
+        </BaseStats>
+        <Description>A concentrated balm that floods the body with regeneration.</Description>
+        <GoldCost>400</GoldCost>
+        <TexturePath>Entities/Item/Potion/HealingSalve</TexturePath>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>VialOfDuplicity</ListItem>
+                <ListItem>MortarAndPestle</ListItem>
+                <ListItem>FlameStick</ListItem>
+                <ListItem>CookingPot</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>GoldCapMushroom</Item>
+                    <Count>2</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>HealingRoot</Item>
+                    <Count>3</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>NettleLeaf</Item>
+                    <Count>2</Count>
                 </ListItem>
             </ResourceRequirements>
         </CraftingProperties>

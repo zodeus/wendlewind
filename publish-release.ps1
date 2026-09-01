@@ -62,7 +62,7 @@ Wendlemire $Version for Windows
 
 Double-click Wendlemire.exe to play.
 
-The client is already pointed at $ServerUrl. You can change the Server field in the main menu.
+The client is already pointed at $ServerUrl. You can change the Server field in the main menu, and toggle fullscreen there.
 
 If Windows SmartScreen warns about an unknown app, choose More info > Run anyway.
 "@
@@ -76,7 +76,7 @@ From Terminal, in this folder:
   chmod +x Wendlemire
   ./Wendlemire
 
-The client is already pointed at $ServerUrl. You can change the Server field in the main menu.
+The client is already pointed at $ServerUrl. You can change the Server field in the main menu, and toggle fullscreen there.
 
 macOS may block unsigned apps. Allow it under System Settings > Privacy & Security, or run:
 
@@ -93,7 +93,7 @@ function Write-ClientSettings {
     param([string]$PublishDir)
 
     $hostUrl = $ServerUrl.Trim().TrimEnd("/")
-    $json = "{`"ServerHost`":`"$hostUrl`"}"
+    $json = "{`"ServerHost`":`"$hostUrl`",`"FullScreen`":true}"
     $utf8 = New-Object System.Text.UTF8Encoding $false
     [System.IO.File]::WriteAllText((Join-Path $PublishDir "client.json"), $json, $utf8)
 }

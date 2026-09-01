@@ -18,8 +18,15 @@
                         <ItemDef>JarOfBlood</ItemDef>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>SpicedChurni</ItemDef>
+                        <ItemDef>HealingPotion</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>HealingFlask</ItemDef>
                         <AvailableFromRound>4</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>HealingSalve</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>PussBomb</ItemDef>

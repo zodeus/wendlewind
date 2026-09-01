@@ -10,6 +10,7 @@ public sealed class ClientSettings
     public const int DefaultPort = 5080;
 
     public string ServerHost { get; set; } = DefaultHost;
+    public bool FullScreen { get; set; } = true;
 
     public static string DefaultPath => Path.Combine(AppContext.BaseDirectory, FileName);
 
@@ -37,6 +38,12 @@ public sealed class ClientSettings
     {
         var trimmed = host.Trim();
         ServerHost = string.IsNullOrEmpty(trimmed) ? DefaultHost : trimmed;
+        Save(path);
+    }
+
+    public void SetFullScreen(bool fullScreen, string? path = null)
+    {
+        FullScreen = fullScreen;
         Save(path);
     }
 

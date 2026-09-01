@@ -110,7 +110,7 @@ Wendlemire $VERSION for Windows
 
 Double-click Wendlemire.exe to play.
 
-The client is already pointed at $SERVER_URL. You can change the Server field in the main menu.
+The client is already pointed at $SERVER_URL. You can change the Server field in the main menu, and toggle fullscreen there.
 
 If Windows SmartScreen warns about an unknown app, choose More info > Run anyway.
 EOF
@@ -123,7 +123,7 @@ From Terminal, in this folder:
   chmod +x Wendlemire
   ./Wendlemire
 
-The client is already pointed at $SERVER_URL. You can change the Server field in the main menu.
+The client is already pointed at $SERVER_URL. You can change the Server field in the main menu, and toggle fullscreen there.
 
 macOS may block unsigned apps. Allow it under System Settings > Privacy & Security, or run:
 
@@ -158,7 +158,7 @@ publish_target() {
 
   find "$publish_dir" -name '*.pdb' -delete
   write_readme "$publish_dir" "$rid"
-  printf '{"ServerHost":"%s"}' "${SERVER_URL%/}" > "$publish_dir/client.json"
+  printf '{"ServerHost":"%s","FullScreen":true}' "${SERVER_URL%/}" > "$publish_dir/client.json"
 
   if [[ "$rid" == osx-* ]]; then
     chmod +x "$publish_dir/Wendlemire" || true
