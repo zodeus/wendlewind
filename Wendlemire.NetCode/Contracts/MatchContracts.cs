@@ -25,6 +25,11 @@ public sealed record BuildSnapshot
     public MedicalChestConfig[] MedicalChest { get; init; } = [];
     public IncenseConfig[] Incense { get; init; } = [];
     public InventoryStackConfig[] Inventory { get; init; } = [];
+    public SkillConfig[] Skills
+    {
+        get => field ?? [];
+        init => field = value ?? [];
+    }
 }
 
 public sealed record WeaponConfig
@@ -72,6 +77,13 @@ public sealed record SocketedItemConfig
     public string[] EnchantmentMonikers { get; init; } = [];
 }
 
+public sealed record SkillConfig
+{
+    public required string SkillMoniker { get; init; }
+    public int Level { get; init; }
+    public float CurrentLevelXp { get; init; }
+}
+
 public sealed record BuildPoolState
 {
     public Dictionary<string, List<BuildSnapshot>> Rounds { get; init; } = new();
@@ -105,6 +117,7 @@ public sealed record CombatResult
 [JsonSerializable(typeof(IncenseConfig))]
 [JsonSerializable(typeof(InventoryStackConfig))]
 [JsonSerializable(typeof(SocketedItemConfig))]
+[JsonSerializable(typeof(SkillConfig))]
 [JsonSerializable(typeof(MatchRequest))]
 [JsonSerializable(typeof(CombatResult))]
 [JsonSerializable(typeof(List<BuildSnapshot>))]

@@ -15,11 +15,11 @@ public sealed class ArenaHud : HorizontalStackPanel
         Spacing = 24;
         HorizontalAlignment = HorizontalAlignment.Center;
         VerticalAlignment = VerticalAlignment.Center;
-        Padding = new Thickness(12, 6);
+        Padding = new Thickness(12, 0);
 
         if (rank is { } current)
         {
-            Widgets.Add(new RankBadge(current, badgeSize: 64));
+            Widgets.Add(new RankBadge(current, badgeSize: 52));
         }
 
         _gold = StatLabel();

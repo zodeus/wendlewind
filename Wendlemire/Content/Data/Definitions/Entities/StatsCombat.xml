@@ -8,6 +8,7 @@
         <BaseValue>1</BaseValue>
         <MinValue>0.1</MinValue>
         <MaxValue>999</MaxValue>
+        <UiDisplay>true</UiDisplay>
     </StatDef>
     <StatDef>
         <Moniker>Strength</Moniker>
@@ -16,6 +17,7 @@
         <BaseValue>1</BaseValue>
         <MinValue>0</MinValue>
         <MaxValue>100</MaxValue>
+        <UiDisplay>true</UiDisplay>
     </StatDef>
     <StatDef>
         <Moniker>Accuracy</Moniker>
@@ -24,6 +26,7 @@
         <BaseValue>1</BaseValue>
         <MinValue>0</MinValue>
         <MaxValue>1</MaxValue>
+        <UiDisplay>true</UiDisplay>
     </StatDef>
     <StatDef>
         <Moniker>Evasion</Moniker>
@@ -32,6 +35,7 @@
         <BaseValue>0</BaseValue>
         <MinValue>0</MinValue>
         <MaxValue>1</MaxValue>
+        <UiDisplay>true</UiDisplay>
     </StatDef>
 
 

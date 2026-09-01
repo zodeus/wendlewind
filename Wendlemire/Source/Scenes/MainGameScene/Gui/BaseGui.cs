@@ -179,6 +179,17 @@ public abstract class BaseGui : IDisposable
         _grimoireWindow?.Close();
     }
 
+    public void OpenCharacter()
+    {
+        if (_entityViewerWindow.IsPlaced && _viewedEntity == Core.Context.PlayerPawn)
+        {
+            CloseEntityWindow();
+            return;
+        }
+
+        ViewEntity(Core.Context.PlayerPawn);
+    }
+
     public void OpenInventory()
     {
         if (_inventoryWindow is { IsPlaced: true })

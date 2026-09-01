@@ -9,14 +9,10 @@ public class PawnSkillsPanel : Panel, IUpdatable {
 
         var container = new VerticalStackPanel { Spacing = 4 };
 
-        container.Widgets.Add(new Label(BaseContent.Styles.Label.Small) { Text = "+10% damage per level", TextColor = new Color(100, 100, 100) });
-        foreach (var skill in skills.Where(skill => skill.SkillType == SkillType.Combat).OrderBy(skill => skill.Def.Label))
+        foreach (var skill in skills
+                     .Where(skill => skill.SkillType == SkillType.Combat && skill.TotalXp > 0)
+                     .OrderBy(skill => skill.Def.Label))
         {
-            if (skill.TotalXp == 0)
-            {
-                continue;
-            }
-
             var row = new SkillPanelRow(skill);
             _skillList[skill] = row;
             container.Widgets.Add(row);

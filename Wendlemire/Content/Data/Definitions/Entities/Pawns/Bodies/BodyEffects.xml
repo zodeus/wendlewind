@@ -23,11 +23,11 @@
         <AffectedStats>
             <ListItem>
                 <Stat>Strength</Stat>
-                <Offset>.15</Offset>
+                <Offset>.08</Offset>
             </ListItem>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Offset>.15</Offset>
+                <Offset>.05</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -38,11 +38,11 @@
         <AffectedStats>
             <ListItem>
                 <Stat>Strength</Stat>
-                <Offset>.30</Offset>
+                <Offset>.12</Offset>
             </ListItem>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Offset>.25</Offset>
+                <Offset>.06</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -53,7 +53,7 @@
         <AffectedStats>
             <ListItem>
                 <Stat>Strength</Stat>
-                <Offset>.30</Offset>
+                <Offset>.10</Offset>
             </ListItem>
             <ListItem>
                 <Stat>Evasion</Stat>
@@ -68,7 +68,7 @@
         <AffectedStats>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Offset>.20</Offset>
+                <Offset>.06</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -100,7 +100,7 @@
             </ListItem>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Offset>0.4</Offset>
+                <Offset>0.06</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -120,7 +120,7 @@
             </ListItem>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Offset>0.4</Offset>
+                <Offset>0.06</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -131,7 +131,7 @@
         <AffectedStats>
             <ListItem>
                 <Stat>Strength</Stat>
-                <Factor>0.20</Factor>
+                <Factor>0.10</Factor>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -168,11 +168,11 @@
             </ListItem>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Offset>.75</Offset>
+                <Offset>.08</Offset>
             </ListItem>
             <ListItem>
                 <Stat>Strength</Stat>
-                <Factor>0.30</Factor>
+                <Factor>0.10</Factor>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -183,11 +183,11 @@
         <AffectedStats>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Offset>0.5</Offset>
+                <Offset>0.08</Offset>
             </ListItem>
             <ListItem>
                 <Stat>Strength</Stat>
-                <Factor>0.5</Factor>
+                <Factor>0.12</Factor>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>

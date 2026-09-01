@@ -1,6 +1,5 @@
 using Wendlemire.Scenes.MainGameScene.Gui;
 using Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
-using Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.TrinketWidgets;
 
 namespace Wendlemire.Scenes.ArenaScene.Gui;
@@ -24,22 +23,15 @@ public sealed class ArenaShopScreen : Grid
     private readonly Label _runStats;
     private readonly VerticalStackPanel _packBody;
     private readonly ScrollViewer _catalog;
-    private readonly Grid _bodyHost;
-    private readonly Grid _shopBody;
-    private readonly CursorButton _shopTab;
-    private readonly CursorButton _loadoutTab;
-    private readonly Action _onDone;
     private readonly MerchantDef _merchant;
     private readonly List<(CursorButton Button, Label Price, int Cost)> _buyButtons = [];
     private readonly List<(CursorButton Button, Label Price, int Cost)> _refreshButtons = [];
     private IReadOnlyList<RolledShelf> _stock = [];
-    private PawnPreparationPanel? _loadoutPanel;
 
     public ArenaShopScreen(BaseGui gui, GameContext context, Action onDone)
     {
         _gui = gui;
         _context = context;
-        _onDone = onDone;
         HorizontalAlignment = HorizontalAlignment.Stretch;
         VerticalAlignment = VerticalAlignment.Stretch;
         Padding = new Thickness(16, 12);
@@ -68,9 +60,16 @@ public sealed class ArenaShopScreen : Grid
             VerticalAlignment = VerticalAlignment.Center
         };
         RefreshRunStats();
-        _shopTab = CreateViewTab("Shop", ShowShop);
-        _loadoutTab = CreateViewTab("Loadout", ShowLoadout);
-        _shopTab.Enabled = false;
+        var loadout = new CursorButton(BaseContent.Styles.Button.Small)
+        {
+            Content = new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = "Loadout",
+                HorizontalAlignment = HorizontalAlignment.Center
+            },
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        loadout.Click += (_, _) => onDone();
 
         var header = new Grid
         {
@@ -102,7 +101,7 @@ public sealed class ArenaShopScreen : Grid
                 {
                     Spacing = 12,
                     VerticalAlignment = VerticalAlignment.Center,
-                    Widgets = { _shopTab, _loadoutTab, _runStats }
+                    Widgets = { loadout, _runStats }
                 },
                 _status
             }
@@ -194,30 +193,21 @@ public sealed class ArenaShopScreen : Grid
         packPanel.Widgets.Add(done);
         Grid.SetRow(done, 3);
 
-        _shopBody = new Grid
+        var shopBody = new Grid
         {
             ColumnSpacing = 12,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Stretch
         };
-        _shopBody.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
-        _shopBody.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-        _shopBody.RowsProportions.Add(new Proportion(ProportionType.Fill));
-        _shopBody.Widgets.Add(_catalog);
-        _shopBody.Widgets.Add(packPanel);
+        shopBody.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
+        shopBody.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        shopBody.RowsProportions.Add(new Proportion(ProportionType.Fill));
+        shopBody.Widgets.Add(_catalog);
+        shopBody.Widgets.Add(packPanel);
         Grid.SetColumn(packPanel, 1);
 
-        _bodyHost = new Grid
-        {
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalAlignment = VerticalAlignment.Stretch
-        };
-        _bodyHost.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
-        _bodyHost.RowsProportions.Add(new Proportion(ProportionType.Fill));
-        _bodyHost.Widgets.Add(_shopBody);
-
         Add(header, 0);
-        Add(_bodyHost, 1);
+        Add(shopBody, 1);
     }
 
     private void Add(Widget widget, int row)
@@ -858,67 +848,11 @@ public sealed class ArenaShopScreen : Grid
         _runStats.Text = $"Wins {run.Wins}/{ArenaRun.WinsToFinish}   Lives {run.LivesRemaining}";
     }
 
-    private CursorButton CreateViewTab(string label, Action onClick)
-    {
-        var tab = new CursorButton(BaseContent.Styles.Button.Small)
-        {
-            Content = new Label(BaseContent.Styles.Label.Small)
-            {
-                Text = label,
-                HorizontalAlignment = HorizontalAlignment.Center
-            }
-        };
-        tab.Click += (_, _) => onClick();
-        return tab;
-    }
-
-    private void ShowShop()
-    {
-        SetView(shop: true);
-        RebuildPack();
-    }
-
-    private void ShowLoadout()
-    {
-        _loadoutPanel?.RemoveFromParent();
-        _loadoutPanel = new PawnPreparationPanel(_gui, _context.PlayerPawn, showGrimoire: false);
-        var done = new CursorButton(BaseContent.Styles.Button.LargeGold)
-        {
-            Content = new Label
-            {
-                Text = "Continue",
-                HorizontalAlignment = HorizontalAlignment.Center
-            }
-        };
-        done.Click += (_, _) => _onDone();
-        _loadoutPanel.SetControls(done);
-        SetView(shop: false);
-    }
-
-    private void SetView(bool shop)
-    {
-        _shopTab.Enabled = !shop;
-        _loadoutTab.Enabled = shop;
-        _shopBody.RemoveFromParent();
-        _loadoutPanel?.RemoveFromParent();
-        _bodyHost.Widgets.Clear();
-        Widget? body = shop ? _shopBody : _loadoutPanel;
-        if (body == null)
-        {
-            return;
-        }
-
-        body.HorizontalAlignment = HorizontalAlignment.Stretch;
-        body.VerticalAlignment = VerticalAlignment.Stretch;
-        _bodyHost.Widgets.Add(body);
-    }
-
     public void Update()
     {
         _purse.Refresh();
         RefreshRunStats();
         RefreshAffordability();
-        _loadoutPanel?.Update();
         TooltipHelper.UpdatePosition();
     }
 }

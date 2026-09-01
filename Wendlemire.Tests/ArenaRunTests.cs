@@ -845,6 +845,25 @@ public class ArenaRunTests
     }
 
     [Fact]
+    public void SkillXpSurvivesArenaPawnRestore()
+    {
+        using var scope = CreateArena();
+        var pawn = scope.Context.PlayerPawn;
+        var axes = pawn.GetSkill(WeaponType.Axe);
+        Assert.NotNull(axes);
+        axes!.Learn(5);
+
+        var snapshot = BuildSnapshotFactory.ToSnapshot(pawn, "p", "arena-1", 1, round: 1);
+        scope.Context.RestoreArenaPawn();
+        BuildSnapshotFactory.Apply(scope.Context.PlayerPawn, snapshot);
+
+        var restored = scope.Context.PlayerPawn.GetSkill(WeaponType.Axe);
+        Assert.NotNull(restored);
+        Assert.Equal(5f, restored!.CurrentLevelXp);
+        Assert.Equal(0, restored.Level);
+    }
+
+    [Fact]
     public void LightingIncenseDoesNotDestroyTheStick()
     {
         using var scope = CreateArena();

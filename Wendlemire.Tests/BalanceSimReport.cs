@@ -195,10 +195,10 @@ public class BalanceSimReport
             Med("BoneCleanse", 1, MedicalTriggerType.PartBelowHealth),
             Med("BalmyOintment", 2, MedicalTriggerType.BurningOrAcid)
         ],
-        [Stick("DippedMullinStick", 3), Stick("ShadeWood")]);
+        [Stick("DippedMullinStick", 3)]);
 
     private static readonly Kit Full = new(
-        ["HeartyStew", "HoneyPot", "Walnut"],
+        ["HeartyStew", "Walnut"],
         [
             Pot("JarOfBlood", PotionTriggerType.SelfBloodBelow, threshold: 0.15f),
             Pot("AcidFlask", PotionTriggerType.AfterSeconds, after: 5)
@@ -210,7 +210,7 @@ public class BalanceSimReport
             Med("BoneCleanse", 1, MedicalTriggerType.PartBelowHealth),
             Med("BalmyOintment", 2, MedicalTriggerType.BurningOrAcid)
         ],
-        [Stick("DippedMullinStick", 3), Stick("ShadeWood"), Stick("MullinStick")]);
+        [Stick("DippedMullinStick", 3), Stick("MullinStick")]);
 
     private static readonly Kit Burst = new(
         ["DriedMeat", "CookedCorn"],
@@ -647,8 +647,8 @@ public class BalanceSimReport
     [Fact]
     public void GenerateReport()
     {
-        const string path = @"c:\Users\hawkk\dev-personal\wendlemire\balance-report.txt";
-        const string sidecarPath = @"c:\Users\hawkk\dev-personal\wendlemire\balance-report.blood.jsonl";
+        const string path = @"c:\Users\hawkk\dev-personal\wendlewind\Wendlemire\balance-report.txt";
+        const string sidecarPath = @"c:\Users\hawkk\dev-personal\wendlewind\Wendlemire\balance-report.blood.jsonl";
         var sb = new StringBuilder();
         void Flush() => File.WriteAllText(path, sb.ToString());
         var done = new HashSet<string>(StringComparer.Ordinal);
@@ -676,7 +676,7 @@ public class BalanceSimReport
 
         sb.AppendLine("=== Wendlemire Human-vs-Human Balance (13-round curve) ===");
         sb.AppendLine($"Seeds/matchup: {SeedCount}   Target: {TargetMinTicks / 60}-{TargetMaxTicks / 60}s @ 60tps");
-        sb.AppendLine("Knobs this pass: AS 1 = 2 swings/s; era kits (meal+incense+med+potion) on every fight; KIT/FOOD/MED/INC isolate consumable axes");
+        sb.AppendLine("Knobs this pass: food/incense AS+Str cut (Shade/Dipped 0.06, Honey 0.08/1.12, Walnut 0.08/1.10); Late=stew+honey+dipped; Full=stew+walnut+dipped+mullin");
         sb.AppendLine("Sever dump: currentBlood * (subtree BloodAmount / body BloodAmount) on Severe()");
         sb.AppendLine();
         AppendHumanBloodShares(sb);

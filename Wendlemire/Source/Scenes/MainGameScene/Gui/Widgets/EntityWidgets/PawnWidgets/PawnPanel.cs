@@ -23,6 +23,7 @@ public sealed class PawnPanel : EntityPanelBase
 
         _tabPanel.AddTab("Body", new PawnBodyPanel(gui, pawn.Body));
         _tabPanel.AddTab("Equipment", new PawnEquipmentPanel(gui, pawn));
+        _tabPanel.AddTab("Skills", new PawnSkillsPanel(pawn.Skills));
         _tabPanel.AddTab("Profile", new PawnProfilePanel(pawn));
     }
 

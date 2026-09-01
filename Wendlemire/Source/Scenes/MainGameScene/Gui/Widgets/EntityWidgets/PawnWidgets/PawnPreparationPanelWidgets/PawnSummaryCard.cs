@@ -2,9 +2,7 @@ namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.
 
 public sealed class PawnSummaryCard : VerticalStackPanel, IUpdatable
 {
-    private readonly BaseGui _gui;
     private readonly Pawn _pawn;
-    private readonly PawnRenderWidget _portrait;
     private readonly PawnCapabilitiesOverlay _capabilities;
     private readonly PawnSkillsPanel _skills;
     private readonly PrepBuffList _buffs;
@@ -13,7 +11,6 @@ public sealed class PawnSummaryCard : VerticalStackPanel, IUpdatable
 
     public PawnSummaryCard(BaseGui gui, Pawn pawn)
     {
-        _gui = gui;
         _pawn = pawn;
         Spacing = 8;
         Padding = new Thickness(10);
@@ -29,14 +26,12 @@ public sealed class PawnSummaryCard : VerticalStackPanel, IUpdatable
             Margin = new Thickness(0, 4, 0, 0)
         });
 
-        _portrait = new PawnRenderWidget(pawn, 192)
+        Widgets.Add(new PawnRenderWidget(pawn, 192)
         {
             Width = 192,
             Height = 192,
             HorizontalAlignment = HorizontalAlignment.Center
-        };
-        _portrait.Clicked += (_, _) => _gui.ViewEntity(_pawn);
-        Widgets.Add(_portrait);
+        });
 
         _capabilities = new PawnCapabilitiesOverlay(pawn.Body);
         Widgets.Add(_capabilities);
@@ -87,12 +82,12 @@ public sealed class PawnSummaryCard : VerticalStackPanel, IUpdatable
         var signature = string.Join(",", _pawn.MealPlan.Items.Select(i => i?.Id ?? -1))
                         + "|"
                         + string.Join(",", _pawn.ActiveIncense.Select(a => a.Def?.Moniker ?? a.SourceMoniker));
-        if (signature == _buffSignature)
+        if (signature != _buffSignature)
         {
-            return;
+            _buffSignature = signature;
+            _buffs.SetAttributes(_pawn, PrepBuffList.FromPrep(_pawn));
         }
 
-        _buffSignature = signature;
-        _buffs.SetEffects(PrepBuffList.FromPrep(_pawn));
+        _buffs.Update();
     }
 }

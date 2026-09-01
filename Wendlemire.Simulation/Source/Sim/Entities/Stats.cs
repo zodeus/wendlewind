@@ -1,4 +1,4 @@
-﻿﻿using System.Xml;
+﻿using System.Xml;
 using Wendlemire.Definitions.Loader;
 
 namespace Wendlemire.Sim.Entities;
@@ -22,6 +22,7 @@ public class StatDef : Def {
     public float BaseValue;
     public float MinValue;
     public float MaxValue = float.MaxValue;
+    public bool UiDisplay;
     public Type HandlerClass = typeof(DefaultStatHandler);
 
     private DefaultStatHandler? _handler;

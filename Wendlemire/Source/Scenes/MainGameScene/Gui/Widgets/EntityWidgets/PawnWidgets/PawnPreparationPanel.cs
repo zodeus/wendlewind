@@ -85,6 +85,14 @@ public class PawnPreparationPanel : Panel, IUpdatable
         };
         grimoireButton.Click += (_, _) => gui.OpenGrimoire();
 
+        var characterButton = new CursorButton(BaseContent.Styles.Button.Large)
+        {
+            Content = new Label { Text = "Character", HorizontalAlignment = HorizontalAlignment.Center },
+            HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        characterButton.Click += (_, _) => gui.OpenCharacter();
+
         var inventoryButton = new CursorButton(BaseContent.Styles.Button.Large)
         {
             Content = new Label { Text = "Inventory", HorizontalAlignment = HorizontalAlignment.Center },
@@ -98,6 +106,7 @@ public class PawnPreparationPanel : Panel, IUpdatable
             _header.Widgets.Add(grimoireButton);
         }
 
+        _header.Widgets.Add(characterButton);
         _header.Widgets.Add(inventoryButton);
 
         var layout = new VerticalStackPanel

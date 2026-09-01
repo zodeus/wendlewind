@@ -52,7 +52,8 @@ public static class BuildSnapshotFactory
             Meal = CaptureMeal(pawn),
             MedicalChest = CaptureMedicalChest(pawn),
             Incense = CaptureIncense(pawn),
-            Inventory = CaptureInventory(pawn)
+            Inventory = CaptureInventory(pawn),
+            Skills = CaptureSkills(pawn)
         };
     }
 
@@ -98,6 +99,46 @@ public static class BuildSnapshotFactory
         ApplyMedicalChest(pawn, snapshot.MedicalChest);
         ApplyIncense(pawn, snapshot.Incense);
         ApplyInventory(pawn, snapshot.Inventory);
+        ApplySkills(pawn, snapshot.Skills);
+    }
+
+    public static SkillConfig[] CaptureSkills(Pawn pawn)
+    {
+        return pawn.Skills
+            .Where(s => s.TotalXp > 0)
+            .Select(s => new SkillConfig
+            {
+                SkillMoniker = s.Def.Moniker,
+                Level = s.Level,
+                CurrentLevelXp = s.CurrentLevelXp
+            })
+            .ToArray();
+    }
+
+    public static void ApplySkills(Pawn pawn, SkillConfig[]? skills)
+    {
+        if (skills == null)
+        {
+            return;
+        }
+
+        foreach (var config in skills)
+        {
+            if (config?.SkillMoniker == null)
+            {
+                continue;
+            }
+
+            var def = DefRepository<SkillDef>.GetByMoniker(config.SkillMoniker, raiseError: false);
+            if (def == null)
+            {
+                continue;
+            }
+
+            var skill = pawn.Skills.GetSkill(def);
+            skill.Level = config.Level;
+            skill.CurrentLevelXp = config.CurrentLevelXp;
+        }
     }
 
     private static void ReplaceLoadout(Pawn pawn, IEnumerable<string> monikers)

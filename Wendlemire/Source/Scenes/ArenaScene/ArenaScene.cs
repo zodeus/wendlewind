@@ -177,8 +177,9 @@ public sealed class ArenaScene : Scene
                 $"Arena re-sim disagreed with server. LocalWon={localWon} ServerWinner={_pendingResult.WinnerPlayerId}");
         }
 
+        var learnedSkills = BuildSnapshotFactory.CaptureSkills(_context.PlayerPawn);
         _context.RestoreArenaPawn();
-        BuildSnapshotFactory.Apply(_context.PlayerPawn, _lastPrepSnapshot);
+        BuildSnapshotFactory.Apply(_context.PlayerPawn, _lastPrepSnapshot with { Skills = learnedSkills });
         EnsureZoneShell();
         run.ApplyMatchResult(serverWon, _pendingResult.DefenderPlayerId ?? "unknown");
         SaveRun();
