@@ -22,7 +22,7 @@ public class FoodProperties {
         {
             foreach (var stat in def.AffectedStats)
             {
-                if (stat.Offset < 0 || stat.Factor < 1f)
+                if (stat.Offset < 0 || stat.Factor < 0f)
                     return new Color(220, 100, 100); // Negative effect - red
             }
         }

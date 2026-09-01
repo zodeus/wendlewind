@@ -9,6 +9,59 @@
         <TexturePath>Entities/Pawn/Portrait/Merchants/Blacksmith</TexturePath>
         <Shelves>
             <ListItem>
+                <Category>Weapons</Category>
+                <Columns>6</Columns>
+                <ItemColumns>1</ItemColumns>
+                <StockSize>6</StockSize>
+                <Offers>
+                    <ListItem>
+                        <ItemDef>IronSword</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>IronAxe</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>IronHammer</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>IronMace</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>IronDagger</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>IronClaws</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>FireStaff</ItemDef>
+                        <AvailableFromRound>4</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>BoneSpear</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>StoneHammer</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>BoneAxe</ItemDef>
+                    </ListItem>
+                </Offers>
+            </ListItem>
+            <ListItem>
+                <Category>Potions</Category>
+                <Columns>6</Columns>
+                <ItemColumns>1</ItemColumns>
+                <StockSize>1</StockSize>
+                <Offers>
+                    <ListItem>
+                        <ItemDef>AcidFlask</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>StrengthPotion</ItemDef>
+                    </ListItem>
+                </Offers>
+            </ListItem>
+            <ListItem>
                 <Category>Armor</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
@@ -114,121 +167,36 @@
                 </Offers>
             </ListItem>
             <ListItem>
-                <Category>Weapons</Category>
+                <Category>Medicine</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
-                <StockSize>6</StockSize>
+                <StockSize>1</StockSize>
                 <Offers>
                     <ListItem>
-                        <ItemDef>IronSword</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>IronAxe</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>IronHammer</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>IronMace</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>IronDagger</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>FireStaff</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>IronClaws</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>BoneSpear</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>StoneHammer</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>BoneAxe</ItemDef>
+                        <ItemDef>Cauterize</ItemDef>
                     </ListItem>
                 </Offers>
             </ListItem>
             <ListItem>
-                <Category>Enchantments</Category>
+                <Category>Food</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
-                <StockSize>6</StockSize>
+                <StockSize>4</StockSize>
                 <Offers>
                     <ListItem>
-                        <ItemDef>SpidersBite</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
+                        <ItemDef>CookedFish</ItemDef>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>FesteringWounds</ItemDef>
+                        <ItemDef>CookedMeat</ItemDef>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>BoneEater</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
+                        <ItemDef>CookedCorn</ItemDef>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>EverburningStone</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
+                        <ItemDef>DriedMeat</ItemDef>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>SoothingVibrations</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>BloodBath</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>RhinoSkin</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>ElvishLeaf</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
-                    </ListItem>
-                </Offers>
-            </ListItem>
-            <ListItem>
-                <Category>Trinkets</Category>
-                <Columns>6</Columns>
-                <ItemColumns>1</ItemColumns>
-                <StockSize>6</StockSize>
-                <Offers>
-                    <ListItem>
-                        <ItemDef>DeathRattle</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>BoneCracker</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>Slingshot</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>BloodyBell</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>PerforationTrap</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>WeepingBucket</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>MechanicalEye</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>Monocle</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
+                        <ItemDef>HeartyStew</ItemDef>
                     </ListItem>
                 </Offers>
             </ListItem>

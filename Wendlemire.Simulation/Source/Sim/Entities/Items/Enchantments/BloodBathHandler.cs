@@ -8,11 +8,11 @@ public class BloodBathHandler : EnchantmentHandler
         Rng = rng;
     }
 
-    private const float BloodScaleFactor = 0.05f;
+    private const float BloodScaleFactor = 0.04f;
 
     public override void PostPawnDamageTakenEffect(BodyPart bodyPart, Pawn target, Pawn source, DamageRecord damageRecord)
     {
-        target.Body.BloodAmount += target.Body.MaxBlood * BloodScaleFactor;
+        target.Body.BloodAmount += target.Body.MaxBlood * BloodScaleFactor * GetMagic(target);
         damageRecord.ReflectedEffects.Add(new ReflectedStatusEffect(target, Enchantment.ItemDef, $"Blood bath applied to {bodyPart.Label}", HostItemMoniker(bodyPart)));
     }
 }

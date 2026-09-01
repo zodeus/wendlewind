@@ -29,6 +29,8 @@ public abstract class EnchantmentHandler : IExposable, IHasContext, IHasRng
     {
     }
 
+    protected float GetMagic(Pawn pawn) => pawn.GetStatValue(Defs.Stats.Magic);
+
     protected string? HostItemMoniker(BodyPart bodyPart)
     {
         return bodyPart.Equipment.Values

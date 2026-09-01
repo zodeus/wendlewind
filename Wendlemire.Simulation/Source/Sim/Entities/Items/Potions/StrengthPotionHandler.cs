@@ -1,7 +1,7 @@
 namespace Wendlemire.Sim.Entities.Items.Potions;
 
 /// <summary>
-/// Handler for Strength Potion - grants a temporary +2 Strength bonus.
+/// Grants a temporary Strength bonus. Power is read from the potion's PotionPower stat.
 /// </summary>
 [UsedImplicitly]
 public class StrengthPotionHandler : PotionHandler
@@ -18,12 +18,13 @@ public class StrengthPotionHandler : PotionHandler
     {
         var actualTarget = user;
         var duration = GetDuration();
+        var power = GetStatValue(Defs.Stats.PotionPower);
 
-        // Apply the Strengthened body effect (+2 Strength)
         actualTarget.Body.Effects.TryApplyEffect(new BodyEffect
         {
             Def = Defs.BodyEffects.Strengthened,
-            TicksLeft = duration
+            TicksLeft = duration,
+            Power = power
         });
 
         var message = $"/c[{TC.Attacker}]{actualTarget.LabelShort} /c[{TC.Yellow}]consumed the /c[{TC.Item}]{PotionLabel}";
@@ -37,6 +38,7 @@ public class StrengthPotionHandler : PotionHandler
 
     public override string GetEffectDescription()
     {
-        return "+2 Strength";
+        var power = GetStatValue(Defs.Stats.PotionPower);
+        return $"+{power:0.##} Strength";
     }
 }

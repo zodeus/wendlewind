@@ -5,6 +5,8 @@ internal sealed class PrepBuffList : VerticalStackPanel
     private static readonly string[] StatOrder =
     [
         "Strength",
+        "BodyScale",
+        "Magic",
         "AttackSpeed",
         "Accuracy",
         "Evasion",
@@ -114,7 +116,6 @@ internal sealed class PrepBuffList : VerticalStackPanel
 
     public static IEnumerable<BodyEffectDef> FromMeal(Pawn pawn)
     {
-        var seen = new HashSet<BodyEffectDef>();
         foreach (var item in pawn.MealPlan.Items)
         {
             var records = item?.ItemDef.FoodProperties?.Effects;
@@ -135,10 +136,7 @@ internal sealed class PrepBuffList : VerticalStackPanel
                     continue;
                 }
 
-                if (seen.Add(record.Def))
-                {
-                    yield return record.Def;
-                }
+                yield return record.Def;
             }
         }
     }
@@ -158,6 +156,35 @@ internal sealed class PrepBuffList : VerticalStackPanel
     public static IEnumerable<BodyEffectDef> FromPrep(Pawn pawn)
     {
         return FromMeal(pawn).Concat(FromIncense(pawn));
+    }
+
+    public static float ProjectedStat(Pawn pawn, StatDef stat)
+    {
+        Collect(FromPrep(pawn), out var offsets, out var factors, out _);
+        return ProjectedValue(
+            pawn,
+            stat,
+            offsets.GetValueOrDefault(stat),
+            factors.GetValueOrDefault(stat),
+            offsets.ContainsKey(stat),
+            factors.ContainsKey(stat));
+    }
+
+    public static (int Current, int Max) ProjectedBodyHitPoints(Pawn pawn)
+    {
+        var currentScale = pawn.GetStatValue(Defs.Stats.BodyScale);
+        var projectedScale = ProjectedStat(pawn, Defs.Stats.BodyScale);
+        var current = pawn.Body.HitPoints;
+        var max = pawn.Body.MaxHitPoints;
+        if (Math.Abs(projectedScale - currentScale) > 0.001f && currentScale > 0.001f)
+        {
+            var ratio = projectedScale / currentScale;
+            current += max * (ratio - 1);
+            max *= ratio;
+            current = Math.Clamp(current, 0, max);
+        }
+
+        return ((int)Math.Ceiling(current), (int)max);
     }
 
     private void ClearTotalsState()
@@ -200,7 +227,7 @@ internal sealed class PrepBuffList : VerticalStackPanel
         factors = new Dictionary<StatDef, float>();
         specials = [];
 
-        foreach (var def in effects.Where(e => e != null).Distinct())
+        foreach (var def in effects.Where(e => e != null))
         {
             var hasStats = false;
             if (def.AffectedStats != null)

@@ -12,10 +12,12 @@
                 <ListItem>Armor</ListItem>
             </ValidEquipmentTypes>
             <HandlerClass>SpidersBiteHandler</HandlerClass>
+            <ScaleDuration>true</ScaleDuration>
+            <ScalePower>true</ScalePower>
             <BodyPartModifiers>
                 <ListItem>
                     <Def>Acid</Def>
-                    <DurationInTicks>60~120</DurationInTicks>
+                    <DurationInTicks>48~96</DurationInTicks>
                     <Chance>.4</Chance>
                 </ListItem>
             </BodyPartModifiers>
@@ -31,11 +33,13 @@
             <ValidEquipmentTypes>
                 <ListItem>Weapon</ListItem>
             </ValidEquipmentTypes>
+            <ScaleChance>true</ScaleChance>
+            <ScaleDuration>true</ScaleDuration>
             <BodyPartModifiers>
                 <ListItem>
                     <Def>Festering</Def>
-                    <DurationInTicks>60~240</DurationInTicks>
-                    <Chance>.3</Chance>
+                    <DurationInTicks>48~192</DurationInTicks>
+                    <Chance>.24</Chance>
                 </ListItem>
             </BodyPartModifiers>
         </EnchantmentProperties>
@@ -50,11 +54,13 @@
             <ValidEquipmentTypes>
                 <ListItem>Weapon</ListItem>
             </ValidEquipmentTypes>
+            <ScaleChance>true</ScaleChance>
+            <ScalePower>true</ScalePower>
             <BodyPartModifiers>
                 <ListItem>
                     <Def>BoneDecay</Def>
                     <DurationInTicks>0</DurationInTicks>
-                    <Chance>.25</Chance>
+                    <Chance>.20</Chance>
                 </ListItem>
             </BodyPartModifiers>
         </EnchantmentProperties>
@@ -69,10 +75,12 @@
             <ValidEquipmentTypes>
                 <ListItem>Weapon</ListItem>
             </ValidEquipmentTypes>
+            <ScaleDuration>true</ScaleDuration>
+            <ScalePower>true</ScalePower>
             <BodyPartModifiers>
                 <ListItem>
                     <Def>Burning</Def>
-                    <DurationInTicks>40~120</DurationInTicks>
+                    <DurationInTicks>32~96</DurationInTicks>
                     <Chance>.75</Chance>
                 </ListItem>
             </BodyPartModifiers>

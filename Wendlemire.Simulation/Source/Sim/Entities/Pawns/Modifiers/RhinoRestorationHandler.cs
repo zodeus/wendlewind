@@ -20,11 +20,16 @@ public class RhinoRestorationHandler : BodyPartModifier
         base.Tick();
         if (BodyPart.IsDestroyed)
         {
-            BodyPart.HitPoints = Math.Clamp(BodyPart.HitPoints + BodyPart.MaxHitPoints * DestroyPartRegenerationPercent, 1, BodyPart.MaxHitPoints);
-            EnhancedHealthTicksRemaining = EnhancedHealthDuration;
+            var max = BodyPart.MaxHitPoints;
+            if (max > 0)
+            {
+                var floor = Math.Min(1, max);
+                BodyPart.HitPoints = Math.Clamp(BodyPart.HitPoints + max * DestroyPartRegenerationPercent, floor, max);
+                EnhancedHealthTicksRemaining = EnhancedHealthDuration;
+            }
         }
 
-        var health = BodyPart.Type == BodyPartType.Skin ? SkinHealthRestoredPerTick : HealthRestoredPerTick;
+        var health = (BodyPart.Type == BodyPartType.Skin ? SkinHealthRestoredPerTick : HealthRestoredPerTick) * Power;
 
         if (EnhancedHealthTicksRemaining > 0)
         {
@@ -45,7 +50,7 @@ public class RhinoRestorationHandler : BodyPartModifier
     public override InfoPanelData GetInfoData()
     {
         var isSkin = BodyPart?.Type == BodyPartType.Skin;
-        var healRate = isSkin ? SkinHealthRestoredPerTick : HealthRestoredPerTick;
+        var healRate = (isSkin ? SkinHealthRestoredPerTick : HealthRestoredPerTick) * Power;
         var enhancedRate = healRate * EnhancedHealthMultiplier;
 
         var lines = new List<InfoLine>

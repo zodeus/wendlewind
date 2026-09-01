@@ -6,6 +6,7 @@ public class PawnBody : IExposable, IIdentityProvider
 {
     private float _bloodAmount;
     private float _baseAttackSpeed;
+    private float _appliedBodyScale = 1f;
     private BodyPartSocket _rootSocket = null!;
     private List<BodyPart>? _allPartsCache;
     private List<BodyPart>? _allExternalPartsCache;
@@ -26,7 +27,14 @@ public class PawnBody : IExposable, IIdentityProvider
     public DefaultBodyHandler Handler = null!;
     public BodyDef Def => Pawn.PawnDef.Body;
     public float MaxBloodBonus { get; set; }
-    public float MaxBlood => (Def.MaxBlood + MaxBloodBonus) * Pawn.Body.BodySizeFactor;
+    public float MaxBlood
+    {
+        get
+        {
+            var scale = _rootSocket == null ? 1f : Pawn.GetStatValue(Defs.Stats.BodyScale);
+            return (Def.MaxBlood + MaxBloodBonus) * BodySizeFactor * scale;
+        }
+    }
     public float MaxEnergy => Def.MaxEnergy;
     public bool IsFamished => Handler.IsFamished;
 
@@ -122,6 +130,47 @@ public class PawnBody : IExposable, IIdentityProvider
         _allPartsCache = null;
         _allExternalPartsCache = null;
         BodyPartsDirty = true;
+    }
+
+    public void ApplyBodyScale()
+    {
+        if (Math.Abs(_appliedBodyScale - 1f) > 0.001f)
+        {
+            RestoreBodyScale();
+        }
+
+        var scale = Pawn.GetStatValue(Defs.Stats.BodyScale);
+        if (Math.Abs(scale - 1f) < 0.001f)
+        {
+            return;
+        }
+
+        _appliedBodyScale = scale;
+        foreach (var part in AllParts)
+        {
+            var bonus = part.MaxHitPoints * (scale - 1f);
+            part.MaxHitPoints += bonus;
+            part.HitPoints += bonus;
+        }
+
+        BloodAmount *= scale;
+    }
+
+    public void RestoreBodyScale()
+    {
+        if (Math.Abs(_appliedBodyScale - 1f) < 0.001f)
+        {
+            return;
+        }
+
+        var inv = 1f / _appliedBodyScale;
+        foreach (var part in AllParts)
+        {
+            part.MaxHitPoints = Math.Floor(part.MaxHitPoints * inv);
+            part.HitPoints = Math.Min(part.HitPoints, part.MaxHitPoints);
+        }
+
+        _appliedBodyScale = 1f;
     }
 
     public bool IsHungry => Handler.IsHungry;
@@ -235,6 +284,7 @@ public class PawnBody : IExposable, IIdentityProvider
         ScribeValues.Look(ref BloodChangeLastFrame, "BloodChangeLastFrame");
         ScribeValues.Look(ref Temperature, "Temperature");
         ScribeValues.Look(ref StomachLevel, "StomachLevel");
+        ScribeValues.Look(ref _appliedBodyScale, "AppliedBodyScale", 1f);
         ScribeDeep.Look(ref Capabilities!, "Capabilities", Pawn);
         ScribeDeep.Look(ref Effects!, "Effects", Pawn);
         ScribeDefs.Look(ref Stance!, "Stance");

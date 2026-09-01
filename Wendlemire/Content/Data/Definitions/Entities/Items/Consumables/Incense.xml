@@ -9,7 +9,7 @@
     <ItemDef ParentName="IncenseConsumable">
         <Moniker>MullinStick</Moniker>
         <Label>Mullin Stick</Label>
-        <Description>A stick of Mullin wood, it's smell is calming and soothing.</Description>
+        <Description>A stick of Mullin wood. Its smell is calming, and the smoke attunes enchantments.</Description>
         <GoldCost>20</GoldCost>
         <TexturePath>Entities/Item/Incense/MullinStick</TexturePath>
         <IncenseProperties>
@@ -41,7 +41,7 @@
     <ItemDef ParentName="IncenseConsumable">
         <Moniker>ShadeWood</Moniker>
         <Label>Shade Wood</Label>
-        <Description>A stick of Shade wood, it's smell is mysterious and alluring.</Description>
+        <Description>A stick of Shade wood. Its smell is mysterious, and the smoke attunes enchantments.</Description>
         <GoldCost>20</GoldCost>
         <TexturePath>Entities/Item/Incense/ShadeWood</TexturePath>
         <IncenseProperties>
@@ -73,8 +73,7 @@
     <ItemDef ParentName="IncenseConsumable">
         <Moniker>DippedMullinStick</Moniker>
         <Label>Dipped Mullin</Label>
-        <Description>A stick of Mullin wood, dipped in a golden substance, it's smell is calming and
-            soothing and exhilirating.</Description>
+        <Description>A stick of Mullin wood, dipped in a golden substance. The smoke strongly attunes enchantments.</Description>
         <GoldCost>55</GoldCost>
         <TexturePath>Entities/Item/Incense/DippedMullinStick</TexturePath>
         <IncenseProperties>
@@ -106,8 +105,15 @@
     <ItemDef ParentName="IncenseConsumable">
         <Moniker>WitchWood</Moniker>
         <Label>Witch Wood</Label>
-        <Description>A stick of Witch wood, aromatic and invigorating.</Description>
+        <Description>A stick of Witch wood, aromatic and invigorating. The smoke sharply attunes enchantments.</Description>
         <GoldCost>70</GoldCost>
         <TexturePath>Entities/Item/Incense/WitchWood</TexturePath>
+        <IncenseProperties>
+            <DurationInEncounters>2</DurationInEncounters>
+            <Effect>
+                <Def>WitchTouched</Def>
+                <DurationInTicks>4000</DurationInTicks>
+            </Effect>
+        </IncenseProperties>
     </ItemDef>
 </Definitions>

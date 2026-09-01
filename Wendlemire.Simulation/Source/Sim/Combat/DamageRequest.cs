@@ -41,8 +41,9 @@ public class DamageRequest
             rawDamage = 0;
         }
 
+        var magic = pawn.GetStatValue(Defs.Stats.Magic);
         DamageRequest request = new(pawn, tool, weaponManeuver);
-        request.RawDamages.Add(new Damage(tool, rawDamage, weaponManeuver.Label, isCritical));
+        request.RawDamages.Add(new Damage(tool, rawDamage, weaponManeuver.Label, isCritical, magic));
 
         return request;
     }

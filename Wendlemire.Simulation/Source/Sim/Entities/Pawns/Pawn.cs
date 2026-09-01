@@ -473,28 +473,12 @@ public class Pawn : Entity
 
     public bool RemoveIngestedFood(int index)
     {
-        var previous = CollectFoodEffectDefs(CombatStomach.Items);
         if (!CombatStomach.TryRemoveAt(index))
         {
             return false;
         }
 
-        var remaining = CollectFoodEffectDefs(CombatStomach.Items);
-        foreach (var effect in previous)
-        {
-            if (remaining.Contains(effect))
-            {
-                continue;
-            }
-
-            if (ActiveIncense.Any(incense => incense.Def == effect))
-            {
-                continue;
-            }
-
-            Body.Effects.TryRemove(effect);
-        }
-
+        ResyncEncounterEffectStacks();
         return true;
     }
 
@@ -573,6 +557,7 @@ public class Pawn : Entity
 
         MealPlan.Prune();
         TickIncenseCharges();
+        Body.ApplyBodyScale();
     }
 
     public bool HasFlameStick()
@@ -635,32 +620,46 @@ public class Pawn : Entity
         return Body.Effects.Has(effect);
     }
 
-    private HashSet<BodyEffectDef> CollectFoodEffectDefs(IReadOnlyList<IngestedFood> foods)
+    private void ResyncEncounterEffectStacks()
     {
-        var effects = new HashSet<BodyEffectDef>();
-        foreach (var food in foods)
+        var stacks = new Dictionary<BodyEffectDef, float>();
+        foreach (var food in CombatStomach.Items)
         {
-            var records = food.Def?.FoodProperties?.Effects;
-            if (records == null)
+            AddEffectStacks(food.Def?.FoodProperties?.Effects, stacks);
+        }
+
+        foreach (var incense in ActiveIncense)
+        {
+            if (incense.Def != null)
+            {
+                stacks[incense.Def] = stacks.GetValueOrDefault(incense.Def) + 1f;
+            }
+        }
+
+        Body.Effects.SyncEncounterStacks(stacks);
+    }
+
+    private void AddEffectStacks(List<BodyEffectRecord>? records, Dictionary<BodyEffectDef, float> stacks)
+    {
+        if (records == null)
+        {
+            return;
+        }
+
+        foreach (var record in records)
+        {
+            if (record.Def == null)
             {
                 continue;
             }
 
-            foreach (var record in records)
+            if (record.Def == Defs.BodyEffects.FoodPoisoning && Traits.HasTrait(Defs.Traits.GutMicroacrobatics))
             {
-                if (record.Def == Defs.BodyEffects.FoodPoisoning && Traits.HasTrait(Defs.Traits.GutMicroacrobatics))
-                {
-                    continue;
-                }
-
-                if (record.Def != null)
-                {
-                    effects.Add(record.Def);
-                }
+                continue;
             }
-        }
 
-        return effects;
+            stacks[record.Def] = stacks.GetValueOrDefault(record.Def) + 1f;
+        }
     }
 
     public void ResetAttackCoolDown()

@@ -326,6 +326,8 @@ public static class DevConsoleCommands
             Defs.Stats.MaxHitPoints,
             Defs.Stats.WeaponPower,
             Defs.Stats.Strength,
+            Defs.Stats.BodyScale,
+            Defs.Stats.Magic,
             Defs.Stats.AttackSpeed,
             Defs.Stats.Accuracy,
             Defs.Stats.Evasion,

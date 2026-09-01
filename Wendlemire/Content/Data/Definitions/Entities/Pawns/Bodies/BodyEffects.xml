@@ -7,11 +7,7 @@
         <TexturePath>Entities/Pawn/BodyEffects/FoodPoisoning</TexturePath>
         <AffectedStats>
             <ListItem>
-                <Stat>Strength</Stat>
-                <Factor>-.10</Factor>
-            </ListItem>
-            <ListItem>
-                <Stat>AttackSpeed</Stat>
+                <Stat>BodyScale</Stat>
                 <Factor>-.10</Factor>
             </ListItem>
         </AffectedStats>
@@ -22,12 +18,12 @@
         <TexturePath>Entities/Pawn/BodyEffects/BeefedUp</TexturePath>
         <AffectedStats>
             <ListItem>
-                <Stat>Strength</Stat>
-                <Offset>.08</Offset>
+                <Stat>BodyScale</Stat>
+                <Factor>.08</Factor>
             </ListItem>
             <ListItem>
-                <Stat>AttackSpeed</Stat>
-                <Offset>.05</Offset>
+                <Stat>Strength</Stat>
+                <Offset>0.10</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -37,12 +33,12 @@
         <TexturePath>Entities/Pawn/BodyEffects/BeefedUpPlus</TexturePath>
         <AffectedStats>
             <ListItem>
-                <Stat>Strength</Stat>
-                <Offset>.12</Offset>
+                <Stat>BodyScale</Stat>
+                <Factor>.10</Factor>
             </ListItem>
             <ListItem>
-                <Stat>AttackSpeed</Stat>
-                <Offset>.06</Offset>
+                <Stat>Strength</Stat>
+                <Offset>0.12</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -52,12 +48,12 @@
         <TexturePath>Entities/Pawn/BodyEffects/Fishy</TexturePath>
         <AffectedStats>
             <ListItem>
-                <Stat>Strength</Stat>
-                <Offset>.10</Offset>
+                <Stat>BodyScale</Stat>
+                <Factor>.06</Factor>
             </ListItem>
             <ListItem>
-                <Stat>Evasion</Stat>
-                <Offset>.05</Offset>
+                <Stat>Accuracy</Stat>
+                <Offset>0.04</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -67,8 +63,12 @@
         <TexturePath>Entities/Pawn/BodyEffects/Energized</TexturePath>
         <AffectedStats>
             <ListItem>
+                <Stat>BodyScale</Stat>
+                <Factor>.06</Factor>
+            </ListItem>
+            <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Offset>.06</Offset>
+                <Offset>0.2</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -76,15 +76,15 @@
         <Moniker>Mulled</Moniker>
         <Label>Smokey Haze</Label>
         <TexturePath>Entities/Pawn/BodyEffects/Mulled</TexturePath>
-        <Description>You've danced in the flames of glittering wood, your skin absorbed a pungent smoke</Description>
+        <Description>You've danced in the flames of glittering wood. The smoke attunes your enchantments.</Description>
         <AffectedStats>
             <ListItem>
-                <Stat>Accuracy</Stat>
-                <Offset>.05</Offset>
+                <Stat>Magic</Stat>
+                <Offset>.15</Offset>
             </ListItem>
             <ListItem>
-                <Stat>Evasion</Stat>
-                <Offset>.02</Offset>
+                <Stat>AttackSpeed</Stat>
+                <Offset>0.2</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -92,15 +92,15 @@
         <Moniker>Shaded</Moniker>
         <Label>Shaded</Label>
         <TexturePath>Entities/Pawn/BodyEffects/Shaded</TexturePath>
-        <Description>You can perceive a high reality</Description>
+        <Description>You can perceive a high reality. Enchantments answer more readily.</Description>
         <AffectedStats>
             <ListItem>
-                <Stat>Accuracy</Stat>
-                <Offset>.01</Offset>
+                <Stat>Magic</Stat>
+                <Offset>.20</Offset>
             </ListItem>
             <ListItem>
-                <Stat>AttackSpeed</Stat>
-                <Offset>0.06</Offset>
+                <Stat>Evasion</Stat>
+                <Offset>0.08</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -108,19 +108,19 @@
         <Moniker>WellMulled</Moniker>
         <Label>Golden Smoke</Label>
         <TexturePath>Entities/Pawn/BodyEffects/WellMulled</TexturePath>
-        <Description>Flecks of golden glisten on your skin</Description>
+        <Description>Flecks of golden glisten on your skin and attune your enchantments.</Description>
         <AffectedStats>
             <ListItem>
-                <Stat>Accuracy</Stat>
-                <Offset>.05</Offset>
-            </ListItem>
-            <ListItem>
-                <Stat>Evasion</Stat>
-                <Offset>.02</Offset>
+                <Stat>Magic</Stat>
+                <Offset>.30</Offset>
             </ListItem>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Offset>0.06</Offset>
+                <Offset>0.15</Offset>
+            </ListItem>
+            <ListItem>
+                <Stat>Evasion</Stat>
+                <Offset>0.03</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -159,20 +159,12 @@
         <TexturePath>Entities/Pawn/BodyEffects/PotentiaNucis</TexturePath>
         <AffectedStats>
             <ListItem>
-                <Stat>Accuracy</Stat>
-                <Offset>.075</Offset>
-            </ListItem>
-            <ListItem>
-                <Stat>Evasion</Stat>
-                <Offset>.04</Offset>
+                <Stat>BodyScale</Stat>
+                <Factor>.12</Factor>
             </ListItem>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Offset>.08</Offset>
-            </ListItem>
-            <ListItem>
-                <Stat>Strength</Stat>
-                <Factor>0.10</Factor>
+                <Offset>0.3</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -182,12 +174,12 @@
         <TexturePath>Entities/Pawn/BodyEffects/Buzzin</TexturePath>
         <AffectedStats>
             <ListItem>
-                <Stat>AttackSpeed</Stat>
-                <Offset>0.08</Offset>
+                <Stat>BodyScale</Stat>
+                <Factor>.10</Factor>
             </ListItem>
             <ListItem>
-                <Stat>Strength</Stat>
-                <Factor>0.12</Factor>
+                <Stat>AttackSpeed</Stat>
+                <Offset>0.4</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -211,7 +203,23 @@
         <AffectedStats>
             <ListItem>
                 <Stat>Strength</Stat>
-                <Offset>2</Offset>
+                <Offset>1</Offset>
+            </ListItem>
+        </AffectedStats>
+    </BodyEffectDef>
+    <BodyEffectDef>
+        <Moniker>WitchTouched</Moniker>
+        <Label>Witch Touched</Label>
+        <TexturePath>Entities/Pawn/BodyEffects/FeelingThePurple</TexturePath>
+        <Description>Aromatic witch wood smoke clings to you and sharply attunes your enchantments.</Description>
+        <AffectedStats>
+            <ListItem>
+                <Stat>Magic</Stat>
+                <Offset>.40</Offset>
+            </ListItem>
+            <ListItem>
+                <Stat>AttackSpeed</Stat>
+                <Offset>0.3</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>

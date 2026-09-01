@@ -14,6 +14,11 @@ public class BoneDecayHandler : BodyPartModifier
     public const double MinimumDamage = 0.025;
     public override List<SubstanceType> AllowedSubstances => [SubstanceType.Bone, SubstanceType.Chitin];
 
+    public override void Initialize()
+    {
+        CurrentDamage = BaseDamage * Power;
+    }
+
     public override void Tick()
     {
         Ticks++;
@@ -39,7 +44,7 @@ public class BoneDecayHandler : BodyPartModifier
 
     public override void MergeWith(BodyPartModifier modifier)
     {
-        CurrentDamage = BaseDamage;
+        CurrentDamage = BaseDamage * Power;
         base.MergeWith(modifier);
     }
 

@@ -112,9 +112,6 @@
                     <ListItem>
                         <ItemDef>CookedCorn</ItemDef>
                     </ListItem>
-                    <ListItem>
-                        <ItemDef>DriedMeat</ItemDef>
-                    </ListItem>
                 </Offers>
             </ListItem>
             <ListItem>
@@ -130,8 +127,7 @@
                         <ItemDef>ShadeWood</ItemDef>
                     </ListItem>
                 </Offers>
-            </ListItem>
-            
+            </ListItem>          
             <ListItem>
                 <Category>Potions</Category>
                 <Columns>6</Columns>
@@ -147,17 +143,17 @@
                     <ListItem>
                         <ItemDef>HealingPotion</ItemDef>
                     </ListItem>
+                    <ListItem>
+                        <ItemDef>StrengthPotion</ItemDef>
+                    </ListItem>
                 </Offers>
             </ListItem>
             <ListItem>
                 <Category>Medicine</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
-                <StockSize>3</StockSize>
+                <StockSize>2</StockSize>
                 <Offers>
-                    <ListItem>
-                        <ItemDef>BalmyOintment</ItemDef>
-                    </ListItem>
                     <ListItem>
                         <ItemDef>Suture</ItemDef>
                     </ListItem>
@@ -169,7 +165,6 @@
                     </ListItem>
                 </Offers>
             </ListItem>
-            
         </Shelves>
     </MerchantDef>
 </Definitions>

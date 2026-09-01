@@ -20,6 +20,15 @@
         <UiDisplay>true</UiDisplay>
     </StatDef>
     <StatDef>
+        <Moniker>Magic</Moniker>
+        <Label>Magic</Label>
+        <Description>Enchantment potency</Description>
+        <BaseValue>1</BaseValue>
+        <MinValue>0</MinValue>
+        <MaxValue>100</MaxValue>
+        <UiDisplay>true</UiDisplay>
+    </StatDef>
+    <StatDef>
         <Moniker>Accuracy</Moniker>
         <Label>Accuracy</Label>
         <Description>Hit chance</Description>

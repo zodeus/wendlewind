@@ -36,7 +36,7 @@ public class FesteringHandler : BodyPartModifier
             damage = PenetratedDamage;
         }
 
-        BodyPart.HitPoints -= damage;
+        BodyPart.HitPoints -= damage * Power;
 
         this.HandleSpreading(BodyPart, SpreadThreshold, ref _hasSpread);
         this.HandlePenetration(BodyPart, PenetrationThreshold, ref _hasPenetrated);
@@ -79,9 +79,9 @@ public class FesteringHandler : BodyPartModifier
 
     public override InfoPanelData GetInfoData()
     {
-        var currentDamage = BodyPart?.IsOrgan == true ? OrganDamage 
+        var currentDamage = (BodyPart?.IsOrgan == true ? OrganDamage 
             : BodyPart?.Type == BodyPartType.Artery ? ArteryDamage 
-            : _hasPenetrated ? PenetratedDamage : BaseDamage;
+            : _hasPenetrated ? PenetratedDamage : BaseDamage) * Power;
 
         return new InfoPanelData
         {

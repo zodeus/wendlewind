@@ -105,6 +105,12 @@ public class PawnRenderer : IDisposable
     /// </summary>
     public IBodyPartLayout? Layout => _layout;
 
+    /// <summary>
+    /// Optional current/max overlay used when displayed health should differ from
+    /// live body values (e.g. prep-screen meal Body Scale before combat applies it).
+    /// </summary>
+    public Func<(int Current, int Max)>? HealthOverride { get; set; }
+
     public PawnRenderer(Pawn pawn, int renderSize = 512)
     {
         _pawn = pawn;
@@ -159,8 +165,8 @@ public class PawnRenderer : IDisposable
             SubscribeToNewParts();
         }
 
-        var currentHealth = (int)Math.Ceiling(_pawn.Body.HitPoints);
-        var maxHealth = (int)_pawn.Body.MaxHitPoints;
+        var (currentHealth, maxHealth) = HealthOverride?.Invoke()
+            ?? ((int)Math.Ceiling(_pawn.Body.HitPoints), (int)_pawn.Body.MaxHitPoints);
         var healthChanged = currentHealth != _lastHealth || maxHealth != _lastMaxHealth;
         if (healthChanged)
         {

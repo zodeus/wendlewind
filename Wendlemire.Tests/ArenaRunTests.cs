@@ -6,6 +6,7 @@ using Wendlemire.NetCode.Contracts;
 using Wendlemire.Sim;
 using Wendlemire.Sim.Arena;
 using Wendlemire.Sim.Combat;
+using Wendlemire.Sim.Entities;
 using Wendlemire.Sim.Entities.Items;
 using Wendlemire.Sim.Entities.Items.Medicinals;
 using Wendlemire.Sim.Entities.Pawns;
@@ -888,6 +889,102 @@ public class ArenaRunTests
         pawn.ApplyBattleStartConsumables();
         Assert.Equal(1, pawn.Inventory.AmountOf(meatDef));
         Assert.Single(pawn.MealPlan.Items);
+    }
+
+    [Fact]
+    public void CookedMeatRaisesPartHitPointsAndRestoreReturnsThem()
+    {
+        using var scope = CreateArena();
+        var pawn = scope.Context.PlayerPawn;
+        var torso = pawn.Body.AllParts.First(p => p.Type == BodyPartType.Torso);
+        var baselineMax = torso.MaxHitPoints;
+        var meatDef = DefRepository<ItemDef>.GetByMoniker("CookedMeat")!;
+        var meat = scope.Context.Factory.CreateEntity<Item>(meatDef, 1);
+        Assert.True(pawn.Inventory.TryAdd(meat));
+        Assert.True(pawn.MealPlan.TryAdd(meat));
+
+        pawn.ApplyBattleStartConsumables();
+
+        Assert.Equal(1.08f, pawn.GetStatValue(Defs.Stats.BodyScale), 3);
+        Assert.Equal(baselineMax * 1.08, torso.MaxHitPoints, 3);
+
+        pawn.Body.RestoreBodyScale();
+
+        Assert.Equal(baselineMax, torso.MaxHitPoints);
+    }
+
+    [Fact]
+    public void SharedFoodEffectsStackBodyScale()
+    {
+        using var scope = CreateArena();
+        var pawn = scope.Context.PlayerPawn;
+        var stew = scope.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("HeartyStew")!, 1);
+        var corn = scope.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("CookedCorn")!, 1);
+        Assert.True(pawn.Inventory.TryAdd(stew));
+        Assert.True(pawn.Inventory.TryAdd(corn));
+        Assert.True(pawn.MealPlan.TryAdd(stew));
+        Assert.True(pawn.MealPlan.TryAdd(corn));
+
+        pawn.ApplyBattleStartConsumables();
+
+        var energized = pawn.Body.Effects.Single(effect => effect.Def.Moniker == "Energized");
+        Assert.Equal(2f, energized.Power);
+
+        var expected = 1f;
+        expected += expected * 0.06f;
+        expected += expected * 0.08f;
+        expected += expected * 0.12f;
+        Assert.Equal(expected, pawn.GetStatValue(Defs.Stats.BodyScale), 3);
+    }
+
+    [Fact]
+    public void LightingMullinStickRaisesMagicOnceApplied()
+    {
+        using var scope = CreateArena();
+        var pawn = scope.Context.PlayerPawn;
+        var incenseDef = DefRepository<ItemDef>.GetByMoniker("MullinStick")!;
+        var incense = scope.Context.Factory.CreateEntity<Item>(incenseDef, 1);
+        Assert.True(pawn.Inventory.TryAdd(incense));
+        Assert.True(pawn.TryLightIncense(incense, requireFlameStick: false));
+
+        pawn.ApplyBattleStartConsumables();
+
+        Assert.Equal(1.15f, pawn.GetStatValue(Defs.Stats.Magic), 3);
+    }
+
+    [Fact]
+    public void FoodPoisoningLowersBodyScale()
+    {
+        using var scope = CreateArena();
+        var pawn = scope.Context.PlayerPawn;
+        var rawDef = DefRepository<ItemDef>.GetByMoniker("RawMeat")!;
+        var raw = scope.Context.Factory.CreateEntity<Item>(rawDef, 1);
+        Assert.True(pawn.Inventory.TryAdd(raw));
+        Assert.True(pawn.MealPlan.TryAdd(raw));
+
+        pawn.ApplyBattleStartConsumables();
+
+        Assert.Equal(0.90f, pawn.GetStatValue(Defs.Stats.BodyScale), 3);
+        Assert.True(pawn.Body.Effects.Has(Defs.BodyEffects.FoodPoisoning));
+    }
+
+    [Fact]
+    public void SpecialtyFoodsStillApplyGoldenLipsAndFruiting()
+    {
+        using var scope = CreateArena();
+        var pawn = scope.Context.PlayerPawn;
+        var cap = scope.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("GoldCapMushroom")!, 1);
+        var jam = scope.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("WondrousJam")!, 1);
+        Assert.True(pawn.Inventory.TryAdd(cap));
+        Assert.True(pawn.Inventory.TryAdd(jam));
+        Assert.True(pawn.MealPlan.TryAdd(cap));
+        Assert.True(pawn.MealPlan.TryAdd(jam));
+
+        pawn.ApplyBattleStartConsumables();
+
+        Assert.True(pawn.Body.Effects.Has(Defs.BodyEffects.GoldenLips));
+        Assert.True(pawn.Body.Effects.Has(Defs.BodyEffects.Fruiting));
+        Assert.Equal(1f, pawn.GetStatValue(Defs.Stats.BodyScale), 3);
     }
 
     [Fact]

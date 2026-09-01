@@ -15,14 +15,17 @@ public class SpidersBiteHandler : EnchantmentHandler
     {
         var randomPart = target.Body.AllExternalParts.RandomElement(Context.Rng);
         Bites++;
-        foreach (var modifier in Enchantment.ItemDef.EnchantmentProperties!.BodyPartModifiers)
+        var properties = Enchantment.ItemDef.EnchantmentProperties!;
+        var magic = GetMagic(pawn);
+        foreach (var modifier in properties.BodyPartModifiers)
         {
+            var scaled = properties.ScaleRecord(modifier, magic);
             var modRecord = new BodyPartModifierRecord
             {
-                Def = modifier.Def,
-                DurationInTicks = modifier.DurationInTicks,
+                Def = scaled.Def,
+                DurationInTicks = scaled.DurationInTicks,
                 Chance = RangeFloat.One,
-                Power = modifier.Power
+                Power = scaled.Power
             };
             if (randomPart.ApplyBodyPartModifier(modRecord, Enchantment.Label))
             {

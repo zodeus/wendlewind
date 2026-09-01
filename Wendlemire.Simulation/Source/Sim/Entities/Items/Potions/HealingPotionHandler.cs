@@ -25,12 +25,6 @@ public class HealingPotionHandler : PotionHandler
             Context.Factory.CreateModifier(Defs.BodyPartModifiers.HealthRegeneration, duration, power)
         ));
 
-        actualTarget.Body.Effects.TryApplyEffect(new BodyEffect
-        {
-            Def = Defs.BodyEffects.Strengthened,
-            TicksLeft = duration
-        });
-
         var message = $"/c[{TC.Attacker}]{actualTarget.LabelShort} /c[{TC.Yellow}]drank the /c[{TC.Item}]{PotionLabel}";
 
         return PotionUseResult.Succeeded(

@@ -42,10 +42,12 @@
                 <ListItem>Armor</ListItem>
             </ValidEquipmentTypes>
             <HandlerClass>RhinoSkinHandler</HandlerClass>
+            <ScaleDuration>true</ScaleDuration>
+            <ScalePower>true</ScalePower>
             <BodyPartModifiers>
                 <ListItem>
                     <Def>RhinoRestoration</Def>
-                    <DurationInTicks>80~140</DurationInTicks>
+                    <DurationInTicks>64~112</DurationInTicks>
                     <Chance>1</Chance>
                 </ListItem>
             </BodyPartModifiers>

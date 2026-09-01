@@ -75,10 +75,9 @@ public class AcidHandler : BodyPartModifier
     };
 
     private double GetDamage() {
-        if (BodyPart.IsOrgan || BodyPart.Type == BodyPartType.Artery)
-        {
-            return SoftTissueDamage;
-        }
-        return _hasPenetrated? PenetratedDamage + BaseDamage : BaseDamage;
+        var damage = BodyPart.IsOrgan || BodyPart.Type == BodyPartType.Artery
+            ? SoftTissueDamage
+            : _hasPenetrated ? PenetratedDamage + BaseDamage : BaseDamage;
+        return damage * Power;
     }
 }

@@ -1,4 +1,4 @@
-﻿﻿namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+﻿namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
 public enum EffectsPanelOrientation
 {
@@ -233,8 +233,10 @@ public sealed class PawnBodyEffectTooltip : VerticalStackPanel
 
         foreach (var affectedStat in effect.Def.AffectedStats)
         {
-            var factor = affectedStat.Factor != null ? $"/c[{(affectedStat.Factor > 0 ? TC.Green : TC.Red)}]*{affectedStat.Factor} " : "";
-            var offset = affectedStat.Offset != null ? $"/c[{(affectedStat.Offset > 0 ? TC.Green : TC.Red)}]+{affectedStat.Offset} " : "";
+            var scaledFactor = affectedStat.Factor * effect.Power;
+            var scaledOffset = affectedStat.Offset * effect.Power;
+            var factor = scaledFactor != null ? $"/c[{(scaledFactor.Value > 0 ? TC.Green : TC.Red)}]*{scaledFactor} " : "";
+            var offset = scaledOffset != null ? $"/c[{(scaledOffset.Value > 0 ? TC.Green : TC.Red)}]+{scaledOffset} " : "";
             Widgets.Add(new HorizontalStackPanel
             {
                 Widgets = {

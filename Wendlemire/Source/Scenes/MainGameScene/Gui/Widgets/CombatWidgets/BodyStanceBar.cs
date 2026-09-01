@@ -7,7 +7,7 @@ public sealed class BodyStanceBar : HorizontalStackPanel
     public BodyStanceBar(Pawn pawn, bool readOnly = false)
     {
         var buttons = new List<CursorButton>();
-        var defaultColor = new Color(80, 80, 80, 100);
+        var defaultColor = Color.White;
         foreach (var stance in DefRepository<BodyStanceDef>.Defs)
         {
             var button = new CursorButton(BaseContent.Styles.Button.Icon)

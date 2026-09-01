@@ -5,16 +5,18 @@ public class Damage
     public readonly Item Weapon;
     public readonly string WeaponManeuver;
     public readonly bool IsCritical;
+    private readonly float _magic;
     private List<BodyPartModifierRecord>? _bodyPartModifiers;
     public WeaponType WeaponType => Weapon.ItemDef.WeaponProperties!.WeaponType;
 
-    public Damage(Item weapon, double amount, string weaponManeuver, bool isCritical = false)
+    public Damage(Item weapon, double amount, string weaponManeuver, bool isCritical = false, float magic = 1f)
     {
         Weapon = weapon;
         TotalDamage = amount;
         TotalUnblockedDamage = amount;
         WeaponManeuver = weaponManeuver;
         IsCritical = isCritical;
+        _magic = magic;
     }
 
     // Overload for trinket damage with a label (non-critical)
@@ -46,13 +48,17 @@ public class Damage
 
             foreach (var enchantment in Weapon.Enchantments)
             {
-                var enchantmentMods = enchantment.ItemDef.EnchantmentProperties?.BodyPartModifiers;
+                var properties = enchantment.ItemDef.EnchantmentProperties;
+                var enchantmentMods = properties?.BodyPartModifiers;
                 if (enchantmentMods == null)
                 {
                     continue;
                 }
 
-                _bodyPartModifiers.AddRange(enchantmentMods);
+                foreach (var record in enchantmentMods)
+                {
+                    _bodyPartModifiers.Add(properties!.ScaleRecord(record, _magic));
+                }
             }
 
             return _bodyPartModifiers;

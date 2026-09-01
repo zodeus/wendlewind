@@ -26,12 +26,14 @@ public sealed class PawnSummaryCard : VerticalStackPanel, IUpdatable
             Margin = new Thickness(0, 4, 0, 0)
         });
 
-        Widgets.Add(new PawnRenderWidget(pawn, 192)
+        var portrait = new PawnRenderWidget(pawn, 192)
         {
             Width = 192,
             Height = 192,
             HorizontalAlignment = HorizontalAlignment.Center
-        });
+        };
+        portrait.Renderer.HealthOverride = () => PrepBuffList.ProjectedBodyHitPoints(_pawn);
+        Widgets.Add(portrait);
 
         _capabilities = new PawnCapabilitiesOverlay(pawn.Body);
         Widgets.Add(_capabilities);

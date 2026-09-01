@@ -4,6 +4,7 @@ public class BodyEffect : IExposable {
     public BodyEffectDef Def = null!;
     public int TicksLeft;
     public bool LastsWholeEncounter;
+    public float Power = 1f;
     public bool IsExpired => !LastsWholeEncounter && TicksLeft < 1;
 
     public void ModifyIfApplicable(StatDef stat, ref float value) {
@@ -15,11 +16,11 @@ public class BodyEffect : IExposable {
             if (affectedStat.Stat != stat) { continue; }
 
             if (affectedStat.Factor != null) {
-                value += (value * affectedStat.Factor.Value);
+                value += (value * affectedStat.Factor.Value * Power);
             }
 
             if (affectedStat.Offset != null) {
-                value += affectedStat.Offset.Value;
+                value += affectedStat.Offset.Value * Power;
             }
         }
     }
@@ -35,5 +36,6 @@ public class BodyEffect : IExposable {
         ScribeDefs.Look(ref Def!, "Def");
         ScribeValues.Look(ref TicksLeft, "TicksLeft");
         ScribeValues.Look(ref LastsWholeEncounter, "LastsWholeEncounter");
+        ScribeValues.Look(ref Power, "Power", 1f);
     }
 }

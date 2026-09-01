@@ -588,6 +588,8 @@ public class CombatHandler : IDisposable, IHasContext
     {
         FlushTickHealth(force: true);
 
+        Player.Body.RestoreBodyScale();
+        Enemy.Body.RestoreBodyScale();
         Player.Body.Effects.ClearWholeEncounterEffects();
         Enemy.Body.Effects.ClearWholeEncounterEffects();
         Player.CombatStomach.Clear();

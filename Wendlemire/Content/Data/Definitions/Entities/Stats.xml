@@ -49,4 +49,13 @@
         <MinValue>0</MinValue>
         <MaxValue>100</MaxValue>
     </StatDef>
+    <StatDef>
+        <Moniker>BodyScale</Moniker>
+        <Label>Body Scale</Label>
+        <Description>Body hit point scale</Description>
+        <BaseValue>1</BaseValue>
+        <MinValue>0.1</MinValue>
+        <MaxValue>10</MaxValue>
+        <UiDisplay>true</UiDisplay>
+    </StatDef>
 </Definitions>

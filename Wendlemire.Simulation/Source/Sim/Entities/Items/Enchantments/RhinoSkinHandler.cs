@@ -8,13 +8,14 @@ public class RhinoSkinHandler : EnchantmentHandler
         Rng = rng;
     }
 
-    private const double DamageMitigationBase = 0.1; // 10% of the hit refunded
+    private const double DamageMitigationBase = 0.08; // 8% of the hit refunded
     private const double DamageMitigationLevelFactor = 0.01; // 1% damage per level
     private int _level = 1;
     private double DamageMitigationFactor => DamageMitigationBase + ((_level - 1) * DamageMitigationLevelFactor);
 
     public override void PostPawnDamageTakenEffect(BodyPart bodyPart, Pawn target, Pawn source, DamageRecord damageRecord)
     {
+        var magic = GetMagic(target);
         if (damageRecord.BodyParts.Any(r => r.BodyPart.Type == BodyPartType.Skin && r.WasDestroyed))
         {
             _level++;
@@ -22,26 +23,28 @@ public class RhinoSkinHandler : EnchantmentHandler
 
         if (bodyPart.Skin?.HealthPercent < .5f)
         {
-            ApplyPartRegeneration(bodyPart, damageRecord);
+            ApplyPartRegeneration(bodyPart, damageRecord, magic);
         }
 
         if (bodyPart.Skin?.IsDestroyed == true) return;
-        var damageMitigated = damageRecord.ActualAmount * DamageMitigationFactor;
+        var damageMitigated = damageRecord.ActualAmount * DamageMitigationFactor * magic;
         bodyPart.HitPoints += damageMitigated;
     }
 
-    private void ApplyPartRegeneration(BodyPart bodyPart, DamageRecord damageRecord)
+    private void ApplyPartRegeneration(BodyPart bodyPart, DamageRecord damageRecord, float magic)
     {
-        foreach (var modifier in Enchantment.ItemDef.EnchantmentProperties!.BodyPartModifiers)
+        var properties = Enchantment.ItemDef.EnchantmentProperties!;
+        foreach (var modifier in properties.BodyPartModifiers)
         {
+            var scaled = properties.ScaleRecord(modifier, magic);
             // Add rhino skin to records
             damageRecord.BodyParts.First(p => Equals(p.BodyPart, bodyPart))
-                .AppliedModifiers.Add(modifier.Def);
+                .AppliedModifiers.Add(scaled.Def);
 
-            bodyPart.ApplyBodyPartModifier(modifier, Enchantment.Label);
+            bodyPart.ApplyBodyPartModifier(scaled, Enchantment.Label);
             foreach (var part in bodyPart.AllInternalParts)
             {
-                part.ApplyBodyPartModifier(modifier, Enchantment.Label);
+                part.ApplyBodyPartModifier(scaled, Enchantment.Label);
             }
         }
     }

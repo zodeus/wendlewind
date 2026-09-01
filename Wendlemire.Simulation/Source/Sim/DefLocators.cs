@@ -19,6 +19,8 @@ public static partial class Defs
         public static StatDef AttackSpeedModifier = null!;
         public static StatDef PotionDuration = null!;
         public static StatDef PotionPower = null!;
+        public static StatDef BodyScale = null!;
+        public static StatDef Magic = null!;
     }
 }
 
@@ -87,6 +89,7 @@ public static partial class Defs
         public static BodyEffectDef Fruiting = null!;
         public static BodyEffectDef BlackenedSmoke = null!;
         public static BodyEffectDef Strengthened = null!;
+        public static BodyEffectDef WitchTouched = null!;
     }
 }
 

@@ -25,6 +25,7 @@ public class PawnBodyEffects : IEnumerable<BodyEffect>, IExposable
         if (_effects.Find(e => e.Def == effect.Def) is { } existingEffect)
         {
             existingEffect.TicksLeft += effect.TicksLeft;
+            existingEffect.Power += effect.Power;
             if (effect.LastsWholeEncounter)
             {
                 existingEffect.LastsWholeEncounter = true;
@@ -43,6 +44,27 @@ public class PawnBodyEffects : IEnumerable<BodyEffect>, IExposable
     public bool TryRemove(BodyEffectDef effect)
     {
         return _effects.RemoveAll(e => e.Def == effect) > 0;
+    }
+
+    public void SyncEncounterStacks(IReadOnlyDictionary<BodyEffectDef, float> stacks)
+    {
+        for (var i = _effects.Count - 1; i >= 0; i--)
+        {
+            var effect = _effects[i];
+            if (!effect.LastsWholeEncounter)
+            {
+                continue;
+            }
+
+            if (stacks.TryGetValue(effect.Def, out var power) && power > 0f)
+            {
+                effect.Power = power;
+            }
+            else
+            {
+                _effects.RemoveAt(i);
+            }
+        }
     }
 
     public void Tick()

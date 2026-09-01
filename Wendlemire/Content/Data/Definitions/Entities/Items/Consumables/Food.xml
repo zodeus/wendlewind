@@ -10,7 +10,7 @@
     <ItemDef ParentName="Food">
         <Moniker>CookedFish</Moniker>
         <Label>Cooked Fish</Label>
-        <Description>It's a nicely cooked fish.</Description>
+        <Description>It's a nicely cooked fish. Thickens the body.</Description>
         <GoldCost>10</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/CookedFish</TexturePath>
         <FoodProperties>
@@ -39,7 +39,7 @@
     <ItemDef ParentName="Food">
         <Moniker>CookedMeat</Moniker>
         <Label>Cooked Meat</Label>
-        <Description>Some cooked meat, a nice belly filler.</Description>
+        <Description>Some cooked meat. A nice belly filler that toughens the body.</Description>
         <GoldCost>10</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/CookedMeat</TexturePath>
         <FoodProperties>
@@ -68,7 +68,7 @@
     <ItemDef ParentName="Food">
         <Moniker>DriedMeat</Moniker>
         <Label>Dried Meat</Label>
-        <Description>Some dried meat, it's beefy.</Description>
+        <Description>Some dried meat. It's beefy and thickens the body.</Description>
         <GoldCost>15</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/DriedMeat</TexturePath>
         <FoodProperties>
@@ -97,7 +97,7 @@
     <ItemDef ParentName="Food">
         <Moniker>CookedCorn</Moniker>
         <Label>Cooked Corn</Label>
-        <Description>Some cooked corn, it's energizing</Description>
+        <Description>Some cooked corn. Energizing, and it toughens the body.</Description>
         <GoldCost>20</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/CookedCorn</TexturePath>
         <FoodProperties>
@@ -128,7 +128,7 @@
     <ItemDef ParentName="Food">
         <Moniker>HeartyStew</Moniker>
         <Label>Hearty Stew</Label>
-        <Description>Nicely stewed meat and vegetables.</Description>
+        <Description>Nicely stewed meat and vegetables. A hearty meal that thickens the body.</Description>
         <GoldCost>50</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/FishStew</TexturePath>
         <FoodProperties>
@@ -214,7 +214,7 @@
     <ItemDef ParentName="Food">
         <Moniker>Walnut</Moniker>
         <Label>Walnut</Label>
-        <Description>A walnut, earthy and nutritious, a very nice snack.</Description>
+        <Description>A walnut, earthy and nutritious. A dense snack that thickens the body.</Description>
         <GoldCost>100</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/Walnut</TexturePath>
         <FoodProperties>
@@ -232,7 +232,7 @@
     <ItemDef ParentName="OrganicResource">
         <Moniker>HoneyPot</Moniker>
         <Label>Honey Pot</Label>
-        <Description>A pot filled with honey. It's sweet and sticky.</Description>
+        <Description>A pot filled with honey. Sweet, sticky, and it toughens the body.</Description>
         <GoldCost>80</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/HoneyPot</TexturePath>
         <FoodProperties>
