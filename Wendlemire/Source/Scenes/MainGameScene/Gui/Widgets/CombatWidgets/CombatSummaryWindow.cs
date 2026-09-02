@@ -92,11 +92,6 @@ public sealed class CombatSummaryWindow : Window
         AddStatRow(stats, 5, "Total Damage", $"{totalDamage:N0}", Color.Goldenrod);
 
         var extras = new List<Widget>();
-        if (deathRecords.Count > 0)
-        {
-            extras.Add(BuildKillHistory(deathRecords));
-        }
-
         if (BuildSeveredLabel(handler, "Limbs lost") is { } severed)
         {
             extras.Add(severed);
@@ -286,40 +281,6 @@ public sealed class CombatSummaryWindow : Window
                     HorizontalAlignment = HorizontalAlignment.Center
                 },
                 lootItems
-            }
-        };
-    }
-
-    private static Widget BuildKillHistory(IReadOnlyList<DeathRecord> deathRecords)
-    {
-        var killList = new VerticalStackPanel
-        {
-            Spacing = 2,
-            HorizontalAlignment = HorizontalAlignment.Stretch
-        };
-        foreach (var record in deathRecords.TakeLast(6))
-        {
-            killList.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-            {
-                Text = $"#{record.Round}  {record.PawnName}  —  {record.CauseOfDeath}",
-                TextColor = Dust,
-                HorizontalAlignment = HorizontalAlignment.Stretch
-            });
-        }
-
-        return new VerticalStackPanel
-        {
-            Spacing = 4,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Widgets =
-            {
-                new Label(BaseContent.Styles.Label.Small)
-                {
-                    Text = "Kills",
-                    TextColor = Dust,
-                    HorizontalAlignment = HorizontalAlignment.Center
-                },
-                killList
             }
         };
     }
