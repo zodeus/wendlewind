@@ -84,6 +84,50 @@ public sealed class FightAnalyticsService
         };
     }
 
+    public DuelVerifyResult VerifyRecorded()
+    {
+        var labels = _players.PlayerLabels();
+        var mismatches = new List<DuelVerifyMismatch>();
+        var scanned = 0;
+        foreach (var run in _players.ListAllRuns())
+        {
+            foreach (var fight in run.Fights)
+            {
+                scanned++;
+                var replayed = DuelSimulator.Run(fight.Attacker, fight.Defender, fight.EncounterSeed);
+                if (string.Equals(fight.WinnerPlayerId, replayed.WinnerPlayerId, StringComparison.Ordinal)
+                    && fight.Ticks == replayed.Ticks)
+                {
+                    continue;
+                }
+
+                mismatches.Add(new DuelVerifyMismatch
+                {
+                    MatchId = fight.MatchId,
+                    PlayerName = ResolveName(run.PlayerId, run, fight, labels),
+                    OpponentName = ResolveName(fight.Defender.PlayerId, run, fight, labels),
+                    Round = fight.Round,
+                    FoughtAt = fight.FoughtAt,
+                    RecordedWinner = fight.WinnerPlayerId,
+                    ReplayedWinner = replayed.WinnerPlayerId,
+                    RecordedTicks = fight.Ticks,
+                    ReplayedTicks = replayed.Ticks,
+                    RecordedCause = fight.CauseOfDeath,
+                    ReplayedCause = replayed.CauseOfDeath,
+                    EncounterSeed = fight.EncounterSeed,
+                    Version = fight.Version ?? run.Version
+                });
+            }
+        }
+
+        return new DuelVerifyResult
+        {
+            Scanned = scanned,
+            Matched = scanned - mismatches.Count,
+            Mismatches = mismatches
+        };
+    }
+
     private static FightAnalyticsRow ToRow(
         ArenaRunRecord run,
         ArenaFightRecord fight,

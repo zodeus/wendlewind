@@ -57,4 +57,19 @@ public static class DuelSimulator
             Analytics = analytics
         };
     }
+
+    public static string DescribeMismatch(
+        CombatResult server,
+        bool localWon,
+        string localPlayerId,
+        int localTicks,
+        string? localCause)
+    {
+        var localWinner = localWon ? localPlayerId : server.DefenderPlayerId ?? "?";
+        return
+            $"Arena re-sim disagreed with server. MatchId={server.MatchId} Seed={server.EncounterSeed} " +
+            $"ServerWinner={server.WinnerPlayerId} ServerTicks={server.Ticks} ServerCause={server.CauseOfDeath} " +
+            $"LocalWinner={localWinner} LocalTicks={localTicks} LocalCause={localCause} " +
+            $"ServerVersion={server.Version} LocalVersion={GameVersion.Current}";
+    }
 }

@@ -31,6 +31,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     private readonly CombatConsumableLoadout _opponentLoadout;
     private readonly Widget _playerCenter;
     private readonly Widget _opponentCenter;
+    private readonly List<CombatLogEvent> _pendingPotionThrows = [];
 
     private Encounter Encounter => _context.CurrentZone!.ActiveEncounter!;
 
@@ -370,7 +371,38 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             return;
         }
 
-        _floaterRouter.ShowPotionImpact(combatEvent);
+        _pendingPotionThrows.Add(combatEvent);
+    }
+
+    private void FlushPendingPotionThrows()
+    {
+        for (var i = 0; i < _pendingPotionThrows.Count;)
+        {
+            var combatEvent = _pendingPotionThrows[i];
+            if (TryLaunchPotionThrow(combatEvent))
+            {
+                _pendingPotionThrows.RemoveAt(i);
+                continue;
+            }
+
+            if (HasArrangedPotionTarget(combatEvent))
+            {
+                _floaterRouter.ShowPotionImpact(combatEvent);
+                _pendingPotionThrows.RemoveAt(i);
+                continue;
+            }
+
+            i++;
+        }
+    }
+
+    private bool HasArrangedPotionTarget(CombatLogEvent combatEvent)
+    {
+        var target = FindPawn(combatEvent.TargetPawnId ?? combatEvent.SubjectPawnId);
+        var portrait = target != null
+            ? ResolveParty(target).GetPanelForPawn(target)?.BodyWidget
+            : null;
+        return portrait is { Bounds.Width: > 0, Bounds.Height: > 0 };
     }
 
     private bool TryLaunchPotionThrow(CombatLogEvent combatEvent)
@@ -389,18 +421,13 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
         var userPanel = ResolveParty(user).GetPanelForPawn(user);
         var targetPanel = ResolveParty(target).GetPanelForPawn(target);
-        if (userPanel?.EquipmentPanel == null || targetPanel?.BodyWidget == null)
+        var portrait = targetPanel?.BodyWidget;
+        if (userPanel == null || portrait == null || portrait.Bounds.Width <= 0 || portrait.Bounds.Height <= 0)
         {
             return false;
         }
 
-        if (!userPanel.EquipmentPanel.TryGetSlotCenter(combatEvent.ItemMoniker, out var startLocal))
-        {
-            return false;
-        }
-
-        var portrait = targetPanel.BodyWidget;
-        if (portrait.Bounds.Width <= 0 || portrait.Bounds.Height <= 0)
+        if (!TryResolvePotionThrowOrigin(userPanel, combatEvent.ItemMoniker, out var source, out var startLocal))
         {
             return false;
         }
@@ -414,12 +441,38 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         var endLocal = new Vector2(portrait.Bounds.Width * 0.5f, portrait.Bounds.Height * 0.5f);
         return _potionThrowFx.TryStart(
             combatEvent,
-            userPanel.EquipmentPanel,
+            source,
             startLocal,
             portrait,
             endLocal,
             def.GetIcon(),
             thrown: user.Id != target.Id);
+    }
+
+    private static bool TryResolvePotionThrowOrigin(
+        PawnCombatPanel userPanel,
+        string itemMoniker,
+        out Widget source,
+        out Vector2 startLocal)
+    {
+        if (userPanel.EquipmentPanel != null
+            && userPanel.EquipmentPanel.TryGetSlotCenter(itemMoniker, out startLocal))
+        {
+            source = userPanel.EquipmentPanel;
+            return true;
+        }
+
+        var userPortrait = userPanel.BodyWidget;
+        if (userPortrait is { Bounds.Width: > 0, Bounds.Height: > 0 })
+        {
+            source = userPortrait;
+            startLocal = new Vector2(userPortrait.Bounds.Width * 0.5f, userPortrait.Bounds.Height * 0.5f);
+            return true;
+        }
+
+        source = null!;
+        startLocal = default;
+        return false;
     }
 
     private CombatPartyPanel ResolveParty(Pawn pawn)
@@ -522,6 +575,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         _pawnBodyView.Update(deltaTime);
         _enemyPawnBodyView.Update(deltaTime);
         _floaterRouter.Update(deltaTime);
+        FlushPendingPotionThrows();
         _potionThrowFx.Update(deltaTime);
         _playerStats.Update();
         _opponentStats.Update();

@@ -122,6 +122,33 @@ public class CombatReplayTests
     }
 
     [Fact]
+    public void ApplyKeepsWeaponCombatUseFromSnapshot()
+    {
+        using var root = SimServices.BuildRoot();
+        using var scope = root.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<GameContext>();
+        context.Initialize(CombatReplay.DefaultRunSeed);
+        var snapshot = BuildTemplates.DualFury() with
+        {
+            Weapons =
+            [
+                new WeaponConfig { ItemMoniker = "IronClaws", UseInCombat = true },
+                new WeaponConfig { ItemMoniker = "IronAxe", UseInCombat = false }
+            ]
+        };
+        BuildSnapshotFactory.Apply(context.PlayerPawn, snapshot);
+
+        var axe = context.PlayerPawn.Equipment.Weapons
+            .Select(w => w.Item1)
+            .Single(w => w.Def.Moniker == "IronAxe");
+        var claws = context.PlayerPawn.Equipment.Weapons
+            .Select(w => w.Item1)
+            .Single(w => w.Def.Moniker == "IronClaws");
+        Assert.False(axe.UseInCombat);
+        Assert.True(claws.UseInCombat);
+    }
+
+    [Fact]
     public void AllTemplatesHydrateLoadout()
     {
         using var root = SimServices.BuildRoot();

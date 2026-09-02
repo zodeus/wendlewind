@@ -81,6 +81,16 @@ public static class BuildSnapshotFactory
 
     public static void Apply(Pawn pawn, BuildSnapshot snapshot)
     {
+        if (snapshot.Potions.Length > pawn.PotionCapacity)
+        {
+            pawn.PotionCapacity = snapshot.Potions.Length;
+        }
+
+        if (snapshot.Incense.Length > pawn.IncenseCapacity)
+        {
+            pawn.IncenseCapacity = snapshot.Incense.Length;
+        }
+
         if (snapshot.EntityDefMonikers.Length > 0)
         {
             ReplaceLoadout(pawn, snapshot.EntityDefMonikers);
@@ -93,6 +103,7 @@ public static class BuildSnapshotFactory
         }
 
         pawn.Equipment.SyncWeaponCombatUse();
+        ApplyWeaponCombatUse(pawn, snapshot.Weapons);
         ApplyPotionTriggers(pawn, snapshot.Potions);
         ApplySockets(pawn, snapshot.Sockets);
         ApplyMeal(pawn, snapshot.Meal.Length > 0 ? snapshot.Meal : snapshot.FoodBuffs);
@@ -212,6 +223,22 @@ public static class BuildSnapshotFactory
                 Amount = g.Sum(i => i.StackSize)
             })
             .ToArray();
+    }
+
+    private static void ApplyWeaponCombatUse(Pawn pawn, WeaponConfig[] configs)
+    {
+        var remaining = pawn.Equipment.Weapons.Select(w => w.Item1).ToList();
+        foreach (var config in configs)
+        {
+            var match = remaining.FirstOrDefault(weapon => weapon.Def.Moniker == config.ItemMoniker);
+            if (match == null)
+            {
+                continue;
+            }
+
+            match.UseInCombat = config.UseInCombat;
+            remaining.Remove(match);
+        }
     }
 
     private static void ApplyPotionTriggers(Pawn pawn, PotionConfig[] configs)

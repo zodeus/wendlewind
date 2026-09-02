@@ -97,6 +97,11 @@ public class PlayerStoreTests
             Assert.Equal(run.Fights[0].WinnerPlayerId, replayed.WinnerPlayerId);
             Assert.Equal(run.Fights[0].Ticks, replayed.Ticks);
 
+            var verified = new FightAnalyticsService(store).VerifyRecorded();
+            Assert.Equal(1, verified.Scanned);
+            Assert.Equal(1, verified.Matched);
+            Assert.Empty(verified.Mismatches);
+
             store.FinishCurrent("alice", victory: false);
             Assert.Null(store.GetCurrentArena("alice"));
             Assert.False(store.GetRun("alice", started.RunId)!.Victory);
@@ -469,6 +474,45 @@ public class PlayerStoreTests
             Assert.Equal("mirror:lunch_box77", rows["mirror-named-fight"].WinnerName);
             Assert.Equal("mirror:alice", rows["mirror-named-fight"].OpponentPlayerId);
             Assert.Equal("mirror:lunch_box77", rows["mirror-named-fight"].OpponentName);
+        }
+        finally
+        {
+            Directory.Delete(dir, true);
+        }
+    }
+
+    [Fact]
+    public void VerifyRecordedFightsFlagsAWrongWinner()
+    {
+        var dir = Path.Combine(Path.GetTempPath(), $"ww-data-{Guid.NewGuid():N}");
+        try
+        {
+            var store = new PlayerStore(dir);
+            store.GetOrCreateProfile("alice", "Alice", "alice");
+            store.StartArena("alice", "Alice", 1);
+            var attacker = BuildTemplates.TankRegen() with { PlayerId = "alice" };
+            var defender = BuildTemplates.AcidRusher() with { PlayerId = "bob" };
+            var honest = DuelSimulator.Run(attacker, defender, CombatReplay.DefaultRunSeed);
+            var fakeWinner = honest.WinnerPlayerId == "alice" ? "bob" : "alice";
+            store.AppendFight("alice", new ArenaFightRecord
+            {
+                MatchId = honest.MatchId,
+                Round = 1,
+                Attacker = attacker,
+                Defender = defender,
+                EncounterSeed = honest.EncounterSeed,
+                WinnerPlayerId = fakeWinner,
+                Ticks = honest.Ticks,
+                CauseOfDeath = honest.CauseOfDeath,
+                FoughtAt = DateTimeOffset.UtcNow
+            });
+
+            var verified = new FightAnalyticsService(store).VerifyRecorded();
+            var mismatch = Assert.Single(verified.Mismatches);
+            Assert.Equal(honest.MatchId, mismatch.MatchId);
+            Assert.Equal(fakeWinner, mismatch.RecordedWinner);
+            Assert.Equal(honest.WinnerPlayerId, mismatch.ReplayedWinner);
+            Assert.Equal(honest.Ticks, mismatch.ReplayedTicks);
         }
         finally
         {

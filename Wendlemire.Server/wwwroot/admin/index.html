@@ -5,10 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Wendlemire Admin</title>
   <link rel="icon" href="/favicon.ico">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
   <style>
+    @font-face {
+      font-family: Cinzel;
+      src: url("/fonts/Cinzel-Bold.ttf") format("truetype");
+      font-weight: 500 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
     :root {
       --void: #070504;
       --ash: #100c0a;
@@ -20,7 +25,7 @@
       --bone: #cbb896;
       --dust: #7a6e58;
       --iron-edge: #3c2e26;
-      --good: #8a9a62;
+      --good: #7dae5a;
       --bad: #c45a3a;
       --warn: #d4a44a;
       --link: #d4b27a;
@@ -30,7 +35,7 @@
 
     html, body {
       margin: 0;
-      min-height: 100%;
+      min-height: 100vh;
       background: var(--void);
     }
 
@@ -219,9 +224,23 @@
       letter-spacing: 0.03em;
     }
 
-    .pill.good { border-color: var(--good); }
-    .pill.bad { border-color: var(--bad); }
-    .pill.warn { border-color: var(--warn); }
+    .pill.good {
+      color: var(--good);
+      border-color: var(--good);
+      background: #10180c;
+    }
+
+    .pill.bad {
+      color: var(--bad);
+      border-color: var(--bad);
+      background: #1a0c0a;
+    }
+
+    .pill.warn {
+      color: var(--warn);
+      border-color: var(--warn);
+    }
+
     .pill.muted { border-color: var(--dust); }
 
     main.login-page {
@@ -855,6 +874,43 @@
       `;
     }
 
+    function fightToolbar() {
+      return `<div class="toolbar">
+        <input type="search" id="search" placeholder="Search fights" value="${esc(state.search)}">
+        <button type="button" id="verify-fights">Re-sim recorded fights</button>
+      </div>`;
+    }
+
+    function verifyPanel(result) {
+      if (!result) return "";
+      if (!result.mismatches || result.mismatches.length === 0) {
+        return `<p class="good">All ${result.scanned ?? 0} recorded fights replayed to the same winner and tick count.</p>`;
+      }
+      return `
+        <div class="section">
+          <p class="bad">${result.mismatches.length} of ${result.scanned} fights disagreed on re-sim.</p>
+          <table>
+            <thead><tr>
+              <th>When</th><th>Round</th><th>Player</th><th>Opponent</th>
+              <th>Recorded</th><th>Replayed</th><th>Ticks</th><th>Seed</th>
+            </tr></thead>
+            <tbody>
+              ${result.mismatches.map((m) => `
+                <tr class="clickable" data-href="#/fights/log/${esc(m.matchId)}">
+                  <td>${when(m.foughtAt)}</td>
+                  <td>${m.round}</td>
+                  <td>${esc(m.playerName || "—")}</td>
+                  <td>${esc(m.opponentName || "—")}</td>
+                  <td class="mono">${esc(m.recordedWinner)}</td>
+                  <td class="mono">${esc(m.replayedWinner)}</td>
+                  <td>${m.recordedTicks} → ${m.replayedTicks}</td>
+                  <td class="mono">${m.encounterSeed}</td>
+                </tr>`).join("")}
+            </tbody>
+          </table>
+        </div>`;
+    }
+
     function fightsView(rows) {
       if (!rows) return `<p class="muted">Loading…</p>`;
       if (!state.sort.key) state.sort = { key: "foughtAt", dir: -1 };
@@ -862,8 +918,8 @@
         "matchId", "playerId", "playerName", "runId", "winnerPlayerId", "winnerName",
         "opponentPlayerId", "opponentName", "causeOfDeath", "killingWeapon"
       ]), "foughtAt");
-      if (!filtered.length) return searchBox("Search fights") + `<p class="empty">No fights.</p>`;
-      return searchBox("Search fights") + `
+      if (!filtered.length) return fightToolbar() + verifyPanel(state.cache.verify) + `<p class="empty">No fights.</p>`;
+      return fightToolbar() + verifyPanel(state.cache.verify) + `
         <table>
           <thead><tr>
             ${header("foughtAt", "When")}
@@ -1110,12 +1166,36 @@
       document.getElementById("logout").addEventListener("click", logout);
     }
 
+    async function verifyFights() {
+      const button = document.getElementById("verify-fights");
+      if (button) {
+        button.disabled = true;
+        button.textContent = "Re-simming…";
+      }
+      try {
+        state.cache.verify = await api("/fights/verify", { method: "POST" });
+        paint(() => fightsView(state.cache.fights));
+      } catch (error) {
+        paint(() => fightsView(state.cache.fights) + `<p class="error">${esc(error.message)}</p>`);
+      }
+    }
+
+    function bindVerify() {
+      const button = document.getElementById("verify-fights");
+      if (!button) return;
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        verifyFights();
+      });
+    }
+
     function afterPaint() {
       bindSort();
       bindClicks();
       bindDeletes();
       bindSearch();
       bindCodes();
+      bindVerify();
     }
 
     const _paint = paint;

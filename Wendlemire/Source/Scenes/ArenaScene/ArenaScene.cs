@@ -177,17 +177,33 @@ public sealed class ArenaScene : Scene
             _pendingResult.WinnerPlayerId,
             run.PlayerId,
             StringComparison.Ordinal);
-        if (localWon != serverWon)
+        var encounter = _context.CurrentZone?.ActiveEncounter;
+        var handler = encounter?.CombatHandler;
+        if (localWon != serverWon
+            || (encounter is { Ticks: > 0 } && encounter.Ticks != _pendingResult.Ticks))
         {
-            Log.Warning(
-                $"Arena re-sim disagreed with server. LocalWon={localWon} ServerWinner={_pendingResult.WinnerPlayerId}");
+            Log.Warning(DuelSimulator.DescribeMismatch(
+                _pendingResult,
+                localWon,
+                run.PlayerId,
+                encounter?.Ticks ?? 0,
+                handler?.CauseOfDeath));
         }
+
+        _pendingResult = _pendingResult with
+        {
+            WinnerPlayerId = localWon
+                ? run.PlayerId
+                : _pendingResult.DefenderPlayerId ?? _pendingResult.WinnerPlayerId,
+            Ticks = encounter is { Ticks: > 0 } ? encounter.Ticks : _pendingResult.Ticks,
+            CauseOfDeath = handler?.CauseOfDeath ?? _pendingResult.CauseOfDeath
+        };
 
         var learnedSkills = BuildSnapshotFactory.CaptureSkills(_context.PlayerPawn);
         _context.RestoreArenaPawn();
         BuildSnapshotFactory.Apply(_context.PlayerPawn, _lastPrepSnapshot with { Skills = learnedSkills });
         EnsureZoneShell();
-        run.ApplyMatchResult(serverWon, _pendingResult.DefenderPlayerId ?? "unknown");
+        run.ApplyMatchResult(localWon, _pendingResult.DefenderPlayerId ?? "unknown");
         SaveRun();
         if (run.IsRunOver)
         {
@@ -282,6 +298,7 @@ public sealed class ArenaScene : Scene
     private void StartVisualDuel(CombatResult result)
     {
         EnsureZoneShell();
+        _context.RestoreArenaPawn();
         var opponent = BuildSnapshotFactory.CreatePawn(_context, result.Defender!, PawnType.Enemy);
         BuildSnapshotFactory.Apply(_context.PlayerPawn, _lastPrepSnapshot!);
         _context.CurrentZone!.StartHumanDuel(

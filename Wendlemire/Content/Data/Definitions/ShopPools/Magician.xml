@@ -75,7 +75,7 @@
                 <Category>Cloaks</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
-                <StockSize>2</StockSize>
+                <StockSize>1</StockSize>
                 <Offers>
                     <ListItem>
                         <ItemDef>EvasionCloak</ItemDef>
@@ -86,7 +86,7 @@
                     <ListItem>
                         <ItemDef>RejuvenationCloak</ItemDef>
                     </ListItem>
-                    <ListItem>
+                    <!-- <ListItem>
                         <ItemDef>ThornCloak</ItemDef>
                         <AvailableFromRound>7</AvailableFromRound>
                     </ListItem>
@@ -101,7 +101,7 @@
                     <ListItem>
                         <ItemDef>NinjaCloak</ItemDef>
                         <AvailableFromRound>7</AvailableFromRound>
-                    </ListItem>
+                    </ListItem> -->
                 </Offers>
             </ListItem>
             <ListItem>

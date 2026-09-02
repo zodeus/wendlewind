@@ -169,6 +169,30 @@ public sealed record BackfillResult
     public int Skipped { get; init; }
 }
 
+public sealed record DuelVerifyMismatch
+{
+    public required string MatchId { get; init; }
+    public string PlayerName { get; init; } = "";
+    public string OpponentName { get; init; } = "";
+    public int Round { get; init; }
+    public DateTimeOffset FoughtAt { get; init; }
+    public required string RecordedWinner { get; init; }
+    public required string ReplayedWinner { get; init; }
+    public int RecordedTicks { get; init; }
+    public int ReplayedTicks { get; init; }
+    public string? RecordedCause { get; init; }
+    public string? ReplayedCause { get; init; }
+    public int EncounterSeed { get; init; }
+    public string? Version { get; init; }
+}
+
+public sealed record DuelVerifyResult
+{
+    public int Scanned { get; init; }
+    public int Matched { get; init; }
+    public List<DuelVerifyMismatch> Mismatches { get; init; } = [];
+}
+
 public sealed record AdminLoginRequest
 {
     public string? Password { get; init; }
