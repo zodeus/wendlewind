@@ -67,6 +67,11 @@ public static class CombatLogFormatter
             return $"/f[default, 48]/c[{TC.Golden}]Battle is over\n";
         }
 
+        if (e.Message == CombatCloser.StartedMessage)
+        {
+            return $"/f[default, 48]/c[{TC.Red}]{CombatCloser.StartedMessage}\n";
+        }
+
         if (e.Message?.Contains("no usable weapons") == true)
         {
             return $"/c[{TC.Attacker}]{e.SubjectName} has no usable weapons";

@@ -24,6 +24,9 @@ public sealed class ArenaScene : Scene
     private DateTimeOffset _runStartedAt = DateTimeOffset.UtcNow;
     private BuildSnapshot? _lastPrepSnapshot;
     private CombatResult? _pendingResult;
+    private BuildSnapshot? _recordedLoadout;
+    private bool _matchResultRecorded;
+    private bool _runFinishedOnServer;
     private Task? _matchTask;
     private readonly object _saveLock = new();
     private Task? _saveTask;
@@ -44,6 +47,9 @@ public sealed class ArenaScene : Scene
     {
         MatchError = null;
         _pendingResult = null;
+        _recordedLoadout = null;
+        _matchResultRecorded = false;
+        _runFinishedOnServer = false;
         _matchTask = null;
         _lastPrepSnapshot = null;
         _profile = PlayerProfile.LoadOrCreate();
@@ -146,6 +152,8 @@ public sealed class ArenaScene : Scene
 
         MatchError = null;
         _pendingResult = null;
+        _recordedLoadout = null;
+        _matchResultRecorded = false;
         var round = _context.ArenaRun.FightsPlayed + 1;
         _lastPrepSnapshot = BuildSnapshotFactory.ToSnapshot(
             _context.PlayerPawn,
@@ -156,6 +164,7 @@ public sealed class ArenaScene : Scene
             rating: CurrentRank.Rating);
         _context.ArenaRun.SetPhase(ArenaPhase.Matching);
         var snapshot = _lastPrepSnapshot;
+        SaveRun();
         _matchTask = Task.Run(() => RequestMatch(snapshot));
     }
 
@@ -163,6 +172,17 @@ public sealed class ArenaScene : Scene
     {
         MatchError = null;
         _context.ArenaRun?.SetPhase(ArenaPhase.Prep);
+        SaveRun();
+    }
+
+    public void SaveProgress()
+    {
+        SaveRun();
+    }
+
+    public void RecordVisualCombatResult()
+    {
+        RecordMatchIfNeeded();
     }
 
     public void OnVisualCombatFinished()
@@ -174,45 +194,17 @@ public sealed class ArenaScene : Scene
             return;
         }
 
-        var localWon = !_context.PlayerPawn.IsDead;
-        var serverWon = string.Equals(
-            _pendingResult.WinnerPlayerId,
-            run.PlayerId,
-            StringComparison.Ordinal);
-        var encounter = _context.CurrentZone?.ActiveEncounter;
-        var handler = encounter?.CombatHandler;
-        if (localWon != serverWon
-            || (encounter is { Ticks: > 0 } && encounter.Ticks != _pendingResult.Ticks))
-        {
-            Log.Warning(DuelSimulator.DescribeMismatch(
-                _pendingResult,
-                localWon,
-                run.PlayerId,
-                encounter?.Ticks ?? 0,
-                handler?.CauseOfDeath));
-        }
+        RecordMatchIfNeeded();
+        RestorePawnAfterCombat();
 
-        _pendingResult = _pendingResult with
-        {
-            WinnerPlayerId = localWon
-                ? run.PlayerId
-                : _pendingResult.DefenderPlayerId ?? _pendingResult.WinnerPlayerId,
-            Ticks = encounter is { Ticks: > 0 } ? encounter.Ticks : _pendingResult.Ticks,
-            CauseOfDeath = handler?.CauseOfDeath ?? _pendingResult.CauseOfDeath
-        };
-
-        var learnedSkills = BuildSnapshotFactory.CaptureSkills(_context.PlayerPawn);
-        _context.RestoreArenaPawn();
-        BuildSnapshotFactory.Apply(_context.PlayerPawn, _lastPrepSnapshot with { Skills = learnedSkills });
-        EnsureZoneShell();
-        run.ApplyMatchResult(localWon, _pendingResult.DefenderPlayerId ?? "unknown");
-        _context.RefreshPlayerConsumableSlots();
-        SaveRun();
         if (run.IsRunOver)
         {
             FinishOnServer(run.IsVictory);
-            _gui = RecreateGui();
+            run.SetPhase(ArenaPhase.RunEnd);
+            return;
         }
+
+        run.SetPhase(ArenaPhase.MerchantSelect);
     }
 
     public void ContinueFromResults()
@@ -328,9 +320,83 @@ public sealed class ArenaScene : Scene
         return new ArenaGui(_context, this, _worldTextHandler);
     }
 
+    private void RecordMatchIfNeeded()
+    {
+        var run = _context.ArenaRun;
+        if (_matchResultRecorded || run == null || _pendingResult == null || _lastPrepSnapshot == null)
+        {
+            return;
+        }
+
+        var localWon = !_context.PlayerPawn.IsDead;
+        var serverWon = string.Equals(
+            _pendingResult.WinnerPlayerId,
+            run.PlayerId,
+            StringComparison.Ordinal);
+        var encounter = _context.CurrentZone?.ActiveEncounter;
+        var handler = encounter?.CombatHandler;
+        if (localWon != serverWon
+            || (encounter is { Ticks: > 0 } && encounter.Ticks != _pendingResult.Ticks))
+        {
+            Log.Warning(DuelSimulator.DescribeMismatch(
+                _pendingResult,
+                localWon,
+                run.PlayerId,
+                encounter?.Ticks ?? 0,
+                handler?.CauseOfDeath));
+        }
+
+        _pendingResult = _pendingResult with
+        {
+            WinnerPlayerId = localWon
+                ? run.PlayerId
+                : _pendingResult.DefenderPlayerId ?? _pendingResult.WinnerPlayerId,
+            Ticks = encounter is { Ticks: > 0 } ? encounter.Ticks : _pendingResult.Ticks,
+            CauseOfDeath = handler?.CauseOfDeath ?? _pendingResult.CauseOfDeath
+        };
+
+        var learnedSkills = BuildSnapshotFactory.CaptureSkills(_context.PlayerPawn);
+        _recordedLoadout = _lastPrepSnapshot with { Skills = learnedSkills };
+        run.RecordMatchResult(localWon, _pendingResult.DefenderPlayerId ?? "unknown");
+        if (!run.IsRunOver)
+        {
+            run.AssignNextMerchant();
+        }
+
+        _matchResultRecorded = true;
+        SaveRun();
+    }
+
+    private void RestorePawnAfterCombat()
+    {
+        if (_lastPrepSnapshot == null)
+        {
+            return;
+        }
+
+        var loadout = _recordedLoadout ?? _lastPrepSnapshot;
+        _context.RestoreArenaPawn();
+        BuildSnapshotFactory.Apply(_context.PlayerPawn, loadout);
+        EnsureZoneShell();
+        _context.RefreshPlayerConsumableSlots();
+    }
+
+    private bool HasUnrecordedFinishedCombat()
+    {
+        return !_matchResultRecorded
+               && _pendingResult != null
+               && _lastPrepSnapshot != null
+               && _context.ArenaRun?.Phase == ArenaPhase.Combat
+               && _context.CurrentZone?.ActiveEncounter?.State == EncounterState.Finished;
+    }
+
     public void SaveOnExit()
     {
-        if (_context.ArenaRun is { IsRunOver: false })
+        if (HasUnrecordedFinishedCombat())
+        {
+            RecordMatchIfNeeded();
+        }
+        else if (_context.ArenaRun != null && !_runFinishedOnServer)
         {
             SaveRun();
         }
@@ -364,7 +430,11 @@ public sealed class ArenaScene : Scene
             return;
         }
 
-        var loadout = BuildSnapshotFactory.ToSnapshot(
+        var phase = _context.ArenaRun.Phase;
+        var loadout = phase is ArenaPhase.Matching or ArenaPhase.Combat
+            ? _recordedLoadout ?? _lastPrepSnapshot
+            : _recordedLoadout;
+        loadout ??= BuildSnapshotFactory.ToSnapshot(
             _context.PlayerPawn,
             _context.ArenaRun.PlayerId,
             buildId: $"arena-{Math.Max(1, _context.ArenaRun.FightsPlayed)}",
@@ -372,6 +442,11 @@ public sealed class ArenaScene : Scene
             round: Math.Max(1, _context.ArenaRun.FightsPlayed),
             rating: CurrentRank.Rating);
         var progress = ArenaProgressMapper.FromRun(_context.ArenaRun, loadout, _runId, _runStartedAt);
+        if (_matchResultRecorded && _context.ArenaRun.Phase == ArenaPhase.Combat)
+        {
+            var nextPhase = _context.ArenaRun.IsRunOver ? ArenaPhase.RunEnd : ArenaPhase.MerchantSelect;
+            progress = progress with { Phase = nextPhase.ToString() };
+        }
         var achievements = ExportAchievements();
 
         var startWriter = false;
@@ -462,6 +537,7 @@ public sealed class ArenaScene : Scene
         if (finished != null)
         {
             LastFinishedRun = finished;
+            _runFinishedOnServer = true;
         }
     }
 

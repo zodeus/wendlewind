@@ -297,7 +297,7 @@ public class ArenaRun : IExposable
         }
     }
 
-    public void ApplyMatchResult(bool playerWon, string opponentPlayerId)
+    public void RecordMatchResult(bool playerWon, string opponentPlayerId)
     {
         LastFightWon = playerWon;
         LastOpponentPlayerId = opponentPlayerId;
@@ -318,7 +318,10 @@ public class ArenaRun : IExposable
             LastGoldDelta = LoseGold;
             Gold += LoseGold;
         }
+    }
 
+    public void AdvanceAfterMatch()
+    {
         if (IsRunOver)
         {
             SetPhase(ArenaPhase.RunEnd);
@@ -327,6 +330,12 @@ public class ArenaRun : IExposable
 
         AssignNextMerchant();
         SetPhase(ArenaPhase.MerchantSelect);
+    }
+
+    public void ApplyMatchResult(bool playerWon, string opponentPlayerId)
+    {
+        RecordMatchResult(playerWon, opponentPlayerId);
+        AdvanceAfterMatch();
     }
 
     public void ExposeData()

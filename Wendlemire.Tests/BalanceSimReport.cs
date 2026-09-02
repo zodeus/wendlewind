@@ -681,8 +681,8 @@ public class BalanceSimReport
         sb.AppendLine();
         AppendHumanBloodShares(sb);
         sb.AppendLine();
-        sb.AppendLine($"{"Band",-7} {"Matchup",-46} {"med.s",6} {"mean",6} {"p10",5} {"p90",5} {"band%",6} {"Awin%",6} {"bleed%",7} {"organ%",7} {"sever%",7} {"loseB%",7} {"winB%",6} {"DPS",5}  topCause");
-        sb.AppendLine(new string('-', 180));
+        sb.AppendLine($"{"Band",-7} {"Matchup",-46} {"med.s",6} {"mean",6} {"p10",5} {"p90",5} {"band%",6} {"Awin%",6} {"bleed%",7} {"organ%",7} {"sever%",7} {"loseB%",7} {"winB%",6} {"DPS",5} {"waste%",7} {"cap%",5}  topCause");
+        sb.AppendLine(new string('-', 190));
         string? lastBand = null;
         foreach (var (m, row) in rows.OrderBy(r => Matchups().FindIndex(x => x.Name == r.Matchup.Name)))
         {
@@ -781,7 +781,8 @@ public class BalanceSimReport
     private static string FormatMatchupLine(Matchup m, MatchupResult row) =>
         $"{m.Band,-7} {m.Name,-46} {row.MedianSeconds,6:0.0} {row.MeanSeconds,6:0.0} {row.P10,5:0.0} {row.P90,5:0.0} " +
         $"{row.BandPct,6:0} {row.AWinPct,6:0} {row.BleedPct,7:0} {row.OrganPct,7:0} {row.SeverPct,7:0} " +
-        $"{row.MedianLoserBlood,7:0} {row.MedianWinnerBlood,6:0} {row.MedianDps,5:0.0}  " +
+        $"{row.MedianLoserBlood,7:0} {row.MedianWinnerBlood,6:0} {row.MedianDps,5:0.0} " +
+        $"{row.WastePct,7:0} {row.CapPct,5:0}  " +
         $"{Trunc(row.TopCause, 36)} ({row.TopCauseCount})";
 
     private sealed record MatchupResult(
@@ -807,6 +808,8 @@ public class BalanceSimReport
         int WithoutSever,
         int InstantBleed,
         double MedianDps,
+        double WastePct,
+        double CapPct,
         string TopCause,
         int TopCauseCount);
 
@@ -827,6 +830,8 @@ public class BalanceSimReport
         var bleedWithSever = 0;
         var bleedWithoutSever = 0;
         var instantBleed = 0;
+        var waste = 0;
+        var cap = 0;
         var causes = new Dictionary<string, int>();
 
         for (var seed = 1; seed <= SeedCount; seed++)
@@ -872,6 +877,16 @@ public class BalanceSimReport
             if (t is >= TargetMinTicks and <= TargetMaxTicks)
             {
                 inBand++;
+            }
+
+            if (t >= CombatCloser.StartTicks)
+            {
+                waste++;
+            }
+
+            if (t >= CombatCloser.HardResolveTicks)
+            {
+                cap++;
             }
 
             var isBleed = IsBleed(cause);
@@ -944,6 +959,8 @@ public class BalanceSimReport
             WithoutSever: withoutSever,
             InstantBleed: instantBleed,
             MedianDps: dps[dps.Count / 2],
+            WastePct: 100.0 * waste / SeedCount,
+            CapPct: 100.0 * cap / SeedCount,
             TopCause: top.Key,
             TopCauseCount: top.Value);
     }

@@ -11,6 +11,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     private readonly BaseGui _gui;
     private readonly GameContext _context;
     private readonly Action? _onFinished;
+    private readonly Action? _onCombatEnded;
     private readonly ScrollViewer _combatLog;
     private readonly GameHud _gameHud;
     private readonly CombatPartyPanel _playerPartyPanel;
@@ -19,6 +20,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     private readonly PawnBodyPanel _pawnBodyView;
     private readonly PawnBodyPanel _enemyPawnBodyView;
     private readonly Label _tickLabel;
+    private bool _wastingActive;
     private Window? _combatLogWindow;
     private CombatSummaryWindow? _summaryWindow;
     private CursorButton? _showSummaryButton;
@@ -35,11 +37,12 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
     private Encounter Encounter => _context.CurrentZone!.ActiveEncounter!;
 
-    public CombatScreen(BaseGui gui, GameContext context, Action? onFinished = null)
+    public CombatScreen(BaseGui gui, GameContext context, Action? onFinished = null, Action? onCombatEnded = null)
     {
         _gui = gui;
         _context = context;
         _onFinished = onFinished;
+        _onCombatEnded = onCombatEnded;
         Encounter.StateChangedAction += CombatStateChangedAction;
         Encounter.CombatHandler!.CombatEventRecorded += OnCombatEvent;
         HorizontalAlignment = HorizontalAlignment.Stretch;
@@ -280,8 +283,31 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             AddCombatLogEntry(logLine);
         }
 
+        if (combatEvent.Kind == CombatEventKind.System && combatEvent.Message == CombatCloser.StartedMessage)
+        {
+            ActivateWastingUi();
+        }
+
         _floaterRouter.Handle(combatEvent);
         ApplyEquipmentFeedback(combatEvent);
+    }
+
+    private void ActivateWastingUi()
+    {
+        if (_wastingActive)
+        {
+            return;
+        }
+
+        _wastingActive = true;
+        _playerStats.SetWasting(true);
+        _opponentStats.SetWasting(true);
+        _gui.PushScreenMessage(new ScreenMessageData
+        {
+            Text = CombatCloser.StartedMessage.ToUpperInvariant(),
+            Duration = 10,
+            Color = Color.OrangeRed
+        });
     }
 
     private void ApplyEquipmentFeedback(CombatLogEvent combatEvent)
@@ -520,6 +546,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             case EncounterState.InProgress:
                 break;
             case EncounterState.Finished:
+                _onCombatEnded?.Invoke();
                 ShowCombatSummary();
                 break;
             default:
@@ -568,7 +595,24 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
     public void Update(float deltaTime)
     {
-        _tickLabel.Text = $"{_context.CurrentZone?.ActiveEncounter?.Ticks}";
+        var ticks = _context.CurrentZone?.ActiveEncounter?.Ticks ?? 0;
+        if (!_wastingActive && CombatCloser.IsActive(ticks))
+        {
+            ActivateWastingUi();
+        }
+
+        if (_wastingActive)
+        {
+            var remaining = Math.Max(0, CombatCloser.HardResolveTicks - ticks);
+            _tickLabel.Text = $"Wasting {remaining / (float)GameContext.TicksPerSecond:0}s remaining";
+            _tickLabel.TextColor = new Color(230, 50, 30);
+        }
+        else
+        {
+            _tickLabel.Text = $"{ticks}";
+            _tickLabel.TextColor = Color.DarkGoldenrod;
+        }
+
         _gameHud.Update();
         _playerPartyPanel.Update(deltaTime);
         _opponentPartyPanel.Update(deltaTime);

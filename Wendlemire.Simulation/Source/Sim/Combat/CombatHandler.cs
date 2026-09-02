@@ -14,7 +14,11 @@ public class CombatHandler : IDisposable, IHasContext
     private readonly List<CombatSubEffect> _subEffects = [];
     private readonly List<Item> _potionScratch = [];
     private int _lastTickHealthFlush;
+    private int _lastCloserFlush;
     private bool _combatStarted;
+    private bool _closerActive;
+    private bool _ended;
+    private readonly Dictionary<int, double> _closerBlood = new();
 
     public GameContext Context { get; set; } = null!;
     public EntityContainer Loot = new();
@@ -319,12 +323,17 @@ public class CombatHandler : IDisposable, IHasContext
 
         Attack(Player, Enemy);
 
-        if (Enemy.IsDead)
+        if (_ended || Enemy.IsDead)
         {
             return;
         }
 
         Attack(Enemy, Player);
+
+        if (_ended)
+        {
+            return;
+        }
 
         EvaluatePotionTriggers(Player, Enemy);
         EvaluatePotionTriggers(Enemy, Player);
@@ -333,9 +342,167 @@ public class CombatHandler : IDisposable, IHasContext
         EvaluateIncenseTriggers(Player);
         EvaluateIncenseTriggers(Enemy);
 
+        if (_ended)
+        {
+            return;
+        }
+
+        TickCloser();
+
+        if (_ended)
+        {
+            return;
+        }
+
         Player.Body.Effects.Tick();
         Enemy.Tick();
         FlushTickHealth();
+    }
+
+    private void TickCloser()
+    {
+        if (_ended || !CombatCloser.IsActive(_encounter.Ticks))
+        {
+            return;
+        }
+
+        if (!_closerActive)
+        {
+            _closerActive = true;
+            Record(new CombatLogEvent
+            {
+                Kind = CombatEventKind.System,
+                Message = CombatCloser.StartedMessage
+            });
+            _encounter.Zone.Alert(new ScreenMessageData
+            {
+                Text = CombatCloser.StartedMessage.ToUpperInvariant(),
+                Duration = 10,
+                Color = Color.OrangeRed
+            });
+        }
+
+        var drain = CombatCloser.BloodDrainPerTick(_encounter.Ticks);
+        DrainCloserBlood(Player, drain);
+        DrainCloserBlood(Enemy, drain);
+        FlushCloserBlood();
+        ResolveCloserDeaths();
+    }
+
+    private void DrainCloserBlood(Pawn pawn, float drain)
+    {
+        if (pawn.IsDead || drain <= 0)
+        {
+            return;
+        }
+
+        var before = pawn.Body.BloodAmount;
+        pawn.Body.BloodAmount -= drain;
+        var lost = before - pawn.Body.BloodAmount;
+        if (lost > 0)
+        {
+            _closerBlood[pawn.Id] = _closerBlood.GetValueOrDefault(pawn.Id) + lost;
+        }
+    }
+
+    private void FlushCloserBlood(bool force = false)
+    {
+        if (_closerBlood.Count == 0)
+        {
+            return;
+        }
+
+        if (!force && _encounter.Ticks - _lastCloserFlush < TickHealthFlushInterval)
+        {
+            return;
+        }
+
+        _lastCloserFlush = _encounter.Ticks;
+        foreach (var (id, amount) in _closerBlood)
+        {
+            if (amount < 0.05)
+            {
+                continue;
+            }
+
+            var pawn = id == Player.Id ? Player : Enemy;
+            var torso = FindTorso(pawn);
+            Record(new CombatLogEvent
+            {
+                Kind = CombatEventKind.DamageOverTime,
+                SubjectPawnId = pawn.Id,
+                SubjectName = pawn.LabelShort,
+                BodyPartKey = torso?.InternalLabel,
+                BodyPartLabel = "blood",
+                Amount = amount
+            });
+        }
+
+        _closerBlood.Clear();
+    }
+
+    private static BodyPart? FindTorso(Pawn pawn)
+    {
+        var parts = pawn.Body.AllExternalParts;
+        for (var i = 0; i < parts.Count; i++)
+        {
+            if (parts[i].Type == BodyPartType.Torso)
+            {
+                return parts[i];
+            }
+        }
+
+        return parts.Count > 0 ? parts[0] : null;
+    }
+
+    private void ResolveCloserDeaths()
+    {
+        var playerLethal = !Player.IsDead && Player.Body.BloodAmount <= 1;
+        var enemyLethal = !Enemy.IsDead && Enemy.Body.BloodAmount <= 1;
+
+        if (playerLethal && enemyLethal)
+        {
+            KillCloserLoser(CombatCloser.CauseOfDeath);
+            return;
+        }
+
+        if (playerLethal)
+        {
+            TriggerBloodDeath(Player);
+            return;
+        }
+
+        if (enemyLethal)
+        {
+            TriggerBloodDeath(Enemy);
+            return;
+        }
+
+        if (CombatCloser.ShouldHardResolve(_encounter.Ticks) && !Player.IsDead && !Enemy.IsDead)
+        {
+            KillCloserLoser(CombatCloser.CauseOfDeath);
+        }
+    }
+
+    private void KillCloserLoser(string cause)
+    {
+        var loser = CombatCloser.PickLoser(Player, Enemy);
+        loser.TriggerDeath(new DeathRecord
+        {
+            CauseOfDeath = cause,
+            KillingWeapon = cause,
+            KillingManeuver = cause
+        });
+    }
+
+    private static void TriggerBloodDeath(Pawn pawn)
+    {
+        pawn.TriggerDeath(new DeathRecord
+        {
+            CauseOfDeath = "Blood loss",
+            KillingWeapon = "Blood loss",
+            KillingManeuver = "Blood loss"
+        });
     }
 
     private void OnCombatStart()
@@ -665,6 +832,13 @@ public class CombatHandler : IDisposable, IHasContext
 
     private void EndCombat()
     {
+        if (_ended)
+        {
+            return;
+        }
+
+        _ended = true;
+        FlushCloserBlood(force: true);
         FlushTickHealth(force: true);
 
         Player.Body.RestoreBodyScale();

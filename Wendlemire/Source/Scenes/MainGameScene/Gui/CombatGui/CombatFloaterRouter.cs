@@ -145,6 +145,10 @@ internal sealed class CombatFloaterRouter
                 Show(e.SubjectPawnId, null, "died", Style(e.Kind, false));
                 break;
             case CombatEventKind.System:
+                if (e.Message == CombatCloser.StartedMessage)
+                {
+                    ShowWastingOnAll();
+                }
                 break;
             default:
                 if (!string.IsNullOrEmpty(e.Message))
@@ -190,6 +194,20 @@ internal sealed class CombatFloaterRouter
         }
     }
 
+    private void ShowWastingOnAll()
+    {
+        var style = (new Color(230, 40, 30), BaseContent.Fonts.Default.Small);
+        foreach (var pawn in _playerPawns)
+        {
+            Show(pawn.Id, null, "WASTING", style);
+        }
+
+        foreach (var pawn in _enemyPawns)
+        {
+            Show(pawn.Id, null, "WASTING", style);
+        }
+    }
+
     private void Show(int pawnId, string? partKey, string text, (Color Color, DynamicSpriteFont Font) style)
     {
         Show(pawnId, partKey, text, style.Color, style.Font, CombatEventKind.Damage);
@@ -203,7 +221,7 @@ internal sealed class CombatFloaterRouter
             return;
         }
 
-        var part = pawn.Body.FindPartByKey(partKey);
+        var part = pawn.Body.FindPartByKey(partKey) ?? FallbackPart(pawn);
         var party = pawn.PawnType == PawnType.Player ? _playerParty : _enemyParty;
         var bodyPanel = pawn.PawnType == PawnType.Player ? _playerBody : _enemyBody;
 
@@ -215,6 +233,20 @@ internal sealed class CombatFloaterRouter
         }
 
         party.GetPanelForPawn(pawn)?.BodyWidget?.AddDamageText(part, text, font, color, 1.6f);
+    }
+
+    private static BodyPart? FallbackPart(Pawn pawn)
+    {
+        var parts = pawn.Body.AllExternalParts;
+        for (var i = 0; i < parts.Count; i++)
+        {
+            if (parts[i].Type == BodyPartType.Torso)
+            {
+                return parts[i];
+            }
+        }
+
+        return parts.Count > 0 ? parts[0] : null;
     }
 
     private static bool IsPartTargeted(CombatEventKind kind) => kind is

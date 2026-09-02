@@ -19,6 +19,7 @@ public sealed class CombatFighterStatsColumn : Panel, IUpdatable
     private readonly PawnCapabilitiesOverlay _capabilities;
     private readonly Image _stanceIcon;
     private BodyStanceDef? _stance;
+    private bool _wasting;
 
     public CombatFighterStatsColumn(Pawn pawn)
     {
@@ -76,10 +77,15 @@ public sealed class CombatFighterStatsColumn : Panel, IUpdatable
         Update();
     }
 
+    public void SetWasting(bool wasting) => _wasting = wasting;
+
     public void Update()
     {
         var bloodPercent = _pawn.Body.BloodPercent;
-        UiLabel.Set(_bloodMeter.ValueLabel, $"{Mathf.RoundToInt(bloodPercent * 100)}%", BodyPartColor.GetBloodColor(bloodPercent));
+        var bloodColor = _wasting
+            ? Color.Lerp(new Color(220, 40, 30), BodyPartColor.GetBloodColor(bloodPercent), 0.35f)
+            : BodyPartColor.GetBloodColor(bloodPercent);
+        UiLabel.Set(_bloodMeter.ValueLabel, $"{Mathf.RoundToInt(bloodPercent * 100)}%", bloodColor);
         _bloodMeter.Bar.Value = bloodPercent * 100;
         _bloodMeter.Fill = bloodPercent;
         _bloodMeter.Update();

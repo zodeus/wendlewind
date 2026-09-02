@@ -2,7 +2,7 @@
 
 namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 
-public sealed class GameHud : HorizontalStackPanel
+public sealed class GameHud : Panel
 {
     private readonly ProgramStatsPanel _programStats;
     private readonly IUpdatable? _centerUpdatable;
@@ -18,18 +18,19 @@ public sealed class GameHud : HorizontalStackPanel
     public GameHud(BaseGui gui, GameContext context, Widget? center)
     {
         _centerUpdatable = center as IUpdatable;
+        HorizontalAlignment = HorizontalAlignment.Stretch;
 
         HorizontalStackPanel leftPanel = new()
         {
             Spacing = 6,
+            HorizontalAlignment = HorizontalAlignment.Left,
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Thickness(12, 0, 0, 0),
-            Width = 620,
         };
 
         HorizontalStackPanel rightPanel = new()
         {
-            HorizontalAlignment = HorizontalAlignment.Stretch,
+            HorizontalAlignment = HorizontalAlignment.Right,
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Thickness(0, 0, 12, 0),
         };
@@ -90,18 +91,14 @@ public sealed class GameHud : HorizontalStackPanel
             HorizontalAlignment = HorizontalAlignment.Right,
             VerticalAlignment = VerticalAlignment.Center
         };
-        var rightSpacer = new Widget();
-        rightPanel.Widgets.Add(rightSpacer);
         rightPanel.Widgets.Add(achievementsBar);
         rightPanel.Widgets.Add(_programStats);
-        SetProportionType(rightPanel, ProportionType.Fill);
-        SetProportionType(rightSpacer, ProportionType.Fill);
-        SetProportionType(_programStats, ProportionType.Auto);
-        SetProportionType(achievementsBar, ProportionType.Auto);
 
         Widgets.Add(leftPanel);
         if (center != null)
         {
+            center.HorizontalAlignment = HorizontalAlignment.Center;
+            center.VerticalAlignment = VerticalAlignment.Center;
             Widgets.Add(center);
         }
 

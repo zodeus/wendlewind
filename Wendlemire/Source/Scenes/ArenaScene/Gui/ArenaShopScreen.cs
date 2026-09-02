@@ -43,15 +43,17 @@ public sealed class ArenaShopScreen : Grid
     private readonly Label _runStats;
     private readonly VerticalStackPanel _inventoryBody;
     private readonly ScrollViewer _catalog;
+    private readonly Action _onSave;
     private readonly MerchantDef _merchant;
     private readonly List<(CursorButton Button, Label Price, int Cost)> _buyButtons = [];
     private readonly List<(CursorButton Button, Label Price, int Cost)> _refreshButtons = [];
     private IReadOnlyList<RolledShelf> _stock = [];
 
-    public ArenaShopScreen(BaseGui gui, GameContext context, Action onDone)
+    public ArenaShopScreen(BaseGui gui, GameContext context, Action onDone, Action onSave)
     {
         _gui = gui;
         _context = context;
+        _onSave = onSave;
         HorizontalAlignment = HorizontalAlignment.Stretch;
         VerticalAlignment = VerticalAlignment.Stretch;
         Padding = new Thickness(16, 12);
@@ -871,6 +873,7 @@ public sealed class ArenaShopScreen : Grid
             }
 
             RebuildInventory();
+            _onSave();
             return;
         }
 
@@ -893,6 +896,7 @@ public sealed class ArenaShopScreen : Grid
             _stock = ShopStock.Restore(_merchant, run.ShopShelves);
             RebuildCatalog();
             RebuildInventory();
+            _onSave();
             return;
         }
 
@@ -910,6 +914,7 @@ public sealed class ArenaShopScreen : Grid
             _purse.Refresh();
             RebuildInventory();
             RefreshAffordability();
+            _onSave();
             return;
         }
 

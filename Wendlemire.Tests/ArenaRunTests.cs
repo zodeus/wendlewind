@@ -60,6 +60,25 @@ public class ArenaRunTests
     }
 
     [Fact]
+    public void RecordMatchResultPersistsLossWithoutLeavingCombat()
+    {
+        using var scope = CreateArena();
+        var run = scope.Context.ArenaRun!;
+        run.SetPhase(ArenaPhase.Combat);
+
+        run.RecordMatchResult(false, "opp-1");
+
+        Assert.Equal(1, run.Losses);
+        Assert.Equal(4, run.LivesRemaining);
+        Assert.Equal(ArenaRun.StartingGold + ArenaRun.LoseGold, run.Gold);
+        Assert.Equal(ArenaPhase.Combat, run.Phase);
+
+        var progress = ArenaProgressMapper.FromRun(run, null, "run-1", DateTimeOffset.UtcNow);
+        Assert.Equal(1, progress.Losses);
+        Assert.Equal(0, progress.Wins);
+    }
+
+    [Fact]
     public void TenWinsEndsRunAsVictory()
     {
         using var scope = CreateArena();

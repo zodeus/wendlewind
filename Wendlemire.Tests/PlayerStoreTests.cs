@@ -625,7 +625,7 @@ public class PlayerStoreTests
     }
 
     [Fact]
-    public void AbandonedAndUnfinishedRunsAwardNoMarks()
+    public void StartArenaCompletesTenWinRunAndAwardsMarks()
     {
         var dir = Path.Combine(Path.GetTempPath(), $"ww-data-{Guid.NewGuid():N}");
         try
@@ -633,9 +633,75 @@ public class PlayerStoreTests
             var store = new PlayerStore(dir);
             var first = store.StartArena("alice", "Alice", 1);
             store.SaveCurrentArena(first with { Wins = 10, Losses = 0, Gold = 500 });
+            store.AppendFight("alice", new ArenaFightRecord
+            {
+                MatchId = "ten-win-finish",
+                Round = 10,
+                Attacker = BuildTemplates.TankRegen() with { PlayerId = "alice" },
+                Defender = BuildTemplates.AcidRusher() with { PlayerId = "bob" },
+                EncounterSeed = 1,
+                WinnerPlayerId = "alice",
+                Ticks = 1800,
+                FoughtAt = DateTimeOffset.UtcNow
+            });
+
             store.StartArena("alice", "Alice", 2);
-            Assert.Equal(0, store.GetRun("alice", first.RunId)!.MarksAwarded);
-            Assert.Equal(0, store.GetProfile("alice")!.Marks);
+            var finished = store.GetRun("alice", first.RunId)!;
+            Assert.Equal(ArenaMarks.ForFinishedRun(10, 500), finished.MarksAwarded);
+            Assert.Equal(finished.MarksAwarded, store.GetProfile("alice")!.Marks);
+            Assert.True(finished.Victory);
+            Assert.True(finished.RankApplied);
+            Assert.Equal(1, store.GetProfile("alice")!.RatedRuns);
+        }
+        finally
+        {
+            Directory.Delete(dir, true);
+        }
+    }
+
+    [Fact]
+    public void StartArenaCompletesFiveLossRunAndAwardsMarks()
+    {
+        var dir = Path.Combine(Path.GetTempPath(), $"ww-data-{Guid.NewGuid():N}");
+        try
+        {
+            var store = new PlayerStore(dir);
+            var first = store.StartArena("alice", "Alice", 1);
+            store.SaveCurrentArena(first with { Wins = 3, Losses = 5, Gold = 90 });
+            store.AppendFight("alice", new ArenaFightRecord
+            {
+                MatchId = "five-loss-finish",
+                Round = 8,
+                Attacker = BuildTemplates.TankRegen() with { PlayerId = "alice" },
+                Defender = BuildTemplates.AcidRusher() with { PlayerId = "bob" },
+                EncounterSeed = 1,
+                WinnerPlayerId = "bob",
+                Ticks = 1800,
+                FoughtAt = DateTimeOffset.UtcNow
+            });
+
+            store.StartArena("alice", "Alice", 2);
+            var finished = store.GetRun("alice", first.RunId)!;
+            Assert.Equal(ArenaMarks.ForFinishedRun(3, 90), finished.MarksAwarded);
+            Assert.Equal(finished.MarksAwarded, store.GetProfile("alice")!.Marks);
+            Assert.False(finished.Victory);
+            Assert.True(finished.RankApplied);
+        }
+        finally
+        {
+            Directory.Delete(dir, true);
+        }
+    }
+
+    [Fact]
+    public void AbandonedAndUnfinishedRunsAwardNoMarks()
+    {
+        var dir = Path.Combine(Path.GetTempPath(), $"ww-data-{Guid.NewGuid():N}");
+        try
+        {
+            var store = new PlayerStore(dir);
+            store.StartArena("alice", "Alice", 1);
+            store.StartArena("alice", "Alice", 2);
 
             var unfinished = store.GetCurrentArena("alice")!;
             store.SaveCurrentArena(unfinished with { Wins = 3, Losses = 2, Gold = 90 });
@@ -695,6 +761,100 @@ public class PlayerStoreTests
 
             var stamped = store.StampCosmetics(BuildTemplates.TankRegen() with { PlayerId = "alice" });
             Assert.Equal("BoneInlay", stamped.NamePlateMoniker);
+        }
+        finally
+        {
+            Directory.Delete(dir, true);
+        }
+    }
+
+    [Fact]
+    public void GetCurrentArenaCountsUnsavedFightAsALoss()
+    {
+        var dir = Path.Combine(Path.GetTempPath(), $"ww-data-{Guid.NewGuid():N}");
+        try
+        {
+            var store = new PlayerStore(dir);
+            var started = store.StartArena("alice", "Alice", 99);
+            store.SaveCurrentArena(started with { Phase = nameof(ArenaPhase.Combat) });
+            store.AppendFight("alice", new ArenaFightRecord
+            {
+                MatchId = "unsaved-loss",
+                Round = 1,
+                Attacker = BuildTemplates.TankRegen() with { PlayerId = "alice", Round = 1 },
+                Defender = BuildTemplates.AcidRusher() with { PlayerId = "bob", Round = 1 },
+                EncounterSeed = 1,
+                WinnerPlayerId = "bob",
+                Ticks = 120,
+                FoughtAt = DateTimeOffset.UtcNow
+            });
+
+            var current = store.GetCurrentArena("alice");
+            Assert.NotNull(current);
+            Assert.Equal(started.RunId, current.RunId);
+            Assert.Equal(0, current.Wins);
+            Assert.Equal(1, current.Losses);
+            Assert.Equal(ArenaRun.StartingGold + ArenaRun.LoseGold, current.Gold);
+            Assert.Equal("bob", current.LastOpponentPlayerId);
+            Assert.False(current.LastFightWon);
+            Assert.Equal(ArenaRun.LoseGold, current.LastGoldDelta);
+            Assert.Contains("bob", current.FoughtPlayerIds);
+            Assert.Equal(nameof(ArenaPhase.MerchantSelect), current.Phase);
+            Assert.Equal(MerchantPool.Select(99, 1).Moniker, current.CurrentMerchantMoniker);
+        }
+        finally
+        {
+            Directory.Delete(dir, true);
+        }
+    }
+
+    [Fact]
+    public void FinishCurrentUsesReconciledGoldForUnsavedFifthLoss()
+    {
+        var dir = Path.Combine(Path.GetTempPath(), $"ww-data-{Guid.NewGuid():N}");
+        try
+        {
+            var store = new PlayerStore(dir);
+            var started = store.StartArena("alice", "Alice", 1);
+            store.SaveCurrentArena(started with { Wins = 3, Losses = 4, Gold = 90, Phase = nameof(ArenaPhase.Combat) });
+            var attacker = BuildTemplates.TankRegen() with { PlayerId = "alice" };
+            var defender = BuildTemplates.AcidRusher() with { PlayerId = "bob" };
+            for (var i = 1; i <= 3; i++)
+            {
+                store.AppendFight("alice", new ArenaFightRecord
+                {
+                    MatchId = $"prior-win-{i}",
+                    Round = i,
+                    Attacker = attacker,
+                    Defender = defender,
+                    EncounterSeed = i,
+                    WinnerPlayerId = "alice",
+                    Ticks = 600,
+                    FoughtAt = DateTimeOffset.UtcNow
+                });
+            }
+
+            for (var i = 1; i <= 5; i++)
+            {
+                store.AppendFight("alice", new ArenaFightRecord
+                {
+                    MatchId = $"loss-{i}",
+                    Round = 3 + i,
+                    Attacker = attacker,
+                    Defender = defender,
+                    EncounterSeed = 10 + i,
+                    WinnerPlayerId = "bob",
+                    Ticks = 600,
+                    FoughtAt = DateTimeOffset.UtcNow
+                });
+            }
+
+            var finished = store.FinishCurrent("alice");
+            var gold = 90 + ArenaRun.LoseGold;
+            Assert.Equal(5, finished!.Losses);
+            Assert.Equal(gold, finished.FinalGold);
+            Assert.Equal(ArenaMarks.ForFinishedRun(3, gold), finished.MarksAwarded);
+            Assert.Equal(finished.MarksAwarded, store.GetProfile("alice")!.Marks);
         }
         finally
         {

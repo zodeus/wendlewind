@@ -160,7 +160,8 @@ public sealed class PlayerStore
     {
         lock (_gate)
         {
-            return ReadCurrentUnlocked(playerId);
+            var current = ReadCurrentUnlocked(playerId);
+            return current == null ? null : ReconcileAndPersistUnlocked(current);
         }
     }
 
@@ -484,12 +485,19 @@ public sealed class PlayerStore
     {
         var profile = GetOrCreateProfileUnlocked(playerId, playerName);
         var current = ReadCurrentUnlocked(playerId);
+        if (current != null)
+        {
+            current = ReconcileAndPersistUnlocked(current);
+        }
+
         if (runSeed <= 0)
         {
             runSeed = current is { RunSeed: > 0 } ? current.RunSeed : Random.Shared.Next();
         }
 
-        FinishCurrentUnlocked(playerId, abandoned: true);
+        var completed = current != null
+                        && (current.Wins >= ArenaRun.WinsToFinish || current.Losses >= ArenaRun.LossesToFinish);
+        FinishCurrentUnlocked(playerId, abandoned: !completed);
         var runId = Guid.NewGuid().ToString("N");
         var now = DateTimeOffset.UtcNow;
         var name = string.IsNullOrWhiteSpace(playerName) ? profile.DisplayName : playerName;
@@ -553,6 +561,7 @@ public sealed class PlayerStore
             return null;
         }
 
+        current = ReconcileAndPersistUnlocked(current);
         var run = ReadRunUnlocked(playerId, current.RunId)
                   ?? new ArenaRunRecord
                   {
@@ -796,6 +805,75 @@ public sealed class PlayerStore
 
     private static int CountFightLosses(IReadOnlyList<ArenaFightRecord> fights, string playerId) =>
         fights.Count(fight => !string.Equals(fight.WinnerPlayerId, playerId, StringComparison.Ordinal));
+
+    private ArenaProgressRecord ReconcileAndPersistUnlocked(ArenaProgressRecord current)
+    {
+        var reconciled = WithFightTotalsUnlocked(current);
+        if (ReferenceEquals(reconciled, current))
+        {
+            return current;
+        }
+
+        var stored = reconciled with { UpdatedAt = DateTimeOffset.UtcNow };
+        Write(CurrentArenaPath(current.PlayerId), stored, NetCodeJsonContext.Default.ArenaProgressRecord);
+        UpsertRunFromProgressUnlocked(stored);
+        return stored;
+    }
+
+    private ArenaProgressRecord WithFightTotalsUnlocked(ArenaProgressRecord current)
+    {
+        var run = ReadRunUnlocked(current.PlayerId, current.RunId);
+        if (run == null || run.Fights.Count == 0)
+        {
+            return current;
+        }
+
+        var fightWins = CountFightWins(run.Fights, current.PlayerId);
+        var fightLosses = CountFightLosses(run.Fights, current.PlayerId);
+        if (current.Wins + current.Losses >= fightWins + fightLosses)
+        {
+            return current;
+        }
+
+        var gold = current.Gold
+                   + Math.Max(0, fightWins - current.Wins) * ArenaRun.WinGold
+                   + Math.Max(0, fightLosses - current.Losses) * ArenaRun.LoseGold;
+        var fought = new HashSet<string>(current.FoughtPlayerIds, StringComparer.Ordinal);
+        foreach (var fight in run.Fights)
+        {
+            if (!string.IsNullOrEmpty(fight.Defender.PlayerId))
+            {
+                fought.Add(fight.Defender.PlayerId);
+            }
+        }
+
+        var last = run.Fights[^1];
+        var lastWon = string.Equals(last.WinnerPlayerId, current.PlayerId, StringComparison.Ordinal);
+        var phase = current.Phase;
+        var merchant = current.CurrentMerchantMoniker;
+        if (fightWins >= ArenaRun.WinsToFinish || fightLosses >= ArenaRun.LossesToFinish)
+        {
+            phase = nameof(ArenaPhase.RunEnd);
+        }
+        else if (phase is nameof(ArenaPhase.Combat) or nameof(ArenaPhase.Matching))
+        {
+            phase = nameof(ArenaPhase.MerchantSelect);
+            merchant = MerchantPool.Select(current.RunSeed, fightWins + fightLosses).Moniker;
+        }
+
+        return current with
+        {
+            Wins = fightWins,
+            Losses = fightLosses,
+            Gold = gold,
+            FoughtPlayerIds = [..fought],
+            LastOpponentPlayerId = last.Defender.PlayerId,
+            LastFightWon = lastWon,
+            LastGoldDelta = lastWon ? ArenaRun.WinGold : ArenaRun.LoseGold,
+            Phase = phase,
+            CurrentMerchantMoniker = merchant
+        };
+    }
 
     private List<ArenaRunRecord> ListRunsUnlocked(string playerId)
     {
