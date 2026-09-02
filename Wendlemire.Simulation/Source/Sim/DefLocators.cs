@@ -84,6 +84,7 @@ public static partial class Defs
     public static class BodyEffects
     {
         public static BodyEffectDef FoodPoisoning = null!;
+        public static BodyEffectDef Mulled = null!;
         public static BodyEffectDef FeelingThePurple = null!;
         public static BodyEffectDef GoldenLips = null!;
         public static BodyEffectDef Fruiting = null!;
@@ -91,6 +92,8 @@ public static partial class Defs
         public static BodyEffectDef Strengthened = null!;
         public static BodyEffectDef Pitchblood = null!;
         public static BodyEffectDef Tallowed = null!;
+        public static BodyEffectDef Clotted = null!;
+        public static BodyEffectDef Lungworted = null!;
         public static BodyEffectDef WitchTouched = null!;
     }
 }
@@ -159,6 +162,8 @@ public static partial class Defs
         public static ItemDef MullinStick = null!;
         public static ItemDef ShadeWood = null!;
         public static ItemDef DippedMullinStick = null!;
+        public static ItemDef Clotcedar = null!;
+        public static ItemDef LungwortBraid = null!;
         public static ItemDef SoothingVibrations = null!;
         public static ItemDef SpidersBite = null!;
         public static ItemDef MechanicalEye = null!;

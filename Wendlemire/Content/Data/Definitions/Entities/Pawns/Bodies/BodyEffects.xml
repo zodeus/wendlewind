@@ -232,6 +232,18 @@
         </AffectedStats>
     </BodyEffectDef>
     <BodyEffectDef>
+        <Moniker>Clotted</Moniker>
+        <Label>Clotted</Label>
+        <Description>Cedar pitch smoke keeps the blood sticky. Wounds weep instead of spray.</Description>
+        <TexturePath>Entities/Item/Incense/Clotcedar</TexturePath>
+    </BodyEffectDef>
+    <BodyEffectDef>
+        <Moniker>Lungworted</Moniker>
+        <Label>Lungworted</Label>
+        <Description>Bitter smoke coats the chest. Breathing cannot collapse below a fighting floor.</Description>
+        <TexturePath>Entities/Item/Incense/LungwortBraid</TexturePath>
+    </BodyEffectDef>
+    <BodyEffectDef>
         <Moniker>WitchTouched</Moniker>
         <Label>Witch Touched</Label>
         <TexturePath>Entities/Pawn/BodyEffects/FeelingThePurple</TexturePath>

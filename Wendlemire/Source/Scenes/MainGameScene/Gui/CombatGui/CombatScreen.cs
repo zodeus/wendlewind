@@ -24,6 +24,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     private CursorButton? _showSummaryButton;
     private readonly CombatFloaterRouter _floaterRouter;
     private readonly CombatPotionThrowFx _potionThrowFx;
+    private readonly CombatIncenseSmokeFx _incenseSmokeFx;
     private readonly CombatFighterStatsColumn _playerStats;
     private readonly CombatFighterStatsColumn _opponentStats;
     private readonly CombatConsumableLoadout _playerLoadout;
@@ -185,12 +186,14 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         _playerCenter = new VerticalStackPanel
         {
             Spacing = 0,
+            ClipToBounds = false,
             VerticalAlignment = VerticalAlignment.Top,
             Widgets = { _playerStats, _playerLoadout }
         };
         _opponentCenter = new VerticalStackPanel
         {
             Spacing = 0,
+            ClipToBounds = false,
             VerticalAlignment = VerticalAlignment.Top,
             Widgets = { _opponentStats, _opponentLoadout }
         };
@@ -219,6 +222,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         {
             Margin = new Thickness(30, 0, 30, 30),
             HorizontalAlignment = HorizontalAlignment.Center,
+            ClipToBounds = false,
             RowSpacing = 8,
             ColumnSpacing = 17,
             DefaultRowProportion = Proportion.Auto,
@@ -243,6 +247,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             Encounter.EnemyPawns);
         _floaterRouter.MedicalUsed += OnMedicalUsed;
         _floaterRouter.PotionUsed += OnPotionUsed;
+        _floaterRouter.IncenseLit += OnIncenseLit;
 
         _potionThrowFx = new CombatPotionThrowFx();
         _potionThrowFx.Impacted += _floaterRouter.ShowPotionImpact;
@@ -251,6 +256,13 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         Grid.SetColumn(_potionThrowFx, 0);
         Grid.SetColumnSpan(_potionThrowFx, 4);
         grid.Widgets.Add(_potionThrowFx);
+
+        _incenseSmokeFx = new CombatIncenseSmokeFx();
+        Grid.SetRow(_incenseSmokeFx, 0);
+        Grid.SetRowSpan(_incenseSmokeFx, 2);
+        Grid.SetColumn(_incenseSmokeFx, 0);
+        Grid.SetColumnSpan(_incenseSmokeFx, 4);
+        grid.Widgets.Add(_incenseSmokeFx);
     }
 
     private void OnCombatEvent(CombatLogEvent combatEvent)
@@ -309,6 +321,40 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         {
             _opponentPartyPanel.GetPanelForPawn(pawn)?.EquipmentPanel?.FlashSlot(moniker, kind);
         }
+    }
+
+    private void OnIncenseLit(CombatLogEvent combatEvent)
+    {
+        var pawn = FindPawn(combatEvent.SubjectPawnId);
+        if (pawn == null)
+        {
+            return;
+        }
+
+        var tint = CombatIncenseSmokeFx.TintFor(combatEvent.ItemMoniker);
+        var loadout = ResolveLoadout(combatEvent.SubjectPawnId);
+        var index = pawn.ActiveIncense.FindIndex(incense =>
+            incense.FiredThisEncounter
+            && (incense.SourceMoniker ?? incense.Def?.Moniker) == combatEvent.ItemMoniker);
+        if (index >= 0 && loadout.TryGetIncenseSlot(index, out var slot) && slot.Bounds.Width > 0)
+        {
+            _incenseSmokeFx.TryStart(
+                slot,
+                new Vector2(slot.Bounds.Width * 0.5f, slot.Bounds.Height * 0.2f),
+                tint);
+            return;
+        }
+
+        var portrait = ResolveParty(pawn).GetPanelForPawn(pawn)?.BodyWidget;
+        if (portrait == null || portrait.Bounds.Width <= 0 || portrait.Bounds.Height <= 0)
+        {
+            return;
+        }
+
+        _incenseSmokeFx.TryStart(
+            portrait,
+            new Vector2(portrait.Bounds.Width * 0.5f, portrait.Bounds.Height * 0.65f),
+            tint);
     }
 
     private void OnPotionUsed(CombatLogEvent combatEvent)
@@ -476,7 +522,55 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         _opponentStats.Update();
         _playerLoadout.Update();
         _opponentLoadout.Update();
+        _incenseSmokeFx.Sync(CollectIncenseBurns());
+        _incenseSmokeFx.Update(deltaTime);
         SyncBodyPanelHeights();
+    }
+
+    private List<CombatIncenseSmokeFx.BurnSource> CollectIncenseBurns()
+    {
+        var sources = new List<CombatIncenseSmokeFx.BurnSource>();
+        AddIncenseBurns(_playerLoadout, _playerPartyPanel, sources);
+        AddIncenseBurns(_opponentLoadout, _opponentPartyPanel, sources);
+        return sources;
+    }
+
+    private static void AddIncenseBurns(
+        CombatConsumableLoadout loadout,
+        CombatPartyPanel party,
+        List<CombatIncenseSmokeFx.BurnSource> sources)
+    {
+        var pawn = loadout.Pawn;
+        for (var i = 0; i < pawn.ActiveIncense.Count; i++)
+        {
+            var incense = pawn.ActiveIncense[i];
+            if (!loadout.IsBurning(incense))
+            {
+                continue;
+            }
+
+            var tint = CombatIncenseSmokeFx.TintFor(incense);
+            if (loadout.TryGetIncenseSlot(i, out var slot) && slot.Bounds.Width > 0)
+            {
+                sources.Add(new CombatIncenseSmokeFx.BurnSource(
+                    $"slot-{pawn.Id}-{i}",
+                    slot,
+                    new Vector2(slot.Bounds.Width * 0.5f, slot.Bounds.Height * 0.2f),
+                    tint));
+            }
+
+            var portrait = party.GetPanelForPawn(pawn)?.BodyWidget;
+            if (portrait == null || portrait.Bounds.Width <= 0)
+            {
+                continue;
+            }
+
+            sources.Add(new CombatIncenseSmokeFx.BurnSource(
+                $"portrait-{pawn.Id}-{i}",
+                portrait,
+                new Vector2(portrait.Bounds.Width * 0.5f, portrait.Bounds.Height * 0.65f),
+                tint));
+        }
     }
 
     private void SyncBodyPanelHeights()
@@ -523,6 +617,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         Encounter.CombatHandler!.CombatEventRecorded -= OnCombatEvent;
         _floaterRouter.MedicalUsed -= OnMedicalUsed;
         _floaterRouter.PotionUsed -= OnPotionUsed;
+        _floaterRouter.IncenseLit -= OnIncenseLit;
         _potionThrowFx.Impacted -= _floaterRouter.ShowPotionImpact;
         if (_summaryWindow != null)
         {

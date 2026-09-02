@@ -126,6 +126,12 @@
                     <ListItem>
                         <ItemDef>ShadeWood</ItemDef>
                     </ListItem>
+                    <ListItem>
+                        <ItemDef>Clotcedar</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>LungwortBraid</ItemDef>
+                    </ListItem>
                 </Offers>
             </ListItem>          
             <ListItem>

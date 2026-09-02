@@ -6,7 +6,6 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
 {
     private readonly Pawn _pawn;
     private readonly VerticalStackPanel _slotRows;
-    private readonly PrepBuffList _buffs;
     private readonly PrepItemGrid _inventory;
     private string _slotSignature = "";
     private int _slotsPerRow = -1;
@@ -17,14 +16,17 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
 
         Body.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
         {
+            Text = "Slots light at 120, 240, then 360",
+            TextColor = new Color(200, 180, 140)
+        });
+        Body.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+        {
             Text = "Burns until extinguished",
             TextColor = new Color(160, 160, 160)
         });
 
         _slotRows = new VerticalStackPanel { Spacing = PrepSlots.Spacing };
         Body.Widgets.Add(_slotRows);
-        _buffs = new PrepBuffList();
-        Body.Widgets.Add(_buffs);
 
         _inventory = new PrepItemGrid(
             gui,
@@ -71,7 +73,7 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
 
         if (_pawn.CanLightIncense(item))
         {
-            return "Click to light";
+            return $"Click to light · slot {_pawn.ActiveIncense.Count + 1} at {IncenseProperties.GetIgniteTick(_pawn.ActiveIncense.Count)}";
         }
 
         return "All incense slots are full";
@@ -103,10 +105,8 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
             var index = i;
             row!.Widgets.Add(index < _pawn.ActiveIncense.Count
                 ? FilledSlot(_pawn.ActiveIncense[index], index)
-                : EmptySlot());
+                : EmptySlot(index));
         }
-
-        _buffs.SetEffects(PrepBuffList.FromIncense(_pawn));
     }
 
     private Widget FilledSlot(ActiveIncense incense, int index)
@@ -115,6 +115,7 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
             ? DefRepository<ItemDef>.GetByMoniker(incense.SourceMoniker, raiseError: false)
             : null;
         var name = incense.Def?.Label ?? itemDef?.Label ?? incense.SourceMoniker ?? "Incense";
+        var igniteTick = IncenseProperties.GetIgniteTick(index);
 
         var icon = new Image
         {
@@ -144,15 +145,34 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
             _pawn.ExtinguishIncense(index);
             RebuildSlots();
         };
-        button.WithTooltip(name, "Click to extinguish");
-        return PrepSlots.Frame(button);
+        button.WithTooltip(name, $"Lights at {igniteTick} · Click to extinguish");
+
+        var column = new VerticalStackPanel { Spacing = 2 };
+        column.Widgets.Add(PrepSlots.Frame(button));
+        column.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = igniteTick.ToString(),
+            TextColor = new Color(200, 180, 140),
+            HorizontalAlignment = HorizontalAlignment.Center
+        });
+        return column;
     }
 
-    private static Widget EmptySlot()
+    private static Widget EmptySlot(int index)
     {
+        var igniteTick = IncenseProperties.GetIgniteTick(index);
         var empty = new Panel();
-        empty.WithTooltip("Empty incense slot");
-        return PrepSlots.Frame(empty);
+        empty.WithTooltip($"Empty slot · lights at {igniteTick}");
+
+        var column = new VerticalStackPanel { Spacing = 2 };
+        column.Widgets.Add(PrepSlots.Frame(empty));
+        column.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = igniteTick.ToString(),
+            TextColor = new Color(120, 115, 105),
+            HorizontalAlignment = HorizontalAlignment.Center
+        });
+        return column;
     }
 
     private int SlotsPerRow()

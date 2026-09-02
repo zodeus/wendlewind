@@ -18,25 +18,25 @@ public readonly record struct ArenaRankDisplay(
     int? LegendNumber,
     int RatedRuns)
 {
-    public string Label
+    public string LeagueName
     {
         get
         {
             if (League == ArenaLeague.Unranked)
             {
-                return $"Unranked \u00b7 {Rating}";
+                return "Unranked";
             }
 
             if (League == ArenaLeague.Legend)
             {
-                return LegendNumber is int number
-                    ? $"Legend #{number} \u00b7 {Rating}"
-                    : $"Legend \u00b7 {Rating}";
+                return LegendNumber is int number ? $"Legend #{number}" : "Legend";
             }
 
-            return $"{League} {Roman(Division)} \u00b7 {Rating}";
+            return $"{League} {Roman(Division)}";
         }
     }
+
+    public string Label => $"{LeagueName} \u00b7 {Rating}";
 
     public string BadgeTexturePath => $"UI/Ranks/{League}";
 

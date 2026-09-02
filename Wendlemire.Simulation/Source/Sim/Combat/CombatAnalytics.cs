@@ -129,6 +129,8 @@ public static class CombatAnalytics
                     }
 
                     break;
+                case CombatEventKind.IncenseLit:
+                    break;
             }
         }
 

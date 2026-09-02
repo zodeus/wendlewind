@@ -81,10 +81,23 @@ public sealed class IncensePanel : EntityPanelBase
                 Margin = new Thickness(0, 4, 0, 12)
             });
 
+            var durationSeconds = incenseProps.GetDurationInTicks() / (float)GameContext.TicksPerSecond;
             Widgets.Add(new Label(BaseContent.Styles.Label.Small)
             {
-                Text = "When Burned:",
+                Text = $"Lasts {durationSeconds:0.#}s once lit",
+                TextColor = WarmGlow
+            });
+            Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = "Slots light at 120, 240, then 360",
                 TextColor = AshGray
+            });
+
+            Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = "When Lit:",
+                TextColor = AshGray,
+                Margin = new Thickness(0, 8, 0, 0)
             });
 
             // Effect with icon
@@ -108,7 +121,6 @@ public sealed class IncensePanel : EntityPanelBase
                 TextColor = effectColor
             });
 
-            var durationSeconds = incenseProps.Effect.DurationInTicks / 60f;
             effectRow.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
             {
                 Text = $"({durationSeconds:0.#}s)",

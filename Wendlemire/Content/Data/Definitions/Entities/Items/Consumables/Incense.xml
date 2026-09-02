@@ -16,7 +16,7 @@
             <DurationInEncounters>2</DurationInEncounters>
             <Effect>
                 <Def>Mulled</Def>
-                <DurationInTicks>4000</DurationInTicks>
+                <DurationInTicks>1200</DurationInTicks>
             </Effect>
         </IncenseProperties>
         <CraftingProperties>
@@ -48,7 +48,7 @@
             <DurationInEncounters>2</DurationInEncounters>
             <Effect>
                 <Def>Shaded</Def>
-                <DurationInTicks>4000</DurationInTicks>
+                <DurationInTicks>1200</DurationInTicks>
             </Effect>
         </IncenseProperties>
         <CraftingProperties>
@@ -80,7 +80,7 @@
             <DurationInEncounters>3</DurationInEncounters>
             <Effect>
                 <Def>WellMulled</Def>
-                <DurationInTicks>2000</DurationInTicks>
+                <DurationInTicks>1500</DurationInTicks>
             </Effect>
         </IncenseProperties>
         <CraftingProperties>
@@ -112,8 +112,70 @@
             <DurationInEncounters>2</DurationInEncounters>
             <Effect>
                 <Def>WitchTouched</Def>
-                <DurationInTicks>4000</DurationInTicks>
+                <DurationInTicks>1200</DurationInTicks>
             </Effect>
         </IncenseProperties>
+    </ItemDef>
+    <ItemDef ParentName="IncenseConsumable">
+        <Moniker>Clotcedar</Moniker>
+        <Label>Clotcedar</Label>
+        <Description>Cedar smeared with honey pitch. The smoke thickens the blood so wounds weep instead of spray.</Description>
+        <GoldCost>25</GoldCost>
+        <TexturePath>Entities/Item/Incense/Clotcedar</TexturePath>
+        <IncenseProperties>
+            <DurationInEncounters>2</DurationInEncounters>
+            <Effect>
+                <Def>Clotted</Def>
+                <DurationInTicks>1080</DurationInTicks>
+            </Effect>
+        </IncenseProperties>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>MortarAndPestle</ListItem>
+                <ListItem>FlameStick</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>Twig</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>HoneyPot</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+    </ItemDef>
+    <ItemDef ParentName="IncenseConsumable">
+        <Moniker>LungwortBraid</Moniker>
+        <Label>Lungwort Braid</Label>
+        <Description>A bitter braid of dried lungwort. The smoke coats the chest so a punctured lung does not collapse the fight.</Description>
+        <GoldCost>30</GoldCost>
+        <TexturePath>Entities/Item/Incense/LungwortBraid</TexturePath>
+        <IncenseProperties>
+            <DurationInEncounters>2</DurationInEncounters>
+            <Effect>
+                <Def>Lungworted</Def>
+                <DurationInTicks>1200</DurationInTicks>
+            </Effect>
+        </IncenseProperties>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>MortarAndPestle</ListItem>
+                <ListItem>WeepingBucket</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>NettleLeaf</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>InkyCapMushroom</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
     </ItemDef>
 </Definitions>

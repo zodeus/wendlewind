@@ -63,6 +63,7 @@ public sealed record IncenseConfig
 {
     public required string ItemMoniker { get; init; }
     public int EncountersRemaining { get; init; }
+    public float AfterSeconds { get; init; }
 }
 
 public sealed record InventoryStackConfig

@@ -4,7 +4,7 @@ namespace Wendlemire.Scenes.ArenaScene.Gui;
 
 public sealed class RankBadge : HorizontalStackPanel
 {
-    public RankBadge(ArenaRankDisplay rank, int badgeSize = 64)
+    public RankBadge(ArenaRankDisplay rank, int badgeSize = 64, bool showRating = true)
     {
         Spacing = 8;
         VerticalAlignment = VerticalAlignment.Center;
@@ -42,7 +42,7 @@ public sealed class RankBadge : HorizontalStackPanel
 
         Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
         {
-            Text = rank.Label,
+            Text = showRating ? rank.Label : rank.LeagueName,
             TextColor = Color.Goldenrod,
             VerticalAlignment = VerticalAlignment.Center
         });

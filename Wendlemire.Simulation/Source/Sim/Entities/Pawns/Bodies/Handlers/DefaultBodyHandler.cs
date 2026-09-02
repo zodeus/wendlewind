@@ -31,6 +31,7 @@ public class DefaultBodyHandler : IExposable, IHasContext, IHasRng
     public float Viscosity => Body.Def.BloodType!.Viscosity;
 
     public const float PitchbloodViscosityFactor = 2.5f;
+    public const float ClottedViscosityFactor = 1.5f;
     private float? _hasThickBloodedTrait;
     public float ViscosityModifier
     {
@@ -40,6 +41,11 @@ public class DefaultBodyHandler : IExposable, IHasContext, IHasRng
             if (Body.Effects.Has(Defs.BodyEffects.Pitchblood))
             {
                 modifier *= PitchbloodViscosityFactor;
+            }
+
+            if (Body.Effects.Has(Defs.BodyEffects.Clotted))
+            {
+                modifier *= ClottedViscosityFactor;
             }
 
             return modifier;

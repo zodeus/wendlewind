@@ -16,6 +16,7 @@ internal sealed class CombatFloaterRouter
 
     public event Action<CombatLogEvent>? PotionUsed;
     public event Action<CombatLogEvent>? MedicalUsed;
+    public event Action<CombatLogEvent>? IncenseLit;
 
     public CombatFloaterRouter(
         CombatPartyPanel playerParty,
@@ -136,6 +137,10 @@ internal sealed class CombatFloaterRouter
                 Show(e.SubjectPawnId, e.BodyPartKey, e.ItemLabel ?? "medical", Style(e.Kind, false));
                 MedicalUsed?.Invoke(e);
                 break;
+            case CombatEventKind.IncenseLit:
+                Show(e.SubjectPawnId, null, e.ItemLabel ?? "incense", Style(e.Kind, false));
+                IncenseLit?.Invoke(e);
+                break;
             case CombatEventKind.Death:
                 Show(e.SubjectPawnId, null, "died", Style(e.Kind, false));
                 break;
@@ -251,6 +256,7 @@ internal sealed class CombatFloaterRouter
             CombatEventKind.Death => Color.AntiqueWhite,
             CombatEventKind.PotionUsed => Color.Goldenrod,
             CombatEventKind.MedicalUsed => new Color(120, 200, 160),
+            CombatEventKind.IncenseLit => new Color(220, 170, 90),
             _ => Color.White
         };
 
@@ -258,7 +264,7 @@ internal sealed class CombatFloaterRouter
         {
             CombatEventKind.Damage or CombatEventKind.Heal => BaseContent.Fonts.Default.VerySmall,
             CombatEventKind.Death => BaseContent.Fonts.Default.Small,
-            CombatEventKind.PotionUsed or CombatEventKind.MedicalUsed => BaseContent.Fonts.Default.Small,
+            CombatEventKind.PotionUsed or CombatEventKind.MedicalUsed or CombatEventKind.IncenseLit => BaseContent.Fonts.Default.Small,
             _ => BaseContent.Fonts.Default.Smallest
         };
 

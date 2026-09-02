@@ -946,7 +946,7 @@ public class ArenaRunTests
     }
 
     [Fact]
-    public void LightingMullinStickRaisesMagicOnceApplied()
+    public void LightingMullinStickDoesNotRaiseMagicUntilDelay()
     {
         using var scope = CreateArena();
         var pawn = scope.Context.PlayerPawn;
@@ -957,6 +957,13 @@ public class ArenaRunTests
 
         pawn.ApplyBattleStartConsumables();
 
+        Assert.Equal(1f, pawn.GetStatValue(Defs.Stats.Magic), 3);
+        Assert.False(pawn.Body.Effects.Has(Defs.BodyEffects.Mulled));
+
+        var incenseSlot = Assert.Single(pawn.ActiveIncense);
+        Assert.False(incenseSlot.ShouldFire(IncenseProperties.GetIgniteTick(0) - 1, 0));
+        Assert.True(incenseSlot.ShouldFire(IncenseProperties.GetIgniteTick(0), 0));
+        Assert.True(pawn.TryIgniteIncense(incenseSlot));
         Assert.Equal(1.15f, pawn.GetStatValue(Defs.Stats.Magic), 3);
     }
 

@@ -155,7 +155,7 @@ internal sealed class PrepBuffList : VerticalStackPanel
 
     public static IEnumerable<BodyEffectDef> FromPrep(Pawn pawn)
     {
-        return FromMeal(pawn).Concat(FromIncense(pawn));
+        return FromMeal(pawn);
     }
 
     public static float ProjectedStat(Pawn pawn, StatDef stat)

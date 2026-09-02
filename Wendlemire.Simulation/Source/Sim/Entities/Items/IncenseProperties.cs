@@ -3,13 +3,25 @@ namespace Wendlemire.Sim.Entities.Items;
 public class IncenseProperties
 {
     public const int MaxActive = 3;
+    public const int SlotIgniteIntervalTicks = 120;
 
     public BodyEffectRecord Effect = null!;
     public int DurationInEncounters;
 
+    public static int GetIgniteTick(int slotIndex)
+    {
+        return (slotIndex + 1) * SlotIgniteIntervalTicks;
+    }
+
     public int GetDurationInEncounters()
     {
         return DurationInEncounters > 0 ? DurationInEncounters : 1;
+    }
+
+    public int GetDurationInTicks()
+    {
+        var ticks = Effect?.DurationInTicks ?? 0;
+        return ticks > 0 ? ticks : GameContext.TicksPerSecond * 20;
     }
 
     public static Color GetEffectColor(BodyEffectDef def)

@@ -71,15 +71,23 @@ public class PawnCapabilities : IExposable
                 }
             }
 
-            return lungs switch
+            var breathing = lungs switch
             {
                 2 => 1f,
                 1 => .5f,
                 _ => .0f
             };
+
+            if (breathing > 0 && _pawn.Body.Effects.Has(Defs.BodyEffects.Lungworted))
+            {
+                return Math.Max(breathing, LungwortedBreathingFloor);
+            }
+
+            return breathing;
         }
     }
 
+    public const float LungwortedBreathingFloor = 0.8f;
     public const float TallowedMobilityFactor = 0.55f;
 
     public float Mobility

@@ -65,6 +65,13 @@
                         <ItemDef>WitchWood</ItemDef>
                         <AvailableFromRound>6</AvailableFromRound>
                     </ListItem>
+                    <ListItem>
+                        <ItemDef>Clotcedar</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>LungwortBraid</ItemDef>
+                        <AvailableFromRound>2</AvailableFromRound>
+                    </ListItem>
                 </Offers>
             </ListItem>
             <ListItem>
@@ -160,29 +167,8 @@
                 <Category>Trinkets</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
-                <StockSize>6</StockSize>
+                <StockSize>1</StockSize>
                 <Offers>
-                    <ListItem>
-                        <ItemDef>VialOfDuplicity</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>MortarAndPestle</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>WeepingBucket</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>FlameStick</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>TinkersToolbox</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>CookingPot</ItemDef>
-                    </ListItem>
                     <ListItem>
                         <ItemDef>Monocle</ItemDef>
                         <AvailableFromRound>4</AvailableFromRound>

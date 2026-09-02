@@ -394,7 +394,8 @@ public static class BuildSnapshotFactory
             .Select(a => new IncenseConfig
             {
                 ItemMoniker = a.SourceMoniker ?? a.Def.Moniker,
-                EncountersRemaining = a.EncountersRemaining
+                EncountersRemaining = a.EncountersRemaining,
+                AfterSeconds = a.AfterSeconds
             })
             .ToArray();
     }

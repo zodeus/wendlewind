@@ -12,7 +12,7 @@
                 <Category>Potions</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
-                <StockSize>6</StockSize>
+                <StockSize>4</StockSize>
                 <Offers>
                     <ListItem>
                         <ItemDef>JarOfBlood</ItemDef>
@@ -21,80 +21,61 @@
                         <ItemDef>HealingPotion</ItemDef>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>HealingFlask</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>HealingSalve</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
                         <ItemDef>PussBomb</ItemDef>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>Fleshify</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
                         <ItemDef>BlackenedSmoke</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>StrengthPotion</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>AcidFlask</ItemDef>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>AntiStaticFlask</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
+                        <ItemDef>HealingFlask</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>HealingSalve</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
                     </ListItem>
                 </Offers>
             </ListItem>
             <ListItem>
-                <Category>Trinkets</Category>
+                <Category>Incense</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
-                <StockSize>6</StockSize>
+                <StockSize>3</StockSize>
                 <Offers>
                     <ListItem>
-                        <ItemDef>DeathRattle</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
+                        <ItemDef>MullinStick</ItemDef>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>BoneCracker</ItemDef>
+                        <ItemDef>ShadeWood</ItemDef>
                         <AvailableFromRound>2</AvailableFromRound>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>BloodyBell</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>PerforationTrap</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>Slingshot</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>VialOfDuplicity</ItemDef>
+                        <ItemDef>DippedMullinStick</ItemDef>
                         <AvailableFromRound>4</AvailableFromRound>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>MechanicalEye</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
+                        <ItemDef>WitchWood</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>FlameStick</ItemDef>
+                        <ItemDef>Clotcedar</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>LungwortBraid</ItemDef>
+                        <AvailableFromRound>7</AvailableFromRound>
                     </ListItem>
                 </Offers>
             </ListItem>
             <ListItem>
                 <Category>Cloaks</Category>
-                <Columns>12</Columns>
+                <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
-                <StockSize>6</StockSize>
+                <StockSize>2</StockSize>
                 <Offers>
                     <ListItem>
                         <ItemDef>EvasionCloak</ItemDef>
@@ -104,23 +85,56 @@
                     </ListItem>
                     <ListItem>
                         <ItemDef>RejuvenationCloak</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>RageCloak</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>ThornCloak</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
+                        <AvailableFromRound>7</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>RageCloak</ItemDef>
+                        <AvailableFromRound>7</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>ClericCloak</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
+                        <AvailableFromRound>7</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>NinjaCloak</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
+                        <AvailableFromRound>7</AvailableFromRound>
+                    </ListItem>
+                </Offers>
+            </ListItem>
+            <ListItem>
+                <Category>Enchantments</Category>
+                <Columns>6</Columns>
+                <ItemColumns>1</ItemColumns>
+                <StockSize>2</StockSize>
+                <Offers>
+                    <ListItem>
+                        <ItemDef>RhinoSkin</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>FesteringWounds</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>BoneEater</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>EverburningStone</ItemDef>
+                    </ListItem>
+                </Offers>
+            </ListItem>
+            <ListItem>
+                <Category>Trinkets</Category>
+                <Columns>6</Columns>
+                <ItemColumns>1</ItemColumns>
+                <StockSize>1</StockSize>
+                <Offers>
+                    <ListItem>
+                        <ItemDef>VialOfDuplicity</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>MechanicalEye</ItemDef>
                     </ListItem>
                 </Offers>
             </ListItem>

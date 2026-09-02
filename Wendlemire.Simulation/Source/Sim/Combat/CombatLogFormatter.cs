@@ -15,6 +15,7 @@ public static class CombatLogFormatter
                 $"/c[{TC.Victim}]{e.SubjectName} /c[{TC.Blue}]dodged attack",
             CombatEventKind.PotionUsed => FormatPotionUsed(e),
             CombatEventKind.MedicalUsed => FormatMedicalUsed(e),
+            CombatEventKind.IncenseLit => FormatIncenseLit(e),
             CombatEventKind.Death =>
                 $"/f[default, 32]/c[{TC.Victim}]{e.SubjectName} /cddied from /c[{TC.Red}]{e.Message}\n",
             CombatEventKind.System => FormatSystem(e),
@@ -32,6 +33,16 @@ public static class CombatLogFormatter
         }
 
         return $"/c[{TC.Attacker}]{e.SubjectName} /c[{TC.Yellow}]used /c[{TC.Item}]{e.ItemLabel}";
+    }
+
+    private static string FormatIncenseLit(CombatLogEvent e)
+    {
+        if (!string.IsNullOrEmpty(e.Message) && e.Message.Contains("/c["))
+        {
+            return e.Message;
+        }
+
+        return $"/c[{TC.Attacker}]{e.SubjectName} /c[{TC.Yellow}]lit /c[{TC.Item}]{e.ItemLabel}";
     }
 
     private static string FormatPotionUsed(CombatLogEvent e)

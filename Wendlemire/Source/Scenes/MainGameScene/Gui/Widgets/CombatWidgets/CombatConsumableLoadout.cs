@@ -1,3 +1,4 @@
+using Wendlemire.Scenes.MainGameScene.Gui.CombatGui;
 using Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
 namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
@@ -14,6 +15,7 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
     private readonly BaseGui _gui;
     private readonly MedicalBar _medicalBar;
     private readonly Panel[] _foodSlots = new Panel[MealPlan.MaxSlots];
+    private readonly IncenseSlotView[] _incenseSlots = new IncenseSlotView[IncenseProperties.MaxActive];
     private string _foodSignature = "";
 
     public CombatConsumableLoadout(BaseGui gui, Pawn pawn, bool mirror = false)
@@ -34,6 +36,18 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
         _medicalBar.NotifyUsed(itemMoniker);
     }
 
+    public bool TryGetIncenseSlot(int index, out Widget slot)
+    {
+        if ((uint)index >= _incenseSlots.Length || _incenseSlots[index]?.Cell == null)
+        {
+            slot = null!;
+            return false;
+        }
+
+        slot = _incenseSlots[index].Cell;
+        return true;
+    }
+
     public void Update()
     {
         _medicalBar.Update();
@@ -43,6 +57,30 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
             _foodSignature = signature;
             RefreshFoodSlots();
         }
+
+        foreach (var slot in _incenseSlots)
+        {
+            if (slot?.Incense == null)
+            {
+                continue;
+            }
+
+            var burning = IsBurning(slot.Incense);
+            slot.Burn.Burning = burning;
+            slot.Burn.Update();
+            slot.Status.Visible = burning;
+            slot.Cell.BorderThickness = burning ? new Thickness(1) : new Thickness(0);
+            slot.Cell.Border = burning
+                ? new SolidBrush(Color.Lerp(slot.Burn.Tint, Color.White, 0.25f) * 0.85f)
+                : null;
+        }
+    }
+
+    public bool IsBurning(ActiveIncense incense)
+    {
+        return incense.FiredThisEncounter
+            && incense.Def != null
+            && Pawn.Body.Effects.Has(incense.Def);
     }
 
     private Widget BuildGrid(BaseGui gui, Pawn pawn, bool mirror)
@@ -92,10 +130,20 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
         var incense = pawn.ActiveIncense;
         for (var i = 0; i < IncenseProperties.MaxActive; i++)
         {
-            var cell = i < incense.Count
-                ? Cell(CreateIncenseIcon(incense[i]))
-                : EmptyCell();
-            Place(grid, cell, i, incenseCol);
+            var view = new IncenseSlotView();
+            _incenseSlots[i] = view;
+            if (i < incense.Count)
+            {
+                view.Incense = incense[i];
+                view.SlotIndex = i;
+                view.Cell = Cell(CreateIncenseIcon(incense[i], view), clip: false);
+            }
+            else
+            {
+                view.Cell = EmptyCell();
+            }
+
+            Place(grid, view.Cell, i, incenseCol);
         }
 
         return grid;
@@ -120,7 +168,7 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
         grid.Widgets.Add(cell);
     }
 
-    private static Widget CreateIncenseIcon(ActiveIncense incense)
+    private Widget CreateIncenseIcon(ActiveIncense incense, IncenseSlotView view)
     {
         var itemDef = incense.SourceMoniker != null
             ? DefRepository<ItemDef>.GetByMoniker(incense.SourceMoniker, raiseError: false)
@@ -141,9 +189,50 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
             icon.Background = new TextureRegion(incense.Def.GetTexture());
         }
 
+        view.Burn = new IncenseSlotBurnFx
+        {
+            Tint = CombatIncenseSmokeFx.TintFor(incense)
+        };
+        view.Status = new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = "Burning",
+            TextColor = new Color(255, 190, 90),
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            Visible = false
+        };
+
+        var stack = new Panel
+        {
+            Width = IconSize,
+            Height = IconSize,
+            ClipToBounds = false,
+            Widgets = { icon, view.Burn, view.Status }
+        };
         var name = incense.Def?.Label ?? itemDef?.Label ?? "Incense";
-        icon.WithTooltip(name, "Burns until extinguished");
-        return icon;
+        stack.WithDynamicTooltip(() => name, () => IncenseStatusText(view));
+        return stack;
+    }
+
+    private string IncenseStatusText(IncenseSlotView view)
+    {
+        var incense = view.Incense;
+        if (incense == null)
+        {
+            return $"Lights at {IncenseProperties.GetIgniteTick(view.SlotIndex)}";
+        }
+
+        if (IsBurning(incense))
+        {
+            return "Burning";
+        }
+
+        if (incense.FiredThisEncounter)
+        {
+            return "Burned out";
+        }
+
+        return $"Lights at {IncenseProperties.GetIgniteTick(view.SlotIndex)}";
     }
 
     private void RefreshFoodSlots()
@@ -289,5 +378,14 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
     private static Panel EmptyCell()
     {
         return Cell(new Panel());
+    }
+
+    private sealed class IncenseSlotView
+    {
+        public Panel Cell = null!;
+        public IncenseSlotBurnFx Burn = null!;
+        public Label Status = null!;
+        public ActiveIncense? Incense;
+        public int SlotIndex;
     }
 }

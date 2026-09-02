@@ -24,6 +24,7 @@ public static partial class BaseContent
         public static Texture2D BadTexture = null!;
 
         public static Texture2D MainMenuBackground = null!;
+        public static Texture2D RunEndSplash = null!;
 
         public static void Load()
         {
@@ -31,6 +32,7 @@ public static partial class BaseContent
 
             // Main Menu
             MainMenuBackground = Core.Content.Load<Texture2D>("UI/MainMenu/Splash");
+            RunEndSplash = Core.Content.Load<Texture2D>("UI/Arena/RunEndSplash");
         }
     }
 }

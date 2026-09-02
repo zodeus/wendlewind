@@ -330,7 +330,10 @@ public class CombatHandler : IDisposable, IHasContext
         EvaluatePotionTriggers(Enemy, Player);
         EvaluateMedicalTriggers(Player, Enemy);
         EvaluateMedicalTriggers(Enemy, Player);
+        EvaluateIncenseTriggers(Player);
+        EvaluateIncenseTriggers(Enemy);
 
+        Player.Body.Effects.Tick();
         Enemy.Tick();
         FlushTickHealth();
     }
@@ -339,6 +342,8 @@ public class CombatHandler : IDisposable, IHasContext
     {
         Player.MedicalChest.ResetCooldowns();
         Enemy.MedicalChest.ResetCooldowns();
+        Player.ResetIncenseForEncounter();
+        Enemy.ResetIncenseForEncounter();
         Player.ApplyBattleStartConsumables();
         Enemy.ApplyBattleStartConsumables();
         ApplyPermanentInstalls(Player);
@@ -458,6 +463,43 @@ public class CombatHandler : IDisposable, IHasContext
             {
                 slot.NextReadyTick = _encounter.Ticks + MedicalChest.FailedApplyBackoffInTicks;
             }
+        }
+    }
+
+    private void EvaluateIncenseTriggers(Pawn self)
+    {
+        for (var i = 0; i < self.ActiveIncense.Count; i++)
+        {
+            var incense = self.ActiveIncense[i];
+            if (!incense.ShouldFire(_encounter.Ticks, i))
+            {
+                continue;
+            }
+
+            if (!self.TryIgniteIncense(incense))
+            {
+                continue;
+            }
+
+            var itemDef = incense.SourceMoniker != null
+                ? DefRepository<ItemDef>.GetByMoniker(incense.SourceMoniker, raiseError: false)
+                : null;
+            var label = itemDef?.Label ?? incense.Def.Label;
+            var moniker = incense.SourceMoniker ?? incense.Def.Moniker;
+
+            Record(new CombatLogEvent
+            {
+                Kind = CombatEventKind.IncenseLit,
+                SubjectPawnId = self.Id,
+                SubjectName = self.LabelShort,
+                SourcePawnId = self.Id,
+                SourceName = self.LabelShort,
+                TargetPawnId = self.Id,
+                TargetName = self.LabelShort,
+                ItemMoniker = moniker,
+                ItemLabel = label,
+                Message = $"/c[{TC.Attacker}]{self.LabelShort} /c[{TC.Yellow}]lit /c[{TC.Item}]{label}"
+            });
         }
     }
 
@@ -627,6 +669,8 @@ public class CombatHandler : IDisposable, IHasContext
 
         Player.Body.RestoreBodyScale();
         Enemy.Body.RestoreBodyScale();
+        Player.ClearActiveIncenseEffects();
+        Enemy.ClearActiveIncenseEffects();
         Player.Body.Effects.ClearWholeEncounterEffects();
         Enemy.Body.Effects.ClearWholeEncounterEffects();
         Player.CombatStomach.Clear();

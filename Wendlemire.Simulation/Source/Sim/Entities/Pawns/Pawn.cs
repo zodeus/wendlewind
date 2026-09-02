@@ -556,8 +556,42 @@ public class Pawn : Entity
         }
 
         MealPlan.Prune();
-        TickIncenseCharges();
         Body.ApplyBodyScale();
+    }
+
+    public void ResetIncenseForEncounter()
+    {
+        foreach (var incense in ActiveIncense)
+        {
+            incense.FiredThisEncounter = false;
+        }
+    }
+
+    public bool TryIgniteIncense(ActiveIncense incense)
+    {
+        if (incense.FiredThisEncounter || incense.Def == null)
+        {
+            return false;
+        }
+
+        incense.FiredThisEncounter = true;
+        Body.Effects.TryApplyEffect(new BodyEffect
+        {
+            Def = incense.Def,
+            TicksLeft = incense.GetDurationInTicks()
+        });
+        return true;
+    }
+
+    public void ClearActiveIncenseEffects()
+    {
+        foreach (var incense in ActiveIncense)
+        {
+            if (incense.Def != null)
+            {
+                Body.Effects.TryRemove(incense.Def);
+            }
+        }
     }
 
     public bool HasFlameStick()
@@ -592,26 +626,6 @@ public class Pawn : Entity
         if (item.StackSize < 1)
         {
             item.Destroy();
-        }
-    }
-
-    private void TickIncenseCharges()
-    {
-        for (var i = ActiveIncense.Count - 1; i >= 0; i--)
-        {
-            var incense = ActiveIncense[i];
-            if (incense.Def == null || incense.EncountersRemaining <= 0)
-            {
-                ActiveIncense.RemoveAt(i);
-                continue;
-            }
-
-            Body.Effects.TryApplyEffect(new BodyEffect
-            {
-                Def = incense.Def,
-                TicksLeft = 1,
-                LastsWholeEncounter = true
-            });
         }
     }
 

@@ -38,14 +38,14 @@
         <Moniker>VialOfDuplicity</Moniker>
         <Label>Vial of Duplicity</Label>
         <Description>A vial that seems to copy itself.</Description>
-        <GoldCost>85</GoldCost>
+        <GoldCost>300</GoldCost>
         <TexturePath>Entities/Item/Trinket/VialOfDuplicity</TexturePath>
     </ItemDef>
     <ItemDef ParentName="PassiveTrinket">
         <Moniker>MechanicalEye</Moniker>
         <Label>Mechanical Eye</Label>
         <Description>Never lose your way again.</Description>
-        <GoldCost>80</GoldCost>
+        <GoldCost>150</GoldCost>
         <TexturePath>Entities/Item/Trinket/MechanicalEye</TexturePath>
     </ItemDef>
     <ItemDef ParentName="PassiveTrinket">
@@ -59,7 +59,7 @@
         <Moniker>Monocle</Moniker>
         <Label>Monocle</Label>
         <Description>A monocle, useful for seeing things, critical things.</Description>
-        <GoldCost>70</GoldCost>
+        <GoldCost>180</GoldCost>
         <TexturePath>Entities/Item/Trinket/Monocle</TexturePath>
     </ItemDef>
 
