@@ -25,6 +25,12 @@ public sealed class ArenaScene : Scene
     private BuildSnapshot? _lastPrepSnapshot;
     private CombatResult? _pendingResult;
     private Task? _matchTask;
+    private readonly object _saveLock = new();
+    private Task? _saveTask;
+    private bool _saveBusy;
+    private bool _saveDirty;
+    private ArenaProgressRecord? _pendingProgress;
+    private AchievementState? _pendingAchievements;
     private KeyboardState _previousKeyboardState;
     private float _autosaveTimer;
 
@@ -308,6 +314,8 @@ public sealed class ArenaScene : Scene
         {
             SaveRun();
         }
+
+        FlushPendingSave();
     }
 
     private void AutosavePrep(float deltaTime)
@@ -344,16 +352,86 @@ public sealed class ArenaScene : Scene
             round: Math.Max(1, _context.ArenaRun.FightsPlayed),
             rating: CurrentRank.Rating);
         var progress = ArenaProgressMapper.FromRun(_context.ArenaRun, loadout, _runId, _runStartedAt);
-        TryGet(() =>
+        var achievements = ExportAchievements();
+
+        var startWriter = false;
+        lock (_saveLock)
         {
-            _client.SaveCurrentArena(progress).GetAwaiter().GetResult();
-            _client.SaveAchievements(_profile.PlayerId, ExportAchievements()).GetAwaiter().GetResult();
-            return true;
-        });
+            _pendingProgress = progress;
+            _pendingAchievements = achievements;
+            _saveDirty = true;
+            if (_saveBusy)
+            {
+                return;
+            }
+
+            _saveBusy = true;
+            startWriter = true;
+        }
+
+        if (startWriter)
+        {
+            _saveTask = PersistPendingAsync();
+        }
+    }
+
+    private async Task PersistPendingAsync()
+    {
+        while (true)
+        {
+            ArenaProgressRecord progress;
+            AchievementState achievements;
+            ArenaMatchClient client;
+            lock (_saveLock)
+            {
+                if (!_saveDirty || _client == null)
+                {
+                    _saveBusy = false;
+                    return;
+                }
+
+                _saveDirty = false;
+                progress = _pendingProgress!;
+                achievements = _pendingAchievements!;
+                _pendingProgress = null;
+                _pendingAchievements = null;
+                client = _client;
+            }
+
+            try
+            {
+                await client.SaveCurrentArena(progress).ConfigureAwait(false);
+                await client.SaveAchievements(progress.PlayerId, achievements).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                MatchError = ex.Message;
+                Log.Warning($"Arena server request failed: {ex.Message}");
+            }
+        }
+    }
+
+    private void FlushPendingSave()
+    {
+        var task = _saveTask;
+        if (task == null)
+        {
+            return;
+        }
+
+        try
+        {
+            task.GetAwaiter().GetResult();
+        }
+        catch (Exception ex)
+        {
+            Log.Warning($"Arena save flush failed: {ex.Message}");
+        }
     }
 
     private void FinishOnServer(bool victory)
     {
+        FlushPendingSave();
         var finished = TryGet(() =>
         {
             var run = _client!.FinishArena(_profile.PlayerId, victory).GetAwaiter().GetResult();
