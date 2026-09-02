@@ -10,6 +10,7 @@ internal class PawnRenderArea(PawnRenderer renderer, Texture2D? fallbackIcon) : 
     public PawnRenderer Renderer => renderer;
     public bool HasValidLayout => renderer.HasValidLayout;
     public BodyPartDamageTextRenderer DamageTextRenderer => _damageTextRenderer;
+    public bool FlipHorizontal { get; set; }
 
     public override void InternalRender(RenderContext context)
     {
@@ -31,12 +32,12 @@ internal class PawnRenderArea(PawnRenderer renderer, Texture2D? fallbackIcon) : 
 
             // Render damage text overlay with clipping to keep text inside bounds
             var layoutScale = (float)bounds.Width / renderer.NativeSize;
-            _damageTextRenderer.Render(context, bounds, layoutScale);
+            _damageTextRenderer.Render(context, bounds, layoutScale, FlipHorizontal);
         }
         else if (fallbackIcon != null)
         {
             context.Draw(fallbackIcon, destRect, Color.White);
-            _damageTextRenderer.Render(context, bounds, (float)bounds.Width / renderer.NativeSize);
+            _damageTextRenderer.Render(context, bounds, (float)bounds.Width / renderer.NativeSize, FlipHorizontal);
         }
     }
 }

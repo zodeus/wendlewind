@@ -51,6 +51,7 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
         mainContainer.Widgets.Add(partsScroll);
         if (fillAvailableHeight)
         {
+            VerticalAlignment = VerticalAlignment.Stretch;
             VerticalStackPanel.SetProportionType(partsScroll, ProportionType.Fill);
             ClipToBounds = true;
         }

@@ -343,7 +343,7 @@ public class BloodSpurtRenderer
     /// <summary>
     /// Renders all blood droplets to the sprite batch.
     /// </summary>
-    public void Render(SpriteBatch spriteBatch, float layoutScale)
+    public void Render(SpriteBatch spriteBatch, float layoutScale, bool flipHorizontal = false, int renderSize = 0)
     {
         if (_droplets.Count == 0) return;
         
@@ -354,6 +354,10 @@ public class BloodSpurtRenderer
         {
             var color = bloodColor * droplet.Opacity;
             var scaledPosition = droplet.Position * layoutScale;
+            if (flipHorizontal)
+            {
+                scaledPosition.X = renderSize - scaledPosition.X;
+            }
             var size = (int)(droplet.Size * layoutScale);
             
             // Draw droplet as a small rectangle (simple but effective)

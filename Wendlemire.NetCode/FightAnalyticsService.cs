@@ -14,8 +14,9 @@ public sealed class FightAnalyticsService
 
     public List<FightAnalyticsRow> ListFights()
     {
+        var labels = _players.PlayerLabels();
         return _players.ListAllRuns()
-            .SelectMany(run => run.Fights.Select(fight => ToRow(run, fight)))
+            .SelectMany(run => run.Fights.Select(fight => ToRow(run, fight, labels)))
             .OrderByDescending(row => row.DurationSeconds)
             .ToList();
     }
@@ -83,18 +84,23 @@ public sealed class FightAnalyticsService
         };
     }
 
-    private static FightAnalyticsRow ToRow(ArenaRunRecord run, ArenaFightRecord fight)
+    private static FightAnalyticsRow ToRow(
+        ArenaRunRecord run,
+        ArenaFightRecord fight,
+        IReadOnlyDictionary<string, string> labels)
     {
         var seconds = fight.Analytics?.DurationSeconds ?? CombatAnalytics.TicksToSeconds(fight.Ticks);
         return new FightAnalyticsRow
         {
             MatchId = fight.MatchId,
             PlayerId = run.PlayerId,
+            PlayerName = ResolveName(run.PlayerId, run, fight, labels),
             RunId = run.RunId,
             Round = fight.Round,
             DurationSeconds = seconds,
             InTargetBand = fight.Analytics?.InTargetBand ?? CombatAnalytics.IsInTargetBand(seconds),
             WinnerPlayerId = fight.WinnerPlayerId,
+            WinnerName = ResolveName(fight.WinnerPlayerId, run, fight, labels),
             CauseOfDeath = fight.CauseOfDeath,
             AttackerDamagePerSecond = fight.Analytics?.Attacker.DamagePerSecond ?? 0,
             DefenderDamagePerSecond = fight.Analytics?.Defender.DamagePerSecond ?? 0,
@@ -107,6 +113,49 @@ public sealed class FightAnalyticsService
             Version = fight.Version ?? run.Version
         };
     }
+
+    private static string ResolveName(
+        string? playerId,
+        ArenaRunRecord run,
+        ArenaFightRecord fight,
+        IReadOnlyDictionary<string, string> labels)
+    {
+        if (string.IsNullOrWhiteSpace(playerId))
+        {
+            return "";
+        }
+
+        var mirror = ArenaRank.IsMirrorPlayerId(playerId);
+        var realId = mirror ? playerId["mirror:".Length..] : playerId;
+        var name = labels.TryGetValue(realId, out var labeled) ? labeled : null;
+        if (string.IsNullOrWhiteSpace(name) && string.Equals(realId, run.PlayerId, StringComparison.Ordinal))
+        {
+            name = run.PlayerName;
+        }
+
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            if (IdsMatch(playerId, realId, fight.Attacker.PlayerId))
+            {
+                name = fight.Attacker.PawnName;
+            }
+            else if (IdsMatch(playerId, realId, fight.Defender.PlayerId))
+            {
+                name = fight.Defender.PawnName;
+            }
+        }
+
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return "";
+        }
+
+        return mirror ? $"mirror:{name}" : name;
+    }
+
+    private static bool IdsMatch(string playerId, string realId, string? otherId) =>
+        string.Equals(playerId, otherId, StringComparison.Ordinal)
+        || string.Equals(realId, otherId, StringComparison.Ordinal);
 
     private static double Percentile(IReadOnlyList<double> sorted, double p)
     {

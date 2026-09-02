@@ -107,11 +107,21 @@ internal static class TriggerLabels
 internal enum ThresholdSliderMode
 {
     Percent,
+    Blood,
     Seconds
 }
 
 internal sealed class ThresholdSlider : HorizontalStackPanel
 {
+    public const float MinSeconds = 2f;
+    public const float MaxSeconds = 60f;
+    public const float MinBlood = 0.05f;
+    public const float MaxBlood = 1f;
+
+    private const float MinBloodPercent = MinBlood * 100f;
+    private const float MaxBloodPercent = MaxBlood * 100f;
+    private const float BloodPercentStep = 5f;
+
     private readonly Label _caption;
     private readonly HorizontalSlider _slider;
     private readonly Label _valueLabel;
@@ -143,6 +153,7 @@ internal sealed class ThresholdSlider : HorizontalStackPanel
         SetProportionType(_slider, ProportionType.Fill);
         _slider.ValueChangedByUser += (_, _) =>
         {
+            SnapValue();
             RefreshValueLabel();
             ValueChanged?.Invoke(StoredValue);
         };
@@ -159,24 +170,33 @@ internal sealed class ThresholdSlider : HorizontalStackPanel
         Configure(mode, value);
     }
 
-    public float StoredValue => _mode == ThresholdSliderMode.Percent
-        ? Math.Clamp(_slider.Value / 100f, 0f, 1f)
-        : Math.Max(0f, _slider.Value);
+    public float StoredValue => _mode switch
+    {
+        ThresholdSliderMode.Blood => Math.Clamp(_slider.Value / 100f, MinBlood, MaxBlood),
+        ThresholdSliderMode.Seconds => Math.Clamp(_slider.Value, MinSeconds, MaxSeconds),
+        _ => Math.Clamp(_slider.Value / 100f, 0f, 1f)
+    };
 
     public void Configure(ThresholdSliderMode mode, float value)
     {
         _mode = mode;
-        if (mode == ThresholdSliderMode.Percent)
+        switch (mode)
         {
-            _slider.Minimum = 0;
-            _slider.Maximum = 100;
-            _slider.Value = Math.Clamp(value * 100f, 0f, 100f);
-        }
-        else
-        {
-            _slider.Minimum = 0;
-            _slider.Maximum = 60;
-            _slider.Value = Math.Clamp(value, 0f, 60f);
+            case ThresholdSliderMode.Blood:
+                _slider.Minimum = MinBloodPercent;
+                _slider.Maximum = MaxBloodPercent;
+                _slider.Value = SnapToStep(value * 100f, MinBloodPercent, MaxBloodPercent, BloodPercentStep);
+                break;
+            case ThresholdSliderMode.Seconds:
+                _slider.Minimum = MinSeconds;
+                _slider.Maximum = MaxSeconds;
+                _slider.Value = SnapToStep(value, MinSeconds, MaxSeconds, 1f);
+                break;
+            default:
+                _slider.Minimum = 0;
+                _slider.Maximum = 100;
+                _slider.Value = Math.Clamp(value * 100f, 0f, 100f);
+                break;
         }
 
         RefreshValueLabel();
@@ -189,9 +209,29 @@ internal sealed class ThresholdSlider : HorizontalStackPanel
 
     private void RefreshValueLabel()
     {
-        _valueLabel.Text = _mode == ThresholdSliderMode.Percent
-            ? TriggerLabels.Percent(StoredValue)
-            : TriggerLabels.Seconds(StoredValue);
+        _valueLabel.Text = _mode == ThresholdSliderMode.Seconds
+            ? TriggerLabels.Seconds(StoredValue)
+            : TriggerLabels.Percent(StoredValue);
+    }
+
+    private void SnapValue()
+    {
+        var snapped = _mode switch
+        {
+            ThresholdSliderMode.Blood => SnapToStep(_slider.Value, MinBloodPercent, MaxBloodPercent, BloodPercentStep),
+            ThresholdSliderMode.Seconds => SnapToStep(_slider.Value, MinSeconds, MaxSeconds, 1f),
+            _ => _slider.Value
+        };
+
+        if (Math.Abs(_slider.Value - snapped) > 0.001f)
+        {
+            _slider.Value = snapped;
+        }
+    }
+
+    private static float SnapToStep(float value, float min, float max, float step)
+    {
+        return Math.Clamp(MathF.Round(value / step) * step, min, max);
     }
 }
 

@@ -79,7 +79,11 @@ public class ZoneGui : BaseGui
                 }
                 break;
             case ZoneState.Combat:
-                _combatScreen = new CombatScreen(this, _context);
+                _combatScreen = new CombatScreen(this, _context)
+                {
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch
+                };
                 (Desktop.Root as Panel)!.Widgets.Add(_combatScreen);
                 break;
             case ZoneState.CombatResults:

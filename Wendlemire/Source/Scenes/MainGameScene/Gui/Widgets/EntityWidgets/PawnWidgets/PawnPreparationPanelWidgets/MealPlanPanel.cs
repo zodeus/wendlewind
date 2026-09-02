@@ -165,9 +165,7 @@ public sealed class MealPlanPanel : PrepCard, IUpdatable
                 ? MealPlan.NextLockedSlotAchievement(_pawn.Context.Achievements)
                 : null,
             "Complete food achievements to unlock this slot.");
-        var locked = new Panel();
-        locked.WithTooltip(tip.title, tip.description);
-        return PrepSlots.Frame(locked);
+        return LockedSlotChrome.Slot(tip.title, tip.description);
     }
 
     private int SlotsPerRow()

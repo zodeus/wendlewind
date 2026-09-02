@@ -60,6 +60,19 @@ public class PawnRenderWidget : Panel, IDisposable
     public PawnRenderer Renderer => _renderer;
 
     /// <summary>
+    /// Mirror the portrait horizontally (opponent facing the player).
+    /// </summary>
+    public bool FlipHorizontal
+    {
+        get => _renderer.FlipHorizontal;
+        set
+        {
+            _renderer.FlipHorizontal = value;
+            _renderArea.FlipHorizontal = value;
+        }
+    }
+
+    /// <summary>
     /// Provides access to the damage text renderer for adding floating damage numbers.
     /// </summary>
     public BodyPartDamageTextRenderer DamageTextRenderer => _renderArea.DamageTextRenderer;

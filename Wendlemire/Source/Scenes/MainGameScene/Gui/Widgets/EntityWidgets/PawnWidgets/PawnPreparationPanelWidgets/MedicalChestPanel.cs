@@ -14,8 +14,6 @@ public sealed class MedicalChestPanel : VerticalStackPanel, IUpdatable
     private readonly List<MedicalSlotCard> _editors = [];
     private string _signature = "";
 
-    public int CardHeight => _slots.Widgets.Count > 0 ? _slots.Widgets[0].Bounds.Height : 0;
-
     public MedicalChestPanel(BaseGui gui, Pawn pawn)
     {
         _gui = gui;
@@ -41,7 +39,10 @@ public sealed class MedicalChestPanel : VerticalStackPanel, IUpdatable
                     ? "Click to arm another slot"
                     : "Click to arm",
             IsArmed,
-            _ => _pawn.MedicalChest.Slots.Count >= _pawn.MedicalChest.Capacity);
+            _ => _pawn.MedicalChest.Slots.Count >= _pawn.MedicalChest.Capacity,
+            pagedRow: true,
+            centerRow: true,
+            rowCells: MedicalChest.MaxSlots);
 
         Widgets.Add(new MedicalInventoryCard(_inventory, _countLabel));
 
@@ -189,6 +190,67 @@ internal static class SlotUnlockTooltip
     }
 }
 
+internal static class LockedSlotChrome
+{
+    private static Texture2D? _icon;
+    private static bool _tried;
+
+    public static Image Icon(int size)
+    {
+        var image = new Image
+        {
+            Width = size,
+            Height = size,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            Opacity = 0.25f
+        };
+        var texture = Texture();
+        if (texture != null)
+        {
+            image.Background = new TextureRegion(texture);
+        }
+
+        return image;
+    }
+
+    public static Panel Card(string title, string? description, int iconSize = 96)
+    {
+        var card = new Panel();
+        MedicalSlotChrome.Apply(card);
+        card.Widgets.Add(Icon(iconSize));
+        card.WithTooltip(title, description);
+        return card;
+    }
+
+    public static Panel Slot(string title, string? description)
+    {
+        var icon = Icon(PrepSlots.Size - PrepSlots.Pad * 2);
+        icon.WithTooltip(title, description);
+        return PrepSlots.Frame(icon);
+    }
+
+    private static Texture2D? Texture()
+    {
+        if (_tried)
+        {
+            return _icon;
+        }
+
+        _tried = true;
+        try
+        {
+            _icon = EntityVisuals.LoadPremultiplied("UI/Icons/icon-lock");
+        }
+        catch
+        {
+            _icon = null;
+        }
+
+        return _icon;
+    }
+}
+
 internal static class MedicalSlotChrome
 {
     public static readonly Color UnusedAccent = new(220, 160, 80);
@@ -246,35 +308,7 @@ internal static class MedicalSlotChrome
 
     public static Panel Locked(string title, string? description)
     {
-        var card = new Panel();
-        Apply(card);
-        var icon = TryLoadLockIcon();
-        if (icon != null)
-        {
-            card.Widgets.Add(new Image
-            {
-                Background = new ColoredIcon(new TextureRegion(icon), new Color(88, 78, 66)),
-                Width = 128,
-                Height = 128,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
-            });
-        }
-
-        card.WithTooltip(title, description);
-        return card;
-    }
-
-    private static Texture2D? TryLoadLockIcon()
-    {
-        try
-        {
-            return EntityVisuals.LoadPremultiplied("UI/Icons/icon-lock");
-        }
-        catch
-        {
-            return null;
-        }
+        return LockedSlotChrome.Card(title, description);
     }
 }
 
@@ -543,9 +577,13 @@ internal sealed class MedicalSlotCard : Panel, IUpdatable
         switch (_slot.Trigger.Type)
         {
             case MedicalTriggerType.AfterSeconds:
-                _slot.Trigger.AfterSeconds = Math.Max(0, value);
+                _slot.Trigger.AfterSeconds = Math.Clamp(
+                    value, ThresholdSlider.MinSeconds, ThresholdSlider.MaxSeconds);
                 break;
             case MedicalTriggerType.SelfBloodBelow:
+                _slot.Trigger.Threshold = Math.Clamp(
+                    value, ThresholdSlider.MinBlood, ThresholdSlider.MaxBlood);
+                break;
             case MedicalTriggerType.SelfPartsDamaged:
                 _slot.Trigger.Threshold = Math.Clamp(value, 0, 1);
                 break;
@@ -574,6 +612,11 @@ internal sealed class MedicalSlotCard : Panel, IUpdatable
         {
             _slider.SetCaption(SliderCaption(_slot.Trigger.Type));
             _slider.Configure(SliderMode(_slot.Trigger.Type), CurrentSliderValue(_slot.Trigger));
+            if (_slot.Trigger.Type is MedicalTriggerType.AfterSeconds
+                or MedicalTriggerType.SelfBloodBelow)
+            {
+                ApplyValue(_slider.StoredValue);
+            }
         }
 
         if (_partDropdown != null)
@@ -630,9 +673,12 @@ internal sealed class MedicalSlotCard : Panel, IUpdatable
 
     private static ThresholdSliderMode SliderMode(MedicalTriggerType type)
     {
-        return type == MedicalTriggerType.AfterSeconds
-            ? ThresholdSliderMode.Seconds
-            : ThresholdSliderMode.Percent;
+        return type switch
+        {
+            MedicalTriggerType.AfterSeconds => ThresholdSliderMode.Seconds,
+            MedicalTriggerType.SelfBloodBelow => ThresholdSliderMode.Blood,
+            _ => ThresholdSliderMode.Percent
+        };
     }
 
     private static string SliderCaption(MedicalTriggerType type)

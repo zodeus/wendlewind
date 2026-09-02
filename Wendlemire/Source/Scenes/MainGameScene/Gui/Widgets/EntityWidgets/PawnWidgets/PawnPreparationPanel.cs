@@ -68,7 +68,7 @@ public class PawnPreparationPanel : Panel, IUpdatable
             VerticalAlignment = VerticalAlignment.Stretch
         };
         lastColumn.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
-        lastColumn.RowsProportions.Add(new Proportion(ProportionType.Auto));
+        lastColumn.RowsProportions.Add(new Proportion(ProportionType.Pixels, PotionsPanel.PanelHeight));
         lastColumn.RowsProportions.Add(new Proportion(ProportionType.Part, 1f));
         lastColumn.RowsProportions.Add(new Proportion(ProportionType.Part, 1f));
         Place(lastColumn, _potionsPanel, 0, 0);
@@ -162,7 +162,6 @@ public class PawnPreparationPanel : Panel, IUpdatable
         _incenseChargesPanel.Update();
         _medicalChestPanel.Update();
         _potionsPanel.Update();
-        _potionsPanel.SyncCardHeight(_medicalChestPanel.CardHeight);
         _trinketsPanel.Update();
     }
 }

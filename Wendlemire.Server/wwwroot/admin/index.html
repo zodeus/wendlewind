@@ -455,6 +455,12 @@
       return id.length > 12 ? id.slice(0, 8) + "…" : id;
     }
 
+    function namedId(id, name) {
+      const short = shortId(id);
+      if (!name) return `<span class="id">${esc(short)}</span>`;
+      return `${esc(name)}<div class="id">${esc(short)}</div>`;
+    }
+
     function when(value) {
       if (!value) return "—";
       const date = new Date(value);
@@ -789,6 +795,13 @@
       return `<div>${esc(name)}</div><div class="id">${items.slice(0, 6).map(esc).join(", ")}${items.length > 6 ? "…" : ""}</div>`;
     }
 
+    function winnerName(fight) {
+      if (fight.winnerName) return fight.winnerName;
+      if (fight.winnerPlayerId === fight.attacker?.playerId) return fight.attacker.pawnName;
+      if (fight.winnerPlayerId === fight.defender?.playerId) return fight.defender.pawnName;
+      return "";
+    }
+
     function runView(run) {
       if (!run) return `<p class="muted">Loading…</p>`;
       const fights = run.fights || [];
@@ -821,7 +834,7 @@
                     <td>${f.round}</td>
                     <td>${buildList(f.attacker)}</td>
                     <td>${buildList(f.defender)}</td>
-                    <td>${esc(shortId(f.winnerPlayerId))}</td>
+                    <td>${namedId(f.winnerPlayerId, winnerName(f))}</td>
                     <td>${f.ticks}</td>
                     <td>${esc(f.causeOfDeath || "—")}</td>
                     <td>${esc(f.version || "—")}</td>
@@ -836,15 +849,15 @@
 
     function fightsView(rows) {
       if (!rows) return `<p class="muted">Loading…</p>`;
-      const filtered = sortRows(filterRows(rows, ["matchId", "playerId", "runId", "causeOfDeath", "killingWeapon"]), "durationSeconds");
+      const filtered = sortRows(filterRows(rows, ["matchId", "playerId", "playerName", "runId", "winnerPlayerId", "winnerName", "causeOfDeath", "killingWeapon"]), "durationSeconds");
       if (!filtered.length) return searchBox("Search fights") + `<p class="empty">No fights.</p>`;
       return searchBox("Search fights") + `
         <table>
           <thead><tr>
             ${header("round", "Round")}
             ${header("durationSeconds", "Duration")}
-            ${header("playerId", "Player")}
-            ${header("winnerPlayerId", "Winner")}
+            ${header("playerName", "Player")}
+            ${header("winnerName", "Winner")}
             ${header("causeOfDeath", "Cause")}
             ${header("killingWeapon", "Kill")}
             ${header("version", "Ver")}
@@ -856,8 +869,8 @@
               <tr class="clickable" data-href="#/fights/log/${esc(f.matchId)}">
                 <td>${f.round}</td>
                 <td>${(f.durationSeconds ?? 0).toFixed(1)}s ${f.inTargetBand ? `<span class="good">●</span>` : ""}</td>
-                <td class="id">${esc(shortId(f.playerId))}</td>
-                <td class="id">${esc(shortId(f.winnerPlayerId))}</td>
+                <td>${namedId(f.playerId, f.playerName)}</td>
+                <td>${namedId(f.winnerPlayerId, f.winnerName)}</td>
                 <td>${esc(f.causeOfDeath || "—")}</td>
                 <td>${esc([f.killingWeapon, f.killingManeuver].filter(Boolean).join(" / ") || "—")}</td>
                 <td>${esc(f.version || "—")}</td>
@@ -893,7 +906,7 @@
 
     function poolView(pool) {
       if (!pool) return `<p class="muted">Loading…</p>`;
-      const builds = sortRows(filterRows(pool.builds || [], ["playerId", "pawnName", "pawnDefMoniker", "buildId", "stanceMoniker"]), "submittedAt");
+      const builds = sortRows(filterRows(pool.builds || [], ["playerId", "username", "pawnName", "pawnDefMoniker", "buildId", "stanceMoniker"]), "submittedAt");
       const rounds = (pool.rounds || []).map((r) => `<span class="chip">R${r.round}: ${r.builds}</span>`).join("");
       return `
         <p class="muted">${pool.count} builds in the matchmaking pool.</p>
@@ -904,7 +917,7 @@
             <thead><tr>
               ${header("round", "Round")}
               ${header("pawnName", "Pawn")}
-              ${header("playerId", "Player")}
+              ${header("username", "Player")}
               ${header("stanceMoniker", "Stance")}
               ${header("submittedAt", "Submitted")}
             </tr></thead>
@@ -913,7 +926,7 @@
                 <tr>
                   <td>${b.round}</td>
                   <td>${esc(b.pawnName || b.pawnDefMoniker)}<div class="id">${(b.entityDefMonikers || []).slice(0, 5).map(esc).join(", ")}</div></td>
-                  <td><a href="#/players/${esc(b.playerId)}">${esc(shortId(b.playerId))}</a></td>
+                  <td><a href="#/players/${esc(b.playerId)}">${esc(b.username || b.pawnName || shortId(b.playerId))}</a><div class="id">${esc(shortId(b.playerId))}</div></td>
                   <td>${esc(b.stanceMoniker || "—")}</td>
                   <td>${when(b.submittedAt)}</td>
                 </tr>`).join("")}

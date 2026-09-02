@@ -13,6 +13,7 @@ public sealed record BuildSnapshot
     public int Seed { get; init; }
     public string PawnDefMoniker { get; init; } = "HumanA";
     public string? PawnName { get; init; }
+    public string? Username { get; init; }
     public DateTimeOffset? SubmittedAt { get; init; }
     public int Round { get; init; }
     public int Rating { get; init; }

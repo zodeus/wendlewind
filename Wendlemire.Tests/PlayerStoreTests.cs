@@ -329,6 +329,7 @@ public class PlayerStoreTests
             var rows = service.ListFights();
             Assert.Single(rows);
             Assert.Equal(result.MatchId, rows[0].MatchId);
+            Assert.Equal("Alice", rows[0].PlayerName);
             Assert.Equal(result.Ticks / 60.0, rows[0].DurationSeconds);
             var summary = service.Summarize();
             Assert.Equal(1, summary.Count);
@@ -416,6 +417,52 @@ public class PlayerStoreTests
             Assert.False(finished!.RankApplied);
             Assert.Equal(ArenaRank.StartingRating, store.GetProfile("alice")!.Rating);
             Assert.Equal(0, store.GetProfile("alice")!.RatedRuns);
+        }
+        finally
+        {
+            Directory.Delete(dir, true);
+        }
+    }
+
+    [Fact]
+    public void FightRowsIncludeUsernamesForPlayerAndWinner()
+    {
+        var dir = Path.Combine(Path.GetTempPath(), $"ww-data-{Guid.NewGuid():N}");
+        try
+        {
+            var store = new PlayerStore(dir);
+            store.GetOrCreateProfile("alice", "Alice", "lunch_box77");
+            store.GetOrCreateProfile("bob", "Bob", "ButtersFROMNutters");
+            store.StartArena("alice", "Alice", 1);
+            store.AppendFight("alice", new ArenaFightRecord
+            {
+                MatchId = "named-fight",
+                Round = 2,
+                Attacker = BuildTemplates.TankRegen() with { PlayerId = "alice", PawnName = "Alice" },
+                Defender = BuildTemplates.AcidRusher() with { PlayerId = "bob", PawnName = "Bob" },
+                EncounterSeed = 1,
+                WinnerPlayerId = "bob",
+                Ticks = 600,
+                FoughtAt = DateTimeOffset.UtcNow
+            });
+            store.AppendFight("alice", new ArenaFightRecord
+            {
+                MatchId = "mirror-named-fight",
+                Round = 3,
+                Attacker = BuildTemplates.TankRegen() with { PlayerId = "alice", PawnName = "Alice" },
+                Defender = BuildTemplates.TankRegen() with { PlayerId = "mirror:alice", PawnName = "Alice" },
+                EncounterSeed = 2,
+                WinnerPlayerId = "mirror:alice",
+                Ticks = 900,
+                FoughtAt = DateTimeOffset.UtcNow
+            });
+
+            var rows = new FightAnalyticsService(store).ListFights()
+                .ToDictionary(row => row.MatchId);
+            Assert.Equal("lunch_box77", rows["named-fight"].PlayerName);
+            Assert.Equal("ButtersFROMNutters", rows["named-fight"].WinnerName);
+            Assert.Equal("lunch_box77", rows["mirror-named-fight"].PlayerName);
+            Assert.Equal("mirror:lunch_box77", rows["mirror-named-fight"].WinnerName);
         }
         finally
         {

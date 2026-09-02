@@ -1,4 +1,4 @@
-﻿﻿using Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+﻿using Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
 namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.MiscWidgets;
 
@@ -31,6 +31,7 @@ public sealed class GameHud : HorizontalStackPanel
         {
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Center,
+            Margin = new Thickness(0, 0, 12, 0),
         };
 
         _programStats = new ProgramStatsPanel
@@ -86,14 +87,17 @@ public sealed class GameHud : HorizontalStackPanel
 
         var achievementsBar = new AchievementBar()
         {
-            HorizontalAlignment = HorizontalAlignment.Stretch,
+            HorizontalAlignment = HorizontalAlignment.Right,
             VerticalAlignment = VerticalAlignment.Center
         };
+        var rightSpacer = new Widget();
+        rightPanel.Widgets.Add(rightSpacer);
         rightPanel.Widgets.Add(achievementsBar);
         rightPanel.Widgets.Add(_programStats);
         SetProportionType(rightPanel, ProportionType.Fill);
-        SetProportionType(achievementsBar, ProportionType.Fill);
+        SetProportionType(rightSpacer, ProportionType.Fill);
         SetProportionType(_programStats, ProportionType.Auto);
+        SetProportionType(achievementsBar, ProportionType.Auto);
 
         Widgets.Add(leftPanel);
         if (center != null)

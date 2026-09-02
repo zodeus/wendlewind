@@ -103,53 +103,45 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
             grid.ColumnsProportions.Add(new Proportion(ProportionType.Pixels, CellSize));
         }
 
-        var foodCap = Math.Max(1, pawn.MealPlan.Capacity);
-        var incenseCap = Math.Max(1, pawn.IncenseCapacity);
-        var rowCount = Math.Max(Math.Max(pawn.MedicalChest.Capacity, foodCap), incenseCap);
-        for (var i = 0; i < rowCount; i++)
-        {
-            grid.RowsProportions.Add(new Proportion(ProportionType.Pixels, CellSize));
-        }
-
         var medicalButtons = _medicalBar.Widgets.ToList();
         foreach (var button in medicalButtons)
         {
             button.RemoveFromParent();
         }
 
+        var foods = DisplayedFoodDefs();
+        var incense = pawn.ActiveIncense;
+        var rowCount = Math.Max(Math.Max(medicalButtons.Count, foods.Count), incense.Count);
+        for (var i = 0; i < rowCount; i++)
+        {
+            grid.RowsProportions.Add(new Proportion(ProportionType.Pixels, CellSize));
+        }
+
         var medicalCol = mirror ? 2 : 0;
         var foodCol = 1;
         var incenseCol = mirror ? 0 : 2;
 
-        for (var i = 0; i < pawn.MedicalChest.Capacity; i++)
+        for (var i = 0; i < medicalButtons.Count; i++)
         {
-            Place(grid, i < medicalButtons.Count ? Cell(medicalButtons[i], clip: false) : EmptyCell(), i, medicalCol);
+            Place(grid, Cell(medicalButtons[i], clip: false), i, medicalCol);
         }
 
-        var foods = DisplayedFoodDefs();
-        for (var i = 0; i < foodCap; i++)
+        for (var i = 0; i < foods.Count && i < _foodSlots.Length; i++)
         {
-            var cell = i < foods.Count ? Cell(FoodIcon(foods[i])) : EmptyCell();
+            var cell = Cell(FoodIcon(foods[i]));
             _foodSlots[i] = cell;
             Place(grid, cell, i, foodCol);
         }
 
-        var incense = pawn.ActiveIncense;
-        for (var i = 0; i < incenseCap; i++)
+        for (var i = 0; i < incense.Count && i < _incenseSlots.Length; i++)
         {
-            var view = new IncenseSlotView();
+            var view = new IncenseSlotView
+            {
+                Incense = incense[i],
+                SlotIndex = i
+            };
+            view.Cell = Cell(CreateIncenseIcon(incense[i], view), clip: false);
             _incenseSlots[i] = view;
-            if (i < incense.Count)
-            {
-                view.Incense = incense[i];
-                view.SlotIndex = i;
-                view.Cell = Cell(CreateIncenseIcon(incense[i], view), clip: false);
-            }
-            else
-            {
-                view.Cell = EmptyCell();
-            }
-
             Place(grid, view.Cell, i, incenseCol);
         }
 
@@ -246,8 +238,7 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
     private void RefreshFoodSlots()
     {
         var foods = DisplayedFoodDefs();
-        var foodCap = Math.Min(_foodSlots.Length, Math.Max(1, Pawn.MealPlan.Capacity));
-        for (var i = 0; i < foodCap; i++)
+        for (var i = 0; i < _foodSlots.Length; i++)
         {
             var cell = _foodSlots[i];
             if (cell == null)
@@ -255,8 +246,16 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
                 continue;
             }
 
-            cell.Widgets.Clear();
-            cell.Widgets.Add(i < foods.Count ? FoodIcon(foods[i]) : new Panel());
+            if (i < foods.Count)
+            {
+                cell.Visible = true;
+                cell.Widgets.Clear();
+                cell.Widgets.Add(FoodIcon(foods[i]));
+            }
+            else
+            {
+                cell.Visible = false;
+            }
         }
     }
 
@@ -387,11 +386,6 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
             Padding = new Thickness(CellPad),
             Widgets = { content }
         };
-    }
-
-    private static Panel EmptyCell()
-    {
-        return Cell(new Panel());
     }
 
     private sealed class IncenseSlotView

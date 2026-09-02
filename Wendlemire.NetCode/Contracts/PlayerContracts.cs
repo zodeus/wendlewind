@@ -127,11 +127,13 @@ public sealed record FightAnalyticsRow
 {
     public required string MatchId { get; init; }
     public required string PlayerId { get; init; }
+    public string PlayerName { get; init; } = "";
     public required string RunId { get; init; }
     public int Round { get; init; }
     public double DurationSeconds { get; init; }
     public bool InTargetBand { get; init; }
     public required string WinnerPlayerId { get; init; }
+    public string WinnerName { get; init; } = "";
     public string? CauseOfDeath { get; init; }
     public double AttackerDamagePerSecond { get; init; }
     public double DefenderDamagePerSecond { get; init; }

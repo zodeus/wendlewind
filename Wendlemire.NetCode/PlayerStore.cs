@@ -199,6 +199,25 @@ public sealed class PlayerStore
         }
     }
 
+    public IReadOnlyDictionary<string, string> PlayerLabels()
+    {
+        lock (_gate)
+        {
+            var labels = new Dictionary<string, string>(StringComparer.Ordinal);
+            foreach (var playerId in ListPlayerIdsUnlocked())
+            {
+                var profile = TryRead(ProfilePath(playerId), NetCodeJsonContext.Default.PlayerProfileRecord);
+                var name = FirstNonEmpty(profile?.Username, profile?.DisplayName);
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    labels[playerId] = name;
+                }
+            }
+
+            return labels;
+        }
+    }
+
     public AdminPlayerDetail? GetPlayerDetail(string playerId)
     {
         lock (_gate)
@@ -827,6 +846,19 @@ public sealed class PlayerStore
         }
 
         return id;
+    }
+
+    private static string? FirstNonEmpty(params string?[] values)
+    {
+        foreach (var value in values)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                return value;
+            }
+        }
+
+        return null;
     }
 
     private static T? TryRead<T>(string path, JsonTypeInfo<T> typeInfo)

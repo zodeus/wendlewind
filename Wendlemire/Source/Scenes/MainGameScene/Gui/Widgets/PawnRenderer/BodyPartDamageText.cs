@@ -152,13 +152,14 @@ public class BodyPartDamageTextRenderer(IBodyPartLayout? layout, int nativeSize)
     /// <param name="context">The render context.</param>
     /// <param name="widgetBounds">The bounds of the widget in screen coordinates.</param>
     /// <param name="layoutScale">Scale from native coordinates to widget coordinates.</param>
-    public void Render(RenderContext context, Rectangle widgetBounds, float layoutScale)
+    public void Render(RenderContext context, Rectangle widgetBounds, float layoutScale, bool flipHorizontal = false)
     {
         foreach (var text in _texts)
         {
             var motion = text.Style.Evaluate(text.ElapsedTime, text.Duration);
+            var nativeX = flipHorizontal ? nativeSize - text.Position.X : text.Position.X;
             var screenPos = new Vector2(
-                widgetBounds.X + text.Position.X * layoutScale,
+                widgetBounds.X + nativeX * layoutScale,
                 widgetBounds.Y + text.Position.Y * layoutScale
             ) + motion.Offset;
 

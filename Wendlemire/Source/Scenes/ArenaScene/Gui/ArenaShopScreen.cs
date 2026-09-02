@@ -1,3 +1,4 @@
+using FontStashSharp.RichText;
 using Wendlemire.Scenes.MainGameScene.Gui;
 using Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 using Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.TrinketWidgets;
@@ -457,7 +458,10 @@ public sealed class ArenaShopScreen : Grid
         {
             Text = offer.DisplayLabel,
             TextColor = TitleColor,
-            HorizontalAlignment = HorizontalAlignment.Center
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            TextAlign = TextHorizontalAlignment.Center,
+            SingleLine = true,
+            AutoEllipsisMethod = AutoEllipsisMethod.Word
         };
 
         var body = new VerticalStackPanel
@@ -487,6 +491,7 @@ public sealed class ArenaShopScreen : Grid
             Padding = new Thickness(8),
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Stretch,
+            ClipToBounds = true,
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.SmallFrame]
         };
         card.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
@@ -628,7 +633,10 @@ public sealed class ArenaShopScreen : Grid
         {
             Text = item.LabelWithStackSize,
             TextColor = TitleColor,
-            VerticalAlignment = VerticalAlignment.Center
+            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            SingleLine = true,
+            AutoEllipsisMethod = AutoEllipsisMethod.Word
         };
         var price = new Label(BaseContent.Styles.Label.Small)
         {

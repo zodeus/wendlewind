@@ -17,8 +17,14 @@ internal sealed class PrepItemGrid : VerticalStackPanel, IUpdatable
     private readonly Func<Item, bool>? _isHighlighted;
     private readonly Func<Item, bool>? _isDisabled;
     private readonly bool _pagedRow;
+    private readonly bool _centerRow;
+    private readonly int _rowCells;
     private readonly Dictionary<Item, PrepItemButton> _buttons = [];
-    private readonly VerticalStackPanel _rows = new() { Spacing = CellSpacing };
+    private readonly VerticalStackPanel _rows = new()
+    {
+        Spacing = CellSpacing,
+        HorizontalAlignment = HorizontalAlignment.Stretch
+    };
     private readonly Label _empty;
     private string _itemSignature = "";
     private int _iconsPerRow = -1;
@@ -32,7 +38,9 @@ internal sealed class PrepItemGrid : VerticalStackPanel, IUpdatable
         Func<Item, string> tooltip,
         Func<Item, bool>? isHighlighted = null,
         Func<Item, bool>? isDisabled = null,
-        bool pagedRow = false)
+        bool pagedRow = false,
+        bool centerRow = false,
+        int rowCells = RowCells)
     {
         _gui = gui;
         _inventory = inventory;
@@ -42,6 +50,8 @@ internal sealed class PrepItemGrid : VerticalStackPanel, IUpdatable
         _isHighlighted = isHighlighted;
         _isDisabled = isDisabled;
         _pagedRow = pagedRow;
+        _centerRow = centerRow;
+        _rowCells = Math.Max(1, rowCells);
         Spacing = 4;
         HorizontalAlignment = HorizontalAlignment.Stretch;
 
@@ -75,14 +85,19 @@ internal sealed class PrepItemGrid : VerticalStackPanel, IUpdatable
 
     private int IconsPerRow()
     {
+        if (_pagedRow && _centerRow)
+        {
+            return _rowCells;
+        }
+
         var width = Math.Max(ActualBounds.Width, Bounds.Width);
         if (width <= 0)
         {
-            return _pagedRow ? RowCells : 1;
+            return _pagedRow ? _rowCells : 1;
         }
 
         var fitted = Math.Max(1, (width + CellSpacing) / (CellSize + CellSpacing));
-        return _pagedRow ? Math.Min(fitted, RowCells) : fitted;
+        return _pagedRow ? Math.Min(fitted, _rowCells) : fitted;
     }
 
     private List<Item> CurrentItems()
@@ -140,7 +155,11 @@ internal sealed class PrepItemGrid : VerticalStackPanel, IUpdatable
             _page = 0;
         }
 
-        var row = new HorizontalStackPanel { Spacing = CellSpacing };
+        var row = new HorizontalStackPanel
+        {
+            Spacing = CellSpacing,
+            HorizontalAlignment = _centerRow ? HorizontalAlignment.Center : HorizontalAlignment.Left
+        };
         _rows.Widgets.Add(row);
         var start = _page * visible;
 

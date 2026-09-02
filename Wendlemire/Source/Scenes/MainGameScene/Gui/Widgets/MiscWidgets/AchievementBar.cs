@@ -18,7 +18,7 @@ public sealed class AchievementBar : HorizontalStackPanel, IDisposable
     public AchievementBar()
     {
         Spacing = 8;
-        HorizontalAlignment = HorizontalAlignment.Stretch;
+        HorizontalAlignment = HorizontalAlignment.Right;
         VerticalAlignment = VerticalAlignment.Top;
 
         // Add icons for any unacknowledged achievements (persists across screen transitions)

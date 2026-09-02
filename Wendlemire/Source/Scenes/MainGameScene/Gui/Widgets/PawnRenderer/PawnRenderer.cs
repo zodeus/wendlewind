@@ -73,6 +73,7 @@ public class PawnRenderer : IDisposable
     private SpriteBatch? _spriteBatch;
     private readonly int _renderSize;
     private readonly List<(BodyPart part, BodyPartRenderInfo info)> _renderList = new();
+    private bool _flipHorizontal;
     
     /// <summary>
     /// The rendered texture containing the composited body parts and effects.
@@ -110,6 +111,21 @@ public class PawnRenderer : IDisposable
     /// live body values (e.g. prep-screen meal Body Scale before combat applies it).
     /// </summary>
     public Func<(int Current, int Max)>? HealthOverride { get; set; }
+
+    /// <summary>
+    /// When true, the body (including equipped weapons) is mirrored horizontally
+    /// so an opponent faces the player. Health text stays unflipped.
+    /// </summary>
+    public bool FlipHorizontal
+    {
+        get => _flipHorizontal;
+        set
+        {
+            if (_flipHorizontal == value) return;
+            _flipHorizontal = value;
+            _needsComposite = true;
+        }
+    }
 
     public PawnRenderer(Pawn pawn, int renderSize = 512)
     {
@@ -176,7 +192,8 @@ public class PawnRenderer : IDisposable
             _healthTextSize = Vector2.Zero;
         }
 
-        _needsComposite = _bodyDirty
+        _needsComposite = _needsComposite
+            || _bodyDirty
             || !_hasComposited
             || healthChanged
             || _bloodSpurtRenderer.HasActiveSpurts
@@ -301,14 +318,20 @@ public class PawnRenderer : IDisposable
         
         _spriteBatch!.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp);
         
-        // Draw cached body (single texture blit - very cheap)
+        // Draw cached body (single texture blit - very cheap). Flip so opponents face the player.
+        var bodyEffects = _flipHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
         _spriteBatch.Draw(
-            _bodyRenderTarget, 
-            new Rectangle(0, 0, _renderSize, _renderSize), 
-            Color.White);
+            _bodyRenderTarget,
+            new Rectangle(0, 0, _renderSize, _renderSize),
+            null,
+            Color.White,
+            0f,
+            Vector2.Zero,
+            bodyEffects,
+            0f);
         
         // Render blood spurts from open, unsealed sockets
-        _bloodSpurtRenderer.Render(_spriteBatch, layoutScale);
+        _bloodSpurtRenderer.Render(_spriteBatch, layoutScale, _flipHorizontal, _renderSize);
         
         // Render weather effects overlay
         _weatherRenderer.Render(_spriteBatch, layoutScale);

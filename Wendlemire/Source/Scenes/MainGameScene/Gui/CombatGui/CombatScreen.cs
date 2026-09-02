@@ -41,6 +41,8 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         _onFinished = onFinished;
         Encounter.StateChangedAction += CombatStateChangedAction;
         Encounter.CombatHandler!.CombatEventRecorded += OnCombatEvent;
+        HorizontalAlignment = HorizontalAlignment.Stretch;
+        VerticalAlignment = VerticalAlignment.Stretch;
         Margin = new Thickness(0, 5, 0, 0);
 
         _playerPartyPanel = new CombatPartyPanel(gui, Encounter, Encounter.PlayerPawns, HorizontalAlignment.Right);
@@ -222,12 +224,14 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         {
             Margin = new Thickness(30, 0, 30, 30),
             HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Stretch,
             ClipToBounds = false,
             RowSpacing = 8,
             ColumnSpacing = 17,
-            DefaultRowProportion = Proportion.Auto,
             DefaultColumnProportion = Proportion.Auto,
         };
+        grid.RowsProportions.Add(Proportion.Auto);
+        grid.RowsProportions.Add(new Proportion(ProportionType.Fill));
         grid.Widgets.Add(_playerPartyPanel);
         grid.Widgets.Add(_opponentPartyPanel);
         grid.Widgets.Add(_pawnBodyView);
@@ -237,6 +241,8 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
         Widgets.Add(_gameHud);
         Widgets.Add(grid);
+        SetProportionType(_gameHud, ProportionType.Auto);
+        SetProportionType(grid, ProportionType.Fill);
 
         _floaterRouter = new CombatFloaterRouter(
             _playerPartyPanel,
@@ -523,7 +529,6 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         _opponentLoadout.Update();
         _incenseSmokeFx.Sync(CollectIncenseBurns());
         _incenseSmokeFx.Update(deltaTime);
-        SyncBodyPanelHeights();
     }
 
     private List<CombatIncenseSmokeFx.BurnSource> CollectIncenseBurns()
@@ -559,25 +564,6 @@ public class CombatScreen : VerticalStackPanel, IDisposable
                 portrait,
                 new Vector2(portrait.Bounds.Width * 0.5f, portrait.Bounds.Height * 0.65f),
                 CombatIncenseSmokeFx.TintFor(incense)));
-        }
-    }
-
-    private void SyncBodyPanelHeights()
-    {
-        var height = Math.Max(_playerCenter.ActualBounds.Height, _opponentCenter.ActualBounds.Height);
-        if (height <= 0)
-        {
-            return;
-        }
-
-        if (_pawnBodyView.Height != height)
-        {
-            _pawnBodyView.Height = height;
-        }
-
-        if (_enemyPawnBodyView.Height != height)
-        {
-            _enemyPawnBodyView.Height = height;
         }
     }
 

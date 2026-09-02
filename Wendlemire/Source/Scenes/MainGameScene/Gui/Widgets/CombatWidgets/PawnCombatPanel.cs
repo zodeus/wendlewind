@@ -119,6 +119,10 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
         {
             _bodyWidget.HorizontalAlignment = HorizontalAlignment.Right;
         }
+        else
+        {
+            _bodyWidget.FlipHorizontal = true;
+        }
 
         if (_encounter.Weather != null)
         {

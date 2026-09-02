@@ -118,6 +118,19 @@ public static class AdminEndpoints
             return log is null ? Results.NotFound() : Results.Ok(log);
         });
 
-        api.MapGet("/pool", () => Results.Ok(pool.Snapshot()));
+        api.MapGet("/pool", () =>
+        {
+            var snapshot = pool.Snapshot();
+            var labels = players.PlayerLabels();
+            return Results.Ok(snapshot with
+            {
+                Builds = snapshot.Builds
+                    .Select(build => build with
+                    {
+                        Username = labels.GetValueOrDefault(build.PlayerId)
+                    })
+                    .ToList()
+            });
+        });
     }
 }

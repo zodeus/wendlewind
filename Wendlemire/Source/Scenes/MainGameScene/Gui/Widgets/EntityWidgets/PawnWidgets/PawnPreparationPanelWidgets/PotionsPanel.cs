@@ -11,7 +11,8 @@ public sealed class PotionsPanel : VerticalStackPanel, IUpdatable
     private readonly PrepItemGrid _inventory;
     private readonly List<PotionTriggerEditor> _editors = [];
     private string _signature = "";
-    private int _cardHeight;
+
+    public const int PanelHeight = 350;
 
     public PotionsPanel(BaseGui gui, Pawn pawn)
     {
@@ -19,8 +20,11 @@ public sealed class PotionsPanel : VerticalStackPanel, IUpdatable
         _pawn = pawn;
         Spacing = 8;
         Padding = new Thickness(0);
+        Height = PanelHeight;
+        MinHeight = PanelHeight;
+        MaxHeight = PanelHeight;
         HorizontalAlignment = HorizontalAlignment.Stretch;
-        VerticalAlignment = VerticalAlignment.Top;
+        VerticalAlignment = VerticalAlignment.Stretch;
 
         _countLabel = new Label(BaseContent.Styles.Label.Small)
         {
@@ -44,26 +48,17 @@ public sealed class PotionsPanel : VerticalStackPanel, IUpdatable
         _slots = new Grid
         {
             ColumnSpacing = 8,
+            RowSpacing = 8,
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalAlignment = VerticalAlignment.Top
+            VerticalAlignment = VerticalAlignment.Stretch
         };
         _slots.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1));
         _slots.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1));
         _slots.RowsProportions.Add(new Proportion(ProportionType.Part, 1));
         _slots.RowsProportions.Add(new Proportion(ProportionType.Part, 1));
         Widgets.Add(_slots);
+        SetProportionType(_slots, ProportionType.Fill);
         Rebuild();
-    }
-
-    public void SyncCardHeight(int height)
-    {
-        if (height <= 0 || height == _cardHeight)
-        {
-            return;
-        }
-
-        _cardHeight = height;
-        ApplyCardHeight();
     }
 
     public void Update()
@@ -161,28 +156,10 @@ public sealed class PotionsPanel : VerticalStackPanel, IUpdatable
                 ? CreateCard(equipped[i])
                 : i < capacity
                     ? PotionSlotChrome.Empty()
-                    : MedicalSlotChrome.Locked(lockTooltip.title, lockTooltip.description);
+                    : LockedSlotChrome.Card(lockTooltip.title, lockTooltip.description, 72);
             _slots.Widgets.Add(card);
             Grid.SetColumn(card, i % 2);
             Grid.SetRow(card, i / 2);
-        }
-
-        ApplyCardHeight();
-    }
-
-    private void ApplyCardHeight()
-    {
-        if (_cardHeight <= 0)
-        {
-            return;
-        }
-
-        _slots.Height = _cardHeight;
-        foreach (var card in _slots.Widgets)
-        {
-            card.Height = _cardHeight;
-            card.MinHeight = _cardHeight;
-            card.MaxHeight = _cardHeight;
         }
     }
 
@@ -375,10 +352,14 @@ internal sealed class PotionTriggerEditor : Panel, IUpdatable
         switch (_potion.PotionTrigger.Type)
         {
             case PotionTriggerType.AfterSeconds:
-                _potion.PotionTrigger.AfterSeconds = Math.Max(0, value);
+                _potion.PotionTrigger.AfterSeconds = Math.Clamp(
+                    value, ThresholdSlider.MinSeconds, ThresholdSlider.MaxSeconds);
                 break;
             case PotionTriggerType.SelfBloodBelow:
             case PotionTriggerType.EnemyBloodBelow:
+                _potion.PotionTrigger.Threshold = Math.Clamp(
+                    value, ThresholdSlider.MinBlood, ThresholdSlider.MaxBlood);
+                break;
             case PotionTriggerType.SelfPartsDamaged:
                 _potion.PotionTrigger.Threshold = Math.Clamp(value, 0, 1);
                 break;
@@ -401,6 +382,12 @@ internal sealed class PotionTriggerEditor : Panel, IUpdatable
         {
             _slider.SetCaption(SliderCaption(trigger.Type));
             _slider.Configure(SliderMode(trigger.Type), CurrentSliderValue(trigger));
+            if (trigger.Type is PotionTriggerType.AfterSeconds
+                or PotionTriggerType.SelfBloodBelow
+                or PotionTriggerType.EnemyBloodBelow)
+            {
+                ApplyValue(_slider.StoredValue);
+            }
         }
 
         _summary.Text = TriggerLabels.Summarize(trigger);
@@ -408,9 +395,12 @@ internal sealed class PotionTriggerEditor : Panel, IUpdatable
 
     private static ThresholdSliderMode SliderMode(PotionTriggerType type)
     {
-        return type == PotionTriggerType.AfterSeconds
-            ? ThresholdSliderMode.Seconds
-            : ThresholdSliderMode.Percent;
+        return type switch
+        {
+            PotionTriggerType.AfterSeconds => ThresholdSliderMode.Seconds,
+            PotionTriggerType.SelfBloodBelow or PotionTriggerType.EnemyBloodBelow => ThresholdSliderMode.Blood,
+            _ => ThresholdSliderMode.Percent
+        };
     }
 
     private static string SliderCaption(PotionTriggerType type)

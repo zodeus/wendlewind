@@ -171,9 +171,15 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
                 ? IncenseProperties.NextLockedSlotAchievement(_pawn.Context.Achievements)
                 : null,
             "Complete incense achievements to unlock this slot.");
-        var locked = new Panel();
-        locked.WithTooltip(tip.title, tip.description);
-        return PrepSlots.Frame(locked);
+        var column = new VerticalStackPanel { Spacing = 2 };
+        column.Widgets.Add(LockedSlotChrome.Slot(tip.title, tip.description));
+        column.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = "—",
+            TextColor = new Color(80, 76, 70),
+            HorizontalAlignment = HorizontalAlignment.Center
+        });
+        return column;
     }
 
     private static string IgniteCaption(int capacity)
