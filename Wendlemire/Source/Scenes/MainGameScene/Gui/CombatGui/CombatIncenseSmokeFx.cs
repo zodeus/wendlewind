@@ -40,13 +40,36 @@ internal sealed class CombatIncenseSmokeFx : Widget
     {
         return moniker switch
         {
-            "Clotcedar" => new Color(230, 70, 45),
-            "LungwortBraid" => new Color(150, 220, 140),
-            "ShadeWood" => new Color(150, 130, 200),
-            "WitchWood" => new Color(210, 130, 230),
-            "DippedMullinStick" => new Color(255, 210, 80),
-            _ => new Color(255, 170, 70)
+            "Clotcedar" => new Color(210, 55, 40),
+            "LungwortBraid" => new Color(90, 170, 95),
+            "ShadeWood" => new Color(120, 90, 190),
+            "WitchWood" => new Color(190, 80, 210),
+            "DippedMullinStick" => new Color(240, 185, 55),
+            "MullinStick" => new Color(220, 140, 55),
+            _ => new Color(200, 130, 60)
         };
+    }
+
+    public static Color SmokeColor(Color tint, float shade)
+    {
+        var soot = new Color(
+            (byte)Math.Clamp(tint.R * 0.28f, 0, 255),
+            (byte)Math.Clamp(tint.G * 0.26f, 0, 255),
+            (byte)Math.Clamp(tint.B * 0.24f, 0, 255));
+        var rich = Color.Lerp(tint, new Color(48, 40, 36), 0.18f);
+        var tone = Color.Lerp(soot, rich, Math.Clamp(shade, 0f, 1f));
+        var drift = (shade - 0.5f) * 36f;
+        return new Color(
+            (byte)Math.Clamp(tone.R + drift, 0, 255),
+            (byte)Math.Clamp(tone.G + drift * 0.4f, 0, 255),
+            (byte)Math.Clamp(tone.B - drift * 0.25f, 0, 255));
+    }
+
+    public static Color EmberColor(Color tint, float shade = 0.5f)
+    {
+        var hot = Color.Lerp(new Color(255, 150, 50), tint, 0.65f);
+        var cool = Color.Lerp(tint, new Color(90, 40, 20), 0.35f);
+        return Color.Lerp(cool, hot, Math.Clamp(shade, 0f, 1f));
     }
 
     public void Sync(IReadOnlyList<BurnSource> active)
@@ -136,9 +159,12 @@ internal sealed class CombatIncenseSmokeFx : Widget
                 continue;
             }
 
+            var age = 1f - wisp.Life / wisp.MaxLife;
             wisp.WobblePhase += deltaTime * wisp.WobbleSpeed;
+            wisp.Velocity.X *= 1f - 0.4f * deltaTime;
+            wisp.Velocity.Y += 20f * deltaTime;
             wisp.Position += wisp.Velocity * deltaTime;
-            wisp.Position.X += MathF.Sin(wisp.WobblePhase) * wisp.Wobble * deltaTime;
+            wisp.Position.X += MathF.Sin(wisp.WobblePhase) * wisp.Wobble * (0.35f + age) * deltaTime;
             wisp.Size += wisp.Grow * deltaTime;
         }
 
@@ -176,13 +202,14 @@ internal sealed class CombatIncenseSmokeFx : Widget
                 continue;
             }
 
-            var fade = Math.Clamp(wisp.Life / wisp.MaxLife, 0f, 1f);
+            var t = Math.Clamp(wisp.Life / wisp.MaxLife, 0f, 1f);
+            var fade = Math.Clamp((1f - t) / 0.2f, 0f, 1f) * t;
             var size = Math.Max(10, (int)(wisp.Size * uiScale));
             _spriteBatch.Draw(glow, new Rectangle(
                 (int)wisp.Position.X - size / 2,
                 (int)wisp.Position.Y - size / 2,
                 size,
-                size), wisp.Color * (0.55f * fade));
+                size), wisp.Color * (0.4f * fade));
         }
 
         _spriteBatch.End();
@@ -236,14 +263,14 @@ internal sealed class CombatIncenseSmokeFx : Widget
             _wisps.Add(new Wisp
             {
                 Position = origin + new Vector2(Rng.Visual.Next(-8, 8), Rng.Visual.Next(-6, 6)),
-                Velocity = new Vector2(-20f + Rng.Visual.Next(0, 40), -80f - Rng.Visual.Next(0, 50)),
-                Life = life ?? 0.8f + Rng.Visual.Next(0, 40) / 100f,
-                MaxLife = life ?? 1.2f,
-                Size = 6f + Rng.Visual.Next(0, 8),
-                Color = Color.Lerp(new Color(255, 170, 50), tint, 0.35f),
+                Velocity = new Vector2(-14f + Rng.Visual.Next(0, 28), -36f - Rng.Visual.Next(0, 22)),
+                Life = life ?? 0.55f + Rng.Visual.Next(0, 30) / 100f,
+                MaxLife = life ?? 0.85f,
+                Size = 5f + Rng.Visual.Next(0, 5),
+                Color = EmberColor(tint, Rng.Visual.Next(0, 100) / 100f),
                 IsEmber = true,
-                Wobble = 16f + Rng.Visual.Next(0, 18),
-                WobbleSpeed = 9f,
+                Wobble = 12f + Rng.Visual.Next(0, 14),
+                WobbleSpeed = 6f,
                 WobblePhase = Rng.Visual.Next(0, 628) / 100f
             });
             return;
@@ -251,15 +278,15 @@ internal sealed class CombatIncenseSmokeFx : Widget
 
         _wisps.Add(new Wisp
         {
-            Position = origin + new Vector2(Rng.Visual.Next(-10, 10), Rng.Visual.Next(-8, 8)),
-            Velocity = new Vector2(-22f + Rng.Visual.Next(0, 44), -42f - Rng.Visual.Next(0, 36)),
-            Life = life ?? 1.6f + Rng.Visual.Next(0, 70) / 100f,
-            MaxLife = life ?? 2.3f,
-            Size = 22f + Rng.Visual.Next(0, 20),
-            Grow = 14f,
-            Color = Color.Lerp(new Color(200, 190, 180), tint, 0.35f),
-            Wobble = 24f + Rng.Visual.Next(0, 22),
-            WobbleSpeed = 2.6f,
+            Position = origin + new Vector2(Rng.Visual.Next(-12, 12), Rng.Visual.Next(-8, 8)),
+            Velocity = new Vector2(-16f + Rng.Visual.Next(0, 32), -18f - Rng.Visual.Next(0, 16)),
+            Life = life ?? 1.8f + Rng.Visual.Next(0, 80) / 100f,
+            MaxLife = life ?? 2.6f,
+            Size = 18f + Rng.Visual.Next(0, 16),
+            Grow = 8f,
+            Color = SmokeColor(tint, Rng.Visual.Next(0, 100) / 100f),
+            Wobble = 18f + Rng.Visual.Next(0, 20),
+            WobbleSpeed = 1.3f + Rng.Visual.Next(0, 12) / 10f,
             WobblePhase = Rng.Visual.Next(0, 628) / 100f
         });
     }

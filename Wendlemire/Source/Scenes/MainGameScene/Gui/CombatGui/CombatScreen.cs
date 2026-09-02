@@ -502,10 +502,9 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         if (_summaryWindow == null) return;
 
         _summaryWindow.Arrange(new Rectangle(0, 0, Core.ReferenceResolution.X, Core.ReferenceResolution.Y));
-        var windowWidth = _summaryWindow.ActualBounds.Width;
-        var centerX = (Core.ReferenceResolution.X - windowWidth) / 2;
-        _summaryWindow.Left = centerX;
-        _summaryWindow.Top = 250;
+        var bounds = _summaryWindow.ActualBounds;
+        _summaryWindow.Left = (Core.ReferenceResolution.X - bounds.Width) / 2;
+        _summaryWindow.Top = Math.Max(80, (Core.ReferenceResolution.Y - bounds.Height) / 2);
     }
 
     public void Update(float deltaTime)
@@ -549,16 +548,6 @@ public class CombatScreen : VerticalStackPanel, IDisposable
                 continue;
             }
 
-            var tint = CombatIncenseSmokeFx.TintFor(incense);
-            if (loadout.TryGetIncenseSlot(i, out var slot) && slot.Bounds.Width > 0)
-            {
-                sources.Add(new CombatIncenseSmokeFx.BurnSource(
-                    $"slot-{pawn.Id}-{i}",
-                    slot,
-                    new Vector2(slot.Bounds.Width * 0.5f, slot.Bounds.Height * 0.2f),
-                    tint));
-            }
-
             var portrait = party.GetPanelForPawn(pawn)?.BodyWidget;
             if (portrait == null || portrait.Bounds.Width <= 0)
             {
@@ -569,7 +558,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
                 $"portrait-{pawn.Id}-{i}",
                 portrait,
                 new Vector2(portrait.Bounds.Width * 0.5f, portrait.Bounds.Height * 0.65f),
-                tint));
+                CombatIncenseSmokeFx.TintFor(incense)));
         }
     }
 

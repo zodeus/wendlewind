@@ -10,6 +10,8 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
     private const int CellSize = (ColumnWidth - CellSpacing * 2) / 3;
     private const int CellPad = 3;
     private const int IconSize = CellSize - CellPad * 2;
+    private static readonly Color SpentTint = new(70, 70, 68);
+    private static readonly Color SpentDim = new(8, 8, 8, 150);
 
     public readonly Pawn Pawn;
     private readonly BaseGui _gui;
@@ -66,13 +68,16 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
             }
 
             var burning = IsBurning(slot.Incense);
+            var spent = slot.Incense.FiredThisEncounter && !burning;
             slot.Burn.Burning = burning;
             slot.Burn.Update();
-            slot.Status.Visible = burning;
-            slot.Cell.BorderThickness = burning ? new Thickness(1) : new Thickness(0);
-            slot.Cell.Border = burning
-                ? new SolidBrush(Color.Lerp(slot.Burn.Tint, Color.White, 0.25f) * 0.85f)
-                : null;
+            if (slot.Tint != null)
+            {
+                slot.Tint.Color = spent ? SpentTint : Color.White;
+            }
+
+            slot.Dim.Visible = spent;
+            slot.Dim.Background = spent ? new SolidBrush(SpentDim) : null;
         }
     }
 
@@ -182,24 +187,25 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
         };
         if (itemDef != null)
         {
-            icon.Background = itemDef.GetIconImage();
+            view.Tint = new ColoredIcon(itemDef.GetIconImage(), Color.White);
+            icon.Background = view.Tint;
         }
         else if (incense.Def != null)
         {
-            icon.Background = new TextureRegion(incense.Def.GetTexture());
+            view.Tint = new ColoredIcon(new TextureRegion(incense.Def.GetTexture()), Color.White);
+            icon.Background = view.Tint;
         }
+        view.Dim = new Panel
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            Background = new SolidBrush(Color.Transparent),
+            Visible = false
+        };
 
         view.Burn = new IncenseSlotBurnFx
         {
             Tint = CombatIncenseSmokeFx.TintFor(incense)
-        };
-        view.Status = new Label(BaseContent.Styles.Label.Small)
-        {
-            Text = "Burning",
-            TextColor = new Color(255, 190, 90),
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Bottom,
-            Visible = false
         };
 
         var stack = new Panel
@@ -207,7 +213,7 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
             Width = IconSize,
             Height = IconSize,
             ClipToBounds = false,
-            Widgets = { icon, view.Burn, view.Status }
+            Widgets = { icon, view.Dim, view.Burn }
         };
         var name = incense.Def?.Label ?? itemDef?.Label ?? "Incense";
         stack.WithDynamicTooltip(() => name, () => IncenseStatusText(view));
@@ -383,8 +389,9 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
     private sealed class IncenseSlotView
     {
         public Panel Cell = null!;
+        public ColoredIcon? Tint;
+        public Panel Dim = null!;
         public IncenseSlotBurnFx Burn = null!;
-        public Label Status = null!;
         public ActiveIncense? Incense;
         public int SlotIndex;
     }

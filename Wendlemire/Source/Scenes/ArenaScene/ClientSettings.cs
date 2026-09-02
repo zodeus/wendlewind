@@ -10,7 +10,7 @@ public sealed class ClientSettings
     public const int DefaultPort = 5080;
 
     public string ServerHost { get; set; } = DefaultHost;
-    public bool FullScreen { get; set; } = true;
+    public bool FullScreen { get; set; } = false;
 
     public static string DefaultPath => Path.Combine(AppContext.BaseDirectory, FileName);
 
