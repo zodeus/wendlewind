@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
+using Wendlemire.NetCode;
 using Wendlemire.NetCode.Contracts;
 
 namespace Wendlemire.Scenes.ArenaScene;
@@ -14,27 +15,64 @@ public sealed class ArenaMatchClient : IDisposable
 
     private readonly HttpClient _http;
 
-    public ArenaMatchClient(string? baseUrl = null)
+    public ArenaMatchClient(string? baseUrl = null, TimeSpan? timeout = null)
     {
         var url = baseUrl ?? ClientSettings.LoadOrCreate().ResolveBaseUrl();
         _http = new HttpClient
         {
             BaseAddress = new Uri(url.TrimEnd('/') + "/"),
-            Timeout = TimeSpan.FromMinutes(2)
+            Timeout = timeout ?? TimeSpan.FromMinutes(2)
         };
+        _http.DefaultRequestHeaders.TryAddWithoutValidation(GameVersion.HeaderName, GameVersion.Current);
+    }
+
+    public async Task EnsureCompatible()
+    {
+        HealthStatus health;
+        try
+        {
+            var response = await _http.GetAsync("health");
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Could not reach the server.");
+            }
+
+            health = await Read(response, NetCodeJsonContext.Default.HealthStatus);
+        }
+        catch (VersionMismatchException)
+        {
+            throw;
+        }
+        catch (TaskCanceledException)
+        {
+            throw new HttpRequestException("Could not reach the server.");
+        }
+        catch (HttpRequestException)
+        {
+            throw new HttpRequestException("Could not reach the server.");
+        }
+        catch (Exception ex) when (ex is JsonException or InvalidOperationException)
+        {
+            throw new VersionMismatchException(null);
+        }
+
+        if (!GameVersion.Matches(health.Version))
+        {
+            throw new VersionMismatchException(health.Version);
+        }
     }
 
     public async Task SubmitBuild(BuildSnapshot snapshot)
     {
         var response = await Post("/builds", snapshot, NetCodeJsonContext.Default.BuildSnapshot);
-        EnsureSuccess(response, "Submit build");
+        await EnsureSuccess(response, "Submit build");
     }
 
     public async Task<CombatResult> RequestMatch(BuildSnapshot attacker)
     {
         var request = new MatchRequest { Attacker = attacker };
         var response = await Post("/matches", request, NetCodeJsonContext.Default.MatchRequest);
-        EnsureSuccess(response, "Match request");
+        await EnsureSuccess(response, "Match request");
         return await Read(response, NetCodeJsonContext.Default.CombatResult);
     }
 
@@ -47,7 +85,7 @@ public sealed class ArenaMatchClient : IDisposable
             Username = username
         };
         var response = await Post("/players", request, NetCodeJsonContext.Default.CreatePlayerRequest);
-        EnsureSuccess(response, "Ensure profile");
+        await EnsureSuccess(response, "Ensure profile");
         return await Read(response, NetCodeJsonContext.Default.PlayerProfileRecord);
     }
 
@@ -61,6 +99,10 @@ public sealed class ArenaMatchClient : IDisposable
         {
             return false;
         }
+        catch (VersionMismatchException)
+        {
+            return false;
+        }
     }
 
     public async Task<ArenaProgressRecord?> GetCurrentArena(string playerId)
@@ -71,7 +113,7 @@ public sealed class ArenaMatchClient : IDisposable
             return null;
         }
 
-        EnsureSuccess(response, "Get current arena");
+        await EnsureSuccess(response, "Get current arena");
         return await Read(response, NetCodeJsonContext.Default.ArenaProgressRecord);
     }
 
@@ -83,14 +125,14 @@ public sealed class ArenaMatchClient : IDisposable
             RunSeed = runSeed > 0 ? runSeed : null
         };
         var response = await Post($"/players/{playerId}/arena/start", request, NetCodeJsonContext.Default.StartArenaRequest);
-        EnsureSuccess(response, "Start arena");
+        await EnsureSuccess(response, "Start arena");
         return await Read(response, NetCodeJsonContext.Default.ArenaProgressRecord);
     }
 
     public async Task SaveCurrentArena(ArenaProgressRecord progress)
     {
         var response = await Put($"/players/{progress.PlayerId}/arena", progress, NetCodeJsonContext.Default.ArenaProgressRecord);
-        EnsureSuccess(response, "Save arena");
+        await EnsureSuccess(response, "Save arena");
     }
 
     public async Task<PlayerProfileRecord?> GetProfile(string playerId)
@@ -101,7 +143,7 @@ public sealed class ArenaMatchClient : IDisposable
             return null;
         }
 
-        EnsureSuccess(response, "Get profile");
+        await EnsureSuccess(response, "Get profile");
         return await Read(response, NetCodeJsonContext.Default.PlayerProfileRecord);
     }
 
@@ -116,21 +158,21 @@ public sealed class ArenaMatchClient : IDisposable
             return null;
         }
 
-        EnsureSuccess(response, "Finish arena");
+        await EnsureSuccess(response, "Finish arena");
         return await Read(response, NetCodeJsonContext.Default.ArenaRunRecord);
     }
 
     public async Task<AchievementState> GetAchievements(string playerId)
     {
         var response = await _http.GetAsync($"players/{playerId}/achievements");
-        EnsureSuccess(response, "Get achievements");
+        await EnsureSuccess(response, "Get achievements");
         return await Read(response, NetCodeJsonContext.Default.AchievementState);
     }
 
     public async Task SaveAchievements(string playerId, AchievementState state)
     {
         var response = await Put($"/players/{playerId}/achievements", state, NetCodeJsonContext.Default.AchievementState);
-        EnsureSuccess(response, "Save achievements");
+        await EnsureSuccess(response, "Save achievements");
     }
 
     private Task<HttpResponseMessage> Post<T>(string path, T value, JsonTypeInfo<T> typeInfo)
@@ -161,12 +203,43 @@ public sealed class ArenaMatchClient : IDisposable
                ?? throw new InvalidOperationException("Server returned an empty response.");
     }
 
-    private static void EnsureSuccess(HttpResponseMessage response, string action)
+    private static async Task EnsureSuccess(HttpResponseMessage response, string action)
     {
-        if (!response.IsSuccessStatusCode)
+        if (response.IsSuccessStatusCode)
         {
-            throw new HttpRequestException($"{action} failed: {(int)response.StatusCode} {response.ReasonPhrase}");
+            return;
         }
+
+        var body = await response.Content.ReadAsStringAsync();
+        var mismatch = TryReadVersionMismatch(body);
+        if (mismatch != null || (int)response.StatusCode == 426)
+        {
+            throw new VersionMismatchException(mismatch?.ServerVersion);
+        }
+
+        throw new HttpRequestException($"{action} failed: {(int)response.StatusCode} {response.ReasonPhrase}");
+    }
+
+    private static VersionMismatchError? TryReadVersionMismatch(string body)
+    {
+        if (string.IsNullOrWhiteSpace(body))
+        {
+            return null;
+        }
+
+        try
+        {
+            var error = JsonSerializer.Deserialize(body, NetCodeJsonContext.Default.VersionMismatchError);
+            if (error?.Code == "version_mismatch" || !string.IsNullOrEmpty(error?.ServerVersion))
+            {
+                return error;
+            }
+        }
+        catch (JsonException)
+        {
+        }
+
+        return null;
     }
 
     public void Dispose()

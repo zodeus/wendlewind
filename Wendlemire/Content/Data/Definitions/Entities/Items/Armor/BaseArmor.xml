@@ -17,7 +17,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Tin/BucketHelmet</TexturePath>
         <BaseStats>
-            <PhysicalResistance>6</PhysicalResistance>
+            <PhysicalResistance>18</PhysicalResistance>
             <MaxDurability>200</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -38,7 +38,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Misc/FishBowlHelmet</TexturePath>
         <BaseStats>
-            <PhysicalResistance>4</PhysicalResistance>
+            <PhysicalResistance>12</PhysicalResistance>
             <MaxDurability>80</MaxDurability>
         </BaseStats>
         <DisassembleProperties>

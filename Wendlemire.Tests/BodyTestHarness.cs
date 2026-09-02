@@ -76,23 +76,47 @@ internal sealed class BodyTestHarness : IDisposable
         }
     }
 
-    public Item CreateWeapon(string moniker = "IronSword")
+    public Item CreateItem(string moniker)
     {
         var def = DefRepository<ItemDef>.GetByMoniker(moniker)
                   ?? throw new InvalidOperationException($"Missing item '{moniker}'.");
         return Context.Factory.CreateEntity<Item>(def);
     }
 
-    public void Strike(Pawn attacker, BodyPart target, double amount)
+    public Item CreateWeapon(string moniker = "IronSword") => CreateItem(moniker);
+
+    public Item EquipArmor(string moniker, Pawn? pawn = null)
     {
-        var weapon = CreateWeapon();
-        var maneuver = weapon.ItemDef.WeaponProperties!.WeaponManeuvers[0];
-        var request = new DamageRequest(attacker, weapon, maneuver)
+        pawn ??= Pawn;
+        var def = DefRepository<ItemDef>.GetByMoniker(moniker)
+                  ?? throw new InvalidOperationException($"Missing item '{moniker}'.");
+        PawnGenerator.RegisterEquipment(pawn, [def]);
+        return pawn.Equipment.First(i => i.ItemDef.Moniker == moniker && !i.IsDestroyed);
+    }
+
+    public DamageResponse Strike(Pawn attacker, BodyPart target, double amount, string weaponMoniker = "IronSword")
+    {
+        DamageResponse? captured = null;
+        void OnTaken(Pawn _, DamageRequest __, DamageResponse response) => captured = response;
+        var victim = target.Body!.Pawn;
+        victim.DamageTaken += OnTaken;
+        try
         {
-            TargetedPart = target
-        };
-        request.RawDamages.Add(new Damage(weapon, amount, maneuver.Label));
-        target.Body!.Pawn.TakeDamage(request);
+            var weapon = CreateWeapon(weaponMoniker);
+            var maneuver = weapon.ItemDef.WeaponProperties!.WeaponManeuvers[0];
+            var request = new DamageRequest(attacker, weapon, maneuver)
+            {
+                TargetedPart = target
+            };
+            request.RawDamages.Add(new Damage(weapon, amount, maneuver.Label));
+            victim.TakeDamage(request);
+        }
+        finally
+        {
+            victim.DamageTaken -= OnTaken;
+        }
+
+        return captured ?? throw new InvalidOperationException("Strike did not produce a damage response.");
     }
 
     public void Dispose()

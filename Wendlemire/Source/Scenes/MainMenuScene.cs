@@ -34,6 +34,7 @@ public class MainMenuScene : Scene
     private TextBox _serverField = null!;
     private CursorButton _fullscreenButton = null!;
     private Label _usernameError = null!;
+    private Label _connectionError = null!;
     private Label _playingAsLabel = null!;
     private Widget _usernamePanel = null!;
     private Widget _playPanel = null!;
@@ -44,11 +45,19 @@ public class MainMenuScene : Scene
     {
         _profile = PlayerProfile.LoadOrCreate();
         _clientSettings = ClientSettings.LoadOrCreate();
-        TryHydrateUsernameFromServer();
+        var versionError = PeekVersionError();
+        if (versionError == null)
+        {
+            TryHydrateUsernameFromServer();
+        }
 
         _usernameField = IronTextBox(_profile.Username, 320);
         _usernameError = BodyLabel("", Error);
         _usernameError.Visible = false;
+        _connectionError = BodyLabel("", Error);
+        _connectionError.Wrap = true;
+        _connectionError.Width = 520;
+        _connectionError.Visible = false;
 
         _usernamePanel = new VerticalStackPanel
         {
@@ -68,19 +77,10 @@ public class MainMenuScene : Scene
             Spacing = 10,
             HorizontalAlignment = HorizontalAlignment.Center
         };
-        playButtons.Widgets.Add(IronButton("Start New Arena", () =>
+        playButtons.Widgets.Add(IronButton("Start New Arena", () => TryEnterArena(startFresh: true)));
+        if (versionError == null && HasServerArenaProgress())
         {
-            PersistServerHost();
-            ArenaScene.StartFresh = true;
-            Core.ChangeScene<ArenaScene>();
-        }));
-        if (HasServerArenaProgress())
-        {
-            playButtons.Widgets.Add(IronButton("Continue Arena", () =>
-            {
-                PersistServerHost();
-                Core.ChangeScene<ArenaScene>();
-            }));
+            playButtons.Widgets.Add(IronButton("Continue Arena", () => TryEnterArena(startFresh: false)));
         }
 
         _playingAsLabel = BodyLabel($"Playing as {_profile.Username}", Dust);
@@ -91,7 +91,7 @@ public class MainMenuScene : Scene
             Widgets =
             {
                 _playingAsLabel,
-                LoadRankBadge(),
+                versionError == null ? LoadRankBadge() : BodyLabel("Unranked", Dust),
                 playButtons
             }
         };
@@ -125,8 +125,10 @@ public class MainMenuScene : Scene
                     Wordmark("WENDLEMIRE"),
                     _usernamePanel,
                     _playPanel,
+                    _connectionError,
                     serverPanel,
-                    _fullscreenButton
+                    _fullscreenButton,
+                    BodyLabel($"v{GameVersion.Current}", Dust)
                 }
             }
         };
@@ -136,6 +138,10 @@ public class MainMenuScene : Scene
         Core.Instance.Window.TextInput += _textInputHandler;
 
         RefreshPanels();
+        if (versionError != null)
+        {
+            ShowConnectionError(versionError);
+        }
     }
 
     public override void Update(float deltaTime)
@@ -167,6 +173,62 @@ public class MainMenuScene : Scene
     {
         Core.GraphicsDevice.Clear(Void);
         _desktop.Render();
+    }
+
+    private void TryEnterArena(bool startFresh)
+    {
+        PersistServerHost();
+        if (!TryEnsureCompatible())
+        {
+            return;
+        }
+
+        if (startFresh)
+        {
+            ArenaScene.StartFresh = true;
+        }
+
+        Core.ChangeScene<ArenaScene>();
+    }
+
+    private static string? PeekVersionError()
+    {
+        try
+        {
+            using var client = new ArenaMatchClient(timeout: TimeSpan.FromSeconds(5));
+            client.EnsureCompatible().GetAwaiter().GetResult();
+            return null;
+        }
+        catch (VersionMismatchException ex)
+        {
+            return ex.Message;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private bool TryEnsureCompatible()
+    {
+        try
+        {
+            using var client = new ArenaMatchClient(timeout: TimeSpan.FromSeconds(5));
+            client.EnsureCompatible().GetAwaiter().GetResult();
+            _connectionError.Visible = false;
+            return true;
+        }
+        catch (Exception ex)
+        {
+            ShowConnectionError(ex.Message);
+            return false;
+        }
+    }
+
+    private void ShowConnectionError(string message)
+    {
+        _connectionError.Text = message;
+        _connectionError.Visible = true;
     }
 
     private void ConfirmUsername()

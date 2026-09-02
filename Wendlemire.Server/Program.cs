@@ -52,12 +52,14 @@ var analytics = new FightAnalyticsService(players);
 var codes = new ActivationCodeStore(dataDir);
 var releases = new ReleaseDownloadService(ServerData.DownloadsDir(dataDir));
 var adminAuth = AdminAuth.Create(app.Environment);
+Console.WriteLine($"Version: {GameVersion.Current}");
 Console.WriteLine($"Data directory: {dataDir}");
 Console.WriteLine($"Admin: {adminAuth.StatusMessage}");
 Console.WriteLine($"Downloads: {releases.AvailableCount} client build(s) in {releases.DirectoryPath}");
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
+app.UseClientVersionGate();
 app.MapAdmin(adminAuth, players, pool, analytics, codes);
 
 app.MapGet("/downloads", async (HttpContext http, CancellationToken cancellationToken) =>
@@ -108,14 +110,15 @@ app.MapGet("/download/{platform}", (HttpContext http, string platform) =>
         : Results.File(file.Path, "application/zip", file.FileName, enableRangeProcessing: true);
 });
 
-app.MapGet("/health", () => Results.Ok(new
+app.MapGet("/health", () => Results.Ok(new HealthStatus
 {
-    status = "ok",
-    zones = zoneCount,
-    pawns = pawnCount,
-    player = contextA.PlayerPawn.Label,
-    pool = pool.Count,
-    data = dataDir
+    Status = "ok",
+    Version = GameVersion.Current,
+    Zones = zoneCount,
+    Pawns = pawnCount,
+    Player = contextA.PlayerPawn.Label,
+    Pool = pool.Count,
+    Data = dataDir
 }));
 
 app.MapPost("/builds", (BuildSnapshot snapshot) =>
@@ -158,7 +161,8 @@ app.MapPost("/matches", (MatchRequest request) =>
         Ticks = result.Ticks,
         CauseOfDeath = result.CauseOfDeath,
         FoughtAt = DateTimeOffset.UtcNow,
-        Analytics = simulation.Analytics
+        Analytics = simulation.Analytics,
+        Version = GameVersion.Current
     }, simulation.Log);
     return Results.Ok(result);
 });

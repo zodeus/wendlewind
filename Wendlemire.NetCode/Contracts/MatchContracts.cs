@@ -105,6 +105,7 @@ public sealed record CombatResult
     public string? DefenderPlayerId { get; init; }
     public BuildSnapshot? Defender { get; init; }
     public int EncounterSeed { get; init; }
+    public string? Version { get; init; }
 }
 
 [JsonSourceGenerationOptions(
@@ -174,4 +175,6 @@ public sealed record CombatResult
 [JsonSerializable(typeof(List<DownloadAsset>))]
 [JsonSerializable(typeof(DownloadCatalog))]
 [JsonSerializable(typeof(ActivationCodeSummary))]
+[JsonSerializable(typeof(HealthStatus))]
+[JsonSerializable(typeof(VersionMismatchError))]
 public partial class NetCodeJsonContext : JsonSerializerContext;

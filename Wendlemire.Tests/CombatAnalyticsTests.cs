@@ -123,6 +123,7 @@ public class CombatAnalyticsTests
         var log = new CombatLogRecord
         {
             MatchId = "abc",
+            Version = GameVersion.Current,
             Events =
             [
                 new CombatLogEvent { Kind = CombatEventKind.Death, Tick = 2400, SubjectPawnId = 2, Message = "bleed" }
@@ -140,6 +141,7 @@ public class CombatAnalyticsTests
         var restoredLog = JsonSerializer.Deserialize(logJson, NetCodeJsonContext.Default.CombatLogRecord);
         Assert.NotNull(restoredLog);
         Assert.Equal("abc", restoredLog.MatchId);
+        Assert.Equal(GameVersion.Current, restoredLog.Version);
         Assert.Equal(CombatEventKind.Death, restoredLog.Events[0].Kind);
         Assert.Contains("durationSeconds", analyticsJson);
     }

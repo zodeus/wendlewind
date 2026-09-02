@@ -757,6 +757,7 @@
             ${header("wins", "W–L")}
             ${header("finalGold", "Gold")}
             ${header("fightCount", "Fights")}
+            ${header("version", "Ver")}
             ${header("victory", "Result")}
           </tr></thead>
           <tbody>
@@ -768,6 +769,7 @@
                 <td>${record(r.wins, r.losses)}</td>
                 <td>${r.finalGold}</td>
                 <td>${r.fightCount}</td>
+                <td>${esc(r.version || "—")}</td>
                 <td>${outcome(r.victory, r.isActive)}</td>
               </tr>`).join("")}
           </tbody>
@@ -804,13 +806,14 @@
           <dt>Started</dt><dd>${when(run.startedAt)}</dd>
           <dt>Finished</dt><dd>${when(run.finishedAt)}</dd>
           <dt>Seed</dt><dd class="mono">${run.runSeed}</dd>
+          <dt>Version</dt><dd>${esc(run.version || "—")}</dd>
         </dl>
         <div class="section">
           <h3>Fights</h3>
           ${fights.length === 0 ? `<p class="empty">No fights recorded.</p>` : `
             <table>
               <thead><tr>
-                <th>Round</th><th>Attacker</th><th>Defender</th><th>Winner</th><th>Ticks</th><th>Cause</th><th>When</th><th></th>
+                <th>Round</th><th>Attacker</th><th>Defender</th><th>Winner</th><th>Ticks</th><th>Cause</th><th>Ver</th><th>When</th><th></th>
               </tr></thead>
               <tbody>
                 ${fights.map((f) => `
@@ -821,6 +824,7 @@
                     <td>${esc(shortId(f.winnerPlayerId))}</td>
                     <td>${f.ticks}</td>
                     <td>${esc(f.causeOfDeath || "—")}</td>
+                    <td>${esc(f.version || "—")}</td>
                     <td>${when(f.foughtAt)}</td>
                     <td><a href="#/fights/log/${esc(f.matchId)}">log</a></td>
                   </tr>`).join("")}
@@ -843,6 +847,7 @@
             ${header("winnerPlayerId", "Winner")}
             ${header("causeOfDeath", "Cause")}
             ${header("killingWeapon", "Kill")}
+            ${header("version", "Ver")}
             ${header("attackerDamage", "Atk dmg")}
             ${header("defenderDamage", "Def dmg")}
           </tr></thead>
@@ -855,6 +860,7 @@
                 <td class="id">${esc(shortId(f.winnerPlayerId))}</td>
                 <td>${esc(f.causeOfDeath || "—")}</td>
                 <td>${esc([f.killingWeapon, f.killingManeuver].filter(Boolean).join(" / ") || "—")}</td>
+                <td>${esc(f.version || "—")}</td>
                 <td>${(f.attackerDamage ?? 0).toFixed(0)}</td>
                 <td>${(f.defenderDamage ?? 0).toFixed(0)}</td>
               </tr>`).join("")}
@@ -870,7 +876,7 @@
           <div>
             <a href="#/fights">← Fights</a>
             <h2 style="margin:0.35rem 0 0">Combat log</h2>
-            <div class="id">${esc(matchId)}</div>
+            <div class="id">${esc(matchId)}${log?.version ? ` · v${esc(log.version)}` : ""}</div>
           </div>
         </div>
         ${events.length === 0

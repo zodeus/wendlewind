@@ -38,7 +38,8 @@ public static class DuelSimulator
             CauseOfDeath = duel.Summary.CauseOfDeath,
             DefenderPlayerId = defender.PlayerId,
             Defender = defender,
-            EncounterSeed = duel.Summary.EncounterSeed
+            EncounterSeed = duel.Summary.EncounterSeed,
+            Version = GameVersion.Current
         };
         var analytics = CombatAnalytics.From(
             duel.Log,

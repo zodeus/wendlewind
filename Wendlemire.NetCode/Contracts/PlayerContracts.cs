@@ -56,6 +56,7 @@ public sealed record ArenaProgressRecord
     public BuildSnapshot? Loadout { get; init; }
     public DateTimeOffset StartedAt { get; init; }
     public DateTimeOffset UpdatedAt { get; init; }
+    public string? Version { get; init; }
 }
 
 public sealed record ShopShelfRecord
@@ -80,6 +81,7 @@ public sealed record ArenaFightRecord
     public string? CauseOfDeath { get; init; }
     public DateTimeOffset FoughtAt { get; init; }
     public FightAnalytics? Analytics { get; init; }
+    public string? Version { get; init; }
 }
 
 public sealed record ArenaRunRecord
@@ -99,6 +101,7 @@ public sealed record ArenaRunRecord
     public int? RatingDelta { get; init; }
     public bool RankApplied { get; init; }
     public List<ArenaFightRecord> Fights { get; init; } = [];
+    public string? Version { get; init; }
 }
 
 public sealed record StartArenaRequest
@@ -111,11 +114,13 @@ public sealed record CombatLogRecord
 {
     public required string MatchId { get; init; }
     public CombatLogEvent[] Events { get; init; } = [];
+    public string? Version { get; init; }
 }
 
 public sealed record CombatEventsFile
 {
     public List<CombatLogRecord> Fights { get; init; } = [];
+    public string? Version { get; init; }
 }
 
 public sealed record FightAnalyticsRow
@@ -136,6 +141,7 @@ public sealed record FightAnalyticsRow
     public double DefenderHealing { get; init; }
     public string? KillingWeapon { get; init; }
     public string? KillingManeuver { get; init; }
+    public string? Version { get; init; }
 }
 
 public sealed record FightAnalyticsSummary
@@ -236,6 +242,7 @@ public sealed record AdminRunRow
     public int FinalGold { get; init; }
     public int FightCount { get; init; }
     public bool IsActive { get; init; }
+    public string? Version { get; init; }
 }
 
 public sealed record AdminPoolState
@@ -285,6 +292,25 @@ public sealed record DownloadCatalog
     public string? Version { get; init; }
     public string? Error { get; init; }
     public List<DownloadAsset> Assets { get; init; } = [];
+}
+
+public sealed record HealthStatus
+{
+    public string Status { get; init; } = "ok";
+    public string Version { get; init; } = "";
+    public int Zones { get; init; }
+    public int Pawns { get; init; }
+    public string? Player { get; init; }
+    public int Pool { get; init; }
+    public string? Data { get; init; }
+}
+
+public sealed record VersionMismatchError
+{
+    public string Error { get; init; } = "";
+    public string Code { get; init; } = "version_mismatch";
+    public string? ServerVersion { get; init; }
+    public string? ClientVersion { get; init; }
 }
 
 public sealed record ActivationCodeSummary

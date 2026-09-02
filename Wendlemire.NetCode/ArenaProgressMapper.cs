@@ -31,7 +31,8 @@ public static class ArenaProgressMapper
             ShopShelves = [..run.ShopShelves.Select(ToRecord)],
             Loadout = loadout,
             StartedAt = startedAt,
-            UpdatedAt = DateTimeOffset.UtcNow
+            UpdatedAt = DateTimeOffset.UtcNow,
+            Version = GameVersion.Current
         };
     }
 

@@ -44,6 +44,7 @@ public class PlayerStoreTests
             Assert.Equal("CaveDiver", store.GetAchievements("alice").Achievements[0].Moniker);
 
             var started = store.StartArena("alice", "Alice", 99);
+            Assert.Equal(GameVersion.Current, started.Version);
             store.SaveCurrentArena(started with
             {
                 Gold = 400,
@@ -51,6 +52,7 @@ public class PlayerStoreTests
                 Loadout = BuildTemplates.TankRegen() with { PlayerId = "alice", Round = 1 }
             });
             Assert.Equal(400, store.GetCurrentArena("alice")!.Gold);
+            Assert.Equal(GameVersion.Current, store.GetCurrentArena("alice")!.Version);
             Assert.Equal("IronSword", store.GetCurrentArena("alice")!.Loadout!.EntityDefMonikers[0]);
 
             var attacker = BuildTemplates.TankRegen() with { PlayerId = "alice", Round = 1 };
@@ -78,8 +80,11 @@ public class PlayerStoreTests
             Assert.NotNull(storedAnalytics);
             Assert.Equal(result.Ticks, storedAnalytics.DurationTicks);
             Assert.Equal(result.Ticks / 60.0, storedAnalytics.DurationSeconds);
+            Assert.Equal(GameVersion.Current, run.Version);
+            Assert.Equal(GameVersion.Current, run.Fights[0].Version);
             var storedLog = store.GetCombatLog("alice", started.RunId, result.MatchId);
             Assert.NotNull(storedLog);
+            Assert.Equal(GameVersion.Current, storedLog.Version);
             Assert.Equal(result.MatchId, storedLog.MatchId);
             Assert.Equal(simulation.Log.Length, storedLog.Events.Length);
             Assert.Equal(simulation.Log[0].Kind, storedLog.Events[0].Kind);

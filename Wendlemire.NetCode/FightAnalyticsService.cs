@@ -103,7 +103,8 @@ public sealed class FightAnalyticsService
             AttackerHealing = fight.Analytics?.Attacker.Healing ?? 0,
             DefenderHealing = fight.Analytics?.Defender.Healing ?? 0,
             KillingWeapon = fight.Analytics?.KillingWeapon,
-            KillingManeuver = fight.Analytics?.KillingManeuver
+            KillingManeuver = fight.Analytics?.KillingManeuver,
+            Version = fight.Version ?? run.Version
         };
     }
 

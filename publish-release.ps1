@@ -6,7 +6,7 @@
 #   .\publish-release.ps1 -Version 0.1 -Platform windows -GitHub
 
 param(
-    [string]$Version = "0.1",
+    [string]$Version = "",
     [ValidateSet("all", "windows", "mac", "current")]
     [string]$Platform = "all",
     [string]$ServerUrl = "https://wendlemire.com",
@@ -19,6 +19,25 @@ $ErrorActionPreference = "Stop"
 $ProjectRoot = $PSScriptRoot
 $Project = Join-Path $ProjectRoot "Wendlemire\Wendlemire.Client.csproj"
 $ReleaseDir = Join-Path $ProjectRoot "RELEASE"
+
+function Get-GameVersion {
+    $path = Join-Path $ProjectRoot "Wendlemire.NetCode\GameVersion.cs"
+    if (-not (Test-Path $path)) {
+        throw "GameVersion.cs not found: $path"
+    }
+
+    $text = Get-Content -Path $path -Raw
+    if ($text -notmatch 'public const string Current = "([^"]+)"') {
+        throw "Could not read GameVersion.Current from $path"
+    }
+
+    return $Matches[1]
+}
+
+if ([string]::IsNullOrWhiteSpace($Version)) {
+    $Version = Get-GameVersion
+}
+
 $Tag = "v$Version"
 
 function Write-Info { param($Message) Write-Host $Message -ForegroundColor Cyan }

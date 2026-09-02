@@ -81,7 +81,12 @@ public sealed class PlayerStore
         lock (_gate)
         {
             GetOrCreateProfileUnlocked(progress.PlayerId, progress.PlayerName);
-            var stored = progress with { UpdatedAt = DateTimeOffset.UtcNow };
+            var existing = ReadCurrentUnlocked(progress.PlayerId);
+            var stored = progress with
+            {
+                UpdatedAt = DateTimeOffset.UtcNow,
+                Version = GameVersion.Coalesce(progress.Version, existing?.Version)
+            };
             Write(CurrentArenaPath(progress.PlayerId), stored, NetCodeJsonContext.Default.ArenaProgressRecord);
             UpsertRunFromProgressUnlocked(stored);
             return stored;
@@ -119,10 +124,15 @@ public sealed class PlayerStore
                           PlayerId = playerId,
                           PlayerName = current.PlayerName,
                           RunSeed = current.RunSeed,
-                          StartedAt = current.StartedAt
+                          StartedAt = current.StartedAt,
+                          Version = GameVersion.Coalesce(current.Version)
                       };
 
-            var stored = fight with { FoughtAt = fight.FoughtAt == default ? DateTimeOffset.UtcNow : fight.FoughtAt };
+            var stored = fight with
+            {
+                FoughtAt = fight.FoughtAt == default ? DateTimeOffset.UtcNow : fight.FoughtAt,
+                Version = GameVersion.Coalesce(fight.Version)
+            };
             run.Fights.Add(stored);
             WriteRunUnlocked(playerId, current.RunId, run);
             if (log != null)
@@ -309,7 +319,11 @@ public sealed class PlayerStore
                 return false;
             }
 
-            run.Fights[index] = run.Fights[index] with { Analytics = analytics };
+            run.Fights[index] = run.Fights[index] with
+            {
+                Analytics = analytics,
+                Version = GameVersion.Coalesce(run.Fights[index].Version)
+            };
             WriteRunUnlocked(playerId, runId, run);
             WriteCombatLogUnlocked(playerId, runId, matchId, log);
             return true;
@@ -382,7 +396,8 @@ public sealed class PlayerStore
             Phase = "GeneralStore",
             CurrentMerchantMoniker = "GeneralStore",
             StartedAt = now,
-            UpdatedAt = now
+            UpdatedAt = now,
+            Version = GameVersion.Current
         };
         var run = new ArenaRunRecord
         {
@@ -390,7 +405,8 @@ public sealed class PlayerStore
             PlayerId = playerId,
             PlayerName = name,
             RunSeed = runSeed,
-            StartedAt = now
+            StartedAt = now,
+            Version = GameVersion.Current
         };
         WriteRunUnlocked(playerId, runId, run);
         Write(CurrentArenaPath(playerId), progress, NetCodeJsonContext.Default.ArenaProgressRecord);
@@ -406,7 +422,8 @@ public sealed class PlayerStore
                       PlayerId = progress.PlayerId,
                       PlayerName = progress.PlayerName,
                       RunSeed = progress.RunSeed,
-                      StartedAt = progress.StartedAt
+                      StartedAt = progress.StartedAt,
+                      Version = GameVersion.Coalesce(progress.Version)
                   };
 
         var updated = run with
@@ -415,7 +432,8 @@ public sealed class PlayerStore
             RunSeed = progress.RunSeed,
             Wins = progress.Wins,
             Losses = progress.Losses,
-            FinalGold = progress.Gold
+            FinalGold = progress.Gold,
+            Version = GameVersion.Coalesce(run.Version, progress.Version)
         };
         WriteRunUnlocked(progress.PlayerId, progress.RunId, updated);
     }
@@ -435,7 +453,8 @@ public sealed class PlayerStore
                       PlayerId = playerId,
                       PlayerName = current.PlayerName,
                       RunSeed = current.RunSeed,
-                      StartedAt = current.StartedAt
+                      StartedAt = current.StartedAt,
+                      Version = GameVersion.Coalesce(current.Version)
                   };
 
         var wins = Math.Max(current.Wins, CountFightWins(run.Fights, playerId));
@@ -457,7 +476,8 @@ public sealed class PlayerStore
             RatingBefore = rank?.RatingBefore,
             RatingAfter = rank?.RatingAfter,
             RatingDelta = rank?.Delta,
-            RankApplied = rank?.Applied == true
+            RankApplied = rank?.Applied == true,
+            Version = GameVersion.Coalesce(run.Version, current.Version)
         };
         WriteRunUnlocked(playerId, current.RunId, finished);
         File.Delete(CurrentArenaPath(playerId));
@@ -648,7 +668,8 @@ public sealed class PlayerStore
             Losses = run.Losses,
             FinalGold = run.FinalGold,
             FightCount = run.Fights.Count,
-            IsActive = activeRunId != null && string.Equals(run.RunId, activeRunId, StringComparison.Ordinal)
+            IsActive = activeRunId != null && string.Equals(run.RunId, activeRunId, StringComparison.Ordinal),
+            Version = run.Version
         };
     }
 
@@ -663,7 +684,7 @@ public sealed class PlayerStore
         Write(RunPath(playerId, runId), run, NetCodeJsonContext.Default.ArenaRunRecord);
         if (!File.Exists(CombatEventsPath(playerId, runId)))
         {
-            Write(CombatEventsPath(playerId, runId), new CombatEventsFile(), NetCodeJsonContext.Default.CombatEventsFile);
+            Write(CombatEventsPath(playerId, runId), new CombatEventsFile { Version = GameVersion.Current }, NetCodeJsonContext.Default.CombatEventsFile);
         }
     }
 
@@ -674,12 +695,14 @@ public sealed class PlayerStore
         IReadOnlyList<CombatLogEvent> log)
     {
         var archive = TryRead(CombatEventsPath(playerId, runId), NetCodeJsonContext.Default.CombatEventsFile)
-                      ?? new CombatEventsFile();
+                      ?? new CombatEventsFile { Version = GameVersion.Current };
         var record = new CombatLogRecord
         {
             MatchId = matchId,
-            Events = log as CombatLogEvent[] ?? log.ToArray()
+            Events = log as CombatLogEvent[] ?? log.ToArray(),
+            Version = GameVersion.Current
         };
+        archive = archive with { Version = GameVersion.Coalesce(archive.Version) };
         var index = archive.Fights.FindIndex(fight => fight.MatchId == matchId);
         if (index >= 0)
         {
@@ -719,7 +742,7 @@ public sealed class PlayerStore
         var legacyLogsDir = LegacyLogsDir(playerId, runId);
         if (!File.Exists(eventsPath) && Directory.Exists(legacyLogsDir))
         {
-            var archive = new CombatEventsFile();
+            var archive = new CombatEventsFile { Version = GameVersion.Current };
             foreach (var file in Directory.GetFiles(legacyLogsDir, "*.json"))
             {
                 var record = TryRead(file, NetCodeJsonContext.Default.CombatLogRecord);
@@ -734,7 +757,7 @@ public sealed class PlayerStore
         }
         else if (File.Exists(matchPath) && !File.Exists(eventsPath))
         {
-            Write(eventsPath, new CombatEventsFile(), NetCodeJsonContext.Default.CombatEventsFile);
+            Write(eventsPath, new CombatEventsFile { Version = GameVersion.Current }, NetCodeJsonContext.Default.CombatEventsFile);
         }
     }
 
