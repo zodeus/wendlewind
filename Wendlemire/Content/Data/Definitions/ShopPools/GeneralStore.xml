@@ -115,6 +115,15 @@
                     <ListItem>
                         <ItemDef>CookedCorn</ItemDef>
                     </ListItem>
+                    <ListItem>
+                        <ItemDef>Hardtack</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>RoastedBulb</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>StewedBerries</ItemDef>
+                    </ListItem>
                 </Offers>
             </ListItem>
             <ListItem>

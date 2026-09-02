@@ -972,17 +972,65 @@ public class ArenaRunTests
     }
 
     [Fact]
+    public void HardtackRaisesBodyScale()
+    {
+        using var scope = CreateArena();
+        var pawn = scope.Context.PlayerPawn;
+        var hardtack = scope.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("Hardtack")!, 1);
+        Assert.True(pawn.Inventory.TryAdd(hardtack));
+        Assert.True(pawn.MealPlan.TryAdd(hardtack));
+
+        pawn.ApplyBattleStartConsumables();
+
+        Assert.Equal(1.05f, pawn.GetStatValue(Defs.Stats.BodyScale), 3);
+        Assert.Contains(pawn.Body.Effects, effect => effect.Def.Moniker == "Doughy");
+    }
+
+    [Fact]
+    public void RoastedBulbRaisesEvasion()
+    {
+        using var scope = CreateArena();
+        var pawn = scope.Context.PlayerPawn;
+        var baseline = pawn.GetStatValue(Defs.Stats.Evasion);
+        var bulb = scope.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("RoastedBulb")!, 1);
+        Assert.True(pawn.Inventory.TryAdd(bulb));
+        Assert.True(pawn.MealPlan.TryAdd(bulb));
+
+        pawn.ApplyBattleStartConsumables();
+
+        Assert.Equal(baseline + 0.05f, pawn.GetStatValue(Defs.Stats.Evasion), 3);
+        Assert.Contains(pawn.Body.Effects, effect => effect.Def.Moniker == "Springy");
+    }
+
+    [Fact]
+    public void StewedBerriesAppliesBerried()
+    {
+        using var scope = CreateArena();
+        var pawn = scope.Context.PlayerPawn;
+        var baselineMagic = pawn.GetStatValue(Defs.Stats.Magic);
+        var berries = scope.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("StewedBerries")!, 1);
+        Assert.True(pawn.Inventory.TryAdd(berries));
+        Assert.True(pawn.MealPlan.TryAdd(berries));
+
+        pawn.ApplyBattleStartConsumables();
+
+        Assert.Contains(pawn.Body.Effects, effect => effect.Def.Moniker == "Berried");
+        Assert.Equal(1.05f, pawn.GetStatValue(Defs.Stats.BodyScale), 3);
+        Assert.Equal(baselineMagic + 0.08f, pawn.GetStatValue(Defs.Stats.Magic), 3);
+    }
+
+    [Fact]
     public void SharedFoodEffectsStackBodyScale()
     {
         using var scope = CreateArena();
         var pawn = scope.Context.PlayerPawn;
         var stew = scope.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("HeartyStew")!, 1);
-        var corn = scope.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("CookedCorn")!, 1);
+        var stew2 = scope.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("HeartyStew")!, 1);
         Assert.True(pawn.Inventory.TryAdd(stew));
-        Assert.True(pawn.Inventory.TryAdd(corn));
+        Assert.True(pawn.Inventory.TryAdd(stew2));
         pawn.MealPlan.Capacity = MealPlan.MaxSlots;
         Assert.True(pawn.MealPlan.TryAdd(stew));
-        Assert.True(pawn.MealPlan.TryAdd(corn));
+        Assert.True(pawn.MealPlan.TryAdd(stew2));
 
         pawn.ApplyBattleStartConsumables();
 
@@ -990,9 +1038,9 @@ public class ArenaRunTests
         Assert.Equal(2f, energized.Power);
 
         var expected = 1f;
-        expected += expected * 0.06f;
-        expected += expected * 0.08f;
-        expected += expected * 0.12f;
+        expected += expected * 0.10f;
+        expected += expected * 0.16f;
+        expected += expected * 0.10f;
         Assert.Equal(expected, pawn.GetStatValue(Defs.Stats.BodyScale), 3);
     }
 

@@ -23,7 +23,7 @@
             </ListItem>
             <ListItem>
                 <Stat>Strength</Stat>
-                <Offset>0.10</Offset>
+                <Offset>0.08</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -49,11 +49,11 @@
         <AffectedStats>
             <ListItem>
                 <Stat>BodyScale</Stat>
-                <Factor>.06</Factor>
+                <Factor>.05</Factor>
             </ListItem>
             <ListItem>
                 <Stat>Accuracy</Stat>
-                <Offset>0.04</Offset>
+                <Offset>0.05</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -64,11 +64,67 @@
         <AffectedStats>
             <ListItem>
                 <Stat>BodyScale</Stat>
-                <Factor>.06</Factor>
+                <Factor>.05</Factor>
             </ListItem>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Offset>0.2</Offset>
+                <Offset>0.08</Offset>
+            </ListItem>
+        </AffectedStats>
+    </BodyEffectDef>
+    <BodyEffectDef>
+        <Moniker>Energized+</Moniker>
+        <Label>Energized+</Label>
+        <TexturePath>Entities/Pawn/BodyEffects/Energized</TexturePath>
+        <AffectedStats>
+            <ListItem>
+                <Stat>BodyScale</Stat>
+                <Factor>.08</Factor>
+            </ListItem>
+            <ListItem>
+                <Stat>AttackSpeed</Stat>
+                <Offset>0.12</Offset>
+            </ListItem>
+        </AffectedStats>
+    </BodyEffectDef>
+    <BodyEffectDef>
+        <Moniker>Doughy</Moniker>
+        <Label>Doughy</Label>
+        <TexturePath>Entities/Pawn/BodyEffects/Doughy</TexturePath>
+        <AffectedStats>
+            <ListItem>
+                <Stat>BodyScale</Stat>
+                <Factor>.05</Factor>
+            </ListItem>
+        </AffectedStats>
+    </BodyEffectDef>
+    <BodyEffectDef>
+        <Moniker>Springy</Moniker>
+        <Label>Springy</Label>
+        <TexturePath>Entities/Pawn/BodyEffects/Springy</TexturePath>
+        <AffectedStats>
+            <ListItem>
+                <Stat>BodyScale</Stat>
+                <Factor>.05</Factor>
+            </ListItem>
+            <ListItem>
+                <Stat>Evasion</Stat>
+                <Offset>0.05</Offset>
+            </ListItem>
+        </AffectedStats>
+    </BodyEffectDef>
+    <BodyEffectDef>
+        <Moniker>Berried</Moniker>
+        <Label>Berried</Label>
+        <TexturePath>Entities/Pawn/BodyEffects/Berried</TexturePath>
+        <AffectedStats>
+            <ListItem>
+                <Stat>BodyScale</Stat>
+                <Factor>.05</Factor>
+            </ListItem>
+            <ListItem>
+                <Stat>Magic</Stat>
+                <Offset>0.08</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -164,7 +220,7 @@
             </ListItem>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Offset>0.3</Offset>
+                <Offset>0.25</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>
@@ -179,7 +235,7 @@
             </ListItem>
             <ListItem>
                 <Stat>AttackSpeed</Stat>
-                <Offset>0.4</Offset>
+                <Offset>0.20</Offset>
             </ListItem>
         </AffectedStats>
     </BodyEffectDef>

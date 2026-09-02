@@ -11,7 +11,7 @@
         <Moniker>CookedFish</Moniker>
         <Label>Cooked Fish</Label>
         <Description>It's a nicely cooked fish. Thickens the body.</Description>
-        <GoldCost>10</GoldCost>
+        <GoldCost>20</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/CookedFish</TexturePath>
         <FoodProperties>
             <FoodType>CookedMeat</FoodType>
@@ -40,7 +40,7 @@
         <Moniker>CookedMeat</Moniker>
         <Label>Cooked Meat</Label>
         <Description>Some cooked meat. A nice belly filler that toughens the body.</Description>
-        <GoldCost>10</GoldCost>
+        <GoldCost>20</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/CookedMeat</TexturePath>
         <FoodProperties>
             <FoodType>CookedMeat</FoodType>
@@ -69,7 +69,7 @@
         <Moniker>DriedMeat</Moniker>
         <Label>Dried Meat</Label>
         <Description>Some dried meat. It's beefy and thickens the body.</Description>
-        <GoldCost>15</GoldCost>
+        <GoldCost>40</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/DriedMeat</TexturePath>
         <FoodProperties>
             <FoodType>DriedMeat</FoodType>
@@ -98,13 +98,13 @@
         <Moniker>CookedCorn</Moniker>
         <Label>Cooked Corn</Label>
         <Description>Some cooked corn. Energizing, and it toughens the body.</Description>
-        <GoldCost>20</GoldCost>
+        <GoldCost>40</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/CookedCorn</TexturePath>
         <FoodProperties>
             <FoodType>CookedVegetable</FoodType>
             <Effects>
                 <ListItem>
-                    <Def>Energized</Def>
+                    <Def>Energized+</Def>
                 </ListItem>
             </Effects>
         </FoodProperties>
@@ -126,10 +126,98 @@
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="Food">
+        <Moniker>Hardtack</Moniker>
+        <Label>Hardtack</Label>
+        <Description>A dense biscuit baked from grain. It fills the belly and thickens the body.</Description>
+        <GoldCost>20</GoldCost>
+        <TexturePath>Entities/Item/Resource/Organic/Hardtack</TexturePath>
+        <FoodProperties>
+            <FoodType>CookedGrain</FoodType>
+            <Effects>
+                <ListItem>
+                    <Def>Doughy</Def>
+                </ListItem>
+            </Effects>
+        </FoodProperties>
+        <CraftingProperties>
+            <RequiredTrinkets>
+                <ListItem>FlameStick</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>RawGrain</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+        <BaseStats>
+            <NutritionalValue>.35</NutritionalValue>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="Food">
+        <Moniker>RoastedBulb</Moniker>
+        <Label>Roasted Bulb</Label>
+        <Description>A plant bulb blistered over flame. Light on the feet, and it thickens the body.</Description>
+        <GoldCost>20</GoldCost>
+        <TexturePath>Entities/Item/Resource/Organic/RoastedBulb</TexturePath>
+        <FoodProperties>
+            <FoodType>CookedVegetable</FoodType>
+            <Effects>
+                <ListItem>
+                    <Def>Springy</Def>
+                </ListItem>
+            </Effects>
+        </FoodProperties>
+        <CraftingProperties>
+            <RequiredTrinkets>
+                <ListItem>FlameStick</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>PlantBulb</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+        <BaseStats>
+            <NutritionalValue>.20</NutritionalValue>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="Food">
+        <Moniker>StewedBerries</Moniker>
+        <Label>Stewed Berries</Label>
+        <Description>A warm mash of elder berries. Tart and staining, and it thickens the body.</Description>
+        <GoldCost>20</GoldCost>
+        <TexturePath>Entities/Item/Resource/Organic/StewedBerries</TexturePath>
+        <FoodProperties>
+            <FoodType>Berry</FoodType>
+            <Effects>
+                <ListItem>
+                    <Def>Berried</Def>
+                </ListItem>
+            </Effects>
+        </FoodProperties>
+        <CraftingProperties>
+            <RequiredTrinkets>
+                <ListItem>FlameStick</ListItem>
+                <ListItem>CookingPot</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>ElderBerry</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+        <BaseStats>
+            <NutritionalValue>.15</NutritionalValue>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="Food">
         <Moniker>HeartyStew</Moniker>
         <Label>Hearty Stew</Label>
         <Description>Nicely stewed meat and vegetables. A hearty meal that thickens the body.</Description>
-        <GoldCost>50</GoldCost>
+        <GoldCost>60</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/FishStew</TexturePath>
         <FoodProperties>
             <FoodType>CookedMeat</FoodType>
@@ -174,7 +262,7 @@
         <Moniker>WondrousJam</Moniker>
         <Label>Wondrous Jam</Label>
         <Description />
-        <GoldCost>50</GoldCost>
+        <GoldCost>60</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/WondrousJam</TexturePath>
         <FoodProperties>
             <FoodType>Fruit</FoodType>
@@ -277,7 +365,7 @@
         <Moniker>InkyCapMushroom</Moniker>
         <Label>Inky Cap Mushroom</Label>
         <Description>Probably not a good idea to taste this one...</Description>
-        <GoldCost>35</GoldCost>
+        <GoldCost>40</GoldCost>
         <TexturePath>Entities/Item/Resource/Organic/InkyCapMushroom</TexturePath>
         <FoodProperties>
             <FoodType>Fungi</FoodType>
