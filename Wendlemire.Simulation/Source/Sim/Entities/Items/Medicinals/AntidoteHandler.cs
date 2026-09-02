@@ -34,4 +34,14 @@ public class AntidoteHandler : MedicinalHandler
 
         return any;
     }
+
+    public override string GetEffectDescription(Item item) =>
+        "Burns poison out of every vein.";
+
+    public override IReadOnlyList<string> GetHowItWorks(Item item) =>
+    [
+        "Purges Poison from the whole body at once.",
+        "Does nothing if nothing is poisoned.",
+        "Does not treat festering, necrosis, or other rot."
+    ];
 }

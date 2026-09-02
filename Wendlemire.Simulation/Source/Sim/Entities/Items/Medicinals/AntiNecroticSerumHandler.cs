@@ -20,4 +20,18 @@ public class AntiNecroticSerumHandler : MedicinalHandler
 
         return false;
     }
+
+    public override string GetEffectDescription(Item item) =>
+        "Starts a timed treatment that cures necrosis when it finishes.";
+
+    public override IReadOnlyList<string> GetHowItWorks(Item item)
+    {
+        var seconds = item.ItemDef.MedicinalProperties!.DurationInTicks / (float)GameContext.TicksPerSecond;
+        return
+        [
+            "Only works on a part that already has necrosis.",
+            $"Applies Necrosis Serum for {seconds:0.#}s. When it expires, the necrosis goes with it.",
+            "Does not heal the hole the rot already chewed."
+        ];
+    }
 }

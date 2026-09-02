@@ -16,6 +16,19 @@ public class MendersMixHandler : MedicinalHandler
     // Colors for the infographic
     private const double RhinoPower = 1;
 
+    public override string GetEffectDescription(Item item)
+    {
+        var pool = item.GetStatValue(Defs.Stats.HealingValue);
+        return $"Pours a {pool:0} HP pool through the body and kicks on restoration.";
+    }
+
+    public override IReadOnlyList<string> GetHowItWorks(Item item) =>
+    [
+        "Heals through the targeted limb and connected sockets.",
+        "Applies Rhino Restoration — strong regen, and parts can come back after destruction.",
+        "The mix is spent as it travels. One charge goes a long way."
+    ];
+
     public override bool ApplyToPart(Item item, BodyPart part)
     {
         var healingValue = item.GetStatValue(Defs.Stats.HealingValue);

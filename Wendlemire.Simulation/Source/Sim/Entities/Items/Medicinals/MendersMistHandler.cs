@@ -14,6 +14,19 @@ public class MendersMistHandler : MedicinalHandler
 
     // Colors for the infographic
 
+    public override string GetEffectDescription(Item item)
+    {
+        var pool = item.GetStatValue(Defs.Stats.HealingValue);
+        return $"Sprays a {pool:0} HP pool through flesh, bone, and skin.";
+    }
+
+    public override IReadOnlyList<string> GetHowItWorks(Item item) =>
+    [
+        "Heals the targeted limb, then travels through connected sockets.",
+        "Spends the pool on flesh, bone, and skin — not organs or arteries.",
+        "Stops when the pool runs out."
+    ];
+
     public override bool ApplyToPart(Item item, BodyPart part)
     {
         var healingValue = item.GetStatValue(Defs.Stats.HealingValue);

@@ -22,4 +22,14 @@ public class SutureHandler : MedicinalHandler
 
         return false;
     }
+
+    public override string GetEffectDescription(Item item) =>
+        "Fully repairs one damaged artery.";
+
+    public override IReadOnlyList<string> GetHowItWorks(Item item) =>
+    [
+        "Stitches the first damaged artery under the targeted limb.",
+        "Does not heal flesh, bone, or organs.",
+        "A dead artery will keep a limb from working until this lands."
+    ];
 }

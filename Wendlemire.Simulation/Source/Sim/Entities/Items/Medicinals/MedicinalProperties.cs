@@ -66,4 +66,10 @@ public abstract class MedicinalHandler : IHasContext, IHasRng
     /// <param name="part">The body part to apply the item to</param>
     /// <returns>True if the item was successfully applied, false if it cannot be applied</returns>
     public abstract bool ApplyToPart(Item item, BodyPart part);
+
+    /// <summary>One-line effect for the item panel.</summary>
+    public virtual string GetEffectDescription(Item item) => string.Empty;
+
+    /// <summary>Short facts about what the item heals, skips, or changes.</summary>
+    public virtual IReadOnlyList<string> GetHowItWorks(Item item) => [];
 }

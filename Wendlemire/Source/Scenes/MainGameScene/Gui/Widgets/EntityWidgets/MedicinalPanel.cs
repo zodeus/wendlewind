@@ -1,10 +1,12 @@
-using System.Globalization;
 using Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnPreparationPanelWidgets;
 
 namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
 public class MedicinalPanel : EntityPanelBase
 {
+    private static readonly Color EffectGreen = new(140, 220, 140);
+    private static readonly Color BodyGray = new(190, 190, 190);
+
     private readonly Item _item;
     private Label? _stackValue;
 
@@ -13,37 +15,46 @@ public class MedicinalPanel : EntityPanelBase
     {
         _item = item;
         Padding = new Thickness(20);
-        MinWidth = 480;
-        Spacing = 4;
+        MinWidth = 420;
+        Spacing = 10;
 
-        var mainLayout = new HorizontalStackPanel { Spacing = 20 };
-        mainLayout.Widgets.Add(CreateLeftColumn(item));
-        mainLayout.Widgets.Add(new VerticalSeparator());
+        Widgets.Add(CreateHeader(item));
+        Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 2, 0, 2) });
+        Widgets.Add(CreateProperties(item, item.ItemDef.MedicinalProperties));
 
-        var right = new VerticalStackPanel { Spacing = 8 };
-        var medicinal = item.ItemDef.MedicinalProperties;
-        right.Widgets.Add(CreateProperties(item, medicinal));
-
-        if (medicinal != null)
+        var effect = ResolveEffect(item);
+        if (!string.IsNullOrWhiteSpace(effect))
         {
-            AddNamedList(right, "Triggers", medicinal.GetAllowedTriggerTypes().Select(TriggerLabels.For));
-            AddNamedList(right, "Watches", medicinal.GetWatchPool().Select(TriggerLabels.For));
-            AddNamedList(right, "Targets", medicinal.GetAllowedTargetSelectors().Select(TriggerLabels.For));
+            Widgets.Add(SectionHeader("Effect"));
+            Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+            {
+                Text = effect,
+                Wrap = true,
+                MaxWidth = 380,
+                TextColor = EffectGreen
+            });
         }
 
-        if (item.Def.BaseStats.Count > 0)
+        var how = ResolveHowItWorks(item).ToList();
+        if (how.Count > 0)
         {
-            right.Widgets.Add(CreateStats(item));
+            Widgets.Add(SectionHeader("How it works"));
+            foreach (var line in how)
+            {
+                Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = "• " + line,
+                    Wrap = true,
+                    MaxWidth = 380,
+                    TextColor = BodyGray,
+                    Margin = new Thickness(4, 0, 0, 2)
+                });
+            }
         }
-
-        mainLayout.Widgets.Add(right);
-        Widgets.Add(mainLayout);
     }
 
-    private static VerticalStackPanel CreateLeftColumn(Item item)
+    private static HorizontalStackPanel CreateHeader(Item item)
     {
-        var left = new VerticalStackPanel { Spacing = 10, MinWidth = 220 };
-
         var iconFrame = new Panel
         {
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
@@ -59,20 +70,28 @@ public class MedicinalPanel : EntityPanelBase
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center
         });
-        left.Widgets.Add(iconFrame);
 
+        var info = new VerticalStackPanel
+        {
+            Spacing = 6,
+            VerticalAlignment = VerticalAlignment.Center
+        };
         if (!string.IsNullOrWhiteSpace(item.Def.Description) && item.Def.Description != "undefined")
         {
-            left.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            info.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
             {
                 Text = item.Def.Description,
                 Wrap = true,
-                MaxWidth = 220,
+                MaxWidth = 300,
                 TextColor = Color.LightGray
             });
         }
 
-        return left;
+        return new HorizontalStackPanel
+        {
+            Spacing = 16,
+            Widgets = { iconFrame, info }
+        };
     }
 
     private VerticalStackPanel CreateProperties(Item item, MedicinalProperties? medicinal)
@@ -117,71 +136,43 @@ public class MedicinalPanel : EntityPanelBase
             props.Widgets.Add(CreatePropertyRow("Duration", FormatSeconds(medicinal.DurationInTicks), TC.Green));
         }
 
-        if (medicinal != null)
-        {
-            props.Widgets.Add(CreatePropertyRow("Apply", ApplyLabel(medicinal.ApplyMode), TC.Purple));
-            if (medicinal.DefaultTrigger != null)
-            {
-                props.Widgets.Add(CreatePropertyRow("Default", TriggerLabels.For(medicinal.DefaultTrigger.Type), TC.Golden));
-            }
-        }
-
         return props;
     }
 
-    private static Widget CreateStats(Item item)
+    private static string ResolveEffect(Item item)
     {
-        var section = new VerticalStackPanel { Spacing = 2 };
-        section.Widgets.Add(SectionHeader("Stats"));
-
-        var grid = new Grid { ColumnSpacing = 8, RowSpacing = 1, Margin = new Thickness(4, 0, 0, 0) };
-        grid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-        grid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-
-        var row = 0;
-        foreach (var baseStat in item.Def.BaseStats)
+        var fromHandler = item.MedicinalHandler?.GetEffectDescription(item);
+        if (!string.IsNullOrWhiteSpace(fromHandler))
         {
-            var key = new Label("small") { Text = $"{baseStat.Def.Label}:", TextColor = Color.Gray };
-            Grid.SetRow(key, row);
-            Grid.SetColumn(key, 0);
-            grid.Widgets.Add(key);
-
-            var value = new Label("small")
-            {
-                Text = item.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture),
-                TextColor = Color.LightGoldenrodYellow
-            };
-            Grid.SetRow(value, row);
-            Grid.SetColumn(value, 1);
-            grid.Widgets.Add(value);
-            row++;
+            return fromHandler;
         }
 
-        section.Widgets.Add(grid);
-        return section;
+        return item.ItemDef.Moniker == "Cauterize"
+            ? "Seals an unsealed socket after a limb is severed."
+            : string.Empty;
     }
 
-    private static void AddNamedList(VerticalStackPanel parent, string title, IEnumerable<string> values)
+    private static IEnumerable<string> ResolveHowItWorks(Item item)
     {
-        var items = values.ToList();
-        if (items.Count == 0)
+        var fromHandler = item.MedicinalHandler?.GetHowItWorks(item);
+        if (fromHandler is { Count: > 0 })
         {
-            return;
-        }
-
-        var section = new VerticalStackPanel { Spacing = 2 };
-        section.Widgets.Add(SectionHeader(title));
-        foreach (var value in items)
-        {
-            section.Widgets.Add(new Label("small")
+            foreach (var line in fromHandler)
             {
-                Text = value,
-                TextColor = Color.LightGray,
-                Margin = new Thickness(4, 0, 0, 0)
-            });
+                yield return line;
+            }
+        }
+        else if (item.ItemDef.Moniker == "Cauterize")
+        {
+            yield return "Does not restore hit points.";
+            yield return "Stops a severed stump from spraying.";
         }
 
-        parent.Widgets.Add(section);
+        var trigger = item.ItemDef.MedicinalProperties?.DefaultTrigger;
+        if (trigger != null)
+        {
+            yield return "Chest: " + TriggerLabels.Summarize(trigger, null).Replace(" · auto target", "");
+        }
     }
 
     private static Label SectionHeader(string text) =>
@@ -189,7 +180,7 @@ public class MedicinalPanel : EntityPanelBase
         {
             Text = text,
             TextColor = BaseContent.Colors.Text.Golden,
-            Margin = new Thickness(0, 0, 0, 2)
+            Margin = new Thickness(0, 4, 0, 2)
         };
 
     private static HorizontalStackPanel CreatePropertyRow(string key, string value, string valueColorHex)
@@ -208,13 +199,6 @@ public class MedicinalPanel : EntityPanelBase
 
     private static string FormatSeconds(int ticks) =>
         $"{ticks / (float)GameContext.TicksPerSecond:0.#}s";
-
-    private static string ApplyLabel(MedicalApplyMode mode) => mode switch
-    {
-        MedicalApplyMode.Self => "Self",
-        MedicalApplyMode.NearestExternalAncestor => "Nearest skin",
-        _ => "Watched part"
-    };
 
     public override void Update()
     {

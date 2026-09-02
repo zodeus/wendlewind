@@ -39,4 +39,14 @@ public class StrengthenBonesHandler : MedicinalHandler
 
         return true;
     }
+
+    public override string GetEffectDescription(Item item) =>
+        "Permanently densifies every bone: +40% max health, then a full heal.";
+
+    public override IReadOnlyList<string> GetHowItWorks(Item item) =>
+    [
+        "Installs once at battle start and stays on for the fight.",
+        "Raises max health on all bones by 40%, then fills them.",
+        "Does not stack if you slot two."
+    ];
 }

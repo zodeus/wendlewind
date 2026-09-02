@@ -24,4 +24,14 @@ public class MedKitHandler : MedicinalHandler
 
         return true;
     }
+
+    public override string GetEffectDescription(Item item) =>
+        "Fully reconstructs one limb — bone, flesh, skin, and organs.";
+
+    public override IReadOnlyList<string> GetHowItWorks(Item item) =>
+    [
+        "Heals the targeted part and every internal under it.",
+        "One charge, one limb. Does not spread through sockets.",
+        "Does not seal a severed stump."
+    ];
 }

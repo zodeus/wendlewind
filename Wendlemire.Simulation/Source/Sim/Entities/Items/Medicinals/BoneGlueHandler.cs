@@ -31,4 +31,14 @@ public class BoneGlueHandler : MedicinalHandler
 
     private static bool IsDamagedBone(BodyPart part) =>
         part.Substance == SubstanceType.Bone && part.HealthPercent < 1;
+
+    public override string GetEffectDescription(Item item) =>
+        "Fully heals every bone under one limb.";
+
+    public override IReadOnlyList<string> GetHowItWorks(Item item) =>
+    [
+        "Pastes cracked bones on the targeted limb back to full.",
+        "Does not heal flesh, skin, arteries, or organs.",
+        "Only the bones on that limb — not the whole skeleton."
+    ];
 }

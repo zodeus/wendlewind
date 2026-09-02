@@ -31,4 +31,14 @@ public class CyberveinsHandler : MedicinalHandler
 
         return true;
     }
+
+    public override string GetEffectDescription(Item item) =>
+        "Permanently triples the durability of every artery.";
+
+    public override IReadOnlyList<string> GetHowItWorks(Item item) =>
+    [
+        "Installs once at battle start and stays on for the fight.",
+        "Triples max health on all arteries, then fills them.",
+        "Does not stack if you slot two."
+    ];
 }

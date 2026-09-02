@@ -47,4 +47,14 @@ public class BoneCleanseHandler : MedicinalHandler
 
         return anyEffect;
     }
+
+    public override string GetEffectDescription(Item item) =>
+        "Scrubs every bone in the body and restores a quarter of their health.";
+
+    public override IReadOnlyList<string> GetHowItWorks(Item item) =>
+    [
+        "Hits the whole skeleton, not one limb.",
+        "Clears every modifier sitting on bone.",
+        "Then restores 25% of each bone's max health."
+    ];
 }

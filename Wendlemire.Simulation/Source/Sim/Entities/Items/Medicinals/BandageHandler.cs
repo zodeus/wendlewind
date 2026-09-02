@@ -28,4 +28,14 @@ public class BandageHandler : MedicinalHandler
 
         return any;
     }
+
+    public override string GetEffectDescription(Item item) =>
+        "Fully heals the flesh and skin of one limb.";
+
+    public override IReadOnlyList<string> GetHowItWorks(Item item) =>
+    [
+        "Wraps the targeted limb's meat and skin back together.",
+        "Does not touch bone, arteries, or organs.",
+        "Closing the flesh stops that part from bleeding."
+    ];
 }

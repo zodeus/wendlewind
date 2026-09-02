@@ -10,6 +10,20 @@ public class BalmyOintmentHandler : MedicinalHandler
 
     private const double SoothingBalmPower = 1;
 
+    public override string GetEffectDescription(Item item) =>
+        "Puts out burning and acid, then keeps the meat soothed.";
+
+    public override IReadOnlyList<string> GetHowItWorks(Item item)
+    {
+        var seconds = item.ItemDef.MedicinalProperties!.DurationInTicks / (float)GameContext.TicksPerSecond;
+        return
+        [
+            "Clears Burning and Acid on the targeted limb and its internals.",
+            $"Leaves Soothing Balm for {seconds:0.#}s, which keeps wiping those burns.",
+            "Does not restore hit points."
+        ];
+    }
+
     public override bool ApplyToPart(Item item, BodyPart part)
     {
         if (!NeedsBalm(part) && part.AllInternalParts.All(p => !NeedsBalm(p)))
