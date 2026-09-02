@@ -2,6 +2,9 @@ namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 
 public sealed class CombatSummaryWindow : Window
 {
+    private const int BannerWidth = 468;
+    private const int BannerHeight = 240;
+
     private static readonly Color IronFill = new(42, 26, 20);
     private static readonly Color IronHover = new(58, 28, 20);
     private static readonly Color IronPressed = new(20, 12, 10);
@@ -14,6 +17,7 @@ public sealed class CombatSummaryWindow : Window
     private static readonly Color Dust = new(122, 110, 88);
     private static readonly Color HeaderVeil = new(7, 5, 4, 176);
     private static readonly Color TabletFill = new(16, 10, 8, 236);
+    private static readonly Color Defeat = new(196, 90, 58);
 
     public event Action? OnReviewRequested;
 
@@ -23,216 +27,164 @@ public sealed class CombatSummaryWindow : Window
         var playerWon = !handler.Player.IsDead;
 
         TitlePanel.Visible = false;
-
-        if (playerWon)
-        {
-            MinWidth = 0;
-            Padding = new Thickness(7);
-            Background = new SolidBrush(FrameWood);
-            Border = new SolidBrush(FrameOuter);
-            BorderThickness = new Thickness(1);
-            Content = BuildVictoryContent(encounter, handler, onContinue);
-        }
-        else
-        {
-            MinWidth = 500;
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.Red];
-            Content = BuildDeathReportContent(encounter, handler, onContinue);
-        }
+        MinWidth = 0;
+        Padding = new Thickness(7);
+        Background = new SolidBrush(FrameWood);
+        Border = new SolidBrush(FrameOuter);
+        BorderThickness = new Thickness(1);
+        Content = playerWon
+            ? BuildVictoryContent(encounter, handler, onContinue)
+            : BuildDeathReportContent(encounter, handler, onContinue);
     }
 
     private Widget BuildVictoryContent(Encounter encounter, CombatHandler handler, Action onContinue)
     {
-        const int bannerWidth = 468;
-        const int bannerHeight = 240;
+        var stats = BuildStatsGrid();
+        AddStatRow(stats, 0, "Opponent", handler.Enemy.LabelShort);
+        AddStatRow(stats, 1, "Duration", $"{encounter.Ticks} ticks");
+        AddStatRow(stats, 2, "Damage Dealt", $"{handler.TotalDirectPlayerDamage:N0}", Color.Goldenrod);
+
+        var rowIndex = 3;
+        if (handler.CauseOfDeath != null)
+        {
+            AddStatRow(stats, rowIndex++, "Cause of Death", handler.CauseOfDeath);
+        }
+
+        if (handler.KillingWeapon != null)
+        {
+            AddStatRow(stats, rowIndex++, "Killing Blow", handler.KillingWeapon);
+        }
+
+        if (handler.KillingManeuver != null)
+        {
+            AddStatRow(stats, rowIndex, "Maneuver", handler.KillingManeuver);
+        }
+
+        var extras = new List<Widget>();
+        if (handler.CollectedLoot.Count > 0)
+        {
+            extras.Add(BuildLootSection(handler));
+        }
+
+        if (BuildSeveredLabel(handler, "Limbs lost") is { } severed)
+        {
+            extras.Add(severed);
+        }
+
+        return BuildTablet(
+            BuildBanner(BaseContent.Textures.VictorySplash, "VICTORY", Color.Goldenrod),
+            stats,
+            extras,
+            BuildButtons("Continue", onContinue));
+    }
+
+    private Widget BuildDeathReportContent(Encounter encounter, CombatHandler handler, Action onContinue)
+    {
+        var deathRecords = Core.Context.DeathRecords.List;
+        var totalDamage = deathRecords.Sum(r => r.TotalDamageDealt) + handler.TotalDirectPlayerDamage;
+
+        var stats = BuildStatsGrid();
+        AddStatRow(stats, 0, "Slain by", handler.Enemy.LabelShort, Color.OrangeRed);
+        AddStatRow(stats, 1, "Location", encounter.Zone.ZoneDef.Label);
+        AddStatRow(stats, 2, "Duration", $"{encounter.Ticks} ticks");
+        AddStatRow(stats, 3, "Damage Dealt", $"{handler.TotalDirectPlayerDamage:N0}", Color.Goldenrod);
+        AddStatRow(stats, 4, "Enemies Defeated", $"{deathRecords.Count}");
+        AddStatRow(stats, 5, "Total Damage", $"{totalDamage:N0}", Color.Goldenrod);
+
+        var extras = new List<Widget>();
+        if (deathRecords.Count > 0)
+        {
+            extras.Add(BuildKillHistory(deathRecords));
+        }
+
+        if (BuildSeveredLabel(handler, "Limbs lost") is { } severed)
+        {
+            extras.Add(severed);
+        }
+
+        var continueText = Core.Context.ArenaRun != null || DebugSettings.TestSimMode ? "Continue" : "Try Again";
+        return BuildTablet(
+            BuildBanner(
+                BaseContent.Textures.RunEndSplash,
+                "DEFEAT",
+                Defeat,
+                handler.CauseOfDeath == null ? null : $"Killed by: {handler.CauseOfDeath}"),
+            stats,
+            extras,
+            BuildButtons(continueText, () =>
+            {
+                if (DebugSettings.TestSimMode || Core.Context.ArenaRun != null)
+                {
+                    onContinue();
+                    return;
+                }
+
+                Core.Context.StartOver();
+            }));
+    }
+
+    private static Widget BuildBanner(Texture2D splash, string title, Color titleColor, string? subtitle = null)
+    {
+        var titleBlock = new VerticalStackPanel
+        {
+            Spacing = 6,
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
+        titleBlock.Widgets.Add(new Label
+        {
+            Text = title,
+            Font = BaseContent.Fonts.Display.Large,
+            TextColor = titleColor,
+            HorizontalAlignment = HorizontalAlignment.Center
+        });
+        titleBlock.Widgets.Add(new EmberRule { Width = 220, Height = 3, HorizontalAlignment = HorizontalAlignment.Center });
+        if (subtitle != null)
+        {
+            titleBlock.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = subtitle,
+                TextColor = Color.IndianRed,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Wrap = true,
+                MaxWidth = BannerWidth - 32
+            });
+        }
 
         var banner = new Panel
         {
-            Width = bannerWidth,
-            Height = bannerHeight,
+            Width = BannerWidth,
+            Height = BannerHeight,
             ClipToBounds = true
         };
-        banner.Widgets.Add(new CoverImage(BaseContent.Textures.VictorySplash));
+        banner.Widgets.Add(new CoverImage(splash));
         banner.Widgets.Add(new Panel
         {
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Bottom,
             Background = new SolidBrush(HeaderVeil),
             Padding = new Thickness(12, 8, 12, 10),
-            Widgets =
-            {
-                new VerticalStackPanel
-                {
-                    Spacing = 6,
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    Widgets =
-                    {
-                        new Label
-                        {
-                            Text = "VICTORY",
-                            Font = BaseContent.Fonts.Display.Large,
-                            TextColor = Color.Goldenrod,
-                            HorizontalAlignment = HorizontalAlignment.Center
-                        },
-                        new EmberRule { Width = 220, Height = 3, HorizontalAlignment = HorizontalAlignment.Center }
-                    }
-                }
-            }
+            Widgets = { titleBlock }
         });
+        return banner;
+    }
 
-        var statsPanel = new Grid
-        {
-            RowSpacing = 4,
-            ColumnSpacing = 16,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            DefaultRowProportion = Proportion.Auto
-        };
-        statsPanel.ColumnsProportions.Add(Proportion.Fill);
-        statsPanel.ColumnsProportions.Add(Proportion.Auto);
-
-        AddVictoryStatRow(statsPanel, 0, "Opponent", handler.Enemy.LabelShort);
-        AddVictoryStatRow(statsPanel, 1, "Duration", $"{encounter.Ticks} ticks");
-        AddVictoryStatRow(statsPanel, 2, "Damage Dealt", $"{handler.TotalDirectPlayerDamage:N0}", Color.Goldenrod);
-
-        var rowIndex = 3;
-        if (handler.CauseOfDeath != null)
-        {
-            AddVictoryStatRow(statsPanel, rowIndex++, "Cause of Death", handler.CauseOfDeath);
-        }
-
-        if (handler.KillingWeapon != null)
-        {
-            AddVictoryStatRow(statsPanel, rowIndex++, "Killing Blow", handler.KillingWeapon);
-        }
-
-        if (handler.KillingManeuver != null)
-        {
-            AddVictoryStatRow(statsPanel, rowIndex, "Maneuver", handler.KillingManeuver);
-        }
-
-        Widget? lootSection = null;
-        if (handler.CollectedLoot.Count > 0)
-        {
-            var lootItems = new HorizontalStackPanel
-            {
-                Spacing = 6,
-                HorizontalAlignment = HorizontalAlignment.Center
-            };
-
-            foreach (var resource in handler.CollectedLoot.Take(8))
-            {
-                var itemPanel = new Panel
-                {
-                    Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
-                    Padding = new Thickness(3)
-                };
-
-                var itemIcon = new Image
-                {
-                    Background = resource.Item.GetIconImage(),
-                    Width = 48,
-                    Height = 48
-                };
-                itemPanel.Widgets.Add(itemIcon);
-
-                if (resource.Count > 1)
-                {
-                    itemPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-                    {
-                        Text = $"x{resource.Count}",
-                        TextColor = Bone,
-                        HorizontalAlignment = HorizontalAlignment.Right,
-                        VerticalAlignment = VerticalAlignment.Bottom
-                    });
-                }
-
-                itemPanel.WithTooltip(resource.Item.Label);
-                lootItems.Widgets.Add(itemPanel);
-            }
-
-            if (handler.CollectedLoot.Count > 8)
-            {
-                lootItems.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-                {
-                    Text = $"+{handler.CollectedLoot.Count - 8} more",
-                    TextColor = Dust,
-                    VerticalAlignment = VerticalAlignment.Center
-                });
-            }
-
-            lootSection = new VerticalStackPanel
-            {
-                Spacing = 4,
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                Widgets =
-                {
-                    new Label(BaseContent.Styles.Label.Small)
-                    {
-                        Text = "Loot",
-                        TextColor = Dust,
-                        HorizontalAlignment = HorizontalAlignment.Center
-                    },
-                    lootItems
-                }
-            };
-        }
-
-        Widget? severedSection = null;
-        if (handler.SeveredLimbs.Count > 0)
-        {
-            severedSection = new Label(BaseContent.Styles.Label.Small)
-            {
-                Text = $"Limbs lost: {string.Join(", ", handler.SeveredLimbs.Select(l => l.Label))}",
-                TextColor = Color.OrangeRed,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                Wrap = true,
-                Width = bannerWidth - 32
-            };
-        }
-
-        var reviewButton = IronButton("Review Combat", 220);
-        reviewButton.Click += (_, _) =>
-        {
-            Visible = false;
-            OnReviewRequested?.Invoke();
-        };
-
-        var continueButton = IronButton("Continue", 220);
-        continueButton.Click += (_, _) =>
-        {
-            Close();
-            onContinue();
-        };
-
-        var buttons = new HorizontalStackPanel
-        {
-            Spacing = 10,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            Margin = new Thickness(0, 4, 0, 0),
-            Widgets = { reviewButton, continueButton }
-        };
-
+    private static Widget BuildTablet(Widget banner, Widget stats, IReadOnlyList<Widget> extras, Widget buttons)
+    {
         var body = new VerticalStackPanel
         {
             Spacing = 8,
             Padding = new Thickness(16, 12, 16, 14),
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            Widgets = { statsPanel }
+            Widgets = { stats }
         };
-
-        if (lootSection != null)
+        foreach (var extra in extras)
         {
-            body.Widgets.Add(lootSection);
-        }
-
-        if (severedSection != null)
-        {
-            body.Widgets.Add(severedSection);
+            body.Widgets.Add(extra);
         }
 
         body.Widgets.Add(buttons);
 
-        var tablet = new Panel
+        return new Panel
         {
             Background = new SolidBrush(TabletFill),
             Border = new SolidBrush(FrameInset),
@@ -246,183 +198,164 @@ public sealed class CombatSummaryWindow : Window
                 }
             }
         };
-
-        return tablet;
     }
 
-    private Widget BuildDeathReportContent(Encounter encounter, CombatHandler handler, Action onContinue)
+    private Widget BuildButtons(string continueText, Action onContinue)
     {
-        var deathRecords = Core.Context.DeathRecords.List;
-        var totalDamageAllRuns = deathRecords.Sum(r => r.TotalDamageDealt) + handler.TotalDirectPlayerDamage;
-        var totalKills = deathRecords.Count;
-
-        // Title
-        var title = new Label(BaseContent.Styles.Label.Huge)
+        var reviewButton = IronButton("Review Combat", 220);
+        reviewButton.Click += (_, _) =>
         {
-            Text = "DEATH REPORT",
-            TextColor = new Color(180, 30, 30),
-            HorizontalAlignment = HorizontalAlignment.Center,
-            Margin = new Thickness(0, 0, 0, 10)
+            Visible = false;
+            OnReviewRequested?.Invoke();
         };
 
-        // Subtitle with cause of death
-        var causeLabel = new Label(BaseContent.Styles.Label.Medium)
-        {
-            Text = $"Killed by: {handler.CauseOfDeath ?? "Unknown"}",
-            TextColor = Color.IndianRed,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            Margin = new Thickness(0, 0, 0, 20)
-        };
-
-        // Final Combat Stats Section
-        var finalCombatTitle = new Label(BaseContent.Styles.Label.Normal)
-        {
-            Text = "— FINAL BATTLE —",
-            TextColor = Color.DarkGray,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            Margin = new Thickness(0, 5, 0, 8)
-        };
-
-        var finalStatsPanel = new Grid
-        {
-            RowSpacing = 6,
-            ColumnSpacing = 25,
-            DefaultColumnProportion = Proportion.Auto,
-            DefaultRowProportion = Proportion.Auto,
-            HorizontalAlignment = HorizontalAlignment.Center
-        };
-
-        AddStatRow(finalStatsPanel, 0, "Slain by", handler.Enemy.LabelShort, Color.OrangeRed);
-        AddStatRow(finalStatsPanel, 1, "Location", encounter.Zone.ZoneDef.Label, Color.LightGray);
-        AddStatRow(finalStatsPanel, 2, "Combat Duration", $"{encounter.Ticks} ticks", Color.LightGray);
-        AddStatRow(finalStatsPanel, 3, "Damage Dealt", $"{handler.TotalDirectPlayerDamage:N0}", Color.Goldenrod);
-
-        // Run Summary Section
-        var runTitle = new Label(BaseContent.Styles.Label.Normal)
-        {
-            Text = "— RUN SUMMARY —",
-            TextColor = Color.DarkGray,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            Margin = new Thickness(0, 20, 0, 8)
-        };
-
-        var runStatsPanel = new Grid
-        {
-            RowSpacing = 6,
-            ColumnSpacing = 25,
-            DefaultColumnProportion = Proportion.Auto,
-            DefaultRowProportion = Proportion.Auto,
-            HorizontalAlignment = HorizontalAlignment.Center
-        };
-
-        AddStatRow(runStatsPanel, 0, "Enemies Defeated", $"{totalKills}", Color.Goldenrod);
-        AddStatRow(runStatsPanel, 1, "Total Damage", $"{totalDamageAllRuns:N0}", Color.Goldenrod);
-
-        // Kill History Section (last 5 kills)
-        Widget? killHistorySection = null;
-        if (deathRecords.Count > 0)
-        {
-            var killHistoryTitle = new Label(BaseContent.Styles.Label.Normal)
-            {
-                Text = "— KILL HISTORY —",
-                TextColor = Color.DarkGray,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                Margin = new Thickness(0, 20, 0, 8)
-            };
-
-            var killList = new VerticalStackPanel
-            {
-                Spacing = 4,
-                HorizontalAlignment = HorizontalAlignment.Center
-            };
-
-            foreach (var record in deathRecords.TakeLast(6))
-            {
-                var killEntry = new Label(BaseContent.Styles.Label.Small)
-                {
-                    Text = $"#{record.Round} {record.PawnName} — {record.CauseOfDeath}",
-                    TextColor = Color.Gray,
-                    HorizontalAlignment = HorizontalAlignment.Center
-                };
-                killList.Widgets.Add(killEntry);
-            }
-
-            killHistorySection = new VerticalStackPanel
-            {
-                Widgets = { killHistoryTitle, killList }
-            };
-        }
-
-        // Severed limbs
-        Widget? severedSection = null;
-        if (handler.SeveredLimbs.Count > 0)
-        {
-            var severedLabel = new Label(BaseContent.Styles.Label.Small)
-            {
-                Text = $"Limbs lost in final battle: {string.Join(", ", handler.SeveredLimbs.Select(l => l.Label))}",
-                TextColor = Color.OrangeRed,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                Margin = new Thickness(0, 15, 0, 0),
-                Wrap = true,
-                Width = 450
-            };
-            severedSection = severedLabel;
-        }
-
-        // Restart button
-        var restartButton = new CursorButton(BaseContent.Styles.Button.Large)
-        {
-            Content = new Label { Text = "Try Again", HorizontalAlignment = HorizontalAlignment.Center },
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Margin = new Thickness(0, 30, 0, 0)
-        };
-        if (Core.Context.ArenaRun != null)
-        {
-            restartButton.Content = new Label { Text = "Continue", HorizontalAlignment = HorizontalAlignment.Center };
-        }
-
-        restartButton.Click += (_, _) =>
+        var continueButton = IronButton(continueText, 220);
+        continueButton.Click += (_, _) =>
         {
             Close();
-            if (DebugSettings.TestSimMode || Core.Context.ArenaRun != null)
-            {
-                onContinue();
-            }
-            else
-            {
-                Core.Context.StartOver();
-            }
+            onContinue();
         };
 
-        // Build content
-        var content = new VerticalStackPanel
+        return new HorizontalStackPanel
         {
-            Spacing = 0,
-            Padding = new Thickness(50, 35, 50, 35),
+            Spacing = 10,
             HorizontalAlignment = HorizontalAlignment.Center,
-            Widgets =
-            {
-                title,
-                causeLabel,
-                finalCombatTitle,
-                finalStatsPanel,
-                runTitle,
-                runStatsPanel
-            }
+            Margin = new Thickness(0, 4, 0, 0),
+            Widgets = { reviewButton, continueButton }
         };
-
-        if (killHistorySection != null)
-            content.Widgets.Add(killHistorySection);
-
-        if (severedSection != null)
-            content.Widgets.Add(severedSection);
-
-        content.Widgets.Add(restartButton);
-
-        return content;
     }
 
-    private static void AddVictoryStatRow(Grid grid, int row, string label, string value, Color? valueColor = null)
+    private static Widget BuildLootSection(CombatHandler handler)
+    {
+        var lootItems = new HorizontalStackPanel
+        {
+            Spacing = 6,
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
+
+        foreach (var resource in handler.CollectedLoot.Take(8))
+        {
+            var itemPanel = new Panel
+            {
+                Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
+                Padding = new Thickness(3)
+            };
+
+            itemPanel.Widgets.Add(new Image
+            {
+                Background = resource.Item.GetIconImage(),
+                Width = 48,
+                Height = 48
+            });
+
+            if (resource.Count > 1)
+            {
+                itemPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = $"x{resource.Count}",
+                    TextColor = Bone,
+                    HorizontalAlignment = HorizontalAlignment.Right,
+                    VerticalAlignment = VerticalAlignment.Bottom
+                });
+            }
+
+            itemPanel.WithTooltip(resource.Item.Label);
+            lootItems.Widgets.Add(itemPanel);
+        }
+
+        if (handler.CollectedLoot.Count > 8)
+        {
+            lootItems.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = $"+{handler.CollectedLoot.Count - 8} more",
+                TextColor = Dust,
+                VerticalAlignment = VerticalAlignment.Center
+            });
+        }
+
+        return new VerticalStackPanel
+        {
+            Spacing = 4,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Widgets =
+            {
+                new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = "Loot",
+                    TextColor = Dust,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                },
+                lootItems
+            }
+        };
+    }
+
+    private static Widget BuildKillHistory(IReadOnlyList<DeathRecord> deathRecords)
+    {
+        var killList = new VerticalStackPanel
+        {
+            Spacing = 2,
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        };
+        foreach (var record in deathRecords.TakeLast(6))
+        {
+            killList.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+            {
+                Text = $"#{record.Round}  {record.PawnName}  —  {record.CauseOfDeath}",
+                TextColor = Dust,
+                HorizontalAlignment = HorizontalAlignment.Stretch
+            });
+        }
+
+        return new VerticalStackPanel
+        {
+            Spacing = 4,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Widgets =
+            {
+                new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = "Kills",
+                    TextColor = Dust,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                },
+                killList
+            }
+        };
+    }
+
+    private static Label? BuildSeveredLabel(CombatHandler handler, string prefix)
+    {
+        if (handler.SeveredLimbs.Count == 0)
+        {
+            return null;
+        }
+
+        return new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = $"{prefix}: {string.Join(", ", handler.SeveredLimbs.Select(l => l.Label))}",
+            TextColor = Color.OrangeRed,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Wrap = true,
+            Width = BannerWidth - 32
+        };
+    }
+
+    private static Grid BuildStatsGrid()
+    {
+        var stats = new Grid
+        {
+            RowSpacing = 4,
+            ColumnSpacing = 16,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            DefaultRowProportion = Proportion.Auto
+        };
+        stats.ColumnsProportions.Add(Proportion.Fill);
+        stats.ColumnsProportions.Add(Proportion.Auto);
+        return stats;
+    }
+
+    private static void AddStatRow(Grid grid, int row, string label, string value, Color? valueColor = null)
     {
         var labelWidget = new Label(BaseContent.Styles.Label.Small)
         {
@@ -438,27 +371,6 @@ public sealed class CombatSummaryWindow : Window
             Text = value,
             TextColor = valueColor ?? Bone,
             HorizontalAlignment = HorizontalAlignment.Right
-        };
-        Grid.SetRow(valueWidget, row);
-        Grid.SetColumn(valueWidget, 1);
-        grid.Widgets.Add(valueWidget);
-    }
-
-    private static void AddStatRow(Grid grid, int row, string label, string value, Color? valueColor = null)
-    {
-        var labelWidget = new Label(BaseContent.Styles.Label.Normal)
-        {
-            Text = label + ":",
-            TextColor = Color.LightGray
-        };
-        Grid.SetRow(labelWidget, row);
-        Grid.SetColumn(labelWidget, 0);
-        grid.Widgets.Add(labelWidget);
-
-        var valueWidget = new Label(BaseContent.Styles.Label.Normal)
-        {
-            Text = value,
-            TextColor = valueColor ?? Color.White
         };
         Grid.SetRow(valueWidget, row);
         Grid.SetColumn(valueWidget, 1);

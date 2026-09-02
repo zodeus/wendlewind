@@ -5,12 +5,15 @@ namespace Wendlemire.Sim.Entities.Pawns;
 public class BodyPart : Entity
 {
     public const float SkinDamageScaler = 0.6f;
+    public const double DestroyedEnterHitPoints = 0.1;
 
     public event Action<BodyPartModifier, BodyPartModifierEventType>? ModifiersChanged;
     public event Action<BodyPart, List<DamagedBodyPartRecord>>? PartDamaged; //todo - actions
     public event Action<BodyPart>? HealthChanged; //todo - actions
 
     private double _hitPoints;
+    private bool _isDestroyed;
+    private int _destroyedRecoverTicks;
     private string? _adaptedLabel;
     private string? _internalLabel;
     private bool _isSevered; // todo, this should be set by an applied health condition
@@ -43,7 +46,12 @@ public class BodyPart : Entity
     public SubstanceType Substance => _substanceOverride ?? BodyPartDef.Substance;
     public bool IsOrgan => BodyPartDef.IsOrgan;
     public bool IsVital => BodyPartDef.IsVital;
-    public new bool IsDestroyed => HitPoints <= .1f;
+    /// <summary>
+    /// Sticky destroyed flag. Crossing the enter threshold (low HP) destroys the part immediately;
+    /// it stays destroyed until HP holds at the recover threshold so regen vs DoT cannot strobe
+    /// functional / mobility / UI color every tick.
+    /// </summary>
+    public new bool IsDestroyed => _isDestroyed;
     public bool IsBleeding => HealthPercent < .99 && Substance == SubstanceType.Flesh; //todo coagulation
 
     public List<EquipmentSlotType>? EquipmentSlots => BodyPartDef.EquipmentSlots;
@@ -56,13 +64,37 @@ public class BodyPart : Entity
         get => _hitPoints;
         set
         {
+            var previous = _hitPoints;
             _hitPoints = Math.Clamp(value, 0, MaxHitPoints);
+            if (_hitPoints <= DestroyedEnterHitPoints)
+            {
+                _isDestroyed = true;
+                _destroyedRecoverTicks = 0;
+            }
+            else if (IsImmediateRestore(previous, _hitPoints))
+            {
+                _isDestroyed = false;
+                _destroyedRecoverTicks = 0;
+            }
+
             HealthChanged?.Invoke(this);
             if (Body != null)
             {
                 Body.BodyPartsDirty = true;
             }
         }
+    }
+
+    private bool IsImmediateRestore(double previous, double next)
+    {
+        if (MaxHitPoints <= 0 || next < MaxHitPoints)
+        {
+            return false;
+        }
+
+        // Bandages / medkits jump a destroyed part back to full HP. A 0.1/tick climb
+        // that happens to reach max must still sit in the recover hold or 1-HP parts strobe.
+        return previous <= DestroyedEnterHitPoints || next - previous >= MaxHitPoints * 0.5;
     }
 
     #region Dynamic Getters
@@ -87,12 +119,12 @@ public class BodyPart : Entity
     {
         get
         {
-            if (Type == BodyPartType.Artery && HitPoints <= 0)
+            if (Type == BodyPartType.Artery && IsDestroyed)
             {
                 return false;
             }
 
-            if (IsExternal && InternalParts.Any(part => part.Type == BodyPartType.Artery && part.HitPoints <= 0))
+            if (IsExternal && InternalParts.Any(part => part.Type == BodyPartType.Artery && part.IsDestroyed))
             {
                 return false;
             }
@@ -106,7 +138,7 @@ public class BodyPart : Entity
 
     public bool HasBones => Bones.Count > 0;
 
-    public bool HasBrokenBones => Bones.Any(part => part.HitPoints <= 0);
+    public bool HasBrokenBones => Bones.Any(part => part.IsDestroyed);
 
     public BodyPart? Skin => InternalParts.FirstOrNull(part => part?.Type == BodyPartType.Skin);
 
@@ -320,7 +352,45 @@ public class BodyPart : Entity
         }
 
         base.Tick();
+        UpdateDestroyedRecovery();
         NotifyTickDelta(hpBefore);
+    }
+
+    public double DestroyedRecoverHitPoints
+    {
+        get
+        {
+            if (MaxHitPoints <= DestroyedEnterHitPoints)
+            {
+                return MaxHitPoints;
+            }
+
+            return Math.Min(MaxHitPoints, Math.Max(1.0, MaxHitPoints * 0.2));
+        }
+    }
+
+    public static int DestroyedRecoverHoldTicks => Math.Max(1, GameContext.TicksPerSecond / 4);
+
+    private void UpdateDestroyedRecovery()
+    {
+        if (!_isDestroyed)
+        {
+            _destroyedRecoverTicks = 0;
+            return;
+        }
+
+        if (_hitPoints < DestroyedRecoverHitPoints)
+        {
+            _destroyedRecoverTicks = 0;
+            return;
+        }
+
+        _destroyedRecoverTicks++;
+        if (_destroyedRecoverTicks >= DestroyedRecoverHoldTicks)
+        {
+            _isDestroyed = false;
+            _destroyedRecoverTicks = 0;
+        }
     }
 
     private void NotifyTickDelta(double hpBefore)
@@ -656,6 +726,16 @@ public class BodyPart : Entity
     {
         base.ExposeData();
         ScribeValues.Look(ref _hitPoints, "HitPoints");
+        ScribeValues.Look(ref _isDestroyed, "IsDestroyedLatched");
+        if (_hitPoints <= DestroyedEnterHitPoints)
+        {
+            _isDestroyed = true;
+        }
+        else if (MaxHitPoints > 0 && _hitPoints >= MaxHitPoints)
+        {
+            _isDestroyed = false;
+        }
+
         ScribeValues.Look(ref _adaptedLabel!, "AdaptedLabel");
         ScribeValues.Look(ref _isSevered, "IsCracked");
         ScribeValues.Look(ref _isSevered, "IsSevered");

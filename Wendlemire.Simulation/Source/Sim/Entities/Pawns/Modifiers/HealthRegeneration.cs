@@ -18,15 +18,27 @@ public class HealthRegeneration : BodyPartModifier
         if (BodyPart.IsDestroyed)
         {
             _ticksToRegenerate++;
-            if (_ticksToRegenerate >= TotalTicksToRegenerate)
+            if (_ticksToRegenerate < TotalTicksToRegenerate)
             {
-                BodyPart.HitPoints = 1;
+                return;
             }
+
+            // Heal toward recovery instead of slamming HP to 1 every tick after the wait.
+            // The first ready tick kicks a zeroed part so flat regen can climb; later ticks
+            // apply the normal rate so DoT can still win without a red/green strobe.
+            if (_ticksToRegenerate == TotalTicksToRegenerate
+                && BodyPart.HitPoints < BodyPart.DestroyedRecoverHitPoints
+                && BodyPart.DestroyedRecoverHitPoints < BodyPart.MaxHitPoints)
+            {
+                BodyPart.HitPoints = BodyPart.DestroyedRecoverHitPoints;
+            }
+
+            BodyPart.HitPoints += Power * HealthRegenerationPerTick;
             return;
         }
-        
-        var health = Power * HealthRegenerationPerTick;
-        BodyPart.HitPoints += health;
+
+        _ticksToRegenerate = 0;
+        BodyPart.HitPoints += Power * HealthRegenerationPerTick;
     }
 
     public override InfoPanelData GetInfoData() => new InfoPanelData
