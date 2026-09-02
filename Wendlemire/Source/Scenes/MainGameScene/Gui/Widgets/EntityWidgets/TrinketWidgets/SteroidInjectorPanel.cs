@@ -36,8 +36,8 @@ public sealed class SteroidInjectorPanel : EntityPanelBase
         // === UNIFIED HEADER WITH FUEL GAUGE ===
         var header = new HorizontalStackPanel
         {
-            Padding = new Thickness(20, 16),
-            Spacing = 20,
+            Padding = new Thickness(10, 8),
+            Spacing = 12,
             Margin = new Thickness(0, 0, 0, 2)
         };
         
@@ -67,8 +67,12 @@ public sealed class SteroidInjectorPanel : EntityPanelBase
             Spacing = 6
         };
         
-        // "Fuel Remaining" label
-        fuelInfo.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+        fuelInfo.Widgets.Add(new Label("small")
+        {
+            Text = item.Label,
+            TextColor = EntityCardChrome.Section
+        });
+        fuelInfo.Widgets.Add(new Label("small")
         {
             Text = "Fuel Remaining",
             TextColor = FuelDimColor

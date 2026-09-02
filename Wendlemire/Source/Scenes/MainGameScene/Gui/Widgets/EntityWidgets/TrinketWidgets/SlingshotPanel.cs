@@ -21,7 +21,7 @@ public sealed class SlingshotPanel : EntityPanelBase
         _inventory.ItemAdded += OnInventoryChanged;
         _inventory.ItemRemoved += OnInventoryChanged;
         _inventory.ItemStackSizeChanged += OnInventoryChanged;
-        Padding = new Thickness(16);
+        Padding = EntityCardChrome.CardPadding;
         Height = 600;
 
         // Header with icon, title, and active bonuses
@@ -37,12 +37,17 @@ public sealed class SlingshotPanel : EntityPanelBase
             Spacing = 2,
             Widgets =
             {
-                new Label(BaseContent.Styles.Label.Normal)
+                new Label("small")
+                {
+                    Text = item.Label,
+                    TextColor = EntityCardChrome.Section
+                },
+                new Label("small")
                 {
                     Text = item.Def.Description,
-                    TextColor = Color.LightGray,
+                    TextColor = EntityCardChrome.Flavor,
                     Wrap = true,
-                    MaxWidth = 380
+                    MaxWidth = 320
                 }
             }
         };

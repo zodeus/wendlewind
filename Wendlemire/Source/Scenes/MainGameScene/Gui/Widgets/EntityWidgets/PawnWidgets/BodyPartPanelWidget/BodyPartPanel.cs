@@ -8,10 +8,16 @@ public sealed class BodyPartPanel : EntityPanelBase
 
     public BodyPartPanel(BaseGui gui, BodyPart bodyPart, EntityPanelProperties? properties = null) : base(gui, bodyPart, properties)
     {
-        Padding = new Thickness(20);
+        Padding = EntityCardChrome.CardPadding;
         MinWidth = 300;
 
         _modifiersPanel = new BodyPartPanelModifiersLabel(bodyPart);
+
+        Widgets.Add(new Label("small")
+        {
+            Text = bodyPart.Label,
+            TextColor = EntityCardChrome.Section
+        });
 
         VerticalStackPanel leftPanel = new() { Spacing = 5, MinWidth = 330 };
         leftPanel.Widgets.Add(new BodyPartPanelHealthLabel(bodyPart));

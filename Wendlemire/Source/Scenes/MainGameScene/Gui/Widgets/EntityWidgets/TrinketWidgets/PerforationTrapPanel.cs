@@ -33,43 +33,9 @@ public sealed class PerforationTrapPanel : EntityPanelBase
         inventory.ItemRemoved += OnInventoryChanged;
         inventory.ItemStackSizeChanged += OnInventoryChanged;
 
-        Padding = new Thickness(24);
+        EntityCardChrome.ApplyCard(this, 360);
         Width = 440;
-        Spacing = 0;
-
-        // Header with icon and description
-        var header = new HorizontalStackPanel
-        {
-            Spacing = 16,
-            Margin = new Thickness(0, 0, 0, 16),
-            Widgets =
-            {
-                new Image
-                {
-                    Background = item.GetIconImage(),
-                    Width = 100,
-                    Height = 100,
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center
-                },
-                new VerticalStackPanel
-                {
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Spacing = 4,
-                    Widgets =
-                    {
-                        new Label(BaseContent.Styles.Label.Small)
-                        {
-                            Text = item.Def.Description,
-                            TextColor = new Color(150, 150, 150),
-                            Wrap = true,
-                            MaxWidth = 300
-                        }
-                    }
-                }
-            }
-        };
-        Widgets.Add(header);
+        Widgets.Add(EntityCardChrome.Header(item, new Color(180, 70, 70)));
 
         // Status section
         var statusSection = new Panel

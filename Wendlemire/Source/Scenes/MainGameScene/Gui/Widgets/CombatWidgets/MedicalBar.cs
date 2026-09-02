@@ -216,7 +216,7 @@ internal sealed class MedicalSlotView : Panel
 
         var panel = EntityPanelFactory.Create(_gui, _hoverInspectItem, new EntityPanelProperties
         {
-            ShowTitle = true,
+            ShowTitle = false,
             ShowCloseButton = false,
             Background = null
         });

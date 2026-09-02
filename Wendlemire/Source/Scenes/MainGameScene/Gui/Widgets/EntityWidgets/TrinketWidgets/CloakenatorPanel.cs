@@ -8,46 +8,8 @@ public sealed class CloakenatorPanel : EntityPanelBase
 {
     public CloakenatorPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
-        Padding = new Thickness(20);
-        MinWidth = 360;
-        Spacing = 12;
-
-        // Header with icon and description
-        var headerSection = new HorizontalStackPanel
-        {
-            Spacing = 15,
-            Margin = new Thickness(0, 0, 0, 8)
-        };
-
-        // Icon with frame
-        var iconFrame = new Panel
-        {
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
-            Padding = new Thickness(4),
-            Width = 80,
-            Height = 80
-        };
-        iconFrame.Widgets.Add(new Image
-        {
-            Background = item.GetIconImage(),
-            Width = 72,
-            Height = 72,
-            VerticalAlignment = VerticalAlignment.Center,
-            HorizontalAlignment = HorizontalAlignment.Center
-        });
-        headerSection.Widgets.Add(iconFrame);
-
-        // Description area
-        var descArea = new VerticalStackPanel { Spacing = 6, VerticalAlignment = VerticalAlignment.Center };
-        descArea.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
-        {
-            Text = item.Def.Description,
-            Wrap = true,
-            MaxWidth = 280
-        });
-        headerSection.Widgets.Add(descArea);
-
-        Widgets.Add(headerSection);
+        EntityCardChrome.ApplyCard(this, 340);
+        Widgets.Add(EntityCardChrome.Header(item));
 
         // Info section about available recipes
         var infoSection = new VerticalStackPanel { Spacing = 8 };

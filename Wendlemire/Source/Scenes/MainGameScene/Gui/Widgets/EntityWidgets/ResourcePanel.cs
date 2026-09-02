@@ -7,23 +7,9 @@ public sealed class ResourcePanel : EntityPanelBase
 
     public ResourcePanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
-        Padding = new Thickness(20);
-        MinWidth = 300;
-        Spacing = 5;
+        EntityCardChrome.ApplyCard(this);
 
-        Widgets.Add(new HorizontalStackPanel
-        {
-            Spacing = 10,
-            Widgets =
-            {
-                new Image { Background = item.GetIconImage(), Width = 128, Height = 128 },
-                new Label(BaseContent.Styles.Label.Normal)
-                {
-                    Text = item.Def.Description, Wrap = true, MaxWidth = 400,
-                    Margin = new Thickness(0, 10, 0, 0)
-                },
-            }
-        });
+        Widgets.Add(EntityCardChrome.Header(item));
 
         // AMMO PROPERTIES
         var ammoProps = item.ItemDef.AmmoProperties;
@@ -35,11 +21,7 @@ public sealed class ResourcePanel : EntityPanelBase
                 Margin = new Thickness(0, 10, 0, 0)
             };
 
-            ammoPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
-            {
-                Text = "Ammo Properties",
-                TextColor = Color.Gold
-            });
+            ammoPanel.Widgets.Add(EntityCardChrome.SectionLabel("Ammo"));
 
             ammoPanel.Widgets.Add(new HorizontalStackPanel
             {
@@ -108,7 +90,7 @@ public sealed class ResourcePanel : EntityPanelBase
         _makePotionButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
             Content = new Label { Text = $"Make {makePotionTitle}" },
-            Margin = new Thickness(0, 20, 0, 0)
+            Margin = new Thickness(0, 6, 0, 0)
         };
         _makePotionButton.Click += (_, _) => MakePotion(Core.Context.Player, item);
         _makePotionButton.Visible = makePotionTitle != null;

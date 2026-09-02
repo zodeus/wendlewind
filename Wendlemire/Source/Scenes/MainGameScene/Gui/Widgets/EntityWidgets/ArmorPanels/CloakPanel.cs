@@ -26,50 +26,15 @@ public sealed class CloakPanel : EntityPanelBase
         _cloakHandler = cloakHandler;
         _upgradableHandler = upgradableHandler;
         
-        Padding = new Thickness(20);
-        MinWidth = 360;
-        Spacing = 8;
+        EntityCardChrome.ApplyCard(this, 340);
 
-        // ═══════════════════════════════════════════════════════════════════
-        // Header Section: Icon + Description
-        // ═══════════════════════════════════════════════════════════════════
-        var headerSection = new HorizontalStackPanel { Spacing = 15, Margin = new Thickness(0, 0, 0, 12) };
+        Widgets.Add(EntityCardChrome.Header(item));
 
-        // Icon with frame
-        var iconFrame = new Panel
-        {
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
-            Padding = new Thickness(4),
-            Width = 80, Height = 80
-        };
-        iconFrame.Widgets.Add(new Image
-        {
-            Background = item.GetIconImage(),
-            Width = 72, Height = 72,
-            VerticalAlignment = VerticalAlignment.Center,
-            HorizontalAlignment = HorizontalAlignment.Center
-        });
-        headerSection.Widgets.Add(iconFrame);
-
-        // Description area
-        var descArea = new VerticalStackPanel { Spacing = 6, VerticalAlignment = VerticalAlignment.Center };
-        if (item.Def.Description != "undefined")
-        {
-            descArea.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
-            {
-                Text = item.Def.Description, Wrap = true, MaxWidth = 280
-            });
-        }
-
-        // Current bonus display
-        _bonusLabel = new Label(BaseContent.Styles.Label.Normal)
+        _bonusLabel = new Label("small")
         {
             Text = _cloakHandler.GetBonusDisplayText(),
             TextColor = Color.DarkGoldenrod
         };
-        
-        headerSection.Widgets.Add(descArea);
-        Widgets.Add(headerSection);
         Widgets.Add(_bonusLabel);
 
         // ═══════════════════════════════════════════════════════════════════
@@ -125,39 +90,8 @@ public sealed class CloakPanel : EntityPanelBase
 
     private void BuildPreviewLayout(Item item)
     {
-        Padding = new Thickness(20);
-        MinWidth = 360;
-        Spacing = 8;
-
-        var headerSection = new HorizontalStackPanel { Spacing = 15, Margin = new Thickness(0, 0, 0, 12) };
-        var iconFrame = new Panel
-        {
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
-            Padding = new Thickness(4),
-            Width = 80,
-            Height = 80
-        };
-        iconFrame.Widgets.Add(new Image
-        {
-            Background = item.GetIconImage(),
-            Width = 72,
-            Height = 72,
-            VerticalAlignment = VerticalAlignment.Center,
-            HorizontalAlignment = HorizontalAlignment.Center
-        });
-        headerSection.Widgets.Add(iconFrame);
-
-        if (!string.IsNullOrWhiteSpace(item.Def.Description) && item.Def.Description != "undefined")
-        {
-            headerSection.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
-            {
-                Text = item.Def.Description,
-                Wrap = true,
-                MaxWidth = 280
-            });
-        }
-
-        Widgets.Add(headerSection);
+        EntityCardChrome.ApplyCard(this, 340);
+        Widgets.Add(EntityCardChrome.Header(item));
         Widgets.Add(new HorizontalStackPanel
         {
             Spacing = 8,

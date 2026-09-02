@@ -11,6 +11,11 @@ public sealed class PawnPanel : EntityPanelBase
 
     public PawnPanel(BaseGui gui, Pawn pawn, EntityPanelProperties? properties = null) : base(gui, pawn, properties)
     {
+        Widgets.Add(new Label("small")
+        {
+            Text = pawn.Label,
+            TextColor = EntityCardChrome.Section
+        });
         var pane = new HorizontalStackPanel { Spacing = 40 };
         Widgets.Add(pane);
         MinWidth = 1000;

@@ -5,41 +5,13 @@ namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 [UsedImplicitly]
 public sealed class ItemEnchantmentPanel : EntityPanelBase
 {
-    private readonly Item _item;
-
     public ItemEnchantmentPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
-        _item = item;
-        Padding = new Thickness(20);
-        MinWidth = 300;
-        Spacing = 8;
+        EntityCardChrome.ApplyCard(this, 340);
 
         var enchantmentProps = item.ItemDef.EnchantmentProperties;
 
-        // Icon and description row
-        Widgets.Add(new HorizontalStackPanel
-        {
-            Spacing = 15,
-            Widgets =
-            {
-                new Image { Background = item.GetIconImage(), Width = 96, Height = 96 },
-                new VerticalStackPanel
-                {
-                    Spacing = 5,
-                    Widgets =
-                    {
-                        new Label(BaseContent.Styles.Label.Large) { Text = item.Label },
-                        new Label(BaseContent.Styles.Label.Normal)
-                        {
-                            Text = item.Def.Description,
-                            Wrap = true,
-                            MaxWidth = 350,
-                            TextColor = new Color(200, 200, 200)
-                        }
-                    }
-                }
-            }
-        });
+        Widgets.Add(EntityCardChrome.Header(item));
 
         // Valid equipment types
         if (enchantmentProps?.ValidEquipmentTypes is { Count: > 0 })
@@ -50,8 +22,8 @@ public sealed class ItemEnchantmentPanel : EntityPanelBase
                 Spacing = 8,
                 Widgets =
                 {
-                    new Label(BaseContent.Styles.Label.Medium) { Text = "Can enchant:", TextColor = new Color(180, 180, 180) },
-                    new Label(BaseContent.Styles.Label.Medium) { Text = equipmentTypesText, TextColor = new Color(120, 200, 120) }
+                    new Label("small") { Text = "Can enchant:", TextColor = EntityCardChrome.Muted },
+                    new Label("small") { Text = equipmentTypesText, TextColor = new Color(120, 200, 120) }
                 }
             });
         }
@@ -59,12 +31,7 @@ public sealed class ItemEnchantmentPanel : EntityPanelBase
         // Body part modifiers
         if (enchantmentProps?.BodyPartModifiers is { Count: > 0 })
         {
-            Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
-            {
-                Text = "Effects:",
-                TextColor = new Color(220, 180, 100),
-                Margin = new Thickness(0, 10, 0, 5)
-            });
+            Widgets.Add(EntityCardChrome.SectionLabel("Effects"));
 
             foreach (var modifier in enchantmentProps.BodyPartModifiers)
             {
@@ -82,7 +49,7 @@ public sealed class ItemEnchantmentPanel : EntityPanelBase
                     _ => new Color(200, 200, 200)
                 };
 
-                modifierPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
+                modifierPanel.Widgets.Add(new Label("small")
                 {
                     Text = $"{modifier.Def.Label}",
                     TextColor = modifierColor
@@ -137,19 +104,13 @@ public sealed class ItemEnchantmentPanel : EntityPanelBase
         // Base stats
         if (item.Def.BaseStats.Count > 0)
         {
-            Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
-            {
-                Text = "Stats:",
-                TextColor = new Color(220, 180, 100),
-                Margin = new Thickness(0, 10, 0, 5)
-            });
+            Widgets.Add(EntityCardChrome.SectionLabel("Stats"));
 
             foreach (var baseStat in item.Def.BaseStats)
             {
-                var row = new HorizontalStackPanel { Spacing = 10, Margin = new Thickness(10, 0, 0, 0) };
-                row.Widgets.Add(new Label(BaseContent.Styles.Label.Medium) { Text = $"{baseStat.Def.Label}:", TextColor = new Color(180, 180, 180) });
-                row.Widgets.Add(new Label(BaseContent.Styles.Label.Medium) { Text = item.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture) });
-                Widgets.Add(row);
+                Widgets.Add(EntityCardChrome.StatRow(
+                    baseStat.Def.Label,
+                    item.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture)));
             }
         }
     }

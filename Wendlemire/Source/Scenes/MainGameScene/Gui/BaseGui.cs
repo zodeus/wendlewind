@@ -299,7 +299,8 @@ public abstract class BaseGui : IDisposable
             ShowCloseButton = false,
             Background = null
         });
-        _entityViewerWindow.Title = _queuedEntityToView.Value.Key.Label;
+        _entityViewerWindow.Title = string.Empty;
+        _entityViewerWindow.TitlePanel.Visible = false;
         _entityViewerWindow.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
 
         if (_queuedEntityToView.Value.Value.HasValue)

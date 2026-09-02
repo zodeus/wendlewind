@@ -8,9 +8,7 @@ public sealed class ChainLinkPanel : EntityPanelBase
 
     public ChainLinkPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
-        Padding = new Thickness(24);
-        MinWidth = 480;
-        Spacing = 12;
+        EntityCardChrome.ApplyCard(this, 420);
 
         // Find all armor items that can be crafted with ChainLink
         var chainArmorRecipes = DefRepository<ItemDef>.Defs
@@ -23,44 +21,16 @@ public sealed class ChainLinkPanel : EntityPanelBase
         // ═══════════════════════════════════════════════════════════════════
         // Header Section: Icon + Title + Chain Link Count
         // ═══════════════════════════════════════════════════════════════════
-        var headerSection = new HorizontalStackPanel { Spacing = 16, Margin = new Thickness(0, 0, 0, 8) };
-
-        // Icon with decorative frame
-        var iconFrame = new Panel
-        {
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
-            Padding = new Thickness(6),
-            Width = 88, Height = 88
-        };
-        iconFrame.Widgets.Add(new Image
-        {
-            Background = item.GetIconImage(),
-            Width = 76, Height = 76,
-            VerticalAlignment = VerticalAlignment.Center,
-            HorizontalAlignment = HorizontalAlignment.Center
-        });
-        headerSection.Widgets.Add(iconFrame);
-
-        // Title and resource count
-        var titleArea = new VerticalStackPanel { Spacing = 8, VerticalAlignment = VerticalAlignment.Center };
-        titleArea.Widgets.Add(new Label(BaseContent.Styles.Label.Large)
-        {
-            Text = "Chain Armor Forge",
-            TextColor = BaseContent.Colors.Text.Golden
-        });
-
-        var countPanel = new HorizontalStackPanel { Spacing = 8 };
-        countPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Medium) { Text = "Available:" });
-        _chainLinkCountLabel = new Label(BaseContent.Styles.Label.Medium)
+        var countPanel = new HorizontalStackPanel { Spacing = 6, VerticalAlignment = VerticalAlignment.Center };
+        countPanel.Widgets.Add(new Label("small") { Text = "Available:", TextColor = EntityCardChrome.Muted });
+        _chainLinkCountLabel = new Label("small")
         {
             Text = GetChainLinkCount().ToString(),
             TextColor = new Color(120, 200, 255)
         };
         countPanel.Widgets.Add(_chainLinkCountLabel);
-        titleArea.Widgets.Add(countPanel);
 
-        headerSection.Widgets.Add(titleArea);
-        Widgets.Add(headerSection);
+        Widgets.Add(EntityCardChrome.Header(item, extra: countPanel));
 
         // Divider
         Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 4, 0, 8) });

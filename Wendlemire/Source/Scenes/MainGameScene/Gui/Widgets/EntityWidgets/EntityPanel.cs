@@ -4,7 +4,7 @@ namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
 public class EntityPanelProperties
 {
-    public bool ShowTitle { get; set; } = true;
+    public bool ShowTitle { get; set; }
     public bool ShowCloseButton { get; set; }
     public TextureRegion? Background { get; set; } = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
     public Action? CloseButtonAction;
@@ -19,18 +19,25 @@ public abstract class EntityPanelBase : VerticalStackPanel
     {
         Gui = gui;
         Background = properties?.Background;
-        Padding = new Thickness(15);
-        Header = new HorizontalStackPanel { Spacing = 20 };
-        Widgets.Add(Header);
-        if (properties?.ShowTitle ?? false)
+        Padding = EntityCardChrome.CardPadding;
+        Spacing = EntityCardChrome.CardSpacing;
+        Header = new HorizontalStackPanel { Spacing = 8 };
+
+        var showTitle = properties?.ShowTitle ?? false;
+        var showClose = properties?.ShowCloseButton ?? false;
+        if (showTitle || showClose)
         {
-            Header.Margin = new Thickness(0, 0, 0, 10);
-            Header.Widgets.Add(new Label("large") { Text = entity.Label, VerticalAlignment = VerticalAlignment.Center });
+            Header.Margin = new Thickness(0, 0, 0, 4);
+            Widgets.Add(Header);
         }
 
-        if (properties?.ShowCloseButton ?? false)
+        if (showTitle)
         {
-            Header.Margin = new Thickness(0, 0, 0, 10);
+            Header.Widgets.Add(new Label("small") { Text = entity.Label, VerticalAlignment = VerticalAlignment.Center });
+        }
+
+        if (showClose)
+        {
             var closeButton = new CursorButton(BaseContent.Styles.Button.Small)
             {
                 Content = new Image { Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Close] },
@@ -49,34 +56,16 @@ public abstract class EntityPanelBase : VerticalStackPanel
 
 public class EntityPanel : EntityPanelBase
 {
-    private readonly Entity _entity;
-
     public EntityPanel(BaseGui gui, Entity entity, EntityPanelProperties? properties = null) : base(gui, entity, properties)
     {
-        _entity = entity;
-        MinWidth = 300;
-        Spacing = 5;
-        Widgets.Add(new HorizontalStackPanel
-        {
-            Spacing = 10,
-            Widgets =
-            {
-                new Image { Background = entity.GetIconImage(), Width = 128, Height = 128 },
-                new Label(BaseContent.Styles.Label.Normal)
-                {
-                    Text = entity.Def.Description, Wrap = true, MaxWidth = 400,
-                    Margin = new Thickness(0, 10, 0, 0)
-                },
-            }
-        });
-
+        EntityCardChrome.ApplyCard(this);
+        Widgets.Add(EntityCardChrome.Header(entity));
 
         foreach (var baseStat in entity.Def.BaseStats)
         {
-            var row = new HorizontalStackPanel { Spacing = 10 };
-            row.Widgets.Add(new Label { Text = $"{baseStat.Def.Label}:" });
-            row.Widgets.Add(new Label { Text = entity.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture) });
-            Widgets.Add(row);
+            Widgets.Add(EntityCardChrome.StatRow(
+                baseStat.Def.Label,
+                entity.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture)));
 
             /*row.RegisterCallback<MouseEnterEvent>(evt => {
                 key.AddToClassList("text--hover");

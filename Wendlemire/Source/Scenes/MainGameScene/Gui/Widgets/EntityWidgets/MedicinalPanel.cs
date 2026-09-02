@@ -4,7 +4,6 @@ namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
 public class MedicinalPanel : EntityPanelBase
 {
-    private static readonly Color EffectGreen = new(140, 220, 140);
     private static readonly Color BodyGray = new(190, 190, 190);
 
     private readonly Item _item;
@@ -14,93 +13,42 @@ public class MedicinalPanel : EntityPanelBase
         : base(gui, item, properties)
     {
         _item = item;
-        Padding = new Thickness(20);
-        MinWidth = 420;
-        Spacing = 10;
+        EntityCardChrome.ApplyCard(this, 340);
 
-        Widgets.Add(CreateHeader(item));
-        Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 2, 0, 2) });
+        Widgets.Add(EntityCardChrome.Header(item));
         Widgets.Add(CreateProperties(item, item.ItemDef.MedicinalProperties));
 
         var effect = ResolveEffect(item);
         if (!string.IsNullOrWhiteSpace(effect))
         {
-            Widgets.Add(SectionHeader("Effect"));
-            Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
-            {
-                Text = effect,
-                Wrap = true,
-                MaxWidth = 380,
-                TextColor = EffectGreen
-            });
+            Widgets.Add(EntityCardChrome.SectionLabel("Effect"));
+            Widgets.Add(EntityCardChrome.BodyLabel(effect, EntityCardChrome.Effect));
         }
 
         var how = ResolveHowItWorks(item).ToList();
         if (how.Count > 0)
         {
-            Widgets.Add(SectionHeader("How it works"));
+            Widgets.Add(EntityCardChrome.SectionLabel("How it works"));
             foreach (var line in how)
             {
-                Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+                Widgets.Add(new Label("small")
                 {
                     Text = "• " + line,
                     Wrap = true,
-                    MaxWidth = 380,
-                    TextColor = BodyGray,
-                    Margin = new Thickness(4, 0, 0, 2)
+                    MaxWidth = 300,
+                    TextColor = BodyGray
                 });
             }
         }
     }
 
-    private static HorizontalStackPanel CreateHeader(Item item)
-    {
-        var iconFrame = new Panel
-        {
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
-            Padding = new Thickness(4),
-            Width = 80,
-            Height = 80
-        };
-        iconFrame.Widgets.Add(new Image
-        {
-            Background = item.GetIconImage(),
-            Width = 72,
-            Height = 72,
-            VerticalAlignment = VerticalAlignment.Center,
-            HorizontalAlignment = HorizontalAlignment.Center
-        });
-
-        var info = new VerticalStackPanel
-        {
-            Spacing = 6,
-            VerticalAlignment = VerticalAlignment.Center
-        };
-        if (!string.IsNullOrWhiteSpace(item.Def.Description) && item.Def.Description != "undefined")
-        {
-            info.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-            {
-                Text = item.Def.Description,
-                Wrap = true,
-                MaxWidth = 300,
-                TextColor = Color.LightGray
-            });
-        }
-
-        return new HorizontalStackPanel
-        {
-            Spacing = 16,
-            Widgets = { iconFrame, info }
-        };
-    }
-
     private VerticalStackPanel CreateProperties(Item item, MedicinalProperties? medicinal)
     {
-        var props = new VerticalStackPanel { Spacing = 2 };
+        var props = new VerticalStackPanel { Spacing = 1 };
 
         if (MedicalChest.IsInfiniteUse(item.ItemDef))
         {
-            props.Widgets.Add(CreatePropertyRow("Use", "Infinite", TC.Golden));
+            props.Widgets.Add(EntityCardChrome.StatRow("Use", "Infinite", ColorExt.HexToColor(TC.Golden.TrimStart('#'))));
         }
         else if (item.IsStackable)
         {
@@ -111,10 +59,10 @@ public class MedicinalPanel : EntityPanelBase
             };
             props.Widgets.Add(new HorizontalStackPanel
             {
-                Spacing = 8,
+                Spacing = 6,
                 Widgets =
                 {
-                    new Label("small") { Text = "Stack:", TextColor = Color.Gray },
+                    new Label("small") { Text = "Stack:", TextColor = EntityCardChrome.Muted },
                     _stackValue
                 }
             });
@@ -122,18 +70,18 @@ public class MedicinalPanel : EntityPanelBase
 
         if (item.ItemDef.GoldCost > 0)
         {
-            props.Widgets.Add(CreatePropertyRow("Cost", $"{item.ItemDef.GoldCost}g", TC.Golden));
+            props.Widgets.Add(EntityCardChrome.StatRow("Cost", $"{item.ItemDef.GoldCost}g", ColorExt.HexToColor(TC.Golden.TrimStart('#'))));
         }
 
         var cooldown = MedicalChest.CooldownInTicks(item.ItemDef);
         if (cooldown > 0)
         {
-            props.Widgets.Add(CreatePropertyRow("Cooldown", FormatSeconds(cooldown), TC.Blue));
+            props.Widgets.Add(EntityCardChrome.StatRow("Cooldown", FormatSeconds(cooldown), ColorExt.HexToColor(TC.Blue.TrimStart('#'))));
         }
 
         if (medicinal?.DurationInTicks > 0)
         {
-            props.Widgets.Add(CreatePropertyRow("Duration", FormatSeconds(medicinal.DurationInTicks), TC.Green));
+            props.Widgets.Add(EntityCardChrome.StatRow("Duration", FormatSeconds(medicinal.DurationInTicks), ColorExt.HexToColor(TC.Green.TrimStart('#'))));
         }
 
         return props;
@@ -173,28 +121,6 @@ public class MedicinalPanel : EntityPanelBase
         {
             yield return "Chest: " + TriggerLabels.Summarize(trigger, null).Replace(" · auto target", "");
         }
-    }
-
-    private static Label SectionHeader(string text) =>
-        new("small")
-        {
-            Text = text,
-            TextColor = BaseContent.Colors.Text.Golden,
-            Margin = new Thickness(0, 4, 0, 2)
-        };
-
-    private static HorizontalStackPanel CreatePropertyRow(string key, string value, string valueColorHex)
-    {
-        var hex = valueColorHex.StartsWith('#') ? valueColorHex[1..] : valueColorHex;
-        return new HorizontalStackPanel
-        {
-            Spacing = 8,
-            Widgets =
-            {
-                new Label("small") { Text = $"{key}:", TextColor = Color.Gray },
-                new Label("small") { Text = value, TextColor = ColorExt.HexToColor(hex) }
-            }
-        };
     }
 
     private static string FormatSeconds(int ticks) =>

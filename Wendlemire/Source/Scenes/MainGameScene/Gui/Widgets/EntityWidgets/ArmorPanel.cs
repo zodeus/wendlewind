@@ -11,47 +11,13 @@ public sealed class ArmorPanel : EntityPanelBase
     public ArmorPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
         _item = item;
-        Padding = new Thickness(20);
-        MinWidth = 380;
-        Spacing = 4;
-
-        // ═══════════════════════════════════════════════════════════════════
-        // Header Section: Icon + Description
-        // ═══════════════════════════════════════════════════════════════════
-        var headerSection = new HorizontalStackPanel { Spacing = 15, Margin = new Thickness(0, 0, 0, 12) };
-
-        // Icon with frame
-        var iconFrame = new Panel
-        {
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
-            Padding = new Thickness(4),
-            Width = 80, Height = 80
-        };
-        iconFrame.Widgets.Add(new Image
-        {
-            Background = item.GetIconImage(),
-            Width = 72, Height = 72,
-            VerticalAlignment = VerticalAlignment.Center,
-            HorizontalAlignment = HorizontalAlignment.Center
-        });
-        headerSection.Widgets.Add(iconFrame);
-
-        // Description area
-        var descArea = new VerticalStackPanel { Spacing = 6, VerticalAlignment = VerticalAlignment.Center };
-        if (item.Def.Description != "undefined")
-        {
-            descArea.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
-            {
-                Text = item.Def.Description, Wrap = true, MaxWidth = 280
-            });
-        }
-        headerSection.Widgets.Add(descArea);
-        Widgets.Add(headerSection);
+        EntityCardChrome.ApplyCard(this, 340);
+        Widgets.Add(EntityCardChrome.Header(item));
 
         // ═══════════════════════════════════════════════════════════════════
         // Durability Section
         // ═══════════════════════════════════════════════════════════════════
-        var durabilitySection = new VerticalStackPanel { Spacing = 4, Margin = new Thickness(0, 0, 0, 12) };
+        var durabilitySection = new VerticalStackPanel { Spacing = 2, Margin = new Thickness(0, 2, 0, 4) };
 
         _durabilityBar = new HorizontalProgressBar(BaseContent.Styles.Bar.Durability)
         {
@@ -73,7 +39,7 @@ public sealed class ArmorPanel : EntityPanelBase
         // ═══════════════════════════════════════════════════════════════════
         // Armor Properties Section
         // ═══════════════════════════════════════════════════════════════════
-        var propsSection = new VerticalStackPanel { Spacing = 3, Margin = new Thickness(0, 0, 0, 10) };
+        var propsSection = new VerticalStackPanel { Spacing = 1, Margin = new Thickness(0, 0, 0, 4) };
         propsSection.Widgets.Add(CreatePropertyRow("Slot", item.ItemDef.EquipmentProperties?.SlotUsedToEquip?.ToString() ?? "n/a", TC.Blue));
 
         var maxEnchantments = item.ItemDef.EquipmentProperties?.MaxEnchantments ?? 0;

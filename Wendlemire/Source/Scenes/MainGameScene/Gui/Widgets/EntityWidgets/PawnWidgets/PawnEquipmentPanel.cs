@@ -247,7 +247,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
 
         var panel = EntityPanelFactory.Create(_gui, item, new EntityPanelProperties
         {
-            ShowTitle = true,
+            ShowTitle = false,
             ShowCloseButton = false,
             Background = null
         });

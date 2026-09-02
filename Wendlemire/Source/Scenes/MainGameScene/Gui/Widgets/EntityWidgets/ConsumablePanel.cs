@@ -8,26 +8,12 @@ public class ConsumablePanel : EntityPanelBase {
 
     public ConsumablePanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties) {
         _item = item;
-        Padding = new Thickness(20);
-        MinWidth = 300;
+        EntityCardChrome.ApplyCard(this);
         _stackLabel = new Label("small") {
-            Text = $"Stack Size: x{item.StackSize}", Margin = new Thickness(0, 0, 0, 15),
+            Text = $"Stack: x{item.StackSize}",
             Visible = item.IsStackable
-
         };
-        Widgets.Add(new HorizontalStackPanel
-        {
-            Spacing = 10,
-            Widgets =
-            {
-                new Image { Background = item.GetIconImage(), Width = 128, Height = 128 },
-                new Label(BaseContent.Styles.Label.Normal)
-                {
-                    Text = item.Def.Description, Wrap = true, MaxWidth = 400,
-                    Margin = new Thickness(0, 10, 0, 0)
-                },
-            }
-        });
+        Widgets.Add(EntityCardChrome.Header(item));
         Widgets.Add(_stackLabel);
 
         foreach (var baseStat in item.Def.BaseStats) {
@@ -48,6 +34,6 @@ public class ConsumablePanel : EntityPanelBase {
     }
 
     public override void Update() {
-        _stackLabel.Text = $"Stack Size: x{_item.StackSize}";
+        _stackLabel.Text = $"Stack: x{_item.StackSize}";
     }
 }

@@ -13,52 +13,9 @@ public sealed class BloodyBellPanel : EntityPanelBase
     public BloodyBellPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
         _handler = item.TrinketHandler as BloodyBellHandler;
-        Padding = new Thickness(24);
+        EntityCardChrome.ApplyCard(this, 340);
         Width = 380;
-        Spacing = 0;
-        
-        // Header with icon and description
-        var header = new HorizontalStackPanel
-        {
-            Spacing = 16,
-            Margin = new Thickness(0, 0, 0, 16),
-            Widgets =
-            {
-                new Panel
-                {
-                    Width = 80,
-                    Height = 80,
-                    Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundElite64],
-                    Widgets =
-                    {
-                        new Image
-                        {
-                            Background = item.GetIconImage(),
-                            Width = 56,
-                            Height = 56,
-                            HorizontalAlignment = HorizontalAlignment.Center,
-                            VerticalAlignment = VerticalAlignment.Center
-                        }
-                    }
-                },
-                new VerticalStackPanel
-                {
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Spacing = 4,
-                    Widgets =
-                    {
-                        new Label(BaseContent.Styles.Label.Small)
-                        {
-                            Text = item.Def.Description,
-                            TextColor = new Color(150, 150, 150),
-                            Wrap = true,
-                            MaxWidth = 240
-                        }
-                    }
-                }
-            }
-        };
-        Widgets.Add(header);
+        Widgets.Add(EntityCardChrome.Header(item, new Color(180, 80, 80)));
         
         // Blood drain section
         var drainSection = new Panel

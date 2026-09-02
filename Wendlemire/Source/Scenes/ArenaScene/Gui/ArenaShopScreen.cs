@@ -743,33 +743,128 @@ public sealed class ArenaShopScreen : Grid
 
     private Widget CreateSetInspect(MerchantOffer offer)
     {
-        var body = new VerticalStackPanel
-        {
-            Spacing = 10
-        };
-        body.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
+        var discountPct = (int)Math.Round((1f - ShopCatalog.SetDiscount) * 100f);
+        var header = new Grid { ColumnSpacing = 8 };
+        header.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
+        header.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        header.Widgets.Add(new Label("small")
         {
             Text = offer.DisplayLabel,
             TextColor = Color.Goldenrod
         });
-        body.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+        var price = new Label("small")
         {
-            Text = $"20% set · {offer.ResolveGoldCost()}g",
+            Text = $"{discountPct}% · {offer.ResolveGoldCost()}g",
             TextColor = Color.LightGreen
-        });
-        foreach (var piece in offer.SetPieces.DistinctBy(def => def.Moniker))
+        };
+        header.Widgets.Add(price);
+        Grid.SetColumn(price, 1);
+
+        var list = new Grid
         {
-            body.Widgets.Add(CreateItemInspect(piece));
+            ColumnSpacing = 8,
+            RowSpacing = 1
+        };
+        list.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        list.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
+        list.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+        list.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
+
+        var row = 0;
+        foreach (var group in offer.SetPieces.GroupBy(def => def.Moniker))
+        {
+            var piece = group.First();
+            var count = group.Count();
+
+            var icon = new Image
+            {
+                Background = piece.GetIconImage(),
+                Width = 24,
+                Height = 24,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            list.Widgets.Add(icon);
+            Grid.SetRow(icon, row);
+
+            var name = new Label("small")
+            {
+                Text = count > 1 ? $"{piece.Label} x{count}" : piece.Label,
+                TextColor = TitleColor,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            list.Widgets.Add(name);
+            Grid.SetColumn(name, 1);
+            Grid.SetRow(name, row);
+
+            var slot = new Label("small")
+            {
+                Text = FormatEquipSlot(piece.EquipmentProperties?.SlotUsedToEquip),
+                TextColor = new Color(100, 180, 255),
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            list.Widgets.Add(slot);
+            Grid.SetColumn(slot, 2);
+            Grid.SetRow(slot, row);
+
+            var stats = new Label("small")
+            {
+                Text = FormatSetPieceStats(piece),
+                TextColor = Color.LightGoldenrodYellow,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            list.Widgets.Add(stats);
+            Grid.SetColumn(stats, 3);
+            Grid.SetRow(stats, row);
+
+            row++;
         }
+
+        var body = new VerticalStackPanel
+        {
+            Spacing = 4,
+            Widgets = { header, list }
+        };
 
         return new ScrollViewer
         {
             Content = body,
             ShowHorizontalScrollBar = false,
             ShowVerticalScrollBar = true,
-            MaxHeight = 520
+            MaxHeight = 380
         };
     }
+
+    private static string FormatEquipSlot(EquipmentSlotType? slot)
+    {
+        if (slot == null || slot == EquipmentSlotType.Invalid)
+        {
+            return "";
+        }
+
+        var name = slot.ToString();
+        return name.EndsWith("Armor", StringComparison.Ordinal)
+            ? name[..^5]
+            : name;
+    }
+
+    private static string FormatSetPieceStats(ItemDef piece)
+    {
+        var parts = piece.BaseStats
+            .Where(stat => stat.Def != Defs.Stats.MaxDurability)
+            .Select(stat =>
+            {
+                var value = stat.Value % 1 == 0 ? $"{stat.Value:0}" : $"{stat.Value:0.##}";
+                return $"{AbbreviateStat(stat.Def.Label)} {value}";
+            });
+        return string.Join("  ", parts);
+    }
+
+    private static string AbbreviateStat(string label) => label switch
+    {
+        "Physical Resistance" => "Phys",
+        "Move Speed" => "Move",
+        _ => label
+    };
 
     private Widget CreateItemInspect(ItemDef def) =>
         CreateEntityInspect(_context.Factory.CreateEntity<Item>(def, 1));
@@ -778,7 +873,7 @@ public sealed class ArenaShopScreen : Grid
     {
         var properties = new EntityPanelProperties
         {
-            ShowTitle = true,
+            ShowTitle = false,
             ShowCloseButton = false,
             Background = null
         };

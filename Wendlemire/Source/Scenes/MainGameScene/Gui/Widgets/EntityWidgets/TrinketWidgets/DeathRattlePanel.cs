@@ -15,41 +15,9 @@ public sealed class DeathRattlePanel : EntityPanelBase
     {
         _item = item;
         _handler = (DeathRattleHandler)item.TrinketHandler!;
-        Padding = new Thickness(20);
+        EntityCardChrome.ApplyCard(this, 340);
         Width = 400;
-
-        // Header with icon and title
-        var header = new HorizontalStackPanel
-        {
-            Spacing = 15,
-            Margin = new Thickness(0, 0, 0, 10),
-            Widgets =
-            {
-                new Image
-                {
-                    Background = item.GetIconImage(),
-                    Width = 64, Height = 64
-                },
-                new VerticalStackPanel
-                {
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Widgets =
-                    {
-                        new Label(BaseContent.Styles.Label.Normal)
-                        {
-                            Text = item.Def.Description,
-                            TextColor = Color.LightGray,
-                            Wrap = true,
-                            MaxWidth = 280
-                        }
-                    }
-                }
-            }
-        };
-        Widgets.Add(header);
-
-        // Separator
-        Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 5, 0, 15) });
+        Widgets.Add(EntityCardChrome.Header(item, Color.Crimson));
 
         // Kills counter - prominent display
         _killsLabel = new Label(BaseContent.Styles.Label.Large)

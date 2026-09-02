@@ -26,9 +26,9 @@ public sealed class WeaponPanel : EntityPanelBase
         _gui = gui;
         _weaponHandler = item.WeaponHandler;
         _upgradableHandler = _weaponHandler as IUpgradableHandler;
-        Padding = new Thickness(20);
+        Padding = EntityCardChrome.CardPadding;
         MinWidth = 580;
-        Spacing = 4;
+        Spacing = EntityCardChrome.CardSpacing;
 
         // ═══════════════════════════════════════════════════════════════════
         // Main Two-Column Layout
@@ -38,47 +38,13 @@ public sealed class WeaponPanel : EntityPanelBase
         // ─────────────────────────────────────────────────────────────────────
         // LEFT COLUMN: Icon + Sockets, Description, Info Widget
         // ─────────────────────────────────────────────────────────────────────
-        _leftColumn = new VerticalStackPanel { Spacing = 10, MinWidth = 300 };
-        
-        // Icon row: Icon + Enchantment Sockets
-        var iconRow = new HorizontalStackPanel { Spacing = 12, VerticalAlignment = VerticalAlignment.Center };
-        
-        // Icon with frame
-        var iconFrame = new Panel
-        {
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
-            Padding = new Thickness(4),
-            Width = 80, Height = 80
-        };
-        iconFrame.Widgets.Add(new Image
-        {
-            Background = item.GetIconImage(),
-            Width = 72, Height = 72,
-            VerticalAlignment = VerticalAlignment.Center,
-            HorizontalAlignment = HorizontalAlignment.Center
-        });
-        iconRow.Widgets.Add(iconFrame);
-        
-        // Enchantment sockets next to icon
+        _leftColumn = new VerticalStackPanel { Spacing = 6, MinWidth = 300 };
+
         _socketsPanel = new ItemEnchantmentSocketsPanel(gui, item)
         {
             VerticalAlignment = VerticalAlignment.Center
         };
-        iconRow.Widgets.Add(_socketsPanel);
-        
-        _leftColumn.Widgets.Add(iconRow);
-
-        // Description (always shown for flavor text)
-        if (item.Def.Description != "undefined")
-        {
-            _leftColumn.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-            {
-                Text = item.Def.Description, 
-                Wrap = true, 
-                MaxWidth = 280,
-                TextColor = Color.LightGray
-            });
-        }
+        _leftColumn.Widgets.Add(EntityCardChrome.Header(item, extra: _socketsPanel));
         
         // Custom info widget from handler (mechanics, stats, settings)
         // Use a container so we can easily rebuild on upgrade

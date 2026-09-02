@@ -8,126 +8,47 @@ public sealed class PotionPanel : EntityPanelBase
     public PotionPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
         _item = item;
-        Padding = new Thickness(16);
-        MinWidth = 380;
-        Spacing = 12;
+        EntityCardChrome.ApplyCard(this, 340);
 
-        // Header with icon and title info
-        var headerPanel = CreateHeaderPanel(item);
-        Widgets.Add(headerPanel);
+        Widgets.Add(EntityCardChrome.Header(item, GetPotionTitleColor(item)));
 
-        // Separator
-        Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 4, 0, 4) });
-
-        // Effect description from handler or def
         var effectDescription = GetEffectDescription(item);
         if (!string.IsNullOrEmpty(effectDescription))
         {
-            var effectPanel = new VerticalStackPanel
-            {
-                Spacing = 4,
-                Widgets =
-                {
-                    new Label(BaseContent.Styles.Label.Small)
-                    {
-                        Text = "Effect",
-                        TextColor = new Color(160, 160, 160)
-                    },
-                    new Label(BaseContent.Styles.Label.Normal)
-                    {
-                        Text = effectDescription,
-                        Wrap = true,
-                        MaxWidth = 340,
-                        TextColor = new Color(140, 220, 140)
-                    }
-                }
-            };
-            Widgets.Add(effectPanel);
+            Widgets.Add(EntityCardChrome.SectionLabel("Effect"));
+            Widgets.Add(EntityCardChrome.BodyLabel(effectDescription, EntityCardChrome.Effect));
         }
 
-        // Stats panel (duration, etc.)
         var statsPanel = CreateStatsPanel(item);
         if (statsPanel != null)
         {
             Widgets.Add(statsPanel);
         }
 
-        // Stack info
         if (item.IsStackable && item.StackSize > 1)
         {
-            _stackLabel = new Label(BaseContent.Styles.Label.Small)
+            _stackLabel = new Label("small")
             {
-                Text = $"Quantity: /c[{TC.Golden}]{item.StackSize}",
-                Margin = new Thickness(0, 4, 0, 0)
+                Text = $"Quantity: /c[{TC.Golden}]{item.StackSize}"
             };
             Widgets.Add(_stackLabel);
         }
         else
         {
-            _stackLabel = new Label(BaseContent.Styles.Label.Small) { Visible = false };
+            _stackLabel = new Label("small") { Visible = false };
         }
 
-        // Usage info panel
-        var usageInfoPanel = CreateUsageInfoPanel(item);
-        if (usageInfoPanel != null)
+        var triggerText = item.PotionTrigger?.Describe();
+        if (!string.IsNullOrWhiteSpace(triggerText))
         {
-            Widgets.Add(usageInfoPanel);
+            Widgets.Add(EntityCardChrome.BodyLabel(triggerText, EntityCardChrome.Effect));
         }
 
-        // Action buttons
         var buttonsPanel = CreateButtonsPanel(item, gui);
         if (buttonsPanel != null)
         {
             Widgets.Add(buttonsPanel);
         }
-    }
-
-    private HorizontalStackPanel CreateHeaderPanel(Item item)
-    {
-        // Icon with decorative frame
-        var iconPanel = new Panel
-        {
-            Width = 96,
-            Height = 96,
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame]
-        };
-
-        iconPanel.Widgets.Add(new Image
-        {
-            Background = item.GetIconImage(),
-            Width = 80,
-            Height = 80,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Center
-        });
-
-        // Title and description
-        var infoPanel = new VerticalStackPanel
-        {
-            Spacing = 6,
-            VerticalAlignment = VerticalAlignment.Center,
-            Widgets =
-            {
-                new Label(BaseContent.Styles.Label.Large)
-                {
-                    Text = item.Def.Label,
-                    TextColor = GetPotionTitleColor(item)
-                },
-                new Label(BaseContent.Styles.Label.Small)
-                {
-                    Text = item.Def.Description,
-                    Wrap = true,
-                    MaxWidth = 250,
-                    TextColor = new Color(180, 180, 180)
-                }
-            }
-        };
-
-        return new HorizontalStackPanel
-        {
-            Spacing = 14,
-            Widgets = { iconPanel, infoPanel }
-        };
     }
 
     private static bool IsHealingPotion(Item item) =>
@@ -137,7 +58,6 @@ public sealed class PotionPanel : EntityPanelBase
 
     private Color GetPotionTitleColor(Item item)
     {
-        // Different colors based on potion type
         if (item.Def == Defs.Items.JarOfBlood)
             return new Color(180, 40, 40);
         if (item.Def == Defs.Items.Pitchblood)
@@ -154,13 +74,11 @@ public sealed class PotionPanel : EntityPanelBase
 
     private string GetEffectDescription(Item item)
     {
-        // Use handler's effect description if available
         if (item.PotionHandler != null)
         {
             return item.PotionHandler.GetEffectDescription();
         }
 
-        // Fallback descriptions based on def
         if (item.Def == Defs.Items.JarOfBlood)
             return "Instantly restores all lost blood.";
         if (item.Def == Defs.Items.AcidFlask)
@@ -176,128 +94,17 @@ public sealed class PotionPanel : EntityPanelBase
         var potionDuration = (int)item.GetStatValue(Defs.Stats.PotionDuration);
         if (potionDuration <= 0) return null;
 
-        var statsPanel = new VerticalStackPanel
-        {
-            Spacing = 4,
-            Margin = new Thickness(0, 4, 0, 0),
-            Widgets =
-            {
-                new Label(BaseContent.Styles.Label.Small)
-                {
-                    Text = "Stats",
-                    TextColor = new Color(160, 160, 160)
-                }
-            }
-        };
-
-        var durationRow = new HorizontalStackPanel
-        {
-            Spacing = 8,
-            Widgets =
-            {
-                new Label(BaseContent.Styles.Label.Normal)
-                {
-                    Text = "Duration:",
-                    TextColor = new Color(200, 200, 200)
-                },
-                new Label(BaseContent.Styles.Label.Normal)
-                {
-                    Text = $"{potionDuration} ticks",
-                    TextColor = new Color(100, 180, 255)
-                }
-            }
-        };
-        statsPanel.Widgets.Add(durationRow);
+        var statsPanel = new VerticalStackPanel { Spacing = 2 };
+        statsPanel.Widgets.Add(EntityCardChrome.SectionLabel("Stats"));
+        statsPanel.Widgets.Add(EntityCardChrome.StatRow("Duration", $"{potionDuration} ticks", new Color(100, 180, 255)));
 
         var potionPower = item.GetStatValue(Defs.Stats.PotionPower);
         if (potionPower > 0 && potionPower != 1)
         {
-            statsPanel.Widgets.Add(new HorizontalStackPanel
-            {
-                Spacing = 8,
-                Widgets =
-                {
-                    new Label(BaseContent.Styles.Label.Normal)
-                    {
-                        Text = "Power:",
-                        TextColor = new Color(200, 200, 200)
-                    },
-                    new Label(BaseContent.Styles.Label.Normal)
-                    {
-                        Text = $"{potionPower:0.##}x",
-                        TextColor = new Color(140, 220, 140)
-                    }
-                }
-            });
+            statsPanel.Widgets.Add(EntityCardChrome.StatRow("Power", $"{potionPower:0.##}x", EntityCardChrome.Effect));
         }
 
         return statsPanel;
-    }
-
-    private HorizontalStackPanel? CreateUsageInfoPanel(Item item)
-    {
-        var handler = item.PotionHandler;
-        if (handler == null) return null;
-
-        var usagePanel = new HorizontalStackPanel
-        {
-            Spacing = 16,
-            Margin = new Thickness(0, 8, 0, 0)
-        };
-
-        // Combat usage indicator
-        var combatIcon = new Image
-        {
-            Width = 20,
-            Height = 20,
-            Background = handler.CanUseInCombat
-                ? Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Checkmark]
-                : Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.X],
-            Color = handler.CanUseInCombat ? new Color(120, 220, 120) : new Color(160, 100, 100)
-        };
-        var combatLabel = new Label(BaseContent.Styles.Label.Small)
-        {
-            Text = "Combat",
-            TextColor = handler.CanUseInCombat ? new Color(120, 220, 120) : new Color(160, 100, 100),
-            VerticalAlignment = VerticalAlignment.Center
-        };
-        usagePanel.Widgets.Add(new HorizontalStackPanel
-        {
-            Spacing = 6,
-            Widgets = { combatIcon, combatLabel }
-        });
-
-        // Out of combat usage indicator
-        var outsideIcon = new Image
-        {
-            Width = 20,
-            Height = 20,
-            Background = handler.CanUseOutsideCombat
-                ? Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Checkmark]
-                : Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.X],
-            Color = handler.CanUseOutsideCombat ? new Color(120, 220, 120) : new Color(160, 100, 100)
-        };
-        var outsideLabel = new Label(BaseContent.Styles.Label.Small)
-        {
-            Text = "World",
-            TextColor = handler.CanUseOutsideCombat ? new Color(120, 220, 120) : new Color(160, 100, 100),
-            VerticalAlignment = VerticalAlignment.Center
-        };
-        usagePanel.Widgets.Add(new HorizontalStackPanel
-        {
-            Spacing = 6,
-            Widgets = { outsideIcon, outsideLabel }
-        });
-
-        var triggerText = item.PotionTrigger?.Describe() ?? "No combat trigger";
-        usagePanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-        {
-            Text = triggerText,
-            TextColor = item.PotionTrigger != null ? new Color(120, 220, 120) : new Color(160, 100, 100),
-            VerticalAlignment = VerticalAlignment.Center
-        });
-
-        return usagePanel;
     }
 
     private HorizontalStackPanel? CreateButtonsPanel(Item item, BaseGui gui)
@@ -307,20 +114,19 @@ public sealed class PotionPanel : EntityPanelBase
 
         var buttonsPanel = new HorizontalStackPanel
         {
-            Spacing = 12,
-            Margin = new Thickness(0, 12, 0, 0),
+            Spacing = 8,
+            Margin = new Thickness(0, 4, 0, 0),
             HorizontalAlignment = HorizontalAlignment.Center
         };
 
-        // Use button for outside combat
-        var useButton = new CursorButton(BaseContent.Styles.Button.Normal)
+        var useButton = new CursorButton(BaseContent.Styles.Button.Small)
         {
-            Content = new Label(BaseContent.Styles.Label.Normal)
+            Content = new Label("small")
             {
                 Text = "Use Now",
                 VerticalAlignment = VerticalAlignment.Center
             },
-            Padding = new Thickness(16, 8)
+            Padding = new Thickness(10, 4)
         };
 
         useButton.Click += (_, _) =>

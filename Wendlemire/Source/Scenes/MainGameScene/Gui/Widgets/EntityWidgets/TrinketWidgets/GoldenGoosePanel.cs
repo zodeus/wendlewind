@@ -57,7 +57,12 @@ public sealed class GoldenGoosePanel : EntityPanelBase
             VerticalAlignment = VerticalAlignment.Center
         };
 
-        hungerContent.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+        hungerContent.Widgets.Add(new Label("small")
+        {
+            Text = item.Label,
+            TextColor = EntityCardChrome.Section
+        });
+        hungerContent.Widgets.Add(new Label("small")
         {
             Text = "Hunger Level",
             TextColor = Color.Goldenrod
