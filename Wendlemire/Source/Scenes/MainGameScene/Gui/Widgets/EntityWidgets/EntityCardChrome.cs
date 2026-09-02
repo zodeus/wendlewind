@@ -6,8 +6,8 @@ namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 /// </summary>
 public static class EntityCardChrome
 {
-    public const int Icon = 48;
-    public const int Frame = 52;
+    public const int Icon = 40;
+    public const int Frame = 60;
     public const int FlavorWidth = 260;
     public const int CardMinWidth = 320;
     public const int CardSpacing = 4;
@@ -34,7 +34,7 @@ public static class EntityCardChrome
         var iconFrame = new Panel
         {
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.DeepGold],
-            Padding = new Thickness(2),
+            Padding = new Thickness(8),
             Width = Frame,
             Height = Frame
         };
@@ -70,7 +70,7 @@ public static class EntityCardChrome
             });
         }
 
-        var row = new HorizontalStackPanel { Spacing = 8, Widgets = { iconFrame, info } };
+        var row = new HorizontalStackPanel { Spacing = 10, Widgets = { iconFrame, info } };
         if (extra != null)
         {
             extra.VerticalAlignment = VerticalAlignment.Center;
