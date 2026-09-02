@@ -182,8 +182,26 @@
         <Label>Wand Cast</Label>
         <Weapons>
             <ListItem>Wand</ListItem>
+            <ListItem>EmberWand</ListItem>
+            <ListItem>HexWand</ListItem>
         </Weapons>
         <DamageMultiplier>0.5~1</DamageMultiplier>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
+        <Moniker>Ember</Moniker>
+        <Label>Ember</Label>
+        <Weapons>
+            <ListItem>EmberWand</ListItem>
+        </Weapons>
+        <DamageMultiplier>.55~1.05</DamageMultiplier>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
+        <Moniker>Hex</Moniker>
+        <Label>Hex</Label>
+        <Weapons>
+            <ListItem>HexWand</ListItem>
+        </Weapons>
+        <DamageMultiplier>.45~.75</DamageMultiplier>
     </WeaponManeuverDef>
 
     <WeaponManeuverDef> 

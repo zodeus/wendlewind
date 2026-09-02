@@ -7,6 +7,7 @@
         <Weapons>
             <ListItem>FireStaff</ListItem>
         </Weapons>
+        <DamageMultiplier>.5~.9</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>Crackle</Moniker>
@@ -14,5 +15,6 @@
         <Weapons>
             <ListItem>FireStaff</ListItem>
         </Weapons>
+        <DamageMultiplier>.4~1</DamageMultiplier>
     </WeaponManeuverDef>
 </Definitions>

@@ -2,13 +2,66 @@
 
 <Definitions>
     <ItemDef ParentName="WeaponMagic">
-        <Moniker>FireStaff</Moniker>
-        <Label>Fire Staff</Label>
-        <Description></Description>
-        <GoldCost>140</GoldCost>
+        <Moniker>EmberWand</Moniker>
+        <Label>Ember Wand</Label>
+        <Description>A short fire wand. Cheap, one-handed, and hungry for a second blade.</Description>
+        <GoldCost>55</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>
+        </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>EmberWand</WeaponType>
+            <DamageType>Fire</DamageType>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Burning</Def>
+                    <DurationInTicks>80</DurationInTicks>
+                    <Chance>0.3</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </WeaponProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Magic/EmberWand</TexturePath>
+        <BaseStats>
+            <WeaponPower>28</WeaponPower>
+            <MaxDurability>1800</MaxDurability>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponMagic">
+        <Moniker>HexWand</Moniker>
+        <Label>Hex Wand</Label>
+        <Description>A sickly one-handed wand that seeds poison more than it strikes.</Description>
+        <GoldCost>60</GoldCost>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+            <MaxEnchantments>1</MaxEnchantments>
+        </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>HexWand</WeaponType>
+            <DamageType>Poison</DamageType>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Poison</Def>
+                    <DurationInTicks>175</DurationInTicks>
+                    <Chance>0.65</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </WeaponProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Magic/HexWand</TexturePath>
+        <BaseStats>
+            <WeaponPower>26</WeaponPower>
+            <MaxDurability>1800</MaxDurability>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponMagic">
+        <Moniker>FireStaff</Moniker>
+        <Label>Fire Staff</Label>
+        <Description>A two-handed staff that sets flesh alight and keeps it burning.</Description>
+        <GoldCost>140</GoldCost>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+            <OccupiesBothHands>true</OccupiesBothHands>
+            <MaxEnchantments>2</MaxEnchantments>
         </EquipmentProperties>
         <WeaponProperties>
             <WeaponType>FireStaff</WeaponType>
@@ -16,14 +69,41 @@
             <BodyPartModifiers>
                 <ListItem>
                     <Def>Burning</Def>
-                    <DurationInTicks>600</DurationInTicks>
-                    <Chance>1</Chance>
+                    <DurationInTicks>110</DurationInTicks>
+                    <Chance>0.28</Chance>
                 </ListItem>
             </BodyPartModifiers>
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Magic/FireStaff</TexturePath>
         <BaseStats>
-            <WeaponPower>26</WeaponPower>
+            <WeaponPower>36</WeaponPower>
+            <MaxDurability>2000</MaxDurability>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="WeaponMagic">
+        <Moniker>StormStaff</Moniker>
+        <Label>Storm Staff</Label>
+        <Description>A two-handed staff that cracks lightning through meat and metal.</Description>
+        <GoldCost>155</GoldCost>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+            <OccupiesBothHands>true</OccupiesBothHands>
+            <MaxEnchantments>2</MaxEnchantments>
+        </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>StormStaff</WeaponType>
+            <DamageType>Magic</DamageType>
+            <BodyPartModifiers>
+                <ListItem>
+                    <Def>Electrofied</Def>
+                    <DurationInTicks>30~50</DurationInTicks>
+                    <Chance>0.12</Chance>
+                </ListItem>
+            </BodyPartModifiers>
+        </WeaponProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Magic/StormStaff</TexturePath>
+        <BaseStats>
+            <WeaponPower>36</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
     </ItemDef>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <WeaponManeuverDef>
+        <Moniker>Thunderbolt</Moniker>
+        <Label>Thunderbolt</Label>
+        <Weapons>
+            <ListItem>StormStaff</ListItem>
+        </Weapons>
+        <DamageMultiplier>.55~.85</DamageMultiplier>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
+        <Moniker>ArcLeap</Moniker>
+        <Label>Arc Leap</Label>
+        <Weapons>
+            <ListItem>StormStaff</ListItem>
+        </Weapons>
+        <DamageMultiplier>.45~.95</DamageMultiplier>
+    </WeaponManeuverDef>
+</Definitions>

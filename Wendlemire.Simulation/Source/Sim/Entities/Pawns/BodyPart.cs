@@ -536,6 +536,12 @@ public class BodyPart : Entity
 
         var slot = item.ItemDef.EquipmentProperties?.SlotUsedToEquip;
         if (slot == null) return null;
+        if (slot == EquipmentSlotType.HandWeapon
+            && Body?.Pawn.Equipment.HasTwoHandedWeapon() == true)
+        {
+            return null;
+        }
+
         foreach (EquipmentSlotType potentialSlot in EquipmentSlots!)
         {
             if (potentialSlot == slot && Equipment[potentialSlot] == null)

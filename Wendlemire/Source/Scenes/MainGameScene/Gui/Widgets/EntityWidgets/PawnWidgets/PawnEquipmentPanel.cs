@@ -325,6 +325,11 @@ public class PawnEquipmentPanel : Grid, IUpdatable
                 return;
             }
 
+            if (_pawn.Equipment.IsHandSlotBlockedByTwoHanded(part, slot))
+            {
+                return;
+            }
+
             // Try Equip
             if (item.ItemDef.EquipmentProperties?.SlotUsedToEquip == slot || (item.ItemDef.ItemType == ItemType.Potion && PotionSlots.IsPotionSlot(slot) && PotionSlots.IsUnlocked(slot, _pawn.PotionCapacity)))
             {
@@ -371,7 +376,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         }
 
         // Show equipment selection popup for empty slots
-        if (slot != EquipmentSlotType.BuiltIn)
+        if (slot != EquipmentSlotType.BuiltIn && !_pawn.Equipment.IsHandSlotBlockedByTwoHanded(part, slot))
         {
             ShowEquipmentSelectionPopup(part, slot);
         }
@@ -575,9 +580,10 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         var key = (bodyPart, slot);
         var glowing = _flashes.ContainsKey(key);
         bool isSlotEmpty = bodyPart.Equipment[slot] == null;
+        var slotBlocked = _pawn.Equipment.IsHandSlotBlockedByTwoHanded(bodyPart, slot);
 
         bool hasAvailableEquipment = false;
-        if (!_readOnly && isSlotEmpty)
+        if (!_readOnly && isSlotEmpty && !slotBlocked)
         {
             foreach (var inventoryItem in _pawn.Inventory)
             {
@@ -647,6 +653,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
             {
                 image.Content.Background = null;
                 hintLabel.Visible = _showSlotHints;
+                hintLabel.Text = slotBlocked ? "2H" : GetSlotHint(slot);
             }
 
             progressBar.Visible = false;

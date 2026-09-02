@@ -354,7 +354,7 @@ public static class BuildTemplates
         BuildId = "HexTwig",
         EntityDefMonikers =
         [
-            "StrangeWitheredTwig", "FireStaff",
+            "StrangeWitheredTwig",
             ..ClothSet(),
             "ClericCloak",
             "BlackenedSmoke", "Fleshify"
@@ -362,8 +362,7 @@ public static class BuildTemplates
         StanceMoniker = "Offensive",
         Weapons =
         [
-            new WeaponConfig { ItemMoniker = "StrangeWitheredTwig", UseInCombat = true },
-            new WeaponConfig { ItemMoniker = "FireStaff", UseInCombat = true }
+            new WeaponConfig { ItemMoniker = "StrangeWitheredTwig", UseInCombat = true }
         ],
         Potions =
         [
@@ -372,8 +371,7 @@ public static class BuildTemplates
         ],
         Sockets =
         [
-            Socket("StrangeWitheredTwig", "SpidersBite"),
-            Socket("FireStaff", "EverburningStone")
+            Socket("StrangeWitheredTwig", "SpidersBite")
         ],
         FoodBuffs = ["WondrousJam", "CookedCorn"]
     });

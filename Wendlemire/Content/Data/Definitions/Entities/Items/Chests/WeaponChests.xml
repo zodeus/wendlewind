@@ -67,6 +67,22 @@
                 <ItemDef>IronClaws</ItemDef>
                 <Weight>1</Weight>
             </ListItem>
+            <ListItem>
+                <ItemDef>EmberWand</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>HexWand</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>FireStaff</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>StormStaff</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
         </Items>
     </LootBoxDef>
     <LootBoxDef>

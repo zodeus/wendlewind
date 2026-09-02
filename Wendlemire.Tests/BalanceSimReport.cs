@@ -24,10 +24,11 @@ namespace Wendlemire.Tests;
 ///   Mid    stew+dried, ShadeWood, MedKit+Balmy+Mist, Jar+Acid
 ///   Late   stew+honey, Dipped+Shade, Mix+Cauterize+Bone, Jar+Churni
 ///   Full   stew+honey+walnut, 3 incense, Mix+Cauterize+Serum+Bone, Jar+Acid
-/// Extra buckets: KIT (kit vs bare / burst vs sustain), FOOD, MED, INC, METAL.
+/// Extra buckets: KIT (kit vs bare / burst vs sustain), FOOD, MED, INC, METAL, MAGIC.
 /// Writes balance-report.txt at the repo root.
 /// Run: dotnet test --filter FullyQualifiedName~BalanceSimReport
 /// METAL-only: set BALANCE_BAND=METAL (PowerShell: $env:BALANCE_BAND='METAL')
+/// MAGIC-only: set BALANCE_BAND=MAGIC
 /// </summary>
 [Collection("Sim")]
 public class BalanceSimReport
@@ -263,7 +264,7 @@ public class BalanceSimReport
 
     private static Kit EraKit(string band) => band switch
     {
-        "R4-6" or "METAL" => Mid,
+        "R4-6" or "METAL" or "MAGIC" => Mid,
         "R7-9" => Late,
         "R10-13" => Full,
         _ => Early
@@ -405,6 +406,12 @@ public class BalanceSimReport
                 LeatherLightEnchants()));
     private static BuildSnapshot FireStaffLeather(string id) =>
         Fighter(id, ["FireStaff"], LeatherSet, Weapon("FireStaff", "FesteringWounds"));
+    private static BuildSnapshot FireStaffPlainLeather(string id) => Fighter(id, ["FireStaff"], LeatherSet);
+    private static BuildSnapshot StormStaffLeather(string id) => Fighter(id, ["StormStaff"], LeatherSet);
+    private static BuildSnapshot EmberWandLeather(string id) => Fighter(id, ["EmberWand"], LeatherSet);
+    private static BuildSnapshot HexWandLeather(string id) => Fighter(id, ["HexWand"], LeatherSet);
+    private static BuildSnapshot DualWandLeather(string id) => Fighter(id, ["EmberWand", "HexWand"], LeatherSet);
+    private static BuildSnapshot EmberDaggerLeather(string id) => Fighter(id, ["EmberWand", "IronDagger"], LeatherSet);
     private static BuildSnapshot ChainPartialSword(string id) =>
         Fighter(id, ["IronSword"],
             ["ChainHelmet", "ChainTunic", "LeatherGorget",
@@ -498,11 +505,17 @@ public class BalanceSimReport
                 [Sock("IronClaws", "SpidersBite"), Sock("IronDagger", "FesteringWounds")],
                 UniqueMixEnchants()));
     private static BuildSnapshot FireStaffFester(string id) =>
-        Fighter(id, ["FireStaff", "IronDagger"], WitchDoctorSet,
-            Combine(Weapon("IronDagger", "FesteringWounds"), WdHealStack()));
+        Fighter(id, ["FireStaff"], WitchDoctorSet,
+            Combine(Weapon("FireStaff", "FesteringWounds"), WdHealStack()));
     private static BuildSnapshot FireStaffBurn(string id) =>
-        Fighter(id, ["FireStaff", "IronSword"], WitchDoctorSet,
-            Combine(Weapon("IronSword", "EverburningStone"), WdHealStack()));
+        Fighter(id, ["FireStaff"], WitchDoctorSet,
+            Combine(Weapon("FireStaff", "EverburningStone"), WdHealStack()));
+    private static BuildSnapshot StormStaffHeal(string id) =>
+        Fighter(id, ["StormStaff"], WitchDoctorSet,
+            Combine(Weapon("StormStaff", "EverburningStone"), WdHealStack()));
+    private static BuildSnapshot EmberDaggerWd(string id) =>
+        Fighter(id, ["EmberWand", "IronDagger"], WitchDoctorSet,
+            Combine(Weapon("IronDagger", "FesteringWounds"), WdHealStack()));
 
     #endregion
 
@@ -562,6 +575,8 @@ public class BalanceSimReport
         EraMatch("R4-6", "Sword+Fester+leather-ench vs same", SwordLeatherLeaf("A"), SwordLeatherLeaf("B")),
         EraMatch("R4-6", "Sword+Bite+BloodBath vs Sword+leather", SwordBloodBathLeather("A"), SwordLeather("B")),
         EraMatch("R4-6", "FireStaff+Fester+leather vs Sword+leather", FireStaffLeather("A"), SwordLeather("B")),
+        EraMatch("R4-6", "StormStaff+leather vs Sword+leather", StormStaffLeather("A"), SwordLeather("B")),
+        EraMatch("R4-6", "Ember+Dagger+leather vs Sword+leather", EmberDaggerLeather("A"), SwordLeather("B")),
         EraMatch("R4-6", "Chain-partial vs Sword+leather", ChainPartialSword("A"), SwordLeather("B")),
         EraMatch("R4-6", "WD-partial+BoneEater vs Sword+leather", WdPartialBoneEater("A"), SwordLeather("B")),
         EraMatch("R4-6", "WD-partial+Bite vs Mace+leather", WdPartialBite("A"), MaceLeather("B")),
@@ -577,6 +592,17 @@ public class BalanceSimReport
         EraMatch("METAL", "Axe vs Axe (leather)", IronAxeLeather("A"), IronAxeLeather("B")),
         EraMatch("METAL", "Mace vs Mace (leather)", MaceLeather("A"), MaceLeather("B")),
         EraMatch("METAL", "Claws vs Claws (leather)", ClawsLeather("A"), ClawsLeather("B")),
+
+        // --- MAGIC: leather, no enchants, Mid kit. Isolates wand/staff math. ---
+        EraMatch("MAGIC", "EmberWand vs Sword (leather)", EmberWandLeather("A"), SwordLeather("B")),
+        EraMatch("MAGIC", "HexWand vs Sword (leather)", HexWandLeather("A"), SwordLeather("B")),
+        EraMatch("MAGIC", "FireStaff vs Sword (leather)", FireStaffPlainLeather("A"), SwordLeather("B")),
+        EraMatch("MAGIC", "StormStaff vs Sword (leather)", StormStaffLeather("A"), SwordLeather("B")),
+        EraMatch("MAGIC", "Dual-wand vs Sword (leather)", DualWandLeather("A"), SwordLeather("B")),
+        EraMatch("MAGIC", "Ember+Dagger vs Sword (leather)", EmberDaggerLeather("A"), SwordLeather("B")),
+        EraMatch("MAGIC", "FireStaff vs FireStaff (leather)", FireStaffPlainLeather("A"), FireStaffPlainLeather("B")),
+        EraMatch("MAGIC", "StormStaff vs StormStaff (leather)", StormStaffLeather("A"), StormStaffLeather("B")),
+        EraMatch("MAGIC", "HexWand vs EmberWand (leather)", HexWandLeather("A"), EmberWandLeather("B")),
 
         // --- R7-9: full chain/WD, Everburning / Rhino + Late kit ---
         EraMatch("R7-9", "Sword+chain vs Sword+chain", SwordChain("A"), SwordChain("B")),
@@ -603,12 +629,14 @@ public class BalanceSimReport
         EraMatch("R10-13", "WD reflect+Bite vs WD heal+Fester", WdReflectBite("A"), WdHealFester("B")),
         EraMatch("R10-13", "Unique-mix+Burn/Bone vs Chain stacked", UniqueMixBurn("A"), ChainStackedBurn("B")),
         EraMatch("R10-13", "Unique-mix+Bite vs Chain stacked", UniqueMixBite("A"), ChainStackedBurn("B")),
-        EraMatch("R10-13", "FireStaff+Fester+WD vs Chain stacked", FireStaffFester("A"), ChainStackedBurn("B")),
-        EraMatch("R10-13", "FireStaff+Burn+WD vs Chain stacked", FireStaffBurn("A"), ChainStackedBurn("B")),
+        EraMatch("R10-13", "FireStaff-2H+Fester+WD vs Chain stacked", FireStaffFester("A"), ChainStackedBurn("B")),
+        EraMatch("R10-13", "FireStaff-2H+Burn+WD vs Chain stacked", FireStaffBurn("A"), ChainStackedBurn("B")),
+        EraMatch("R10-13", "StormStaff+Burn+WD vs Chain stacked", StormStaffHeal("A"), ChainStackedBurn("B")),
+        EraMatch("R10-13", "Ember+Dagger+WD vs Chain stacked", EmberDaggerWd("A"), ChainStackedBurn("B")),
         EraMatch("R10-13", "WD heal+Burn vs WD+BoneEater (no stack)", WdHealBurn("A"), WdPlainBone("B")),
         EraMatch("R10-13", "Unique-mix vs WD+BoneEater (no stack)", UniqueMixBurn("A"), WdPlainBone("B")),
         EraMatch("R10-13", "WD heal+Bite vs Unique-mix+Burn", WdHealBite("A"), UniqueMixBurn("B")),
-        EraMatch("R10-13", "FireStaff+Burn vs WD+collar+Bone", FireStaffBurn("A"), WdCollarBone("B")),
+        EraMatch("R10-13", "FireStaff-2H+Burn vs WD+collar+Bone", FireStaffBurn("A"), WdCollarBone("B")),
 
         // --- Cross-band leftovers keep their own era kits ---
         Split("X", "R1 axe vs R5 sword-leather", AxeNaked("A"), Early, SwordLeather("B"), Mid),
@@ -674,7 +702,7 @@ public class BalanceSimReport
             MedOnly([], [Med("AntiNecroticSerum", 3, MedicalTriggerType.HasNecrosis)]),
             WdHealFester("B"),
             MedOnly([], [Med("MendersMix", 3, MedicalTriggerType.PartBelowHealth, health: 0.4f)])),
-        Split("MED", "R12 Balmy vs FireStaff Burn", ChainStackedBurn("A"),
+        Split("MED", "R12 Balmy vs FireStaff-2H Burn", ChainStackedBurn("A"),
             MedOnly([], [Med("BalmyOintment", 4, MedicalTriggerType.BurningOrAcid)]),
             FireStaffBurn("B"),
             MedOnly([], [Med("MedKit", 2, MedicalTriggerType.PartBelowHealth)])),

@@ -9,6 +9,28 @@
         <TexturePath>Entities/Pawn/Portrait/Merchants/Magician</TexturePath>
         <Shelves>
             <ListItem>
+                <Category>Weapons</Category>
+                <Columns>12</Columns>
+                <ItemColumns>1</ItemColumns>
+                <StockSize>3</StockSize>
+                <Offers>
+                    <ListItem>
+                        <ItemDef>EmberWand</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>HexWand</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>FireStaff</ItemDef>
+                        <AvailableFromRound>4</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>StormStaff</ItemDef>
+                        <AvailableFromRound>4</AvailableFromRound>
+                    </ListItem>
+                </Offers>
+            </ListItem>
+            <ListItem>
                 <Category>Potions</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>

@@ -144,6 +144,7 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
             return null;
         }
 
+        var extras = UnequipConflictingHands(bodyPart, slot, item);
         Item? unequippedItem = UnEquip(bodyPart, slot);
         item.EjectFromContainer();
         bodyPart.Equipment[slot] = item;
@@ -153,8 +154,91 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
             SyncWeaponCombatUse();
         }
 
+        foreach (var extra in extras)
+        {
+            if (extra != unequippedItem)
+            {
+                _pawn.Inventory.TryAdd(extra);
+            }
+        }
+
         //OnEquipmentChanged(new OnChangeArgs(OnChangeArgs.ChangeType.ItemEquipped, item));
         return unequippedItem;
+    }
+
+    public bool HasTwoHandedWeapon()
+    {
+        foreach (var (weapon, _) in Weapons)
+        {
+            if (weapon.ItemDef.EquipmentProperties?.OccupiesBothHands == true)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool IsHandSlotBlockedByTwoHanded(BodyPart bodyPart, EquipmentSlotType slot)
+    {
+        if (slot != EquipmentSlotType.HandWeapon)
+        {
+            return false;
+        }
+
+        if (GetBySlot(bodyPart, slot) != null)
+        {
+            return false;
+        }
+
+        return HasTwoHandedWeapon();
+    }
+
+    private List<Item> UnequipConflictingHands(BodyPart keepPart, EquipmentSlotType keepSlot, Item incoming)
+    {
+        var extras = new List<Item>();
+        var props = incoming.ItemDef.EquipmentProperties;
+        if (props?.SlotUsedToEquip != EquipmentSlotType.HandWeapon)
+        {
+            return extras;
+        }
+
+        foreach (var (part, slots) in Slots)
+        {
+            foreach (var slot in slots)
+            {
+                if (slot != EquipmentSlotType.HandWeapon)
+                {
+                    continue;
+                }
+
+                if (part == keepPart && slot == keepSlot)
+                {
+                    continue;
+                }
+
+                var equipped = GetBySlot(part, slot);
+                if (equipped == null)
+                {
+                    continue;
+                }
+
+                var shouldUnequip = props.OccupiesBothHands
+                    || equipped.ItemDef.EquipmentProperties?.OccupiesBothHands == true;
+                if (!shouldUnequip)
+                {
+                    continue;
+                }
+
+                var removed = UnEquip(part, slot);
+                if (removed != null)
+                {
+                    extras.Add(removed);
+                }
+            }
+        }
+
+        return extras;
     }
 
     public Item? UnEquip(Item item)

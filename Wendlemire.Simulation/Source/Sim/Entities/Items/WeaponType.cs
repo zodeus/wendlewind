@@ -51,5 +51,8 @@ public enum WeaponType
     Beak,
     Stinger,
     Wand,
-    Knuckles
+    Knuckles,
+    StormStaff,
+    EmberWand,
+    HexWand
 }

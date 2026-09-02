@@ -104,6 +104,8 @@ public sealed class WeaponPanel : EntityPanelBase
         propsSection.Widgets.Add(CreatePropertyRow("Type", $"{item.ItemDef.WeaponProperties?.WeaponType}", TC.Golden));
         propsSection.Widgets.Add(CreatePropertyRow("Damage", $"{item.ItemDef.WeaponProperties?.DamageType}", TC.Red));
         propsSection.Widgets.Add(CreatePropertyRow("Slot", item.ItemDef.EquipmentProperties?.SlotUsedToEquip?.ToString() ?? "n/a", TC.Blue));
+        var hands = item.ItemDef.EquipmentProperties?.OccupiesBothHands == true ? "Two" : "One";
+        propsSection.Widgets.Add(CreatePropertyRow("Hands", hands, TC.Blue));
         _rightColumn.Widgets.Add(propsSection);
 
         // Substance Modifiers Section

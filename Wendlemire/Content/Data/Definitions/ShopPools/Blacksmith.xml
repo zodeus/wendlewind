@@ -36,10 +36,6 @@
                         <ItemDef>IronClaws</ItemDef>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>FireStaff</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
                         <ItemDef>BoneSpear</ItemDef>
                     </ListItem>
                     <ListItem>
@@ -172,6 +168,10 @@
                     <ListItem>
                         <ItemDef>ChainGorget</ItemDef>
                         <AvailableFromRound>4</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>BlessedIronCollar</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
                     </ListItem>
                 </Offers>
             </ListItem>

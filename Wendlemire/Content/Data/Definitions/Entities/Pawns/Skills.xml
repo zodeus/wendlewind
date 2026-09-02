@@ -17,6 +17,17 @@
         <WeaponTypes>
             <ListItem>Staff</ListItem>
             <ListItem>FireStaff</ListItem>
+            <ListItem>StormStaff</ListItem>
+        </WeaponTypes>
+    </SkillDef>
+    <SkillDef>
+        <Moniker>Wands</Moniker>
+        <Label>Wands</Label>
+        <SkillType>Combat</SkillType>
+        <WeaponTypes>
+            <ListItem>Wand</ListItem>
+            <ListItem>EmberWand</ListItem>
+            <ListItem>HexWand</ListItem>
         </WeaponTypes>
     </SkillDef> 
     <SkillDef>

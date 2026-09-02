@@ -36,10 +36,6 @@
                         <ItemDef>IronClaws</ItemDef>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>FireStaff</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
                         <ItemDef>BoneSpear</ItemDef>
                     </ListItem>
                     <ListItem>

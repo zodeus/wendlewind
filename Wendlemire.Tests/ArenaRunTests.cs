@@ -307,10 +307,10 @@ public class ArenaRunTests
     [Fact]
     public void ShopStockHidesLockedOffersUntilTheirRound()
     {
-        var merchant = DefRepository<MerchantDef>.GetByMoniker("Blacksmith")!;
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("Magician")!;
         Assert.DoesNotContain(ShopStock.AvailableOffers(merchant, 0), o => o.ItemDef?.Moniker == "FireStaff");
         Assert.Contains(ShopStock.AvailableOffers(merchant, 4), o => o.ItemDef?.Moniker == "FireStaff");
-        Assert.Contains(ShopStock.AvailableOffers(merchant, 4), o => o.ItemDef?.Moniker == "IronDagger");
+        Assert.Contains(ShopStock.AvailableOffers(merchant, 0), o => o.ItemDef?.Moniker == "EmberWand");
     }
 
     [Fact]
