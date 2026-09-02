@@ -95,6 +95,9 @@
                     <ListItem>
                         <ItemDef>LeatherBoot</ItemDef>
                     </ListItem>
+                    <ListItem>
+                        <ItemDef>BucketHelmet</ItemDef>
+                    </ListItem>
                 </Offers>
             </ListItem>
             <ListItem>

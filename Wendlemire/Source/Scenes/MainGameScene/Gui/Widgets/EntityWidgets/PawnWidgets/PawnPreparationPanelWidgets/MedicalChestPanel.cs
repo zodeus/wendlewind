@@ -581,14 +581,13 @@ internal sealed class MedicalSlotCard : Panel, IUpdatable
                     value, ThresholdSlider.MinSeconds, ThresholdSlider.MaxSeconds);
                 break;
             case MedicalTriggerType.SelfBloodBelow:
-                _slot.Trigger.Threshold = Math.Clamp(
-                    value, ThresholdSlider.MinBlood, ThresholdSlider.MaxBlood);
-                break;
             case MedicalTriggerType.SelfPartsDamaged:
-                _slot.Trigger.Threshold = Math.Clamp(value, 0, 1);
+                _slot.Trigger.Threshold = Math.Clamp(
+                    value, ThresholdSlider.MinPercent, ThresholdSlider.MaxPercent);
                 break;
             case MedicalTriggerType.PartBelowHealth:
-                _slot.Trigger.HealthThreshold = Math.Clamp(value, 0, 1);
+                _slot.Trigger.HealthThreshold = Math.Clamp(
+                    value, ThresholdSlider.MinPercent, ThresholdSlider.MaxPercent);
                 break;
         }
 
@@ -612,11 +611,7 @@ internal sealed class MedicalSlotCard : Panel, IUpdatable
         {
             _slider.SetCaption(SliderCaption(_slot.Trigger.Type));
             _slider.Configure(SliderMode(_slot.Trigger.Type), CurrentSliderValue(_slot.Trigger));
-            if (_slot.Trigger.Type is MedicalTriggerType.AfterSeconds
-                or MedicalTriggerType.SelfBloodBelow)
-            {
-                ApplyValue(_slider.StoredValue);
-            }
+            ApplyValue(_slider.StoredValue);
         }
 
         if (_partDropdown != null)
@@ -673,12 +668,9 @@ internal sealed class MedicalSlotCard : Panel, IUpdatable
 
     private static ThresholdSliderMode SliderMode(MedicalTriggerType type)
     {
-        return type switch
-        {
-            MedicalTriggerType.AfterSeconds => ThresholdSliderMode.Seconds,
-            MedicalTriggerType.SelfBloodBelow => ThresholdSliderMode.Blood,
-            _ => ThresholdSliderMode.Percent
-        };
+        return type == MedicalTriggerType.AfterSeconds
+            ? ThresholdSliderMode.Seconds
+            : ThresholdSliderMode.Percent;
     }
 
     private static string SliderCaption(MedicalTriggerType type)

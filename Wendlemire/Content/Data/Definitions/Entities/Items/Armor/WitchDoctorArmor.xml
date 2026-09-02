@@ -13,7 +13,7 @@
     <ItemDef ParentName="WitchDoctorArmorBase">
         <Moniker>WitchDoctorHelmet</Moniker>
         <Label>Witch Doctor Helmet</Label>
-        <GoldCost>70</GoldCost>
+        <GoldCost>35</GoldCost>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>
@@ -37,7 +37,7 @@
         <Label>Witch Doctor Gorget</Label>
         <ItemType>Equipment</ItemType>
         <Description>Fits snuggly around your neck</Description>
-        <GoldCost>55</GoldCost>
+        <GoldCost>28</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>NeckArmor</SlotUsedToEquip>
         </EquipmentProperties>
@@ -58,7 +58,7 @@
     <ItemDef ParentName="WitchDoctorArmorBase">
         <Moniker>WitchDoctorGlove</Moniker>
         <Label>Witch Doctor Glove</Label>
-        <GoldCost>45</GoldCost>
+        <GoldCost>23</GoldCost>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>HandArmor</SlotUsedToEquip>
@@ -83,7 +83,7 @@
     <ItemDef ParentName="WitchDoctorArmorBase">
         <Moniker>WitchDoctorVambrace</Moniker>
         <Label>Witch Doctor Vambrace</Label>
-        <GoldCost>50</GoldCost>
+        <GoldCost>25</GoldCost>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>ArmArmor</SlotUsedToEquip>
@@ -105,7 +105,7 @@
     <ItemDef ParentName="WitchDoctorArmorBase">
         <Moniker>WitchDoctorTunic</Moniker>
         <Label>Witch Doctor Tunic</Label>
-        <GoldCost>95</GoldCost>
+        <GoldCost>48</GoldCost>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>TorsoArmor</SlotUsedToEquip>
@@ -127,7 +127,7 @@
     <ItemDef ParentName="WitchDoctorArmorBase">
         <Moniker>WitchDoctorGreave</Moniker>
         <Label>Witch Doctor Greave</Label>
-        <GoldCost>60</GoldCost>
+        <GoldCost>30</GoldCost>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>LegArmor</SlotUsedToEquip>
@@ -149,7 +149,7 @@
     <ItemDef ParentName="WitchDoctorArmorBase">
         <Moniker>WitchDoctorBoot</Moniker>
         <Label>Witch Doctor Boot</Label>
-        <GoldCost>50</GoldCost>
+        <GoldCost>25</GoldCost>
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <SlotUsedToEquip>FootArmor</SlotUsedToEquip>

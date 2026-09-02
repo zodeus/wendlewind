@@ -33,6 +33,16 @@ public sealed class PersistedShopShelf : IExposable
 
 public static class ShopStock
 {
+    public const int StockGrowAfterRound = 4;
+
+    public static int ResolvedStockSize(MerchantShelf shelf, int round)
+    {
+        var baseSize = Math.Max(shelf.StockSize, 1);
+        var cap = ShopLayout.SlotsPerRow(shelf.ResolvedColumns, shelf.ResolvedItemColumns);
+        var bonus = Math.Max(0, round - StockGrowAfterRound);
+        return Math.Min(cap, baseSize + bonus);
+    }
+
     public static IReadOnlyList<RolledShelf> Roll(
         MerchantDef merchant,
         int runSeed,
@@ -147,7 +157,7 @@ public static class ShopStock
 
         var sets = available.Where(offer => offer.IsSet).ToList();
         var pieces = available.Where(offer => !offer.IsSet).ToList();
-        var stockSize = Math.Max(shelf.StockSize, 1);
+        var stockSize = ResolvedStockSize(shelf, round);
         if (sets.Count == 0)
         {
             return CloneForStock(WeightedTake(pieces, stockSize, rng));

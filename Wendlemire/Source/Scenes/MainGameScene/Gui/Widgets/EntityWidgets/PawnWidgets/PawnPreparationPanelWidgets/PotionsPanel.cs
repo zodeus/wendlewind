@@ -357,11 +357,9 @@ internal sealed class PotionTriggerEditor : Panel, IUpdatable
                 break;
             case PotionTriggerType.SelfBloodBelow:
             case PotionTriggerType.EnemyBloodBelow:
-                _potion.PotionTrigger.Threshold = Math.Clamp(
-                    value, ThresholdSlider.MinBlood, ThresholdSlider.MaxBlood);
-                break;
             case PotionTriggerType.SelfPartsDamaged:
-                _potion.PotionTrigger.Threshold = Math.Clamp(value, 0, 1);
+                _potion.PotionTrigger.Threshold = Math.Clamp(
+                    value, ThresholdSlider.MinPercent, ThresholdSlider.MaxPercent);
                 break;
         }
 
@@ -382,12 +380,7 @@ internal sealed class PotionTriggerEditor : Panel, IUpdatable
         {
             _slider.SetCaption(SliderCaption(trigger.Type));
             _slider.Configure(SliderMode(trigger.Type), CurrentSliderValue(trigger));
-            if (trigger.Type is PotionTriggerType.AfterSeconds
-                or PotionTriggerType.SelfBloodBelow
-                or PotionTriggerType.EnemyBloodBelow)
-            {
-                ApplyValue(_slider.StoredValue);
-            }
+            ApplyValue(_slider.StoredValue);
         }
 
         _summary.Text = TriggerLabels.Summarize(trigger);
@@ -395,12 +388,9 @@ internal sealed class PotionTriggerEditor : Panel, IUpdatable
 
     private static ThresholdSliderMode SliderMode(PotionTriggerType type)
     {
-        return type switch
-        {
-            PotionTriggerType.AfterSeconds => ThresholdSliderMode.Seconds,
-            PotionTriggerType.SelfBloodBelow or PotionTriggerType.EnemyBloodBelow => ThresholdSliderMode.Blood,
-            _ => ThresholdSliderMode.Percent
-        };
+        return type == PotionTriggerType.AfterSeconds
+            ? ThresholdSliderMode.Seconds
+            : ThresholdSliderMode.Percent;
     }
 
     private static string SliderCaption(PotionTriggerType type)

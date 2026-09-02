@@ -125,6 +125,29 @@
                 </Offers>
             </ListItem>
             <ListItem>
+                <Category>Medicine</Category>
+                <Columns>6</Columns>
+                <ItemColumns>1</ItemColumns>
+                <StockSize>3</StockSize>
+                <Offers>
+                    <ListItem>
+                        <ItemDef>MedKit</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>MendersMist</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>MendersMix</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>StrengthenBones</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>Cyberveins</ItemDef>
+                    </ListItem>
+                </Offers>
+            </ListItem>
+            <ListItem>
                 <Category>Trinkets</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>

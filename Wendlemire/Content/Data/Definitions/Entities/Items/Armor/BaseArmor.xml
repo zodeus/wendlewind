@@ -12,6 +12,7 @@
         <Moniker>BucketHelmet</Moniker>
         <Label>Bucket Helmet</Label>
         <ItemType>Equipment</ItemType>
+        <GoldCost>40</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>
         </EquipmentProperties>

@@ -11,7 +11,7 @@
         <Moniker>EvasionCloak</Moniker>
         <Label>Cloak of Evasion</Label>
         <Description>A cape that increases your evasion.</Description>
-        <GoldCost>90</GoldCost>
+        <GoldCost>80</GoldCost>
         <TexturePath>Entities/Item/Equipment/Armor/Cloak/Evasion</TexturePath>
         <EquipmentProperties>
             <HandlerClass>EvasionCloakHandler</HandlerClass>
@@ -72,7 +72,7 @@
             </Upgrades>
         </UpgradeProperties>
         <Description>A cloak that provides rejuvenation.</Description>
-        <GoldCost>100</GoldCost>
+        <GoldCost>120</GoldCost>
         <TexturePath>Entities/Item/Equipment/Armor/Cloak/Rejuvenation</TexturePath>
     </ItemDef>
     <ItemDef ParentName="CloakBase">
@@ -86,7 +86,7 @@
         <Moniker>ThornCloak</Moniker>
         <Label>Cloak of Thorns</Label>
         <Description>A cloak covered in sharp thorns that reflects damage back to attackers.</Description>
-        <GoldCost>95</GoldCost>
+        <GoldCost>100</GoldCost>
         <TexturePath>Entities/Item/Equipment/Armor/Cloak/Thorns</TexturePath>
         <EquipmentProperties>
             <HandlerClass>ThornCloakHandler</HandlerClass>

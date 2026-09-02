@@ -200,6 +200,35 @@ public class ArenaRunTests
     }
 
     [Fact]
+    public void ShopStockGrowsAfterRoundFourUntilShelfIsFull()
+    {
+        var shelf = new MerchantShelf
+        {
+            StockSize = 4,
+            Columns = 6,
+            ItemColumns = 1
+        };
+        Assert.Equal(4, ShopStock.ResolvedStockSize(shelf, 4));
+        Assert.Equal(5, ShopStock.ResolvedStockSize(shelf, 5));
+        Assert.Equal(6, ShopStock.ResolvedStockSize(shelf, 6));
+        Assert.Equal(6, ShopStock.ResolvedStockSize(shelf, 9));
+
+        var full = new MerchantShelf
+        {
+            StockSize = 6,
+            Columns = 6,
+            ItemColumns = 1
+        };
+        Assert.Equal(6, ShopStock.ResolvedStockSize(full, 8));
+
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("Magician")!;
+        var early = ShopStock.Roll(merchant, 1, 4).Single(s => s.Category == ShopCategory.Potions);
+        var later = ShopStock.Roll(merchant, 1, 6).Single(s => s.Category == ShopCategory.Potions);
+        Assert.Equal(4, early.Offers.Count);
+        Assert.Equal(6, later.Offers.Count);
+    }
+
+    [Fact]
     public void ShopStockIsDeterministic()
     {
         var merchant = DefRepository<MerchantDef>.GetByMoniker("Blacksmith")!;
