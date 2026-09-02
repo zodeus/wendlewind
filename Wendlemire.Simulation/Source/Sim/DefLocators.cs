@@ -402,6 +402,14 @@ public static partial class Defs
     }
 
     [DefLocator]
+    public static class Cosmetics
+    {
+        public static CosmeticDef PlainWood = null!;
+        public static CosmeticDef BoneInlay = null!;
+        public static CosmeticDef GildedRuin = null!;
+    }
+
+    [DefLocator]
     public static class Weathers
     {
         public static WeatherDef Neutral = null!;

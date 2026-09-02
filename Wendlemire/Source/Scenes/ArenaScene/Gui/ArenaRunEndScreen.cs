@@ -104,6 +104,15 @@ public sealed class ArenaRunEndScreen : Panel
             }
         };
 
+        if (finished is { MarksAwarded: > 0 })
+        {
+            body.Widgets.Add(BodyLabel($"+{finished.MarksAwarded} marks", new Color(150, 186, 122)));
+        }
+        else if (finished != null)
+        {
+            body.Widgets.Add(BodyLabel("No marks awarded", Dust));
+        }
+
         if (rank is { } current)
         {
             body.Widgets.Add(new RankBadge(current, badgeSize: 72, showRating: false)

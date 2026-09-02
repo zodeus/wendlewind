@@ -10,6 +10,7 @@ global using Wendlemire.Sim;
 global using Wendlemire.Sim.Arena;
 global using Wendlemire.Sim.Achievements;
 global using Wendlemire.Sim.Combat;
+global using Wendlemire.Sim.Cosmetics;
 global using Wendlemire.Sim.Entities;
 global using Wendlemire.Sim.Entities.Items;
 global using Wendlemire.Sim.Entities.Items.Enchantments;

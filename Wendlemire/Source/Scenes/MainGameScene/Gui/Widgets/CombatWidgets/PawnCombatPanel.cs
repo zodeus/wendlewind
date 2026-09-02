@@ -1,3 +1,4 @@
+using Wendlemire.Scenes.ArenaScene.Gui;
 using Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 using Wendlemire.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
 
@@ -142,19 +143,10 @@ internal sealed class PawnCombatPanel : HorizontalStackPanel
 
         panel.Widgets.Add(CreateBodyWidget(BaseContent.IconSizes.Portrait));
 
-        Label namePlate = new()
-        {
-            Text = Pawn.LabelShort,
-            Height = 44,
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Padding = new Thickness(12)
-        };
-        namePlate.TouchDown += (_, _) =>
-        {
-            _gui.ViewEntity(Pawn);
-        };
-        panel.Widgets.Add(namePlate);
+        panel.Widgets.Add(new NamePlateWidget(
+            Pawn.LabelShort,
+            Pawn.NamePlateMoniker,
+            () => _gui.ViewEntity(Pawn)));
 
         return panel;
     }

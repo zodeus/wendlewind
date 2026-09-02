@@ -1,3 +1,5 @@
+using Wendlemire.Scenes.ArenaScene.Gui;
+
 namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnPreparationPanelWidgets;
 
 public sealed class PawnSummaryCard : VerticalStackPanel, IUpdatable
@@ -18,11 +20,8 @@ public sealed class PawnSummaryCard : VerticalStackPanel, IUpdatable
         HorizontalAlignment = HorizontalAlignment.Stretch;
         VerticalAlignment = VerticalAlignment.Stretch;
 
-        Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
+        Widgets.Add(new NamePlateWidget(pawn.LabelShort, pawn.NamePlateMoniker)
         {
-            Text = pawn.LabelShort,
-            TextColor = Color.Goldenrod,
-            HorizontalAlignment = HorizontalAlignment.Center,
             Margin = new Thickness(0, 4, 0, 0)
         });
 

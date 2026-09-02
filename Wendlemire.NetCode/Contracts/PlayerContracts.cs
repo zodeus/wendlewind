@@ -11,8 +11,23 @@ public sealed record PlayerProfileRecord
     public int RatedRuns { get; init; }
     public int PeakRating { get; init; }
     public int? LegendNumber { get; init; }
+    public int Marks { get; init; }
+    public List<string> OwnedCosmeticMonikers { get; init; } = [];
+    public string EquippedNamePlate { get; init; } = "";
     public DateTimeOffset CreatedAt { get; init; }
     public DateTimeOffset UpdatedAt { get; init; }
+}
+
+public sealed record CosmeticRequest
+{
+    public string? Moniker { get; init; }
+}
+
+public sealed record CosmeticActionResult
+{
+    public bool Ok { get; init; }
+    public string? Error { get; init; }
+    public PlayerProfileRecord? Profile { get; init; }
 }
 
 public sealed record CreatePlayerRequest
@@ -100,6 +115,7 @@ public sealed record ArenaRunRecord
     public int? RatingAfter { get; init; }
     public int? RatingDelta { get; init; }
     public bool RankApplied { get; init; }
+    public int MarksAwarded { get; init; }
     public List<ArenaFightRecord> Fights { get; init; } = [];
     public string? Version { get; init; }
 }
@@ -246,6 +262,7 @@ public sealed record AdminPlayerRow
     public int? ActiveGold { get; init; }
     public int Rating { get; init; }
     public int RatedRuns { get; init; }
+    public int Marks { get; init; }
     public DateTimeOffset? LastPlayedAt { get; init; }
 }
 

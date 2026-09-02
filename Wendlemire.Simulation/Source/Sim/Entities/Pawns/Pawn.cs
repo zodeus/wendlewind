@@ -21,6 +21,7 @@ public class Pawn : Entity
     public List<ActiveIncense> ActiveIncense = [];
     public int IncenseCapacity = IncenseProperties.BaseSlots;
     public int PotionCapacity = PotionSlots.BaseSlots;
+    public string NamePlateMoniker = CosmeticDefaults.NamePlate;
     public PawnType PawnType = PawnType.Invalid;
     public Zone? Zone;
     public int TicksToAttack;
@@ -392,7 +393,12 @@ public class Pawn : Entity
         ScribeDeep.Look(ref MealPlan!, "MealPlan", this);
         ScribeDeep.Look(ref CombatStomach!, "CombatStomach", this);
         ScribeCollections.Look(ref ActiveIncense!, "ActiveIncense", LookMode.Deep);
+        ScribeValues.Look(ref NamePlateMoniker!, "NamePlateMoniker", CosmeticDefaults.NamePlate);
         ScribeReferences.Look(ref Zone!, "Zone");
+        if (string.IsNullOrWhiteSpace(NamePlateMoniker))
+        {
+            NamePlateMoniker = CosmeticDefaults.NamePlate;
+        }
         MedicalChest ??= new MedicalChest(this);
         MealPlan ??= new MealPlan(this);
         CombatStomach ??= new CombatStomach(this);

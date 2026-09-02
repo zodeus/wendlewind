@@ -520,6 +520,140 @@ public class PlayerStoreTests
         }
     }
 
+    [Fact]
+    public void NewProfilesOwnAndEquipDefaultNamePlate()
+    {
+        var dir = Path.Combine(Path.GetTempPath(), $"ww-data-{Guid.NewGuid():N}");
+        try
+        {
+            var store = new PlayerStore(dir);
+            var profile = store.GetOrCreateProfile("alice", "Alice", "alice");
+            Assert.Equal(0, profile.Marks);
+            Assert.Contains(ArenaMarks.DefaultNamePlate, profile.OwnedCosmeticMonikers);
+            Assert.Equal(ArenaMarks.DefaultNamePlate, profile.EquippedNamePlate);
+        }
+        finally
+        {
+            Directory.Delete(dir, true);
+        }
+    }
+
+    [Fact]
+    public void FinishedTenWinRunAwardsMarksFormula()
+    {
+        var dir = Path.Combine(Path.GetTempPath(), $"ww-data-{Guid.NewGuid():N}");
+        try
+        {
+            var store = new PlayerStore(dir);
+            var started = store.StartArena("alice", "Alice", 1);
+            store.SaveCurrentArena(started with { Wins = 10, Losses = 0, Gold = 320 });
+            var finished = store.FinishCurrent("alice");
+            Assert.Equal(182, finished!.MarksAwarded);
+            Assert.Equal(182, store.GetProfile("alice")!.Marks);
+        }
+        finally
+        {
+            Directory.Delete(dir, true);
+        }
+    }
+
+    [Fact]
+    public void FiveLossFinishAwardsWinsAndLeftoverGoldWithoutVictoryBonus()
+    {
+        var dir = Path.Combine(Path.GetTempPath(), $"ww-data-{Guid.NewGuid():N}");
+        try
+        {
+            var store = new PlayerStore(dir);
+            var started = store.StartArena("alice", "Alice", 1);
+            store.SaveCurrentArena(started with { Wins = 3, Losses = 5, Gold = 90 });
+            var finished = store.FinishCurrent("alice");
+            Assert.Equal(39, finished!.MarksAwarded);
+            Assert.Equal(39, store.GetProfile("alice")!.Marks);
+        }
+        finally
+        {
+            Directory.Delete(dir, true);
+        }
+    }
+
+    [Fact]
+    public void AbandonedAndUnfinishedRunsAwardNoMarks()
+    {
+        var dir = Path.Combine(Path.GetTempPath(), $"ww-data-{Guid.NewGuid():N}");
+        try
+        {
+            var store = new PlayerStore(dir);
+            var first = store.StartArena("alice", "Alice", 1);
+            store.SaveCurrentArena(first with { Wins = 10, Losses = 0, Gold = 500 });
+            store.StartArena("alice", "Alice", 2);
+            Assert.Equal(0, store.GetRun("alice", first.RunId)!.MarksAwarded);
+            Assert.Equal(0, store.GetProfile("alice")!.Marks);
+
+            var unfinished = store.GetCurrentArena("alice")!;
+            store.SaveCurrentArena(unfinished with { Wins = 3, Losses = 2, Gold = 90 });
+            var finished = store.FinishCurrent("alice", victory: true);
+            Assert.Equal(0, finished!.MarksAwarded);
+            Assert.Equal(0, store.GetProfile("alice")!.Marks);
+        }
+        finally
+        {
+            Directory.Delete(dir, true);
+        }
+    }
+
+    [Fact]
+    public void BuyAndEquipNamePlates()
+    {
+        var dir = Path.Combine(Path.GetTempPath(), $"ww-data-{Guid.NewGuid():N}");
+        try
+        {
+            var store = new PlayerStore(dir);
+            store.GetOrCreateProfile("alice", "Alice", "alice");
+
+            var tooPoor = store.BuyCosmetic("alice", "BoneInlay");
+            Assert.False(tooPoor.Ok);
+            Assert.Equal("Not enough marks.", tooPoor.Error);
+
+            var started = store.StartArena("alice", "Alice", 1);
+            store.SaveCurrentArena(started with { Wins = 10, Losses = 0, Gold = 320 });
+            store.FinishCurrent("alice");
+            Assert.Equal(182, store.GetProfile("alice")!.Marks);
+
+            var alreadyOwned = store.BuyCosmetic("alice", ArenaMarks.DefaultNamePlate);
+            Assert.False(alreadyOwned.Ok);
+            Assert.Equal("Already owned.", alreadyOwned.Error);
+
+            var unknown = store.BuyCosmetic("alice", "DoesNotExist");
+            Assert.False(unknown.Ok);
+            Assert.Equal("Unknown cosmetic.", unknown.Error);
+
+            var bought = store.BuyCosmetic("alice", "BoneInlay");
+            Assert.True(bought.Ok);
+            Assert.Equal(32, bought.Profile!.Marks);
+            Assert.Contains("BoneInlay", bought.Profile.OwnedCosmeticMonikers);
+            Assert.Equal(ArenaMarks.DefaultNamePlate, bought.Profile.EquippedNamePlate);
+
+            var again = store.BuyCosmetic("alice", "BoneInlay");
+            Assert.False(again.Ok);
+            Assert.Equal("Already owned.", again.Error);
+
+            var notOwned = store.EquipCosmetic("alice", "GildedRuin");
+            Assert.False(notOwned.Ok);
+            Assert.Equal("Not owned.", notOwned.Error);
+
+            var equipped = store.EquipCosmetic("alice", "BoneInlay");
+            Assert.True(equipped.Ok);
+            Assert.Equal("BoneInlay", equipped.Profile!.EquippedNamePlate);
+
+            var stamped = store.StampCosmetics(BuildTemplates.TankRegen() with { PlayerId = "alice" });
+            Assert.Equal("BoneInlay", stamped.NamePlateMoniker);
+        }
+        finally
+        {
+            Directory.Delete(dir, true);
+        }
+    }
+
     private static void AppendAnalyzedFight(
         PlayerStore store,
         string matchId,

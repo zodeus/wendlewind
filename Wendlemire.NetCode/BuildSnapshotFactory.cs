@@ -1,6 +1,7 @@
 using Wendlemire.Definitions;
 using Wendlemire.NetCode.Contracts;
 using Wendlemire.Sim;
+using Wendlemire.Sim.Cosmetics;
 using Wendlemire.Sim.Entities.Items;
 using Wendlemire.Sim.Entities.Items.Equipment;
 using Wendlemire.Sim.Entities.Items.Medicinals;
@@ -26,6 +27,9 @@ public static class BuildSnapshotFactory
             Seed = seed,
             PawnDefMoniker = pawn.PawnDef.Moniker,
             PawnName = pawn.Biography.Name,
+            NamePlateMoniker = string.IsNullOrWhiteSpace(pawn.NamePlateMoniker)
+                ? CosmeticDefaults.NamePlate
+                : pawn.NamePlateMoniker,
             SubmittedAt = DateTimeOffset.UtcNow,
             Round = round,
             Rating = rating,
@@ -76,6 +80,11 @@ public static class BuildSnapshotFactory
                 empty,
                 pawnType));
         Apply(pawn, snapshot);
+        if (string.IsNullOrWhiteSpace(pawn.NamePlateMoniker))
+        {
+            pawn.NamePlateMoniker = CosmeticDefaults.NamePlate;
+        }
+
         return pawn;
     }
 
@@ -102,6 +111,9 @@ public static class BuildSnapshotFactory
             pawn.Body.Stance = stance;
         }
 
+        pawn.NamePlateMoniker = string.IsNullOrWhiteSpace(snapshot.NamePlateMoniker)
+            ? CosmeticDefaults.NamePlate
+            : snapshot.NamePlateMoniker;
         pawn.Equipment.SyncWeaponCombatUse();
         ApplyWeaponCombatUse(pawn, snapshot.Weapons);
         ApplyPotionTriggers(pawn, snapshot.Potions);

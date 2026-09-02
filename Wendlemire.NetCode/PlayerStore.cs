@@ -3,6 +3,7 @@ using System.Text.Json.Serialization.Metadata;
 using Wendlemire.NetCode.Contracts;
 using Wendlemire.Sim.Arena;
 using Wendlemire.Sim.Combat;
+using Wendlemire.Sim.Cosmetics;
 
 namespace Wendlemire.NetCode;
 
@@ -46,7 +47,89 @@ public sealed class PlayerStore
                 UpdatedAt = DateTimeOffset.UtcNow
             };
             Write(ProfilePath(playerId), updated, NetCodeJsonContext.Default.PlayerProfileRecord);
-            return updated;
+            return WithLegendUnlocked(NormalizeProfile(updated));
+        }
+    }
+
+    public CosmeticActionResult BuyCosmetic(string playerId, string? moniker)
+    {
+        lock (_gate)
+        {
+            var def = CosmeticCatalog.Get(moniker);
+            if (def == null)
+            {
+                return FailCosmetic("Unknown cosmetic.");
+            }
+
+            var profile = NormalizeProfile(GetOrCreateProfileUnlocked(playerId));
+            if (OwnsCosmetic(profile, def.Moniker))
+            {
+                return FailCosmetic("Already owned.", profile);
+            }
+
+            if (profile.Marks < def.Price)
+            {
+                return FailCosmetic("Not enough marks.", profile);
+            }
+
+            var owned = profile.OwnedCosmeticMonikers.ToList();
+            owned.Add(def.Moniker);
+            var updated = profile with
+            {
+                Marks = profile.Marks - def.Price,
+                OwnedCosmeticMonikers = owned,
+                UpdatedAt = DateTimeOffset.UtcNow
+            };
+            Write(ProfilePath(playerId), updated, NetCodeJsonContext.Default.PlayerProfileRecord);
+            return OkCosmetic(WithLegendUnlocked(updated));
+        }
+    }
+
+    public CosmeticActionResult EquipCosmetic(string playerId, string? moniker)
+    {
+        lock (_gate)
+        {
+            var def = CosmeticCatalog.Get(moniker);
+            if (def == null)
+            {
+                return FailCosmetic("Unknown cosmetic.");
+            }
+
+            if (def.Category != CosmeticCategory.NamePlate)
+            {
+                return FailCosmetic("Cannot equip this.");
+            }
+
+            var profile = NormalizeProfile(GetOrCreateProfileUnlocked(playerId));
+            if (!OwnsCosmetic(profile, def.Moniker))
+            {
+                return FailCosmetic("Not owned.", profile);
+            }
+
+            var updated = profile with
+            {
+                EquippedNamePlate = def.Moniker,
+                UpdatedAt = DateTimeOffset.UtcNow
+            };
+            Write(ProfilePath(playerId), updated, NetCodeJsonContext.Default.PlayerProfileRecord);
+            return OkCosmetic(WithLegendUnlocked(updated));
+        }
+    }
+
+    public BuildSnapshot StampCosmetics(BuildSnapshot snapshot)
+    {
+        lock (_gate)
+        {
+            var profile = TryRead(ProfilePath(snapshot.PlayerId), NetCodeJsonContext.Default.PlayerProfileRecord);
+            var equipped = profile == null
+                ? ArenaMarks.DefaultNamePlate
+                : NormalizeProfile(profile).EquippedNamePlate;
+            if (string.IsNullOrWhiteSpace(equipped))
+            {
+                equipped = ArenaMarks.DefaultNamePlate;
+            }
+
+            return snapshot with { NamePlateMoniker = equipped };
         }
     }
 
@@ -357,7 +440,7 @@ public sealed class PlayerStore
         var existing = TryRead(path, NetCodeJsonContext.Default.PlayerProfileRecord);
         if (existing != null)
         {
-            existing = NormalizeProfile(existing);
+            existing = PersistNormalizedUnlocked(existing);
             if (displayName == null && username == null)
             {
                 return existing;
@@ -373,7 +456,7 @@ public sealed class PlayerStore
             return updated;
         }
 
-        var created = new PlayerProfileRecord
+        var created = NormalizeProfile(new PlayerProfileRecord
         {
             PlayerId = id,
             DisplayName = string.IsNullOrWhiteSpace(displayName) ? "Bilbert" : displayName,
@@ -382,7 +465,7 @@ public sealed class PlayerStore
             PeakRating = ArenaRank.StartingRating,
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow
-        };
+        });
         Write(path, created, NetCodeJsonContext.Default.PlayerProfileRecord);
         return created;
     }
@@ -479,10 +562,18 @@ public sealed class PlayerStore
         var wins = Math.Max(current.Wins, CountFightWins(run.Fights, playerId));
         var losses = Math.Max(current.Losses, CountFightLosses(run.Fights, playerId));
         var won = victory ?? (wins >= 10 ? true : losses >= 5 ? false : (bool?)null);
-        var complete = !abandoned && (wins >= ArenaRun.WinsToFinish || losses >= ArenaRun.LossesToFinish || victory != null);
+        var runFinished = !abandoned
+                          && (wins >= ArenaRun.WinsToFinish || losses >= ArenaRun.LossesToFinish);
+        var complete = runFinished || (!abandoned && victory != null);
         var rank = complete
             ? ApplyRankUnlocked(playerId, wins, run.Fights)
             : default(ArenaRankDelta?);
+        var marksAwarded = 0;
+        if (runFinished)
+        {
+            marksAwarded = ArenaMarks.ForFinishedRun(wins, current.Gold);
+            AddMarksUnlocked(playerId, marksAwarded);
+        }
 
         var finished = run with
         {
@@ -496,6 +587,7 @@ public sealed class PlayerStore
             RatingAfter = rank?.RatingAfter,
             RatingDelta = rank?.Delta,
             RankApplied = rank?.Applied == true,
+            MarksAwarded = marksAwarded,
             Version = GameVersion.Coalesce(run.Version, current.Version)
         };
         WriteRunUnlocked(playerId, current.RunId, finished);
@@ -563,17 +655,116 @@ public sealed class PlayerStore
         return higher + 1;
     }
 
+    private void AddMarksUnlocked(string playerId, int amount)
+    {
+        if (amount <= 0)
+        {
+            return;
+        }
+
+        var profile = NormalizeProfile(GetOrCreateProfileUnlocked(playerId));
+        var updated = profile with
+        {
+            Marks = profile.Marks + amount,
+            UpdatedAt = DateTimeOffset.UtcNow
+        };
+        Write(ProfilePath(playerId), updated, NetCodeJsonContext.Default.PlayerProfileRecord);
+    }
+
+    private PlayerProfileRecord PersistNormalizedUnlocked(PlayerProfileRecord profile)
+    {
+        var normalized = NormalizeProfile(profile);
+        if (!ReferenceEquals(normalized, profile)
+            && (normalized.Marks != profile.Marks
+                || normalized.EquippedNamePlate != profile.EquippedNamePlate
+                || !SameOwned(normalized.OwnedCosmeticMonikers, profile.OwnedCosmeticMonikers)
+                || normalized.Rating != profile.Rating
+                || normalized.PeakRating != profile.PeakRating))
+        {
+            Write(ProfilePath(profile.PlayerId), normalized, NetCodeJsonContext.Default.PlayerProfileRecord);
+        }
+
+        return normalized;
+    }
+
     private static PlayerProfileRecord NormalizeProfile(PlayerProfileRecord profile)
     {
         var rating = ArenaRank.NormalizeRating(profile.Rating, profile.RatedRuns);
         var peak = Math.Max(profile.PeakRating, rating);
-        if (rating == profile.Rating && peak == profile.PeakRating)
+        var marks = Math.Max(0, profile.Marks);
+        var owned = profile.OwnedCosmeticMonikers?.ToList() ?? [];
+        foreach (var def in CosmeticCatalog.DefaultOwned())
+        {
+            if (!OwnsCosmetic(owned, def.Moniker))
+            {
+                owned.Add(def.Moniker);
+            }
+        }
+
+        if (!OwnsCosmetic(owned, ArenaMarks.DefaultNamePlate))
+        {
+            owned.Add(ArenaMarks.DefaultNamePlate);
+        }
+
+        var equipped = profile.EquippedNamePlate;
+        if (string.IsNullOrWhiteSpace(equipped) || !OwnsCosmetic(owned, equipped))
+        {
+            equipped = ArenaMarks.DefaultNamePlate;
+        }
+
+        if (rating == profile.Rating
+            && peak == profile.PeakRating
+            && marks == profile.Marks
+            && equipped == profile.EquippedNamePlate
+            && SameOwned(owned, profile.OwnedCosmeticMonikers))
         {
             return profile;
         }
 
-        return profile with { Rating = rating, PeakRating = peak };
+        return profile with
+        {
+            Rating = rating,
+            PeakRating = peak,
+            Marks = marks,
+            OwnedCosmeticMonikers = owned,
+            EquippedNamePlate = equipped
+        };
     }
+
+    private static bool OwnsCosmetic(PlayerProfileRecord profile, string moniker) =>
+        OwnsCosmetic(profile.OwnedCosmeticMonikers, moniker);
+
+    private static bool OwnsCosmetic(IEnumerable<string>? owned, string moniker) =>
+        owned != null && owned.Any(id => string.Equals(id, moniker, StringComparison.Ordinal));
+
+    private static bool SameOwned(IReadOnlyList<string>? left, IReadOnlyList<string>? right)
+    {
+        if (ReferenceEquals(left, right))
+        {
+            return true;
+        }
+
+        if (left == null || right == null || left.Count != right.Count)
+        {
+            return false;
+        }
+
+        for (var i = 0; i < left.Count; i++)
+        {
+            if (!string.Equals(left[i], right[i], StringComparison.Ordinal))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static CosmeticActionResult OkCosmetic(PlayerProfileRecord profile) =>
+        new() { Ok = true, Profile = profile };
+
+    private static CosmeticActionResult FailCosmetic(string error, PlayerProfileRecord? profile = null) =>
+        new() { Ok = false, Error = error, Profile = profile };
 
     private static int CountFightWins(IReadOnlyList<ArenaFightRecord> fights, string playerId) =>
         fights.Count(fight => string.Equals(fight.WinnerPlayerId, playerId, StringComparison.Ordinal));
@@ -649,13 +840,14 @@ public sealed class PlayerStore
             }
         }
 
+        var normalized = profile == null ? null : NormalizeProfile(profile);
         return new AdminPlayerRow
         {
-            PlayerId = profile?.PlayerId ?? playerId,
-            DisplayName = profile?.DisplayName ?? playerId,
-            Username = profile?.Username ?? "",
-            CreatedAt = profile?.CreatedAt ?? default,
-            UpdatedAt = profile?.UpdatedAt ?? default,
+            PlayerId = normalized?.PlayerId ?? playerId,
+            DisplayName = normalized?.DisplayName ?? playerId,
+            Username = normalized?.Username ?? "",
+            CreatedAt = normalized?.CreatedAt ?? default,
+            UpdatedAt = normalized?.UpdatedAt ?? default,
             RunCount = runs.Count,
             FightCount = runs.Sum(run => run.Fights.Count),
             TotalWins = runs.Sum(run => run.Wins),
@@ -666,8 +858,9 @@ public sealed class PlayerStore
             ActiveWins = current?.Wins,
             ActiveLosses = current?.Losses,
             ActiveGold = current?.Gold,
-            Rating = profile == null ? 0 : NormalizeProfile(profile).Rating,
-            RatedRuns = profile?.RatedRuns ?? 0,
+            Rating = normalized?.Rating ?? 0,
+            RatedRuns = normalized?.RatedRuns ?? 0,
+            Marks = normalized?.Marks ?? 0,
             LastPlayedAt = lastPlayed == default ? null : lastPlayed
         };
     }

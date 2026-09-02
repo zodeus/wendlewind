@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Definitions>
+    <CosmeticDef>
+        <Moniker>PlainWood</Moniker>
+        <Label>Plain Wood</Label>
+        <Description>A weathered oak plank, burned with a name and hung above the pit.</Description>
+        <Category>NamePlate</Category>
+        <Price>0</Price>
+        <DefaultOwned>true</DefaultOwned>
+        <TextColor>203, 184, 150</TextColor>
+        <FrameAtlasKey>panel-frame-medium</FrameAtlasKey>
+    </CosmeticDef>
+
+    <CosmeticDef>
+        <Moniker>BoneInlay</Moniker>
+        <Label>Bone Inlay</Label>
+        <Description>Ivory scraps set into dark wood, the letters cut like a reliquary.</Description>
+        <Category>NamePlate</Category>
+        <Price>150</Price>
+        <TextColor>60, 42, 28</TextColor>
+        <FrameAtlasKey>panel-frame-medium-bright</FrameAtlasKey>
+    </CosmeticDef>
+
+    <CosmeticDef>
+        <Moniker>GildedRuin</Moniker>
+        <Label>Gilded Ruin</Label>
+        <Description>Tarnished gold leaf over cracked timber, bright as a false saint.</Description>
+        <Category>NamePlate</Category>
+        <Price>400</Price>
+        <TextColor>218, 165, 32</TextColor>
+        <FrameAtlasKey>panel-deep-gold</FrameAtlasKey>
+    </CosmeticDef>
+</Definitions>

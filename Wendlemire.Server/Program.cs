@@ -123,8 +123,9 @@ app.MapGet("/health", () => Results.Ok(new HealthStatus
 
 app.MapPost("/builds", (BuildSnapshot snapshot) =>
 {
-    pool.Upsert(snapshot);
-    return Results.Accepted($"/builds/{snapshot.PlayerId}", snapshot);
+    var stamped = players.StampCosmetics(snapshot);
+    pool.Upsert(stamped);
+    return Results.Accepted($"/builds/{stamped.PlayerId}", stamped);
 });
 
 app.MapGet("/opponent", (int round = 1) =>
@@ -136,10 +137,12 @@ app.MapGet("/opponent", (int round = 1) =>
 app.MapPost("/matches", (MatchRequest request) =>
 {
     var round = BuildPool.ResolveRound(request.Attacker);
-    var attacker = request.Attacker.Round > 0 ? request.Attacker : request.Attacker with { Round = round };
+    var attacker = players.StampCosmetics(
+        request.Attacker.Round > 0 ? request.Attacker : request.Attacker with { Round = round });
     var defender = request.Defender
                    ?? pool.PickOpponent(round, attacker.PlayerId, attacker.Rating)
                    ?? BuildPool.MirrorOf(attacker);
+    defender = players.StampCosmetics(defender);
     if (string.Equals(defender.PlayerId, attacker.PlayerId, StringComparison.Ordinal)
         || string.Equals(defender.PlayerId, $"mirror:{attacker.PlayerId}", StringComparison.Ordinal))
     {
@@ -182,6 +185,16 @@ app.MapGet("/players/{playerId}", (string playerId) =>
 app.MapPut("/players/{playerId}", (string playerId, CreatePlayerRequest request) =>
 {
     return Results.Ok(players.UpdateProfile(playerId, request.DisplayName, request.Username));
+});
+
+app.MapPost("/players/{playerId}/cosmetics/buy", (string playerId, CosmeticRequest? request) =>
+{
+    return Results.Ok(players.BuyCosmetic(playerId, request?.Moniker));
+});
+
+app.MapPut("/players/{playerId}/cosmetics/equip", (string playerId, CosmeticRequest? request) =>
+{
+    return Results.Ok(players.EquipCosmetic(playerId, request?.Moniker));
 });
 
 app.MapGet("/players/{playerId}/achievements", (string playerId) =>

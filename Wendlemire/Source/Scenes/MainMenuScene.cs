@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework.Input;
-using Wendlemire.Graphics.Textures;
 using Wendlemire.NetCode;
 using Wendlemire.Scenes.ArenaScene;
 using Wendlemire.Scenes.ArenaScene.Gui;
@@ -15,17 +14,15 @@ public class MainMenuScene : Scene
     private static readonly Color IronHover = new(58, 28, 20);
     private static readonly Color IronPressed = new(20, 12, 10);
     private static readonly Color IronEdge = new(60, 46, 38);
-    private static readonly Color FrameOuter = new(10, 6, 4);
-    private static readonly Color FrameWood = new(42, 22, 16);
-    private static readonly Color FrameInset = new(106, 58, 40);
     private static readonly Color Rust = new(110, 42, 28);
     private static readonly Color Bone = new(203, 184, 150);
     private static readonly Color Dust = new(122, 110, 88);
     private static readonly Color Field = new(20, 12, 10);
     private static readonly Color Error = new(196, 90, 58);
+    private static readonly Color Veil = new(7, 5, 4, 120);
+    private static readonly Color IronDisabled = new(28, 18, 14);
 
-    private const int HeroWidth = 900;
-    private const int HeroHeight = 600;
+    private const bool ShopEnabled = false;
 
     private Desktop _desktop = null!;
     private PlayerProfile _profile = null!;
@@ -38,6 +35,7 @@ public class MainMenuScene : Scene
     private Label _playingAsLabel = null!;
     private Widget _usernamePanel = null!;
     private Widget _playPanel = null!;
+    private Widget _menuRoot = null!;
     private EventHandler<TextInputEventArgs>? _textInputHandler;
     private KeyboardState _previousKeyboard;
 
@@ -61,7 +59,7 @@ public class MainMenuScene : Scene
 
         _usernamePanel = new VerticalStackPanel
         {
-            Spacing = 10,
+            Spacing = 12,
             HorizontalAlignment = HorizontalAlignment.Center,
             Widgets =
             {
@@ -74,7 +72,7 @@ public class MainMenuScene : Scene
 
         var playButtons = new VerticalStackPanel
         {
-            Spacing = 10,
+            Spacing = 16,
             HorizontalAlignment = HorizontalAlignment.Center
         };
         playButtons.Widgets.Add(IronButton("Start New Arena", () => TryEnterArena(startFresh: true)));
@@ -83,54 +81,116 @@ public class MainMenuScene : Scene
             playButtons.Widgets.Add(IronButton("Continue Arena", () => TryEnterArena(startFresh: false)));
         }
 
-        _playingAsLabel = BodyLabel($"Playing as {_profile.Username}", Dust);
+        if (versionError == null)
+        {
+            playButtons.Widgets.Add(IronButton("Treasure Trove", OpenShop, ShopEnabled));
+        }
+
+        _playingAsLabel = BodyLabel(IdentityText(), Dust);
         _playPanel = new VerticalStackPanel
+        {
+            Spacing = 22,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Widgets =
+            {
+                new VerticalStackPanel
+                {
+                    Spacing = 8,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Widgets =
+                    {
+                        _playingAsLabel,
+                        versionError == null ? LoadRankBadge() : BodyLabel("Unranked", Dust)
+                    }
+                },
+                playButtons
+            }
+        };
+
+        _serverField = IronTextBox(_clientSettings.ServerHost, 220);
+        _fullscreenButton = IronButton(FullscreenButtonText(), ToggleFullscreen, width: 240);
+
+        var body = new VerticalStackPanel
+        {
+            Spacing = 16,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            Widgets =
+            {
+                _usernamePanel,
+                _playPanel,
+                _connectionError
+            }
+        };
+
+        var footer = new VerticalStackPanel
         {
             Spacing = 10,
             HorizontalAlignment = HorizontalAlignment.Center,
             Widgets =
             {
-                _playingAsLabel,
-                versionError == null ? LoadRankBadge() : BodyLabel("Unranked", Dust),
-                playButtons
+                new HorizontalStackPanel
+                {
+                    Spacing = 20,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Widgets =
+                    {
+                        BodyLabel("Server", Dust, VerticalAlignment.Center),
+                        _serverField,
+                        _fullscreenButton
+                    }
+                },
+                BodyLabel($"v{GameVersion.Current}", Dust)
             }
         };
 
-        _serverField = IronTextBox(_clientSettings.ServerHost, 240);
-        var serverPanel = new HorizontalStackPanel
+        var overlay = new Grid
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            Padding = new Thickness(48, 40)
+        };
+        overlay.RowsProportions.Add(new Proportion(ProportionType.Auto));
+        overlay.RowsProportions.Add(new Proportion(ProportionType.Fill));
+        overlay.RowsProportions.Add(new Proportion(ProportionType.Auto));
+
+        var brand = new VerticalStackPanel
         {
             Spacing = 12,
             HorizontalAlignment = HorizontalAlignment.Center,
             Widgets =
             {
-                BodyLabel("Server", Dust, VerticalAlignment.Center),
-                _serverField
+                Wordmark("WENDLEMIRE"),
+                new EmberRule { Width = 360, Height = 3, HorizontalAlignment = HorizontalAlignment.Center }
             }
         };
+        overlay.Widgets.Add(brand);
+        overlay.Widgets.Add(body);
+        Grid.SetRow(body, 1);
+        overlay.Widgets.Add(footer);
+        Grid.SetRow(footer, 2);
 
-        _fullscreenButton = IronButton(FullscreenButtonText(), ToggleFullscreen);
-
+        _menuRoot = new Panel
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            Background = new SolidBrush(Void),
+            Widgets =
+            {
+                new CoverImage(BaseContent.Textures.MainMenuBackground),
+                new Panel
+                {
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                    Background = new SolidBrush(Veil)
+                },
+                overlay
+            }
+        };
         _desktop = new Desktop
         {
             HasExternalTextInput = true,
-            Root = new VerticalStackPanel
-            {
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                Spacing = 14,
-                Widgets =
-                {
-                    BuildHero(),
-                    new EmberRule { Width = 360, Height = 3, HorizontalAlignment = HorizontalAlignment.Center },
-                    Wordmark("WENDLEMIRE"),
-                    _usernamePanel,
-                    _playPanel,
-                    _connectionError,
-                    serverPanel,
-                    _fullscreenButton,
-                    BodyLabel($"v{GameVersion.Current}", Dust)
-                }
-            }
+            Root = _menuRoot
         };
         Core.ConfigureDesktopScaling(_desktop);
 
@@ -244,7 +304,7 @@ public class MainMenuScene : Scene
         PersistServerHost();
         _profile.SetUsername(username);
         TryPushUsernameToServer();
-        _playingAsLabel.Text = $"Playing as {_profile.Username}";
+        _playingAsLabel.Text = IdentityText();
         RefreshPanels();
     }
 
@@ -276,7 +336,7 @@ public class MainMenuScene : Scene
         var fullScreen = !Screen.IsFullscreen;
         Screen.SetFullscreen(fullScreen);
         _clientSettings.SetFullScreen(fullScreen);
-        _fullscreenButton.Content = DisplayLabel(FullscreenButtonText(), 22, Bone);
+        _fullscreenButton.Content = DisplayLabel(FullscreenButtonText(), 20, Bone);
     }
 
     private static string FullscreenButtonText()
@@ -284,33 +344,42 @@ public class MainMenuScene : Scene
         return Screen.IsFullscreen ? "Fullscreen: On" : "Fullscreen: Off";
     }
 
-    private static Widget BuildHero()
+    private void OpenShop()
     {
-        var art = new Panel
-        {
-            Width = HeroWidth,
-            Height = HeroHeight,
-            Background = new TextureRegion(BaseContent.Textures.MainMenuBackground)
-        };
+        PersistServerHost();
+        _desktop.Root = new CosmeticsShopScreen(_profile, CloseShop);
+        Core.ConfigureDesktopScaling(_desktop);
+    }
 
-        var inset = new Panel
-        {
-            Background = new SolidBrush(FrameWood),
-            Border = new SolidBrush(FrameInset),
-            BorderThickness = new Thickness(1),
-            Padding = new Thickness(1),
-            Widgets = { art }
-        };
+    private void CloseShop()
+    {
+        _playingAsLabel.Text = IdentityText();
+        _desktop.Root = _menuRoot;
+        Core.ConfigureDesktopScaling(_desktop);
+    }
 
-        return new Panel
+    private string IdentityText()
+    {
+        var marks = LoadMarksText();
+        return string.IsNullOrEmpty(marks)
+            ? $"Playing as {_profile.Username}"
+            : $"Playing as {_profile.Username}   ·   {marks}";
+    }
+
+    private string LoadMarksText()
+    {
+        try
         {
-            HorizontalAlignment = HorizontalAlignment.Center,
-            Background = new SolidBrush(FrameWood),
-            Border = new SolidBrush(FrameOuter),
-            BorderThickness = new Thickness(1),
-            Padding = new Thickness(7),
-            Widgets = { inset }
-        };
+            using var client = new ArenaMatchClient();
+            var remote = client.GetProfile(_profile.PlayerId).GetAwaiter().GetResult()
+                         ?? client.EnsureProfile(_profile.PlayerId, _profile.DisplayName, _profile.Username)
+                             .GetAwaiter().GetResult();
+            return $"{remote.Marks} marks";
+        }
+        catch
+        {
+            return "";
+        }
     }
 
     private static Widget LoadRankBadge()
@@ -367,20 +436,28 @@ public class MainMenuScene : Scene
         }
     }
 
-    private static CursorButton IronButton(string text, Action onClick)
+    private static CursorButton IronButton(string text, Action onClick, bool enabled = true, int width = 340)
     {
         var button = new CursorButton
         {
-            Content = DisplayLabel(text, 22, Bone),
-            Width = 280,
+            Content = DisplayLabel(text, 22, enabled ? Bone : Dust),
+            Width = width,
             HorizontalAlignment = HorizontalAlignment.Center,
-            Padding = new Thickness(16, 10),
+            VerticalAlignment = VerticalAlignment.Center,
+            Padding = new Thickness(20, 14),
+            Enabled = enabled,
             Background = new SolidBrush(IronFill),
             OverBackground = new SolidBrush(IronHover),
             PressedBackground = new SolidBrush(IronPressed),
-            Border = new SolidBrush(IronEdge),
+            DisabledBackground = new SolidBrush(IronDisabled),
+            Border = new SolidBrush(enabled ? IronEdge : Field),
             BorderThickness = new Thickness(1)
         };
+        if (!enabled)
+        {
+            return button;
+        }
+
         button.MouseEntered += (_, _) => button.Border = new SolidBrush(Rust);
         button.MouseLeft += (_, _) => button.Border = new SolidBrush(IronEdge);
         button.Click += (_, _) => onClick();
@@ -454,6 +531,38 @@ public class MainMenuScene : Scene
         catch
         {
             return false;
+        }
+    }
+
+    private sealed class CoverImage : Widget
+    {
+        private readonly Texture2D _texture;
+
+        public CoverImage(Texture2D texture)
+        {
+            _texture = texture;
+            HorizontalAlignment = HorizontalAlignment.Stretch;
+            VerticalAlignment = VerticalAlignment.Stretch;
+            ClipToBounds = true;
+        }
+
+        public override void InternalRender(RenderContext context)
+        {
+            base.InternalRender(context);
+            var bounds = ActualBounds;
+            if (bounds.Width <= 0 || bounds.Height <= 0 || _texture.Width <= 0 || _texture.Height <= 0)
+            {
+                return;
+            }
+
+            var scale = Math.Max(bounds.Width / (float)_texture.Width, bounds.Height / (float)_texture.Height);
+            var width = (int)MathF.Ceiling(_texture.Width * scale);
+            var height = (int)MathF.Ceiling(_texture.Height * scale);
+            context.Draw(_texture, new Rectangle(
+                bounds.X + (bounds.Width - width) / 2,
+                bounds.Y + (bounds.Height - height) / 2,
+                width,
+                height), Color.White);
         }
     }
 

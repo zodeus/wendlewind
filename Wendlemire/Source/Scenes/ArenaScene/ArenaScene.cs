@@ -37,6 +37,7 @@ public sealed class ArenaScene : Scene
     public string? MatchError { get; private set; }
     public ArenaRankDisplay CurrentRank { get; private set; } = ArenaRank.FromRating(ArenaRank.StartingRating, 0);
     public ArenaRunRecord? LastFinishedRun { get; private set; }
+    private string _equippedNamePlate = ArenaMarks.DefaultNamePlate;
     public CombatResult? LastCombatResult => _pendingResult;
 
     protected override void OnStart()
@@ -75,6 +76,7 @@ public sealed class ArenaScene : Scene
             SaveRun();
         }
 
+        ApplyEquippedNamePlate();
         ApplyServerAchievements();
         _gui = new ArenaGui(_context, this, _worldTextHandler);
     }
@@ -504,6 +506,23 @@ public sealed class ArenaScene : Scene
         }
 
         CurrentRank = ArenaRank.FromRating(remote.Rating, remote.RatedRuns, remote.LegendNumber);
+        _equippedNamePlate = string.IsNullOrWhiteSpace(remote.EquippedNamePlate)
+            ? ArenaMarks.DefaultNamePlate
+            : remote.EquippedNamePlate;
+        ApplyEquippedNamePlate();
+    }
+
+    private void ApplyEquippedNamePlate()
+    {
+        var pawn = _context.World?.Player?.Pawn;
+        if (pawn == null)
+        {
+            return;
+        }
+
+        pawn.NamePlateMoniker = string.IsNullOrWhiteSpace(_equippedNamePlate)
+            ? ArenaMarks.DefaultNamePlate
+            : _equippedNamePlate;
     }
 
     private void ApplyServerAchievements()

@@ -147,6 +147,26 @@ public sealed class ArenaMatchClient : IDisposable
         return await Read(response, NetCodeJsonContext.Default.PlayerProfileRecord);
     }
 
+    public async Task<CosmeticActionResult> BuyCosmetic(string playerId, string moniker)
+    {
+        var response = await Post(
+            $"/players/{playerId}/cosmetics/buy",
+            new CosmeticRequest { Moniker = moniker },
+            NetCodeJsonContext.Default.CosmeticRequest);
+        await EnsureSuccess(response, "Buy cosmetic");
+        return await Read(response, NetCodeJsonContext.Default.CosmeticActionResult);
+    }
+
+    public async Task<CosmeticActionResult> EquipCosmetic(string playerId, string moniker)
+    {
+        var response = await Put(
+            $"/players/{playerId}/cosmetics/equip",
+            new CosmeticRequest { Moniker = moniker },
+            NetCodeJsonContext.Default.CosmeticRequest);
+        await EnsureSuccess(response, "Equip cosmetic");
+        return await Read(response, NetCodeJsonContext.Default.CosmeticActionResult);
+    }
+
     public async Task<ArenaRunRecord?> FinishArena(string playerId, bool? victory = null)
     {
         var path = victory == null
