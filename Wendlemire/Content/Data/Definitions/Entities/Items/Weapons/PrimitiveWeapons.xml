@@ -14,7 +14,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Primitive/WoodClub</TexturePath>
         <BaseStats>
-            <WeaponPower>58</WeaponPower>
+            <WeaponPower>34</WeaponPower>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -39,7 +39,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Primitive/BoneKnife</TexturePath>
         <BaseStats>
-            <WeaponPower>58</WeaponPower>
+            <WeaponPower>36</WeaponPower>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -68,7 +68,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Primitive/BoneSpear</TexturePath>
         <BaseStats>
-            <WeaponPower>58</WeaponPower>
+            <WeaponPower>38</WeaponPower>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -97,7 +97,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Primitive/BoneAxe</TexturePath>
         <BaseStats>
-            <WeaponPower>58</WeaponPower>
+            <WeaponPower>40</WeaponPower>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -122,7 +122,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Primitive/StoneHammer</TexturePath>
         <BaseStats>
-            <WeaponPower>58</WeaponPower>
+            <WeaponPower>38</WeaponPower>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>

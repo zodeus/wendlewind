@@ -1,173 +1,132 @@
+using FontStashSharp.RichText;
 using Image = Myra.Graphics2D.UI.Image;
 
 namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
-public class InventoryListPanel : VerticalStackPanel, IUpdatable
+public sealed class InventoryCardGrid : VerticalStackPanel, IUpdatable
 {
-    private const int Columns = 3;
-    private const int TileHeight = 72;
+    private const int CardWidth = 118;
+    private const int CardHeight = 62;
+    private const int CardSpacing = 4;
 
     private readonly BaseGui _gui;
-    private readonly PawnInventory _inventory;
-    private readonly Func<Item, bool> _filter;
-    private readonly Grid _grid;
-    private readonly Label _empty;
-    private readonly Dictionary<Item, InventoryItemTile> _tiles = [];
-    private string _signature = "";
+    private readonly IReadOnlyList<Item> _items;
+    private readonly Dictionary<Item, InventoryItemCard> _cards = [];
+    private int _cardsPerRow = -1;
 
-    public InventoryListPanel(BaseGui gui, PawnInventory inventory, Func<Item, bool> filter)
+    public InventoryCardGrid(BaseGui gui, IReadOnlyList<Item> items)
     {
         _gui = gui;
-        _inventory = inventory;
-        _filter = filter;
-        Spacing = 8;
+        _items = items;
+        Spacing = CardSpacing;
         HorizontalAlignment = HorizontalAlignment.Stretch;
-
-        _grid = new Grid
-        {
-            ColumnSpacing = 8,
-            RowSpacing = 8,
-            HorizontalAlignment = HorizontalAlignment.Stretch
-        };
-        for (var i = 0; i < Columns; i++)
-        {
-            _grid.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
-        }
-
-        _empty = new Label(BaseContent.Styles.Label.Normal)
-        {
-            Text = "None in inventory",
-            TextColor = new Color(140, 140, 140),
-            HorizontalAlignment = HorizontalAlignment.Center,
-            Margin = new Thickness(0, 24, 0, 0)
-        };
-
-        Widgets.Add(_grid);
-        Widgets.Add(_empty);
         Rebuild();
     }
 
     public void Update()
     {
-        var items = CurrentItems();
-        var signature = ItemSignature(items);
-        if (signature != _signature)
+        var perRow = CardsPerRow();
+        if (perRow != _cardsPerRow)
         {
             Rebuild();
             return;
         }
 
-        foreach (var tile in _tiles.Values)
+        foreach (var card in _cards.Values)
         {
-            tile.Refresh();
+            card.Refresh();
         }
     }
 
-    private List<Item> CurrentItems()
+    private int CardsPerRow()
     {
-        return _inventory
-            .Where(item => !item.IsDestroyed && item.StackSize > 0 && _filter(item))
-            .OrderBy(item => item.Label)
-            .ToList();
-    }
+        var width = Math.Max(ActualBounds.Width, Bounds.Width);
+        if (width <= 0)
+        {
+            return 1;
+        }
 
-    private static string ItemSignature(List<Item> items)
-    {
-        return string.Join(",", items.Select(item => item.Id));
+        return Math.Max(1, (width + CardSpacing) / (CardWidth + CardSpacing));
     }
 
     private void Rebuild()
     {
-        var items = CurrentItems();
-        _signature = ItemSignature(items);
-        _tiles.Clear();
-        _grid.Widgets.Clear();
-        _grid.RowsProportions.Clear();
+        _cardsPerRow = CardsPerRow();
+        _cards.Clear();
+        Widgets.Clear();
 
-        _empty.Visible = items.Count == 0;
-        _grid.Visible = items.Count > 0;
-        if (items.Count == 0)
+        HorizontalStackPanel? row = null;
+        for (var i = 0; i < _items.Count; i++)
         {
-            return;
-        }
-
-        var rowCount = (items.Count + Columns - 1) / Columns;
-        for (var i = 0; i < rowCount; i++)
-        {
-            _grid.RowsProportions.Add(new Proportion(ProportionType.Auto));
-        }
-
-        for (var i = 0; i < items.Count; i++)
-        {
-            var item = items[i];
-            var tile = new InventoryItemTile(_gui, item)
+            if (i % _cardsPerRow == 0)
             {
-                Height = TileHeight,
-                HorizontalAlignment = HorizontalAlignment.Stretch
+                row = new HorizontalStackPanel { Spacing = CardSpacing };
+                Widgets.Add(row);
+            }
+
+            var item = _items[i];
+            var card = new InventoryItemCard(_gui, item)
+            {
+                Width = CardWidth,
+                Height = CardHeight
             };
-            _tiles[item] = tile;
-            _grid.Widgets.Add(tile);
-            Grid.SetColumn(tile, i % Columns);
-            Grid.SetRow(tile, i / Columns);
+            _cards[item] = card;
+            row!.Widgets.Add(card);
         }
     }
 }
 
-internal sealed class InventoryItemTile : CursorButton
+internal sealed class InventoryItemCard : CursorButton
 {
     private readonly Item _item;
     private readonly Label _stackLabel;
 
-    public InventoryItemTile(BaseGui gui, Item item) : base(BaseContent.Styles.Button.Dark)
+    public InventoryItemCard(BaseGui gui, Item item) : base(BaseContent.Styles.Button.Dark)
     {
         _item = item;
-        Padding = new Thickness(8, 6, 10, 6);
+        Padding = new Thickness(4, 4, 4, 3);
 
         var icon = new Panel
         {
-            Width = BaseContent.IconSizes.Large + 8,
-            Height = BaseContent.IconSizes.Large + 8,
+            Width = BaseContent.IconSizes.Default + 4,
+            Height = BaseContent.IconSizes.Default + 4,
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
-            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Center,
             Widgets =
             {
                 new Image
                 {
                     Background = item.GetIconImage(),
-                    Width = BaseContent.IconSizes.Large,
-                    Height = BaseContent.IconSizes.Large,
+                    Width = BaseContent.IconSizes.Default,
+                    Height = BaseContent.IconSizes.Default,
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center
                 }
             }
         };
 
-        var name = new Label(BaseContent.Styles.Label.Normal)
-        {
-            Text = item.Label,
-            VerticalAlignment = VerticalAlignment.Center,
-            Wrap = true,
-            MaxWidth = 220
-        };
-
         _stackLabel = new Label(BaseContent.Styles.Label.Small)
         {
             TextColor = Color.Goldenrod,
-            VerticalAlignment = VerticalAlignment.Center
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Bottom
+        };
+        icon.Widgets.Add(_stackLabel);
+
+        var name = new Label(BaseContent.Styles.Label.Small)
+        {
+            Text = item.Label,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            SingleLine = true,
+            AutoEllipsisMethod = AutoEllipsisMethod.Character,
+            MaxWidth = 108
         };
 
-        var text = new VerticalStackPanel
+        Content = new VerticalStackPanel
         {
             Spacing = 2,
-            VerticalAlignment = VerticalAlignment.Center,
-            Widgets = { name, _stackLabel }
-        };
-
-        Content = new HorizontalStackPanel
-        {
-            Spacing = 10,
-            VerticalAlignment = VerticalAlignment.Center,
-            Widgets = { icon, text }
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Widgets = { icon, name }
         };
 
         Click += (_, _) => gui.ViewEntity(item);
@@ -177,7 +136,7 @@ internal sealed class InventoryItemTile : CursorButton
 
     public void Refresh()
     {
-        _stackLabel.Text = _item.IsStackable ? $"x{_item.StackSize}" : "";
-        _stackLabel.Visible = _item.IsStackable;
+        _stackLabel.Text = _item.IsStackable && _item.StackSize > 1 ? $"x{_item.StackSize}" : "";
+        _stackLabel.Visible = _stackLabel.Text.Length > 0;
     }
 }
