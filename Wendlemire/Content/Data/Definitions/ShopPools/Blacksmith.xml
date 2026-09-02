@@ -187,6 +187,12 @@
                     <ListItem>
                         <ItemDef>MedKit</ItemDef>
                     </ListItem>
+                    <ListItem>
+                        <ItemDef>Bandage</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>BoneGlue</ItemDef>
+                    </ListItem>
                 </Offers>
             </ListItem>
             <ListItem>

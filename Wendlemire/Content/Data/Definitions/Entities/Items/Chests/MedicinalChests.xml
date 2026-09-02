@@ -29,6 +29,11 @@
                 <Amount>3~4</Amount>
                 <ChanceToDrop>1</ChanceToDrop>
             </ListItem>
+            <ListItem>
+                <ItemDef>Bandage</ItemDef>
+                <Amount>2~4</Amount>
+                <ChanceToDrop>1</ChanceToDrop>
+            </ListItem>
         </Items>
     </LootBoxDef>
 </Definitions>

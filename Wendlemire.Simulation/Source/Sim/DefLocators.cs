@@ -75,6 +75,7 @@ public static partial class Defs
         public static BodyPartModifierDef PoppingPustules = null!;
         public static BodyPartModifierDef Burning = null!;
         public static BodyPartModifierDef Electrofied = null!;
+        public static BodyPartModifierDef Poison = null!;
     }
 }
 

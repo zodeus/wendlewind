@@ -143,14 +143,7 @@
                         <ItemDef>MedKit</ItemDef>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>Suture</ItemDef>
-                    </ListItem>
-                    <ListItem>
                         <ItemDef>MendersMist</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>Cyberveins</ItemDef>
-                        <AvailableFromRound>5</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>MendersMix</ItemDef>
@@ -158,6 +151,18 @@
                     </ListItem>
                     <ListItem>
                         <ItemDef>BalmyOintment</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>Bandage</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>BoneGlue</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>Antidote</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>ClotPack</ItemDef>
                     </ListItem>
                 </Offers>
             </ListItem>

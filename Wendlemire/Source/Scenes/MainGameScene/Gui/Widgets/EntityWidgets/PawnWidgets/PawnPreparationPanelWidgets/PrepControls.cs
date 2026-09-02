@@ -29,6 +29,7 @@ internal static class TriggerLabels
             MedicalTriggerType.PartSevered => "A part is severed",
             MedicalTriggerType.HasNecrosis => "A part has necrosis",
             MedicalTriggerType.BurningOrAcid => "A part is burning or acid",
+            MedicalTriggerType.HasPoison => "A part is poisoned",
             _ => type.ToString()
         };
     }
@@ -88,6 +89,7 @@ internal static class TriggerLabels
             MedicalTriggerType.PartSevered => "Uses when a part is severed",
             MedicalTriggerType.HasNecrosis => "Uses when a part has necrosis",
             MedicalTriggerType.BurningOrAcid => "Uses when a part is burning or acid-burned",
+            MedicalTriggerType.HasPoison => "Uses when a part is poisoned",
             _ => trigger.Type.ToString()
         };
 

@@ -9,5 +9,6 @@ public enum MedicalTriggerType
     PartBelowHealth,
     PartSevered,
     HasNecrosis,
-    BurningOrAcid
+    BurningOrAcid,
+    HasPoison
 }

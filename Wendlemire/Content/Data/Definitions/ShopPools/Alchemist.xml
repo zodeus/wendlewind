@@ -95,15 +95,15 @@
                         <ItemDef>BalmyOintment</ItemDef>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>Suture</ItemDef>
-                    </ListItem>
-                    <ListItem>
                         <ItemDef>StrengthenBones</ItemDef>
                         <AvailableFromRound>6</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>Cyberveins</ItemDef>
                         <AvailableFromRound>6</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>Antidote</ItemDef>
                     </ListItem>
                 </Offers>
             </ListItem>

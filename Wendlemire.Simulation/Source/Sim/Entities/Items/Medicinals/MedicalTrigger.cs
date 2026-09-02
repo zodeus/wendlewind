@@ -35,6 +35,7 @@ public class MedicalTrigger : IExposable
             MedicalTriggerType.PartSevered => FindUnsealedSocket(self) != null,
             MedicalTriggerType.HasNecrosis => HasStatus(self, props, HasUntreatedNecrosis),
             MedicalTriggerType.BurningOrAcid => HasStatus(self, props, HasBurningOrAcid),
+            MedicalTriggerType.HasPoison => HasStatus(self, props, HasPoison),
             _ => false
         };
     }
@@ -52,6 +53,7 @@ public class MedicalTrigger : IExposable
             MedicalTriggerType.PartSevered => "Use when a limb is severed / unsealed",
             MedicalTriggerType.HasNecrosis => "Use when a part has necrosis",
             MedicalTriggerType.BurningOrAcid => "Use when a part is burning or acid-burned",
+            MedicalTriggerType.HasPoison => "Use when a part is poisoned",
             _ => Type.ToString()
         };
 
@@ -331,6 +333,11 @@ public class MedicalTrigger : IExposable
     {
         return part.HasModifier(Defs.BodyPartModifiers.Burning)
                || part.HasModifier(Defs.BodyPartModifiers.Acid);
+    }
+
+    private static bool HasPoison(BodyPart part)
+    {
+        return part.HasModifier(Defs.BodyPartModifiers.Poison);
     }
 
     private static bool MatchesPool(BodyPart part, IReadOnlyList<MedicalTargetPool> pool)

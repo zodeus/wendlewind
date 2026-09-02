@@ -31,6 +31,10 @@ public class MedicalTriggerTests
     [InlineData("StrengthenBones")]
     [InlineData("Cyberveins")]
     [InlineData("Cauterize")]
+    [InlineData("Bandage")]
+    [InlineData("BoneGlue")]
+    [InlineData("Antidote")]
+    [InlineData("ClotPack")]
     public void AuthoredDefaultFiresInCombat(string moniker)
     {
         var def = RequireDef(moniker);
@@ -250,6 +254,124 @@ public class MedicalTriggerTests
     }
 
     [Fact]
+    public void BandageHealsFleshAndSkinOnly()
+    {
+        using var root = SimServices.BuildRoot();
+        using var scope = root.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<GameContext>();
+        context.Initialize(CombatReplay.DefaultRunSeed);
+        BuildSnapshotFactory.Apply(context.PlayerPawn, BuildTemplates.TankRegen());
+
+        var pawn = context.PlayerPawn;
+        var limb = pawn.Body.AllExternalParts.First(p =>
+            p.Substance == SubstanceType.Flesh && p.Type != BodyPartType.Eye && p.HasBones);
+        var bone = limb.AllInternalParts.First(p => p.Substance == SubstanceType.Bone);
+        var organ = pawn.Body.AllParts.First(p => p.IsOrgan);
+        var skin = limb.AllInternalParts.FirstOrDefault(p => p.Type == BodyPartType.Skin);
+
+        limb.HitPoints = limb.MaxHitPoints * 0.3;
+        bone.HitPoints = bone.MaxHitPoints * 0.3;
+        organ.HitPoints = organ.MaxHitPoints * 0.3;
+        if (skin != null)
+        {
+            skin.HitPoints = skin.MaxHitPoints * 0.3;
+        }
+
+        var item = context.Factory.CreateEntity<Item>(RequireDef("Bandage"), 1);
+        Assert.True(item.MedicinalHandler!.ApplyToPart(item, limb));
+        Assert.Equal(limb.MaxHitPoints, limb.HitPoints);
+        Assert.Equal(bone.MaxHitPoints * 0.3, bone.HitPoints, 3);
+        Assert.Equal(organ.MaxHitPoints * 0.3, organ.HitPoints, 3);
+        if (skin != null)
+        {
+            Assert.Equal(skin.MaxHitPoints, skin.HitPoints);
+        }
+    }
+
+    [Fact]
+    public void BoneGlueHealsOnlyBonesOnTargetLimb()
+    {
+        using var root = SimServices.BuildRoot();
+        using var scope = root.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<GameContext>();
+        context.Initialize(CombatReplay.DefaultRunSeed);
+        BuildSnapshotFactory.Apply(context.PlayerPawn, BuildTemplates.TankRegen());
+
+        var pawn = context.PlayerPawn;
+        var limbs = pawn.Body.AllExternalParts
+            .Where(p => p.HasBones && p.Type != BodyPartType.Eye)
+            .Take(2)
+            .ToList();
+        Assert.True(limbs.Count >= 2);
+
+        var targetBones = limbs[0].AllInternalParts.Where(p => p.Substance == SubstanceType.Bone).ToList();
+        var otherBones = limbs[1].AllInternalParts.Where(p => p.Substance == SubstanceType.Bone).ToList();
+        Assert.NotEmpty(targetBones);
+        Assert.NotEmpty(otherBones);
+
+        foreach (var bone in targetBones.Concat(otherBones))
+        {
+            bone.HitPoints = bone.MaxHitPoints * 0.25;
+        }
+
+        var flesh = limbs[0];
+        if (flesh.Substance == SubstanceType.Flesh)
+        {
+            flesh.HitPoints = flesh.MaxHitPoints * 0.25;
+        }
+
+        var item = context.Factory.CreateEntity<Item>(RequireDef("BoneGlue"), 1);
+        Assert.True(item.MedicinalHandler!.ApplyToPart(item, limbs[0]));
+        Assert.All(targetBones, b => Assert.Equal(b.MaxHitPoints, b.HitPoints));
+        Assert.All(otherBones, b => Assert.Equal(b.MaxHitPoints * 0.25, b.HitPoints, 3));
+        if (flesh.Substance == SubstanceType.Flesh)
+        {
+            Assert.Equal(flesh.MaxHitPoints * 0.25, flesh.HitPoints, 3);
+        }
+    }
+
+    [Fact]
+    public void AntidoteClearsPoisonAndNoopsWhenClean()
+    {
+        using var root = SimServices.BuildRoot();
+        using var scope = root.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<GameContext>();
+        context.Initialize(CombatReplay.DefaultRunSeed);
+        BuildSnapshotFactory.Apply(context.PlayerPawn, BuildTemplates.TankRegen());
+
+        var pawn = context.PlayerPawn;
+        var artery = pawn.Body.AllParts.First(p => p.Type == BodyPartType.Artery);
+        Afflict(context, artery, Defs.BodyPartModifiers.Poison);
+        Assert.True(artery.HasModifier(Defs.BodyPartModifiers.Poison));
+
+        var item = context.Factory.CreateEntity<Item>(RequireDef("Antidote"), 1);
+        Assert.True(item.MedicinalHandler!.ApplyToPart(item, pawn.Body.RootSocket.AttachedPart!));
+        Assert.DoesNotContain(pawn.Body.AllParts, p => p.HasModifier(Defs.BodyPartModifiers.Poison));
+        Assert.False(item.MedicinalHandler.ApplyToPart(item, pawn.Body.RootSocket.AttachedPart!));
+    }
+
+    [Fact]
+    public void ClotPackRestoresQuarterBloodAndNoopsWhenFull()
+    {
+        using var root = SimServices.BuildRoot();
+        using var scope = root.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<GameContext>();
+        context.Initialize(CombatReplay.DefaultRunSeed);
+        BuildSnapshotFactory.Apply(context.PlayerPawn, BuildTemplates.TankRegen());
+
+        var pawn = context.PlayerPawn;
+        pawn.Body.BloodAmount = pawn.Body.MaxBlood * 0.5f;
+        var item = context.Factory.CreateEntity<Item>(RequireDef("ClotPack"), 1);
+
+        Assert.True(item.MedicinalHandler!.ApplyToPart(item, pawn.Body.RootSocket.AttachedPart!));
+        Assert.Equal(pawn.Body.MaxBlood * 0.75f, pawn.Body.BloodAmount, 2);
+
+        pawn.Body.BloodAmount = pawn.Body.MaxBlood;
+        Assert.False(item.MedicinalHandler.ApplyToPart(item, pawn.Body.RootSocket.AttachedPart!));
+        Assert.Equal(pawn.Body.MaxBlood, pawn.Body.BloodAmount);
+    }
+
+    [Fact]
     public void MedKitCannotSealSockets()
     {
         using var root = SimServices.BuildRoot();
@@ -318,7 +440,20 @@ public class MedicalTriggerTests
                 SeverLimb(pawn);
                 break;
             case "BoneCleanse":
+            case "BoneGlue":
                 DamageFirst(pawn, p => p.Substance == SubstanceType.Bone, 0.4);
+                break;
+            case "Antidote":
+                foreach (var artery in pawn.Body.AllParts.Where(p => p.Type == BodyPartType.Artery && !p.IsDestroyed))
+                {
+                    Afflict(context, artery, Defs.BodyPartModifiers.Poison);
+                }
+
+                Disarm(pawn);
+                break;
+            case "ClotPack":
+                pawn.Body.BloodAmount = pawn.Body.MaxBlood * 0.2f;
+                Disarm(pawn);
                 break;
             case "StrengthenBones":
             case "Cyberveins":
@@ -327,6 +462,14 @@ public class MedicalTriggerTests
                 DamageFirst(pawn, p => p.IsExternal && p.Type != BodyPartType.Eye, 0.2);
                 DamageFirst(pawn, p => p.IsOrgan, 0.2);
                 break;
+        }
+    }
+
+    private static void Disarm(Pawn pawn)
+    {
+        foreach (var (weapon, _) in pawn.Equipment.Weapons.ToList())
+        {
+            pawn.Equipment.UnEquip(weapon);
         }
     }
 

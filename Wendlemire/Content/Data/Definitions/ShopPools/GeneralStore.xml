@@ -173,10 +173,13 @@
                         <ItemDef>Suture</ItemDef>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>MedKit</ItemDef>
+                        <ItemDef>Bandage</ItemDef>
                     </ListItem>
                     <ListItem>
-                        <ItemDef>MendersMist</ItemDef>
+                        <ItemDef>BoneGlue</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>ClotPack</ItemDef>
                     </ListItem>
                 </Offers>
             </ListItem>
