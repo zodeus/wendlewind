@@ -12,6 +12,9 @@ public sealed class ArenaMapScreen : Grid
     private static readonly Color Completed = new(80, 140, 80);
     private static readonly Color Current = new(232, 170, 0);
     private static readonly Color Locked = new(50, 50, 55);
+    private static readonly Color DeathFilled = new(148, 22, 28);
+    private static readonly Color DeathCurrent = new(196, 36, 32);
+    private static readonly Color DeathEmpty = new(68, 24, 26);
     private static readonly Color PanelFill = new(18, 14, 12);
     private static readonly Color PanelEdge = new(96, 48, 32);
 
@@ -63,7 +66,16 @@ public sealed class ArenaMapScreen : Grid
                     VerticalAlignment = VerticalAlignment.Center,
                     Widgets = { _purse, _runStats }
                 },
-                BuildFightSpine(run)
+                new VerticalStackPanel
+                {
+                    Spacing = 8,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Widgets =
+                    {
+                        BuildFightSpine(run),
+                        BuildDeathSpine(run)
+                    }
+                }
             }
         };
 
@@ -128,6 +140,63 @@ public sealed class ArenaMapScreen : Grid
                     }
                 }
             });
+        }
+
+        return row;
+    }
+
+    private static Widget BuildDeathSpine(ArenaRun run)
+    {
+        var row = new HorizontalStackPanel
+        {
+            Spacing = 0,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+
+        for (var i = 1; i <= ArenaRun.LossesToFinish; i++)
+        {
+            if (i > 1)
+            {
+                var reached = i - 1 <= run.Losses;
+                row.Widgets.Add(new Panel
+                {
+                    Width = 22,
+                    Height = 3,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Background = new SolidBrush(reached ? DeathFilled : DeathEmpty)
+                });
+            }
+
+            var died = i <= run.Losses;
+            var next = i == run.Losses + 1;
+            var color = died ? DeathFilled : next ? DeathCurrent : DeathEmpty;
+            var size = next ? 42 : 34;
+
+            var node = new Panel
+            {
+                Width = size,
+                Height = size,
+                VerticalAlignment = VerticalAlignment.Center,
+                Background = new ColoredRegion(
+                    Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.RoundWhite64],
+                    color)
+            };
+
+            if (died)
+            {
+                var skullSize = size - 10;
+                node.Widgets.Add(new Image
+                {
+                    Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Skull],
+                    Width = skullSize,
+                    Height = skullSize,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center
+                });
+            }
+
+            row.Widgets.Add(node);
         }
 
         return row;
@@ -350,7 +419,7 @@ public sealed class ArenaMapScreen : Grid
 
     private void RefreshRunStats(ArenaRun run)
     {
-        _runStats.Text = $"Wins {run.Wins}/{ArenaRun.WinsToFinish}   Lives {run.LivesRemaining}";
+        _runStats.Text = $"Wins {run.Wins}/{ArenaRun.WinsToFinish}";
     }
 
     public void Update()
