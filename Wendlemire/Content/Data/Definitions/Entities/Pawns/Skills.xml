@@ -84,6 +84,14 @@
         <WeaponTypes>
             <ListItem>Claw</ListItem>
         </WeaponTypes>
+    </SkillDef>
+    <SkillDef>
+        <Moniker>Knuckles</Moniker>
+        <Label>Knuckles</Label>
+        <SkillType>Combat</SkillType>
+        <WeaponTypes>
+            <ListItem>Knuckles</ListItem>
+        </WeaponTypes>
     </SkillDef> 
     <SkillDef>
         <Moniker>Tonguing</Moniker>

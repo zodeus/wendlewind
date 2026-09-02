@@ -387,6 +387,7 @@ public class BalanceSimReport
     private static BuildSnapshot ClawsLeather(string id) => Fighter(id, ["IronClaws"], LeatherSet);
     private static BuildSnapshot DaggerLeather(string id) => Fighter(id, ["IronDagger"], LeatherSet);
     private static BuildSnapshot HammerLeather(string id) => Fighter(id, ["IronHammer"], LeatherSet);
+    private static BuildSnapshot KnucklesLeather(string id) => Fighter(id, ["IronKnuckles"], LeatherSet);
     private static BuildSnapshot DualIronLeather(string id) =>
         Fighter(id, ["IronSword", "IronDagger"], LeatherSet,
             Combine(Weapon("IronDagger", "FesteringWounds"), LeatherLightEnchants()));
@@ -567,6 +568,7 @@ public class BalanceSimReport
 
         // --- METAL: leather, no enchants, Mid kit. Isolates iron weapon math. ---
         EraMatch("METAL", "Dagger vs Sword (leather)", DaggerLeather("A"), SwordLeather("B")),
+        EraMatch("METAL", "Knuckles vs Sword (leather)", KnucklesLeather("A"), SwordLeather("B")),
         EraMatch("METAL", "Axe vs Sword (leather)", IronAxeLeather("A"), SwordLeather("B")),
         EraMatch("METAL", "Hammer vs Sword (leather)", HammerLeather("A"), SwordLeather("B")),
         EraMatch("METAL", "Mace vs Sword (leather)", MaceLeather("A"), SwordLeather("B")),

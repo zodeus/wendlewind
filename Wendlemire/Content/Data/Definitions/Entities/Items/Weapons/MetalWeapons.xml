@@ -273,4 +273,40 @@
             </Items>
         </DisassembleProperties>
     </ItemDef>
+    <ItemDef ParentName="WeaponBlunt">
+        <Moniker>IronKnuckles</Moniker>
+        <Label>Iron Knuckles</Label>
+        <Description>Cheap off-hand iron. Cracks bone, not much else.</Description>
+        <GoldCost>50</GoldCost>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+            <MaxEnchantments>1</MaxEnchantments>
+        </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Knuckles</WeaponType>
+            <SubstanceModifiers ListKey="Substance">
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.15</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.25</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronKnuckles</TexturePath>
+        <BaseStats>
+            <WeaponPower>52</WeaponPower>
+            <MaxDurability>2000</MaxDurability>
+        </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
 </Definitions>

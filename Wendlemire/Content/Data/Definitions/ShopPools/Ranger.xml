@@ -30,6 +30,9 @@
                         <ItemDef>IronDagger</ItemDef>
                     </ListItem>
                     <ListItem>
+                        <ItemDef>IronKnuckles</ItemDef>
+                    </ListItem>
+                    <ListItem>
                         <ItemDef>IronClaws</ItemDef>
                     </ListItem>
                     <ListItem>

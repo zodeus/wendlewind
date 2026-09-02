@@ -60,6 +60,10 @@
                 <Weight>1</Weight>
             </ListItem>
             <ListItem>
+                <ItemDef>IronKnuckles</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
                 <ItemDef>IronClaws</ItemDef>
                 <Weight>1</Weight>
             </ListItem>
