@@ -4,8 +4,6 @@ namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.
 
 public sealed class PotionsPanel : VerticalStackPanel, IUpdatable
 {
-    private const int SlotCount = 2;
-
     private readonly BaseGui _gui;
     private readonly Pawn _pawn;
     private readonly Grid _slots;
@@ -34,13 +32,13 @@ public sealed class PotionsPanel : VerticalStackPanel, IUpdatable
             pawn.Inventory,
             item => item.ItemDef.ItemType == ItemType.Potion,
             TryEquipPotion,
-            item => EquippedCount() >= SlotCount
-                ? "Both slots full"
+            item => EquippedCount() >= _pawn.PotionCapacity
+                ? "All potion slots full"
                 : IsEquippedDef(item)
                     ? "Equipped"
                     : "Click to equip",
             IsEquippedDef,
-            _ => EquippedCount() >= SlotCount);
+            _ => EquippedCount() >= _pawn.PotionCapacity);
         Widgets.Add(new PotionInventoryCard(_inventory, _countLabel));
 
         _slots = new Grid
@@ -51,7 +49,8 @@ public sealed class PotionsPanel : VerticalStackPanel, IUpdatable
         };
         _slots.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1));
         _slots.ColumnsProportions.Add(new Proportion(ProportionType.Part, 1));
-        _slots.RowsProportions.Add(new Proportion(ProportionType.Fill));
+        _slots.RowsProportions.Add(new Proportion(ProportionType.Part, 1));
+        _slots.RowsProportions.Add(new Proportion(ProportionType.Part, 1));
         Widgets.Add(_slots);
         Rebuild();
     }
@@ -94,7 +93,7 @@ public sealed class PotionsPanel : VerticalStackPanel, IUpdatable
 
     private string SlotSignature()
     {
-        return string.Join(",", _pawn.Equipment.Potions.Select(p => p.Id));
+        return $"{_pawn.PotionCapacity}:" + string.Join(",", _pawn.Equipment.Potions.Select(p => p.Id));
     }
 
     private void TryEquipPotion(Item item)
@@ -150,14 +149,22 @@ public sealed class PotionsPanel : VerticalStackPanel, IUpdatable
         _signature = SlotSignature();
 
         var equipped = _pawn.Equipment.Potions.ToList();
-        _countLabel.Text = $"{equipped.Count}/{SlotCount} equipped";
-        for (var i = 0; i < SlotCount; i++)
+        var capacity = Math.Max(_pawn.PotionCapacity, 1);
+        var unused = Math.Max(0, capacity - equipped.Count);
+        _countLabel.Text = unused > 0
+            ? $"{equipped.Count}/{capacity} equipped — {unused} unused"
+            : $"{equipped.Count}/{capacity} equipped";
+        var lockTooltip = LockedSlotTooltip();
+        for (var i = 0; i < PotionSlots.MaxSlots; i++)
         {
             Widget card = i < equipped.Count
                 ? CreateCard(equipped[i])
-                : PotionSlotChrome.Empty();
+                : i < capacity
+                    ? PotionSlotChrome.Empty()
+                    : MedicalSlotChrome.Locked(lockTooltip.title, lockTooltip.description);
             _slots.Widgets.Add(card);
-            Grid.SetColumn(card, i);
+            Grid.SetColumn(card, i % 2);
+            Grid.SetRow(card, i / 2);
         }
 
         ApplyCardHeight();
@@ -177,6 +184,16 @@ public sealed class PotionsPanel : VerticalStackPanel, IUpdatable
             card.MinHeight = _cardHeight;
             card.MaxHeight = _cardHeight;
         }
+    }
+
+    private (string title, string? description) LockedSlotTooltip()
+    {
+        return SlotUnlockTooltip.For(
+            _pawn.Context?.Achievements,
+            _pawn.Context?.Achievements != null
+                ? PotionSlots.NextLockedSlotAchievement(_pawn.Context.Achievements)
+                : null,
+            "Complete potion achievements to unlock this slot.");
     }
 
     private PotionTriggerEditor CreateCard(Item potion)

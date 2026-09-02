@@ -5,6 +5,7 @@ namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.
 public sealed class IncenseChargesPanel : PrepCard, IUpdatable
 {
     private readonly Pawn _pawn;
+    private readonly Label _igniteLabel;
     private readonly VerticalStackPanel _slotRows;
     private readonly PrepItemGrid _inventory;
     private string _slotSignature = "";
@@ -14,11 +15,12 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
     {
         _pawn = pawn;
 
-        Body.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+        _igniteLabel = new Label(BaseContent.Styles.Label.Small)
         {
-            Text = "Slots light at 120, 240, then 360",
+            Text = IgniteCaption(pawn.IncenseCapacity),
             TextColor = new Color(200, 180, 140)
-        });
+        };
+        Body.Widgets.Add(_igniteLabel);
         Body.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
         {
             Text = "Burns until extinguished",
@@ -76,7 +78,7 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
             return $"Click to light · slot {_pawn.ActiveIncense.Count + 1} at {IncenseProperties.GetIgniteTick(_pawn.ActiveIncense.Count)}";
         }
 
-        return "All incense slots are full";
+        return "Unlock more incense slots with achievements";
     }
 
     private void TryLight(Item item)
@@ -91,6 +93,7 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
     {
         _slotsPerRow = SlotsPerRow();
         _slotSignature = SlotSignature();
+        _igniteLabel.Text = IgniteCaption(_pawn.IncenseCapacity);
         _slotRows.Widgets.Clear();
 
         HorizontalStackPanel? row = null;
@@ -105,7 +108,9 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
             var index = i;
             row!.Widgets.Add(index < _pawn.ActiveIncense.Count
                 ? FilledSlot(_pawn.ActiveIncense[index], index)
-                : EmptySlot(index));
+                : index < _pawn.IncenseCapacity
+                    ? EmptySlot(index)
+                    : LockedSlot());
         }
     }
 
@@ -158,6 +163,29 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
         return column;
     }
 
+    private Widget LockedSlot()
+    {
+        var tip = SlotUnlockTooltip.For(
+            _pawn.Context?.Achievements,
+            _pawn.Context?.Achievements != null
+                ? IncenseProperties.NextLockedSlotAchievement(_pawn.Context.Achievements)
+                : null,
+            "Complete incense achievements to unlock this slot.");
+        var locked = new Panel();
+        locked.WithTooltip(tip.title, tip.description);
+        return PrepSlots.Frame(locked);
+    }
+
+    private static string IgniteCaption(int capacity)
+    {
+        return capacity switch
+        {
+            <= 1 => "Slot lights at 120",
+            2 => "Slots light at 120, then 240",
+            _ => "Slots light at 120, 240, then 360"
+        };
+    }
+
     private static Widget EmptySlot(int index)
     {
         var igniteTick = IncenseProperties.GetIgniteTick(index);
@@ -188,7 +216,7 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
 
     private string SlotSignature()
     {
-        return IncenseProperties.MaxActive + ":" + string.Join(",", _pawn.ActiveIncense.Select(a =>
+        return _pawn.IncenseCapacity + ":" + string.Join(",", _pawn.ActiveIncense.Select(a =>
             $"{a.Def?.Moniker ?? a.SourceMoniker}:{a.EncountersRemaining}"));
     }
 }

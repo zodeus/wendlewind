@@ -1,31 +1,34 @@
 namespace Wendlemire.Sim.Achievements.Handlers;
 
 /// <summary>
-/// Unlocks when the player explores caves
+/// Unlocks one incense slot after winning fights with incense lit.
 /// </summary>
-public class CaveDiverHandler : AchievementHandler
+public class CaveDiverHandler : IncenseSlotHandler
 {
-    public CaveDiverHandler(IRng rng)
+    public CaveDiverHandler(IRng rng) : base(rng)
     {
-        Rng = rng;
     }
 
-    private static readonly HashSet<ZoneDef> CaveZones = [Defs.Zones.DampCave];
+    public override void OnItemUsed(Pawn consumer, Item item, dynamic? data = null)
+    {
+    }
 
     public override void OnCombatEnd(AchievementCombatEndContext context)
     {
-        if (IsUnlocked || !context.PlayerWon) return;
-
-        if (CaveZones.Contains(context.Zone.ZoneDef))
+        if (IsUnlocked || !context.PlayerWon)
         {
-            Progress.CurrentValue++;
-            if (Progress.CurrentValue >= Def.TargetValue)
-            {
-                Unlock();
-            }
+            return;
+        }
+
+        if (context.Player.ActiveIncense.Count == 0)
+        {
+            return;
+        }
+
+        Progress.CurrentValue++;
+        if (Progress.CurrentValue >= Def.TargetValue)
+        {
+            Unlock();
         }
     }
-
-    
 }
-

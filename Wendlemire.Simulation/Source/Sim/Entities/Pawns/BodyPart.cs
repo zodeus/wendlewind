@@ -517,8 +517,14 @@ public class BodyPart : Entity
 
         if (item.ItemDef.ItemType == ItemType.Potion)
         {
-            foreach (EquipmentSlotType potionSlot in EquipmentSlots!.Where(s => s is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2))
+            var capacity = Body?.Pawn.PotionCapacity ?? PotionSlots.BaseSlots;
+            foreach (EquipmentSlotType potionSlot in EquipmentSlots!.Where(PotionSlots.IsPotionSlot))
             {
+                if (!PotionSlots.IsUnlocked(potionSlot, capacity))
+                {
+                    continue;
+                }
+
                 if (Equipment[potionSlot] == null)
                 {
                     return potionSlot;

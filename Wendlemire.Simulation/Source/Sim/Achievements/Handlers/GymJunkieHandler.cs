@@ -24,10 +24,4 @@ public class GymJunkieHandler : AchievementHandler
         }
     }
 
-    public override void OnWorldRestart(GameContext context)
-    {
-        if (!IsUnlocked) return;
-
-        PawnGenerator.RegisterEquipment(context.Player.Pawn, [Defs.Items.StrengthCloak]);
-    }
 }

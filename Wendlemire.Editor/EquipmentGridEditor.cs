@@ -355,6 +355,8 @@ public sealed class EquipmentGridEditor
     {
         EquipmentSlotType.PotionSlot1 => "Potion 1",
         EquipmentSlotType.PotionSlot2 => "Potion 2",
+        EquipmentSlotType.PotionSlot3 => "Potion 3",
+        EquipmentSlotType.PotionSlot4 => "Potion 4",
         EquipmentSlotType.HandWeapon => "Weapon",
         EquipmentSlotType.FootWeapon => "Foot weapon",
         EquipmentSlotType.HandArmor => "Hand armor",
@@ -370,7 +372,8 @@ public sealed class EquipmentGridEditor
     private static Num.Vector4 SlotColor(EquipmentSlotType slot) => slot switch
     {
         EquipmentSlotType.HandWeapon or EquipmentSlotType.FootWeapon => new Num.Vector4(0.48f, 0.26f, 0.16f, 1f),
-        EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2 => new Num.Vector4(0.22f, 0.38f, 0.24f, 1f),
+        EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2
+            or EquipmentSlotType.PotionSlot3 or EquipmentSlotType.PotionSlot4 => new Num.Vector4(0.22f, 0.38f, 0.24f, 1f),
         EquipmentSlotType.Bag => new Num.Vector4(0.36f, 0.28f, 0.18f, 1f),
         EquipmentSlotType.BuiltIn => new Num.Vector4(0.24f, 0.24f, 0.28f, 1f),
         EquipmentSlotType.Cloak or EquipmentSlotType.Necklace => new Num.Vector4(0.32f, 0.26f, 0.40f, 1f),

@@ -220,19 +220,17 @@ public class MedicalChest : IExposable
 
     public static int UnlockedCapacity(AchievementTracker tracker)
     {
-        var extra = SlotUnlockDefs().Count(tracker.IsUnlocked);
-        return Math.Min(MaxSlots, BaseSlots + extra);
+        return ConsumableSlotUnlocks.UnlockedCapacity(tracker, typeof(MedicalChestSlotHandler), BaseSlots, MaxSlots);
     }
 
     public static IEnumerable<AchievementDef> SlotUnlockDefs()
     {
-        return DefRepository<AchievementDef>.Defs
-            .Where(d => d.HandlerClass == typeof(MedicalChestSlotHandler));
+        return ConsumableSlotUnlocks.SlotUnlockDefs(typeof(MedicalChestSlotHandler));
     }
 
     public static AchievementDef? NextLockedSlotAchievement(AchievementTracker tracker)
     {
-        return SlotUnlockDefs().FirstOrDefault(d => !tracker.IsUnlocked(d));
+        return ConsumableSlotUnlocks.NextLocked(tracker, typeof(MedicalChestSlotHandler));
     }
 
     public static bool IsMedicalItem(Item item)

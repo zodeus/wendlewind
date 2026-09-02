@@ -1,3 +1,5 @@
+using Wendlemire.Sim.Achievements.Handlers;
+
 namespace Wendlemire.Sim.Entities.Pawns;
 
 [UsedImplicitly]
@@ -17,6 +19,8 @@ public class Pawn : Entity
     public MealPlan MealPlan = null!;
     public CombatStomach CombatStomach = null!;
     public List<ActiveIncense> ActiveIncense = [];
+    public int IncenseCapacity = IncenseProperties.BaseSlots;
+    public int PotionCapacity = PotionSlots.BaseSlots;
     public PawnType PawnType = PawnType.Invalid;
     public Zone? Zone;
     public int TicksToAttack;
@@ -501,7 +505,7 @@ public class Pawn : Entity
             return false;
         }
 
-        return ActiveIncense.Count < IncenseProperties.MaxActive;
+        return ActiveIncense.Count < IncenseCapacity;
     }
 
     public bool TryLightIncense(Item item, bool requireFlameStick = true)
@@ -536,9 +540,46 @@ public class Pawn : Entity
     public void PruneActiveIncense()
     {
         ActiveIncense.RemoveAll(a => a == null || a.Def == null || a.EncountersRemaining <= 0);
-        if (ActiveIncense.Count > IncenseProperties.MaxActive)
+        if (ActiveIncense.Count > IncenseCapacity)
         {
-            ActiveIncense.RemoveRange(IncenseProperties.MaxActive, ActiveIncense.Count - IncenseProperties.MaxActive);
+            ActiveIncense.RemoveRange(IncenseCapacity, ActiveIncense.Count - IncenseCapacity);
+        }
+    }
+
+    public void RefreshConsumableSlots(AchievementTracker tracker)
+    {
+        MedicalChest.RefreshFromAchievements(tracker);
+        MealPlan.RefreshFromAchievements(tracker);
+        CombatStomach.Capacity = MealPlan.Capacity;
+        IncenseCapacity = ConsumableSlotUnlocks.UnlockedCapacity(
+            tracker, typeof(IncenseSlotHandler), IncenseProperties.BaseSlots, IncenseProperties.MaxActive);
+        PruneActiveIncense();
+        PotionCapacity = PotionSlots.UnlockedCapacity(tracker);
+        UnequipLockedPotions();
+    }
+
+    private void UnequipLockedPotions()
+    {
+        foreach (var part in Body.AllExternalParts)
+        {
+            if (!part.HasEquipmentSlots)
+            {
+                continue;
+            }
+
+            foreach (var slot in part.EquipmentSlots!)
+            {
+                if (!PotionSlots.IsPotionSlot(slot) || PotionSlots.IsUnlocked(slot, PotionCapacity))
+                {
+                    continue;
+                }
+
+                var item = Equipment.UnEquip(part, slot);
+                if (item != null)
+                {
+                    Inventory.TryAdd(item);
+                }
+            }
         }
     }
 

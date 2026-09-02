@@ -22,11 +22,4 @@ public class LumberjackHandler : AchievementHandler
         }
     }
 
-    public override void OnWorldRestart(GameContext context)
-    {
-        if (!IsUnlocked) return;
-
-        // Start with a bone axe
-        PawnGenerator.RegisterEquipment(context.Player.Pawn, [Defs.Items.BoneAxe]);
-    }
 }

@@ -10,7 +10,6 @@ public class TrinketSnifferHandler : AchievementHandler
         Rng = rng;
     }
 
-    private static List<ItemDef> StarterTrinkets = [Defs.Items.CookingPot, Defs.Items.MortarAndPestle, Defs.Items.TinkersToolbox];
     public override void OnItemFound(Item item)
     {
         if (IsUnlocked) return;
@@ -24,11 +23,4 @@ public class TrinketSnifferHandler : AchievementHandler
         }
     }
 
-    public override void OnWorldRestart(GameContext context)
-    {
-        if (IsUnlocked == false) return;
-
-        var trinket = StarterTrinkets.InRandomOrder(Context.Rng).First();
-        context.Player.Pawn.Inventory.TryAdd(Context.Factory.CreateEntity<Item>(trinket));
-    }
 }

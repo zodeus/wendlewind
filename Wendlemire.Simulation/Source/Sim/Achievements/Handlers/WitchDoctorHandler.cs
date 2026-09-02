@@ -26,13 +26,4 @@ public class WitchDoctorHandler : AchievementHandler
         }
     }
 
-    public override void OnWorldRestart(GameContext context)
-    {
-        if (!IsUnlocked) return;
-
-        Log.Info("Witch Doctor achievement unlocked, giving rejuvenation cloak");
-        // Start with a cloak of rejuvenation
-        var pawn = context.Player.Pawn;
-        PawnGenerator.RegisterEquipment(pawn, [Defs.Items.RejuvenationCloak]);
-    }
 }

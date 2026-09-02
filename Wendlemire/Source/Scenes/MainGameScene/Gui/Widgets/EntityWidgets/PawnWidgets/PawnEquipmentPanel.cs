@@ -1,4 +1,4 @@
-﻿﻿namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+﻿namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
 public enum EquipmentFlashKind
 {
@@ -326,7 +326,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
             }
 
             // Try Equip
-            if (item.ItemDef.EquipmentProperties?.SlotUsedToEquip == slot || (item.ItemDef.ItemType == ItemType.Potion && slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2))
+            if (item.ItemDef.EquipmentProperties?.SlotUsedToEquip == slot || (item.ItemDef.ItemType == ItemType.Potion && PotionSlots.IsPotionSlot(slot) && PotionSlots.IsUnlocked(slot, _pawn.PotionCapacity)))
             {
                 // Item that can be potentially unEquipped, if this is set it will re-add this item to the pawns inventory
                 Item? unEquippedItem;
@@ -384,7 +384,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         // Find available items in inventory that can be equipped to this slot
         var availableItems = _pawn.Inventory
             .Where(i => i.ItemDef.EquipmentProperties?.SlotUsedToEquip == slot ||
-                       (i.ItemDef.ItemType == ItemType.Potion && slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2));
+                       (i.ItemDef.ItemType == ItemType.Potion && PotionSlots.IsPotionSlot(slot) && PotionSlots.IsUnlocked(slot, _pawn.PotionCapacity)));
 
         _selectionPopup.Show(
             availableItems,
@@ -582,7 +582,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
             foreach (var inventoryItem in _pawn.Inventory)
             {
                 if (inventoryItem.ItemDef.EquipmentProperties?.SlotUsedToEquip == slot
-                    || (inventoryItem.ItemDef.ItemType == ItemType.Potion && slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2))
+                    || (inventoryItem.ItemDef.ItemType == ItemType.Potion && PotionSlots.IsPotionSlot(slot) && PotionSlots.IsUnlocked(slot, _pawn.PotionCapacity)))
                 {
                     hasAvailableEquipment = true;
                     break;
@@ -633,7 +633,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         {
             icon.Visible = false;
             icon.Background = null;
-            if (slot is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2)
+            if (PotionSlots.IsPotionSlot(slot))
             {
                 image.Content.Background = _potionSlotIcon;
                 hintLabel.Visible = false;

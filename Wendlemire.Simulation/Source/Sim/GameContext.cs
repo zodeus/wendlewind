@@ -81,7 +81,7 @@ public class GameContext : IExposable, IHasContext
         Achievements.Initialize();
         Factory.RebindGraph();
         WireUpEvents();
-        RefreshPlayerMedicalChest();
+        RefreshPlayerConsumableSlots();
     }
 
     public void InitializeArena(string playerId, string playerName, int? runSeed = null)
@@ -89,7 +89,7 @@ public class GameContext : IExposable, IHasContext
         Initialize(runSeed, playerName);
         Player.ResetForArena(playerName);
         WirePawnEvents();
-        RefreshPlayerMedicalChest();
+        RefreshPlayerConsumableSlots();
         ArenaRun = new ArenaRun();
         ArenaRun.Start(playerId, playerName, RunSeed);
     }
@@ -103,7 +103,7 @@ public class GameContext : IExposable, IHasContext
 
         Player.ResetForArena(ArenaRun.PlayerName);
         WirePawnEvents();
-        RefreshPlayerMedicalChest();
+        RefreshPlayerConsumableSlots();
     }
 
     public void Tick()
@@ -155,7 +155,7 @@ public class GameContext : IExposable, IHasContext
         Player.Reset();
         WireUpEvents();
         Achievements.OnWorldRestart(this);
-        RefreshPlayerMedicalChest();
+        RefreshPlayerConsumableSlots();
         if (CurrentZone != null)
         {
             CurrentZone.OnStateChanged -= ZoneStageChanged;
@@ -211,13 +211,13 @@ public class GameContext : IExposable, IHasContext
         Achievements.Context = this;
         Achievements.Initialize();
         WireUpEvents();
-        RefreshPlayerMedicalChest();
+        RefreshPlayerConsumableSlots();
     }
 
     private void WireUpEvents()
     {
         WirePawnEvents();
-        Achievements.AchievementUnlocked += _ => RefreshPlayerMedicalChest();
+        Achievements.AchievementUnlocked += _ => RefreshPlayerConsumableSlots();
     }
 
     private void WirePawnEvents()
@@ -228,9 +228,9 @@ public class GameContext : IExposable, IHasContext
         Player.Pawn.Inventory.ItemAdded += Player.OnItemFound;
     }
 
-    private void RefreshPlayerMedicalChest()
+    public void RefreshPlayerConsumableSlots()
     {
-        PlayerPawn.MedicalChest.RefreshFromAchievements(Achievements);
+        PlayerPawn.RefreshConsumableSlots(Achievements);
     }
 
     public void ExposeData()

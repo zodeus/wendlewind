@@ -20,16 +20,5 @@ public class IveBeenJuicedHandler : AchievementHandler
         }
     }
 
-    public override void OnWorldRestart(GameContext context)
-    {
-        if (!IsUnlocked) return;
-
-        // Start with 2 Jars of Blood
-        for (var i = 0; i < 2; i++)
-        {
-            context.Player.Pawn.Inventory.TryAdd(Context.Factory.CreateEntity<Item>(Defs.Items.JarOfBlood));
-        }
-    }
 }
-
 

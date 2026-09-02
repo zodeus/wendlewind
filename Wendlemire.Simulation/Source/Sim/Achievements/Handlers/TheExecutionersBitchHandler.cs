@@ -10,8 +10,6 @@ public class TheExecutionersBitchHandler : AchievementHandler
         Rng = rng;
     }
 
-    private const float NeckHitPointsMultiplier = 2f;
-
     public override void OnPlayerDamaged(Pawn victim, DamageRequest request, DamageResponse response)
     {
         if (IsUnlocked == true) return;
@@ -25,17 +23,5 @@ public class TheExecutionersBitchHandler : AchievementHandler
         }
     }
 
-    public override void OnWorldRestart(GameContext context)
-    {
-        if (IsUnlocked == false) return;
-
-        var pawn = context.Player.Pawn;
-        var neck = pawn.Body.AllExternalParts.Where(p => p.Type == BodyPartType.Neck).FirstOrDefault();
-        if (neck == null) return;
-
-        neck.MaxHitPoints = neck.MaxHitPoints * NeckHitPointsMultiplier;
-        neck.HitPoints = neck.MaxHitPoints;
-        neck.AllInternalParts.ForEach(p => p.AdaptBodyPartTo(neck));
-    }
 }
 

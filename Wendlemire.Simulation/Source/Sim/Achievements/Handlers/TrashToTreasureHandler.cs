@@ -24,12 +24,4 @@ public class TrashToTreasureHandler : AchievementHandler
         }
     }
 
-    public override void OnWorldRestart(GameContext context)
-    {
-        if (!IsUnlocked) return;
-
-        var weaponDefs = new List<ItemDef> { Defs.Items.StoneHammer, Defs.Items.BoneKnife, Defs.Items.BoneSpear, Defs.Items.BoneAxe };
-
-        PawnGenerator.RegisterEquipment(context.Player.Pawn, weaponDefs.InRandomOrder(Context.Rng).Take(1).ToList());
-    }
 }

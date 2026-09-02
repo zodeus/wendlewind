@@ -34,7 +34,7 @@ public static class PurchaseAutoEquip
             return;
         }
 
-        if (item.ItemDef.FoodProperties == null || pawn.MealPlan.Items.Count < MealPlan.MaxSlots)
+        if (item.ItemDef.FoodProperties == null || pawn.MealPlan.Items.Count < pawn.MealPlan.Capacity)
         {
             return;
         }
@@ -56,7 +56,7 @@ public static class PurchaseAutoEquip
             return;
         }
 
-        if (pawn.ActiveIncense.Count >= IncenseProperties.MaxActive)
+        if (pawn.ActiveIncense.Count >= pawn.IncenseCapacity)
         {
             pawn.ExtinguishIncense(0);
         }
@@ -125,9 +125,14 @@ public static class PurchaseAutoEquip
 
         if (item.ItemDef.ItemType == ItemType.Potion)
         {
-            foreach (var potionSlot in bodyPart.EquipmentSlots!
-                         .Where(s => s is EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2))
+            var capacity = bodyPart.Body?.Pawn.PotionCapacity ?? PotionSlots.BaseSlots;
+            foreach (var potionSlot in bodyPart.EquipmentSlots!.Where(PotionSlots.IsPotionSlot))
             {
+                if (!PotionSlots.IsUnlocked(potionSlot, capacity))
+                {
+                    continue;
+                }
+
                 if (bodyPart.Equipment[potionSlot] != null)
                 {
                     return potionSlot;

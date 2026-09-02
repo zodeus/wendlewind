@@ -62,6 +62,8 @@
             <ListItem>TorsoArmor</ListItem>
             <ListItem>PotionSlot1</ListItem>
             <ListItem>PotionSlot2</ListItem>
+            <ListItem>PotionSlot3</ListItem>
+            <ListItem>PotionSlot4</ListItem>
         </EquipmentSlots>
         <Sockets>
             <ListItem>SkinSocket</ListItem>

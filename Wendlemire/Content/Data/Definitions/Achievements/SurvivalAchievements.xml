@@ -6,7 +6,7 @@
         <Description>Remember George? You're like him but even more disgusting</Description>
         <Category>Survival</Category>
         <TargetValue>20</TargetValue>
-        <TraitDef>GutMicroacrobatics</TraitDef>
+        <BenifitDescription>Unlocks one food slot</BenifitDescription>
         <HandlerClass>GarbageGremlinHandler</HandlerClass>
     </AchievementDef>
     
@@ -17,14 +17,14 @@
         <Category>Survival</Category>
         <TargetValue>30000</TargetValue>
         <HandlerClass>BloodLostHandler</HandlerClass>
-        <TraitDef>ThickBlooded</TraitDef>
+        <BenifitDescription>A title, nothing more</BenifitDescription>
     </AchievementDef>
 
     <AchievementDef>
         <Moniker>SweatingBlood</Moniker>
         <Label>Sweating Blood</Label>
         <Description>Survive a fight with less than 10% blood</Description>
-        <BenifitDescription>Your max blood is increased</BenifitDescription>
+        <BenifitDescription>A title, nothing more</BenifitDescription>
         <Category>Survival</Category>
         <HandlerClass>SweatingBloodHandler</HandlerClass>
         <TargetValue>0.1</TargetValue>
@@ -35,7 +35,7 @@
         <Moniker>VampireWannabe</Moniker>
         <Label>Vampire Wannabe</Label>
         <Description>Absorb blood</Description>
-        <BenifitDescription>After combat, if the fallen has animal blood, you will drink it</BenifitDescription>
+        <BenifitDescription>A title, nothing more</BenifitDescription>
         <Category>Survival</Category>
         <HandlerClass>VampireWannabeHandler</HandlerClass>
         <TargetValue>100</TargetValue>
@@ -45,7 +45,7 @@
         <Moniker>IveBeenJuiced</Moniker>
         <Label>I've Been Juiced</Label>
         <Description>Die from blood loss</Description>
-        <BenifitDescription>Start with 2 Jars of Blood</BenifitDescription>
+        <BenifitDescription>A title, nothing more</BenifitDescription>
         <IsHidden>true</IsHidden>
         <Category>Survival</Category>
         <HandlerClass>IveBeenJuicedHandler</HandlerClass>
@@ -55,7 +55,7 @@
         <Moniker>Earthing</Moniker>
         <Label>Earthing</Label>
         <Description>Feel the earth between your toes</Description>
-        <BenifitDescription>Start with a pair of boots</BenifitDescription>
+        <BenifitDescription>A title, nothing more</BenifitDescription>
         <Category>Survival</Category>
         <TargetValue>44</TargetValue>
         <HandlerClass>EarthingHandler</HandlerClass>
@@ -65,7 +65,7 @@
         <Moniker>OneArmedBandit</Moniker>
         <Label>One Armed Bandit</Label>
         <Description>Kill 10 enemies with only one arm</Description>
-        <BenifitDescription>Not implemented</BenifitDescription>
+        <BenifitDescription>A title, nothing more</BenifitDescription>
         <Category>Survival</Category>
         <TargetValue>10</TargetValue>
     </AchievementDef>
@@ -74,7 +74,7 @@
         <Moniker>WitchDoctor</Moniker>
         <Label>Witch Doctor</Label>
         <Description>Use medicinal items</Description>
-        <BenifitDescription>Start with the cloak of rejuvenation</BenifitDescription>
+        <BenifitDescription>A title, nothing more</BenifitDescription>
         <Category>Survival</Category>
         <HandlerClass>WitchDoctorHandler</HandlerClass>
         <TargetValue>50</TargetValue>
@@ -84,7 +84,7 @@
         <Moniker>GymJunkie</Moniker>
         <Label>Gym Junkie</Label>
         <Description>Have you been juicing at the gym?</Description>
-        <BenifitDescription>Start with the strength cloak</BenifitDescription>
+        <BenifitDescription>A title, nothing more</BenifitDescription>
         <Category>Survival</Category>
         <HandlerClass>GymJunkieHandler</HandlerClass>
         <TargetValue>5</TargetValue>

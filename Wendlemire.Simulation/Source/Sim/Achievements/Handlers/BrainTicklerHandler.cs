@@ -10,8 +10,6 @@ public class BrainTicklerHandler : AchievementHandler
         Rng = rng;
     }
 
-    private const float BrainHitPointsMultiplier = 1.5f;
-
     public override void OnEnemyDamaged(Pawn player, Pawn enemy, DamageRequest request, DamageResponse response)
     {
         if (IsUnlocked || response == null) return;
@@ -26,15 +24,5 @@ public class BrainTicklerHandler : AchievementHandler
         }
     }
 
-    public override void OnWorldRestart(GameContext context)
-    {
-        if (IsUnlocked == false) return;
-
-        var pawn = context.Player.Pawn;
-        var brain = pawn.Body.AllExternalParts.Where(p => p.Type == BodyPartType.Brain).FirstOrDefault();
-        if (brain == null) return;
-        brain.MaxHitPoints = brain.MaxHitPoints * BrainHitPointsMultiplier;
-        brain.HitPoints = brain.MaxHitPoints;
-    }
 }
 

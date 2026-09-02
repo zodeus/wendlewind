@@ -1,9 +1,14 @@
+using Wendlemire.Sim.Achievements;
+using Wendlemire.Sim.Achievements.Handlers;
+
 namespace Wendlemire.Sim.Entities.Pawns;
 
 public class MealPlan : IExposable
 {
+    public const int BaseSlots = 1;
     public const int MaxSlots = 4;
 
+    public int Capacity = BaseSlots;
     private List<Item> _items = [];
 
     public IReadOnlyList<Item> Items => _items;
@@ -23,7 +28,7 @@ public class MealPlan : IExposable
             return false;
         }
 
-        if (_items.Count >= MaxSlots)
+        if (_items.Count >= Capacity)
         {
             return false;
         }
@@ -70,6 +75,31 @@ public class MealPlan : IExposable
     public void Prune()
     {
         _items.RemoveAll(i => i == null || i.IsDestroyed || i.StackSize < 1);
+    }
+
+    public void RefreshFromAchievements(AchievementTracker tracker)
+    {
+        Capacity = UnlockedCapacity(tracker);
+        Prune();
+        while (_items.Count > Capacity)
+        {
+            RemoveAt(_items.Count - 1);
+        }
+    }
+
+    public static int UnlockedCapacity(AchievementTracker tracker)
+    {
+        return ConsumableSlotUnlocks.UnlockedCapacity(tracker, typeof(FoodSlotHandler), BaseSlots, MaxSlots);
+    }
+
+    public static IEnumerable<AchievementDef> SlotUnlockDefs()
+    {
+        return ConsumableSlotUnlocks.SlotUnlockDefs(typeof(FoodSlotHandler));
+    }
+
+    public static AchievementDef? NextLockedSlotAchievement(AchievementTracker tracker)
+    {
+        return ConsumableSlotUnlocks.NextLocked(tracker, typeof(FoodSlotHandler));
     }
 
     public void ExposeData()

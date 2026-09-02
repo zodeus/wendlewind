@@ -1,9 +1,28 @@
+using Wendlemire.Sim.Achievements;
+using Wendlemire.Sim.Achievements.Handlers;
+
 namespace Wendlemire.Sim.Entities.Items;
 
 public class IncenseProperties
 {
+    public const int BaseSlots = 1;
     public const int MaxActive = 3;
     public const int SlotIgniteIntervalTicks = 120;
+
+    public static int UnlockedCapacity(AchievementTracker tracker)
+    {
+        return ConsumableSlotUnlocks.UnlockedCapacity(tracker, typeof(IncenseSlotHandler), BaseSlots, MaxActive);
+    }
+
+    public static IEnumerable<AchievementDef> SlotUnlockDefs()
+    {
+        return ConsumableSlotUnlocks.SlotUnlockDefs(typeof(IncenseSlotHandler));
+    }
+
+    public static AchievementDef? NextLockedSlotAchievement(AchievementTracker tracker)
+    {
+        return ConsumableSlotUnlocks.NextLocked(tracker, typeof(IncenseSlotHandler));
+    }
 
     public BodyEffectRecord Effect = null!;
     public int DurationInEncounters;

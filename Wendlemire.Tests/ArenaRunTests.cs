@@ -930,6 +930,7 @@ public class ArenaRunTests
         var corn = scope.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("CookedCorn")!, 1);
         Assert.True(pawn.Inventory.TryAdd(stew));
         Assert.True(pawn.Inventory.TryAdd(corn));
+        pawn.MealPlan.Capacity = MealPlan.MaxSlots;
         Assert.True(pawn.MealPlan.TryAdd(stew));
         Assert.True(pawn.MealPlan.TryAdd(corn));
 
@@ -992,6 +993,7 @@ public class ArenaRunTests
         var jam = scope.Context.Factory.CreateEntity<Item>(DefRepository<ItemDef>.GetByMoniker("WondrousJam")!, 1);
         Assert.True(pawn.Inventory.TryAdd(cap));
         Assert.True(pawn.Inventory.TryAdd(jam));
+        pawn.MealPlan.Capacity = MealPlan.MaxSlots;
         Assert.True(pawn.MealPlan.TryAdd(cap));
         Assert.True(pawn.MealPlan.TryAdd(jam));
 
@@ -1112,6 +1114,7 @@ public class ArenaRunTests
         using var scope = CreateArena();
         var context = scope.Context;
         context.ArenaRun!.Gold = 1000;
+        context.PlayerPawn.MealPlan.Capacity = MealPlan.MaxSlots;
         var foods = new[] { "CookedFish", "CookedMeat", "DriedMeat", "CookedCorn", "HeartyStew" }
             .Select(Offer)
             .ToArray();
@@ -1147,6 +1150,7 @@ public class ArenaRunTests
         var context = scope.Context;
         var pawn = context.PlayerPawn;
         context.ArenaRun!.Gold = 1000;
+        pawn.IncenseCapacity = IncenseProperties.MaxActive;
         var filler = DefRepository<BodyEffectDef>.GetByMoniker("Fishy")!;
         for (var i = 0; i < IncenseProperties.MaxActive; i++)
         {

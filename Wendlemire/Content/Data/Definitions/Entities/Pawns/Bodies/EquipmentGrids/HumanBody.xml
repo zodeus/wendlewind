@@ -50,6 +50,18 @@
                 <Row>2</Row>
             </ListItem>
             <ListItem>
+                <PartKey>HumanTorso_TorsoSocket</PartKey>
+                <Slot>PotionSlot3</Slot>
+                <Col>1</Col>
+                <Row>2</Row>
+            </ListItem>
+            <ListItem>
+                <PartKey>HumanTorso_TorsoSocket</PartKey>
+                <Slot>PotionSlot4</Slot>
+                <Col>5</Col>
+                <Row>2</Row>
+            </ListItem>
+            <ListItem>
                 <PartKey>HumanArm_Left</PartKey>
                 <Slot>ArmArmor</Slot>
                 <Col>4</Col>

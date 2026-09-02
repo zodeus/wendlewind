@@ -5,6 +5,8 @@ public enum EquipmentSlotType {
     BuiltIn,
     PotionSlot1,
     PotionSlot2,
+    PotionSlot3,
+    PotionSlot4,
     HandWeapon,
     HandArmor,
     FootWeapon,

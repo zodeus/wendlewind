@@ -10,7 +10,6 @@ public class SweatingBloodHandler : AchievementHandler
         Rng = rng;
     }
 
-    private const float MaxBloodBonus = 500f;
     public override void OnCombatEnd(AchievementCombatEndContext context)
     {
         if (IsUnlocked || !context.PlayerWon) return;
@@ -21,11 +20,5 @@ public class SweatingBloodHandler : AchievementHandler
         }
     }
 
-    public override void OnWorldRestart(GameContext context)
-    {
-        if (!IsUnlocked) return;
-
-        context.Player.Pawn.Body.MaxBloodBonus += MaxBloodBonus;
-    }
 }
 

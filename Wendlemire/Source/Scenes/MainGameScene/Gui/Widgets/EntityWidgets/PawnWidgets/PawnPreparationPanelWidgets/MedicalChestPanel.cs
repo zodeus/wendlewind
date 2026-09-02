@@ -141,24 +141,12 @@ public sealed class MedicalChestPanel : VerticalStackPanel, IUpdatable
 
     private (string title, string? description) LockedSlotTooltip()
     {
-        var tracker = _pawn.Context?.Achievements;
-        if (tracker == null)
-        {
-            return ("Locked", "Complete medical achievements to unlock this slot.");
-        }
-
-        var next = MedicalChest.NextLockedSlotAchievement(tracker);
-        if (next == null)
-        {
-            return ("Locked", "Complete medical achievements to unlock this slot.");
-        }
-
-        var progress = tracker.GetProgress(next);
-        var remaining = Math.Max(0, next.TargetValue - (progress?.CurrentValue ?? 0));
-        var description = remaining > 0
-            ? $"{next.Description} ({remaining:0} remaining). {next.BenifitDescription}."
-            : next.BenifitDescription;
-        return (next.Label, description);
+        return SlotUnlockTooltip.For(
+            _pawn.Context?.Achievements,
+            _pawn.Context?.Achievements != null
+                ? MedicalChest.NextLockedSlotAchievement(_pawn.Context.Achievements)
+                : null,
+            "Complete medical achievements to unlock this slot.");
     }
 
     private MedicalSlotCard CreateArmedCard(MedicalChestSlot slot)
@@ -177,6 +165,27 @@ public sealed class MedicalChestPanel : VerticalStackPanel, IUpdatable
             Body.Widgets.Add(inventory);
             Body.Widgets.Add(count);
         }
+    }
+}
+
+internal static class SlotUnlockTooltip
+{
+    public static (string title, string? description) For(
+        AchievementTracker? tracker,
+        AchievementDef? next,
+        string fallback)
+    {
+        if (tracker == null || next == null)
+        {
+            return ("Locked", fallback);
+        }
+
+        var progress = tracker.GetProgress(next);
+        var remaining = Math.Max(0, next.TargetValue - (progress?.CurrentValue ?? 0));
+        var description = remaining > 0
+            ? $"{next.Description} ({remaining:0} remaining). {next.BenifitDescription}."
+            : next.BenifitDescription;
+        return (next.Label, description);
     }
 }
 

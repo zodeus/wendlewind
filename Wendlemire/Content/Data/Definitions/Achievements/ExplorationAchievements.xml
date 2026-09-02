@@ -6,18 +6,18 @@
         <Description>Collect fingers, just fingers... no thumbs, ugly little things</Description>
         <Category>Exploration</Category>
         <TargetValue>16</TargetValue>
-        <BenifitDescription>Your fingers are stronger, just your fingers...</BenifitDescription>
+        <BenifitDescription>A title, nothing more</BenifitDescription>
         <HandlerClass>FingerCollectorHandler</HandlerClass>
     </AchievementDef>
 
     <AchievementDef>
         <Moniker>CaveDiver</Moniker>
         <Label>Cave Diver</Label>
-        <Description>Explore caves</Description>
+        <Description>Win fights with incense lit</Description>
         <Category>Exploration</Category>
         <HandlerClass>CaveDiverHandler</HandlerClass>
-        <UnlockedTrinketDef>FlameStick</UnlockedTrinketDef>
         <TargetValue>15</TargetValue>
+        <BenifitDescription>Unlocks one incense slot</BenifitDescription>
     </AchievementDef>
     
     <AchievementDef>
@@ -25,7 +25,7 @@
         <Label>Trinket Sniffer</Label>
         <Description>Find trinkets</Description>
         <Category>Exploration</Category>
-        <BenifitDescription>Start with a random trinket</BenifitDescription>
+        <BenifitDescription>A title, nothing more</BenifitDescription>
         <HandlerClass>TrinketSnifferHandler</HandlerClass>
         <TargetValue>42</TargetValue>
     </AchievementDef>
@@ -34,7 +34,7 @@
         <Moniker>TrashToTreasure</Moniker>
         <Label>Trash to Treasure</Label>
         <Description>One specimens trash becomes\nyour treasure</Description>
-        <BenifitDescription>Start with a random weapon.</BenifitDescription>
+        <BenifitDescription>A title, nothing more</BenifitDescription>
         <Category>Exploration</Category>
         <TargetValue>10</TargetValue>
         <HandlerClass>TrashToTreasureHandler</HandlerClass>
@@ -46,6 +46,7 @@
         <Description>You find it, you keep it</Description>
         <IsHidden>true</IsHidden>
         <Category>Exploration</Category>
+        <BenifitDescription>A title, nothing more</BenifitDescription>
         <HandlerClass>FindersKeepersHandler</HandlerClass>
     </AchievementDef>
 
@@ -53,7 +54,7 @@
         <Moniker>Lumberjack</Moniker>
         <Label>Lumberjack</Label>
         <Description>Cut down trees</Description>
-        <BenifitDescription>Start with a bone axe</BenifitDescription>
+        <BenifitDescription>A title, nothing more</BenifitDescription>
         <Category>Exploration</Category>
         <HandlerClass>LumberjackHandler</HandlerClass>
         <TargetValue>25</TargetValue>
@@ -63,7 +64,7 @@
         <Moniker>RockHound</Moniker>
         <Label>Rock Hound</Label>
         <Description>Find rocks</Description>
-        <BenifitDescription>Start with pocket of rocks</BenifitDescription>
+        <BenifitDescription>A title, nothing more</BenifitDescription>
         <Category>Exploration</Category>
         <HandlerClass>RockHoundHandler</HandlerClass>
         <TargetValue>25</TargetValue>
@@ -73,7 +74,7 @@
         <Moniker>FullMaxTheGoose</Moniker>
         <Label>Full Max The Goose</Label>
         <Description>Get the goose to full max</Description>
-        <BenifitDescription>Start with some golden beans</BenifitDescription>
+        <BenifitDescription>A title, nothing more</BenifitDescription>
         <Category>Exploration</Category>
         <HandlerClass>FullMaxTheGooseHandler</HandlerClass>
     </AchievementDef>
@@ -83,7 +84,7 @@
         <Label>Jack And The Beanstalk</Label>
         <IsHidden>true</IsHidden>
         <Description>Hold 50 golden beans</Description>
-        <UnlockedTrinketDef>GoldenGoose</UnlockedTrinketDef>
+        <BenifitDescription>A title, nothing more</BenifitDescription>
         <Category>Exploration</Category>    
         <TargetValue>50</TargetValue>
         <HandlerClass>JackAndTheBeanstalkHandler</HandlerClass>

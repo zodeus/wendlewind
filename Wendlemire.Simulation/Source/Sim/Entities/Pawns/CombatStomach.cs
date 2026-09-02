@@ -12,6 +12,7 @@ public class IngestedFood : IExposable
 
 public class CombatStomach : IExposable
 {
+    public int Capacity = MealPlan.BaseSlots;
     private List<IngestedFood> _items = [];
 
     public IReadOnlyList<IngestedFood> Items => _items;
@@ -26,7 +27,7 @@ public class CombatStomach : IExposable
 
     public bool TryAdd(ItemDef def)
     {
-        if (def?.FoodProperties == null || _items.Count >= MealPlan.MaxSlots)
+        if (def?.FoodProperties == null || _items.Count >= Capacity)
         {
             return false;
         }

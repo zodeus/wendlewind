@@ -103,7 +103,9 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
             grid.ColumnsProportions.Add(new Proportion(ProportionType.Pixels, CellSize));
         }
 
-        var rowCount = Math.Max(Math.Max(pawn.MedicalChest.Capacity, MealPlan.MaxSlots), IncenseProperties.MaxActive);
+        var foodCap = Math.Max(1, pawn.MealPlan.Capacity);
+        var incenseCap = Math.Max(1, pawn.IncenseCapacity);
+        var rowCount = Math.Max(Math.Max(pawn.MedicalChest.Capacity, foodCap), incenseCap);
         for (var i = 0; i < rowCount; i++)
         {
             grid.RowsProportions.Add(new Proportion(ProportionType.Pixels, CellSize));
@@ -125,7 +127,7 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
         }
 
         var foods = DisplayedFoodDefs();
-        for (var i = 0; i < MealPlan.MaxSlots; i++)
+        for (var i = 0; i < foodCap; i++)
         {
             var cell = i < foods.Count ? Cell(FoodIcon(foods[i])) : EmptyCell();
             _foodSlots[i] = cell;
@@ -133,7 +135,7 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
         }
 
         var incense = pawn.ActiveIncense;
-        for (var i = 0; i < IncenseProperties.MaxActive; i++)
+        for (var i = 0; i < incenseCap; i++)
         {
             var view = new IncenseSlotView();
             _incenseSlots[i] = view;
@@ -244,9 +246,15 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
     private void RefreshFoodSlots()
     {
         var foods = DisplayedFoodDefs();
-        for (var i = 0; i < MealPlan.MaxSlots; i++)
+        var foodCap = Math.Min(_foodSlots.Length, Math.Max(1, Pawn.MealPlan.Capacity));
+        for (var i = 0; i < foodCap; i++)
         {
             var cell = _foodSlots[i];
+            if (cell == null)
+            {
+                continue;
+            }
+
             cell.Widgets.Clear();
             cell.Widgets.Add(i < foods.Count ? FoodIcon(foods[i]) : new Panel());
         }

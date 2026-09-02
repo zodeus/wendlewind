@@ -33,17 +33,4 @@ public class EarthingHandler : AchievementHandler
         }
     }
 
-    public override void OnWorldRestart(GameContext context)
-    {
-        if (!IsUnlocked) return;
-
-        // Start with a pair of leather boots
-        var pawn = context.Player.Pawn;
-        var feetCount = pawn.Body.AllExternalParts.Where(p => p.Type == BodyPartType.Foot).ToList().Count;
-
-        for (var i = 0; i < feetCount; i++)
-        {
-            PawnGenerator.RegisterEquipment(pawn, [Defs.Items.LeatherBoot]);
-        }
-    }
 }

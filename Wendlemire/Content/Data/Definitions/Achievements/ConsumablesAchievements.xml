@@ -4,11 +4,11 @@
         <Moniker>BloodChugger</Moniker>
         <Label>Blood Chugger</Label>
         <Description>Consume jars of blood</Description>
-        <BenifitDescription>Your max blood is increased</BenifitDescription>
+        <BenifitDescription>Unlocks one potion slot</BenifitDescription>
         <Category>Consumables</Category>
         <ItemUsedDef>JarOfBlood</ItemUsedDef>
         <TargetValue>25</TargetValue>
-        <HandlerClass>BloodChuggerHandler</HandlerClass>
+        <HandlerClass>PotionSlotHandler</HandlerClass>
     </AchievementDef>
 
     <AchievementDef>
@@ -16,7 +16,7 @@
         <Label>Fine Diner</Label>
         <Description>Eat well prepared meals</Description>
         <Category>Consumables</Category>
-        <BenifitDescription>Start with a food bundle</BenifitDescription>
+        <BenifitDescription>Unlocks one food slot</BenifitDescription>
         <HandlerClass>FineDinerHandler</HandlerClass>
         <TargetValue>53</TargetValue>
     </AchievementDef>
@@ -28,7 +28,7 @@
         <Category>Consumables</Category>
         <HandlerClass>YouLittlePiggyHandler</HandlerClass>
         <TargetValue>40</TargetValue>
-        <TraitDef>PotBellied</TraitDef>
+        <BenifitDescription>Unlocks one food slot</BenifitDescription>
     </AchievementDef>
 
     <AchievementDef>
@@ -37,15 +37,15 @@
         <Description>Burn woods.</Description>
         <Category>Consumables</Category>
         <TargetValue>100</TargetValue>
-        <UnlockedTrinketDef>MortarAndPestle</UnlockedTrinketDef>
-        <HandlerClass>WeSmokemPeacePipeHandler</HandlerClass>
+        <BenifitDescription>Unlocks one incense slot</BenifitDescription>
+        <HandlerClass>IncenseSlotHandler</HandlerClass>
     </AchievementDef>
     
     <AchievementDef>
         <Moniker>SquirelyPete</Moniker>
         <Label>Squirely Pete</Label>
         <Description>You know that loser who hangs on to shit and dies with a full inventory? You're that loser</Description>
-        <BenifitDescription>Start with some nuts</BenifitDescription>
+        <BenifitDescription>A title, nothing more</BenifitDescription>
         <Category>Consumables</Category>
         <TargetValue>17</TargetValue>
         <HandlerClass>SquirelyPeteHandler</HandlerClass>
@@ -57,7 +57,7 @@
         <Description>Juice the right muscles, transform into a muscle man</Description>
         <Category>Consumables</Category>
         <HandlerClass>MuscleManTandyRavageHandler</HandlerClass>
-        <BenifitDescription>Substantial increase in physical durability</BenifitDescription>
+        <BenifitDescription>A title, nothing more</BenifitDescription>
         <TargetValue>9000</TargetValue>
     </AchievementDef>
 
@@ -68,16 +68,17 @@
         <Category>Consumables</Category>
         <HandlerClass>WorkWorkHandler</HandlerClass>
         <TargetValue>20</TargetValue>
-        <TraitDef>ApprenticeFixer</TraitDef>
+        <BenifitDescription>A title, nothing more</BenifitDescription>
     </AchievementDef>
 
     <AchievementDef>
         <Moniker>BarTender</Moniker>
         <Label>Bar Tender</Label>
-        <Description>Craft potions like a true alchemist</Description>
-        <BenifitDescription>Start with 3 random potions</BenifitDescription>
+        <Description>Use healing potions</Description>
+        <BenifitDescription>Unlocks one potion slot</BenifitDescription>
         <Category>Consumables</Category>
-        <HandlerClass>BarTenderHandler</HandlerClass>
+        <ItemUsedDef>HealingPotion</ItemUsedDef>
+        <HandlerClass>PotionSlotHandler</HandlerClass>
         <TargetValue>20</TargetValue>
     </AchievementDef>
 

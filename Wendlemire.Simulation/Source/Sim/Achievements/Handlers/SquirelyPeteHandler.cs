@@ -29,10 +29,4 @@ public class SquirelyPeteHandler : AchievementHandler
         }   
     }
 
-    public override void OnWorldRestart(GameContext context)
-    {
-        if (!IsUnlocked) return;
-
-        context.Player.Pawn.Inventory.TryAdd(Context.Factory.CreateEntity<Item>(Defs.Items.Walnut, Context.Rng.Next(1, 2)));
-    }
 }

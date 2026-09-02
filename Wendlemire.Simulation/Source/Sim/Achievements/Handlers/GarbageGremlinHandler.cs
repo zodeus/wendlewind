@@ -1,13 +1,12 @@
 namespace Wendlemire.Sim.Achievements.Handlers;
 
 /// <summary>
-/// Unlocks when the player finds items (looting from specimens)
+/// Unlocks when the player eats food-poisoning items.
 /// </summary>
-public class GarbageGremlinHandler : AchievementHandler
+public class GarbageGremlinHandler : FoodSlotHandler
 {
-    public GarbageGremlinHandler(IRng rng)
+    public GarbageGremlinHandler(IRng rng) : base(rng)
     {
-        Rng = rng;
     }
 
 

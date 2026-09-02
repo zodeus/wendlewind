@@ -70,6 +70,11 @@ public sealed class MealPlanPanel : PrepCard, IUpdatable
             return "In meal — click a slot below to remove";
         }
 
+        if (_pawn.MealPlan.Items.Count >= _pawn.MealPlan.Capacity)
+        {
+            return "Unlock more food slots with achievements";
+        }
+
         return "No empty meal slots";
     }
 
@@ -105,7 +110,9 @@ public sealed class MealPlanPanel : PrepCard, IUpdatable
             var index = i;
             row!.Widgets.Add(index < _pawn.MealPlan.Items.Count
                 ? FilledSlot(_pawn.MealPlan.Items[index], index)
-                : EmptySlot());
+                : index < _pawn.MealPlan.Capacity
+                    ? EmptySlot()
+                    : LockedSlot());
         }
 
         _buffs.SetEffects(PrepBuffList.FromMeal(_pawn));
@@ -150,6 +157,19 @@ public sealed class MealPlanPanel : PrepCard, IUpdatable
         return PrepSlots.Frame(empty);
     }
 
+    private Widget LockedSlot()
+    {
+        var tip = SlotUnlockTooltip.For(
+            _pawn.Context?.Achievements,
+            _pawn.Context?.Achievements != null
+                ? MealPlan.NextLockedSlotAchievement(_pawn.Context.Achievements)
+                : null,
+            "Complete food achievements to unlock this slot.");
+        var locked = new Panel();
+        locked.WithTooltip(tip.title, tip.description);
+        return PrepSlots.Frame(locked);
+    }
+
     private int SlotsPerRow()
     {
         var width = Math.Max(_slotRows.ActualBounds.Width, _slotRows.Bounds.Width);
@@ -163,6 +183,6 @@ public sealed class MealPlanPanel : PrepCard, IUpdatable
 
     private string SlotSignature()
     {
-        return MealPlan.MaxSlots + ":" + string.Join(",", _pawn.MealPlan.Items.Select(i => i?.Id ?? -1));
+        return _pawn.MealPlan.Capacity + ":" + string.Join(",", _pawn.MealPlan.Items.Select(i => i?.Id ?? -1));
     }
 }

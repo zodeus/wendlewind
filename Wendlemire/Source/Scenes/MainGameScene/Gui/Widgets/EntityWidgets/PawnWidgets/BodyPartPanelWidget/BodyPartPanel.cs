@@ -292,6 +292,8 @@ public sealed class BodyPartEquipmentSlotsWidget : VerticalStackPanel
         EquipmentSlotType.HeadArmor => "Helmet",
         EquipmentSlotType.PotionSlot1 => "Potion 1",
         EquipmentSlotType.PotionSlot2 => "Potion 2",
+        EquipmentSlotType.PotionSlot3 => "Potion 3",
+        EquipmentSlotType.PotionSlot4 => "Potion 4",
         EquipmentSlotType.Bag => "Bag",
         EquipmentSlotType.Cloak => "Cloak",
         EquipmentSlotType.Necklace => "Necklace",
@@ -301,7 +303,8 @@ public sealed class BodyPartEquipmentSlotsWidget : VerticalStackPanel
     
     private static string? GetSlotIconAtlasKey(EquipmentSlotType slot) => slot switch
     {
-        EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2 => BaseContent.Styles.Atlas.Icon.PotionSlot,
+        EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2
+            or EquipmentSlotType.PotionSlot3 or EquipmentSlotType.PotionSlot4 => BaseContent.Styles.Atlas.Icon.PotionSlot,
         EquipmentSlotType.Bag => BaseContent.Styles.Atlas.Icon.BagSlot,
         _ => null
     };
@@ -309,7 +312,8 @@ public sealed class BodyPartEquipmentSlotsWidget : VerticalStackPanel
     private static Color GetSlotColor(EquipmentSlotType slot) => slot switch
     {
         EquipmentSlotType.HandWeapon or EquipmentSlotType.FootWeapon => new Color(90, 50, 50),
-        EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2 => new Color(50, 80, 50),
+        EquipmentSlotType.PotionSlot1 or EquipmentSlotType.PotionSlot2
+            or EquipmentSlotType.PotionSlot3 or EquipmentSlotType.PotionSlot4 => new Color(50, 80, 50),
         EquipmentSlotType.BuiltIn => new Color(70, 70, 50),
         _ => SlotBadgeColor
     };

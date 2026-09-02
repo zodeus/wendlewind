@@ -2,13 +2,11 @@ namespace Wendlemire.Sim.Achievements.Handlers;
 
 /// <summary>
 /// Unlocks when the player consumes a lot of food (tracks total nutrition consumed).
-/// Reward: PotBellied trait - more stomach capacity.
 /// </summary>
-public class YouLittlePiggyHandler : AchievementHandler
+public class YouLittlePiggyHandler : FoodSlotHandler
 {
-    public YouLittlePiggyHandler(IRng rng)
+    public YouLittlePiggyHandler(IRng rng) : base(rng)
     {
-        Rng = rng;
     }
 
     public override void OnItemUsed(Pawn consumer, Item item, dynamic? data = null)

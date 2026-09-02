@@ -506,6 +506,8 @@ public sealed class ArenaScene : Scene
                 record.UnlockedAt?.UtcDateTime,
                 record.IsAcknowledged);
         }
+
+        _context.RefreshPlayerConsumableSlots();
     }
 
     private AchievementState ExportAchievements()
