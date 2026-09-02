@@ -443,7 +443,7 @@ public class PlayerStoreTests
                 EncounterSeed = 1,
                 WinnerPlayerId = "bob",
                 Ticks = 600,
-                FoughtAt = DateTimeOffset.UtcNow
+                FoughtAt = DateTimeOffset.Parse("2026-09-01T20:00:00Z")
             });
             store.AppendFight("alice", new ArenaFightRecord
             {
@@ -454,15 +454,21 @@ public class PlayerStoreTests
                 EncounterSeed = 2,
                 WinnerPlayerId = "mirror:alice",
                 Ticks = 900,
-                FoughtAt = DateTimeOffset.UtcNow
+                FoughtAt = DateTimeOffset.Parse("2026-09-01T21:00:00Z")
             });
 
-            var rows = new FightAnalyticsService(store).ListFights()
-                .ToDictionary(row => row.MatchId);
+            var listed = new FightAnalyticsService(store).ListFights();
+            Assert.Equal(["mirror-named-fight", "named-fight"], listed.Select(row => row.MatchId).ToArray());
+            var rows = listed.ToDictionary(row => row.MatchId);
             Assert.Equal("lunch_box77", rows["named-fight"].PlayerName);
             Assert.Equal("ButtersFROMNutters", rows["named-fight"].WinnerName);
+            Assert.Equal("bob", rows["named-fight"].OpponentPlayerId);
+            Assert.Equal("ButtersFROMNutters", rows["named-fight"].OpponentName);
+            Assert.NotEqual(default, rows["named-fight"].FoughtAt);
             Assert.Equal("lunch_box77", rows["mirror-named-fight"].PlayerName);
             Assert.Equal("mirror:lunch_box77", rows["mirror-named-fight"].WinnerName);
+            Assert.Equal("mirror:alice", rows["mirror-named-fight"].OpponentPlayerId);
+            Assert.Equal("mirror:lunch_box77", rows["mirror-named-fight"].OpponentName);
         }
         finally
         {

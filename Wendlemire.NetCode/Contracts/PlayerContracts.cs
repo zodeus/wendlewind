@@ -134,6 +134,9 @@ public sealed record FightAnalyticsRow
     public bool InTargetBand { get; init; }
     public required string WinnerPlayerId { get; init; }
     public string WinnerName { get; init; } = "";
+    public string? OpponentPlayerId { get; init; }
+    public string OpponentName { get; init; } = "";
+    public DateTimeOffset FoughtAt { get; init; }
     public string? CauseOfDeath { get; init; }
     public double AttackerDamagePerSecond { get; init; }
     public double DefenderDamagePerSecond { get; init; }

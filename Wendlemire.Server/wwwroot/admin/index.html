@@ -500,6 +500,9 @@
         if (av == null) return 1;
         if (bv == null) return -1;
         if (typeof av === "number" && typeof bv === "number") return (av - bv) * dir;
+        const ad = Date.parse(av);
+        const bd = Date.parse(bv);
+        if (!Number.isNaN(ad) && !Number.isNaN(bd)) return (ad - bd) * dir;
         return String(av).localeCompare(String(bv)) * dir;
       });
     }
@@ -854,14 +857,20 @@
 
     function fightsView(rows) {
       if (!rows) return `<p class="muted">Loading…</p>`;
-      const filtered = sortRows(filterRows(rows, ["matchId", "playerId", "playerName", "runId", "winnerPlayerId", "winnerName", "causeOfDeath", "killingWeapon"]), "durationSeconds");
+      if (!state.sort.key) state.sort = { key: "foughtAt", dir: -1 };
+      const filtered = sortRows(filterRows(rows, [
+        "matchId", "playerId", "playerName", "runId", "winnerPlayerId", "winnerName",
+        "opponentPlayerId", "opponentName", "causeOfDeath", "killingWeapon"
+      ]), "foughtAt");
       if (!filtered.length) return searchBox("Search fights") + `<p class="empty">No fights.</p>`;
       return searchBox("Search fights") + `
         <table>
           <thead><tr>
+            ${header("foughtAt", "When")}
             ${header("round", "Round")}
             ${header("durationSeconds", "Duration")}
             ${header("playerName", "Player")}
+            ${header("opponentName", "Opponent")}
             ${header("winnerName", "Winner")}
             ${header("causeOfDeath", "Cause")}
             ${header("killingWeapon", "Kill")}
@@ -872,9 +881,11 @@
           <tbody>
             ${filtered.map((f) => `
               <tr class="clickable" data-href="#/fights/log/${esc(f.matchId)}">
+                <td>${when(f.foughtAt)}</td>
                 <td>${f.round}</td>
                 <td>${(f.durationSeconds ?? 0).toFixed(1)}s ${f.inTargetBand ? `<span class="good">●</span>` : ""}</td>
                 <td>${namedId(f.playerId, f.playerName)}</td>
+                <td>${namedId(f.opponentPlayerId, f.opponentName)}</td>
                 <td>${namedId(f.winnerPlayerId, f.winnerName)}</td>
                 <td>${esc(f.causeOfDeath || "—")}</td>
                 <td>${esc([f.killingWeapon, f.killingManeuver].filter(Boolean).join(" / ") || "—")}</td>

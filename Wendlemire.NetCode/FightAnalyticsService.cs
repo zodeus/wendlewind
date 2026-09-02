@@ -17,7 +17,7 @@ public sealed class FightAnalyticsService
         var labels = _players.PlayerLabels();
         return _players.ListAllRuns()
             .SelectMany(run => run.Fights.Select(fight => ToRow(run, fight, labels)))
-            .OrderByDescending(row => row.DurationSeconds)
+            .OrderByDescending(row => row.FoughtAt)
             .ToList();
     }
 
@@ -101,6 +101,9 @@ public sealed class FightAnalyticsService
             InTargetBand = fight.Analytics?.InTargetBand ?? CombatAnalytics.IsInTargetBand(seconds),
             WinnerPlayerId = fight.WinnerPlayerId,
             WinnerName = ResolveName(fight.WinnerPlayerId, run, fight, labels),
+            OpponentPlayerId = fight.Defender.PlayerId,
+            OpponentName = ResolveName(fight.Defender.PlayerId, run, fight, labels),
+            FoughtAt = fight.FoughtAt,
             CauseOfDeath = fight.CauseOfDeath,
             AttackerDamagePerSecond = fight.Analytics?.Attacker.DamagePerSecond ?? 0,
             DefenderDamagePerSecond = fight.Analytics?.Defender.DamagePerSecond ?? 0,
