@@ -4,7 +4,7 @@
         <Moniker>BloodChugger</Moniker>
         <Label>Blood Chugger</Label>
         <Description>Consume jars of blood</Description>
-        <BenifitDescription>Unlocks one potion slot</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Consumables</Category>
         <ItemUsedDef>JarOfBlood</ItemUsedDef>
         <TargetValue>25</TargetValue>
@@ -16,7 +16,7 @@
         <Label>Fine Diner</Label>
         <Description>Eat well prepared meals</Description>
         <Category>Consumables</Category>
-        <BenifitDescription>Unlocks one food slot</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <HandlerClass>FineDinerHandler</HandlerClass>
         <TargetValue>53</TargetValue>
     </AchievementDef>
@@ -28,7 +28,7 @@
         <Category>Consumables</Category>
         <HandlerClass>YouLittlePiggyHandler</HandlerClass>
         <TargetValue>40</TargetValue>
-        <BenifitDescription>Unlocks one food slot</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
     </AchievementDef>
 
     <AchievementDef>
@@ -37,7 +37,7 @@
         <Description>Burn woods.</Description>
         <Category>Consumables</Category>
         <TargetValue>100</TargetValue>
-        <BenifitDescription>Unlocks one incense slot</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <HandlerClass>IncenseSlotHandler</HandlerClass>
     </AchievementDef>
     
@@ -45,7 +45,7 @@
         <Moniker>SquirelyPete</Moniker>
         <Label>Squirely Pete</Label>
         <Description>You know that loser who hangs on to shit and dies with a full inventory? You're that loser</Description>
-        <BenifitDescription>A title, nothing more</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Consumables</Category>
         <TargetValue>17</TargetValue>
         <HandlerClass>SquirelyPeteHandler</HandlerClass>
@@ -57,7 +57,7 @@
         <Description>Juice the right muscles, transform into a muscle man</Description>
         <Category>Consumables</Category>
         <HandlerClass>MuscleManTandyRavageHandler</HandlerClass>
-        <BenifitDescription>A title, nothing more</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <TargetValue>9000</TargetValue>
     </AchievementDef>
 
@@ -68,14 +68,14 @@
         <Category>Consumables</Category>
         <HandlerClass>WorkWorkHandler</HandlerClass>
         <TargetValue>20</TargetValue>
-        <BenifitDescription>A title, nothing more</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
     </AchievementDef>
 
     <AchievementDef>
         <Moniker>BarTender</Moniker>
         <Label>Bar Tender</Label>
         <Description>Use healing potions</Description>
-        <BenifitDescription>Unlocks one potion slot</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Consumables</Category>
         <ItemUsedDef>HealingPotion</ItemUsedDef>
         <HandlerClass>PotionSlotHandler</HandlerClass>
@@ -86,7 +86,7 @@
         <Moniker>FieldMedic</Moniker>
         <Label>Field Medic</Label>
         <Description>Use Med Kits</Description>
-        <BenifitDescription>Unlocks one medical chest slot</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Consumables</Category>
         <ItemUsedDef>MedKit</ItemUsedDef>
         <TargetValue>15</TargetValue>
@@ -97,7 +97,7 @@
         <Moniker>Threader</Moniker>
         <Label>Threader</Label>
         <Description>Use Suture</Description>
-        <BenifitDescription>Unlocks one medical chest slot</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Consumables</Category>
         <ItemUsedDef>Suture</ItemUsedDef>
         <TargetValue>10</TargetValue>
@@ -108,7 +108,7 @@
         <Moniker>MistWeaver</Moniker>
         <Label>Mist Weaver</Label>
         <Description>Use Mender's Mist</Description>
-        <BenifitDescription>Unlocks one medical chest slot</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Consumables</Category>
         <ItemUsedDef>MendersMist</ItemUsedDef>
         <TargetValue>10</TargetValue>
@@ -119,7 +119,7 @@
         <Moniker>BalmTender</Moniker>
         <Label>Balm Tender</Label>
         <Description>Use Balmy Ointment</Description>
-        <BenifitDescription>Unlocks one medical chest slot</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Consumables</Category>
         <ItemUsedDef>BalmyOintment</ItemUsedDef>
         <TargetValue>8</TargetValue>
@@ -130,7 +130,7 @@
         <Moniker>RotWard</Moniker>
         <Label>Rot Ward</Label>
         <Description>Use Anti-Necrotic Serum</Description>
-        <BenifitDescription>Unlocks one medical chest slot</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Consumables</Category>
         <ItemUsedDef>AntiNecroticSerum</ItemUsedDef>
         <TargetValue>5</TargetValue>
@@ -141,7 +141,7 @@
         <Moniker>Mixologist</Moniker>
         <Label>Mixologist</Label>
         <Description>Use Mender's Mix</Description>
-        <BenifitDescription>Unlocks one medical chest slot</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Consumables</Category>
         <ItemUsedDef>MendersMix</ItemUsedDef>
         <TargetValue>8</TargetValue>
@@ -152,7 +152,7 @@
         <Moniker>BoneWasher</Moniker>
         <Label>Bone Washer</Label>
         <Description>Use Bone Cleanse</Description>
-        <BenifitDescription>Unlocks one medical chest slot</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Consumables</Category>
         <ItemUsedDef>BoneCleanse</ItemUsedDef>
         <TargetValue>5</TargetValue>
@@ -163,7 +163,7 @@
         <Moniker>Ossifier</Moniker>
         <Label>Ossifier</Label>
         <Description>Use Strengthen Bones</Description>
-        <BenifitDescription>Unlocks one medical chest slot</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Consumables</Category>
         <ItemUsedDef>StrengthenBones</ItemUsedDef>
         <TargetValue>5</TargetValue>
@@ -174,7 +174,7 @@
         <Moniker>WiredBlood</Moniker>
         <Label>Wired Blood</Label>
         <Description>Use Cyberveins</Description>
-        <BenifitDescription>Unlocks one medical chest slot</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Consumables</Category>
         <ItemUsedDef>Cyberveins</ItemUsedDef>
         <TargetValue>5</TargetValue>
@@ -185,7 +185,7 @@
         <Moniker>Ironbrand</Moniker>
         <Label>Ironbrand</Label>
         <Description>Cauterize a severed part</Description>
-        <BenifitDescription>Unlocks one medical chest slot</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Consumables</Category>
         <ItemUsedDef>Cauterize</ItemUsedDef>
         <TargetValue>10</TargetValue>

@@ -1,7 +1,7 @@
 namespace Wendlemire.Sim.Achievements.Handlers;
 
 /// <summary>
-/// Unlocks one incense slot after winning fights with incense lit.
+/// Progresses by winning fights with incense lit.
 /// </summary>
 public class CaveDiverHandler : IncenseSlotHandler
 {

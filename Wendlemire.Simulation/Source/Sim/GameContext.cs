@@ -89,9 +89,9 @@ public class GameContext : IExposable, IHasContext
         Initialize(runSeed, playerName);
         Player.ResetForArena(playerName);
         WirePawnEvents();
-        RefreshPlayerConsumableSlots();
         ArenaRun = new ArenaRun();
         ArenaRun.Start(playerId, playerName, RunSeed);
+        RefreshPlayerConsumableSlots();
     }
 
     public void RestoreArenaPawn()
@@ -217,7 +217,6 @@ public class GameContext : IExposable, IHasContext
     private void WireUpEvents()
     {
         WirePawnEvents();
-        Achievements.AchievementUnlocked += _ => RefreshPlayerConsumableSlots();
     }
 
     private void WirePawnEvents()
@@ -228,9 +227,14 @@ public class GameContext : IExposable, IHasContext
         Player.Pawn.Inventory.ItemAdded += Player.OnItemFound;
     }
 
+    public int PrepUnlockRound =>
+        ArenaRun == null
+            ? PrepSlotUnlocks.FullyUnlockedRound
+            : Math.Max(1, ArenaRun.FightsPlayed + 1);
+
     public void RefreshPlayerConsumableSlots()
     {
-        PlayerPawn.RefreshConsumableSlots(Achievements);
+        PlayerPawn.RefreshConsumableSlots(PrepUnlockRound);
     }
 
     public void ExposeData()

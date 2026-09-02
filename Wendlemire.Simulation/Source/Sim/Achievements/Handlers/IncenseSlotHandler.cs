@@ -1,7 +1,7 @@
 namespace Wendlemire.Sim.Achievements.Handlers;
 
 /// <summary>
-/// Unlocks one incense slot. Counts any incense use when ItemUsedDef is unset.
+/// Tracks incense use. Counts any incense when ItemUsedDef is unset.
 /// </summary>
 public class IncenseSlotHandler : AchievementHandler
 {

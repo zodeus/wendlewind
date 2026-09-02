@@ -72,7 +72,7 @@ public sealed class MealPlanPanel : PrepCard, IUpdatable
 
         if (_pawn.MealPlan.Items.Count >= _pawn.MealPlan.Capacity)
         {
-            return "Unlock more food slots with achievements";
+            return "Unlock more food slots in later rounds";
         }
 
         return "No empty meal slots";
@@ -112,7 +112,7 @@ public sealed class MealPlanPanel : PrepCard, IUpdatable
                 ? FilledSlot(_pawn.MealPlan.Items[index], index)
                 : index < _pawn.MealPlan.Capacity
                     ? EmptySlot()
-                    : LockedSlot());
+                    : LockedSlot(index + 1));
         }
 
         _buffs.SetEffects(PrepBuffList.FromMeal(_pawn));
@@ -157,14 +157,9 @@ public sealed class MealPlanPanel : PrepCard, IUpdatable
         return PrepSlots.Frame(empty);
     }
 
-    private Widget LockedSlot()
+    private static Widget LockedSlot(int slotNumber)
     {
-        var tip = SlotUnlockTooltip.For(
-            _pawn.Context?.Achievements,
-            _pawn.Context?.Achievements != null
-                ? MealPlan.NextLockedSlotAchievement(_pawn.Context.Achievements)
-                : null,
-            "Complete food achievements to unlock this slot.");
+        var tip = SlotUnlockTooltip.ForSlot(PrepSlotKind.Food, slotNumber);
         return LockedSlotChrome.Slot(tip.title, tip.description);
     }
 

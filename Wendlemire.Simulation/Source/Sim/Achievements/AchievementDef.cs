@@ -14,6 +14,9 @@ public class AchievementDef : Def
     /// <summary>Benefit description for the achievement</summary>
     public string BenifitDescription = "";
 
+    /// <summary>Marks granted when this achievement unlocks. Zero uses <see cref="AchievementRewards.MarksPerUnlock"/>.</summary>
+    public int MarksReward = AchievementRewards.MarksPerUnlock;
+
     /// <summary>Item definition</summary>
     public ItemDef? ItemUsedDef;
 

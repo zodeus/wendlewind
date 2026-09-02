@@ -149,9 +149,9 @@ public sealed class PotionsPanel : VerticalStackPanel, IUpdatable
         _countLabel.Text = unused > 0
             ? $"{equipped.Count}/{capacity} equipped — {unused} unused"
             : $"{equipped.Count}/{capacity} equipped";
-        var lockTooltip = LockedSlotTooltip();
         for (var i = 0; i < PotionSlots.MaxSlots; i++)
         {
+            var lockTooltip = SlotUnlockTooltip.ForSlot(PrepSlotKind.Potion, i + 1);
             Widget card = i < equipped.Count
                 ? CreateCard(equipped[i])
                 : i < capacity
@@ -161,16 +161,6 @@ public sealed class PotionsPanel : VerticalStackPanel, IUpdatable
             Grid.SetColumn(card, i % 2);
             Grid.SetRow(card, i / 2);
         }
-    }
-
-    private (string title, string? description) LockedSlotTooltip()
-    {
-        return SlotUnlockTooltip.For(
-            _pawn.Context?.Achievements,
-            _pawn.Context?.Achievements != null
-                ? PotionSlots.NextLockedSlotAchievement(_pawn.Context.Achievements)
-                : null,
-            "Complete potion achievements to unlock this slot.");
     }
 
     private PotionTriggerEditor CreateCard(Item potion)

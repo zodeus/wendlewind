@@ -1,8 +1,7 @@
 namespace Wendlemire.Sim.Achievements.Handlers;
 
 /// <summary>
-/// Marker handler for achievements that unlock a food slot.
-/// Subclasses supply the progress condition.
+/// Marker handler for food-consumption achievements. Subclasses supply the progress condition.
 /// </summary>
 public class FoodSlotHandler : AchievementHandler
 {

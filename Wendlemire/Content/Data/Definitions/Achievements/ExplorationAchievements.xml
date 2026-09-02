@@ -6,7 +6,7 @@
         <Description>Collect fingers, just fingers... no thumbs, ugly little things</Description>
         <Category>Exploration</Category>
         <TargetValue>16</TargetValue>
-        <BenifitDescription>A title, nothing more</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <HandlerClass>FingerCollectorHandler</HandlerClass>
     </AchievementDef>
 
@@ -17,7 +17,7 @@
         <Category>Exploration</Category>
         <HandlerClass>CaveDiverHandler</HandlerClass>
         <TargetValue>15</TargetValue>
-        <BenifitDescription>Unlocks one incense slot</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
     </AchievementDef>
     
     <AchievementDef>
@@ -25,7 +25,7 @@
         <Label>Trinket Sniffer</Label>
         <Description>Find trinkets</Description>
         <Category>Exploration</Category>
-        <BenifitDescription>A title, nothing more</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <HandlerClass>TrinketSnifferHandler</HandlerClass>
         <TargetValue>42</TargetValue>
     </AchievementDef>
@@ -34,7 +34,7 @@
         <Moniker>TrashToTreasure</Moniker>
         <Label>Trash to Treasure</Label>
         <Description>One specimens trash becomes\nyour treasure</Description>
-        <BenifitDescription>A title, nothing more</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Exploration</Category>
         <TargetValue>10</TargetValue>
         <HandlerClass>TrashToTreasureHandler</HandlerClass>
@@ -46,7 +46,7 @@
         <Description>You find it, you keep it</Description>
         <IsHidden>true</IsHidden>
         <Category>Exploration</Category>
-        <BenifitDescription>A title, nothing more</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <HandlerClass>FindersKeepersHandler</HandlerClass>
     </AchievementDef>
 
@@ -54,7 +54,7 @@
         <Moniker>Lumberjack</Moniker>
         <Label>Lumberjack</Label>
         <Description>Cut down trees</Description>
-        <BenifitDescription>A title, nothing more</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Exploration</Category>
         <HandlerClass>LumberjackHandler</HandlerClass>
         <TargetValue>25</TargetValue>
@@ -64,7 +64,7 @@
         <Moniker>RockHound</Moniker>
         <Label>Rock Hound</Label>
         <Description>Find rocks</Description>
-        <BenifitDescription>A title, nothing more</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Exploration</Category>
         <HandlerClass>RockHoundHandler</HandlerClass>
         <TargetValue>25</TargetValue>
@@ -74,7 +74,7 @@
         <Moniker>FullMaxTheGoose</Moniker>
         <Label>Full Max The Goose</Label>
         <Description>Get the goose to full max</Description>
-        <BenifitDescription>A title, nothing more</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Exploration</Category>
         <HandlerClass>FullMaxTheGooseHandler</HandlerClass>
     </AchievementDef>
@@ -84,7 +84,7 @@
         <Label>Jack And The Beanstalk</Label>
         <IsHidden>true</IsHidden>
         <Description>Hold 50 golden beans</Description>
-        <BenifitDescription>A title, nothing more</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Exploration</Category>    
         <TargetValue>50</TargetValue>
         <HandlerClass>JackAndTheBeanstalkHandler</HandlerClass>

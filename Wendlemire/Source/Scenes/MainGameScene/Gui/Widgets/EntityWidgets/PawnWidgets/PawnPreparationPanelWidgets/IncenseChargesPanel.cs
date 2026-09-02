@@ -78,7 +78,7 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
             return $"Click to light · slot {_pawn.ActiveIncense.Count + 1} at {IncenseProperties.GetIgniteTick(_pawn.ActiveIncense.Count)}";
         }
 
-        return "Unlock more incense slots with achievements";
+        return "Unlock more incense slots in later rounds";
     }
 
     private void TryLight(Item item)
@@ -110,7 +110,7 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
                 ? FilledSlot(_pawn.ActiveIncense[index], index)
                 : index < _pawn.IncenseCapacity
                     ? EmptySlot(index)
-                    : LockedSlot());
+                    : LockedSlot(index + 1));
         }
     }
 
@@ -163,14 +163,9 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
         return column;
     }
 
-    private Widget LockedSlot()
+    private static Widget LockedSlot(int slotNumber)
     {
-        var tip = SlotUnlockTooltip.For(
-            _pawn.Context?.Achievements,
-            _pawn.Context?.Achievements != null
-                ? IncenseProperties.NextLockedSlotAchievement(_pawn.Context.Achievements)
-                : null,
-            "Complete incense achievements to unlock this slot.");
+        var tip = SlotUnlockTooltip.ForSlot(PrepSlotKind.Incense, slotNumber);
         var column = new VerticalStackPanel { Spacing = 2 };
         column.Widgets.Add(LockedSlotChrome.Slot(tip.title, tip.description));
         column.Widgets.Add(new Label(BaseContent.Styles.Label.Small)

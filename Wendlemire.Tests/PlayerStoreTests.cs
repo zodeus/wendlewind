@@ -2,6 +2,7 @@ using System.Text.Json;
 using Wendlemire.Definitions;
 using Wendlemire.NetCode;
 using Wendlemire.NetCode.Contracts;
+using Wendlemire.Sim.Achievements;
 using Wendlemire.Sim.Arena;
 using Wendlemire.Sim.Combat;
 using Xunit;
@@ -531,6 +532,53 @@ public class PlayerStoreTests
             Assert.Equal(0, profile.Marks);
             Assert.Contains(ArenaMarks.DefaultNamePlate, profile.OwnedCosmeticMonikers);
             Assert.Equal(ArenaMarks.DefaultNamePlate, profile.EquippedNamePlate);
+        }
+        finally
+        {
+            Directory.Delete(dir, true);
+        }
+    }
+
+    [Fact]
+    public void NewlyUnlockedAchievementsAwardMarksOnce()
+    {
+        var dir = Path.Combine(Path.GetTempPath(), $"ww-data-{Guid.NewGuid():N}");
+        try
+        {
+            var store = new PlayerStore(dir);
+            store.GetOrCreateProfile("alice", "Alice", "alice");
+
+            store.SaveAchievements("alice", new AchievementState
+            {
+                Achievements =
+                [
+                    new AchievementRecord { Moniker = "FirstBlood", CurrentValue = 1, IsUnlocked = true },
+                    new AchievementRecord { Moniker = "BarTender", CurrentValue = 20, IsUnlocked = true }
+                ]
+            });
+            Assert.Equal(AchievementRewards.MarksPerUnlock * 2, store.GetProfile("alice")!.Marks);
+
+            store.SaveAchievements("alice", new AchievementState
+            {
+                Achievements =
+                [
+                    new AchievementRecord { Moniker = "FirstBlood", CurrentValue = 1, IsUnlocked = true },
+                    new AchievementRecord { Moniker = "BarTender", CurrentValue = 20, IsUnlocked = true },
+                    new AchievementRecord { Moniker = "CaveDiver", CurrentValue = 15, IsUnlocked = true }
+                ]
+            });
+            Assert.Equal(AchievementRewards.MarksPerUnlock * 3, store.GetProfile("alice")!.Marks);
+
+            store.SaveAchievements("alice", new AchievementState
+            {
+                Achievements =
+                [
+                    new AchievementRecord { Moniker = "FirstBlood", CurrentValue = 1, IsUnlocked = true },
+                    new AchievementRecord { Moniker = "BarTender", CurrentValue = 20, IsUnlocked = true },
+                    new AchievementRecord { Moniker = "CaveDiver", CurrentValue = 15, IsUnlocked = true }
+                ]
+            });
+            Assert.Equal(AchievementRewards.MarksPerUnlock * 3, store.GetProfile("alice")!.Marks);
         }
         finally
         {

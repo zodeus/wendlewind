@@ -6,7 +6,7 @@
         <Label>First Blood</Label>
         <Description>Kill your first enemy</Description>
         <Category>Combat</Category>
-        <BenifitDescription>A title, nothing more</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <HandlerClass>FirstBloodHandler</HandlerClass>
     </AchievementDef>
 
@@ -14,7 +14,7 @@
         <Moniker>BrainTickler</Moniker>
         <Label>Brain Tickler</Label>
         <Description>Hit the brain</Description>
-        <BenifitDescription>A title, nothing more</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Combat</Category>
         <TargetValue>100</TargetValue>
         <HandlerClass>BrainTicklerHandler</HandlerClass>
@@ -26,7 +26,7 @@
         <Description>Lose an arm or leg</Description>
         <Category>Combat</Category>
         <TargetValue>1</TargetValue>
-        <BenifitDescription>A title, nothing more</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <HandlerClass>TisButAScratchHandler</HandlerClass>
     </AchievementDef>
     
@@ -35,7 +35,7 @@
         <Label>Just the Tip</Label>
         <Description>Sever fingers and thumbs</Description>
         <Category>Combat</Category>
-        <BenifitDescription>A title, nothing more</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <HandlerClass>JustTheTipHandler</HandlerClass>
         <TargetValue>120</TargetValue>
     </AchievementDef>
@@ -44,7 +44,7 @@
         <Moniker>TwoIDontNeedTwo</Moniker>
         <Label>Two! I Don't Need Two!</Label>
         <Description>Lose both eyes and survive</Description>
-        <BenifitDescription>A title, nothing more</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Combat</Category>
         <HandlerClass>TwoIDontNeedTwoHandler</HandlerClass>
         <IsHidden>true</IsHidden>
@@ -54,7 +54,7 @@
         <Moniker>Butcher</Moniker>
         <Label>Butcher</Label>
         <Description>Kill enemies</Description>
-        <BenifitDescription>A title, nothing more</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Combat</Category>
         <TargetValue>100</TargetValue>
         <HandlerClass>ButcherHandler</HandlerClass>
@@ -64,7 +64,7 @@
         <Moniker>TheExecutionersBitch</Moniker>
         <Label>The Executioner's Bitch</Label>
         <Description>Who likes getting hit in the neck... you do</Description>
-        <BenifitDescription>A title, nothing more</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Combat</Category>
         <TargetValue>100</TargetValue>
         <HandlerClass>TheExecutionersBitchHandler</HandlerClass>
@@ -74,7 +74,7 @@
         <Moniker>BunnyBopper</Moniker>
         <Label>Bunny Bopper</Label>
         <Description>Kill them bunnies.</Description>
-        <BenifitDescription>A title, nothing more</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Combat</Category>
         <HandlerClass>BunnyBopperHandler</HandlerClass>
         <TargetValue>16</TargetValue>
@@ -84,7 +84,7 @@
         <Moniker>Slayer</Moniker>
         <Label>Slayer</Label>
         <Description>Kill more enemies</Description>
-        <BenifitDescription>A title, nothing more</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Combat</Category>
         <TargetValue>500</TargetValue>
         <HandlerClass>EnemyKilledHandler</HandlerClass>
@@ -94,7 +94,7 @@
         <Moniker>TheLopper</Moniker>
         <Label>The "Lopper"</Label>
         <Description>Sever heads, a lot of them</Description>
-        <BenifitDescription>A title, nothing more</BenifitDescription>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
         <Category>Combat</Category>
         <TargetValue>9</TargetValue>
         <HandlerClass>TheLopperHandler</HandlerClass>

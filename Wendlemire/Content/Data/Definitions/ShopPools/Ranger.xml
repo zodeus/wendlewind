@@ -224,49 +224,6 @@
                 </Offers>
             </ListItem>
             <ListItem>
-                <Category>Medicine</Category>
-                <Columns>6</Columns>
-                <ItemColumns>1</ItemColumns>
-                <StockSize>3</StockSize>
-                <Offers>
-                    <ListItem>
-                        <ItemDef>Cauterize</ItemDef>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>MedKit</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>BalmyOintment</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>Suture</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>StrengthenBones</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>Cyberveins</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>MendersMist</ItemDef>
-                        <AvailableFromRound>4</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>BoneCleanse</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
-                    </ListItem>
-                    <ListItem>
-                        <ItemDef>AntiNecroticSerum</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
-                    </ListItem>
-                </Offers>
-            </ListItem>
-            <ListItem>
                 <Category>Trinkets</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>

@@ -417,11 +417,16 @@ fi
 systemctl stop wendlemire || true
 mkdir -p "`$MOUNT_ROOT"
 
-already=`$(findmnt -n -o TARGET --source "`$DEVICE" 2>/dev/null || true)
-if [ -n "`$already" ] && [ "`$already" != "`$MOUNT_ROOT" ]; then
-  echo "Unmounting `$DEVICE from `$already"
-  umount "`$already"
-fi
+# The same device is normally mounted at MOUNT_ROOT and bind-mounted at DATA_DIR.
+# Unmount only unexpected extra targets, one path at a time.
+while IFS= read -r target; do
+  [ -z "`$target" ] && continue
+  if [ "`$target" = "`$MOUNT_ROOT" ] || [ "`$target" = "`$DATA_DIR" ]; then
+    continue
+  fi
+  echo "Unmounting `$DEVICE from `$target"
+  umount "`$target" || umount -l "`$target"
+done < <(findmnt -n -o TARGET --source "`$DEVICE" 2>/dev/null || true)
 
 if ! findmnt -n "`$MOUNT_ROOT" >/dev/null; then
   mount "`$DEVICE" "`$MOUNT_ROOT"

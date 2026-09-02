@@ -1,5 +1,3 @@
-using Wendlemire.Sim.Achievements.Handlers;
-
 namespace Wendlemire.Sim.Entities.Items.Medicinals;
 
 public class MedicalChestSlot : IExposable
@@ -209,28 +207,13 @@ public class MedicalChest : IExposable
         }
     }
 
-    public void RefreshFromAchievements(AchievementTracker tracker)
+    public void RefreshCapacity(int capacity)
     {
-        Capacity = UnlockedCapacity(tracker);
+        Capacity = Math.Clamp(capacity, 1, MaxSlots);
         while (_slots.Count > Capacity)
         {
             Remove(_slots[^1]);
         }
-    }
-
-    public static int UnlockedCapacity(AchievementTracker tracker)
-    {
-        return ConsumableSlotUnlocks.UnlockedCapacity(tracker, typeof(MedicalChestSlotHandler), BaseSlots, MaxSlots);
-    }
-
-    public static IEnumerable<AchievementDef> SlotUnlockDefs()
-    {
-        return ConsumableSlotUnlocks.SlotUnlockDefs(typeof(MedicalChestSlotHandler));
-    }
-
-    public static AchievementDef? NextLockedSlotAchievement(AchievementTracker tracker)
-    {
-        return ConsumableSlotUnlocks.NextLocked(tracker, typeof(MedicalChestSlotHandler));
     }
 
     public static bool IsMedicalItem(Item item)

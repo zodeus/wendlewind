@@ -27,33 +27,36 @@ public class MedicalChestCapacityTests
     }
 
     [Fact]
-    public void NewGameStartsWithThreeSlots()
+    public void CampaignStartsWithAllMedicalSlots()
     {
         using var root = SimServices.BuildRoot();
         using var scope = root.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<GameContext>();
         context.Initialize(CombatReplay.DefaultRunSeed);
 
-        Assert.Equal(10, MedicalChest.SlotUnlockDefs().Count());
+        Assert.Equal(MedicalChest.MaxSlots, context.PlayerPawn.MedicalChest.Capacity);
+    }
+
+    [Fact]
+    public void ArenaStartsWithThreeMedicalSlots()
+    {
+        using var root = SimServices.BuildRoot();
+        using var scope = root.CreateScope();
+        var context = StartArena(scope);
+
         Assert.Equal(MedicalChest.BaseSlots, context.PlayerPawn.MedicalChest.Capacity);
     }
 
     [Fact]
-    public void EachSlotAchievementAddsOne()
+    public void LaterRoundsOpenMoreMedicalSlots()
     {
         using var root = SimServices.BuildRoot();
         using var scope = root.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<GameContext>();
-        context.Initialize(CombatReplay.DefaultRunSeed);
+        var context = StartArena(scope);
+        context.ArenaRun!.Wins = 3;
+        context.RefreshPlayerConsumableSlots();
 
-        var defs = MedicalChest.SlotUnlockDefs().Take(3).ToList();
-        Assert.Equal(3, defs.Count);
-        foreach (var def in defs)
-        {
-            context.Achievements.Unlock(def);
-        }
-
-        Assert.Equal(MedicalChest.BaseSlots + 3, context.PlayerPawn.MedicalChest.Capacity);
+        Assert.Equal(6, context.PlayerPawn.MedicalChest.Capacity);
     }
 
     [Fact]
@@ -61,8 +64,7 @@ public class MedicalChestCapacityTests
     {
         using var root = SimServices.BuildRoot();
         using var scope = root.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<GameContext>();
-        context.Initialize(CombatReplay.DefaultRunSeed);
+        var context = StartArena(scope);
         var chest = context.PlayerPawn.MedicalChest;
 
         Assert.True(chest.TryInstall(RequireDef(MedicalMonikers[0]), 1));
@@ -73,12 +75,11 @@ public class MedicalChestCapacityTests
     }
 
     [Fact]
-    public void UnlockOpensASlotImmediately()
+    public void NextRoundOpensASlotImmediately()
     {
         using var root = SimServices.BuildRoot();
         using var scope = root.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<GameContext>();
-        context.Initialize(CombatReplay.DefaultRunSeed);
+        var context = StartArena(scope);
         var chest = context.PlayerPawn.MedicalChest;
 
         Assert.True(chest.TryInstall(RequireDef(MedicalMonikers[0]), 1));
@@ -86,9 +87,10 @@ public class MedicalChestCapacityTests
         Assert.True(chest.TryInstall(RequireDef(MedicalMonikers[2]), 1));
         Assert.False(chest.TryInstall(RequireDef(MedicalMonikers[3]), 1));
 
-        context.Achievements.Unlock(MedicalChest.SlotUnlockDefs().First());
+        context.ArenaRun!.Wins = 1;
+        context.RefreshPlayerConsumableSlots();
 
-        Assert.Equal(MedicalChest.BaseSlots + 1, chest.Capacity);
+        Assert.Equal(4, chest.Capacity);
         Assert.True(chest.TryInstall(RequireDef(MedicalMonikers[3]), 1));
         Assert.Equal(4, chest.Slots.Count);
     }
@@ -98,8 +100,7 @@ public class MedicalChestCapacityTests
     {
         using var root = SimServices.BuildRoot();
         using var scope = root.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<GameContext>();
-        context.Initialize(CombatReplay.DefaultRunSeed);
+        var context = StartArena(scope);
         var pawn = context.PlayerPawn;
         var chest = pawn.MedicalChest;
         chest.EnsureCapacity(6);
@@ -109,12 +110,19 @@ public class MedicalChestCapacityTests
         }
 
         Assert.Equal(5, chest.Slots.Count);
-        chest.RefreshFromAchievements(context.Achievements);
+        chest.RefreshCapacity(MedicalChest.BaseSlots);
 
         Assert.Equal(MedicalChest.BaseSlots, chest.Capacity);
         Assert.Equal(MedicalChest.BaseSlots, chest.Slots.Count);
         Assert.True(pawn.Inventory.AmountOf(RequireDef(MedicalMonikers[3])) >= 2);
         Assert.True(pawn.Inventory.AmountOf(RequireDef(MedicalMonikers[4])) >= 2);
+    }
+
+    private static GameContext StartArena(IServiceScope scope)
+    {
+        var context = scope.ServiceProvider.GetRequiredService<GameContext>();
+        context.InitializeArena("tester", "Tester", CombatReplay.DefaultRunSeed);
+        return context;
     }
 
     private static ItemDef RequireDef(string moniker)

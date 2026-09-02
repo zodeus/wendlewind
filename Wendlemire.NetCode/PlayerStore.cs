@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 using Wendlemire.NetCode.Contracts;
+using Wendlemire.Sim.Achievements;
 using Wendlemire.Sim.Arena;
 using Wendlemire.Sim.Combat;
 using Wendlemire.Sim.Cosmetics;
@@ -147,7 +148,11 @@ public sealed class PlayerStore
         lock (_gate)
         {
             GetOrCreateProfileUnlocked(playerId);
+            var previous = TryRead(AchievementsPath(playerId), NetCodeJsonContext.Default.AchievementState)
+                           ?? new AchievementState();
+            var marks = MarksForNewlyUnlocked(previous, state);
             Write(AchievementsPath(playerId), state, NetCodeJsonContext.Default.AchievementState);
+            AddMarksUnlocked(playerId, marks);
         }
     }
 
@@ -653,6 +658,26 @@ public sealed class PlayerStore
         }
 
         return higher + 1;
+    }
+
+    private static int MarksForNewlyUnlocked(AchievementState previous, AchievementState incoming)
+    {
+        var already = previous.Achievements
+            .Where(record => record.IsUnlocked && !string.IsNullOrWhiteSpace(record.Moniker))
+            .Select(record => record.Moniker)
+            .ToHashSet(StringComparer.Ordinal);
+        var marks = 0;
+        foreach (var record in incoming.Achievements)
+        {
+            if (!record.IsUnlocked || string.IsNullOrWhiteSpace(record.Moniker) || already.Contains(record.Moniker))
+            {
+                continue;
+            }
+
+            marks += AchievementRewards.MarksFor(record.Moniker);
+        }
+
+        return marks;
     }
 
     private void AddMarksUnlocked(string playerId, int amount)

@@ -552,15 +552,15 @@ public class Pawn : Entity
         }
     }
 
-    public void RefreshConsumableSlots(AchievementTracker tracker)
+    public void RefreshConsumableSlots(int prepRound)
     {
-        MedicalChest.RefreshFromAchievements(tracker);
-        MealPlan.RefreshFromAchievements(tracker);
+        var caps = PrepSlotUnlocks.ForRound(prepRound);
+        MedicalChest.RefreshCapacity(caps.Medical);
+        MealPlan.RefreshCapacity(caps.Food);
         CombatStomach.Capacity = MealPlan.Capacity;
-        IncenseCapacity = ConsumableSlotUnlocks.UnlockedCapacity(
-            tracker, typeof(IncenseSlotHandler), IncenseProperties.BaseSlots, IncenseProperties.MaxActive);
+        IncenseCapacity = caps.Incense;
         PruneActiveIncense();
-        PotionCapacity = PotionSlots.UnlockedCapacity(tracker);
+        PotionCapacity = caps.Potion;
         UnequipLockedPotions();
     }
 

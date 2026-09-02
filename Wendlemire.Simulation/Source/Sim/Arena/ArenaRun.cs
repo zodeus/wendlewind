@@ -29,6 +29,7 @@ public class ArenaRun : IExposable
     public bool IsRunOver => Wins >= WinsToFinish || Losses >= LossesToFinish;
     public bool IsVictory => Wins >= WinsToFinish;
     public int FightsPlayed => Wins + Losses;
+    public int UpcomingRound => FightsPlayed + 1;
 
     public void Start(string playerId, string playerName, int runSeed)
     {

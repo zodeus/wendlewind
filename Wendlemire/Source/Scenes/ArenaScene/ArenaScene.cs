@@ -206,6 +206,7 @@ public sealed class ArenaScene : Scene
         BuildSnapshotFactory.Apply(_context.PlayerPawn, _lastPrepSnapshot with { Skills = learnedSkills });
         EnsureZoneShell();
         run.ApplyMatchResult(localWon, _pendingResult.DefenderPlayerId ?? "unknown");
+        _context.RefreshPlayerConsumableSlots();
         SaveRun();
         if (run.IsRunOver)
         {
@@ -468,6 +469,7 @@ public sealed class ArenaScene : Scene
     {
         _context.InitializeArena(current.PlayerId, current.PlayerName, current.RunSeed);
         ArenaProgressMapper.ApplyTo(_context.ArenaRun!, current);
+        _context.RefreshPlayerConsumableSlots();
         if (_context.ArenaRun!.Phase is ArenaPhase.Matching or ArenaPhase.Combat)
         {
             _context.ArenaRun.SetPhase(ArenaPhase.Prep);

@@ -126,28 +126,18 @@ public sealed class MedicalChestPanel : VerticalStackPanel, IUpdatable
             _slots.RowsProportions.Add(new Proportion(ProportionType.Part, 1));
         }
 
-        var lockTooltip = LockedSlotTooltip();
         for (var i = 0; i < maxSlots; i++)
         {
+            var lockTip = SlotUnlockTooltip.ForSlot(PrepSlotKind.Medical, i + 1);
             Widget card = i < slots.Count
                 ? CreateArmedCard(slots[i])
                 : i < capacity
                     ? MedicalSlotChrome.Empty()
-                    : MedicalSlotChrome.Locked(lockTooltip.title, lockTooltip.description);
+                    : MedicalSlotChrome.Locked(lockTip.title, lockTip.description);
             _slots.Widgets.Add(card);
             Grid.SetColumn(card, i % CardsPerRow);
             Grid.SetRow(card, i / CardsPerRow);
         }
-    }
-
-    private (string title, string? description) LockedSlotTooltip()
-    {
-        return SlotUnlockTooltip.For(
-            _pawn.Context?.Achievements,
-            _pawn.Context?.Achievements != null
-                ? MedicalChest.NextLockedSlotAchievement(_pawn.Context.Achievements)
-                : null,
-            "Complete medical achievements to unlock this slot.");
     }
 
     private MedicalSlotCard CreateArmedCard(MedicalChestSlot slot)
@@ -171,22 +161,10 @@ public sealed class MedicalChestPanel : VerticalStackPanel, IUpdatable
 
 internal static class SlotUnlockTooltip
 {
-    public static (string title, string? description) For(
-        AchievementTracker? tracker,
-        AchievementDef? next,
-        string fallback)
+    public static (string title, string? description) ForSlot(PrepSlotKind kind, int slotNumber)
     {
-        if (tracker == null || next == null)
-        {
-            return ("Locked", fallback);
-        }
-
-        var progress = tracker.GetProgress(next);
-        var remaining = Math.Max(0, next.TargetValue - (progress?.CurrentValue ?? 0));
-        var description = remaining > 0
-            ? $"{next.Description} ({remaining:0} remaining). {next.BenifitDescription}."
-            : next.BenifitDescription;
-        return (next.Label, description);
+        var round = PrepSlotUnlocks.UnlockRound(kind, slotNumber);
+        return ("Locked", $"Unlocks at round {round}.");
     }
 }
 

@@ -1,6 +1,3 @@
-using Wendlemire.Sim.Achievements;
-using Wendlemire.Sim.Achievements.Handlers;
-
 namespace Wendlemire.Sim.Entities.Pawns;
 
 public class MealPlan : IExposable
@@ -77,29 +74,14 @@ public class MealPlan : IExposable
         _items.RemoveAll(i => i == null || i.IsDestroyed || i.StackSize < 1);
     }
 
-    public void RefreshFromAchievements(AchievementTracker tracker)
+    public void RefreshCapacity(int capacity)
     {
-        Capacity = UnlockedCapacity(tracker);
+        Capacity = Math.Clamp(capacity, 1, MaxSlots);
         Prune();
         while (_items.Count > Capacity)
         {
             RemoveAt(_items.Count - 1);
         }
-    }
-
-    public static int UnlockedCapacity(AchievementTracker tracker)
-    {
-        return ConsumableSlotUnlocks.UnlockedCapacity(tracker, typeof(FoodSlotHandler), BaseSlots, MaxSlots);
-    }
-
-    public static IEnumerable<AchievementDef> SlotUnlockDefs()
-    {
-        return ConsumableSlotUnlocks.SlotUnlockDefs(typeof(FoodSlotHandler));
-    }
-
-    public static AchievementDef? NextLockedSlotAchievement(AchievementTracker tracker)
-    {
-        return ConsumableSlotUnlocks.NextLocked(tracker, typeof(FoodSlotHandler));
     }
 
     public void ExposeData()
