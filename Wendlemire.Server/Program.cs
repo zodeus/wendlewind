@@ -50,6 +50,7 @@ var pool = new BuildPool(ServerData.PoolPath(dataDir));
 var players = new PlayerStore(dataDir);
 var analytics = new FightAnalyticsService(players);
 var codes = new ActivationCodeStore(dataDir);
+var accounts = new AccountStore(dataDir);
 var releases = new ReleaseDownloadService(ServerData.DownloadsDir(dataDir));
 var adminAuth = AdminAuth.Create(app.Environment);
 Console.WriteLine($"Version: {GameVersion.Current}");
@@ -61,6 +62,7 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 app.UseClientVersionGate();
 app.MapAdmin(adminAuth, players, pool, analytics, codes);
+app.MapAuth(accounts, players);
 
 app.MapGet("/downloads", async (HttpContext http, CancellationToken cancellationToken) =>
 {
@@ -121,9 +123,14 @@ app.MapGet("/health", () => Results.Ok(new HealthStatus
     Data = dataDir
 }));
 
-app.MapPost("/builds", (BuildSnapshot snapshot) =>
+app.MapPost("/builds", (HttpContext http, BuildSnapshot snapshot) =>
 {
-    var stamped = players.StampCosmetics(snapshot);
+    if (PlayerAuth.DenyUnlessOwner(http, accounts, snapshot.PlayerId, out var account) is { } deny)
+    {
+        return deny;
+    }
+
+    var stamped = players.StampCosmetics(snapshot with { PlayerId = account.PlayerId });
     pool.Upsert(stamped);
     return Results.Accepted($"/builds/{stamped.PlayerId}", stamped);
 });
@@ -134,11 +141,17 @@ app.MapGet("/opponent", (int round = 1) =>
     return opponent is null ? Results.NotFound() : Results.Ok(opponent);
 });
 
-app.MapPost("/matches", (MatchRequest request) =>
+app.MapPost("/matches", (HttpContext http, MatchRequest request) =>
 {
-    var round = BuildPool.ResolveRound(request.Attacker);
+    if (PlayerAuth.DenyUnlessOwner(http, accounts, request.Attacker.PlayerId, out var account) is { } deny)
+    {
+        return deny;
+    }
+
+    var attackerSnapshot = request.Attacker with { PlayerId = account.PlayerId };
+    var round = BuildPool.ResolveRound(attackerSnapshot);
     var attacker = players.StampCosmetics(
-        request.Attacker.Round > 0 ? request.Attacker : request.Attacker with { Round = round });
+        attackerSnapshot.Round > 0 ? attackerSnapshot : attackerSnapshot with { Round = round });
     var defender = request.Defender
                    ?? pool.PickOpponent(round, attacker.PlayerId, attacker.Rating)
                    ?? BuildPool.MirrorOf(attacker);
@@ -170,9 +183,14 @@ app.MapPost("/matches", (MatchRequest request) =>
     return Results.Ok(result);
 });
 
-app.MapPost("/players", (CreatePlayerRequest? request) =>
+app.MapPost("/players", (HttpContext http, CreatePlayerRequest? request) =>
 {
-    var profile = players.GetOrCreateProfile(request?.PlayerId, request?.DisplayName, request?.Username);
+    if (PlayerAuth.DenyUnlessSignedIn(http, accounts, out var account) is { } deny)
+    {
+        return deny;
+    }
+
+    var profile = players.GetOrCreateProfile(account.PlayerId, request?.DisplayName, account.Username);
     return Results.Ok(profile);
 });
 
@@ -182,19 +200,34 @@ app.MapGet("/players/{playerId}", (string playerId) =>
     return profile is null ? Results.NotFound() : Results.Ok(profile);
 });
 
-app.MapPut("/players/{playerId}", (string playerId, CreatePlayerRequest request) =>
+app.MapPut("/players/{playerId}", (HttpContext http, string playerId, CreatePlayerRequest request) =>
 {
-    return Results.Ok(players.UpdateProfile(playerId, request.DisplayName, request.Username));
+    if (PlayerAuth.DenyUnlessOwner(http, accounts, playerId, out var account) is { } deny)
+    {
+        return deny;
+    }
+
+    return Results.Ok(players.UpdateProfile(account.PlayerId, request.DisplayName, account.Username));
 });
 
-app.MapPost("/players/{playerId}/cosmetics/buy", (string playerId, CosmeticRequest? request) =>
+app.MapPost("/players/{playerId}/cosmetics/buy", (HttpContext http, string playerId, CosmeticRequest? request) =>
 {
-    return Results.Ok(players.BuyCosmetic(playerId, request?.Moniker));
+    if (PlayerAuth.DenyUnlessOwner(http, accounts, playerId, out var account) is { } deny)
+    {
+        return deny;
+    }
+
+    return Results.Ok(players.BuyCosmetic(account.PlayerId, request?.Moniker));
 });
 
-app.MapPut("/players/{playerId}/cosmetics/equip", (string playerId, CosmeticRequest? request) =>
+app.MapPut("/players/{playerId}/cosmetics/equip", (HttpContext http, string playerId, CosmeticRequest? request) =>
 {
-    return Results.Ok(players.EquipCosmetic(playerId, request?.Moniker));
+    if (PlayerAuth.DenyUnlessOwner(http, accounts, playerId, out var account) is { } deny)
+    {
+        return deny;
+    }
+
+    return Results.Ok(players.EquipCosmetic(account.PlayerId, request?.Moniker));
 });
 
 app.MapGet("/players/{playerId}/achievements", (string playerId) =>
@@ -202,9 +235,14 @@ app.MapGet("/players/{playerId}/achievements", (string playerId) =>
     return Results.Ok(players.GetAchievements(playerId));
 });
 
-app.MapPut("/players/{playerId}/achievements", (string playerId, AchievementState state) =>
+app.MapPut("/players/{playerId}/achievements", (HttpContext http, string playerId, AchievementState state) =>
 {
-    players.SaveAchievements(playerId, state);
+    if (PlayerAuth.DenyUnlessOwner(http, accounts, playerId, out var account) is { } deny)
+    {
+        return deny;
+    }
+
+    players.SaveAchievements(account.PlayerId, state);
     return Results.Ok(state);
 });
 
@@ -214,21 +252,36 @@ app.MapGet("/players/{playerId}/arena", (string playerId) =>
     return current is null ? Results.NotFound() : Results.Ok(current);
 });
 
-app.MapPut("/players/{playerId}/arena", (string playerId, ArenaProgressRecord progress) =>
+app.MapPut("/players/{playerId}/arena", (HttpContext http, string playerId, ArenaProgressRecord progress) =>
 {
-    var stored = progress.PlayerId == playerId ? progress : progress with { PlayerId = playerId };
+    if (PlayerAuth.DenyUnlessOwner(http, accounts, playerId, out var account) is { } deny)
+    {
+        return deny;
+    }
+
+    var stored = progress with { PlayerId = account.PlayerId };
     return Results.Ok(players.SaveCurrentArena(stored));
 });
 
-app.MapPost("/players/{playerId}/arena/start", (string playerId, StartArenaRequest? request) =>
+app.MapPost("/players/{playerId}/arena/start", (HttpContext http, string playerId, StartArenaRequest? request) =>
 {
+    if (PlayerAuth.DenyUnlessOwner(http, accounts, playerId, out var account) is { } deny)
+    {
+        return deny;
+    }
+
     var seed = request?.RunSeed is > 0 ? request.RunSeed.Value : 0;
-    return Results.Ok(players.StartArena(playerId, request?.PlayerName, seed));
+    return Results.Ok(players.StartArena(account.PlayerId, request?.PlayerName, seed));
 });
 
-app.MapDelete("/players/{playerId}/arena", (string playerId, bool? victory) =>
+app.MapDelete("/players/{playerId}/arena", (HttpContext http, string playerId, bool? victory) =>
 {
-    var finished = players.FinishCurrent(playerId, victory);
+    if (PlayerAuth.DenyUnlessOwner(http, accounts, playerId, out var account) is { } deny)
+    {
+        return deny;
+    }
+
+    var finished = players.FinishCurrent(account.PlayerId, victory);
     return finished is null ? Results.NotFound() : Results.Ok(finished);
 });
 

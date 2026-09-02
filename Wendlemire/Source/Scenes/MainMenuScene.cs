@@ -28,13 +28,18 @@ public class MainMenuScene : Scene
     private PlayerProfile _profile = null!;
     private ClientSettings _clientSettings = null!;
     private TextBox _usernameField = null!;
+    private TextBox _emailField = null!;
+    private TextBox _passwordField = null!;
     private TextBox _serverField = null!;
     private CursorButton _fullscreenButton = null!;
-    private Label _usernameError = null!;
+    private Label _authError = null!;
     private Label _connectionError = null!;
     private Label _playingAsLabel = null!;
-    private Widget _usernamePanel = null!;
+    private Widget _authPanel = null!;
     private Widget _playPanel = null!;
+    private VerticalStackPanel _playButtons = null!;
+    private Panel _rankBadgeHost = null!;
+    private string? _versionError;
     private Widget _menuRoot = null!;
     private EventHandler<TextInputEventArgs>? _textInputHandler;
     private KeyboardState _previousKeyboard;
@@ -43,50 +48,61 @@ public class MainMenuScene : Scene
     {
         _profile = PlayerProfile.LoadOrCreate();
         _clientSettings = ClientSettings.LoadOrCreate();
-        var versionError = PeekVersionError();
-        if (versionError == null)
+        _versionError = PeekVersionError();
+        if (_versionError == null)
         {
-            TryHydrateUsernameFromServer();
+            TryRestoreSession();
         }
 
-        _usernameField = IronTextBox(_profile.Username, 320);
-        _usernameError = BodyLabel("", Error);
-        _usernameError.Visible = false;
+        _usernameField = IronTextBox(_profile.Username, 320, hint: "Username");
+        _emailField = IronTextBox(_profile.Email, 320, hint: "Email");
+        _passwordField = IronTextBox("", 320, password: true, hint: "Password");
+        _authError = BodyLabel("", Error);
+        _authError.Visible = false;
         _connectionError = BodyLabel("", Error);
         _connectionError.Wrap = true;
         _connectionError.Width = 520;
         _connectionError.Visible = false;
 
-        _usernamePanel = new VerticalStackPanel
+        var authHint = BodyLabel("Log in with username and password. Register needs an email too.", Dust);
+        authHint.Wrap = true;
+        authHint.Width = 340;
+
+        _authPanel = new VerticalStackPanel
         {
             Spacing = 12,
             HorizontalAlignment = HorizontalAlignment.Center,
             Widgets =
             {
-                DisplayLabel("Choose a username", 22, Bone),
-                _usernameField,
-                _usernameError,
-                IronButton("Confirm", ConfirmUsername)
+                DisplayLabel("Account", 22, Bone),
+                authHint,
+                LabeledField("Username", _usernameField),
+                LabeledField("Email", _emailField, "for register"),
+                LabeledField("Password", _passwordField),
+                _authError,
+                new HorizontalStackPanel
+                {
+                    Spacing = 12,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Widgets =
+                    {
+                        IronButton("Log in", SubmitLogin, width: 154),
+                        IronButton("Register", SubmitRegister, width: 154)
+                    }
+                }
             }
         };
 
-        var playButtons = new VerticalStackPanel
+        _playButtons = new VerticalStackPanel
         {
             Spacing = 16,
             HorizontalAlignment = HorizontalAlignment.Center
         };
-        playButtons.Widgets.Add(IronButton("Start New Arena", () => TryEnterArena(startFresh: true)));
-        if (versionError == null && HasServerArenaProgress())
+        _playingAsLabel = BodyLabel("", Dust);
+        _rankBadgeHost = new Panel
         {
-            playButtons.Widgets.Add(IronButton("Continue Arena", () => TryEnterArena(startFresh: false)));
-        }
-
-        if (versionError == null)
-        {
-            playButtons.Widgets.Add(IronButton("Treasure Trove", OpenShop, ShopEnabled));
-        }
-
-        _playingAsLabel = BodyLabel(IdentityText(), Dust);
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
         _playPanel = new VerticalStackPanel
         {
             Spacing = 22,
@@ -100,12 +116,13 @@ public class MainMenuScene : Scene
                     Widgets =
                     {
                         _playingAsLabel,
-                        versionError == null ? LoadRankBadge() : BodyLabel("Unranked", Dust)
+                        _rankBadgeHost
                     }
                 },
-                playButtons
+                _playButtons
             }
         };
+        RebuildPlayPanel();
 
         _serverField = IronTextBox(_clientSettings.ServerHost, 220);
         _fullscreenButton = IronButton(FullscreenButtonText(), ToggleFullscreen, width: 240);
@@ -117,7 +134,7 @@ public class MainMenuScene : Scene
             VerticalAlignment = VerticalAlignment.Center,
             Widgets =
             {
-                _usernamePanel,
+                _authPanel,
                 _playPanel,
                 _connectionError
             }
@@ -198,9 +215,9 @@ public class MainMenuScene : Scene
         Core.Instance.Window.TextInput += _textInputHandler;
 
         RefreshPanels();
-        if (versionError != null)
+        if (_versionError != null)
         {
-            ShowConnectionError(versionError);
+            ShowConnectionError(_versionError);
         }
     }
 
@@ -210,9 +227,9 @@ public class MainMenuScene : Scene
         if (keyboard.IsKeyDown(Keys.Enter) && _previousKeyboard.IsKeyUp(Keys.Enter))
         {
             PersistServerHost();
-            if (_usernamePanel.Visible)
+            if (_authPanel.Visible)
             {
-                ConfirmUsername();
+                SubmitLogin();
             }
         }
 
@@ -291,28 +308,108 @@ public class MainMenuScene : Scene
         _connectionError.Visible = true;
     }
 
-    private void ConfirmUsername()
+    private void SubmitLogin()
+    {
+        SubmitAuth(register: false);
+    }
+
+    private void SubmitRegister()
+    {
+        SubmitAuth(register: true);
+    }
+
+    private void SubmitAuth(bool register)
     {
         var username = _usernameField.Text?.Trim() ?? "";
+        var email = _emailField.Text?.Trim() ?? "";
+        var password = _passwordField.Text ?? "";
         if (!PlayerProfile.IsValidUsername(username))
         {
-            _usernameError.Text = $"Username must be {PlayerProfile.MinUsernameLength}–{PlayerProfile.MaxUsernameLength} characters.";
-            _usernameError.Visible = true;
+            ShowAuthError($"Username must be {PlayerProfile.MinUsernameLength}–{PlayerProfile.MaxUsernameLength} characters.");
+            return;
+        }
+
+        if (register && !AccountStore.TryNormalizeEmail(email, out _, out var emailError))
+        {
+            ShowAuthError(emailError);
+            return;
+        }
+
+        if (password.Length < PlayerProfile.MinPasswordLength)
+        {
+            ShowAuthError($"Password must be at least {PlayerProfile.MinPasswordLength} characters.");
             return;
         }
 
         PersistServerHost();
-        _profile.SetUsername(username);
-        TryPushUsernameToServer();
-        _playingAsLabel.Text = IdentityText();
+        if (!TryEnsureCompatible())
+        {
+            return;
+        }
+
+        try
+        {
+            using var client = new ArenaMatchClient();
+            var session = register
+                ? client.Register(username, password, email, _profile.PlayerId).GetAwaiter().GetResult()
+                : client.Login(username, password).GetAwaiter().GetResult();
+            if (session is not { Authenticated: true } || string.IsNullOrWhiteSpace(session.Token))
+            {
+                ShowAuthError(session.Error ?? (register ? "Could not register." : "Wrong username or password."));
+                return;
+            }
+
+            _profile.ApplyAccount(session.PlayerId, session.Username, session.Email, session.Token);
+            _passwordField.Text = "";
+            _authError.Visible = false;
+            RebuildPlayPanel();
+            RefreshPanels();
+        }
+        catch (Exception ex)
+        {
+            ShowAuthError(ex.Message);
+        }
+    }
+
+    private void Logout()
+    {
+        _profile.ClearSession();
+        _passwordField.Text = "";
+        _authError.Visible = false;
         RefreshPanels();
+    }
+
+    private void ShowAuthError(string message)
+    {
+        _authError.Text = message;
+        _authError.Visible = true;
     }
 
     private void RefreshPanels()
     {
-        var ready = _profile.HasUsername;
-        _usernamePanel.Visible = !ready;
+        var ready = _profile.HasSession;
+        _authPanel.Visible = !ready;
         _playPanel.Visible = ready;
+    }
+
+    private void RebuildPlayPanel()
+    {
+        _playingAsLabel.Text = IdentityText();
+        _rankBadgeHost.Widgets.Clear();
+        _rankBadgeHost.Widgets.Add(_versionError == null ? LoadRankBadge() : BodyLabel("Unranked", Dust));
+        _playButtons.Widgets.Clear();
+        _playButtons.Widgets.Add(IronButton("Start New Arena", () => TryEnterArena(startFresh: true)));
+        if (_versionError == null && HasServerArenaProgress())
+        {
+            _playButtons.Widgets.Add(IronButton("Continue Arena", () => TryEnterArena(startFresh: false)));
+        }
+
+        if (_versionError == null)
+        {
+            _playButtons.Widgets.Add(IronButton("Treasure Trove", OpenShop, ShopEnabled));
+        }
+
+        _playButtons.Widgets.Add(IronButton("Log out", Logout, width: 220));
     }
 
     private void PersistServerHost()
@@ -403,9 +500,9 @@ public class MainMenuScene : Scene
         }
     }
 
-    private void TryHydrateUsernameFromServer()
+    private void TryRestoreSession()
     {
-        if (_profile.HasUsername)
+        if (string.IsNullOrWhiteSpace(_profile.SessionToken))
         {
             return;
         }
@@ -413,23 +510,14 @@ public class MainMenuScene : Scene
         try
         {
             using var client = new ArenaMatchClient();
-            var remote = client.EnsureProfile(_profile.PlayerId, _profile.DisplayName).GetAwaiter().GetResult();
-            if (PlayerProfile.IsValidUsername(remote.Username))
+            var session = client.GetSession().GetAwaiter().GetResult();
+            if (session is { Authenticated: true } && PlayerProfile.IsValidUsername(session.Username))
             {
-                _profile.SetUsername(remote.Username);
+                _profile.ApplyAccount(session.PlayerId, session.Username, session.Email, _profile.SessionToken);
+                return;
             }
-        }
-        catch
-        {
-        }
-    }
 
-    private void TryPushUsernameToServer()
-    {
-        try
-        {
-            using var client = new ArenaMatchClient();
-            client.EnsureProfile(_profile.PlayerId, _profile.DisplayName, _profile.Username).GetAwaiter().GetResult();
+            _profile.ClearSession();
         }
         catch
         {
@@ -464,17 +552,34 @@ public class MainMenuScene : Scene
         return button;
     }
 
-    private static TextBox IronTextBox(string text, int width)
+    private static Widget LabeledField(string label, TextBox field, string? note = null)
+    {
+        var caption = string.IsNullOrEmpty(note) ? label : $"{label}  ·  {note}";
+        return new VerticalStackPanel
+        {
+            Spacing = 4,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Widgets =
+            {
+                BodyLabel(caption, Dust),
+                field
+            }
+        };
+    }
+
+    private static TextBox IronTextBox(string text, int width, bool password = false, string hint = "")
     {
         return new TextBox
         {
             Width = width,
             Text = text,
+            HintText = hint,
             TextColor = Bone,
             Background = new SolidBrush(Field),
             Border = new SolidBrush(IronEdge),
             BorderThickness = new Thickness(1),
-            Padding = new Thickness(10, 6)
+            Padding = new Thickness(10, 6),
+            PasswordField = password
         };
     }
 

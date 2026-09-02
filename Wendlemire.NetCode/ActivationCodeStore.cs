@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using Wendlemire.NetCode.Contracts;
 
 namespace Wendlemire.NetCode;
@@ -12,6 +13,9 @@ public sealed class ActivationCodeStore
     public const int MaxGenerate = 25;
 
     private const string Alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    private static readonly Regex FormattedCode = new(
+        @"[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled);
 
     private readonly string _path;
     private readonly object _gate = new();
@@ -226,8 +230,9 @@ public sealed class ActivationCodeStore
             return "";
         }
 
-        var chars = code.Where(char.IsLetterOrDigit).Select(char.ToUpperInvariant).ToArray();
-        return new string(chars);
+        var match = FormattedCode.Match(code);
+        var source = match.Success ? match.Value : code;
+        return new string(source.Where(char.IsLetterOrDigit).Select(char.ToUpperInvariant).ToArray());
     }
 
     public static string Format(string code)

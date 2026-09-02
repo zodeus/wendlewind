@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Text;
 using System.Text.Json;
@@ -24,6 +25,11 @@ public sealed class ArenaMatchClient : IDisposable
             Timeout = timeout ?? TimeSpan.FromMinutes(2)
         };
         _http.DefaultRequestHeaders.TryAddWithoutValidation(GameVersion.HeaderName, GameVersion.Current);
+        var token = PlayerProfile.LoadOrCreate().SessionToken;
+        if (!string.IsNullOrWhiteSpace(token))
+        {
+            _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        }
     }
 
     public async Task EnsureCompatible()
@@ -60,6 +66,42 @@ public sealed class ArenaMatchClient : IDisposable
         {
             throw new VersionMismatchException(health.Version);
         }
+    }
+
+    public async Task<AuthSession> Register(string username, string password, string email, string? playerId)
+    {
+        var request = new AuthRequest
+        {
+            Username = username,
+            Password = password,
+            Email = email,
+            PlayerId = playerId
+        };
+        var response = await Post("/auth/register", request, NetCodeJsonContext.Default.AuthRequest);
+        return await ReadAuth(response);
+    }
+
+    public async Task<AuthSession> Login(string username, string password)
+    {
+        var request = new AuthRequest
+        {
+            Username = username,
+            Password = password
+        };
+        var response = await Post("/auth/login", request, NetCodeJsonContext.Default.AuthRequest);
+        return await ReadAuth(response);
+    }
+
+    public async Task<AuthSession?> GetSession()
+    {
+        var response = await _http.GetAsync("auth/me");
+        if (response.StatusCode == HttpStatusCode.Unauthorized)
+        {
+            return new AuthSession { Authenticated = false };
+        }
+
+        await EnsureSuccess(response, "Get session");
+        return await Read(response, NetCodeJsonContext.Default.AuthSession);
     }
 
     public async Task SubmitBuild(BuildSnapshot snapshot)
@@ -237,7 +279,42 @@ public sealed class ArenaMatchClient : IDisposable
             throw new VersionMismatchException(mismatch?.ServerVersion);
         }
 
+        if (response.StatusCode == HttpStatusCode.Unauthorized)
+        {
+            throw new HttpRequestException("Sign in required.");
+        }
+
         throw new HttpRequestException($"{action} failed: {(int)response.StatusCode} {response.ReasonPhrase}");
+    }
+
+    private static async Task<AuthSession> ReadAuth(HttpResponseMessage response)
+    {
+        AuthSession? session = null;
+        try
+        {
+            session = await Read(response, NetCodeJsonContext.Default.AuthSession);
+        }
+        catch (Exception ex) when (ex is JsonException or InvalidOperationException)
+        {
+        }
+
+        if (session != null && (session.Authenticated || !string.IsNullOrWhiteSpace(session.Error)))
+        {
+            return session;
+        }
+
+        if ((int)response.StatusCode == 426)
+        {
+            throw new VersionMismatchException(TryReadVersionMismatch(await response.Content.ReadAsStringAsync())?.ServerVersion);
+        }
+
+        return new AuthSession
+        {
+            Authenticated = false,
+            Error = response.StatusCode == HttpStatusCode.Unauthorized
+                ? "Wrong username or password."
+                : "Could not reach the server."
+        };
     }
 
     private static VersionMismatchError? TryReadVersionMismatch(string body)

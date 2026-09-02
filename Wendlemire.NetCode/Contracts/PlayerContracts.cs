@@ -366,3 +366,38 @@ public sealed record ActivationCodeSummary
     public int Redeemed { get; init; }
     public int Revoked { get; init; }
 }
+
+public sealed record AccountRecord
+{
+    public required string AccountId { get; init; }
+    public required string Username { get; init; }
+    public string Email { get; init; } = "";
+    public required string PasswordHash { get; init; }
+    public required string PlayerId { get; init; }
+    public DateTimeOffset CreatedAt { get; init; }
+}
+
+public sealed record AccountFile
+{
+    public string Secret { get; init; } = "";
+    public List<AccountRecord> Accounts { get; init; } = [];
+}
+
+public sealed record AuthRequest
+{
+    public string? Username { get; init; }
+    public string? Email { get; init; }
+    public string? Password { get; init; }
+    public string? PlayerId { get; init; }
+}
+
+public sealed record AuthSession
+{
+    public bool Authenticated { get; init; }
+    public string AccountId { get; init; } = "";
+    public string PlayerId { get; init; } = "";
+    public string Username { get; init; } = "";
+    public string Email { get; init; } = "";
+    public string? Token { get; init; }
+    public string? Error { get; init; }
+}

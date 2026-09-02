@@ -335,8 +335,7 @@
       background: var(--iron);
       border: 1px solid var(--iron-edge);
       padding: 0.75rem;
-      overflow: auto;
-      max-height: 24rem;
+      overflow: visible;
       font-size: 0.8rem;
       white-space: pre-wrap;
     }
@@ -345,6 +344,8 @@
 <body>
   <div id="app"></div>
   <script>
+    const SITE_URL = "https://wendlemire.com";
+
     const state = {
       session: false,
       route: parseRoute(),
@@ -353,6 +354,10 @@
       cache: {},
       error: ""
     };
+
+    function copyText(code) {
+      return `${code}\n${SITE_URL}`;
+    }
 
     function parseRoute() {
       const hash = (location.hash || "#/").replace(/^#/, "");
@@ -1143,13 +1148,13 @@
       document.querySelectorAll("[data-copy]").forEach((el) => {
         el.addEventListener("click", async (event) => {
           event.preventDefault();
-          const value = el.getAttribute("data-copy");
+          const value = copyText(el.getAttribute("data-copy"));
           try {
             await navigator.clipboard.writeText(value);
             el.textContent = "Copied";
             setTimeout(() => { el.textContent = "Copy"; }, 1200);
           } catch {
-            window.prompt("Copy code", value);
+            window.prompt("Copy code and site URL", value);
           }
         });
       });

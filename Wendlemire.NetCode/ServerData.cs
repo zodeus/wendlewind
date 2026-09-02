@@ -47,6 +47,11 @@ public static class ServerData
         return Path.Combine(dataDirectory, "activation-codes.json");
     }
 
+    public static string AccountsPath(string dataDirectory)
+    {
+        return Path.Combine(dataDirectory, "accounts.json");
+    }
+
     private static void TryMigrateLegacyPool(string dataDirectory)
     {
         var destination = PoolPath(dataDirectory);

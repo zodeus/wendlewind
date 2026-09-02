@@ -22,6 +22,8 @@ public class GameVersionTests
     [InlineData("/download/win-x64", false)]
     [InlineData("/admin", false)]
     [InlineData("/admin/api/overview", false)]
+    [InlineData("/auth/login", false)]
+    [InlineData("/auth/me", false)]
     [InlineData("/favicon.ico", false)]
     [InlineData("/index.html", false)]
     [InlineData("/", false)]

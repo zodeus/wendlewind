@@ -6,14 +6,18 @@
 #   .\deploy-hetzner.ps1 deploy
 #   .\deploy-hetzner.ps1 clients
 #   .\deploy-hetzner.ps1 dns
+#   .\deploy-hetzner.ps1 snapshot
 #   .\deploy-hetzner.ps1 status
 #   .\deploy-hetzner.ps1 destroy
 #   .\deploy-hetzner.ps1 -Domain wendlemire.com
 #   .\deploy-hetzner.ps1 -Location hil -Type cpx11
+#
+# Player data lives on volume <ServerName>-data (default wendlemire-data),
+# mounted at /var/lib/wendlemire. Destroy deletes the VM only.
 
 param(
     [Parameter(Position = 0)]
-    [ValidateSet("up", "deploy", "clients", "dns", "status", "destroy")]
+    [ValidateSet("up", "deploy", "clients", "dns", "snapshot", "status", "destroy")]
     [string]$Action = "up",
 
     [string]$ServerName = "wendlemire",
@@ -35,6 +39,10 @@ $ServerProject = Join-Path $ProjectRoot "Wendlemire.Server\Wendlemire.Server.csp
 $PublishDir = Join-Path $ProjectRoot "artifacts\hetzner-server"
 $RemoteAppDir = "/opt/wendlemire"
 $RemoteDataDir = "/var/lib/wendlemire"
+$VolumeName = "$ServerName-data"
+$VolumeSizeGb = 10
+$VolumeMountRoot = "/mnt/wendlemire-data"
+$SnapshotKeep = 3
 $HCloud = $null
 
 function Write-Info { param($Message) Write-Host $Message -ForegroundColor Cyan }
@@ -328,6 +336,231 @@ function Ensure-Server {
     Wait-Ssh
 }
 
+function Get-ServerLocation {
+    param($Server)
+
+    if ($Server.datacenter.location.name) {
+        return $Server.datacenter.location.name
+    }
+    if ($Server.location.name) {
+        return $Server.location.name
+    }
+    return $Location
+}
+
+function Get-Volume {
+    return Get-NamedResource -ListArguments @("volume", "list", "-o", "json") -Name $VolumeName
+}
+
+function Get-VolumeServerId {
+    param($Volume)
+
+    if ($null -eq $Volume -or $null -eq $Volume.server) {
+        return $null
+    }
+    $attached = $Volume.server
+    if ($attached -is [ValueType] -or $attached -is [string]) {
+        return [int64]$attached
+    }
+    if ($attached.PSObject.Properties["id"]) {
+        return [int64]$attached.id
+    }
+    return [int64]$attached
+}
+
+function Get-VolumeDevice {
+    param($Volume)
+
+    if (-not [string]::IsNullOrWhiteSpace($Volume.linux_device)) {
+        return $Volume.linux_device
+    }
+    return "/dev/disk/by-id/scsi-0HC_Volume_$($Volume.id)"
+}
+
+function Get-VolumeMountScript {
+    param([string]$Device)
+
+    return @"
+#!/bin/bash
+set -euo pipefail
+DEVICE="$Device"
+MOUNT_ROOT="$VolumeMountRoot"
+DATA_DIR="$RemoteDataDir"
+FSTAB=/etc/fstab
+
+echo "Waiting for `$DEVICE ..."
+for _ in `$(seq 1 30); do
+  if [ -e "`$DEVICE" ]; then
+    break
+  fi
+  udevadm settle || true
+  sleep 2
+done
+if [ ! -e "`$DEVICE" ]; then
+  echo "Volume device `$DEVICE did not appear" >&2
+  exit 1
+fi
+
+fs=""
+for _ in `$(seq 1 30); do
+  fs=`$(blkid -o value -s TYPE "`$DEVICE" 2>/dev/null || true)
+  if [ -n "`$fs" ]; then
+    break
+  fi
+  sleep 2
+done
+if [ -z "`$fs" ]; then
+  echo "Formatting `$DEVICE as ext4..."
+  mkfs.ext4 -F -L wendlemire-data "`$DEVICE"
+fi
+
+systemctl stop wendlemire || true
+mkdir -p "`$MOUNT_ROOT"
+
+already=`$(findmnt -n -o TARGET --source "`$DEVICE" 2>/dev/null || true)
+if [ -n "`$already" ] && [ "`$already" != "`$MOUNT_ROOT" ]; then
+  echo "Unmounting `$DEVICE from `$already"
+  umount "`$already"
+fi
+
+if ! findmnt -n "`$MOUNT_ROOT" >/dev/null; then
+  mount "`$DEVICE" "`$MOUNT_ROOT"
+fi
+
+mkdir -p "`$MOUNT_ROOT/data" "`$MOUNT_ROOT/snapshots"
+
+if findmnt -n "`$DATA_DIR" >/dev/null; then
+  echo "`$DATA_DIR already mounted"
+else
+  if [ -d "`$DATA_DIR" ] && [ -n "`$(ls -A "`$DATA_DIR" 2>/dev/null || true)" ]; then
+    echo "Migrating existing `$DATA_DIR onto the volume..."
+    if [ -z "`$(ls -A "`$MOUNT_ROOT/data" 2>/dev/null || true)" ]; then
+      cp -a "`$DATA_DIR/." "`$MOUNT_ROOT/data/"
+    fi
+    rm -rf "`$DATA_DIR"
+  elif [ -d "`$DATA_DIR" ]; then
+    rmdir "`$DATA_DIR" 2>/dev/null || rm -rf "`$DATA_DIR"
+  fi
+  mkdir -p "`$DATA_DIR"
+  mount --bind "`$MOUNT_ROOT/data" "`$DATA_DIR"
+fi
+
+UUID=`$(blkid -s UUID -o value "`$DEVICE")
+if ! grep -q "UUID=`$UUID" "`$FSTAB"; then
+  echo "UUID=`$UUID `$MOUNT_ROOT ext4 defaults,nofail 0 2" >> "`$FSTAB"
+fi
+if ! grep -qF "`$MOUNT_ROOT/data `$DATA_DIR " "`$FSTAB"; then
+  echo "`$MOUNT_ROOT/data `$DATA_DIR none bind,nofail 0 0" >> "`$FSTAB"
+fi
+
+if id -u wendlemire >/dev/null 2>&1; then
+  chown wendlemire:wendlemire "`$MOUNT_ROOT/data"
+  chown -R wendlemire:wendlemire "`$DATA_DIR"
+fi
+
+echo "Volume mounted at `$MOUNT_ROOT; data at `$DATA_DIR"
+findmnt "`$DATA_DIR" || true
+"@
+}
+
+function Mount-DataVolume {
+    param($Volume)
+
+    $device = Get-VolumeDevice $Volume
+    $stage = Join-Path $env:TEMP "wendlemire-hetzner-volume"
+    New-Item -ItemType Directory -Force -Path $stage | Out-Null
+    $scriptPath = Join-Path $stage "mount-volume.sh"
+    Write-UnixFile -Path $scriptPath -Content (Get-VolumeMountScript -Device $device)
+    Write-Info "Mounting volume '$VolumeName' at $RemoteDataDir..."
+    Copy-ToRemote -LocalPath $scriptPath -RemotePath "/tmp/wendlemire-mount-volume.sh"
+    Invoke-Remote "bash /tmp/wendlemire-mount-volume.sh"
+}
+
+function Ensure-Volume {
+    $server = Get-Server
+    if (-not $server) {
+        throw "Hetzner server '$ServerName' does not exist. Run .\deploy-hetzner.ps1 first."
+    }
+
+    $volume = Get-Volume
+    if (-not $volume) {
+        $serverLocation = Get-ServerLocation $server
+        Write-Info "Creating ${VolumeSizeGb}GB volume '$VolumeName' in $serverLocation..."
+        Invoke-HCloud @(
+            "volume", "create",
+            "--name", $VolumeName,
+            "--size", "$VolumeSizeGb",
+            "--server", $ServerName,
+            "--format", "ext4",
+            "--enable-protection", "delete",
+            "--label", "app=wendlemire",
+            "--label", "role=data"
+        )
+        $volume = Get-Volume
+        if (-not $volume) {
+            throw "Created volume '$VolumeName' but could not describe it."
+        }
+    }
+    else {
+        Write-Info "Using volume '$VolumeName' ($($volume.size) GB)."
+        if (-not $volume.protection -or -not $volume.protection.delete) {
+            Write-Info "Enabling delete protection on '$VolumeName'..."
+            Invoke-HCloud @("volume", "enable-protection", $VolumeName, "delete")
+        }
+
+        $attachedId = Get-VolumeServerId $volume
+        if ($null -eq $attachedId) {
+            Write-Info "Attaching '$VolumeName' to '$ServerName'..."
+            Invoke-HCloud @("volume", "attach", "--server", $ServerName, $VolumeName)
+            $volume = Get-Volume
+        }
+        elseif ($attachedId -ne [int64]$server.id) {
+            throw "Volume '$VolumeName' is attached to another server (id $attachedId)."
+        }
+    }
+
+    Wait-Ssh
+    Mount-DataVolume -Volume $volume
+}
+
+function New-DataSnapshot {
+    # Hetzner Cloud has no volume-snapshot API; keep timestamped tarballs on
+    # the volume next to the data so they survive VM destroy and rm of the data dir.
+    Write-Info "Snapshotting $RemoteDataDir on volume '$VolumeName' (keep $SnapshotKeep)..."
+    Invoke-Remote @"
+set -euo pipefail
+MOUNT_ROOT="$VolumeMountRoot"
+DATA_DIR="$RemoteDataDir"
+SNAP="`$MOUNT_ROOT/snapshots"
+PREFIX="$VolumeName"
+
+if ! findmnt -n "`$DATA_DIR" >/dev/null; then
+  echo "Data volume is not mounted at `$DATA_DIR" >&2
+  exit 1
+fi
+mkdir -p "`$SNAP"
+if ! ls -A "`$MOUNT_ROOT/data" 2>/dev/null | grep -q .; then
+  echo "No data to snapshot."
+  exit 0
+fi
+
+systemctl stop wendlemire || true
+stamp=`$(date -u +%Y%m%d-%H%M%S)
+archive="`$SNAP/`$PREFIX-`$stamp.tgz"
+tar -C "`$MOUNT_ROOT/data" --exclude=downloads -czf "`$archive" .
+systemctl start wendlemire || true
+
+ls -1t "`$SNAP/`$PREFIX"-*.tgz 2>/dev/null | tail -n +$($SnapshotKeep + 1) | while read -r old; do
+  rm -f "`$old"
+  echo "Removed old snapshot `$old"
+done
+
+echo "Wrote `$archive"
+ls -lh "`$SNAP"
+"@
+    Write-Success "Snapshot saved on volume '$VolumeName'."
+}
+
 function Get-UserOrProcessEnv {
     param([string]$Name)
 
@@ -561,6 +794,7 @@ function Get-SystemdUnit {
 Description=Wendlemire Server
 After=network.target
 Wants=network-online.target
+RequiresMountsFor=$RemoteDataDir
 
 [Service]
 Type=simple
@@ -760,13 +994,22 @@ function Show-Status {
     Write-Host "Server   $ServerName"
     Write-Host "Status   $($server.status)"
     Write-Host "Type     $($server.server_type.name)"
-    Write-Host "Location $($server.datacenter.location.name)"
+    Write-Host "Location $(Get-ServerLocation $server)"
     Write-Host "IPv4     $($server.public_net.ipv4.ip)"
     Write-Host "URL      $(Get-PublicBaseUrl)"
+
+    $volume = Get-Volume
+    if ($volume) {
+        $attached = if (Get-VolumeServerId $volume) { "attached" } else { "detached" }
+        Write-Host "Volume   $($volume.name) $($volume.size)GB $attached"
+    }
+    else {
+        Write-Host "Volume   $VolumeName (missing)"
+    }
     Write-Host ""
 
     Wait-Ssh
-    Invoke-Remote "systemctl is-active wendlemire; systemctl is-active caddy; echo DATA=$RemoteDataDir; du -sh $RemoteDataDir 2>/dev/null || true"
+    Invoke-Remote "systemctl is-active wendlemire; systemctl is-active caddy; echo DATA=$RemoteDataDir; findmnt $RemoteDataDir || true; du -sh $RemoteDataDir 2>/dev/null || true; echo SNAPSHOTS=$VolumeMountRoot/snapshots; ls -lh $VolumeMountRoot/snapshots 2>/dev/null || true"
     Wait-Health
     Write-Host ""
     Write-Host "Admin:   $(Get-PublicBaseUrl)/admin"
@@ -782,7 +1025,7 @@ function Remove-Server {
     }
 
     if (-not $Force) {
-        $confirm = Read-Host "This deletes VM '$ServerName' ($($server.public_net.ipv4.ip)) and its disk. Type '$ServerName' to confirm"
+        $confirm = Read-Host "This deletes VM '$ServerName' ($($server.public_net.ipv4.ip)) and its local disk. Volume '$VolumeName' and its snapshots are kept. Type '$ServerName' to confirm"
         if ($confirm -ne $ServerName) {
             throw "Destroy cancelled."
         }
@@ -790,7 +1033,10 @@ function Remove-Server {
 
     Write-Info "Deleting server '$ServerName'..."
     Invoke-HCloud @("server", "delete", $ServerName)
-    Write-Success "Deleted '$ServerName'. Firewall and SSH key were left in place."
+    Write-Success "Deleted '$ServerName'. Firewall, SSH key, and volume '$VolumeName' were left in place."
+    if (Get-Volume) {
+        Write-Host "Data is still on volume '$VolumeName'. Run .\deploy-hetzner.ps1 to recreate the VM and reattach it."
+    }
 }
 
 function Deploy-ClientDownloads {
@@ -839,7 +1085,7 @@ function Show-Summary {
     Write-Host "Admin:   $url/admin"
     Write-Host "Admin password: $adminPassword"
     Write-Host "Client:  set WENDLEMIRE_SERVER_URL=$url"
-    Write-Host "Data:    $RemoteDataDir on the VM (survives deploys, not destroy)"
+    Write-Host "Data:    $RemoteDataDir on volume $VolumeName (survives deploys and destroy)"
 }
 
 Get-HCloudToken
@@ -853,14 +1099,18 @@ switch ($Action) {
         Ensure-SshKey
         Ensure-Firewall
         Ensure-Server
+        Ensure-Volume
         Ensure-CloudflareDns
+        New-DataSnapshot
         Deploy-App
         Deploy-ClientDownloads
         Wait-Health
         Show-Summary
     }
     "deploy" {
+        Ensure-Volume
         Ensure-CloudflareDns
+        New-DataSnapshot
         Deploy-App
         Deploy-ClientDownloads
         Wait-Health
@@ -873,6 +1123,10 @@ switch ($Action) {
     }
     "dns" {
         Ensure-CloudflareDns
+    }
+    "snapshot" {
+        Ensure-Volume
+        New-DataSnapshot
     }
     "status" {
         Show-Status

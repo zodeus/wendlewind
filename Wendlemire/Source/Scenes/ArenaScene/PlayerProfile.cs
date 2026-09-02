@@ -1,5 +1,6 @@
 using System.IO;
 using System.Text.Json;
+using Wendlemire.NetCode;
 
 namespace Wendlemire.Scenes.ArenaScene;
 
@@ -8,12 +9,16 @@ public sealed class PlayerProfile
     public string PlayerId { get; set; } = "";
     public string DisplayName { get; set; } = "";
     public string Username { get; set; } = "";
+    public string Email { get; set; } = "";
+    public string SessionToken { get; set; } = "";
 
     public const string FileName = "player.json";
-    public const int MinUsernameLength = 2;
-    public const int MaxUsernameLength = 20;
+    public const int MinUsernameLength = AccountStore.MinUsernameLength;
+    public const int MaxUsernameLength = AccountStore.MaxUsernameLength;
+    public const int MinPasswordLength = AccountStore.MinPasswordLength;
 
     public bool HasUsername => IsValidUsername(Username);
+    public bool HasSession => HasUsername && !string.IsNullOrWhiteSpace(SessionToken);
 
     public static PlayerProfile LoadOrCreate(string path = FileName)
     {
@@ -43,6 +48,30 @@ public sealed class PlayerProfile
     {
         Username = username.Trim();
         DisplayName = Username;
+        Save();
+    }
+
+    public void ApplyAccount(string playerId, string username, string? email, string? sessionToken)
+    {
+        if (!string.IsNullOrWhiteSpace(playerId))
+        {
+            PlayerId = playerId.Trim();
+        }
+
+        Username = username.Trim();
+        DisplayName = Username;
+        if (!string.IsNullOrWhiteSpace(email))
+        {
+            Email = email.Trim();
+        }
+
+        SessionToken = sessionToken?.Trim() ?? "";
+        Save();
+    }
+
+    public void ClearSession()
+    {
+        SessionToken = "";
         Save();
     }
 

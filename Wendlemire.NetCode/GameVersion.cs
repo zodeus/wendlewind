@@ -58,6 +58,7 @@ public static class GameVersion
         return path.Equals("/health", StringComparison.OrdinalIgnoreCase)
                || path.Equals("/activate", StringComparison.OrdinalIgnoreCase)
                || path.StartsWith("/admin", StringComparison.OrdinalIgnoreCase)
+               || path.StartsWith("/auth", StringComparison.OrdinalIgnoreCase)
                || path.StartsWith("/download", StringComparison.OrdinalIgnoreCase);
     }
 }

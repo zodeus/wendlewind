@@ -185,4 +185,9 @@ public sealed record CombatResult
 [JsonSerializable(typeof(ActivationCodeSummary))]
 [JsonSerializable(typeof(HealthStatus))]
 [JsonSerializable(typeof(VersionMismatchError))]
+[JsonSerializable(typeof(AccountRecord))]
+[JsonSerializable(typeof(List<AccountRecord>))]
+[JsonSerializable(typeof(AccountFile))]
+[JsonSerializable(typeof(AuthRequest))]
+[JsonSerializable(typeof(AuthSession))]
 public partial class NetCodeJsonContext : JsonSerializerContext;

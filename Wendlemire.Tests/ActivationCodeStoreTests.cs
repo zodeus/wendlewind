@@ -92,6 +92,29 @@ public class ActivationCodeStoreTests
     }
 
     [Fact]
+    public void RedeemsFormattedCodeWhenPastedWithJunk()
+    {
+        var dir = Path.Combine(Path.GetTempPath(), $"ww-codes-{Guid.NewGuid():N}");
+        try
+        {
+            var store = new ActivationCodeStore(dir);
+            var created = store.Generate(1, "paste");
+            var code = created[0].Code;
+            var redeemed = store.TryRedeem($"{code} HTTPS");
+            Assert.NotNull(redeemed);
+            Assert.Equal(created[0].Id, redeemed.Id);
+            Assert.Null(store.TryRedeem($"HTTPS {code}"));
+        }
+        finally
+        {
+            if (Directory.Exists(dir))
+            {
+                Directory.Delete(dir, true);
+            }
+        }
+    }
+
+    [Fact]
     public void RejectsUnknownAndEmptyCodes()
     {
         var dir = Path.Combine(Path.GetTempPath(), $"ww-codes-{Guid.NewGuid():N}");

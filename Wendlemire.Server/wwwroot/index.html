@@ -139,6 +139,8 @@
     }
 
     .gate[hidden],
+    .account[hidden],
+    .account-session[hidden],
     .downloads[hidden],
     .note[hidden] {
       display: none !important;
@@ -177,6 +179,8 @@
       letter-spacing: 0.04em;
     }
 
+    .account,
+    .account-session,
     .gate {
       display: flex;
       flex-wrap: wrap;
@@ -187,6 +191,15 @@
       margin: 0 auto;
     }
 
+    .account {
+      margin-bottom: 1.1rem;
+    }
+
+    .account-session {
+      margin-bottom: 1.1rem;
+    }
+
+    .account input,
     .gate input {
       flex: 1 1 12rem;
       min-width: 0;
@@ -195,16 +208,27 @@
       background: #140c0a;
       border: 1px solid var(--iron-edge);
       font: inherit;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
       text-align: center;
     }
 
+    .account input {
+      letter-spacing: 0.04em;
+      text-transform: none;
+    }
+
+    .gate input {
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .account input:focus,
     .gate input:focus {
       outline: none;
       border-color: var(--rust);
     }
 
+    .account button,
+    .account-session button,
     .gate button {
       padding: 0.7rem 1.15rem;
       color: var(--bone);
@@ -214,10 +238,20 @@
       cursor: pointer;
     }
 
+    .account button:hover,
+    .account button:focus-visible,
+    .account-session button:hover,
+    .account-session button:focus-visible,
     .gate button:hover,
     .gate button:focus-visible {
       border-color: var(--rust);
       color: #ead9b4;
+    }
+
+    .signed-in {
+      margin: 0;
+      color: var(--dust);
+      letter-spacing: 0.04em;
     }
 
     .error {
@@ -253,6 +287,18 @@
     <div class="rule"></div>
     <h1>Wendlemire</h1>
     <p class="version" id="version">Enter an activation code</p>
+    <form class="account" id="account">
+      <input name="username" placeholder="Username" autocomplete="username" maxlength="20" required>
+      <input name="email" type="email" placeholder="Email" autocomplete="email" maxlength="254">
+      <input name="password" type="password" placeholder="Password" autocomplete="current-password" required>
+      <button type="submit">Log in</button>
+      <button type="button" id="register">Register</button>
+      <p class="error" id="account-error"></p>
+    </form>
+    <div class="account-session" id="account-session" hidden>
+      <p class="signed-in" id="signed-in"></p>
+      <button type="button" id="logout">Log out</button>
+    </div>
     <form class="gate" id="gate">
       <input name="code" placeholder="XXXX-XXXX-XXXX" autocomplete="off" spellcheck="false" maxlength="20" required>
       <button type="submit">Unlock</button>
@@ -285,6 +331,74 @@
     const downloads = document.getElementById("downloads");
     const note = document.getElementById("note");
     const error = document.getElementById("gate-error");
+    const account = document.getElementById("account");
+    const accountSession = document.getElementById("account-session");
+    const accountError = document.getElementById("account-error");
+    const signedIn = document.getElementById("signed-in");
+
+    function showAccount(session) {
+      const ok = !!(session && session.authenticated);
+      account.hidden = ok;
+      accountSession.hidden = !ok;
+      signedIn.textContent = ok ? "Signed in as " + session.username : "";
+      accountError.textContent = (session && session.error) || "";
+    }
+
+    async function readSession(response) {
+      try {
+        return await response.json();
+      } catch {
+        return { authenticated: false, error: "Could not reach the server." };
+      }
+    }
+
+    async function submitAuth(path) {
+      accountError.textContent = "";
+      const data = new FormData(account);
+      const response = await fetch(path, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: data.get("username"),
+          email: data.get("email"),
+          password: data.get("password")
+        })
+      });
+      const session = await readSession(response);
+      showAccount(session);
+      if (!response.ok) {
+        accountError.textContent = session.error || "Could not sign in.";
+      }
+    }
+
+    account.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      await submitAuth("/auth/login");
+    });
+
+    document.getElementById("register").addEventListener("click", async () => {
+      const email = String(new FormData(account).get("email") || "").trim();
+      if (!email || email.indexOf("@") < 1 || email.indexOf(".") < 0) {
+        accountError.textContent = "Enter a valid email address.";
+        return;
+      }
+
+      await submitAuth("/auth/register");
+    });
+
+    document.getElementById("logout").addEventListener("click", async () => {
+      await fetch("/auth/logout", { method: "POST", credentials: "same-origin" });
+      account.reset();
+      showAccount({ authenticated: false });
+    });
+
+    fetch("/auth/me", { credentials: "same-origin" })
+      .then(readSession)
+      .then(showAccount)
+      .catch(() => {
+        showAccount({ authenticated: false, error: "Could not reach the server." });
+      });
 
     function showCatalog(catalog) {
       const unlocked = !!catalog.unlocked;
