@@ -1,5 +1,7 @@
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
 using Wendlemire.NetCode;
+using Wendlemire.NetCode.Contracts;
 using Wendlemire.Scenes.ArenaScene;
 using Wendlemire.Scenes.ArenaScene.Gui;
 using Wendlemire.Scenes.Components;
@@ -47,6 +49,15 @@ public class MainMenuScene : Scene
     private Widget _menuRoot = null!;
     private EventHandler<TextInputEventArgs>? _textInputHandler;
     private KeyboardState _previousKeyboard;
+    private readonly BusyOverlay _busyOverlay = new();
+    private bool _busy;
+    private Task? _busyTask;
+    private MenuBusyKind _busyKind;
+    private bool _pendingStartFresh;
+    private bool _pendingAuthRegister;
+    private AuthSession? _pendingSession;
+    private string? _pendingConnectionError;
+    private string? _pendingAuthError;
 
     protected override void OnStart()
     {
@@ -212,8 +223,11 @@ public class MainMenuScene : Scene
 
     public override void Update(float deltaTime)
     {
+        _busyOverlay.Update(deltaTime);
+        PollBusy();
+
         var keyboard = Keyboard.GetState();
-        if (keyboard.IsKeyDown(Keys.Enter) && _previousKeyboard.IsKeyUp(Keys.Enter))
+        if (!_busy && keyboard.IsKeyDown(Keys.Enter) && _previousKeyboard.IsKeyUp(Keys.Enter))
         {
             PersistServerHost();
             if (_registerWindow is { IsPlaced: true })
@@ -231,6 +245,18 @@ public class MainMenuScene : Scene
 
     public override void End()
     {
+        if (_busyTask != null)
+        {
+            try
+            {
+                _busyTask.GetAwaiter().GetResult();
+            }
+            catch
+            {
+            }
+        }
+
+        _busyOverlay.Hide();
         CloseRegisterDialog();
         PersistServerHost();
         if (_textInputHandler != null)
@@ -248,18 +274,19 @@ public class MainMenuScene : Scene
 
     private void TryEnterArena(bool startFresh)
     {
-        PersistServerHost();
-        if (!TryEnsureCompatible())
+        if (_busy)
         {
             return;
         }
 
-        if (startFresh)
+        PersistServerHost();
+        _pendingStartFresh = startFresh;
+        _pendingConnectionError = null;
+        BeginBusy(MenuBusyKind.EnterArena, "Connecting...", Task.Run(async () =>
         {
-            ArenaScene.StartFresh = true;
-        }
-
-        Core.ChangeScene<ArenaScene>();
+            using var client = new ArenaMatchClient(timeout: TimeSpan.FromSeconds(5));
+            await client.EnsureCompatible();
+        }));
     }
 
     private static string? PeekVersionError()
@@ -280,20 +307,56 @@ public class MainMenuScene : Scene
         }
     }
 
-    private bool TryEnsureCompatible()
+    private void BeginBusy(MenuBusyKind kind, string message, Task work)
     {
-        try
+        _busy = true;
+        _busyKind = kind;
+        _busyTask = work;
+        _busyOverlay.ShowModal(_desktop, message);
+    }
+
+    private void PollBusy()
+    {
+        if (_busyTask is not { IsCompleted: true } task)
         {
-            using var client = new ArenaMatchClient(timeout: TimeSpan.FromSeconds(5));
-            client.EnsureCompatible().GetAwaiter().GetResult();
-            _connectionError.Visible = false;
-            return true;
+            return;
         }
-        catch (Exception ex)
+
+        _busyTask = null;
+        _busy = false;
+        var kind = _busyKind;
+        _busyKind = MenuBusyKind.None;
+        _busyOverlay.Hide();
+
+        if (task.IsFaulted && _pendingConnectionError == null && _pendingAuthError == null)
         {
-            ShowConnectionError(ex.Message);
-            return false;
+            _pendingConnectionError = task.Exception?.GetBaseException().Message ?? "Could not reach the server.";
         }
+
+        switch (kind)
+        {
+            case MenuBusyKind.EnterArena:
+                FinishEnterArena();
+                break;
+            case MenuBusyKind.Auth:
+                FinishAuth();
+                break;
+        }
+    }
+
+    private void FinishEnterArena()
+    {
+        if (_pendingConnectionError != null)
+        {
+            ArenaScene.StartFresh = false;
+            ShowConnectionError(_pendingConnectionError);
+            _pendingConnectionError = null;
+            return;
+        }
+
+        _connectionError.Visible = false;
+        ArenaScene.StartFresh = _pendingStartFresh;
+        Core.ChangeScene<ArenaScene>();
     }
 
     private void ShowConnectionError(string message)
@@ -378,6 +441,11 @@ public class MainMenuScene : Scene
 
     private void SubmitAuth(bool register, string username, string email, string password)
     {
+        if (_busy)
+        {
+            return;
+        }
+
         if (!PlayerProfile.IsValidUsername(username))
         {
             ShowAuthError(register, $"Username must be {PlayerProfile.MinUsernameLength}–{PlayerProfile.MaxUsernameLength} characters.");
@@ -397,34 +465,70 @@ public class MainMenuScene : Scene
         }
 
         PersistServerHost();
-        if (!TryEnsureCompatible())
+        _pendingAuthRegister = register;
+        _pendingSession = null;
+        _pendingConnectionError = null;
+        _pendingAuthError = null;
+        var playerId = _profile.PlayerId;
+        BeginBusy(MenuBusyKind.Auth, register ? "Registering..." : "Signing in...", Task.Run(async () =>
         {
-            return;
-        }
-
-        try
-        {
-            using var client = new ArenaMatchClient();
-            var session = register
-                ? client.Register(username, password, email, _profile.PlayerId).GetAwaiter().GetResult()
-                : client.Login(username, password).GetAwaiter().GetResult();
-            if (session is not { Authenticated: true } || string.IsNullOrWhiteSpace(session.Token))
+            try
             {
-                ShowAuthError(register, session.Error ?? (register ? "Could not register." : "Wrong username or password."));
+                using var compat = new ArenaMatchClient(timeout: TimeSpan.FromSeconds(5));
+                await compat.EnsureCompatible();
+            }
+            catch (Exception ex)
+            {
+                _pendingConnectionError = ex.Message;
                 return;
             }
 
-            _profile.ApplyAccount(session.PlayerId, session.Username, session.Email, session.Token);
-            _passwordField.Text = "";
-            _authError.Visible = false;
-            CloseRegisterDialog();
-            RebuildPlayPanel();
-            RefreshPanels();
-        }
-        catch (Exception ex)
+            try
+            {
+                using var client = new ArenaMatchClient();
+                _pendingSession = register
+                    ? await client.Register(username, password, email, playerId)
+                    : await client.Login(username, password);
+            }
+            catch (Exception ex)
+            {
+                _pendingAuthError = ex.Message;
+            }
+        }));
+    }
+
+    private void FinishAuth()
+    {
+        if (_pendingConnectionError != null)
         {
-            ShowAuthError(register, ex.Message);
+            ShowConnectionError(_pendingConnectionError);
+            _pendingConnectionError = null;
+            return;
         }
+
+        _connectionError.Visible = false;
+        var register = _pendingAuthRegister;
+        if (_pendingAuthError != null)
+        {
+            ShowAuthError(register, _pendingAuthError);
+            _pendingAuthError = null;
+            return;
+        }
+
+        var session = _pendingSession;
+        _pendingSession = null;
+        if (session is not { Authenticated: true } || string.IsNullOrWhiteSpace(session.Token))
+        {
+            ShowAuthError(register, session?.Error ?? (register ? "Could not register." : "Wrong username or password."));
+            return;
+        }
+
+        _profile.ApplyAccount(session.PlayerId, session.Username, session.Email, session.Token);
+        _passwordField.Text = "";
+        _authError.Visible = false;
+        CloseRegisterDialog();
+        RebuildPlayPanel();
+        RefreshPanels();
     }
 
     private void Logout()
@@ -726,6 +830,13 @@ public class MainMenuScene : Scene
                 width,
                 height), Color.White);
         }
+    }
+
+    private enum MenuBusyKind
+    {
+        None,
+        EnterArena,
+        Auth
     }
 
     private sealed class EmberRule : Widget

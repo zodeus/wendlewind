@@ -36,6 +36,11 @@ public sealed class ArenaScene : Scene
     private AchievementState? _pendingAchievements;
     private KeyboardState _previousKeyboardState;
     private float _autosaveTimer;
+    private Desktop? _loadingDesktop;
+    private BusyOverlay? _loadingOverlay;
+    private Task<ArenaLoadPayload>? _loadTask;
+    private Task? _leaveTask;
+    private bool _leaving;
 
     public string? MatchError { get; private set; }
     public ArenaRankDisplay CurrentRank { get; private set; } = ArenaRank.FromRating(ArenaRank.StartingRating, 0);
@@ -58,40 +63,29 @@ public sealed class ArenaScene : Scene
         _client = new ArenaMatchClient();
 
         TryDeleteLocalSave();
-        SyncProfile();
 
         var startFresh = StartFresh;
         StartFresh = false;
-        var current = TryGet(() => _client.GetCurrentArena(_profile.PlayerId).GetAwaiter().GetResult());
-
-        if (!startFresh && current != null)
+        _loadingOverlay = new BusyOverlay();
+        _loadingDesktop = new Desktop
         {
-            RestoreProgress(current);
-        }
-        else
-        {
-            var reuseSeed = startFresh && current is { RunSeed: > 0 } ? current.RunSeed : 0;
-            var started = TryGet(() => _client.StartArena(
-                _profile.PlayerId,
-                _profile.DisplayName,
-                reuseSeed).GetAwaiter().GetResult());
-            var runSeed = started?.RunSeed > 0 ? started.RunSeed : Random.Shared.Next();
-            _context.InitializeArena(_profile.PlayerId, _profile.DisplayName, runSeed);
-            _runId = started?.RunId ?? Guid.NewGuid().ToString("N");
-            _runStartedAt = started?.StartedAt ?? DateTimeOffset.UtcNow;
-            SaveRun();
-        }
-
-        ApplyEquippedNamePlate();
-        ApplyServerAchievements();
-        _gui = new ArenaGui(_context, this, _worldTextHandler);
+            Root = _loadingOverlay,
+            HasExternalTextInput = true
+        };
+        Core.ConfigureDesktopScaling(_loadingDesktop);
+        _loadingOverlay.Show("Loading arena...");
+        _loadTask = Task.Run(() => FetchLoadAsync(startFresh));
     }
 
     public override void End()
     {
+        WaitForBackground(_loadTask);
+        WaitForBackground(_leaveTask);
         SaveOnExit();
         _gui?.Dispose();
         _gui = null;
+        _loadingDesktop = null;
+        _loadingOverlay = null;
         _client?.Dispose();
         _client = null;
         _worldTextHandler.Clear();
@@ -99,10 +93,18 @@ public sealed class ArenaScene : Scene
 
     public override void Update(float deltaTime)
     {
+        _loadingOverlay?.Update(deltaTime);
+        PollLoad();
+        PollLeave();
+        if (_gui == null)
+        {
+            return;
+        }
+
         HandleInput();
         PollMatch();
         AutosavePrep(deltaTime);
-        _gui?.Update(deltaTime);
+        _gui.Update(deltaTime);
     }
 
     public override void FixedUpdate()
@@ -121,8 +123,15 @@ public sealed class ArenaScene : Scene
 
     public override void Draw(float deltaTime)
     {
-        _gui?.Draw(Core.Graphics.Batcher, deltaTime);
-        _worldTextHandler.Render(Core.Graphics.Batcher, deltaTime);
+        if (_gui != null)
+        {
+            _gui.Draw(Core.Graphics.Batcher, deltaTime);
+            _worldTextHandler.Render(Core.Graphics.Batcher, deltaTime);
+            return;
+        }
+
+        Core.GraphicsDevice.Clear(new Color(7, 5, 4));
+        _loadingDesktop?.Render();
     }
 
     public void FinishShopping()
@@ -242,16 +251,136 @@ public sealed class ArenaScene : Scene
 
     public void ReturnToMenu()
     {
-        if (_context.ArenaRun?.IsRunOver == true)
+        if (_leaving || _gui == null)
         {
-            FinishOnServer(_context.ArenaRun.IsVictory);
+            return;
         }
-        else
+
+        _leaving = true;
+        _gui.ShowBusy("Saving...");
+        var finish = _context.ArenaRun?.IsRunOver == true;
+        var victory = _context.ArenaRun?.IsVictory ?? false;
+        var achievements = finish ? ExportAchievements() : null;
+        if (!finish)
         {
             SaveRun();
         }
 
+        _leaveTask = Task.Run(() => LeaveToMenuAsync(finish, victory, achievements));
+    }
+
+    private async Task<ArenaLoadPayload> FetchLoadAsync(bool startFresh)
+    {
+        var payload = new ArenaLoadPayload { IsStartFresh = startFresh };
+        payload.EnsuredProfile = await TryGetAsync(() =>
+            _client!.EnsureProfile(_profile.PlayerId, _profile.DisplayName, _profile.Username));
+        payload.Profile = await TryGetAsync(() => _client!.GetProfile(_profile.PlayerId));
+        payload.Current = await TryGetAsync(() => _client!.GetCurrentArena(_profile.PlayerId));
+        var displayName = payload.EnsuredProfile != null && !string.IsNullOrWhiteSpace(payload.EnsuredProfile.DisplayName)
+            ? payload.EnsuredProfile.DisplayName
+            : _profile.DisplayName;
+        if (startFresh || payload.Current == null)
+        {
+            var reuseSeed = startFresh && payload.Current is { RunSeed: > 0 } ? payload.Current.RunSeed : 0;
+            payload.Started = await TryGetAsync(() =>
+                _client!.StartArena(_profile.PlayerId, displayName, reuseSeed));
+        }
+
+        payload.Achievements = await TryGetAsync(() => _client!.GetAchievements(_profile.PlayerId));
+        return payload;
+    }
+
+    private void PollLoad()
+    {
+        if (_loadTask is not { IsCompleted: true } task)
+        {
+            return;
+        }
+
+        _loadTask = null;
+        ArenaLoadPayload payload;
+        if (task.IsCompletedSuccessfully)
+        {
+            payload = task.Result;
+        }
+        else
+        {
+            MatchError = task.Exception?.GetBaseException().Message;
+            Log.Warning($"Arena server request failed: {MatchError}");
+            payload = new ArenaLoadPayload { IsStartFresh = true };
+        }
+
+        ApplyLoad(payload);
+    }
+
+    private void ApplyLoad(ArenaLoadPayload payload)
+    {
+        if (payload.EnsuredProfile != null && !string.IsNullOrWhiteSpace(payload.EnsuredProfile.DisplayName))
+        {
+            _profile.DisplayName = payload.EnsuredProfile.DisplayName;
+        }
+
+        ApplyRankFromProfile(payload.Profile);
+
+        if (!payload.IsStartFresh && payload.Current != null)
+        {
+            RestoreProgress(payload.Current);
+        }
+        else
+        {
+            var started = payload.Started;
+            var runSeed = started?.RunSeed > 0 ? started.RunSeed : Random.Shared.Next();
+            _context.InitializeArena(_profile.PlayerId, _profile.DisplayName, runSeed);
+            _runId = started?.RunId ?? Guid.NewGuid().ToString("N");
+            _runStartedAt = started?.StartedAt ?? DateTimeOffset.UtcNow;
+            SaveRun();
+        }
+
+        ApplyEquippedNamePlate();
+        ImportAchievements(payload.Achievements);
+        _gui = new ArenaGui(_context, this, _worldTextHandler);
+        _loadingDesktop = null;
+        _loadingOverlay = null;
+    }
+
+    private void PollLeave()
+    {
+        if (_leaveTask is not { IsCompleted: true })
+        {
+            return;
+        }
+
+        _leaveTask = null;
         Core.ChangeScene<MainMenuScene>();
+    }
+
+    private async Task LeaveToMenuAsync(bool finish, bool victory, AchievementState? achievements)
+    {
+        await FlushPendingSaveAsync();
+        if (!finish || _client == null)
+        {
+            return;
+        }
+
+        try
+        {
+            var run = await _client.FinishArena(_profile.PlayerId, victory);
+            if (achievements != null)
+            {
+                await _client.SaveAchievements(_profile.PlayerId, achievements);
+            }
+
+            if (run != null)
+            {
+                LastFinishedRun = run;
+                _runFinishedOnServer = true;
+            }
+        }
+        catch (Exception ex)
+        {
+            MatchError = ex.Message;
+            Log.Warning($"Arena server request failed: {ex.Message}");
+        }
     }
 
     private async Task RequestMatch(BuildSnapshot snapshot)
@@ -508,6 +637,18 @@ public sealed class ArenaScene : Scene
 
     private void FlushPendingSave()
     {
+        try
+        {
+            FlushPendingSaveAsync().GetAwaiter().GetResult();
+        }
+        catch (Exception ex)
+        {
+            Log.Warning($"Arena save flush failed: {ex.Message}");
+        }
+    }
+
+    private async Task FlushPendingSaveAsync()
+    {
         var task = _saveTask;
         if (task == null)
         {
@@ -516,7 +657,7 @@ public sealed class ArenaScene : Scene
 
         try
         {
-            task.GetAwaiter().GetResult();
+            await task;
         }
         catch (Exception ex)
         {
@@ -564,20 +705,13 @@ public sealed class ArenaScene : Scene
         _runStartedAt = current.StartedAt;
     }
 
-    private void SyncProfile()
-    {
-        var remote = TryGet(() => _client!.EnsureProfile(_profile.PlayerId, _profile.DisplayName).GetAwaiter().GetResult());
-        if (remote != null && !string.IsNullOrWhiteSpace(remote.DisplayName))
-        {
-            _profile.DisplayName = remote.DisplayName;
-        }
-
-        RefreshRank();
-    }
-
     private void RefreshRank()
     {
-        var remote = TryGet(() => _client!.GetProfile(_profile.PlayerId).GetAwaiter().GetResult());
+        ApplyRankFromProfile(TryGet(() => _client!.GetProfile(_profile.PlayerId).GetAwaiter().GetResult()));
+    }
+
+    private void ApplyRankFromProfile(PlayerProfileRecord? remote)
+    {
         if (remote == null)
         {
             return;
@@ -603,9 +737,8 @@ public sealed class ArenaScene : Scene
             : _equippedNamePlate;
     }
 
-    private void ApplyServerAchievements()
+    private void ImportAchievements(AchievementState? state)
     {
-        var state = TryGet(() => _client!.GetAchievements(_profile.PlayerId).GetAwaiter().GetResult());
         if (state == null)
         {
             return;
@@ -655,6 +788,46 @@ public sealed class ArenaScene : Scene
             Log.Warning($"Arena server request failed: {ex.Message}");
             return default;
         }
+    }
+
+    private async Task<T?> TryGetAsync<T>(Func<Task<T>> action)
+    {
+        try
+        {
+            return await action();
+        }
+        catch (Exception ex)
+        {
+            MatchError = ex.Message;
+            Log.Warning($"Arena server request failed: {ex.Message}");
+            return default;
+        }
+    }
+
+    private static void WaitForBackground(Task? task)
+    {
+        if (task == null)
+        {
+            return;
+        }
+
+        try
+        {
+            task.GetAwaiter().GetResult();
+        }
+        catch
+        {
+        }
+    }
+
+    private sealed class ArenaLoadPayload
+    {
+        public bool IsStartFresh;
+        public PlayerProfileRecord? EnsuredProfile;
+        public PlayerProfileRecord? Profile;
+        public ArenaProgressRecord? Current;
+        public ArenaProgressRecord? Started;
+        public AchievementState? Achievements;
     }
 
     private static void TryDeleteLocalSave()

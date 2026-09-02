@@ -14,6 +14,8 @@ public sealed class ArenaGui : BaseGui
     private ArenaShopScreen? _shopScreen;
     private ArenaPrepScreen? _prepScreen;
     private ArenaMapScreen? _mapScreen;
+    private ArenaMatchingScreen? _matchingScreen;
+    private readonly BusyOverlay _busyOverlay = new();
 
     public override WorldTextHandler WorldTextHandler => _worldTextHandler;
 
@@ -69,7 +71,7 @@ public sealed class ArenaGui : BaseGui
                 _scene.FinishShopping,
                 _scene.SaveProgress),
             ArenaPhase.Prep => _prepScreen = new ArenaPrepScreen(this, _context, _scene.BeginFight, _scene.ReturnToShop, _scene.CurrentRank),
-            ArenaPhase.Matching => new ArenaMatchingScreen(_scene.MatchError, _scene.ReturnToPrep),
+            ArenaPhase.Matching => _matchingScreen = new ArenaMatchingScreen(_scene.MatchError, _scene.ReturnToPrep),
             ArenaPhase.Combat => _combatScreen = new CombatScreen(
                 this,
                 _context,
@@ -109,6 +111,8 @@ public sealed class ArenaGui : BaseGui
         _prepScreen = null;
         _mapScreen?.RemoveFromParent();
         _mapScreen = null;
+        _matchingScreen?.RemoveFromParent();
+        _matchingScreen = null;
         _combatScreen?.RemoveFromParent();
         _combatScreen?.Dispose();
         _combatScreen = null;
@@ -124,8 +128,20 @@ public sealed class ArenaGui : BaseGui
         _shopScreen?.Update();
         _prepScreen?.Update();
         _mapScreen?.Update();
+        _matchingScreen?.Update(deltaTime);
         _combatScreen?.Update(deltaTime);
+        _busyOverlay.Update(deltaTime);
         base.Update(deltaTime);
+    }
+
+    public void ShowBusy(string message)
+    {
+        _busyOverlay.ShowModal(Desktop, message);
+    }
+
+    public void HideBusy()
+    {
+        _busyOverlay.Hide();
     }
 
     public override void Draw(SpriteBatch spriteBatch, float deltaTime)
@@ -146,6 +162,7 @@ public sealed class ArenaGui : BaseGui
             _context.CurrentZone.OnZoneMessage -= HandleZoneMessage;
         }
 
+        _busyOverlay.Hide();
         _combatScreen?.Dispose();
         base.Dispose();
     }
