@@ -34,12 +34,13 @@ public sealed class PersistedShopShelf : IExposable
 public static class ShopStock
 {
     public const int StockGrowAfterRound = 4;
+    public const int StockGrowEveryRounds = 2;
 
     public static int ResolvedStockSize(MerchantShelf shelf, int round)
     {
         var baseSize = Math.Max(shelf.StockSize, 1);
         var cap = ShopLayout.SlotsPerRow(shelf.ResolvedColumns, shelf.ResolvedItemColumns);
-        var bonus = Math.Max(0, round - StockGrowAfterRound);
+        var bonus = Math.Max(0, (round - StockGrowAfterRound) / StockGrowEveryRounds);
         return Math.Min(cap, baseSize + bonus);
     }
 

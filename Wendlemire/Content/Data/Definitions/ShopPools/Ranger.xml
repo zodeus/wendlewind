@@ -12,7 +12,7 @@
                 <Category>Weapons</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
-                <StockSize>6</StockSize>
+                <StockSize>3</StockSize>
                 <Offers>
                     <ListItem>
                         <ItemDef>IronSword</ItemDef>
@@ -75,7 +75,7 @@
                 <Category>Armor</Category>
                 <Columns>6</Columns>
                 <ItemColumns>1</ItemColumns>
-                <StockSize>6</StockSize>
+                <StockSize>4</StockSize>
                 <Offers>
                     <ListItem>
                         <SetLabel>Leather Set</SetLabel>
