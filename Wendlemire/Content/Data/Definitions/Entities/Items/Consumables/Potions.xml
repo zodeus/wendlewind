@@ -324,7 +324,7 @@
         <Label>Strength Potion</Label>
         <BaseStats>
             <PotionDuration>1800</PotionDuration>
-            <PotionPower>0.6</PotionPower>
+            <PotionPower>0.15</PotionPower>
         </BaseStats>
         <Description>A deep amber elixir that swirls with golden essence. Grants tremendous physical power to those who drink it.</Description>
         <GoldCost>150</GoldCost>
