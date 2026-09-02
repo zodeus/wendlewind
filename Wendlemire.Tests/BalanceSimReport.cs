@@ -24,9 +24,10 @@ namespace Wendlemire.Tests;
 ///   Mid    stew+dried, ShadeWood, MedKit+Balmy+Mist, Jar+Acid
 ///   Late   stew+honey, Dipped+Shade, Mix+Cauterize+Bone, Jar+Churni
 ///   Full   stew+honey+walnut, 3 incense, Mix+Cauterize+Serum+Bone, Jar+Acid
-/// Extra buckets: KIT (kit vs bare / burst vs sustain), FOOD, MED, INC.
+/// Extra buckets: KIT (kit vs bare / burst vs sustain), FOOD, MED, INC, METAL.
 /// Writes balance-report.txt at the repo root.
 /// Run: dotnet test --filter FullyQualifiedName~BalanceSimReport
+/// METAL-only: set BALANCE_BAND=METAL (PowerShell: $env:BALANCE_BAND='METAL')
 /// </summary>
 [Collection("Sim")]
 public class BalanceSimReport
@@ -262,7 +263,7 @@ public class BalanceSimReport
 
     private static Kit EraKit(string band) => band switch
     {
-        "R4-6" => Mid,
+        "R4-6" or "METAL" => Mid,
         "R7-9" => Late,
         "R10-13" => Full,
         _ => Early
@@ -384,6 +385,8 @@ public class BalanceSimReport
     private static BuildSnapshot MaceLeather(string id) => Fighter(id, ["IronMace"], LeatherSet);
     private static BuildSnapshot IronAxeLeather(string id) => Fighter(id, ["IronAxe"], LeatherSet);
     private static BuildSnapshot ClawsLeather(string id) => Fighter(id, ["IronClaws"], LeatherSet);
+    private static BuildSnapshot DaggerLeather(string id) => Fighter(id, ["IronDagger"], LeatherSet);
+    private static BuildSnapshot HammerLeather(string id) => Fighter(id, ["IronHammer"], LeatherSet);
     private static BuildSnapshot DualIronLeather(string id) =>
         Fighter(id, ["IronSword", "IronDagger"], LeatherSet,
             Combine(Weapon("IronDagger", "FesteringWounds"), LeatherLightEnchants()));
@@ -504,7 +507,35 @@ public class BalanceSimReport
 
     private sealed record Matchup(string Band, string Name, BuildSnapshot Attacker, BuildSnapshot Defender);
 
-    private static List<Matchup> Matchups() =>
+    // Set to "METAL" for the weapon tweak loop. Empty + no BALANCE_BAND env = all bands.
+    private const string ForceBand = "";
+
+    private static string? BandFilter
+    {
+        get
+        {
+            if (!string.IsNullOrWhiteSpace(ForceBand))
+            {
+                return ForceBand;
+            }
+
+            return Environment.GetEnvironmentVariable("BALANCE_BAND");
+        }
+    }
+
+    private static List<Matchup> Matchups()
+    {
+        var all = AllMatchups();
+        var filter = BandFilter;
+        if (string.IsNullOrWhiteSpace(filter))
+        {
+            return all;
+        }
+
+        return all.FindAll(m => m.Band.Equals(filter.Trim(), StringComparison.OrdinalIgnoreCase));
+    }
+
+    private static List<Matchup> AllMatchups() =>
     [
         // --- R1-3: unarmored / partial + primitive, first iron/enchant + Early kit ---
         EraMatch("R1-3", "Club vs Club (naked)", ClubNaked("A"), ClubNaked("B")),
@@ -533,6 +564,17 @@ public class BalanceSimReport
         EraMatch("R4-6", "Chain-partial vs Sword+leather", ChainPartialSword("A"), SwordLeather("B")),
         EraMatch("R4-6", "WD-partial+BoneEater vs Sword+leather", WdPartialBoneEater("A"), SwordLeather("B")),
         EraMatch("R4-6", "WD-partial+Bite vs Mace+leather", WdPartialBite("A"), MaceLeather("B")),
+
+        // --- METAL: leather, no enchants, Mid kit. Isolates iron weapon math. ---
+        EraMatch("METAL", "Dagger vs Sword (leather)", DaggerLeather("A"), SwordLeather("B")),
+        EraMatch("METAL", "Axe vs Sword (leather)", IronAxeLeather("A"), SwordLeather("B")),
+        EraMatch("METAL", "Hammer vs Sword (leather)", HammerLeather("A"), SwordLeather("B")),
+        EraMatch("METAL", "Mace vs Sword (leather)", MaceLeather("A"), SwordLeather("B")),
+        EraMatch("METAL", "Claws vs Sword (leather)", ClawsLeather("A"), SwordLeather("B")),
+        EraMatch("METAL", "Sword vs Sword (leather)", SwordLeather("A"), SwordLeather("B")),
+        EraMatch("METAL", "Axe vs Axe (leather)", IronAxeLeather("A"), IronAxeLeather("B")),
+        EraMatch("METAL", "Mace vs Mace (leather)", MaceLeather("A"), MaceLeather("B")),
+        EraMatch("METAL", "Claws vs Claws (leather)", ClawsLeather("A"), ClawsLeather("B")),
 
         // --- R7-9: full chain/WD, Everburning / Rhino + Late kit ---
         EraMatch("R7-9", "Sword+chain vs Sword+chain", SwordChain("A"), SwordChain("B")),
@@ -668,13 +710,23 @@ public class BalanceSimReport
                     continue;
                 }
 
+                var matchup = Matchups().FirstOrDefault(m => m.Name == stored.Name);
+                if (matchup == null)
+                {
+                    continue;
+                }
+
                 done.Add(stored.Name);
-                var matchup = Matchups().First(m => m.Name == stored.Name);
                 rows.Add((matchup, stored.Row));
             }
         }
 
         sb.AppendLine("=== Wendlemire Human-vs-Human Balance (13-round curve) ===");
+        if (!string.IsNullOrWhiteSpace(BandFilter))
+        {
+            sb.AppendLine($"Band filter: {BandFilter.Trim()}");
+        }
+
         sb.AppendLine($"Seeds/matchup: {SeedCount}   Target: {TargetMinTicks / 60}-{TargetMaxTicks / 60}s @ 60tps");
         sb.AppendLine($"Knobs this pass: CombatBalance VitalHpScale={CombatBalance.VitalHpScale} LimbHpScale={CombatBalance.LimbHpScale} (human externals only)");
         sb.AppendLine("Sever dump: currentBlood * (subtree BloodAmount / body BloodAmount) on Severe()");

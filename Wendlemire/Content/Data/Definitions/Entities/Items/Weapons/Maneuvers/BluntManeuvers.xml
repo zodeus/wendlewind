@@ -8,7 +8,6 @@
             <ListItem>Maul</ListItem>
             <ListItem>Mace</ListItem>
             <ListItem>Staff</ListItem>
-            <ListItem>Hammer</ListItem>
             <ListItem>Branch</ListItem>
         </Weapons>
         <DamageMultiplier>.3~1</DamageMultiplier>
@@ -27,8 +26,23 @@
         <Label>Crush</Label>
         <Weapons>
             <ListItem>Maul</ListItem>
-            <ListItem>Mace</ListItem>
             <ListItem>Hammer</ListItem>
+        </Weapons>
+        <DamageMultiplier>.7~.8</DamageMultiplier>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
+        <Moniker>Pound</Moniker>
+        <Label>Pound</Label>
+        <Weapons>
+            <ListItem>Hammer</ListItem>
+        </Weapons>
+        <DamageMultiplier>.65~.75</DamageMultiplier>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
+        <Moniker>Flanged</Moniker>
+        <Label>Flanged</Label>
+        <Weapons>
+            <ListItem>Mace</ListItem>
         </Weapons>
         <DamageMultiplier>.7~.8</DamageMultiplier>
     </WeaponManeuverDef>

@@ -7,6 +7,7 @@
         <SkillType>Combat</SkillType>
         <WeaponTypes>
             <ListItem>Knife</ListItem>
+            <ListItem>Dagger</ListItem>
         </WeaponTypes>
     </SkillDef>
     <SkillDef>

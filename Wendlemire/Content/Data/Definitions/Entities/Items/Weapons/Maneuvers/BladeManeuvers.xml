@@ -6,7 +6,6 @@
         <Label>Slash</Label>
         <Weapons>
             <ListItem>Knife</ListItem>
-            <ListItem>Dagger</ListItem>
             <ListItem>Axe</ListItem>
             <ListItem>Sword</ListItem>
             <ListItem>Spear</ListItem>
@@ -21,6 +20,14 @@
             <ListItem>Sword</ListItem>
         </Weapons>
         <DamageMultiplier>.4~1</DamageMultiplier>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
+        <Moniker>Cleave</Moniker>
+        <Label>Cleave</Label>
+        <Weapons>
+            <ListItem>Axe</ListItem>
+        </Weapons>
+        <DamageMultiplier>.3~1.1</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>Slice</Moniker>

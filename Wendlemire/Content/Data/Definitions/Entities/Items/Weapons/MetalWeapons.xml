@@ -5,7 +5,7 @@
         <Moniker>IronDagger</Moniker>
         <Label>Iron Dagger</Label>
         <Description>Very pointy</Description>
-        <GoldCost>55</GoldCost>
+        <GoldCost>50</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>
@@ -45,7 +45,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronDagger</TexturePath>
         <BaseStats>
-            <WeaponPower>52</WeaponPower>
+            <WeaponPower>46</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -93,23 +93,31 @@
         <Moniker>IronAxe</Moniker>
         <Label>Iron Axe</Label>
         <Description>It chops, it also hurts</Description>
-        <GoldCost>85</GoldCost>
+        <GoldCost>95</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
         <WeaponProperties>
             <WeaponType>Axe</WeaponType>
-            <SubstanceModifiers>
+            <SubstanceModifiers ListKey="Substance">
                 <ListItem>
                     <Substance>Wood</Substance>
                     <Modifier>1.4</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.2</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.05</Modifier>
                 </ListItem>
             </SubstanceModifiers>
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronAxe</TexturePath>
         <BaseStats>
-            <WeaponPower>52</WeaponPower>
+            <WeaponPower>58</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -145,11 +153,15 @@
                     <Substance>Stone</Substance>
                     <Modifier>1.4</Modifier>
                 </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.3</Modifier>
+                </ListItem>
             </SubstanceModifiers>
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronHammer</TexturePath>
         <BaseStats>
-            <WeaponPower>52</WeaponPower>
+            <WeaponPower>54</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -169,13 +181,13 @@
         <Moniker>IronMace</Moniker>
         <Label>Iron Mace</Label>
         <Description>It's a mace made from iron</Description>
-        <GoldCost>90</GoldCost>
+        <GoldCost>100</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
         <WeaponProperties>
-            <WeaponType>Hammer</WeaponType>
+            <WeaponType>Mace</WeaponType>
             <SubstanceModifiers ListKey="Substance">
                 <ListItem>
                     <Substance>Flesh</Substance>
@@ -183,7 +195,7 @@
                 </ListItem>
                 <ListItem>
                     <Substance>Bone</Substance>
-                    <Modifier>1.1</Modifier>
+                    <Modifier>1.05</Modifier>
                 </ListItem>
                 <ListItem>
                     <Substance>Stone</Substance>
@@ -205,7 +217,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Metal/IronMace</TexturePath>
         <BaseStats>
-            <WeaponPower>62</WeaponPower>
+            <WeaponPower>54</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -225,7 +237,7 @@
         <Moniker>IronClaws</Moniker>
         <Label>Iron Claws</Label>
         <Description>It's a claws made from iron</Description>
-        <GoldCost>90</GoldCost>
+        <GoldCost>70</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>

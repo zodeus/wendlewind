@@ -63,7 +63,7 @@
         <Weapons>
             <ListItem>Claw</ListItem>
         </Weapons>
-        <DamageMultiplier>.8~1</DamageMultiplier>
+        <DamageMultiplier>.65~.85</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>StumpStomp</Moniker>
