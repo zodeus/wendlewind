@@ -171,7 +171,7 @@ public sealed class TestSimSelectorScreen : Panel
         // Populate the player pawn with the selected attacker build (or a previously saved hand-tuned override)
         // so the preparation screen shows the right potions/weapons/stance to tweak.
         var build = TestSimSettings.AttackerOverride ?? BuildTemplates.Get(TestSimSettings.AttackerBuildId);
-        BuildSnapshotFactory.Apply(_context.PlayerPawn, build);
+        BuildSnapshotFactory.Apply(_context.PlayerPawn, BuildTemplates.WithAllWeapons(build));
 
         _prepPanel = new PawnPreparationPanel(_gui, _context.PlayerPawn)
         {

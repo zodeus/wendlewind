@@ -181,17 +181,35 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
 
     public bool IsHandSlotBlockedByTwoHanded(BodyPart bodyPart, EquipmentSlotType slot)
     {
-        if (slot != EquipmentSlotType.HandWeapon)
+        return TryGetTwoHandedWeaponBlocking(bodyPart, slot, out _);
+    }
+
+    public bool TryGetTwoHandedWeapon(out Item weapon, out BodyPart equippedPart)
+    {
+        foreach (var (item, part) in Weapons)
+        {
+            if (item.ItemDef.EquipmentProperties?.OccupiesBothHands == true)
+            {
+                weapon = item;
+                equippedPart = part;
+                return true;
+            }
+        }
+
+        weapon = null!;
+        equippedPart = null!;
+        return false;
+    }
+
+    public bool TryGetTwoHandedWeaponBlocking(BodyPart bodyPart, EquipmentSlotType slot, out Item weapon)
+    {
+        weapon = null!;
+        if (slot != EquipmentSlotType.HandWeapon || GetBySlot(bodyPart, slot) != null)
         {
             return false;
         }
 
-        if (GetBySlot(bodyPart, slot) != null)
-        {
-            return false;
-        }
-
-        return HasTwoHandedWeapon();
+        return TryGetTwoHandedWeapon(out weapon, out _);
     }
 
     private List<Item> UnequipConflictingHands(BodyPart keepPart, EquipmentSlotType keepSlot, Item incoming)

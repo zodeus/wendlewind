@@ -202,6 +202,12 @@ public class CombatReplayTests
                 Assert.True(count >= BuildTemplates.EnchantmentCopies,
                     $"{template.BuildId} should include {BuildTemplates.EnchantmentCopies} {enchantmentMoniker}");
             }
+
+            var attackerInventory = BuildTemplates.WithAllWeapons(template);
+            foreach (var weaponMoniker in BuildTemplates.AllWeapons())
+            {
+                Assert.Contains(attackerInventory.Inventory, i => i.ItemMoniker == weaponMoniker && i.Amount >= 1);
+            }
         }
     }
 }

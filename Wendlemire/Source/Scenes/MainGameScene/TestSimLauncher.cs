@@ -15,7 +15,7 @@ public static class TestSimLauncher
         var defender = CreateHumanOpponent(context);
 
         var attackerBuild = TestSimSettings.AttackerOverride ?? BuildTemplates.Get(TestSimSettings.AttackerBuildId);
-        BuildSnapshotFactory.Apply(attacker, attackerBuild);
+        BuildSnapshotFactory.Apply(attacker, BuildTemplates.WithAllWeapons(attackerBuild));
         BuildSnapshotFactory.Apply(defender, BuildTemplates.Get(TestSimSettings.DefenderBuildId));
 
         context.CurrentZone!.StartHumanDuel(attacker, defender, TestSimSettings.Seed);

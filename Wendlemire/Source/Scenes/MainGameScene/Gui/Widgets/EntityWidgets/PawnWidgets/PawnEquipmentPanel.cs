@@ -204,7 +204,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
                 continue;
             }
 
-            if (key.Part.Equipment[key.Slot] is { IsDestroyed: false } equipped)
+            if (ResolveSlotItem(key.Part, key.Slot) is { IsDestroyed: false } equipped)
             {
                 owner = button;
                 item = equipped;
@@ -240,7 +240,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
             return;
         }
 
-        if (bodyPart.Equipment[slot] is not { IsDestroyed: false } item)
+        if (ResolveSlotItem(bodyPart, slot) is not { IsDestroyed: false } item)
         {
             return;
         }
@@ -260,13 +260,22 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         // UnEquip
         if (_gui.MouseAttachment == null && Mouse.GetState().RightButton == ButtonState.Pressed && slot != EquipmentSlotType.BuiltIn)
         {
-            var unEquippedItem = _pawn.Equipment.UnEquip(part, slot);
+            var unequipPart = part;
+            var unequipSlot = slot;
+            if (_pawn.Equipment.TryGetTwoHandedWeaponBlocking(part, slot, out _)
+                && _pawn.Equipment.TryGetTwoHandedWeapon(out _, out var equippedPart))
+            {
+                unequipPart = equippedPart;
+                unequipSlot = EquipmentSlotType.HandWeapon;
+            }
+
+            var unEquippedItem = _pawn.Equipment.UnEquip(unequipPart, unequipSlot);
             if (unEquippedItem != null)
             {
                 if (_pawn.Inventory.TryAdd(unEquippedItem) == false)
                 {
                     //return item, failed to place in inventory
-                    _pawn.Equipment.TryEquip(part, slot, unEquippedItem);
+                    _pawn.Equipment.TryEquip(unequipPart, unequipSlot, unEquippedItem);
                 }
             }
 
@@ -368,10 +377,10 @@ public class PawnEquipmentPanel : Grid, IUpdatable
             return;
         }
 
-        // View equipped item if slot has one
-        if (part.Equipment[slot] != null)
+        // View equipped item if slot has one (including the off-hand of a two-hander)
+        if (ResolveSlotItem(part, slot) is { } equipped)
         {
-            _gui.ViewEntity(part.Equipment[slot]!);
+            _gui.ViewEntity(equipped);
             return;
         }
 
@@ -613,7 +622,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
 
         var (icon, progressBar, hintLabel) = SlotParts(image);
 
-        if (bodyPart.Equipment[slot] is { IsDestroyed: false } item)
+        if (ResolveSlotItem(bodyPart, slot) is { IsDestroyed: false } item)
         {
             if (_iconCache.ContainsKey(item.ItemDef) == false)
             {
@@ -626,7 +635,13 @@ public class PawnEquipmentPanel : Grid, IUpdatable
             icon.Visible = true;
             icon.Background = _iconCache[item.ItemDef];
             image.Content.Background = null;
-            _iconCache[item.ItemDef].Color = GetEquipmentColor(item, bodyPart);
+            var colorPart = bodyPart;
+            if (slotBlocked && _pawn.Equipment.TryGetTwoHandedWeapon(out _, out var equippedPart))
+            {
+                colorPart = equippedPart;
+            }
+
+            _iconCache[item.ItemDef].Color = GetEquipmentColor(item, colorPart);
 
             hintLabel.Visible = false;
         }
@@ -860,6 +875,18 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         _glowTexture = new Texture2D(Core.GraphicsDevice, size, size);
         _glowTexture.SetData(data);
         return _glowTexture;
+    }
+
+    private Item? ResolveSlotItem(BodyPart bodyPart, EquipmentSlotType slot)
+    {
+        if (bodyPart.Equipment[slot] is { IsDestroyed: false } equipped)
+        {
+            return equipped;
+        }
+
+        return _pawn.Equipment.TryGetTwoHandedWeaponBlocking(bodyPart, slot, out var twoHanded)
+            ? twoHanded
+            : null;
     }
 
     /// <summary>

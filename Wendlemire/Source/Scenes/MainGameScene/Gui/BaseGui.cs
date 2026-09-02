@@ -293,19 +293,21 @@ public abstract class BaseGui : IDisposable
             _entityViewerWindow.Close();
         }
 
+        var persistent = !_queuedEntityToView.Value.Value.HasValue;
         _entityViewerWindow.Content = EntityPanelFactory.Create(this, _queuedEntityToView.Value.Key, new EntityPanelProperties
         {
             ShowTitle = false,
-            ShowCloseButton = false,
+            ShowCloseButton = persistent,
+            CloseButtonAction = persistent ? CloseEntityWindow : null,
             Background = null
         });
         _entityViewerWindow.Title = string.Empty;
         _entityViewerWindow.TitlePanel.Visible = false;
         _entityViewerWindow.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
 
-        if (_queuedEntityToView.Value.Value.HasValue)
+        if (!persistent)
         {
-            _entityViewerWindow.Show(Desktop, _queuedEntityToView.Value.Value.Value);
+            _entityViewerWindow.Show(Desktop, _queuedEntityToView.Value.Value!.Value);
         }
         else
         {

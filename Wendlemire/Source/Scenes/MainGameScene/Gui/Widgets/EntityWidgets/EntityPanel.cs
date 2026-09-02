@@ -38,13 +38,26 @@ public abstract class EntityPanelBase : VerticalStackPanel
 
         if (showClose)
         {
+            var spacer = new Panel();
+            StackPanel.SetProportionType(spacer, ProportionType.Fill);
+            Header.Widgets.Add(spacer);
+
             var closeButton = new CursorButton(BaseContent.Styles.Button.Small)
             {
-                Content = new Image { Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Close] },
+                Width = 22,
+                Height = 22,
+                Padding = new Thickness(3),
                 HorizontalAlignment = HorizontalAlignment.Right,
-                VerticalAlignment = VerticalAlignment.Center
+                VerticalAlignment = VerticalAlignment.Center,
+                Content = new Image
+                {
+                    Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Icon.Close],
+                    Width = 12,
+                    Height = 12,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center
+                }
             };
-            StackPanel.SetProportionType(closeButton, ProportionType.Fill);
             closeButton.Click += (_, _) => { properties.CloseButtonAction?.Invoke(); };
             Header.Widgets.Add(closeButton);
         }

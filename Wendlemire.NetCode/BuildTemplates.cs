@@ -1,6 +1,7 @@
 using Wendlemire.Definitions;
 using Wendlemire.NetCode.Contracts;
 using Wendlemire.Sim.Entities.Items;
+using Wendlemire.Sim.Entities.Items.Equipment;
 using Wendlemire.Sim.Entities.Items.Medicinals;
 using Wendlemire.Sim.Entities.Items.Potions;
 
@@ -382,6 +383,16 @@ public static class BuildTemplates
     private static InventoryStackConfig[]? _fullInventory;
     private static string[]? _allTrinkets;
     private static string[]? _allEnchantments;
+    private static string[]? _allWeapons;
+
+    public static BuildSnapshot WithAllWeapons(BuildSnapshot snapshot)
+    {
+        var already = snapshot.Inventory.Select(s => s.ItemMoniker).ToHashSet();
+        return snapshot with
+        {
+            Inventory = [..snapshot.Inventory, ..WeaponInventory().Where(w => already.Add(w.ItemMoniker))]
+        };
+    }
 
     private static BuildSnapshot WithFullInventory(BuildSnapshot snapshot)
     {
@@ -424,12 +435,38 @@ public static class BuildTemplates
         return _allEnchantments;
     }
 
+    public static string[] AllWeapons()
+    {
+        if (_allWeapons is { Length: > 0 })
+        {
+            return _allWeapons;
+        }
+
+        _allWeapons = DefRepository<ItemDef>.Defs
+            .Where(d => d.EquipmentProperties?.EquipmentType == EquipmentType.Weapon
+                        && d.EquipmentProperties.SlotUsedToEquip != EquipmentSlotType.BuiltIn
+                        && !string.IsNullOrEmpty(d.Moniker)
+                        && d.Moniker != "undefined")
+            .Select(d => d.Moniker)
+            .ToArray();
+        return _allWeapons;
+    }
+
     private static InventoryStackConfig[] EnchantmentInventory() =>
         AllEnchantments()
             .Select(moniker => new InventoryStackConfig
             {
                 ItemMoniker = moniker,
                 Amount = EnchantmentCopies
+            })
+            .ToArray();
+
+    private static InventoryStackConfig[] WeaponInventory() =>
+        AllWeapons()
+            .Select(moniker => new InventoryStackConfig
+            {
+                ItemMoniker = moniker,
+                Amount = 1
             })
             .ToArray();
 
