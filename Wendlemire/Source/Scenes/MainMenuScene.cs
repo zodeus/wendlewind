@@ -28,12 +28,16 @@ public class MainMenuScene : Scene
     private PlayerProfile _profile = null!;
     private ClientSettings _clientSettings = null!;
     private TextBox _usernameField = null!;
-    private TextBox _emailField = null!;
     private TextBox _passwordField = null!;
+    private TextBox _registerUsernameField = null!;
+    private TextBox _registerEmailField = null!;
+    private TextBox _registerPasswordField = null!;
     private TextBox _serverField = null!;
     private CursorButton _fullscreenButton = null!;
     private Label _authError = null!;
+    private Label _registerError = null!;
     private Label _connectionError = null!;
+    private Window? _registerWindow;
     private Label _playingAsLabel = null!;
     private Widget _authPanel = null!;
     private Widget _playPanel = null!;
@@ -55,7 +59,6 @@ public class MainMenuScene : Scene
         }
 
         _usernameField = IronTextBox(_profile.Username, 320, hint: "Username");
-        _emailField = IronTextBox(_profile.Email, 320, hint: "Email");
         _passwordField = IronTextBox("", 320, password: true, hint: "Password");
         _authError = BodyLabel("", Error);
         _authError.Visible = false;
@@ -64,32 +67,18 @@ public class MainMenuScene : Scene
         _connectionError.Width = 520;
         _connectionError.Visible = false;
 
-        var authHint = BodyLabel("Log in with username and password. Register needs an email too.", Dust);
-        authHint.Wrap = true;
-        authHint.Width = 340;
-
         _authPanel = new VerticalStackPanel
         {
             Spacing = 12,
             HorizontalAlignment = HorizontalAlignment.Center,
             Widgets =
             {
-                DisplayLabel("Account", 22, Bone),
-                authHint,
+                DisplayLabel("Log in", 22, Bone),
                 LabeledField("Username", _usernameField),
-                LabeledField("Email", _emailField, "for register"),
                 LabeledField("Password", _passwordField),
                 _authError,
-                new HorizontalStackPanel
-                {
-                    Spacing = 12,
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    Widgets =
-                    {
-                        IronButton("Log in", SubmitLogin, width: 154),
-                        IronButton("Register", SubmitRegister, width: 154)
-                    }
-                }
+                IronButton("Log in", SubmitLogin, width: 320),
+                IronButton("Register", OpenRegisterDialog, width: 220)
             }
         };
 
@@ -227,7 +216,11 @@ public class MainMenuScene : Scene
         if (keyboard.IsKeyDown(Keys.Enter) && _previousKeyboard.IsKeyUp(Keys.Enter))
         {
             PersistServerHost();
-            if (_authPanel.Visible)
+            if (_registerWindow is { IsPlaced: true })
+            {
+                SubmitRegister();
+            }
+            else if (_authPanel.Visible)
             {
                 SubmitLogin();
             }
@@ -238,6 +231,7 @@ public class MainMenuScene : Scene
 
     public override void End()
     {
+        CloseRegisterDialog();
         PersistServerHost();
         if (_textInputHandler != null)
         {
@@ -310,34 +304,95 @@ public class MainMenuScene : Scene
 
     private void SubmitLogin()
     {
-        SubmitAuth(register: false);
+        SubmitAuth(
+            register: false,
+            _usernameField.Text?.Trim() ?? "",
+            email: "",
+            _passwordField.Text ?? "");
     }
 
     private void SubmitRegister()
     {
-        SubmitAuth(register: true);
+        SubmitAuth(
+            register: true,
+            _registerUsernameField.Text?.Trim() ?? "",
+            _registerEmailField.Text?.Trim() ?? "",
+            _registerPasswordField.Text ?? "");
     }
 
-    private void SubmitAuth(bool register)
+    private void OpenRegisterDialog()
     {
-        var username = _usernameField.Text?.Trim() ?? "";
-        var email = _emailField.Text?.Trim() ?? "";
-        var password = _passwordField.Text ?? "";
+        if (_registerWindow is { IsPlaced: true })
+        {
+            return;
+        }
+
+        _registerUsernameField = IronTextBox(
+            string.IsNullOrWhiteSpace(_usernameField.Text) ? _profile.Username : _usernameField.Text.Trim(),
+            320,
+            hint: "Username");
+        _registerEmailField = IronTextBox(_profile.Email, 320, hint: "Email");
+        _registerPasswordField = IronTextBox("", 320, password: true, hint: "Password");
+        _registerError = BodyLabel("", Error);
+        _registerError.Visible = false;
+
+        var content = new VerticalStackPanel
+        {
+            Spacing = 12,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Padding = new Thickness(22, 18),
+            Widgets =
+            {
+                DisplayLabel("Register", 22, Bone),
+                LabeledField("Username", _registerUsernameField),
+                LabeledField("Email", _registerEmailField),
+                LabeledField("Password", _registerPasswordField),
+                _registerError,
+                IronButton("Create account", SubmitRegister, width: 320),
+                IronButton("Cancel", CloseRegisterDialog, width: 180)
+            }
+        };
+
+        _registerWindow = new Window
+        {
+            Title = "",
+            Content = content,
+            Background = new SolidBrush(new Color(20, 12, 10, 245)),
+            Border = new SolidBrush(IronEdge),
+            BorderThickness = new Thickness(1)
+        };
+        _registerWindow.TitlePanel.Visible = false;
+        _registerWindow.Closed += (_, _) => _registerWindow = null;
+        _registerWindow.ShowModal(_desktop);
+        _registerWindow.Arrange(new Rectangle(0, 0, Core.ReferenceResolution.X, Core.ReferenceResolution.Y));
+        var bounds = _registerWindow.ActualBounds;
+        _registerWindow.Left = (Core.ReferenceResolution.X - bounds.Width) / 2;
+        _registerWindow.Top = Math.Max(80, (Core.ReferenceResolution.Y - bounds.Height) / 2);
+    }
+
+    private void CloseRegisterDialog()
+    {
+        _registerWindow?.Close();
+        _registerWindow = null;
+    }
+
+    private void SubmitAuth(bool register, string username, string email, string password)
+    {
         if (!PlayerProfile.IsValidUsername(username))
         {
-            ShowAuthError($"Username must be {PlayerProfile.MinUsernameLength}–{PlayerProfile.MaxUsernameLength} characters.");
+            ShowAuthError(register, $"Username must be {PlayerProfile.MinUsernameLength}–{PlayerProfile.MaxUsernameLength} characters.");
             return;
         }
 
         if (register && !AccountStore.TryNormalizeEmail(email, out _, out var emailError))
         {
-            ShowAuthError(emailError);
+            ShowAuthError(register, emailError);
             return;
         }
 
         if (password.Length < PlayerProfile.MinPasswordLength)
         {
-            ShowAuthError($"Password must be at least {PlayerProfile.MinPasswordLength} characters.");
+            ShowAuthError(register, $"Password must be at least {PlayerProfile.MinPasswordLength} characters.");
             return;
         }
 
@@ -355,19 +410,20 @@ public class MainMenuScene : Scene
                 : client.Login(username, password).GetAwaiter().GetResult();
             if (session is not { Authenticated: true } || string.IsNullOrWhiteSpace(session.Token))
             {
-                ShowAuthError(session.Error ?? (register ? "Could not register." : "Wrong username or password."));
+                ShowAuthError(register, session.Error ?? (register ? "Could not register." : "Wrong username or password."));
                 return;
             }
 
             _profile.ApplyAccount(session.PlayerId, session.Username, session.Email, session.Token);
             _passwordField.Text = "";
             _authError.Visible = false;
+            CloseRegisterDialog();
             RebuildPlayPanel();
             RefreshPanels();
         }
         catch (Exception ex)
         {
-            ShowAuthError(ex.Message);
+            ShowAuthError(register, ex.Message);
         }
     }
 
@@ -379,10 +435,11 @@ public class MainMenuScene : Scene
         RefreshPanels();
     }
 
-    private void ShowAuthError(string message)
+    private void ShowAuthError(bool register, string message)
     {
-        _authError.Text = message;
-        _authError.Visible = true;
+        var label = register ? _registerError : _authError;
+        label.Text = message;
+        label.Visible = true;
     }
 
     private void RefreshPanels()
