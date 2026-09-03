@@ -53,6 +53,129 @@ public class MedicalTriggerTests
     }
 
     [Fact]
+    public void UrgencyRisesForAfterSeconds()
+    {
+        using var root = SimServices.BuildRoot();
+        using var scope = root.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<GameContext>();
+        context.Initialize(CombatReplay.DefaultRunSeed);
+        BuildSnapshotFactory.Apply(context.PlayerPawn, BuildTemplates.TankRegen());
+
+        var trigger = new MedicalTrigger
+        {
+            Type = MedicalTriggerType.AfterSeconds,
+            AfterSeconds = 4f
+        };
+        var pawn = context.PlayerPawn;
+        var def = RequireDef("MedKit");
+        var target = 4f * GameContext.TicksPerSecond;
+        Assert.Equal(0f, trigger.GetUrgency(pawn, pawn, 0, def), 3);
+        Assert.Equal(0.5f, trigger.GetUrgency(pawn, pawn, (int)(target * 0.5f), def), 3);
+        Assert.Equal(1f, trigger.GetUrgency(pawn, pawn, (int)target, def), 3);
+        Assert.Equal(1f, trigger.GetUrgency(pawn, pawn, (int)target + 30, def), 3);
+    }
+
+    [Fact]
+    public void UrgencyRisesAsBloodApproachesThreshold()
+    {
+        using var root = SimServices.BuildRoot();
+        using var scope = root.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<GameContext>();
+        context.Initialize(CombatReplay.DefaultRunSeed);
+        BuildSnapshotFactory.Apply(context.PlayerPawn, BuildTemplates.TankRegen());
+
+        var pawn = context.PlayerPawn;
+        var trigger = new MedicalTrigger
+        {
+            Type = MedicalTriggerType.SelfBloodBelow,
+            Threshold = 0.5f
+        };
+        var def = RequireDef("ClotPack");
+
+        pawn.Body.BloodAmount = pawn.Body.MaxBlood;
+        Assert.Equal(0f, trigger.GetUrgency(pawn, pawn, 0, def), 3);
+
+        pawn.Body.BloodAmount = pawn.Body.MaxBlood * 0.75f;
+        Assert.Equal(0.5f, trigger.GetUrgency(pawn, pawn, 0, def), 3);
+
+        pawn.Body.BloodAmount = pawn.Body.MaxBlood * 0.5f;
+        Assert.Equal(1f, trigger.GetUrgency(pawn, pawn, 0, def), 3);
+
+        pawn.Body.BloodAmount = pawn.Body.MaxBlood * 0.2f;
+        Assert.Equal(1f, trigger.GetUrgency(pawn, pawn, 0, def), 3);
+    }
+
+    [Fact]
+    public void UrgencyRisesAsWatchedPartApproachesHealthThreshold()
+    {
+        using var root = SimServices.BuildRoot();
+        using var scope = root.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<GameContext>();
+        context.Initialize(CombatReplay.DefaultRunSeed);
+        BuildSnapshotFactory.Apply(context.PlayerPawn, BuildTemplates.TankRegen());
+
+        var pawn = context.PlayerPawn;
+        var part = FirstExternal(pawn);
+        var trigger = new MedicalTrigger
+        {
+            Type = MedicalTriggerType.PartBelowHealth,
+            TargetSelector = MedicalTargetSelector.SpecificPart,
+            TargetPartKey = MedicalTrigger.GroupKey(part),
+            HealthThreshold = 0.5f
+        };
+        var def = RequireDef("MedKit");
+
+        part.HitPoints = part.MaxHitPoints;
+        Assert.Equal(0f, trigger.GetUrgency(pawn, pawn, 0, def), 3);
+
+        part.HitPoints = part.MaxHitPoints * 0.75;
+        Assert.Equal(0.5f, trigger.GetUrgency(pawn, pawn, 0, def), 3);
+
+        part.HitPoints = part.MaxHitPoints * 0.5;
+        Assert.Equal(1f, trigger.GetUrgency(pawn, pawn, 0, def), 3);
+    }
+
+    [Fact]
+    public void UrgencyIsBinaryForStatusTriggers()
+    {
+        using var root = SimServices.BuildRoot();
+        using var scope = root.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<GameContext>();
+        context.Initialize(CombatReplay.DefaultRunSeed);
+        BuildSnapshotFactory.Apply(context.PlayerPawn, BuildTemplates.TankRegen());
+
+        var pawn = context.PlayerPawn;
+        var def = RequireDef("AntiNecroticSerum");
+        var trigger = new MedicalTrigger { Type = MedicalTriggerType.HasNecrosis };
+        Assert.Equal(0f, trigger.GetUrgency(pawn, pawn, 0, def), 3);
+
+        Afflict(context, FirstOrgan(pawn), Defs.BodyPartModifiers.Necrosis);
+        Assert.Equal(1f, trigger.GetUrgency(pawn, pawn, 0, def), 3);
+    }
+
+    [Fact]
+    public void ImmediatelyUrgencyIsReadyUntilLockedByChest()
+    {
+        using var root = SimServices.BuildRoot();
+        using var scope = root.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<GameContext>();
+        context.Initialize(CombatReplay.DefaultRunSeed);
+        BuildSnapshotFactory.Apply(context.PlayerPawn, BuildTemplates.TankRegen());
+
+        var pawn = context.PlayerPawn;
+        var def = RequireDef("Cyberveins");
+        var trigger = new MedicalTrigger { Type = MedicalTriggerType.Immediately };
+        Assert.Equal(1f, trigger.GetUrgency(pawn, pawn, 0, def), 3);
+
+        Assert.True(pawn.MedicalChest.TryInstall(def, 0, trigger));
+        var slot = pawn.MedicalChest.Slots[0];
+        Assert.False(MedicalChest.IsLockedForRestOfCombat(slot));
+        MedicalChest.LockForRestOfCombat(slot);
+        Assert.True(MedicalChest.IsLockedForRestOfCombat(slot));
+        Assert.Equal(1f, slot.Trigger.GetUrgency(pawn, pawn, 0, def), 3);
+    }
+
+    [Fact]
     public void SanitizeRejectsDisallowedTrigger()
     {
         using var root = SimServices.BuildRoot();

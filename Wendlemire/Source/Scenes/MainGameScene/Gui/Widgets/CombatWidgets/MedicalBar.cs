@@ -1,28 +1,72 @@
 using Wendlemire.Scenes.MainGameScene.Gui;
 using Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
+using Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnPreparationPanelWidgets;
+using Wendlemire.Sim.Arena;
 using Image = Myra.Graphics2D.UI.Image;
 
 namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.CombatWidgets;
 
-public sealed class MedicalBar : HorizontalStackPanel, IUpdatable
+public sealed class MedicalBar : Grid, IUpdatable
 {
+    public const int Columns = 3;
+    public const int Rows = 4;
+
     private readonly Pawn _pawn;
     private readonly List<MedicalSlotView> _slots = [];
 
-    public MedicalBar(BaseGui gui, Pawn pawn, Action<ItemDef>? clickHandler = null, int? iconSize = null)
+    public MedicalBar(
+        BaseGui gui,
+        Pawn pawn,
+        Action<ItemDef>? clickHandler,
+        int cellSize,
+        int iconSize,
+        int cellPad)
     {
         _pawn = pawn;
         pawn.MedicalChest.Prune();
-        var size = iconSize ?? BaseContent.IconSizes.Medium;
-        foreach (var chestSlot in pawn.MedicalChest.Slots)
+        ColumnSpacing = 5;
+        RowSpacing = 5;
+        ClipToBounds = false;
+        HorizontalAlignment = HorizontalAlignment.Stretch;
+        VerticalAlignment = VerticalAlignment.Top;
+        for (var i = 0; i < Columns; i++)
         {
-            var view = new MedicalSlotView(gui, pawn, chestSlot, size, clickHandler);
-            Widgets.Add(view);
-            _slots.Add(view);
+            ColumnsProportions.Add(new Proportion(ProportionType.Pixels, cellSize));
+        }
+
+        for (var i = 0; i < Rows; i++)
+        {
+            RowsProportions.Add(new Proportion(ProportionType.Pixels, cellSize));
+        }
+
+        var armed = pawn.MedicalChest.Slots;
+        var capacity = Math.Clamp(pawn.MedicalChest.Capacity, 0, MedicalChest.MaxSlots);
+        for (var i = 0; i < MedicalChest.MaxSlots; i++)
+        {
+            Widget cell;
+            if (i < armed.Count)
+            {
+                var view = new MedicalSlotView(gui, pawn, armed[i], iconSize, clickHandler);
+                _slots.Add(view);
+                cell = Frame(view, cellSize, cellPad, clip: false);
+            }
+            else if (i < capacity)
+            {
+                cell = UnusedFrame(cellSize, cellPad);
+            }
+            else
+            {
+                var tip = SlotUnlockTooltip.ForSlot(PrepSlotKind.Medical, i + 1);
+                cell = LockedFrame(cellSize, cellPad, tip.title, tip.description);
+            }
+
+            Grid.SetRow(cell, i / Columns);
+            Grid.SetColumn(cell, i % Columns);
+            Widgets.Add(cell);
         }
     }
 
-    public void NotifyUsed(string? itemMoniker)
+    public Widget? NotifyUsed(string? itemMoniker)
     {
         foreach (var slot in _slots)
         {
@@ -32,8 +76,27 @@ public sealed class MedicalBar : HorizontalStackPanel, IUpdatable
             }
 
             slot.Flash();
-            return;
+            return slot;
         }
+
+        return null;
+    }
+
+    public bool TryGetSlot(string? itemMoniker, out Widget slot)
+    {
+        foreach (var view in _slots)
+        {
+            if (itemMoniker != null && view.ChestSlot.Def.Moniker != itemMoniker)
+            {
+                continue;
+            }
+
+            slot = view;
+            return true;
+        }
+
+        slot = null!;
+        return false;
     }
 
     public void Update()
@@ -51,6 +114,36 @@ public sealed class MedicalBar : HorizontalStackPanel, IUpdatable
             slot.Update(deltaTime, tick);
         }
     }
+
+    private static Panel Frame(Widget content, int cellSize, int cellPad, bool clip = true)
+    {
+        return new Panel
+        {
+            Width = cellSize,
+            Height = cellSize,
+            ClipToBounds = clip,
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.IconFrame],
+            Padding = new Thickness(cellPad),
+            Widgets = { content }
+        };
+    }
+
+    private static Panel UnusedFrame(int cellSize, int cellPad)
+    {
+        var cell = Frame(new Panel(), cellSize, cellPad);
+        cell.Opacity = 0.7f;
+        cell.WithTooltip("Unused medical slot", "This slot is empty and will not heal in the fight.");
+        return cell;
+    }
+
+    private static Panel LockedFrame(int cellSize, int cellPad, string title, string? description)
+    {
+        var icon = LockedSlotChrome.Icon(Math.Max(12, cellSize - cellPad * 2 - 8));
+        var cell = Frame(icon, cellSize, cellPad);
+        cell.Opacity = 0.7f;
+        cell.WithTooltip(title, description);
+        return cell;
+    }
 }
 
 internal sealed class MedicalSlotView : Panel
@@ -62,19 +155,28 @@ internal sealed class MedicalSlotView : Panel
     private static readonly Color ReadyTint = Color.White;
     private static readonly Color CooldownTint = new(70, 70, 68);
     private static readonly Color EmptyTint = new(48, 48, 46);
+    private static readonly Color LockedTint = new(58, 56, 52);
     private static readonly Color TimerColor = new(220, 200, 150);
+    private static readonly Color TimePip = new(220, 190, 90);
+    private static readonly Color BloodPip = new(186, 40, 35);
+    private static readonly Color PartsPip = new(220, 160, 60);
+    private static readonly Color CrisisPip = new(255, 140, 50);
+    private static readonly Color StatusPip = new(140, 190, 70);
 
     private readonly BaseGui _gui;
     private readonly Pawn _pawn;
     private readonly CursorButton _button;
     private readonly ColoredIcon _tint;
     private readonly Panel _dim;
+    private readonly Panel _pip;
     private readonly Label _chargeLabel;
     private readonly Panel _cooldownChip;
     private readonly Label _cooldownLabel;
     private readonly List<SlotSpark> _sparks = [];
     private static Texture2D? _glowTexture;
     private float _flashRemaining;
+    private float _urgency;
+    private float _urgencyPhase;
     private Item? _hoverInspectItem;
     private Widget? _hoverInspectOwner;
     private Item? _previewItem;
@@ -106,6 +208,18 @@ internal sealed class MedicalSlotView : Panel
             VerticalAlignment = VerticalAlignment.Stretch,
             Background = new SolidBrush(new Color(8, 8, 8, 0)),
             Visible = false
+        };
+
+        _pip = new Panel
+        {
+            Width = 7,
+            Height = 7,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Top,
+            Margin = new Thickness(1),
+            Background = new SolidBrush(TriggerColor(chestSlot.Trigger?.Type ?? MedicalTriggerType.Immediately)),
+            Border = new SolidBrush(new Color(10, 8, 6, 180)),
+            BorderThickness = new Thickness(1)
         };
 
         _chargeLabel = new Label(BaseContent.Styles.Label.Small)
@@ -145,7 +259,7 @@ internal sealed class MedicalSlotView : Panel
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
                 ClipToBounds = false,
-                Widgets = { icon, _dim, _chargeLabel, _cooldownChip }
+                Widgets = { icon, _dim, _pip, _chargeLabel, _cooldownChip }
             }
         };
 
@@ -248,11 +362,17 @@ internal sealed class MedicalSlotView : Panel
         _chargeLabel.Text = ChargeText(ChestSlot);
 
         var empty = !ChestSlot.HasCharge;
-        var remainingTicks = MedicalChest.IsLockedForRestOfCombat(ChestSlot)
-            ? 0
-            : ChestSlot.NextReadyTick - tick;
+        var locked = MedicalChest.IsLockedForRestOfCombat(ChestSlot);
+        var remainingTicks = locked ? 0 : ChestSlot.NextReadyTick - tick;
         var cooling = remainingTicks > 0;
-        var muted = empty || cooling;
+        var muted = empty || cooling || locked;
+        var trigger = ChestSlot.Trigger;
+        _urgency = !muted && trigger != null
+            ? trigger.GetUrgency(_pawn, _pawn, tick, ChestSlot.Def)
+            : 0f;
+        _urgencyPhase += deltaTime * (0.8f + _urgency * 3.2f);
+        _pip.Background = new SolidBrush(TriggerColor(trigger?.Type ?? MedicalTriggerType.Immediately)
+            * (locked || empty ? 0.45f : 1f));
 
         if (_flashRemaining > 0f)
         {
@@ -261,6 +381,12 @@ internal sealed class MedicalSlotView : Panel
             _tint.Color = Color.Lerp(muted ? CooldownTint : ReadyTint, FlashColor(), pulse);
             _dim.Visible = muted;
             _dim.Background = new SolidBrush(new Color(8, 8, 8, (int)(90 * (1f - pulse))));
+        }
+        else if (locked)
+        {
+            _tint.Color = LockedTint;
+            _dim.Visible = true;
+            _dim.Background = new SolidBrush(new Color(8, 8, 8, 150));
         }
         else if (empty)
         {
@@ -282,13 +408,19 @@ internal sealed class MedicalSlotView : Panel
 
         if (cooling)
         {
-            var seconds = remainingTicks / (float)GameContext.TicksPerSecond;
-            _cooldownLabel.Text = seconds >= 10f ? $"{seconds:0}s" : $"{seconds:0.0}s";
-            _cooldownLabel.TextColor = seconds < 1f ? FlashColor() : TimerColor;
-            _cooldownChip.Visible = true;
-            _cooldownChip.Border = new SolidBrush(seconds < 1f
-                ? FlashColor() * 0.55f
-                : new Color(200, 180, 120, 70));
+            ShowChip(remainingTicks / (float)GameContext.TicksPerSecond, imminent: remainingTicks < GameContext.TicksPerSecond);
+        }
+        else if (!locked && !empty && trigger?.Type == MedicalTriggerType.AfterSeconds)
+        {
+            var untilFire = trigger.AfterSeconds * GameContext.TicksPerSecond - tick;
+            if (untilFire > 0)
+            {
+                ShowChip(untilFire / GameContext.TicksPerSecond, imminent: untilFire < GameContext.TicksPerSecond);
+            }
+            else
+            {
+                _cooldownChip.Visible = false;
+            }
         }
         else
         {
@@ -296,6 +428,16 @@ internal sealed class MedicalSlotView : Panel
         }
 
         UpdateHoverInspect();
+    }
+
+    private void ShowChip(float seconds, bool imminent)
+    {
+        _cooldownLabel.Text = seconds >= 10f ? $"{seconds:0}s" : $"{seconds:0.0}s";
+        _cooldownLabel.TextColor = imminent ? FlashColor() : TimerColor;
+        _cooldownChip.Visible = true;
+        _cooldownChip.Border = new SolidBrush(imminent
+            ? FlashColor() * 0.55f
+            : new Color(200, 180, 120, 70));
     }
 
     public override void InternalRender(RenderContext context)
@@ -308,6 +450,19 @@ internal sealed class MedicalSlotView : Panel
     private Color FlashColor()
     {
         return ChestSlot.Def == Defs.Items.Cauterize ? CauterizeColor : HealColor;
+    }
+
+    private static Color TriggerColor(MedicalTriggerType type)
+    {
+        return type switch
+        {
+            MedicalTriggerType.Immediately or MedicalTriggerType.AfterSeconds => TimePip,
+            MedicalTriggerType.SelfBloodBelow => BloodPip,
+            MedicalTriggerType.SelfPartsDamaged or MedicalTriggerType.PartBelowHealth => PartsPip,
+            MedicalTriggerType.PartSevered or MedicalTriggerType.BurningOrAcid => CrisisPip,
+            MedicalTriggerType.HasNecrosis or MedicalTriggerType.HasPoison => StatusPip,
+            _ => TimePip
+        };
     }
 
     private void SpawnSparks(Color color)
@@ -348,25 +503,38 @@ internal sealed class MedicalSlotView : Panel
 
     private void DrawGlow(RenderContext context)
     {
-        if (_flashRemaining <= 0f)
-        {
-            return;
-        }
-
-        var progress = Math.Clamp(1f - _flashRemaining / GlowDuration, 0f, 1f);
-        var pulse = MathF.Sin(progress * MathF.PI);
-        if (pulse < 0.02f)
-        {
-            return;
-        }
-
         var bounds = ActualBounds;
         var center = new Vector2(bounds.X + bounds.Width * 0.5f, bounds.Y + bounds.Height * 0.5f);
         var cell = Math.Max(bounds.Width, bounds.Height);
         var glow = EnsureGlowTexture();
-        var color = FlashColor();
-        DrawHalo(context, glow, center, cell * (1.85f + 0.45f * pulse), color * (0.55f * pulse));
-        DrawHalo(context, glow, center, cell * (1.15f + 0.2f * pulse), Color.Lerp(color, Color.White, 0.25f) * (0.22f * pulse));
+
+        if (_flashRemaining > 0f)
+        {
+            var progress = Math.Clamp(1f - _flashRemaining / GlowDuration, 0f, 1f);
+            var pulse = MathF.Sin(progress * MathF.PI);
+            if (pulse >= 0.02f)
+            {
+                var color = FlashColor();
+                DrawHalo(context, glow, center, cell * (1.85f + 0.45f * pulse), color * (0.55f * pulse));
+                DrawHalo(context, glow, center, cell * (1.15f + 0.2f * pulse), Color.Lerp(color, Color.White, 0.25f) * (0.22f * pulse));
+            }
+
+            return;
+        }
+
+        if (_urgency < 0.08f)
+        {
+            return;
+        }
+
+        var breathe = 0.5f + 0.5f * MathF.Sin(_urgencyPhase * MathF.PI * 2f);
+        var warmth = _urgency * (0.35f + 0.65f * breathe);
+        var pip = TriggerColor(ChestSlot.Trigger?.Type ?? MedicalTriggerType.Immediately);
+        DrawHalo(context, glow, center, cell * (1.2f + 0.4f * warmth), pip * (0.32f * warmth));
+        if (_urgency > 0.85f)
+        {
+            DrawHalo(context, glow, center, cell * (1.55f + 0.25f * breathe), pip * (0.18f * warmth));
+        }
     }
 
     private void DrawSparks(RenderContext context)
@@ -436,7 +604,7 @@ internal sealed class MedicalSlotView : Panel
     {
         if (slot.IsInfinite)
         {
-            return "∞";
+            return MedicalChest.IsLockedForRestOfCombat(slot) ? "" : "∞";
         }
 
         return slot.Charges > 0 ? slot.Charges.ToString() : "";

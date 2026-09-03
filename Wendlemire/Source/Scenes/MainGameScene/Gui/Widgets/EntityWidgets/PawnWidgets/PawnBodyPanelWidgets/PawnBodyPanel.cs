@@ -220,6 +220,28 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
         FindRowForPart(bodyPart)?.Flash(color);
     }
 
+    public Widget? FindPartWidget(string? partKey)
+    {
+        var part = _body.FindPartByKey(partKey);
+        var row = FindRowForPart(part);
+        if (row != null)
+        {
+            return row;
+        }
+
+        foreach (var external in _body.AllExternalParts)
+        {
+            if (external.Type == BodyPartType.Torso)
+            {
+                return FindRowForPart(external);
+            }
+        }
+
+        return _body.AllExternalParts.Count > 0
+            ? FindRowForPart(_body.AllExternalParts[0])
+            : null;
+    }
+
     private BodyPartRow? FindRowForPart(BodyPart? part)
     {
         if (part == null)

@@ -30,12 +30,6 @@ public sealed class PawnCapabilitiesPanel : VerticalStackPanel, IUpdatable
             HorizontalAlignment = HorizontalAlignment.Stretch
         };
 
-        headerRow.Widgets.Add(new Label(BaseContent.Styles.Label.Normal)
-        {
-            Text = "Capabilities",
-            TextColor = new Color(200, 170, 100)
-        });
-
         var headerLine = new Panel
         {
             Height = 1,

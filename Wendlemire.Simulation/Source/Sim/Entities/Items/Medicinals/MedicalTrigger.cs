@@ -40,6 +40,108 @@ public class MedicalTrigger : IExposable
         };
     }
 
+    /// <summary>
+    /// How close this trigger is to firing, from 0 (idle) to 1 (condition met).
+    /// Slot lock / cooldown is a chest concern and is not applied here.
+    /// </summary>
+    public float GetUrgency(Pawn self, Pawn enemy, int tick, ItemDef? def = null)
+    {
+        if (self?.Body == null)
+        {
+            return 0f;
+        }
+
+        var props = def?.MedicinalProperties;
+        return Type switch
+        {
+            MedicalTriggerType.Immediately => 1f,
+            MedicalTriggerType.AfterSeconds => AfterSecondsUrgency(tick),
+            MedicalTriggerType.SelfBloodBelow => BloodUrgency(self),
+            MedicalTriggerType.SelfPartsDamaged => PartsDamagedUrgency(self),
+            MedicalTriggerType.PartBelowHealth => PartHealthUrgency(self, props),
+            MedicalTriggerType.PartSevered => FindUnsealedSocket(self) != null ? 1f : 0f,
+            MedicalTriggerType.HasNecrosis => HasStatus(self, props, HasUntreatedNecrosis) ? 1f : 0f,
+            MedicalTriggerType.BurningOrAcid => HasStatus(self, props, HasBurningOrAcid) ? 1f : 0f,
+            MedicalTriggerType.HasPoison => HasStatus(self, props, HasPoison) ? 1f : 0f,
+            _ => 0f
+        };
+    }
+
+    private float AfterSecondsUrgency(int tick)
+    {
+        var targetTicks = AfterSeconds * GameContext.TicksPerSecond;
+        if (targetTicks <= 0)
+        {
+            return 1f;
+        }
+
+        return Math.Clamp(tick / targetTicks, 0f, 1f);
+    }
+
+    private float BloodUrgency(Pawn self)
+    {
+        var threshold = Threshold;
+        var blood = self.Body.BloodPercent;
+        if (threshold <= 0)
+        {
+            return blood <= 0 ? 1f : 0f;
+        }
+
+        if (blood <= threshold)
+        {
+            return 1f;
+        }
+
+        var span = 1f - threshold;
+        return span <= 0 ? 1f : Math.Clamp((1f - blood) / span, 0f, 1f);
+    }
+
+    private float PartsDamagedUrgency(Pawn self)
+    {
+        var external = self.Body.AllExternalParts;
+        if (external.Count == 0)
+        {
+            return 0f;
+        }
+
+        var eyes = external.Where(p => p.Type == BodyPartType.Eye).ToList();
+        if (eyes.Count > 0 && eyes.All(e => !e.IsFunctional))
+        {
+            return 1f;
+        }
+
+        var healthThreshold = HealthThreshold > 0 ? HealthThreshold : 0.6f;
+        var damaged = external.Count(p => p.HealthPercent < healthThreshold);
+        var required = external.Count * Threshold;
+        if (required <= 0)
+        {
+            return damaged > 0 ? 1f : 0f;
+        }
+
+        return Math.Clamp(damaged / required, 0f, 1f);
+    }
+
+    private float PartHealthUrgency(Pawn self, MedicinalProperties? props)
+    {
+        var healthThreshold = HealthThreshold > 0 ? HealthThreshold : 0.6f;
+        var parts = TargetSelector == MedicalTargetSelector.SpecificPart
+            ? ResolveTargetParts(self, TargetPartKey)
+            : CollectWatchParts(self, props, forHealthScan: true).ToList();
+        if (parts.Count == 0)
+        {
+            return 0f;
+        }
+
+        var worst = (float)parts.Min(p => p.HealthPercent);
+        if (worst <= healthThreshold)
+        {
+            return 1f;
+        }
+
+        var span = 1f - healthThreshold;
+        return span <= 0 ? 1f : Math.Clamp((1f - worst) / span, 0f, 1f);
+    }
+
     public string Describe()
     {
         var when = Type switch

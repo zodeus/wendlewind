@@ -26,6 +26,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     private CursorButton? _showSummaryButton;
     private readonly CombatFloaterRouter _floaterRouter;
     private readonly CombatPotionThrowFx _potionThrowFx;
+    private readonly CombatMedicalTravelFx _medicalTravelFx;
     private readonly CombatIncenseSmokeFx _incenseSmokeFx;
     private readonly CombatFighterStatsColumn _playerStats;
     private readonly CombatFighterStatsColumn _opponentStats;
@@ -34,6 +35,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     private readonly Widget _playerCenter;
     private readonly Widget _opponentCenter;
     private readonly List<CombatLogEvent> _pendingPotionThrows = [];
+    private readonly List<CombatLogEvent> _pendingMedicalTravels = [];
 
     private Encounter Encounter => _context.CurrentZone!.ActiveEncounter!;
 
@@ -184,7 +186,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         {
             Margin = new Thickness(0, 8, 0, 0)
         };
-        _opponentLoadout = new CombatConsumableLoadout(gui, opponent, mirror: true)
+        _opponentLoadout = new CombatConsumableLoadout(gui, opponent)
         {
             Margin = new Thickness(0, 8, 0, 0)
         };
@@ -266,6 +268,13 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         Grid.SetColumn(_potionThrowFx, 0);
         Grid.SetColumnSpan(_potionThrowFx, 4);
         grid.Widgets.Add(_potionThrowFx);
+
+        _medicalTravelFx = new CombatMedicalTravelFx();
+        Grid.SetRow(_medicalTravelFx, 0);
+        Grid.SetRowSpan(_medicalTravelFx, 2);
+        Grid.SetColumn(_medicalTravelFx, 0);
+        Grid.SetColumnSpan(_medicalTravelFx, 4);
+        grid.Widgets.Add(_medicalTravelFx);
 
         _incenseSmokeFx = new CombatIncenseSmokeFx();
         Grid.SetRow(_incenseSmokeFx, 0);
@@ -386,7 +395,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
         _incenseSmokeFx.TryStart(
             portrait,
-            new Vector2(portrait.Bounds.Width * 0.5f, portrait.Bounds.Height * 0.65f),
+            PortraitIncenseOrigin(portrait),
             tint);
     }
 
@@ -530,6 +539,63 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     private void OnMedicalUsed(CombatLogEvent combatEvent)
     {
         ResolveLoadout(combatEvent.SubjectPawnId).NotifyMedicalUsed(combatEvent.ItemMoniker);
+        if (!TryLaunchMedicalTravel(combatEvent))
+        {
+            _pendingMedicalTravels.Add(combatEvent);
+        }
+    }
+
+    private void FlushPendingMedicalTravels()
+    {
+        for (var i = 0; i < _pendingMedicalTravels.Count;)
+        {
+            var combatEvent = _pendingMedicalTravels[i];
+            if (FindPawn(combatEvent.SubjectPawnId) == null || TryLaunchMedicalTravel(combatEvent))
+            {
+                _pendingMedicalTravels.RemoveAt(i);
+                continue;
+            }
+
+            i++;
+        }
+    }
+
+    private bool TryLaunchMedicalTravel(CombatLogEvent combatEvent)
+    {
+        var pawn = FindPawn(combatEvent.SubjectPawnId);
+        if (pawn == null)
+        {
+            return false;
+        }
+
+        var loadout = ResolveLoadout(combatEvent.SubjectPawnId);
+        if (!loadout.TryGetMedicalSlot(combatEvent.ItemMoniker, out var source) || source.Bounds.Width <= 0)
+        {
+            return false;
+        }
+
+        var body = pawn.PawnType == PawnType.Player ? _pawnBodyView : _enemyPawnBodyView;
+        var target = body.FindPartWidget(combatEvent.BodyPartKey);
+        if (target == null || target.Bounds.Width <= 0)
+        {
+            var portrait = ResolveParty(pawn).GetPanelForPawn(pawn)?.BodyWidget;
+            if (portrait == null || portrait.Bounds.Width <= 0)
+            {
+                return false;
+            }
+
+            target = portrait;
+        }
+
+        var tint = combatEvent.ItemMoniker == Defs.Items.Cauterize.Moniker
+            ? new Color(255, 140, 50)
+            : new Color(90, 210, 140);
+        return _medicalTravelFx.TryStart(
+            source,
+            new Vector2(source.Bounds.Width * 0.5f, source.Bounds.Height * 0.5f),
+            target,
+            new Vector2(target.Bounds.Width * 0.5f, target.Bounds.Height * 0.5f),
+            tint);
     }
 
     private CombatConsumableLoadout ResolveLoadout(int pawnId)
@@ -620,7 +686,9 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         _enemyPawnBodyView.Update(deltaTime);
         _floaterRouter.Update(deltaTime);
         FlushPendingPotionThrows();
+        FlushPendingMedicalTravels();
         _potionThrowFx.Update(deltaTime);
+        _medicalTravelFx.Update(deltaTime);
         _playerStats.Update();
         _opponentStats.Update();
         _playerLoadout.Update();
@@ -635,6 +703,11 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         AddIncenseBurns(_playerLoadout, _playerPartyPanel, sources);
         AddIncenseBurns(_opponentLoadout, _opponentPartyPanel, sources);
         return sources;
+    }
+
+    private static Vector2 PortraitIncenseOrigin(Widget portrait)
+    {
+        return new Vector2(portrait.Bounds.Width * 0.5f, portrait.Bounds.Height * 0.28f);
     }
 
     private static void AddIncenseBurns(
@@ -660,7 +733,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             sources.Add(new CombatIncenseSmokeFx.BurnSource(
                 $"portrait-{pawn.Id}-{i}",
                 portrait,
-                new Vector2(portrait.Bounds.Width * 0.5f, portrait.Bounds.Height * 0.65f),
+                PortraitIncenseOrigin(portrait),
                 CombatIncenseSmokeFx.TintFor(incense)));
         }
     }
