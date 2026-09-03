@@ -79,7 +79,7 @@ public class ArenaRunTests
     }
 
     [Fact]
-    public void TenWinsEndsRunAsVictory()
+    public void TwelveWinsEndsRunAsVictory()
     {
         using var scope = CreateArena();
         var context = scope.Context;
@@ -90,7 +90,7 @@ public class ArenaRunTests
 
         Assert.True(context.ArenaRun!.IsRunOver);
         Assert.True(context.ArenaRun.IsVictory);
-        Assert.Equal(10, context.ArenaRun.Wins);
+        Assert.Equal(ArenaRun.WinsToFinish, context.ArenaRun.Wins);
         Assert.Equal(ArenaPhase.RunEnd, context.ArenaRun.Phase);
     }
 

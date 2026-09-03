@@ -201,7 +201,7 @@
         <Weapons>
             <ListItem>HexWand</ListItem>
         </Weapons>
-        <DamageMultiplier>.45~.75</DamageMultiplier>
+        <DamageMultiplier>.55~.9</DamageMultiplier>
     </WeaponManeuverDef>
 
     <WeaponManeuverDef> 

@@ -23,7 +23,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Magic/EmberWand</TexturePath>
         <BaseStats>
-            <WeaponPower>28</WeaponPower>
+            <WeaponPower>62</WeaponPower>
             <MaxDurability>1800</MaxDurability>
         </BaseStats>
     </ItemDef>
@@ -49,7 +49,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Magic/HexWand</TexturePath>
         <BaseStats>
-            <WeaponPower>26</WeaponPower>
+            <WeaponPower>58</WeaponPower>
             <MaxDurability>1800</MaxDurability>
         </BaseStats>
     </ItemDef>
@@ -76,7 +76,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Magic/FireStaff</TexturePath>
         <BaseStats>
-            <WeaponPower>36</WeaponPower>
+            <WeaponPower>76</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
     </ItemDef>
@@ -103,7 +103,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Magic/StormStaff</TexturePath>
         <BaseStats>
-            <WeaponPower>36</WeaponPower>
+            <WeaponPower>76</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
     </ItemDef>

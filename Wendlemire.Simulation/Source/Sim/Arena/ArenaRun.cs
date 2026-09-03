@@ -5,7 +5,7 @@ public class ArenaRun : IExposable
     public const int StartingGold = 200;
     public const int WinGold = 200;
     public const int LoseGold = 150;
-    public const int WinsToFinish = 10;
+    public const int WinsToFinish = 12;
     public const int LossesToFinish = 5;
 
     public int RunSeed;

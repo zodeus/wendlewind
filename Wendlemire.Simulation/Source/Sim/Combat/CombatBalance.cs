@@ -6,8 +6,32 @@ namespace Wendlemire.Sim.Combat;
 /// </summary>
 public static class CombatBalance
 {
-    public const float VitalHpScale = 0.96f;
-    public const float LimbHpScale = 0.85f;
+    public const float VitalHpScale = 0.90f;
+    public const float LimbHpScale = 0.78f;
+
+    /// <summary>
+    /// Diminishing-returns armor: reduction = resist / (resist + ArmorK). Never 100%.
+    /// Leather 18 ≈ 14% DR, chain 34 ≈ 24% DR, witch doctor 48 ≈ 30% DR.
+    /// </summary>
+    public const float ArmorK = 110f;
+
+    public const float ArmoredDotChanceFactor = 0.65f;
+    public const float ArmoredDotPowerFactor = 0.7f;
+
+    public static float ArmorReduction(float resist)
+    {
+        if (resist <= 0f)
+        {
+            return 0f;
+        }
+
+        return resist / (resist + ArmorK);
+    }
+
+    public static float ArmorPassThrough(float resist) => 1f - ArmorReduction(resist);
+
+    public static double BlockedAmount(double totalDamage, float resist) =>
+        totalDamage * ArmorReduction(resist);
 
     public static float ScaleFor(BodyPartType type) => type switch
     {

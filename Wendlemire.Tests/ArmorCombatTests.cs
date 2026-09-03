@@ -7,8 +7,8 @@ using Xunit;
 namespace Wendlemire.Tests;
 
 /// <summary>
-/// Armor is a flat <see cref="Defs.Stats.PhysicalResistance"/> subtract on the hit part.
-/// Basic primitive/iron weapons land ~20 (glance) to ~58 (full swing); mid hits sit near 40.
+/// Armor is diminishing-returns DR: blocked = hit * resist / (resist + ArmorK).
+/// Never fully shrugs a real swing; heavier tiers still block more.
 /// </summary>
 [Collection("Sim")]
 public class ArmorCombatTests
@@ -16,6 +16,7 @@ public class ArmorCombatTests
     private const double BasicMidHit = 40;
     private const double BasicGlance = 20;
     private const double BasicFullSwing = 58;
+    private const int BlockPrecision = 2;
 
     public ArmorCombatTests()
     {
@@ -24,15 +25,15 @@ public class ArmorCombatTests
 
     [Theory]
     [InlineData("ClothVambrace", 14f)]
-    [InlineData("LeatherVambrace", 22f)]
-    [InlineData("ChainVambrace", 32f)]
-    [InlineData("WitchDoctorVambrace", 36f)]
+    [InlineData("LeatherVambrace", 18f)]
+    [InlineData("ChainVambrace", 34f)]
+    [InlineData("WitchDoctorVambrace", 48f)]
     [InlineData("ClothTunic", 14f)]
-    [InlineData("LeatherTunic", 24f)]
-    [InlineData("ChainTunic", 32f)]
+    [InlineData("LeatherTunic", 20f)]
+    [InlineData("ChainTunic", 34f)]
     [InlineData("BucketHelmet", 18f)]
     [InlineData("FishBowlHelmet", 12f)]
-    [InlineData("PlagueMask", 22f)]
+    [InlineData("PlagueMask", 18f)]
     public void ArmorPiecesHaveExpectedPhysicalResistance(string moniker, float expected)
     {
         using var harness = BodyTestHarness.Human();
@@ -59,11 +60,11 @@ public class ArmorCombatTests
     }
 
     [Theory]
-    [InlineData("ClothVambrace", 14)]
-    [InlineData("LeatherVambrace", 22)]
-    [InlineData("ChainVambrace", 32)]
-    [InlineData("WitchDoctorVambrace", 36)]
-    public void ArmoredArmBlocksPhysicalResistanceFromBasicMidHit(string armor, double expectedBlock)
+    [InlineData("ClothVambrace", 14f)]
+    [InlineData("LeatherVambrace", 18f)]
+    [InlineData("ChainVambrace", 34f)]
+    [InlineData("WitchDoctorVambrace", 48f)]
+    public void ArmoredArmBlocksPercentageOfBasicMidHit(string armor, float resist)
     {
         using var harness = BodyTestHarness.Human();
         var attacker = harness.CreatePawn("HumanA", "Attacker");
@@ -74,13 +75,15 @@ public class ArmorCombatTests
         var response = harness.Strike(attacker, arm, BasicMidHit);
 
         var record = Assert.Single(response.Damages);
-        Assert.Equal(expectedBlock, record.AmountBlocked);
+        var expectedBlock = CombatBalance.BlockedAmount(BasicMidHit, resist);
+        Assert.Equal(expectedBlock, record.AmountBlocked, BlockPrecision);
         Assert.Equal(armor, record.BlockingItemMoniker);
-        Assert.Equal(BasicMidHit - expectedBlock, record.TotalDamage - record.AmountBlocked);
+        Assert.Equal(BasicMidHit - expectedBlock, record.TotalDamage - record.AmountBlocked, BlockPrecision);
+        Assert.True(record.ActualAmount > 0);
     }
 
     [Fact]
-    public void ChainArmTakesFarLessBodyDamageThanUnarmoredAgainstBasicMidHit()
+    public void ChainArmTakesLessBodyDamageThanUnarmoredAgainstBasicMidHit()
     {
         using var bare = BodyTestHarness.Human();
         using var armored = BodyTestHarness.Human();
@@ -102,15 +105,18 @@ public class ArmorCombatTests
         var armoredLoss = armoredHp - armoredArm.HitPoints;
         var bareBody = Assert.Single(bareHit.Damages).ActualAmount;
         var armoredBody = Assert.Single(armoredHit.Damages).ActualAmount;
+        var expectedPass = CombatBalance.ArmorPassThrough(34f);
 
         Assert.True(bareLoss > 0);
-        Assert.True(armoredLoss < bareLoss * 0.35, $"Chain arm lost {armoredLoss:0.##} vs unarmored {bareLoss:0.##}");
-        Assert.True(armoredBody < bareBody * 0.35, $"Chain body damage {armoredBody:0.##} vs unarmored {bareBody:0.##}");
-        Assert.Equal(32, Assert.Single(armoredHit.Damages).AmountBlocked);
+        Assert.True(armoredLoss < bareLoss * (expectedPass + 0.1f),
+            $"Chain arm lost {armoredLoss:0.##} vs unarmored {bareLoss:0.##}");
+        Assert.True(armoredBody < bareBody * (expectedPass + 0.1f),
+            $"Chain body damage {armoredBody:0.##} vs unarmored {bareBody:0.##}");
+        Assert.Equal(CombatBalance.BlockedAmount(BasicMidHit, 34f), Assert.Single(armoredHit.Damages).AmountBlocked, BlockPrecision);
     }
 
     [Fact]
-    public void LeatherAndAboveShrugOffABasicGlance()
+    public void LeatherReducesABasicGlanceButDoesNotNegateIt()
     {
         using var harness = BodyTestHarness.Human();
         var attacker = harness.CreatePawn("HumanA", "Attacker");
@@ -122,13 +128,15 @@ public class ArmorCombatTests
         var response = harness.Strike(attacker, arm, BasicGlance);
 
         var record = Assert.Single(response.Damages);
-        Assert.Equal(BasicGlance, record.AmountBlocked);
-        Assert.Equal(0, record.ActualAmount);
-        Assert.Equal(hpBefore, arm.HitPoints);
+        var expectedBlock = CombatBalance.BlockedAmount(BasicGlance, 18f);
+        Assert.Equal(expectedBlock, record.AmountBlocked, BlockPrecision);
+        Assert.True(record.ActualAmount > 0);
+        Assert.True(arm.HitPoints < hpBefore);
+        Assert.True(record.ActualAmount < BasicGlance);
     }
 
     [Fact]
-    public void ChainStillLetsAFullBasicSwingThrough()
+    public void ChainStillLetsMostOfAFullBasicSwingThrough()
     {
         using var harness = BodyTestHarness.Human();
         var attacker = harness.CreatePawn("HumanA", "Attacker");
@@ -139,9 +147,9 @@ public class ArmorCombatTests
         var response = harness.Strike(attacker, arm, BasicFullSwing);
 
         var record = Assert.Single(response.Damages);
-        Assert.Equal(32, record.AmountBlocked);
-        Assert.True(record.ActualAmount > 0);
-        Assert.True(record.ActualAmount < BasicFullSwing * 0.5);
+        Assert.Equal(CombatBalance.BlockedAmount(BasicFullSwing, 34f), record.AmountBlocked, BlockPrecision);
+        Assert.True(record.ActualAmount > BasicFullSwing * 0.5);
+        Assert.True(record.ActualAmount < BasicFullSwing);
     }
 
     [Fact]
@@ -158,7 +166,7 @@ public class ArmorCombatTests
         harness.UseAlwaysHitRng();
         var headHit = harness.Strike(attacker, head, BasicMidHit);
 
-        Assert.Equal(32, Assert.Single(torsoHit.Damages).AmountBlocked);
+        Assert.Equal(CombatBalance.BlockedAmount(BasicMidHit, 34f), Assert.Single(torsoHit.Damages).AmountBlocked, BlockPrecision);
         Assert.Equal(0, Assert.Single(headHit.Damages).AmountBlocked);
         Assert.True(Assert.Single(headHit.Damages).ActualAmount > Assert.Single(torsoHit.Damages).ActualAmount);
     }
@@ -186,7 +194,7 @@ public class ArmorCombatTests
     [InlineData("BoneKnife")]
     [InlineData("WoodClub")]
     [InlineData("IronSword")]
-    public void ChainCutsBasicWeaponBodyDamageToAMinorityOfUnarmored(string weapon)
+    public void ChainReducesBasicWeaponBodyDamage(string weapon)
     {
         var rawHits = SampleBasicWeaponDamage(weapon, seed: 11, count: 8);
         Assert.All(rawHits, raw => Assert.True(raw > 0));
@@ -213,8 +221,11 @@ public class ArmorCombatTests
 
         Assert.True(bareTotal > 0, $"{weapon} dealt no unarmored body damage");
         Assert.True(
-            armoredTotal < bareTotal * 0.4,
+            armoredTotal < bareTotal * 0.85,
             $"{weapon}: chain arm took {armoredTotal:0.##} vs unarmored {bareTotal:0.##}");
+        Assert.True(
+            armoredTotal > bareTotal * 0.4,
+            $"{weapon}: chain should still let real damage through ({armoredTotal:0.##} vs {bareTotal:0.##})");
     }
 
     private static void RestorePartTree(BodyPart part)

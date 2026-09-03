@@ -7,7 +7,7 @@
         <Weapons>
             <ListItem>StormStaff</ListItem>
         </Weapons>
-        <DamageMultiplier>.55~.85</DamageMultiplier>
+        <DamageMultiplier>.65~1</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
         <Moniker>ArcLeap</Moniker>
@@ -15,6 +15,6 @@
         <Weapons>
             <ListItem>StormStaff</ListItem>
         </Weapons>
-        <DamageMultiplier>.45~.95</DamageMultiplier>
+        <DamageMultiplier>.55~1.05</DamageMultiplier>
     </WeaponManeuverDef>
 </Definitions>

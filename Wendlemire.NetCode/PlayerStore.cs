@@ -575,7 +575,7 @@ public sealed class PlayerStore
 
         var wins = Math.Max(current.Wins, CountFightWins(run.Fights, playerId));
         var losses = Math.Max(current.Losses, CountFightLosses(run.Fights, playerId));
-        var won = victory ?? (wins >= 10 ? true : losses >= 5 ? false : (bool?)null);
+        var won = victory ?? (wins >= ArenaRun.WinsToFinish ? true : losses >= ArenaRun.LossesToFinish ? false : (bool?)null);
         var runFinished = !abandoned
                           && (wins >= ArenaRun.WinsToFinish || losses >= ArenaRun.LossesToFinish);
         var complete = runFinished || (!abandoned && victory != null);

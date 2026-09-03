@@ -751,14 +751,14 @@ public class BalanceSimReport
             }
         }
 
-        sb.AppendLine("=== Wendlemire Human-vs-Human Balance (13-round curve) ===");
+        sb.AppendLine("=== Wendlemire Human-vs-Human Balance (12-win curve) ===");
         if (!string.IsNullOrWhiteSpace(BandFilter))
         {
             sb.AppendLine($"Band filter: {BandFilter.Trim()}");
         }
 
         sb.AppendLine($"Seeds/matchup: {SeedCount}   Target: {TargetMinTicks / 60}-{TargetMaxTicks / 60}s @ 60tps");
-        sb.AppendLine($"Knobs this pass: CombatBalance VitalHpScale={CombatBalance.VitalHpScale} LimbHpScale={CombatBalance.LimbHpScale} (human externals only)");
+        sb.AppendLine($"Knobs this pass: CombatBalance VitalHpScale={CombatBalance.VitalHpScale} LimbHpScale={CombatBalance.LimbHpScale} ArmorK={CombatBalance.ArmorK} (ElvishLeaf diminishing, on-hit stacks free)");
         sb.AppendLine("Sever dump: currentBlood * (subtree BloodAmount / body BloodAmount) on Severe()");
         sb.AppendLine();
         AppendHumanBloodShares(sb);

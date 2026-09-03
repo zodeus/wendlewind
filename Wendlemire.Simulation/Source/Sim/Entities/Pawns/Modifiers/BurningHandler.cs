@@ -14,8 +14,8 @@ public class BurningHandler : BodyPartModifier
     private const double SkinDamage = 0.2;
     private const double OrganDamage = 0.003;
     private const double PenetratedDamage = 0.02;
-    private const double PenetrationThreshold = 0.1;
-    private const double SpreadThreshold = 0.3;
+    private const double PenetrationThreshold = 0.05;
+    private const double SpreadThreshold = 0.2;
     public override List<SubstanceType> AllowedSubstances => [SubstanceType.Flesh, SubstanceType.Bone, SubstanceType.Fungus, SubstanceType.Wood, SubstanceType.Chitin];
 
     public override void Tick()

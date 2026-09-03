@@ -127,11 +127,33 @@ namespace Wendlemire.Sim.Entities.Pawns
             return remainingDamage;
         }
 
+        public static Item? CoveringArmor(this BodyPart part)
+        {
+            if (part.Armor != null)
+            {
+                return part.Armor;
+            }
+
+            var current = part.Socket?.ParentPart;
+            while (current != null)
+            {
+                if (current.Armor != null)
+                {
+                    return current.Armor;
+                }
+
+                current = current.Socket?.ParentPart;
+            }
+
+            return null;
+        }
+
         public static void ApplyBodyPartModifiers(this BodyPart part, List<BodyPartModifierRecord> bodyPartModifiers, DamagedBodyPartRecord damagedBodyPartRecord, string weaponManeuver)
         {
             foreach (var record in bodyPartModifiers)
             {
-                if (part.ApplyBodyPartModifier(record, weaponManeuver))
+                var scaled = ScaleOffensiveModifierForArmor(part, record);
+                if (part.ApplyBodyPartModifier(scaled, weaponManeuver))
                 {
                     damagedBodyPartRecord.AppliedModifiers.Add(record.Def);
                 }
@@ -145,6 +167,22 @@ namespace Wendlemire.Sim.Entities.Pawns
             var mod = part.Context.Factory.CreateModifier(record.Def, record.DurationInTicks.Roll(part.Context.Rng), record.Power);
             mod.Maneuver = maneuver;
             return mod.ApplyToPart(part);
+        }
+
+        private static BodyPartModifierRecord ScaleOffensiveModifierForArmor(BodyPart part, BodyPartModifierRecord record)
+        {
+            if (part.CoveringArmor() == null)
+            {
+                return record;
+            }
+
+            return new BodyPartModifierRecord
+            {
+                Def = record.Def,
+                DurationInTicks = record.DurationInTicks,
+                Chance = record.Chance * CombatBalance.ArmoredDotChanceFactor,
+                Power = record.Power * CombatBalance.ArmoredDotPowerFactor
+            };
         }
 
         public static float GetSubtreeBloodWeight(this BodyPart part)

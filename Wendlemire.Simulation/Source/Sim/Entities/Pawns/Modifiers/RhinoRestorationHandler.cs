@@ -8,8 +8,8 @@ public class RhinoRestorationHandler : BodyPartModifier
         Rng = rng;
     }
 
-    private const double HealthRestoredPerTick = .2;
-    private const double SkinHealthRestoredPerTick = .3;
+    private const double HealthRestoredPerTick = .14;
+    private const double SkinHealthRestoredPerTick = .2;
     private const double DestroyPartRegenerationPercent = 0.05f;
     private const double EnhancedHealthMultiplier = 5;
     private const int EnhancedHealthDuration = 20;

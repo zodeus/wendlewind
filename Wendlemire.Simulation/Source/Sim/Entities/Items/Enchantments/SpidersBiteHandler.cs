@@ -24,7 +24,7 @@ public class SpidersBiteHandler : EnchantmentHandler
             {
                 Def = scaled.Def,
                 DurationInTicks = scaled.DurationInTicks,
-                Chance = RangeFloat.One,
+                Chance = scaled.Chance,
                 Power = scaled.Power
             };
             if (randomPart.ApplyBodyPartModifier(modRecord, Enchantment.Label))

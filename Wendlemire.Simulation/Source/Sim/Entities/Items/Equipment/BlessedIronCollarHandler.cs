@@ -7,8 +7,8 @@ public class BlessedIronCollarHandler : EquipmentHandler
         Rng = rng;
     }
 
-    public const float DamagePerTick = 0.1f;
-    public const float SoftTissueDamagePerTick = 0.03f;
+    public const float DamagePerTick = 0.02f;
+    public const float SoftTissueDamagePerTick = 0.006f;
     public override bool OnPreDamageTaken(DamageRequest request, DamageResponse response)
     {
         if (request.TargetedPart.Type == BodyPartType.Neck)

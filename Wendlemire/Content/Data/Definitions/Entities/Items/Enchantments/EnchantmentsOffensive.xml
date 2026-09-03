@@ -17,7 +17,7 @@
             <BodyPartModifiers>
                 <ListItem>
                     <Def>Acid</Def>
-                    <DurationInTicks>48~96</DurationInTicks>
+                    <DurationInTicks>32~64</DurationInTicks>
                     <Chance>.4</Chance>
                 </ListItem>
             </BodyPartModifiers>
@@ -60,7 +60,7 @@
                 <ListItem>
                     <Def>BoneDecay</Def>
                     <DurationInTicks>0</DurationInTicks>
-                    <Chance>.20</Chance>
+                    <Chance>.15</Chance>
                 </ListItem>
             </BodyPartModifiers>
         </EnchantmentProperties>
@@ -81,7 +81,7 @@
                 <ListItem>
                     <Def>Burning</Def>
                     <DurationInTicks>32~96</DurationInTicks>
-                    <Chance>.75</Chance>
+                    <Chance>.45</Chance>
                 </ListItem>
             </BodyPartModifiers>
         </EnchantmentProperties>

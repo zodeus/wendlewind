@@ -8,7 +8,7 @@ public class BloodBathHandler : EnchantmentHandler
         Rng = rng;
     }
 
-    private const float BloodScaleFactor = 0.04f;
+    private const float BloodScaleFactor = 0.02f;
 
     public override void PostPawnDamageTakenEffect(BodyPart bodyPart, Pawn target, Pawn source, DamageRecord damageRecord)
     {

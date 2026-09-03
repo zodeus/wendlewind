@@ -75,7 +75,9 @@ public class Damage
 
     public void Block(Item equipment)
     {
-        TotalUnblockedDamage = Math.Clamp(TotalDamage - equipment.GetStatValue(Defs.Stats.PhysicalResistance), 0, TotalDamage);
+        var resist = equipment.GetStatValue(Defs.Stats.PhysicalResistance);
+        var reduction = CombatBalance.ArmorReduction(resist);
+        TotalUnblockedDamage = Math.Clamp(TotalDamage * (1.0 - reduction), 0, TotalDamage);
 
         var damageBlocked = TotalDamage - TotalUnblockedDamage;
         var durabilityLossFactor = equipment.Context.Rng.NextFloat(0.2f, 0.5f);

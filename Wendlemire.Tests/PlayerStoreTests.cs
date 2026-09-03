@@ -406,7 +406,7 @@ public class PlayerStoreTests
             Assert.Equal(0, store.GetProfile("alice")!.RatedRuns);
 
             var mirror = store.StartArena("alice", "Alice", 2);
-            store.SaveCurrentArena(mirror with { Wins = 10, Losses = 0 });
+            store.SaveCurrentArena(mirror with { Wins = ArenaRun.WinsToFinish, Losses = 0 });
             store.AppendFight("alice", new ArenaFightRecord
             {
                 MatchId = "mirror-fight",
@@ -587,17 +587,18 @@ public class PlayerStoreTests
     }
 
     [Fact]
-    public void FinishedTenWinRunAwardsMarksFormula()
+    public void FinishedWinRunAwardsMarksFormula()
     {
         var dir = Path.Combine(Path.GetTempPath(), $"ww-data-{Guid.NewGuid():N}");
         try
         {
             var store = new PlayerStore(dir);
             var started = store.StartArena("alice", "Alice", 1);
-            store.SaveCurrentArena(started with { Wins = 10, Losses = 0, Gold = 320 });
+            store.SaveCurrentArena(started with { Wins = ArenaRun.WinsToFinish, Losses = 0, Gold = 320 });
             var finished = store.FinishCurrent("alice");
-            Assert.Equal(182, finished!.MarksAwarded);
-            Assert.Equal(182, store.GetProfile("alice")!.Marks);
+            var expected = ArenaMarks.ForFinishedRun(ArenaRun.WinsToFinish, 320);
+            Assert.Equal(expected, finished!.MarksAwarded);
+            Assert.Equal(expected, store.GetProfile("alice")!.Marks);
         }
         finally
         {
@@ -625,18 +626,18 @@ public class PlayerStoreTests
     }
 
     [Fact]
-    public void StartArenaCompletesTenWinRunAndAwardsMarks()
+    public void StartArenaCompletesWinRunAndAwardsMarks()
     {
         var dir = Path.Combine(Path.GetTempPath(), $"ww-data-{Guid.NewGuid():N}");
         try
         {
             var store = new PlayerStore(dir);
             var first = store.StartArena("alice", "Alice", 1);
-            store.SaveCurrentArena(first with { Wins = 10, Losses = 0, Gold = 500 });
+            store.SaveCurrentArena(first with { Wins = ArenaRun.WinsToFinish, Losses = 0, Gold = 500 });
             store.AppendFight("alice", new ArenaFightRecord
             {
-                MatchId = "ten-win-finish",
-                Round = 10,
+                MatchId = "win-run-finish",
+                Round = ArenaRun.WinsToFinish,
                 Attacker = BuildTemplates.TankRegen() with { PlayerId = "alice" },
                 Defender = BuildTemplates.AcidRusher() with { PlayerId = "bob" },
                 EncounterSeed = 1,
@@ -647,7 +648,7 @@ public class PlayerStoreTests
 
             store.StartArena("alice", "Alice", 2);
             var finished = store.GetRun("alice", first.RunId)!;
-            Assert.Equal(ArenaMarks.ForFinishedRun(10, 500), finished.MarksAwarded);
+            Assert.Equal(ArenaMarks.ForFinishedRun(ArenaRun.WinsToFinish, 500), finished.MarksAwarded);
             Assert.Equal(finished.MarksAwarded, store.GetProfile("alice")!.Marks);
             Assert.True(finished.Victory);
             Assert.True(finished.RankApplied);
@@ -729,9 +730,10 @@ public class PlayerStoreTests
             Assert.Equal("Not enough marks.", tooPoor.Error);
 
             var started = store.StartArena("alice", "Alice", 1);
-            store.SaveCurrentArena(started with { Wins = 10, Losses = 0, Gold = 320 });
+            store.SaveCurrentArena(started with { Wins = ArenaRun.WinsToFinish, Losses = 0, Gold = 320 });
             store.FinishCurrent("alice");
-            Assert.Equal(182, store.GetProfile("alice")!.Marks);
+            var marksAfterRun = ArenaMarks.ForFinishedRun(ArenaRun.WinsToFinish, 320);
+            Assert.Equal(marksAfterRun, store.GetProfile("alice")!.Marks);
 
             var alreadyOwned = store.BuyCosmetic("alice", ArenaMarks.DefaultNamePlate);
             Assert.False(alreadyOwned.Ok);
@@ -743,7 +745,7 @@ public class PlayerStoreTests
 
             var bought = store.BuyCosmetic("alice", "BoneInlay");
             Assert.True(bought.Ok);
-            Assert.Equal(32, bought.Profile!.Marks);
+            Assert.Equal(marksAfterRun - 150, bought.Profile!.Marks);
             Assert.Contains("BoneInlay", bought.Profile.OwnedCosmeticMonikers);
             Assert.Equal(ArenaMarks.DefaultNamePlate, bought.Profile.EquippedNamePlate);
 

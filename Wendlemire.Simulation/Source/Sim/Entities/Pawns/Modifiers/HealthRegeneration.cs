@@ -8,7 +8,7 @@ public class HealthRegeneration : BodyPartModifier
         Rng = rng;
     }
 
-    private const double HealthRegenerationPerTick = .1f;
+    private const double HealthRegenerationPerTick = .07f;
     private const float TotalTicksToRegenerate = 15;
     private int _ticksToRegenerate;
 

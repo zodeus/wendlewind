@@ -8,9 +8,9 @@ public class BoneDecayHandler : BodyPartModifier
         Rng = rng;
     }
 
-    public double CurrentDamage = 0.3;
-    public const double BaseDamage = 0.3;
-    public const double EntropyRate = 0.85;
+    public double CurrentDamage = 0.12;
+    public const double BaseDamage = 0.12;
+    public const double EntropyRate = 0.75;
     public const double MinimumDamage = 0.025;
     public override List<SubstanceType> AllowedSubstances => [SubstanceType.Bone, SubstanceType.Chitin];
 
@@ -55,9 +55,29 @@ public class BoneDecayHandler : BodyPartModifier
             return false;
         }
 
+        if (!IsBoneExposed(part))
+        {
+            return false;
+        }
+
         part.TryAddModifier(this);
 
         return true;
+    }
+
+    private static bool IsBoneExposed(BodyPart part)
+    {
+        var host = part;
+        while (host is { IsExternal: false })
+        {
+            host = host.Socket?.ParentPart;
+            if (host == null)
+            {
+                return true;
+            }
+        }
+
+        return host.Skin == null || host.Skin.IsDestroyed;
     }
 
     public override InfoPanelData GetInfoData() => new InfoPanelData

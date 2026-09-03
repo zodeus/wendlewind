@@ -14,7 +14,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Primitive/WoodClub</TexturePath>
         <BaseStats>
-            <WeaponPower>34</WeaponPower>
+            <WeaponPower>46</WeaponPower>
             <MaxDurability>400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
