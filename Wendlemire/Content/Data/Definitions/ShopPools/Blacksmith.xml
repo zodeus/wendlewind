@@ -44,6 +44,31 @@
                     <ListItem>
                         <ItemDef>BoneAxe</ItemDef>
                     </ListItem>
+                    <ListItem>
+                        <ItemDef>Greatsword</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
+                        <Weight>1</Weight>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>Maul</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
+                        <Weight>1</Weight>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>Poleaxe</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
+                        <Weight>1</Weight>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>SteelSword</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
+                        <Weight>1</Weight>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>SteelAxe</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
+                        <Weight>1</Weight>
+                    </ListItem>
                 </Offers>
             </ListItem>
             <ListItem>

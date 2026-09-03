@@ -101,6 +101,26 @@
                 <ItemDef>StrangeWitheredTwig</ItemDef>
                 <Weight>1</Weight>
             </ListItem>
+            <ListItem>
+                <ItemDef>Greatsword</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>Maul</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>Poleaxe</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>SteelSword</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>SteelAxe</ItemDef>
+                <Weight>1</Weight>
+            </ListItem>
         </Items>
     </LootBoxDef>
 </Definitions>

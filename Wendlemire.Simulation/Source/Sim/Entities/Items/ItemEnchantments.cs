@@ -1,4 +1,4 @@
-﻿﻿using System.Collections;
+﻿using System.Collections;
 
 namespace Wendlemire.Sim.Entities.Items;
 
@@ -19,6 +19,26 @@ public class ItemEnchantments : IEnumerable<Item>, IExposable
     public Item? TryGetAtSocket(int position)
     {
         return _enchantments.Count > position ? _enchantments[position] : null;
+    }
+
+    public bool HasEmptySocket()
+    {
+        return TryGetEmptySocket(out _);
+    }
+
+    public bool TryGetEmptySocket(out int index)
+    {
+        for (var i = 0; i < MaxEnchantments; i++)
+        {
+            if (TryGetAtSocket(i) == null)
+            {
+                index = i;
+                return true;
+            }
+        }
+
+        index = -1;
+        return false;
     }
 
     public void TryAdd(Item enchantment, int position = 0)

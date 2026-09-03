@@ -30,9 +30,10 @@ public class PawnEquipmentPanel : Grid, IUpdatable
     private readonly bool _readOnly;
     private readonly bool _hoverToInspect;
     private readonly Dictionary<ItemDef, ColoredIcon> _iconCache = new();
-    private readonly Dictionary<(BodyPart Part, EquipmentSlotType Slot), bool> _lastAvailable = new();
+    private readonly Dictionary<(BodyPart Part, EquipmentSlotType Slot), SlotHintKind> _lastHint = new();
     private readonly List<(BodyPart Part, EquipmentSlotType Slot)> _staleSlotKeys = [];
     private readonly SolidBrush _availableSlotBrush = new(Color.DarkGoldenrod);
+    private readonly SolidBrush _enchantableSlotBrush = new(new Color(160, 90, 200));
     private readonly IImage _potionSlotIcon;
     private readonly IImage _bagSlotIcon;
     private static Texture2D? _glowTexture;
@@ -308,6 +309,16 @@ public class PawnEquipmentPanel : Grid, IUpdatable
                 return;
             }
 
+            if (item.ItemDef.ItemType == ItemType.Enchantment)
+            {
+                if (ResolveSlotItem(part, slot) is { } host && EnchantmentSocketing.TrySocket(host, item))
+                {
+                    _gui.MouseAttachment.Detach();
+                }
+
+                return;
+            }
+
             if (item.Def == Defs.Items.RepairKit)
             {
                 if (_pawn.Equipment.GetBySlot(part, slot) is { } equipmentItem && equipmentItem.Durability < equipmentItem.MaxDurability)
@@ -555,7 +566,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
                 _slotCells.Remove(key);
                 _flashes.Remove(key);
                 _lastMonikers.Remove(key);
-                _lastAvailable.Remove(key);
+                _lastHint.Remove(key);
             }
         }
     }
@@ -591,7 +602,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         bool isSlotEmpty = bodyPart.Equipment[slot] == null;
         var slotBlocked = _pawn.Equipment.IsHandSlotBlockedByTwoHanded(bodyPart, slot);
 
-        bool hasAvailableEquipment = false;
+        var hint = SlotHintKind.None;
         if (!_readOnly && isSlotEmpty && !slotBlocked)
         {
             foreach (var inventoryItem in _pawn.Inventory)
@@ -599,25 +610,27 @@ public class PawnEquipmentPanel : Grid, IUpdatable
                 if (inventoryItem.ItemDef.EquipmentProperties?.SlotUsedToEquip == slot
                     || (inventoryItem.ItemDef.ItemType == ItemType.Potion && PotionSlots.IsPotionSlot(slot) && PotionSlots.IsUnlocked(slot, _pawn.PotionCapacity)))
                 {
-                    hasAvailableEquipment = true;
+                    hint = SlotHintKind.Available;
                     break;
                 }
             }
         }
-
-        if (!_lastAvailable.TryGetValue(key, out var lastAvailable) || lastAvailable != hasAvailableEquipment)
+        else if (!_readOnly && ResolveSlotItem(bodyPart, slot) is { IsDestroyed: false } equipped
+                 && EnchantmentSocketing.HostAcceptsUnequipped(_pawn, equipped))
         {
-            _lastAvailable[key] = hasAvailableEquipment;
-            if (hasAvailableEquipment)
+            hint = SlotHintKind.Enchantable;
+        }
+
+        if (!_lastHint.TryGetValue(key, out var lastHint) || lastHint != hint)
+        {
+            _lastHint[key] = hint;
+            image.Content.BorderThickness = hint == SlotHintKind.None ? new Thickness(0) : new Thickness(2);
+            image.Content.Border = hint switch
             {
-                image.Content.BorderThickness = new Thickness(2);
-                image.Content.Border = _availableSlotBrush;
-            }
-            else
-            {
-                image.Content.BorderThickness = new Thickness(0);
-                image.Content.Border = null;
-            }
+                SlotHintKind.Available => _availableSlotBrush,
+                SlotHintKind.Enchantable => _enchantableSlotBrush,
+                _ => null
+            };
         }
 
         var (icon, progressBar, hintLabel) = SlotParts(image);
@@ -921,5 +934,12 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         }
 
         return Color.White;
+    }
+
+    private enum SlotHintKind
+    {
+        None,
+        Available,
+        Enchantable
     }
 }

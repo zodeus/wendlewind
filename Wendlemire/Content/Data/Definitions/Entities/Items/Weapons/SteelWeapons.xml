@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Definitions>
+    <ItemDef ParentName="WeaponSharp">
+        <Moniker>Greatsword</Moniker>
+        <Label>Greatsword</Label>
+        <Description>A two-handed slab of steel. Wide cuts, empty off-hand.</Description>
+        <GoldCost>200</GoldCost>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+            <OccupiesBothHands>true</OccupiesBothHands>
+            <MaxEnchantments>2</MaxEnchantments>
+        </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Greatsword</WeaponType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Wood</Substance>
+                    <Modifier>1.2</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Steel/Greatsword</TexturePath>
+        <BaseStats>
+            <WeaponPower>104</WeaponPower>
+            <MaxDurability>2400</MaxDurability>
+        </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>4</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="WeaponBlunt">
+        <Moniker>Maul</Moniker>
+        <Label>Maul</Label>
+        <Description>A two-handed steel maul. Breaks bone. Occupies both hands.</Description>
+        <GoldCost>185</GoldCost>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+            <OccupiesBothHands>true</OccupiesBothHands>
+            <MaxEnchantments>2</MaxEnchantments>
+        </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Maul</WeaponType>
+            <SubstanceModifiers ListKey="Substance">
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Stone</Substance>
+                    <Modifier>1.4</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.35</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Steel/Maul</TexturePath>
+        <BaseStats>
+            <WeaponPower>116</WeaponPower>
+            <MaxDurability>2400</MaxDurability>
+        </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>3</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>WoodBoard</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="WeaponSharp">
+        <Moniker>Poleaxe</Moniker>
+        <Label>Poleaxe</Label>
+        <Description>A two-handed steel poleaxe. Hook, spike, and reach.</Description>
+        <GoldCost>210</GoldCost>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+            <OccupiesBothHands>true</OccupiesBothHands>
+            <MaxEnchantments>2</MaxEnchantments>
+        </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Poleaxe</WeaponType>
+            <SubstanceModifiers ListKey="Substance">
+                <ListItem>
+                    <Substance>Wood</Substance>
+                    <Modifier>1.35</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.15</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.1</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Steel/Poleaxe</TexturePath>
+        <BaseStats>
+            <WeaponPower>114</WeaponPower>
+            <MaxDurability>2400</MaxDurability>
+        </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>3</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>WoodBoard</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="WeaponSharp">
+        <Moniker>SteelSword</Moniker>
+        <Label>Steel Sword</Label>
+        <Description>A cleaner iron-sword sibling. Two sockets, still one-handed.</Description>
+        <GoldCost>145</GoldCost>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+            <MaxEnchantments>2</MaxEnchantments>
+        </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Sword</WeaponType>
+            <SubstanceModifiers>
+                <ListItem>
+                    <Substance>Wood</Substance>
+                    <Modifier>1.2</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Steel/SteelSword</TexturePath>
+        <BaseStats>
+            <WeaponPower>104</WeaponPower>
+            <MaxDurability>2200</MaxDurability>
+        </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>3</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="WeaponSharp">
+        <Moniker>SteelAxe</Moniker>
+        <Label>Steel Axe</Label>
+        <Description>An iron-axe upgrade. Two sockets, still one-handed.</Description>
+        <GoldCost>165</GoldCost>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
+            <MaxEnchantments>2</MaxEnchantments>
+        </EquipmentProperties>
+        <WeaponProperties>
+            <WeaponType>Axe</WeaponType>
+            <SubstanceModifiers ListKey="Substance">
+                <ListItem>
+                    <Substance>Wood</Substance>
+                    <Modifier>1.4</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Flesh</Substance>
+                    <Modifier>1.2</Modifier>
+                </ListItem>
+                <ListItem>
+                    <Substance>Bone</Substance>
+                    <Modifier>1.05</Modifier>
+                </ListItem>
+            </SubstanceModifiers>
+        </WeaponProperties>
+        <TexturePath>Entities/Item/Equipment/Weapon/Steel/SteelAxe</TexturePath>
+        <BaseStats>
+            <WeaponPower>110</WeaponPower>
+            <MaxDurability>2200</MaxDurability>
+        </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>2</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>WoodBoard</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+</Definitions>

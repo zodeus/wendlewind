@@ -54,5 +54,7 @@ public enum WeaponType
     Knuckles,
     StormStaff,
     EmberWand,
-    HexWand
+    HexWand,
+    Greatsword,
+    Poleaxe
 }

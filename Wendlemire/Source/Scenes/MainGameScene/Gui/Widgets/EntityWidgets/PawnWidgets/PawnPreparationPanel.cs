@@ -15,6 +15,7 @@ public class PawnPreparationPanel : Panel, IUpdatable
     private readonly IncenseChargesPanel _incenseChargesPanel;
     private readonly PotionsPanel _potionsPanel;
     private readonly MedicalChestPanel _medicalChestPanel;
+    private readonly EnchantmentsPanel _enchantmentsPanel;
     private readonly TrinketsPanel _trinketsPanel;
     private readonly HorizontalStackPanel _header;
 
@@ -37,6 +38,7 @@ public class PawnPreparationPanel : Panel, IUpdatable
         _medicalChestPanel = new MedicalChestPanel(gui, playerPawn);
         _mealPlanPanel = new MealPlanPanel(gui, playerPawn);
         _incenseChargesPanel = new IncenseChargesPanel(gui, playerPawn);
+        _enchantmentsPanel = new EnchantmentsPanel(gui, playerPawn);
         _trinketsPanel = new TrinketsPanel(gui, playerPawn);
 
         var root = new Grid
@@ -55,9 +57,9 @@ public class PawnPreparationPanel : Panel, IUpdatable
 
         Place(root, _summaryCard, 0, 0);
         Grid.SetRowSpan(_summaryCard, 2);
-        var equipment = CreateEquipmentCard();
-        Place(root, equipment, 1, 0);
-        Place(root, _trinketsPanel, 1, 1);
+        var midColumn = CreateEquipmentColumn();
+        Place(root, midColumn, 1, 0);
+        Grid.SetRowSpan(midColumn, 2);
         Place(root, _medicalChestPanel, 2, 0);
         Grid.SetRowSpan(_medicalChestPanel, 2);
 
@@ -124,6 +126,30 @@ public class PawnPreparationPanel : Panel, IUpdatable
         Widgets.Add(layout);
     }
 
+    private Widget CreateEquipmentColumn()
+    {
+        var equipment = CreateEquipmentCard();
+        equipment.VerticalAlignment = VerticalAlignment.Top;
+        _enchantmentsPanel.VerticalAlignment = VerticalAlignment.Top;
+
+        var column = new VerticalStackPanel
+        {
+            Spacing = 8,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            Widgets =
+            {
+                equipment,
+                _enchantmentsPanel,
+                _trinketsPanel
+            }
+        };
+        VerticalStackPanel.SetProportionType(equipment, ProportionType.Auto);
+        VerticalStackPanel.SetProportionType(_enchantmentsPanel, ProportionType.Auto);
+        VerticalStackPanel.SetProportionType(_trinketsPanel, ProportionType.Fill);
+        return column;
+    }
+
     private Widget CreateEquipmentCard()
     {
         var body = new VerticalStackPanel
@@ -162,6 +188,7 @@ public class PawnPreparationPanel : Panel, IUpdatable
         _incenseChargesPanel.Update();
         _medicalChestPanel.Update();
         _potionsPanel.Update();
+        _enchantmentsPanel.Update();
         _trinketsPanel.Update();
     }
 }

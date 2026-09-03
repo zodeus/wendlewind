@@ -47,6 +47,14 @@
         <DamageMultiplier>.7~.8</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
+        <Moniker>Sunder</Moniker>
+        <Label>Sunder</Label>
+        <Weapons>
+            <ListItem>Maul</ListItem>
+        </Weapons>
+        <DamageMultiplier>.7~.9</DamageMultiplier>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
         <Moniker>HookPunch</Moniker>
         <Label>Hook</Label>
         <Weapons>

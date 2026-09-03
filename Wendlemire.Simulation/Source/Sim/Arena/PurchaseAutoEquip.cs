@@ -101,9 +101,19 @@ public static class PurchaseAutoEquip
             }
         }
 
+        if (TryFindOccupiedSlot(pawn, item, skipSameDef: true, out part, out slot))
+        {
+            return true;
+        }
+
+        return TryFindOccupiedSlot(pawn, item, skipSameDef: false, out part, out slot);
+    }
+
+    private static bool TryFindOccupiedSlot(Pawn pawn, Item item, bool skipSameDef, out BodyPart part, out EquipmentSlotType slot)
+    {
         foreach (var bodyPart in pawn.Body.AllExternalParts)
         {
-            if (OccupiedSlotFor(bodyPart, item) is { } occupied)
+            if (OccupiedSlotFor(bodyPart, item, skipSameDef) is { } occupied)
             {
                 part = bodyPart;
                 slot = occupied;
@@ -116,7 +126,7 @@ public static class PurchaseAutoEquip
         return false;
     }
 
-    private static EquipmentSlotType? OccupiedSlotFor(BodyPart bodyPart, Item item)
+    private static EquipmentSlotType? OccupiedSlotFor(BodyPart bodyPart, Item item, bool skipSameDef)
     {
         if (!bodyPart.HasEquipmentSlots)
         {
@@ -133,10 +143,18 @@ public static class PurchaseAutoEquip
                     continue;
                 }
 
-                if (bodyPart.Equipment[potionSlot] != null)
+                var potion = bodyPart.Equipment[potionSlot];
+                if (potion == null)
                 {
-                    return potionSlot;
+                    continue;
                 }
+
+                if (skipSameDef && potion.Def == item.Def)
+                {
+                    continue;
+                }
+
+                return potionSlot;
             }
 
             return null;
@@ -148,7 +166,18 @@ public static class PurchaseAutoEquip
             return null;
         }
 
-        if (!bodyPart.EquipmentSlots!.Contains(needed.Value) || bodyPart.Equipment[needed.Value] == null)
+        if (!bodyPart.EquipmentSlots!.Contains(needed.Value))
+        {
+            return null;
+        }
+
+        var equipped = bodyPart.Equipment[needed.Value];
+        if (equipped == null)
+        {
+            return null;
+        }
+
+        if (skipSameDef && equipped.Def == item.Def)
         {
             return null;
         }

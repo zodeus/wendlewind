@@ -24,11 +24,12 @@ namespace Wendlemire.Tests;
 ///   Mid    stew+dried, ShadeWood, MedKit+Balmy+Mist, Jar+Acid
 ///   Late   stew+honey, Dipped+Shade, Mix+Cauterize+Bone, Jar+Churni
 ///   Full   stew+honey+walnut, 3 incense, Mix+Cauterize+Serum+Bone, Jar+Acid
-/// Extra buckets: KIT (kit vs bare / burst vs sustain), FOOD, MED, INC, METAL, MAGIC.
+/// Extra buckets: KIT (kit vs bare / burst vs sustain), FOOD, MED, INC, METAL, MAGIC, STEEL.
 /// Writes balance-report.txt at the repo root.
 /// Run: dotnet test --filter FullyQualifiedName~BalanceSimReport
 /// METAL-only: set BALANCE_BAND=METAL (PowerShell: $env:BALANCE_BAND='METAL')
 /// MAGIC-only: set BALANCE_BAND=MAGIC
+/// STEEL-only: set BALANCE_BAND=STEEL
 /// </summary>
 [Collection("Sim")]
 public class BalanceSimReport
@@ -264,7 +265,7 @@ public class BalanceSimReport
 
     private static Kit EraKit(string band) => band switch
     {
-        "R4-6" or "METAL" or "MAGIC" => Mid,
+        "R4-6" or "METAL" or "MAGIC" or "STEEL" => Mid,
         "R7-9" => Late,
         "R10-13" => Full,
         _ => Early
@@ -412,6 +413,17 @@ public class BalanceSimReport
     private static BuildSnapshot HexWandLeather(string id) => Fighter(id, ["HexWand"], LeatherSet);
     private static BuildSnapshot DualWandLeather(string id) => Fighter(id, ["EmberWand", "HexWand"], LeatherSet);
     private static BuildSnapshot EmberDaggerLeather(string id) => Fighter(id, ["EmberWand", "IronDagger"], LeatherSet);
+    private static BuildSnapshot GreatswordLeather(string id) => Fighter(id, ["Greatsword"], LeatherSet);
+    private static BuildSnapshot MaulLeather(string id) => Fighter(id, ["Maul"], LeatherSet);
+    private static BuildSnapshot PoleaxeLeather(string id) => Fighter(id, ["Poleaxe"], LeatherSet);
+    private static BuildSnapshot SteelSwordLeather(string id) => Fighter(id, ["SteelSword"], LeatherSet);
+    private static BuildSnapshot SteelAxeLeather(string id) => Fighter(id, ["SteelAxe"], LeatherSet);
+    private static BuildSnapshot SteelSwordDaggerLeather(string id) =>
+        Fighter(id, ["SteelSword", "IronDagger"], LeatherSet);
+    private static BuildSnapshot DualIronSwordLeather(string id) =>
+        Fighter(id, ["IronSword", "IronSword"], LeatherSet);
+    private static BuildSnapshot GreatswordChain(string id) => Fighter(id, ["Greatsword"], ChainSet);
+    private static BuildSnapshot SteelSwordChain(string id) => Fighter(id, ["SteelSword"], ChainSet);
     private static BuildSnapshot ChainPartialSword(string id) =>
         Fighter(id, ["IronSword"],
             ["ChainHelmet", "ChainTunic", "LeatherGorget",
@@ -603,6 +615,21 @@ public class BalanceSimReport
         EraMatch("MAGIC", "FireStaff vs FireStaff (leather)", FireStaffPlainLeather("A"), FireStaffPlainLeather("B")),
         EraMatch("MAGIC", "StormStaff vs StormStaff (leather)", StormStaffLeather("A"), StormStaffLeather("B")),
         EraMatch("MAGIC", "HexWand vs EmberWand (leather)", HexWandLeather("A"), EmberWandLeather("B")),
+
+        // --- STEEL: leather, no enchants, Mid kit. Isolates R6 martial math. ---
+        EraMatch("STEEL", "Greatsword vs Sword (leather)", GreatswordLeather("A"), SwordLeather("B")),
+        EraMatch("STEEL", "Maul vs Sword (leather)", MaulLeather("A"), SwordLeather("B")),
+        EraMatch("STEEL", "Poleaxe vs Sword (leather)", PoleaxeLeather("A"), SwordLeather("B")),
+        EraMatch("STEEL", "SteelSword vs Sword (leather)", SteelSwordLeather("A"), SwordLeather("B")),
+        EraMatch("STEEL", "SteelAxe vs Sword (leather)", SteelAxeLeather("A"), SwordLeather("B")),
+        EraMatch("STEEL", "Greatsword vs Maul (leather)", GreatswordLeather("A"), MaulLeather("B")),
+        EraMatch("STEEL", "Greatsword vs Poleaxe (leather)", GreatswordLeather("A"), PoleaxeLeather("B")),
+        EraMatch("STEEL", "Maul vs Poleaxe (leather)", MaulLeather("A"), PoleaxeLeather("B")),
+        EraMatch("STEEL", "SteelSword vs SteelAxe (leather)", SteelSwordLeather("A"), SteelAxeLeather("B")),
+        EraMatch("STEEL", "SteelSword+Dagger vs Greatsword (leather)", SteelSwordDaggerLeather("A"), GreatswordLeather("B")),
+        EraMatch("STEEL", "Dual-IronSword vs Greatsword (leather)", DualIronSwordLeather("A"), GreatswordLeather("B")),
+        EraMatch("STEEL", "Greatsword vs Sword (chain)", GreatswordChain("A"), SwordChain("B")),
+        EraMatch("STEEL", "SteelSword vs Sword (chain)", SteelSwordChain("A"), SwordChain("B")),
 
         // --- R7-9: full chain/WD, Everburning / Rhino + Late kit ---
         EraMatch("R7-9", "Sword+chain vs Sword+chain", SwordChain("A"), SwordChain("B")),

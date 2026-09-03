@@ -30,6 +30,38 @@
         <DamageMultiplier>.3~1.1</DamageMultiplier>
     </WeaponManeuverDef>
     <WeaponManeuverDef>
+        <Moniker>Sweep</Moniker>
+        <Label>Sweep</Label>
+        <Weapons>
+            <ListItem>Greatsword</ListItem>
+        </Weapons>
+        <DamageMultiplier>.5~.9</DamageMultiplier>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
+        <Moniker>Hew</Moniker>
+        <Label>Hew</Label>
+        <Weapons>
+            <ListItem>Greatsword</ListItem>
+        </Weapons>
+        <DamageMultiplier>.4~1</DamageMultiplier>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
+        <Moniker>PoleHook</Moniker>
+        <Label>Hook</Label>
+        <Weapons>
+            <ListItem>Poleaxe</ListItem>
+        </Weapons>
+        <DamageMultiplier>.55~.85</DamageMultiplier>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
+        <Moniker>Spike</Moniker>
+        <Label>Spike</Label>
+        <Weapons>
+            <ListItem>Poleaxe</ListItem>
+        </Weapons>
+        <DamageMultiplier>.6~1</DamageMultiplier>
+    </WeaponManeuverDef>
+    <WeaponManeuverDef>
         <Moniker>Slice</Moniker>
         <Label>Slice</Label>
         <Weapons>

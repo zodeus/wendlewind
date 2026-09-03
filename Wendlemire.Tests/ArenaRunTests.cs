@@ -314,6 +314,20 @@ public class ArenaRunTests
     }
 
     [Fact]
+    public void ShopStockHidesSteelWeaponsUntilRoundSix()
+    {
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("Blacksmith")!;
+        string[] steel = ["Greatsword", "Maul", "Poleaxe", "SteelSword", "SteelAxe"];
+        foreach (var moniker in steel)
+        {
+            Assert.DoesNotContain(ShopStock.AvailableOffers(merchant, 5), o => o.ItemDef?.Moniker == moniker);
+            Assert.Contains(ShopStock.AvailableOffers(merchant, 6), o => o.ItemDef?.Moniker == moniker);
+        }
+
+        Assert.Contains(ShopStock.AvailableOffers(merchant, 0), o => o.ItemDef?.Moniker == "IronSword");
+    }
+
+    [Fact]
     public void LateShopStockStillIncludesEarlyOffers()
     {
         var merchant = DefRepository<MerchantDef>.GetByMoniker("Ranger")!;
@@ -359,6 +373,31 @@ public class ArenaRunTests
         {
             var equipped = context.PlayerPawn.Equipment.Count(item => item.Def == group.Key && !item.IsDestroyed);
             Assert.Equal(group.Count(), equipped);
+        }
+    }
+
+    [Fact]
+    public void TryBuySetReplacesPairedClothWithLeatherOnBothSides()
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("Blacksmith")!;
+        var cloth = merchant.AllOffers.First(o => o.IsSet && o.SetLabel == "Cloth Set");
+        var leather = merchant.AllOffers.First(o => o.IsSet && o.SetLabel == "Leather Set");
+        context.ArenaRun!.Gold = Math.Max(context.ArenaRun.Gold, cloth.ResolveGoldCost() + leather.ResolveGoldCost());
+
+        Assert.True(context.ArenaRun.TryBuy(context, cloth));
+        Assert.True(context.ArenaRun.TryBuy(context, leather));
+
+        foreach (var group in leather.SetPieces.GroupBy(piece => piece))
+        {
+            var equipped = context.PlayerPawn.Equipment.Count(item => item.Def == group.Key && !item.IsDestroyed);
+            Assert.Equal(group.Count(), equipped);
+        }
+
+        foreach (var group in cloth.SetPieces.GroupBy(piece => piece))
+        {
+            Assert.Equal(0, context.PlayerPawn.Equipment.Count(item => item.Def == group.Key && !item.IsDestroyed));
         }
     }
 
