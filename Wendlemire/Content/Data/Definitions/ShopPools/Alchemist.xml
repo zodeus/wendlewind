@@ -177,6 +177,14 @@
                         <ItemDef>MechanicalEye</ItemDef>
                         <AvailableFromRound>4</AvailableFromRound>
                     </ListItem>
+                    <ListItem>
+                        <ItemDef>FlameWard</ItemDef>
+                        <AvailableFromRound>3</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>FrostWard</ItemDef>
+                        <AvailableFromRound>3</AvailableFromRound>
+                    </ListItem>
                 </Offers>
             </ListItem>
         </Shelves>

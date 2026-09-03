@@ -93,6 +93,30 @@
                 <ItemDef>Monocle</ItemDef>
                 <Weight>200000</Weight>
             </ListItem>
+            <ListItem>
+                <ItemDef>IronWard</ItemDef>
+                <Weight>200000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>FlameWard</ItemDef>
+                <Weight>200000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>FrostWard</ItemDef>
+                <Weight>200000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>VitriolWard</ItemDef>
+                <Weight>200000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>VenomWard</ItemDef>
+                <Weight>200000</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>HexWard</ItemDef>
+                <Weight>200000</Weight>
+            </ListItem>
         </Items>
     </LootBoxDef>
     <LootBoxDef ParentName="TrinketChest2">

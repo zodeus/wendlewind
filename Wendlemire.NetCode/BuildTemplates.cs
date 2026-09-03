@@ -395,6 +395,14 @@ public static class BuildTemplates
         };
     }
 
+    public static BuildSnapshot WithStackableStash(BuildSnapshot snapshot)
+    {
+        return snapshot with
+        {
+            Inventory = [..FullInventory(), ..EnchantmentInventory(), ..snapshot.Inventory]
+        };
+    }
+
     private static BuildSnapshot WithFullInventory(BuildSnapshot snapshot)
     {
         var already = snapshot.EntityDefMonikers.ToHashSet();

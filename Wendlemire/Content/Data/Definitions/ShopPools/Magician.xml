@@ -181,6 +181,26 @@
                     <ListItem>
                         <ItemDef>MechanicalEye</ItemDef>
                     </ListItem>
+                    <ListItem>
+                        <ItemDef>FlameWard</ItemDef>
+                        <AvailableFromRound>3</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>FrostWard</ItemDef>
+                        <AvailableFromRound>3</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>VitriolWard</ItemDef>
+                        <AvailableFromRound>3</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>VenomWard</ItemDef>
+                        <AvailableFromRound>3</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>HexWard</ItemDef>
+                        <AvailableFromRound>3</AvailableFromRound>
+                    </ListItem>
                 </Offers>
             </ListItem>
         </Shelves>

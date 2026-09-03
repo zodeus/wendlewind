@@ -321,6 +321,9 @@ public class CombatHandler : IDisposable, IHasContext
 
         FlushTickHealth();
 
+        Player.Tick();
+        Enemy.Tick();
+
         Attack(Player, Enemy);
 
         if (_ended || Enemy.IsDead)
@@ -354,8 +357,6 @@ public class CombatHandler : IDisposable, IHasContext
             return;
         }
 
-        Player.Body.Effects.Tick();
-        Enemy.Tick();
         FlushTickHealth();
     }
 

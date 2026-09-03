@@ -136,12 +136,14 @@ public class Pawn : Entity
             // Handle Armor
             var isPartCoveredByParentArmor = bodyPart.Type is BodyPartType.Finger or BodyPartType.Thumb;
             var bodyPartEquipment = isPartCoveredByParentArmor ? bodyPart.Socket?.ParentPart?.Armor : bodyPart.Armor;
+            var trinketResist = TrinketResistance.SumFor(this, damage.Type);
+            var blockingTrinket = trinketResist > 0 ? TrinketResistance.FirstContributor(this, damage.Type) : null;
             Item? destroyedArmor = null;
-            if (bodyPartEquipment != null)
+            if (bodyPartEquipment != null || trinketResist > 0)
             {
-                damage.Block(bodyPartEquipment);
+                damage.Block(bodyPartEquipment, trinketResist);
 
-                if (bodyPartEquipment.IsDestroyed)
+                if (bodyPartEquipment is { IsDestroyed: true })
                 {
                     destroyedArmor = bodyPartEquipment;
                     if (isPartCoveredByParentArmor)
@@ -170,6 +172,11 @@ public class Pawn : Entity
             {
                 damageRecord.BlockingItemMoniker = bodyPartEquipment.ItemDef.Moniker;
                 damageRecord.BlockingItemLabel = bodyPartEquipment.Label;
+            }
+            else if (blockingTrinket != null && amountBlocked > 0)
+            {
+                damageRecord.BlockingItemMoniker = blockingTrinket.ItemDef.Moniker;
+                damageRecord.BlockingItemLabel = blockingTrinket.Label;
             }
 
             if (destroyedArmor != null)

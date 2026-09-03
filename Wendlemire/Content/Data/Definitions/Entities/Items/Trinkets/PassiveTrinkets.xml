@@ -62,6 +62,66 @@
         <GoldCost>180</GoldCost>
         <TexturePath>Entities/Item/Trinket/Monocle</TexturePath>
     </ItemDef>
+    <ItemDef ParentName="PassiveTrinket">
+        <Moniker>IronWard</Moniker>
+        <Label>Iron Ward</Label>
+        <Description>A cold iron charm that dulls blades and clubs. Softens every physical blow you take.</Description>
+        <GoldCost>160</GoldCost>
+        <TexturePath>Entities/Item/Trinket/IronWard</TexturePath>
+        <BaseStats>
+            <PhysicalResistance>12</PhysicalResistance>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="PassiveTrinket">
+        <Moniker>FlameWard</Moniker>
+        <Label>Flame Ward</Label>
+        <Description>A cinder-set charm that drinks heat. Softens every fire blow you take.</Description>
+        <GoldCost>160</GoldCost>
+        <TexturePath>Entities/Item/Trinket/FlameWard</TexturePath>
+        <BaseStats>
+            <FireResistance>12</FireResistance>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="PassiveTrinket">
+        <Moniker>FrostWard</Moniker>
+        <Label>Frost Ward</Label>
+        <Description>A rimed token that never quite thaws. Softens every ice blow you take.</Description>
+        <GoldCost>160</GoldCost>
+        <TexturePath>Entities/Item/Trinket/FrostWard</TexturePath>
+        <BaseStats>
+            <IceResistance>12</IceResistance>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="PassiveTrinket">
+        <Moniker>VitriolWard</Moniker>
+        <Label>Vitriol Ward</Label>
+        <Description>A sealed drop of counter-acid, hung on a lead pin. Softens every acid blow you take.</Description>
+        <GoldCost>160</GoldCost>
+        <TexturePath>Entities/Item/Trinket/VitriolWard</TexturePath>
+        <BaseStats>
+            <AcidResistance>12</AcidResistance>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="PassiveTrinket">
+        <Moniker>VenomWard</Moniker>
+        <Label>Venom Ward</Label>
+        <Description>A fang charm packed with dried antivenom. Softens every poison blow you take.</Description>
+        <GoldCost>160</GoldCost>
+        <TexturePath>Entities/Item/Trinket/VenomWard</TexturePath>
+        <BaseStats>
+            <PoisonResistance>12</PoisonResistance>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="PassiveTrinket">
+        <Moniker>HexWard</Moniker>
+        <Label>Hex Ward</Label>
+        <Description>A scratched rune-nail that grounds stray hexes. Softens every magic blow you take.</Description>
+        <GoldCost>160</GoldCost>
+        <TexturePath>Entities/Item/Trinket/HexWard</TexturePath>
+        <BaseStats>
+            <MagicResistance>12</MagicResistance>
+        </BaseStats>
+    </ItemDef>
 
     
     <!-- <ItemDef ParentName="PassiveTrinket">

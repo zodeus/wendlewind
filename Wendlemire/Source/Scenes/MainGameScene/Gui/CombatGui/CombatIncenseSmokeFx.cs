@@ -2,11 +2,19 @@ namespace Wendlemire.Scenes.MainGameScene.Gui.CombatGui;
 
 internal sealed class CombatIncenseSmokeFx : Widget
 {
+    private static readonly string[] SmokeAssetPaths =
+    [
+        "Fx/IncenseSmokePuff",
+        "Fx/IncenseSmokeWisp",
+        "Fx/IncenseSmokeCloud"
+    ];
+
     private readonly Dictionary<string, Burner> _burners = [];
     private readonly List<Wisp> _wisps = [];
     private readonly List<Halo> _halos = [];
     private SpriteBatch? _spriteBatch;
     private static Texture2D? _glowTexture;
+    private static Texture2D[]? _smokePuffs;
 
     public CombatIncenseSmokeFx()
     {
@@ -52,17 +60,12 @@ internal sealed class CombatIncenseSmokeFx : Widget
 
     public static Color SmokeColor(Color tint, float shade)
     {
-        var soot = new Color(
+        var deep = new Color(
             (byte)Math.Clamp(tint.R * 0.55f, 0, 255),
-            (byte)Math.Clamp(tint.G * 0.5f, 0, 255),
-            (byte)Math.Clamp(tint.B * 0.45f, 0, 255));
-        var rich = Color.Lerp(tint, Color.White, 0.12f);
-        var tone = Color.Lerp(soot, rich, Math.Clamp(shade, 0f, 1f));
-        var drift = (shade - 0.5f) * 36f;
-        return new Color(
-            (byte)Math.Clamp(tone.R + drift, 0, 255),
-            (byte)Math.Clamp(tone.G + drift * 0.4f, 0, 255),
-            (byte)Math.Clamp(tone.B - drift * 0.25f, 0, 255));
+            (byte)Math.Clamp(tint.G * 0.45f, 0, 255),
+            (byte)Math.Clamp(tint.B * 0.62f, 0, 255));
+        var saturated = Color.Lerp(tint, deep, 0.15f);
+        return Color.Lerp(deep, saturated, Math.Clamp(shade, 0f, 1f) * 0.7f);
     }
 
     public static Color EmberColor(Color tint, float shade = 0.5f)
@@ -88,13 +91,13 @@ internal sealed class CombatIncenseSmokeFx : Widget
                     Source = source.Source,
                     SourceLocal = source.SourceLocal,
                     Center = origin,
-                    Color = Color.Lerp(source.Tint, Color.White, 0.4f),
-                    StartSize = 36f,
+                    Color = Color.Lerp(source.Tint, Color.White, 0.28f),
+                    StartSize = 56f,
                     EndSize = 140f,
                     Life = 1.1f,
                     MaxLife = 1.1f
                 });
-                SpawnBurst(origin, source.Tint, 14, 1.3f);
+                SpawnBurst(origin, source.Tint, 8, 1.5f, source.Source);
             }
 
             burner.Source = source.Source;
@@ -117,12 +120,12 @@ internal sealed class CombatIncenseSmokeFx : Widget
             SourceLocal = sourceLocal,
             Center = origin,
             Color = Color.Lerp(tint, Color.White, 0.4f),
-            StartSize = 48f,
-            EndSize = 180f,
+            StartSize = 64f,
+            EndSize = 150f,
             Life = 1.2f,
             MaxLife = 1.2f
         });
-        SpawnBurst(origin, tint, 22, 1.4f);
+        SpawnBurst(origin, tint, 14, 1.8f, source);
     }
 
     public void Update(float deltaTime)
@@ -135,17 +138,34 @@ internal sealed class CombatIncenseSmokeFx : Widget
             }
 
             burner.SpawnTimer -= deltaTime;
+            burner.HaloTimer -= deltaTime;
+            var origin = burner.Source.ToGlobal(burner.SourceLocal);
+            if (burner.HaloTimer <= 0)
+            {
+                burner.HaloTimer = 0.9f;
+                _halos.Add(new Halo
+                {
+                    Source = burner.Source,
+                    SourceLocal = burner.SourceLocal,
+                    Center = origin,
+                    Color = Color.Lerp(burner.Tint, Color.White, 0.22f),
+                    StartSize = 50f,
+                    EndSize = 130f,
+                    Life = 1.3f,
+                    MaxLife = 1.3f
+                });
+            }
+
             if (burner.SpawnTimer > 0)
             {
                 continue;
             }
 
-            burner.SpawnTimer = 0.038f;
-            var origin = burner.Source.ToGlobal(burner.SourceLocal);
-            SpawnWisp(origin, burner.Tint, ember: false);
-            if (Rng.Visual.Next(0, 100) < 40)
+            burner.SpawnTimer = 0.075f;
+            SpawnWisp(origin, burner.Tint, ember: false, spread: burner.Source);
+            if (Rng.Visual.Next(0, 100) < 18)
             {
-                SpawnWisp(origin, burner.Tint, ember: true);
+                SpawnWisp(origin, burner.Tint, ember: true, spread: burner.Source);
             }
         }
 
@@ -162,10 +182,11 @@ internal sealed class CombatIncenseSmokeFx : Widget
             var age = 1f - wisp.Life / wisp.MaxLife;
             wisp.WobblePhase += deltaTime * wisp.WobbleSpeed;
             wisp.Velocity.X *= 1f - 0.4f * deltaTime;
-            wisp.Velocity.Y += 20f * deltaTime;
+            wisp.Velocity.Y -= 10f * deltaTime;
             wisp.Position += wisp.Velocity * deltaTime;
             wisp.Position.X += MathF.Sin(wisp.WobblePhase) * wisp.Wobble * (0.35f + age) * deltaTime;
             wisp.Size += wisp.Grow * deltaTime;
+            wisp.Rotation += wisp.Spin * deltaTime;
         }
 
         for (var i = _halos.Count - 1; i >= 0; i--)
@@ -192,9 +213,10 @@ internal sealed class CombatIncenseSmokeFx : Widget
         context.Flush();
         _spriteBatch ??= new SpriteBatch(Core.GraphicsDevice);
         var glow = EnsureGlowTexture();
+        var puffs = SmokePuffs();
         var uiScale = MeasureUiScale();
 
-        _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.LinearClamp);
+        _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp);
         foreach (var wisp in _wisps)
         {
             if (wisp.IsEmber)
@@ -203,13 +225,22 @@ internal sealed class CombatIncenseSmokeFx : Widget
             }
 
             var t = Math.Clamp(wisp.Life / wisp.MaxLife, 0f, 1f);
-            var fade = Math.Clamp((1f - t) / 0.2f, 0f, 1f) * t;
-            var size = Math.Max(10, (int)(wisp.Size * uiScale));
-            _spriteBatch.Draw(glow, new Rectangle(
-                (int)wisp.Position.X - size / 2,
-                (int)wisp.Position.Y - size / 2,
-                size,
-                size), wisp.Color * (0.78f * fade));
+            var fade = Math.Clamp((1f - t) / 0.18f, 0f, 1f) * t;
+            var texture = puffs[wisp.Frame % puffs.Length];
+            var size = Math.Max(28, wisp.Size * uiScale);
+            var origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
+            var scale = size / texture.Width;
+            var flip = wisp.Flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            _spriteBatch.Draw(
+                texture,
+                wisp.Position,
+                null,
+                wisp.Color * (0.336f * fade),
+                wisp.Rotation,
+                origin,
+                scale,
+                flip,
+                0f);
         }
 
         _spriteBatch.End();
@@ -225,7 +256,7 @@ internal sealed class CombatIncenseSmokeFx : Widget
                 (int)halo.Center.X - size / 2,
                 (int)halo.Center.Y - size / 2,
                 size,
-                size), halo.Color * (0.7f * pulse));
+                size), halo.Color * (0.16f * pulse));
         }
 
         foreach (var wisp in _wisps)
@@ -248,25 +279,26 @@ internal sealed class CombatIncenseSmokeFx : Widget
         _spriteBatch.End();
     }
 
-    private void SpawnBurst(Vector2 origin, Color tint, int count, float life)
+    private void SpawnBurst(Vector2 origin, Color tint, int count, float life, Widget? spread = null)
     {
         for (var i = 0; i < count; i++)
         {
-            SpawnWisp(origin, tint, ember: i % 3 == 0, life);
+            SpawnWisp(origin, tint, ember: i % 5 == 0, life, spread);
         }
     }
 
-    private void SpawnWisp(Vector2 origin, Color tint, bool ember, float? life = null)
+    private void SpawnWisp(Vector2 origin, Color tint, bool ember, float? life = null, Widget? spread = null)
     {
+        var offset = HazeOffset(spread);
         if (ember)
         {
             _wisps.Add(new Wisp
             {
-                Position = origin + new Vector2(Rng.Visual.Next(-8, 8), Rng.Visual.Next(-6, 6)),
-                Velocity = new Vector2(-14f + Rng.Visual.Next(0, 28), -36f - Rng.Visual.Next(0, 22)),
+                Position = origin + offset * 0.35f,
+                Velocity = new Vector2(-18f + Rng.Visual.Next(0, 36), -28f - Rng.Visual.Next(0, 18)),
                 Life = life ?? 0.55f + Rng.Visual.Next(0, 30) / 100f,
                 MaxLife = life ?? 0.85f,
-                Size = 5f + Rng.Visual.Next(0, 5),
+                Size = 6f + Rng.Visual.Next(0, 6),
                 Color = EmberColor(tint, Rng.Visual.Next(0, 100) / 100f),
                 IsEmber = true,
                 Wobble = 12f + Rng.Visual.Next(0, 14),
@@ -278,17 +310,31 @@ internal sealed class CombatIncenseSmokeFx : Widget
 
         _wisps.Add(new Wisp
         {
-            Position = origin + new Vector2(Rng.Visual.Next(-12, 12), Rng.Visual.Next(-8, 8)),
-            Velocity = new Vector2(-16f + Rng.Visual.Next(0, 32), -18f - Rng.Visual.Next(0, 16)),
-            Life = life ?? 1.8f + Rng.Visual.Next(0, 80) / 100f,
-            MaxLife = life ?? 2.6f,
-            Size = 26f + Rng.Visual.Next(0, 20),
-            Grow = 8f,
+            Position = origin + offset,
+            Velocity = new Vector2(-22f + Rng.Visual.Next(0, 44), -14f - Rng.Visual.Next(0, 18)),
+            Life = life ?? 2.0f + Rng.Visual.Next(0, 80) / 100f,
+            MaxLife = life ?? 2.8f,
+            Size = 78f + Rng.Visual.Next(0, 34),
+            Grow = 12f,
             Color = SmokeColor(tint, Rng.Visual.Next(0, 100) / 100f),
-            Wobble = 18f + Rng.Visual.Next(0, 20),
-            WobbleSpeed = 1.3f + Rng.Visual.Next(0, 12) / 10f,
-            WobblePhase = Rng.Visual.Next(0, 628) / 100f
+            Wobble = 28f + Rng.Visual.Next(0, 24),
+            WobbleSpeed = 1.1f + Rng.Visual.Next(0, 10) / 10f,
+            WobblePhase = Rng.Visual.Next(0, 628) / 100f,
+            Frame = Rng.Visual.Next(0, SmokeAssetPaths.Length),
+            Rotation = Rng.Visual.Next(-20, 21) / 100f,
+            Spin = (Rng.Visual.Next(0, 2) == 0 ? -1f : 1f) * (0.08f + Rng.Visual.Next(0, 12) / 100f),
+            Flip = Rng.Visual.Next(0, 2) == 0
         });
+    }
+
+    private static Vector2 HazeOffset(Widget? spread)
+    {
+        var width = spread?.ActualBounds.Width ?? 80;
+        var height = spread?.ActualBounds.Height ?? 80;
+        var side = Rng.Visual.Next(0, 2) == 0 ? -1f : 1f;
+        return new Vector2(
+            side * (width * (0.14f + Rng.Visual.Next(0, 22) / 100f)),
+            Rng.Visual.Next((int)(-height * 0.32f), (int)(height * 0.32f) + 1));
     }
 
     private float MeasureUiScale()
@@ -298,7 +344,50 @@ internal sealed class CombatIncenseSmokeFx : Widget
         return Math.Max(0.01f, (b - a).Length() / 100f);
     }
 
-    private static Texture2D EnsureGlowTexture()
+    public static Texture2D[] SmokePuffs()
+    {
+        if (_smokePuffs != null)
+        {
+            return _smokePuffs;
+        }
+
+        var loaded = new List<Texture2D>();
+        foreach (var path in SmokeAssetPaths)
+        {
+            if (Core.Content.TryLoad<Texture2D>(path, out var texture) && texture != null)
+            {
+                loaded.Add(MakeTintablePuff(texture));
+            }
+        }
+
+        _smokePuffs = loaded.Count > 0 ? loaded.ToArray() : [EnsureGlowTexture()];
+        return _smokePuffs;
+    }
+
+    private static Texture2D MakeTintablePuff(Texture2D source)
+    {
+        var data = new Color[source.Width * source.Height];
+        source.GetData(data);
+        for (var i = 0; i < data.Length; i++)
+        {
+            var pixel = data[i];
+            var luminance = (pixel.R + pixel.G + pixel.B) / 3f;
+            if (pixel.A < 12 || luminance < 22)
+            {
+                data[i] = Color.Transparent;
+                continue;
+            }
+
+            var alpha = (byte)Math.Clamp(MathF.Max(luminance, pixel.A * 0.7f) * 1.2f, 48, 255);
+            data[i] = new Color((byte)255, (byte)255, (byte)255, alpha);
+        }
+
+        var punched = new Texture2D(source.GraphicsDevice, source.Width, source.Height);
+        punched.SetData(data);
+        return punched;
+    }
+
+    public static Texture2D EnsureGlowTexture()
     {
         if (_glowTexture != null)
         {
@@ -316,7 +405,7 @@ internal sealed class CombatIncenseSmokeFx : Widget
                 var dy = y - center;
                 var dist = MathF.Sqrt(dx * dx + dy * dy) / center;
                 var alpha = MathF.Max(0f, 1f - dist);
-                alpha = alpha * alpha * alpha;
+                alpha = alpha * alpha;
                 var a = (byte)(alpha * 255f);
                 data[y * size + x] = new Color(a, a, a, a);
             }
@@ -333,6 +422,7 @@ internal sealed class CombatIncenseSmokeFx : Widget
         public Vector2 SourceLocal;
         public Color Tint;
         public float SpawnTimer;
+        public float HaloTimer;
     }
 
     private sealed class Wisp
@@ -348,6 +438,10 @@ internal sealed class CombatIncenseSmokeFx : Widget
         public float Wobble;
         public float WobbleSpeed;
         public float WobblePhase;
+        public int Frame;
+        public float Rotation;
+        public float Spin;
+        public bool Flip;
     }
 
     private sealed class Halo

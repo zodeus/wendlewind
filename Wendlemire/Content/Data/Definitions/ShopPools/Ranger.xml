@@ -248,6 +248,15 @@
                     <ListItem>
                         <ItemDef>Monocle</ItemDef>
                     </ListItem>
+                    <ListItem>
+                        <ItemDef>IronWard</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>VitriolWard</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>VenomWard</ItemDef>
+                    </ListItem>
                 </Offers>
             </ListItem>
         </Shelves>

@@ -61,13 +61,13 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
         var player = Encounter.PlayerPawns.First();
         var opponent = Encounter.EnemyPawns.First();
-        _pawnBodyView = new PawnBodyPanel(gui, player.Body, fillAvailableHeight: true, hoverToInspect: true)
+        _pawnBodyView = new PawnBodyPanel(gui, player.Body, fillAvailableHeight: true, hoverToInspect: true, pawn: player)
         {
             HorizontalAlignment = HorizontalAlignment.Right,
             VerticalAlignment = VerticalAlignment.Stretch
         };
 
-        _enemyPawnBodyView = new PawnBodyPanel(gui, opponent.Body, fillAvailableHeight: true, hoverToInspect: true)
+        _enemyPawnBodyView = new PawnBodyPanel(gui, opponent.Body, fillAvailableHeight: true, hoverToInspect: true, pawn: opponent)
         {
             HorizontalAlignment = HorizontalAlignment.Left,
             VerticalAlignment = VerticalAlignment.Stretch
@@ -374,19 +374,6 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         }
 
         var tint = CombatIncenseSmokeFx.TintFor(combatEvent.ItemMoniker);
-        var loadout = ResolveLoadout(combatEvent.SubjectPawnId);
-        var index = pawn.ActiveIncense.FindIndex(incense =>
-            incense.FiredThisEncounter
-            && (incense.SourceMoniker ?? incense.Def?.Moniker) == combatEvent.ItemMoniker);
-        if (index >= 0 && loadout.TryGetIncenseSlot(index, out var slot) && slot.Bounds.Width > 0)
-        {
-            _incenseSmokeFx.TryStart(
-                slot,
-                new Vector2(slot.Bounds.Width * 0.5f, slot.Bounds.Height * 0.2f),
-                tint);
-            return;
-        }
-
         var portrait = ResolveParty(pawn).GetPanelForPawn(pawn)?.BodyWidget;
         if (portrait == null || portrait.Bounds.Width <= 0 || portrait.Bounds.Height <= 0)
         {
@@ -707,7 +694,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
     private static Vector2 PortraitIncenseOrigin(Widget portrait)
     {
-        return new Vector2(portrait.Bounds.Width * 0.5f, portrait.Bounds.Height * 0.28f);
+        return new Vector2(portrait.Bounds.Width * 0.5f, portrait.Bounds.Height * 0.62f);
     }
 
     private static void AddIncenseBurns(

@@ -129,7 +129,6 @@ public class GameContext : IExposable, IHasContext
     private void InternalTick()
     {
         Ticks++;
-        World.Player.Pawn.Tick();
         CurrentZone?.Tick();
     }
 

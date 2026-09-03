@@ -255,6 +255,21 @@
                     </ListItem>
                 </Offers>
             </ListItem>
+            <ListItem>
+                <Category>Trinkets</Category>
+                <Columns>6</Columns>
+                <ItemColumns>1</ItemColumns>
+                <StockSize>1</StockSize>
+                <Offers>
+                    <ListItem>
+                        <ItemDef>MechanicalEye</ItemDef>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>IronWard</ItemDef>
+                        <AvailableFromRound>4</AvailableFromRound>
+                    </ListItem>
+                </Offers>
+            </ListItem>
         </Shelves>
     </MerchantDef>
 </Definitions>

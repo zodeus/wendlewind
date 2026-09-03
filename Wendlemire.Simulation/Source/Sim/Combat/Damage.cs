@@ -73,11 +73,26 @@ public class Damage
 
     public float GetSubstanceModifier(SubstanceType substance) => Weapon.ItemDef.WeaponProperties?.GetSubstanceModifier(substance) ?? 1f;
 
-    public void Block(Item equipment)
+    public void Block(Item? equipment, float extraResist = 0f)
     {
-        var resist = equipment.GetStatValue(Defs.Stats.PhysicalResistance);
+        var resist = extraResist;
+        if (equipment != null)
+        {
+            resist += equipment.GetStatValue(Defs.Stats.PhysicalResistance);
+        }
+
+        if (resist <= 0f)
+        {
+            return;
+        }
+
         var reduction = CombatBalance.ArmorReduction(resist);
         TotalUnblockedDamage = Math.Clamp(TotalDamage * (1.0 - reduction), 0, TotalDamage);
+
+        if (equipment == null)
+        {
+            return;
+        }
 
         var damageBlocked = TotalDamage - TotalUnblockedDamage;
         var durabilityLossFactor = equipment.Context.Rng.NextFloat(0.2f, 0.5f);

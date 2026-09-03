@@ -63,6 +63,36 @@
         <MinValue>0</MinValue>
     </StatDef>
     <StatDef>
+        <Moniker>FireResistance</Moniker>
+        <Label>Fire Resistance</Label>
+        <BaseValue>0</BaseValue>
+        <MinValue>0</MinValue>
+    </StatDef>
+    <StatDef>
+        <Moniker>IceResistance</Moniker>
+        <Label>Ice Resistance</Label>
+        <BaseValue>0</BaseValue>
+        <MinValue>0</MinValue>
+    </StatDef>
+    <StatDef>
+        <Moniker>AcidResistance</Moniker>
+        <Label>Acid Resistance</Label>
+        <BaseValue>0</BaseValue>
+        <MinValue>0</MinValue>
+    </StatDef>
+    <StatDef>
+        <Moniker>PoisonResistance</Moniker>
+        <Label>Poison Resistance</Label>
+        <BaseValue>0</BaseValue>
+        <MinValue>0</MinValue>
+    </StatDef>
+    <StatDef>
+        <Moniker>MagicResistance</Moniker>
+        <Label>Magic Resistance</Label>
+        <BaseValue>0</BaseValue>
+        <MinValue>0</MinValue>
+    </StatDef>
+    <StatDef>
         <Moniker>WeaponPower</Moniker>
         <Label>Weapon Power</Label>
         <BaseValue>1</BaseValue>

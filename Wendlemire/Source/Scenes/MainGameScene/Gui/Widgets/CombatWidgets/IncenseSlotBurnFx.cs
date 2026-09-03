@@ -12,7 +12,6 @@ internal sealed class IncenseSlotBurnFx : Widget
     private readonly List<Puff> _puffs = [];
     private float _spawnTimer;
     private float _glowPhase;
-    private static Texture2D? _glowTexture;
 
     public bool Burning;
     public Color Tint = new(255, 180, 80);
@@ -72,7 +71,8 @@ internal sealed class IncenseSlotBurnFx : Widget
             return;
         }
 
-        var glow = GlowTexture();
+        var glow = CombatIncenseSmokeFx.EnsureGlowTexture();
+        var puffs = CombatIncenseSmokeFx.SmokePuffs();
         if (Burning)
         {
             var pulse = 0.7f + 0.3f * MathF.Sin(_glowPhase);
@@ -103,11 +103,9 @@ internal sealed class IncenseSlotBurnFx : Widget
                 continue;
             }
 
-            var halo = (int)(size * 1.45f);
-            context.Draw(glow, new Rectangle(x - halo / 2, y - halo / 2, halo, halo),
-                puff.Color * (0.22f * fade));
-            context.Draw(glow, new Rectangle(x - size / 2, y - size / 2, size, size),
-                puff.Color * (0.42f * fade));
+            var sprite = puffs[puff.Frame % puffs.Length];
+            context.Draw(sprite, new Rectangle(x - size / 2, y - size / 2, size, size),
+                puff.Color * (0.32f * fade));
         }
     }
 
@@ -148,42 +146,14 @@ internal sealed class IncenseSlotBurnFx : Widget
             VY = -16f - Rng.Visual.Next(0, 14),
             Life = 1.8f + Rng.Visual.Next(0, 90) / 100f,
             MaxLife = 2.7f,
-            Size = 12f + Rng.Visual.Next(0, 10),
+            Size = 22f + Rng.Visual.Next(0, 12),
             Grow = 6f + Rng.Visual.Next(0, 6),
             Color = CombatIncenseSmokeFx.SmokeColor(Tint, shade),
             Wobble = 14f + Rng.Visual.Next(0, 18),
             WobbleSpeed = 1.4f + Rng.Visual.Next(0, 12) / 10f,
-            WobblePhase = Rng.Visual.Next(0, 628) / 100f
+            WobblePhase = Rng.Visual.Next(0, 628) / 100f,
+            Frame = Rng.Visual.Next(0, 3)
         });
-    }
-
-    private static Texture2D GlowTexture()
-    {
-        if (_glowTexture != null)
-        {
-            return _glowTexture;
-        }
-
-        const int size = 64;
-        var data = new Color[size * size];
-        var center = (size - 1) * 0.5f;
-        for (var y = 0; y < size; y++)
-        {
-            for (var x = 0; x < size; x++)
-            {
-                var dx = x - center;
-                var dy = y - center;
-                var dist = MathF.Sqrt(dx * dx + dy * dy) / center;
-                var alpha = MathF.Max(0f, 1f - dist);
-                alpha = alpha * alpha * alpha;
-                var a = (byte)(alpha * 255f);
-                data[y * size + x] = new Color(a, a, a, a);
-            }
-        }
-
-        _glowTexture = new Texture2D(Core.GraphicsDevice, size, size);
-        _glowTexture.SetData(data);
-        return _glowTexture;
     }
 
     private sealed class Puff
@@ -201,5 +171,6 @@ internal sealed class IncenseSlotBurnFx : Widget
         public float Wobble;
         public float WobbleSpeed;
         public float WobblePhase;
+        public int Frame;
     }
 }

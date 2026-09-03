@@ -1,6 +1,6 @@
 namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets.PawnBodyPanelWidgets;
 
-public sealed class PawnBodyPanel : Panel, IUpdatable
+public sealed class PawnBodyPanel : VerticalStackPanel, IUpdatable
 {
     private readonly BaseGui _gui;
     private readonly PawnBody _body;
@@ -9,9 +9,10 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
     private readonly VerticalStackPanel _partsPanel;
     private readonly PawnInventory? _inventory;
     private readonly MedicalItemsBar? _medicalItemsBar;
+    private readonly CombatTrinketColumn? _trinketColumn;
     private readonly bool _hoverToInspect;
 
-    public PawnBodyPanel(BaseGui gui, PawnBody body, PawnInventory? inventory = null, bool fillAvailableHeight = false, bool hoverToInspect = false)
+    public PawnBodyPanel(BaseGui gui, PawnBody body, PawnInventory? inventory = null, bool fillAvailableHeight = false, bool hoverToInspect = false, Pawn? pawn = null)
     {
         MinWidth = 536;
         Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
@@ -49,14 +50,39 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
             VerticalAlignment = VerticalAlignment.Stretch
         };
         mainContainer.Widgets.Add(partsScroll);
+        VerticalStackPanel.SetProportionType(partsScroll, ProportionType.Fill);
+
+        Widget root = mainContainer;
+        if (pawn != null)
+        {
+            _trinketColumn = new CombatTrinketColumn(gui, pawn);
+            mainContainer.Margin = new Thickness(8, 0, 0, 0);
+            var grid = new Grid
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch
+            };
+            grid.ColumnsProportions.Add(new Proportion(ProportionType.Pixels, CombatTrinketColumn.ColumnWidth));
+            grid.ColumnsProportions.Add(Proportion.Fill);
+            grid.RowsProportions.Add(new Proportion(ProportionType.Fill));
+
+            Grid.SetColumn(mainContainer, 1);
+            Grid.SetRow(mainContainer, 0);
+            grid.Widgets.Add(mainContainer);
+
+            Grid.SetColumn(_trinketColumn, 0);
+            Grid.SetRow(_trinketColumn, 0);
+            grid.Widgets.Add(_trinketColumn);
+            root = grid;
+        }
+
+        Widgets.Add(root);
         if (fillAvailableHeight)
         {
             VerticalAlignment = VerticalAlignment.Stretch;
-            VerticalStackPanel.SetProportionType(partsScroll, ProportionType.Fill);
+            SetProportionType(root, ProportionType.Fill);
             ClipToBounds = true;
         }
-
-        Widgets.Add(mainContainer);
 
         MouseLeft += OnMouseLeft;
 
@@ -208,6 +234,7 @@ public sealed class PawnBodyPanel : Panel, IUpdatable
         }
 
         _medicalItemsBar?.Update();
+        _trinketColumn?.Update();
     }
 
     public void AddDamageText(BodyPart? bodyPart, string text, DynamicSpriteFont font, Color color, float duration = 2f)

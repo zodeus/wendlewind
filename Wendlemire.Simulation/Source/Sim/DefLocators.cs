@@ -12,6 +12,11 @@ public static partial class Defs
         public static StatDef HealingValue = null!;
         public static StatDef Accuracy = null!;
         public static StatDef PhysicalResistance = null!;
+        public static StatDef FireResistance = null!;
+        public static StatDef IceResistance = null!;
+        public static StatDef AcidResistance = null!;
+        public static StatDef PoisonResistance = null!;
+        public static StatDef MagicResistance = null!;
         public static StatDef MaxDurability = null!;
         public static StatDef MoveSpeed = null!;
         public static StatDef NutritionalValue = null!;

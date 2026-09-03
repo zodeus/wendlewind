@@ -86,39 +86,46 @@ public sealed class TrinketBar : VerticalStackPanel, IUpdatable
     }
 }
 
-public sealed class TrinketBarCell : VerticalStackPanel
+public sealed class TrinketBarCell : CursorButton
 {
+    private static int Size => BaseContent.IconSizes.Large;
+    private static int IconSize => Size - 12;
+
     private readonly Item _trinket;
-    private readonly CursorButton _button;
 
     public TrinketBarCell(Item trinket, Action<Item>? clickAction)
     {
-        Spacing = 0;
         _trinket = trinket;
-        _button = new CursorButton
+        Width = Size;
+        Height = Size;
+        MinWidth = Size;
+        MinHeight = Size;
+        MaxWidth = Size;
+        MaxHeight = Size;
+        Padding = new Thickness(6);
+        HorizontalAlignment = HorizontalAlignment.Left;
+        VerticalAlignment = VerticalAlignment.Top;
+        Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
+        Content = new Image
         {
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
-            Padding = new Thickness(6),
-            Width = BaseContent.IconSizes.Large,
-            Height = BaseContent.IconSizes.Large,
-            Content = new Panel
-            {
-                VerticalAlignment = VerticalAlignment.Stretch,
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                Background = trinket.GetIconImage(),
-            }
+            Background = trinket.GetIconImage(),
+            Width = IconSize,
+            Height = IconSize,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center
         };
-        _button.Click += (_, _) => {
-            if (clickAction != null) {
+        Click += (_, _) =>
+        {
+            if (clickAction != null)
+            {
                 clickAction(trinket);
                 return;
             }
+
             trinket.TrinketHandler?.OnClick();
         };
 
-        _button.WithDynamicTooltip(() => _trinket.Label, () => _trinket.Def.Description);
-
-        Widgets.Add(_button);
+        this.WithDynamicTooltip(() => _trinket.Label, () => _trinket.Def.Description);
     }
 
     public void Update()
@@ -131,15 +138,15 @@ public sealed class TrinketBarCell : VerticalStackPanel
 
         if (handler.IsActive)
         {
-            _button.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright];
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameBright];
         }
         else if (handler.Cooldown > 0)
         {
-            _button.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameRed];
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrameRed];
         }
         else
         {
-            _button.Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame];
         }
 
         TooltipHelper.UpdatePosition();

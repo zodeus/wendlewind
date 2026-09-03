@@ -1,4 +1,7 @@
+using Microsoft.Extensions.DependencyInjection;
+using Wendlemire.Definitions;
 using Wendlemire.NetCode;
+using Wendlemire.Sim;
 using Wendlemire.Sim.Combat;
 using Wendlemire.Sim.Entities.Pawns;
 using Xunit;
@@ -53,5 +56,45 @@ public class BodyCombatIntegrationTests
         }
 
         Assert.True(death != null || bodyHits.Count > 0);
+    }
+
+    [Fact]
+    public void CombatTicksPlayerAndEnemyEffectsAtTheSameRate()
+    {
+        using var root = SimServices.BuildRoot();
+        using var scope = root.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<GameContext>();
+        context.Initialize(1);
+        var zone = context.World.Zones.OrderBy(z => z.ZoneDef.Stage).First();
+        context.EnterZone(zone.ZoneDef);
+        context.CurrentZone!.NextEncounter();
+        var encounter = context.CurrentZone.ActiveEncounter
+                        ?? throw new InvalidOperationException("NextEncounter did not create an encounter.");
+        var player = encounter.PlayerPawns.First();
+        var enemy = encounter.EnemyPawns.First();
+
+        const int duration = 400;
+        player.Body.Effects.TryApplyEffect(new BodyEffect
+        {
+            Def = Defs.BodyEffects.Mulled,
+            TicksLeft = duration
+        });
+        enemy.Body.Effects.TryApplyEffect(new BodyEffect
+        {
+            Def = Defs.BodyEffects.Mulled,
+            TicksLeft = duration
+        });
+
+        for (var i = 0; i < 20 && encounter.State == EncounterState.InProgress; i++)
+        {
+            context.Tick();
+        }
+
+        Assert.False(player.IsDead);
+        Assert.False(enemy.IsDead);
+        var playerLeft = player.Body.Effects.Single(e => e.Def == Defs.BodyEffects.Mulled).TicksLeft;
+        var enemyLeft = enemy.Body.Effects.Single(e => e.Def == Defs.BodyEffects.Mulled).TicksLeft;
+        Assert.Equal(playerLeft, enemyLeft);
+        Assert.Equal(duration - encounter.Ticks, playerLeft);
     }
 }
