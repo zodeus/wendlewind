@@ -24,6 +24,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     private Window? _combatLogWindow;
     private CombatSummaryWindow? _summaryWindow;
     private CursorButton? _showSummaryButton;
+    private bool _summaryPending;
     private readonly CombatFloaterRouter _floaterRouter;
     private readonly CombatPotionThrowFx _potionThrowFx;
     private readonly CombatMedicalTravelFx _medicalTravelFx;
@@ -600,7 +601,9 @@ public class CombatScreen : VerticalStackPanel, IDisposable
                 break;
             case EncounterState.Finished:
                 _onCombatEnded?.Invoke();
-                ShowCombatSummary();
+                // Scene.Update runs before FixedUpdate, so this opens on the next frame
+                // instead of stacking window layout with the death tick.
+                _summaryPending = true;
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(state), state, null);
@@ -648,6 +651,12 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
     public void Update(float deltaTime)
     {
+        if (_summaryPending)
+        {
+            _summaryPending = false;
+            ShowCombatSummary();
+        }
+
         var ticks = _context.CurrentZone?.ActiveEncounter?.Ticks ?? 0;
         if (!_wastingActive && CombatCloser.IsActive(ticks))
         {

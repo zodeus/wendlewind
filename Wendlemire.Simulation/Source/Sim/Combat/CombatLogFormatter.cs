@@ -17,7 +17,7 @@ public static class CombatLogFormatter
             CombatEventKind.MedicalUsed => FormatMedicalUsed(e),
             CombatEventKind.IncenseLit => FormatIncenseLit(e),
             CombatEventKind.Death =>
-                $"/f[default, 32]/c[{TC.Victim}]{e.SubjectName} /cddied from /c[{TC.Red}]{e.Message}\n",
+                $"/c[{TC.Victim}]{e.SubjectName} /cddied from /c[{TC.Red}]{e.Message}",
             CombatEventKind.System => FormatSystem(e),
             CombatEventKind.Heal => null,
             CombatEventKind.DamageOverTime => null,
@@ -64,7 +64,7 @@ public static class CombatLogFormatter
 
         if (e.Message == "Battle is over")
         {
-            return $"/f[default, 48]/c[{TC.Golden}]Battle is over\n";
+            return $"/c[{TC.Golden}]Battle is over";
         }
 
         if (e.Message == CombatCloser.StartedMessage)

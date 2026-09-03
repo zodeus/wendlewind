@@ -127,13 +127,6 @@ public class CombatHandler : IDisposable, IHasContext
             SubjectName = deathEvent.Pawn.LabelShort,
             Message = deathEvent.Record.CauseOfDeath
         });
-        _encounter.Zone.Alert(
-            new ScreenMessageData
-            {
-                Text = $"{deathEvent.Pawn.LabelShort}s has died from {deathEvent.Record.CauseOfDeath}",
-                Duration = 8,
-                Color = Color.Red
-            });
         Context.DeathRecords.RecordDeath(new DeathRecord
         {
             CauseOfDeath = deathEvent.Record.CauseOfDeath,

@@ -409,13 +409,18 @@ public sealed class CombatSummaryWindow : Window
 
             var pixel = Pixel();
             var y = bounds.Y + bounds.Height / 2;
-            for (var x = 0; x < bounds.Width; x++)
+            const int segments = 16;
+            for (var i = 0; i < segments; i++)
             {
-                var t = x / (float)Math.Max(1, bounds.Width - 1);
+                var t0 = i / (float)segments;
+                var t1 = (i + 1) / (float)segments;
+                var t = (t0 + t1) * 0.5f;
                 var edge = t < 0.5f ? t * 2f : (1f - t) * 2f;
                 var color = Color.Lerp(Rust, new Color(201, 160, 112), 1f - MathF.Abs(t - 0.5f) * 2f);
                 color *= 0.35f + edge * 0.65f;
-                context.Draw(pixel, new Rectangle(bounds.X + x, y, 1, bounds.Height), color);
+                var x = bounds.X + (int)(t0 * bounds.Width);
+                var width = Math.Max(1, bounds.X + (int)(t1 * bounds.Width) - x);
+                context.Draw(pixel, new Rectangle(x, y, width, bounds.Height), color);
             }
         }
 

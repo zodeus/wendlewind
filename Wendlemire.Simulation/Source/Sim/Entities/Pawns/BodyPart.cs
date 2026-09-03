@@ -65,7 +65,13 @@ public class BodyPart : Entity
         set
         {
             var previous = _hitPoints;
-            _hitPoints = Math.Clamp(value, 0, MaxHitPoints);
+            var next = Math.Clamp(value, 0, MaxHitPoints);
+            if (next == previous)
+            {
+                return;
+            }
+
+            _hitPoints = next;
             if (_hitPoints <= DestroyedEnterHitPoints)
             {
                 _isDestroyed = true;
