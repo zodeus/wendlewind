@@ -106,7 +106,7 @@ public static class BuildSnapshotFactory
         }
 
         if (!string.IsNullOrEmpty(snapshot.StanceMoniker)
-            && DefRepository<BodyStanceDef>.GetByMoniker(snapshot.StanceMoniker, raiseError: false) is { } stance)
+            && DefRepository<BodyStanceDef>.GetByMoniker(ResolveStanceMoniker(snapshot.StanceMoniker), raiseError: false) is { } stance)
         {
             pawn.Body.Stance = stance;
         }
@@ -137,6 +137,11 @@ public static class BuildSnapshotFactory
             })
             .ToArray();
     }
+
+    private static string ResolveStanceMoniker(string moniker) =>
+        string.Equals(moniker, "Comfortable", StringComparison.OrdinalIgnoreCase)
+            ? "Balanced"
+            : moniker;
 
     public static void ApplySkills(Pawn pawn, SkillConfig[]? skills)
     {

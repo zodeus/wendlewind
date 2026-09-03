@@ -475,18 +475,11 @@ public sealed class ArenaScene : Scene
                 handler?.CauseOfDeath));
         }
 
-        _pendingResult = _pendingResult with
-        {
-            WinnerPlayerId = localWon
-                ? run.PlayerId
-                : _pendingResult.DefenderPlayerId ?? _pendingResult.WinnerPlayerId,
-            Ticks = encounter is { Ticks: > 0 } ? encounter.Ticks : _pendingResult.Ticks,
-            CauseOfDeath = handler?.CauseOfDeath ?? _pendingResult.CauseOfDeath
-        };
-
-        var learnedSkills = BuildSnapshotFactory.CaptureSkills(_context.PlayerPawn);
+        var learnedSkills = localWon == serverWon
+            ? BuildSnapshotFactory.CaptureSkills(_context.PlayerPawn)
+            : _lastPrepSnapshot.Skills;
         _recordedLoadout = _lastPrepSnapshot with { Skills = learnedSkills };
-        run.RecordMatchResult(localWon, _pendingResult.DefenderPlayerId ?? "unknown");
+        run.RecordMatchResult(serverWon, _pendingResult.DefenderPlayerId ?? "unknown");
         if (!run.IsRunOver)
         {
             run.AssignNextMerchant();

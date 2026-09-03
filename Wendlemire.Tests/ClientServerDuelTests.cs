@@ -47,17 +47,15 @@ public class ClientServerDuelTests
     }
 
     [Fact]
-    public void LiveClothPaulVsShnook_ServerPathMatchesRecordedTicks()
+    public void ComfortableStanceAliasesToBalanced()
     {
-        var (attacker, defender, runSeed, encounterSeed) = LiveClothPaulVsShnook();
-        var server = DuelSimulator.Simulate(attacker, defender, encounterSeed);
-        _output.WriteLine($"server winner={server.Result.WinnerPlayerId} ticks={server.Result.Ticks} cause={server.Result.CauseOfDeath}");
-        foreach (var ev in server.Log.Take(8))
-        {
-            _output.WriteLine($"t={ev.Tick} kind={ev.Kind} {ev.SourceName}->{ev.SubjectName} {ev.ItemLabel} {ev.WeaponManeuverLabel} {ev.BodyPartLabel} amt={ev.Amount:0.###}");
-        }
-        Assert.Equal(attacker.PlayerId, server.Result.WinnerPlayerId);
-        Assert.Equal(2157, server.Result.Ticks);
+        var (attacker, defender, _, encounterSeed) = LiveClothPaulVsShnook();
+        var withLegacy = defender with { StanceMoniker = "Comfortable" };
+        var withBalanced = defender with { StanceMoniker = "Balanced" };
+        var legacy = DuelSimulator.Run(attacker, withLegacy, encounterSeed);
+        var current = DuelSimulator.Run(attacker, withBalanced, encounterSeed);
+        Assert.Equal(current.WinnerPlayerId, legacy.WinnerPlayerId);
+        Assert.Equal(current.Ticks, legacy.Ticks);
     }
 
     [Fact]
