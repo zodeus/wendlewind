@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Wendlemire.NetCode;
 using Wendlemire.NetCode.Contracts;
 using Wendlemire.Sim;
+using Wendlemire.Sim.Entities.Items.Medicinals;
 using Wendlemire.Sim.Combat;
 using Wendlemire.Sim.Entities.Pawns;
 using Wendlemire.Sim.Zones;
@@ -56,6 +57,19 @@ public class ClientServerDuelTests
         var current = DuelSimulator.Run(attacker, withBalanced, encounterSeed);
         Assert.Equal(current.WinnerPlayerId, legacy.WinnerPlayerId);
         Assert.Equal(current.Ticks, legacy.Ticks);
+    }
+
+    [Fact]
+    public void LiveClothPaulVsPatatangatonkus_ReplayTicks()
+    {
+        var (attacker, defender, runSeed, encounterSeed) = LiveClothPaulVsPatatangatonkus();
+        var server = DuelSimulator.Run(attacker, defender, encounterSeed);
+        var arena = RunArenaVisualPath(attacker, defender, runSeed, encounterSeed, lightIncense: true, eatNothing: true);
+        _output.WriteLine($"duel {server.WinnerPlayerId}/{server.Ticks}");
+        _output.WriteLine($"arena {arena.WinnerPlayerId}/{arena.Ticks}");
+        Assert.Equal(server.WinnerPlayerId, arena.WinnerPlayerId);
+        Assert.Equal(server.Ticks, arena.Ticks);
+        Assert.Equal(1275, server.Ticks);
     }
 
     [Fact]
@@ -160,6 +174,102 @@ public class ClientServerDuelTests
             Inventory = [new InventoryStackConfig { ItemMoniker = "MedKit", Amount = 5 }]
         };
         return (attacker, defender, 1705594468, 557917426);
+    }
+
+    private static (BuildSnapshot Attacker, BuildSnapshot Defender, int RunSeed, int EncounterSeed)
+        LiveClothPaulVsPatatangatonkus()
+    {
+        var attacker = new BuildSnapshot
+        {
+            PlayerId = "b4d17c7a0ab245c1b78363dbdd320351",
+            BuildId = "arena-2",
+            EntityDefMonikers = ["LeatherHelmet", "LeatherTunic", "LeatherVambrace", "LeatherGlove", "BoneKnife"],
+            Seed = 1705594468,
+            PawnDefMoniker = "HumanA",
+            PawnName = "Cloth Paul",
+            NamePlateMoniker = "PlainWood",
+            Round = 2,
+            Rating = 725,
+            StanceMoniker = "Balanced",
+            Weapons =
+            [
+                new WeaponConfig { ItemMoniker = "FleshyHand", UseInCombat = false },
+                new WeaponConfig { ItemMoniker = "BoneKnife", UseInCombat = true },
+                new WeaponConfig { ItemMoniker = "FleshyHand", UseInCombat = false },
+                new WeaponConfig { ItemMoniker = "FleshyFoot", UseInCombat = false },
+                new WeaponConfig { ItemMoniker = "FleshyFoot", UseInCombat = false }
+            ],
+            Meal = ["CookedFish"],
+            FoodBuffs = ["CookedFish"],
+            Incense = [new IncenseConfig { ItemMoniker = "MullinStick", EncountersRemaining = 2 }],
+            Inventory =
+            [
+                new InventoryStackConfig { ItemMoniker = "CookedFish", Amount = 1 },
+                new InventoryStackConfig { ItemMoniker = "MullinStick", Amount = 1 }
+            ],
+            Skills = [new SkillConfig { SkillMoniker = "Knives", Level = 0, CurrentLevelXp = 19 }]
+        };
+        var defender = new BuildSnapshot
+        {
+            PlayerId = "a55a2826794e434a8e721ed0a9e49a13",
+            BuildId = "arena-2",
+            EntityDefMonikers =
+            [
+                "LeatherHelmet", "LeatherGorget", "LeatherTunic", "LeatherVambrace",
+                "LeatherGlove", "BoneKnife", "IronMace"
+            ],
+            Seed = 195940009,
+            PawnDefMoniker = "HumanA",
+            PawnName = "Patatangatonkus",
+            NamePlateMoniker = "PlainWood",
+            Round = 2,
+            Rating = 800,
+            StanceMoniker = "Comfortable",
+            Weapons =
+            [
+                new WeaponConfig { ItemMoniker = "FleshyHand", UseInCombat = false },
+                new WeaponConfig { ItemMoniker = "BoneKnife", UseInCombat = true },
+                new WeaponConfig { ItemMoniker = "FleshyHand", UseInCombat = false },
+                new WeaponConfig { ItemMoniker = "IronMace", UseInCombat = true },
+                new WeaponConfig { ItemMoniker = "FleshyFoot", UseInCombat = false },
+                new WeaponConfig { ItemMoniker = "FleshyFoot", UseInCombat = false }
+            ],
+            Meal = ["HeartyStew"],
+            FoodBuffs = ["HeartyStew"],
+            MedicalChest =
+            [
+                new MedicalChestConfig
+                {
+                    ItemMoniker = "MedKit",
+                    Charges = 2,
+                    Type = MedicalTriggerType.PartBelowHealth,
+                    TargetSelector = MedicalTargetSelector.SpecificPart,
+                    HealthThreshold = 0.7f,
+                    TargetPartKey = "HumanHead_HeadSocket"
+                },
+                new MedicalChestConfig
+                {
+                    ItemMoniker = "MedKit",
+                    Charges = 1,
+                    Type = MedicalTriggerType.PartBelowHealth,
+                    TargetSelector = MedicalTargetSelector.SpecificPart,
+                    HealthThreshold = 0.65f,
+                    TargetPartKey = "HumanHand_Left"
+                },
+                new MedicalChestConfig
+                {
+                    ItemMoniker = "MedKit",
+                    Charges = 2,
+                    Type = MedicalTriggerType.PartBelowHealth,
+                    TargetSelector = MedicalTargetSelector.SpecificPart,
+                    HealthThreshold = 0.7f,
+                    TargetPartKey = "HumanTorso_TorsoSocket"
+                }
+            ],
+            Inventory = [new InventoryStackConfig { ItemMoniker = "HeartyStew", Amount = 1 }],
+            Skills = [new SkillConfig { SkillMoniker = "Knives", Level = 0, CurrentLevelXp = 16 }]
+        };
+        return (attacker, defender, 1705594468, 557917437);
     }
 
     private static CombatResult RunArenaVisualPath(

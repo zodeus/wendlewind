@@ -309,6 +309,11 @@ public static class BuildSnapshotFactory
     private static void ApplyMeal(Pawn pawn, string[] foodMonikers)
     {
         pawn.MealPlan.Prune();
+        if (foodMonikers.Length > pawn.MealPlan.Capacity)
+        {
+            pawn.MealPlan.RefreshCapacity(foodMonikers.Length);
+        }
+
         foreach (var moniker in foodMonikers)
         {
             var item = FindOrCreateInventoryItem(pawn, moniker, d => d.FoodProperties != null);
