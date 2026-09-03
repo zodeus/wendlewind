@@ -28,6 +28,7 @@ public class ArmorCombatTests
     [InlineData("LeatherVambrace", 18f)]
     [InlineData("ChainVambrace", 34f)]
     [InlineData("WitchDoctorVambrace", 48f)]
+    [InlineData("PlateVambrace", 56f)]
     [InlineData("ClothTunic", 14f)]
     [InlineData("LeatherTunic", 20f)]
     [InlineData("ChainTunic", 34f)]

@@ -20,6 +20,7 @@
         <BaseStats>
             <PhysicalResistance>18</PhysicalResistance>
             <MaxDurability>200</MaxDurability>
+            <Weight>2</Weight>
         </BaseStats>
         <DisassembleProperties>
             <Items>
@@ -41,6 +42,7 @@
         <BaseStats>
             <PhysicalResistance>12</PhysicalResistance>
             <MaxDurability>80</MaxDurability>
+            <Weight>1</Weight>
         </BaseStats>
         <DisassembleProperties>
             <Items>

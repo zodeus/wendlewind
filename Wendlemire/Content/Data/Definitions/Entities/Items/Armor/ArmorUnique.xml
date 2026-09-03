@@ -14,6 +14,7 @@
         <TexturePath>Entities/Item/Equipment/Armor/Unique/BlessedIronCollar</TexturePath>
         <BaseStats>
             <MaxDurability>666</MaxDurability>
+            <Weight>2</Weight>
         </BaseStats>
         <TrinketProperties>
             <Type>Equipment</Type>

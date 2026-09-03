@@ -186,6 +186,42 @@
                 <ChanceToDrop>.8</ChanceToDrop>
                 <Weight>1000</Weight>
             </ListItem>
+
+            <ListItem>
+                <ItemDef>PlateHelmet</ItemDef>
+                <ChanceToDrop>.6</ChanceToDrop>
+                <Weight>800</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>PlateGorget</ItemDef>
+                <ChanceToDrop>.4</ChanceToDrop>
+                <Weight>800</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>PlateTunic</ItemDef>
+                <ChanceToDrop>.4</ChanceToDrop>
+                <Weight>800</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>PlateVambrace</ItemDef>
+                <ChanceToDrop>.6</ChanceToDrop>
+                <Weight>800</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>PlateGlove</ItemDef>
+                <ChanceToDrop>.65</ChanceToDrop>
+                <Weight>800</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>PlateGreave</ItemDef>
+                <ChanceToDrop>.6</ChanceToDrop>
+                <Weight>800</Weight>
+            </ListItem>
+            <ListItem>
+                <ItemDef>PlateBoot</ItemDef>
+                <ChanceToDrop>.65</ChanceToDrop>
+                <Weight>800</Weight>
+            </ListItem>
         </Items>
     </LootBoxDef>
 </Definitions>

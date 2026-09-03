@@ -16,6 +16,15 @@
         <MaxValue>100</MaxValue>
     </StatDef>
     <StatDef>
+        <Moniker>Weight</Moniker>
+        <Label>Weight</Label>
+        <Description>Equipped mass. Slows attack speed.</Description>
+        <BaseValue>0</BaseValue>
+        <MinValue>0</MinValue>
+        <MaxValue>999</MaxValue>
+        <UiDisplay>true</UiDisplay>
+    </StatDef>
+    <StatDef>
         <Moniker>MaxDurability</Moniker>
         <Label>Max Durability</Label>
         <BaseValue>1</BaseValue>

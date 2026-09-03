@@ -5,6 +5,7 @@
         <BaseStats>
             <PhysicalResistance>18</PhysicalResistance>
             <MaxDurability>200</MaxDurability>
+            <Weight>2</Weight>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="LeatherArmorBase">

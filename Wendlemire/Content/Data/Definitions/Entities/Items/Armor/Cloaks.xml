@@ -6,6 +6,9 @@
         <EquipmentProperties>
             <SlotUsedToEquip>Cloak</SlotUsedToEquip>
         </EquipmentProperties>
+        <BaseStats>
+            <Weight>1</Weight>
+        </BaseStats>
     </ItemDef>
     <ItemDef ParentName="CloakBase">
         <Moniker>EvasionCloak</Moniker>

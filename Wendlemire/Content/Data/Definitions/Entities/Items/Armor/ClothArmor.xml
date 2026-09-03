@@ -4,6 +4,7 @@
         <BaseStats>
             <PhysicalResistance>14</PhysicalResistance>
             <MaxDurability>100</MaxDurability>
+            <Weight>1</Weight>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ClothArmorBase">

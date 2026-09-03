@@ -1,3 +1,4 @@
+using Wendlemire.Sim.Combat;
 using Wendlemire.Sim.Entities.Pawns.Bodies.Handlers;
 
 namespace Wendlemire.Sim.Entities.Pawns;
@@ -75,6 +76,9 @@ public class PawnBody : IExposable, IIdentityProvider
             return (Pawn.GetStatValue(Defs.Stats.MoveSpeed) + moveBonus) * capacityFactor;
         }
     }
+
+    public float EquippedWeight =>
+        Pawn.Equipment.Armor.Sum(item => item.GetStatValue(Defs.Stats.Weight));
 
     public float BloodAmount
     {
@@ -313,6 +317,17 @@ public class PawnBody : IExposable, IIdentityProvider
     {
         ModifyStatByStance(stat, ref value);
         Handler.ModifyStat(stat, ref value);
+
+        if (stat == Defs.Stats.Weight)
+        {
+            value = EquippedWeight;
+            return;
+        }
+
+        if (stat == Defs.Stats.AttackSpeed)
+        {
+            value /= 1f + EquippedWeight * CombatBalance.WeightAttackSpeedFactor;
+        }
     }
 
     private void ModifyStatByStance(StatDef stat, ref float value)

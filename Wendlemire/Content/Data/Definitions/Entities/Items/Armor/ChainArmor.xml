@@ -8,6 +8,7 @@
         <BaseStats>
             <PhysicalResistance>34</PhysicalResistance>
             <MaxDurability>2000</MaxDurability>
+            <Weight>4</Weight>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="ChainArmorBase">

@@ -19,6 +19,7 @@ public static partial class Defs
         public static StatDef MagicResistance = null!;
         public static StatDef MaxDurability = null!;
         public static StatDef MoveSpeed = null!;
+        public static StatDef Weight = null!;
         public static StatDef NutritionalValue = null!;
         public static StatDef Evasion = null!;
         public static StatDef AttackSpeedModifier = null!;

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Definitions>
+    <ItemDef Name="PlateArmorBase" ParentName="ArmorBase" Abstract="true">
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <MaxEnchantments>1</MaxEnchantments>
+        </EquipmentProperties>
+        <BaseStats>
+            <PhysicalResistance>56</PhysicalResistance>
+            <MaxDurability>4000</MaxDurability>
+            <Weight>7</Weight>
+        </BaseStats>
+    </ItemDef>
+    <ItemDef ParentName="PlateArmorBase">
+        <Moniker>PlateHelmet</Moniker>
+        <Label>Plate Helmet</Label>
+        <GoldCost>60</GoldCost>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HeadArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Plate/Helmet</TexturePath>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="PlateArmorBase">
+        <Moniker>PlateGorget</Moniker>
+        <Label>Plate Gorget</Label>
+        <ItemType>Equipment</ItemType>
+        <GoldCost>68</GoldCost>
+        <Description>A steel collar that sits heavy on the shoulders</Description>
+        <EquipmentProperties>
+            <SlotUsedToEquip>NeckArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Plate/Gorget</TexturePath>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="PlateArmorBase">
+        <Moniker>PlateGlove</Moniker>
+        <Label>Plate Glove</Label>
+        <GoldCost>48</GoldCost>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>HandArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Plate/Glove</TexturePath>
+        <BaseStats>
+            <MaxDurability>5000</MaxDurability>
+        </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="PlateArmorBase">
+        <Moniker>PlateVambrace</Moniker>
+        <Label>Plate Vambrace</Label>
+        <GoldCost>52</GoldCost>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>ArmArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Plate/Vambrace</TexturePath>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="PlateArmorBase">
+        <Moniker>PlateTunic</Moniker>
+        <Label>Plate Tunic</Label>
+        <GoldCost>95</GoldCost>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>TorsoArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Plate/Tunic</TexturePath>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>2</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="PlateArmorBase">
+        <Moniker>PlateGreave</Moniker>
+        <Label>Plate Greave</Label>
+        <GoldCost>56</GoldCost>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>LegArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Plate/Greave</TexturePath>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+    <ItemDef ParentName="PlateArmorBase">
+        <Moniker>PlateBoot</Moniker>
+        <Label>Plate Boot</Label>
+        <GoldCost>51</GoldCost>
+        <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <SlotUsedToEquip>FootArmor</SlotUsedToEquip>
+        </EquipmentProperties>
+        <TexturePath>Entities/Item/Equipment/Armor/Plate/Boot</TexturePath>
+        <BaseStats>
+            <MoveSpeed>.5</MoveSpeed>
+        </BaseStats>
+        <DisassembleProperties>
+            <Items>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </Items>
+        </DisassembleProperties>
+    </ItemDef>
+</Definitions>

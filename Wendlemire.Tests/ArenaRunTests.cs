@@ -302,6 +302,12 @@ public class ArenaRunTests
         var lateSets = late.Offers.Where(offer => offer.IsSet).ToList();
         Assert.Single(lateSets);
         Assert.Contains(lateSets[0].SetLabel, new[] { "Cloth Set", "Leather Set", "Chain Set" });
+        Assert.DoesNotContain(late.Offers, offer => offer.SetLabel == "Plate Set");
+
+        var later = ShopStock.Roll(merchant, 99, 6).Single(shelf => shelf.Category == ShopCategory.Armor);
+        var laterSets = later.Offers.Where(offer => offer.IsSet).ToList();
+        Assert.Single(laterSets);
+        Assert.Contains(laterSets[0].SetLabel, new[] { "Cloth Set", "Leather Set", "Chain Set", "Plate Set" });
     }
 
     [Fact]
@@ -325,6 +331,9 @@ public class ArenaRunTests
         }
 
         Assert.Contains(ShopStock.AvailableOffers(merchant, 0), o => o.ItemDef?.Moniker == "IronSword");
+
+        Assert.DoesNotContain(ShopStock.AvailableOffers(merchant, 5), o => o.ItemDef?.Moniker == "PlateTunic");
+        Assert.Contains(ShopStock.AvailableOffers(merchant, 6), o => o.ItemDef?.Moniker == "PlateTunic");
     }
 
     [Fact]

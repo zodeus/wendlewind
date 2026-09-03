@@ -8,6 +8,7 @@
         <BaseStats>
             <PhysicalResistance>48</PhysicalResistance>
             <MaxDurability>2000</MaxDurability>
+            <Weight>3</Weight>
         </BaseStats>
     </ItemDef>
     <ItemDef ParentName="WitchDoctorArmorBase">

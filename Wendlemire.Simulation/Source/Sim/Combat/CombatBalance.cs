@@ -15,6 +15,11 @@ public static class CombatBalance
     /// </summary>
     public const float ArmorK = 110f;
 
+    /// <summary>
+    /// Attack speed = base / (1 + equippedWeight * this). Full cloth (~11) ≈ 6% slower, full plate (~77) ≈ 32%.
+    /// </summary>
+    public const float WeightAttackSpeedFactor = 0.006f;
+
     public const float ArmoredDotChanceFactor = 0.65f;
     public const float ArmoredDotPowerFactor = 0.7f;
 

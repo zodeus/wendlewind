@@ -8,6 +8,7 @@ internal sealed class PrepBuffList : VerticalStackPanel
         "BodyScale",
         "Magic",
         "AttackSpeed",
+        "Weight",
         "Accuracy",
         "Evasion",
         "MoveSpeed",

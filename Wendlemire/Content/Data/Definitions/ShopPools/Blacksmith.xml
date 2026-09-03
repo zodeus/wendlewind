@@ -195,7 +195,52 @@
                         <AvailableFromRound>4</AvailableFromRound>
                     </ListItem>
                     <ListItem>
+                        <SetLabel>Plate Set</SetLabel>
+                        <AvailableFromRound>6</AvailableFromRound>
+                        <SetPieces>
+                            <ListItem>PlateHelmet</ListItem>
+                            <ListItem>PlateGorget</ListItem>
+                            <ListItem>PlateTunic</ListItem>
+                            <ListItem>PlateGlove</ListItem>
+                            <ListItem>PlateGlove</ListItem>
+                            <ListItem>PlateVambrace</ListItem>
+                            <ListItem>PlateVambrace</ListItem>
+                            <ListItem>PlateGreave</ListItem>
+                            <ListItem>PlateGreave</ListItem>
+                            <ListItem>PlateBoot</ListItem>
+                            <ListItem>PlateBoot</ListItem>
+                        </SetPieces>
+                    </ListItem>
+                    <ListItem>
                         <ItemDef>BlessedIronCollar</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>PlateHelmet</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>PlateGorget</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>PlateTunic</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>PlateGlove</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>PlateVambrace</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>PlateGreave</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
+                        <ItemDef>PlateBoot</ItemDef>
                         <AvailableFromRound>6</AvailableFromRound>
                     </ListItem>
                 </Offers>

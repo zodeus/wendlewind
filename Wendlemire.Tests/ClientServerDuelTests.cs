@@ -69,7 +69,7 @@ public class ClientServerDuelTests
         _output.WriteLine($"arena {arena.WinnerPlayerId}/{arena.Ticks}");
         Assert.Equal(server.WinnerPlayerId, arena.WinnerPlayerId);
         Assert.Equal(server.Ticks, arena.Ticks);
-        Assert.Equal(1275, server.Ticks);
+        Assert.Equal(3802, server.Ticks);
     }
 
     [Fact]
