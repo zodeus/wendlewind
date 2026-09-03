@@ -34,6 +34,10 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+if ($PSVersionTable.PSVersion -ge [version]"7.4") {
+    $PSNativeCommandUseErrorActionPreference = $true
+}
+$script:CachedServerIPv4 = $null
 $ProjectRoot = $PSScriptRoot
 $ServerProject = Join-Path $ProjectRoot "Wendlemire.Server\Wendlemire.Server.csproj"
 $PublishDir = Join-Path $ProjectRoot "artifacts\hetzner-server"
@@ -67,8 +71,12 @@ function Invoke-Native {
     )
 
     & $File @Arguments
-    if ($LASTEXITCODE -ne 0) {
-        throw "$File $($Arguments -join ' ') failed with exit $LASTEXITCODE"
+    $code = $LASTEXITCODE
+    if ($null -eq $code) {
+        $code = $(if ($?) { 0 } else { 1 })
+    }
+    if ($code -ne 0) {
+        throw "$File $($Arguments -join ' ') failed with exit $code"
     }
 }
 
@@ -128,6 +136,9 @@ function Get-HCloudJson {
 
     $output = & $HCloud @Arguments
     $code = $LASTEXITCODE
+    if ($null -eq $code) {
+        $code = $(if ($?) { 0 } else { 1 })
+    }
     $raw = ($output | Out-String).Trim()
     if ($code -ne 0) {
         throw "hcloud $($Arguments -join ' ') failed with exit $code"
@@ -210,11 +221,22 @@ function Get-Server {
 }
 
 function Get-ServerIPv4 {
+    if (-not [string]::IsNullOrWhiteSpace($script:CachedServerIPv4)) {
+        return $script:CachedServerIPv4
+    }
+
     $server = Get-Server
     if (-not $server) {
         throw "Hetzner server '$ServerName' does not exist. Run .\deploy-hetzner.ps1 first."
     }
-    return $server.public_net.ipv4.ip
+
+    $ip = $server.public_net.ipv4.ip
+    if ([string]::IsNullOrWhiteSpace($ip)) {
+        throw "Hetzner server '$ServerName' has no IPv4 address."
+    }
+
+    $script:CachedServerIPv4 = $ip
+    return $ip
 }
 
 function Ensure-SshKey {
@@ -869,12 +891,23 @@ function Publish-Server {
         "-c", "Release",
         "-r", "linux-x64",
         "--self-contained", "true",
+        "--force",
         "--nologo",
         "-p:PublishSingleFile=false",
         "-p:DebugType=None",
         "-p:DebugSymbols=false",
         "-o", $PublishDir
     )
+
+    $required = @(
+        (Join-Path $PublishDir "Wendlemire.Server"),
+        (Join-Path $PublishDir "Wendlemire.Simulation.dll")
+    )
+    foreach ($path in $required) {
+        if (-not (Test-Path $path)) {
+            throw "Publish succeeded but missing $path"
+        }
+    }
 }
 
 function Deploy-App {
@@ -920,6 +953,12 @@ tar -xzf /tmp/wendlemire-server.tgz -C $RemoteAppDir
 chmod +x $RemoteAppDir/Wendlemire.Server
 chown -R wendlemire:wendlemire $RemoteAppDir $RemoteDataDir
 systemctl restart wendlemire
+if ! systemctl is-active --quiet wendlemire; then
+  echo "wendlemire.service failed to start" >&2
+  systemctl status wendlemire --no-pager || true
+  journalctl -u wendlemire -n 40 --no-pager || true
+  exit 1
+fi
 systemctl reload caddy || systemctl restart caddy
 "@
 
@@ -927,6 +966,7 @@ systemctl reload caddy || systemctl restart caddy
     Copy-ToRemote -LocalPath $extractPath -RemotePath "/tmp/wendlemire-extract.sh"
     Invoke-Remote "bash /tmp/wendlemire-setup.sh"
     Invoke-Remote "bash /tmp/wendlemire-extract.sh"
+    Assert-RemoteService
 
     if ($Domain) {
         $ip = $server.public_net.ipv4.ip
@@ -939,6 +979,14 @@ systemctl reload caddy || systemctl restart caddy
         catch {
             Write-Host "Could not resolve $Domain yet. HTTPS will fail until Cloudflare nameservers are live and the A record has propagated." -ForegroundColor Yellow
         }
+    }
+}
+
+function Assert-RemoteService {
+    $status = Invoke-Remote "systemctl is-active wendlemire"
+    $line = (@($status) | ForEach-Object { "$_".Trim() } | Where-Object { $_ } | Select-Object -Last 1)
+    if ($line -ne "active") {
+        throw "wendlemire.service is '$line' after install. Check journalctl -u wendlemire."
     }
 }
 
@@ -955,13 +1003,16 @@ function Wait-Health {
                 Write-Success "Healthy. zones=$($response.zones) pawns=$($response.pawns) pool=$($response.pool)"
                 return
             }
+
+            $lastError = "health status '$($response.status)'"
         }
         catch {
-            $lastError = $_
-            Start-Sleep -Seconds 3
+            $lastError = $_.Exception.Message
         }
+
+        Start-Sleep -Seconds 3
     }
-    throw "Health check failed for $url. $($lastError.Exception.Message)"
+    throw "Health check failed for $url. $lastError"
 }
 
 function Get-PublicBaseUrl {
@@ -1093,50 +1144,57 @@ function Show-Summary {
     Write-Host "Data:    $RemoteDataDir on volume $VolumeName (survives deploys and destroy)"
 }
 
-Get-HCloudToken
-$HCloud = Get-HCloudExe
-if ($Action -ne "dns") {
-    Resolve-SshPaths
-}
+try {
+    Get-HCloudToken
+    $HCloud = Get-HCloudExe
+    if ($Action -ne "dns") {
+        Resolve-SshPaths
+    }
 
-switch ($Action) {
-    "up" {
-        Ensure-SshKey
-        Ensure-Firewall
-        Ensure-Server
-        Ensure-Volume
-        Ensure-CloudflareDns
-        New-DataSnapshot
-        Deploy-App
-        Deploy-ClientDownloads
-        Wait-Health
-        Show-Summary
+    switch ($Action) {
+        "up" {
+            Ensure-SshKey
+            Ensure-Firewall
+            Ensure-Server
+            Ensure-Volume
+            Ensure-CloudflareDns
+            New-DataSnapshot
+            Deploy-App
+            Deploy-ClientDownloads
+            Wait-Health
+            Show-Summary
+        }
+        "deploy" {
+            Ensure-Volume
+            Ensure-CloudflareDns
+            New-DataSnapshot
+            Deploy-App
+            Deploy-ClientDownloads
+            Wait-Health
+            Show-Summary
+        }
+        "clients" {
+            Wait-Ssh
+            Deploy-ClientDownloads
+            Write-Success "Clients: $(Get-PublicBaseUrl)/download/win-x64"
+        }
+        "dns" {
+            Ensure-CloudflareDns
+        }
+        "snapshot" {
+            Ensure-Volume
+            New-DataSnapshot
+        }
+        "status" {
+            Show-Status
+        }
+        "destroy" {
+            Remove-Server
+        }
     }
-    "deploy" {
-        Ensure-Volume
-        Ensure-CloudflareDns
-        New-DataSnapshot
-        Deploy-App
-        Deploy-ClientDownloads
-        Wait-Health
-        Show-Summary
-    }
-    "clients" {
-        Wait-Ssh
-        Deploy-ClientDownloads
-        Write-Success "Clients: $(Get-PublicBaseUrl)/download/win-x64"
-    }
-    "dns" {
-        Ensure-CloudflareDns
-    }
-    "snapshot" {
-        Ensure-Volume
-        New-DataSnapshot
-    }
-    "status" {
-        Show-Status
-    }
-    "destroy" {
-        Remove-Server
-    }
+}
+catch {
+    Write-Host ""
+    Write-Host "DEPLOY FAILED: $($_.Exception.Message)" -ForegroundColor Red
+    exit 1
 }

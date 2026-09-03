@@ -36,6 +36,9 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+if ($PSVersionTable.PSVersion -ge [version]"7.4") {
+    $PSNativeCommandUseErrorActionPreference = $true
+}
 $ProjectRoot = $PSScriptRoot
 $Hetzner = Join-Path $ProjectRoot "deploy-hetzner.ps1"
 $Release = Join-Path $ProjectRoot "publish-release.ps1"
@@ -43,6 +46,24 @@ $ReleaseDir = Join-Path $ProjectRoot "RELEASE"
 
 function Write-Info { param($Message) Write-Host $Message -ForegroundColor Cyan }
 function Write-Success { param($Message) Write-Host $Message -ForegroundColor Green }
+
+function Invoke-ScriptStep {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Name,
+        [Parameter(Mandatory = $true)]
+        [scriptblock]$Script
+    )
+
+    $global:LASTEXITCODE = 0
+    & $Script
+    $ok = $?
+    $code = $LASTEXITCODE
+    if (-not $ok -or ($null -ne $code -and $code -ne 0)) {
+        $shown = if ($null -eq $code) { "unknown" } else { $code }
+        throw "$Name failed (exit $shown)."
+    }
+}
 
 function Resolve-ServerUrl {
     if (-not [string]::IsNullOrWhiteSpace($ServerUrl)) {
@@ -87,36 +108,49 @@ if ($SkipServer -and $SkipClients) {
 
 $resolvedUrl = Resolve-ServerUrl
 
-Write-Host ""
-Write-Host "========================================" -ForegroundColor Magenta
-Write-Host "  Wendlemire deploy" -ForegroundColor Magenta
-Write-Host "========================================" -ForegroundColor Magenta
-
-if (-not $SkipClients) {
+try {
     Write-Host ""
-    Write-Info "Building client zips (v$Version → $resolvedUrl)..."
-    & $Release -Version $Version -Platform $Platform -ServerUrl $resolvedUrl
-}
+    Write-Host "========================================" -ForegroundColor Magenta
+    Write-Host "  Wendlemire deploy" -ForegroundColor Magenta
+    Write-Host "========================================" -ForegroundColor Magenta
 
-if (-not $SkipServer) {
-    Write-Host ""
-    Write-Info "Deploying server ($Action)..."
-    $hetznerArgs = Get-HetznerArgs -HetznerAction $Action
-    & $Hetzner @hetznerArgs
-}
-elseif (-not $SkipClients) {
-    Write-Host ""
-    Write-Info "Uploading client zips to the server..."
-    $hetznerArgs = Get-HetznerArgs -HetznerAction "clients"
-    & $Hetzner @hetznerArgs
-}
+    if (-not $SkipClients) {
+        Write-Host ""
+        Write-Info "Building client zips (v$Version → $resolvedUrl)..."
+        Invoke-ScriptStep -Name "publish-release.ps1" -Script {
+            & $Release -Version $Version -Platform $Platform -ServerUrl $resolvedUrl
+        }
+    }
 
-Write-Host ""
-Write-Success "Deploy finished."
-Write-Host "Server:  $resolvedUrl"
-Write-Host "Health:  $resolvedUrl/health"
-Write-Host "Admin:   $resolvedUrl/admin"
-if (-not $SkipClients) {
-    Write-Host "Windows: $resolvedUrl/download/win-x64"
+    if (-not $SkipServer) {
+        Write-Host ""
+        Write-Info "Deploying server ($Action)..."
+        $hetznerArgs = Get-HetznerArgs -HetznerAction $Action
+        Invoke-ScriptStep -Name "deploy-hetzner.ps1" -Script {
+            & $Hetzner @hetznerArgs
+        }
+    }
+    elseif (-not $SkipClients) {
+        Write-Host ""
+        Write-Info "Uploading client zips to the server..."
+        $hetznerArgs = Get-HetznerArgs -HetznerAction "clients"
+        Invoke-ScriptStep -Name "deploy-hetzner.ps1" -Script {
+            & $Hetzner @hetznerArgs
+        }
+    }
+
+    Write-Host ""
+    Write-Success "Deploy finished."
+    Write-Host "Server:  $resolvedUrl"
+    Write-Host "Health:  $resolvedUrl/health"
+    Write-Host "Admin:   $resolvedUrl/admin"
+    if (-not $SkipClients) {
+        Write-Host "Windows: $resolvedUrl/download/win-x64"
+    }
+    Write-Host ""
 }
-Write-Host ""
+catch {
+    Write-Host ""
+    Write-Host "DEPLOY FAILED: $($_.Exception.Message)" -ForegroundColor Red
+    exit 1
+}
