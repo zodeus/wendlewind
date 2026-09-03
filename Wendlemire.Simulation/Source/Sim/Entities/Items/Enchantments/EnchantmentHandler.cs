@@ -1,5 +1,6 @@
 namespace Wendlemire.Sim.Entities.Items.Enchantments;
 
+[UsedImplicitly(ImplicitUseTargetFlags.WithInheritors)]
 public abstract class EnchantmentHandler : IExposable, IHasContext, IHasRng
 {
     public GameContext Context { get; set; } = null!;

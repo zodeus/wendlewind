@@ -1,5 +1,6 @@
 namespace Wendlemire.Definitions;
 
+[UsedImplicitly(ImplicitUseTargetFlags.WithInheritors)]
 public class Def {
     public string Moniker = "undefined";
     public string Label = "undefined";

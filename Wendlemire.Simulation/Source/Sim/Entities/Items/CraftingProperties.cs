@@ -1,5 +1,6 @@
 namespace Wendlemire.Sim.Entities.Items;
 
+[UsedImplicitly]
 public class CraftingProperties
 {
     public int AmountProduced = 1;

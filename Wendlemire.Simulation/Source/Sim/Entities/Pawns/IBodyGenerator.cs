@@ -1,5 +1,6 @@
-﻿﻿namespace Wendlemire.Sim.Entities.Pawns;
+﻿namespace Wendlemire.Sim.Entities.Pawns;
 
+[UsedImplicitly(ImplicitUseTargetFlags.WithInheritors)]
 public interface IBodyGenerator
 {
     public void Generate(Pawn pawn);

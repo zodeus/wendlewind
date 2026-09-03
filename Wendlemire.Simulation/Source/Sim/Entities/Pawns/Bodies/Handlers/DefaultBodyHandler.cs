@@ -1,5 +1,6 @@
 namespace Wendlemire.Sim.Entities.Pawns.Bodies.Handlers;
 
+[UsedImplicitly(ImplicitUseTargetFlags.WithInheritors)]
 public class DefaultBodyHandler : IExposable, IHasContext, IHasRng
 {
     public GameContext Context { get; set; } = null!;

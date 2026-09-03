@@ -1,5 +1,6 @@
 namespace Wendlemire.Sim.Entities.Items.Equipment;
 
+[UsedImplicitly]
 public class EquipmentProperties
 {
     public EquipmentType EquipmentType;

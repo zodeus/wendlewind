@@ -3,6 +3,7 @@ namespace Wendlemire.Sim.Achievements.Handlers;
 /// <summary>
 /// Base class for achievement handlers that check conditions and unlock achievements
 /// </summary>
+[UsedImplicitly(ImplicitUseTargetFlags.WithInheritors)]
 public abstract class AchievementHandler : IHasContext, IHasRng
 {
     public GameContext Context { get; set; } = null!;

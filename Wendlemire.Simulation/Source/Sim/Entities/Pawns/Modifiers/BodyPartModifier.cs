@@ -1,4 +1,4 @@
-﻿﻿namespace Wendlemire.Sim.Entities.Pawns.Modifiers;
+﻿namespace Wendlemire.Sim.Entities.Pawns.Modifiers;
 
 public static class BodyPartModifierGenerator
 {
@@ -12,6 +12,7 @@ public enum BodyPartModifierEventType
     Removed
 }
 
+[UsedImplicitly(ImplicitUseTargetFlags.WithInheritors)]
 public abstract class BodyPartModifier : IExposable, IIdentityProvider, IHasContext, IHasRng
 {
     public GameContext Context { get; set; } = null!;

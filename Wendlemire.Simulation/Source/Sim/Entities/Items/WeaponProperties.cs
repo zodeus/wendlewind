@@ -1,7 +1,8 @@
-﻿﻿using Wendlemire.Sim.Entities.Items.Weapons;
+﻿using Wendlemire.Sim.Entities.Items.Weapons;
 
 namespace Wendlemire.Sim.Entities.Items;
 
+[UsedImplicitly]
 public class WeaponProperties
 {
     

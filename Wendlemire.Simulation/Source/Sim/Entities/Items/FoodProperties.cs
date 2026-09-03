@@ -1,5 +1,6 @@
 namespace Wendlemire.Sim.Entities.Items;
 
+[UsedImplicitly]
 public class FoodProperties {
     public FoodType FoodType;
     public List<BodyEffectRecord> Effects = new();

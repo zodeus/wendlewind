@@ -1,5 +1,6 @@
 namespace Wendlemire.Sim.Entities.Items.Enchantments;
 
+[UsedImplicitly]
 public class EnchantmentProperties
 {
     public List<EquipmentType> ValidEquipmentTypes = [];

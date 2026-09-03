@@ -1,5 +1,6 @@
 namespace Wendlemire.Sim.Entities.Items;
 
+[UsedImplicitly]
 public class AmmoProperties
 {
     public DamageType DamageType = DamageType.Invalid;

@@ -10,6 +10,7 @@ public class EntityPanelProperties
     public Action? CloseButtonAction;
 }
 
+[UsedImplicitly(ImplicitUseTargetFlags.WithInheritors)]
 public abstract class EntityPanelBase : VerticalStackPanel
 {
     protected readonly BaseGui Gui;

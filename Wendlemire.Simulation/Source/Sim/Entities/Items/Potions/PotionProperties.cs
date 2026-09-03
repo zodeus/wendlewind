@@ -3,6 +3,7 @@ namespace Wendlemire.Sim.Entities.Items.Potions;
 /// <summary>
 /// Properties for potion items that define their handler class and combat trigger.
 /// </summary>
+[UsedImplicitly]
 public class PotionProperties
 {
     /// <summary>

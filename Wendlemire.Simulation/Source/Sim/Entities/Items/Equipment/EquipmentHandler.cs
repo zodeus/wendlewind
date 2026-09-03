@@ -1,5 +1,6 @@
 namespace Wendlemire.Sim.Entities.Items.Equipment;
 
+[UsedImplicitly(ImplicitUseTargetFlags.WithInheritors)]
 public abstract class EquipmentHandler : IExposable, IHasContext, IHasRng
 {
     public GameContext Context { get; set; } = null!;

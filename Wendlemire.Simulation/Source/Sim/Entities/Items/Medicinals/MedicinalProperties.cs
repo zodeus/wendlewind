@@ -1,5 +1,6 @@
 namespace Wendlemire.Sim.Entities.Items.Medicinals;
 
+[UsedImplicitly]
 public class MedicinalProperties
 {
     public int DurationInTicks;
@@ -55,6 +56,7 @@ public class MedicinalProperties
     }
 }
 
+[UsedImplicitly(ImplicitUseTargetFlags.WithInheritors)]
 public abstract class MedicinalHandler : IHasContext, IHasRng
 {
     public GameContext Context { get; set; } = null!;

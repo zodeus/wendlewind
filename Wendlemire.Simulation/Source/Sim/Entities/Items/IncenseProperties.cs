@@ -1,5 +1,6 @@
 namespace Wendlemire.Sim.Entities.Items;
 
+[UsedImplicitly]
 public class IncenseProperties
 {
     public const int BaseSlots = 1;

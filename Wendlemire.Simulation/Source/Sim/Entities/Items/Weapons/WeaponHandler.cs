@@ -3,6 +3,7 @@ namespace Wendlemire.Sim.Entities.Items.Weapons;
 /// <summary>
 /// Base class for unique weapon handlers that execute special effects during combat.
 /// </summary>
+[UsedImplicitly(ImplicitUseTargetFlags.WithInheritors)]
 public abstract class WeaponHandler : IExposable, IHasContext, IHasRng
 {
     public GameContext Context { get; set; } = null!;

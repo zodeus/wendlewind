@@ -1,5 +1,6 @@
 namespace Wendlemire.Sim.Entities.Items.Trinkets;
 
+[UsedImplicitly(ImplicitUseTargetFlags.WithInheritors)]
 public abstract class TrinketHandler : IExposable, IHasContext, IHasRng
 {
     public GameContext Context { get; set; } = null!;
