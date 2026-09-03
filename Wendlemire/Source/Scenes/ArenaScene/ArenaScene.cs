@@ -194,6 +194,16 @@ public sealed class ArenaScene : Scene
         RecordMatchIfNeeded();
     }
 
+    public void ReplayVisualDuel()
+    {
+        if (_pendingResult == null)
+        {
+            return;
+        }
+
+        StartVisualDuel(_pendingResult);
+    }
+
     public void OnVisualCombatFinished()
     {
         var run = _context.ArenaRun;

@@ -12,6 +12,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     private readonly GameContext _context;
     private readonly Action? _onFinished;
     private readonly Action? _onCombatEnded;
+    private readonly Action? _onReplay;
     private readonly ScrollViewer _combatLog;
     private readonly GameHud _gameHud;
     private readonly CombatPartyPanel _playerPartyPanel;
@@ -40,12 +41,19 @@ public class CombatScreen : VerticalStackPanel, IDisposable
 
     private Encounter Encounter => _context.CurrentZone!.ActiveEncounter!;
 
-    public CombatScreen(BaseGui gui, GameContext context, Action? onFinished = null, Action? onCombatEnded = null)
+    public CombatScreen(
+        BaseGui gui,
+        GameContext context,
+        Action? onFinished = null,
+        Action? onCombatEnded = null,
+        Action? onReplay = null)
     {
         _gui = gui;
         _context = context;
         _onFinished = onFinished;
         _onCombatEnded = onCombatEnded;
+        _onReplay = onReplay
+            ?? (DebugSettings.TestSimMode ? () => TestSimLauncher.Rematch(_context) : null);
         Encounter.StateChangedAction += CombatStateChangedAction;
         Encounter.CombatHandler!.CombatEventRecorded += OnCombatEvent;
         HorizontalAlignment = HorizontalAlignment.Stretch;
@@ -616,8 +624,9 @@ public class CombatScreen : VerticalStackPanel, IDisposable
             ?? (DebugSettings.TestSimMode
                 ? () => TestSimLauncher.ReturnToSelector(_context)
                 : () => Encounter.Zone.CombatResults());
-        _summaryWindow = new CombatSummaryWindow(Encounter, onContinue);
+        _summaryWindow = new CombatSummaryWindow(Encounter, onContinue, canReplay: _onReplay != null);
         _summaryWindow.OnReviewRequested += OnReviewRequested;
+        _summaryWindow.OnReplayRequested += OnReplayRequested;
         _summaryWindow.Show(_gui.Desktop);
         CenterSummaryWindow();
     }
@@ -628,6 +637,11 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         {
             _showSummaryButton.Visible = true;
         }
+    }
+
+    private void OnReplayRequested()
+    {
+        _onReplay?.Invoke();
     }
 
     private void ShowSummaryWindow()
@@ -764,6 +778,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         if (_summaryWindow != null)
         {
             _summaryWindow.OnReviewRequested -= OnReviewRequested;
+            _summaryWindow.OnReplayRequested -= OnReplayRequested;
         }
     }
 }

@@ -76,7 +76,8 @@ public sealed class ArenaGui : BaseGui
                 this,
                 _context,
                 _scene.OnVisualCombatFinished,
-                _scene.RecordVisualCombatResult),
+                _scene.RecordVisualCombatResult,
+                _scene.ReplayVisualDuel),
             ArenaPhase.Results when _context.ArenaRun?.IsRunOver == true =>
                 new ArenaRunEndScreen(_context, _scene.ReturnToMenu, _scene.LastFinishedRun, _scene.CurrentRank),
             ArenaPhase.Results or ArenaPhase.MerchantSelect =>

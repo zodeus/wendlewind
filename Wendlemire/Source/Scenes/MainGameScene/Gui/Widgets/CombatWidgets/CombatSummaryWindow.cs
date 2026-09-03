@@ -20,8 +20,9 @@ public sealed class CombatSummaryWindow : Window
     private static readonly Color Defeat = new(196, 90, 58);
 
     public event Action? OnReviewRequested;
+    public event Action? OnReplayRequested;
 
-    public CombatSummaryWindow(Encounter encounter, Action onContinue)
+    public CombatSummaryWindow(Encounter encounter, Action onContinue, bool canReplay = false)
     {
         var handler = encounter.CombatHandler!;
         var playerWon = !handler.Player.IsDead;
@@ -33,11 +34,11 @@ public sealed class CombatSummaryWindow : Window
         Border = new SolidBrush(FrameOuter);
         BorderThickness = new Thickness(1);
         Content = playerWon
-            ? BuildVictoryContent(encounter, handler, onContinue)
-            : BuildDeathReportContent(encounter, handler, onContinue);
+            ? BuildVictoryContent(encounter, handler, onContinue, canReplay)
+            : BuildDeathReportContent(encounter, handler, onContinue, canReplay);
     }
 
-    private Widget BuildVictoryContent(Encounter encounter, CombatHandler handler, Action onContinue)
+    private Widget BuildVictoryContent(Encounter encounter, CombatHandler handler, Action onContinue, bool canReplay)
     {
         var stats = BuildStatsGrid();
         AddStatRow(stats, 0, "Opponent", handler.Enemy.LabelShort);
@@ -75,10 +76,10 @@ public sealed class CombatSummaryWindow : Window
             BuildBanner(BaseContent.Textures.VictorySplash, "VICTORY", Color.Goldenrod),
             stats,
             extras,
-            BuildButtons("Continue", onContinue));
+            BuildButtons("Continue", onContinue, canReplay));
     }
 
-    private Widget BuildDeathReportContent(Encounter encounter, CombatHandler handler, Action onContinue)
+    private Widget BuildDeathReportContent(Encounter encounter, CombatHandler handler, Action onContinue, bool canReplay)
     {
         var deathRecords = Core.Context.DeathRecords.List;
         var totalDamage = deathRecords.Sum(r => r.TotalDamageDealt) + handler.TotalDirectPlayerDamage;
@@ -115,7 +116,7 @@ public sealed class CombatSummaryWindow : Window
                 }
 
                 Core.Context.StartOver();
-            }));
+            }, canReplay));
     }
 
     private static Widget BuildBanner(Texture2D splash, string title, Color titleColor, string? subtitle = null)
@@ -195,29 +196,44 @@ public sealed class CombatSummaryWindow : Window
         };
     }
 
-    private Widget BuildButtons(string continueText, Action onContinue)
+    private Widget BuildButtons(string continueText, Action onContinue, bool canReplay)
     {
-        var reviewButton = IronButton("Review Combat", 220);
+        var width = canReplay ? 148 : 220;
+        var reviewButton = IronButton("Review Combat", width);
         reviewButton.Click += (_, _) =>
         {
             Visible = false;
             OnReviewRequested?.Invoke();
         };
 
-        var continueButton = IronButton(continueText, 220);
+        var continueButton = IronButton(continueText, width);
         continueButton.Click += (_, _) =>
         {
             Close();
             onContinue();
         };
 
-        return new HorizontalStackPanel
+        var row = new HorizontalStackPanel
         {
             Spacing = 10,
             HorizontalAlignment = HorizontalAlignment.Center,
             Margin = new Thickness(0, 4, 0, 0),
-            Widgets = { reviewButton, continueButton }
+            Widgets = { reviewButton }
         };
+
+        if (canReplay)
+        {
+            var replayButton = IronButton("Replay", width);
+            replayButton.Click += (_, _) =>
+            {
+                Close();
+                OnReplayRequested?.Invoke();
+            };
+            row.Widgets.Add(replayButton);
+        }
+
+        row.Widgets.Add(continueButton);
+        return row;
     }
 
     private static Widget BuildLootSection(CombatHandler handler)
