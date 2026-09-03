@@ -632,6 +632,7 @@ public class BodyPart : Entity
             if (Equals(item, itemToUnEquip))
             {
                 Equipment[slot] = null;
+                Body?.Pawn.Equipment.NotifyChanged();
                 return item;
             }
         }

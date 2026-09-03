@@ -49,11 +49,12 @@ public class BloodSucklerHandler : WeaponHandler
 
         // Blood types match - check if we need blood or health
         _successfulDrains++;
-        victim.Body.BloodAmount -= attacker.Body.MaxBlood * BloodRestorePercent;
+        var bloodMult = ItemSynergies.SucklerBloodMultiplier(attacker);
+        victim.Body.BloodAmount -= attacker.Body.MaxBlood * BloodRestorePercent * bloodMult;
         if (attacker.Body.BloodPercent < 0.92f)
         {
             // Restore blood
-            var bloodToRestore = attacker.Body.MaxBlood * BloodRestorePercent;
+            var bloodToRestore = attacker.Body.MaxBlood * BloodRestorePercent * bloodMult;
             attacker.Body.BloodAmount += bloodToRestore;
             _totalBloodDrained += bloodToRestore;
 
@@ -82,8 +83,9 @@ public class BloodSucklerHandler : WeaponHandler
             return;
         }
 
-        var upper = Math.Min(MaxPartsToHeal, damagedParts.Count);
-        var lower = Math.Min(MinPartsToHeal, upper);
+        var extraParts = ItemSynergies.SucklerExtraHealParts(pawn);
+        var upper = Math.Min(MaxPartsToHeal + extraParts, damagedParts.Count);
+        var lower = Math.Min(MinPartsToHeal + extraParts, upper);
         var partsToHeal = lower >= upper ? upper : Context.Rng.Next(lower, upper + 1);
 
         // Shuffle and take random parts

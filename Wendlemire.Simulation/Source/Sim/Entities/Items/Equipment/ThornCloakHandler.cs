@@ -59,6 +59,20 @@ public class ThornCloakHandler : EquipmentHandler, IUpgradableHandler, ICloakHan
         damageRecord.ReflectedEffects.Add(
             new ReflectedStatusEffect(target, Equipment.ItemDef, $"/c[{TC.BodyPart}]{targetPart.Label} /c[{TC.Default}]was hit by /c[{TC.BrightBlue}]{Equipment.Label} for {reflectedDamage:N0} damage", Equipment.ItemDef.Moniker)
         );
+
+        if (ItemSynergies.PawnHasEnchant(pawn, Defs.Items.SpidersBite))
+        {
+            var acid = Context.Factory.CreateModifier(
+                Defs.BodyPartModifiers.Acid,
+                (int)ItemSynergies.ThornBiteAcidDuration,
+                ItemSynergies.ThornBiteAcidPower);
+            if (acid.ApplyToPart(targetPart))
+            {
+                damageRecord.ReflectedEffects.Add(
+                    new ReflectedStatusEffect(target, Equipment.ItemDef, $"/c[{TC.BodyPart}]{targetPart.Label} /c[{TC.Default}]was stung by the thorns", Equipment.ItemDef.Moniker)
+                );
+            }
+        }
     }
 
     public override void ExposeData()

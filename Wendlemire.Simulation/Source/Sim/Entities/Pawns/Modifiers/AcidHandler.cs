@@ -30,7 +30,7 @@ public class AcidHandler : BodyPartModifier
             return;
         }
 
-        BodyPart.HitPoints -= GetDamage();
+        BodyPart.HitPoints -= GetDamage() * AcidDamageFactor();
 
         this.HandleSpreading(BodyPart, SpreadThreshold, ref _hasSpread);
         this.HandlePenetration(BodyPart, PenetrationThreshold, ref _hasPenetrated);
@@ -66,13 +66,27 @@ public class AcidHandler : BodyPartModifier
 
     public override InfoPanelData GetInfoData() => new InfoPanelData
     {
-        Damage = GetDamage(),
+        Damage = GetDamage() * (BodyPart == null ? 1 : AcidDamageFactor()),
         DamageColor = new Color(180, 255, 80),
-        Lines = [new("Corrodes all materials", new Color(200, 200, 100))],
+        Lines = AcidInfoLines(),
         HasSpread = _hasSpread,
         HasPenetrated = _hasPenetrated,
         CuredBy = "Soothing Balm"
     };
+
+    private double AcidDamageFactor() =>
+        ItemSynergies.HasCausticFire(BodyPart) ? ItemSynergies.CausticFireAcid : 1d;
+
+    private List<InfoLine> AcidInfoLines()
+    {
+        var lines = new List<InfoLine> { new("Corrodes all materials", new Color(200, 200, 100)) };
+        if (BodyPart != null && ItemSynergies.HasCausticFire(BodyPart))
+        {
+            lines.Add(new("Reacts with the fire", new Color(255, 180, 60)));
+        }
+
+        return lines;
+    }
 
     private double GetDamage() {
         var damage = BodyPart.IsOrgan || BodyPart.Type == BodyPartType.Artery

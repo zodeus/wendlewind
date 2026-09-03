@@ -947,6 +947,7 @@ public class CombatHandler : IDisposable, IHasContext
                 if (item == null || item.ItemDef.EquipmentProperties?.SlotUsedToEquip == EquipmentSlotType.BuiltIn) continue;
 
                 part.Equipment[slot] = null;
+                part.Body?.Pawn.Equipment.NotifyChanged();
                 AddToLootContainer(item);
             }
 

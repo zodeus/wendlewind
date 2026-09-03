@@ -208,6 +208,11 @@ public class CombatReplayTests
             {
                 Assert.Contains(attackerInventory.Inventory, i => i.ItemMoniker == weaponMoniker && i.Amount >= 1);
             }
+
+            foreach (var armorMoniker in BuildTemplates.AllArmor())
+            {
+                Assert.Contains(attackerInventory.Inventory, i => i.ItemMoniker == armorMoniker && i.Amount >= 1);
+            }
         }
     }
 }

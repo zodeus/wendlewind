@@ -85,7 +85,7 @@
     <ItemDef ParentName="CloakBase">
         <Moniker>ThornCloak</Moniker>
         <Label>Cloak of Thorns</Label>
-        <Description>A cloak covered in sharp thorns that reflects damage back to attackers.</Description>
+        <Description>A cloak covered in sharp thorns that reflects damage back to attackers. Bites back if the suit already bites.</Description>
         <GoldCost>140</GoldCost>
         <TexturePath>Entities/Item/Equipment/Armor/Cloak/Thorns</TexturePath>
         <EquipmentProperties>

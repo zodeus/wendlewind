@@ -59,6 +59,7 @@ public class PawnRenderer : IDisposable
     
     // Track subscribed parts to detect when new parts are added
     private HashSet<BodyPart> _subscribedParts = new();
+    private int _equipmentSignature = int.MinValue;
     
     // Final composite - rendered when effects are active or health text changed,
     // otherwise the last composite is reused so health text stays visible
@@ -141,6 +142,9 @@ public class PawnRenderer : IDisposable
             // Subscribe to body part changes to mark dirty
             SubscribeToNewParts();
         }
+
+        _pawn.Equipment.EquipmentChanged += MarkDirty;
+        _equipmentSignature = EquipmentSignature();
         
         // Register for pre-rendering
         _allRenderers.Add(this);
@@ -179,6 +183,13 @@ public class PawnRenderer : IDisposable
         if (_layout != null)
         {
             SubscribeToNewParts();
+        }
+
+        var equipmentSignature = EquipmentSignature();
+        if (equipmentSignature != _equipmentSignature)
+        {
+            _equipmentSignature = equipmentSignature;
+            _bodyDirty = true;
         }
 
         var (currentHealth, maxHealth) = HealthOverride?.Invoke()
@@ -242,6 +253,21 @@ public class PawnRenderer : IDisposable
     public void MarkDirty()
     {
         _bodyDirty = true;
+        _equipmentSignature = EquipmentSignature();
+    }
+
+    private int EquipmentSignature()
+    {
+        var hash = 17;
+        foreach (var part in _pawn.Body.AllExternalParts)
+        {
+            foreach (var (slot, item) in part.Equipment)
+            {
+                hash = HashCode.Combine(hash, part.Id, (int)slot, item?.Id ?? 0);
+            }
+        }
+
+        return hash;
     }
     
     /// <summary>
@@ -421,6 +447,7 @@ public class PawnRenderer : IDisposable
     {
         // Unregister from pre-rendering
         _allRenderers.Remove(this);
+        _pawn.Equipment.EquipmentChanged -= MarkDirty;
         
         // Unsubscribe from all tracked parts
         foreach (var part in _subscribedParts)

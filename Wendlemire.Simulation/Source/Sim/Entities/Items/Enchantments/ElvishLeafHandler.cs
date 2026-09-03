@@ -25,6 +25,11 @@ public class ElvishLeafHandler : EnchantmentHandler
     public override void TickForPawn(Pawn pawn, BodyPart bodyPart)
     {
         var magic = GetMagic(pawn) * StackEffectiveness(pawn);
+        if (ItemSynergies.PartHasSoothingRegen(bodyPart))
+        {
+            magic *= ItemSynergies.LeafSoothingHeal;
+        }
+
         var heal = bodyPart.MaxHitPoints * HealingPerTick * magic;
         bodyPart.HitPoints += heal;
         foreach (var internalPart in bodyPart.AllInternalParts)

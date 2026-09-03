@@ -4,7 +4,7 @@
     <ItemDef ParentName="ItemEnchantment">
         <Moniker>SpidersBite</Moniker>
         <Label>Spiders Bite</Label>
-        <Description>Hit me once shame you, I bite you.</Description>
+        <Description>Hit me once shame you, I bite you.\n\nBites more eagerly beside Rhino Skin on the same piece.</Description>
         <GoldCost>90</GoldCost>
         <EnchantmentProperties>
             <ValidEquipmentTypes>
@@ -27,7 +27,7 @@
     <ItemDef ParentName="ItemEnchantment">
         <Moniker>FesteringWounds</Moniker>
         <Label>Festering Wounds</Label>
-        <Description>It spreads...</Description>
+        <Description>It spreads...\n\nOpens faster in poisoned flesh.</Description>
         <GoldCost>85</GoldCost>
         <EnchantmentProperties>
             <ValidEquipmentTypes>
@@ -48,7 +48,7 @@
     <ItemDef ParentName="ItemEnchantment">
         <Moniker>BoneEater</Moniker>
         <Label>Bone Eater</Label>
-        <Description>Watch them crumble from the inside.</Description>
+        <Description>Watch them crumble from the inside.\n\nHungrier once flesh is already rotting, burning, or dissolving.</Description>
         <GoldCost>95</GoldCost>
         <EnchantmentProperties>
             <ValidEquipmentTypes>

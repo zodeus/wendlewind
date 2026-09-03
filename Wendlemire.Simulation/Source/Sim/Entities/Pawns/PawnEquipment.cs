@@ -126,10 +126,14 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
         }
     }
 
+    public event Action? EquipmentChanged;
+
     public PawnEquipment(Pawn pawn)
     {
         _pawn = pawn;
     }
+
+    public void NotifyChanged() => EquipmentChanged?.Invoke();
 
     public Item? TryEquip(BodyPart bodyPart, Item item)
     {
@@ -162,7 +166,7 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
             }
         }
 
-        //OnEquipmentChanged(new OnChangeArgs(OnChangeArgs.ChangeType.ItemEquipped, item));
+        NotifyChanged();
         return unequippedItem;
     }
 
@@ -293,7 +297,7 @@ public class PawnEquipment : IEnumerable<Item>, IExposable
             SyncWeaponCombatUse();
         }
 
-        //OnEquipmentChanged(new OnChangeArgs(OnChangeArgs.ChangeType.ItemUnequipped, item));
+        NotifyChanged();
     }
 
     public Item? GetBySlot(BodyPart bodyPart, EquipmentSlotType slot)

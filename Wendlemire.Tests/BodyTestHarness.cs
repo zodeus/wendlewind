@@ -85,6 +85,18 @@ internal sealed class BodyTestHarness : IDisposable
 
     public Item CreateWeapon(string moniker = "IronSword") => CreateItem(moniker);
 
+    public Item SocketEnchant(Item host, string enchantMoniker, int socket = 0)
+    {
+        if (host.Enchantments == null)
+        {
+            throw new InvalidOperationException($"{host.ItemDef.Moniker} has no enchant sockets.");
+        }
+
+        var enchant = CreateItem(enchantMoniker);
+        host.Enchantments.TryAdd(enchant, socket);
+        return enchant;
+    }
+
     public Item EquipArmor(string moniker, Pawn? pawn = null)
     {
         pawn ??= Pawn;

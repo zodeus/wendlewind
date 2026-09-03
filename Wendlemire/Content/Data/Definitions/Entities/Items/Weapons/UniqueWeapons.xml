@@ -4,7 +4,7 @@
     <ItemDef ParentName="WeaponPiercing">
         <Moniker>BloodSuckler</Moniker>
         <Label>Blood Suckler</Label>
-        <Description>A vampiric blade that hungers for kindred blood. The crimson edge whispers promises of vitality to those who share its thirst.</Description>
+        <Description>A vampiric blade that hungers for kindred blood. The crimson edge whispers promises of vitality to those who share its thirst. Drinks deeper when you already bathe in blood.</Description>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <MaxEnchantments>0</MaxEnchantments>
@@ -45,7 +45,7 @@
     <ItemDef ParentName="WeaponBlunt">
         <Moniker>StrangeWitheredTwig</Moniker>
         <Label>Strange Withered Twig</Label>
-        <Description>A gnarled, ancient twig that pulses with sickly energy. Something long dead stirs within its twisted core.</Description>
+        <Description>A gnarled, ancient twig that pulses with sickly energy. Something long dead stirs within its twisted core. The plague mask knows this wood.</Description>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <MaxEnchantments>1</MaxEnchantments>

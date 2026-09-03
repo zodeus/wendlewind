@@ -35,9 +35,9 @@
                     <ListItem>
                         <ItemDef>WitchDoctorBoot</ItemDef>
                     </ListItem>
-                    <!-- <ListItem>
+                    <ListItem>
                         <ItemDef>PlagueMask</ItemDef>
-                    </ListItem> -->
+                    </ListItem>
                     <ListItem>
                         <ItemDef>BlessedIronCollar</ItemDef>
                         <AvailableFromRound>6</AvailableFromRound>

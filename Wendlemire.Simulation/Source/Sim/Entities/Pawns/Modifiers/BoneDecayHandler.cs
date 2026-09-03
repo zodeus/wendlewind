@@ -22,7 +22,13 @@ public class BoneDecayHandler : BodyPartModifier
     public override void Tick()
     {
         Ticks++;
-        BodyPart.HitPoints -= CurrentDamage;
+        var damage = CurrentDamage;
+        if (ItemSynergies.HasStripDoT(BodyPart))
+        {
+            damage *= ItemSynergies.StripDecayDamage;
+        }
+
+        BodyPart.HitPoints -= damage;
         if (Ticks % 30 == 0)
         {
 
@@ -50,7 +56,7 @@ public class BoneDecayHandler : BodyPartModifier
             return false;
         }
 
-        if (!IsBoneExposed(part))
+        if (!IsBoneExposed(part) && !ItemSynergies.HasStripDoT(part))
         {
             return false;
         }
@@ -77,12 +83,13 @@ public class BoneDecayHandler : BodyPartModifier
 
     public override InfoPanelData GetInfoData() => new()
     {
-        Damage = CurrentDamage,
+        Damage = CurrentDamage * (BodyPart != null && ItemSynergies.HasStripDoT(BodyPart) ? ItemSynergies.StripDecayDamage : 1),
         DamageColor = new Color(200, 200, 180),
         Lines =
         [
             new("Damage decreases over time", new Color(180, 180, 160)),
-            new("Expires when part destroyed", new Color(150, 150, 130))
+            new("Expires when part destroyed", new Color(150, 150, 130)),
+            new("Hungrier on rotting, burning, or dissolving flesh", new Color(180, 160, 120))
         ]
     };
 }

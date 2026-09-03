@@ -39,7 +39,7 @@ public class FesteringHandler : BodyPartModifier
         BodyPart.HitPoints -= damage * Power;
 
         this.HandleSpreading(BodyPart, SpreadThreshold, ref _hasSpread);
-        this.HandlePenetration(BodyPart, PenetrationThreshold, ref _hasPenetrated);
+        this.HandlePenetration(BodyPart, CurrentPenetrationThreshold(), ref _hasPenetrated);
 
         CheckIfLostVitalPart();
         base.Tick();
@@ -57,6 +57,17 @@ public class FesteringHandler : BodyPartModifier
         ScribeValues.Look(ref _hasSpread, "HasSpread");
         ScribeValues.Look(ref _hasPenetrated, "HasPenetrated");
         base.ExposeData();
+    }
+
+    private double CurrentPenetrationThreshold()
+    {
+        var threshold = PenetrationThreshold;
+        if (ItemSynergies.HostHasPoison(BodyPart))
+        {
+            threshold += ItemSynergies.PoisonFesterPenetrateBonus;
+        }
+
+        return Math.Min(threshold, 0.95);
     }
 
     public override bool ApplyToPart(BodyPart part)
@@ -83,12 +94,19 @@ public class FesteringHandler : BodyPartModifier
             : BodyPart?.Type == BodyPartType.Artery ? ArteryDamage 
             : _hasPenetrated ? PenetratedDamage : BaseDamage) * Power;
 
+        var lines = new List<InfoLine>();
+        if (BodyPart != null && ItemSynergies.HostHasPoison(BodyPart))
+        {
+            lines.Add(new("Poisoned flesh opens sooner", new Color(180, 100, 255)));
+        }
+
         return new InfoPanelData
         {
             Damage = currentDamage,
             DamageColor = new Color(180, 150, 80),
             HasSpread = _hasSpread,
-            HasPenetrated = _hasPenetrated
+            HasPenetrated = _hasPenetrated,
+            Lines = lines
         };
     }
 }

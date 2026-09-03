@@ -76,6 +76,7 @@ public static partial class Defs
         public static BodyPartModifierDef Burning = null!;
         public static BodyPartModifierDef Electrofied = null!;
         public static BodyPartModifierDef Poison = null!;
+        public static BodyPartModifierDef BoneDecay = null!;
     }
 }
 
@@ -184,6 +185,11 @@ public static partial class Defs
         // Enchantments used as upgrade materials
         public static ItemDef ElvishLeaf = null!;
         public static ItemDef RhinoSkin = null!;
+        public static ItemDef BlessedIronCollar = null!;
+        public static ItemDef BloodSuckler = null!;
+        public static ItemDef BloodyBell = null!;
+        public static ItemDef ThornCloak = null!;
+        public static ItemDef StrangeWitheredTwig = null!;
         
         // Resources
         public static ItemDef Fuse = null!;

@@ -409,7 +409,7 @@
         <BaseStats>
             <PotionDuration>720</PotionDuration>
         </BaseStats>
-        <Description>Hot rendered fat sealed in cheap glass. Smash it underfoot to gum the legs.</Description>
+        <Description>Hot rendered fat sealed in cheap glass. Smash it underfoot to gum the legs. Fire clings to the grease.</Description>
         <GoldCost>100</GoldCost>
         <TexturePath>Entities/Item/Potion/TallowFlask</TexturePath>
         <PotionProperties>

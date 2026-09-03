@@ -95,17 +95,29 @@ public class StrangeWitheredTwigHandler : WeaponHandler, IUpgradableHandler
         _charges = 0;
         _totalCasts++;
         // Determine how many modifiers to apply this hit
+        var masked = ItemSynergies.Wears(attacker, Defs.Items.PlagueMask);
         var modifierCount = Context.Rng.Next(MinModifiersToApply, MaxModifiersToApply + 1);
         var appliedModifiers = new List<string>();
 
         // Try to apply random modifiers
         var possibleModifiers = GetPossibleModifiers();
         var shuffledModifiers = possibleModifiers.InRandomOrder(Context.Rng).Take(modifierCount).ToList();
+        if (masked && possibleModifiers.Length > 0)
+        {
+            for (var i = 0; i < ItemSynergies.TwigMaskExtraAfflictions; i++)
+            {
+                shuffledModifiers.Add(possibleModifiers[Context.Rng.Next(possibleModifiers.Length)]);
+            }
+        }
 
         foreach (var modifierDef in shuffledModifiers)
         {
             // Create the modifier with random duration using the generator
             var duration = Context.Rng.Next(MinDurationTicks, MaxDurationTicks + 1);
+            if (masked)
+            {
+                duration = (int)Math.Round(duration * ItemSynergies.TwigMaskDuration);
+            }
             var modifier = Context.Factory.CreateModifier(modifierDef.Def, duration, 1.0);
             // Apply to the hit part
             modifier.ApplyToPart(targetPart);

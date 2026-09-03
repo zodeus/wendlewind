@@ -32,6 +32,11 @@ public abstract class EnchantmentHandler : IExposable, IHasContext, IHasRng
 
     protected float GetMagic(Pawn pawn) => pawn.GetStatValue(Defs.Stats.Magic);
 
+    protected Item? HostEquipment(Pawn pawn) => ItemSynergies.HostOf(pawn, Enchantment);
+
+    protected bool HostHasEnchant(Pawn pawn, ItemDef def) =>
+        ItemSynergies.HostHas(HostEquipment(pawn), def);
+
     protected string? HostItemMoniker(BodyPart bodyPart)
     {
         return bodyPart.Equipment.Values

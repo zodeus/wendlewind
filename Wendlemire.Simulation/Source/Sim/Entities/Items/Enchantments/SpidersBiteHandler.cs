@@ -17,6 +17,9 @@ public class SpidersBiteHandler : EnchantmentHandler
         _bites++;
         var properties = Enchantment.ItemDef.EnchantmentProperties!;
         var magic = GetMagic(pawn);
+        var host = HostEquipment(pawn);
+        var rhinoPair = ItemSynergies.HostHas(host, Defs.Items.RhinoSkin);
+        var rhinoChance = rhinoPair ? ItemSynergies.BiteChanceFromRhino(ItemSynergies.RhinoLevel(host)) : 1f;
         foreach (var modifier in properties.BodyPartModifiers)
         {
             var scaled = properties.ScaleRecord(modifier, magic);
@@ -24,7 +27,7 @@ public class SpidersBiteHandler : EnchantmentHandler
             {
                 Def = scaled.Def,
                 DurationInTicks = scaled.DurationInTicks,
-                Chance = scaled.Chance,
+                Chance = scaled.Chance * rhinoChance,
                 Power = scaled.Power
             };
             if (randomPart.ApplyBodyPartModifier(modRecord, Enchantment.Label))

@@ -384,13 +384,14 @@ public static class BuildTemplates
     private static string[]? _allTrinkets;
     private static string[]? _allEnchantments;
     private static string[]? _allWeapons;
+    private static string[]? _allArmor;
 
     public static BuildSnapshot WithAllWeapons(BuildSnapshot snapshot)
     {
         var already = snapshot.Inventory.Select(s => s.ItemMoniker).ToHashSet();
         return snapshot with
         {
-            Inventory = [..snapshot.Inventory, ..WeaponInventory().Where(w => already.Add(w.ItemMoniker))]
+            Inventory = [..snapshot.Inventory, ..WeaponInventory().Where(w => already.Add(w.ItemMoniker)), ..ArmorInventory().Where(a => already.Add(a.ItemMoniker))]
         };
     }
 
@@ -452,6 +453,23 @@ public static class BuildTemplates
         return _allWeapons;
     }
 
+    public static string[] AllArmor()
+    {
+        if (_allArmor is { Length: > 0 })
+        {
+            return _allArmor;
+        }
+
+        _allArmor = DefRepository<ItemDef>.Defs
+            .Where(d => d.EquipmentProperties?.EquipmentType == EquipmentType.Armor
+                        && d.EquipmentProperties.SlotUsedToEquip != EquipmentSlotType.BuiltIn
+                        && !string.IsNullOrEmpty(d.Moniker)
+                        && d.Moniker != "undefined")
+            .Select(d => d.Moniker)
+            .ToArray();
+        return _allArmor;
+    }
+
     private static InventoryStackConfig[] EnchantmentInventory() =>
         AllEnchantments()
             .Select(moniker => new InventoryStackConfig
@@ -463,6 +481,15 @@ public static class BuildTemplates
 
     private static InventoryStackConfig[] WeaponInventory() =>
         AllWeapons()
+            .Select(moniker => new InventoryStackConfig
+            {
+                ItemMoniker = moniker,
+                Amount = 1
+            })
+            .ToArray();
+
+    private static InventoryStackConfig[] ArmorInventory() =>
+        AllArmor()
             .Select(moniker => new InventoryStackConfig
             {
                 ItemMoniker = moniker,

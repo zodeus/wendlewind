@@ -9,7 +9,7 @@
     <ItemDef ParentName="ItemEnchantment">
         <Moniker>SoothingVibrations</Moniker>
         <Label>Soothing Vibrations</Label>
-        <Description>When struck it vibrates with life energy.</Description>
+        <Description>When struck it vibrates with life energy.\n\nHums longer beside an Elvish Leaf on the same piece.</Description>
         <GoldCost>80</GoldCost>
         <EnchantmentProperties>
             <ValidEquipmentTypes>
@@ -57,7 +57,7 @@
     <ItemDef ParentName="ItemEnchantment">
         <Moniker>ElvishLeaf</Moniker>
         <Label>Elvish Leaf</Label>
-        <Description>Elvish Leaf, passivly heals</Description>
+        <Description>Elvish Leaf, passively heals.\n\nSings louder on flesh already soothed.</Description>
         <GoldCost>90</GoldCost>
         <EnchantmentProperties>
             <ValidEquipmentTypes>

@@ -32,6 +32,16 @@ public class BlessedIronCollarHandler : EquipmentHandler
         return false;
     }
 
+    public override void ModifyStat(Pawn pawn, StatDef stat, ref float value)
+    {
+        if (stat != Defs.Stats.Magic || !HasLeafAndBath())
+        {
+            return;
+        }
+
+        value += ItemSynergies.CollarPairMagic;
+    }
+
     public override void Tick(Pawn pawn, BodyPart bodyPart)
     {
         bodyPart.HitPoints -= DamagePerTick;
@@ -42,5 +52,9 @@ public class BlessedIronCollarHandler : EquipmentHandler
         bodyPart.Bones.ForEach(bone => bone.HitPoints -= SoftTissueDamagePerTick);
         bodyPart.Arteries.ForEach(artery => artery.HitPoints -= SoftTissueDamagePerTick);
     }
+
+    private bool HasLeafAndBath() =>
+        ItemSynergies.HostHas(Equipment, Defs.Items.ElvishLeaf)
+        && ItemSynergies.HostHas(Equipment, Defs.Items.BloodBath);
 }
 

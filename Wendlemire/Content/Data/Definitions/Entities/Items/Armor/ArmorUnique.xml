@@ -4,7 +4,7 @@
         <Moniker>BlessedIronCollar</Moniker>
         <Label>Blessed Iron Collar</Label>
         <ItemType>Equipment</ItemType>
-        <Description>A collar made of blessed iron. It is said to protect the wearer from harm...</Description>
+        <Description>A collar made of blessed iron. It is said to protect the wearer from harm. Leaf and Blood Bath on this collar attune the iron.</Description>
         <GoldCost>100</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>NeckArmor</SlotUsedToEquip>

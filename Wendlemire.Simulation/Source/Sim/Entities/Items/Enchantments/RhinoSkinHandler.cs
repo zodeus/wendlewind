@@ -11,6 +11,7 @@ public class RhinoSkinHandler : EnchantmentHandler
     private const double DamageMitigationBase = 0.08; // 8% of the hit refunded
     private const double DamageMitigationLevelFactor = 0.01; // 1% damage per level
     private int _level = 1;
+    public int Level => _level;
     private double DamageMitigationFactor => DamageMitigationBase + ((_level - 1) * DamageMitigationLevelFactor);
 
     public override void PostPawnDamageTakenEffect(BodyPart bodyPart, Pawn target, Pawn source, DamageRecord damageRecord)

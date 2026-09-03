@@ -30,7 +30,7 @@
     <ItemDef ParentName="WeaponMagic">
         <Moniker>HexWand</Moniker>
         <Label>Hex Wand</Label>
-        <Description>A sickly one-handed wand that seeds poison more than it strikes.</Description>
+        <Description>A sickly one-handed wand that seeds poison more than it strikes. Poisoned flesh festers sooner.</Description>
         <GoldCost>60</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>

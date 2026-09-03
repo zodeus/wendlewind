@@ -228,6 +228,23 @@ public class ArmorCombatTests
             $"{weapon}: chain should still let real damage through ({armoredTotal:0.##} vs {bareTotal:0.##})");
     }
 
+    [Fact]
+    public void EquipAndUnequipRaiseEquipmentChanged()
+    {
+        using var harness = BodyTestHarness.Human();
+        var raised = 0;
+        harness.Pawn.Equipment.EquipmentChanged += () => raised++;
+
+        harness.EquipArmor("LeatherHelmet");
+        Assert.True(raised > 0);
+
+        var afterEquip = raised;
+        var helm = harness.Pawn.Equipment.First(i => i.ItemDef.Moniker == "LeatherHelmet");
+        harness.Pawn.Equipment.UnEquip(helm);
+        Assert.True(raised > afterEquip);
+        Assert.DoesNotContain(harness.Pawn.Equipment, i => i.ItemDef.Moniker == "LeatherHelmet");
+    }
+
     private static void RestorePartTree(BodyPart part)
     {
         part.HitPoints = part.MaxHitPoints;

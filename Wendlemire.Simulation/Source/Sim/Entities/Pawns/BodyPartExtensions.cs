@@ -162,12 +162,20 @@ public static class BodyPartExtensions
 
     public static bool ApplyBodyPartModifier(this BodyPart part, BodyPartModifierRecord record, string maneuver)
     {
-        if (!part.Context.Rng.Chance(record.Chance.Roll(part.Context.Rng)))
+        var chance = record.Chance;
+        var power = record.Power;
+        if (record.Def == Defs.BodyPartModifiers.BoneDecay && ItemSynergies.HasStripDoT(part))
+        {
+            chance *= ItemSynergies.StripDecayChance;
+            power *= ItemSynergies.StripDecayDamage;
+        }
+
+        if (!part.Context.Rng.Chance(chance.Roll(part.Context.Rng)))
         {
             return false;
         }
 
-        var mod = part.Context.Factory.CreateModifier(record.Def, record.DurationInTicks.Roll(part.Context.Rng), record.Power);
+        var mod = part.Context.Factory.CreateModifier(record.Def, record.DurationInTicks.Roll(part.Context.Rng), power);
         mod.Maneuver = maneuver;
         return mod.ApplyToPart(part);
     }
