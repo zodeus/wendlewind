@@ -581,11 +581,13 @@ public class BodyPart : Entity
         return EquipmentSlots.Contains(slot.Value) ? slot.Value : null;
     }
 
-    public EquipmentSlotType? EmptySlotFor(Item item)
-    {
-        if (!HasEquipmentSlots) return null;
+    public EquipmentSlotType? EmptySlotFor(Item item) => EmptySlotFor(item.ItemDef);
 
-        if (item.ItemDef.ItemType == ItemType.Potion)
+    public EquipmentSlotType? EmptySlotFor(ItemDef? def)
+    {
+        if (!HasEquipmentSlots || def == null) return null;
+
+        if (def.ItemType == ItemType.Potion)
         {
             var capacity = Body?.Pawn.PotionCapacity ?? PotionSlots.BaseSlots;
             foreach (EquipmentSlotType potionSlot in EquipmentSlots!.Where(PotionSlots.IsPotionSlot))
@@ -604,7 +606,7 @@ public class BodyPart : Entity
             return null;
         }
 
-        var slot = item.ItemDef.EquipmentProperties?.SlotUsedToEquip;
+        var slot = def.EquipmentProperties?.SlotUsedToEquip;
         if (slot == null) return null;
         if (slot == EquipmentSlotType.HandWeapon
             && Body?.Pawn.Equipment.HasTwoHandedWeapon() == true)

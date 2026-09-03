@@ -47,6 +47,7 @@ public sealed class ArenaShopScreen : Grid
     private readonly MerchantDef _merchant;
     private readonly List<(CursorButton Button, Label Price, int Cost)> _buyButtons = [];
     private readonly List<(CursorButton Button, Label Price, int Cost)> _refreshButtons = [];
+    private readonly List<ShopOfferCard> _offerCards = [];
     private IReadOnlyList<RolledShelf> _stock = [];
 
     public ArenaShopScreen(BaseGui gui, GameContext context, Action onDone, Action onSave)
@@ -488,12 +489,12 @@ public sealed class ArenaShopScreen : Grid
         }
 
         var buy = CreateBuyButton(offer);
-        var card = new Grid
+        var card = new ShopOfferCard(_context.PlayerPawn, offer)
         {
             Padding = new Thickness(8),
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Stretch,
-            ClipToBounds = true,
+            ClipToBounds = false,
             Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.SmallFrame]
         };
         card.ColumnsProportions.Add(new Proportion(ProportionType.Fill));
@@ -505,6 +506,7 @@ public sealed class ArenaShopScreen : Grid
         card.Widgets.Add(buy);
         Grid.SetRow(body, 1);
         Grid.SetRow(buy, 2);
+        _offerCards.Add(card);
         return card.WithTooltip(() => CreateOfferInspect(offer));
     }
 
@@ -890,6 +892,7 @@ public sealed class ArenaShopScreen : Grid
     {
         _buyButtons.Clear();
         _refreshButtons.Clear();
+        _offerCards.Clear();
         var shelves = new VerticalStackPanel
         {
             Spacing = 22,
@@ -1009,6 +1012,7 @@ public sealed class ArenaShopScreen : Grid
             _purse.Refresh();
             RebuildInventory();
             RefreshAffordability();
+            RefreshOfferHints();
             _onSave();
             return;
         }
@@ -1048,11 +1052,65 @@ public sealed class ArenaShopScreen : Grid
         _runStats.Text = $"Wins {run.Wins}/{ArenaRun.WinsToFinish}   Lives {run.LivesRemaining}";
     }
 
-    public void Update()
+    private void RefreshOfferHints()
+    {
+        foreach (var card in _offerCards)
+        {
+            card.RefreshHint();
+        }
+    }
+
+    public void Update(float deltaTime)
     {
         _purse.Refresh();
         RefreshRunStats();
         RefreshAffordability();
+        foreach (var card in _offerCards)
+        {
+            card.Update(deltaTime);
+        }
+
         TooltipHelper.UpdatePosition();
+    }
+
+    private sealed class ShopOfferCard : Grid
+    {
+        private readonly Pawn _pawn;
+        private readonly MerchantOffer _offer;
+        private readonly HintSparkleFx _sparkle = new();
+        private bool _hinted;
+
+        public ShopOfferCard(Pawn pawn, MerchantOffer offer)
+        {
+            _pawn = pawn;
+            _offer = offer;
+            RefreshHint();
+        }
+
+        public void RefreshHint()
+        {
+            _hinted = PurchaseAutoEquip.WouldFillEmptySlot(_pawn, _offer);
+            if (!_hinted)
+            {
+                _sparkle.Clear();
+            }
+        }
+
+        public void Update(float deltaTime)
+        {
+            if (_hinted)
+            {
+                _sparkle.Update(deltaTime, ActualBounds);
+            }
+        }
+
+        public override void InternalRender(RenderContext context)
+        {
+            base.InternalRender(context);
+            if (_hinted)
+            {
+                _sparkle.Draw(context, ActualBounds);
+            }
+        }
     }
 }

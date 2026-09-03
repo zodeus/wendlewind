@@ -47,6 +47,36 @@ public class ClientServerDuelTests
     }
 
     [Fact]
+    public void LiveClothPaulVsShnook_ServerPathMatchesRecordedTicks()
+    {
+        var (attacker, defender, runSeed, encounterSeed) = LiveClothPaulVsShnook();
+        var server = DuelSimulator.Simulate(attacker, defender, encounterSeed);
+        _output.WriteLine($"server winner={server.Result.WinnerPlayerId} ticks={server.Result.Ticks} cause={server.Result.CauseOfDeath}");
+        foreach (var ev in server.Log.Take(8))
+        {
+            _output.WriteLine($"t={ev.Tick} kind={ev.Kind} {ev.SourceName}->{ev.SubjectName} {ev.ItemLabel} {ev.WeaponManeuverLabel} {ev.BodyPartLabel} amt={ev.Amount:0.###}");
+        }
+        Assert.Equal(attacker.PlayerId, server.Result.WinnerPlayerId);
+        Assert.Equal(2157, server.Result.Ticks);
+    }
+
+    [Fact]
+    public void LiveClothPaulVsShnook_ArenaClientPathMatchesServer()
+    {
+        var (attacker, defender, runSeed, encounterSeed) = LiveClothPaulVsShnook();
+        var server = DuelSimulator.Run(attacker, defender, encounterSeed);
+        var clean = RunClientStyle(attacker, defender, encounterSeed, restoreFirst: true, dirtyHp: false);
+        var arena = RunArenaVisualPath(attacker, defender, runSeed, encounterSeed, lightIncense: true, eatNothing: true);
+        _output.WriteLine($"server {server.WinnerPlayerId}/{server.Ticks}");
+        _output.WriteLine($"clean  {clean.WinnerPlayerId}/{clean.Ticks}");
+        _output.WriteLine($"arena  {arena.WinnerPlayerId}/{arena.Ticks}");
+        Assert.Equal(server.WinnerPlayerId, clean.WinnerPlayerId);
+        Assert.Equal(server.Ticks, clean.Ticks);
+        Assert.Equal(server.WinnerPlayerId, arena.WinnerPlayerId);
+        Assert.Equal(server.Ticks, arena.Ticks);
+    }
+
+    [Fact]
     public void DirtyPawnWithoutRestoreDivergesFromServer()
     {
         var mismatches = new List<string>();
@@ -75,6 +105,117 @@ public class ClientServerDuelTests
         Assert.True(
             mismatches.Count > 0,
             "Leftover HP after Apply did not change any replay. Hydration leftover is not a proven desync on these kits.");
+    }
+
+    private static (BuildSnapshot Attacker, BuildSnapshot Defender, int RunSeed, int EncounterSeed)
+        LiveClothPaulVsShnook()
+    {
+        var attacker = new BuildSnapshot
+        {
+            PlayerId = "b4d17c7a0ab245c1b78363dbdd320351",
+            BuildId = "arena-1",
+            EntityDefMonikers = ["LeatherHelmet", "LeatherTunic", "LeatherGlove", "BoneKnife"],
+            Seed = 1705594468,
+            PawnDefMoniker = "HumanA",
+            PawnName = "Cloth Paul",
+            NamePlateMoniker = "PlainWood",
+            Round = 1,
+            Rating = 725,
+            StanceMoniker = "Balanced",
+            Weapons =
+            [
+                new WeaponConfig { ItemMoniker = "FleshyHand", UseInCombat = false },
+                new WeaponConfig { ItemMoniker = "BoneKnife", UseInCombat = true },
+                new WeaponConfig { ItemMoniker = "FleshyHand", UseInCombat = false },
+                new WeaponConfig { ItemMoniker = "FleshyFoot", UseInCombat = false },
+                new WeaponConfig { ItemMoniker = "FleshyFoot", UseInCombat = false }
+            ],
+            Meal = ["CookedFish"],
+            FoodBuffs = ["CookedFish"],
+            Incense = [new IncenseConfig { ItemMoniker = "MullinStick", EncountersRemaining = 2 }],
+            Inventory =
+            [
+                new InventoryStackConfig { ItemMoniker = "CookedFish", Amount = 1 },
+                new InventoryStackConfig { ItemMoniker = "MullinStick", Amount = 1 }
+            ]
+        };
+        var defender = new BuildSnapshot
+        {
+            PlayerId = "03cbf77d7301473f90932c87cdc082fa",
+            BuildId = "arena-1",
+            EntityDefMonikers = ["LeatherTunic", "BoneAxe"],
+            Seed = 1902820420,
+            PawnDefMoniker = "HumanA",
+            PawnName = "shnook",
+            NamePlateMoniker = "PlainWood",
+            Round = 1,
+            Rating = 800,
+            StanceMoniker = "Comfortable",
+            Weapons =
+            [
+                new WeaponConfig { ItemMoniker = "FleshyHand", UseInCombat = false },
+                new WeaponConfig { ItemMoniker = "BoneAxe", UseInCombat = true },
+                new WeaponConfig { ItemMoniker = "FleshyHand", UseInCombat = false },
+                new WeaponConfig { ItemMoniker = "FleshyFoot", UseInCombat = false },
+                new WeaponConfig { ItemMoniker = "FleshyFoot", UseInCombat = false }
+            ],
+            Inventory = [new InventoryStackConfig { ItemMoniker = "MedKit", Amount = 5 }]
+        };
+        return (attacker, defender, 1705594468, 557917426);
+    }
+
+    private static CombatResult RunArenaVisualPath(
+        BuildSnapshot attacker,
+        BuildSnapshot defender,
+        int runSeed,
+        int encounterSeed,
+        bool lightIncense,
+        bool eatNothing)
+    {
+        using var root = SimServices.BuildRoot();
+        using var scope = root.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<GameContext>();
+        context.InitializeArena(attacker.PlayerId, attacker.PawnName ?? "Attacker", runSeed);
+        BuildSnapshotFactory.Apply(context.PlayerPawn, attacker);
+        if (lightIncense)
+        {
+            foreach (var item in context.PlayerPawn.Inventory.ToList())
+            {
+                if (item.ItemDef.IncenseProperties != null)
+                {
+                    context.PlayerPawn.TryLightIncense(item, requireFlameStick: false);
+                }
+            }
+        }
+
+        _ = eatNothing;
+        var zone = context.World.Zones.OrderBy(z => z.ZoneDef.Stage).First();
+        context.EnterZone(zone.ZoneDef);
+        context.RestoreArenaPawn();
+        var opponent = BuildSnapshotFactory.CreatePawn(context, defender, PawnType.Enemy);
+        BuildSnapshotFactory.Apply(context.PlayerPawn, attacker);
+        context.CurrentZone!.StartHumanDuel(context.PlayerPawn, opponent, encounterSeed);
+
+        var encounter = context.CurrentZone.ActiveEncounter
+                        ?? throw new InvalidOperationException("StartHumanDuel did not create an encounter.");
+        var guard = 0;
+        while (encounter.State == EncounterState.InProgress && guard < CombatReplay.MaxTicks)
+        {
+            context.Tick();
+            guard++;
+        }
+
+        var localWon = !context.PlayerPawn.IsDead;
+        return new CombatResult
+        {
+            MatchId = "arena",
+            WinnerPlayerId = localWon ? attacker.PlayerId : defender.PlayerId,
+            Ticks = encounter.Ticks,
+            CauseOfDeath = encounter.CombatHandler?.CauseOfDeath,
+            DefenderPlayerId = defender.PlayerId,
+            Defender = defender,
+            EncounterSeed = encounter.Seed
+        };
     }
 
     private static CombatResult RunClientStyle(

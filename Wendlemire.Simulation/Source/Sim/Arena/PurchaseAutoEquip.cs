@@ -64,6 +64,85 @@ public static class PurchaseAutoEquip
         pawn.TryLightIncense(item, requireFlameStick: false);
     }
 
+    public static bool WouldFillEmptySlot(Pawn pawn, MerchantOffer offer)
+    {
+        if (pawn == null || offer == null)
+        {
+            return false;
+        }
+
+        if (offer.IsSet)
+        {
+            for (var i = 0; i < offer.SetPieces.Count; i++)
+            {
+                if (WouldFillEmptySlot(pawn, offer.SetPieces[i]))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        return offer.ItemDef != null && WouldFillEmptySlot(pawn, offer.ItemDef);
+    }
+
+    public static bool WouldFillEmptySlot(Pawn pawn, ItemDef def)
+    {
+        if (pawn == null || def == null)
+        {
+            return false;
+        }
+
+        switch (def.ItemType)
+        {
+            case ItemType.Equipment:
+            case ItemType.Potion:
+                return HasEmptyGearSlot(pawn, def);
+            case ItemType.Food:
+                return def.FoodProperties != null && pawn.MealPlan.Items.Count < pawn.MealPlan.Capacity;
+            case ItemType.Incense:
+                return HasEmptyIncenseSlot(pawn, def);
+            case ItemType.Medical:
+                return MedicalChest.IsMedicalItem(def)
+                       && pawn.MedicalChest.Slots.Count < pawn.MedicalChest.Capacity;
+            case ItemType.Enchantment:
+                return EnchantmentSocketing.EnchantmentHasCompatibleHost(pawn, def);
+            default:
+                return false;
+        }
+    }
+
+    private static bool HasEmptyGearSlot(Pawn pawn, ItemDef def)
+    {
+        foreach (var bodyPart in pawn.Body.AllExternalParts)
+        {
+            if (bodyPart.EmptySlotFor(def) is { } empty && empty != EquipmentSlotType.BuiltIn)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool HasEmptyIncenseSlot(Pawn pawn, ItemDef def)
+    {
+        pawn.PruneActiveIncense();
+        var effect = def.IncenseProperties?.Effect?.Def;
+        if (effect == null)
+        {
+            return false;
+        }
+
+        if (pawn.ActiveIncense.Any(a => a.Def == effect))
+        {
+            return false;
+        }
+
+        return pawn.ActiveIncense.Count < pawn.IncenseCapacity;
+    }
+
     private static void ApplyGear(Pawn pawn, Item item)
     {
         if (!TryFindSlot(pawn, item, out var part, out var slot))

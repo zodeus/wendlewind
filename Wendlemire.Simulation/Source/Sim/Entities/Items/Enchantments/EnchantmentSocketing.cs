@@ -15,12 +15,17 @@ public static class EnchantmentSocketing
 
     public static bool CanSocket(Item host, Item enchantment)
     {
-        if (host.IsDestroyed || enchantment.IsDestroyed)
+        if (enchantment.IsDestroyed || enchantment.ItemDef.ItemType != ItemType.Enchantment)
         {
             return false;
         }
 
-        if (enchantment.ItemDef.ItemType != ItemType.Enchantment)
+        return HostAccepts(host, enchantment.ItemDef);
+    }
+
+    private static bool HostAccepts(Item host, ItemDef enchantment)
+    {
+        if (host.IsDestroyed || enchantment.ItemType != ItemType.Enchantment)
         {
             return false;
         }
@@ -31,7 +36,7 @@ public static class EnchantmentSocketing
             return false;
         }
 
-        if (enchantment.ItemDef.EnchantmentProperties?.ValidEquipmentTypes.Contains(type.Value) != true)
+        if (enchantment.EnchantmentProperties?.ValidEquipmentTypes.Contains(type.Value) != true)
         {
             return false;
         }
@@ -52,11 +57,14 @@ public static class EnchantmentSocketing
         return false;
     }
 
-    public static bool EnchantmentHasCompatibleHost(Pawn pawn, Item enchantment)
+    public static bool EnchantmentHasCompatibleHost(Pawn pawn, Item enchantment) =>
+        EnchantmentHasCompatibleHost(pawn, enchantment.ItemDef);
+
+    public static bool EnchantmentHasCompatibleHost(Pawn pawn, ItemDef enchantment)
     {
         foreach (var item in pawn.Equipment)
         {
-            if (CanSocket(item, enchantment))
+            if (HostAccepts(item, enchantment))
             {
                 return true;
             }

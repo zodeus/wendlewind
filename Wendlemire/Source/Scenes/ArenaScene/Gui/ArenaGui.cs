@@ -125,7 +125,7 @@ public sealed class ArenaGui : BaseGui
 
     public override void Update(float deltaTime)
     {
-        _shopScreen?.Update();
+        _shopScreen?.Update(deltaTime);
         _prepScreen?.Update();
         _mapScreen?.Update();
         _matchingScreen?.Update(deltaTime);
