@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Definitions>
     <BodyStanceDef>
-        <Moniker>Comfortable</Moniker>
-        <Label>You are way too comfortable, maybe try changing it up a bit?</Label>
-        <TexturePath>Entities/Pawn/BodyStances/Comfortable</TexturePath>
+        <Moniker>Balanced</Moniker>
+        <Label>Neither aggressive nor guarded.</Label>
+        <TexturePath>Entities/Pawn/BodyStances/Balanced</TexturePath>
         <AffectedStats>
         </AffectedStats>
     </BodyStanceDef>

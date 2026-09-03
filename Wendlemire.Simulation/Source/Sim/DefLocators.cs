@@ -29,7 +29,7 @@ public static partial class Defs
     [DefLocator]
     public static class BodyStances
     {
-        public static BodyStanceDef Comfortable = null!;
+        public static BodyStanceDef Balanced = null!;
     }
 }
 

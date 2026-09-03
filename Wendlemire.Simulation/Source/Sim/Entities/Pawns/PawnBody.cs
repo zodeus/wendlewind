@@ -188,7 +188,7 @@ public class PawnBody : IExposable, IIdentityProvider
         Handler = Def.CreateHandler(Pawn.Context.Factory);
         Handler.Initialize(this);
         Energy = MaxEnergy;
-        Stance = Defs.BodyStances.Comfortable;
+        Stance = Defs.BodyStances.Balanced;
     }
 
     public void Tick()

@@ -12,6 +12,8 @@ public enum EquipmentFlashKind
 public class PawnEquipmentPanel : Grid, IUpdatable
 {
     private const float GlowDuration = 0.7f;
+    private const float HintSparkInterval = 0.55f;
+    private const int HintSparksPerPulse = 3;
 
     private readonly BaseGui _gui;
     private readonly Pawn _pawn;
@@ -32,8 +34,10 @@ public class PawnEquipmentPanel : Grid, IUpdatable
     private readonly Dictionary<ItemDef, ColoredIcon> _iconCache = new();
     private readonly Dictionary<(BodyPart Part, EquipmentSlotType Slot), SlotHintKind> _lastHint = new();
     private readonly List<(BodyPart Part, EquipmentSlotType Slot)> _staleSlotKeys = [];
-    private readonly SolidBrush _availableSlotBrush = new(Color.DarkGoldenrod);
-    private readonly SolidBrush _enchantableSlotBrush = new(new Color(160, 90, 200));
+    private static readonly Color AvailableHintColor = new(230, 190, 80);
+    private static readonly Color EnchantableHintColor = new(190, 120, 245);
+    private float _hintPhase;
+    private float _hintEmit;
     private readonly IImage _potionSlotIcon;
     private readonly IImage _bagSlotIcon;
     private static Texture2D? _glowTexture;
@@ -518,11 +522,14 @@ public class PawnEquipmentPanel : Grid, IUpdatable
         }
         TickFlashes(deltaTime);
         TickSparks(deltaTime);
+        _hintPhase += deltaTime;
 
         foreach (var ((bodyPart, slot), image) in _slots)
         {
             UpdateSlot(bodyPart, slot, image);
         }
+
+        EmitHintSparks(deltaTime);
 
         List<BodyPart>? severed = null;
         foreach (var bodyPart in _partWidgets.Keys)
@@ -621,16 +628,11 @@ public class PawnEquipmentPanel : Grid, IUpdatable
             hint = SlotHintKind.Enchantable;
         }
 
-        if (!_lastHint.TryGetValue(key, out var lastHint) || lastHint != hint)
+        _lastHint[key] = hint;
+        if (image.Content.Border != null)
         {
-            _lastHint[key] = hint;
-            image.Content.BorderThickness = hint == SlotHintKind.None ? new Thickness(0) : new Thickness(2);
-            image.Content.Border = hint switch
-            {
-                SlotHintKind.Available => _availableSlotBrush,
-                SlotHintKind.Enchantable => _enchantableSlotBrush,
-                _ => null
-            };
+            image.Content.BorderThickness = new Thickness(0);
+            image.Content.Border = null;
         }
 
         var (icon, progressBar, hintLabel) = SlotParts(image);
@@ -795,7 +797,7 @@ public class PawnEquipmentPanel : Grid, IUpdatable
 
     private void DrawGlows(RenderContext context)
     {
-        if (_flashes.Count == 0)
+        if (_flashes.Count == 0 && !HasHintedSlots())
         {
             return;
         }
@@ -821,7 +823,106 @@ public class PawnEquipmentPanel : Grid, IUpdatable
             DrawHalo(context, glow, center, cell * (1.85f + 0.45f * pulse), flash.Color * (0.55f * pulse));
             DrawHalo(context, glow, center, cell * (1.15f + 0.2f * pulse), Color.Lerp(flash.Color, Color.White, 0.25f) * (0.22f * pulse));
         }
+
+        DrawHintGlows(context, glow);
     }
+
+    private void DrawHintGlows(RenderContext context, Texture2D glow)
+    {
+        var pulse = 0.88f + 0.12f * (0.5f + 0.5f * MathF.Sin(_hintPhase * 0.7f));
+        foreach (var (key, hint) in _lastHint)
+        {
+            if (hint == SlotHintKind.None)
+            {
+                continue;
+            }
+
+            var bounds = SlotBounds(key);
+            if (bounds.Width <= 0 || bounds.Height <= 0)
+            {
+                continue;
+            }
+
+            var color = ColorForHint(hint);
+            var center = new Vector2(bounds.X + bounds.Width * 0.5f, bounds.Y + bounds.Height * 0.5f);
+            var cell = Math.Max(bounds.Width, bounds.Height);
+            DrawHalo(context, glow, center, cell * (1.4f + 0.08f * pulse), color * (0.28f * pulse));
+            DrawHalo(context, glow, center, cell * (0.95f + 0.05f * pulse), Color.Lerp(color, Color.White, 0.35f) * (0.14f * pulse));
+        }
+    }
+
+    private void EmitHintSparks(float deltaTime)
+    {
+        _hintEmit += deltaTime;
+        if (_hintEmit < HintSparkInterval)
+        {
+            return;
+        }
+
+        _hintEmit -= HintSparkInterval;
+        foreach (var (key, hint) in _lastHint)
+        {
+            if (hint == SlotHintKind.None)
+            {
+                continue;
+            }
+
+            var color = ColorForHint(hint);
+            for (var i = 0; i < HintSparksPerPulse; i++)
+            {
+                SpawnHintSpark(key, color);
+            }
+        }
+    }
+
+    private void SpawnHintSpark((BodyPart Part, EquipmentSlotType Slot) key, Color color)
+    {
+        var half = _cellSize * 0.42f;
+        var span = Math.Max(1, (int)half);
+        var edge = Rng.Visual.Next(4);
+        var along = Rng.Visual.Next(-span, span + 1);
+        var offset = edge switch
+        {
+            0 => new Vector2(along, -half),
+            1 => new Vector2(along, half),
+            2 => new Vector2(-half, along),
+            _ => new Vector2(half, along)
+        };
+        var outward = offset.LengthSquared() > 0.01f ? Vector2.Normalize(offset) : new Vector2(0, -1);
+        var speed = Rng.Visual.Next(2, 5);
+        var life = 1.4f + Rng.Visual.Next(0, 70) / 100f;
+        _sparks.Add(new SlotSpark
+        {
+            Key = key,
+            Offset = offset,
+            Velocity = outward * speed + new Vector2(0, -2),
+            Life = life,
+            MaxLife = life,
+            Size = Rng.Visual.Next(2, 5),
+            Color = Color.Lerp(color, Color.White, Rng.Visual.Next(0, 25) / 100f),
+            Gravity = -3f
+        });
+    }
+
+    private bool HasHintedSlots()
+    {
+        foreach (var hint in _lastHint.Values)
+        {
+            if (hint != SlotHintKind.None)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static Color ColorForHint(SlotHintKind hint) => hint switch
+    {
+        SlotHintKind.Available => AvailableHintColor,
+        SlotHintKind.Enchantable => EnchantableHintColor,
+        _ => Color.White
+    };
 
     private static void DrawHalo(RenderContext context, Texture2D glow, Vector2 center, float diameter, Color color)
     {
