@@ -8,7 +8,7 @@ public class HealthRegeneration : BodyPartModifier
         Rng = rng;
     }
 
-    private const double HealthRegenerationPerTick = .07f;
+    private const double HealthRegenerationPerTick = 0.07;
     private const float TotalTicksToRegenerate = 15;
     private int _ticksToRegenerate;
 
@@ -41,7 +41,7 @@ public class HealthRegeneration : BodyPartModifier
         BodyPart.HitPoints += Power * HealthRegenerationPerTick;
     }
 
-    public override InfoPanelData GetInfoData() => new InfoPanelData
+    public override InfoPanelData GetInfoData() => new()
     {
         Healing = Power * HealthRegenerationPerTick,
         Lines = [new("Restores destroyed parts", InfoColors.Info)],

@@ -1,5 +1,6 @@
 namespace Wendlemire.Sim.Entities.Items.Equipment;
 
+[UsedImplicitly]
 public class BlessedIronCollarHandler : EquipmentHandler
 {
     public BlessedIronCollarHandler(IRng rng)

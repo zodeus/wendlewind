@@ -50,8 +50,8 @@ public class BurningHandler : BodyPartModifier
 
     public override bool ApplyToPart(BodyPart part)
     {
-        if (part.IsExternal == false) return false;
-        if (AllowedSubstances.Contains(part.Substance) == false)
+        if (!part.IsExternal) return false;
+        if (!AllowedSubstances.Contains(part.Substance))
         {
             return false;
         }

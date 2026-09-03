@@ -37,11 +37,6 @@ public class BoneDecayHandler : BodyPartModifier
         CheckIfLostVitalPart();
     }
 
-    public override void ExposeData()
-    {
-        base.ExposeData();
-    }
-
     public override void MergeWith(BodyPartModifier modifier)
     {
         CurrentDamage = BaseDamage * Power;
@@ -50,7 +45,7 @@ public class BoneDecayHandler : BodyPartModifier
 
     public override bool ApplyToPart(BodyPart part)
     {
-        if (AllowedSubstances.Contains(part.Substance) == false)
+        if (!AllowedSubstances.Contains(part.Substance))
         {
             return false;
         }
@@ -80,7 +75,7 @@ public class BoneDecayHandler : BodyPartModifier
         return host.Skin == null || host.Skin.IsDestroyed;
     }
 
-    public override InfoPanelData GetInfoData() => new InfoPanelData
+    public override InfoPanelData GetInfoData() => new()
     {
         Damage = CurrentDamage,
         DamageColor = new Color(200, 200, 180),

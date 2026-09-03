@@ -841,7 +841,7 @@ public sealed class ArenaShopScreen : Grid
             return "";
         }
 
-        var name = slot.ToString();
+        var name = slot.Value.ToString();
         return name.EndsWith("Armor", StringComparison.Ordinal)
             ? name[..^5]
             : name;

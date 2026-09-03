@@ -8,13 +8,13 @@ public class SpidersBiteHandler : EnchantmentHandler
         Rng = rng;
     }
 
-    public int Bites;
+    private int _bites;
 
     // Armor handler
     public override void PostPawnDamageTakenEffect(BodyPart bodyPart, Pawn pawn, Pawn target, DamageRecord damageRecord)
     {
         var randomPart = target.Body.AllExternalParts.RandomElement(Context.Rng);
-        Bites++;
+        _bites++;
         var properties = Enchantment.ItemDef.EnchantmentProperties!;
         var magic = GetMagic(pawn);
         foreach (var modifier in properties.BodyPartModifiers)
@@ -38,7 +38,7 @@ public class SpidersBiteHandler : EnchantmentHandler
 
     public override void ExposeData()
     {
-        ScribeValues.Look(ref Bites, "Bites");
+        ScribeValues.Look(ref _bites, "Bites");
         base.ExposeData();
     }
 }

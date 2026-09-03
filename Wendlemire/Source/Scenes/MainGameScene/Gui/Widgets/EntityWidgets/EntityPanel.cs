@@ -58,7 +58,8 @@ public abstract class EntityPanelBase : VerticalStackPanel
                     VerticalAlignment = VerticalAlignment.Center
                 }
             };
-            closeButton.Click += (_, _) => { properties.CloseButtonAction?.Invoke(); };
+            var closeAction = properties?.CloseButtonAction;
+            closeButton.Click += (_, _) => { closeAction?.Invoke(); };
             Header.Widgets.Add(closeButton);
         }
     }

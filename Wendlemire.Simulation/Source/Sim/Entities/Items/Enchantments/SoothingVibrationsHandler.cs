@@ -9,7 +9,7 @@ public class SoothingVibrationsHandler : EnchantmentHandler
     }
 
     private const int DurationInTicks = 48;
-    public override void PostPawnDamageTakenEffect(BodyPart bodyPart, Pawn pawn, Pawn requestSource, DamageRecord damageRecord)
+    public override void PostPawnDamageTakenEffect(BodyPart bodyPart, Pawn pawn, Pawn _requestSource, DamageRecord _damageRecord)
     {
         var magic = GetMagic(pawn);
         ApplyToRegenerationToPart(bodyPart, magic);
@@ -19,7 +19,7 @@ public class SoothingVibrationsHandler : EnchantmentHandler
         }
     }
 
-    public void ApplyToRegenerationToPart(BodyPart part, float magic)
+    private void ApplyToRegenerationToPart(BodyPart part, float magic)
     {
         var duration = Math.Max(1, (int)Math.Round(DurationInTicks * magic));
         part.TryAddModifier(Context.Factory.CreateModifier(Defs.BodyPartModifiers.HealthRegeneration, duration, magic));

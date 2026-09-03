@@ -162,7 +162,10 @@ namespace Wendlemire.Sim.Entities.Pawns
 
         public static bool ApplyBodyPartModifier(this BodyPart part, BodyPartModifierRecord record, string maneuver)
         {
-            if (!part.Context.Rng.Chance(record.Chance.Roll(part.Context.Rng))) return false;
+            if (!part.Context.Rng.Chance(record.Chance.Roll(part.Context.Rng)))
+            {
+                return false;
+            }
 
             var mod = part.Context.Factory.CreateModifier(record.Def, record.DurationInTicks.Roll(part.Context.Rng), record.Power);
             mod.Maneuver = maneuver;

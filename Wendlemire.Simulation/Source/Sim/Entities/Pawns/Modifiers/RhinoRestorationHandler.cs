@@ -13,7 +13,7 @@ public class RhinoRestorationHandler : BodyPartModifier
     private const double DestroyPartRegenerationPercent = 0.05f;
     private const double EnhancedHealthMultiplier = 5;
     private const int EnhancedHealthDuration = 20;
-    private double EnhancedHealthTicksRemaining = 0;
+    private double _enhancedHealthTicksRemaining;
 
     public override void Tick()
     {
@@ -25,16 +25,16 @@ public class RhinoRestorationHandler : BodyPartModifier
             {
                 var floor = Math.Min(1, max);
                 BodyPart.HitPoints = Math.Clamp(BodyPart.HitPoints + max * DestroyPartRegenerationPercent, floor, max);
-                EnhancedHealthTicksRemaining = EnhancedHealthDuration;
+                _enhancedHealthTicksRemaining = EnhancedHealthDuration;
             }
         }
 
         var health = (BodyPart.Type == BodyPartType.Skin ? SkinHealthRestoredPerTick : HealthRestoredPerTick) * Power;
 
-        if (EnhancedHealthTicksRemaining > 0)
+        if (_enhancedHealthTicksRemaining > 0)
         {
             health *= EnhancedHealthMultiplier;
-            EnhancedHealthTicksRemaining--;
+            _enhancedHealthTicksRemaining--;
         }
 
         BodyPart.HitPoints += health;
@@ -60,9 +60,9 @@ public class RhinoRestorationHandler : BodyPartModifier
             new("Prevents permanent part destruction", InfoColors.Info)
         };
 
-        if (EnhancedHealthTicksRemaining > 0)
+        if (_enhancedHealthTicksRemaining > 0)
         {
-            lines.Insert(0, new($"Enhanced healing active: {EnhancedHealthTicksRemaining:0}t remaining", InfoColors.Warning));
+            lines.Insert(0, new($"Enhanced healing active: {_enhancedHealthTicksRemaining:0}t remaining", InfoColors.Warning));
         }
 
         return new InfoPanelData

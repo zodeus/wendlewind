@@ -13,13 +13,13 @@ public class MedKitHandler : MedicinalHandler
 
     public override bool ApplyToPart(Item item, BodyPart part)
     {
-        if (part.HealthPercent >= 1 && part.AllInternalParts.Any(p => p.HealthPercent < 1) == false)
+        if (part.HealthPercent >= 1 && !part.AllInternalParts.Any(p => p.HealthPercent < 1))
         {
             return false;
         }
 
         RestoreStructure(part);
-        foreach (BodyPart internalPart in part.AllInternalParts)
+        foreach (var internalPart in part.AllInternalParts)
         {
             RestoreStructure(internalPart);
         }
