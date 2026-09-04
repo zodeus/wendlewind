@@ -18,7 +18,7 @@ namespace Wendlemire.Tests;
 ///   R1+  primitive/iron, cloth/leather, Festering, Soothing
 ///   R2+  SpidersBite, ElvishLeaf, WD pieces
 ///   R4+  chain, WD set, BoneEater, BloodBath, FireStaff
-///   R6+  Everburning, RhinoSkin, BlessedIronCollar
+///   R6+  plate, Everburning, RhinoSkin, BlessedIronCollar
 /// Consumable kits ride along (meal + incense + medical chest + potions):
 ///   Early  cooked meat/fish, Mullin, threads+MedKit, JarOfBlood
 ///   Mid    stew+dried, ShadeWood, MedKit+Balmy+Mist, Jar+Acid
@@ -27,6 +27,7 @@ namespace Wendlemire.Tests;
 /// Extra buckets: KIT (kit vs bare / burst vs sustain), FOOD, MED, INC, METAL, MAGIC, STEEL.
 /// Writes balance-report.txt at the repo root.
 /// Run: dotnet test --filter FullyQualifiedName~BalanceSimReport
+/// Matchups run in parallel (ProcessorCount workers). Each duel still uses its own sim scope.
 /// METAL-only: set BALANCE_BAND=METAL (PowerShell: $env:BALANCE_BAND='METAL')
 /// MAGIC-only: set BALANCE_BAND=MAGIC
 /// STEEL-only: set BALANCE_BAND=STEEL
@@ -75,6 +76,13 @@ public class BalanceSimReport
         "ChainHelmet", "ChainGorget", "ChainTunic",
         "ChainGlove", "ChainGlove", "ChainVambrace", "ChainVambrace",
         "ChainGreave", "ChainGreave", "ChainBoot", "ChainBoot"
+    ];
+
+    private static readonly string[] PlateSet =
+    [
+        "PlateHelmet", "PlateGorget", "PlateTunic",
+        "PlateGlove", "PlateGlove", "PlateVambrace", "PlateVambrace",
+        "PlateGreave", "PlateGreave", "PlateBoot", "PlateBoot"
     ];
 
     private static readonly string[] WitchDoctorSet =
@@ -310,6 +318,21 @@ public class BalanceSimReport
         Sock("ChainBoot", "ElvishLeaf")
     ];
 
+    private static SocketedItemConfig[] PlateFullEnchants() =>
+    [
+        Sock("PlateHelmet", "RhinoSkin"),
+        Sock("PlateGorget", "ElvishLeaf"),
+        Sock("PlateTunic", "RhinoSkin"),
+        Sock("PlateGlove", "BloodBath"),
+        Sock("PlateGlove", "ElvishLeaf"),
+        Sock("PlateVambrace", "SoothingVibrations"),
+        Sock("PlateVambrace", "ElvishLeaf"),
+        Sock("PlateGreave", "RhinoSkin"),
+        Sock("PlateGreave", "BloodBath"),
+        Sock("PlateBoot", "SoothingVibrations"),
+        Sock("PlateBoot", "ElvishLeaf")
+    ];
+
     private static SocketedItemConfig[] WdHealStack() =>
     [
         Sock("WitchDoctorHelmet", "RhinoSkin", "ElvishLeaf"),
@@ -424,6 +447,8 @@ public class BalanceSimReport
         Fighter(id, ["IronSword", "IronSword"], LeatherSet);
     private static BuildSnapshot GreatswordChain(string id) => Fighter(id, ["Greatsword"], ChainSet);
     private static BuildSnapshot SteelSwordChain(string id) => Fighter(id, ["SteelSword"], ChainSet);
+    private static BuildSnapshot GreatswordPlate(string id) => Fighter(id, ["Greatsword"], PlateSet);
+    private static BuildSnapshot SteelSwordPlate(string id) => Fighter(id, ["SteelSword"], PlateSet);
     private static BuildSnapshot ChainPartialSword(string id) =>
         Fighter(id, ["IronSword"],
             ["ChainHelmet", "ChainTunic", "LeatherGorget",
@@ -479,6 +504,24 @@ public class BalanceSimReport
                 [Sock("BlessedIronCollar", "RhinoSkin"), Sock("WitchDoctorTunic", "ElvishLeaf")]));
     private static BuildSnapshot ClawsChainBite(string id) =>
         Fighter(id, ["IronClaws"], ChainSet, Weapon("IronClaws", "SpidersBite"));
+    private static BuildSnapshot SwordPlate(string id) => Fighter(id, ["IronSword"], PlateSet);
+    private static BuildSnapshot PlateBurn(string id) =>
+        Fighter(id, ["IronSword"], PlateSet, Weapon("IronSword", "EverburningStone"));
+    private static BuildSnapshot PlateBone(string id) =>
+        Fighter(id, ["IronMace"], PlateSet, Weapon("IronMace", "BoneEater"));
+    private static BuildSnapshot PlateSpider(string id) =>
+        Fighter(id, ["IronSword"], PlateSet, Weapon("IronSword", "SpidersBite"));
+    private static BuildSnapshot PlateDual(string id) =>
+        Fighter(id, ["IronSword", "IronDagger"], PlateSet,
+            Combine(Weapon("IronDagger", "FesteringWounds")));
+    private static BuildSnapshot PlateRhinoLight(string id) =>
+        Fighter(id, ["IronSword"], PlateSet,
+            Combine(
+                Weapon("IronSword", "EverburningStone"),
+                [Sock("PlateHelmet", "RhinoSkin"), Sock("PlateTunic", "RhinoSkin"),
+                 Sock("PlateBoot", "ElvishLeaf")]));
+    private static BuildSnapshot ClawsPlateBite(string id) =>
+        Fighter(id, ["IronClaws"], PlateSet, Weapon("IronClaws", "SpidersBite"));
 
     // R10-13
     private static BuildSnapshot ChainStackedBurn(string id) =>
@@ -491,6 +534,16 @@ public class BalanceSimReport
             Combine(
                 [Sock("IronSword", "FesteringWounds"), Sock("IronDagger", "SpidersBite")],
                 ChainFullEnchants()));
+    private static BuildSnapshot PlateStackedBurn(string id) =>
+        Fighter(id, ["IronSword", "IronDagger"], PlateSet,
+            Combine(
+                [Sock("IronSword", "EverburningStone"), Sock("IronDagger", "BoneEater")],
+                PlateFullEnchants()));
+    private static BuildSnapshot PlateStackedFester(string id) =>
+        Fighter(id, ["IronSword", "IronDagger"], PlateSet,
+            Combine(
+                [Sock("IronSword", "FesteringWounds"), Sock("IronDagger", "SpidersBite")],
+                PlateFullEnchants()));
     private static BuildSnapshot WdHealBurn(string id) =>
         Fighter(id, ["IronSword"], WitchDoctorSet,
             Combine(Weapon("IronSword", "EverburningStone"), WdHealStack()));
@@ -630,6 +683,8 @@ public class BalanceSimReport
         EraMatch("STEEL", "Dual-IronSword vs Greatsword (leather)", DualIronSwordLeather("A"), GreatswordLeather("B")),
         EraMatch("STEEL", "Greatsword vs Sword (chain)", GreatswordChain("A"), SwordChain("B")),
         EraMatch("STEEL", "SteelSword vs Sword (chain)", SteelSwordChain("A"), SwordChain("B")),
+        EraMatch("STEEL", "Greatsword vs Sword (plate)", GreatswordPlate("A"), SwordPlate("B")),
+        EraMatch("STEEL", "SteelSword vs Sword (plate)", SteelSwordPlate("A"), SwordPlate("B")),
 
         // --- R7-9: full chain/WD, Everburning / Rhino + Late kit ---
         EraMatch("R7-9", "Sword+chain vs Sword+chain", SwordChain("A"), SwordChain("B")),
@@ -644,6 +699,17 @@ public class BalanceSimReport
         EraMatch("R7-9", "WD+Fester vs WD+BoneEater", WdFester("A"), WdPlainBone("B")),
         EraMatch("R7-9", "WD+collar+Bone vs Chain+Burn", WdCollarBone("A"), ChainBurn("B")),
         EraMatch("R7-9", "Claws+chain+Bite vs Dual-DoT+leather", ClawsChainBite("A"), DualDoTLeather("B")),
+        EraMatch("R7-9", "Sword+plate vs Sword+plate", SwordPlate("A"), SwordPlate("B")),
+        EraMatch("R7-9", "Plate+Burn vs Plate (plain)", PlateBurn("A"), SwordPlate("B")),
+        EraMatch("R7-9", "Plate+Burn vs Plate+BoneEater", PlateBurn("A"), PlateBone("B")),
+        EraMatch("R7-9", "Plate+Burn vs Plate+SpidersBite", PlateBurn("A"), PlateSpider("B")),
+        EraMatch("R7-9", "Dual-iron+plate vs Sword+plate", PlateDual("A"), SwordPlate("B")),
+        EraMatch("R7-9", "Plate+Rhino-light vs Plate+Burn", PlateRhinoLight("A"), PlateBurn("B")),
+        EraMatch("R7-9", "WD+BoneEater vs Sword+plate", WdPlainBone("A"), SwordPlate("B")),
+        EraMatch("R7-9", "WD+Burn vs Sword+plate", WdBurn("A"), SwordPlate("B")),
+        EraMatch("R7-9", "WD+collar+Bone vs Plate+Burn", WdCollarBone("A"), PlateBurn("B")),
+        EraMatch("R7-9", "Claws+plate+Bite vs Dual-DoT+leather", ClawsPlateBite("A"), DualDoTLeather("B")),
+        EraMatch("R7-9", "Sword+plate vs Sword+chain", SwordPlate("A"), SwordChain("B")),
 
         // --- R10-13: stacked sockets + Full kit. Heal-mirrors still omitted. ---
         EraMatch("R10-13", "Chain stacked+Burn/Bone vs same", ChainStackedBurn("A"), ChainStackedBurn("B")),
@@ -664,6 +730,13 @@ public class BalanceSimReport
         EraMatch("R10-13", "Unique-mix vs WD+BoneEater (no stack)", UniqueMixBurn("A"), WdPlainBone("B")),
         EraMatch("R10-13", "WD heal+Bite vs Unique-mix+Burn", WdHealBite("A"), UniqueMixBurn("B")),
         EraMatch("R10-13", "FireStaff-2H+Burn vs WD+collar+Bone", FireStaffBurn("A"), WdCollarBone("B")),
+        EraMatch("R10-13", "Plate stacked+Burn/Bone vs same", PlateStackedBurn("A"), PlateStackedBurn("B")),
+        EraMatch("R10-13", "Plate stacked+Fester/Bite vs Burn/Bone", PlateStackedFester("A"), PlateStackedBurn("B")),
+        EraMatch("R10-13", "WD heal+Burn vs Plate stacked", WdHealBurn("A"), PlateStackedBurn("B")),
+        EraMatch("R10-13", "WD heal+Fester vs Plate stacked", WdHealFester("A"), PlateStackedBurn("B")),
+        EraMatch("R10-13", "Unique-mix+Burn/Bone vs Plate stacked", UniqueMixBurn("A"), PlateStackedBurn("B")),
+        EraMatch("R10-13", "FireStaff-2H+Burn+WD vs Plate stacked", FireStaffBurn("A"), PlateStackedBurn("B")),
+        EraMatch("R10-13", "Plate stacked vs Chain stacked", PlateStackedBurn("A"), ChainStackedBurn("B")),
 
         // --- Cross-band leftovers keep their own era kits ---
         Split("X", "R1 axe vs R5 sword-leather", AxeNaked("A"), Early, SwordLeather("B"), Mid),
@@ -674,6 +747,8 @@ public class BalanceSimReport
         Split("X", "R6 dual-iron vs R12 WD-heal-burn", DualIronLeather("A"), Mid, WdHealBurn("B"), Full),
         Split("X", "R8 chain-plain vs R12 unique-mix", SwordChain("A"), Late, UniqueMixBurn("B"), Full),
         Split("X", "R8 WD-bone vs R12 WD-heal-burn", WdPlainBone("A"), Late, WdHealBurn("B"), Full),
+        Split("X", "R5 leather vs R12 plate stacked", SwordLeather("A"), Mid, PlateStackedBurn("B"), Full),
+        Split("X", "R8 plate-plain vs R12 unique-mix", SwordPlate("A"), Late, UniqueMixBurn("B"), Full),
 
         // --- KIT: same gear, consumable delta ---
         Split("KIT", "R1 axe Early vs axe bare", AxeNaked("A"), Early, AxeNaked("B"), Kit.None),
@@ -684,6 +759,8 @@ public class BalanceSimReport
         Split("KIT", "R8 chain Burst vs Sustain", SwordChain("A"), Burst, SwordChain("B"), Sustain),
         Split("KIT", "R12 stacked Full vs Late", ChainStackedBurn("A"), Full, ChainStackedBurn("B"), Late),
         Split("KIT", "R12 WD-heal Full vs stacked Mid", WdHealBurn("A"), Full, ChainStackedBurn("B"), Mid),
+        Split("KIT", "R8 plate Late vs plate bare", SwordPlate("A"), Late, SwordPlate("B"), Kit.None),
+        Split("KIT", "R12 plate stacked Full vs Late", PlateStackedBurn("A"), Full, PlateStackedBurn("B"), Late),
 
         // --- FOOD: same gear/med/incense, meal swap ---
         Split("FOOD", "R1 meat vs fish (axe+cloth)", AxeCloth("A"), MealOnly("CookedMeat"), AxeCloth("B"), MealOnly("CookedFish")),
@@ -692,6 +769,8 @@ public class BalanceSimReport
         Split("FOOD", "R8 honey vs stew (chain)", SwordChain("A"), MealOnly("HoneyPot"), SwordChain("B"), MealOnly("HeartyStew")),
         Split("FOOD", "R8 honey+stew vs walnut (WD)", WdPlainBone("A"), MealOnly("HoneyPot", "HeartyStew"), WdPlainBone("B"), MealOnly("Walnut")),
         Split("FOOD", "R12 walnut vs honey (stacked)", ChainStackedBurn("A"), MealOnly("Walnut"), ChainStackedBurn("B"), MealOnly("HoneyPot")),
+        Split("FOOD", "R8 honey vs stew (plate)", SwordPlate("A"), MealOnly("HoneyPot"), SwordPlate("B"), MealOnly("HeartyStew")),
+        Split("FOOD", "R12 walnut vs honey (plate stacked)", PlateStackedBurn("A"), MealOnly("Walnut"), PlateStackedBurn("B"), MealOnly("HoneyPot")),
 
         // --- MED: same gear/meal, potion + chest swap ---
         Split("MED", "R1 MedKit+suture vs Jar only", AxeNaked("A"),
@@ -741,6 +820,8 @@ public class BalanceSimReport
         Split("INC", "R8 Dipped vs Shade+Mullin (chain)", SwordChain("A"), StickOnly(Stick("DippedMullinStick", 3)), SwordChain("B"), StickOnly(Stick("ShadeWood"), Stick("MullinStick"))),
         Split("INC", "R8 Shade vs Dipped (WD-bone)", WdPlainBone("A"), StickOnly(Stick("ShadeWood")), WdPlainBone("B"), StickOnly(Stick("DippedMullinStick", 3))),
         Split("INC", "R12 full smoke vs Mullin (stacked)", ChainStackedBurn("A"), StickOnly(Stick("DippedMullinStick", 3), Stick("ShadeWood"), Stick("MullinStick")), ChainStackedBurn("B"), StickOnly(Stick("MullinStick"))),
+        Split("INC", "R8 Dipped vs Shade+Mullin (plate)", SwordPlate("A"), StickOnly(Stick("DippedMullinStick", 3)), SwordPlate("B"), StickOnly(Stick("ShadeWood"), Stick("MullinStick"))),
+        Split("INC", "R12 full smoke vs Mullin (plate stacked)", PlateStackedBurn("A"), StickOnly(Stick("DippedMullinStick", 3), Stick("ShadeWood"), Stick("MullinStick")), PlateStackedBurn("B"), StickOnly(Stick("MullinStick"))),
     ];
 
     [Fact]
@@ -806,46 +887,62 @@ public class BalanceSimReport
 
         Flush();
 
-        var bandMedians = new Dictionary<string, List<double>>();
-        foreach (var (m, row) in rows)
+        var pending = Matchups().Where(m => !done.Contains(m.Name)).ToArray();
+        var sidecarGate = new object();
+        Parallel.ForEach(pending, new ParallelOptions
         {
-            if (!bandMedians.TryGetValue(m.Band, out var prior))
-            {
-                bandMedians[m.Band] = prior = [];
-            }
-
-            prior.Add(row.MedianSeconds);
-        }
-
-        foreach (var m in Matchups())
+            MaxDegreeOfParallelism = Math.Max(1, Environment.ProcessorCount)
+        }, m =>
         {
-            if (done.Contains(m.Name))
-            {
-                continue;
-            }
-
-            if (lastBand != null && lastBand != m.Band)
-            {
-                sb.AppendLine();
-            }
-
-            lastBand = m.Band;
             var row = RunMatchup(m);
-            rows.Add((m, row));
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
+            var line = FormatMatchupLine(m, row);
+            lock (sidecarGate)
+            {
+                rows.Add((m, row));
+                File.AppendAllText(sidecarPath, JsonSerializer.Serialize(new StoredRow(m.Band, m.Name, row), SidecarJson) + Environment.NewLine);
+                _output.WriteLine(line);
+            }
+        });
+
+        var ordered = rows
+            .OrderBy(r => Matchups().FindIndex(x => x.Name == r.Matchup.Name))
+            .ToList();
+        var bandMedians = new Dictionary<string, List<double>>();
+        foreach (var (m, row) in ordered)
+        {
             if (!bandMedians.TryGetValue(m.Band, out var list))
             {
                 bandMedians[m.Band] = list = [];
             }
 
             list.Add(row.MedianSeconds);
+        }
 
-            var line = FormatMatchupLine(m, row);
-            sb.AppendLine(line);
-            _output.WriteLine(line);
-            File.AppendAllText(sidecarPath, JsonSerializer.Serialize(new StoredRow(m.Band, m.Name, row), SidecarJson) + Environment.NewLine);
-            Flush();
+        sb.Clear();
+        sb.AppendLine("=== Wendlemire Human-vs-Human Balance (12-win curve) ===");
+        if (!string.IsNullOrWhiteSpace(BandFilter))
+        {
+            sb.AppendLine($"Band filter: {BandFilter.Trim()}");
+        }
+
+        sb.AppendLine($"Seeds/matchup: {SeedCount}   Target: {TargetMinTicks / 60}-{TargetMaxTicks / 60}s @ 60tps");
+        sb.AppendLine($"Knobs this pass: CombatBalance VitalHpScale={CombatBalance.VitalHpScale} LimbHpScale={CombatBalance.LimbHpScale} ArmorK={CombatBalance.ArmorK} (ElvishLeaf diminishing, on-hit stacks free)");
+        sb.AppendLine("Sever dump: currentBlood * (subtree BloodAmount / body BloodAmount) on Severe()");
+        sb.AppendLine();
+        AppendHumanBloodShares(sb);
+        sb.AppendLine();
+        sb.AppendLine($"{"Band",-7} {"Matchup",-46} {"med.s",6} {"mean",6} {"p10",5} {"p90",5} {"band%",6} {"Awin%",6} {"bleed%",7} {"organ%",7} {"sever%",7} {"loseB%",7} {"winB%",6} {"DPS",5} {"waste%",7} {"cap%",5}  topCause");
+        sb.AppendLine(new string('-', 190));
+        lastBand = null;
+        foreach (var (m, row) in ordered)
+        {
+            if (lastBand != null && lastBand != m.Band)
+            {
+                sb.AppendLine();
+            }
+
+            lastBand = m.Band;
+            sb.AppendLine(FormatMatchupLine(m, row));
         }
 
         sb.AppendLine();
@@ -853,7 +950,7 @@ public class BalanceSimReport
         sb.AppendLine($"{"Band",-7} {"Matchup",-46} {"bleed%",7} {"sever%",7} {"b|sev",6} {"b|no",5} {"loseB%",7} {"winB%",6} {"sev->s",6} {"inst%",6}");
         sb.AppendLine(new string('-', 130));
         lastBand = null;
-        foreach (var (m, row) in rows.OrderBy(r => Matchups().FindIndex(x => x.Name == r.Matchup.Name)))
+        foreach (var (m, row) in ordered)
         {
             if (lastBand != null && lastBand != m.Band)
             {
@@ -874,7 +971,7 @@ public class BalanceSimReport
             sb.AppendLine($"  {band}: median-of-medians {values[values.Count / 2]:0.0}s   range {values[0]:0.0}-{values[^1]:0.0}s");
         }
 
-        AppendSeverDumpVerdict(sb, rows.Select(r => r.Row).ToList());
+        AppendSeverDumpVerdict(sb, ordered.Select(r => r.Row).ToList());
 
         Flush();
         if (File.Exists(sidecarPath))
