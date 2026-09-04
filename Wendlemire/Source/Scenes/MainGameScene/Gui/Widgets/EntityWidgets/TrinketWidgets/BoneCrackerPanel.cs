@@ -19,9 +19,8 @@ public sealed class BoneCrackerPanel : EntityPanelBase
     public BoneCrackerPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
         _handler = item.TrinketHandler as BoneCrackerHandler;
-        EntityCardChrome.ApplyCard(this, 360);
-        Width = 420;
-        Widgets.Add(EntityCardChrome.Header(item, new Color(255, 180, 80)));
+        EntityCardChrome.BeginInspect(this, item, new Color(255, 180, 80));
+        Width = 440;
 
         // Level section with prominent display
         var levelSection = new Panel

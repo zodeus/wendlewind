@@ -53,4 +53,31 @@ public class EnchantmentSocketingTests
         Assert.False(EnchantmentSocketing.HostAcceptsUnequipped(harness.Pawn, helm));
         Assert.False(EnchantmentSocketing.EnchantmentHasCompatibleHost(harness.Pawn, wounds));
     }
+
+    [Fact]
+    public void DaggerAcceptsWeaponEnchantment()
+    {
+        using var harness = BodyTestHarness.Human();
+        var dagger = harness.CreateWeapon("IronDagger");
+        var wounds = harness.CreateItem("FesteringWounds");
+        harness.Pawn.Inventory.TryAdd(wounds);
+
+        Assert.NotNull(dagger.Enchantments);
+        Assert.True(EnchantmentSocketing.CanSocket(dagger, wounds));
+        Assert.True(EnchantmentSocketing.TrySocket(dagger, wounds));
+        Assert.Same(wounds, dagger.Enchantments!.TryGetAtSocket(0));
+    }
+
+    [Fact]
+    public void SwordDoesNotAcceptWeaponEnchantment()
+    {
+        using var harness = BodyTestHarness.Human();
+        var sword = harness.CreateWeapon("IronSword");
+        var wounds = harness.CreateItem("FesteringWounds");
+        harness.Pawn.Inventory.TryAdd(wounds);
+
+        Assert.Null(sword.Enchantments);
+        Assert.False(EnchantmentSocketing.CanSocket(sword, wounds));
+        Assert.False(EnchantmentSocketing.TrySocket(sword, wounds));
+    }
 }

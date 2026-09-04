@@ -180,7 +180,6 @@ public static class BuildTemplates
         ],
         Sockets =
         [
-            Socket("IronSword", "EverburningStone"),
             Socket("IronDagger", "FesteringWounds"),
             Socket("LeatherHelmet", "RhinoSkin"),
             Socket("LeatherGlove", "BloodBath"),
@@ -214,8 +213,6 @@ public static class BuildTemplates
         ],
         Sockets =
         [
-            Socket("IronSword", "EverburningStone"),
-            Socket("IronMace", "BoneEater"),
             Socket("BlessedIronCollar", "RhinoSkin", "BloodBath", "ElvishLeaf")
         ],
         FoodBuffs = DefaultMeal,
@@ -338,8 +335,6 @@ public static class BuildTemplates
         ],
         Sockets =
         [
-            Socket("IronClaws", "SpidersBite"),
-            Socket("IronAxe", "EverburningStone"),
             Socket("LeatherHelmet", "RhinoSkin"),
             Socket("LeatherGlove", "BloodBath"),
             Socket("LeatherGlove", "ElvishLeaf"),

@@ -7,41 +7,32 @@ public sealed class ItemEnchantmentPanel : EntityPanelBase
 {
     public ItemEnchantmentPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
-        EntityCardChrome.ApplyCard(this, 340);
-
+        var card = EntityCardChrome.BeginInspect(this, item);
         var enchantmentProps = item.ItemDef.EnchantmentProperties;
 
-        Widgets.Add(EntityCardChrome.Header(item));
-
-        // Valid equipment types
         if (enchantmentProps?.ValidEquipmentTypes is { Count: > 0 })
         {
-            var equipmentTypesText = string.Join(", ", enchantmentProps.ValidEquipmentTypes);
             Widgets.Add(new HorizontalStackPanel
             {
                 Spacing = 8,
                 Widgets =
                 {
-                    new Label("small") { Text = "Can enchant:", TextColor = EntityCardChrome.Muted },
-                    new Label("small") { Text = equipmentTypesText, TextColor = new Color(120, 200, 120) }
+                    new Label("small") { Text = "Can enchant", TextColor = EntityCardChrome.Muted },
+                    new Label("small")
+                    {
+                        Text = string.Join(", ", enchantmentProps.ValidEquipmentTypes),
+                        TextColor = EntityCardChrome.Effect
+                    }
                 }
             });
         }
 
-        // Body part modifiers
         if (enchantmentProps?.BodyPartModifiers is { Count: > 0 })
         {
-            Widgets.Add(EntityCardChrome.SectionLabel("Effects"));
+            Widgets.Add(EntityCardChrome.SectionHeader("Effects"));
 
             foreach (var modifier in enchantmentProps.BodyPartModifiers)
             {
-                var modifierPanel = new VerticalStackPanel
-                {
-                    Spacing = 2,
-                    Margin = new Thickness(10, 0, 0, 5)
-                };
-
-                // Modifier name with type-based coloring
                 var modifierColor = modifier.Def.Type switch
                 {
                     BodyPartModifierType.Buff => new Color(100, 200, 100),
@@ -49,76 +40,42 @@ public sealed class ItemEnchantmentPanel : EntityPanelBase
                     _ => new Color(200, 200, 200)
                 };
 
-                modifierPanel.Widgets.Add(new Label("small")
-                {
-                    Text = $"{modifier.Def.Label}",
-                    TextColor = modifierColor
-                });
-
-                // Duration info
                 var durationText = modifier.DurationInTicks.Min == 0 && modifier.DurationInTicks.Max == 0
                     ? "Permanent"
-                    : $"Duration: {modifier.DurationInTicks.Min}~{modifier.DurationInTicks.Max} ticks";
-
-                modifierPanel.Widgets.Add(new Label("small")
-                {
-                    Text = $"   {durationText}",
-                    TextColor = new Color(150, 150, 150)
-                });
-
-                // Chance info
+                    : $"{modifier.DurationInTicks.Min}–{modifier.DurationInTicks.Max} ticks";
                 var chanceValue = modifier.Chance.Min;
                 var chanceText = chanceValue >= 1f
-                    ? "Always applies"
-                    : $"Chance: {chanceValue * 100f:0}%";
+                    ? "Always"
+                    : $"{chanceValue * 100f:0}%";
 
-                modifierPanel.Widgets.Add(new Label("small")
-                {
-                    Text = $"   {chanceText}",
-                    TextColor = new Color(150, 150, 150)
-                });
-
-                // Allowed substances info
                 var handlerInstance = (BodyPartModifier)Activator.CreateInstance(
                     modifier.Def.HandlerClass, new SimRng(Rng.Visual))!;
-                if (handlerInstance.AllowedSubstances.Count > 0)
-                {
-                    var substancesText = string.Join(", ", handlerInstance.AllowedSubstances);
-                    modifierPanel.Widgets.Add(new Label("small")
-                    {
-                        Text = $"   Affects: {substancesText}",
-                        TextColor = new Color(180, 140, 100)
-                    });
-                } else {
-                    modifierPanel.Widgets.Add(new Label("small")
-                    {
-                        Text = $"   Affects: All substances",
-                        TextColor = new Color(180, 140, 100)
-                    });
-                }
+                var substancesText = handlerInstance.AllowedSubstances.Count > 0
+                    ? string.Join(", ", handlerInstance.AllowedSubstances)
+                    : "All substances";
 
-                Widgets.Add(modifierPanel);
+                Widgets.Add(EntityCardChrome.InsetBlock(
+                    card.BodyWidth,
+                    new Label("small") { Text = modifier.Def.Label, TextColor = modifierColor },
+                    EntityCardChrome.StatRow("Duration", durationText, EntityCardChrome.Muted),
+                    EntityCardChrome.StatRow("Chance", chanceText, EntityCardChrome.Muted),
+                    EntityCardChrome.BodyLabel("Affects  " + substancesText, EntityCardChrome.Tan, card.BodyWidth - 24)));
             }
         }
 
-        // Base stats
         if (item.Def.BaseStats.Count > 0)
         {
-            Widgets.Add(EntityCardChrome.SectionLabel("Stats"));
-
-            foreach (var baseStat in item.Def.BaseStats)
-            {
-                Widgets.Add(EntityCardChrome.StatRow(
-                    baseStat.Def.Label,
-                    item.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture)));
-            }
+            Widgets.Add(EntityCardChrome.SectionHeader("Stats"));
+            Widgets.Add(EntityCardChrome.StatStrip(item.Def.BaseStats
+                .Select(stat => (
+                    stat.Def.Label,
+                    item.GetStatValue(stat.Def).ToString(CultureInfo.InvariantCulture),
+                    Color.LightGoldenrodYellow))
+                .ToArray()));
         }
     }
 
     public override void Update()
     {
-        // Enchantments don't have dynamic state to update
     }
 }
-
-

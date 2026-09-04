@@ -33,9 +33,8 @@ public sealed class PerforationTrapPanel : EntityPanelBase
         inventory.ItemRemoved += OnInventoryChanged;
         inventory.ItemStackSizeChanged += OnInventoryChanged;
 
-        EntityCardChrome.ApplyCard(this, 360);
+        EntityCardChrome.BeginInspect(this, item, new Color(180, 70, 70));
         Width = 440;
-        Widgets.Add(EntityCardChrome.Header(item, new Color(180, 70, 70)));
 
         // Status section
         var statusSection = new Panel

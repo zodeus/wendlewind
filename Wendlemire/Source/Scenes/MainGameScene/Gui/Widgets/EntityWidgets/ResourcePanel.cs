@@ -7,85 +7,31 @@ public sealed class ResourcePanel : EntityPanelBase
 
     public ResourcePanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
-        EntityCardChrome.ApplyCard(this);
+        var card = EntityCardChrome.BeginInspect(this, item);
 
-        Widgets.Add(EntityCardChrome.Header(item));
-
-        // AMMO PROPERTIES
         var ammoProps = item.ItemDef.AmmoProperties;
         if (ammoProps != null)
         {
-            var ammoPanel = new VerticalStackPanel
-            {
-                Spacing = 5,
-                Margin = new Thickness(0, 10, 0, 0)
-            };
-
-            ammoPanel.Widgets.Add(EntityCardChrome.SectionLabel("Ammo"));
-
-            ammoPanel.Widgets.Add(new HorizontalStackPanel
-            {
-                Spacing = 10,
-                Widgets =
-                {
-                    new Label(BaseContent.Styles.Label.Small)
-                    {
-                        Text = "Damage Type:",
-                        TextColor = Color.Gray
-                    },
-                    new Label(BaseContent.Styles.Label.Small)
-                    {
-                        Text = ammoProps.DamageType.ToString(),
-                        TextColor = GetDamageTypeColor(ammoProps.DamageType)
-                    }
-                }
-            });
-
-            ammoPanel.Widgets.Add(new HorizontalStackPanel
-            {
-                Spacing = 10,
-                Widgets =
-                {
-                    new Label(BaseContent.Styles.Label.Small)
-                    {
-                        Text = "Damage:",
-                        TextColor = Color.Gray
-                    },
-                    new Label(BaseContent.Styles.Label.Small)
-                    {
-                        Text = $"{ammoProps.DamageRange.Min:F0}-{ammoProps.DamageRange.Max:F0}",
-                        TextColor = Color.LightGray
-                    }
-                }
-            });
+            Widgets.Add(EntityCardChrome.StatStrip(
+                ("Damage", $"{ammoProps.DamageRange.Min:F0}–{ammoProps.DamageRange.Max:F0}", Color.LightGray),
+                ("Type", ammoProps.DamageType.ToString(), GetDamageTypeColor(ammoProps.DamageType))));
 
             if (ammoProps.BodyPartModifiers.Count > 0)
             {
-                ammoPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-                {
-                    Text = "Effects:",
-                    TextColor = Color.Gray,
-                    Margin = new Thickness(0, 5, 0, 0)
-                });
-
+                Widgets.Add(EntityCardChrome.SectionHeader("Effects"));
                 foreach (var modifier in ammoProps.BodyPartModifiers)
                 {
                     var chanceText = modifier.Chance.Min < 1f
-                        ? $" ({modifier.Chance.Min * 100:F0}%)"
-                        : "";
-                    ammoPanel.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
-                    {
-                        Text = $"  • {modifier.Def.Label}{chanceText}",
-                        TextColor = Color.IndianRed,
-                        Margin = new Thickness(10, 0, 0, 0)
-                    });
+                        ? $"{modifier.Chance.Min * 100:F0}%"
+                        : "Always";
+                    Widgets.Add(EntityCardChrome.InsetBlock(
+                        card.BodyWidth,
+                        new Label("small") { Text = modifier.Def.Label, TextColor = Color.IndianRed },
+                        EntityCardChrome.StatRow("Chance", chanceText, EntityCardChrome.Muted)));
                 }
             }
-
-            Widgets.Add(ammoPanel);
         }
 
-        // MAKE POTION
         var makePotionTitle = TryGetMakePotionTitle(Core.Context.Player, item);
         _makePotionButton = new CursorButton(BaseContent.Styles.Button.Normal)
         {
@@ -94,12 +40,7 @@ public sealed class ResourcePanel : EntityPanelBase
         };
         _makePotionButton.Click += (_, _) => MakePotion(Core.Context.Player, item);
         _makePotionButton.Visible = makePotionTitle != null;
-
-        Widgets.Add(new HorizontalStackPanel
-        {
-            Spacing = 20,
-            Widgets = { _makePotionButton }
-        });
+        Widgets.Add(_makePotionButton);
     }
 
     private static Color GetDamageTypeColor(DamageType damageType)
@@ -119,14 +60,14 @@ public sealed class ResourcePanel : EntityPanelBase
         };
     }
 
-    private string? TryGetMakePotionTitle(Player player, Item item)
+    private static string? TryGetMakePotionTitle(Player player, Item item)
     {
-        if (item.ItemDef == Defs.Items.HealingRoot)
+        if (item.ItemDef == Defs.Items.HealingRoot
+            && player.HasTrinkets(Defs.Items.MortarAndPestle)
+            && player.HasTrinkets(Defs.Items.VialOfDuplicity)
+            && player.HasTrinkets(Defs.Items.WeepingBucket))
         {
-            if (player.HasTrinkets(Defs.Items.MortarAndPestle) && player.HasTrinkets(Defs.Items.VialOfDuplicity) && player.HasTrinkets(Defs.Items.WeepingBucket))
-            {
-                return Defs.Items.BalmyOintment.Label;
-            }
+            return Defs.Items.BalmyOintment.Label;
         }
 
         return null;
@@ -148,6 +89,7 @@ public sealed class ResourcePanel : EntityPanelBase
         var potion = Core.Context.Factory.CreateEntity<Item>(potionToMake);
         player.Pawn.Inventory.TryAdd(potion);
     }
+
     public override void Update()
     {
     }

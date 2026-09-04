@@ -27,7 +27,7 @@ public static class TooltipHelper
     private const int OffsetX = 16;
     private const int OffsetY = 16;
     private const int CornerMargin = 24;
-    private const int CustomMaxHeight = 380;
+    private const int CustomMaxHeight = 500;
     private const int WheelPixelsPerNotch = 48;
 
     /// <summary>

@@ -44,7 +44,7 @@ public sealed class WeaponPanel : EntityPanelBase
         {
             VerticalAlignment = VerticalAlignment.Center
         };
-        _leftColumn.Widgets.Add(EntityCardChrome.Header(item, extra: _socketsPanel));
+        _leftColumn.Widgets.Add(EntityCardChrome.Header(item, extra: _socketsPanel, flavorWidth: 228));
         
         // Custom info widget from handler (mechanics, stats, settings)
         // Use a container so we can easily rebuild on upgrade

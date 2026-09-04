@@ -73,23 +73,16 @@ public class EntityPanel : EntityPanelBase
 {
     public EntityPanel(BaseGui gui, Entity entity, EntityPanelProperties? properties = null) : base(gui, entity, properties)
     {
-        EntityCardChrome.ApplyCard(this);
-        Widgets.Add(EntityCardChrome.Header(entity));
+        EntityCardChrome.BeginInspect(this, entity);
 
-        foreach (var baseStat in entity.Def.BaseStats)
+        if (entity.Def.BaseStats.Count > 0)
         {
-            Widgets.Add(EntityCardChrome.StatRow(
-                baseStat.Def.Label,
-                entity.GetStatValue(baseStat.Def).ToString(CultureInfo.InvariantCulture)));
-
-            /*row.RegisterCallback<MouseEnterEvent>(evt => {
-                key.AddToClassList("text--hover");
-                value.AddToClassList("text--hover");
-            });
-            row.RegisterCallback<MouseLeaveEvent>(evt => {
-                key.RemoveFromClassList("text--hover");
-                value.RemoveFromClassList("text--hover");
-            });*/
+            Widgets.Add(EntityCardChrome.StatStrip(entity.Def.BaseStats
+                .Select(stat => (
+                    stat.Def.Label,
+                    entity.GetStatValue(stat.Def).ToString(CultureInfo.InvariantCulture),
+                    Color.LightGoldenrodYellow))
+                .ToArray()));
         }
     }
 

@@ -4,8 +4,6 @@ namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 
 public class MedicinalPanel : EntityPanelBase
 {
-    private static readonly Color BodyGray = new(190, 190, 190);
-
     private readonly Item _item;
     private Label? _stackValue;
 
@@ -13,78 +11,79 @@ public class MedicinalPanel : EntityPanelBase
         : base(gui, item, properties)
     {
         _item = item;
-        EntityCardChrome.ApplyCard(this, 340);
+        var card = EntityCardChrome.BeginInspect(this, item);
 
-        Widgets.Add(EntityCardChrome.Header(item));
-        Widgets.Add(CreateProperties(item, item.ItemDef.MedicinalProperties));
+        var stats = CreateStatStrip(item, item.ItemDef.MedicinalProperties, card.BodyWidth);
+        if (stats != null)
+        {
+            Widgets.Add(stats);
+        }
 
         var effect = ResolveEffect(item);
         if (!string.IsNullOrWhiteSpace(effect))
         {
-            Widgets.Add(EntityCardChrome.SectionLabel("Effect"));
-            Widgets.Add(EntityCardChrome.BodyLabel(effect, EntityCardChrome.Effect));
+            Widgets.Add(EntityCardChrome.SectionHeader("Effect"));
+            Widgets.Add(EntityCardChrome.BodyLabel(effect, EntityCardChrome.Effect, card.BodyWidth));
         }
 
-        var how = ResolveHowItWorks(item).ToList();
-        if (how.Count > 0)
+        var mechanics = ResolveMechanics(item).ToList();
+        if (mechanics.Count > 0)
         {
-            Widgets.Add(EntityCardChrome.SectionLabel("How it works"));
-            foreach (var line in how)
-            {
-                Widgets.Add(new Label("small")
-                {
-                    Text = "• " + line,
-                    Wrap = true,
-                    MaxWidth = 300,
-                    TextColor = BodyGray
-                });
-            }
+            Widgets.Add(EntityCardChrome.SectionHeader("Core mechanics"));
+            Widgets.Add(EntityCardChrome.MechanicsBlock(mechanics, card.BodyWidth));
         }
     }
 
-    private VerticalStackPanel CreateProperties(Item item, MedicinalProperties? medicinal)
+    private Widget? CreateStatStrip(Item item, MedicinalProperties? medicinal, int bodyWidth)
     {
-        var props = new VerticalStackPanel { Spacing = 1 };
+        var chips = new List<Widget>();
 
         if (MedicalChest.IsInfiniteUse(item.ItemDef))
         {
-            props.Widgets.Add(EntityCardChrome.StatRow("Use", "Infinite", ColorExt.HexToColor(TC.Golden.TrimStart('#'))));
+            chips.Add(EntityCardChrome.StatChip("Use", "Infinite", EntityCardChrome.Gold, out _));
         }
         else if (item.IsStackable)
         {
-            _stackValue = new Label("small")
-            {
-                Text = $"x{item.StackSize}",
-                TextColor = ColorExt.HexToColor(TC.Golden.TrimStart('#'))
-            };
-            props.Widgets.Add(new HorizontalStackPanel
-            {
-                Spacing = 6,
-                Widgets =
-                {
-                    new Label("small") { Text = "Stack:", TextColor = EntityCardChrome.Muted },
-                    _stackValue
-                }
-            });
+            chips.Add(EntityCardChrome.StatChip("Stack", $"x{item.StackSize}", EntityCardChrome.Gold, out _stackValue));
         }
 
         if (item.ItemDef.GoldCost > 0)
         {
-            props.Widgets.Add(EntityCardChrome.StatRow("Cost", $"{item.ItemDef.GoldCost}g", ColorExt.HexToColor(TC.Golden.TrimStart('#'))));
+            chips.Add(EntityCardChrome.StatChip("Cost", $"{item.ItemDef.GoldCost}g", EntityCardChrome.Gold, out _));
         }
 
         var cooldown = MedicalChest.CooldownInTicks(item.ItemDef);
         if (cooldown > 0)
         {
-            props.Widgets.Add(EntityCardChrome.StatRow("Cooldown", FormatSeconds(cooldown), ColorExt.HexToColor(TC.Blue.TrimStart('#'))));
+            chips.Add(EntityCardChrome.StatChip("Cooldown", FormatSeconds(cooldown), EntityCardChrome.Info, out _));
         }
 
         if (medicinal?.DurationInTicks > 0)
         {
-            props.Widgets.Add(EntityCardChrome.StatRow("Duration", FormatSeconds(medicinal.DurationInTicks), ColorExt.HexToColor(TC.Green.TrimStart('#'))));
+            chips.Add(EntityCardChrome.StatChip("Duration", FormatSeconds(medicinal.DurationInTicks), EntityCardChrome.Effect, out _));
         }
 
-        return props;
+        if (chips.Count == 0 && medicinal?.DefaultTrigger == null)
+        {
+            return null;
+        }
+
+        var column = new VerticalStackPanel { Spacing = 6 };
+        if (chips.Count > 0)
+        {
+            column.Widgets.Add(EntityCardChrome.StatStrip(chips));
+        }
+
+        var trigger = medicinal?.DefaultTrigger;
+        if (trigger != null)
+        {
+            column.Widgets.Add(EntityCardChrome.BodyLabel(
+                "Chest · " + TriggerLabels.Summarize(trigger, null).Replace(" · auto target", ""),
+                EntityCardChrome.Muted,
+                bodyWidth));
+        }
+
+        return column;
     }
 
     private static string ResolveEffect(Item item)
@@ -100,7 +99,7 @@ public class MedicinalPanel : EntityPanelBase
             : string.Empty;
     }
 
-    private static IEnumerable<string> ResolveHowItWorks(Item item)
+    private static IEnumerable<string> ResolveMechanics(Item item)
     {
         var fromHandler = item.MedicinalHandler?.GetHowItWorks(item);
         if (fromHandler is { Count: > 0 })
@@ -109,17 +108,14 @@ public class MedicinalPanel : EntityPanelBase
             {
                 yield return line;
             }
+
+            yield break;
         }
-        else if (item.ItemDef.Moniker == "Cauterize")
+
+        if (item.ItemDef.Moniker == "Cauterize")
         {
             yield return "Does not restore hit points.";
             yield return "Stops a severed stump from spraying.";
-        }
-
-        var trigger = item.ItemDef.MedicinalProperties?.DefaultTrigger;
-        if (trigger != null)
-        {
-            yield return "Chest: " + TriggerLabels.Summarize(trigger, null).Replace(" · auto target", "");
         }
     }
 

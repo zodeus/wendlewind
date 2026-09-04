@@ -5,86 +5,80 @@ namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 [UsedImplicitly]
 public sealed class FoodPanel : EntityPanelBase
 {
-    private readonly Label? _stackSizeLabel;
+    private readonly Label? _stackValue;
     private readonly Item _item;
 
     public FoodPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
         _item = item;
-        EntityCardChrome.ApplyCard(this, 340);
+        var card = EntityCardChrome.BeginInspect(this, item);
 
-        Widgets.Add(EntityCardChrome.Header(item));
-
-        var foodProps = item.ItemDef.FoodProperties;
-
+        var chips = new List<Widget>();
         var nutritionValue = item.GetStatValue(Defs.Stats.NutritionalValue);
-        Widgets.Add(EntityCardChrome.StatRow(
+        chips.Add(EntityCardChrome.StatChip(
             "Nutrition",
             nutritionValue.ToString(CultureInfo.InvariantCulture),
-            FoodProperties.GetNutritionColor(nutritionValue)));
-
-        if (foodProps?.Effects.Any() == true)
-        {
-            Widgets.Add(EntityCardChrome.SectionLabel("Effects"));
-
-            foreach (var effect in foodProps.Effects)
-            {
-                var effectPanel = new HorizontalStackPanel
-                {
-                    Spacing = 6,
-                    Margin = new Thickness(4, 0, 0, 0)
-                };
-
-                effectPanel.Widgets.Add(new Image
-                {
-                    Background = new TextureRegion(effect.Def.GetTexture()),
-                    Width = 16,
-                    Height = 16
-                });
-
-                effectPanel.Widgets.Add(new Label("small")
-                {
-                    Text = effect.Def.Label,
-                    TextColor = FoodProperties.GetEffectColor(effect.Def)
-                });
-
-                Widgets.Add(effectPanel);
-
-                AddAffectedStatRows(this, effect.Def.AffectedStats);
-
-                if (!string.IsNullOrEmpty(effect.Def.Notes))
-                {
-                    Widgets.Add(new Label("small")
-                    {
-                        Text = $"  {effect.Def.Notes}",
-                        TextColor = new Color(130, 130, 130),
-                        Wrap = true,
-                        MaxWidth = 300
-                    });
-                }
-            }
-        }
+            FoodProperties.GetNutritionColor(nutritionValue),
+            out _));
 
         if (item.StackSize > 1 || item.ItemDef.StackLimit > 1)
         {
-            _stackSizeLabel = new Label("small")
+            chips.Add(EntityCardChrome.StatChip(
+                "Stack",
+                $"{item.StackSize}/{item.ItemDef.StackLimit}",
+                EntityCardChrome.Gold,
+                out _stackValue));
+        }
+
+        Widgets.Add(EntityCardChrome.StatStrip(chips));
+
+        var foodProps = item.ItemDef.FoodProperties;
+        if (foodProps?.Effects.Any() != true)
+        {
+            return;
+        }
+
+        Widgets.Add(EntityCardChrome.SectionHeader("Effects"));
+        foreach (var effect in foodProps.Effects)
+        {
+            var rows = new List<Widget>
             {
-                Text = $"Stack: {item.StackSize}/{item.ItemDef.StackLimit}",
-                TextColor = EntityCardChrome.Muted
+                EntityCardChrome.IconLabel(
+                    new TextureRegion(effect.Def.GetTexture()),
+                    effect.Def.Label,
+                    FoodProperties.GetEffectColor(effect.Def))
             };
-            Widgets.Add(_stackSizeLabel);
+
+            AddAffectedStatRows(rows, effect.Def.AffectedStats);
+
+            if (!string.IsNullOrEmpty(effect.Def.Notes))
+            {
+                rows.Add(EntityCardChrome.BodyLabel(effect.Def.Notes, EntityCardChrome.Muted, card.BodyWidth - 24));
+            }
+
+            Widgets.Add(EntityCardChrome.InsetBlock(card.BodyWidth, rows.ToArray()));
         }
     }
 
     public override void Update()
     {
-        if (_stackSizeLabel != null)
+        if (_stackValue != null)
         {
-            _stackSizeLabel.Text = $"Stack: {_item.StackSize}/{_item.ItemDef.StackLimit}";
+            _stackValue.Text = $"{_item.StackSize}/{_item.ItemDef.StackLimit}";
         }
     }
 
     internal static void AddAffectedStatRows(VerticalStackPanel parent, IEnumerable<AffectedStatRecord>? affectedStats)
+    {
+        var rows = new List<Widget>();
+        AddAffectedStatRows(rows, affectedStats);
+        foreach (var row in rows)
+        {
+            parent.Widgets.Add(row);
+        }
+    }
+
+    internal static void AddAffectedStatRows(ICollection<Widget> parent, IEnumerable<AffectedStatRecord>? affectedStats)
     {
         if (affectedStats == null)
         {
@@ -105,10 +99,9 @@ public sealed class FoodPanel : EntityPanelBase
                 continue;
             }
 
-            parent.Widgets.Add(new HorizontalStackPanel
+            parent.Add(new HorizontalStackPanel
             {
                 Spacing = 6,
-                Margin = new Thickness(20, 0, 0, 0),
                 Widgets =
                 {
                     new Label("small")
@@ -117,10 +110,7 @@ public sealed class FoodPanel : EntityPanelBase
                         TextColor = EntityCardChrome.Muted,
                         Width = 110
                     },
-                    new Label("small")
-                    {
-                        Text = $"{offset}{factor}"
-                    }
+                    new Label("small") { Text = $"{offset}{factor}" }
                 }
             });
         }

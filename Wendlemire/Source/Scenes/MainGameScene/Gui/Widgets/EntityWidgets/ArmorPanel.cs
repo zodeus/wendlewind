@@ -11,13 +11,9 @@ public sealed class ArmorPanel : EntityPanelBase
     public ArmorPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
         _item = item;
-        EntityCardChrome.ApplyCard(this, 340);
-        Widgets.Add(EntityCardChrome.Header(item));
+        EntityCardChrome.BeginInspect(this, item);
 
-        // ═══════════════════════════════════════════════════════════════════
-        // Durability Section
-        // ═══════════════════════════════════════════════════════════════════
-        var durabilitySection = new VerticalStackPanel { Spacing = 2, Margin = new Thickness(0, 2, 0, 4) };
+        var durabilitySection = new VerticalStackPanel { Spacing = 2 };
 
         _durabilityBar = new HorizontalProgressBar(BaseContent.Styles.Bar.Durability)
         {
@@ -36,35 +32,32 @@ public sealed class ArmorPanel : EntityPanelBase
         durabilitySection.Widgets.Add(_durabilityLabel);
         Widgets.Add(durabilitySection);
 
-        // ═══════════════════════════════════════════════════════════════════
-        // Armor Properties Section
-        // ═══════════════════════════════════════════════════════════════════
-        var propsSection = new VerticalStackPanel { Spacing = 1, Margin = new Thickness(0, 0, 0, 4) };
-        propsSection.Widgets.Add(CreatePropertyRow("Slot", item.ItemDef.EquipmentProperties?.SlotUsedToEquip?.ToString() ?? "n/a", TC.Blue));
+        var chips = new List<(string Key, string Value, Color Color)>
+        {
+            ("Slot", item.ItemDef.EquipmentProperties?.SlotUsedToEquip?.ToString() ?? "n/a", EntityCardChrome.Info)
+        };
 
         var maxEnchantments = item.ItemDef.EquipmentProperties?.MaxEnchantments ?? 0;
         if (maxEnchantments > 0)
         {
-            propsSection.Widgets.Add(CreatePropertyRow("Enchant Slots", $"{maxEnchantments}", TC.Purple));
+            chips.Add(("Enchants", $"{maxEnchantments}", ColorExt.HexToColor(TC.Purple.TrimStart('#'))));
         }
 
         var armorSet = item.ItemDef.EquipmentProperties?.ArmorSet;
         if (!string.IsNullOrEmpty(armorSet))
         {
-            propsSection.Widgets.Add(CreatePropertyRow("Set", SetBonuses.DisplayName(armorSet), TC.Golden));
-            if (SetBonuses.Table.TryGetValue(armorSet, out var tiers))
-            {
-                foreach (var tier in tiers)
-                {
-                    propsSection.Widgets.Add(CreatePropertyRow(
-                        $"{tier.Pieces}",
-                        SetBonuses.DescribeTier(tier),
-                        TC.Golden));
-                }
-            }
+            chips.Add(("Set", SetBonuses.DisplayName(armorSet), EntityCardChrome.Gold));
         }
 
-        Widgets.Add(propsSection);
+        Widgets.Add(EntityCardChrome.StatStrip(chips.ToArray()));
+
+        if (!string.IsNullOrEmpty(armorSet) && SetBonuses.Table.TryGetValue(armorSet, out var tiers))
+        {
+            Widgets.Add(EntityCardChrome.SectionHeader("Set bonuses"));
+            Widgets.Add(EntityCardChrome.MechanicsBlock(
+                tiers.Select(tier => $"{tier.Pieces} pieces · {SetBonuses.DescribeTier(tier)}").ToList(),
+                EntityCardChrome.Metrics(EntityCardChrome.InspectWidth).BodyWidth));
+        }
 
         // ═══════════════════════════════════════════════════════════════════
         // Stats Section
@@ -75,46 +68,15 @@ public sealed class ArmorPanel : EntityPanelBase
 
         if (displayableStats.Count > 0)
         {
-            var statsSection = new VerticalStackPanel { Spacing = 2, Margin = new Thickness(0, 0, 0, 10) };
-            statsSection.Widgets.Add(new Label("small")
-            {
-                Text = "Stats",
-                TextColor = BaseContent.Colors.Text.Golden,
-                Margin = new Thickness(0, 0, 0, 4)
-            });
-
-            var statsGrid = new Grid { ColumnSpacing = 12, RowSpacing = 2, Margin = new Thickness(8, 0, 0, 0) };
-            statsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-            statsGrid.ColumnsProportions.Add(new Proportion(ProportionType.Auto));
-
-            var row = 0;
-            foreach (var baseStat in displayableStats)
-            {
-                var keyLabel = new Label("small") { Text = $"{baseStat.Def.Label}:" };
-                Grid.SetRow(keyLabel, row);
-                Grid.SetColumn(keyLabel, 0);
-                statsGrid.Widgets.Add(keyLabel);
-
-                var statValue = item.GetStatValue(baseStat.Def);
-                var valueText = statValue % 1 == 0 ? $"{statValue:0}" : $"{statValue:0.##}";
-
-                // Color positive stats green, negative red
-                var valueColor = statValue >= 0 ? Color.LightGoldenrodYellow : Color.Salmon;
-
-                var valueLabel = new Label("small")
+            Widgets.Add(EntityCardChrome.SectionHeader("Stats"));
+            Widgets.Add(EntityCardChrome.StatStrip(displayableStats
+                .Select(stat =>
                 {
-                    Text = valueText,
-                    TextColor = valueColor
-                };
-
-                Grid.SetRow(valueLabel, row);
-                Grid.SetColumn(valueLabel, 1);
-                statsGrid.Widgets.Add(valueLabel);
-
-                row++;
-            }
-            statsSection.Widgets.Add(statsGrid);
-            Widgets.Add(statsSection);
+                    var value = item.GetStatValue(stat.Def);
+                    var text = value % 1 == 0 ? $"{value:0}" : $"{value:0.##}";
+                    return (stat.Def.Label, text, value >= 0 ? Color.LightGoldenrodYellow : Color.Salmon);
+                })
+                .ToArray()));
         }
 
         // ═══════════════════════════════════════════════════════════════════
@@ -122,24 +84,9 @@ public sealed class ArmorPanel : EntityPanelBase
         // ═══════════════════════════════════════════════════════════════════
         _socketsPanel = new ItemEnchantmentSocketsPanel(gui, item)
         {
-            Margin = new Thickness(0, 5, 0, 0)
+            Margin = new Thickness(0, 4, 0, 0)
         };
         Widgets.Add(_socketsPanel);
-    }
-
-    private static HorizontalStackPanel CreatePropertyRow(string key, string value, string valueColorHex)
-    {
-        var hex = valueColorHex.StartsWith('#') ? valueColorHex[1..] : valueColorHex;
-        var color = ColorExt.HexToColor(hex);
-        return new HorizontalStackPanel
-        {
-            Spacing = 8,
-            Widgets =
-            {
-                new Label("small") { Text = $"{key}:", TextColor = Color.Gray },
-                new Label("small") { Text = value, TextColor = color }
-            }
-        };
     }
 
     public override void Update()

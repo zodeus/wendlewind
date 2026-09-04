@@ -4,109 +4,60 @@ namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 public sealed class IncensePanel : EntityPanelBase
 {
     private static readonly Color WarmGlow = new(255, 200, 120);
-    private static readonly Color AshGray = new(180, 170, 160);
 
     private readonly Item _item;
-    private readonly Label? _stackLabel;
+    private Label? _stackValue;
 
     public IncensePanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
         _item = item;
-        EntityCardChrome.ApplyCard(this, 340);
+        var card = EntityCardChrome.BeginInspect(this, item, WarmGlow);
 
-        Widgets.Add(EntityCardChrome.Header(item, WarmGlow));
-
+        var chips = new List<Widget>();
         var incenseProps = item.ItemDef.IncenseProperties;
         if (incenseProps?.Effect != null)
         {
             var durationSeconds = incenseProps.GetDurationInTicks() / (float)GameContext.TicksPerSecond;
-            Widgets.Add(new Label("small")
-            {
-                Text = $"Lasts {durationSeconds:0.#}s once lit",
-                TextColor = WarmGlow
-            });
-            Widgets.Add(new Label("small")
-            {
-                Text = "Slots light at 120, 240, then 360",
-                TextColor = AshGray
-            });
-
-            Widgets.Add(EntityCardChrome.SectionLabel("When Lit"));
-
-            var effectRow = new HorizontalStackPanel
-            {
-                Spacing = 6,
-                Margin = new Thickness(4, 0, 0, 0)
-            };
-
-            effectRow.Widgets.Add(new Image
-            {
-                Background = new TextureRegion(incenseProps.Effect.Def.GetTexture()),
-                Width = 16,
-                Height = 16
-            });
-
-            effectRow.Widgets.Add(new Label("small")
-            {
-                Text = incenseProps.Effect.Def.Label,
-                TextColor = IncenseProperties.GetEffectColor(incenseProps.Effect.Def)
-            });
-
-            effectRow.Widgets.Add(new Label("small")
-            {
-                Text = $"({durationSeconds:0.#}s)",
-                TextColor = Color.DarkGray
-            });
-
-            Widgets.Add(effectRow);
-
-            var affectedStats = incenseProps.Effect.Def.AffectedStats;
-            if (affectedStats != null)
-            {
-                foreach (var affectedStat in affectedStats)
-                {
-                    var offset = affectedStat.Offset != null
-                        ? $"/c[{(affectedStat.Offset > 0 ? TC.Green : TC.Red)}]+{affectedStat.Offset} "
-                        : "";
-                    var factor = affectedStat.Factor != null
-                        ? $"/c[{(affectedStat.Factor > 0 ? TC.Green : TC.Red)}]*{affectedStat.Factor} "
-                        : "";
-
-                    Widgets.Add(new HorizontalStackPanel
-                    {
-                        Spacing = 6,
-                        Margin = new Thickness(20, 0, 0, 0),
-                        Widgets =
-                        {
-                            new Label("small")
-                            {
-                                Text = affectedStat.Stat.Label,
-                                TextColor = AshGray,
-                                Width = 110
-                            },
-                            new Label("small") { Text = $"{offset}{factor}" }
-                        }
-                    });
-                }
-            }
+            chips.Add(EntityCardChrome.StatChip("Duration", $"{durationSeconds:0.#}s", WarmGlow, out _));
         }
 
         if (item.StackSize > 1 || item.ItemDef.StackLimit > 1)
         {
-            _stackLabel = new Label("small")
-            {
-                Text = $"Stack: {item.StackSize}",
-                TextColor = AshGray
-            };
-            Widgets.Add(_stackLabel);
+            chips.Add(EntityCardChrome.StatChip("Stack", $"x{item.StackSize}", EntityCardChrome.Gold, out _stackValue));
         }
+
+        if (chips.Count > 0)
+        {
+            Widgets.Add(EntityCardChrome.StatStrip(chips));
+        }
+
+        if (incenseProps?.Effect == null)
+        {
+            return;
+        }
+
+        var durationSecondsLit = incenseProps.GetDurationInTicks() / (float)GameContext.TicksPerSecond;
+        Widgets.Add(EntityCardChrome.BodyLabel("Slots light at 120, 240, then 360", EntityCardChrome.Muted, card.BodyWidth));
+
+        Widgets.Add(EntityCardChrome.SectionHeader("When Lit"));
+        var rows = new List<Widget>
+        {
+            EntityCardChrome.IconLabel(
+                new TextureRegion(incenseProps.Effect.Def.GetTexture()),
+                incenseProps.Effect.Def.Label,
+                IncenseProperties.GetEffectColor(incenseProps.Effect.Def),
+                $"({durationSecondsLit:0.#}s)")
+        };
+
+        FoodPanel.AddAffectedStatRows(rows, incenseProps.Effect.Def.AffectedStats);
+        Widgets.Add(EntityCardChrome.InsetBlock(card.BodyWidth, rows.ToArray()));
     }
 
     public override void Update()
     {
-        if (_stackLabel != null)
+        if (_stackValue != null)
         {
-            _stackLabel.Text = $"Stack: {_item.StackSize}";
+            _stackValue.Text = $"x{_item.StackSize}";
         }
     }
 }

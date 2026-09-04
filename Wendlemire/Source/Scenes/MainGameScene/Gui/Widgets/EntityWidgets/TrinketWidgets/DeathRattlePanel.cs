@@ -15,9 +15,8 @@ public sealed class DeathRattlePanel : EntityPanelBase
     {
         _item = item;
         _handler = (DeathRattleHandler)item.TrinketHandler!;
-        EntityCardChrome.ApplyCard(this, 340);
-        Width = 400;
-        Widgets.Add(EntityCardChrome.Header(item, Color.Crimson));
+        EntityCardChrome.BeginInspect(this, item, Color.Crimson);
+        Width = 440;
 
         // Kills counter - prominent display
         _killsLabel = new Label(BaseContent.Styles.Label.Large)

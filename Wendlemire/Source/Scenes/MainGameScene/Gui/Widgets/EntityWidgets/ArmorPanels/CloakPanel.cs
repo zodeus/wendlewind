@@ -24,14 +24,14 @@ public sealed class CloakPanel : EntityPanelBase
         }
 
         _cloakHandler = cloakHandler;
-        EntityCardChrome.ApplyCard(this, 340);
-        Widgets.Add(EntityCardChrome.Header(item));
+        var card = EntityCardChrome.BeginInspect(this, item);
 
         _bonusLabel = new Label("small")
         {
             Text = _cloakHandler.GetBonusDisplayText(),
             TextColor = Color.DarkGoldenrod,
-            Wrap = true
+            Wrap = true,
+            MaxWidth = card.BodyWidth
         };
         Widgets.Add(_bonusLabel);
 
@@ -48,35 +48,16 @@ public sealed class CloakPanel : EntityPanelBase
 
     private void AddSlotAndCost(Item item)
     {
-        Widgets.Add(new HorizontalStackPanel
+        var chips = new List<(string Key, string Value, Color Color)>
         {
-            Spacing = 8,
-            Widgets =
-            {
-                new Label("small") { Text = "Slot:", TextColor = Color.Gray },
-                new Label("small")
-                {
-                    Text = item.ItemDef.EquipmentProperties?.SlotUsedToEquip?.ToString() ?? "Cloak",
-                    TextColor = ColorExt.HexToColor(TC.Blue.TrimStart('#'))
-                }
-            }
-        });
+            ("Slot", item.ItemDef.EquipmentProperties?.SlotUsedToEquip?.ToString() ?? "Cloak", EntityCardChrome.Info)
+        };
         if (item.ItemDef.GoldCost > 0)
         {
-            Widgets.Add(new HorizontalStackPanel
-            {
-                Spacing = 8,
-                Widgets =
-                {
-                    new Label("small") { Text = "Cost:", TextColor = Color.Gray },
-                    new Label("small")
-                    {
-                        Text = $"{item.ItemDef.GoldCost}g",
-                        TextColor = ColorExt.HexToColor(TC.Golden.TrimStart('#'))
-                    }
-                }
-            });
+            chips.Add(("Cost", $"{item.ItemDef.GoldCost}g", EntityCardChrome.Gold));
         }
+
+        Widgets.Add(EntityCardChrome.StatStrip(chips.ToArray()));
     }
 
     private void AddUpgradeChrome(Item item)
@@ -130,8 +111,7 @@ public sealed class CloakPanel : EntityPanelBase
 
     private void BuildPreviewLayout(Item item)
     {
-        EntityCardChrome.ApplyCard(this, 340);
-        Widgets.Add(EntityCardChrome.Header(item));
+        EntityCardChrome.BeginInspect(this, item);
         AddSlotAndCost(item);
     }
 

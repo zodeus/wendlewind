@@ -142,9 +142,9 @@ public static class BuildGenerator
             Archetype.Sage => BuyOne(Prefer(magic, pool.Weapons), wallet, rng),
             Archetype.Hexer => BuyOne(
                 Prefer(magic.Concat(melee.Where(IsUnique)).ToList(), melee), wallet, rng),
-            Archetype.Dualist => BuyPair(oneHand.Count >= 2 ? oneHand : pool.Weapons, wallet, rng),
+            Archetype.Dualist => BuyPair(oneHand.Count >= 2 ? oneHand : pool.Weapons, wallet, rng, preferEnchantOffhand: true),
             Archetype.Warden => BuyOne(Prefer(melee, pool.Weapons), wallet, rng),
-            Archetype.Skirmisher => BuyPair(oneHand.Count >= 2 ? oneHand : pool.Weapons, wallet, rng),
+            Archetype.Skirmisher => BuyPair(oneHand.Count >= 2 ? oneHand : pool.Weapons, wallet, rng, preferEnchantOffhand: true),
             _ => twoHand.Count > 0 && rng.NextDouble() < 0.35
                 ? BuyOne(twoHand, wallet, rng)
                 : BuyOne(Prefer(melee, pool.Weapons), wallet, rng)
@@ -176,10 +176,11 @@ public static class BuildGenerator
         }
 
         var rest = oneHand.Where(w => w.Moniker != already).ToList();
+        rest = Prefer(rest.Where(AcceptsWeaponEnchant), rest);
         return TryBuyAffordable(rest, wallet, rng)?.Moniker;
     }
 
-    private static string[] BuyPair(List<ItemDef> weapons, Wallet wallet, Random rng)
+    private static string[] BuyPair(List<ItemDef> weapons, Wallet wallet, Random rng, bool preferEnchantOffhand = false)
     {
         if (weapons.Count == 0)
         {
@@ -193,6 +194,11 @@ public static class BuildGenerator
         }
 
         var rest = weapons.Where(w => w != first).ToList();
+        if (preferEnchantOffhand && !AcceptsWeaponEnchant(first))
+        {
+            rest = Prefer(rest.Where(AcceptsWeaponEnchant), rest);
+        }
+
         var second = TryBuyAffordable(rest.Count > 0 ? rest : weapons, wallet, rng);
         return second == null ? [first.Moniker] : [first.Moniker, second.Moniker];
     }
@@ -354,7 +360,9 @@ public static class BuildGenerator
 
         var remaining = MaxEnchantments(stage);
         var sockets = new List<SocketedItemConfig>();
-        foreach (var moniker in weapons.Concat(armor).OrderBy(_ => rng.Next()))
+        foreach (var moniker in weapons.Concat(armor)
+                     .OrderByDescending(AcceptsWeaponEnchant)
+                     .ThenBy(_ => rng.Next()))
         {
             if (remaining <= 0)
             {
@@ -479,6 +487,12 @@ public static class BuildGenerator
 
     private static bool IsUnique(ItemDef def) =>
         def.Moniker is "BloodSuckler" or "StrangeWitheredTwig";
+
+    private static bool AcceptsWeaponEnchant(ItemDef def) =>
+        def.EquipmentProperties is { EquipmentType: EquipmentType.Weapon, MaxEnchantments: > 0 };
+
+    private static bool AcceptsWeaponEnchant(string moniker) =>
+        DefOf(moniker) is { } def && AcceptsWeaponEnchant(def);
 
     private static List<ItemDef> Prefer(IEnumerable<ItemDef> preferred, List<ItemDef> fallback)
     {

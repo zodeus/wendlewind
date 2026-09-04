@@ -8,7 +8,7 @@ public sealed class ChainLinkPanel : EntityPanelBase
 
     public ChainLinkPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
-        EntityCardChrome.ApplyCard(this, 420);
+        EntityCardChrome.ApplyCard(this, EntityCardChrome.InspectWidth);
 
         // Find all armor items that can be crafted with ChainLink
         var chainArmorRecipes = DefRepository<ItemDef>.Defs
@@ -30,10 +30,8 @@ public sealed class ChainLinkPanel : EntityPanelBase
         };
         countPanel.Widgets.Add(_chainLinkCountLabel);
 
-        Widgets.Add(EntityCardChrome.Header(item, extra: countPanel));
-
-        // Divider
-        Widgets.Add(new HorizontalSeparator { Margin = new Thickness(0, 4, 0, 8) });
+        Widgets.Add(EntityCardChrome.Header(item, extra: countPanel, flavorWidth: EntityCardChrome.FlavorWidth));
+        Widgets.Add(EntityCardChrome.Hairline());
 
         // ═══════════════════════════════════════════════════════════════════
         // Description

@@ -3,45 +3,47 @@ namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets;
 public sealed class PotionPanel : EntityPanelBase
 {
     private readonly Item _item;
-    private readonly Label _stackLabel;
+    private Label? _stackValue;
 
     public PotionPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
         _item = item;
-        EntityCardChrome.ApplyCard(this, 340);
+        var card = EntityCardChrome.BeginInspect(this, item, GetPotionTitleColor(item));
 
-        Widgets.Add(EntityCardChrome.Header(item, GetPotionTitleColor(item)));
+        var chips = new List<Widget>();
+        if (item.IsStackable)
+        {
+            chips.Add(EntityCardChrome.StatChip("Stack", $"x{item.StackSize}", EntityCardChrome.Gold, out _stackValue));
+        }
+
+        var potionDuration = (int)item.GetStatValue(Defs.Stats.PotionDuration);
+        if (potionDuration > 0)
+        {
+            chips.Add(EntityCardChrome.StatChip("Duration", $"{potionDuration} ticks", EntityCardChrome.Info, out _));
+        }
+
+        var potionPower = item.GetStatValue(Defs.Stats.PotionPower);
+        if (potionPower > 0 && potionPower != 1)
+        {
+            chips.Add(EntityCardChrome.StatChip("Power", $"{potionPower:0.##}x", EntityCardChrome.Effect, out _));
+        }
+
+        if (chips.Count > 0)
+        {
+            Widgets.Add(EntityCardChrome.StatStrip(chips));
+        }
 
         var effectDescription = GetEffectDescription(item);
         if (!string.IsNullOrEmpty(effectDescription))
         {
-            Widgets.Add(EntityCardChrome.SectionLabel("Effect"));
-            Widgets.Add(EntityCardChrome.BodyLabel(effectDescription, EntityCardChrome.Effect));
-        }
-
-        var statsPanel = CreateStatsPanel(item);
-        if (statsPanel != null)
-        {
-            Widgets.Add(statsPanel);
-        }
-
-        if (item.IsStackable && item.StackSize > 1)
-        {
-            _stackLabel = new Label("small")
-            {
-                Text = $"Quantity: /c[{TC.Golden}]{item.StackSize}"
-            };
-            Widgets.Add(_stackLabel);
-        }
-        else
-        {
-            _stackLabel = new Label("small") { Visible = false };
+            Widgets.Add(EntityCardChrome.SectionHeader("Effect"));
+            Widgets.Add(EntityCardChrome.BodyLabel(effectDescription, EntityCardChrome.Effect, card.BodyWidth));
         }
 
         var triggerText = item.PotionTrigger?.Describe();
         if (!string.IsNullOrWhiteSpace(triggerText))
         {
-            Widgets.Add(EntityCardChrome.BodyLabel(triggerText, EntityCardChrome.Effect));
+            Widgets.Add(EntityCardChrome.BodyLabel(triggerText, EntityCardChrome.Muted, card.BodyWidth));
         }
     }
 
@@ -50,7 +52,7 @@ public sealed class PotionPanel : EntityPanelBase
         || item.Def == Defs.Items.HealingFlask
         || item.Def == Defs.Items.HealingSalve;
 
-    private Color GetPotionTitleColor(Item item)
+    private static Color GetPotionTitleColor(Item item)
     {
         if (item.Def == Defs.Items.JarOfBlood)
             return new Color(180, 40, 40);
@@ -66,7 +68,7 @@ public sealed class PotionPanel : EntityPanelBase
         return BaseContent.Colors.Text.Golden;
     }
 
-    private string GetEffectDescription(Item item)
+    private static string GetEffectDescription(Item item)
     {
         if (item.PotionHandler != null)
         {
@@ -83,36 +85,16 @@ public sealed class PotionPanel : EntityPanelBase
         return "";
     }
 
-    private VerticalStackPanel? CreateStatsPanel(Item item)
-    {
-        var potionDuration = (int)item.GetStatValue(Defs.Stats.PotionDuration);
-        if (potionDuration <= 0) return null;
-
-        var statsPanel = new VerticalStackPanel { Spacing = 2 };
-        statsPanel.Widgets.Add(EntityCardChrome.SectionLabel("Stats"));
-        statsPanel.Widgets.Add(EntityCardChrome.StatRow("Duration", $"{potionDuration} ticks", new Color(100, 180, 255)));
-
-        var potionPower = item.GetStatValue(Defs.Stats.PotionPower);
-        if (potionPower > 0 && potionPower != 1)
-        {
-            statsPanel.Widgets.Add(EntityCardChrome.StatRow("Power", $"{potionPower:0.##}x", EntityCardChrome.Effect));
-        }
-
-        return statsPanel;
-    }
-
-    private void UpdateStackLabel()
-    {
-        if (_stackLabel.Visible || _item.StackSize > 1)
-        {
-            _stackLabel.Text = $"Quantity: /c[{TC.Golden}]{_item.StackSize}";
-            _stackLabel.Visible = _item.StackSize > 1;
-        }
-    }
-
     public override void Update()
     {
-        if (_item.IsDestroyed) return;
-        UpdateStackLabel();
+        if (_item.IsDestroyed)
+        {
+            return;
+        }
+
+        if (_stackValue != null)
+        {
+            _stackValue.Text = $"x{_item.StackSize}";
+        }
     }
 }

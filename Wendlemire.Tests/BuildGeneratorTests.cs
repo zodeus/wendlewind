@@ -2,6 +2,7 @@ using Wendlemire.Definitions;
 using Wendlemire.NetCode;
 using Wendlemire.Sim.Arena;
 using Wendlemire.Sim.Entities.Items;
+using Wendlemire.Sim.Entities.Items.Equipment;
 using Xunit;
 
 namespace Wendlemire.Tests;
@@ -119,6 +120,47 @@ public class BuildGeneratorTests
         {
             Assert.NotEmpty(build.Weapons);
         }
+    }
+
+    [Fact]
+    public void DualistAndSkirmisherCarryASocketedOffhandWhenTheyDualWield()
+    {
+        var dualWields = 0;
+        var socketed = 0;
+        for (var seed = 1; seed <= 16; seed++)
+        {
+            foreach (var stage in new[] { BuildStage.Mid, BuildStage.Late, BuildStage.End })
+            {
+                foreach (var archetype in new[]
+                         {
+                             BuildGenerator.Archetype.Dualist,
+                             BuildGenerator.Archetype.Skirmisher
+                         })
+                {
+                    var build = BuildGenerator.Generate(stage, archetype, 1, new Random(seed * 31 + (int)stage));
+                    if (build.Weapons.Length < 2)
+                    {
+                        continue;
+                    }
+
+                    dualWields++;
+                    if (build.Weapons.Any(w => AcceptsWeaponEnchant(w.ItemMoniker)))
+                    {
+                        socketed++;
+                    }
+                }
+            }
+        }
+
+        Assert.True(dualWields > 0, "Expected Dualist/Skirmisher dual-wield samples.");
+        Assert.True(socketed >= dualWields * 3 / 4,
+            $"Expected most dual-wield fighters to hold a dagger or wand for enchants, got {socketed}/{dualWields}.");
+    }
+
+    private static bool AcceptsWeaponEnchant(string moniker)
+    {
+        var def = DefRepository<ItemDef>.GetByMoniker(moniker, raiseError: false);
+        return def?.EquipmentProperties is { EquipmentType: EquipmentType.Weapon, MaxEnchantments: > 0 };
     }
 
     [Fact]

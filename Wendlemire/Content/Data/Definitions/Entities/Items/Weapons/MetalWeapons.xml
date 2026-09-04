@@ -4,7 +4,7 @@
     <ItemDef ParentName="WeaponSharp">
         <Moniker>IronDagger</Moniker>
         <Label>Iron Dagger</Label>
-        <Description>Very pointy</Description>
+        <Description>A fighter's only magic. Holds one enchantment — or sits beside a wand.</Description>
         <GoldCost>50</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
@@ -64,7 +64,6 @@
         <GoldCost>80</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
-            <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
         <WeaponProperties>
             <WeaponType>Sword</WeaponType>
@@ -96,7 +95,6 @@
         <GoldCost>95</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
-            <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
         <WeaponProperties>
             <WeaponType>Axe</WeaponType>
@@ -140,7 +138,6 @@
         <GoldCost>80</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
-            <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
         <WeaponProperties>
             <WeaponType>Hammer</WeaponType>
@@ -184,7 +181,6 @@
         <GoldCost>100</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
-            <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
         <WeaponProperties>
             <WeaponType>Mace</WeaponType>
@@ -240,7 +236,6 @@
         <GoldCost>70</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
-            <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
         <WeaponProperties>
             <WeaponType>Claw</WeaponType>
@@ -280,7 +275,6 @@
         <GoldCost>50</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
-            <MaxEnchantments>1</MaxEnchantments>
         </EquipmentProperties>
         <WeaponProperties>
             <WeaponType>Knuckles</WeaponType>

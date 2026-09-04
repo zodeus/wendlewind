@@ -8,18 +8,12 @@ public sealed class CloakenatorPanel : EntityPanelBase
 {
     public CloakenatorPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
-        EntityCardChrome.ApplyCard(this, 340);
-        Widgets.Add(EntityCardChrome.Header(item));
+        EntityCardChrome.BeginInspect(this, item);
 
         // Info section about available recipes
         var infoSection = new VerticalStackPanel { Spacing = 8 };
         
-        infoSection.Widgets.Add(new Label(BaseContent.Styles.Label.Medium)
-        {
-            Text = "Available Cloak Recipes",
-            TextColor = BaseContent.Colors.Text.Golden,
-            Margin = new Thickness(0, 8, 0, 4)
-        });
+        infoSection.Widgets.Add(EntityCardChrome.SectionHeader("Available cloak recipes"));
 
         // List available cloak recipes
         var cloakRecipes = DefRepository<ItemDef>.Defs

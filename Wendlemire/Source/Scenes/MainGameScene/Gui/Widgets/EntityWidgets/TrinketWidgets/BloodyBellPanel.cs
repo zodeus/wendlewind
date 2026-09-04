@@ -13,9 +13,8 @@ public sealed class BloodyBellPanel : EntityPanelBase
     public BloodyBellPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
         _handler = item.TrinketHandler as BloodyBellHandler;
-        EntityCardChrome.ApplyCard(this, 340);
-        Width = 380;
-        Widgets.Add(EntityCardChrome.Header(item, new Color(180, 80, 80)));
+        EntityCardChrome.BeginInspect(this, item, new Color(180, 80, 80));
+        Width = 440;
         
         // Blood drain section
         var drainSection = new Panel

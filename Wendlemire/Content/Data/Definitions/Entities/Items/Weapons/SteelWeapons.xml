@@ -9,7 +9,6 @@
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <OccupiesBothHands>true</OccupiesBothHands>
-            <MaxEnchantments>2</MaxEnchantments>
         </EquipmentProperties>
         <WeaponProperties>
             <WeaponType>Greatsword</WeaponType>
@@ -42,7 +41,6 @@
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <OccupiesBothHands>true</OccupiesBothHands>
-            <MaxEnchantments>2</MaxEnchantments>
         </EquipmentProperties>
         <WeaponProperties>
             <WeaponType>Maul</WeaponType>
@@ -87,7 +85,6 @@
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
             <OccupiesBothHands>true</OccupiesBothHands>
-            <MaxEnchantments>2</MaxEnchantments>
         </EquipmentProperties>
         <WeaponProperties>
             <WeaponType>Poleaxe</WeaponType>
@@ -127,11 +124,10 @@
     <ItemDef ParentName="WeaponSharp">
         <Moniker>SteelSword</Moniker>
         <Label>Steel Sword</Label>
-        <Description>A cleaner iron-sword sibling. Two sockets, still one-handed.</Description>
+        <Description>A cleaner iron-sword sibling. Heavier steel, still one-handed.</Description>
         <GoldCost>145</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
-            <MaxEnchantments>2</MaxEnchantments>
         </EquipmentProperties>
         <WeaponProperties>
             <WeaponType>Sword</WeaponType>
@@ -159,11 +155,10 @@
     <ItemDef ParentName="WeaponSharp">
         <Moniker>SteelAxe</Moniker>
         <Label>Steel Axe</Label>
-        <Description>An iron-axe upgrade. Two sockets, still one-handed.</Description>
+        <Description>An iron-axe upgrade. Heavier steel, still one-handed.</Description>
         <GoldCost>165</GoldCost>
         <EquipmentProperties>
             <SlotUsedToEquip>HandWeapon</SlotUsedToEquip>
-            <MaxEnchantments>2</MaxEnchantments>
         </EquipmentProperties>
         <WeaponProperties>
             <WeaponType>Axe</WeaponType>

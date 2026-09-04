@@ -373,7 +373,7 @@ internal sealed class CombatConsumableLoadout : Panel, IUpdatable
             {
                 Text = description,
                 Wrap = true,
-                MaxWidth = 280,
+                MaxWidth = 400,
                 TextColor = new Color(200, 200, 200)
             });
         }

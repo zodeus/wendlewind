@@ -7,7 +7,6 @@ public sealed class PotionsPanel : VerticalStackPanel, IUpdatable
     private readonly BaseGui _gui;
     private readonly Pawn _pawn;
     private readonly Grid _slots;
-    private readonly Label _countLabel;
     private readonly PrepItemGrid _inventory;
     private readonly List<PotionTriggerEditor> _editors = [];
     private string _signature = "";
@@ -26,11 +25,6 @@ public sealed class PotionsPanel : VerticalStackPanel, IUpdatable
         HorizontalAlignment = HorizontalAlignment.Stretch;
         VerticalAlignment = VerticalAlignment.Stretch;
 
-        _countLabel = new Label(BaseContent.Styles.Label.Small)
-        {
-            TextColor = new Color(160, 160, 160)
-        };
-
         _inventory = new PrepItemGrid(
             gui,
             pawn.Inventory,
@@ -43,7 +37,7 @@ public sealed class PotionsPanel : VerticalStackPanel, IUpdatable
                     : "Click to equip",
             IsEquippedDef,
             _ => EquippedCount() >= _pawn.PotionCapacity);
-        Widgets.Add(new PotionInventoryCard(_inventory, _countLabel));
+        Widgets.Add(new PotionInventoryCard(_inventory));
 
         _slots = new Grid
         {
@@ -145,10 +139,6 @@ public sealed class PotionsPanel : VerticalStackPanel, IUpdatable
 
         var equipped = _pawn.Equipment.Potions.ToList();
         var capacity = Math.Max(_pawn.PotionCapacity, 1);
-        var unused = Math.Max(0, capacity - equipped.Count);
-        _countLabel.Text = unused > 0
-            ? $"{equipped.Count}/{capacity} equipped — {unused} unused"
-            : $"{equipped.Count}/{capacity} equipped";
         for (var i = 0; i < PotionSlots.MaxSlots; i++)
         {
             var lockTooltip = SlotUnlockTooltip.ForSlot(PrepSlotKind.Potion, i + 1);
@@ -172,12 +162,11 @@ public sealed class PotionsPanel : VerticalStackPanel, IUpdatable
 
     private sealed class PotionInventoryCard : PrepCard
     {
-        public PotionInventoryCard(Widget inventory, Widget count) : base("Potions")
+        public PotionInventoryCard(Widget inventory) : base("Potions")
         {
             UseFixedBody();
             VerticalAlignment = VerticalAlignment.Top;
             Body.Widgets.Add(inventory);
-            Body.Widgets.Add(count);
         }
     }
 }
