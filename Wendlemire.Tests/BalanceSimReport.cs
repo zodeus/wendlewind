@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Wendlemire.NetCode;
 using Wendlemire.NetCode.Contracts;
+using Wendlemire.Sim.Arena;
 using Wendlemire.Sim.Combat;
 using Wendlemire.Sim.Entities.Items.Medicinals;
 using Wendlemire.Sim.Entities.Items.Potions;
@@ -25,13 +26,14 @@ namespace Wendlemire.Tests;
 ///   Mid    stew+dried, ShadeWood, MedKit+Balmy+Mist, Jar+Acid
 ///   Late   stew+honey, Dipped+Shade, Mix+Cauterize+Bone, Jar+Churni
 ///   Full   stew+honey+walnut, 3 incense, Mix+Cauterize+Serum+Bone, Jar+Acid
-/// Extra buckets: KIT (kit vs bare / burst vs sustain), FOOD, MED, INC, METAL, MAGIC, STEEL.
+/// Extra buckets: KIT, FOOD, MED, INC, METAL, MAGIC, STEEL, CLASS (gold-budgeted archetypes at R2/R5/R8/R12).
 /// Writes balance-report.txt at the repo root.
 /// Run: dotnet test --filter FullyQualifiedName~BalanceSimReport
 /// Matchups run in parallel (ProcessorCount workers). Each duel still uses its own sim scope.
 /// METAL-only: set BALANCE_BAND=METAL (PowerShell: $env:BALANCE_BAND='METAL')
 /// MAGIC-only: set BALANCE_BAND=MAGIC
 /// STEEL-only: set BALANCE_BAND=STEEL
+/// CLASS-only: set BALANCE_BAND=CLASS
 /// </summary>
 [Collection("Sim")]
 public class BalanceSimReport
@@ -615,7 +617,9 @@ public class BalanceSimReport
         return all.FindAll(m => m.Band.Equals(filter.Trim(), StringComparison.OrdinalIgnoreCase));
     }
 
-    private static List<Matchup> AllMatchups() =>
+    private static List<Matchup> AllMatchups()
+    {
+        List<Matchup> all =
     [
         // --- R1-3: unarmored / partial + primitive, first iron/enchant + Early kit ---
         EraMatch("R1-3", "Club vs Club (naked)", ClubNaked("A"), ClubNaked("B")),
@@ -823,7 +827,57 @@ public class BalanceSimReport
         Split("INC", "R12 full smoke vs Mullin (stacked)", ChainStackedBurn("A"), StickOnly(Stick("DippedMullinStick", 3), Stick("ShadeWood"), Stick("MullinStick")), ChainStackedBurn("B"), StickOnly(Stick("MullinStick"))),
         Split("INC", "R8 Dipped vs Shade+Mullin (plate)", SwordPlate("A"), StickOnly(Stick("DippedMullinStick", 3)), SwordPlate("B"), StickOnly(Stick("ShadeWood"), Stick("MullinStick"))),
         Split("INC", "R12 full smoke vs Mullin (plate stacked)", PlateStackedBurn("A"), StickOnly(Stick("DippedMullinStick", 3), Stick("ShadeWood"), Stick("MullinStick")), PlateStackedBurn("B"), StickOnly(Stick("MullinStick"))),
-    ];
+        ];
+        all.AddRange(ClassMatchups());
+        return all;
+    }
+
+    private static IEnumerable<Matchup> ClassMatchups()
+    {
+        var rounds = new (int Round, BuildStage Stage)[]
+        {
+            (2, BuildStage.Early),
+            (5, BuildStage.Mid),
+            (8, BuildStage.Late),
+            (12, BuildStage.End)
+        };
+        var archetypes = (BuildGenerator.Archetype[])Enum.GetValues(typeof(BuildGenerator.Archetype));
+        foreach (var (round, stage) in rounds)
+        {
+            var rng = new Random(unchecked(384710648 ^ (round * 7919)));
+            var pair = new Dictionary<BuildGenerator.Archetype, (BuildSnapshot A, BuildSnapshot B)>();
+            foreach (var archetype in archetypes)
+            {
+                var a = Tag(BuildGenerator.Generate(stage, archetype, 1, rng), "A");
+                var b = Tag(BuildGenerator.Generate(stage, archetype, 2, rng), "B");
+                pair[archetype] = (a, b);
+                yield return new Matchup(
+                    "CLASS",
+                    $"R{round} {archetype} vs {archetype} ({a.GoldSpent}/{b.GoldSpent}g)",
+                    a,
+                    b);
+            }
+
+            yield return ClassCross(round, "Warden vs Hexer", pair, BuildGenerator.Archetype.Warden, BuildGenerator.Archetype.Hexer);
+            yield return ClassCross(round, "Bruiser vs Sage", pair, BuildGenerator.Archetype.Bruiser, BuildGenerator.Archetype.Sage);
+            yield return ClassCross(round, "Dualist vs Skirmisher", pair, BuildGenerator.Archetype.Dualist, BuildGenerator.Archetype.Skirmisher);
+        }
+    }
+
+    private static Matchup ClassCross(
+        int round,
+        string name,
+        Dictionary<BuildGenerator.Archetype, (BuildSnapshot A, BuildSnapshot B)> pair,
+        BuildGenerator.Archetype left,
+        BuildGenerator.Archetype right)
+    {
+        var a = pair[left].A;
+        var b = pair[right].B;
+        return new Matchup("CLASS", $"R{round} {name} ({a.GoldSpent}/{b.GoldSpent}g)", a, b);
+    }
+
+    private static BuildSnapshot Tag(BuildSnapshot snapshot, string playerId) =>
+        snapshot with { PlayerId = playerId };
 
     [Fact]
     public void GenerateReport()
@@ -868,6 +922,7 @@ public class BalanceSimReport
 
         sb.AppendLine($"Seeds/matchup: {SeedCount}   Target: {TargetMinTicks / 60}-{TargetMaxTicks / 60}s @ 60tps");
         sb.AppendLine($"Knobs this pass: CombatBalance VitalHpScale={CombatBalance.VitalHpScale} LimbHpScale={CombatBalance.LimbHpScale} ArmorK={CombatBalance.ArmorK} WeightAttackSpeedFactor={CombatBalance.WeightAttackSpeedFactor} ArmoredDot={CombatBalance.ArmoredDotChanceFactor}/{CombatBalance.ArmoredDotPowerFactor} (ElvishLeaf diminishing, on-hit stacks free)");
+        AppendEconomyHeader(sb);
         sb.AppendLine("Sever dump: currentBlood * (subtree BloodAmount / body BloodAmount) on Severe()");
         sb.AppendLine();
         AppendHumanBloodShares(sb);
@@ -928,6 +983,7 @@ public class BalanceSimReport
 
         sb.AppendLine($"Seeds/matchup: {SeedCount}   Target: {TargetMinTicks / 60}-{TargetMaxTicks / 60}s @ 60tps");
         sb.AppendLine($"Knobs this pass: CombatBalance VitalHpScale={CombatBalance.VitalHpScale} LimbHpScale={CombatBalance.LimbHpScale} ArmorK={CombatBalance.ArmorK} WeightAttackSpeedFactor={CombatBalance.WeightAttackSpeedFactor} ArmoredDot={CombatBalance.ArmoredDotChanceFactor}/{CombatBalance.ArmoredDotPowerFactor} (ElvishLeaf diminishing, on-hit stacks free)");
+        AppendEconomyHeader(sb);
         sb.AppendLine("Sever dump: currentBlood * (subtree BloodAmount / body BloodAmount) on Severe()");
         sb.AppendLine();
         AppendHumanBloodShares(sb);
@@ -1170,6 +1226,14 @@ public class BalanceSimReport
             CapPct: 100.0 * cap / SeedCount,
             TopCause: top.Key,
             TopCauseCount: top.Value);
+    }
+
+    private static void AppendEconomyHeader(StringBuilder sb)
+    {
+        sb.AppendLine(
+            $"Economy: start={ArenaRun.StartingGold} win={ArenaRun.WinGold} lose={ArenaRun.LoseGold}  " +
+            $"budget R2={ArenaEconomy.BuildBudget(2)} R5={ArenaEconomy.BuildBudget(5)} " +
+            $"R8={ArenaEconomy.BuildBudget(8)} R12={ArenaEconomy.BuildBudget(12)}");
     }
 
     private static void AppendHumanBloodShares(StringBuilder sb)

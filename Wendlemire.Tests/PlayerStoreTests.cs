@@ -168,6 +168,63 @@ public class PlayerStoreTests
     }
 
     [Fact]
+    public void ArchiveAllRunsMovesArenaDataAndKeepsPlayers()
+    {
+        var dir = Path.Combine(Path.GetTempPath(), $"ww-data-{Guid.NewGuid():N}");
+        try
+        {
+            var store = new PlayerStore(dir);
+            store.GetOrCreateProfile("bob", "Bob", "bob");
+            var started = store.StartArena("alice", "Alice", 1);
+            store.SaveCurrentArena(started with { Wins = 7, Losses = 5, Gold = 180 });
+            store.AppendFight("alice", new ArenaFightRecord
+            {
+                MatchId = "archive-fight",
+                Round = 1,
+                Attacker = BuildTemplates.TankRegen() with { PlayerId = "alice" },
+                Defender = BuildTemplates.AcidRusher() with { PlayerId = "bob" },
+                EncounterSeed = 1,
+                WinnerPlayerId = "alice",
+                Ticks = 1800,
+                FoughtAt = DateTimeOffset.UtcNow
+            });
+            store.FinishCurrent("alice", victory: false);
+            var marks = store.GetProfile("alice")!.Marks;
+            Assert.True(store.GetProfile("alice")!.RatedRuns > 0);
+            Assert.NotEmpty(store.ListAllRuns());
+
+            var archived = store.ArchiveAllRuns();
+            Assert.Equal(1, archived.Players);
+            Assert.Equal(1, archived.Runs);
+            Assert.Equal(0, archived.ActiveArenas);
+            Assert.False(string.IsNullOrWhiteSpace(archived.ArchiveFolder));
+            Assert.True(Directory.Exists(archived.ArchiveFolder));
+            Assert.True(File.Exists(Path.Combine(archived.ArchiveFolder!, "alice", "arena-runs", started.RunId, "match.json")));
+
+            Assert.Empty(store.ListAllRuns());
+            Assert.Null(store.GetCurrentArena("alice"));
+            Assert.NotNull(store.GetProfile("alice"));
+            Assert.NotNull(store.GetProfile("bob"));
+            Assert.Equal(marks, store.GetProfile("alice")!.Marks);
+            Assert.Equal(ArenaRank.StartingRating, store.GetProfile("alice")!.Rating);
+            Assert.Equal(0, store.GetProfile("alice")!.RatedRuns);
+            Assert.Equal(2, store.ListPlayers().Count);
+
+            var empty = store.ArchiveAllRuns();
+            Assert.Equal(0, empty.Players);
+            Assert.Equal(0, empty.Runs);
+            Assert.Null(empty.ArchiveFolder);
+        }
+        finally
+        {
+            if (Directory.Exists(dir))
+            {
+                Directory.Delete(dir, true);
+            }
+        }
+    }
+
+    [Fact]
     public void RestartingUnfinishedRunKeepsRootSeedAndOpeningShop()
     {
         var dir = Path.Combine(Path.GetTempPath(), $"ww-data-{Guid.NewGuid():N}");

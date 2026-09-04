@@ -203,7 +203,7 @@ public static class BuildCatalog
 
     private static string? ArmorPrefix(string moniker)
     {
-        foreach (var prefix in new[] { "WitchDoctor", "Chain", "Leather", "Cloth" })
+        foreach (var prefix in new[] { "WitchDoctor", "Plate", "Chain", "Leather", "Cloth" })
         {
             if (moniker.StartsWith(prefix, StringComparison.Ordinal))
             {

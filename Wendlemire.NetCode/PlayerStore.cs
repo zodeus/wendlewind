@@ -10,11 +10,13 @@ namespace Wendlemire.NetCode;
 
 public sealed class PlayerStore
 {
+    private readonly string _dataDirectory;
     private readonly string _playersDir;
     private readonly object _gate = new();
 
     public PlayerStore(string dataDirectory)
     {
+        _dataDirectory = dataDirectory;
         _playersDir = Path.Combine(dataDirectory, "players");
         Directory.CreateDirectory(_playersDir);
     }
@@ -274,6 +276,59 @@ public sealed class PlayerStore
 
             Directory.Delete(dir, true);
             return true;
+        }
+    }
+
+    public ArchiveRunsResult ArchiveAllRuns()
+    {
+        lock (_gate)
+        {
+            var players = 0;
+            var runs = 0;
+            var active = 0;
+            string? archiveRoot = null;
+
+            foreach (var playerId in ListPlayerIdsUnlocked())
+            {
+                var runCount = ListRunsUnlocked(playerId).Count;
+                var currentPath = CurrentArenaPath(playerId);
+                var runsDir = RunsDir(playerId);
+                var hasCurrent = File.Exists(currentPath);
+                var hasRuns = Directory.Exists(runsDir) && Directory.EnumerateFileSystemEntries(runsDir).Any();
+                if (!hasCurrent && !hasRuns)
+                {
+                    ResetRatedProgressUnlocked(playerId);
+                    continue;
+                }
+
+                archiveRoot ??= NewArchiveRootUnlocked();
+                var destDir = Path.Combine(archiveRoot, Sanitize(playerId));
+                Directory.CreateDirectory(destDir);
+
+                if (hasCurrent)
+                {
+                    File.Move(currentPath, Path.Combine(destDir, "arena-current.json"));
+                    active++;
+                }
+
+                if (hasRuns)
+                {
+                    Directory.Move(runsDir, Path.Combine(destDir, "arena-runs"));
+                    Directory.CreateDirectory(runsDir);
+                    runs += runCount;
+                }
+
+                ResetRatedProgressUnlocked(playerId);
+                players++;
+            }
+
+            return new ArchiveRunsResult
+            {
+                Players = players,
+                Runs = runs,
+                ActiveArenas = active,
+                ArchiveFolder = archiveRoot
+            };
         }
     }
 
@@ -705,6 +760,48 @@ public sealed class PlayerStore
         }
 
         return marks;
+    }
+
+    private void ResetRatedProgressUnlocked(string playerId)
+    {
+        var profile = TryRead(ProfilePath(playerId), NetCodeJsonContext.Default.PlayerProfileRecord);
+        if (profile == null)
+        {
+            return;
+        }
+
+        if (profile.RatedRuns == 0
+            && profile.Rating == ArenaRank.StartingRating
+            && profile.PeakRating == ArenaRank.StartingRating
+            && profile.LegendNumber == null)
+        {
+            return;
+        }
+
+        Write(
+            ProfilePath(playerId),
+            profile with
+            {
+                Rating = ArenaRank.StartingRating,
+                RatedRuns = 0,
+                PeakRating = ArenaRank.StartingRating,
+                LegendNumber = null,
+                UpdatedAt = DateTimeOffset.UtcNow
+            },
+            NetCodeJsonContext.Default.PlayerProfileRecord);
+    }
+
+    private string NewArchiveRootUnlocked()
+    {
+        var stamp = DateTimeOffset.UtcNow.ToString("yyyyMMdd-HHmmss'Z'");
+        var root = Path.Combine(_dataDirectory, "archive", $"runs-{stamp}");
+        if (Directory.Exists(root))
+        {
+            root += "-" + Guid.NewGuid().ToString("N")[..6];
+        }
+
+        Directory.CreateDirectory(root);
+        return root;
     }
 
     private void AddMarksUnlocked(string playerId, int amount)

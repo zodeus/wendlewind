@@ -39,13 +39,16 @@ public static class BuildGenerator
 
     public static BuildSnapshot Generate(BuildStage stage, Archetype archetype, int index, Random rng)
     {
+        var round = stage.TargetRound();
+        var wallet = new Wallet(ArenaEconomy.BuildBudget(round));
+        var kitReserve = KitReserve(stage);
         var pool = StagePool.For(stage);
-        var weapons = PickWeapons(pool, archetype, rng);
-        var armor = PickArmor(pool, archetype, rng);
-        var cloak = PickCloak(pool, archetype, rng);
-        var kit = StageKit.For(stage, archetype, pool, rng);
-        var trinkets = PickTrinkets(pool, stage, rng);
-        var sockets = Enchant(weapons, armor, pool, rng);
+        var weapons = BuyWeapons(pool, archetype, wallet, rng);
+        var armor = BuyArmor(pool, archetype, wallet, kitReserve, rng);
+        var sockets = BuyEnchantments(weapons, armor, pool, wallet, kitReserve, stage, rng);
+        var kit = StageKit.For(stage, archetype, pool, wallet, rng);
+        var cloak = BuyCloak(pool, wallet, rng);
+        var trinkets = BuyTrinkets(pool, stage, wallet, rng);
 
         var items = new List<string>();
         items.AddRange(weapons);
@@ -59,7 +62,7 @@ public static class BuildGenerator
         items.AddRange(trinkets);
 
         var name = NameOf(archetype, weapons, armor);
-        var snapshot = new BuildSnapshot
+        return new BuildSnapshot
         {
             PlayerId = "generated",
             BuildId = $"{BuildCatalog.GeneratedPrefix}{stage}/{archetype}/{index:00}",
@@ -76,57 +79,125 @@ public static class BuildGenerator
             Meal = kit.Meal,
             Incense = kit.Incense,
             MedicalChest = kit.Medical,
-            Round = stage.TargetRound()
+            Round = round,
+            GoldSpent = wallet.Spent
         };
-
-        return BuildTemplates.WithStackableStash(snapshot);
     }
 
-    private static string[] PickWeapons(StagePool pool, Archetype archetype, Random rng)
+    public static int ComputeGoldSpent(BuildSnapshot snapshot)
+    {
+        var spent = 0;
+        var counted = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var moniker in snapshot.EntityDefMonikers
+                     .Concat(snapshot.Weapons.Select(w => w.ItemMoniker))
+                     .Concat(snapshot.Potions.Select(p => p.ItemMoniker))
+                     .Concat(snapshot.Meal.Length > 0 ? snapshot.Meal : snapshot.FoodBuffs)
+                     .Concat(snapshot.MedicalChest.Select(m => m.ItemMoniker))
+                     .Concat(snapshot.Incense.Select(i => i.ItemMoniker)))
+        {
+            if (!counted.Add(moniker))
+            {
+                continue;
+            }
+
+            spent += CostOf(moniker);
+        }
+
+        foreach (var socket in snapshot.Sockets)
+        {
+            foreach (var enchant in socket.EnchantmentMonikers)
+            {
+                spent += CostOf(enchant);
+            }
+        }
+
+        return spent;
+    }
+
+    private static int KitReserve(BuildStage stage) => stage switch
+    {
+        BuildStage.Early => 70,
+        BuildStage.Mid => 120,
+        BuildStage.Late => 160,
+        _ => 200
+    };
+
+    private static int MaxEnchantments(BuildStage stage) => stage switch
+    {
+        BuildStage.Early => 1,
+        BuildStage.Mid => 3,
+        BuildStage.Late => 4,
+        _ => 5
+    };
+
+    private static string[] BuyWeapons(StagePool pool, Archetype archetype, Wallet wallet, Random rng)
     {
         var oneHand = pool.Weapons.Where(w => w.EquipmentProperties?.OccupiesBothHands != true).ToList();
         var twoHand = pool.Weapons.Where(w => w.EquipmentProperties?.OccupiesBothHands == true).ToList();
         var magic = pool.Weapons.Where(IsMagic).ToList();
         var melee = pool.Weapons.Where(w => !IsMagic(w)).ToList();
 
-        return archetype switch
+        var chosen = archetype switch
         {
-            Archetype.Sage => [Pick(Prefer(magic, pool.Weapons), rng).Moniker],
-            Archetype.Hexer => [Pick(Prefer(magic.Concat(melee.Where(w => IsUnique(w))).ToList(), melee), rng).Moniker,
-                ..MaybeOffhand(oneHand, rng)],
-            Archetype.Dualist => PickPair(oneHand.Count >= 2 ? oneHand : pool.Weapons, rng),
-            Archetype.Warden => [Pick(Prefer(melee, pool.Weapons), rng).Moniker],
-            Archetype.Skirmisher => PickPair(oneHand.Count >= 2 ? oneHand : pool.Weapons, rng),
+            Archetype.Sage => BuyOne(Prefer(magic, pool.Weapons), wallet, rng),
+            Archetype.Hexer => BuyOne(
+                Prefer(magic.Concat(melee.Where(IsUnique)).ToList(), melee), wallet, rng),
+            Archetype.Dualist => BuyPair(oneHand.Count >= 2 ? oneHand : pool.Weapons, wallet, rng),
+            Archetype.Warden => BuyOne(Prefer(melee, pool.Weapons), wallet, rng),
+            Archetype.Skirmisher => BuyPair(oneHand.Count >= 2 ? oneHand : pool.Weapons, wallet, rng),
             _ => twoHand.Count > 0 && rng.NextDouble() < 0.35
-                ? [Pick(twoHand, rng).Moniker]
-                : [Pick(Prefer(melee, pool.Weapons), rng).Moniker]
+                ? BuyOne(twoHand, wallet, rng)
+                : BuyOne(Prefer(melee, pool.Weapons), wallet, rng)
         };
+
+        if (archetype == Archetype.Hexer && chosen.Length == 1)
+        {
+            var offhand = BuyOffhand(oneHand, chosen[0], wallet, rng);
+            if (offhand != null)
+            {
+                return [chosen[0], offhand];
+            }
+        }
+
+        return chosen;
     }
 
-    private static string[] MaybeOffhand(List<ItemDef> oneHand, Random rng)
+    private static string[] BuyOne(List<ItemDef> weapons, Wallet wallet, Random rng)
+    {
+        var bought = TryBuyAffordable(weapons, wallet, rng);
+        return bought == null ? [] : [bought.Moniker];
+    }
+
+    private static string? BuyOffhand(List<ItemDef> oneHand, string already, Wallet wallet, Random rng)
     {
         if (oneHand.Count < 2 || rng.NextDouble() < 0.45)
         {
-            return [];
+            return null;
         }
 
-        return [Pick(oneHand, rng).Moniker];
+        var rest = oneHand.Where(w => w.Moniker != already).ToList();
+        return TryBuyAffordable(rest, wallet, rng)?.Moniker;
     }
 
-    private static string[] PickPair(List<ItemDef> weapons, Random rng)
+    private static string[] BuyPair(List<ItemDef> weapons, Wallet wallet, Random rng)
     {
         if (weapons.Count == 0)
         {
             return [];
         }
 
-        var first = Pick(weapons, rng);
+        var first = TryBuyAffordable(weapons, wallet, rng);
+        if (first == null)
+        {
+            return [];
+        }
+
         var rest = weapons.Where(w => w != first).ToList();
-        var second = rest.Count > 0 ? Pick(rest, rng) : first;
-        return [first.Moniker, second.Moniker];
+        var second = TryBuyAffordable(rest.Count > 0 ? rest : weapons, wallet, rng);
+        return second == null ? [first.Moniker] : [first.Moniker, second.Moniker];
     }
 
-    private static string[] PickArmor(StagePool pool, Archetype archetype, Random rng)
+    private static string[] BuyArmor(StagePool pool, Archetype archetype, Wallet wallet, int kitReserve, Random rng)
     {
         if (pool.ArmorSets.Count == 0)
         {
@@ -142,7 +213,11 @@ public static class BuildGenerator
         };
 
         var set = Pick(preferred.Count > 0 ? preferred : pool.ArmorSets, rng);
-        var pieces = set.Pieces.ToList();
+        var pieces = BuyArmorPieces(set, wallet, kitReserve);
+        if (pieces.Count == 0)
+        {
+            return [];
+        }
 
         if (pool.Uniques.Count > 0 && (archetype is Archetype.Hexer or Archetype.Warden) && rng.NextDouble() < 0.7)
         {
@@ -154,9 +229,22 @@ public static class BuildGenerator
                     continue;
                 }
 
-                pieces.RemoveAll(p =>
+                var replaced = pieces.Find(p =>
                     DefRepository<ItemDef>.GetByMoniker(p, raiseError: false)
                         ?.EquipmentProperties?.SlotUsedToEquip == slot);
+                if (replaced == null || !wallet.CanAfford(unique, kitReserve))
+                {
+                    continue;
+                }
+
+                wallet.Refund(CostOf(replaced));
+                if (!wallet.TryBuy(unique, kitReserve))
+                {
+                    wallet.TryBuy(DefOf(replaced), 0);
+                    continue;
+                }
+
+                pieces.Remove(replaced);
                 pieces.Add(unique.Moniker);
             }
         }
@@ -164,17 +252,68 @@ public static class BuildGenerator
         return pieces.ToArray();
     }
 
-    private static string? PickCloak(StagePool pool, Archetype _, Random rng)
+    private static List<string> BuyArmorPieces(ArmorSet set, Wallet wallet, int kitReserve)
+    {
+        var defs = set.Pieces
+            .Select(DefOf)
+            .Where(d => d != null)
+            .Cast<ItemDef>()
+            .ToList();
+        if (defs.Count == 0)
+        {
+            return [];
+        }
+
+        var setCost = ShopCatalog.ComputeSetCost(defs);
+        if (wallet.CanAfford(setCost, kitReserve))
+        {
+            wallet.Spend(setCost);
+            return set.Pieces.ToList();
+        }
+
+        var bought = new List<string>();
+        foreach (var def in PrioritizeArmor(defs))
+        {
+            if (wallet.TryBuy(def, kitReserve))
+            {
+                bought.Add(def.Moniker);
+            }
+        }
+
+        return bought;
+    }
+
+    private static IEnumerable<ItemDef> PrioritizeArmor(IReadOnlyList<ItemDef> pieces)
+    {
+        static int Rank(ItemDef def)
+        {
+            return def.EquipmentProperties?.SlotUsedToEquip switch
+            {
+                EquipmentSlotType.TorsoArmor => 0,
+                EquipmentSlotType.HeadArmor => 1,
+                EquipmentSlotType.NeckArmor => 2,
+                EquipmentSlotType.LegArmor => 3,
+                EquipmentSlotType.ArmArmor => 4,
+                EquipmentSlotType.HandArmor => 5,
+                EquipmentSlotType.FootArmor => 6,
+                _ => 7
+            };
+        }
+
+        return pieces.OrderBy(Rank);
+    }
+
+    private static string? BuyCloak(StagePool pool, Wallet wallet, Random rng)
     {
         if (pool.Cloaks.Count == 0)
         {
             return null;
         }
 
-        return Pick(pool.Cloaks, rng).Moniker;
+        return TryBuyAffordable(pool.Cloaks, wallet, rng)?.Moniker;
     }
 
-    private static string[] PickTrinkets(StagePool pool, BuildStage stage, Random rng)
+    private static string[] BuyTrinkets(StagePool pool, BuildStage stage, Wallet wallet, Random rng)
     {
         if (pool.Trinkets.Count == 0 || stage == BuildStage.Early)
         {
@@ -182,17 +321,30 @@ public static class BuildGenerator
         }
 
         var count = stage == BuildStage.Mid ? 1 : rng.Next(1, 3);
-        return pool.Trinkets
-            .OrderBy(_ => rng.Next())
-            .Take(Math.Min(count, pool.Trinkets.Count))
-            .Select(t => t.Moniker)
-            .ToArray();
+        var bought = new List<string>();
+        foreach (var def in pool.Trinkets.OrderBy(_ => rng.Next()))
+        {
+            if (bought.Count >= count)
+            {
+                break;
+            }
+
+            if (wallet.TryBuy(def))
+            {
+                bought.Add(def.Moniker);
+            }
+        }
+
+        return bought.ToArray();
     }
 
-    private static SocketedItemConfig[] Enchant(
+    private static SocketedItemConfig[] BuyEnchantments(
         string[] weapons,
         string[] armor,
         StagePool pool,
+        Wallet wallet,
+        int kitReserve,
+        BuildStage stage,
         Random rng)
     {
         if (pool.Enchantments.Count == 0)
@@ -200,17 +352,23 @@ public static class BuildGenerator
             return [];
         }
 
+        var remaining = MaxEnchantments(stage);
         var sockets = new List<SocketedItemConfig>();
-        foreach (var moniker in weapons.Concat(armor))
+        foreach (var moniker in weapons.Concat(armor).OrderBy(_ => rng.Next()))
         {
-            var def = DefRepository<ItemDef>.GetByMoniker(moniker, raiseError: false);
+            if (remaining <= 0)
+            {
+                break;
+            }
+
+            var def = DefOf(moniker);
             var slots = def?.EquipmentProperties?.MaxEnchantments ?? 0;
-            if (slots <= 0)
+            if (def == null || slots <= 0)
             {
                 continue;
             }
 
-            var type = def!.EquipmentProperties!.EquipmentType;
+            var type = def.EquipmentProperties!.EquipmentType;
             var valid = pool.Enchantments
                 .Where(e => e.EnchantmentProperties?.ValidEquipmentTypes.Contains(type) != false)
                 .ToList();
@@ -220,16 +378,26 @@ public static class BuildGenerator
             }
 
             var picked = new List<string>();
-            for (var i = 0; i < slots; i++)
+            for (var i = 0; i < slots && remaining > 0; i++)
             {
-                picked.Add(Pick(valid, rng).Moniker);
+                var enchant = TryBuyAffordable(valid, wallet, rng, kitReserve);
+                if (enchant == null)
+                {
+                    break;
+                }
+
+                picked.Add(enchant.Moniker);
+                remaining--;
             }
 
-            sockets.Add(new SocketedItemConfig
+            if (picked.Count > 0)
             {
-                ItemMoniker = moniker,
-                EnchantmentMonikers = picked.ToArray()
-            });
+                sockets.Add(new SocketedItemConfig
+                {
+                    ItemMoniker = moniker,
+                    EnchantmentMonikers = picked.ToArray()
+                });
+            }
         }
 
         return sockets.ToArray();
@@ -279,6 +447,11 @@ public static class BuildGenerator
             return "Witch";
         }
 
+        if (armor.Any(a => a.StartsWith("Plate", StringComparison.Ordinal)))
+        {
+            return "Plate";
+        }
+
         if (armor.Any(a => a.StartsWith("Chain", StringComparison.Ordinal)))
         {
             return "Chain";
@@ -323,8 +496,74 @@ public static class BuildGenerator
         return items[rng.Next(items.Count)];
     }
 
+    private static ItemDef? TryBuyAffordable(
+        IReadOnlyList<ItemDef> items,
+        Wallet wallet,
+        Random rng,
+        int reserve = 0)
+    {
+        var affordable = items.Where(d => wallet.CanAfford(d, reserve)).ToList();
+        if (affordable.Count == 0)
+        {
+            return null;
+        }
+
+        var pick = Pick(affordable, rng);
+        return wallet.TryBuy(pick, reserve) ? pick : null;
+    }
+
+    private static ItemDef? DefOf(string moniker) =>
+        DefRepository<ItemDef>.GetByMoniker(moniker, raiseError: false);
+
+    private static int CostOf(string moniker) => DefOf(moniker)?.GoldCost ?? 0;
+
     private static int Hash(int seed, int salt) =>
         unchecked((seed * 397) ^ (salt * 7919));
+
+    private sealed class Wallet
+    {
+        public int Remaining { get; private set; }
+        public int Spent { get; private set; }
+
+        public Wallet(int budget) => Remaining = Math.Max(0, budget);
+
+        public bool CanAfford(int cost, int reserve = 0) =>
+            cost <= 0 || Remaining - reserve >= cost;
+
+        public bool CanAfford(ItemDef def, int reserve = 0) =>
+            CanAfford(Math.Max(0, def.GoldCost), reserve);
+
+        public bool TryBuy(ItemDef? def, int reserve = 0)
+        {
+            if (def == null)
+            {
+                return false;
+            }
+
+            var cost = Math.Max(0, def.GoldCost);
+            if (!CanAfford(cost, reserve))
+            {
+                return false;
+            }
+
+            Spend(cost);
+            return true;
+        }
+
+        public void Spend(int cost)
+        {
+            cost = Math.Max(0, cost);
+            Remaining -= cost;
+            Spent += cost;
+        }
+
+        public void Refund(int cost)
+        {
+            cost = Math.Max(0, cost);
+            Remaining += cost;
+            Spent = Math.Max(0, Spent - cost);
+        }
+    }
 
     private sealed record ArmorSet(string Label, string[] Pieces, bool IsHeavy, bool IsMystic);
 
@@ -497,8 +736,10 @@ public static class BuildGenerator
             {
                 BuildStage.Early => moniker.StartsWith("Cloth") || moniker.StartsWith("Leather"),
                 BuildStage.Mid => moniker.StartsWith("Leather") || moniker.StartsWith("Chain"),
-                BuildStage.Late => moniker.StartsWith("Chain") || moniker.StartsWith("WitchDoctor"),
-                _ => moniker.StartsWith("WitchDoctor") || moniker.StartsWith("Chain") || moniker.StartsWith("Leather")
+                BuildStage.Late => moniker.StartsWith("Chain") || moniker.StartsWith("WitchDoctor")
+                    || moniker.StartsWith("Plate"),
+                _ => moniker.StartsWith("WitchDoctor") || moniker.StartsWith("Chain")
+                    || moniker.StartsWith("Leather") || moniker.StartsWith("Plate")
             };
         }
 
@@ -530,8 +771,8 @@ public static class BuildGenerator
         {
             BuildStage.Early => ["Cloth", "Leather"],
             BuildStage.Mid => ["Leather", "Chain"],
-            BuildStage.Late => ["Chain", "WitchDoctor"],
-            _ => ["WitchDoctor", "Chain"]
+            BuildStage.Late => ["Chain", "WitchDoctor", "Plate"],
+            _ => ["WitchDoctor", "Chain", "Plate"]
         };
 
         private static string[] SynthesizeSet(string prefix)
@@ -562,7 +803,8 @@ public static class BuildGenerator
         private static ArmorSet ToArmorSet(string label, IReadOnlyList<ItemDef> pieces)
         {
             var monikers = pieces.Select(p => p.Moniker).ToArray();
-            var isHeavy = monikers.Any(m => m.StartsWith("Chain") || m.StartsWith("WitchDoctor"));
+            var isHeavy = monikers.Any(m =>
+                m.StartsWith("Chain") || m.StartsWith("WitchDoctor") || m.StartsWith("Plate"));
             var isMystic = monikers.Any(m => m.StartsWith("WitchDoctor") || m.StartsWith("Cloth"));
             return new ArmorSet(label, ExpandPairs(monikers), isHeavy, isMystic);
         }
@@ -596,112 +838,52 @@ public static class BuildGenerator
         MedicalChestConfig[] Medical,
         IncenseConfig[] Incense)
     {
-        public static StageKit For(BuildStage stage, Archetype archetype, StagePool pool, Random rng)
-        {
-            var kit = stage switch
-            {
-                BuildStage.Early => new StageKit(
-                    Food(["CookedMeat", "CookedFish"], pool),
-                    [Blood("JarOfBlood", 0.25f), Immediately("StrengthPotion")],
-                    [
-                        Med("Suture", 3, MedicalTriggerType.PartBelowHealth, 0.6f),
-                        Med("MedKit", 2, MedicalTriggerType.PartBelowHealth),
-                        Med("Bandage", 3, MedicalTriggerType.PartBelowHealth, 0.7f),
-                        Med("BalmyOintment", 2, MedicalTriggerType.BurningOrAcid)
-                    ],
-                    [Stick("MullinStick")]),
-                BuildStage.Mid => new StageKit(
-                    Food(["HeartyStew", "DriedMeat", "CookedCorn"], pool),
-                    [
-                        Blood("JarOfBlood", 0.2f),
-                        Seconds(PreferPotion(pool, archetype, "AcidFlask"), 5),
-                        Immediately("StrengthPotion")
-                    ],
-                    [
-                        Med("MedKit", 3, MedicalTriggerType.PartBelowHealth),
-                        Med("Suture", 2, MedicalTriggerType.PartBelowHealth, 0.6f),
-                        Med("BalmyOintment", 2, MedicalTriggerType.BurningOrAcid),
-                        Med("MendersMist", 2, MedicalTriggerType.PartBelowHealth),
-                        Med("Antidote", 1, MedicalTriggerType.HasPoison),
-                        Med("ClotPack", 2, MedicalTriggerType.SelfBloodBelow)
-                    ],
-                    [Stick("ShadeWood"), Stick("MullinStick")]),
-                BuildStage.Late => new StageKit(
-                    Food(["HeartyStew", "HoneyPot", "DriedMeat"], pool),
-                    archetype is Archetype.Hexer or Archetype.Sage
-                        ? [Seconds(PreferPotion(pool, archetype, "PussBomb"), 3), Seconds("BlackenedSmoke", 6), Blood("JarOfBlood", 0.2f)]
-                        : [Blood("JarOfBlood", 0.2f), Parts("HealingPotion", 0.4f, 0.55f), Immediately("StrengthPotion")],
-                    [
-                        Med("MendersMix", 2, MedicalTriggerType.PartBelowHealth, 0.4f),
-                        Med("MedKit", 2, MedicalTriggerType.PartBelowHealth),
-                        Med("Cauterize", 1, MedicalTriggerType.PartSevered, selector: MedicalTargetSelector.SeveredOrUnsealedSocket),
-                        Med("BoneCleanse", 1, MedicalTriggerType.PartBelowHealth),
-                        Med("BalmyOintment", 2, MedicalTriggerType.BurningOrAcid),
-                        Med("MendersMist", 2, MedicalTriggerType.PartBelowHealth),
-                        Med("Antidote", 1, MedicalTriggerType.HasPoison),
-                        Med("ClotPack", 2, MedicalTriggerType.SelfBloodBelow)
-                    ],
-                    [Stick("DippedMullinStick", 3), Stick("ShadeWood"), Stick("MullinStick")]),
-                _ => new StageKit(
-                    Food(["HeartyStew", "Walnut", "HoneyPot", "WondrousJam"], pool),
-                    archetype is Archetype.Hexer or Archetype.Sage
-                        ? [Seconds("AcidFlask", 4), Seconds("PussBomb", 7), Seconds("BlackenedSmoke", 3), Blood("JarOfBlood", 0.15f)]
-                        : [Blood("JarOfBlood", 0.15f), Parts("HealingPotion", 0.35f, 0.55f), Seconds("AcidFlask", 5), Immediately("StrengthPotion")],
-                    [
-                        Med("MendersMix", 3, MedicalTriggerType.PartBelowHealth, 0.4f),
-                        Med("Cauterize", 1, MedicalTriggerType.PartSevered, selector: MedicalTargetSelector.SeveredOrUnsealedSocket),
-                        Med("AntiNecroticSerum", 2, MedicalTriggerType.HasNecrosis),
-                        Med("BoneCleanse", 1, MedicalTriggerType.PartBelowHealth),
-                        Med("BalmyOintment", 2, MedicalTriggerType.BurningOrAcid),
-                        Med("MendersMist", 2, MedicalTriggerType.PartBelowHealth),
-                        Med("Antidote", 1, MedicalTriggerType.HasPoison),
-                        Med("ClotPack", 2, MedicalTriggerType.SelfBloodBelow)
-                    ],
-                    [Stick("DippedMullinStick", 3), Stick("WitchWood"), Stick("MullinStick")])
-            };
-
-            return PadKit(kit, stage, archetype, pool, rng);
-        }
-
-        private static StageKit PadKit(StageKit kit, BuildStage stage, Archetype archetype, StagePool pool, Random rng)
+        public static StageKit For(BuildStage stage, Archetype archetype, StagePool pool, Wallet wallet, Random rng)
         {
             var caps = PrepSlotUnlocks.ForRound(stage.TargetRound());
-            var food = kit.Meal.ToList();
-            Pad(food, caps.Food, pool.Food.Select(d => d.Moniker), rng);
-            if (food.Count == 0)
+            var food = new List<string>();
+            foreach (var moniker in FoodPriority(stage, pool))
             {
-                food.AddRange(new[] { "CookedMeat", "CookedFish" }.Where(Exists));
+                if (food.Count >= caps.Food)
+                {
+                    break;
+                }
+
+                if (TryBuyMoniker(wallet, moniker))
+                {
+                    food.Add(moniker);
+                }
             }
 
-            var potions = kit.Potions.ToList();
-            foreach (var moniker in PotionFill(archetype, pool, rng))
+            var potions = new List<PotionConfig>();
+            foreach (var moniker in PotionFill(archetype, stage))
             {
                 if (potions.Count >= caps.Potion)
                 {
                     break;
                 }
 
-                if (potions.All(p => p.ItemMoniker != moniker) && Exists(moniker))
+                if (potions.All(p => p.ItemMoniker != moniker) && TryBuyMoniker(wallet, moniker))
                 {
                     potions.Add(DefaultPotion(moniker, potions.Count));
                 }
             }
 
-            var incense = kit.Incense.ToList();
-            foreach (var moniker in pool.Incense.Select(d => d.Moniker).OrderBy(_ => rng.Next()))
+            var incense = new List<IncenseConfig>();
+            foreach (var moniker in IncensePriority(stage, pool, rng))
             {
                 if (incense.Count >= caps.Incense)
                 {
                     break;
                 }
 
-                if (incense.All(i => i.ItemMoniker != moniker))
+                if (incense.All(i => i.ItemMoniker != moniker) && TryBuyMoniker(wallet, moniker))
                 {
                     incense.Add(Stick(moniker));
                 }
             }
 
-            var medical = kit.Medical.ToList();
+            var medical = new List<MedicalChestConfig>();
             foreach (var moniker in MedicalFill(pool, rng))
             {
                 if (medical.Count >= Math.Min(caps.Medical, 8))
@@ -709,7 +891,7 @@ public static class BuildGenerator
                     break;
                 }
 
-                if (medical.All(m => m.ItemMoniker != moniker) && Exists(moniker))
+                if (medical.All(m => m.ItemMoniker != moniker) && TryBuyMoniker(wallet, moniker))
                 {
                     medical.Add(DefaultMedical(moniker));
                 }
@@ -718,28 +900,50 @@ public static class BuildGenerator
             return new StageKit(food.ToArray(), potions.ToArray(), medical.ToArray(), incense.ToArray());
         }
 
-        private static void Pad(List<string> dest, int cap, IEnumerable<string> extras, Random rng)
+        private static bool TryBuyMoniker(Wallet wallet, string moniker)
         {
-            foreach (var moniker in extras.OrderBy(_ => rng.Next()))
-            {
-                if (dest.Count >= cap)
-                {
-                    return;
-                }
-
-                if (!dest.Contains(moniker) && Exists(moniker))
-                {
-                    dest.Add(moniker);
-                }
-            }
+            var def = DefRepository<ItemDef>.GetByMoniker(moniker, raiseError: false);
+            return def != null && wallet.TryBuy(def);
         }
 
-        private static IEnumerable<string> PotionFill(Archetype archetype, StagePool pool, Random rng)
+        private static IEnumerable<string> FoodPriority(BuildStage stage, StagePool pool)
         {
-            var preferred = archetype is Archetype.Hexer or Archetype.Sage
-                ? new[] { "PussBomb", "BlackenedSmoke", "AcidFlask", "JarOfBlood", "HealingPotion" }
-                : new[] { "JarOfBlood", "HealingPotion", "StrengthPotion", "AcidFlask", "HealingFlask" };
-            return preferred.Concat(pool.Potions.Select(p => p.Moniker).OrderBy(_ => rng.Next()));
+            var preferred = stage switch
+            {
+                BuildStage.Early => new[] { "CookedMeat", "CookedFish" },
+                BuildStage.Mid => new[] { "HeartyStew", "DriedMeat", "CookedCorn" },
+                BuildStage.Late => new[] { "HeartyStew", "HoneyPot", "DriedMeat" },
+                _ => new[] { "HeartyStew", "Walnut", "HoneyPot", "WondrousJam" }
+            };
+            return preferred.Concat(pool.Food.Select(d => d.Moniker));
+        }
+
+        private static IEnumerable<string> IncensePriority(BuildStage stage, StagePool pool, Random rng)
+        {
+            var preferred = stage switch
+            {
+                BuildStage.Early => new[] { "MullinStick" },
+                BuildStage.Mid => new[] { "ShadeWood", "MullinStick" },
+                BuildStage.Late => new[] { "DippedMullinStick", "ShadeWood", "MullinStick" },
+                _ => new[] { "DippedMullinStick", "WitchWood", "MullinStick" }
+            };
+            return preferred.Concat(pool.Incense.Select(d => d.Moniker).OrderBy(_ => rng.Next()));
+        }
+
+        private static IEnumerable<string> PotionFill(Archetype archetype, BuildStage stage)
+        {
+            var preferred = (archetype, stage) switch
+            {
+                (Archetype.Hexer or Archetype.Sage, BuildStage.Early) =>
+                    new[] { "JarOfBlood", "HealingPotion" },
+                (Archetype.Hexer or Archetype.Sage, _) =>
+                    new[] { "JarOfBlood", "AcidFlask", "HealingPotion" },
+                (_, BuildStage.Early) =>
+                    new[] { "JarOfBlood", "StrengthPotion" },
+                _ =>
+                    new[] { "JarOfBlood", "HealingPotion", "StrengthPotion" }
+            };
+            return preferred;
         }
 
         private static IEnumerable<string> MedicalFill(StagePool pool, Random rng)
@@ -777,34 +981,6 @@ public static class BuildGenerator
             "MendersMix" or "MendersMist" => Med(moniker, 2, MedicalTriggerType.PartBelowHealth, 0.4f),
             _ => Med(moniker, 2, MedicalTriggerType.PartBelowHealth)
         };
-
-        private static bool Exists(string moniker) =>
-            DefRepository<ItemDef>.GetByMoniker(moniker, raiseError: false) != null;
-
-        private static string[] Food(string[] preferred, StagePool pool)
-        {
-            var available = preferred
-                .Where(m => pool.Food.Any(f => f.Moniker == m)
-                            || DefRepository<ItemDef>.GetByMoniker(m, raiseError: false) != null)
-                .ToArray();
-            return available.Length > 0 ? available : preferred;
-        }
-
-        private static string PreferPotion(StagePool pool, Archetype archetype, string fallback)
-        {
-            if (archetype is Archetype.Hexer or Archetype.Sage)
-            {
-                foreach (var moniker in new[] { "PussBomb", "BlackenedSmoke", "AcidFlask" })
-                {
-                    if (pool.Potions.Any(p => p.Moniker == moniker))
-                    {
-                        return moniker;
-                    }
-                }
-            }
-
-            return fallback;
-        }
 
         private static PotionConfig Immediately(string moniker) => new()
         {

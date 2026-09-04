@@ -11,7 +11,7 @@
         <Label>Cauterize</Label>
         <StackLimit>1</StackLimit>
         <Description>Cauterizes a severed limb (unsealed socket).</Description>
-        <GoldCost>150</GoldCost>
+        <GoldCost>110</GoldCost>
         <TexturePath>Entities/Item/Medical/Cauterize</TexturePath>
         <MedicinalProperties>
             <InfiniteUse>true</InfiniteUse>
@@ -376,7 +376,7 @@
         <Label>Strengthen Bones</Label>
         <Description>A fortifying bone elixir. Permanently increases skeletal density and fully restores bone integrity.</Description>
         <StackLimit>1</StackLimit>
-        <GoldCost>200</GoldCost>
+        <GoldCost>140</GoldCost>
         <TexturePath>Entities/Item/Medical/StrengthenBones</TexturePath>
         <MedicinalProperties>
             <HandlerClass>StrengthenBonesHandler</HandlerClass>
@@ -428,7 +428,7 @@
         <Label>Cyberveins</Label>
         <Description>Synthetic arterial grafts. When installed, triples the durability of every artery.</Description>
         <StackLimit>1</StackLimit>
-        <GoldCost>250</GoldCost>
+        <GoldCost>160</GoldCost>
         <TexturePath>Entities/Item/Medical/Cyberveins</TexturePath>
         <MedicinalProperties>
             <HandlerClass>CyberveinsHandler</HandlerClass>

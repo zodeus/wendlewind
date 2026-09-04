@@ -23,7 +23,7 @@ public class ArenaRunTests
     }
 
     [Fact]
-    public void StartsWithThreeHundredGold()
+    public void StartsWithStartingGold()
     {
         using var scope = CreateArena();
         var context = scope.Context;
@@ -435,7 +435,7 @@ public class ArenaRunTests
     }
 
     [Fact]
-    public void TrySellPaysOneTenthAndRemovesItem()
+    public void TrySellPaysSellPriceAndRemovesItem()
     {
         using var scope = CreateArena();
         var context = scope.Context;
@@ -447,7 +447,7 @@ public class ArenaRunTests
         var goldBeforeSell = context.ArenaRun.Gold;
 
         Assert.True(context.ArenaRun.TrySell(context, item));
-        Assert.Equal(goldBeforeSell + offer.ResolveGoldCost() / 10, context.ArenaRun.Gold);
+        Assert.Equal(goldBeforeSell + ShopCatalog.GetSellPrice(offer.ItemDef!), context.ArenaRun.Gold);
         Assert.False(context.PlayerPawn.Inventory.Contains(offer.ItemDef!));
     }
 
@@ -935,6 +935,32 @@ public class ArenaRunTests
     }
 
     [Fact]
+    public void BuildPoolClearRemovesEveryBuild()
+    {
+        var path = Path.Combine(Path.GetTempPath(), $"wendlemire-pool-{Guid.NewGuid():N}.json");
+        try
+        {
+            var pool = new BuildPool(path);
+            pool.Upsert(BuildTemplates.TankRegen() with { PlayerId = "alice", Round = 1 });
+            pool.Upsert(BuildTemplates.AcidRusher() with { PlayerId = "bob", Round = 2 });
+            Assert.Equal(2, pool.Clear());
+            Assert.Equal(0, pool.Count);
+            Assert.Empty(pool.Snapshot().Builds);
+            Assert.Null(pool.PickOpponent(1));
+
+            var reloaded = new BuildPool(path);
+            Assert.Equal(0, reloaded.Count);
+        }
+        finally
+        {
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
+    }
+
+    [Fact]
     public void MealAndIncenseRemainAfterSnapshotRestore()
     {
         using var scope = CreateArena();
@@ -1363,7 +1389,7 @@ public class ArenaRunTests
         var item = context.PlayerPawn.Inventory.First(i => i.ItemDef == offer.ItemDef);
         Assert.True(context.ArenaRun.TrySell(context, item));
         Assert.False(context.ArenaRun.TryBuy(context, offer));
-        Assert.Equal(goldAfterFirst + offer.ResolveGoldCost() / 10, context.ArenaRun.Gold);
+        Assert.Equal(goldAfterFirst + ShopCatalog.GetSellPrice(offer.ItemDef!), context.ArenaRun.Gold);
         Assert.Equal(0, context.PlayerPawn.Inventory.AmountOf(offer.ItemDef!));
     }
 

@@ -2,9 +2,9 @@ namespace Wendlemire.Sim.Arena;
 
 public class ArenaRun : IExposable
 {
-    public const int StartingGold = 200;
-    public const int WinGold = 200;
-    public const int LoseGold = 150;
+    public const int StartingGold = 350;
+    public const int WinGold = 300;
+    public const int LoseGold = 220;
     public const int WinsToFinish = 12;
     public const int LossesToFinish = 5;
 

@@ -17,6 +17,7 @@ public sealed record BuildSnapshot
     public string? NamePlateMoniker { get; init; }
     public DateTimeOffset? SubmittedAt { get; init; }
     public int Round { get; init; }
+    public int GoldSpent { get; init; }
     public int Rating { get; init; }
     public string? StanceMoniker { get; init; }
     public WeaponConfig[] Weapons { get; init; } = [];
@@ -175,6 +176,7 @@ public sealed record CombatResult
 [JsonSerializable(typeof(AdminRunRow))]
 [JsonSerializable(typeof(List<AdminRunRow>))]
 [JsonSerializable(typeof(AdminPoolState))]
+[JsonSerializable(typeof(ArchiveRunsResult))]
 [JsonSerializable(typeof(ActivationCodeRecord))]
 [JsonSerializable(typeof(List<ActivationCodeRecord>))]
 [JsonSerializable(typeof(ActivationCodeFile))]

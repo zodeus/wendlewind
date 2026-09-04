@@ -102,6 +102,12 @@ public static class AdminEndpoints
 
         api.MapGet("/runs", () => Results.Ok(players.ListAllRunRows()));
 
+        api.MapPost("/runs/archive", () =>
+        {
+            var archived = players.ArchiveAllRuns();
+            return Results.Ok(archived with { PoolBuilds = pool.Clear() });
+        });
+
         api.MapGet("/runs/{playerId}/{runId}", (string playerId, string runId) =>
         {
             var run = players.GetRun(playerId, runId);

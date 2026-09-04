@@ -314,6 +314,17 @@
       text-transform: uppercase;
     }
 
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-head h3 { margin: 0; }
+
     .empty { color: var(--dust); padding: 1.5rem 0; }
 
     .id { font-size: 0.78rem; color: var(--dust); word-break: break-all; }
@@ -371,6 +382,49 @@
       letter-spacing: 0.1em;
       text-transform: uppercase;
       margin-bottom: 0.3rem;
+    }
+
+    dialog.confirm-dialog {
+      max-width: 24rem;
+      width: calc(100% - 2rem);
+      padding: 8px;
+      border: none;
+      background: var(--iron);
+      color: var(--bone);
+      box-shadow:
+        0 0 0 1px #0a0604,
+        0 18px 40px rgba(0, 0, 0, 0.7),
+        inset 0 0 0 1px #6a3a28;
+    }
+
+    dialog.confirm-dialog::backdrop {
+      background: rgba(7, 5, 4, 0.78);
+    }
+
+    .confirm-dialog-inner {
+      background: var(--ash);
+      padding: 1.35rem 1.4rem 1.45rem;
+    }
+
+    .confirm-dialog h2 {
+      margin: 0 0 0.35rem;
+      font-family: Cinzel, serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .confirm-dialog p {
+      margin: 0 0 1.15rem;
+      color: var(--dust);
+    }
+
+    .confirm-dialog-actions {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: flex-start;
+      gap: 0.5rem;
     }
   </style>
 </head>
@@ -598,11 +652,47 @@
       });
     }
 
+    function confirmDialog({ title, message, confirmLabel = "OK", cancelLabel = "Cancel" }) {
+      return new Promise((resolve) => {
+        const dialog = document.createElement("dialog");
+        dialog.className = "confirm-dialog";
+        dialog.setAttribute("aria-labelledby", "confirm-dialog-title");
+        dialog.innerHTML = `
+          <form method="dialog" class="confirm-dialog-inner">
+            <h2 id="confirm-dialog-title">${esc(title)}</h2>
+            <p>${esc(message)}</p>
+            <div class="confirm-dialog-actions">
+              <button type="submit" value="ok" class="danger" autofocus>${esc(confirmLabel)}</button>
+              <button type="submit" value="cancel">${esc(cancelLabel)}</button>
+            </div>
+          </form>
+        `;
+
+        dialog.addEventListener("keydown", (event) => {
+          if (event.key !== "Enter") return;
+          event.preventDefault();
+          event.stopPropagation();
+          if (dialog.open) dialog.close("ok");
+        }, true);
+
+        dialog.addEventListener("close", () => {
+          dialog.remove();
+          resolve(dialog.returnValue === "ok");
+        });
+
+        document.body.appendChild(dialog);
+        dialog.showModal();
+      });
+    }
+
     async function deletePlayer(playerId, displayName) {
       const label = displayName || playerId;
-      if (!confirm("Delete " + label + " and all their arena data? This cannot be undone.")) {
-        return;
-      }
+      const ok = await confirmDialog({
+        title: "Delete player",
+        message: "Delete " + label + " and all their arena data? This cannot be undone.",
+        confirmLabel: "Delete"
+      });
+      if (!ok) return;
 
       try {
         await api("/players/" + encodeURIComponent(playerId), { method: "DELETE" });
@@ -625,6 +715,37 @@
           event.stopPropagation();
           deletePlayer(el.getAttribute("data-delete"), el.getAttribute("data-name"));
         });
+      });
+    }
+
+    async function archiveAllRuns() {
+      const ok = await confirmDialog({
+        title: "Archive all runs",
+        message: "Move every arena run, active arena, fight, and pool build out of live data? Player accounts, marks, and cosmetics stay. Ratings reset. Anyone in a run will need to start over.",
+        confirmLabel: "Archive all"
+      });
+      if (!ok) return;
+
+      try {
+        await api("/runs/archive", { method: "POST", body: "{}" });
+        state.cache = {};
+        if (state.route.parts[0] === "runs" && state.route.parts[1]) {
+          location.hash = "#/runs";
+          return;
+        }
+        render();
+        await load();
+      } catch (error) {
+        paint(() => `<p class="error">${esc(error.message)}</p>`);
+      }
+    }
+
+    function bindArchive() {
+      const button = document.getElementById("archive-runs");
+      if (!button) return;
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        archiveAllRuns();
       });
     }
 
@@ -719,7 +840,10 @@
           ${card("In band", summary.inTargetBandPercent == null ? "—" : summary.inTargetBandPercent.toFixed(0) + "%")}
         </div>
         <div class="section">
-          <h3>Now playing</h3>
+          <div class="section-head">
+            <h3>Now playing</h3>
+            <button type="button" class="danger small" id="archive-runs">Archive all runs</button>
+          </div>
           ${active.length === 0 ? `<p class="empty">No active arena runs.</p>` : playerTable(active)}
         </div>
       `;
@@ -857,7 +981,14 @@
 
     function runsView(rows) {
       if (!rows) return `<p class="muted">Loading…</p>`;
-      return searchBox("Search runs") + runTable(rows);
+      return `
+        <div class="toolbar">
+          <input type="search" id="search" placeholder="Search runs" value="${esc(state.search)}">
+          <span class="spacer"></span>
+          <button type="button" class="danger" id="archive-runs">Archive all runs</button>
+        </div>
+        ${runTable(rows)}
+      `;
     }
 
     function buildList(snapshot) {
@@ -1279,9 +1410,12 @@
     }
 
     async function revokeCode(id) {
-      if (!confirm("Revoke this code? Unused copies will stop working, and any download session from it will end.")) {
-        return;
-      }
+      const ok = await confirmDialog({
+        title: "Revoke code",
+        message: "Revoke this code? Unused copies will stop working, and any download session from it will end.",
+        confirmLabel: "Revoke"
+      });
+      if (!ok) return;
       try {
         await api("/codes/" + encodeURIComponent(id) + "/revoke", { method: "POST", body: "{}" });
         if (state.cache.createdCodes) {
@@ -1298,9 +1432,12 @@
     }
 
     async function deleteCode(id) {
-      if (!confirm("Delete this revoked code? This cannot be undone.")) {
-        return;
-      }
+      const ok = await confirmDialog({
+        title: "Delete code",
+        message: "Delete this revoked code? This cannot be undone.",
+        confirmLabel: "Delete"
+      });
+      if (!ok) return;
       try {
         await api("/codes/" + encodeURIComponent(id), { method: "DELETE" });
         if (state.cache.createdCodes) {
@@ -1387,6 +1524,7 @@
       bindSort();
       bindClicks();
       bindDeletes();
+      bindArchive();
       bindSearch();
       bindCodes();
       bindVerify();

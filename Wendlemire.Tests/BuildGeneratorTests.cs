@@ -1,6 +1,6 @@
 using Wendlemire.Definitions;
 using Wendlemire.NetCode;
-using Wendlemire.NetCode.Contracts;
+using Wendlemire.Sim.Arena;
 using Wendlemire.Sim.Entities.Items;
 using Xunit;
 
@@ -85,15 +85,39 @@ public class BuildGeneratorTests
     }
 
     [Fact]
-    public void GeneratedBuildsInstallFullKits()
+    public void GeneratedBuildsStayWithinGoldBudget()
     {
         foreach (var build in BuildGenerator.GenerateSet(8))
         {
-            Assert.NotEmpty(build.Potions);
-            Assert.NotEmpty(build.MedicalChest);
-            Assert.NotEmpty(build.Incense);
-            Assert.NotEmpty(build.Meal);
-            Assert.True(build.MedicalChest.Length >= 3, build.BuildId);
+            var budget = ArenaEconomy.BuildBudget(build.Round);
+            Assert.True(build.GoldSpent <= budget, $"{build.BuildId} spent {build.GoldSpent} over budget {budget}");
+            Assert.True(build.GoldSpent > 0, build.BuildId);
+            Assert.Empty(build.Inventory);
+        }
+    }
+
+    [Fact]
+    public void LateWardenCanWearPlate()
+    {
+        var found = false;
+        for (var seed = 1; seed <= 40 && !found; seed++)
+        {
+            var late = BuildGenerator.GenerateSet(seed)
+                .Where(b => BuildCatalog.StageOf(b) == BuildStage.Late);
+            found = late.Any(b =>
+                b.BuildId.Contains("/Warden/", StringComparison.Ordinal)
+                && b.EntityDefMonikers.Any(m => m.StartsWith("Plate", StringComparison.Ordinal)));
+        }
+
+        Assert.True(found, "Expected at least one Late Warden with plate in 40 seeds.");
+    }
+
+    [Fact]
+    public void GeneratedBuildsBuyClassWeapons()
+    {
+        foreach (var build in BuildGenerator.GenerateSet(8))
+        {
+            Assert.NotEmpty(build.Weapons);
         }
     }
 

@@ -91,6 +91,21 @@ public sealed class BuildPool
         }
     }
 
+    public int Clear()
+    {
+        lock (_gate)
+        {
+            var removed = _rounds.Values.Sum(list => list.Count);
+            _rounds.Clear();
+            if (removed > 0 || !string.IsNullOrEmpty(_path))
+            {
+                PersistUnlocked();
+            }
+
+            return removed;
+        }
+    }
+
     public BuildSnapshot? Get(string playerId)
     {
         lock (_gate)

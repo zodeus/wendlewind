@@ -1,6 +1,7 @@
 === Wendlemire Human-vs-Human Balance (12-win curve) ===
 Seeds/matchup: 24   Target: 15-25s @ 60tps
 Knobs this pass: CombatBalance VitalHpScale=0.85 LimbHpScale=0.78 ArmorK=140 WeightAttackSpeedFactor=0.006 ArmoredDot=0.65/0.7 (ElvishLeaf diminishing, on-hit stacks free)
+Economy: start=350 win=300 lose=220  budget R2=552 R5=1317 R8=2082 R12=3102
 Sever dump: currentBlood * (subtree BloodAmount / body BloodAmount) on Severe()
 
 --- Human blood shares if severed (subtree / body @ full pool) ---
@@ -177,6 +178,43 @@ INC     R12 full smoke vs Mullin (stacked)               29.6   33.7   7.6  52.8
 INC     R8 Dipped vs Shade+Mullin (plate)                30.8   33.0  15.8  48.9     33     58       4      96      42     100    100  46.6       4     0  Torso was destroyed (Heart failed) (15)
 INC     R12 full smoke vs Mullin (plate stacked)         35.5   35.6  18.9  50.3     25     67       0     100      58     100    100  53.7       4     0  Torso was destroyed (Heart failed) (15)
 
+CLASS   R2 Bruiser vs Bruiser (550/548g)                 24.3   27.0  16.5  38.4     54     71       0     100      38      92    100  53.9       0     0  Torso was destroyed (Heart failed) (16)
+CLASS   R2 Dualist vs Dualist (550/548g)                 16.2   17.8  10.3  27.5     54     50       0      96      54      99    100  67.2       0     0  Torso was destroyed (Heart failed) (15)
+CLASS   R2 Warden vs Warden (463/550g)                   25.8   27.5  17.9  37.4     42     63       0     100      46      96    100  37.8       0     0  Torso was destroyed (Heart failed) (22)
+CLASS   R2 Skirmisher vs Skirmisher (550/548g)           14.4   15.2  11.2  24.2     25     17       0      71      46      98    100  52.7       0     0  Torso was destroyed (Heart failed) (15)
+CLASS   R2 Hexer vs Hexer (550/548g)                     13.9   14.5   6.3  19.4     25     83       0      92      58      99    100  91.1       0     0  Torso was destroyed (Heart failed) (16)
+CLASS   R2 Sage vs Sage (550/550g)                        9.7   10.6   7.0  14.7      8     63       0      58      46     100    100  72.1       0     0  Torso was destroyed (Heart failed) (11)
+CLASS   R2 Warden vs Hexer (463/548g)                    27.5   28.7  17.6  52.1     38     17       0     100      71      93    100  35.0       0     0  Torso was destroyed (Heart failed) (18)
+CLASS   R2 Bruiser vs Sage (550/550g)                    14.5   15.2  10.1  21.6     46     33       0      88      50      95    100  42.5       0     0  Torso was destroyed (Heart failed) (15)
+CLASS   R2 Dualist vs Skirmisher (550/548g)              16.7   20.5  12.3  36.8     63     38       4      79      54     100    100  49.5       0     0  Torso was destroyed (Heart failed) (13)
+CLASS   R5 Bruiser vs Bruiser (1310/1315g)               17.9   17.3  10.5  24.7     54     46       0     100      50     100    131 101.6       0     0  Torso was destroyed (Heart failed) (12)
+CLASS   R5 Dualist vs Dualist (1295/1280g)               22.4   21.7  12.7  31.5     63     83       0     100      50     138    100 121.2       0     0  Torso was destroyed (Heart failed) (12)
+CLASS   R5 Warden vs Warden (1315/1315g)                 22.5   24.3  15.4  39.9     58     54       0     100      46     109    100  84.0       0     0  Torso was destroyed (Heart failed) (14)
+CLASS   R5 Skirmisher vs Skirmisher (1290/1275g)         18.5   19.0  11.5  28.8     54     50       0     100      38     102    124  94.9       0     0  Torso was destroyed (Heart failed) (13)
+CLASS   R5 Hexer vs Hexer (1305/1315g)                   28.2   28.3  20.1  33.3     42     58       0     100      58     113    100  71.5       0     0  Torso was destroyed (Heart failed) (18)
+CLASS   R5 Sage vs Sage (1300/1260g)                     27.9   30.0  16.5  45.2     33     50       0     100      50     100    100  71.7       0     0  Torso was destroyed (Heart failed) (15)
+CLASS   R5 Warden vs Hexer (1315/1315g)                  28.4   29.5  18.2  42.4     29     71       0     100      46     100    100  66.6       0     0  Torso was destroyed (Heart failed) (19)
+CLASS   R5 Bruiser vs Sage (1310/1260g)                  22.3   22.7   8.5  31.2     54     50       0     100      58     100    103  88.3       0     0  Torso was destroyed (Heart failed) (13)
+CLASS   R5 Dualist vs Skirmisher (1295/1275g)            18.5   18.5  11.9  27.6     33     46       0      96      46     100    100 106.6       0     0  Torso was destroyed (Heart failed) (10)
+CLASS   R8 Bruiser vs Bruiser (2034/1645g)               13.3   14.7   9.2  21.2     38      4       0     100      46     100    141  44.6       0     0  Torso was destroyed (Heart failed) (14)
+CLASS   R8 Dualist vs Dualist (1708/1838g)               19.7   21.5  12.0  33.1     54     71       0     100      63     113    100 111.0       0     0  Torso was destroyed (Heart failed) (15)
+CLASS   R8 Warden vs Warden (2014/1910g)                 39.0   41.0  21.2  62.9     17     33       0     100      38     100    126  38.7       4     0  Torso was destroyed (Heart failed) (18)
+CLASS   R8 Skirmisher vs Skirmisher (1994/1753g)         15.7   14.9   7.1  23.5     46     46       0     100      54     100    100 113.4       0     0  Torso was destroyed (Heart failed) (10)
+CLASS   R8 Hexer vs Hexer (1933/1928g)                   24.9   25.5  18.5  37.5     50     58       0      83      42     115    100  48.9       0     0  Torso was destroyed (Heart failed) (14)
+CLASS   R8 Sage vs Sage (1953/1918g)                     57.2   57.1  33.6  83.7      0    100       8       0       0      51     68   0.0      13     0  Left Lung failure from Rot Lung (22)
+CLASS   R8 Warden vs Hexer (2014/1928g)                  24.9   28.7  19.5  33.6     54      4       0      71      42     100    140  33.5       0     0  Torso was destroyed (Heart failed) (12)
+CLASS   R8 Bruiser vs Sage (2034/1918g)                  40.2   45.4  26.7  68.9      4     58       0      71      42     111     88  55.5       0     0  Torso was destroyed (Heart failed) (15)
+CLASS   R8 Dualist vs Skirmisher (1708/1753g)            15.3   14.6   4.9  26.7     38     38       0     100      63     100    140 126.5       0     0  Torso was destroyed (Heart failed) (12)
+CLASS   R12 Bruiser vs Bruiser (2498/2045g)               8.3    7.7   2.9  12.4      0      4       0     100      33     100    146 122.2       0     0  Torso was destroyed (Heart failed) (9)
+CLASS   R12 Dualist vs Dualist (1900/2010g)              13.4   13.2   7.0  17.6     21    100       0      71      46     121    100  89.3       0     0  Torso was destroyed (Heart failed) (8)
+CLASS   R12 Warden vs Warden (2431/1943g)                15.2   15.8   9.5  21.1     58      0       0     100      50     100    144  52.4       0     0  Torso was destroyed (Heart failed) (14)
+CLASS   R12 Skirmisher vs Skirmisher (2035/1800g)        14.8   14.7  10.4  20.3     42     96       0      96      29     140    100 172.9       0     0  Torso was destroyed (Heart failed) (12)
+CLASS   R12 Hexer vs Hexer (2035/1980g)                  12.0   11.3   5.3  15.2     13    100       0     100      38     144    100 216.4       0     0  Torso was destroyed (Heart failed) (19)
+CLASS   R12 Sage vs Sage (2195/2130g)                    12.3   11.7   5.3  17.0     25     92       0      96      67     142    100 235.1       0     0  Torso was destroyed (Heart failed) (13)
+CLASS   R12 Warden vs Hexer (2431/1980g)                 32.6   39.2  22.2  62.8     25     58       0      63      58     135     82  73.3       0     0  Torso was destroyed (Heart failed) (11)
+CLASS   R12 Bruiser vs Sage (2498/2130g)                 12.9   15.5   9.6  21.4     33     83       0      96      50     139    100 163.0       0     0  Torso was destroyed (Heart failed) (12)
+CLASS   R12 Dualist vs Skirmisher (1900/1800g)           12.0   12.6   8.6  17.6     33    100       0      67      29     122    100  91.3       0     0  Head was destroyed (Brain failed) (8)
+
 --- Blood & severs ---
 Band    Matchup                                         bleed%  sever%  b|sev  b|no  loseB%  winB% sev->s  inst%
 ----------------------------------------------------------------------------------------------------------------------------------
@@ -342,6 +380,43 @@ INC     R12 full smoke vs Mullin (stacked)                   4      46      9   
 INC     R8 Dipped vs Shade+Mullin (plate)                    4      42     10     0     100    100   14.2      0
 INC     R12 full smoke vs Mullin (plate stacked)             0      58      0     0     100    100   17.5      0
 
+CLASS   R2 Bruiser vs Bruiser (550/548g)                     0      38      0     0      92    100   18.9      0
+CLASS   R2 Dualist vs Dualist (550/548g)                     0      54      0     0      99    100    6.5      0
+CLASS   R2 Warden vs Warden (463/550g)                       0      46      0     0      96    100   16.9      0
+CLASS   R2 Skirmisher vs Skirmisher (550/548g)               0      46      0     0      98    100    6.8      0
+CLASS   R2 Hexer vs Hexer (550/548g)                         0      58      0     0      99    100    8.4      0
+CLASS   R2 Sage vs Sage (550/550g)                           0      46      0     0     100    100    4.0      0
+CLASS   R2 Warden vs Hexer (463/548g)                        0      71      0     0      93    100   18.6      0
+CLASS   R2 Bruiser vs Sage (550/550g)                        0      50      0     0      95    100    6.5      0
+CLASS   R2 Dualist vs Skirmisher (550/548g)                  4      54      8     0     100    100    8.8      0
+CLASS   R5 Bruiser vs Bruiser (1310/1315g)                   0      50      0     0     100    131    9.4      0
+CLASS   R5 Dualist vs Dualist (1295/1280g)                   0      50      0     0     138    100   13.8      0
+CLASS   R5 Warden vs Warden (1315/1315g)                     0      46      0     0     109    100   21.2      0
+CLASS   R5 Skirmisher vs Skirmisher (1290/1275g)             0      38      0     0     102    124    7.9      0
+CLASS   R5 Hexer vs Hexer (1305/1315g)                       0      58      0     0     113    100   20.4      0
+CLASS   R5 Sage vs Sage (1300/1260g)                         0      50      0     0     100    100   22.0      0
+CLASS   R5 Warden vs Hexer (1315/1315g)                      0      46      0     0     100    100   21.3      0
+CLASS   R5 Bruiser vs Sage (1310/1260g)                      0      58      0     0     100    103   13.0      0
+CLASS   R5 Dualist vs Skirmisher (1295/1275g)                0      46      0     0     100    100   13.8      0
+CLASS   R8 Bruiser vs Bruiser (2034/1645g)                   0      46      0     0     100    141    5.9      0
+CLASS   R8 Dualist vs Dualist (1708/1838g)                   0      63      0     0     113    100   14.9      0
+CLASS   R8 Warden vs Warden (2014/1910g)                     0      38      0     0     100    126   40.2      0
+CLASS   R8 Skirmisher vs Skirmisher (1994/1753g)             0      54      0     0     100    100   13.1      0
+CLASS   R8 Hexer vs Hexer (1933/1928g)                       0      42      0     0     115    100   18.0      0
+CLASS   R8 Sage vs Sage (1953/1918g)                         8       0    n/a     8      51     68    n/a      0
+CLASS   R8 Warden vs Hexer (2014/1928g)                      0      42      0     0     100    140   11.4      0
+CLASS   R8 Bruiser vs Sage (2034/1918g)                      0      42      0     0     111     88   37.3      0
+CLASS   R8 Dualist vs Skirmisher (1708/1753g)                0      63      0     0     100    140    5.8      0
+CLASS   R12 Bruiser vs Bruiser (2498/2045g)                  0      33      0     0     100    146    3.9      0
+CLASS   R12 Dualist vs Dualist (1900/2010g)                  0      46      0     0     121    100    9.9      0
+CLASS   R12 Warden vs Warden (2431/1943g)                    0      50      0     0     100    144    7.7      0
+CLASS   R12 Skirmisher vs Skirmisher (2035/1800g)            0      29      0     0     140    100    8.8      0
+CLASS   R12 Hexer vs Hexer (2035/1980g)                      0      38      0     0     144    100    5.4      0
+CLASS   R12 Sage vs Sage (2195/2130g)                        0      67      0     0     142    100    9.4      0
+CLASS   R12 Warden vs Hexer (2431/1980g)                     0      58      0     0     135     82   27.4      0
+CLASS   R12 Bruiser vs Sage (2498/2130g)                     0      50      0     0     139    100    7.7      0
+CLASS   R12 Dualist vs Skirmisher (1900/1800g)               0      29      0     0     122    100    5.9      0
+
 --- Band medians ---
   R1-3: median-of-medians 22.6s   range 9.4-25.2s
   R4-6: median-of-medians 28.5s   range 22.2-33.0s
@@ -355,10 +430,11 @@ INC     R12 full smoke vs Mullin (plate stacked)             0      58      0   
   FOOD: median-of-medians 15.7s   range 11.2-21.5s
   MED: median-of-medians 21.8s   range 11.9-30.0s
   INC: median-of-medians 30.8s   range 20.0-36.7s
+  CLASS: median-of-medians 18.5s   range 8.3-57.2s
 
 --- Sever dump check ---
-  Fights: 3600   with sever: 1685 (47%)   bleed deaths: 44 (1%)
+  Fights: 4464   with sever: 2091 (47%)   bleed deaths: 47 (1%)
   bleed|sever     1   bleed|no-sever     1
-  Instant bleed-out within 1s of first sever: 0.0% (0/3600)
+  Instant bleed-out within 1s of first sever: 0.0% (0/4464)
   Median-of-medians loser blood on bleed deaths: 5%
   Verdict: severs raise or hold bleed deaths (dump + stump hemorrhage matter); dump is not a one-shot (instant bleed-out after sever is rare); bleed-death loser blood is low (pool is actually spent)

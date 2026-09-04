@@ -305,6 +305,15 @@ public sealed record AdminPoolState
     public List<BuildSnapshot> Builds { get; init; } = [];
 }
 
+public sealed record ArchiveRunsResult
+{
+    public int Players { get; init; }
+    public int Runs { get; init; }
+    public int ActiveArenas { get; init; }
+    public int PoolBuilds { get; init; }
+    public string? ArchiveFolder { get; init; }
+}
+
 public sealed record ActivationCodeRecord
 {
     public required string Id { get; init; }
