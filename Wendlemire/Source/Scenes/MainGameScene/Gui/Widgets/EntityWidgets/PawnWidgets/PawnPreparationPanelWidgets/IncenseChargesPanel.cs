@@ -63,11 +63,6 @@ public sealed class IncenseChargesPanel : PrepCard, IUpdatable
 
     private string LightTooltip(Item item)
     {
-        if (!_pawn.HasFlameStick())
-        {
-            return "Need a Flame Stick equipped to light incense";
-        }
-
         if (_pawn.ActiveIncense.Any(a => a.Def == item.ItemDef.IncenseProperties?.Effect?.Def))
         {
             return "Already lit";

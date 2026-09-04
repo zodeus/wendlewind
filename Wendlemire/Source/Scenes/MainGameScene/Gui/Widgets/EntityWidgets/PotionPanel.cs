@@ -43,12 +43,6 @@ public sealed class PotionPanel : EntityPanelBase
         {
             Widgets.Add(EntityCardChrome.BodyLabel(triggerText, EntityCardChrome.Effect));
         }
-
-        var buttonsPanel = CreateButtonsPanel(item, gui);
-        if (buttonsPanel != null)
-        {
-            Widgets.Add(buttonsPanel);
-        }
     }
 
     private static bool IsHealingPotion(Item item) =>
@@ -105,51 +99,6 @@ public sealed class PotionPanel : EntityPanelBase
         }
 
         return statsPanel;
-    }
-
-    private HorizontalStackPanel? CreateButtonsPanel(Item item, BaseGui gui)
-    {
-        var handler = item.PotionHandler;
-        if (handler == null || !handler.CanUseOutsideCombat) return null;
-
-        var buttonsPanel = new HorizontalStackPanel
-        {
-            Spacing = 8,
-            Margin = new Thickness(0, 4, 0, 0),
-            HorizontalAlignment = HorizontalAlignment.Center
-        };
-
-        var useButton = new CursorButton(BaseContent.Styles.Button.Small)
-        {
-            Content = new Label("small")
-            {
-                Text = "Use Now",
-                VerticalAlignment = VerticalAlignment.Center
-            },
-            Padding = new Thickness(10, 4)
-        };
-
-        useButton.Click += (_, _) =>
-        {
-            var result = handler.UseOutsideCombat(Core.Context.PlayerPawn);
-            if (result.Success)
-            {
-                Core.Context.Achievements.OnItemUsed(Core.Context.PlayerPawn, item);
-                item.StackSize--;
-                if (item.StackSize < 1)
-                {
-                    item.Destroy();
-                    gui.CloseEntityWindow();
-                }
-                else
-                {
-                    UpdateStackLabel();
-                }
-            }
-        };
-
-        buttonsPanel.Widgets.Add(useButton);
-        return buttonsPanel;
     }
 
     private void UpdateStackLabel()

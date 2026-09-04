@@ -506,16 +506,11 @@ public class Pawn : Entity
         return true;
     }
 
-    public bool CanLightIncense(Item item, bool requireFlameStick = true)
+    public bool CanLightIncense(Item item)
     {
         PruneActiveIncense();
         var incenseProps = item.ItemDef.IncenseProperties;
         if (incenseProps?.Effect == null || item.IsDestroyed || item.StackSize < 1)
-        {
-            return false;
-        }
-
-        if (requireFlameStick && !HasFlameStick())
         {
             return false;
         }
@@ -528,9 +523,9 @@ public class Pawn : Entity
         return ActiveIncense.Count < IncenseCapacity;
     }
 
-    public bool TryLightIncense(Item item, bool requireFlameStick = true)
+    public bool TryLightIncense(Item item)
     {
-        if (!CanLightIncense(item, requireFlameStick))
+        if (!CanLightIncense(item))
         {
             return false;
         }

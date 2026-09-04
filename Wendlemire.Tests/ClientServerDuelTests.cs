@@ -291,7 +291,7 @@ public class ClientServerDuelTests
             {
                 if (item.ItemDef.IncenseProperties != null)
                 {
-                    context.PlayerPawn.TryLightIncense(item, requireFlameStick: false);
+                    context.PlayerPawn.TryLightIncense(item);
                 }
             }
         }

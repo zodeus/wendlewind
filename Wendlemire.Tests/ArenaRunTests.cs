@@ -946,7 +946,7 @@ public class ArenaRunTests
         Assert.True(pawn.Inventory.TryAdd(meat));
         Assert.True(pawn.Inventory.TryAdd(incense));
         Assert.True(pawn.MealPlan.TryAdd(meat));
-        Assert.True(pawn.TryLightIncense(incense, requireFlameStick: false));
+        Assert.True(pawn.TryLightIncense(incense));
         Assert.Equal(1, pawn.Inventory.AmountOf(incenseDef));
 
         var snapshot = BuildSnapshotFactory.ToSnapshot(pawn, "p", "arena-1", 1, round: 1);
@@ -988,9 +988,9 @@ public class ArenaRunTests
         var incenseDef = DefRepository<ItemDef>.GetByMoniker("MullinStick")!;
         var incense = scope.Context.Factory.CreateEntity<Item>(incenseDef, 1);
         Assert.True(pawn.Inventory.TryAdd(incense));
-        Assert.True(pawn.TryLightIncense(incense, requireFlameStick: false));
+        Assert.True(pawn.TryLightIncense(incense));
         Assert.Equal(1, pawn.Inventory.AmountOf(incenseDef));
-        Assert.False(pawn.CanLightIncense(incense, requireFlameStick: false));
+        Assert.False(pawn.CanLightIncense(incense));
     }
 
     [Fact]
@@ -1110,7 +1110,7 @@ public class ArenaRunTests
         var incenseDef = DefRepository<ItemDef>.GetByMoniker("MullinStick")!;
         var incense = scope.Context.Factory.CreateEntity<Item>(incenseDef, 1);
         Assert.True(pawn.Inventory.TryAdd(incense));
-        Assert.True(pawn.TryLightIncense(incense, requireFlameStick: false));
+        Assert.True(pawn.TryLightIncense(incense));
 
         pawn.ApplyBattleStartConsumables();
 

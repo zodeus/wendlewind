@@ -170,8 +170,9 @@ internal sealed class IncenseItemButton : CursorButton
 
     private bool CanBurn()
     {
-        // Requires FlameStick trinket
-        return _player.HasTrinkets(Defs.Items.FlameStick);
+        return _item.ItemDef.IncenseProperties?.Effect != null
+            && !_item.IsDestroyed
+            && _item.StackSize > 0;
     }
 
     private void BurnItem()
@@ -207,7 +208,6 @@ internal sealed class IncenseItemButton : CursorButton
     public void Update()
     {
         _stackLabel.Text = _item.StackSize > 1 ? _item.StackSize.ToString() : "";
-        // Only enable if player has FlameStick
         Enabled = CanBurn();
         // Tint icon when disabled
         ((ColoredIcon)_iconImage.Background).Color = Enabled ? Color.White : Color.Gray;

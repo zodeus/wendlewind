@@ -92,7 +92,7 @@ public class ConsumableSlotCapacityTests
         {
             var item = context.Factory.CreateEntity<Item>(RequireDef(moniker), 1);
             Assert.True(pawn.Inventory.TryAdd(item));
-            Assert.True(pawn.TryLightIncense(item, requireFlameStick: false));
+            Assert.True(pawn.TryLightIncense(item));
         }
 
         Assert.Equal(4, pawn.MealPlan.Items.Count);

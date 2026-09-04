@@ -45,7 +45,7 @@ public static class PurchaseAutoEquip
 
     private static void ApplyIncense(Pawn pawn, Item item)
     {
-        if (pawn.TryLightIncense(item, requireFlameStick: false))
+        if (pawn.TryLightIncense(item))
         {
             return;
         }
@@ -61,7 +61,7 @@ public static class PurchaseAutoEquip
             pawn.ExtinguishIncense(0);
         }
 
-        pawn.TryLightIncense(item, requireFlameStick: false);
+        pawn.TryLightIncense(item);
     }
 
     public static bool WouldFillEmptySlot(Pawn pawn, MerchantOffer offer)
