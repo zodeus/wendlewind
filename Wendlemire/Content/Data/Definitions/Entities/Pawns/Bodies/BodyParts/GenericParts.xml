@@ -144,7 +144,7 @@
         </Sockets>
         <AdaptiveProperties>
             <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
-                <Factor>0.6</Factor>
+                <Factor>0.70</Factor>
             </MaxHitPointScaler>
         </AdaptiveProperties>
     </BodyPartDef>
@@ -159,7 +159,7 @@
         <TexturePath>Entities/Pawn/BodyParts/Generic/Heart</TexturePath>
         <AdaptiveProperties>
             <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
-                <Factor>0.28</Factor>
+                <Factor>0.36</Factor>
             </MaxHitPointScaler>
         </AdaptiveProperties>
     </BodyPartDef>

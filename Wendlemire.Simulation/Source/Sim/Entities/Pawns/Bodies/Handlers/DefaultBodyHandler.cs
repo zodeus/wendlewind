@@ -15,12 +15,12 @@ public class DefaultBodyHandler : IExposable, IHasContext, IHasRng
         Rng = rng;
     }
     public event Action<Pawn, float>? OnBloodLost;
-    private const float FixedBloodLossFactor = .01f;
     private int _ticksWithEmptyStomach;
     public PawnBody Body = null!;
-    public virtual float SeveredArteryBloodLossFactor => 1.7f;
-    public virtual float SeveredLimbBloodLossFactor => 3f;
-    public virtual float BloodLossThreshold => .95f;
+    public virtual float FixedBloodLossFactor => CombatBalance.FixedBloodLossFactor;
+    public virtual float SeveredArteryBloodLossFactor => CombatBalance.SeveredArteryBloodLossFactor;
+    public virtual float SeveredLimbBloodLossFactor => CombatBalance.SeveredLimbBloodLossFactor;
+    public virtual float BloodLossThreshold => CombatBalance.BloodLossThreshold;
     public virtual float ArteryBloodLossOffset => 1.15f;
     public virtual float FoodLossPerIteration => 0.0017f;
     public virtual int TicksUntilFamished => 7200;

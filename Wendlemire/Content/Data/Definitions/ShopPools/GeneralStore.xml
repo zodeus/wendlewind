@@ -111,6 +111,7 @@
                     </ListItem>
                     <ListItem>
                         <ItemDef>CookedMeat</ItemDef>
+                        <AlwaysStock>true</AlwaysStock>
                     </ListItem>
                     <ListItem>
                         <ItemDef>CookedCorn</ItemDef>
@@ -134,6 +135,7 @@
                 <Offers>
                     <ListItem>
                         <ItemDef>MullinStick</ItemDef>
+                        <AlwaysStock>true</AlwaysStock>
                     </ListItem>
                     <ListItem>
                         <ItemDef>ShadeWood</ItemDef>
@@ -178,6 +180,10 @@
                 <ItemColumns>1</ItemColumns>
                 <StockSize>2</StockSize>
                 <Offers>
+                    <ListItem>
+                        <ItemDef>MedKit</ItemDef>
+                        <AlwaysStock>true</AlwaysStock>
+                    </ListItem>
                     <ListItem>
                         <ItemDef>Suture</ItemDef>
                     </ListItem>

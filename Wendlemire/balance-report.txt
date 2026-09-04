@@ -1,6 +1,6 @@
 === Wendlemire Human-vs-Human Balance (12-win curve) ===
 Seeds/matchup: 24   Target: 15-25s @ 60tps
-Knobs this pass: CombatBalance VitalHpScale=0.85 LimbHpScale=0.78 ArmorK=140 WeightAttackSpeedFactor=0.006 ArmoredDot=0.65/0.7 DelayedOrgan=180t/0.5 (heart 0.28, earlier rib/skull open)
+Knobs this pass: CombatBalance VitalHpScale=0.95 LimbHpScale=0.78 ArmorK=140 WeightAttackSpeedFactor=0.006 ArmoredDot=0.65/0.7 DelayedOrgan=180t/0.5 Crush=0.0025 Bleed=0.04/1 SeverBleed=3.2/7 (heart 0.36, rib 0.70)
 Economy: start=350 win=300 lose=220  budget R2=552 R5=1317 R8=2082 R12=3102
 Sever dump: currentBlood * (subtree BloodAmount / body BloodAmount) on Severe()
 
@@ -16,427 +16,427 @@ Sever dump: currentBlood * (subtree BloodAmount / body BloodAmount) on Severe()
 
 Band    Matchup                                         med.s   mean   p10   p90  band%  Awin%  bleed%  organ%  sever%  loseB%  winB%   DPS  waste%  cap%  topCause
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-R1-3    Club vs Club (naked)                             20.1   22.5  15.5  34.8     71     58       0     100      50      97    100  59.5       0     0  Heart failed (Torso was destroyed) (11)
-R1-3    Axe vs Axe (naked)                               20.2   21.6  14.9  28.0     63     58       0     100      67      89    100  55.9       0     0  Heart failed (Torso was destroyed) (15)
-R1-3    Spear vs Axe (naked)                             19.9   18.0  12.9  23.6     75     58       0     100      54      94    100  58.2       0     0  Heart failed (Torso was destroyed) (16)
-R1-3    Knife vs Knife (naked)                           20.7   20.7  12.6  26.0     58     50       0     100      54      87    100  52.3       0     0  Heart failed (Torso was destroyed) (13)
-R1-3    Hammer vs Club (naked)                           24.2   24.1  17.9  30.9     63     54       0     100      58      85    100  45.7       0     0  Heart failed (Torso was destroyed) (11)
-R1-3    Dual-primitive vs Axe (naked)                    20.2   21.2  13.5  29.4     50     50       0     100      58      83    100  50.5       0     0  Heart failed (Torso was destroyed) (14)
-R1-3    Axe+cloth vs Axe+cloth                           23.5   27.0  15.4  50.2     58     63       8      92      67      90    100  44.9       0     0  Heart failed (Torso was destroyed) (14)
-R1-3    Club+cloth vs Club+cloth                         27.6   28.3  17.6  37.0     38     50       0     100      67      86     99  37.3       0     0  Heart failed (Torso was destroyed) (18)
-R1-3    Spear+cloth vs Axe+cloth                         21.8   22.6  13.9  34.4     58     54       0     100      58      92    100  51.0       0     0  Heart failed (Torso was destroyed) (14)
-R1-3    Axe+leather-core vs Axe+leather-core             21.3   22.6  13.8  36.5     54     42       0     100      58      93    100  48.3       0     0  Heart failed (Torso was destroyed) (18)
-R1-3    Sword+Dagger+Fester+cloth vs Axe+cloth           10.3   10.9   6.8  15.2      8    100       0     100      42     103    100 120.5       0     0  Heart failed (Torso was destroyed) (12)
-R1-3    Dagger+Fester+cloth vs Sword+cloth               11.6   11.9   8.0  17.9     17     63       0     100      58      99    100  86.0       0     0  Heart failed (Torso was destroyed) (9)
+R1-3    Club vs Club (naked)                             23.3   22.9  19.2  26.2     79     58      29      71      42      39     70  56.6       0     0  Heart failed (Torso was destroyed) (11)
+R1-3    Axe vs Axe (naked)                               22.6   21.7  15.7  29.1     67     50      54      46      75       5     76  44.6       0     0  Blood loss (13)
+R1-3    Spear vs Axe (naked)                             18.8   19.8  16.9  24.6     83     58      46      54      75      41     74  59.7       0     0  Heart failed (Torso was destroyed) (11)
+R1-3    Knife vs Knife (naked)                           20.1   21.1  17.4  26.2     79     54      38      63      63      39     74  49.0       0     0  Heart failed (Torso was destroyed) (13)
+R1-3    Hammer vs Club (naked)                           25.2   24.6  18.6  31.9     46     33      54      46      71       5     63  38.4       0     0  Blood loss (13)
+R1-3    Dual-primitive vs Axe (naked)                    21.4   20.5  13.7  29.7     67     54      42      58      58      34     69  48.6       0     0  Blood loss (10)
+R1-3    Axe+cloth vs Axe+cloth                           22.0   23.2  18.6  28.0     63     58      50      50      75       5     73  49.6       0     0  Blood loss (12)
+R1-3    Club+cloth vs Club+cloth                         25.4   26.0  20.1  32.2     42     50      67      33      71       5     59  46.9       0     0  Blood loss (16)
+R1-3    Spear+cloth vs Axe+cloth                         21.8   22.8  17.9  29.5     67     58      71      29      79       5     72  48.0       0     0  Blood loss (17)
+R1-3    Axe+leather-core vs Axe+leather-core             22.1   22.0  18.1  26.6     71     46      50      50      46      23     73  41.0       0     0  Blood loss (12)
+R1-3    Sword+Dagger+Fester+cloth vs Axe+cloth           12.1   12.5   9.8  14.3      8    100       4      96      63      62    100 113.5       0     0  Heart failed (Torso was destroyed) (11)
+R1-3    Dagger+Fester+cloth vs Sword+cloth               12.1   12.2   6.4  14.8      4     50       8      92      21      74     98  91.7       0     0  Heart failed (Torso was destroyed) (14)
 
-R4-6    Sword+leather vs Sword+leather                   25.5   23.1  12.3  30.9     29     42       0     100      46     100    121  50.2       0     0  Heart failed (Torso was destroyed) (11)
-R4-6    Mace+leather vs Sword+leather                    22.5   21.4  11.6  30.9     42     33       0     100      38     100    125  57.2       0     0  Heart failed (Torso was destroyed) (12)
-R4-6    IronAxe+leather vs Sword+leather                 26.1   25.5  13.2  37.5     38     46       0     100      46      98    108  58.2       0     0  Heart failed (Torso was destroyed) (8)
-R4-6    Claws+leather vs Sword+leather                   26.7   24.8  11.6  34.2     33     38       0     100      50      99    120  48.9       0     0  Heart failed (Torso was destroyed) (9)
-R4-6    Dual-iron+Fester+leaf vs same                    22.8   26.9   7.5  42.2     42     50       0     100      67     100    100  53.6       4     0  Heart failed (Torso was destroyed) (13)
-R4-6    Dual-dagger+Fester+leaf vs Dual-iron             31.3   29.6  12.2  48.0     21     46       4      96      67     100    100  49.9       4     0  Heart failed (Torso was destroyed) (11)
-R4-6    Sword+Dagger+Fester+leather-ench vs same         28.1   29.6  14.3  46.3     29     50       4      96      63     100    100  50.0       4     0  Heart failed (Torso was destroyed) (14)
-R4-6    Sword+Dagger+Bite+BloodBath vs Sword+leather     27.3   26.3  15.5  38.4     29     79       0     100      50     100    100  62.9       0     0  Heart failed (Torso was destroyed) (16)
-R4-6    FireStaff+Fester+leather vs Sword+leather        23.6   22.9  10.7  33.7     33     46       0     100      38     100    114  52.5       0     0  Heart failed (Torso was destroyed) (8)
-R4-6    StormStaff+leather vs Sword+leather              26.3   27.8  18.7  39.9     42     50       0     100      29     100    100  53.4       0     0  Heart failed (Torso was destroyed) (11)
-R4-6    Ember+Dagger+leather vs Sword+leather            24.1   24.9  17.5  35.1     50     58       0     100      58      99    100  54.6       0     0  Heart failed (Torso was destroyed) (12)
-R4-6    Chain-partial vs Sword+leather                   27.5   28.2  16.0  41.1     25     33       0     100      58     100    118  40.8       0     0  Heart failed (Torso was destroyed) (12)
-R4-6    WD-partial+Dagger+BoneEater vs Sword+leather     27.2   26.4   4.7  45.8     25     63       0     100      46     100    100  59.9       0     0  Heart failed (Torso was destroyed) (8)
-R4-6    WD-partial+Dagger+Bite vs Mace+leather           25.9   26.6  12.6  37.8     33     92       0     100      38     102    100  65.0       4     0  Heart failed (Torso was destroyed) (9)
+R4-6    Sword+leather vs Sword+leather                   26.3   23.5  10.4  30.6     29     63      46      54      54      47    100  60.3       0     0  Blood loss (11)
+R4-6    Mace+leather vs Sword+leather                    26.1   25.5  12.3  36.2     33     42      50      50      50      11    100  50.0       0     0  Blood loss (12)
+R4-6    IronAxe+leather vs Sword+leather                 24.3   23.9  15.6  33.5     46     46      46      54      58      43    100  50.8       0     0  Blood loss (11)
+R4-6    Claws+leather vs Sword+leather                   24.9   26.0  18.3  34.3     54     46      38      63      46      53    100  46.6       0     0  Heart failed (Torso was destroyed) (10)
+R4-6    Dual-iron+Fester+leaf vs same                    25.2   25.0  17.9  34.7     50     58      42      58      42      44    100  60.0       0     0  Blood loss (10)
+R4-6    Dual-dagger+Fester+leaf vs Dual-iron             24.0   24.1  15.7  32.0     46     42      33      67      46      56     92  51.8       0     0  Heart failed (Torso was destroyed) (10)
+R4-6    Sword+Dagger+Fester+leather-ench vs same         28.1   27.7  18.0  36.2     38     46      50      50      29       5     93  47.8       0     0  Blood loss (12)
+R4-6    Sword+Dagger+Bite+BloodBath vs Sword+leather     23.6   25.2  18.2  31.9     58     75      50      50      67      16    100  59.6       0     0  Blood loss (12)
+R4-6    FireStaff+Fester+leather vs Sword+leather        24.3   25.8  19.2  35.7     58     50      33      67      29      43    100  51.5       0     0  Blood loss (8)
+R4-6    StormStaff+leather vs Sword+leather              25.5   24.5  16.6  31.3     38     50      38      63      38      45    100  57.0       0     0  Blood loss (9)
+R4-6    Ember+Dagger+leather vs Sword+leather            26.7   25.7  16.6  31.5     42     58      38      63      46      50     93  50.5       0     0  Blood loss (9)
+R4-6    Chain-partial vs Sword+leather                   27.6   25.3  15.5  30.2     25     58      42      58      42      37    100  51.8       0     0  Blood loss (10)
+R4-6    WD-partial+Dagger+BoneEater vs Sword+leather     23.5   22.7  14.7  33.9     54     54      29      71      42      59    100  58.8       0     0  Blood loss (7)
+R4-6    WD-partial+Dagger+Bite vs Mace+leather           29.8   28.3  14.5  37.4     17     79      29      71      46      80    100  57.9       0     0  Heart failed (Torso was destroyed) (8)
 
-METAL   Dagger vs Sword (leather)                        26.7   25.0  11.3  37.1     33     50       0     100      38     100    100  62.9       0     0  Heart failed (Torso was destroyed) (9)
-METAL   Knuckles vs Sword (leather)                      26.7   25.7  13.0  35.1     29     42       0     100      50     100    121  50.9       0     0  Heart failed (Torso was destroyed) (10)
-METAL   Axe vs Sword (leather)                           26.1   25.5  13.2  37.5     38     46       0     100      46      98    108  58.2       0     0  Heart failed (Torso was destroyed) (8)
-METAL   Hammer vs Sword (leather)                        21.7   22.8  14.0  36.9     46     25       0     100      33     100    122  44.0       0     0  Heart failed (Torso was destroyed) (9)
-METAL   Mace vs Sword (leather)                          22.5   21.4  11.6  30.9     42     33       0     100      38     100    125  57.2       0     0  Heart failed (Torso was destroyed) (12)
-METAL   Claws vs Sword (leather)                         26.7   24.8  11.6  34.2     33     38       0     100      50      99    120  48.9       0     0  Heart failed (Torso was destroyed) (9)
-METAL   Sword vs Sword (leather)                         25.5   23.1  12.3  30.9     29     42       0     100      46     100    121  50.2       0     0  Heart failed (Torso was destroyed) (11)
-METAL   Axe vs Axe (leather)                             22.8   24.9   7.5  47.1     33     50       0     100      33     100    100  58.1       0     0  Heart failed (Torso was destroyed) (11)
-METAL   Mace vs Mace (leather)                           29.1   31.4  17.6  50.2     38     42       0     100      33     100    105  38.5       0     0  Heart failed (Torso was destroyed) (9)
-METAL   Claws vs Claws (leather)                         27.0   26.1  12.8  36.3     21     54       0     100      58     100    100  56.6       0     0  Heart failed (Torso was destroyed) (10)
+METAL   Dagger vs Sword (leather)                        23.1   23.7  15.5  34.1     54     46      42      58      50      43    100  64.5       0     0  Blood loss (10)
+METAL   Knuckles vs Sword (leather)                      26.0   25.4  13.9  34.1     21     38      42      58      54      44     99  48.2       0     0  Blood loss (10)
+METAL   Axe vs Sword (leather)                           24.3   23.9  15.6  33.5     46     46      46      54      58      43    100  50.8       0     0  Blood loss (11)
+METAL   Hammer vs Sword (leather)                        27.4   26.8  16.0  35.0     21     33      46      54      58      41     90  39.5       0     0  Blood loss (11)
+METAL   Mace vs Sword (leather)                          26.1   25.5  12.3  36.2     33     42      50      50      50      11    100  50.0       0     0  Blood loss (12)
+METAL   Claws vs Sword (leather)                         24.9   26.0  18.3  34.3     54     46      38      63      46      53    100  46.6       0     0  Heart failed (Torso was destroyed) (10)
+METAL   Sword vs Sword (leather)                         26.3   23.5  10.4  30.6     29     63      46      54      54      47    100  60.3       0     0  Blood loss (11)
+METAL   Axe vs Axe (leather)                             24.6   25.3  14.8  32.8     42     46      46      54      46      40    100  47.3       0     0  Blood loss (11)
+METAL   Mace vs Mace (leather)                           28.5   27.1  17.1  35.5     25     46      58      42      79       5     99  49.2       0     0  Blood loss (14)
+METAL   Claws vs Claws (leather)                         26.1   26.5  17.2  37.7     38     54      46      54      67      33    100  49.3       0     0  Blood loss (11)
 
-MAGIC   EmberWand vs Sword (leather)                     24.1   27.5  10.7  37.7     42     29       4      96      50     100    122  36.1       4     0  Heart failed (Torso was destroyed) (13)
-MAGIC   HexWand vs Sword (leather)                       26.7   26.3  16.6  35.9     46     50       0     100      63     100    100  42.1       0     0  Heart failed (Torso was destroyed) (7)
-MAGIC   FireStaff vs Sword (leather)                     26.1   23.9  11.4  33.3     25     38       0     100      46     100    119  46.0       0     0  Heart failed (Torso was destroyed) (14)
-MAGIC   StormStaff vs Sword (leather)                    26.3   27.8  18.7  39.9     42     50       0     100      29     100    100  53.4       0     0  Heart failed (Torso was destroyed) (11)
-MAGIC   Dual-wand vs Sword (leather)                     27.9   27.9  17.9  38.4     38     67       0     100      42      99    100  49.1       0     0  Heart failed (Torso was destroyed) (13)
-MAGIC   Ember+Dagger vs Sword (leather)                  24.1   24.9  17.5  35.1     50     58       0     100      58      99    100  54.6       0     0  Heart failed (Torso was destroyed) (12)
-MAGIC   FireStaff vs FireStaff (leather)                 31.5   35.1  17.6  57.3     33     46       8      92      75      88    100  45.0       4     0  Heart failed (Torso was destroyed) (8)
-MAGIC   StormStaff vs StormStaff (leather)               29.5   27.2  17.6  33.9     25     50       0     100      46      97    100  48.1       0     0  Heart failed (Torso was destroyed) (12)
-MAGIC   HexWand vs EmberWand (leather)                   24.5   27.7  17.9  43.0     50     79       4      96      54     100    100  51.9       4     0  Heart failed (Torso was destroyed) (7)
+MAGIC   EmberWand vs Sword (leather)                     27.6   27.6  19.2  37.4     38     29      54      46      58       5    100  43.6       0     0  Blood loss (13)
+MAGIC   HexWand vs Sword (leather)                       25.5   25.3  17.1  34.2     38     54      25      75      46      57    100  45.0       0     0  Heart failed (Torso was destroyed) (7)
+MAGIC   FireStaff vs Sword (leather)                     25.5   24.3  16.0  32.8     38     42      38      63      71      39    100  45.2       0     0  Blood loss (9)
+MAGIC   StormStaff vs Sword (leather)                    25.5   24.5  16.6  31.3     38     50      38      63      38      45    100  57.0       0     0  Blood loss (9)
+MAGIC   Dual-wand vs Sword (leather)                     25.5   24.2  17.1  30.1     38     67      33      67      50      75    100  50.6       0     0  Heart failed (Torso was destroyed) (8)
+MAGIC   Ember+Dagger vs Sword (leather)                  26.7   25.7  16.6  31.5     42     58      38      63      46      50     93  50.5       0     0  Blood loss (9)
+MAGIC   FireStaff vs FireStaff (leather)                 27.4   28.1  20.8  36.3     42     50      58      42      63       5    100  51.7       0     0  Blood loss (14)
+MAGIC   StormStaff vs StormStaff (leather)               28.7   27.8  20.3  34.6     33     54      54      46      46       5    100  45.3       0     0  Blood loss (13)
+MAGIC   HexWand vs EmberWand (leather)                   25.5   24.8  16.9  34.2     46     75      50      50      54      28    100  54.1       0     0  Blood loss (12)
 
-STEEL   Greatsword vs Sword (leather)                    26.1   26.1  13.4  36.9     25     58       0     100      50     100    100  58.8       0     0  Heart failed (Torso was destroyed) (7)
-STEEL   Maul vs Sword (leather)                          23.1   22.8  12.0  31.8     42     50       0     100      38     100    100  64.2       0     0  Heart failed (Torso was destroyed) (11)
-STEEL   Poleaxe vs Sword (leather)                       21.6   21.7  12.8  35.0     38     58       0     100      63     100    100  78.1       0     0  Heart failed (Torso was destroyed) (8)
-STEEL   SteelSword vs Sword (leather)                    25.5   26.1  13.7  35.7     29     67       0     100      58      95    100  67.0       0     0  Heart failed (Torso was destroyed) (13)
-STEEL   SteelAxe vs Sword (leather)                      25.5   25.7  16.6  37.7     42     67       0     100      67     100    100  68.5       0     0  Heart failed (Torso was destroyed) (8)
-STEEL   Greatsword vs Maul (leather)                     19.0   17.8   4.8  31.8     38     54       0     100      54     100    100  74.7       0     0  Heart failed (Torso was destroyed) (11)
-STEEL   Greatsword vs Poleaxe (leather)                  22.2   21.3  10.7  30.3     42     29       0     100      54     100    122  40.4       0     0  Heart failed (Torso was destroyed) (11)
-STEEL   Maul vs Poleaxe (leather)                        21.5   20.5  11.2  30.3     46     29       0     100      38     100    126  33.5       0     0  Heart failed (Torso was destroyed) (9)
-STEEL   SteelSword vs SteelAxe (leather)                 23.7   29.1  16.7  37.9     50     42       4      96      63     100    120  54.9       4     0  Heart failed (Torso was destroyed) (10)
-STEEL   SteelSword+Dagger vs Greatsword (leather)        22.7   23.4   5.9  40.5     46     46       0     100      54     100    100  64.5       0     0  Heart failed (6)
-STEEL   Dual-IronSword vs Greatsword (leather)           26.7   23.5   5.9  39.2     17     50       0     100      54     100    100  53.4       0     0  Heart failed (Torso was destroyed) (8)
-STEEL   Greatsword vs Sword (chain)                      31.6   32.1  19.8  46.6     17     58       0     100      46      97    100  45.4       0     0  Heart failed (Torso was destroyed) (10)
-STEEL   SteelSword vs Sword (chain)                      27.3   31.4  18.0  51.7     29     58       0     100      46     100    100  53.6       0     0  Heart failed (Torso was destroyed) (11)
-STEEL   Greatsword vs Sword (plate)                      28.8   29.9  14.4  48.3     29     71       0     100      46     100    100  66.2       0     0  Heart failed (Torso was destroyed) (9)
-STEEL   SteelSword vs Sword (plate)                      25.9   26.5  16.4  40.0     42     83       0     100      29     105    100  66.6       0     0  Heart failed (Torso was destroyed) (9)
+STEEL   Greatsword vs Sword (leather)                    23.7   23.5  12.3  32.1     42     75      42      58      50      43    100  66.1       0     0  Blood loss (10)
+STEEL   Maul vs Sword (leather)                          25.2   24.2  16.0  31.8     42     50      33      67      54      49    100  54.5       0     0  Blood loss (8)
+STEEL   Poleaxe vs Sword (leather)                       21.0   21.8  15.0  34.8     67     79      38      63      67      40    100  83.2       0     0  Blood loss (9)
+STEEL   SteelSword vs Sword (leather)                    23.1   23.3  14.3  34.8     50     63      33      67      42      40    100  73.0       0     0  Blood loss (8)
+STEEL   SteelAxe vs Sword (leather)                      20.3   22.2  14.4  36.6     54     67      46      54      54      34    100  67.7       0     0  Blood loss (11)
+STEEL   Greatsword vs Maul (leather)                     23.9   22.3   4.8  31.0     33     71      25      75      33      62    100  72.9       0     0  Heart failed (Torso was destroyed) (7)
+STEEL   Greatsword vs Poleaxe (leather)                  20.9   21.2  14.4  28.7     58     33      38      63      46      50    100  34.8       0     0  Blood loss (9)
+STEEL   Maul vs Poleaxe (leather)                        21.7   22.4  13.9  29.8     50     29      50      50      71      38    100  38.2       0     0  Blood loss (12)
+STEEL   SteelSword vs SteelAxe (leather)                 22.5   22.8  14.3  33.6     54     54      42      58      38      43    100  64.7       0     0  Blood loss (10)
+STEEL   SteelSword+Dagger vs Greatsword (leather)        20.7   20.3  12.6  30.3     50     50      38      63      63      74    100  66.3       0     0  Blood loss (9)
+STEEL   Dual-IronSword vs Greatsword (leather)           23.3   22.6  10.2  31.5     63     50      46      54      54      27    100  54.0       0     0  Blood loss (11)
+STEEL   Greatsword vs Sword (chain)                      31.0   29.2  18.0  37.0     25     71      50      50      33      39    100  53.1       0     0  Blood loss (12)
+STEEL   SteelSword vs Sword (chain)                      25.9   25.9  13.8  36.2     38     67      42      58      33      47    100  57.6       0     0  Blood loss (10)
+STEEL   Greatsword vs Sword (plate)                      28.3   28.5  18.5  39.3     21     83      50      50      58      19    100  57.0       0     0  Blood loss (12)
+STEEL   SteelSword vs Sword (plate)                      31.9   31.0  20.9  43.9     25     88      46      54      42      29    100  61.8       0     0  Blood loss (11)
 
-R7-9    Sword+chain vs Sword+chain                       15.1   16.3  10.6  26.1     38     54       0     100      42     100    100  81.9       0     0  Heart failed (Torso was destroyed) (16)
-R7-9    Chain+Dagger+Burn vs Chain (plain)               13.5   13.2   5.7  21.4     33     50       0     100      46     100    100  94.3       0     0  Heart failed (Torso was destroyed) (15)
-R7-9    Chain+Dagger+Burn vs Chain+Dagger+BoneEater      16.9   17.4  10.3  24.6     50     54       0     100      46     100    100  91.2       0     0  Heart failed (Torso was destroyed) (18)
-R7-9    Chain+Dagger+Burn vs Chain+Dagger+SpidersBite    15.8   15.6   9.7  22.5     46     46       0     100      58     100    103  82.3       0     0  Heart failed (Torso was destroyed) (11)
-R7-9    Dual-iron+chain vs Sword+chain                   15.9   17.4   9.8  26.8     42     67       0     100      33     107    100  88.1       0     0  Heart failed (Torso was destroyed) (13)
-R7-9    Chain+Rhino-light vs Chain+Dagger+Burn           17.7   18.7   9.8  28.3     33     75       0     100      63     100    100  76.0       0     0  Heart failed (Torso was destroyed) (17)
-R7-9    Sword+Dagger+Fester+leather vs same              12.7   13.1   7.4  19.8     25     42       0     100      63     100    113 110.4       0     0  Heart failed (Torso was destroyed) (15)
-R7-9    WD+Dagger+BoneEater vs Sword+chain               13.0   15.0   8.9  26.4     25     54       0     100      58     100    100  97.6       0     0  Heart failed (Torso was destroyed) (16)
-R7-9    WD+Dagger+Burn vs Sword+chain                    13.0   14.7   9.2  22.1     29     46       0     100      46     100    111  94.0       0     0  Heart failed (Torso was destroyed) (16)
-R7-9    WD+Dagger+Fester vs WD+Dagger+BoneEater          18.5   17.9   9.8  24.2     63     54       0     100      54     100    100  91.1       0     0  Heart failed (Torso was destroyed) (19)
-R7-9    WD+collar+Dagger+Bone vs Chain+Dagger+Burn       16.3   17.8  12.1  24.2     54     54       0     100      50     104    100  79.9       0     0  Heart failed (Torso was destroyed) (17)
-R7-9    Claws+chain+Dagger+Bite vs Sword+Dagger+Fester+leather   12.5   13.5   9.7  20.0     29     42       0     100      50     100    113  91.2       0     0  Heart failed (Torso was destroyed) (18)
-R7-9    Sword+plate vs Sword+plate                       12.7   13.9   8.6  21.9     29     38       0     100      38     100    121  80.4       0     0  Heart failed (Torso was destroyed) (13)
-R7-9    Plate+Dagger+Burn vs Plate (plain)               13.7   14.3   6.8  21.3     33     63       0     100      58     103    100  88.5       0     0  Heart failed (Torso was destroyed) (15)
-R7-9    Plate+Dagger+Burn vs Plate+Dagger+BoneEater      14.8   15.7   8.0  24.1     38     58       0     100      33     112    100  86.1       0     0  Heart failed (Torso was destroyed) (13)
-R7-9    Plate+Dagger+Burn vs Plate+Dagger+SpidersBite    15.2   16.4  10.4  24.7     46     38       0     100      58     100    121  78.8       0     0  Heart failed (Torso was destroyed) (15)
-R7-9    Dual-iron+plate vs Sword+plate                   13.4   13.7   5.2  21.6     17     58       0     100      21     107    100  92.8       0     0  Heart failed (Torso was destroyed) (10)
-R7-9    Plate+Rhino-light vs Plate+Dagger+Burn           16.0   17.6  11.3  26.2     42     67       0     100      50     114    100  91.1       0     0  Heart failed (Torso was destroyed) (12)
-R7-9    WD+Dagger+BoneEater vs Sword+plate               13.9   13.9   8.6  20.4     25     38       0     100      33     100    120  90.5       0     0  Heart failed (Torso was destroyed) (21)
-R7-9    WD+Dagger+Burn vs Sword+plate                    13.3   14.2   8.0  19.6     33     38       0     100      33     100    114  79.0       0     0  Heart failed (Torso was destroyed) (16)
-R7-9    WD+collar+Dagger+Bone vs Plate+Dagger+Burn       16.5   19.1  10.7  31.0     50     46       0     100      46     100    100  76.6       0     0  Heart failed (Torso was destroyed) (19)
-R7-9    Claws+plate+Dagger+Bite vs Sword+Dagger+Fester+leather   14.2   15.6  10.3  24.9     29     58       0     100      63     105    100  89.7       0     0  Heart failed (Torso was destroyed) (12)
-R7-9    Sword+plate vs Sword+chain                       15.3   16.4  11.5  22.4     50     63       0     100      46     105    100  83.2       0     0  Heart failed (Torso was destroyed) (17)
+R7-9    Sword+chain vs Sword+chain                       17.8   17.9  12.4  24.8     63     38       0     100      58      83     99  72.0       0     0  Heart failed (Torso was destroyed) (14)
+R7-9    Chain+Dagger+Burn vs Chain (plain)               17.2   17.6  11.9  22.8     67     58       0     100      50      81    100  86.8       0     0  Heart failed (Torso was destroyed) (16)
+R7-9    Chain+Dagger+Burn vs Chain+Dagger+BoneEater      19.6   19.6  11.0  28.2     50     46      17      83      67      75    100  76.9       0     0  Heart failed (Torso was destroyed) (13)
+R7-9    Chain+Dagger+Burn vs Chain+Dagger+SpidersBite    19.6   19.2  11.5  27.5     63     54       8      92      79      87    100  70.1       0     0  Heart failed (Torso was destroyed) (14)
+R7-9    Dual-iron+chain vs Sword+chain                   16.9   18.1  13.8  23.6     83     67       0     100      67      72     97  88.6       0     0  Heart failed (Torso was destroyed) (18)
+R7-9    Chain+Rhino-light vs Chain+Dagger+Burn           20.9   20.4  13.7  26.0     75     75      13      88      67      60     86  85.2       0     0  Heart failed (Torso was destroyed) (15)
+R7-9    Sword+Dagger+Fester+leather vs same              14.4   15.0   8.7  23.6     38     42       0     100      54      98    100 105.2       0     0  Heart failed (Torso was destroyed) (15)
+R7-9    WD+Dagger+BoneEater vs Sword+chain               19.0   19.6  11.7  28.9     54     67      13      88      75      78     78  82.4       0     0  Heart failed (Torso was destroyed) (15)
+R7-9    WD+Dagger+Burn vs Sword+chain                    17.2   17.9  11.5  26.9     46     67      13      88      54      80    100  84.9       0     0  Heart failed (Torso was destroyed) (13)
+R7-9    WD+Dagger+Fester vs WD+Dagger+BoneEater          14.8   15.0   9.8  20.5     42     54       4      96      54      77    100  93.2       0     0  Heart failed (Torso was destroyed) (15)
+R7-9    WD+collar+Dagger+Bone vs Chain+Dagger+Burn       20.9   19.4  11.7  26.8     50     54      13      88      58      70     94  82.9       0     0  Heart failed (Torso was destroyed) (14)
+R7-9    Claws+chain+Dagger+Bite vs Sword+Dagger+Fester+leather   16.6   17.5  10.8  24.1     58     42      13      88      67      88     90  82.4       0     0  Heart failed (Torso was destroyed) (16)
+R7-9    Sword+plate vs Sword+plate                       14.9   15.5   8.8  25.6     33     46       8      92      33     100    100  91.1       0     0  Heart failed (Torso was destroyed) (15)
+R7-9    Plate+Dagger+Burn vs Plate (plain)               15.4   16.8  10.6  28.2     38     46       8      92      33      98    100  81.3       0     0  Heart failed (Torso was destroyed) (17)
+R7-9    Plate+Dagger+Burn vs Plate+Dagger+BoneEater      19.4   19.6  13.7  27.4     67     50      13      88      50      74    100  78.5       0     0  Heart failed (Torso was destroyed) (16)
+R7-9    Plate+Dagger+Burn vs Plate+Dagger+SpidersBite    16.4   18.5  11.3  29.4     38     33       8      92      58      85     85  67.2       0     0  Heart failed (Torso was destroyed) (15)
+R7-9    Dual-iron+plate vs Sword+plate                   15.4   16.8  11.6  22.4     54     54       0     100      42      88     94  86.4       0     0  Heart failed (Torso was destroyed) (18)
+R7-9    Plate+Rhino-light vs Plate+Dagger+Burn           19.3   19.1  10.8  28.2     42     46      17      83      67      72    100  81.3       0     0  Heart failed (Torso was destroyed) (12)
+R7-9    WD+Dagger+BoneEater vs Sword+plate               18.6   18.6  11.4  24.7     63     42       4      96      54      84     98  80.4       0     0  Heart failed (Torso was destroyed) (15)
+R7-9    WD+Dagger+Burn vs Sword+plate                    17.2   18.1  13.2  24.2     67     50       0     100      50      95    100  79.6       0     0  Heart failed (Torso was destroyed) (12)
+R7-9    WD+collar+Dagger+Bone vs Plate+Dagger+Burn       20.2   21.2  12.2  30.8     46     42       8      92      63      88     98  69.4       0     0  Heart failed (Torso was destroyed) (15)
+R7-9    Claws+plate+Dagger+Bite vs Sword+Dagger+Fester+leather   15.0   15.3  10.0  23.8     38     46       8      92      50      85     99  97.0       0     0  Heart failed (Torso was destroyed) (7)
+R7-9    Sword+plate vs Sword+chain                       17.9   16.4   7.5  23.6     58     54       0     100      38      94    100  79.5       0     0  Heart failed (Torso was destroyed) (13)
 
-R10-12  Chain stacked+Dagger+Bone vs same                28.3   28.7  17.1  40.8     38     50       0     100      67     102    100  69.5       0     0  Heart failed (Torso was destroyed) (11)
-R10-12  Chain stacked+Dagger+Bite vs Dagger+Bone         22.2   23.4  14.7  34.8     54     54       0     100      58     111    100  68.9       0     0  Heart failed (Torso was destroyed) (11)
-R10-12  WD heal+Dagger+Burn vs Chain stacked             29.1   27.3  14.1  40.6     29     67       0     100      54     110    100  75.5       0     0  Heart failed (Torso was destroyed) (10)
-R10-12  WD heal+Dagger+Fester vs Chain stacked           26.6   29.9  13.2  41.8     29     88       4      96      54     119    100  84.0       4     0  Heart failed (Torso was destroyed) (12)
-R10-12  WD heal+Dagger+Bite vs Chain stacked             32.2   31.2  19.2  38.7     25     71       0     100      75     107    100  73.1       0     0  Heart failed (Torso was destroyed) (10)
-R10-12  WD heal+Dagger+Bone vs Chain stacked             28.9   31.1  12.2  47.2     17     79       0     100      54     105    100  75.3       4     0  Heart failed (Torso was destroyed) (11)
-R10-12  WD reflect+Dagger+Bite vs Chain stacked          33.9   33.3  16.5  52.0     38     79       0     100      67     104    100  68.6       4     0  Heart failed (Torso was destroyed) (12)
-R10-12  WD reflect+Dagger+Bite vs WD heal+Dagger+Fester   24.8   29.9  17.9  45.7     46     38       0      96      63     100    130  77.3       4     4  Heart failed (Torso was destroyed) (15)
-R10-12  Unique-mix+Dagger+Burn vs Chain stacked          28.9   29.4  14.2  47.3     21     79       0     100      67     117    100  67.5       0     0  Brain failed (Head was destroyed) (10)
-R10-12  Unique-mix+Dagger+Fester vs Chain stacked        32.5   39.0  19.0  73.2     17     88       4      96      75     107    100  67.7       8     0  Heart failed (Torso was destroyed) (10)
-R10-12  FireStaff-2H+Fester+WD vs Chain stacked          33.6   29.7  16.2  39.4     17     83       0     100      71     112    100  72.0       0     0  Heart failed (Torso was destroyed) (8)
-R10-12  FireStaff-2H+Burn+WD vs Chain stacked            35.6   36.4  17.8  58.6     29     63       0     100      75     100    100  71.2       0     0  Heart failed (Torso was destroyed) (12)
-R10-12  StormStaff+Burn+WD vs Chain stacked              35.7   35.6  14.5  58.8     13     75       0     100      63     100    100  61.6       0     0  Heart failed (Torso was destroyed) (10)
-R10-12  Ember+Dagger+WD vs Chain stacked                 24.4   27.0  19.2  39.2     50     75       0     100      67     112    100  72.9       0     0  Heart failed (Torso was destroyed) (12)
-R10-12  WD heal+Dagger+Burn vs WD+Dagger+BoneEater (no stack)   27.8   29.8  19.6  45.4     42     71       0     100      63     100    100  75.8       0     0  Heart failed (Torso was destroyed) (14)
-R10-12  Unique-mix vs WD+Dagger+BoneEater (no stack)     23.1   27.7  13.0  42.1     38     79       0      96      58     105    100  88.4       4     4  Heart failed (Torso was destroyed) (8)
-R10-12  WD heal+Dagger+Bite vs Unique-mix+Dagger+Burn    43.6   44.7  26.3  53.4      4     63       0      96      54     117    100  60.1       4     4  Heart failed (Torso was destroyed) (12)
-R10-12  FireStaff-2H+Burn vs WD+collar+Dagger+Bone       25.4   28.4  14.0  46.3     38     83       0     100      58     100    100  72.4       0     0  Heart failed (Torso was destroyed) (16)
-R10-12  Plate stacked+Dagger+Bone vs same                27.0   26.0  16.0  38.9     38     46       0     100      67     100    114  64.3       0     0  Heart failed (Torso was destroyed) (12)
-R10-12  Plate stacked+Dagger+Bite vs Dagger+Bone         25.2   25.3  15.9  32.9     38     42       0     100      58     100    121  59.6       0     0  Heart failed (Torso was destroyed) (11)
-R10-12  WD heal+Dagger+Burn vs Plate stacked             32.1   29.1  13.7  42.0     25     58       0     100      46     103    100  69.0       0     0  Heart failed (Torso was destroyed) (13)
-R10-12  WD heal+Dagger+Fester vs Plate stacked           26.2   27.3  12.1  46.3     33     67       0     100      33     100    100  72.4       0     0  Heart failed (Torso was destroyed) (8)
-R10-12  Unique-mix+Dagger+Burn vs Plate stacked          29.5   32.6  17.4  49.4     21     50       0     100      46     100    100  70.6       4     0  Heart failed (Torso was destroyed) (10)
-R10-12  FireStaff-2H+Burn+WD vs Plate stacked            28.6   30.6  17.8  49.2     33     50       0     100      71     100    100  69.4       0     0  Heart failed (Torso was destroyed) (12)
-R10-12  Plate stacked vs Chain stacked                   25.2   24.8  14.8  39.1     38     75       0     100      42     121    100  81.3       0     0  Heart failed (Torso was destroyed) (10)
+R10-12  Chain stacked+Dagger+Bone vs same                29.6   31.8  22.1  42.8     21     50      21      79      63      64     89  60.8       0     0  Heart failed (Torso was destroyed) (11)
+R10-12  Chain stacked+Dagger+Bite vs Dagger+Bone         28.3   29.0  19.1  41.4     38     67       4      96      58      56     90  71.1       0     0  Heart failed (Torso was destroyed) (13)
+R10-12  WD heal+Dagger+Burn vs Chain stacked             33.8   31.7  18.2  47.8     33     83      25      75      50      88    100  76.8       0     0  Heart failed (Torso was destroyed) (10)
+R10-12  WD heal+Dagger+Fester vs Chain stacked           23.7   26.8  18.3  39.7     54     88       4      96      54      85    100  82.1       0     0  Heart failed (Torso was destroyed) (8)
+R10-12  WD heal+Dagger+Bite vs Chain stacked             35.8   35.7  20.3  48.9     21     92      25      75      54      51    100  68.1       0     0  Heart failed (Torso was destroyed) (8)
+R10-12  WD heal+Dagger+Bone vs Chain stacked             33.5   32.9  22.6  50.4     29     75      21      79      42      67    100  67.1       0     0  Heart failed (Torso was destroyed) (15)
+R10-12  WD reflect+Dagger+Bite vs Chain stacked          38.2   36.3  22.8  51.4     17     92      25      75      75      54    100  63.5       0     0  Heart failed (Torso was destroyed) (11)
+R10-12  WD reflect+Dagger+Bite vs WD heal+Dagger+Fester   34.8   40.3  20.5  52.8     21     50       8      92      50      81    100  77.9       8     0  Heart failed (Torso was destroyed) (17)
+R10-12  Unique-mix+Dagger+Burn vs Chain stacked          33.2   35.0  14.1  52.7     13     79      25      75      54      46    100  71.2       4     0  Heart failed (Torso was destroyed) (7)
+R10-12  Unique-mix+Dagger+Fester vs Chain stacked        31.4   32.7  23.6  44.7     17     92      17      83      67      66    100  66.4       0     0  Heart failed (Torso was destroyed) (9)
+R10-12  FireStaff-2H+Fester+WD vs Chain stacked          33.4   34.2  18.3  52.0     17     75      29      71      67      66    100  70.8       4     0  Blood loss (7)
+R10-12  FireStaff-2H+Burn+WD vs Chain stacked            36.5   36.4  21.6  46.0     21     79      29      71      79      52    100  66.5       0     0  Heart failed (Torso was destroyed) (9)
+R10-12  StormStaff+Burn+WD vs Chain stacked              37.5   34.6  16.0  47.6     17     63      25      75      63      50    100  51.4       0     0  Heart failed (Torso was destroyed) (9)
+R10-12  Ember+Dagger+WD vs Chain stacked                 34.1   34.9  25.7  46.1      8     92      17      83      67      72    100  69.1       0     0  Heart failed (Torso was destroyed) (12)
+R10-12  WD heal+Dagger+Burn vs WD+Dagger+BoneEater (no stack)   23.6   25.3  10.1  39.8     33     88      17      83      67      72    100  78.4       0     0  Heart failed (Torso was destroyed) (10)
+R10-12  Unique-mix vs WD+Dagger+BoneEater (no stack)     29.1   33.4  20.8  43.4     21     92      38      63      50      58    100  68.1       4     0  Heart failed (Torso was destroyed) (9)
+R10-12  WD heal+Dagger+Bite vs Unique-mix+Dagger+Burn    43.9   45.5  31.1  59.0      0     63       0     100      50      77     94  62.6       0     0  Heart failed (Torso was destroyed) (16)
+R10-12  FireStaff-2H+Burn vs WD+collar+Dagger+Bone       33.7   34.2  26.9  43.5      8     88      46      54      71      53    100  65.0       0     0  Blood loss (11)
+R10-12  Plate stacked+Dagger+Bone vs same                30.8   30.8  19.1  44.5     21     46      13      88      75      71     90  57.3       0     0  Heart failed (Torso was destroyed) (14)
+R10-12  Plate stacked+Dagger+Bite vs Dagger+Bone         30.8   31.0  16.0  44.0     25     63      17      83      71      71     99  62.4       0     0  Heart failed (Torso was destroyed) (10)
+R10-12  WD heal+Dagger+Burn vs Plate stacked             37.3   36.7  27.6  48.7      4     63       8      92      63      76     83  62.5       0     0  Heart failed (Torso was destroyed) (16)
+R10-12  WD heal+Dagger+Fester vs Plate stacked           26.8   29.8  18.3  47.6     17     83      13      88      46      60    100  73.1       0     0  Heart failed (Torso was destroyed) (11)
+R10-12  Unique-mix+Dagger+Burn vs Plate stacked          35.3   34.9  19.4  46.1     13     79      33      67      67      41    100  62.4       0     0  Heart failed (Torso was destroyed) (8)
+R10-12  FireStaff-2H+Burn+WD vs Plate stacked            37.9   37.6  21.2  48.3     17     58      17      83      58      74    100  59.0       0     0  Heart failed (Torso was destroyed) (11)
+R10-12  Plate stacked vs Chain stacked                   32.2   28.3  10.9  38.6     21     42       8      92      54      77     99  61.8       0     0  Heart failed (Torso was destroyed) (9)
 
-X       R1 axe vs R5 sword-leather                        9.6   10.2   4.8  16.0     13      0       0     100      25     100    129  24.3       0     0  Heart failed (Torso was destroyed) (9)
-X       R1 club vs R5 mace-leather                       10.2   10.0   5.4  16.0     13      0       0     100      29     100    129  29.1       0     0  Heart failed (Torso was destroyed) (8)
-X       R3 Sword+Dagger+Fester-cloth vs R8 chain-plain   12.4   12.1   6.5  19.2     17     21       0     100      25     100    127  70.6       0     0  Heart failed (Torso was destroyed) (11)
-X       R5 sword-leather vs R8 chain-dagger-burn         19.1   22.2   7.5  37.7     42     21       0     100      46     100    113  66.8       4     0  Heart failed (Torso was destroyed) (8)
-X       R5 leather vs R12 chain stacked                  22.3   24.1  15.5  33.5     58      4       0     100      54     100    129  40.9       0     0  Heart failed (Torso was destroyed) (15)
-X       R6 dual-iron vs R12 WD-heal-dagger-burn          21.6   23.9  15.6  28.9     75      4       0     100      67     100    131  45.8       4     0  Heart failed (Torso was destroyed) (14)
-X       R8 chain-plain vs R12 unique-mix                 14.3   14.4   8.1  19.9     29      0       0     100      42     100    132  67.1       0     0  Heart failed (Torso was destroyed) (16)
-X       R8 WD-dagger-bone vs R12 WD-heal-dagger-burn     14.8   16.0   9.3  24.0     38      8       0     100      42     100    133  80.0       0     0  Heart failed (Torso was destroyed) (18)
-X       R5 leather vs R12 plate stacked                  20.1   19.3   7.8  31.8     38     21       0     100      38     100    130  37.9       0     0  Heart failed (Torso was destroyed) (12)
-X       R8 plate-plain vs R12 unique-mix                 14.7   16.0   8.5  29.0     29     13       0     100      46     100    133  79.7       0     0  Heart failed (Torso was destroyed) (10)
+X       R1 axe vs R5 sword-leather                       10.2   10.0   5.4  15.0      4      0       4      96      42      83    124  23.6       0     0  Heart failed (Torso was destroyed) (8)
+X       R1 club vs R5 mace-leather                       11.8   12.5   7.0  17.1     29      0      17      83      38      79    120  25.0       0     0  Heart failed (Torso was destroyed) (10)
+X       R3 Sword+Dagger+Fester-cloth vs R8 chain-plain   12.3   13.6   7.4  18.7     38     13       8      92      38      72    111  75.8       0     0  Heart failed (Torso was destroyed) (11)
+X       R5 sword-leather vs R8 chain-dagger-burn         21.9   20.4  11.9  27.2     54     42      21      79      42      54    100  68.3       0     0  Heart failed (Torso was destroyed) (13)
+X       R5 leather vs R12 chain stacked                  23.9   24.1  18.9  30.5     54      0      33      67      71      37    100  42.2       0     0  Blood loss (8)
+X       R6 dual-iron vs R12 WD-heal-dagger-burn          20.7   21.4  15.5  29.1     71      4      38      63      46      55    107  47.0       0     0  Heart failed (Torso was destroyed) (12)
+X       R8 chain-plain vs R12 unique-mix                 15.6   17.9   9.5  29.5     29     13       4      96      54      83    127  65.9       0     0  Heart failed (Torso was destroyed) (12)
+X       R8 WD-dagger-bone vs R12 WD-heal-dagger-burn     16.5   16.8  10.3  24.2     54      8       0     100      38      89    126  80.5       0     0  Heart failed (Torso was destroyed) (20)
+X       R5 leather vs R12 plate stacked                  20.1   21.7  13.2  28.8     63      4      25      75      50      64    119  24.4       0     0  Heart failed (Torso was destroyed) (10)
+X       R8 plate-plain vs R12 unique-mix                 17.0   17.6  11.2  27.2     38      8       0     100      50      90    125  68.7       0     0  Heart failed (Torso was destroyed) (15)
 
-KIT     R1 axe Early vs axe bare                         13.6   14.9   9.4  19.5     25    100       4      96      46      86    100  66.9       0     0  Heart failed (Torso was destroyed) (20)
-KIT     R1 axe Early vs same                             20.2   21.6  14.9  28.0     63     58       0     100      67      89    100  55.9       0     0  Heart failed (Torso was destroyed) (15)
-KIT     R5 leather Mid vs leather bare                    8.0   10.5   3.8  16.0      4     96       0     100      42      90    100 108.6       0     0  Heart failed (Torso was destroyed) (13)
-KIT     R5 leather Burst vs Sustain                      14.3   14.9   4.9  21.9     38     75       4      96      46     107    100  79.8       0     0  Heart failed (Festering) (7)
-KIT     R8 chain Late vs chain bare                       9.2   11.1   4.3  24.9      4    100       0     100      29      92    100  95.0       0     0  Heart failed (Torso was destroyed) (12)
-KIT     R8 chain Burst vs Sustain                        15.5   23.2   9.1  65.1     29     83       8      92      54     108    100  53.6       4     0  Heart failed (Torso was destroyed) (7)
-KIT     R12 stacked Full vs Late                         17.6   19.2  11.1  29.4     50     83       0     100      58     121    100 106.6       0     0  Heart failed (Torso was destroyed) (15)
-KIT     R12 WD-heal Full vs stacked Mid                  27.3   31.2  17.6  42.8     33    100       4      96      71     107    100  80.2       4     0  Heart failed (Torso was destroyed) (16)
-KIT     R8 plate Late vs plate bare                      10.1   10.2   4.4  14.5      0    100       0     100      58      87    100  95.0       0     0  Heart failed (Torso was destroyed) (13)
-KIT     R12 plate stacked Full vs Late                   15.0   17.2  10.5  28.8     33     83       0     100      42     125    100 111.2       0     0  Heart failed (Torso was destroyed) (13)
+KIT     R1 axe Early vs axe bare                         13.9   13.9  11.2  17.9     29     96      58      42      50       0    100  64.7       0     0  Blood loss (14)
+KIT     R1 axe Early vs same                             22.6   21.7  15.7  29.1     67     50      54      46      75       5     76  44.6       0     0  Blood loss (13)
+KIT     R5 leather Mid vs leather bare                    9.6   11.0   3.8  23.1     13    100      46      54      25      22    100 100.7       0     0  Blood loss (11)
+KIT     R5 leather Burst vs Sustain                      14.5   15.4  10.0  23.4     42     50      38      63      46      73     70  65.9       0     0  Blood loss (9)
+KIT     R8 chain Late vs chain bare                       8.3    9.2   6.1  13.8      8    100      25      75      33      52    100 109.2       0     0  Heart failed (Torso was destroyed) (12)
+KIT     R8 chain Burst vs Sustain                        16.0   15.5  10.5  19.8     58     54      58      42      46       5     76  55.9       0     0  Blood loss (14)
+KIT     R12 stacked Full vs Late                         16.9   16.5   4.4  23.8     50     88       4      96      58      86    100 118.8       0     0  Heart failed (Torso was destroyed) (16)
+KIT     R12 WD-heal Full vs stacked Mid                  29.7   31.7  15.1  54.5     29     92      46      54      58      28    100  76.1       4     0  Blood loss (11)
+KIT     R8 plate Late vs plate bare                      10.1    9.1   5.5  11.7      4    100      25      75      38      56    100 100.7       0     0  Heart failed (Torso was destroyed) (8)
+KIT     R12 plate stacked Full vs Late                   18.8   19.5  10.7  34.8     50     75       8      92      54      72    100 105.4       0     0  Heart failed (Torso was destroyed) (12)
 
-FOOD    R1 meat vs fish (axe+cloth)                      22.4   24.4  15.3  33.3     63     50       0     100      54      78     95  38.0       0     0  Heart failed (Torso was destroyed) (16)
-FOOD    R4 stew vs dried+corn (leather)                  12.5   12.4   5.8  21.0     25     50       0     100      50     100    100  77.9       0     0  Heart failed (Torso was destroyed) (15)
-FOOD    R5 stew+meat vs honey (leather)                  12.4   12.8   6.8  21.9     17     58       0     100      46     100    100  88.6       0     0  Heart failed (Torso was destroyed) (12)
-FOOD    R8 honey vs stew (chain)                         12.9   13.8   6.5  22.1     21     21       0     100      38     100    112  58.4       0     0  Heart failed (Torso was destroyed) (12)
-FOOD    R8 honey+stew vs walnut (WD)                     12.2   13.2   7.9  18.1      8     83       0     100      58     100    100  98.1       0     0  Heart failed (Torso was destroyed) (14)
-FOOD    R12 walnut vs honey (stacked)                    14.9   15.2   9.6  22.4     46     63       0     100      63     100    100  79.9       0     0  Heart failed (Torso was destroyed) (13)
-FOOD    R8 honey vs stew (plate)                         15.1   14.8   4.1  21.9     42     54       0     100      38     100    100  73.4       0     0  Heart failed (Torso was destroyed) (8)
-FOOD    R12 walnut vs honey (plate stacked)              18.4   16.7   9.7  22.5     63     63       0     100      58     100    100  73.9       0     0  Brain failed (6)
+FOOD    R1 meat vs fish (axe+cloth)                      23.8   23.6  16.1  31.4     63     58      54      46      46       5     73  47.3       0     0  Blood loss (13)
+FOOD    R4 stew vs dried+corn (leather)                  13.4   13.2   8.7  18.0     38     38      13      88      54      60    100  67.0       0     0  Heart failed (Torso was destroyed) (14)
+FOOD    R5 stew+meat vs honey (leather)                  13.4   14.3   8.3  21.6     38     58      17      83      50      74     94  84.3       0     0  Heart failed (Torso was destroyed) (12)
+FOOD    R8 honey vs stew (chain)                         16.3   17.7   8.9  26.8     38     29      38      63      33      43     77  47.4       0     0  Heart failed (Torso was destroyed) (13)
+FOOD    R8 honey+stew vs walnut (WD)                     13.7   13.5   8.9  18.7     38     92      25      75      42      66    100  94.9       0     0  Heart failed (Torso was destroyed) (14)
+FOOD    R12 walnut vs honey (stacked)                    18.0   17.0  11.3  23.1     58     71      25      75      67      67     68  82.4       0     0  Heart failed (Torso was destroyed) (8)
+FOOD    R8 honey vs stew (plate)                         14.3   15.0   7.1  21.3     46     25      17      83      38      62     97  50.7       0     0  Heart failed (Torso was destroyed) (13)
+FOOD    R12 walnut vs honey (plate stacked)              20.5   20.4  15.3  25.4     75     63      25      75      58      51     67  71.5       0     0  Heart failed (Torso was destroyed) (13)
 
-MED     R1 MedKit+suture vs Jar only                     21.5   22.0  14.5  30.9     58     75       0     100      58     100    100  57.6       0     0  Heart failed (Torso was destroyed) (20)
-MED     R4 Mist+Balmy vs Acid flask                      15.5   15.5   8.0  25.5     38     54       0     100      54     100    100  69.0       0     0  Heart failed (Torso was destroyed) (13)
-MED     R5 Jar+Heal vs Acid+Puss                         10.8   12.3   6.1  16.3     13      4       0     100      38     100    100  47.5       0     0  Heart failed (Festering) (14)
-MED     R8 MechanicalHeart vs MedKit                     16.1   17.9  11.4  29.2     46     42       0     100      50     100    108  52.0       0     0  Heart failed (Torso was destroyed) (17)
-MED     R8 Mix+Cauterize vs BoneCleanse                  18.5   19.3  11.0  26.6     42     83       0     100      33     100    100  68.5       0     0  Heart failed (Torso was destroyed) (18)
-MED     R12 Serum vs Fester heal                         21.4   21.0  12.4  31.3     54     42       0     100      58     100    124  83.9       0     0  Heart failed (Torso was destroyed) (14)
-MED     R12 Balmy vs FireStaff-2H Burn                   20.7   21.1  11.0  31.9     33     29       0     100      46     100    125  69.8       0     0  Heart failed (Torso was destroyed) (14)
+MED     R1 MedKit+suture vs Jar only                     21.5   20.6  15.5  25.4     75     54      42      58      58      18     93  55.9       0     0  Heart failed (Torso was destroyed) (11)
+MED     R4 Mist+Balmy vs Acid flask                      15.4   14.8   9.9  20.7     54     67      50      50      46      14    100  64.5       0     0  Blood loss (12)
+MED     R5 Jar+Heal vs Acid+Puss                         13.1   14.4   7.5  22.4     29     25      29      71      38      80     97  43.1       0     0  Heart failed (Festering) (8)
+MED     R8 MechanicalHeart vs MedKit                     16.8   16.1  13.3  19.2     67     25      67      33      58       5     82  51.1       0     0  Blood loss (16)
+MED     R8 Mix+Cauterize vs BoneCleanse                  16.5   16.9  12.0  22.4     58     88      75      25      50       0     83  69.3       0     0  Blood loss (18)
+MED     R12 Serum vs Fester heal                         28.2   27.2  19.6  35.1     42     42      17      83      54      70     93  81.2       0     0  Heart failed (Torso was destroyed) (13)
+MED     R12 Balmy vs FireStaff-2H Burn                   22.1   22.6  16.7  30.9     79     17      75      25      46       5    100  63.6       0     0  Blood loss (18)
 
-INC     R1 Mullin vs Shade (axe)                         36.3   38.3  22.5  60.5     13     54       0     100      63      95    100  39.8       0     0  Heart failed (Torso was destroyed) (12)
-INC     R5 Shade vs no incense (leather)                 24.4   25.2   9.8  36.5     38     58       4      96      38     100    100  67.5       4     0  Heart failed (Torso was destroyed) (6)
-INC     R5 Dipped vs Mullin (leather)                    19.0   21.0  11.5  32.5     46     50       0     100      46     100    100  76.7       0     0  Heart failed (Torso was destroyed) (9)
-INC     R8 Dipped vs Shade+Mullin (chain)                25.2   28.8  11.4  52.3     33     42       0     100      46     100    108  36.0       0     0  Heart failed (Torso was destroyed) (11)
-INC     R8 Shade vs Dipped (WD-bone)                     25.2   28.0  16.3  45.1     46     42       0     100      42     100    116  48.4       0     0  Heart failed (Torso was destroyed) (18)
-INC     R12 full smoke vs Mullin (stacked)               23.2   24.7  13.4  40.0     38     71       0     100      46     113    100  69.9       0     0  Heart failed (Torso was destroyed) (9)
-INC     R8 Dipped vs Shade+Mullin (plate)                24.1   23.9   8.9  38.3     50     50       0     100      33     100    100  61.2       0     0  Heart failed (Torso was destroyed) (10)
-INC     R12 full smoke vs Mullin (plate stacked)         34.2   32.5  18.2  50.0     29     67       0     100      54     100    100  63.9       0     0  Heart failed (Torso was destroyed) (10)
+INC     R1 Mullin vs Shade (axe)                         38.7   36.7  29.1  42.7      4     38      71      29      67       5     78  36.8       0     0  Blood loss (17)
+INC     R5 Shade vs no incense (leather)                 27.1   27.2  19.1  34.7     38     58      63      38      58       5    100  54.0       0     0  Blood loss (15)
+INC     R5 Dipped vs Mullin (leather)                    20.1   21.6  14.8  29.9     54     50      29      71      46      57    100  67.9       0     0  Heart failed (Torso was destroyed) (8)
+INC     R8 Dipped vs Shade+Mullin (chain)                32.7   29.2  18.6  37.6     25     42      54      46      42       5    100  27.3       0     0  Blood loss (13)
+INC     R8 Shade vs Dipped (WD-bone)                     32.0   30.9  23.5  37.7     21     46      58      42      46       5     92  39.9       0     0  Blood loss (14)
+INC     R12 full smoke vs Mullin (stacked)               28.1   30.5  20.2  42.3     25     75      38      63      71      52     89  66.0       0     0  Blood loss (9)
+INC     R8 Dipped vs Shade+Mullin (plate)                27.2   26.6  19.9  34.4     38     50      42      58      50      32    100  53.1       0     0  Blood loss (10)
+INC     R12 full smoke vs Mullin (plate stacked)         33.6   32.3  18.3  43.1     17     46      25      75      63      75     94  55.4       0     0  Blood loss (6)
 
-CLASS   R2 Bruiser vs Bruiser (550/548g)                 25.6   30.5  18.0  48.5     50     25       0     100      63      85    100  39.2       4     0  Heart failed (Torso was destroyed) (17)
-CLASS   R2 Dualist vs Dualist (550/548g)                 13.6   13.4   8.0  19.7     33     42       0     100      38      97    100  68.7       0     0  Heart failed (7)
-CLASS   R2 Warden vs Warden (463/550g)                   28.9   35.1  19.8  57.2     33     67       4      96      54      88     99  33.5       4     0  Heart failed (Torso was destroyed) (18)
-CLASS   R2 Skirmisher vs Skirmisher (550/548g)           15.2   15.5   6.7  22.7     42     25       0     100      50     100    109  43.3       0     0  Heart failed (Torso was destroyed) (15)
-CLASS   R2 Hexer vs Hexer (548/545g)                     13.0   13.2   8.0  18.4     21     58       0     100      54     100    100  81.2       0     0  Heart failed (Poison) (5)
-CLASS   R2 Sage vs Sage (548/548g)                       11.7   11.8   8.0  15.9     17     58       0     100      29     100    100  70.0       0     0  Heart failed (Poison) (7)
-CLASS   R2 Warden vs Hexer (463/545g)                    14.4   14.1   8.1  18.7     42      0       0     100      46     100    108  31.8       0     0  Heart failed (Torso was destroyed) (7)
-CLASS   R2 Bruiser vs Sage (550/548g)                    10.5   11.9   7.9  16.9     17     17       0     100      38     100    102  50.1       0     0  Heart failed (Torso was destroyed) (11)
-CLASS   R2 Dualist vs Skirmisher (550/548g)              12.4   13.4   7.7  22.5     21     67       0     100      33     100    100  77.9       0     0  Heart failed (Torso was destroyed) (12)
-CLASS   R5 Bruiser vs Bruiser (1310/1315g)               17.5   16.3   7.3  23.6     63     42       0     100      50     100    137 103.2       0     0  Heart failed (Torso was destroyed) (6)
-CLASS   R5 Dualist vs Dualist (1280/1300g)               20.1   23.4  11.9  33.2     58     50       4      96      42     100    100  91.1       4     0  Heart failed (Torso was destroyed) (13)
-CLASS   R5 Warden vs Warden (1315/1315g)                 23.5   27.0  17.6  40.5     50     71       0     100      54     120    100  73.1       4     0  Heart failed (Torso was destroyed) (9)
-CLASS   R5 Skirmisher vs Skirmisher (1285/1305g)         19.9   19.9  11.9  26.6     58     13       0     100      58     100    135  71.2       0     0  Heart failed (Torso was destroyed) (13)
-CLASS   R5 Hexer vs Hexer (1315/1315g)                   22.7   25.9  17.6  44.4     58     42       0     100      54     100    121  78.6       0     0  Heart failed (Torso was destroyed) (11)
-CLASS   R5 Sage vs Sage (1315/1260g)                     30.2   27.4  14.8  40.0     29     50       0     100      54     100    117  70.0       0     0  Heart failed (Torso was destroyed) (10)
-CLASS   R5 Warden vs Hexer (1315/1315g)                  23.1   28.4  15.9  51.5     50     46       0     100      58     100    100  72.4       0     0  Heart failed (Torso was destroyed) (15)
-CLASS   R5 Bruiser vs Sage (1310/1260g)                  19.1   18.2   8.2  24.4     67     83       0     100      46     133    100 105.0       0     0  Brain failed (7)
-CLASS   R5 Dualist vs Skirmisher (1280/1305g)            18.5   18.8  11.1  25.9     54     42       0     100      38     100    117  94.8       0     0  Heart failed (Torso was destroyed) (14)
-CLASS   R8 Bruiser vs Bruiser (2034/1645g)               15.5   15.4   6.5  22.8     42      8       0     100      58     100    141  44.3       0     0  Heart failed (Torso was destroyed) (7)
-CLASS   R8 Dualist vs Dualist (1698/1853g)               20.0   19.4   6.3  31.7     46     83       0     100      54     127    100 133.3       0     0  Heart failed (Torso was destroyed) (9)
-CLASS   R8 Warden vs Warden (2014/1910g)                 49.4   53.4  28.1  80.0      4     46       0      96      75     100    100  41.8      13     4  Heart failed (Torso was destroyed) (14)
-CLASS   R8 Skirmisher vs Skirmisher (1999/1763g)         15.0   15.2   8.4  25.0     38     25       0     100      38     100    129  69.8       0     0  Brain failed (9)
-CLASS   R8 Hexer vs Hexer (1868/1928g)                   21.0   20.6  12.6  26.7     67     71       0     100      33     122    100  54.0       0     0  Heart failed (4)
-CLASS   R8 Sage vs Sage (1948/1913g)                     30.0   29.6  23.7  36.1     21     92       0     100       0      66     94   0.0       0     0  Intestines failed (systemic collapse (10)
-CLASS   R8 Warden vs Hexer (2014/1928g)                  27.6   28.9  19.0  40.2     42      0       0     100      50     100    135  37.0       0     0  Heart failed (Poison) (5)
-CLASS   R8 Bruiser vs Sage (2034/1913g)                  29.1   28.5  24.5  32.3     13      0       0     100      21      76    100  52.0       0     0  Intestines failed (systemic collapse (9)
-CLASS   R8 Dualist vs Skirmisher (1698/1763g)            14.0   14.6   3.7  26.6     33     25       0     100      46     100    139 140.1       0     0  Heart failed (Torso was destroyed) (11)
-CLASS   R12 Bruiser vs Bruiser (2498/2050g)               8.5    8.6   2.8  13.3      8      8       0     100      46     100    146 133.7       0     0  Brain failed (9)
-CLASS   R12 Dualist vs Dualist (1870/2035g)              10.8   11.7   7.2  17.8     17     96       0     100      38     132    100  88.9       0     0  Heart failed (Festering) (7)
-CLASS   R12 Warden vs Warden (2431/1938g)                12.5   14.7   8.4  22.3     25      0       0     100      38     100    144  54.1       0     0  Heart failed (Torso was destroyed) (12)
-CLASS   R12 Skirmisher vs Skirmisher (2010/1815g)        16.1   16.1  10.6  23.0     50     63       0     100      67     123    100 146.0       0     0  Heart failed (Torso was destroyed) (10)
-CLASS   R12 Hexer vs Hexer (2030/1975g)                  16.1   14.8   9.7  19.4     54     50       0     100      46     134    100 144.6       0     0  Heart failed (Torso was destroyed) (6)
-CLASS   R12 Sage vs Sage (2210/2130g)                    11.0   10.8   4.4  17.1     17     92       0     100      50     142    100 244.0       0     0  Heart failed (Torso was destroyed) (13)
-CLASS   R12 Warden vs Hexer (2431/1975g)                 22.2   21.5  15.7  29.2     71      0       0     100      33      64    100  68.0       0     0  Intestines failed (systemic collapse (9)
-CLASS   R12 Bruiser vs Sage (2498/2130g)                 13.8   13.9   9.4  18.4     38     67       0     100      50     133    100 169.8       0     0  Heart failed (Torso was destroyed) (11)
-CLASS   R12 Dualist vs Skirmisher (1870/1815g)           13.4   13.0   8.9  17.4     29     83       0     100      38     115    100  93.8       0     0  Brain failed (7)
+CLASS   R2 Bruiser vs Bruiser (550/548g)                 24.8   24.4  19.4  29.0     58     42      54      46      83       5     76  44.4       0     0  Blood loss (13)
+CLASS   R2 Dualist vs Dualist (550/548g)                 15.2   14.8  11.6  21.2     58     50      25      75      46      45     87  72.0       0     0  Blood loss (6)
+CLASS   R2 Warden vs Warden (463/550g)                   29.5   29.6  23.1  36.4     13     58      38      63      50      31     75  41.4       0     0  Heart failed (Torso was destroyed) (13)
+CLASS   R2 Skirmisher vs Skirmisher (550/548g)           13.4   13.3   7.1  18.6     25     17      38      63      63      51     86  53.6       0     0  Heart failed (Torso was destroyed) (12)
+CLASS   R2 Hexer vs Hexer (548/545g)                     13.8   15.0  10.0  23.1     29     50      13      88      42      71     83  70.2       0     0  Heart failed (Torso was destroyed) (8)
+CLASS   R2 Sage vs Sage (548/548g)                       12.3   12.7   8.8  16.8     21     54       4      96      29      64     89  62.9       0     0  Heart failed (Torso was destroyed) (6)
+CLASS   R2 Warden vs Hexer (463/545g)                    15.3   14.8  11.5  19.2     54      0      21      79      63      63     96  27.9       0     0  Heart failed (6)
+CLASS   R2 Bruiser vs Sage (550/548g)                    11.5   12.4   8.4  18.3     25      4       0     100      33      67    100  42.6       0     0  Heart failed (Torso was destroyed) (9)
+CLASS   R2 Dualist vs Skirmisher (550/548g)              12.1   12.4   7.0  18.8     29     75      21      79      50      80     95  79.2       0     0  Heart failed (Torso was destroyed) (8)
+CLASS   R5 Bruiser vs Bruiser (1310/1315g)               19.0   18.6  11.8  26.5     63     42       0     100      71      95    100  96.9       0     0  Heart failed (Torso was destroyed) (6)
+CLASS   R5 Dualist vs Dualist (1280/1300g)               24.9   25.3  16.8  33.6     46     38       4      96      58      75     87  83.7       0     0  Heart failed (Torso was destroyed) (13)
+CLASS   R5 Warden vs Warden (1315/1315g)                 27.1   28.5  20.0  39.3     42     46       8      92      42      87    100  62.9       0     0  Heart failed (Torso was destroyed) (9)
+CLASS   R5 Skirmisher vs Skirmisher (1285/1305g)         19.4   21.6  14.4  28.2     71     29       0     100      63      75    100  73.3       0     0  Heart failed (Torso was destroyed) (7)
+CLASS   R5 Hexer vs Hexer (1315/1315g)                   31.5   31.5  19.6  46.8     13     42      21      79      58      86     94  62.7       0     0  Heart failed (Torso was destroyed) (8)
+CLASS   R5 Sage vs Sage (1315/1260g)                     31.1   31.3  17.9  45.2     29     50       0     100      63      68     99  65.9       0     0  Brain failed (8)
+CLASS   R5 Warden vs Hexer (1315/1315g)                  33.7   31.2  17.7  38.1     13     38      13      88      75      95     82  60.6       0     0  Heart failed (Torso was destroyed) (12)
+CLASS   R5 Bruiser vs Sage (1310/1260g)                  23.8   23.6  13.2  33.4     58     54       0     100      67      83    100  96.5       0     0  Heart failed (Torso was destroyed) (12)
+CLASS   R5 Dualist vs Skirmisher (1280/1305g)            19.1   20.1  13.2  26.9     58     33       4      96      63      71    100  93.4       0     0  Heart failed (Torso was destroyed) (11)
+CLASS   R8 Bruiser vs Bruiser (2034/1645g)               16.1   16.1   8.3  23.9     50      0       0     100      58      96    129  43.1       0     0  Heart failed (Torso was destroyed) (9)
+CLASS   R8 Dualist vs Dualist (1698/1853g)               24.0   22.7  16.6  29.9     50     67       4      96      79      68     96 124.6       0     0  Heart failed (Torso was destroyed) (17)
+CLASS   R8 Warden vs Warden (2014/1910g)                 48.8   54.1  35.8  72.3      0     42      13      88      83      60     82  43.7       8     0  Heart failed (Torso was destroyed) (9)
+CLASS   R8 Skirmisher vs Skirmisher (1999/1763g)         17.6   17.9   9.9  28.4     58     25       0     100      54      91    101  53.2       0     0  Heart failed (Torso was destroyed) (8)
+CLASS   R8 Hexer vs Hexer (1868/1928g)                   18.0   18.5  13.4  24.2     75     88       0     100      21     100    100  54.9       0     0  Liver failed (systemic collapse) (9)
+CLASS   R8 Sage vs Sage (1948/1913g)                     28.5   29.2  20.0  38.9     29     83       0     100       0      61     65   0.0       0     0  Brain failed (Festering) (11)
+CLASS   R8 Warden vs Hexer (2014/1928g)                  28.9   31.0  18.8  43.3     46      0       0     100      38      80    100  37.3       4     0  Heart failed (9)
+CLASS   R8 Bruiser vs Sage (2034/1913g)                  27.7   27.4  19.6  33.8     29      0       0     100      33      63    100  49.4       0     0  Intestines failed (systemic collapse (12)
+CLASS   R8 Dualist vs Skirmisher (1698/1763g)            16.3   16.8   3.3  29.5     29     38       4      96      54      92    100 125.8       0     0  Heart failed (Torso was destroyed) (8)
+CLASS   R12 Bruiser vs Bruiser (2498/2050g)              12.9   12.8   7.7  16.6     17     17       0     100      75     100    140 103.9       0     0  Heart failed (Torso was destroyed) (7)
+CLASS   R12 Dualist vs Dualist (1870/2035g)              10.7   11.8   7.5  19.1     25     96       0     100      46     103    100  98.3       0     0  Heart failed (Torso was destroyed) (5)
+CLASS   R12 Warden vs Warden (2431/1938g)                16.0   17.8  12.4  27.0     46      0       0     100      50     100    135  48.6       0     0  Heart failed (Torso was destroyed) (14)
+CLASS   R12 Skirmisher vs Skirmisher (2010/1815g)        15.6   16.0  11.6  22.2     46     46       0     100      58      96    100 151.6       0     0  Heart failed (Torso was destroyed) (4)
+CLASS   R12 Hexer vs Hexer (2030/1975g)                  16.1   15.4  11.8  19.3     54     54       0     100      46     110     99 163.4       0     0  Brain failed (6)
+CLASS   R12 Sage vs Sage (2210/2130g)                    11.2   10.4   5.6  15.2     13     96       0     100      54     123    100 253.6       0     0  Heart failed (Torso was destroyed) (9)
+CLASS   R12 Warden vs Hexer (2431/1975g)                 19.6   20.2  16.6  24.9     83      0       0     100      13     100    100  65.5       0     0  Intestines failed (systemic collapse (16)
+CLASS   R12 Bruiser vs Sage (2498/2130g)                 15.6   14.8   9.8  21.1     58     63       0     100      63      97    100 172.4       0     0  Heart failed (Torso was destroyed) (7)
+CLASS   R12 Dualist vs Skirmisher (1870/1815g)           12.8   12.9   8.6  16.3     21     83       0     100      33     100    100  91.0       0     0  Left Kidney failed (systemic collaps (4)
 
 --- Blood & severs ---
 Band    Matchup                                         bleed%  sever%  b|sev  b|no  loseB%  winB% sev->s  inst%
 ----------------------------------------------------------------------------------------------------------------------------------
-R1-3    Club vs Club (naked)                                 0      50      0     0      97    100   10.2      0
-R1-3    Axe vs Axe (naked)                                   0      67      0     0      89    100    9.2      0
-R1-3    Spear vs Axe (naked)                                 0      54      0     0      94    100    7.6      0
-R1-3    Knife vs Knife (naked)                               0      54      0     0      87    100   11.3      0
-R1-3    Hammer vs Club (naked)                               0      58      0     0      85    100   15.2      0
-R1-3    Dual-primitive vs Axe (naked)                        0      58      0     0      83    100   10.5      0
-R1-3    Axe+cloth vs Axe+cloth                               8      67     13     0      90    100   15.5      0
-R1-3    Club+cloth vs Club+cloth                             0      67      0     0      86     99   14.9      0
-R1-3    Spear+cloth vs Axe+cloth                             0      58      0     0      92    100   14.7      0
-R1-3    Axe+leather-core vs Axe+leather-core                 0      58      0     0      93    100   13.1      0
-R1-3    Sword+Dagger+Fester+cloth vs Axe+cloth               0      42      0     0     103    100    5.0      0
-R1-3    Dagger+Fester+cloth vs Sword+cloth                   0      58      0     0      99    100    4.5      0
+R1-3    Club vs Club (naked)                                29      42     40    21      39     70    7.8      4
+R1-3    Axe vs Axe (naked)                                  54      75     72     0       5     76   12.0      4
+R1-3    Spear vs Axe (naked)                                46      75     61     0      41     74    8.4      0
+R1-3    Knife vs Knife (naked)                              38      63     60     0      39     74    5.8      0
+R1-3    Hammer vs Club (naked)                              54      71     76     0       5     63    8.1      4
+R1-3    Dual-primitive vs Axe (naked)                       42      58     57    20      34     69   12.6      0
+R1-3    Axe+cloth vs Axe+cloth                              50      75     56    33       5     73    9.0      0
+R1-3    Club+cloth vs Club+cloth                            67      71     76    43       5     59   10.8      0
+R1-3    Spear+cloth vs Axe+cloth                            71      79     79    40       5     72    6.9      0
+R1-3    Axe+leather-core vs Axe+leather-core                50      46     64    38      23     73    4.5      0
+R1-3    Sword+Dagger+Fester+cloth vs Axe+cloth               4      63      7     0      62    100    4.5      0
+R1-3    Dagger+Fester+cloth vs Sword+cloth                   8      21     20     5      74     98    9.1      0
 
-R4-6    Sword+leather vs Sword+leather                       0      46      0     0     100    121   13.3      0
-R4-6    Mace+leather vs Sword+leather                        0      38      0     0     100    125    4.1      0
-R4-6    IronAxe+leather vs Sword+leather                     0      46      0     0      98    108   16.5      0
-R4-6    Claws+leather vs Sword+leather                       0      50      0     0      99    120   13.5      0
-R4-6    Dual-iron+Fester+leaf vs same                        0      67      0     0     100    100   11.3      0
-R4-6    Dual-dagger+Fester+leaf vs Dual-iron                 4      67      6     0     100    100   22.1      0
-R4-6    Sword+Dagger+Fester+leather-ench vs same             4      63      7     0     100    100   18.5      0
-R4-6    Sword+Dagger+Bite+BloodBath vs Sword+leather         0      50      0     0     100    100   20.5      0
-R4-6    FireStaff+Fester+leather vs Sword+leather            0      38      0     0     100    114    7.5      0
-R4-6    StormStaff+leather vs Sword+leather                  0      29      0     0     100    100   11.0      0
-R4-6    Ember+Dagger+leather vs Sword+leather                0      58      0     0      99    100   13.9      0
-R4-6    Chain-partial vs Sword+leather                       0      58      0     0     100    118   16.1      0
-R4-6    WD-partial+Dagger+BoneEater vs Sword+leather         0      46      0     0     100    100   14.2      0
-R4-6    WD-partial+Dagger+Bite vs Mace+leather               0      38      0     0     102    100   27.2      0
+R4-6    Sword+leather vs Sword+leather                      46      54     69    18      47    100    6.0      4
+R4-6    Mace+leather vs Sword+leather                       50      50     83    17      11    100    7.9      8
+R4-6    IronAxe+leather vs Sword+leather                    46      58     71    10      43    100    6.2      4
+R4-6    Claws+leather vs Sword+leather                      38      46     45    31      53    100    6.6      4
+R4-6    Dual-iron+Fester+leaf vs same                       42      42     40    43      44    100   11.1      0
+R4-6    Dual-dagger+Fester+leaf vs Dual-iron                33      46     45    23      56     92   16.5      0
+R4-6    Sword+Dagger+Fester+leather-ench vs same            50      29     57    47       5     93   11.1      0
+R4-6    Sword+Dagger+Bite+BloodBath vs Sword+leather        50      67     56    38      16    100    8.7      4
+R4-6    FireStaff+Fester+leather vs Sword+leather           33      29     29    35      43    100   19.7      0
+R4-6    StormStaff+leather vs Sword+leather                 38      38     44    33      45    100    8.4      0
+R4-6    Ember+Dagger+leather vs Sword+leather               38      46     55    23      50     93   18.3      0
+R4-6    Chain-partial vs Sword+leather                      42      42     70    21      37    100   10.6      0
+R4-6    WD-partial+Dagger+BoneEater vs Sword+leather        29      42     60     7      59    100    8.5      0
+R4-6    WD-partial+Dagger+Bite vs Mace+leather              29      46     36    23      80    100    7.1      0
 
-METAL   Dagger vs Sword (leather)                            0      38      0     0     100    100   21.1      0
-METAL   Knuckles vs Sword (leather)                          0      50      0     0     100    121   22.5      0
-METAL   Axe vs Sword (leather)                               0      46      0     0      98    108   16.5      0
-METAL   Hammer vs Sword (leather)                            0      33      0     0     100    122   17.6      0
-METAL   Mace vs Sword (leather)                              0      38      0     0     100    125    4.1      0
-METAL   Claws vs Sword (leather)                             0      50      0     0      99    120   13.5      0
-METAL   Sword vs Sword (leather)                             0      46      0     0     100    121   13.3      0
-METAL   Axe vs Axe (leather)                                 0      33      0     0     100    100   26.3      0
-METAL   Mace vs Mace (leather)                               0      33      0     0     100    105   25.3      0
-METAL   Claws vs Claws (leather)                             0      58      0     0     100    100   18.3      0
+METAL   Dagger vs Sword (leather)                           42      50     58    25      43    100    8.7      0
+METAL   Knuckles vs Sword (leather)                         42      54     62    18      44     99   13.9      4
+METAL   Axe vs Sword (leather)                              46      58     71    10      43    100    6.2      4
+METAL   Hammer vs Sword (leather)                           46      58     50    40      41     90   12.1      4
+METAL   Mace vs Sword (leather)                             50      50     83    17      11    100    7.9      8
+METAL   Claws vs Sword (leather)                            38      46     45    31      53    100    6.6      4
+METAL   Sword vs Sword (leather)                            46      54     69    18      47    100    6.0      4
+METAL   Axe vs Axe (leather)                                46      46     55    38      40    100    3.8      8
+METAL   Mace vs Mace (leather)                              58      79     68    20       5     99    8.8      0
+METAL   Claws vs Claws (leather)                            46      67     69     0      33    100   11.4      4
 
-MAGIC   EmberWand vs Sword (leather)                         4      50      8     0     100    122   17.8      0
-MAGIC   HexWand vs Sword (leather)                           0      63      0     0     100    100   16.6      0
-MAGIC   FireStaff vs Sword (leather)                         0      46      0     0     100    119   15.5      0
-MAGIC   StormStaff vs Sword (leather)                        0      29      0     0     100    100   11.0      0
-MAGIC   Dual-wand vs Sword (leather)                         0      42      0     0      99    100   19.2      0
-MAGIC   Ember+Dagger vs Sword (leather)                      0      58      0     0      99    100   13.9      0
-MAGIC   FireStaff vs FireStaff (leather)                     8      75      6    17      88    100   16.9      0
-MAGIC   StormStaff vs StormStaff (leather)                   0      46      0     0      97    100    8.3      0
-MAGIC   HexWand vs EmberWand (leather)                       4      54      8     0     100    100   20.9      0
+MAGIC   EmberWand vs Sword (leather)                        54      58     64    40       5    100    8.3      0
+MAGIC   HexWand vs Sword (leather)                          25      46     36    15      57    100    8.7      0
+MAGIC   FireStaff vs Sword (leather)                        38      71     47    14      39    100    8.0      0
+MAGIC   StormStaff vs Sword (leather)                       38      38     44    33      45    100    8.4      0
+MAGIC   Dual-wand vs Sword (leather)                        33      50     67     0      75    100    8.8      0
+MAGIC   Ember+Dagger vs Sword (leather)                     38      46     55    23      50     93   18.3      0
+MAGIC   FireStaff vs FireStaff (leather)                    58      63     67    44       5    100   14.3      0
+MAGIC   StormStaff vs StormStaff (leather)                  54      46     73    38       5    100   10.8      8
+MAGIC   HexWand vs EmberWand (leather)                      50      54     77    18      28    100   17.4      0
 
-STEEL   Greatsword vs Sword (leather)                        0      50      0     0     100    100   14.9      0
-STEEL   Maul vs Sword (leather)                              0      38      0     0     100    100   22.5      0
-STEEL   Poleaxe vs Sword (leather)                           0      63      0     0     100    100   11.7      0
-STEEL   SteelSword vs Sword (leather)                        0      58      0     0      95    100   19.1      0
-STEEL   SteelAxe vs Sword (leather)                          0      67      0     0     100    100   16.9      0
-STEEL   Greatsword vs Maul (leather)                         0      54      0     0     100    100    6.9      0
-STEEL   Greatsword vs Poleaxe (leather)                      0      54      0     0     100    122   14.4      0
-STEEL   Maul vs Poleaxe (leather)                            0      38      0     0     100    126   14.5      0
-STEEL   SteelSword vs SteelAxe (leather)                     4      63      0    11     100    120   15.1      0
-STEEL   SteelSword+Dagger vs Greatsword (leather)            0      54      0     0     100    100   15.3      0
-STEEL   Dual-IronSword vs Greatsword (leather)               0      54      0     0     100    100   16.6      0
-STEEL   Greatsword vs Sword (chain)                          0      46      0     0      97    100   14.0      0
-STEEL   SteelSword vs Sword (chain)                          0      46      0     0     100    100   17.4      0
-STEEL   Greatsword vs Sword (plate)                          0      46      0     0     100    100   20.4      0
-STEEL   SteelSword vs Sword (plate)                          0      29      0     0     105    100   10.7      0
+STEEL   Greatsword vs Sword (leather)                       42      50     58    25      43    100    9.2      0
+STEEL   Maul vs Sword (leather)                             33      54     38    27      49    100   13.9      0
+STEEL   Poleaxe vs Sword (leather)                          38      67     50    13      40    100   12.3      8
+STEEL   SteelSword vs Sword (leather)                       33      42     50    21      40    100    9.2      0
+STEEL   SteelAxe vs Sword (leather)                         46      54     62    27      34    100   10.4      0
+STEEL   Greatsword vs Maul (leather)                        25      33     50    13      62    100   13.8      0
+STEEL   Greatsword vs Poleaxe (leather)                     38      46     64    15      50    100   11.7      0
+STEEL   Maul vs Poleaxe (leather)                           50      71     71     0      38    100    7.4      4
+STEEL   SteelSword vs SteelAxe (leather)                    42      38     44    40      43    100    8.2      0
+STEEL   SteelSword+Dagger vs Greatsword (leather)           38      63     53    11      74    100   11.6      0
+STEEL   Dual-IronSword vs Greatsword (leather)              46      54     69    18      27    100   10.7      0
+STEEL   Greatsword vs Sword (chain)                         50      33     88    31      39    100   21.1      0
+STEEL   SteelSword vs Sword (chain)                         42      33     63    31      47    100   22.0      0
+STEEL   Greatsword vs Sword (plate)                         50      58     64    30      19    100   17.9      0
+STEEL   SteelSword vs Sword (plate)                         46      42     60    36      29    100   17.5      0
 
-R7-9    Sword+chain vs Sword+chain                           0      42      0     0     100    100    9.0      0
-R7-9    Chain+Dagger+Burn vs Chain (plain)                   0      46      0     0     100    100    8.1      0
-R7-9    Chain+Dagger+Burn vs Chain+Dagger+BoneEater          0      46      0     0     100    100    6.1      0
-R7-9    Chain+Dagger+Burn vs Chain+Dagger+SpidersBite        0      58      0     0     100    103    8.2      0
-R7-9    Dual-iron+chain vs Sword+chain                       0      33      0     0     107    100   15.5      0
-R7-9    Chain+Rhino-light vs Chain+Dagger+Burn               0      63      0     0     100    100   10.2      0
-R7-9    Sword+Dagger+Fester+leather vs same                  0      63      0     0     100    113    6.2      0
-R7-9    WD+Dagger+BoneEater vs Sword+chain                   0      58      0     0     100    100    6.1      0
-R7-9    WD+Dagger+Burn vs Sword+chain                        0      46      0     0     100    111    5.6      0
-R7-9    WD+Dagger+Fester vs WD+Dagger+BoneEater              0      54      0     0     100    100    8.7      0
-R7-9    WD+collar+Dagger+Bone vs Chain+Dagger+Burn           0      50      0     0     104    100    9.6      0
-R7-9    Claws+chain+Dagger+Bite vs Sword+Dagger+Fester+leather       0      50      0     0     100    113    6.0      0
-R7-9    Sword+plate vs Sword+plate                           0      38      0     0     100    121    7.8      0
-R7-9    Plate+Dagger+Burn vs Plate (plain)                   0      58      0     0     103    100    7.3      0
-R7-9    Plate+Dagger+Burn vs Plate+Dagger+BoneEater          0      33      0     0     112    100    5.6      0
-R7-9    Plate+Dagger+Burn vs Plate+Dagger+SpidersBite        0      58      0     0     100    121    4.9      0
-R7-9    Dual-iron+plate vs Sword+plate                       0      21      0     0     107    100    8.3      0
-R7-9    Plate+Rhino-light vs Plate+Dagger+Burn               0      50      0     0     114    100    9.1      0
-R7-9    WD+Dagger+BoneEater vs Sword+plate                   0      33      0     0     100    120    8.8      0
-R7-9    WD+Dagger+Burn vs Sword+plate                        0      33      0     0     100    114    8.9      0
-R7-9    WD+collar+Dagger+Bone vs Plate+Dagger+Burn           0      46      0     0     100    100    7.8      0
-R7-9    Claws+plate+Dagger+Bite vs Sword+Dagger+Fester+leather       0      63      0     0     105    100    7.9      0
-R7-9    Sword+plate vs Sword+chain                           0      46      0     0     105    100   10.7      0
+R7-9    Sword+chain vs Sword+chain                           0      58      0     0      83     99    7.3      0
+R7-9    Chain+Dagger+Burn vs Chain (plain)                   0      50      0     0      81    100    9.3      0
+R7-9    Chain+Dagger+Burn vs Chain+Dagger+BoneEater         17      67     13    25      75    100    6.3      4
+R7-9    Chain+Dagger+Burn vs Chain+Dagger+SpidersBite        8      79     11     0      87    100    8.1      0
+R7-9    Dual-iron+chain vs Sword+chain                       0      67      0     0      72     97    8.4      0
+R7-9    Chain+Rhino-light vs Chain+Dagger+Burn              13      67     19     0      60     86   12.8      0
+R7-9    Sword+Dagger+Fester+leather vs same                  0      54      0     0      98    100    7.9      0
+R7-9    WD+Dagger+BoneEater vs Sword+chain                  13      75     17     0      78     78    9.2      0
+R7-9    WD+Dagger+Burn vs Sword+chain                       13      54     23     0      80    100    8.0      0
+R7-9    WD+Dagger+Fester vs WD+Dagger+BoneEater              4      54      8     0      77    100    8.4      0
+R7-9    WD+collar+Dagger+Bone vs Chain+Dagger+Burn          13      58     14    10      70     94   13.6      0
+R7-9    Claws+chain+Dagger+Bite vs Sword+Dagger+Fester+leather      13      67     13    13      88     90   12.2      0
+R7-9    Sword+plate vs Sword+plate                           8      33     13     6     100    100    5.7      0
+R7-9    Plate+Dagger+Burn vs Plate (plain)                   8      33     13     6      98    100   12.4      0
+R7-9    Plate+Dagger+Burn vs Plate+Dagger+BoneEater         13      50     25     0      74    100    6.8      0
+R7-9    Plate+Dagger+Burn vs Plate+Dagger+SpidersBite        8      58      7    10      85     85    8.4      0
+R7-9    Dual-iron+plate vs Sword+plate                       0      42      0     0      88     94   10.1      0
+R7-9    Plate+Rhino-light vs Plate+Dagger+Burn              17      67     19    13      72    100    8.7      0
+R7-9    WD+Dagger+BoneEater vs Sword+plate                   4      54      8     0      84     98    8.1      0
+R7-9    WD+Dagger+Burn vs Sword+plate                        0      50      0     0      95    100    7.9      0
+R7-9    WD+collar+Dagger+Bone vs Plate+Dagger+Burn           8      63      7    11      88     98   12.0      0
+R7-9    Claws+plate+Dagger+Bite vs Sword+Dagger+Fester+leather       8      50      0    17      85     99   11.8      0
+R7-9    Sword+plate vs Sword+chain                           0      38      0     0      94    100   12.9      0
 
-R10-12  Chain stacked+Dagger+Bone vs same                    0      67      0     0     102    100   17.8      0
-R10-12  Chain stacked+Dagger+Bite vs Dagger+Bone             0      58      0     0     111    100   13.4      0
-R10-12  WD heal+Dagger+Burn vs Chain stacked                 0      54      0     0     110    100   11.0      0
-R10-12  WD heal+Dagger+Fester vs Chain stacked               4      54      8     0     119    100   20.4      0
-R10-12  WD heal+Dagger+Bite vs Chain stacked                 0      75      0     0     107    100   14.5      0
-R10-12  WD heal+Dagger+Bone vs Chain stacked                 0      54      0     0     105    100   11.0      0
-R10-12  WD reflect+Dagger+Bite vs Chain stacked              0      67      0     0     104    100   15.6      0
-R10-12  WD reflect+Dagger+Bite vs WD heal+Dagger+Fester       0      63      0     0     100    130   13.1      0
-R10-12  Unique-mix+Dagger+Burn vs Chain stacked              0      67      0     0     117    100   21.5      0
-R10-12  Unique-mix+Dagger+Fester vs Chain stacked            4      75      0    17     107    100   19.6      0
-R10-12  FireStaff-2H+Fester+WD vs Chain stacked              0      71      0     0     112    100   16.2      0
-R10-12  FireStaff-2H+Burn+WD vs Chain stacked                0      75      0     0     100    100   14.8      0
-R10-12  StormStaff+Burn+WD vs Chain stacked                  0      63      0     0     100    100   17.6      0
-R10-12  Ember+Dagger+WD vs Chain stacked                     0      67      0     0     112    100   15.8      0
-R10-12  WD heal+Dagger+Burn vs WD+Dagger+BoneEater (no stack)       0      63      0     0     100    100   17.0      0
-R10-12  Unique-mix vs WD+Dagger+BoneEater (no stack)         0      58      0     0     105    100    8.9      0
-R10-12  WD heal+Dagger+Bite vs Unique-mix+Dagger+Burn        0      54      0     0     117    100   24.5      0
-R10-12  FireStaff-2H+Burn vs WD+collar+Dagger+Bone           0      58      0     0     100    100   15.1      0
-R10-12  Plate stacked+Dagger+Bone vs same                    0      67      0     0     100    114   16.7      0
-R10-12  Plate stacked+Dagger+Bite vs Dagger+Bone             0      58      0     0     100    121   17.4      0
-R10-12  WD heal+Dagger+Burn vs Plate stacked                 0      46      0     0     103    100   19.2      0
-R10-12  WD heal+Dagger+Fester vs Plate stacked               0      33      0     0     100    100   22.1      0
-R10-12  Unique-mix+Dagger+Burn vs Plate stacked              0      46      0     0     100    100   17.8      0
-R10-12  FireStaff-2H+Burn+WD vs Plate stacked                0      71      0     0     100    100   14.5      0
-R10-12  Plate stacked vs Chain stacked                       0      42      0     0     121    100   12.5      0
+R10-12  Chain stacked+Dagger+Bone vs same                   21      63     20    22      64     89   18.3      0
+R10-12  Chain stacked+Dagger+Bite vs Dagger+Bone             4      58      0    10      56     90   16.5      0
+R10-12  WD heal+Dagger+Burn vs Chain stacked                25      50     25    25      88    100   21.0      0
+R10-12  WD heal+Dagger+Fester vs Chain stacked               4      54      8     0      85    100   21.5      0
+R10-12  WD heal+Dagger+Bite vs Chain stacked                25      54     23    27      51    100   30.7      0
+R10-12  WD heal+Dagger+Bone vs Chain stacked                21      42     40     7      67    100   23.7      0
+R10-12  WD reflect+Dagger+Bite vs Chain stacked             25      75     22    33      54    100   23.4      0
+R10-12  WD reflect+Dagger+Bite vs WD heal+Dagger+Fester       8      50     17     0      81    100   18.8      0
+R10-12  Unique-mix+Dagger+Burn vs Chain stacked             25      54     15    36      46    100   20.7      0
+R10-12  Unique-mix+Dagger+Fester vs Chain stacked           17      67     13    25      66    100   14.0      0
+R10-12  FireStaff-2H+Fester+WD vs Chain stacked             29      67     25    38      66    100   17.1      4
+R10-12  FireStaff-2H+Burn+WD vs Chain stacked               29      79     32    20      52    100   24.2      0
+R10-12  StormStaff+Burn+WD vs Chain stacked                 25      63     27    22      50    100   21.6      0
+R10-12  Ember+Dagger+WD vs Chain stacked                    17      67     19    13      72    100   25.5      0
+R10-12  WD heal+Dagger+Burn vs WD+Dagger+BoneEater (no stack)      17      67     25     0      72    100   12.1      0
+R10-12  Unique-mix vs WD+Dagger+BoneEater (no stack)        38      50     67     8      58    100   23.4      0
+R10-12  WD heal+Dagger+Bite vs Unique-mix+Dagger+Burn        0      50      0     0      77     94   35.2      0
+R10-12  FireStaff-2H+Burn vs WD+collar+Dagger+Bone          46      71     41    57      53    100   18.7      0
+R10-12  Plate stacked+Dagger+Bone vs same                   13      75     17     0      71     90   19.8      0
+R10-12  Plate stacked+Dagger+Bite vs Dagger+Bone            17      71     24     0      71     99   16.4      0
+R10-12  WD heal+Dagger+Burn vs Plate stacked                 8      63     13     0      76     83   16.9      0
+R10-12  WD heal+Dagger+Fester vs Plate stacked              13      46     18     8      60    100   18.1      0
+R10-12  Unique-mix+Dagger+Burn vs Plate stacked             33      67     38    25      41    100   18.2      0
+R10-12  FireStaff-2H+Burn+WD vs Plate stacked               17      58     21    10      74    100   23.1      0
+R10-12  Plate stacked vs Chain stacked                       8      54      8     9      77     99   17.4      0
 
-X       R1 axe vs R5 sword-leather                           0      25      0     0     100    129    3.7      0
-X       R1 club vs R5 mace-leather                           0      29      0     0     100    129    7.2      0
-X       R3 Sword+Dagger+Fester-cloth vs R8 chain-plain       0      25      0     0     100    127    7.2      0
-X       R5 sword-leather vs R8 chain-dagger-burn             0      46      0     0     100    113   10.5      0
-X       R5 leather vs R12 chain stacked                      0      54      0     0     100    129   11.8      0
-X       R6 dual-iron vs R12 WD-heal-dagger-burn              0      67      0     0     100    131   11.7      0
-X       R8 chain-plain vs R12 unique-mix                     0      42      0     0     100    132   10.0      0
-X       R8 WD-dagger-bone vs R12 WD-heal-dagger-burn         0      42      0     0     100    133    7.7      0
-X       R5 leather vs R12 plate stacked                      0      38      0     0     100    130   13.3      0
-X       R8 plate-plain vs R12 unique-mix                     0      46      0     0     100    133    7.1      0
+X       R1 axe vs R5 sword-leather                           4      42     10     0      83    124    3.0      0
+X       R1 club vs R5 mace-leather                          17      38     44     0      79    120    8.5      0
+X       R3 Sword+Dagger+Fester-cloth vs R8 chain-plain       8      38     11     7      72    111    5.9      0
+X       R5 sword-leather vs R8 chain-dagger-burn            21      42     20    21      54    100    9.3      0
+X       R5 leather vs R12 chain stacked                     33      71     41    14      37    100    8.4      0
+X       R6 dual-iron vs R12 WD-heal-dagger-burn             38      46     55    23      55    107    4.6      4
+X       R8 chain-plain vs R12 unique-mix                     4      54      8     0      83    127   10.1      0
+X       R8 WD-dagger-bone vs R12 WD-heal-dagger-burn         0      38      0     0      89    126   12.7      0
+X       R5 leather vs R12 plate stacked                     25      50     42     8      64    119    9.6      0
+X       R8 plate-plain vs R12 unique-mix                     0      50      0     0      90    125    5.5      0
 
-KIT     R1 axe Early vs axe bare                             4      46      9     0      86    100    6.9      0
-KIT     R1 axe Early vs same                                 0      67      0     0      89    100    9.2      0
-KIT     R5 leather Mid vs leather bare                       0      42      0     0      90    100    4.3      0
-KIT     R5 leather Burst vs Sustain                          4      46      9     0     107    100    8.5      0
-KIT     R8 chain Late vs chain bare                          0      29      0     0      92    100    3.2      0
-KIT     R8 chain Burst vs Sustain                            8      54     15     0     108    100    5.7      0
-KIT     R12 stacked Full vs Late                             0      58      0     0     121    100   14.4      0
-KIT     R12 WD-heal Full vs stacked Mid                      4      71      0    14     107    100    9.3      0
-KIT     R8 plate Late vs plate bare                          0      58      0     0      87    100    3.6      0
-KIT     R12 plate stacked Full vs Late                       0      42      0     0     125    100    6.2      0
+KIT     R1 axe Early vs axe bare                            58      50     75    42       0    100    3.5      8
+KIT     R1 axe Early vs same                                54      75     72     0       5     76   12.0      4
+KIT     R5 leather Mid vs leather bare                      46      25     83    33      22    100    8.1      0
+KIT     R5 leather Burst vs Sustain                         38      46     27    46      73     70    5.3      0
+KIT     R8 chain Late vs chain bare                         25      33     50    13      52    100    1.8      4
+KIT     R8 chain Burst vs Sustain                           58      46     55    62       5     76    6.8      0
+KIT     R12 stacked Full vs Late                             4      58      0    10      86    100    9.8      0
+KIT     R12 WD-heal Full vs stacked Mid                     46      58     50    40      28    100   10.9      4
+KIT     R8 plate Late vs plate bare                         25      38     44    13      56    100    3.6      8
+KIT     R12 plate stacked Full vs Late                       8      54     15     0      72    100   10.4      0
 
-FOOD    R1 meat vs fish (axe+cloth)                          0      54      0     0      78     95   12.8      0
-FOOD    R4 stew vs dried+corn (leather)                      0      50      0     0     100    100    5.3      0
-FOOD    R5 stew+meat vs honey (leather)                      0      46      0     0     100    100    7.0      0
-FOOD    R8 honey vs stew (chain)                             0      38      0     0     100    112    8.1      0
-FOOD    R8 honey+stew vs walnut (WD)                         0      58      0     0     100    100    2.9      0
-FOOD    R12 walnut vs honey (stacked)                        0      63      0     0     100    100    6.0      0
-FOOD    R8 honey vs stew (plate)                             0      38      0     0     100    100    5.8      0
-FOOD    R12 walnut vs honey (plate stacked)                  0      58      0     0     100    100    4.8      0
+FOOD    R1 meat vs fish (axe+cloth)                         54      46     64    46       5     73    2.7      8
+FOOD    R4 stew vs dried+corn (leather)                     13      54     23     0      60    100    4.9      0
+FOOD    R5 stew+meat vs honey (leather)                     17      50     33     0      74     94    6.7      0
+FOOD    R8 honey vs stew (chain)                            38      33     63    25      43     77    8.4      0
+FOOD    R8 honey+stew vs walnut (WD)                        25      42     40    14      66    100    3.8      0
+FOOD    R12 walnut vs honey (stacked)                       25      67     38     0      67     68    9.8      0
+FOOD    R8 honey vs stew (plate)                            17      38     44     0      62     97    5.6      0
+FOOD    R12 walnut vs honey (plate stacked)                 25      58     36    10      51     67    9.8      0
 
-MED     R1 MedKit+suture vs Jar only                         0      58      0     0     100    100   15.9      0
-MED     R4 Mist+Balmy vs Acid flask                          0      54      0     0     100    100    9.6      0
-MED     R5 Jar+Heal vs Acid+Puss                             0      38      0     0     100    100    6.2      0
-MED     R8 MechanicalHeart vs MedKit                         0      50      0     0     100    108    7.7      0
-MED     R8 Mix+Cauterize vs BoneCleanse                      0      33      0     0     100    100   11.6      0
-MED     R12 Serum vs Fester heal                             0      58      0     0     100    124   15.2      0
-MED     R12 Balmy vs FireStaff-2H Burn                       0      46      0     0     100    125   11.8      0
+MED     R1 MedKit+suture vs Jar only                        42      58     71     0      18     93   14.5      0
+MED     R4 Mist+Balmy vs Acid flask                         50      46     55    46      14    100    5.3      4
+MED     R5 Jar+Heal vs Acid+Puss                            29      38     33    27      80     97    8.8      4
+MED     R8 MechanicalHeart vs MedKit                        67      58     79    50       5     82    6.3      0
+MED     R8 Mix+Cauterize vs BoneCleanse                     75      50     83    67       0     83    5.3      4
+MED     R12 Serum vs Fester heal                            17      54     31     0      70     93   16.8      0
+MED     R12 Balmy vs FireStaff-2H Burn                      75      46     82    69       5    100    9.6      4
 
-INC     R1 Mullin vs Shade (axe)                             0      63      0     0      95    100   22.9      0
-INC     R5 Shade vs no incense (leather)                     4      38     11     0     100    100    9.9      0
-INC     R5 Dipped vs Mullin (leather)                        0      46      0     0     100    100    8.9      0
-INC     R8 Dipped vs Shade+Mullin (chain)                    0      46      0     0     100    108   12.0      0
-INC     R8 Shade vs Dipped (WD-bone)                         0      42      0     0     100    116   22.3      0
-INC     R12 full smoke vs Mullin (stacked)                   0      46      0     0     113    100   15.8      0
-INC     R8 Dipped vs Shade+Mullin (plate)                    0      33      0     0     100    100   18.4      0
-INC     R12 full smoke vs Mullin (plate stacked)             0      54      0     0     100    100   20.7      0
+INC     R1 Mullin vs Shade (axe)                            71      67     75    63       5     78   24.7      0
+INC     R5 Shade vs no incense (leather)                    63      58     71    50       5    100    8.8      0
+INC     R5 Dipped vs Mullin (leather)                       29      46     55     8      57    100    7.3      0
+INC     R8 Dipped vs Shade+Mullin (chain)                   54      42     70    43       5    100   11.9      0
+INC     R8 Shade vs Dipped (WD-bone)                        58      46     73    46       5     92   15.9      0
+INC     R12 full smoke vs Mullin (stacked)                  38      71     47    14      52     89   14.0      0
+INC     R8 Dipped vs Shade+Mullin (plate)                   42      50     58    25      32    100    8.2      0
+INC     R12 full smoke vs Mullin (plate stacked)            25      63     33    11      75     94   12.2      0
 
-CLASS   R2 Bruiser vs Bruiser (550/548g)                     0      63      0     0      85    100   19.7      0
-CLASS   R2 Dualist vs Dualist (550/548g)                     0      38      0     0      97    100    4.8      0
-CLASS   R2 Warden vs Warden (463/550g)                       4      54      8     0      88     99   17.3      0
-CLASS   R2 Skirmisher vs Skirmisher (550/548g)               0      50      0     0     100    109    9.3      0
-CLASS   R2 Hexer vs Hexer (548/545g)                         0      54      0     0     100    100    6.1      0
-CLASS   R2 Sage vs Sage (548/548g)                           0      29      0     0     100    100    2.3      0
-CLASS   R2 Warden vs Hexer (463/545g)                        0      46      0     0     100    108    8.2      0
-CLASS   R2 Bruiser vs Sage (550/548g)                        0      38      0     0     100    102    6.5      0
-CLASS   R2 Dualist vs Skirmisher (550/548g)                  0      33      0     0     100    100    4.8      0
-CLASS   R5 Bruiser vs Bruiser (1310/1315g)                   0      50      0     0     100    137   12.3      0
-CLASS   R5 Dualist vs Dualist (1280/1300g)                   4      42     10     0     100    100   15.6      0
-CLASS   R5 Warden vs Warden (1315/1315g)                     0      54      0     0     120    100   13.5      0
-CLASS   R5 Skirmisher vs Skirmisher (1285/1305g)             0      58      0     0     100    135    9.7      0
-CLASS   R5 Hexer vs Hexer (1315/1315g)                       0      54      0     0     100    121   17.6      0
-CLASS   R5 Sage vs Sage (1315/1260g)                         0      54      0     0     100    117   20.0      0
-CLASS   R5 Warden vs Hexer (1315/1315g)                      0      58      0     0     100    100   22.3      0
-CLASS   R5 Bruiser vs Sage (1310/1260g)                      0      46      0     0     133    100   10.9      0
-CLASS   R5 Dualist vs Skirmisher (1280/1305g)                0      38      0     0     100    117   10.6      0
-CLASS   R8 Bruiser vs Bruiser (2034/1645g)                   0      58      0     0     100    141   12.8      0
-CLASS   R8 Dualist vs Dualist (1698/1853g)                   0      54      0     0     127    100   10.4      0
-CLASS   R8 Warden vs Warden (2014/1910g)                     0      75      0     0     100    100   37.8      0
-CLASS   R8 Skirmisher vs Skirmisher (1999/1763g)             0      38      0     0     100    129    4.3      0
-CLASS   R8 Hexer vs Hexer (1868/1928g)                       0      33      0     0     122    100    7.6      0
-CLASS   R8 Sage vs Sage (1948/1913g)                         0       0    n/a     0      66     94    n/a      0
-CLASS   R8 Warden vs Hexer (2014/1928g)                      0      50      0     0     100    135   13.6      0
-CLASS   R8 Bruiser vs Sage (2034/1913g)                      0      21      0     0      76    100   16.0      0
-CLASS   R8 Dualist vs Skirmisher (1698/1763g)                0      46      0     0     100    139    9.2      0
-CLASS   R12 Bruiser vs Bruiser (2498/2050g)                  0      46      0     0     100    146    4.0      0
-CLASS   R12 Dualist vs Dualist (1870/2035g)                  0      38      0     0     132    100    5.2      0
-CLASS   R12 Warden vs Warden (2431/1938g)                    0      38      0     0     100    144    6.9      0
-CLASS   R12 Skirmisher vs Skirmisher (2010/1815g)            0      67      0     0     123    100    6.1      0
-CLASS   R12 Hexer vs Hexer (2030/1975g)                      0      46      0     0     134    100    7.5      0
-CLASS   R12 Sage vs Sage (2210/2130g)                        0      50      0     0     142    100    4.5      0
-CLASS   R12 Warden vs Hexer (2431/1975g)                     0      33      0     0      64    100   11.6      0
-CLASS   R12 Bruiser vs Sage (2498/2130g)                     0      50      0     0     133    100    8.7      0
-CLASS   R12 Dualist vs Skirmisher (1870/1815g)               0      38      0     0     115    100    5.9      0
+CLASS   R2 Bruiser vs Bruiser (550/548g)                    54      83     60    25       5     76    9.9      0
+CLASS   R2 Dualist vs Dualist (550/548g)                    25      46     36    15      45     87    6.8      0
+CLASS   R2 Warden vs Warden (463/550g)                      38      50     50    25      31     75   13.9      0
+CLASS   R2 Skirmisher vs Skirmisher (550/548g)              38      63     60     0      51     86    7.3      4
+CLASS   R2 Hexer vs Hexer (548/545g)                        13      42     10    14      71     83   13.1      0
+CLASS   R2 Sage vs Sage (548/548g)                           4      29     14     0      64     89    5.9      0
+CLASS   R2 Warden vs Hexer (463/545g)                       21      63     27    11      63     96    8.1      0
+CLASS   R2 Bruiser vs Sage (550/548g)                        0      33      0     0      67    100    6.7      0
+CLASS   R2 Dualist vs Skirmisher (550/548g)                 21      50     42     0      80     95    7.1      0
+CLASS   R5 Bruiser vs Bruiser (1310/1315g)                   0      71      0     0      95    100   11.3      0
+CLASS   R5 Dualist vs Dualist (1280/1300g)                   4      58      0    10      75     87   16.2      0
+CLASS   R5 Warden vs Warden (1315/1315g)                     8      42     10     7      87    100   11.4      0
+CLASS   R5 Skirmisher vs Skirmisher (1285/1305g)             0      63      0     0      75    100   11.8      0
+CLASS   R5 Hexer vs Hexer (1315/1315g)                      21      58     29    10      86     94   18.9      0
+CLASS   R5 Sage vs Sage (1315/1260g)                         0      63      0     0      68     99   17.2      0
+CLASS   R5 Warden vs Hexer (1315/1315g)                     13      75     17     0      95     82   17.7      0
+CLASS   R5 Bruiser vs Sage (1310/1260g)                      0      67      0     0      83    100   20.9      0
+CLASS   R5 Dualist vs Skirmisher (1280/1305g)                4      63      7     0      71    100   10.5      0
+CLASS   R8 Bruiser vs Bruiser (2034/1645g)                   0      58      0     0      96    129   12.6      0
+CLASS   R8 Dualist vs Dualist (1698/1853g)                   4      79      5     0      68     96   11.2      0
+CLASS   R8 Warden vs Warden (2014/1910g)                    13      83     15     0      60     82   25.6      0
+CLASS   R8 Skirmisher vs Skirmisher (1999/1763g)             0      54      0     0      91    101   12.7      0
+CLASS   R8 Hexer vs Hexer (1868/1928g)                       0      21      0     0     100    100    8.4      0
+CLASS   R8 Sage vs Sage (1948/1913g)                         0       0    n/a     0      61     65    n/a      0
+CLASS   R8 Warden vs Hexer (2014/1928g)                      0      38      0     0      80    100   14.4      0
+CLASS   R8 Bruiser vs Sage (2034/1913g)                      0      33      0     0      63    100   16.3      0
+CLASS   R8 Dualist vs Skirmisher (1698/1763g)                4      54      8     0      92    100   10.2      0
+CLASS   R12 Bruiser vs Bruiser (2498/2050g)                  0      75      0     0     100    140    7.2      0
+CLASS   R12 Dualist vs Dualist (1870/2035g)                  0      46      0     0     103    100    6.7      0
+CLASS   R12 Warden vs Warden (2431/1938g)                    0      50      0     0     100    135    7.0      0
+CLASS   R12 Skirmisher vs Skirmisher (2010/1815g)            0      58      0     0      96    100    6.5      0
+CLASS   R12 Hexer vs Hexer (2030/1975g)                      0      46      0     0     110     99   10.9      0
+CLASS   R12 Sage vs Sage (2210/2130g)                        0      54      0     0     123    100    6.9      0
+CLASS   R12 Warden vs Hexer (2431/1975g)                     0      13      0     0     100    100   10.7      0
+CLASS   R12 Bruiser vs Sage (2498/2130g)                     0      63      0     0      97    100    8.1      0
+CLASS   R12 Dualist vs Skirmisher (1870/1815g)               0      33      0     0     100    100    8.5      0
 
 --- Band medians ---
-  R1-3: median-of-medians 20.7s   range 10.3-27.6s
-  R4-6: median-of-medians 26.3s   range 22.5-31.3s
-  METAL: median-of-medians 26.7s   range 21.7-29.1s
-  MAGIC: median-of-medians 26.3s   range 24.1-31.5s
-  STEEL: median-of-medians 25.5s   range 19.0-31.6s
-  R7-9: median-of-medians 14.8s   range 12.5-18.5s
-  R10-12: median-of-medians 28.6s   range 22.2-43.6s
-  X: median-of-medians 14.8s   range 9.6-22.3s
-  KIT: median-of-medians 15.0s   range 8.0-27.3s
-  FOOD: median-of-medians 14.9s   range 12.2-22.4s
-  MED: median-of-medians 18.5s   range 10.8-21.5s
-  INC: median-of-medians 25.2s   range 19.0-36.3s
-  CLASS: median-of-medians 17.5s   range 8.5-49.4s
+  R1-3: median-of-medians 22.0s   range 12.1-25.4s
+  R4-6: median-of-medians 25.5s   range 23.5-29.8s
+  METAL: median-of-medians 26.1s   range 23.1-28.5s
+  MAGIC: median-of-medians 25.5s   range 25.5-28.7s
+  STEEL: median-of-medians 23.3s   range 20.3-31.9s
+  R7-9: median-of-medians 17.2s   range 14.4-20.9s
+  R10-12: median-of-medians 33.5s   range 23.6-43.9s
+  X: median-of-medians 17.0s   range 10.2-23.9s
+  KIT: median-of-medians 16.0s   range 8.3-29.7s
+  FOOD: median-of-medians 16.3s   range 13.4-23.8s
+  MED: median-of-medians 16.8s   range 13.1-28.2s
+  INC: median-of-medians 32.0s   range 20.1-38.7s
+  CLASS: median-of-medians 18.0s   range 10.7-48.8s
 
 --- Sever dump check ---
-  Fights: 4488   with sever: 2230 (50%)   bleed deaths: 19 (0%)
-  bleed|sever     1   bleed|no-sever     0
-  Instant bleed-out within 1s of first sever: 0.0% (0/4488)
-  Median-of-medians loser blood on bleed deaths: 0%
+  Fights: 4488   with sever: 2387 (53%)   bleed deaths: 1183 (26%)
+  bleed|sever    35   bleed|no-sever    16
+  Instant bleed-out within 1s of first sever: 0.9% (41/4488)
+  Median-of-medians loser blood on bleed deaths: 5%
   Verdict: severs raise or hold bleed deaths (dump + stump hemorrhage matter); dump is not a one-shot (instant bleed-out after sever is rare); bleed-death loser blood is low (pool is actually spent)

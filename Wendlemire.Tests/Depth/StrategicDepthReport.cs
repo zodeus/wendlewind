@@ -86,11 +86,13 @@ public class StrategicDepthReport
             return;
         }
 
-        var planned = PlayPolicy(ShopPolicies.Planned(BuildGenerator.Archetype.Bruiser), 500);
+        var planned = PlayPolicy(ShopPolicies.PlannedFromSeed(), 500);
         var random = PlayPolicy(ShopPolicies.Random(), 600);
         var plannedMean = planned.Average(r => r.Wins);
         var randomMean = random.Average(r => r.Wins);
-        _output.WriteLine($"Planned mean wins {plannedMean:0.00} vs Random {randomMean:0.00}");
+        _output.WriteLine(
+            $"Planned mean wins {plannedMean:0.00} vs Random {randomMean:0.00}  " +
+            $"spent {planned.Average(r => r.GoldSpent):0}/{random.Average(r => r.GoldSpent):0}");
         Assert.True(
             plannedMean > randomMean + 0.5,
             $"Planned mean wins {plannedMean:0.00} did not beat Random {randomMean:0.00} by 0.5.");
@@ -105,7 +107,7 @@ public class StrategicDepthReport
             return;
         }
 
-        var planned = PlayPolicy(ShopPolicies.Planned(BuildGenerator.Archetype.Bruiser), 700);
+        var planned = PlayPolicy(ShopPolicies.PlannedFromSeed(), 700);
         var hoarder = PlayPolicy(ShopPolicies.Hoarder(), 800);
         var plannedMean = planned.Average(r => r.Wins);
         var hoarderMean = hoarder.Average(r => r.Wins);

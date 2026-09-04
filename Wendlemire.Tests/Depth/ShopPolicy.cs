@@ -27,6 +27,9 @@ internal static class ShopPolicies
     public static IShopPolicy Planned(BuildGenerator.Archetype archetype) =>
         new PlannedPolicy(archetype, buyGear: true, buyKit: true);
 
+    public static IShopPolicy PlannedFromSeed() =>
+        new PlannedPolicy(null, buyGear: true, buyKit: true);
+
     public static IShopPolicy Planned(Random rng)
     {
         var archetypes = (BuildGenerator.Archetype[])Enum.GetValues(typeof(BuildGenerator.Archetype));
@@ -244,6 +247,9 @@ internal static class PolicyPrep
     public static bool IsCloak(MerchantOffer offer) =>
         offer.ItemDef?.EquipmentProperties?.SlotUsedToEquip == EquipmentSlotType.Cloak;
 
+    public static bool IsFood(MerchantOffer offer) =>
+        offer.ItemDef?.ItemType == ItemType.Food;
+
     public static bool PrefersWeapon(ItemDef def, BuildGenerator.Archetype archetype)
     {
         var magic = IsMagic(def);
@@ -352,17 +358,19 @@ internal sealed class HoarderPolicy : IShopPolicy
 
 internal sealed class PlannedPolicy : IShopPolicy
 {
-    private readonly BuildGenerator.Archetype _archetype;
+    private readonly BuildGenerator.Archetype? _archetype;
     private readonly bool _buyGear;
     private readonly bool _buyKit;
 
-    public PlannedPolicy(BuildGenerator.Archetype archetype, bool buyGear, bool buyKit)
+    public PlannedPolicy(BuildGenerator.Archetype? archetype, bool buyGear, bool buyKit)
     {
         _archetype = archetype;
         _buyGear = buyGear;
         _buyKit = buyKit;
         Name = buyGear && buyKit
-            ? $"Planned:{archetype}"
+            ? archetype is { } named
+                ? $"Planned:{named}"
+                : "Planned"
             : buyGear
                 ? $"GearOnly:{archetype}"
                 : $"KitOnly:{archetype}";
@@ -372,6 +380,7 @@ internal sealed class PlannedPolicy : IShopPolicy
 
     public void Shop(ArenaRun run, GameContext ctx, IReadOnlyList<RolledShelf> shelves, Random rng)
     {
+        var archetype = ResolveArchetype(run);
         var stage = OpponentLadder.StageFor(run.UpcomingRound);
         var caps = PrepSlotUnlocks.ForRound(run.UpcomingRound);
         var reserve = _buyKit ? PolicyPrep.KitReserve(stage) : 0;
@@ -386,8 +395,8 @@ internal sealed class PlannedPolicy : IShopPolicy
         var offers = ShopStock.Flatten(working).ToList();
         if (_buyGear)
         {
-            BuyPreferred(run, ctx, offers, o => PolicyPrep.PrefersSet(o, _archetype), reserve);
-            BuyPreferred(run, ctx, offers, o => PolicyPrep.IsWeapon(o) && PolicyPrep.PrefersWeapon(o.ItemDef!, _archetype), reserve);
+            BuyPreferred(run, ctx, offers, o => PolicyPrep.PrefersSet(o, archetype), reserve);
+            BuyPreferred(run, ctx, offers, o => PolicyPrep.IsWeapon(o) && PolicyPrep.PrefersWeapon(o.ItemDef!, archetype), reserve);
             if (!HasHeldWeapon(ctx.PlayerPawn))
             {
                 BuyPreferred(run, ctx, offers, PolicyPrep.IsWeapon, reserve);
@@ -395,7 +404,7 @@ internal sealed class PlannedPolicy : IShopPolicy
 
             BuyPreferred(run, ctx, offers, PolicyPrep.IsCloak, reserve);
             BuyPreferred(run, ctx, offers, PolicyPrep.IsEnchantment, reserve, PolicyPrep.MaxEnchantments(stage));
-            SpendLeftover(run, ctx, offers, o => PolicyPrep.IsArmorPiece(o) || PolicyPrep.IsWeapon(o), 0);
+            SpendLeftover(run, ctx, offers, o => LeftoverMatch(ctx.PlayerPawn, o, archetype), reserve);
         }
 
         if (_buyKit)
@@ -406,11 +415,51 @@ internal sealed class PlannedPolicy : IShopPolicy
             BuyNamed(run, ctx, offers, MedicalPriority(), Math.Min(caps.Medical, 8));
         }
 
+        if (_buyGear && _buyKit)
+        {
+            SpendLeftover(
+                run,
+                ctx,
+                offers,
+                o => LeftoverMatch(ctx.PlayerPawn, o, archetype),
+                0);
+        }
+
         var pawn = ctx.PlayerPawn;
         PolicyPrep.ArmMedical(pawn, planned: true);
         PolicyPrep.ConfigurePotions(pawn, planned: true);
-        PolicyPrep.SocketEnchantments(pawn, PolicyPrep.MaxEnchantments(stage));
-        PolicyPrep.SetStance(pawn, _archetype);
+        PolicyPrep.SocketEnchantments(
+            pawn,
+            _buyGear && _buyKit ? 8 : PolicyPrep.MaxEnchantments(stage));
+        PolicyPrep.SetStance(pawn, archetype);
+    }
+
+    private BuildGenerator.Archetype ResolveArchetype(ArenaRun run)
+    {
+        if (_archetype is { } fixedArchetype)
+        {
+            return fixedArchetype;
+        }
+
+        var archetypes = (BuildGenerator.Archetype[])Enum.GetValues(typeof(BuildGenerator.Archetype));
+        return archetypes[new Random(run.RunSeed).Next(archetypes.Length)];
+    }
+
+    private static bool LeftoverMatch(Pawn pawn, MerchantOffer offer, BuildGenerator.Archetype archetype)
+    {
+        if (PolicyPrep.IsEnchantment(offer) || PolicyPrep.IsArmorPiece(offer))
+        {
+            return true;
+        }
+
+        if (PolicyPrep.IsFood(offer))
+        {
+            return PurchaseAutoEquip.WouldFillEmptySlot(pawn, offer);
+        }
+
+        return PolicyPrep.IsWeapon(offer)
+               && PolicyPrep.PrefersWeapon(offer.ItemDef!, archetype)
+               && PurchaseAutoEquip.WouldFillEmptySlot(pawn, offer);
     }
 
     private static bool NeedsWeaponRefresh(Pawn pawn, IReadOnlyList<RolledShelf> shelves)

@@ -158,15 +158,20 @@ public static class ShopStock
 
         var sets = available.Where(offer => offer.IsSet).ToList();
         var pieces = available.Where(offer => !offer.IsSet).ToList();
+        var pinned = pieces.Where(offer => offer.AlwaysStock).ToList();
+        var pool = pieces.Where(offer => !offer.AlwaysStock).ToList();
         var stockSize = ResolvedStockSize(shelf, round);
         if (sets.Count == 0)
         {
-            return CloneForStock(WeightedTake(pieces, stockSize, rng));
+            var pinnedTake = TakePinned(pinned, stockSize);
+            return CloneForStock([..pinnedTake, ..WeightedTake(pool, stockSize - pinnedTake.Count, rng)]);
         }
 
         var pickedSets = WeightedTake(sets, 1, rng);
         var remaining = Math.Max(0, stockSize - pickedSets.Count);
-        return CloneForStock([..pickedSets, ..WeightedTake(pieces, remaining, rng)]);
+        var pinnedWithSets = TakePinned(pinned, remaining);
+        remaining = Math.Max(0, remaining - pinnedWithSets.Count);
+        return CloneForStock([..pickedSets, ..pinnedWithSets, ..WeightedTake(pool, remaining, rng)]);
     }
 
     private static List<MerchantOffer> RestoreOffers(
@@ -188,6 +193,17 @@ public static class ShopStock
         }
 
         return offers;
+    }
+
+    private static List<MerchantOffer> TakePinned(List<MerchantOffer> pinned, int slots)
+    {
+        if (slots <= 0 || pinned.Count == 0)
+        {
+            return [];
+        }
+
+        var take = Math.Min(slots, pinned.Count);
+        return pinned.GetRange(0, take);
     }
 
     private static List<MerchantOffer> CloneForStock(IEnumerable<MerchantOffer> offers) =>

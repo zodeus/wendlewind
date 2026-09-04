@@ -11,6 +11,7 @@ public class MerchantOffer
     public int AvailableFromRound;
     public int Weight;
     public int Available = 1;
+    public bool AlwaysStock;
 
     public bool IsSet => SetPieces.Count > 0;
     public bool IsUniqueOwnedType => !IsSet && IsUniqueOwnedTypeDef(ItemDef);
@@ -69,7 +70,8 @@ public class MerchantOffer
             GoldCost = GoldCost,
             AvailableFromRound = AvailableFromRound,
             Weight = Weight,
-            Available = StockFor(ItemDef)
+            Available = StockFor(ItemDef),
+            AlwaysStock = AlwaysStock
         };
     }
 }

@@ -1,0 +1,64 @@
+=== Wendlemire Arena Strategic Depth ===
+Run seeds: 20   Fight samples/round: 2 side-swapped
+Matrix seeds: 8 side-swapped   Mirror first-strike seeds: 64
+
+--- Policy runs vs shared opponent ladder ---
+Policy                   n  medW  meanW  12win% goldLeft  spent  spent/W
+------------------------------------------------------------------------------
+Random                  20   2.0   3.65     15       239   2185    877.0
+Greedy                  20   4.0   5.20     10       231   2735    614.0
+Planned:Sage            20   4.0   4.30      5       238   2491    798.0
+Hoarder                 20   0.0   0.00      0      1450      0      0.0
+GearOnly:Bruiser        20   1.0   1.70      0       241   1719   1078.2
+KitOnly:Sage            20   0.0   0.00      0       253   1197   1196.8
+
+--- First-strike bias (identical Bruiser mid build, A swings first) ---
+  A-win% 45.3 over 64 seeds  (target 30-70)
+
+--- Archetype payoff matrices (side-swapped win% for row vs column) ---
+
+R2 Early
+         Bruiser Dualist  Warden Skirmis   Hexer    Sage   field
+Bruiser      56      63     100      50      81      81    71.9
+Dualist      31      50      94      69     100      81    70.8
+Warden        0       6      44      13      13       0    12.5
+Skirmis      44      25      94      56      75      75    61.5
+Hexer         6       6      88      13      56      31    33.3
+Sage         31      25      94      38      63      56    51.0
+
+R5 Mid
+         Bruiser Dualist  Warden Skirmis   Hexer    Sage   field
+Bruiser      63      88     100      75      56      88    78.1
+Dualist      13      50      50      31      25      25    32.3
+Warden        6      44      44      38       6      44    30.2
+Skirmis      25      63      50      63      25      38    43.8
+Hexer        25      63      81      81      31      38    53.1
+Sage         25      69      56      81      38      44    52.1
+
+R8 Late
+         Bruiser Dualist  Warden Skirmis   Hexer    Sage   field
+Bruiser      63      81     100      94      94      88    86.5
+Dualist      25      63     100      94      81      69    71.9
+Warden        0       0      63       6      13       0    13.5
+Skirmis       0       6      81      31      50      13    30.2
+Hexer        13      19      88      75      56      63    52.1
+Sage         13      50      94      81      31      38    51.0
+
+R12 End
+         Bruiser Dualist  Warden Skirmis   Hexer    Sage   field
+Bruiser      56      88      81      94      69      38    70.8
+Dualist       0      50      31      31       0      13    20.8
+Warden        6      75      63      56      25      19    40.6
+Skirmis      25      69      38      69      13      13    37.5
+Hexer        44      81      88      88      56      44    66.7
+Sage         69     100      81      63      63      56    71.9
+
+--- Gold spent vs side-swapped win rate (same-round generated pairs) ---
+  Pairs: 105   mean gold gap 99   richer win% 56.8   corr(gap, richerWR) 0.18
+  (richer win% should sit above 50 if gold converts to power)
+
+--- Policy snapshots head-to-head (first stored snapshot per round) ---
+  R2 Planned vs Random  win% 38  med 18.7s  gold 306/438
+  R5 Planned vs Random  win% 81  med 19.2s  gold 789/721
+  R8 Planned vs Random  win% 0  med 16.7s  gold 664/1334
+  R12 Planned vs Random  win% 0  med 17.1s  gold 997/1340

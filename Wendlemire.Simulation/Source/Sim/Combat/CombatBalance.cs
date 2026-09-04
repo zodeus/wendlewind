@@ -6,7 +6,7 @@ namespace Wendlemire.Sim.Combat;
 /// </summary>
 public static class CombatBalance
 {
-    public const float VitalHpScale = 0.85f;
+    public const float VitalHpScale = 0.95f;
     public const float LimbHpScale = 0.78f;
 
     /// <summary>
@@ -34,9 +34,22 @@ public static class CombatBalance
 
     /// <summary>
     /// Fraction of an internal's max HP drained each tick by a destroyed external container.
-    /// 0.004 ≈ four seconds from full at 60 tps.
+    /// 0.0025 ≈ six seconds from full at 60 tps.
     /// </summary>
-    public const float CrushedContainerDamagePerTick = 0.004f;
+    public const float CrushedContainerDamagePerTick = 0.0025f;
+
+    /// <summary>
+    /// Baseline wound hemorrhage scale. Multiplied by part blood weight / viscosity.
+    /// </summary>
+    public const float FixedBloodLossFactor = 0.04f;
+
+    /// <summary>
+    /// Bleed if part health is below this. 1.0 = any flesh wound bleeds.
+    /// </summary>
+    public const float BloodLossThreshold = 1f;
+
+    public const float SeveredArteryBloodLossFactor = 3.2f;
+    public const float SeveredLimbBloodLossFactor = 7f;
 
     public static float ArmorReduction(float resist)
     {
