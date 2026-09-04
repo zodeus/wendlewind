@@ -1,5 +1,4 @@
 using System.Text.Json;
-using Microsoft.Extensions.DependencyInjection;
 using Wendlemire.Definitions;
 using Wendlemire.NetCode;
 using Wendlemire.NetCode.Contracts;
@@ -1503,29 +1502,5 @@ public class ArenaRunTests
     private static bool IsEquipped(Pawn pawn, ItemDef def) =>
         pawn.Equipment.Any(item => item.Def == def && !item.IsDestroyed);
 
-    private static ArenaContextScope CreateArena()
-    {
-        return new ArenaContextScope();
-    }
-
-    private sealed class ArenaContextScope : IDisposable
-    {
-        private readonly ServiceProvider _root = SimServices.BuildRoot();
-        private readonly IServiceScope _scope;
-
-        public GameContext Context { get; }
-
-        public ArenaContextScope()
-        {
-            _scope = _root.CreateScope();
-            Context = _scope.ServiceProvider.GetRequiredService<GameContext>();
-            Context.InitializeArena("tester", "Tester", 99);
-        }
-
-        public void Dispose()
-        {
-            _scope.Dispose();
-            _root.Dispose();
-        }
-    }
+    private static ArenaContextScope CreateArena() => new();
 }

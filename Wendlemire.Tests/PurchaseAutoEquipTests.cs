@@ -1,4 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
 using Wendlemire.Definitions;
 using Wendlemire.Sim;
 using Wendlemire.Sim.Arena;
@@ -143,25 +142,4 @@ public class PurchaseAutoEquipTests
     private static MerchantOffer Offer(ItemDef def) => new() { ItemDef = def };
 
     private static ArenaContextScope CreateArena() => new();
-
-    private sealed class ArenaContextScope : IDisposable
-    {
-        private readonly ServiceProvider _root = SimServices.BuildRoot();
-        private readonly IServiceScope _scope;
-
-        public GameContext Context { get; }
-
-        public ArenaContextScope()
-        {
-            _scope = _root.CreateScope();
-            Context = _scope.ServiceProvider.GetRequiredService<GameContext>();
-            Context.InitializeArena("tester", "Tester", 99);
-        }
-
-        public void Dispose()
-        {
-            _scope.Dispose();
-            _root.Dispose();
-        }
-    }
 }
