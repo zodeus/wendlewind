@@ -23,6 +23,14 @@ public static class XmlLoader
     {
         foreach (var defType in typeof(Def).Subclasses())
         {
+            // EntityDef is a shared non-abstract parent (ItemDef, BodyPartDef, …).
+            // Registering there collides when an item and a part share a moniker
+            // (MechanicalHeart). Leaf repos still get both defs.
+            if (defType.Name == "EntityDef")
+            {
+                continue;
+            }
+
             GenericHelpers.InvokeStaticMethodOnGenericType(typeof(DefRepository<>), defType, "AddFiltered", Defs);
         }
     }

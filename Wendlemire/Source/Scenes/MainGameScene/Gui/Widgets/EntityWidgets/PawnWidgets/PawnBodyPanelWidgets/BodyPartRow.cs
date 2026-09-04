@@ -88,6 +88,10 @@ internal sealed class BodyPartRow : HorizontalStackPanel
             currentRow.Widgets.Add(partIcon);
             partsInCurrentRow++;
         }
+
+        _label.VerticalAlignment = _rows.Count > 1
+            ? VerticalAlignment.Top
+            : VerticalAlignment.Center;
     }
 
     private static List<BodyPart> PartsForRow(BodyPart bodyPart, bool showInternalParts)
