@@ -1207,10 +1207,18 @@ public class ArenaRunTests
     {
         var trinket = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("FlameStick")! };
         var food = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("CookedCorn")! };
+        var heart = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("MechanicalHeart")! };
+        var veins = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("Cyberveins")! };
+        var bones = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("StrengthenBones")! };
         var sword = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("IronSword")! };
+        var medKit = new MerchantOffer { ItemDef = DefRepository<ItemDef>.GetByMoniker("MedKit")! };
         Assert.True(trinket.IsUniqueOwnedType);
         Assert.True(food.IsUniqueOwnedType);
+        Assert.True(heart.IsUniqueOwnedType);
+        Assert.True(veins.IsUniqueOwnedType);
+        Assert.True(bones.IsUniqueOwnedType);
         Assert.False(sword.IsUniqueOwnedType);
+        Assert.False(medKit.IsUniqueOwnedType);
     }
 
     [Fact]
@@ -1407,6 +1415,59 @@ public class ArenaRunTests
         Assert.False(context.ArenaRun.TryBuy(context, offer));
         Assert.Equal(goldAfterFirst, context.ArenaRun.Gold);
         Assert.Equal(1, context.PlayerPawn.Inventory.AmountOf(offer.ItemDef!));
+    }
+
+    [Theory]
+    [InlineData("MechanicalHeart")]
+    [InlineData("Cyberveins")]
+    [InlineData("StrengthenBones")]
+    public void TryBuyRejectsBiomechThePlayerAlreadyOwns(string moniker)
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var offer = Offer(moniker);
+        context.ArenaRun!.Gold = Math.Max(context.ArenaRun.Gold, offer.ResolveGoldCost() * 2);
+        Assert.True(context.ArenaRun.TryBuy(context, offer));
+        var goldAfterFirst = context.ArenaRun.Gold;
+        Assert.Contains(moniker, ShopStock.OwnedUniqueMonikers(context.Player));
+        Assert.False(context.ArenaRun.TryBuy(context, offer));
+        Assert.Equal(goldAfterFirst, context.ArenaRun.Gold);
+        Assert.Equal(1, context.PlayerPawn.Inventory.AmountOf(offer.ItemDef!));
+    }
+
+    [Theory]
+    [InlineData("MechanicalHeart")]
+    [InlineData("Cyberveins")]
+    [InlineData("StrengthenBones")]
+    public void TryBuyRejectsBiomechAlreadyArmed(string moniker)
+    {
+        using var scope = CreateArena();
+        var context = scope.Context;
+        var offer = Offer(moniker);
+        context.ArenaRun!.Gold = Math.Max(context.ArenaRun.Gold, offer.ResolveGoldCost() * 2);
+        Assert.True(context.ArenaRun.TryBuy(context, offer));
+        var item = context.PlayerPawn.Inventory.First(owned => owned.ItemDef == offer.ItemDef);
+        Assert.True(context.PlayerPawn.MedicalChest.TryArm(item));
+        Assert.Equal(0, context.PlayerPawn.Inventory.AmountOf(offer.ItemDef!));
+        Assert.Contains(moniker, ShopStock.OwnedUniqueMonikers(context.Player));
+        var goldAfterArm = context.ArenaRun.Gold;
+        Assert.False(context.ArenaRun.TryBuy(context, offer));
+        Assert.Equal(goldAfterArm, context.ArenaRun.Gold);
+        Assert.Single(context.PlayerPawn.MedicalChest.Slots, slot => slot.Def == offer.ItemDef);
+    }
+
+    [Fact]
+    public void ShopRollOmitsOwnedBiomech()
+    {
+        var merchant = DefRepository<MerchantDef>.GetByMoniker("Alchemist")!;
+        var owned = new HashSet<string> { "MechanicalHeart", "Cyberveins", "StrengthenBones" };
+        for (var seed = 1; seed <= 40; seed++)
+        {
+            var offers = ShopStock.Flatten(ShopStock.Roll(merchant, seed, 0, owned));
+            Assert.DoesNotContain(offers, o => o.ItemDef?.Moniker == "MechanicalHeart");
+            Assert.DoesNotContain(offers, o => o.ItemDef?.Moniker == "Cyberveins");
+            Assert.DoesNotContain(offers, o => o.ItemDef?.Moniker == "StrengthenBones");
+        }
     }
 
     [Fact]

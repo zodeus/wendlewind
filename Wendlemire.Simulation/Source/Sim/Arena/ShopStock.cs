@@ -100,6 +100,14 @@ public static class ShopStock
             }
         }
 
+        foreach (var slot in pawn.MedicalChest.Slots)
+        {
+            if (MerchantOffer.IsUniqueOwnedTypeDef(slot.Def) && slot.Def.Moniker != null)
+            {
+                owned.Add(slot.Def.Moniker);
+            }
+        }
+
         return owned;
     }
 

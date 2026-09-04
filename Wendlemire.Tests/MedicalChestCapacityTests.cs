@@ -59,6 +59,28 @@ public class MedicalChestCapacityTests
         Assert.Equal(6, context.PlayerPawn.MedicalChest.Capacity);
     }
 
+    [Theory]
+    [InlineData("MechanicalHeart")]
+    [InlineData("Cyberveins")]
+    [InlineData("StrengthenBones")]
+    public void TryArmRejectsSecondCopyOfBiomech(string moniker)
+    {
+        using var root = SimServices.BuildRoot();
+        using var scope = root.CreateScope();
+        var context = StartArena(scope);
+        var pawn = context.PlayerPawn;
+        var def = RequireDef(moniker);
+        var first = context.Factory.CreateEntity<Item>(def, 1);
+        var second = context.Factory.CreateEntity<Item>(def, 1);
+        Assert.True(pawn.Inventory.TryAdd(first));
+        Assert.True(pawn.Inventory.TryAdd(second));
+
+        Assert.True(pawn.MedicalChest.TryArm(first));
+        Assert.False(pawn.MedicalChest.TryArm(second));
+        Assert.Single(pawn.MedicalChest.Slots, slot => slot.Def == def);
+        Assert.Equal(1, pawn.Inventory.AmountOf(def));
+    }
+
     [Fact]
     public void TryInstallFailsWhenFull()
     {

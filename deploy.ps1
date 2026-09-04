@@ -9,13 +9,13 @@
 #   .\deploy.ps1 -Domain wendlemire.com
 #
 # Server work is delegated to deploy-hetzner.ps1.
-# Client zips are built by publish-release.ps1 and copied to /var/lib/wendlemire/downloads.
+# Client zips are built by publish-release.ps1. Only the latest version is copied to /var/lib/wendlemire/downloads.
 
 param(
     [ValidateSet("up", "deploy")]
     [string]$Action = "up",
 
-    [string]$Version = "0.1c",
+    [string]$Version = "0.1d",
 
     [ValidateSet("all", "windows", "mac", "current")]
     [string]$Platform = "all",

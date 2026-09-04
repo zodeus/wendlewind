@@ -1095,6 +1095,59 @@ function Remove-Server {
     }
 }
 
+function Get-LatestClientZips {
+    param([string]$Directory)
+
+    $allZips = @(Get-ChildItem -Path $Directory -Filter "*.zip" -File)
+    if ($allZips.Count -eq 0) {
+        throw "No client zips in $Directory. Run publish-release.ps1 first."
+    }
+
+    $manifestPath = Join-Path $Directory "latest.json"
+    $wanted = @()
+    $version = $null
+
+    if (Test-Path $manifestPath) {
+        $latest = Get-Content -Path $manifestPath -Raw | ConvertFrom-Json
+        $version = [string]$latest.version
+        if ($latest.files) {
+            foreach ($name in @($latest.files.PSObject.Properties.Value)) {
+                if (-not [string]::IsNullOrWhiteSpace($name)) {
+                    $wanted += [string]$name
+                }
+            }
+        }
+    }
+
+    if ($wanted.Count -eq 0) {
+        $newest = $allZips | Sort-Object LastWriteTimeUtc -Descending | Select-Object -First 1
+        if ($newest.Name -match '^Wendlemire-(.+)-(win-x64|osx-arm64|osx-x64)\.zip$') {
+            $version = $Matches[1]
+            $wanted = @(
+                $allZips |
+                    Where-Object { $_.Name -like "Wendlemire-$version-*.zip" } |
+                    ForEach-Object { $_.Name }
+            )
+        }
+    }
+
+    $zips = if ($wanted.Count -gt 0) {
+        @($allZips | Where-Object { $wanted -contains $_.Name })
+    } else {
+        @()
+    }
+
+    if ($zips.Count -eq 0) {
+        throw "No latest client zips in $Directory. Run publish-release.ps1 first."
+    }
+
+    return [pscustomobject]@{
+        Version      = $version
+        Zips         = $zips
+        ManifestPath = $(if (Test-Path $manifestPath) { $manifestPath } else { $null })
+    }
+}
+
 function Deploy-ClientDownloads {
     if ([string]::IsNullOrWhiteSpace($ClientDir)) {
         if ($Action -eq "clients") {
@@ -1107,13 +1160,12 @@ function Deploy-ClientDownloads {
         throw "Client directory not found: $ClientDir"
     }
 
-    $zips = @(Get-ChildItem -Path $ClientDir -Filter "*.zip" -File)
-    if ($zips.Count -eq 0) {
-        throw "No client zips in $ClientDir. Run publish-release.ps1 first."
-    }
+    $latest = Get-LatestClientZips -Directory $ClientDir
+    $zips = @($latest.Zips)
 
+    $label = if ($latest.Version) { "v$($latest.Version) " } else { "" }
     $remoteDownloads = "$RemoteDataDir/downloads"
-    Write-Info "Uploading $($zips.Count) client zip(s) to $remoteDownloads ..."
+    Write-Info "Uploading $($zips.Count) $($label)client zip(s) to $remoteDownloads ..."
     Invoke-Remote "mkdir -p $remoteDownloads"
 
     foreach ($zip in $zips) {
@@ -1122,10 +1174,24 @@ function Deploy-ClientDownloads {
         Invoke-Remote "mv /tmp/$($zip.Name) $remoteDownloads/$($zip.Name)"
     }
 
-    $manifest = Join-Path $ClientDir "latest.json"
-    if (Test-Path $manifest) {
-        Copy-ToRemote -LocalPath $manifest -RemotePath "/tmp/latest.json"
+    if ($latest.ManifestPath) {
+        Copy-ToRemote -LocalPath $latest.ManifestPath -RemotePath "/tmp/latest.json"
         Invoke-Remote "mv /tmp/latest.json $remoteDownloads/latest.json"
+    }
+
+    foreach ($zip in $zips) {
+        if ($zip.Name -notmatch '(win-x64|osx-arm64|osx-x64)\.zip$') {
+            continue
+        }
+
+        $rid = $Matches[1]
+        Invoke-Remote @"
+cd $remoteDownloads
+ls -1 Wendlemire-*-$rid.zip 2>/dev/null | grep -Fvx '$($zip.Name)' | while IFS= read -r stale; do
+  echo "Removing stale `$stale"
+  rm -f -- "`$stale"
+done
+"@
     }
 
     Invoke-Remote "chown -R wendlemire:wendlemire $remoteDownloads"

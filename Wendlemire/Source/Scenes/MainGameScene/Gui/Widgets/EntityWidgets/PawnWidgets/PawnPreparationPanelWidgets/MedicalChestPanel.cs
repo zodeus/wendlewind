@@ -35,11 +35,14 @@ public sealed class MedicalChestPanel : VerticalStackPanel, IUpdatable
             TryArm,
             item => _pawn.MedicalChest.Slots.Count >= _pawn.MedicalChest.Capacity
                 ? "Chest full"
-                : IsArmed(item)
-                    ? "Click to arm another slot"
-                    : "Click to arm",
+                : AlreadyArmedUnique(item)
+                    ? "Already armed"
+                    : IsArmed(item)
+                        ? "Click to arm another slot"
+                        : "Click to arm",
             IsArmed,
-            _ => _pawn.MedicalChest.Slots.Count >= _pawn.MedicalChest.Capacity,
+            item => _pawn.MedicalChest.Slots.Count >= _pawn.MedicalChest.Capacity
+                    || AlreadyArmedUnique(item),
             pagedRow: true,
             centerRow: true,
             rowCells: MedicalChest.MaxSlots);
@@ -85,6 +88,11 @@ public sealed class MedicalChestPanel : VerticalStackPanel, IUpdatable
     private bool IsArmed(Item item)
     {
         return _pawn.MedicalChest.Slots.Any(s => s.Def == item.Def);
+    }
+
+    private bool AlreadyArmedUnique(Item item)
+    {
+        return MedicalChest.IsInfiniteUse(item.ItemDef) && IsArmed(item);
     }
 
     private void TryArm(Item item)

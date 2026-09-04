@@ -18,7 +18,8 @@ public class MerchantOffer
 
     public static bool IsUniqueOwnedTypeDef(ItemDef? def) =>
         def is { ItemType: ItemType.Food or ItemType.Incense or ItemType.Trinket }
-        || def?.TrinketProperties != null;
+        || def?.TrinketProperties != null
+        || MedicalChest.IsInfiniteUse(def);
 
     public int ResolveGoldCost()
     {

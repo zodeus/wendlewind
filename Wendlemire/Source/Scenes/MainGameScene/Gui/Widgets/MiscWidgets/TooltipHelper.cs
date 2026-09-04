@@ -129,10 +129,16 @@ public static class TooltipHelper
     public static bool IsVisible => _shouldBeVisible && _window?.IsPlaced == true;
 
     /// <summary>
-    /// True when the hover inspect popup is open and should take the mouse wheel
-    /// instead of whatever ScrollViewer is under the cursor.
+    /// True when a pinned inspect popup is open with content that actually overflows, and so
+    /// should take the mouse wheel instead of whatever ScrollViewer is under the cursor.
+    /// Follow-mouse tooltips never take it: they sit off the cursor, so swallowing the wheel
+    /// would just freeze the list the pointer is really on.
     /// </summary>
-    public static bool CapturesMouseWheel => IsVisible && _isCustomContent;
+    public static bool CapturesMouseWheel =>
+        IsVisible
+        && _isCustomContent
+        && _placement == TooltipPlacement.BottomCorner
+        && _customContent is ScrollViewer { ScrollMaximum.Y: > 0 };
 
     private static void EnsureWindowCreated()
     {
@@ -301,7 +307,7 @@ public static class TooltipHelper
         var wheel = Mouse.GetState().ScrollWheelValue;
         var delta = wheel - _lastScrollWheel;
         _lastScrollWheel = wheel;
-        if (delta == 0 || _customContent is not ScrollViewer viewer)
+        if (delta == 0 || !CapturesMouseWheel || _customContent is not ScrollViewer viewer)
         {
             return;
         }

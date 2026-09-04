@@ -41,15 +41,15 @@ public static class CombatBalance
     /// <summary>
     /// Baseline wound hemorrhage scale. Multiplied by part blood weight / viscosity.
     /// </summary>
-    public const float FixedBloodLossFactor = 0.04f;
+    public const float FixedBloodLossFactor = 0.02f;
 
     /// <summary>
-    /// Bleed if part health is below this. 1.0 = any flesh wound bleeds.
+    /// Bleed if part health is below this. Below 1.0 so nicks do not leak.
     /// </summary>
-    public const float BloodLossThreshold = 1f;
+    public const float BloodLossThreshold = 0.96f;
 
-    public const float SeveredArteryBloodLossFactor = 3.2f;
-    public const float SeveredLimbBloodLossFactor = 7f;
+    public const float SeveredArteryBloodLossFactor = 2.4f;
+    public const float SeveredLimbBloodLossFactor = 4.5f;
 
     public static float ArmorReduction(float resist)
     {

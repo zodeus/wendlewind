@@ -55,7 +55,7 @@ public class MedicalChest : IExposable
             return false;
         }
 
-        if (_slots.Count >= Capacity)
+        if (_slots.Count >= Capacity || AlreadyArmedUnique(item.ItemDef))
         {
             return false;
         }
@@ -251,6 +251,11 @@ public class MedicalChest : IExposable
     public static bool IsInfiniteUse(ItemDef? def)
     {
         return def?.MedicinalProperties?.InfiniteUse == true;
+    }
+
+    private bool AlreadyArmedUnique(ItemDef? def)
+    {
+        return IsInfiniteUse(def) && _slots.Any(slot => slot.Def == def);
     }
 
     public static int CooldownInTicks(ItemDef? def)

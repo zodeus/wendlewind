@@ -5,7 +5,7 @@ namespace Wendlemire.NetCode;
 /// </summary>
 public static class GameVersion
 {
-    public const string Current = "0.1c";
+    public const string Current = "0.1d";
     public const string HeaderName = "X-Wendlemire-Version";
     public const string DownloadUrl = "https://wendlemire.com";
 
