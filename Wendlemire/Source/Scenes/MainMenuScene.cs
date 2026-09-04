@@ -36,6 +36,7 @@ public class MainMenuScene : Scene
     private TextBox _registerPasswordField = null!;
     private TextBox _serverField = null!;
     private CursorButton _fullscreenButton = null!;
+    private CursorButton _muteButton = null!;
     private Label _authError = null!;
     private Label _registerError = null!;
     private Label _connectionError = null!;
@@ -126,6 +127,7 @@ public class MainMenuScene : Scene
 
         _serverField = IronTextBox(_clientSettings.ServerHost, 220);
         _fullscreenButton = IronButton(FullscreenButtonText(), ToggleFullscreen, width: 240);
+        _muteButton = IronButton(MuteButtonText(), ToggleMute, width: 180);
 
         var body = new VerticalStackPanel
         {
@@ -154,7 +156,8 @@ public class MainMenuScene : Scene
                     {
                         BodyLabel("Server", Dust, VerticalAlignment.Center),
                         _serverField,
-                        _fullscreenButton
+                        _fullscreenButton,
+                        _muteButton
                     }
                 },
                 BodyLabel($"v{GameVersion.Current}", Dust)
@@ -600,6 +603,19 @@ public class MainMenuScene : Scene
     private static string FullscreenButtonText()
     {
         return Screen.IsFullscreen ? "Fullscreen: On" : "Fullscreen: Off";
+    }
+
+    private void ToggleMute()
+    {
+        var muted = !_clientSettings.AudioMuted;
+        _clientSettings.SetAudioMuted(muted);
+        Core.Audio.SetMuted(muted);
+        _muteButton.Content = DisplayLabel(MuteButtonText(), 20, Bone);
+    }
+
+    private string MuteButtonText()
+    {
+        return _clientSettings.AudioMuted ? "Audio: Off" : "Audio: On";
     }
 
     private void OpenShop()

@@ -27,6 +27,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
     private CursorButton? _showSummaryButton;
     private bool _summaryPending;
     private readonly CombatFloaterRouter _floaterRouter;
+    private readonly CombatAudioRouter _audioRouter;
     private readonly CombatPotionThrowFx _potionThrowFx;
     private readonly CombatMedicalTravelFx _medicalTravelFx;
     private readonly CombatIncenseSmokeFx _incenseSmokeFx;
@@ -54,6 +55,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         _onCombatEnded = onCombatEnded;
         _onReplay = onReplay
             ?? (DebugSettings.TestSimMode ? () => TestSimLauncher.Rematch(_context) : null);
+        _audioRouter = new CombatAudioRouter(Core.Audio);
         Encounter.StateChangedAction += CombatStateChangedAction;
         Encounter.CombatHandler!.CombatEventRecorded += OnCombatEvent;
         HorizontalAlignment = HorizontalAlignment.Stretch;
@@ -307,6 +309,7 @@ public class CombatScreen : VerticalStackPanel, IDisposable
         }
 
         _floaterRouter.Handle(combatEvent);
+        _audioRouter.Handle(combatEvent);
         ApplyEquipmentFeedback(combatEvent);
     }
 

@@ -3,6 +3,7 @@ using System.IO;
 using AssetManagementBase;
 using FontStashSharp.RichText;
 using Wendlemire.Assets;
+using Wendlemire.Audio;
 using Wendlemire.Coroutines;
 using Wendlemire.Definitions.Loader;
 using Wendlemire.Graphics;
@@ -28,6 +29,7 @@ public class Core : Game
     public static GameContext Context { get; set; } = null!;
     public static SceneManager Scene { get; } = new();
     public static GraphicsWrapper Graphics { get; private set; } = null!;
+    public static IAudio Audio { get; private set; } = null!;
 
     public static Random Random
     {
@@ -43,6 +45,7 @@ public class Core : Game
 
     private readonly TimerManager _timerManager = new();
     private readonly CoroutineManager _coroutineManager = new();
+    private AudioManager? _audio;
 
     /// <summary>
     /// used to coalesce GraphicsDeviceReset events
@@ -215,6 +218,10 @@ public class Core : Game
         DataLoader.Load();
         BaseContent.Initialize();
 
+        _audio = new AudioManager(Path.GetFullPath(contentDirectory));
+        Audio = _audio;
+        _audio.Apply(ClientSettings.LoadOrCreate());
+
         RichTextDefaults.FontResolver = p =>
         {
             // Parse font name and size
@@ -250,10 +257,6 @@ public class Core : Game
         }
 
         _fixedUpdateTimer.Start();
-
-
-        //SoundEffect sound = MonoSoundManager.GetEffect("Content/Audio/winds.mp3");
-        //sound.Play();
     }
 
     private static void LoadStyleSheet()
@@ -271,6 +274,9 @@ public class Core : Game
         {
             arena.SaveOnExit();
         }
+
+        _audio?.Dispose();
+        Audio = null!;
 
         base.OnExiting(sender, args);
     }

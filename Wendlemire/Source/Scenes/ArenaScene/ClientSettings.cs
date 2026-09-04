@@ -11,6 +11,9 @@ public sealed class ClientSettings
 
     public string ServerHost { get; set; } = DefaultHost;
     public bool FullScreen { get; set; } = false;
+    public float MasterVolume { get; set; } = 1f;
+    public float SfxVolume { get; set; } = 1f;
+    public bool AudioMuted { get; set; } = false;
 
     public static string DefaultPath => Path.Combine(AppContext.BaseDirectory, FileName);
 
@@ -27,6 +30,8 @@ public sealed class ClientSettings
                     loaded.ServerHost = DefaultHost;
                 }
 
+                loaded.MasterVolume = Math.Clamp(loaded.MasterVolume, 0f, 1f);
+                loaded.SfxVolume = Math.Clamp(loaded.SfxVolume, 0f, 1f);
                 return loaded;
             }
         }
@@ -44,6 +49,12 @@ public sealed class ClientSettings
     public void SetFullScreen(bool fullScreen, string? path = null)
     {
         FullScreen = fullScreen;
+        Save(path);
+    }
+
+    public void SetAudioMuted(bool muted, string? path = null)
+    {
+        AudioMuted = muted;
         Save(path);
     }
 

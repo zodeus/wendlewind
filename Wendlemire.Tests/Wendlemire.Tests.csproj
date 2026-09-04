@@ -21,6 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\Wendlemire\Source\Scenes\MainGameScene\Gui\CombatGui\CombatAudioRouter.cs" Link="CombatAudioRouter.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="..\Wendlemire\Content\Data\**\*">
       <Link>Content\Data\%(RecursiveDir)%(Filename)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

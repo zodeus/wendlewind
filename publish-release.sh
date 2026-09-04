@@ -7,7 +7,7 @@
 
 set -euo pipefail
 
-VERSION="0.1b"
+VERSION="0.1c"
 PLATFORM="all"
 SERVER_URL="http://5.78.232.9"
 SKIP_UPLOAD=0
