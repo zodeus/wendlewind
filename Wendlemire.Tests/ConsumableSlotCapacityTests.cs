@@ -51,10 +51,11 @@ public class ConsumableSlotCapacityTests
     [InlineData(3, 5, 3, 1, 2)]
     [InlineData(4, 6, 3, 2, 2)]
     [InlineData(5, 8, 3, 2, 3)]
-    [InlineData(6, 10, 4, 2, 3)]
-    [InlineData(7, 11, 4, 3, 3)]
-    [InlineData(8, 12, 4, 3, 4)]
-    [InlineData(10, 12, 4, 3, 4)]
+    [InlineData(6, 10, 3, 2, 3)]
+    [InlineData(7, 10, 4, 2, 3)]
+    [InlineData(8, 11, 4, 2, 3)]
+    [InlineData(10, 11, 4, 3, 3)]
+    [InlineData(12, 12, 4, 3, 4)]
     public void UpcomingRoundUnlocksPrepTiles(int upcomingRound, int medical, int potion, int incense, int food)
     {
         using var root = SimServices.BuildRoot();
@@ -110,13 +111,13 @@ public class ConsumableSlotCapacityTests
     {
         Assert.Equal(1, PrepSlotUnlocks.UnlockRound(PrepSlotKind.Medical, 3));
         Assert.Equal(2, PrepSlotUnlocks.UnlockRound(PrepSlotKind.Medical, 4));
-        Assert.Equal(8, PrepSlotUnlocks.UnlockRound(PrepSlotKind.Medical, 12));
+        Assert.Equal(11, PrepSlotUnlocks.UnlockRound(PrepSlotKind.Medical, 12));
         Assert.Equal(3, PrepSlotUnlocks.UnlockRound(PrepSlotKind.Potion, 3));
-        Assert.Equal(6, PrepSlotUnlocks.UnlockRound(PrepSlotKind.Potion, 4));
+        Assert.Equal(7, PrepSlotUnlocks.UnlockRound(PrepSlotKind.Potion, 4));
         Assert.Equal(4, PrepSlotUnlocks.UnlockRound(PrepSlotKind.Incense, 2));
-        Assert.Equal(7, PrepSlotUnlocks.UnlockRound(PrepSlotKind.Incense, 3));
+        Assert.Equal(10, PrepSlotUnlocks.UnlockRound(PrepSlotKind.Incense, 3));
         Assert.Equal(2, PrepSlotUnlocks.UnlockRound(PrepSlotKind.Food, 2));
-        Assert.Equal(8, PrepSlotUnlocks.UnlockRound(PrepSlotKind.Food, 4));
+        Assert.Equal(12, PrepSlotUnlocks.UnlockRound(PrepSlotKind.Food, 4));
     }
 
     private static GameContext StartArena(IServiceScope scope)

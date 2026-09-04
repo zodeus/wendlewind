@@ -21,7 +21,7 @@ public static class ItemSynergies
     public const float BiteRhinoPairChance = 1.15f;
     public const float BitePerRhinoLevel = 0.08f;
 
-    public const float CollarPairMagic = 0.12f;
+    public const float CollarPairMagic = 0.18f;
 
     public const float SucklerBathBlood = 1.4f;
     public const float SucklerBellBlood = 1.2f;

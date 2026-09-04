@@ -28,13 +28,13 @@ public class ArmorCombatTests
     [InlineData("LeatherVambrace", 18f)]
     [InlineData("ChainVambrace", 34f)]
     [InlineData("WitchDoctorVambrace", 48f)]
-    [InlineData("PlateVambrace", 56f)]
+    [InlineData("PlateVambrace", 48f)]
     [InlineData("ClothTunic", 14f)]
     [InlineData("LeatherTunic", 20f)]
     [InlineData("ChainTunic", 34f)]
     [InlineData("BucketHelmet", 18f)]
     [InlineData("FishBowlHelmet", 12f)]
-    [InlineData("PlagueMask", 18f)]
+    [InlineData("PlagueMask", 36f)]
     public void ArmorPiecesHaveExpectedPhysicalResistance(string moniker, float expected)
     {
         using var harness = BodyTestHarness.Human();

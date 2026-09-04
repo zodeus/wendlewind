@@ -17,13 +17,13 @@
                 <ListItem>
                     <Def>Burning</Def>
                     <DurationInTicks>80</DurationInTicks>
-                    <Chance>0.3</Chance>
+                    <Chance>0.38</Chance>
                 </ListItem>
             </BodyPartModifiers>
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Magic/EmberWand</TexturePath>
         <BaseStats>
-            <WeaponPower>62</WeaponPower>
+            <WeaponPower>78</WeaponPower>
             <MaxDurability>1800</MaxDurability>
         </BaseStats>
     </ItemDef>
@@ -49,7 +49,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Magic/HexWand</TexturePath>
         <BaseStats>
-            <WeaponPower>58</WeaponPower>
+            <WeaponPower>76</WeaponPower>
             <MaxDurability>1800</MaxDurability>
         </BaseStats>
     </ItemDef>
@@ -70,13 +70,13 @@
                 <ListItem>
                     <Def>Burning</Def>
                     <DurationInTicks>110</DurationInTicks>
-                    <Chance>0.28</Chance>
+                    <Chance>0.34</Chance>
                 </ListItem>
             </BodyPartModifiers>
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Magic/FireStaff</TexturePath>
         <BaseStats>
-            <WeaponPower>76</WeaponPower>
+            <WeaponPower>82</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
     </ItemDef>
@@ -97,13 +97,13 @@
                 <ListItem>
                     <Def>Electrofied</Def>
                     <DurationInTicks>30~50</DurationInTicks>
-                    <Chance>0.12</Chance>
+                    <Chance>0.16</Chance>
                 </ListItem>
             </BodyPartModifiers>
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Magic/StormStaff</TexturePath>
         <BaseStats>
-            <WeaponPower>76</WeaponPower>
+            <WeaponPower>82</WeaponPower>
             <MaxDurability>2000</MaxDurability>
         </BaseStats>
     </ItemDef>

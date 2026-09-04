@@ -304,7 +304,7 @@ public class ArenaRunTests
         Assert.Contains(lateSets[0].SetLabel, new[] { "Cloth Set", "Leather Set", "Chain Set" });
         Assert.DoesNotContain(late.Offers, offer => offer.SetLabel == "Plate Set");
 
-        var later = ShopStock.Roll(merchant, 99, 6).Single(shelf => shelf.Category == ShopCategory.Armor);
+        var later = ShopStock.Roll(merchant, 99, 8).Single(shelf => shelf.Category == ShopCategory.Armor);
         var laterSets = later.Offers.Where(offer => offer.IsSet).ToList();
         Assert.Single(laterSets);
         Assert.Contains(laterSets[0].SetLabel, new[] { "Cloth Set", "Leather Set", "Chain Set", "Plate Set" });
@@ -320,20 +320,20 @@ public class ArenaRunTests
     }
 
     [Fact]
-    public void ShopStockHidesSteelWeaponsUntilRoundSix()
+    public void ShopStockHidesSteelWeaponsUntilRoundEight()
     {
         var merchant = DefRepository<MerchantDef>.GetByMoniker("Blacksmith")!;
         string[] steel = ["Greatsword", "Maul", "Poleaxe", "SteelSword", "SteelAxe"];
         foreach (var moniker in steel)
         {
-            Assert.DoesNotContain(ShopStock.AvailableOffers(merchant, 5), o => o.ItemDef?.Moniker == moniker);
-            Assert.Contains(ShopStock.AvailableOffers(merchant, 6), o => o.ItemDef?.Moniker == moniker);
+            Assert.DoesNotContain(ShopStock.AvailableOffers(merchant, 7), o => o.ItemDef?.Moniker == moniker);
+            Assert.Contains(ShopStock.AvailableOffers(merchant, 8), o => o.ItemDef?.Moniker == moniker);
         }
 
         Assert.Contains(ShopStock.AvailableOffers(merchant, 0), o => o.ItemDef?.Moniker == "IronSword");
 
-        Assert.DoesNotContain(ShopStock.AvailableOffers(merchant, 5), o => o.ItemDef?.Moniker == "PlateTunic");
-        Assert.Contains(ShopStock.AvailableOffers(merchant, 6), o => o.ItemDef?.Moniker == "PlateTunic");
+        Assert.DoesNotContain(ShopStock.AvailableOffers(merchant, 7), o => o.ItemDef?.Moniker == "PlateTunic");
+        Assert.Contains(ShopStock.AvailableOffers(merchant, 8), o => o.ItemDef?.Moniker == "PlateTunic");
     }
 
     [Fact]
@@ -751,7 +751,9 @@ public class ArenaRunTests
     [InlineData(2, "Ranger")]
     [InlineData(3, "Alchemist")]
     [InlineData(4, "Magician")]
-    public void MerchantPoolIsExclusiveForTheFirstFourVisits(int fightsPlayed, string moniker)
+    [InlineData(8, "Blacksmith")]
+    [InlineData(10, "Magician")]
+    public void MerchantPoolIsExclusiveForIntroAndLateVisits(int fightsPlayed, string moniker)
     {
         var pool = MerchantPool.Available(fightsPlayed);
         Assert.Equal([moniker], pool.Select(merchant => merchant.Moniker));
@@ -761,7 +763,8 @@ public class ArenaRunTests
     [InlineData(0)]
     [InlineData(5)]
     [InlineData(9)]
-    public void MerchantPoolOffersEverySpecialtyMerchantAfterTheIntro(int fightsPlayed)
+    [InlineData(11)]
+    public void MerchantPoolOffersEverySpecialtyMerchantWhenNotExclusive(int fightsPlayed)
     {
         var pool = MerchantPool.Available(fightsPlayed)
             .Select(merchant => merchant.Moniker)
@@ -775,6 +778,8 @@ public class ArenaRunTests
     [InlineData(2, "Ranger")]
     [InlineData(3, "Alchemist")]
     [InlineData(4, "Magician")]
+    [InlineData(8, "Blacksmith")]
+    [InlineData(10, "Magician")]
     public void MerchantPoolSelectsTheExclusiveMerchant(int fightsPlayed, string moniker)
     {
         Assert.Equal(moniker, MerchantPool.Select(99, fightsPlayed).Moniker);

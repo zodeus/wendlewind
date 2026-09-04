@@ -46,27 +46,27 @@
                     </ListItem>
                     <ListItem>
                         <ItemDef>Greatsword</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
+                        <AvailableFromRound>8</AvailableFromRound>
                         <Weight>1</Weight>
                     </ListItem>
                     <ListItem>
                         <ItemDef>Maul</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
+                        <AvailableFromRound>8</AvailableFromRound>
                         <Weight>1</Weight>
                     </ListItem>
                     <ListItem>
                         <ItemDef>Poleaxe</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
+                        <AvailableFromRound>8</AvailableFromRound>
                         <Weight>1</Weight>
                     </ListItem>
                     <ListItem>
                         <ItemDef>SteelSword</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
+                        <AvailableFromRound>8</AvailableFromRound>
                         <Weight>1</Weight>
                     </ListItem>
                     <ListItem>
                         <ItemDef>SteelAxe</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
+                        <AvailableFromRound>8</AvailableFromRound>
                         <Weight>1</Weight>
                     </ListItem>
                 </Offers>
@@ -196,7 +196,7 @@
                     </ListItem>
                     <ListItem>
                         <SetLabel>Plate Set</SetLabel>
-                        <AvailableFromRound>6</AvailableFromRound>
+                        <AvailableFromRound>8</AvailableFromRound>
                         <SetPieces>
                             <ListItem>PlateHelmet</ListItem>
                             <ListItem>PlateGorget</ListItem>
@@ -213,35 +213,35 @@
                     </ListItem>
                     <ListItem>
                         <ItemDef>BlessedIronCollar</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
+                        <AvailableFromRound>10</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>PlateHelmet</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
+                        <AvailableFromRound>8</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>PlateGorget</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
+                        <AvailableFromRound>8</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>PlateTunic</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
+                        <AvailableFromRound>8</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>PlateGlove</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
+                        <AvailableFromRound>8</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>PlateVambrace</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
+                        <AvailableFromRound>8</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>PlateGreave</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
+                        <AvailableFromRound>8</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>PlateBoot</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
+                        <AvailableFromRound>8</AvailableFromRound>
                     </ListItem>
                 </Offers>
             </ListItem>

@@ -37,10 +37,11 @@
                     </ListItem>
                     <ListItem>
                         <ItemDef>PlagueMask</ItemDef>
+                        <AvailableFromRound>10</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>BlessedIronCollar</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
+                        <AvailableFromRound>10</AvailableFromRound>
                     </ListItem>
                 </Offers>
             </ListItem>
@@ -70,7 +71,7 @@
                     </ListItem>
                     <ListItem>
                         <ItemDef>LungwortBraid</ItemDef>
-                        <AvailableFromRound>2</AvailableFromRound>
+                        <AvailableFromRound>10</AvailableFromRound>
                     </ListItem>
                 </Offers>
             </ListItem>
@@ -159,7 +160,7 @@
                     </ListItem>
                     <ListItem>
                         <ItemDef>HealingSalve</ItemDef>
-                        <AvailableFromRound>7</AvailableFromRound>
+                        <AvailableFromRound>10</AvailableFromRound>
                     </ListItem>
                 </Offers>
             </ListItem>

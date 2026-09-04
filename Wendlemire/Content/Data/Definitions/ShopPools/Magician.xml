@@ -59,7 +59,7 @@
                     </ListItem>
                     <ListItem>
                         <ItemDef>HealingSalve</ItemDef>
-                        <AvailableFromRound>6</AvailableFromRound>
+                        <AvailableFromRound>10</AvailableFromRound>
                     </ListItem>
                 </Offers>
             </ListItem>
@@ -89,7 +89,7 @@
                     </ListItem>
                     <ListItem>
                         <ItemDef>LungwortBraid</ItemDef>
-                        <AvailableFromRound>7</AvailableFromRound>
+                        <AvailableFromRound>10</AvailableFromRound>
                     </ListItem>
                 </Offers>
             </ListItem>
@@ -134,6 +134,7 @@
                 <Offers>
                     <ListItem>
                         <ItemDef>RhinoSkin</ItemDef>
+                        <AvailableFromRound>8</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>FesteringWounds</ItemDef>
@@ -143,6 +144,7 @@
                     </ListItem>
                     <ListItem>
                         <ItemDef>EverburningStone</ItemDef>
+                        <AvailableFromRound>8</AvailableFromRound>
                     </ListItem>
                 </Offers>
             </ListItem>

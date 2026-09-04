@@ -22,7 +22,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Steel/Greatsword</TexturePath>
         <BaseStats>
-            <WeaponPower>104</WeaponPower>
+            <WeaponPower>98</WeaponPower>
             <MaxDurability>2400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -63,7 +63,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Steel/Maul</TexturePath>
         <BaseStats>
-            <WeaponPower>116</WeaponPower>
+            <WeaponPower>110</WeaponPower>
             <MaxDurability>2400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -108,7 +108,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Steel/Poleaxe</TexturePath>
         <BaseStats>
-            <WeaponPower>114</WeaponPower>
+            <WeaponPower>108</WeaponPower>
             <MaxDurability>2400</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -144,7 +144,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Steel/SteelSword</TexturePath>
         <BaseStats>
-            <WeaponPower>104</WeaponPower>
+            <WeaponPower>98</WeaponPower>
             <MaxDurability>2200</MaxDurability>
         </BaseStats>
         <DisassembleProperties>
@@ -184,7 +184,7 @@
         </WeaponProperties>
         <TexturePath>Entities/Item/Equipment/Weapon/Steel/SteelAxe</TexturePath>
         <BaseStats>
-            <WeaponPower>110</WeaponPower>
+            <WeaponPower>104</WeaponPower>
             <MaxDurability>2200</MaxDurability>
         </BaseStats>
         <DisassembleProperties>

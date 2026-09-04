@@ -13,12 +13,13 @@ using Xunit.Abstractions;
 namespace Wendlemire.Tests;
 
 /// <summary>
-/// Human-vs-human balance across a ~13-round arena.
+/// Human-vs-human balance across a 12-win arena.
 /// Shop timing used for loadouts:
 ///   R1+  primitive/iron, cloth/leather, Festering, Soothing
 ///   R2+  SpidersBite, ElvishLeaf, WD pieces
 ///   R4+  chain, WD set, BoneEater, BloodBath, FireStaff
-///   R6+  plate, Everburning, RhinoSkin, BlessedIronCollar
+///   R8+  plate, steel, Everburning, RhinoSkin
+///   R10+ BlessedIronCollar, PlagueMask, HealingSalve, LungwortBraid
 /// Consumable kits ride along (meal + incense + medical chest + potions):
 ///   Early  cooked meat/fish, Mullin, threads+MedKit, JarOfBlood
 ///   Mid    stew+dried, ShadeWood, MedKit+Balmy+Mist, Jar+Acid
@@ -275,7 +276,7 @@ public class BalanceSimReport
     {
         "R4-6" or "METAL" or "MAGIC" or "STEEL" => Mid,
         "R7-9" => Late,
-        "R10-13" => Full,
+        "R10-12" => Full,
         _ => Early
     };
 
@@ -523,7 +524,7 @@ public class BalanceSimReport
     private static BuildSnapshot ClawsPlateBite(string id) =>
         Fighter(id, ["IronClaws"], PlateSet, Weapon("IronClaws", "SpidersBite"));
 
-    // R10-13
+    // R10-12
     private static BuildSnapshot ChainStackedBurn(string id) =>
         Fighter(id, ["IronSword", "IronDagger"], ChainSet,
             Combine(
@@ -711,32 +712,32 @@ public class BalanceSimReport
         EraMatch("R7-9", "Claws+plate+Bite vs Dual-DoT+leather", ClawsPlateBite("A"), DualDoTLeather("B")),
         EraMatch("R7-9", "Sword+plate vs Sword+chain", SwordPlate("A"), SwordChain("B")),
 
-        // --- R10-13: stacked sockets + Full kit. Heal-mirrors still omitted. ---
-        EraMatch("R10-13", "Chain stacked+Burn/Bone vs same", ChainStackedBurn("A"), ChainStackedBurn("B")),
-        EraMatch("R10-13", "Chain stacked+Fester/Bite vs Burn/Bone", ChainStackedFester("A"), ChainStackedBurn("B")),
-        EraMatch("R10-13", "WD heal+Burn vs Chain stacked", WdHealBurn("A"), ChainStackedBurn("B")),
-        EraMatch("R10-13", "WD heal+Fester vs Chain stacked", WdHealFester("A"), ChainStackedBurn("B")),
-        EraMatch("R10-13", "WD heal+Bite vs Chain stacked", WdHealBite("A"), ChainStackedBurn("B")),
-        EraMatch("R10-13", "WD heal+Bone vs Chain stacked", WdHealBone("A"), ChainStackedBurn("B")),
-        EraMatch("R10-13", "WD reflect+Bite vs Chain stacked", WdReflectBite("A"), ChainStackedBurn("B")),
-        EraMatch("R10-13", "WD reflect+Bite vs WD heal+Fester", WdReflectBite("A"), WdHealFester("B")),
-        EraMatch("R10-13", "Unique-mix+Burn/Bone vs Chain stacked", UniqueMixBurn("A"), ChainStackedBurn("B")),
-        EraMatch("R10-13", "Unique-mix+Bite vs Chain stacked", UniqueMixBite("A"), ChainStackedBurn("B")),
-        EraMatch("R10-13", "FireStaff-2H+Fester+WD vs Chain stacked", FireStaffFester("A"), ChainStackedBurn("B")),
-        EraMatch("R10-13", "FireStaff-2H+Burn+WD vs Chain stacked", FireStaffBurn("A"), ChainStackedBurn("B")),
-        EraMatch("R10-13", "StormStaff+Burn+WD vs Chain stacked", StormStaffHeal("A"), ChainStackedBurn("B")),
-        EraMatch("R10-13", "Ember+Dagger+WD vs Chain stacked", EmberDaggerWd("A"), ChainStackedBurn("B")),
-        EraMatch("R10-13", "WD heal+Burn vs WD+BoneEater (no stack)", WdHealBurn("A"), WdPlainBone("B")),
-        EraMatch("R10-13", "Unique-mix vs WD+BoneEater (no stack)", UniqueMixBurn("A"), WdPlainBone("B")),
-        EraMatch("R10-13", "WD heal+Bite vs Unique-mix+Burn", WdHealBite("A"), UniqueMixBurn("B")),
-        EraMatch("R10-13", "FireStaff-2H+Burn vs WD+collar+Bone", FireStaffBurn("A"), WdCollarBone("B")),
-        EraMatch("R10-13", "Plate stacked+Burn/Bone vs same", PlateStackedBurn("A"), PlateStackedBurn("B")),
-        EraMatch("R10-13", "Plate stacked+Fester/Bite vs Burn/Bone", PlateStackedFester("A"), PlateStackedBurn("B")),
-        EraMatch("R10-13", "WD heal+Burn vs Plate stacked", WdHealBurn("A"), PlateStackedBurn("B")),
-        EraMatch("R10-13", "WD heal+Fester vs Plate stacked", WdHealFester("A"), PlateStackedBurn("B")),
-        EraMatch("R10-13", "Unique-mix+Burn/Bone vs Plate stacked", UniqueMixBurn("A"), PlateStackedBurn("B")),
-        EraMatch("R10-13", "FireStaff-2H+Burn+WD vs Plate stacked", FireStaffBurn("A"), PlateStackedBurn("B")),
-        EraMatch("R10-13", "Plate stacked vs Chain stacked", PlateStackedBurn("A"), ChainStackedBurn("B")),
+        // --- R10-12: stacked sockets + Full kit. Heal-mirrors still omitted. ---
+        EraMatch("R10-12", "Chain stacked+Burn/Bone vs same", ChainStackedBurn("A"), ChainStackedBurn("B")),
+        EraMatch("R10-12", "Chain stacked+Fester/Bite vs Burn/Bone", ChainStackedFester("A"), ChainStackedBurn("B")),
+        EraMatch("R10-12", "WD heal+Burn vs Chain stacked", WdHealBurn("A"), ChainStackedBurn("B")),
+        EraMatch("R10-12", "WD heal+Fester vs Chain stacked", WdHealFester("A"), ChainStackedBurn("B")),
+        EraMatch("R10-12", "WD heal+Bite vs Chain stacked", WdHealBite("A"), ChainStackedBurn("B")),
+        EraMatch("R10-12", "WD heal+Bone vs Chain stacked", WdHealBone("A"), ChainStackedBurn("B")),
+        EraMatch("R10-12", "WD reflect+Bite vs Chain stacked", WdReflectBite("A"), ChainStackedBurn("B")),
+        EraMatch("R10-12", "WD reflect+Bite vs WD heal+Fester", WdReflectBite("A"), WdHealFester("B")),
+        EraMatch("R10-12", "Unique-mix+Burn/Bone vs Chain stacked", UniqueMixBurn("A"), ChainStackedBurn("B")),
+        EraMatch("R10-12", "Unique-mix+Bite vs Chain stacked", UniqueMixBite("A"), ChainStackedBurn("B")),
+        EraMatch("R10-12", "FireStaff-2H+Fester+WD vs Chain stacked", FireStaffFester("A"), ChainStackedBurn("B")),
+        EraMatch("R10-12", "FireStaff-2H+Burn+WD vs Chain stacked", FireStaffBurn("A"), ChainStackedBurn("B")),
+        EraMatch("R10-12", "StormStaff+Burn+WD vs Chain stacked", StormStaffHeal("A"), ChainStackedBurn("B")),
+        EraMatch("R10-12", "Ember+Dagger+WD vs Chain stacked", EmberDaggerWd("A"), ChainStackedBurn("B")),
+        EraMatch("R10-12", "WD heal+Burn vs WD+BoneEater (no stack)", WdHealBurn("A"), WdPlainBone("B")),
+        EraMatch("R10-12", "Unique-mix vs WD+BoneEater (no stack)", UniqueMixBurn("A"), WdPlainBone("B")),
+        EraMatch("R10-12", "WD heal+Bite vs Unique-mix+Burn", WdHealBite("A"), UniqueMixBurn("B")),
+        EraMatch("R10-12", "FireStaff-2H+Burn vs WD+collar+Bone", FireStaffBurn("A"), WdCollarBone("B")),
+        EraMatch("R10-12", "Plate stacked+Burn/Bone vs same", PlateStackedBurn("A"), PlateStackedBurn("B")),
+        EraMatch("R10-12", "Plate stacked+Fester/Bite vs Burn/Bone", PlateStackedFester("A"), PlateStackedBurn("B")),
+        EraMatch("R10-12", "WD heal+Burn vs Plate stacked", WdHealBurn("A"), PlateStackedBurn("B")),
+        EraMatch("R10-12", "WD heal+Fester vs Plate stacked", WdHealFester("A"), PlateStackedBurn("B")),
+        EraMatch("R10-12", "Unique-mix+Burn/Bone vs Plate stacked", UniqueMixBurn("A"), PlateStackedBurn("B")),
+        EraMatch("R10-12", "FireStaff-2H+Burn+WD vs Plate stacked", FireStaffBurn("A"), PlateStackedBurn("B")),
+        EraMatch("R10-12", "Plate stacked vs Chain stacked", PlateStackedBurn("A"), ChainStackedBurn("B")),
 
         // --- Cross-band leftovers keep their own era kits ---
         Split("X", "R1 axe vs R5 sword-leather", AxeNaked("A"), Early, SwordLeather("B"), Mid),
@@ -866,7 +867,7 @@ public class BalanceSimReport
         }
 
         sb.AppendLine($"Seeds/matchup: {SeedCount}   Target: {TargetMinTicks / 60}-{TargetMaxTicks / 60}s @ 60tps");
-        sb.AppendLine($"Knobs this pass: CombatBalance VitalHpScale={CombatBalance.VitalHpScale} LimbHpScale={CombatBalance.LimbHpScale} ArmorK={CombatBalance.ArmorK} (ElvishLeaf diminishing, on-hit stacks free)");
+        sb.AppendLine($"Knobs this pass: CombatBalance VitalHpScale={CombatBalance.VitalHpScale} LimbHpScale={CombatBalance.LimbHpScale} ArmorK={CombatBalance.ArmorK} WeightAttackSpeedFactor={CombatBalance.WeightAttackSpeedFactor} ArmoredDot={CombatBalance.ArmoredDotChanceFactor}/{CombatBalance.ArmoredDotPowerFactor} (ElvishLeaf diminishing, on-hit stacks free)");
         sb.AppendLine("Sever dump: currentBlood * (subtree BloodAmount / body BloodAmount) on Severe()");
         sb.AppendLine();
         AppendHumanBloodShares(sb);
@@ -926,7 +927,7 @@ public class BalanceSimReport
         }
 
         sb.AppendLine($"Seeds/matchup: {SeedCount}   Target: {TargetMinTicks / 60}-{TargetMaxTicks / 60}s @ 60tps");
-        sb.AppendLine($"Knobs this pass: CombatBalance VitalHpScale={CombatBalance.VitalHpScale} LimbHpScale={CombatBalance.LimbHpScale} ArmorK={CombatBalance.ArmorK} (ElvishLeaf diminishing, on-hit stacks free)");
+        sb.AppendLine($"Knobs this pass: CombatBalance VitalHpScale={CombatBalance.VitalHpScale} LimbHpScale={CombatBalance.LimbHpScale} ArmorK={CombatBalance.ArmorK} WeightAttackSpeedFactor={CombatBalance.WeightAttackSpeedFactor} ArmoredDot={CombatBalance.ArmoredDotChanceFactor}/{CombatBalance.ArmoredDotPowerFactor} (ElvishLeaf diminishing, on-hit stacks free)");
         sb.AppendLine("Sever dump: currentBlood * (subtree BloodAmount / body BloodAmount) on Severe()");
         sb.AppendLine();
         AppendHumanBloodShares(sb);

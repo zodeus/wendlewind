@@ -38,8 +38,8 @@
             <BodyPartModifiers>
                 <ListItem>
                     <Def>Festering</Def>
-                    <DurationInTicks>48~192</DurationInTicks>
-                    <Chance>.24</Chance>
+                    <DurationInTicks>36~120</DurationInTicks>
+                    <Chance>.10</Chance>
                 </ListItem>
             </BodyPartModifiers>
         </EnchantmentProperties>

@@ -13,6 +13,7 @@
         </EquipmentProperties>
         <TexturePath>Entities/Item/Equipment/Armor/Unique/BlessedIronCollar</TexturePath>
         <BaseStats>
+            <PhysicalResistance>28</PhysicalResistance>
             <MaxDurability>666</MaxDurability>
             <Weight>2</Weight>
         </BaseStats>
@@ -39,6 +40,7 @@
             <MaxEnchantments>2</MaxEnchantments>
         </EquipmentProperties>
         <BaseStats>
+            <PhysicalResistance>36</PhysicalResistance>
             <MaxDurability>500</MaxDurability>
         </BaseStats>
         <DisassembleProperties>

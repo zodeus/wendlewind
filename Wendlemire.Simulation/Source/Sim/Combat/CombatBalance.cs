@@ -6,14 +6,14 @@ namespace Wendlemire.Sim.Combat;
 /// </summary>
 public static class CombatBalance
 {
-    public const float VitalHpScale = 0.90f;
+    public const float VitalHpScale = 0.85f;
     public const float LimbHpScale = 0.78f;
 
     /// <summary>
     /// Diminishing-returns armor: reduction = resist / (resist + ArmorK). Never 100%.
-    /// Leather 18 ≈ 14% DR, chain 34 ≈ 24% DR, witch doctor 48 ≈ 30% DR.
+    /// Leather 18 ≈ 11% DR, chain 34 ≈ 20% DR, plate 48 ≈ 26% DR, witch doctor 48 ≈ 26% DR.
     /// </summary>
-    public const float ArmorK = 110f;
+    public const float ArmorK = 140f;
 
     /// <summary>
     /// Attack speed = base / (1 + equippedWeight * this). Full cloth (~11) ≈ 6% slower, full plate (~77) ≈ 32%.

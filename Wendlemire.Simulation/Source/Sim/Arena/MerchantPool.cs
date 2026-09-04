@@ -36,6 +36,8 @@ public static class MerchantPool
         2 => Defs.Merchants.Ranger,
         3 => Defs.Merchants.Alchemist,
         4 => Defs.Merchants.Magician,
+        8 => Defs.Merchants.Blacksmith,
+        10 => Defs.Merchants.Magician,
         _ => null
     };
 }
