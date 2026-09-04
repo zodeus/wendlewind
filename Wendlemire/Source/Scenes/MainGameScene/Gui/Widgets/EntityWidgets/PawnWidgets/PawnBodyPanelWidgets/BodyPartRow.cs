@@ -11,6 +11,8 @@ internal sealed class BodyPartRow : HorizontalStackPanel
     private Label _label;
     private List<BodyPartIcon> _parts = new();
     private readonly List<(BodyPartIcon Icon, BodyPart Part)> _iconParts = [];
+    private bool _showInternalParts;
+    private int _cachedInternalCount = -1;
     private List<HorizontalStackPanel> _rows = new();
     private VerticalStackPanel _iconContainer;
     private float _flashTime;
@@ -42,6 +44,8 @@ internal sealed class BodyPartRow : HorizontalStackPanel
         Widgets.Clear();
         _iconContainer.Widgets.Clear();
         BodyPart = bodyPart;
+        _showInternalParts = showInternalParts;
+        _cachedInternalCount = showInternalParts ? bodyPart.AllInternalParts.Count : -1;
 
         if (showInternalParts)
         {
@@ -51,11 +55,7 @@ internal sealed class BodyPartRow : HorizontalStackPanel
 
         Widgets.Add(_iconContainer);
 
-        var parts = bodyPart.AllInternalParts
-            .Where(p => p.Type == BodyPartType.Skin && showInternalParts)
-            .Concat(new List<BodyPart> { bodyPart })
-            .Concat(bodyPart.AllInternalParts.Where(p => p.Type != BodyPartType.Skin && showInternalParts))
-            .ToList();
+        var parts = PartsForRow(bodyPart, showInternalParts);
 
         HorizontalStackPanel? currentRow = null;
         int partsInCurrentRow = 0;
@@ -71,7 +71,7 @@ internal sealed class BodyPartRow : HorizontalStackPanel
                 partsInCurrentRow = 0;
             }
 
-            BodyPartIcon partIcon = new(new ColoredRegion(new TextureRegion(part.GetWhiteIcon()), BodyPartColor.Get(bodyPart)), panel =>
+            BodyPartIcon partIcon = new(new ColoredRegion(new TextureRegion(IconFor(part)), Color.White), panel =>
             {
                 panel.SetColor(BodyPartColor.Get(part));
                 panel.RefreshPips(part);
@@ -89,6 +89,44 @@ internal sealed class BodyPartRow : HorizontalStackPanel
             partsInCurrentRow++;
         }
     }
+
+    private static List<BodyPart> PartsForRow(BodyPart bodyPart, bool showInternalParts)
+    {
+        var ordered = new List<BodyPart>();
+        if (showInternalParts)
+        {
+            ordered.AddRange(bodyPart.AllInternalParts.Where(p => p.Type == BodyPartType.Skin));
+        }
+
+        ordered.Add(bodyPart);
+        if (!showInternalParts)
+        {
+            return ordered;
+        }
+
+        var internals = bodyPart.AllInternalParts.Where(p => p.Type != BodyPartType.Skin).ToList();
+        var implants = internals.Where(p => p.BodyPartDef.ShowOnPawnBody).ToList();
+        foreach (var part in internals.Where(p => !p.BodyPartDef.ShowOnPawnBody))
+        {
+            ordered.Add(part);
+            for (var i = implants.Count - 1; i >= 0; i--)
+            {
+                if (implants[i].Type != part.Type)
+                {
+                    continue;
+                }
+
+                ordered.Add(implants[i]);
+                implants.RemoveAt(i);
+            }
+        }
+
+        ordered.AddRange(implants);
+        return ordered;
+    }
+
+    private static Texture2D IconFor(BodyPart part) =>
+        part.BodyPartDef.ShowOnPawnBody ? part.GetIcon() : part.GetWhiteIcon();
 
     private void BodyPartClickHandler(BodyPart part, bool useItems = false)
     {
@@ -261,6 +299,15 @@ internal sealed class BodyPartRow : HorizontalStackPanel
         if (BodyPart == null)
         {
             return;
+        }
+
+        if (_showInternalParts)
+        {
+            var count = BodyPart.AllInternalParts.Count;
+            if (count != _cachedInternalCount)
+            {
+                SetPart(BodyPart, true);
+            }
         }
 
         UiLabel.Set(_label, BodyPart.Label);

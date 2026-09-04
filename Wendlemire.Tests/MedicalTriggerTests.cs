@@ -30,6 +30,7 @@ public class MedicalTriggerTests
     [InlineData("BoneCleanse")]
     [InlineData("StrengthenBones")]
     [InlineData("Cyberveins")]
+    [InlineData("MechanicalHeart")]
     [InlineData("Cauterize")]
     [InlineData("Bandage")]
     [InlineData("BoneGlue")]
@@ -377,6 +378,76 @@ public class MedicalTriggerTests
     }
 
     [Fact]
+    public void MechanicalHeartSlotsIntoChestWithoutCombat()
+    {
+        using var harness = BodyTestHarness.Human();
+        var def = RequireDef("MechanicalHeart");
+        harness.Pawn.MedicalChest.Clear();
+        Assert.True(harness.Pawn.MedicalChest.TryInstall(def, 1));
+
+        var hearts = harness.Parts(BodyPartType.Heart);
+        Assert.Equal(2, hearts.Count);
+        Assert.Contains(hearts, h => h.BodyPartDef == Defs.BodyParts.MechanicalHeart);
+        Assert.True(hearts.Single(h => h.BodyPartDef == Defs.BodyParts.MechanicalHeart).BodyPartDef.ShowOnPawnBody);
+        Assert.Contains(harness.Part(BodyPartType.RibCage).InternalParts, p => p.BodyPartDef == Defs.BodyParts.MechanicalHeart);
+
+        harness.Pawn.MedicalChest.Clear();
+        Assert.DoesNotContain(harness.Parts(BodyPartType.Heart), h => h.BodyPartDef == Defs.BodyParts.MechanicalHeart);
+    }
+
+    [Fact]
+    public void MechanicalHeartInstallsASecondVitalHeart()
+    {
+        using var harness = BodyTestHarness.Human();
+        var def = RequireDef("MechanicalHeart");
+        var item = harness.Context.Factory.CreateEntity<Item>(def, 1);
+        var root = harness.Pawn.Body.RootSocket.AttachedPart!;
+        Assert.Single(harness.Parts(BodyPartType.Heart));
+
+        Assert.True(item.MedicinalHandler!.ApplyToPart(item, root));
+
+        var hearts = harness.Parts(BodyPartType.Heart);
+        Assert.Equal(2, hearts.Count);
+        Assert.Contains(hearts, h => h.BodyPartDef == Defs.BodyParts.MechanicalHeart);
+        Assert.All(hearts, h => Assert.True(h.IsVital));
+        Assert.True(item.MedicinalHandler.ApplyToPart(item, root));
+        Assert.Equal(2, harness.Parts(BodyPartType.Heart).Count);
+    }
+
+    [Fact]
+    public void MechanicalHeartKeepsPawnAliveAfterOrganicHeartFails()
+    {
+        using var harness = BodyTestHarness.Human();
+        var def = RequireDef("MechanicalHeart");
+        var item = harness.Context.Factory.CreateEntity<Item>(def, 1);
+        Assert.True(item.MedicinalHandler!.ApplyToPart(item, harness.Pawn.Body.RootSocket.AttachedPart!));
+
+        var organic = harness.Parts(BodyPartType.Heart).First(h => h.BodyPartDef == Defs.BodyParts.Heart);
+        organic.HitPoints = 0;
+
+        Assert.Null(harness.Pawn.IsDeadFromPartFailure());
+        Assert.False(harness.Pawn.IsDead);
+    }
+
+    [Fact]
+    public void MechanicalHeartBothHeartsDestroyedIsOrganFailure()
+    {
+        using var harness = BodyTestHarness.Human();
+        var def = RequireDef("MechanicalHeart");
+        var item = harness.Context.Factory.CreateEntity<Item>(def, 1);
+        Assert.True(item.MedicinalHandler!.ApplyToPart(item, harness.Pawn.Body.RootSocket.AttachedPart!));
+
+        foreach (var heart in harness.Parts(BodyPartType.Heart))
+        {
+            heart.HitPoints = 0;
+        }
+
+        var death = harness.Pawn.IsDeadFromPartFailure();
+        Assert.NotNull(death);
+        Assert.Contains("Heart", death.CauseOfDeath);
+    }
+
+    [Fact]
     public void BandageHealsFleshAndSkinOnly()
     {
         using var root = SimServices.BuildRoot();
@@ -580,6 +651,7 @@ public class MedicalTriggerTests
                 break;
             case "StrengthenBones":
             case "Cyberveins":
+            case "MechanicalHeart":
                 break;
             default:
                 DamageFirst(pawn, p => p.IsExternal && p.Type != BodyPartType.Eye, 0.2);

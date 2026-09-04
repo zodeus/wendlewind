@@ -7,6 +7,7 @@ public class BodyPartDef : EntityDef {
     public float HitWeight = 0;
     public bool IsVital = false;
     public bool IsOrgan = false;
+    public bool ShowOnPawnBody = false;
     public SubstanceType Substance = SubstanceType.Undefined;
     public float MobilityFraction = 0;
     public List<BodyPartSocketDef> Sockets = new();

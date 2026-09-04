@@ -35,14 +35,27 @@ public sealed class PawnCapabilitiesOverlay : Panel, IUpdatable
     private static readonly Color BorderColor = new(80, 70, 55);
     private static readonly Color HeaderColor = new(200, 170, 100);
     private static readonly Color LabelColor = new(170, 165, 155);
+    private static readonly Color CrisisGold = new(210, 190, 40);
+    private static readonly Color CrisisBile = new(160, 170, 28);
+    private static readonly Color CrisisUrgent = new(230, 80, 30);
+
+    private readonly PawnBody _body;
+    private readonly Label _headerTitle;
+    private readonly List<CrisisMote> _crisisMotes = [];
+    private float _crisisSpawn;
+    private float _crisisPulse;
+    private bool _crisisActive;
+    private static Texture2D? _dropSprite;
+    private static Texture2D? _sparkSprite;
 
     private static Texture2D? _glowTexture;
     private static Texture2D? _pixelTexture;
 
     public PawnCapabilitiesOverlay(PawnBody body)
     {
+        _body = body;
         _capabilities = body.Capabilities;
-        ClipToBounds = false;
+        ClipToBounds = true;
 
         Background = new SolidBrush(BackgroundColor);
         Border = new SolidBrush(BorderColor);
@@ -59,11 +72,12 @@ public sealed class PawnCapabilitiesOverlay : Panel, IUpdatable
             Margin = new Thickness(0, 0, 0, 2)
         };
 
-        headerRow.Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+        _headerTitle = new Label(BaseContent.Styles.Label.Small)
         {
             Text = "Capabilities",
             TextColor = HeaderColor
-        });
+        };
+        headerRow.Widgets.Add(_headerTitle);
 
         var headerLine = new Panel
         {
@@ -224,10 +238,186 @@ public sealed class PawnCapabilitiesOverlay : Panel, IUpdatable
         UpdateCapability("Mobility", _capabilities.Mobility);
 
         var deltaTime = 1f / 60f;
+        UpdateCrisis(deltaTime);
         foreach (var row in _rows.Values)
         {
             row.Tick(deltaTime);
         }
+    }
+
+    public override void InternalRender(RenderContext context)
+    {
+        if (_crisisActive)
+        {
+            DrawCrisisWash(context);
+            DrawCrisisMotes(context);
+        }
+
+        base.InternalRender(context);
+    }
+
+    private void UpdateCrisis(float deltaTime)
+    {
+        if (!_body.OrganCrisis.TryGetImminent(_body, out var crisis))
+        {
+            if (!_crisisActive)
+            {
+                return;
+            }
+
+            _crisisActive = false;
+            _crisisMotes.Clear();
+            _crisisSpawn = 0f;
+            _headerTitle.Text = "Capabilities";
+            _headerTitle.TextColor = HeaderColor;
+            return;
+        }
+
+        _crisisActive = true;
+        var remaining = Math.Max(0f, crisis.RemainingSeconds);
+        var urgent = remaining <= 1f;
+        var color = urgent ? CrisisUrgent : Color.Lerp(CrisisGold, CrisisUrgent, crisis.Progress);
+        UiLabel.Set(_headerTitle, $"crisis {remaining:0.0}s", color);
+        _crisisPulse = 0.05f + crisis.Progress * 0.07f
+            + (urgent ? 0.04f : 0f) * (0.5f + 0.5f * MathF.Sin(Core.TotalTime * (urgent ? 8f : 4f)));
+        TickCrisisMotes(deltaTime, crisis.Progress, urgent);
+    }
+
+    private void TickCrisisMotes(float deltaTime, float progress, bool urgent)
+    {
+        _crisisSpawn += deltaTime;
+        var interval = urgent ? 0.16f : 0.28f;
+        var maxMotes = urgent ? 7 : 4;
+        while (_crisisSpawn >= interval && _crisisMotes.Count < maxMotes)
+        {
+            _crisisSpawn -= interval;
+            var drip = Rng.Visual.NextDouble() < 0.65;
+            _crisisMotes.Add(new CrisisMote
+            {
+                X = drip
+                    ? 0.78f + (float)Rng.Visual.NextDouble() * 0.16f
+                    : 0.12f + (float)Rng.Visual.NextDouble() * 0.76f,
+                Y = drip
+                    ? 0.28f + (float)Rng.Visual.NextDouble() * 0.18f
+                    : 0.88f + (float)Rng.Visual.NextDouble() * 0.08f,
+                VX = ((float)Rng.Visual.NextDouble() - 0.5f) * 0.04f,
+                VY = drip
+                    ? 0.18f + (float)Rng.Visual.NextDouble() * (0.12f + progress * 0.1f)
+                    : -(0.08f + (float)Rng.Visual.NextDouble() * 0.08f),
+                Life = 0.7f + (float)Rng.Visual.NextDouble() * 0.35f,
+                MaxLife = 1f,
+                Size = drip ? 7f : 6f,
+                Rising = !drip,
+                Color = Color.Lerp(CrisisGold, CrisisBile, (float)Rng.Visual.NextDouble() * 0.4f)
+            });
+        }
+
+        for (var i = _crisisMotes.Count - 1; i >= 0; i--)
+        {
+            var mote = _crisisMotes[i];
+            mote.X += mote.VX * deltaTime;
+            mote.Y += mote.VY * deltaTime;
+            mote.Life -= deltaTime;
+            if (mote.Life <= 0f || mote.Y > 1.05f || mote.Y < 0.2f)
+            {
+                _crisisMotes.RemoveAt(i);
+            }
+        }
+    }
+
+    private void DrawCrisisWash(RenderContext context)
+    {
+        var bounds = ActualBounds;
+        if (bounds.Width <= 2 || bounds.Height <= 2)
+        {
+            return;
+        }
+
+        var pixel = PixelTexture();
+        context.Draw(pixel, bounds, CrisisBile * _crisisPulse);
+        var rim = Math.Max(1, (int)(1 + _crisisPulse * 8f));
+        context.Draw(pixel, new Rectangle(bounds.X, bounds.Y, bounds.Width, rim), CrisisGold * (0.18f + _crisisPulse));
+        context.Draw(pixel, new Rectangle(bounds.X, bounds.Bottom - rim, bounds.Width, rim), CrisisGold * (0.12f + _crisisPulse));
+    }
+
+    private void DrawCrisisMotes(RenderContext context)
+    {
+        var bounds = ActualBounds;
+        if (bounds.Width <= 2 || bounds.Height <= 2 || _crisisMotes.Count == 0)
+        {
+            return;
+        }
+
+        var drop = DropSprite();
+        var spark = SparkSprite();
+        foreach (var mote in _crisisMotes)
+        {
+            var t = Math.Clamp(mote.Life / mote.MaxLife, 0f, 1f);
+            var fade = t < 0.2f ? t / 0.2f : t > 0.7f ? (1f - t) / 0.3f : 1f;
+            var size = Math.Max(5, (int)mote.Size);
+            var x = bounds.X + mote.X * bounds.Width;
+            var y = bounds.Y + mote.Y * bounds.Height;
+            var dest = new Rectangle((int)x - size / 2, (int)y - size / 2, size, size);
+            var sprite = mote.Rising ? spark : drop;
+            context.Draw(sprite, dest, Color.White * (0.45f * fade));
+        }
+    }
+
+    private static Texture2D DropSprite()
+    {
+        if (_dropSprite != null)
+        {
+            return _dropSprite;
+        }
+
+        if (Core.Content.TryLoad<Texture2D>("Fx/CrisisBileDrop", out var loaded) && loaded != null)
+        {
+            _dropSprite = MakeTintableSprite(loaded);
+            return _dropSprite;
+        }
+
+        _dropSprite = GlowTexture();
+        return _dropSprite;
+    }
+
+    private static Texture2D SparkSprite()
+    {
+        if (_sparkSprite != null)
+        {
+            return _sparkSprite;
+        }
+
+        if (Core.Content.TryLoad<Texture2D>("Fx/CrisisBileSpark", out var loaded) && loaded != null)
+        {
+            _sparkSprite = MakeTintableSprite(loaded);
+            return _sparkSprite;
+        }
+
+        _sparkSprite = GlowTexture();
+        return _sparkSprite;
+    }
+
+    private static Texture2D MakeTintableSprite(Texture2D source)
+    {
+        var data = new Color[source.Width * source.Height];
+        source.GetData(data);
+        for (var i = 0; i < data.Length; i++)
+        {
+            var pixel = data[i];
+            var luminance = (pixel.R + pixel.G + pixel.B) / 3f;
+            if (pixel.A < 12 || luminance < 18)
+            {
+                data[i] = Color.Transparent;
+                continue;
+            }
+
+            var a = (byte)Math.Clamp(pixel.A * (0.55f + 0.45f * (luminance / 255f)), 0, 255);
+            data[i] = new Color(a, a, a, a);
+        }
+
+        var texture = new Texture2D(source.GraphicsDevice, source.Width, source.Height);
+        texture.SetData(data);
+        return texture;
     }
 
     private void UpdateCapability(string name, float value)
@@ -500,5 +690,18 @@ public sealed class PawnCapabilitiesOverlay : Panel, IUpdatable
         public float Size;
         public Color Color;
         public bool IsEmber;
+    }
+
+    private sealed class CrisisMote
+    {
+        public float X;
+        public float Y;
+        public float VX;
+        public float VY;
+        public float Life;
+        public float MaxLife;
+        public float Size;
+        public bool Rising;
+        public Color Color;
     }
 }

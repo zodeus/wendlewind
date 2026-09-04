@@ -266,6 +266,10 @@
                     <ListItem>
                         <ItemDef>BoneGlue</ItemDef>
                     </ListItem>
+                    <ListItem>
+                        <ItemDef>MechanicalHeart</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
+                    </ListItem>
                 </Offers>
             </ListItem>
             <ListItem>

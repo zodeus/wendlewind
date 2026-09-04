@@ -465,6 +465,51 @@
         </CraftingProperties>
     </ItemDef>
     <ItemDef ParentName="MedicalItem">
+        <Moniker>MechanicalHeart</Moniker>
+        <Label>Mechanical Heart</Label>
+        <Description>A brass-and-steel spare. Installed beside the living heart so one ruined pump is no longer a death sentence.</Description>
+        <StackLimit>1</StackLimit>
+        <GoldCost>180</GoldCost>
+        <TexturePath>Entities/Item/Medical/MechanicalHeart</TexturePath>
+        <MedicinalProperties>
+            <HandlerClass>MechanicalHeartHandler</HandlerClass>
+            <InfiniteUse>true</InfiniteUse>
+            <CooldownInTicks>360</CooldownInTicks>
+            <ApplyMode>Self</ApplyMode>
+            <WatchPool>
+                <ListItem>Self</ListItem>
+            </WatchPool>
+            <AllowedTriggerTypes>
+                <ListItem>Immediately</ListItem>
+            </AllowedTriggerTypes>
+            <DefaultTrigger>
+                <Type>Immediately</Type>
+            </DefaultTrigger>
+        </MedicinalProperties>
+        <CraftingProperties>
+            <AmountProduced>1</AmountProduced>
+            <RequiredTrinkets>
+                <ListItem>TinkersToolbox</ListItem>
+                <ListItem>MechanicalEye</ListItem>
+                <ListItem>SteroidInjector</ListItem>
+            </RequiredTrinkets>
+            <ResourceRequirements>
+                <ListItem>
+                    <Item>IronNugget</Item>
+                    <Count>2</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>Suture</Item>
+                    <Count>1</Count>
+                </ListItem>
+                <ListItem>
+                    <Item>Ichor</Item>
+                    <Count>1</Count>
+                </ListItem>
+            </ResourceRequirements>
+        </CraftingProperties>
+    </ItemDef>
+    <ItemDef ParentName="MedicalItem">
         <Moniker>Bandage</Moniker>
         <Label>Bandage</Label>
         <Description>Wrap the hole. Doesn't do bones or guts.</Description>

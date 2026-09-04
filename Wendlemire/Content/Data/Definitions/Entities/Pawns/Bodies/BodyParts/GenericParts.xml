@@ -164,6 +164,22 @@
         </AdaptiveProperties>
     </BodyPartDef>
     <BodyPartDef ParentName="GenericBodyPartBase">
+        <Moniker>MechanicalHeart</Moniker>
+        <Label>Mechanical Heart</Label>
+        <BodyPartType>Heart</BodyPartType>
+        <BloodAmount>0</BloodAmount>
+        <IsVital>true</IsVital>
+        <IsOrgan>true</IsOrgan>
+        <ShowOnPawnBody>true</ShowOnPawnBody>
+        <Substance>Metal</Substance>
+        <TexturePath>Entities/Item/Medical/MechanicalHeart</TexturePath>
+        <AdaptiveProperties>
+            <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
+                <Factor>0.34</Factor>
+            </MaxHitPointScaler>
+        </AdaptiveProperties>
+    </BodyPartDef>
+    <BodyPartDef ParentName="GenericBodyPartBase">
         <Moniker>Lung</Moniker>
         <Label>Lung</Label>
         <BodyPartType>Lung</BodyPartType>

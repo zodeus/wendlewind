@@ -791,6 +791,10 @@ public class BalanceSimReport
                 Pot("AcidFlask", PotionTriggerType.AfterSeconds, after: 5),
                 Pot("PussBomb", PotionTriggerType.AfterSeconds, after: 4)
             ], [])),
+        Split("MED", "R8 MechanicalHeart vs MedKit", ChainBurn("A"),
+            MedOnly([], [Med("MechanicalHeart", 1, MedicalTriggerType.Immediately)]),
+            ChainBurn("B"),
+            MedOnly([], [Med("MedKit", 2, MedicalTriggerType.PartBelowHealth)])),
         Split("MED", "R8 Mix+Cauterize vs BoneCleanse", ChainBurn("A"),
             MedOnly([], [
                 Med("MendersMix", 2, MedicalTriggerType.PartBelowHealth, health: 0.4f),

@@ -65,6 +65,16 @@
                 <FlipV>false</FlipV>
             </ListItem>
             <ListItem>
+                <PartKey>MechanicalHeart_AuxiliaryHeartSocket</PartKey>
+                <PosX>188</PosX>
+                <PosY>202</PosY>
+                <RenderOrder>33</RenderOrder>
+                <ScaleMultiplier>0.26</ScaleMultiplier>
+                <Rotation>0</Rotation>
+                <FlipH>false</FlipH>
+                <FlipV>false</FlipV>
+            </ListItem>
+            <ListItem>
                 <PartKey>HumanArm_Left</PartKey>
                 <PosX>231</PosX>
                 <PosY>159</PosY>

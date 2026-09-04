@@ -148,6 +148,16 @@ internal sealed class CombatFloaterRouter
                 if (e.Message == CombatCloser.StartedMessage)
                 {
                     ShowWastingOnAll();
+                    break;
+                }
+
+                if (!string.IsNullOrEmpty(e.BodyPartLabel) && e.Message?.Contains("collapsing") == true)
+                {
+                    Show(
+                        e.SubjectPawnId,
+                        e.BodyPartKey,
+                        $"{e.BodyPartLabel.ToUpperInvariant()} FAILING",
+                        (new Color(210, 190, 40), BaseContent.Fonts.Default.Small));
                 }
                 break;
             default:

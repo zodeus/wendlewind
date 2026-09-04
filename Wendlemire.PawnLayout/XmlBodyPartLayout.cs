@@ -29,6 +29,11 @@ public sealed class XmlBodyPartLayout : IBodyPartLayout
 
     public BodyPartLayoutData? GetLayoutData(BodyPart part)
     {
+        return OverlayBodyPartLayout.Resolve(part, ExactLookup);
+    }
+
+    private BodyPartLayoutData? ExactLookup(BodyPart part)
+    {
         if (_byInternalLabel.TryGetValue(part.InternalLabel, out var byInternal))
         {
             return byInternal;

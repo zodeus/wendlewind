@@ -104,6 +104,10 @@
                         <AvailableFromRound>6</AvailableFromRound>
                     </ListItem>
                     <ListItem>
+                        <ItemDef>MechanicalHeart</ItemDef>
+                        <AvailableFromRound>8</AvailableFromRound>
+                    </ListItem>
+                    <ListItem>
                         <ItemDef>Antidote</ItemDef>
                     </ListItem>
                 </Offers>

@@ -13,6 +13,11 @@ public abstract class BodyPartLayoutBase : IBodyPartLayout
 
     public BodyPartLayoutData? GetLayoutData(BodyPart part)
     {
+        return OverlayBodyPartLayout.Resolve(part, ExactLookup);
+    }
+
+    private BodyPartLayoutData? ExactLookup(BodyPart part)
+    {
         return Map.TryGetValue(GetLookupKey(part), out var data) ? data : null;
     }
 

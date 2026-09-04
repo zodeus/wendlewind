@@ -223,6 +223,7 @@ public static partial class Defs
         public static BodyPartDef Bone = null!;
         public static BodyPartDef Skull = null!;
         public static BodyPartDef Heart = null!;
+        public static BodyPartDef MechanicalHeart = null!;
         public static BodyPartDef Lung = null!;
         public static BodyPartDef Stomach = null!;
         public static BodyPartDef Artery = null!;
@@ -400,6 +401,7 @@ public static partial class Defs
         public static BodyPartSocketDef HeadSocket = null!;
         public static BodyPartSocketDef TorsoSocket = null!;
         public static BodyPartSocketDef HandSocket = null!;
+        public static BodyPartSocketDef AuxiliaryHeartSocket = null!;
 
         //Treeborn
         public static BodyPartSocketDef TreeTrunkSocket = null!;

@@ -182,6 +182,17 @@
     </AchievementDef>
 
     <AchievementDef>
+        <Moniker>SecondPulse</Moniker>
+        <Label>Second Pulse</Label>
+        <Description>Use Mechanical Heart</Description>
+        <BenifitDescription>Awards 15 marks</BenifitDescription>
+        <Category>Consumables</Category>
+        <ItemUsedDef>MechanicalHeart</ItemUsedDef>
+        <TargetValue>5</TargetValue>
+        <HandlerClass>MedicalChestSlotHandler</HandlerClass>
+    </AchievementDef>
+
+    <AchievementDef>
         <Moniker>Ironbrand</Moniker>
         <Label>Ironbrand</Label>
         <Description>Cauterize a severed part</Description>

@@ -359,6 +359,7 @@ public class BodyPart : Entity
 
         base.Tick();
         UpdateDestroyedRecovery();
+        CrushDestroyedInternals();
         NotifyTickDelta(hpBefore);
     }
 
@@ -396,6 +397,24 @@ public class BodyPart : Entity
         {
             _isDestroyed = false;
             _destroyedRecoverTicks = 0;
+        }
+    }
+
+    private void CrushDestroyedInternals()
+    {
+        if (!IsExternal || !IsDestroyed)
+        {
+            return;
+        }
+
+        foreach (var internalPart in InternalParts)
+        {
+            if (internalPart.IsDestroyed)
+            {
+                continue;
+            }
+
+            internalPart.HitPoints -= internalPart.MaxHitPoints * CombatBalance.CrushedContainerDamagePerTick;
         }
     }
 

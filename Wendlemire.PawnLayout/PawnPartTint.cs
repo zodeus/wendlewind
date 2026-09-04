@@ -2,7 +2,7 @@ namespace Wendlemire.PawnLayout;
 
 /// <summary>
 /// Health-based tint for body parts. Matches the combat UI
-/// (red when destroyed/low, green when healthy, dark when disabled).
+/// (red when destroyed/low, green when healthy, silver for prosthetics, dark when disabled).
 /// </summary>
 public static class PawnPartTint
 {
@@ -10,6 +10,7 @@ public static class PawnPartTint
     private static readonly Color Disabled = new(50, 50, 50);
     private static readonly Color Low = new(170, 0, 0);
     private static readonly Color High = new(65, 120, 64);
+    private static readonly Color Implant = new(192, 196, 204);
 
     public static Color Get(BodyPart part)
     {
@@ -23,7 +24,9 @@ public static class PawnPartTint
             return Disabled;
         }
 
-        return Color.Lerp(Low, High, (float)part.HealthPercent);
+        // Prosthetics read as metal rather than flesh, so they fade silver -> red instead of green -> red.
+        var healthy = part.BodyPartDef.ShowOnPawnBody ? Implant : High;
+        return Color.Lerp(Low, healthy, (float)part.HealthPercent);
     }
 
     public static Color Get(PawnBody body)

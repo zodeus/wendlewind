@@ -105,6 +105,22 @@ public class VitalDeathTests
     }
 
     [Fact]
+    public void OneDestroyedKidneyIsPendingCrisis()
+    {
+        using var harness = BodyTestHarness.Human();
+        var kidneys = harness.Parts(BodyPartType.Kidney);
+        kidneys[0].HitPoints = 0;
+        harness.TickBody();
+
+        Assert.True(harness.Pawn.Body.OrganCrisis.IsPending(kidneys[0]));
+        Assert.False(harness.Pawn.Body.OrganCrisis.IsActive(BodyPartType.Kidney));
+        Assert.False(harness.Pawn.Body.OrganCrisis.TryGetImminent(harness.Pawn.Body, out _));
+        OrganCrisis.CountType(harness.Pawn.Body, BodyPartType.Kidney, out var failed, out var total);
+        Assert.Equal(1, failed);
+        Assert.Equal(2, total);
+    }
+
+    [Fact]
     public void OneDestroyedKidneyDoesNotKillAfterDelay()
     {
         using var harness = BodyTestHarness.Human();
@@ -156,6 +172,21 @@ public class VitalDeathTests
         harness.TickBody(CombatBalance.DelayedOrganFailureTicks);
         Assert.False(harness.Pawn.IsDead);
         Assert.Equal(0, harness.Pawn.Body.OrganCrisis.TicksInCrisis(BodyPartType.Liver));
+        Assert.False(harness.Pawn.Body.OrganCrisis.TryGetImminent(harness.Pawn.Body, out _));
+    }
+
+    [Fact]
+    public void DestroyedLiverReportsImminentCrisis()
+    {
+        using var harness = BodyTestHarness.Human();
+        harness.Part(BodyPartType.Liver).HitPoints = 0;
+        harness.TickBody();
+
+        Assert.True(harness.Pawn.Body.OrganCrisis.TryGetImminent(harness.Pawn.Body, out var crisis));
+        Assert.Equal("Liver", crisis.Label);
+        Assert.Equal(BodyPartType.Liver, crisis.Type);
+        Assert.True(crisis.TicksRemaining < CombatBalance.DelayedOrganFailureTicks);
+        Assert.True(crisis.TicksRemaining > 0);
     }
 
     [Fact]
@@ -215,5 +246,54 @@ public class VitalDeathTests
         Assert.True(harness.Pawn.IsDead);
         Assert.NotNull(death);
         Assert.StartsWith("Heart failed", death.CauseOfDeath);
+    }
+
+    [Fact]
+    public void DestroyedTorsoKillsOnTickEvenWhenOrgansAreFull()
+    {
+        using var harness = BodyTestHarness.Human();
+        DeathRecord? death = null;
+        harness.Pawn.Died += e => death = e.Record;
+        harness.External(BodyPartType.Torso).HitPoints = 0;
+        Assert.False(harness.Pawn.IsDead);
+        Assert.All(harness.Parts(BodyPartType.Heart), h => Assert.True(h.HitPoints > 1));
+        Assert.All(harness.Parts(BodyPartType.Lung), l => Assert.True(l.HitPoints > 1));
+
+        harness.TickBody();
+
+        Assert.True(harness.Pawn.IsDead);
+        Assert.NotNull(death);
+        Assert.Contains("structural collapse", death.CauseOfDeath);
+        Assert.False(string.IsNullOrWhiteSpace(death.FailedOrgan));
+    }
+
+    [Fact]
+    public void DestroyedArmCrushesInternalsAndDoesNotKill()
+    {
+        using var harness = BodyTestHarness.Human();
+        var arm = harness.External(BodyPartType.Arm);
+        var internals = arm.InternalParts.Where(p => !p.IsDestroyed).ToList();
+        Assert.NotEmpty(internals);
+        var starting = internals.ToDictionary(p => p, p => p.HitPoints);
+        arm.HitPoints = 0;
+
+        harness.TickBody(60);
+
+        Assert.False(harness.Pawn.IsDead);
+        Assert.Contains(internals, p => p.HitPoints < starting[p]);
+    }
+
+    [Fact]
+    public void NecrosisOnTorsoPenetratesInternals()
+    {
+        using var harness = BodyTestHarness.Human();
+        var torso = harness.External(BodyPartType.Torso);
+        var necrosis = harness.Context.Factory.CreateModifier(Defs.BodyPartModifiers.Necrosis, 2000, 1);
+        Assert.True(necrosis.ApplyToPart(torso));
+        torso.HitPoints = torso.MaxHitPoints * 0.74;
+
+        harness.TickBody();
+
+        Assert.Contains(torso.InternalParts, p => p.HasModifier(Defs.BodyPartModifiers.Necrosis));
     }
 }

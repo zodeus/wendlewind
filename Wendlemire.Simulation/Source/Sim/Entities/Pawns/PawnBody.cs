@@ -14,6 +14,7 @@ public class PawnBody : IExposable, IIdentityProvider
 
     public readonly Pawn Pawn;
     public event Action<BodyPart, double>? TickHealthChanged;
+    public event Action<PawnBody, string>? OrganCrisisStarted;
     public string Id = "invalid";
     public float BodySizeFactor = 1;
     public float Energy = 1;
@@ -216,6 +217,13 @@ public class PawnBody : IExposable, IIdentityProvider
             return;
         }
 
+        if (Pawn.IsDeadFromPartFailure() is { } collapse)
+        {
+            collapse.CauseOfDeath = $"{collapse.FailedOrgan} failed (structural collapse)";
+            Pawn.TriggerDeath(collapse);
+            return;
+        }
+
         if (OrganCrisis.Tick(this) is { } crisisDeath)
         {
             Pawn.TriggerDeath(crisisDeath);
@@ -236,6 +244,11 @@ public class PawnBody : IExposable, IIdentityProvider
     public void NotifyTickHealthChanged(BodyPart part, double delta)
     {
         TickHealthChanged?.Invoke(part, delta);
+    }
+
+    public void NotifyOrganCrisisStarted(string label)
+    {
+        OrganCrisisStarted?.Invoke(this, label);
     }
 
     public BodyPart? FindPartByKey(string? key)

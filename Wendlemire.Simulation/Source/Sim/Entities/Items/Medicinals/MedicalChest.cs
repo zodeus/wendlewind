@@ -73,6 +73,7 @@ public class MedicalChest : IExposable
         };
         Sanitize(slot);
         _slots.Add(slot);
+        SyncGrafts();
         return true;
     }
 
@@ -92,6 +93,7 @@ public class MedicalChest : IExposable
         };
         Sanitize(slot);
         _slots.Add(slot);
+        SyncGrafts();
         return true;
     }
 
@@ -150,6 +152,7 @@ public class MedicalChest : IExposable
         if (slot.IsInfinite)
         {
             ReturnToInventory(slot.Def, 1);
+            SyncGrafts();
             return;
         }
 
@@ -157,6 +160,8 @@ public class MedicalChest : IExposable
         {
             ReturnToInventory(slot.Def, slot.Charges);
         }
+
+        SyncGrafts();
     }
 
     public void Move(int fromIndex, int toIndex)
@@ -174,6 +179,23 @@ public class MedicalChest : IExposable
     public void Clear()
     {
         _slots.Clear();
+        SyncGrafts();
+    }
+
+    private void SyncGrafts()
+    {
+        if (_pawn?.Body == null)
+        {
+            return;
+        }
+
+        if (_slots.Any(s => s.Def?.Moniker == "MechanicalHeart"))
+        {
+            MechanicalHeartHandler.TryInstall(_pawn);
+            return;
+        }
+
+        MechanicalHeartHandler.Uninstall(_pawn);
     }
 
     public void Prune()

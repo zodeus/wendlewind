@@ -19,6 +19,7 @@ public class HumanBodyPartLayout : BodyPartLayoutBase
         { "Left Eye", new BodyPartLayoutData(new Vector2(244f, 114f), 31, 0.13f, 0.1222f, flipHorizontal: true) },
         { "Right Eye", new BodyPartLayoutData(new Vector2(224f, 115f), 31, 0.13f, 0.0491f, flipHorizontal: true) },
         { "Torso", new BodyPartLayoutData(new Vector2(169f, 152f), 32, 1.20f) },
+        { "Mechanical Heart", new BodyPartLayoutData(new Vector2(188f, 202f), 33, 0.26f) },
         { "Left Leg", new BodyPartLayoutData(new Vector2(200f, 274f), 50, 1.30f, -0.2454f) },
         { "Right Leg", new BodyPartLayoutData(new Vector2(118f, 271f), 50, 1.30f, 0.2454f, flipHorizontal: true) },
         { "Right Hand", new BodyPartLayoutData(new Vector2(127f, 286f), 59, 0.50f, 0.3840f, equipmentAttachment: new EquipmentAttachmentData(new Vector2(36f, 33f), 0.2269f, 1.00f, false, renderArmor: false)) },

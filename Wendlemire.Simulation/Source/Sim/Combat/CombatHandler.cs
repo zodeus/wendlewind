@@ -50,6 +50,8 @@ public class CombatHandler : IDisposable, IHasContext
 
         Player.Body.TickHealthChanged += OnTickHealthChanged;
         Enemy.Body.TickHealthChanged += OnTickHealthChanged;
+        Player.Body.OrganCrisisStarted += OnOrganCrisisStarted;
+        Enemy.Body.OrganCrisisStarted += OnOrganCrisisStarted;
 
         Player.Body.Handler.OnBloodLost += Context.Achievements.OnBloodLost;
         Enemy.Body.Handler.OnBloodLost += Context.Achievements.OnBloodLost;
@@ -60,6 +62,19 @@ public class CombatHandler : IDisposable, IHasContext
         var stamped = combatEvent with { Tick = _encounter.Ticks };
         _log.Add(stamped);
         CombatEventRecorded?.Invoke(stamped);
+    }
+
+    private void OnOrganCrisisStarted(PawnBody body, string label)
+    {
+        var pawn = body.Pawn;
+        Record(new CombatLogEvent
+        {
+            Kind = CombatEventKind.System,
+            SubjectPawnId = pawn.Id,
+            SubjectName = pawn.LabelShort,
+            BodyPartLabel = label,
+            Message = $"{label} is collapsing"
+        });
     }
 
     private void OnTickHealthChanged(BodyPart part, double delta)
@@ -981,6 +996,8 @@ public class CombatHandler : IDisposable, IHasContext
         Enemy.Died -= OnDeath;
         Player.Body.TickHealthChanged -= OnTickHealthChanged;
         Enemy.Body.TickHealthChanged -= OnTickHealthChanged;
+        Player.Body.OrganCrisisStarted -= OnOrganCrisisStarted;
+        Enemy.Body.OrganCrisisStarted -= OnOrganCrisisStarted;
         Player.Body.Handler.OnBloodLost -= Context.Achievements.OnBloodLost;
         Enemy.Body.Handler.OnBloodLost -= Context.Achievements.OnBloodLost;
     }

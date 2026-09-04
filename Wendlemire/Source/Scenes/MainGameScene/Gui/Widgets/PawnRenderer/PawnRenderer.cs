@@ -5,7 +5,8 @@ using Wendlemire.Scenes.MainGameScene.Gui.Widgets.PawnRenderer.Weather;
 namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.PawnRenderer;
 
 /// <summary>
-/// Renders a pawn's body by compositing all external body part textures.
+/// Renders a pawn's body by compositing external body part textures
+/// and implants flagged <see cref="BodyPartDef.ShowOnPawnBody"/>.
 /// Uses body-type-specific layouts to determine which textures to use.
 /// 
 /// Rendering is optimized using a layered caching approach:
@@ -161,7 +162,7 @@ public class PawnRenderer : IDisposable
     /// </summary>
     private void SubscribeToNewParts()
     {
-        foreach (var part in _pawn.Body.AllExternalParts)
+        foreach (var part in OverlayBodyPartLayout.VisibleParts(_pawn.Body))
         {
             if (_subscribedParts.Add(part))
             {
@@ -409,14 +410,9 @@ public class PawnRenderer : IDisposable
     {
         if (_layout == null) return;
         
-        var parts = _pawn.Body.AllExternalParts;
-        
         _renderList.Clear();
-        foreach (var part in parts)
+        foreach (var part in OverlayBodyPartLayout.VisibleParts(_pawn.Body))
         {
-            // Skip severed parts (physically removed), but keep destroyed parts (damaged but still attached)
-            if (part.IsSevered) continue;
-            
             var renderInfo = _layout.GetRenderInfo(part);
             if (renderInfo.HasValue)
             {
@@ -435,7 +431,9 @@ public class PawnRenderer : IDisposable
             // Render equipped weapons BEFORE the body part (so they appear behind/underneath)
             BodyPartRenderHelper.RenderEquippedWeapons(spriteBatch, part, info, layoutScale: layoutScale);
             
-            var tint = BodyPartColor.Get(part);
+            var tint = part.BodyPartDef.ShowOnPawnBody && !part.IsDestroyed
+                ? Color.White
+                : BodyPartColor.Get(part);
             BodyPartRenderHelper.RenderBodyPart(spriteBatch, info, layoutScale: layoutScale, tint: tint);
             
             // Render equipped armor AFTER the body part (so it appears on top)

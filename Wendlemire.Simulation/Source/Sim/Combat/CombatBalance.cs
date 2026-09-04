@@ -32,6 +32,12 @@ public static class CombatBalance
 
     public const float DelayedOrganFesterHealth = 0.50f;
 
+    /// <summary>
+    /// Fraction of an internal's max HP drained each tick by a destroyed external container.
+    /// 0.004 ≈ four seconds from full at 60 tps.
+    /// </summary>
+    public const float CrushedContainerDamagePerTick = 0.004f;
+
     public static float ArmorReduction(float resist)
     {
         if (resist <= 0f)

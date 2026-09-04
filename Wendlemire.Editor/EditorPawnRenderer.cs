@@ -72,12 +72,8 @@ public sealed class EditorPawnRenderer : IDisposable
         IReadOnlyDictionary<string, BodyPartLayoutData>? overrides)
     {
         var renderList = new List<(BodyPart Part, BodyPartRenderInfo Info)>();
-        foreach (var part in pawn.Body.AllExternalParts)
+        foreach (var part in OverlayBodyPartLayout.VisibleParts(pawn.Body))
         {
-            if (part.IsSevered)
-            {
-                continue;
-            }
 
             BodyPartRenderInfo? info;
             if (overrides != null && overrides.TryGetValue(part.InternalLabel, out var overridden))

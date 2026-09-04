@@ -26,9 +26,12 @@ internal sealed class BodyPartSocketPanel : HorizontalStackPanel
 
         _bodyPartRow = new BodyPartRow(gui, hoverToInspect)
         {
-            VerticalAlignment = VerticalAlignment.Center,
-            Height = 40
+            VerticalAlignment = VerticalAlignment.Center
         };
+        if (!showInternalParts)
+        {
+            _bodyPartRow.Height = 40;
+        }
         if (Socket.AttachedPart != null)
         {
             _socketLabel.Visible = false;

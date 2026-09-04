@@ -30,6 +30,13 @@
         </AllowedBodyPartTypes>
     </BodyPartSocketDef>
     <BodyPartSocketDef ParentName="BodyPartSocketBase">
+        <Moniker>AuxiliaryHeartSocket</Moniker>
+        <Label>Auxiliary Heart Socket</Label>
+        <AllowedBodyPartTypes>
+            <ListItem>Heart</ListItem>
+        </AllowedBodyPartTypes>
+    </BodyPartSocketDef>
+    <BodyPartSocketDef ParentName="BodyPartSocketBase">
         <Moniker>LeftLungSocket</Moniker>
         <Label>Left Lung Socket</Label>
         <Position>Left</Position>

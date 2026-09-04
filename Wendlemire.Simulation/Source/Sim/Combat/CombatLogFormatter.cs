@@ -72,6 +72,11 @@ public static class CombatLogFormatter
             return $"/f[default, 48]/c[{TC.Red}]{CombatCloser.StartedMessage}\n";
         }
 
+        if (!string.IsNullOrEmpty(e.BodyPartLabel) && e.Message?.Contains("collapsing") == true)
+        {
+            return $"/c[{TC.Victim}]{e.SubjectName}'s /c[{TC.BodyPart}]{e.BodyPartLabel} /c[{TC.Yellow}]is collapsing";
+        }
+
         if (e.Message?.Contains("no usable weapons") == true)
         {
             return $"/c[{TC.Attacker}]{e.SubjectName} has no usable weapons";

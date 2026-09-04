@@ -1,4 +1,4 @@
-﻿﻿namespace Wendlemire.Sim.Entities.Pawns.Modifiers;
+﻿namespace Wendlemire.Sim.Entities.Pawns.Modifiers;
 
 [UsedImplicitly]
 public class NecrosisHandler : BodyPartModifier
@@ -10,17 +10,20 @@ public class NecrosisHandler : BodyPartModifier
 
     private static RangeDouble DamageFactorPerTick = new(0.001, 0.002);
     private const int TotalTicksToSpread = 6000;
+    private const double PenetrationThreshold = 0.75;
 
     public override List<SubstanceType> AllowedSubstances => [
         SubstanceType.Flesh, SubstanceType.Bone, SubstanceType.Fungus, SubstanceType.Wood
     ];
 
     private int _ticksToSpread;
+    private bool _hasPenetrated;
 
     public override void Tick()
     {
         _ticksToSpread = Math.Clamp(_ticksToSpread--, 0, TotalTicksToSpread);
         BodyPart.HitPoints -= BodyPart.HitPoints * DamageFactorPerTick.Roll(Context.Rng);
+        this.HandlePenetration(BodyPart, PenetrationThreshold, ref _hasPenetrated);
         if (BodyPart.IsDestroyed && _ticksToSpread < 1)
         {
             _ticksToSpread = TotalTicksToSpread;
@@ -57,6 +60,7 @@ public class NecrosisHandler : BodyPartModifier
     public override void ExposeData()
     {
         ScribeValues.Look(ref _ticksToSpread, "TicksToSpread");
+        ScribeValues.Look(ref _hasPenetrated, "HasPenetrated");
         base.ExposeData();
     }
 

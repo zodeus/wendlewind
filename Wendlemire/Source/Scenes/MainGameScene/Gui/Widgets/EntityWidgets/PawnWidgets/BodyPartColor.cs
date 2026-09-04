@@ -1,4 +1,4 @@
-﻿﻿namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
+﻿namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.PawnWidgets;
 
 public static class BodyPartColor {
     private static readonly Color DestroyedColor = Color.Red;
@@ -10,7 +10,29 @@ public static class BodyPartColor {
     private static readonly Color FullStomach = new(0, 225, 0);
     private static readonly Color EmptyStomach = new(225, 0, 0);
 
-    public static Color Get(BodyPart bodyPart) => PawnPartTint.Get(bodyPart);
+    public static Color Get(BodyPart bodyPart)
+    {
+        var tint = PawnPartTint.Get(bodyPart);
+        var crisis = bodyPart.Body?.OrganCrisis;
+        if (crisis == null || !OrganCrisis.IsInCrisis(bodyPart))
+        {
+            return tint;
+        }
+
+        if (crisis.IsActive(bodyPart.Type))
+        {
+            var pulse = 0.4f + 0.6f * (0.5f + 0.5f * MathF.Sin(Core.TotalTime * 8f));
+            return Color.Lerp(tint, new Color(210, 190, 40), pulse);
+        }
+
+        if (crisis.IsPending(bodyPart))
+        {
+            var pulse = 0.2f + 0.25f * (0.5f + 0.5f * MathF.Sin(Core.TotalTime * 4f));
+            return Color.Lerp(tint, new Color(180, 140, 40), pulse);
+        }
+
+        return tint;
+    }
 
     public static Color Get(PawnBody body) => PawnPartTint.Get(body);
 
