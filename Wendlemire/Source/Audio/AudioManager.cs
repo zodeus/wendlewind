@@ -16,7 +16,7 @@ public sealed class AudioManager : IAudio, IDisposable
     private readonly HashSet<string> _loggedMissing = new(StringComparer.OrdinalIgnoreCase);
     private readonly float[] _busVolumes = [1f, 1f, 1f];
     private readonly Random _rng = new();
-    private bool _muted;
+    private bool _muted = true;
 
     public AudioManager(string contentRoot)
     {

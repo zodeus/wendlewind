@@ -13,7 +13,7 @@ public sealed class ClientSettings
     public bool FullScreen { get; set; } = false;
     public float MasterVolume { get; set; } = 1f;
     public float SfxVolume { get; set; } = 1f;
-    public bool AudioMuted { get; set; } = false;
+    public bool AudioMuted { get; set; } = true;
 
     public static string DefaultPath => Path.Combine(AppContext.BaseDirectory, FileName);
 
