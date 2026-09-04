@@ -23,6 +23,15 @@ public static class CombatBalance
     public const float ArmoredDotChanceFactor = 0.65f;
     public const float ArmoredDotPowerFactor = 0.7f;
 
+    /// <summary>
+    /// Liver / intestines / both kidneys kill this many ticks after every part of that type
+    /// is destroyed or rotting below <see cref="DelayedOrganFesterHealth"/>.
+    /// 180 ticks = 3s @ 60 tps — short enough to beat heart after a torso shred.
+    /// </summary>
+    public const int DelayedOrganFailureTicks = 180;
+
+    public const float DelayedOrganFesterHealth = 0.50f;
+
     public static float ArmorReduction(float resist)
     {
         if (resist <= 0f)

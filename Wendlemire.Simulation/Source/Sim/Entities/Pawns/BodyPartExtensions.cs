@@ -67,21 +67,11 @@ public static class BodyPartExtensions
                 return 0;
             }
 
-            // Attempt to hit critical parts 
+            // Attempt to hit critical parts. Intact cage/skull still seals;
+            // cracked bone opens earlier so heart is not the only race winner.
             if (internalPart.Socket?.ParentPart is { HitPoints: > 0, Type: BodyPartType.Skull or BodyPartType.RibCage })
             {
-                var chanceToMiss = internalPart.Socket?.ParentPart?.HealthPercent switch
-                {
-                    < .10f => 0.00f,
-                    < .20f => 0.30f,
-                    < .40f => 0.50f,
-                    < .60f => 0.70f,
-                    < .80f => 0.85f,
-                    < .90f => 0.95f,
-                    < .99f => 0.99f,
-                    _ => 1
-                };
-
+                var chanceToMiss = BoneCoverMissChance(internalPart.Socket.ParentPart.HealthPercent);
                 if (rootPart.Context.Rng.Chance(chanceToMiss))
                 {
                     continue;
@@ -126,6 +116,17 @@ public static class BodyPartExtensions
 
         return remainingDamage;
     }
+
+    public static float BoneCoverMissChance(double healthPercent) => healthPercent switch
+    {
+        < .15 => 0.00f,
+        < .30 => 0.20f,
+        < .50 => 0.40f,
+        < .70 => 0.65f,
+        < .85 => 0.82f,
+        < .95 => 0.93f,
+        _ => 1f
+    };
 
     public static Item? CoveringArmor(this BodyPart part)
     {

@@ -159,7 +159,7 @@
         <TexturePath>Entities/Pawn/BodyParts/Generic/Heart</TexturePath>
         <AdaptiveProperties>
             <MaxHitPointScaler Class="MaxHitPointScalerConstantFactor">
-                <Factor>0.16</Factor>
+                <Factor>0.28</Factor>
             </MaxHitPointScaler>
         </AdaptiveProperties>
     </BodyPartDef>

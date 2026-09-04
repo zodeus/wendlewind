@@ -1,3 +1,5 @@
+using Wendlemire.Definitions;
+using Wendlemire.Sim.Combat;
 using Wendlemire.Sim.Entities.Pawns;
 using Xunit;
 
@@ -76,6 +78,103 @@ public class VitalDeathTests
     }
 
     [Fact]
+    public void DestroyedLiverKillsAfterDelay()
+    {
+        using var harness = BodyTestHarness.Human();
+        harness.Part(BodyPartType.Liver).HitPoints = 0;
+
+        harness.TickBody(CombatBalance.DelayedOrganFailureTicks - 1);
+        Assert.False(harness.Pawn.IsDead);
+
+        harness.TickBody();
+        Assert.True(harness.Pawn.IsDead);
+    }
+
+    [Fact]
+    public void DestroyedLiverDeathNamesTheOrgan()
+    {
+        using var harness = BodyTestHarness.Human();
+        DeathRecord? death = null;
+        harness.Pawn.Died += e => death = e.Record;
+        harness.Part(BodyPartType.Liver).HitPoints = 0;
+        harness.TickBody(CombatBalance.DelayedOrganFailureTicks);
+
+        Assert.NotNull(death);
+        Assert.Equal("Liver", death.FailedOrgan);
+        Assert.Contains("Liver failed", death.CauseOfDeath);
+    }
+
+    [Fact]
+    public void OneDestroyedKidneyDoesNotKillAfterDelay()
+    {
+        using var harness = BodyTestHarness.Human();
+        var kidneys = harness.Parts(BodyPartType.Kidney);
+        kidneys[0].HitPoints = 0;
+
+        harness.TickBody(CombatBalance.DelayedOrganFailureTicks);
+        Assert.False(harness.Pawn.IsDead);
+        Assert.Equal(0, harness.Pawn.Body.OrganCrisis.TicksInCrisis(BodyPartType.Kidney));
+    }
+
+    [Fact]
+    public void BothKidneysDestroyedKillAfterDelay()
+    {
+        using var harness = BodyTestHarness.Human();
+        DeathRecord? death = null;
+        harness.Pawn.Died += e => death = e.Record;
+        foreach (var kidney in harness.Parts(BodyPartType.Kidney))
+        {
+            kidney.HitPoints = 0;
+        }
+
+        harness.TickBody(CombatBalance.DelayedOrganFailureTicks);
+        Assert.True(harness.Pawn.IsDead);
+        Assert.NotNull(death);
+        Assert.Contains("Kidney", death.CauseOfDeath);
+    }
+
+    [Fact]
+    public void DestroyedSpleenDoesNotKillAfterDelay()
+    {
+        using var harness = BodyTestHarness.Human();
+        harness.Part(BodyPartType.Spleen).HitPoints = 0;
+
+        harness.TickBody(CombatBalance.DelayedOrganFailureTicks);
+        Assert.False(harness.Pawn.IsDead);
+    }
+
+    [Fact]
+    public void HealedLiverCancelsCrisis()
+    {
+        using var harness = BodyTestHarness.Human();
+        var liver = harness.Part(BodyPartType.Liver);
+        liver.HitPoints = 0;
+        harness.TickBody(CombatBalance.DelayedOrganFailureTicks / 2);
+        Assert.True(harness.Pawn.Body.OrganCrisis.TicksInCrisis(BodyPartType.Liver) > 0);
+
+        liver.HitPoints = liver.MaxHitPoints;
+        harness.TickBody(CombatBalance.DelayedOrganFailureTicks);
+        Assert.False(harness.Pawn.IsDead);
+        Assert.Equal(0, harness.Pawn.Body.OrganCrisis.TicksInCrisis(BodyPartType.Liver));
+    }
+
+    [Fact]
+    public void HeavilyFesteredLiverKillsAfterDelay()
+    {
+        using var harness = BodyTestHarness.Human();
+        DeathRecord? death = null;
+        harness.Pawn.Died += e => death = e.Record;
+        var liver = harness.Part(BodyPartType.Liver);
+        liver.HitPoints = liver.MaxHitPoints * CombatBalance.DelayedOrganFesterHealth;
+        liver.TryAddModifier(harness.Context.Factory.CreateModifier(Defs.BodyPartModifiers.Festering, 2000, 1));
+
+        harness.TickBody(CombatBalance.DelayedOrganFailureTicks);
+        Assert.True(harness.Pawn.IsDead);
+        Assert.NotNull(death);
+        Assert.Contains("Liver", death.CauseOfDeath);
+    }
+
+    [Fact]
     public void TakeDamageAttributesKillingBlowWhenStrikeFinishesLastVital()
     {
         using var harness = BodyTestHarness.Human();
@@ -115,6 +214,6 @@ public class VitalDeathTests
 
         Assert.True(harness.Pawn.IsDead);
         Assert.NotNull(death);
-        Assert.Contains("Heart", death.CauseOfDeath);
+        Assert.StartsWith("Heart failed", death.CauseOfDeath);
     }
 }

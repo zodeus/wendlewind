@@ -26,6 +26,7 @@ public class PawnBody : IExposable, IIdentityProvider
     public float BloodChangeLastFrame;
     public BodyStanceDef Stance = null!;
     public DefaultBodyHandler Handler = null!;
+    public OrganCrisis OrganCrisis = new();
     public BodyDef Def => Pawn.PawnDef.Body;
     public float MaxBloodBonus { get; set; }
     public float MaxBlood
@@ -210,6 +211,17 @@ public class PawnBody : IExposable, IIdentityProvider
 
         Handler.Tick();
 
+        if (Pawn.IsDead)
+        {
+            return;
+        }
+
+        if (OrganCrisis.Tick(this) is { } crisisDeath)
+        {
+            Pawn.TriggerDeath(crisisDeath);
+            return;
+        }
+
         if (Def.BloodType != null && BloodAmount <= 1)
         {
             Pawn.TriggerDeath(new DeathRecord
@@ -294,6 +306,8 @@ public class PawnBody : IExposable, IIdentityProvider
         ScribeDefs.Look(ref Stance!, "Stance");
         ScribeDeep.Look(ref _rootSocket!, "RootSocket");
         ScribeDeep.Look(ref Handler!, "Handler");
+        ScribeDeep.Look(ref OrganCrisis!, "OrganCrisis");
+        OrganCrisis ??= new OrganCrisis();
         InvalidatePartCaches();
     }
 

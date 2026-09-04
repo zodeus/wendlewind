@@ -910,7 +910,7 @@ public class BalanceSimReport
         }
 
         sb.AppendLine($"Seeds/matchup: {SeedCount}   Target: {TargetMinTicks / 60}-{TargetMaxTicks / 60}s @ 60tps");
-        sb.AppendLine($"Knobs this pass: CombatBalance VitalHpScale={CombatBalance.VitalHpScale} LimbHpScale={CombatBalance.LimbHpScale} ArmorK={CombatBalance.ArmorK} WeightAttackSpeedFactor={CombatBalance.WeightAttackSpeedFactor} ArmoredDot={CombatBalance.ArmoredDotChanceFactor}/{CombatBalance.ArmoredDotPowerFactor} (ElvishLeaf diminishing, on-hit stacks free)");
+        sb.AppendLine($"Knobs this pass: CombatBalance VitalHpScale={CombatBalance.VitalHpScale} LimbHpScale={CombatBalance.LimbHpScale} ArmorK={CombatBalance.ArmorK} WeightAttackSpeedFactor={CombatBalance.WeightAttackSpeedFactor} ArmoredDot={CombatBalance.ArmoredDotChanceFactor}/{CombatBalance.ArmoredDotPowerFactor} DelayedOrgan={CombatBalance.DelayedOrganFailureTicks}t/{CombatBalance.DelayedOrganFesterHealth} (heart 0.28, earlier rib/skull open)");
         AppendEconomyHeader(sb);
         sb.AppendLine("Sever dump: currentBlood * (subtree BloodAmount / body BloodAmount) on Severe()");
         sb.AppendLine();
@@ -971,7 +971,7 @@ public class BalanceSimReport
         }
 
         sb.AppendLine($"Seeds/matchup: {SeedCount}   Target: {TargetMinTicks / 60}-{TargetMaxTicks / 60}s @ 60tps");
-        sb.AppendLine($"Knobs this pass: CombatBalance VitalHpScale={CombatBalance.VitalHpScale} LimbHpScale={CombatBalance.LimbHpScale} ArmorK={CombatBalance.ArmorK} WeightAttackSpeedFactor={CombatBalance.WeightAttackSpeedFactor} ArmoredDot={CombatBalance.ArmoredDotChanceFactor}/{CombatBalance.ArmoredDotPowerFactor} (ElvishLeaf diminishing, on-hit stacks free)");
+        sb.AppendLine($"Knobs this pass: CombatBalance VitalHpScale={CombatBalance.VitalHpScale} LimbHpScale={CombatBalance.LimbHpScale} ArmorK={CombatBalance.ArmorK} WeightAttackSpeedFactor={CombatBalance.WeightAttackSpeedFactor} ArmoredDot={CombatBalance.ArmoredDotChanceFactor}/{CombatBalance.ArmoredDotPowerFactor} DelayedOrgan={CombatBalance.DelayedOrganFailureTicks}t/{CombatBalance.DelayedOrganFesterHealth} (heart 0.28, earlier rib/skull open)");
         AppendEconomyHeader(sb);
         sb.AppendLine("Sever dump: currentBlood * (subtree BloodAmount / body BloodAmount) on Severe()");
         sb.AppendLine();

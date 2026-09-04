@@ -301,37 +301,72 @@ public class Pawn : Entity
         weaponLabel = deathRecord.KillingWeapon ?? "";
         maneuverLabel = deathRecord.KillingManeuver ?? "";
         cause = deathRecord.CauseOfDeath ?? "";
+        string? fallbackCause = null;
+        string? fallbackWeapon = null;
+        string? fallbackManeuver = null;
+        var organ = deathRecord.FailedOrgan;
+
         foreach (var damageRecord in damages)
         {
             foreach (var partRecord in damageRecord.BodyParts)
             {
-                string? partCause = null;
-                if (partRecord.BodyPart.IsDestroyed)
-                {
-                    partCause = $"{partRecord.PartType} was destroyed";
-                }
-                else if (partRecord.BodyPart is { IsExternal: true, IsSevered: true })
-                {
-                    partCause = $"{partRecord.PartType} was severed";
-                }
-                else if (partRecord.BodyPart.IsFunctional == false)
-                {
-                    partCause = $"{partRecord.PartType} stopped functioning";
-                }
-
+                var partCause = DescribePartInjury(partRecord);
                 if (partCause == null)
                 {
                     continue;
                 }
 
-                cause = $"{partCause} ({deathRecord.FailedOrgan} failed)";
-                weaponLabel = damageRecord.WeaponLabel;
-                maneuverLabel = damageRecord.WeaponManeuverLabel;
-                return true;
+                if (!string.IsNullOrEmpty(organ)
+                    && string.Equals(partRecord.Label, organ, StringComparison.Ordinal))
+                {
+                    cause = $"{organ} failed";
+                    weaponLabel = damageRecord.WeaponLabel;
+                    maneuverLabel = damageRecord.WeaponManeuverLabel;
+                    return true;
+                }
+
+                if (fallbackCause != null)
+                {
+                    continue;
+                }
+
+                fallbackCause = string.IsNullOrEmpty(organ)
+                    ? partCause
+                    : $"{organ} failed ({partCause})";
+                fallbackWeapon = damageRecord.WeaponLabel;
+                fallbackManeuver = damageRecord.WeaponManeuverLabel;
             }
         }
 
-        return false;
+        if (fallbackCause == null)
+        {
+            return false;
+        }
+
+        cause = fallbackCause;
+        weaponLabel = fallbackWeapon ?? weaponLabel;
+        maneuverLabel = fallbackManeuver ?? maneuverLabel;
+        return true;
+    }
+
+    private static string? DescribePartInjury(DamagedBodyPartRecord partRecord)
+    {
+        if (partRecord.BodyPart.IsDestroyed)
+        {
+            return $"{partRecord.PartType} was destroyed";
+        }
+
+        if (partRecord.BodyPart is { IsExternal: true, IsSevered: true })
+        {
+            return $"{partRecord.PartType} was severed";
+        }
+
+        if (partRecord.BodyPart.IsFunctional == false)
+        {
+            return $"{partRecord.PartType} stopped functioning";
+        }
+
+        return null;
     }
 
     public void TriggerDeath(DeathRecord deathRecord)
@@ -343,6 +378,7 @@ public class Pawn : Entity
             Record = new DeathRecord
             {
                 PawnName = Label,
+                FailedOrgan = deathRecord.FailedOrgan,
                 CauseOfDeath = deathRecord.CauseOfDeath,
                 KillingWeapon = deathRecord.KillingWeapon,
                 KillingManeuver = deathRecord.KillingManeuver
@@ -383,7 +419,7 @@ public class Pawn : Entity
                 return new DeathRecord
                 {
                     FailedOrgan = candidate.Label,
-                    CauseOfDeath = $"All {candidate.Type} organs are non-functional",
+                    CauseOfDeath = $"{candidate.Label} failed",
                     KillingWeapon = "Organ failure",
                     KillingManeuver = "Organ failure"
                 };

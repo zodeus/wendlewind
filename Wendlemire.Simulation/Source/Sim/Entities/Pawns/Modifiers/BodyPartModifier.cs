@@ -101,7 +101,7 @@ public abstract class BodyPartModifier : IExposable, IIdentityProvider, IHasCont
 
         if (BodyPart.Body.Pawn.IsDeadFromPartFailure() is { } deathRecord)
         {
-            deathRecord.CauseOfDeath = $"{deathRecord.FailedOrgan} failure from {Def.Label}";
+            deathRecord.CauseOfDeath = $"{deathRecord.FailedOrgan} failed ({Def.Label})";
             deathRecord.KillingWeapon = Def.Label;
             deathRecord.KillingManeuver = "Affliction";
             BodyPart.Body.Pawn.TriggerDeath(deathRecord);
