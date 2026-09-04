@@ -4,6 +4,7 @@
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <MaxEnchantments>1</MaxEnchantments>
+            <ArmorSet>Chain</ArmorSet>
         </EquipmentProperties>
         <BaseStats>
             <PhysicalResistance>34</PhysicalResistance>

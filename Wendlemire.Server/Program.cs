@@ -300,6 +300,12 @@ app.MapGet("/analytics/fights", () => Results.Ok(analytics.ListFights()));
 
 app.MapGet("/analytics/fights/summary", () => Results.Ok(analytics.Summarize()));
 
+app.MapGet("/analytics/fights/{matchId}", (string matchId) =>
+{
+    var detail = analytics.GetFight(matchId);
+    return detail is null ? Results.NotFound() : Results.Ok(detail);
+});
+
 app.MapGet("/analytics/fights/{matchId}/log", (string matchId) =>
 {
     var log = analytics.GetLog(matchId);

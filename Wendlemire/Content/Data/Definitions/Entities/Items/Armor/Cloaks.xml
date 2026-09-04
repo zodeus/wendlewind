@@ -81,9 +81,12 @@
     <ItemDef ParentName="CloakBase">
         <Moniker>RageCloak</Moniker>
         <Label>Cloak of Rage</Label>
-        <Description>A cloak that engulfs your body in flames.</Description>
+        <Description>A cloak that feeds on ruin. Each destroyed or severed part makes you hit harder.</Description>
         <GoldCost>95</GoldCost>
         <TexturePath>Entities/Item/Equipment/Armor/Cloak/Rage</TexturePath>
+        <EquipmentProperties>
+            <HandlerClass>RageCloakHandler</HandlerClass>
+        </EquipmentProperties>
     </ItemDef>
     <ItemDef ParentName="CloakBase">
         <Moniker>ThornCloak</Moniker>

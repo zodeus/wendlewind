@@ -139,6 +139,13 @@ public sealed record CombatEventsFile
     public string? Version { get; init; }
 }
 
+public sealed record AdminFightDetail
+{
+    public required FightAnalyticsRow Summary { get; init; }
+    public required ArenaFightRecord Fight { get; init; }
+    public CombatLogRecord? Log { get; init; }
+}
+
 public sealed record FightAnalyticsRow
 {
     public required string MatchId { get; init; }

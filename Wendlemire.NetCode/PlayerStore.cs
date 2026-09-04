@@ -406,6 +406,24 @@ public sealed class PlayerStore
         }
     }
 
+    public (ArenaRunRecord Run, ArenaFightRecord Fight)? FindFight(string matchId)
+    {
+        lock (_gate)
+        {
+            foreach (var run in ListAllRunsUnlocked())
+            {
+                var fight = run.Fights.FirstOrDefault(f =>
+                    string.Equals(f.MatchId, matchId, StringComparison.Ordinal));
+                if (fight != null)
+                {
+                    return (run, fight);
+                }
+            }
+
+            return null;
+        }
+    }
+
     public bool TryUpdateFight(
         string playerId,
         string runId,

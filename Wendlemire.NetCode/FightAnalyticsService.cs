@@ -53,6 +53,23 @@ public sealed class FightAnalyticsService
 
     public CombatLogRecord? GetLog(string matchId) => _players.FindCombatLog(matchId);
 
+    public AdminFightDetail? GetFight(string matchId)
+    {
+        var found = _players.FindFight(matchId);
+        if (found == null)
+        {
+            return null;
+        }
+
+        var (run, fight) = found.Value;
+        return new AdminFightDetail
+        {
+            Summary = ToRow(run, fight, _players.PlayerLabels()),
+            Fight = fight,
+            Log = _players.FindCombatLog(matchId)
+        };
+    }
+
     public BackfillResult Backfill()
     {
         var runs = _players.ListAllRuns();

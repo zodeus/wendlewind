@@ -339,6 +339,39 @@
       font-size: 0.8rem;
       white-space: pre-wrap;
     }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+    }
+
+    @media (max-width: 720px) {
+      .split { grid-template-columns: 1fr; }
+    }
+
+    .panel {
+      background: var(--iron);
+      border: 1px solid var(--iron-edge);
+      box-shadow: inset 0 0 0 1px #0c0806;
+      padding: 0.85rem 0.95rem;
+    }
+
+    .panel h4 {
+      margin: 0 0 0.55rem;
+      font-family: Cinzel, serif;
+      font-size: 0.95rem;
+    }
+
+    .panel .block { margin-top: 0.7rem; }
+    .panel .block .label {
+      color: var(--dust);
+      font-family: Cinzel, serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
   </style>
 </head>
 <body>
@@ -443,8 +476,11 @@
           const data = await cached("runs", () => api("/runs"));
           paint(() => runsView(data));
         } else if (page === "fights" && a === "log" && b) {
-          const data = await cached("log:" + b, () => api("/fights/" + encodeURIComponent(b) + "/log"));
-          paint(() => logView(b, data));
+          const data = await cached("fight:" + b, () => api("/fights/" + encodeURIComponent(b)));
+          paint(() => fightView(data));
+        } else if (page === "fights" && a) {
+          const data = await cached("fight:" + a, () => api("/fights/" + encodeURIComponent(a)));
+          paint(() => fightView(data));
         } else if (page === "fights") {
           const data = await cached("fights", () => api("/fights"));
           paint(() => fightsView(data));
@@ -875,7 +911,7 @@
                     <td>${esc(f.causeOfDeath || "—")}</td>
                     <td>${esc(f.version || "—")}</td>
                     <td>${when(f.foughtAt)}</td>
-                    <td><a href="#/fights/log/${esc(f.matchId)}">log</a></td>
+                    <td><a href="#/fights/${esc(f.matchId)}">view</a></td>
                   </tr>`).join("")}
               </tbody>
             </table>`}
@@ -905,7 +941,7 @@
             </tr></thead>
             <tbody>
               ${result.mismatches.map((m) => `
-                <tr class="clickable" data-href="#/fights/log/${esc(m.matchId)}">
+                <tr class="clickable" data-href="#/fights/${esc(m.matchId)}">
                   <td>${when(m.foughtAt)}</td>
                   <td>${m.round}</td>
                   <td>${esc(m.playerName || "—")}</td>
@@ -945,7 +981,7 @@
           </tr></thead>
           <tbody>
             ${filtered.map((f) => `
-              <tr class="clickable" data-href="#/fights/log/${esc(f.matchId)}">
+              <tr class="clickable" data-href="#/fights/${esc(f.matchId)}">
                 <td>${when(f.foughtAt)}</td>
                 <td>${f.round}</td>
                 <td>${(f.durationSeconds ?? 0).toFixed(1)}s ${f.inTargetBand ? `<span class="good">●</span>` : ""}</td>
@@ -963,25 +999,174 @@
       `;
     }
 
-    function logView(matchId, log) {
+    function enumName(value, names) {
+      if (typeof value === "string") return value;
+      if (typeof value === "number" && names[value]) return names[value];
+      return value == null ? "" : String(value);
+    }
+
+    function potionTriggerNote(potion) {
+      const type = enumName(potion.type, [
+        "SelfBloodBelow", "EnemyBloodBelow", "AfterSeconds", "Immediately", "SelfPartsDamaged"
+      ]);
+      if (type === "AfterSeconds") return `after ${potion.afterSeconds ?? 0}s`;
+      if (type === "SelfBloodBelow") return `blood < ${Math.round((potion.threshold ?? 0) * 100)}%`;
+      if (type === "EnemyBloodBelow") return `enemy blood < ${Math.round((potion.threshold ?? 0) * 100)}%`;
+      if (type === "SelfPartsDamaged") return "parts damaged";
+      if (type === "Immediately") return "immediately";
+      return type;
+    }
+
+    function medicalTriggerNote(slot) {
+      const type = enumName(slot.type, [
+        "Immediately", "AfterSeconds", "SelfBloodBelow", "SelfPartsDamaged",
+        "PartBelowHealth", "PartSevered", "HasNecrosis", "BurningOrAcid", "HasPoison"
+      ]);
+      const target = enumName(slot.targetSelector, [
+        "Auto", "MostDamagedPart", "SeveredOrUnsealedSocket", "SpecificPart"
+      ]);
+      const bits = [];
+      if (type === "AfterSeconds") bits.push(`after ${slot.afterSeconds ?? 0}s`);
+      else if (type === "SelfBloodBelow") bits.push(`blood < ${Math.round((slot.threshold ?? 0) * 100)}%`);
+      else if (type === "PartBelowHealth") bits.push(`part < ${Math.round((slot.healthThreshold ?? 0) * 100)}%`);
+      else if (type && type !== "Immediately") bits.push(type);
+      if (slot.charges != null) bits.push(`${slot.charges} ch`);
+      if (target && target !== "Auto") bits.push(target);
+      if (slot.targetPartKey) bits.push(slot.targetPartKey);
+      return bits.join(" · ");
+    }
+
+    function chip(label, note) {
+      return `<span class="chip">${esc(label)}${note ? ` <span class="muted">${esc(note)}</span>` : ""}</span>`;
+    }
+
+    function chipRow(items) {
+      if (!items || !items.length) return "";
+      return `<div class="chips">${items.join("")}</div>`;
+    }
+
+    function loadoutBlock(title, html) {
+      if (!html) return "";
+      return `<div class="block"><div class="label">${esc(title)}</div>${html}</div>`;
+    }
+
+    function sideName(snapshot, fallback) {
+      return fallback || snapshot?.pawnName || snapshot?.pawnDefMoniker || snapshot?.playerId || "Unknown";
+    }
+
+    function sideStats(snapshot, stats, name, won) {
+      const s = stats || {};
+      const blood = s.bloodPercent == null ? "—" : `${Math.round(s.bloodPercent * 100)}%`;
+      return `
+        <div class="panel">
+          <h4>${esc(name)}${won ? ` <span class="pill good">Winner</span>` : ""}</h4>
+          <div class="id">${esc(snapshot?.playerId || "")}</div>
+          <dl class="kv" style="margin:0.65rem 0 0">
+            <dt>Damage</dt><dd>${(s.damageDealt ?? 0).toFixed(0)}</dd>
+            <dt>DPS</dt><dd>${(s.damagePerSecond ?? 0).toFixed(1)}</dd>
+            <dt>Healing</dt><dd>${(s.healing ?? 0).toFixed(0)}</dd>
+            <dt>Hits</dt><dd>${s.hits ?? 0} · miss ${s.misses ?? 0}</dd>
+            <dt>Defense</dt><dd>dodge ${s.dodges ?? 0} · block ${s.blocks ?? 0}</dd>
+            <dt>Uses</dt><dd>pot ${s.potionUses ?? 0} · med ${s.medicalUses ?? 0}</dd>
+            <dt>Severs</dt><dd>${s.severs ?? 0}</dd>
+            <dt>Blood</dt><dd>${blood}</dd>
+          </dl>
+        </div>`;
+    }
+
+    function loadoutCard(snapshot, name, won) {
+      if (!snapshot) return `<div class="panel"><h4>${esc(name)}</h4><p class="empty">No loadout stored.</p></div>`;
+      const sockets = new Map((snapshot.sockets || []).map((s) => [s.itemMoniker, s.enchantmentMonikers || []]));
+      const skip = new Set([
+        ...(snapshot.weapons || []).map((w) => w.itemMoniker),
+        ...(snapshot.potions || []).map((p) => p.itemMoniker)
+      ]);
+      const gear = (snapshot.entityDefMonikers || []).filter((m) => !skip.has(m));
+      const meal = snapshot.meal?.length ? snapshot.meal : (snapshot.foodBuffs || []);
+      return `
+        <div class="panel">
+          <h4>${esc(name)}${won ? ` <span class="pill good">Winner</span>` : ""}</h4>
+          <p class="muted">${esc(snapshot.pawnDefMoniker || "HumanA")} · ${esc(snapshot.stanceMoniker || "no stance")}</p>
+          ${loadoutBlock("Weapons", chipRow((snapshot.weapons || []).map((w) =>
+            chip(w.itemMoniker, w.useInCombat === false ? "unused" : ""))))}
+          ${loadoutBlock("Gear", chipRow(gear.map((m) => chip(m, (sockets.get(m) || []).join(", ")))))}
+          ${loadoutBlock("Potions", chipRow((snapshot.potions || []).map((p) =>
+            chip(p.itemMoniker, potionTriggerNote(p)))))}
+          ${loadoutBlock("Medical", chipRow((snapshot.medicalChest || []).map((m) =>
+            chip(m.itemMoniker, medicalTriggerNote(m)))))}
+          ${loadoutBlock("Incense", chipRow((snapshot.incense || []).map((i) =>
+            chip(i.itemMoniker, i.encountersRemaining != null ? `${i.encountersRemaining} left` : ""))))}
+          ${loadoutBlock("Meal", chipRow(meal.map((m) => chip(m))))}
+          ${loadoutBlock("Skills", chipRow((snapshot.skills || []).map((s) =>
+            chip(s.skillMoniker, s.level != null ? `lv ${s.level}` : ""))))}
+          ${loadoutBlock("Inventory", chipRow((snapshot.inventory || []).map((i) =>
+            chip(i.itemMoniker, i.amount != null ? `×${i.amount}` : ""))))}
+        </div>`;
+    }
+
+    function combatLogBlock(log) {
       const events = log?.events || [];
+      if (!events.length) return `<p class="empty">No events stored for this match.</p>`;
+      return `<pre class="log">${events.map((e) => {
+        const t = String(e.tick ?? 0).padStart(5, " ");
+        const who = [e.subjectName, e.targetName].filter(Boolean).join(" → ");
+        const extra = e.message || [e.itemLabel, e.bodyPartLabel, e.amount ? e.amount.toFixed(1) : ""]
+          .filter(Boolean).join(" ");
+        return `${esc(t)}  ${esc(e.kind || "")}  ${esc(who)}  ${esc(extra)}`;
+      }).join("\n")}</pre>`;
+    }
+
+    function fightView(detail) {
+      if (!detail) return `<p class="muted">Loading…</p>`;
+      const summary = detail.summary || {};
+      const fight = detail.fight || {};
+      const attacker = fight.attacker;
+      const defender = fight.defender;
+      const attackerName = sideName(attacker, summary.playerName);
+      const defenderName = sideName(defender, summary.opponentName);
+      const attackerWon = summary.winnerPlayerId && attacker?.playerId
+        && summary.winnerPlayerId === attacker.playerId;
+      const defenderWon = summary.winnerPlayerId && defender?.playerId
+        && summary.winnerPlayerId === defender.playerId;
+      const kill = [summary.killingWeapon, summary.killingManeuver].filter(Boolean).join(" / ");
+      const analytics = fight.analytics || {};
       return `
         <div class="detail-head">
           <div>
             <a href="#/fights">← Fights</a>
-            <h2 style="margin:0.35rem 0 0">Combat log</h2>
-            <div class="id">${esc(matchId)}${log?.version ? ` · v${esc(log.version)}` : ""}</div>
+            <h2 style="margin:0.35rem 0 0">${esc(attackerName)} vs ${esc(defenderName)}</h2>
+            <div class="id">${esc(summary.matchId || fight.matchId || "")}${summary.version || fight.version ? ` · v${esc(summary.version || fight.version)}` : ""}</div>
+          </div>
+          <div>${summary.winnerName
+            ? `<span class="pill good">${esc(summary.winnerName)} won</span>`
+            : `<span class="pill muted">No winner</span>`}</div>
+        </div>
+        <dl class="kv">
+          <dt>When</dt><dd>${when(summary.foughtAt || fight.foughtAt)}</dd>
+          <dt>Round</dt><dd>${summary.round ?? fight.round ?? "—"}</dd>
+          <dt>Duration</dt><dd>${(summary.durationSeconds ?? 0).toFixed(1)}s${summary.inTargetBand ? ` <span class="good">●</span>` : ""}</dd>
+          <dt>Cause</dt><dd>${esc(summary.causeOfDeath || fight.causeOfDeath || "—")}</dd>
+          <dt>Kill</dt><dd>${esc(kill || "—")}</dd>
+          <dt>Seed</dt><dd class="mono">${fight.encounterSeed ?? "—"}</dd>
+        </dl>
+        <div class="section">
+          <h3>Stats</h3>
+          <div class="split">
+            ${sideStats(attacker, analytics.attacker, attackerName, attackerWon)}
+            ${sideStats(defender, analytics.defender, defenderName, defenderWon)}
           </div>
         </div>
-        ${events.length === 0
-          ? `<p class="empty">No events stored for this match.</p>`
-          : `<pre class="log">${events.map((e) => {
-              const t = String(e.tick ?? 0).padStart(5, " ");
-              const who = [e.subjectName, e.targetName].filter(Boolean).join(" → ");
-              const extra = e.message || [e.itemLabel, e.bodyPartLabel, e.amount ? e.amount.toFixed(1) : ""]
-                .filter(Boolean).join(" ");
-              return `${esc(t)}  ${esc(e.kind || "")}  ${esc(who)}  ${esc(extra)}`;
-            }).join("\n")}</pre>`}
+        <div class="section">
+          <h3>Loadouts</h3>
+          <div class="split">
+            ${loadoutCard(attacker, attackerName, attackerWon)}
+            ${loadoutCard(defender, defenderName, defenderWon)}
+          </div>
+        </div>
+        <div class="section">
+          <h3>Combat log</h3>
+          ${combatLogBlock(detail.log)}
+        </div>
       `;
     }
 

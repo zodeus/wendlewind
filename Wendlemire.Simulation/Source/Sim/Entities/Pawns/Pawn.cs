@@ -91,6 +91,7 @@ public class Pawn : Entity
         Skills.Tick();
         Inventory.Tick();
         Equipment.Tick();
+        SetBonuses.Tick(this);
         base.Tick();
     }
 
@@ -136,12 +137,18 @@ public class Pawn : Entity
             // Handle Armor
             var isPartCoveredByParentArmor = bodyPart.Type is BodyPartType.Finger or BodyPartType.Thumb;
             var bodyPartEquipment = isPartCoveredByParentArmor ? bodyPart.Socket?.ParentPart?.Armor : bodyPart.Armor;
-            var trinketResist = TrinketResistance.SumFor(this, damage.Type);
-            var blockingTrinket = trinketResist > 0 ? TrinketResistance.FirstContributor(this, damage.Type) : null;
-            Item? destroyedArmor = null;
-            if (bodyPartEquipment != null || trinketResist > 0)
+            var extraResist = TrinketResistance.SumFor(this, damage.Type);
+            extraResist += this.GetStatValue(Defs.Stats.PhysicalResistance);
+            if (damage.Type == DamageType.Magic)
             {
-                damage.Block(bodyPartEquipment, trinketResist);
+                extraResist += this.GetStatValue(Defs.Stats.MagicResistance);
+            }
+
+            var blockingTrinket = extraResist > 0 ? TrinketResistance.FirstContributor(this, damage.Type) : null;
+            Item? destroyedArmor = null;
+            if (bodyPartEquipment != null || extraResist > 0)
+            {
+                damage.Block(bodyPartEquipment, extraResist);
 
                 if (bodyPartEquipment is { IsDestroyed: true })
                 {

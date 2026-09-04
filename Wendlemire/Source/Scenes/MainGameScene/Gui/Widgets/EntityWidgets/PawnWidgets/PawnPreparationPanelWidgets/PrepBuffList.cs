@@ -81,7 +81,9 @@ internal sealed class PrepBuffList : VerticalStackPanel
         var signature = string.Join(",", stats.Select(s =>
                           $"{s.Moniker}:{_offsets.GetValueOrDefault(s)}:{_factors.GetValueOrDefault(s)}"))
                       + "|"
-                      + string.Join(",", specials);
+                      + string.Join(",", specials)
+                      + "|"
+                      + EquipmentSignature(pawn);
 
         if (signature != _attributeSignature)
         {
@@ -104,6 +106,7 @@ internal sealed class PrepBuffList : VerticalStackPanel
             }
 
             AddSpecials(specials);
+            AddSetBonusLines(pawn);
         }
 
         RefreshTotals();
@@ -323,6 +326,37 @@ internal sealed class PrepBuffList : VerticalStackPanel
             });
         }
     }
+
+    private void AddSetBonusLines(Pawn pawn)
+    {
+        foreach (var set in SetBonuses.Table.Keys)
+        {
+            var active = SetBonuses.DescribeActive(pawn, set);
+            if (active != null)
+            {
+                Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = active,
+                    TextColor = TotalColor,
+                    Wrap = true
+                });
+            }
+
+            var hint = SetBonuses.NextTierHint(pawn, set);
+            if (hint != null)
+            {
+                Widgets.Add(new Label(BaseContent.Styles.Label.Small)
+                {
+                    Text = hint,
+                    TextColor = new Color(150, 150, 150),
+                    Wrap = true
+                });
+            }
+        }
+    }
+
+    public static string EquipmentSignature(Pawn pawn) =>
+        string.Join(",", pawn.Equipment.Armor.Select(i => i.ItemDef.Moniker).OrderBy(m => m));
 
     private static AttributeRow CreateAttributeRow(
         StatDef stat,

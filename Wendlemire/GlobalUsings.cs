@@ -29,7 +29,6 @@ global using Wendlemire.Sim.Entities.Items.Medicinals;
 global using Wendlemire.Sim.Entities.Items.Potions;
 global using Wendlemire.Sim.Entities.Items.Trinkets;
 
-global using Wendlemire.Sim.Persistence;
 global using Wendlemire.Sim.Zones;
 global using Wendlemire.PawnLayout;
 global using Wendlemire.Presentation;

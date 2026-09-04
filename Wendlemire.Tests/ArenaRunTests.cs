@@ -317,6 +317,11 @@ public class ArenaRunTests
         Assert.DoesNotContain(ShopStock.AvailableOffers(merchant, 0), o => o.ItemDef?.Moniker == "FireStaff");
         Assert.Contains(ShopStock.AvailableOffers(merchant, 4), o => o.ItemDef?.Moniker == "FireStaff");
         Assert.Contains(ShopStock.AvailableOffers(merchant, 0), o => o.ItemDef?.Moniker == "EmberWand");
+        Assert.Contains(ShopStock.AvailableOffers(merchant, 0), o => o.ItemDef?.Moniker == "RejuvenationCloak");
+        Assert.DoesNotContain(ShopStock.AvailableOffers(merchant, 5), o => o.ItemDef?.Moniker == "RageCloak");
+        Assert.Contains(ShopStock.AvailableOffers(merchant, 6), o => o.ItemDef?.Moniker == "RageCloak");
+        Assert.DoesNotContain(ShopStock.AvailableOffers(merchant, 5), o => o.ItemDef?.Moniker == "ClericCloak");
+        Assert.Contains(ShopStock.AvailableOffers(merchant, 6), o => o.ItemDef?.Moniker == "ClericCloak");
     }
 
     [Fact]

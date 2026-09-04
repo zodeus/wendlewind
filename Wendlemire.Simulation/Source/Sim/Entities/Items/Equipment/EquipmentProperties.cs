@@ -7,6 +7,7 @@ public class EquipmentProperties
     public int MaxEnchantments = 0;
     public EquipmentSlotType? SlotUsedToEquip = EquipmentSlotType.Invalid;
     public bool OccupiesBothHands;
+    public string? ArmorSet;
     [UsedImplicitly] public Type? HandlerClass;
     public EquipmentHandler? CreateHandler(ISimFactory factory) =>
         HandlerClass != null ? factory.Create<EquipmentHandler>(HandlerClass) : null;

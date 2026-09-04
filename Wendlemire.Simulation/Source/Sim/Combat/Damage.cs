@@ -79,6 +79,10 @@ public class Damage
         if (equipment != null)
         {
             resist += equipment.GetStatValue(Defs.Stats.PhysicalResistance);
+            if (Type == DamageType.Magic)
+            {
+                resist += equipment.GetStatValue(Defs.Stats.MagicResistance);
+            }
         }
 
         if (resist <= 0f)

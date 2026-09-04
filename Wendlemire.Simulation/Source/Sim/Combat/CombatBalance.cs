@@ -11,7 +11,7 @@ public static class CombatBalance
 
     /// <summary>
     /// Diminishing-returns armor: reduction = resist / (resist + ArmorK). Never 100%.
-    /// Leather 18 ≈ 11% DR, chain 34 ≈ 20% DR, plate 48 ≈ 26% DR, witch doctor 48 ≈ 26% DR.
+    /// Leather 18 ≈ 11% DR, witch doctor 32 ≈ 19% DR, chain 34 ≈ 20% DR, plate 48 ≈ 26% DR.
     /// </summary>
     public const float ArmorK = 140f;
 

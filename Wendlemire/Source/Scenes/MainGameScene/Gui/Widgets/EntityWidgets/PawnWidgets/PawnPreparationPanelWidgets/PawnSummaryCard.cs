@@ -82,7 +82,9 @@ public sealed class PawnSummaryCard : VerticalStackPanel, IUpdatable
     {
         var signature = string.Join(",", _pawn.MealPlan.Items.Select(i => i?.Id ?? -1))
                         + "|"
-                        + string.Join(",", _pawn.ActiveIncense.Select(a => a.Def?.Moniker ?? a.SourceMoniker));
+                        + string.Join(",", _pawn.ActiveIncense.Select(a => a.Def?.Moniker ?? a.SourceMoniker))
+                        + "|"
+                        + PrepBuffList.EquipmentSignature(_pawn);
         if (signature != _buffSignature)
         {
             _buffSignature = signature;

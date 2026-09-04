@@ -4,9 +4,11 @@
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <MaxEnchantments>2</MaxEnchantments>
+            <ArmorSet>WitchDoctor</ArmorSet>
         </EquipmentProperties>
         <BaseStats>
-            <PhysicalResistance>48</PhysicalResistance>
+            <PhysicalResistance>32</PhysicalResistance>
+            <MagicResistance>10</MagicResistance>
             <MaxDurability>2000</MaxDurability>
             <Weight>3</Weight>
         </BaseStats>

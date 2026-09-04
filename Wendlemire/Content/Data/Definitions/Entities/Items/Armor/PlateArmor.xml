@@ -4,6 +4,7 @@
         <ItemType>Equipment</ItemType>
         <EquipmentProperties>
             <MaxEnchantments>1</MaxEnchantments>
+            <ArmorSet>Plate</ArmorSet>
         </EquipmentProperties>
         <BaseStats>
             <PhysicalResistance>48</PhysicalResistance>

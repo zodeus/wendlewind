@@ -1,97 +1,53 @@
 namespace Wendlemire.Scenes.MainGameScene.Gui.Widgets.EntityWidgets.ArmorPanels;
 
 /// <summary>
-/// A generic panel for displaying cloak items that have upgradable handlers.
-/// Works with any handler that implements both IUpgradableHandler and ICloakHandler.
+/// Inspect card for cloaks. Bonus text needs only <see cref="ICloakHandler"/>;
+/// upgrade chrome is added when the handler is also <see cref="IUpgradableHandler"/>.
 /// </summary>
 [UsedImplicitly]
 public sealed class CloakPanel : EntityPanelBase
 {
     private readonly ICloakHandler? _cloakHandler;
     private readonly IUpgradableHandler? _upgradableHandler;
-    private readonly ItemUpgradePanel? _upgradePanel;
     private readonly Label? _bonusLabel;
-    private readonly Label? _upgradeLevelLabel;
-    private readonly HorizontalStackPanel? _levelIndicatorContainer;
+    private ItemUpgradePanel? _upgradePanel;
+    private Label? _upgradeLevelLabel;
+    private HorizontalStackPanel? _levelIndicatorContainer;
 
     public CloakPanel(BaseGui gui, Item item, EntityPanelProperties? properties = null) : base(gui, item, properties)
     {
         var handler = item.EquipmentHandler;
-        if (handler is not ICloakHandler cloakHandler || handler is not IUpgradableHandler upgradableHandler)
+        if (handler is not ICloakHandler cloakHandler)
         {
             BuildPreviewLayout(item);
             return;
         }
 
         _cloakHandler = cloakHandler;
-        _upgradableHandler = upgradableHandler;
-        
         EntityCardChrome.ApplyCard(this, 340);
-
         Widgets.Add(EntityCardChrome.Header(item));
 
         _bonusLabel = new Label("small")
         {
             Text = _cloakHandler.GetBonusDisplayText(),
-            TextColor = Color.DarkGoldenrod
+            TextColor = Color.DarkGoldenrod,
+            Wrap = true
         };
         Widgets.Add(_bonusLabel);
 
-        // ═══════════════════════════════════════════════════════════════════
-        // Upgrade Level Box
-        // ═══════════════════════════════════════════════════════════════════
-        var maxLevel = _upgradableHandler.UpgradeProperties?.MaxLevel ?? 2;
-        var currentLevel = _upgradableHandler.UpgradeLevel;
-        
-        var levelBox = new Panel
-        {
-            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
-            Padding = new Thickness(12, 8),
-            Margin = new Thickness(0, 0, 0, 8)
-        };
-        
-        var levelContent = new HorizontalStackPanel
-        {
-            Spacing = 12,
-            VerticalAlignment = VerticalAlignment.Center
-        };
-        
-        levelContent.Widgets.Add(new Label("small")
-        {
-            Text = "UPGRADE",
-            TextColor = Color.Gray,
-            VerticalAlignment = VerticalAlignment.Center
-        });
-        
-        // Level indicator pips
-        _levelIndicatorContainer = new HorizontalStackPanel { Spacing = 6, VerticalAlignment = VerticalAlignment.Center };
-        BuildLevelIndicators(currentLevel, maxLevel);
-        levelContent.Widgets.Add(_levelIndicatorContainer);
-        
-        _upgradeLevelLabel = new Label("small")
-        {
-            Text = $"{currentLevel} / {maxLevel}",
-            TextColor = Color.DarkGoldenrod,
-            VerticalAlignment = VerticalAlignment.Center
-        };
-        levelContent.Widgets.Add(_upgradeLevelLabel);
-        
-        levelBox.Widgets.Add(levelContent);
-        Widgets.Add(levelBox);
+        AddSlotAndCost(item);
 
-        // ═══════════════════════════════════════════════════════════════════
-        // Upgrade Section using ItemUpgradePanel
-        // ═══════════════════════════════════════════════════════════════════
-        _upgradePanel = new ItemUpgradePanel(item, _upgradableHandler, OnUpgradeComplete);
-        Widgets.Add(_upgradePanel);
+        if (handler is IUpgradableHandler upgradableHandler)
+        {
+            _upgradableHandler = upgradableHandler;
+            AddUpgradeChrome(item);
+        }
 
         UpdateBonusLabel();
     }
 
-    private void BuildPreviewLayout(Item item)
+    private void AddSlotAndCost(Item item)
     {
-        EntityCardChrome.ApplyCard(this, 340);
-        Widgets.Add(EntityCardChrome.Header(item));
         Widgets.Add(new HorizontalStackPanel
         {
             Spacing = 8,
@@ -122,7 +78,63 @@ public sealed class CloakPanel : EntityPanelBase
             });
         }
     }
-    
+
+    private void AddUpgradeChrome(Item item)
+    {
+        if (_upgradableHandler == null)
+        {
+            return;
+        }
+
+        var maxLevel = _upgradableHandler.UpgradeProperties?.MaxLevel ?? 2;
+        var currentLevel = _upgradableHandler.UpgradeLevel;
+
+        var levelBox = new Panel
+        {
+            Background = Stylesheet.Current.Atlas[BaseContent.Styles.Atlas.Panel.MediumFrame],
+            Padding = new Thickness(12, 8),
+            Margin = new Thickness(0, 0, 0, 8)
+        };
+
+        var levelContent = new HorizontalStackPanel
+        {
+            Spacing = 12,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+
+        levelContent.Widgets.Add(new Label("small")
+        {
+            Text = "UPGRADE",
+            TextColor = Color.Gray,
+            VerticalAlignment = VerticalAlignment.Center
+        });
+
+        _levelIndicatorContainer = new HorizontalStackPanel { Spacing = 6, VerticalAlignment = VerticalAlignment.Center };
+        BuildLevelIndicators(currentLevel, maxLevel);
+        levelContent.Widgets.Add(_levelIndicatorContainer);
+
+        _upgradeLevelLabel = new Label("small")
+        {
+            Text = $"{currentLevel} / {maxLevel}",
+            TextColor = Color.DarkGoldenrod,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        levelContent.Widgets.Add(_upgradeLevelLabel);
+
+        levelBox.Widgets.Add(levelContent);
+        Widgets.Add(levelBox);
+
+        _upgradePanel = new ItemUpgradePanel(item, _upgradableHandler, OnUpgradeComplete);
+        Widgets.Add(_upgradePanel);
+    }
+
+    private void BuildPreviewLayout(Item item)
+    {
+        EntityCardChrome.ApplyCard(this, 340);
+        Widgets.Add(EntityCardChrome.Header(item));
+        AddSlotAndCost(item);
+    }
+
     private void BuildLevelIndicators(int currentLevel, int maxLevel)
     {
         if (_levelIndicatorContainer == null)
@@ -138,14 +150,14 @@ public sealed class CloakPanel : EntityPanelBase
             {
                 Width = 12,
                 Height = 12,
-                Background = filled 
-                    ? new SolidBrush(Color.DarkGoldenrod) 
+                Background = filled
+                    ? new SolidBrush(Color.DarkGoldenrod)
                     : new SolidBrush(new Color(60, 60, 60))
             };
             _levelIndicatorContainer.Widgets.Add(pip);
         }
     }
-    
+
     private void OnUpgradeComplete()
     {
         if (_upgradableHandler == null || _upgradeLevelLabel == null)
@@ -172,6 +184,6 @@ public sealed class CloakPanel : EntityPanelBase
 
     public override void Update()
     {
-        // No dynamic updates needed - upgrade panel handles its own updates
+        UpdateBonusLabel();
     }
 }

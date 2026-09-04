@@ -2,6 +2,9 @@
 <Definitions>
     <ItemDef Name="LeatherArmorBase" ParentName="ArmorBase" Abstract="true">
         <ItemType>Equipment</ItemType>
+        <EquipmentProperties>
+            <ArmorSet>Leather</ArmorSet>
+        </EquipmentProperties>
         <BaseStats>
             <PhysicalResistance>18</PhysicalResistance>
             <MaxDurability>200</MaxDurability>

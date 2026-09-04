@@ -27,7 +27,7 @@ public class ArmorCombatTests
     [InlineData("ClothVambrace", 14f)]
     [InlineData("LeatherVambrace", 18f)]
     [InlineData("ChainVambrace", 34f)]
-    [InlineData("WitchDoctorVambrace", 48f)]
+    [InlineData("WitchDoctorVambrace", 32f)]
     [InlineData("PlateVambrace", 48f)]
     [InlineData("ClothTunic", 14f)]
     [InlineData("LeatherTunic", 20f)]
@@ -64,7 +64,7 @@ public class ArmorCombatTests
     [InlineData("ClothVambrace", 14f)]
     [InlineData("LeatherVambrace", 18f)]
     [InlineData("ChainVambrace", 34f)]
-    [InlineData("WitchDoctorVambrace", 48f)]
+    [InlineData("WitchDoctorVambrace", 32f)]
     public void ArmoredArmBlocksPercentageOfBasicMidHit(string armor, float resist)
     {
         using var harness = BodyTestHarness.Human();
@@ -176,7 +176,7 @@ public class ArmorCombatTests
     public void HeavierTiersBlockMoreThanLighterTiers()
     {
         var blocked = new Dictionary<string, double>();
-        foreach (var armor in new[] { "ClothVambrace", "LeatherVambrace", "ChainVambrace", "WitchDoctorVambrace" })
+        foreach (var armor in new[] { "ClothVambrace", "LeatherVambrace", "WitchDoctorVambrace", "ChainVambrace", "PlateVambrace" })
         {
             using var harness = BodyTestHarness.Human();
             var attacker = harness.CreatePawn("HumanA", "Attacker");
@@ -187,8 +187,9 @@ public class ArmorCombatTests
         }
 
         Assert.True(blocked["ClothVambrace"] < blocked["LeatherVambrace"]);
-        Assert.True(blocked["LeatherVambrace"] < blocked["ChainVambrace"]);
-        Assert.True(blocked["ChainVambrace"] < blocked["WitchDoctorVambrace"]);
+        Assert.True(blocked["LeatherVambrace"] < blocked["WitchDoctorVambrace"]);
+        Assert.True(blocked["WitchDoctorVambrace"] < blocked["ChainVambrace"]);
+        Assert.True(blocked["ChainVambrace"] < blocked["PlateVambrace"]);
     }
 
     [Theory]

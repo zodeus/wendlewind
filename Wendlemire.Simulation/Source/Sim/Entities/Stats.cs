@@ -49,7 +49,8 @@ public static class StatExtensions {
         {
             equipment.EquipmentHandler?.ModifyStat(pawn, stat, ref value);
         }
-        
+
+        SetBonuses.Apply(pawn, stat, ref value);
         pawn.Body.ModifyStat(stat, ref value);
         return value;
     }

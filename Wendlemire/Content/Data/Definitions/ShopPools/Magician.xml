@@ -108,16 +108,16 @@
                     <ListItem>
                         <ItemDef>RejuvenationCloak</ItemDef>
                     </ListItem>
-                    <!-- <ListItem>
-                        <ItemDef>ThornCloak</ItemDef>
-                        <AvailableFromRound>7</AvailableFromRound>
-                    </ListItem>
                     <ListItem>
                         <ItemDef>RageCloak</ItemDef>
-                        <AvailableFromRound>7</AvailableFromRound>
+                        <AvailableFromRound>6</AvailableFromRound>
                     </ListItem>
                     <ListItem>
                         <ItemDef>ClericCloak</ItemDef>
+                        <AvailableFromRound>6</AvailableFromRound>
+                    </ListItem>
+                    <!-- <ListItem>
+                        <ItemDef>ThornCloak</ItemDef>
                         <AvailableFromRound>7</AvailableFromRound>
                     </ListItem>
                     <ListItem>

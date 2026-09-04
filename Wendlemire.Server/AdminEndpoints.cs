@@ -114,6 +114,12 @@ public static class AdminEndpoints
 
         api.MapPost("/fights/verify", () => Results.Ok(analytics.VerifyRecorded()));
 
+        api.MapGet("/fights/{matchId}", (string matchId) =>
+        {
+            var detail = analytics.GetFight(matchId);
+            return detail is null ? Results.NotFound() : Results.Ok(detail);
+        });
+
         api.MapGet("/fights/{matchId}/log", (string matchId) =>
         {
             var log = analytics.GetLog(matchId);

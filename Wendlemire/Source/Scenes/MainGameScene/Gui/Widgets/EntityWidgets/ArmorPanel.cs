@@ -47,6 +47,23 @@ public sealed class ArmorPanel : EntityPanelBase
         {
             propsSection.Widgets.Add(CreatePropertyRow("Enchant Slots", $"{maxEnchantments}", TC.Purple));
         }
+
+        var armorSet = item.ItemDef.EquipmentProperties?.ArmorSet;
+        if (!string.IsNullOrEmpty(armorSet))
+        {
+            propsSection.Widgets.Add(CreatePropertyRow("Set", SetBonuses.DisplayName(armorSet), TC.Golden));
+            if (SetBonuses.Table.TryGetValue(armorSet, out var tiers))
+            {
+                foreach (var tier in tiers)
+                {
+                    propsSection.Widgets.Add(CreatePropertyRow(
+                        $"{tier.Pieces}",
+                        SetBonuses.DescribeTier(tier),
+                        TC.Golden));
+                }
+            }
+        }
+
         Widgets.Add(propsSection);
 
         // ═══════════════════════════════════════════════════════════════════

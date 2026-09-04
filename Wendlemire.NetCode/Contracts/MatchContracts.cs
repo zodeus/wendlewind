@@ -153,6 +153,7 @@ public sealed record CombatResult
 [JsonSerializable(typeof(CombatSubEffect[]))]
 [JsonSerializable(typeof(CombatEventKind))]
 [JsonSerializable(typeof(CombatLogRecord))]
+[JsonSerializable(typeof(AdminFightDetail))]
 [JsonSerializable(typeof(CombatEventsFile))]
 [JsonSerializable(typeof(List<CombatLogRecord>))]
 [JsonSerializable(typeof(FightAnalyticsRow))]

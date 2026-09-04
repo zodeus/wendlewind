@@ -15,7 +15,7 @@ param(
     [ValidateSet("up", "deploy")]
     [string]$Action = "up",
 
-    [string]$Version = "0.1a",
+    [string]$Version = "0.1b",
 
     [ValidateSet("all", "windows", "mac", "current")]
     [string]$Platform = "all",

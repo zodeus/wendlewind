@@ -343,6 +343,22 @@ public class PlayerStoreTests
             Assert.Equal(result.MatchId, summary.ShortestMatchId);
             Assert.NotNull(service.GetLog(result.MatchId));
 
+            var detail = service.GetFight(result.MatchId);
+            Assert.NotNull(detail);
+            Assert.Equal(result.MatchId, detail.Summary.MatchId);
+            Assert.Equal(attacker.EntityDefMonikers, detail.Fight.Attacker.EntityDefMonikers);
+            Assert.Equal(defender.EntityDefMonikers, detail.Fight.Defender.EntityDefMonikers);
+            Assert.Equal(attacker.Weapons.Select(w => w.ItemMoniker), detail.Fight.Attacker.Weapons.Select(w => w.ItemMoniker));
+            Assert.NotNull(detail.Fight.Analytics);
+            Assert.NotNull(detail.Log);
+            Assert.NotEmpty(detail.Log.Events);
+            var json = JsonSerializer.Serialize(detail, NetCodeJsonContext.Default.AdminFightDetail);
+            var restored = JsonSerializer.Deserialize(json, NetCodeJsonContext.Default.AdminFightDetail);
+            Assert.NotNull(restored);
+            Assert.Equal(attacker.EntityDefMonikers, restored.Fight.Attacker.EntityDefMonikers);
+            Assert.Equal(defender.EntityDefMonikers, restored.Fight.Defender.EntityDefMonikers);
+            Assert.Null(service.GetFight("missing-match"));
+
             var second = service.Backfill();
             Assert.Equal(1, second.Scanned);
             Assert.Equal(0, second.Updated);
